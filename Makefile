@@ -49,7 +49,35 @@ install: libsimpleio.a libsimpleio.so
 	install -cm 0644 *.a	$(DESTDIR)/lib
 	install -cm 0755 *.so	$(DESTDIR)/lib
 
+# Create Debian package file
+
+OSNAME		?= unknown
+PKGNAME		:= munts-simpleio
+PKGVERSION	:= $(shell date +%Y-%j)
+PKGARCH		:= $(shell dpkg --print-architecture)
+PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
+PKGFILE		:= $(PKGDIR).deb
+
+$(PKGFILE): $(PKGDIR)
+	chmod -R ugo-w $(PKGDIR)/usr
+	fakeroot dpkg-deb --build $(PKGDIR)
+	chmod -R u+w $(PKGDIR)
+
+package.debian: $(PKGFILE)
+
+$(PKGDIR):
+	mkdir -p				$(PKGDIR)/DEBIAN
+	install -cm 0644 control		$(PKGDIR)/DEBIAN
+	sed -i s/@@ARCH@@/$(PKGARCH)/g		$(PKGDIR)/DEBIAN/control
+	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
+	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
+	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
+
 # Remove working files
 
 clean:
-	-rm -rf *.a *.o *.so
+	-rm -rf *.a *.deb *.o *.so $(PKGDIR)
+
+reallyclean: clean
+
+distclean: reallyclean
