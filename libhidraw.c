@@ -43,6 +43,8 @@ void HIDRAW_open(char *name, int *fd, int *error)
     ERRORMSG("open() failed", *error, __LINE__ - 4);
     return;
   }
+
+  *error = 0;
 }
 
 // Close the HID raw device
@@ -54,6 +56,8 @@ void HIDRAW_close(int fd, int *error)
     *error = errno;
     ERRORMSG("close() failed", *error, __LINE__ - 3);
   }
+
+  *error = 0;
 }
 
 // Get device information string
