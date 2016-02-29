@@ -268,18 +268,9 @@ void GPIO_configure(int pin, int direction, int state, int edge, int polarity, i
 
 // Open GPIO pin device
 
-void GPIO_open(int pin, int *fd, int *error)
+void GPIO_open(char *name, int *fd, int *error)
 {
-  char buf[256];
-
-  if (snprintf(buf, sizeof(buf), VALUE, pin) < 0)
-  {
-    *error = errno;
-    ERRORMSG("snprintf() failed", *error, __LINE__ - 3);
-    return;
-  }
-
-  *fd = open(buf, O_RDWR);
+  *fd = open(name, O_RDWR);
   if (fd < 0)
   {
     *error = errno;

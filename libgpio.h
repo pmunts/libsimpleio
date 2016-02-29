@@ -38,7 +38,7 @@
  
 extern void GPIO_configure(int pin, int direction, int state, int edge, int polarity, int *error);
 
-extern void GPIO_open(int pin, int *fd, int *error);
+extern void GPIO_open(char *name, int *fd, int *error);
 
 extern void GPIO_close(int fd, int *error);
 
