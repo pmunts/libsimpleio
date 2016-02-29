@@ -27,7 +27,7 @@
 DEVNAME=`basename /sys${DEVPATH}`
 
 if [ "$ACTION" = "add" ]; then
-  ln -s -f /sys${DEVPATH} /dev/${DEVNAME}
+  ln -s -f /sys${DEVPATH}/value /dev/${DEVNAME}
 fi
 
 if [ "$ACTION" = "remove" ]; then
