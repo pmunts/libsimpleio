@@ -63,7 +63,7 @@ $(PKGFILE): $(PKGDIR)
 	fakeroot dpkg-deb --build $(PKGDIR)
 	chmod -R u+w $(PKGDIR)
 
-package.debian: $(PKGFILE)
+package.deb: $(PKGFILE)
 
 $(PKGDIR):
 	mkdir -p				$(PKGDIR)/DEBIAN
@@ -73,7 +73,7 @@ $(PKGDIR):
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
 	mkdir -p				$(PKGDIR)/etc/udev/rules.d
 	install -cm 0644 60-gpio.rules		$(PKGDIR)/etc/udev/rules.d
-	mkdir -p				$(PGKDIR)/usr/local/libexec
+	mkdir -p				$(PKGDIR)/usr/local/libexec
 	install -cm 0755 gpio-udev-helper	$(PKGDIR)/usr/local/libexec
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
 
