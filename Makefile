@@ -59,7 +59,7 @@ PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
 
 $(PKGFILE): $(PKGDIR)
-	chmod -R ugo-w $(PKGDIR)/usr
+	chmod -R ugo-w $(PKGDIR)/etc $(PKGDIR)/usr
 	fakeroot dpkg-deb --build $(PKGDIR)
 	chmod -R u+w $(PKGDIR)
 
@@ -71,6 +71,10 @@ $(PKGDIR):
 	sed -i s/@@ARCH@@/$(PKGARCH)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
+	mkdir -p				$(PKGDIR)/etc/udev/rules.d
+	install -cm 0644 60-gpio.rules		$(PKGDIR)/etc/udev/rules.d
+	mkdir -p				$(PGKDIR)/usr/local/libexec
+	install -cm 0755 gpio-udev-helper	$(PKGDIR)/usr/local/libexec
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
 
 # Remove working files
