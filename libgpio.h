@@ -25,16 +25,25 @@
 #ifndef LIBGPIO_H
 #define LIBGPIO_H
 
-#define GPIO_DIRECTION_INPUT	0
-#define GPIO_DIRECTION_OUTPUT	1
+typedef enum
+{
+  GPIO_DIRECTION_INPUT,
+  GPIO_DIRECTION_OUTPUT,
+} GPIO_DIRECTION_t;
 
-#define GPIO_EDGE_NONE		0
-#define GPIO_EDGE_RISING	1
-#define GPIO_EDGE_FALLING	2
-#define GPIO_EDGE_BOTH		3
+typedef enum
+{
+  GPIO_EDGE_NONE,
+  GPIO_EDGE_RISING,
+  GPIO_EDGE_FALLING,
+  GPIO_EDGE_BOTH
+} GPIO_EDGE_t;
 
-#define GPIO_ACTIVEHIGH		1
-#define GPIO_ACTIVELOW		0
+typedef enum
+{
+  GPIO_ACTIVELOW,
+  GPIO_ACTIVEHIGH,
+} GPIO_POLARITY_t;
  
 extern void GPIO_configure(int pin, int direction, int state, int edge, int polarity, int *error);
 
