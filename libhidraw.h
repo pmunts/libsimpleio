@@ -25,10 +25,6 @@
 #ifndef LIBHIDRAW_H
 #define LIBHIDRAW_H
 
-#include <linux/types.h>
-#include <linux/input.h>
-#include <linux/hidraw.h>
-
 extern void HIDRAW_open(char *name, int *fd, int *error);
 
 extern void HIDRAW_close(int fd, int *error);

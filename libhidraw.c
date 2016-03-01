@@ -26,6 +26,9 @@
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
+#include <linux/types.h>
+#include <linux/input.h>
+#include <linux/hidraw.h>
 #include <sys/ioctl.h>
 #include <sys/param.h>
 
