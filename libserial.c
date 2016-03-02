@@ -31,7 +31,7 @@
 #include <libserial.h>
 #include "errmsg.inc"
 
-void Serial_open(char *name, int baudrate, int parity, int databits, int stopbits, int *fd, int *error)
+void SERIAL_open(char *name, int baudrate, int parity, int databits, int stopbits, int *fd, int *error)
 {
   struct termios cfg;
 
@@ -244,7 +244,7 @@ void Serial_open(char *name, int baudrate, int parity, int databits, int stopbit
   *error = 0;
 }
 
-void Serial_close(int fd, int *error)
+void SERIAL_close(int fd, int *error)
 {
   if (close(fd))
   {
@@ -255,7 +255,7 @@ void Serial_close(int fd, int *error)
   *error = 0;
 }
 
-void Serial_send(int fd, void *buf, int size, int *error)
+void SERIAL_send(int fd, void *buf, int size, int *error)
 {
   int len = write(fd, buf, size);
   if (len < 0)
@@ -268,7 +268,7 @@ void Serial_send(int fd, void *buf, int size, int *error)
   *error = 0;
 }
 
-void Serial_receive(int fd, void *buf, int *size, int *error)
+void SERIAL_receive(int fd, void *buf, int *size, int *error)
 {
   int len = read(fd, buf, *size);
   if (len < 0)

@@ -32,12 +32,12 @@ typedef enum
   SERIAL_PARITY_ODD,
 } SERIAL_PARITY_t;
 
-extern void Serial_open(char *name, int baudrate, int parity, int databits, int stopbits, int *fd, int *error);
+extern void SERIAL_open(char *name, int baudrate, int parity, int databits, int stopbits, int *fd, int *error);
 
-extern void Serial_close(int fd, int *error);
+extern void SERIAL_close(int fd, int *error);
 
-extern void Serial_send(int fd, void *buf, int size, int *error);
+extern void SERIAL_send(int fd, void *buf, int size, int *error);
 
-extern void Serial_receive(int fd, void *buf, int *size, int *error);
+extern void SERIAL_receive(int fd, void *buf, int *size, int *error);
 
 #endif
