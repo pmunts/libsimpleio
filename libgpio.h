@@ -44,7 +44,7 @@ typedef enum
   GPIO_ACTIVELOW,
   GPIO_ACTIVEHIGH,
 } GPIO_POLARITY_t;
- 
+
 extern void GPIO_configure(int pin, int direction, int state, int edge, int polarity, int *error);
 
 extern void GPIO_open(char *name, int *fd, int *error);
