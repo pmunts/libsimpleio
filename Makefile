@@ -40,16 +40,40 @@ libsimpleio.a: $(SIMPLEIO_COMPONENTS)
 libsimpleio.so: $(SIMPLEIO_COMPONENTS)
 	$(CC) -shared -o $@ $^
 
+# Create HTML documentation
+
+%.2.html: %.2
+	man2html -r $^ >$@
+	sed -i 's@\.\./index\.html@README.html@g' $@
+	sed -i 's@\.\./man2/@@g' $@
+
+html:
+	for f in *.2 ; do $(MAKE) $$f.html ; done
+
+# Create PDF documentation
+
+%.2.ps: %.2
+	groff -man -Tps $^ >$@
+
+%.2.pdf: %.2.ps
+	ps2pdf $^
+
+pdf:
+	for f in *.2 ; do $(MAKE) $$f.ps ; ps2pdf $$f.ps $$f.pdf ; done
+	pdftk *2.pdf output libsimpleio.pdf
+
 # Install headers and library files
 
 install: libsimpleio.a libsimpleio.so
-	mkdir -p		$(DESTDIR)/include
-	mkdir -p		$(DESTDIR)/lib
-	mkdir -p		$(DESTDIR)/share/man/man2
-	install -cm 0644 *.h	$(DESTDIR)/include
-	install -cm 0644 *.a	$(DESTDIR)/lib
-	install -cm 0755 *.so	$(DESTDIR)/lib
-	install -cm 0644 *.2	$(DESTDIR)/share/man/man2
+	mkdir -p				$(DESTDIR)/include
+	mkdir -p				$(DESTDIR)/lib
+	mkdir -p				$(DESTDIR)/share/doc/libsimpleio
+	mkdir -p				$(DESTDIR)/share/man/man2
+	install -cm 0644 *.h			$(DESTDIR)/include
+	install -cm 0644 *.a			$(DESTDIR)/lib
+	install -cm 0755 *.so			$(DESTDIR)/lib
+	install -cm 644 libsimpleio.pdf		$(DESTDIR)/share/doc/libsimpleio
+	install -cm 0644 *.2			$(DESTDIR)/share/man/man2
 
 # Create Debian package file
 
@@ -82,7 +106,7 @@ $(PKGDIR):
 # Remove working files
 
 clean:
-	-rm -rf *.a *.deb *.o *.so $(PKGDIR)
+	-rm -rf *.a *.deb *.o *.2.ps *.2.pdf *.so $(PKGDIR)
 
 reallyclean: clean
 
