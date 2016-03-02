@@ -115,8 +115,9 @@ void EVENT_unregister_fd(int fd, int *error)
 
 void EVENT_wait(int *fd, int *event, int timeoutms, int *error)
 {
+  int status;
   struct epoll_event ev;
- 
+
   if (epfd == EPFD_UNINITALIZED)
   {
     *error = EBADF;
@@ -124,10 +125,17 @@ void EVENT_wait(int *fd, int *event, int timeoutms, int *error)
     return;
   }
 
-  if (epoll_wait(epfd, &ev, 1, timeoutms) < 0)
+  status = epoll_wait(epfd, &ev, 1, timeoutms);
+  if (status < 0)
   {
     *error = errno;
     ERRORMSG("epoll_wait() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (status == 0)
+  {
+    *error = EAGAIN;
     return;
   }
 
