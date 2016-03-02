@@ -228,6 +228,19 @@ void Serial_open(char *name, int baudrate, int parity, int databits, int stopbit
     return;
   }
 
+  // Flush serial buffers
+
+  usleep(100000); // Don't know why this delay is necessary
+
+  if (tcflush(*fd, TCIOFLUSH) < 0)
+  {
+    *error = errno;
+    ERRORMSG("tcflush() failed", *error, __LINE__ - 3);
+    close(*fd);
+    *fd = -1;
+    return;
+  }
+
   *error = 0;
 }
 
