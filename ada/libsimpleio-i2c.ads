@@ -1,4 +1,4 @@
--- Ada wrapper for the Linux SPI ioctl() services implemented in
+-- Ada wrapper for the Linux I2C ioctl() services implemented in
 -- libsimpleio.so
 
 -- $Id$
@@ -25,31 +25,28 @@
 
 WITH System;
 
-PACKAGE libsimpleio.SPI IS
+PACKAGE libsimpleio.I2C IS
   PRAGMA Link_With("-lsimpleio");
 
   PROCEDURE Open
-   (devname  : String;
-    mode     : Integer;
-    wordsize : Integer;
-    speed    : Integer;
-    fd       : OUT Integer;
-    error    : OUT Integer);
-  PRAGMA Import(C, Open, "SPI_open");
+   (devname   : String;
+    fd        : OUT Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, Open, "I2C_open");
 
   PROCEDURE Close
-   (fd       : Integer;
-    error    : OUT Integer);
-  PRAGMA Import(C, Close, "SPI_close");
+   (fd        : Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, Close, "I2C_close");
 
   PROCEDURE Transaction
-   (fd       : Integer;
-    cmd      : System.Address;
-    cmdlen   : Integer;
-    delayus  : Integer;
-    resp     : System.Address;
-    resplen  : Integer;
-    error    : OUT Integer);
-  PRAGMA Import(C, Transaction, "SPI_transaction");
+   (fd        : Integer;
+    slaveaddr : Integer;
+    cmd       : System.Address;
+    cmdlen    : Integer;
+    resp      : System.Address;
+    resplen   : Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, Transaction, "I2C_transaction");
 
-END libsimpleio.SPI;
+END libsimpleio.I2C;
