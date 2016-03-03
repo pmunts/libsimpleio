@@ -58,24 +58,27 @@ may be called to release any internal resources previously acquired by
 
 <B>EVENT_register_fd()</B>
 
-may be called to register
-<B><A HREF="../man7/epoll.7.html">epoll</A>(7)</B>
+may be called to register the file descriptor
+<I>fd</I>
 
-event notifications for the given file descriptor
-<I>fd</I>.
+for event notifications of the types indicated by
+<I>events</I>.
 
-Event codes such as
+Event notification codes, such as
 <B>EPOLLIN</B>
 
-(input ready) are defined in the
-<B>/usr/include/sys/epoll.h</B>
+(input ready), are defined in
+<B>/usr/include/sys/epoll.h</B>,
 
-header file.
+and may be
+<B>OR</B>'d
+
+together to register for more than one type of event notification.
 <P>
 
 <B>EVENT_unregister_fd()</B>
 
-may be called to unregister event notifications for the given file descriptor
+may be called to unregister event notifications for the file descriptor
 <I>fd</I>.
 
 <P>
@@ -86,7 +89,7 @@ may be called to wait until an event notification occurs.  The
 <I>timeoutms</I>
 
 parameter indicates the time in milliseconds to wait for a notfication.  If
-a notification occurs before the timeout expires,
+an event notification occurs before the timeout expires,
 <I>*error</I>
 
 is set to
@@ -99,7 +102,7 @@ and
 <I>*event</I>
 
 are set to the next available file descriptor and event code.
-If no notification occurs
+If no event notification occurs
 before the timeout expires,
 <I>*error</I>
 
@@ -141,6 +144,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 12:47:03 GMT, March 03, 2016
+Time: 12:56:38 GMT, March 03, 2016
 </BODY>
 </HTML>

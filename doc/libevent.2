@@ -56,25 +56,27 @@ may be called to release any internal resources previously acquired by
 .BR EVENT_init() .
 .PP
 .B EVENT_register_fd()
-may be called to register
-.B epoll(7)
-event notifications for the given file descriptor
-.IR fd .
-Event codes such as
+may be called to register the file descriptor
+.I fd
+for event notifications of the types indicated by
+.IR events .
+Event notification codes, such as
 .B EPOLLIN
-(input ready) are defined in the
-.B /usr/include/sys/epoll.h
-header file.
+(input ready), are defined in
+.BR /usr/include/sys/epoll.h ,
+and may be
+.BR OR "'d"
+together to register for more than one type of event notification.
 .PP
 .B EVENT_unregister_fd()
-may be called to unregister event notifications for the given file descriptor
+may be called to unregister event notifications for the file descriptor
 .IR fd .
 .PP
 .B EVENT_wait()
 may be called to wait until an event notification occurs.  The
 .I timeoutms
 parameter indicates the time in milliseconds to wait for a notfication.  If
-a notification occurs before the timeout expires,
+an event notification occurs before the timeout expires,
 .I *error
 is set to
 .B 0
@@ -83,7 +85,7 @@ and
 and
 .I *event
 are set to the next available file descriptor and event code.
-If no notification occurs
+If no event notification occurs
 before the timeout expires,
 .I *error
 is set to
