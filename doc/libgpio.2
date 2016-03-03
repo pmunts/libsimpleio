@@ -1,0 +1,129 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\" libgpio General Purpose Input/Output module
+.\"
+.\" $Id$
+.\"
+.\" Copyright (C)2016, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libevent 2 "2 March 2016" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B libgpio
+\-\- Munts Technologies Simple I/O Library for Linux: GPIO Module
+.SH SYNOPSIS
+.nf
+.B #include <libgpio.h>
+.sp
+.BI "void GPIO_configure(int " pin ", int " direction ", int " state ", int " edge ", int " polarity ", int *" error ");"
+.BI "void GPIO_open(char *" name ", int *" fd ", int *" error ");"
+.BI "void GPIO_close(int " fd ", int *" error ");"
+.BI "void GPIO_read(int " fd ", int *" state ", int *" error ");"
+.BI "void GPIO_write(int " fd ", int " state ", int *" error ");"
+.fi
+.sp
+Link with
+.B -lsimpleio
+.SH DESCRIPTION
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.B GPIO_configure()
+may be called to configure a single GPIO pin.  The
+.I pin
+parameter selects the GPIO pin (as numbered by the Linux kernel) to be configured.
+The
+.I direction
+parameter may be
+.B GPIO_DIRECTION_INPUT
+or
+.BR GPIO_DIRECTION_OUTPUT .
+For input pins, the
+.I state
+parameter must be
+.BR 0 .
+For output pins, the
+.I state
+parameter may be
+.B 0
+or
+.B 1
+to set the initial state.
+For input pins, the
+.I edge
+parameter may be
+.BR GPIO_EDGE_NONE ,
+.BR GPIO_EDGE_RISING ,
+.BR GPIO_EDGE_FALLING ,
+or
+.BR GPIO_EDGE_BOTH .
+For output pins, the
+.I edge
+parameter must be
+.B GPIO_EDGE_NONE.
+The
+.I polarity
+parameter may be
+.B GPIO_ACTIVELOW
+or
+.BR GPIO_ACTIVEHIGH .
+.PP
+The
+.B udev
+rules included in the
+.B libsimpleio
+package will create a symbolic link from
+.B /dev/gpioxx
+to
+.B /sys/class/gpio/gpioxx/value
+when a GPIO pin is configured.
+.PP
+.B GPIO_open()
+may be called to open a GPIO pin device.  Either
+.B /sys/class/gpio/gpioxx/value
+or
+.B /dev/gpioxx
+may be passed in the
+.I name
+parameter.  Upon success, a file descriptor for the GPIO pin is returned in
+.IR *fd .
+.PP
+.B GPIO_close()
+may be called to close a GPIO pin device.
+.PP
+.B GPIO_read()
+may be called to get the current state of a GPIO pin.  Upon success, the current state
+.RB ( 0
+.RB "or " 1 )
+of the GPIO pin will be returned in
+.IR *state .
+.PP
+.B GPIO_write()
+may be called to change a GPIO pin output state.  The new state is passed in the
+.I state
+parameter.
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libhidraw "(2), " libi2c "(2), " libserial "(2), "
+.BR libspi "(2)"
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies
