@@ -42,11 +42,11 @@ Link with
 .B -lsimpleio
 .SH DESCRIPTION
 All functions return
-.I 0
+.B 0
 in
 .I *error
 upon success or an
-.I errno
+.B errno
 value in
 .I *error
 upon failure.
@@ -60,17 +60,18 @@ may be called to release any internal resources previously acquired by
 .PP
 .B EVENT_register_fd()
 may be called to register
-.I epoll(7)
+.B epoll(7)
 event notifications for the given file descriptor
 .I fd.
 Event codes such as
-.I EPOLLIN
+.B EPOLLIN
 (input ready) are defined in the
-.I /usr/include/sys/epoll.h
+.B /usr/include/sys/epoll.h
 header file.
 .PP
 .B EVENT_unregister_fd()
-may be called to unregister event notifications for the given file descriptor.
+may be called to unregister event notifications for the given file descriptor
+.I fd.
 .PP
 .B EVENT_wait()
 may be called to wait until an event notification occurs.  The
@@ -79,7 +80,7 @@ parameter indicates the time in milliseconds to wait for a notfication.  If
 a notification occurs before the timeout expires,
 .I *error
 is set to
-.I 0
+.B 0
 and
 .I *fd
 and
@@ -89,7 +90,7 @@ If no notification occurs
 before the timeout expires,
 .I *error
 is set to
-.I EAGAIN
+.B EAGAIN
 and
 .I *fd
 and
