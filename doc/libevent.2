@@ -25,75 +25,75 @@
 .\"
 .TH libevent 2 "2 March 2016" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
-.BR libevent
+.B libevent
 \-\- Munts Technologies Simple I/O Library for Linux: Event Notification Module
 .SH SYNOPSIS
 .nf
 .B #include <libevent.h>
 .sp
-.BI "void EVENT_init(int " *error ");"
-.BI "void EVENT_close(int " *error ");"
-.BI "void EVENT_register_fd(int " fd ", int " events ", int " *error ");"
-.BI "void EVENT_unregister_fd(int " fd ", int " *error ");"
-.BI "void EVENT_wait(int " *fd ", int " *event ", int " timeoutms ", int " *error ");"
+.BI "void EVENT_init(int *" error ");"
+.BI "void EVENT_close(int *" error ");"
+.BI "void EVENT_register_fd(int " fd ", int " events ", int *" error ");"
+.BI "void EVENT_unregister_fd(int " fd ", int *" error ");"
+.BI "void EVENT_wait(int *" fd ", int *" event ", int " timeoutms ", int *" error ");"
 .fi
 .sp
 Link with
-.BR -lsimpleio
+.B -lsimpleio
 .SH DESCRIPTION
 All functions return
-.BR 0
+.I 0
 in
-.BR *error
+.I *error
 upon success or an
-.BR errno
+.I errno
 value in
-.BR *error
+.I *error
 upon failure.
 .PP
-.BR EVENT_init()
+.B EVENT_init()
 must be called before any of the other functions.
 .PP
-.BR EVENT_close()
+.B EVENT_close()
 may be called to release any internal resources previously acquired by
-.BR EVENT_init().
+.B EVENT_init().
 .PP
-.BR EVENT_register_fd()
+.B EVENT_register_fd()
 may be called to register
-.BR epoll(7)
+.I epoll(7)
 event notifications for the given file descriptor
-.BR fd.
+.I fd.
 Event codes such as
-.BR EPOLLIN
+.I EPOLLIN
 (input ready) are defined in the
-.BR /usr/include/sys/epoll.h
+.I /usr/include/sys/epoll.h
 header file.
 .PP
-.BR EVENT_unregister_fd()
+.B EVENT_unregister_fd()
 may be called to unregister event notifications for the given file descriptor.
 .PP
-.BR EVENT_wait()
+.B EVENT_wait()
 may be called to wait until an event notification occurs.  The
-.BR timeoutms
+.I timeoutms
 parameter indicates the time in milliseconds to wait for a notfication.  If
 a notification occurs before the timeout expires,
-.BR *error
+.I *error
 is set to
-.BR 0
+.I 0
 and
-.BR *fd
+.I *fd
 and
-.BR *event
+.I *event
 are set to the next available file descriptor and event code.
 If no notification occurs
 before the timeout expires,
-.BR *error
+.I *error
 is set to
-.BR EAGAIN
+.I EAGAIN
 and
-.BR *fd
+.I *fd
 and
-.BR *event
+.I *event
 are invalid.
 .SH SEE ALSO
 libsimpleio(2), libgpio(2), libhidraw(2), libi2c(2), libserial(2),
