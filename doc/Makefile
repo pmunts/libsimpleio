@@ -22,7 +22,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-default: html pdf
+default: html
 
 # Create HTML documentation
 
@@ -33,19 +33,6 @@ default: html pdf
 
 html:
 	for f in *.2 ; do $(MAKE) $$f.html ; done
-
-# Create PDF documentation
-
-%.2.ps: %.2
-	groff -man -Tps $^ >$@
-
-%.2.pdf: %.2.ps
-	ps2pdf $^
-
-pdf:
-	for f in *.2 ; do $(MAKE) $$f.ps ; ps2pdf $$f.ps $$f.pdf ; done
-	pdftk lib*2.pdf output libsimpleio.pdf
-	rm -rf lib*2.ps lib*2.pdf
 
 clean:
 
