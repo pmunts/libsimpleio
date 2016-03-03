@@ -26,13 +26,14 @@ default: html
 
 # Create HTML documentation
 
-%.2.html: %.2
+%.html: %.2
 	man2html -r $^ >$@
-	sed -i 's@\.\./index\.html@README.html@g' $@
+	sed -i 's@\.\./index\.html@../README.html@g' $@
 	sed -i 's@\.\./man2/@@g' $@
+	sed -i 's@\.2\.html@.html@g' $@
 
 html:
-	for f in *.2 ; do $(MAKE) $$f.html ; done
+	for f in *.2 ; do $(MAKE) `basename $$f .2`.html ; done
 
 clean:
 
