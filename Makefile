@@ -1,4 +1,4 @@
-# Makefile to build Simple I/O Library for MuntsOS
+# Makefile to build Linux Simple I/O Library
 
 # $Id$
 
