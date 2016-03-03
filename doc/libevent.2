@@ -41,15 +41,12 @@
 Link with
 .B -lsimpleio
 .SH DESCRIPTION
-All functions return
+All functions return either
 .B 0
-in
-.I *error
-upon success or an
+(upon success) or an
 .B errno
-value in
-.I *error
-upon failure.
+value (upon failure) in
+.IR *error .
 .PP
 .B EVENT_init()
 must be called before any of the other functions.
