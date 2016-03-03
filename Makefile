@@ -45,10 +45,13 @@ libsimpleio.so: $(SIMPLEIO_COMPONENTS)
 install: libsimpleio.a libsimpleio.so
 	mkdir -p				$(DESTDIR)/include
 	mkdir -p				$(DESTDIR)/lib
+	mkdir -p				$(DESTDIR)/share/ada/adainclude/libsimpleio
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 *.h			$(DESTDIR)/include
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
+	install -cm 0644 ada/*.ads		$(DESTDIR)/share/ada/adainclude/libsimpleio
+	install -cm 0644 ada/*.adb		$(DESTDIR)/share/ada/adainclude/libsimpleio
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 
 # Create Debian package file
