@@ -19,7 +19,7 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 3 March 2016<BR><A HREF="#inde
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libevent.h">libevent.h</A>&gt;</B>
 
-<B>void EVENT_init(int *</B><I>error</I><B>);</B>
+<B>void EVENT_open(int *</B><I>error</I><B>);</B>
 <B>void EVENT_close(int *</B><I>error</I><B>);</B>
 <B>void EVENT_register_fd(int </B><I>fd</I><B>, int </B><I>events</I><B>, int *</B><I>error</I><B>);</B>
 <B>void EVENT_unregister_fd(int </B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
@@ -44,7 +44,7 @@ value (upon failure) in
 
 <P>
 
-<B>EVENT_init()</B>
+<B>EVENT_open()</B>
 
 must be called before any of the other functions.
 <P>
@@ -52,7 +52,7 @@ must be called before any of the other functions.
 <B>EVENT_close()</B>
 
 may be called to release any internal resources previously acquired by
-<B>EVENT_init()</B>.
+<B>EVENT_open()</B>.
 
 <P>
 

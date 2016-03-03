@@ -27,7 +27,7 @@
 
 #include <sys/epoll.h>
 
-extern void EVENT_init(int *error);
+extern void EVENT_open(int *error);
 
 extern void EVENT_close(int *error);
 

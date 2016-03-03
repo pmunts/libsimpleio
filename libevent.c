@@ -33,7 +33,7 @@
 
 static int epfd = EPFD_UNINITALIZED;
 
-void EVENT_init(int *error)
+void EVENT_open(int *error)
 {
   if (epfd == EPFD_UNINITALIZED)
   {

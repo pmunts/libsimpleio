@@ -31,7 +31,7 @@
 .nf
 .B #include <libevent.h>
 .sp
-.BI "void EVENT_init(int *" error ");"
+.BI "void EVENT_open(int *" error ");"
 .BI "void EVENT_close(int *" error ");"
 .BI "void EVENT_register_fd(int " fd ", int " events ", int *" error ");"
 .BI "void EVENT_unregister_fd(int " fd ", int *" error ");"
@@ -48,12 +48,12 @@ All functions return either
 value (upon failure) in
 .IR *error .
 .PP
-.B EVENT_init()
+.B EVENT_open()
 must be called before any of the other functions.
 .PP
 .B EVENT_close()
 may be called to release any internal resources previously acquired by
-.BR EVENT_init() .
+.BR EVENT_open() .
 .PP
 .B EVENT_register_fd()
 may be called to register the file descriptor
