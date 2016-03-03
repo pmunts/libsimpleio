@@ -1,4 +1,4 @@
-# Makefile to build Simple I/O Library for MuntsOS documentation
+# Makefile to build Linux Simple I/O Library HTML documentation
 
 # $Id: Makefile 10057 2016-03-02 14:20:30Z svn $
 
