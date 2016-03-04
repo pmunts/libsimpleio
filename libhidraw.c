@@ -65,11 +65,11 @@ void HIDRAW_close(int fd, int *error)
 
 // Get device information string
 
-void HIDRAW_get_name(int fd, char *name, int len, int *error)
+void HIDRAW_get_name(int fd, char *name, int size, int *error)
 {
-  memset(name, 0, len);
+  memset(name, 0, size);
 
-  if (ioctl(fd, HIDIOCGRAWNAME(len), name) < 0)
+  if (ioctl(fd, HIDIOCGRAWNAME(size), name) < 0)
   {
     *error = errno;
     ERRORMSG("ioctl() for HIDIOCGRAWNAME failed", *error, __LINE__ - 3);

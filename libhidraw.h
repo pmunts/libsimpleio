@@ -29,7 +29,7 @@ extern void HIDRAW_open(char *name, int *fd, int *error);
 
 extern void HIDRAW_close(int fd, int *error);
 
-extern void HIDRAW_get_name(int fd, char *name, int len, int *error);
+extern void HIDRAW_get_name(int fd, char *name, int size, int *error);
 
 extern void HIDRAW_get_info(int fd, int *bustype, int *vendor, int *product, int *error);
 
