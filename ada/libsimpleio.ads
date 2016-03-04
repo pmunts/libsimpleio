@@ -22,5 +22,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH System;
+
 PACKAGE libsimpleio IS
+  PRAGMA Link_With("-lsimpleio");
 END libsimpleio;

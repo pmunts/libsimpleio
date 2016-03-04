@@ -1,5 +1,5 @@
--- Ada wrapper for the Linux SPI ioctl() services implemented in
--- libsimpleio.so
+-- Minimal Ada wrapper for the Linux SPI services
+-- implemented in libsimpleio.so
 
 -- $Id$
 
@@ -23,10 +23,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH System;
-
 PACKAGE libsimpleio.SPI IS
-  PRAGMA Link_With("-lsimpleio");
 
   PROCEDURE Open
    (devname  : String;
