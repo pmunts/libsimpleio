@@ -44,7 +44,7 @@ PACKAGE libsimpleio.EVENT IS
   EPOLLET      : CONSTANT := 16#80000000#;
 
   PROCEDURE Open
-   (error     : Integer);
+   (error     : OUT Integer);
   PRAGMA Import(C, Open, "EVENT_open");
 
   PROCEDURE Close
@@ -66,7 +66,7 @@ PACKAGE libsimpleio.EVENT IS
    (fd        : OUT Integer;
     event     : OUT Integer;
     timeoutms : Integer;
-    error     : Integer);
+    error     : OUT Integer);
   PRAGMA Import(C, Wait, "EVENT_wait");
 
 END libsimpleio.EVENT;
