@@ -1,0 +1,79 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\" I2C module
+.\"
+.\" $Id$
+.\"
+.\" Copyright (C)2016, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libi2c 2 "3 March 2016" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B libi2c
+\-\- Linux Simple I/O Library: I2C Module
+.SH SYNOPSIS
+.nf
+.B #include <libi2c.h>
+.sp
+.BI "void I2C_open(char *" name ", int *" fd ", int * " error ");"
+.BI "void I2C_close(int " fd ", int *" error ");"
+.BI "void I2C_transaction(int " fd ", int " slaveaddr ", void *" outbuf ", int " outlen ", void *" inbuf ", int " inlen ", int *" error ");"
+.fi
+.sp
+Link with
+.B -lsimpleio
+.SH DESCRIPTION
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.B I2C_open()
+may be called to open an I2C bus controller device.  The device name,
+.BR /dev/i2c-x ,
+must be passed in the
+.IR name
+parameter. Upon success, a file descriptor for the
+I2C bus controller device is retured in
+.IR *fd .
+.PP
+.B I2C_close()
+may be called to close a previously opened I2C bus controller device.
+.PP
+.B I2C_transaction()
+may be called to perform a single I2C bus transaction, with optional transmit and receive
+phases.  The I2C slave device address must be passed in the
+.I slaveaddr
+parameter.  Either the address of a command message and its length must be passed in the
+.IR outbuf " and " outlen
+parameters, or
+.BR NULL " and " 0
+for a receive only transaction.  Either the address of a receive buffer and its size must be passed in the
+.IR inbuf " and " inlen
+parameters, or
+.BR NULL " and " 0
+for a transmit only transaction.
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libserial "(2), "
+.br
+.BR libspi "(2)"
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies
