@@ -99,10 +99,10 @@ to
 when a GPIO pin is configured.
 .PP
 .B GPIO_open()
-may be called to open a GPIO pin device.  Either
+may be called to open a GPIO pin device.  The GPIO pin device name, either
 .B /sys/class/gpio/gpioxx/value
 or
-.B /dev/gpioxx
+.BR /dev/gpioxx ,
 must be passed in the
 .I name
 parameter.  Upon success, a file descriptor for the GPIO pin device is returned in
