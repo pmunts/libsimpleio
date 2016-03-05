@@ -1,0 +1,103 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\" libhidraw raw HID device module
+.\"
+.\" $Id$
+.\"
+.\" Copyright (C)2016, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libhidraw 2 "3 March 2016" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B libhidraw
+\-\- Linux Simple I/O Library: Raw HID Module
+.SH SYNOPSIS
+.nf
+.B #include <libhidraw.h>
+.sp
+.BI "void HIDRAW_open(char *" name ", int *" fd ", int *" error ");"
+.BI "void HIDRAW_close(int " fd ", int *" error ");"
+.BI "void HIDRAW_get_name(int " fd ", char *" name ", int " size ", int *" error ");"
+.BI "void HIDRAW_get_info(int " fd ", int *" bustype ", int *" vendor ", int *" product ", int *" error ");"
+.BI "void HIDRAW_send(int " fd ", void *" buf ", int " size ", int *" error ");"
+.BI "void HIDRAW_receive(int " fd ", void *" buf ", int *" size ", int *" error ");"
+.fi
+.sp
+Link with
+.B -lsimpleio
+.SH DESCRIPTION
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.B HIDRAW_open()
+may be called to open a raw HID device.  Upon success, a file descriptor for the
+raw HID device is retured in
+.IR *fd .
+.PP
+.B HIDRAW_close()
+may be called to close a previously opened raw HID device.
+.PP
+.B HIDRAW_get_name()
+may be called to obtain an information string from the raw HID device.  The destination buffer address
+must be passed in
+.I *name
+and the destination buffer size must be passed in
+.IR size .
+.PP
+.B HIDRAW_get_info()
+may be called to obtain bus type, vendor ID and product ID from the raw HID device. The bus
+type is returned in
+.IR *bustype ,
+and may be
+.BR BUS_USB ,
+.BR BUS_HIL ,
+.BR BUS_BLUETOOTH " or"
+.BR BUS_VIRTUAL .
+These values are defined in
+.BR /usr/include/linux/input.h .
+The vendor and product ID's are returned in 
+.IR *vendor  " and " *product " respectively."
+.PP
+.B HIDRAW_send()
+may be called to send a message to the raw HID device.
+The address of the message buffer is passed in
+.IR buf " and"
+the size of the message buffer is passed in
+.IR size .
+The message size will typically be either 64 or 65 bytes, depending on whether the
+particular raw HID device uses the first byte for the report number.
+.PP
+.B HIDRAW_receive()
+may be called to receive a message from the raw HID device.  The destination address
+is passed in
+.IR buf " and"
+the size of the message buffer is passed in
+.IR *size .
+The message size will typically be either 64 or 65 bytes, depending on whether the
+particular raw HID device uses the first byte for the report number.
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libi2c "(2), " libserial "(2), "
+.br
+.BR libspi "(2)"
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies
