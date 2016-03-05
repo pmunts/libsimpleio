@@ -50,7 +50,11 @@ value (upon failure) in
 .IR *error .
 .PP
 .B HIDRAW_open()
-may be called to open a raw HID device.  Upon success, a file descriptor for the
+may be called to open a raw HID device.  The device name,
+.BR /dev/hidrawx ,
+must be passed in the
+.IR name
+parameter. Upon success, a file descriptor for the
 raw HID device is retured in
 .IR *fd .
 .PP
@@ -94,7 +98,9 @@ is passed in
 the size of the message buffer is passed in
 .IR *size .
 The message size will typically be either 64 or 65 bytes, depending on whether the
-particular raw HID device uses the first byte for the report number.
+particular raw HID device uses the first byte for the report number.  Upon success,
+the number of bytes received will be returned in
+.IR *size .
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libi2c "(2), " libserial "(2), "
 .br
