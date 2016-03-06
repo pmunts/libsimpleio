@@ -50,7 +50,7 @@ value (upon failure) in
 .IR *error .
 .PP
 .B HIDRAW_open()
-may be called to open a raw HID device.  The device name,
+opens a raw HID device.  The device name,
 .BR /dev/hidrawx ,
 must be passed in the
 .IR name
@@ -59,17 +59,17 @@ raw HID device is retured in
 .IR *fd .
 .PP
 .B HIDRAW_close()
-may be called to close a previously opened raw HID device.
+closes a previously opened raw HID device.
 .PP
 .B HIDRAW_get_name()
-may be called to obtain an information string from the raw HID device.  The destination buffer address
+fetches an information string from the raw HID device.  The destination buffer address
 must be passed in
 .I *name
 and the destination buffer size must be passed in
 .IR size .
 .PP
 .B HIDRAW_get_info()
-may be called to obtain bus type, vendor ID and product ID from the raw HID device. The bus
+fetches the bus type, vendor ID and product ID from the raw HID device. The bus
 type is returned in
 .IR *bustype ,
 and may be
@@ -83,7 +83,7 @@ The vendor and product ID's are returned in
 .IR *vendor  " and " *product " respectively."
 .PP
 .B HIDRAW_send()
-may be called to send a message to the raw HID device.
+sends a message (also known as a HID report) to the raw HID device.
 The address of the message buffer is passed in
 .IR buf " and"
 the size of the message buffer is passed in
@@ -92,7 +92,7 @@ The message size will typically be either 64 or 65 bytes, depending on whether t
 particular raw HID device uses the first byte for the report number.
 .PP
 .B HIDRAW_receive()
-may be called to receive a message from the raw HID device.  The destination address
+receives a message (HID report) from the raw HID device.  The destination address
 is passed in
 .IR buf " and"
 the size of the message buffer is passed in
