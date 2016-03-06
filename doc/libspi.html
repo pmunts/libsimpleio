@@ -1,0 +1,137 @@
+Content-type: text/html; charset=UTF-8
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of libspi</TITLE>
+</HEAD><BODY>
+<H1>libspi</H1>
+Section: Linux Simple I/O Library (2)<BR>Updated: 3 March 2016<BR><A HREF="#index">Index</A>
+<A HREF="../README.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>libspi</B>
+
+-- Linux Simple I/O Library: SPI Module
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A HREF="file:///usr/include/libspi.h">libspi.h</A>&gt;</B>
+
+<B>void SPI_open(char *</B><I>name</I><B>, int </B><I>mode</I><B>, int </B><I>wordsize</I><B>, int </B><I>speed</I><B>,</B>
+<B>  int *</B><I>fd</I><B>, int * </B><I>error</I><B>);</B>
+
+<B>void SPI_close(int </B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void SPI_transaction(int </B><I>fd</I><B>, void *</B><I>cmd</I><B>, int </B><I>cmdlen</I><B>, int </B><I>delayus</I><B>,</B>
+<B>  void *</B><I>resp</I><B>, int </B><I>resplen</I><B>, int *</B><I>error</I><B>);</B>
+</PRE>
+
+<P>
+Link with
+<B>-lsimpleio</B>.
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+All functions return either
+<B>0</B>
+
+(upon success) or an
+<B>errno</B>
+
+value (upon failure) in
+<I>*error</I>.
+
+<P>
+
+<B>SPI_open()</B>
+
+opens an SPI slave device.  The device name,
+<B>/dev/spidevx.x</B>,
+
+must be passed in the
+<I>name</I>
+
+parameter. The
+<I>mode</I>
+
+parameter specifies the SPI bus transfer mode,
+<B>0</B> to <B>3</B>.
+
+The
+<I>wordsize</I>
+
+parameter specifies the SPI bus transfer unit size, usually
+<B>8</B>, <B>16</B>, or <B>32</B> bits.
+
+Some SPI controllers only allow 8-bit transfers.
+The
+<I>speed</I>
+
+parameter specifies the SPI bus transfer speed in bits per second.
+Upon success, a file descriptor for the
+SPI slave device is returned in
+<I>*fd</I>.
+
+<P>
+
+<B>SPI_close()</B>
+
+closes a previously opened SPI slave device.
+<P>
+
+<B>SPI_transaction()</B>
+
+performs a single SPI bus transaction, with optional transmit and receive
+phases. Either the address of a command message and its length must be passed in the
+<I>cmd</I> and <I>cmdlen</I>
+
+parameters, or
+<B>NULL</B> and <B>0</B>
+
+for a receive only transaction.  The
+<I>delayus</I>
+
+parameter indicates the time in microseconds between the transmit and receive phases.  It
+should be set long enough for the SPI slave device to execute the command and generate its
+response.
+Either the address of a receive buffer and its size must be passed in the
+<I>resp</I> and <I>resplen</I>
+
+parameters, or
+<B>NULL</B> and <B>0</B>
+
+for a transmit only transaction.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2), <B><A HREF="libi2c.html">libi2c</A></B>(2), 
+
+<BR>
+
+<B><A HREF="libserial.html">libserial</A></B>(2)
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Philip Munts, President, Munts AM Corp dba Munts Technologies
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 19:42:54 GMT, March 06, 2016
+</BODY>
+</HTML>

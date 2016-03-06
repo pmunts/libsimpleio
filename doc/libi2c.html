@@ -1,0 +1,116 @@
+Content-type: text/html; charset=UTF-8
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of libi2c</TITLE>
+</HEAD><BODY>
+<H1>libi2c</H1>
+Section: Linux Simple I/O Library (2)<BR>Updated: 3 March 2016<BR><A HREF="#index">Index</A>
+<A HREF="../README.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>libi2c</B>
+
+-- Linux Simple I/O Library: I2C Module
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A HREF="file:///usr/include/libi2c.h">libi2c.h</A>&gt;</B>
+
+<B>void I2C_open(char *</B><I>name</I><B>, int *</B><I>fd</I><B>, int * </B><I>error</I><B>);</B>
+
+<B>void I2C_close(int </B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void I2C_transaction(int </B><I>fd</I><B>, int </B><I>slaveaddr</I><B>, void *</B><I>cmd</I><B>, int </B><I>cmdlen</I><B>,</B>
+<B>  void *</B><I>resp</I><B>, int </B><I>resplen</I><B>, int *</B><I>error</I><B>);</B>
+</PRE>
+
+<P>
+Link with
+<B>-lsimpleio</B>.
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+All functions return either
+<B>0</B>
+
+(upon success) or an
+<B>errno</B>
+
+value (upon failure) in
+<I>*error</I>.
+
+<P>
+
+<B>I2C_open()</B>
+
+opens an I2C bus controller device.  The device name,
+<B>/dev/i2c-x</B>,
+
+must be passed in the
+<I>name</I>
+
+parameter. Upon success, a file descriptor for the
+I2C bus controller device is retured in
+<I>*fd</I>.
+
+<P>
+
+<B>I2C_close()</B>
+
+closes a previously opened I2C bus controller device.
+<P>
+
+<B>I2C_transaction()</B>
+
+performs a single I2C bus transaction, with optional transmit and receive
+phases.  The I2C slave device address must be passed in the
+<I>slaveaddr</I>
+
+parameter.  Either the address of a command message and its length must be passed in the
+<I>cmd</I> and <I>cmdlen</I>
+
+parameters, or
+<B>NULL</B> and <B>0</B>
+
+for a receive only transaction.  Either the address of a receive buffer and its size must be passed in the
+<I>resp</I> and <I>resplen</I>
+
+parameters, or
+<B>NULL</B> and <B>0</B>
+
+for a transmit only transaction.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2), <B><A HREF="libserial.html">libserial</A></B>(2), 
+
+<BR>
+
+<B><A HREF="libspi.html">libspi</A></B>(2)
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Philip Munts, President, Munts AM Corp dba Munts Technologies
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 19:42:54 GMT, March 06, 2016
+</BODY>
+</HTML>

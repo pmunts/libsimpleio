@@ -1,0 +1,164 @@
+Content-type: text/html; charset=UTF-8
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of libhidraw</TITLE>
+</HEAD><BODY>
+<H1>libhidraw</H1>
+Section: Linux Simple I/O Library (2)<BR>Updated: 3 March 2016<BR><A HREF="#index">Index</A>
+<A HREF="../README.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>libhidraw</B>
+
+-- Linux Simple I/O Library: Raw HID Module
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A HREF="file:///usr/include/libhidraw.h">libhidraw.h</A>&gt;</B>
+
+<B>void HIDRAW_open(char *</B><I>name</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void HIDRAW_close(int </B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void HIDRAW_get_name(int </B><I>fd</I><B>, char *</B><I>name</I><B>, int </B><I>size</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void HIDRAW_get_info(int </B><I>fd</I><B>, int *</B><I>bustype</I><B>, int *</B><I>vendor</I><B>,</B>
+<B>  int *</B><I>product</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void HIDRAW_send(int </B><I>fd</I><B>, void *</B><I>buf</I><B>, int </B><I>size</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void HIDRAW_receive(int </B><I>fd</I><B>, void *</B><I>buf</I><B>, int *</B><I>size</I><B>, int *</B><I>error</I><B>);</B>
+</PRE>
+
+<P>
+Link with
+<B>-lsimpleio</B>.
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+All functions return either
+<B>0</B>
+
+(upon success) or an
+<B>errno</B>
+
+value (upon failure) in
+<I>*error</I>.
+
+<P>
+
+<B>HIDRAW_open()</B>
+
+opens a raw HID device.  The device name,
+<B>/dev/hidrawx</B>,
+
+must be passed in the
+<I>name</I>
+
+parameter. Upon success, a file descriptor for the
+raw HID device is retured in
+<I>*fd</I>.
+
+<P>
+
+<B>HIDRAW_close()</B>
+
+closes a previously opened raw HID device.
+<P>
+
+<B>HIDRAW_get_name()</B>
+
+fetches an information string from the raw HID device.  The destination buffer address
+must be passed in
+<I>*name</I>
+
+and the destination buffer size must be passed in
+<I>size</I>.
+
+<P>
+
+<B>HIDRAW_get_info()</B>
+
+fetches the bus type, vendor ID and product ID from the raw HID device. The bus
+type is returned in
+<I>*bustype</I>,
+
+and may be
+<B>BUS_USB</B>,
+
+<B>BUS_HIL</B>,
+
+<B>BUS_BLUETOOTH</B> or
+
+<B>BUS_VIRTUAL</B>.
+
+These values are defined in
+<B>/usr/include/linux/input.h</B>.
+
+The vendor and product ID's are returned in 
+<I>*vendor</I> and <I>*product</I> respectively.
+
+<P>
+
+<B>HIDRAW_send()</B>
+
+sends a message (also known as a HID report) to the raw HID device.
+The address of the message buffer is passed in
+<I>buf</I> and
+
+the size of the message buffer is passed in
+<I>size</I>.
+
+The message size will typically be either 64 or 65 bytes, depending on whether the
+particular raw HID device uses the first byte for the report number.
+<P>
+
+<B>HIDRAW_receive()</B>
+
+receives a message (HID report) from the raw HID device.  The destination address
+is passed in
+<I>buf</I> and
+
+the size of the message buffer is passed in
+<I>*size</I>.
+
+The message size will typically be either 64 or 65 bytes, depending on whether the
+particular raw HID device uses the first byte for the report number.  Upon success,
+the number of bytes received will be returned in
+<I>*size</I>.
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libi2c.html">libi2c</A></B>(2), <B><A HREF="libserial.html">libserial</A></B>(2), 
+
+<BR>
+
+<B><A HREF="libspi.html">libspi</A></B>(2)
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Philip Munts, President, Munts AM Corp dba Munts Technologies
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 19:42:54 GMT, March 06, 2016
+</BODY>
+</HTML>

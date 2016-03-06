@@ -19,16 +19,21 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 3 March 2016<BR><A HREF="#inde
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libgpio.h">libgpio.h</A>&gt;</B>
 
-<B>void GPIO_configure(int </B><I>pin</I><B>, int </B><I>direction</I><B>, int </B><I>state</I><B>, int </B><I>edge</I><B>, int </B><I>polarity</I><B>, int *</B><I>error</I><B>);</B>
+<B>void GPIO_configure(int </B><I>pin</I><B>, int </B><I>direction</I><B>, int </B><I>state</I><B>, int </B><I>edge</I><B>,</B>
+<B>  int </B><I>polarity</I><B>, int *</B><I>error</I><B>);</B>
+
 <B>void GPIO_open(char *</B><I>name</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+
 <B>void GPIO_close(int </B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+
 <B>void GPIO_read(int </B><I>fd</I><B>, int *</B><I>state</I><B>, int *</B><I>error</I><B>);</B>
+
 <B>void GPIO_write(int </B><I>fd</I><B>, int </B><I>state</I><B>, int *</B><I>error</I><B>);</B>
 </PRE>
 
 <P>
 Link with
-<B>-lsimpleio</B>
+<B>-lsimpleio</B>.
 
 <A NAME="lbAD">&nbsp;</A>
 <H2>DESCRIPTION</H2>
@@ -46,7 +51,7 @@ value (upon failure) in
 
 <B>GPIO_configure()</B>
 
-may be called to configure a single GPIO pin.  The
+configures a single GPIO pin.  The
 <I>pin</I>
 
 parameter selects the GPIO pin (as numbered by the Linux kernel) to be configured.
@@ -122,31 +127,29 @@ when a GPIO pin is configured.
 
 <B>GPIO_open()</B>
 
-may be called to open a GPIO pin device.  Either
+opens a GPIO pin device. The GPIO pin device name, either
 <B>/sys/class/gpio/gpioxx/value</B>
 
 or
-<B>/dev/gpioxx</B>
+<B>/dev/gpioxx</B>,
 
-may be passed in the
+must be passed in the
 <I>name</I>
 
-parameter.  Upon success, a file descriptor for the GPIO pin is returned in
+parameter.  Upon success, a file descriptor for the GPIO pin device is returned in
 <I>*fd</I>.
 
 <P>
 
 <B>GPIO_close()</B>
 
-may be called to close a GPIO pin device.
+closes a previously opened GPIO pin device.
 <P>
 
 <B>GPIO_read()</B>
 
-may be called to get the current state of a GPIO pin.  Upon success, the current state
-(<B>0</B>
-
-or <B>1</B>)
+gets the current state of a GPIO pin.  Upon success, the current state
+(<B>0</B> or <B>1</B>)
 
 of the GPIO pin will be returned in
 <I>*state</I>.
@@ -155,7 +158,10 @@ of the GPIO pin will be returned in
 
 <B>GPIO_write()</B>
 
-may be called to change a GPIO pin output state.  The new state is passed in the
+sets a GPIO pin output state.  The new state 
+(<B>0</B> or <B>1</B>)
+
+is passed in the
 <I>state</I>
 
 parameter.
@@ -163,6 +169,8 @@ parameter.
 <H2>SEE ALSO</H2>
 
 <B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2), <B><A HREF="libi2c.html">libi2c</A></B>(2), <B><A HREF="libserial.html">libserial</A></B>(2), 
+
+<BR>
 
 <B><A HREF="libspi.html">libspi</A></B>(2)
 
@@ -185,6 +193,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 12:47:03 GMT, March 03, 2016
+Time: 19:42:54 GMT, March 06, 2016
 </BODY>
 </HTML>
