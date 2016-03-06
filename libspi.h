@@ -31,6 +31,6 @@ extern void SPI_open(char *name, int mode, int wordsize, int speed, int *fd, int
 
 extern void SPI_close(int fd, int *error);
 
-extern void SPI_transaction(int fd, void *cmd, int cmdlen, int delay, void *resp, int resplen, int *error);
+extern void SPI_transaction(int fd, void *cmd, int cmdlen, int delayus, void *resp, int resplen, int *error);
 
 #endif

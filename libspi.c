@@ -99,7 +99,7 @@ void SPI_close(int fd, int *error)
 
 // Perform an SPI I/O transaction (command and response)
 
-void SPI_transaction(int fd, void *cmd, int cmdlen, int delay, void *resp, int resplen, int *error)
+void SPI_transaction(int fd, void *cmd, int cmdlen, int delayus, void *resp, int resplen, int *error)
 {
   struct spi_ioc_transfer xfer[2];
 
@@ -115,7 +115,7 @@ void SPI_transaction(int fd, void *cmd, int cmdlen, int delay, void *resp, int r
   memset(xfer, 0, sizeof(xfer));
   xfer[0].tx_buf = (typeof(xfer[0].tx_buf)) cmd;
   xfer[0].len = cmdlen;
-  xfer[0].delay_usecs = delay;
+  xfer[0].delay_usecs = delayus;
   xfer[1].rx_buf = (typeof(xfer[1].rx_buf)) resp;
   xfer[1].len = resplen;
 
