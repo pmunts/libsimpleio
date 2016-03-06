@@ -29,6 +29,6 @@ extern void I2C_open(char *name, int *fd, int *error);
 
 extern void I2C_close(int fd, int *error);
 
-extern void I2C_transaction(int fd, int slaveaddr, void *outbuf, int outlen, void *inbuf, int inlen, int *error);
+extern void I2C_transaction(int fd, int slaveaddr, void *cmd, int cmdlen, void *resp, int resplen, int *error);
 
 #endif

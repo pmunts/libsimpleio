@@ -70,7 +70,7 @@ void I2C_close(int fd, int *error)
 
 // Perform an I2C transaction
 
-void I2C_transaction(int fd, int slaveaddr, void *outbuf, int outlen, void *inbuf, int inlen, int *error)
+void I2C_transaction(int fd, int slaveaddr, void *cmd, int cmdlen, void *resp, int resplen, int *error)
 {
   struct i2c_rdwr_ioctl_data cmdblk;
   struct i2c_msg msgs[2];
@@ -82,21 +82,21 @@ void I2C_transaction(int fd, int slaveaddr, void *outbuf, int outlen, void *inbu
   memset(&msgs, 0, sizeof(msgs));
   p = msgs;
 
-  if ((outbuf != NULL) && (outlen != 0))
+  if ((cmd != NULL) && (cmdlen != 0))
   {
     p->addr = slaveaddr;
-    p->len = outlen;
-    p->buf = outbuf;
+    p->len = cmdlen;
+    p->buf = cmd;
     p++;
     cmdblk.nmsgs++;
   }
 
-  if ((inbuf != NULL) && (inlen != 0))
+  if ((resp != NULL) && (resplen != 0))
   {
     p->addr = slaveaddr;
     p->flags = I2C_M_RD;
-    p->len = inlen;
-    p->buf = inbuf;
+    p->len = resplen;
+    p->buf = resp;
     cmdblk.nmsgs++;
   }
 
