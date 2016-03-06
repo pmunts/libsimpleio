@@ -33,14 +33,18 @@
 .sp
 .BI "void GPIO_configure(int " pin ", int " direction ", int " state ", int " edge ","
 .BI "  int " polarity ", int *" error ");"
+.PP
 .BI "void GPIO_open(char *" name ", int *" fd ", int *" error ");"
+.PP
 .BI "void GPIO_close(int " fd ", int *" error ");"
+.PP
 .BI "void GPIO_read(int " fd ", int *" state ", int *" error ");"
+.PP
 .BI "void GPIO_write(int " fd ", int " state ", int *" error ");"
 .fi
 .sp
 Link with
-.B -lsimpleio
+.BR -lsimpleio .
 .SH DESCRIPTION
 All functions return either
 .B 0

@@ -32,14 +32,18 @@
 .B #include <libevent.h>
 .sp
 .BI "void EVENT_open(int *" error ");"
+.PP
 .BI "void EVENT_close(int *" error ");"
+.PP
 .BI "void EVENT_register_fd(int " fd ", int " events ", int *" error ");"
+.PP
 .BI "void EVENT_unregister_fd(int " fd ", int *" error ");"
+.PP
 .BI "void EVENT_wait(int *" fd ", int *" event ", int " timeoutms ", int *" error ");"
 .fi
 .sp
 Link with
-.B -lsimpleio
+.BR -lsimpleio .
 .SH DESCRIPTION
 All functions return either
 .B 0

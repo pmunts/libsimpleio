@@ -32,13 +32,15 @@
 .B #include <libi2c.h>
 .sp
 .BI "void I2C_open(char *" name ", int *" fd ", int * " error ");"
+.PP
 .BI "void I2C_close(int " fd ", int *" error ");"
-.BI "void I2C_transaction(int " fd ", int " slaveaddr ", void *" outbuf ", int " outlen ","
-.BI "  void *" inbuf ", int " inlen ", int *" error ");"
+.PP
+.BI "void I2C_transaction(int " fd ", int " slaveaddr ", void *" cmd ", int " cmdlen ","
+.BI "  void *" resp ", int " resplen ", int *" error ");"
 .fi
 .sp
 Link with
-.B -lsimpleio
+.BR -lsimpleio .
 .SH DESCRIPTION
 All functions return either
 .B 0
@@ -64,11 +66,11 @@ performs a single I2C bus transaction, with optional transmit and receive
 phases.  The I2C slave device address must be passed in the
 .I slaveaddr
 parameter.  Either the address of a command message and its length must be passed in the
-.IR outbuf " and " outlen
+.IR cmd " and " cmdlen
 parameters, or
 .BR NULL " and " 0
 for a receive only transaction.  Either the address of a receive buffer and its size must be passed in the
-.IR inbuf " and " inlen
+.IR resp " and " resplen
 parameters, or
 .BR NULL " and " 0
 for a transmit only transaction.
