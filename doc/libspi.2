@@ -1,0 +1,98 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\" SPI module
+.\"
+.\" $Id$
+.\"
+.\" Copyright (C)2016, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libspi 2 "3 March 2016" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B libspi
+\-\- Linux Simple I/O Library: SPI Module
+.SH SYNOPSIS
+.nf
+.B #include <libspi.h>
+.sp
+.BI "void SPI_open(char *" name ", int " mode ", int " wordsize ", int " speed ","
+.BI "  int *" fd ", int * " error ");"
+.PP
+.BI "void SPI_close(int " fd ", int *" error ");"
+.PP
+.BI "void SPI_transaction(int " fd ", void *" cmd ", int " cmdlen ", int " delayus ","
+.BI "  void *" resp ", int " resplen ", int *" error ");"
+.fi
+.sp
+Link with
+.BR -lsimpleio .
+.SH DESCRIPTION
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.B SPI_open()
+opens an SPI slave device.  The device name,
+.BR /dev/spidevx.x ,
+must be passed in the
+.IR name
+parameter. The
+.I mode
+parameter specifies the SPI bus transfer mode,
+.BR 0 " to " 3 .
+The
+.I wordsize
+parameter specifies the SPI bus transfer unit size, usually
+.BR 8 ", " 16 ", or " 32 " bits."
+Some SPI controllers only allow 8-bit transfers.
+The
+.I speed
+parameter specifies the SPI bus transfer speed in bits per second.
+Upon success, a file descriptor for the
+SPI slave device is returned in
+.IR *fd .
+.PP
+.B SPI_close()
+closes a previously opened SPI slave device.
+.PP
+.B SPI_transaction()
+performs a single SPI bus transaction, with optional transmit and receive
+phases. Either the address of a command message and its length must be passed in the
+.IR cmd " and " cmdlen
+parameters, or
+.BR NULL " and " 0
+for a receive only transaction.  The
+.I delayus
+parameter indicates the time in microseconds between the transmit and receive phases.  It
+should be set long enough for the SPI slave device to execute the command and generate its
+response.
+Either the address of a receive buffer and its size must be passed in the
+.IR resp " and " resplen
+parameters, or
+.BR NULL " and " 0
+for a transmit only transaction.
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
+.br
+.BR libserial "(2)"
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies
