@@ -31,7 +31,8 @@
 .nf
 .B #include <libgpio.h>
 .sp
-.BI "void GPIO_configure(int " pin ", int " direction ", int " state ", int " edge ", int " polarity ", int *" error ");"
+.BI "void GPIO_configure(int " pin ", int " direction ", int " state ", int " edge ","
+.BI "  int " polarity ", int *" error ");"
 .BI "void GPIO_open(char *" name ", int *" fd ", int *" error ");"
 .BI "void GPIO_close(int " fd ", int *" error ");"
 .BI "void GPIO_read(int " fd ", int *" state ", int *" error ");"
