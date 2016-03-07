@@ -30,19 +30,39 @@
 .SH SYNOPSIS
 .nf
 .B #include <libgpio.h>
-.sp
+
+.B typedef enum
+.B {
+.B "  GPIO_DIRECTION_INPUT,"
+.B "  GPIO_DIRECTION_OUTPUT,"
+.B } GPIO_DIRECTION_t;
+
+.B typedef enum
+.B {
+.B "  GPIO_EDGE_NONE,"
+.B "  GPIO_EDGE_RISING,"
+.B "  GPIO_EDGE_FALLING,"
+.B "  GPIO_EDGE_BOTH"
+.B } GPIO_EDGE_t;
+
+.B typedef enum
+.B {
+.B "  GPIO_ACTIVELOW,"
+.B "  GPIO_ACTIVEHIGH,"
+.B } GPIO_POLARITY_t;
+
 .BI "void GPIO_configure(int " pin ", int " direction ", int " state ", int " edge ","
 .BI "  int " polarity ", int *" error ");"
-.PP
+
 .BI "void GPIO_open(char *" name ", int *" fd ", int *" error ");"
-.PP
+
 .BI "void GPIO_close(int " fd ", int *" error ");"
-.PP
+
 .BI "void GPIO_read(int " fd ", int *" state ", int *" error ");"
-.PP
+
 .BI "void GPIO_write(int " fd ", int " state ", int *" error ");"
+
 .fi
-.sp
 Link with
 .BR -lsimpleio .
 .SH DESCRIPTION
