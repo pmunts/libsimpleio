@@ -30,16 +30,16 @@
 .SH SYNOPSIS
 .nf
 .B #include <libspi.h>
-.sp
+
 .BI "void SPI_open(char *" name ", int " mode ", int " wordsize ", int " speed ","
 .BI "  int *" fd ", int * " error ");"
-.PP
+
 .BI "void SPI_close(int " fd ", int *" error ");"
-.PP
+
 .BI "void SPI_transaction(int " fd ", void *" cmd ", int " cmdlen ", int " delayus ","
 .BI "  void *" resp ", int " resplen ", int *" error ");"
+
 .fi
-.sp
 Link with
 .BR -lsimpleio .
 .SH DESCRIPTION

@@ -30,15 +30,15 @@
 .SH SYNOPSIS
 .nf
 .B #include <libi2c.h>
-.sp
+
 .BI "void I2C_open(char *" name ", int *" fd ", int * " error ");"
-.PP
+
 .BI "void I2C_close(int " fd ", int *" error ");"
-.PP
+
 .BI "void I2C_transaction(int " fd ", int " slaveaddr ", void *" cmd ", int " cmdlen ","
 .BI "  void *" resp ", int " resplen ", int *" error ");"
+
 .fi
-.sp
 Link with
 .BR -lsimpleio .
 .SH DESCRIPTION

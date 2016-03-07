@@ -30,18 +30,18 @@
 .SH SYNOPSIS
 .nf
 .B #include <libevent.h>
-.sp
+
 .BI "void EVENT_open(int *" error ");"
-.PP
+
 .BI "void EVENT_close(int *" error ");"
-.PP
+
 .BI "void EVENT_register_fd(int " fd ", int " events ", int *" error ");"
-.PP
+
 .BI "void EVENT_unregister_fd(int " fd ", int *" error ");"
-.PP
+
 .BI "void EVENT_wait(int *" fd ", int *" event ", int " timeoutms ", int *" error ");"
+
 .fi
-.sp
 Link with
 .BR -lsimpleio .
 .SH DESCRIPTION
@@ -105,6 +105,6 @@ are invalid.
 .SH SEE ALSO
 .BR libsimpleio "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), " libserial "(2),"
 .br
-.BR libspi "(2), " epoll "(7)"
+.BR libspi "(2)"
 .SH AUTHOR
 Philip Munts, President, Munts AM Corp dba Munts Technologies

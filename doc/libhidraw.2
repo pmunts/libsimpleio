@@ -30,21 +30,21 @@
 .SH SYNOPSIS
 .nf
 .B #include <libhidraw.h>
-.sp
+
 .BI "void HIDRAW_open(char *" name ", int *" fd ", int *" error ");"
-.PP
+
 .BI "void HIDRAW_close(int " fd ", int *" error ");"
-.PP
+
 .BI "void HIDRAW_get_name(int " fd ", char *" name ", int " size ", int *" error ");"
-.PP
+
 .BI "void HIDRAW_get_info(int " fd ", int *" bustype ", int *" vendor ","
 .BI "  int *" product ", int *" error ");"
-.PP
+
 .BI "void HIDRAW_send(int " fd ", void *" buf ", int " size ", int *" error ");"
 .PP
 .BI "void HIDRAW_receive(int " fd ", void *" buf ", int *" size ", int *" error ");"
+
 .fi
-.sp
 Link with
 .BR -lsimpleio .
 .SH DESCRIPTION
