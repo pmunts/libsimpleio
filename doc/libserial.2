@@ -1,0 +1,111 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\" asynchronous serial port module
+.\"
+.\" $Id$
+.\"
+.\" Copyright (C)2016, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libserial 2 "3 March 2016" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B libserial
+\-\- Linux Simple I/O Library: Asynchronous Serial Port Module
+.SH SYNOPSIS
+.nf
+.B #include <libserial.h>
+
+.B typedef enum
+.B {
+.B "  SERIAL_PARITY_NONE,"
+.B "  SERIAL_PARITY_EVEN,"
+.B "  SERIAL_PARITY_ODD,"
+.B } SERIAL_PARITY_t;
+
+.BI "void SERIAL_open(char *" name ", int " baudrate ", int " parity ", int " databits ","
+.BI "  int " stopbits ", int *"fd ", int *" error ");"
+
+.BI "void SERIAL_close(int " fd ", int *" error ");"
+
+.BI "void SERIAL_send(int " fd ", void *" buf ", int " size ", int *" error ");"
+
+.BI "void SERIAL_receive(int " fd ", void *" buf ", int *" size ", int *" error ");"
+
+.fi
+Link with
+.BR -lsimpleio .
+.SH DESCRIPTION
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.B SERIAL_open()
+opens and configures a serial port device.  The device name must be passed in the
+.I name
+parameter.
+The
+.I baudrate
+parameter sets the serial port bit rate.  Allowed values are
+.BR 50 ", " 75 ", " 110 ", " 134 ", " 150 ", " 200 ", " 300 ", " 600 ", "
+.BR 1200 ", " 1800 ", " 2400 ", " 4800 ", " 9600 ", " 19200 ", " 38400 ", "
+.BR 57600 ", " 115200 ", and " 230400 "."
+The
+.I parity
+parameter sets the parity mode.  Allowed values are
+.BR SERIAL_PARITY_NONE ", " SERIAL_PARITY_EVEN ", and " SERIAL_PARITY_ODD .
+The
+.I databits
+parameter sets the number of bits per character, and may be from
+.BR 5  " to " 8 .
+The
+.I stopbits
+parameter sets the number of stop bits per character, and may be
+.BR 1 " or " 2 .
+Upon success, a file descriptor for the
+serial port device is returned in
+.IR *fd .
+.PP
+.B SERIAL_close()
+closes a previously opened serial port device.
+.P
+.B SERIAL_send()
+sends data to the serial port device.
+The transmit buffer address is passed in
+.IR buf " and"
+its size is passed in
+.IR size .
+.PP
+.B SERIAL_receive()
+receives data from the serial port device.  The receive buffer address
+is passed in
+.IR buf " and"
+its size is passed in
+.IR *size .
+Upon success, the number of bytes received will be returned in
+.IR *size .
+.PP
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
+.br
+.BR libspi "(2)"
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies
