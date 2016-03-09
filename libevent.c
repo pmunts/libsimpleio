@@ -61,8 +61,10 @@ void EVENT_close(int *error)
 
   if (close(epfd))
   {
+    epfd = EPFD_UNINITALIZED;
     *error = errno;
     ERRORMSG("close() failed", *error, __LINE__ - 3);
+    return;
   }
 
   epfd = EPFD_UNINITALIZED;

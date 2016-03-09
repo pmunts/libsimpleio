@@ -130,7 +130,7 @@ void GPIO_configure(int pin, int direction, int state, int edge, int polarity, i
       return;
     }
 
-    if (close(fd) < 0)
+    if (close(fd))
     {
       *error = errno;
       ERRORMSG("close() failed", *error, __LINE__ - 3);
@@ -163,7 +163,7 @@ void GPIO_configure(int pin, int direction, int state, int edge, int polarity, i
     return;
   }
 
-  if (close(fd) < 0)
+  if (close(fd))
   {
     *error = errno;
     ERRORMSG("close() failed", *error, __LINE__ - 3);
@@ -202,7 +202,7 @@ void GPIO_configure(int pin, int direction, int state, int edge, int polarity, i
     return;
   }
 
-  if (close(fd) < 0)
+  if (close(fd))
   {
     *error = errno;
     ERRORMSG("close() failed", *error, __LINE__ - 3);
@@ -255,7 +255,7 @@ void GPIO_configure(int pin, int direction, int state, int edge, int polarity, i
       return;
     }
 
-    if (close(fd) < 0)
+    if (close(fd))
     {
       *error = errno;
       ERRORMSG("close() failed", *error, __LINE__ - 3);

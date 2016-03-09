@@ -254,6 +254,7 @@ void SERIAL_close(int fd, int *error)
   {
     *error = errno;
     ERRORMSG("close() failed", *error, __LINE__ - 3);
+    return;
   }
 
   *error = 0;
