@@ -58,4 +58,4 @@ PACKAGE libsimpleio.Serial IS
     error    : OUT Integer);
   PRAGMA Import(C, Receive, "SERIAL_receive");
 
-END libsimpleio.HIDRaw;
+END libsimpleio.Serial;
