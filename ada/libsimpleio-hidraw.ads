@@ -56,13 +56,13 @@ PACKAGE libsimpleio.HIDRaw IS
     buf     : System.Address;
     size    : Integer;
     error   : Integer);
-  PRAGMA Import(C, GetInfo, "HIDRAW_send");
+  PRAGMA Import(C, Send, "HIDRAW_send");
 
   PROCEDURE Receive
    (fd      : Integer;
     buf     : System.Address;
     size    : IN OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, GetInfo, "HIDRAW_receive");
+  PRAGMA Import(C, Receive, "HIDRAW_receive");
 
 END libsimpleio.HIDRaw;
