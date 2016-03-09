@@ -60,24 +60,28 @@ void SERIAL_open(char *name, int baudrate, int parity, int databits, int stopbit
       break;
 
     default :
+      *fd = -1;
       *error = EINVAL;
       return;
   }
 
   if ((parity < SERIAL_PARITY_NONE) || (parity > SERIAL_PARITY_ODD))
   {
+    *fd = -1;
     *error = EINVAL;
     return;
   }
 
   if ((databits < 5) || (databits > 8))
   {
+    *fd = -1;
     *error = EINVAL;
     return;
   }
 
   if ((stopbits < 1) || (stopbits > 2))
   {
+    *fd = -1;
     *error = EINVAL;
     return;
   }
