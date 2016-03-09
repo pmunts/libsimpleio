@@ -49,13 +49,13 @@ PACKAGE libsimpleio.Serial IS
     buf      : System.Address;
     size     : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, GetInfo, "SERIAL_send");
+  PRAGMA Import(C, Send, "SERIAL_send");
 
   PROCEDURE Receive
    (fd       : Integer;
     buf      : System.Address;
     size     : IN OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, GetInfo, "SERIAL_receive");
+  PRAGMA Import(C, Receive, "SERIAL_receive");
 
 END libsimpleio.HIDRaw;
