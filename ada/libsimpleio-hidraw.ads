@@ -40,7 +40,7 @@ PACKAGE libsimpleio.HIDRaw IS
    (fd      : Integer;
     name    : System.Address;
     size    : Integer;
-    error   : Integer);
+    error   : OUT Integer);
   PRAGMA Import(C, GetName, "HIDRAW_get_name");
 
   PROCEDURE GetInfo
@@ -55,7 +55,7 @@ PACKAGE libsimpleio.HIDRaw IS
    (fd      : Integer;
     buf     : System.Address;
     size    : Integer;
-    error   : Integer);
+    error   : OUT Integer);
   PRAGMA Import(C, Send, "HIDRAW_send");
 
   PROCEDURE Receive
