@@ -43,7 +43,6 @@ void SPI_open(char *name, int mode, int wordsize, int speed, int *fd, int *error
   {
     *error = errno;
     ERRORMSG("open() failed", *error, __LINE__ - 4);
-    *fd = -1;
     return;
   }
 

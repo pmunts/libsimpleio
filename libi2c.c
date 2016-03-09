@@ -47,7 +47,6 @@ void I2C_open(char *name, int *fd, int *error)
   {
     *error = errno;
     ERRORMSG("open() failed", *error, __LINE__ - 4);
-    *fd = -1;
     return;
   }
 
