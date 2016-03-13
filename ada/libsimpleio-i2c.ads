@@ -1,8 +1,6 @@
 -- Minimal Ada wrapper for the Linux I2C services
 -- implemented in libsimpleio.so
 
--- $Id: libsimpleio-i2c.ads 10104 2016-03-04 12:55:21Z svn $
-
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without

@@ -1,7 +1,5 @@
 # Makefile to build Linux Simple I/O Library HTML documentation
 
-# $Id: Makefile 10057 2016-03-02 14:20:30Z svn $
-
 # Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without

@@ -1,7 +1,5 @@
 /* epoll wrapper services for Linux */
 
-// $Id: libevent.h 10079 2016-03-03 14:43:08Z svn $
-
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without

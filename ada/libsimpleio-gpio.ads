@@ -1,8 +1,6 @@
 -- Minimal Ada wrapper for the Linux GPIO services
 -- implemented in libsimpleio.so
 
--- $Id: libsimpleio-gpio.ads 10153 2016-03-09 13:33:49Z svn $
-
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
