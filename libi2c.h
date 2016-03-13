@@ -1,6 +1,6 @@
 /* I2C services for Linux */
 
-// $Id$
+// $Id: libi2c.h 10122 2016-03-06 18:54:16Z svn $
 
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //

@@ -2,7 +2,7 @@
 
 # udev helper script for creating and remove /dev/gpioxx symlink
 
-# $Id$
+# $Id: gpio-udev-helper 10069 2016-03-03 12:06:49Z svn $
 
 # Copyright (C)2013-2016, Philip Munts, President, Munts AM Corp.
 #

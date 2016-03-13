@@ -1,7 +1,7 @@
 -- Minimal Ada wrapper for the Linux raw HID services
 -- implemented in libsimpleio.so
 
--- $Id$
+-- $Id: libsimpleio-hidraw.ads 10152 2016-03-09 13:32:41Z svn $
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --

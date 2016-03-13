@@ -1,6 +1,6 @@
 /* SPI transaction services for Linux */
 
-// $Id$
+// $Id: libspi.h 10123 2016-03-06 18:56:19Z svn $
 
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //

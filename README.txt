@@ -55,7 +55,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
    Questions or comments to Philip Munts [3]phil@munts.net
 
-   $Id$
+   $Id: README.txt 10072 2016-03-03 12:27:59Z svn $
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.

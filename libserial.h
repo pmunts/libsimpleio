@@ -1,6 +1,6 @@
 /* Serial port device wrapper services for Linux */
 
-// $Id$
+// $Id: libserial.h 10048 2016-03-02 08:13:29Z svn $
 
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //

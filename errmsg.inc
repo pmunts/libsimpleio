@@ -1,6 +1,6 @@
 // Define macros for display error messages
 
-// $Id$
+// $Id: errmsg.inc 10012 2016-02-25 20:20:54Z svn $
 
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //

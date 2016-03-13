@@ -1,6 +1,6 @@
 # Makefile to build Linux Simple I/O Library
 
-# $Id$
+# $Id: Makefile 10156 2016-03-10 07:41:11Z svn $
 
 # Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 #

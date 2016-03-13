@@ -1,7 +1,7 @@
 -- Minimal Ada wrapper for the Linux serial port services
 -- implemented in libsimpleio.so
 
--- $Id$
+-- $Id: libsimpleio-serial.ads 10148 2016-03-09 12:48:56Z svn $
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --

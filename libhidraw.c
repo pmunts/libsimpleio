@@ -1,6 +1,6 @@
 /* Raw HID device wrapper services for Linux */
 
-// $Id$
+// $Id: libhidraw.c 10151 2016-03-09 13:32:08Z svn $
 
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //

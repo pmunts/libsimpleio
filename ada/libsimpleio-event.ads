@@ -1,7 +1,7 @@
 -- Minimal Ada wrapper for the Linux epoll services
 -- implemented in libsimpleio.so
 
--- $Id$
+-- $Id: libsimpleio-event.ads 10104 2016-03-04 12:55:21Z svn $
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --

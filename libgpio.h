@@ -1,6 +1,6 @@
 /* GPIO services for Linux */
 
-// $Id$
+// $Id: libgpio.h 10049 2016-03-02 08:15:41Z svn $
 
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //
