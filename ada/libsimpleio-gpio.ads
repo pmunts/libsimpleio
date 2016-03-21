@@ -45,9 +45,6 @@ PACKAGE libsimpleio.GPIO IS
 
   PROCEDURE Open
    (devname  : String;
-    mode     : Integer;
-    wordsize : Integer;
-    speed    : Integer;
     fd       : OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Open, "GPIO_open");
