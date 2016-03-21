@@ -269,7 +269,7 @@ void GPIO_configure(int pin, int direction, int state, int edge, int polarity, i
 void GPIO_open(char *name, int *fd, int *error)
 {
   *fd = open(name, O_RDWR);
-  if (fd < 0)
+  if (*fd < 0)
   {
     *error = errno;
     ERRORMSG("open() failed", *error, __LINE__ - 4);
