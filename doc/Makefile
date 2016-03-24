@@ -26,6 +26,7 @@ default: html
 
 %.html: %.2
 	man2html -r $^ >$@
+	sed -i '1,2d' $@
 	sed -i 's@\.\./index\.html@../README.html@g' $@
 	sed -i 's@\.\./man2/@@g' $@
 	sed -i 's@\.2\.html@.html@g' $@
