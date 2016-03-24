@@ -22,26 +22,27 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE libsimpleio.I2C IS
+  PRAGMA Pure;
 
   PROCEDURE Open
    (devname   : String;
-    fd        : OUT Integer32;
-    error     : OUT Integer32);
+    fd        : OUT Integer;
+    error     : OUT Integer);
   PRAGMA Import(C, Open, "I2C_open");
 
   PROCEDURE Close
-   (fd        : Integer32;
-    error     : OUT Integer32);
+   (fd        : Integer;
+    error     : OUT Integer);
   PRAGMA Import(C, Close, "I2C_close");
 
   PROCEDURE Transaction
-   (fd        : Integer32;
-    slaveaddr : Integer32;
+   (fd        : Integer;
+    slaveaddr : Integer;
     cmd       : System.Address;
-    cmdlen    : Integer32;
+    cmdlen    : Integer;
     resp      : System.Address;
-    resplen   : Integer32;
-    error     : OUT Integer32);
+    resplen   : Integer;
+    error     : OUT Integer);
   PRAGMA Import(C, Transaction, "I2C_transaction");
 
 END libsimpleio.I2C;

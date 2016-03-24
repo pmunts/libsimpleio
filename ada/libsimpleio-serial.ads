@@ -22,6 +22,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE libsimpleio.Serial IS
+  PRAGMA Pure;
 
   PARITY_NONE : CONSTANT := 0;
   PARITY_EVEN : CONSTANT := 1;
@@ -29,31 +30,31 @@ PACKAGE libsimpleio.Serial IS
 
   PROCEDURE Open
    (devname  : String;
-    baudrate : Integer32;
-    parity   : Integer32;
-    databits : Integer32;
-    stopbits : Integer32;
-    fd       : OUT Integer32;
-    error    : OUT Integer32);
+    baudrate : Integer;
+    parity   : Integer;
+    databits : Integer;
+    stopbits : Integer;
+    fd       : OUT Integer;
+    error    : OUT Integer);
   PRAGMA Import(C, Open, "SERIAL_open");
 
   PROCEDURE Close
-   (fd       : Integer32;
-    error    : OUT Integer32);
+   (fd       : Integer;
+    error    : OUT Integer);
   PRAGMA Import(C, Close, "SERIAL_close");
 
   PROCEDURE Send
-   (fd       : Integer32;
+   (fd       : Integer;
     buf      : System.Address;
-    size     : Integer32;
-    error    : OUT Integer32);
+    size     : Integer;
+    error    : OUT Integer);
   PRAGMA Import(C, Send, "SERIAL_send");
 
   PROCEDURE Receive
-   (fd       : Integer32;
+   (fd       : Integer;
     buf      : System.Address;
-    size     : IN OUT Integer32;
-    error    : OUT Integer32);
+    size     : IN OUT Integer;
+    error    : OUT Integer);
   PRAGMA Import(C, Receive, "SERIAL_receive");
 
 END libsimpleio.Serial;

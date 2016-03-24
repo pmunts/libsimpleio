@@ -22,29 +22,30 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE libsimpleio.SPI IS
+  PRAGMA Pure;
 
   PROCEDURE Open
    (devname  : String;
-    mode     : Integer32;
-    wordsize : Integer32;
-    speed    : Integer32;
-    fd       : OUT Integer32;
-    error    : OUT Integer32);
+    mode     : Integer;
+    wordsize : Integer;
+    speed    : Integer;
+    fd       : OUT Integer;
+    error    : OUT Integer);
   PRAGMA Import(C, Open, "SPI_open");
 
   PROCEDURE Close
-   (fd       : Integer32;
-    error    : OUT Integer32);
+   (fd       : Integer;
+    error    : OUT Integer);
   PRAGMA Import(C, Close, "SPI_close");
 
   PROCEDURE Transaction
-   (fd       : Integer32;
+   (fd       : Integer;
     cmd      : System.Address;
-    cmdlen   : Integer32;
-    delayus  : Integer32;
+    cmdlen   : Integer;
+    delayus  : Integer;
     resp     : System.Address;
-    resplen  : Integer32;
-    error    : OUT Integer32);
+    resplen  : Integer;
+    error    : OUT Integer);
   PRAGMA Import(C, Transaction, "SPI_transaction");
 
 END libsimpleio.SPI;

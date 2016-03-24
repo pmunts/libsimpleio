@@ -22,45 +22,46 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE libsimpleio.HIDRaw IS
+  PRAGMA Pure;
 
   PROCEDURE Open
    (devname : String;
-    fd      : OUT Integer32;
-    error   : OUT Integer32);
+    fd      : OUT Integer;
+    error   : OUT Integer);
   PRAGMA Import(C, Open, "HIDRAW_open");
 
   PROCEDURE Close
-   (fd      : Integer32;
-    error   : OUT Integer32);
+   (fd      : Integer;
+    error   : OUT Integer);
   PRAGMA Import(C, Close, "HIDRAW_close");
 
   PROCEDURE GetName
-   (fd      : Integer32;
+   (fd      : Integer;
     name    : System.Address;
-    size    : Integer32;
-    error   : OUT Integer32);
+    size    : Integer;
+    error   : OUT Integer);
   PRAGMA Import(C, GetName, "HIDRAW_get_name");
 
   PROCEDURE GetInfo
-   (fd      : Integer32;
-    bustype : OUT Integer32;
-    vendor  : OUT Integer32;
-    product : OUT Integer32;
-    error   : OUT Integer32);
+   (fd      : Integer;
+    bustype : OUT Integer;
+    vendor  : OUT Integer;
+    product : OUT Integer;
+    error   : OUT Integer);
   PRAGMA Import(C, GetInfo, "HIDRAW_get_info");
 
   PROCEDURE Send
-   (fd      : Integer32;
+   (fd      : Integer;
     buf     : System.Address;
-    size    : Integer32;
-    error   : OUT Integer32);
+    size    : Integer;
+    error   : OUT Integer);
   PRAGMA Import(C, Send, "HIDRAW_send");
 
   PROCEDURE Receive
-   (fd      : Integer32;
+   (fd      : Integer;
     buf     : System.Address;
-    size    : IN OUT Integer32;
-    error   : OUT Integer32);
+    size    : IN OUT Integer;
+    error   : OUT Integer);
   PRAGMA Import(C, Receive, "HIDRAW_receive");
 
 END libsimpleio.HIDRaw;

@@ -22,6 +22,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE libsimpleio.EVENT IS
+  PRAGMA Pure;
 
   EPOLLIN      : CONSTANT := 16#00000001#;
   EPOLLPRI     : CONSTANT := 16#00000002#;
@@ -39,29 +40,29 @@ PACKAGE libsimpleio.EVENT IS
   EPOLLET      : CONSTANT := 16#80000000#;
 
   PROCEDURE Open
-   (error     : OUT Integer32);
+   (error     : OUT Integer);
   PRAGMA Import(C, Open, "EVENT_open");
 
   PROCEDURE Close
-   (error     : OUT Integer32);
+   (error     : OUT Integer);
   PRAGMA Import(C, Close, "EVENT_close");
 
   PROCEDURE Register
-   (fd        : Integer32;
-    events    : Integer32;
-    error     : OUT Integer32);
+   (fd        : Integer;
+    events    : Integer;
+    error     : OUT Integer);
   PRAGMA Import(C, Register, "EVENT_register_fd");
 
   PROCEDURE Unregister
-   (fd        : Integer32;
-    error     : OUT Integer32);
+   (fd        : Integer;
+    error     : OUT Integer);
   PRAGMA Import(C, Unregister, "EVENT_unregister_fd");
 
   PROCEDURE Wait
-   (fd        : OUT Integer32;
-    event     : OUT Integer32;
-    timeoutms : Integer32;
-    error     : OUT Integer32);
+   (fd        : OUT Integer;
+    event     : OUT Integer;
+    timeoutms : Integer;
+    error     : OUT Integer);
   PRAGMA Import(C, Wait, "EVENT_wait");
 
 END libsimpleio.EVENT;
