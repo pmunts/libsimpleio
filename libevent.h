@@ -23,6 +23,7 @@
 #ifndef LIBEVENT_H
 #define LIBEVENT_H
 
+#include <stdint.h>
 #include <sys/epoll.h>
 
 extern void EVENT_open(int32_t *error);

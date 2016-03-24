@@ -23,6 +23,8 @@
 #ifndef LIBGPIO_H
 #define LIBGPIO_H
 
+#include <stdint.h>
+
 typedef enum
 {
   GPIO_DIRECTION_INPUT,

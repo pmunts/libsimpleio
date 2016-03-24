@@ -23,6 +23,8 @@
 #ifndef LIBHIDRAW_H
 #define LIBHIDRAW_H
 
+#include <stdint.h>
+
 extern void HIDRAW_open(char *name, int32_t *fd, int32_t *error);
 
 extern void HIDRAW_close(int32_t fd, int32_t *error);

@@ -23,6 +23,8 @@
 #ifndef LIBSERIAL_H
 #define LIBSERIAL_H
 
+#include <stdint.h>
+
 typedef enum
 {
   SERIAL_PARITY_NONE,

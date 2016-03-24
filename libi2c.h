@@ -23,6 +23,8 @@
 #ifndef LIBI2C_H
 #define LIBI2C_H
 
+#include <stdint.h>
+
 extern void I2C_open(char *name, int32_t *fd, int32_t *error);
 
 extern void I2C_close(int32_t fd, int32_t *error);
