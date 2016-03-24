@@ -22,7 +22,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE libsimpleio.Linux IS
-  PRAGMA Pure;
 
   -- syslog option constants (extracted from syslog.h)
 

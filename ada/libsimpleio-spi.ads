@@ -22,7 +22,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE libsimpleio.SPI IS
-  PRAGMA Pure;
 
   PROCEDURE Open
    (devname  : String;

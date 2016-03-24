@@ -24,5 +24,4 @@ WITH System;
 
 PACKAGE libsimpleio IS
   PRAGMA Link_With("-lsimpleio");
-  PRAGMA Pure;
 END libsimpleio;
