@@ -26,7 +26,7 @@ CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS)
 
 default: libsimpleio.a libsimpleio.so
 
-SIMPLEIO_COMPONENTS	= libevent.o libgpio.o libhidraw.o libi2c.o libserial.o libspi.o
+SIMPLEIO_COMPONENTS	= libevent.o libgpio.o libhidraw.o libi2c.o libserial.o libspi.o liblinux.o
 
 # Create static libarary
 

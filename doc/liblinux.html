@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of liblinux</TITLE>
+</HEAD><BODY>
+<H1>liblinux</H1>
+Section: Linux Simple I/O Library (2)<BR>Updated: 24 March 2016<BR><A HREF="#index">Index</A>
+<A HREF="../README.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>liblinux</B>
+
+-- Linux Simple I/O Library: Linux System Call Wrapper Module
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A HREF="file:///usr/include/liblinux.h">liblinux.h</A>&gt;</B>
+
+<B>void LINUX_detach(int32_t *</B><I>error</I><B>);</B>
+
+<B>void LINUX_drop_privileges(char *</B><I>username</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void LINUX_openlog(char *</B><I>id</I><B>, int32_t </B><I>options</I><B>, int32_t </B><I>facility</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void LINUX_syslog(int32_t </B><I>priority</I><B>, char *</B><I>msg</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+</PRE>
+
+Link with
+<B>-lsimpleio</B>.
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+These functions wrap certain useful Linux system calls for use by other
+programming languages such as Ada, Pascal, and Java.  They are provided
+for the convenience of devlopers using
+<B>libsimpleio</B>
+
+with those langauges.  For the C programming language, they offer no
+particular benefit over the regular system call wrappers.
+<P>
+
+All functions return either
+<B>0</B>
+
+(upon success) or an
+<B>errno</B>
+
+value (upon failure) in
+<I>*error</I>.
+
+<P>
+
+<B>LINUX_detach()</B>
+
+detaches the calling process from its controlling terminal and continues
+execution in the background.
+<P>
+
+<B>LINUX_drop_privileges()</B>
+
+allows a process started by the supersuser to drop it privileges to those
+of the user specified by the
+<I>username</I>
+
+parameter.
+<P>
+
+<B>LINUX_openlog()</B>
+
+opens a connection to the
+<B>syslog</B>
+
+message logger.  The
+<I>options</I> and <I>facility</I>
+
+parameters accept the same values as the
+<B>openlog()</B>
+
+system library function.
+<P>
+
+<B>LINUX_syslog()</B>
+
+transmits a text message supplied in the
+<I>msg</I>
+
+parameter to the
+<B>syslog</B>
+
+message logger. The
+<I>priority</I>
+
+parameter accepts the same values as the 
+<B>syslog()</B>
+
+system library function.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2), <B><A HREF="libi2c.html">libi2c</A></B>(2), 
+
+<BR>
+
+<B><A HREF="libserial.html">libserial</A></B>(2), <B><A HREF="libspi.html">libspi</A></B>(2)
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Philip Munts, President, Munts AM Corp dba Munts Technologies
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 08:58:07 GMT, March 24, 2016
+</BODY>
+</HTML>
