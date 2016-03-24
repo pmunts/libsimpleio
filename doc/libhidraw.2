@@ -29,18 +29,18 @@
 .nf
 .B #include <libhidraw.h>
 
-.BI "void HIDRAW_open(char *" name ", int *" fd ", int *" error ");"
+.BI "void HIDRAW_open(char *" name ", int32_t *" fd ", int32_t *" error ");"
 
-.BI "void HIDRAW_close(int " fd ", int *" error ");"
+.BI "void HIDRAW_close(int32_t " fd ", int32_t *" error ");"
 
-.BI "void HIDRAW_get_name(int " fd ", char *" name ", int " size ", int *" error ");"
+.BI "void HIDRAW_get_name(int32_t " fd ", char *" name ", int32_t " size ", int32_t *" error ");"
 
-.BI "void HIDRAW_get_info(int " fd ", int *" bustype ", int *" vendor ","
-.BI "  int *" product ", int *" error ");"
+.BI "void HIDRAW_get_info(int32_t " fd ", int32_t *" bustype ", int32_t *" vendor ","
+.BI "  int32_t *" product ", int32_t *" error ");"
 
-.BI "void HIDRAW_send(int " fd ", void *" buf ", int " size ", int *" error ");"
+.BI "void HIDRAW_send(int32_t " fd ", void *" buf ", int32_t " size ", int32_t *" error ");"
 
-.BI "void HIDRAW_receive(int " fd ", void *" buf ", int *" size ", int *" error ");"
+.BI "void HIDRAW_receive(int32_t " fd ", void *" buf ", int32_t *" size ", int32_t *" error ");"
 
 .fi
 Link with

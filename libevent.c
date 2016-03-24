@@ -29,9 +29,9 @@
 
 #define EPFD_UNINITALIZED	-1
 
-static int epfd = EPFD_UNINITALIZED;
+static int32_t epfd = EPFD_UNINITALIZED;
 
-void EVENT_open(int *error)
+void EVENT_open(int32_t *error)
 {
   if (epfd == EPFD_UNINITALIZED)
   {
@@ -48,7 +48,7 @@ void EVENT_open(int *error)
   *error = 0;
 }
 
-void EVENT_close(int *error)
+void EVENT_close(int32_t *error)
 {
   if (epfd == EPFD_UNINITALIZED)
   {
@@ -69,7 +69,7 @@ void EVENT_close(int *error)
   *error = 0;
 }
 
-void EVENT_register_fd(int fd, int events, int *error)
+void EVENT_register_fd(int32_t fd, int32_t events, int32_t *error)
 {
   struct epoll_event ev;
 
@@ -94,7 +94,7 @@ void EVENT_register_fd(int fd, int events, int *error)
   *error = 0;
 }
 
-void EVENT_unregister_fd(int fd, int *error)
+void EVENT_unregister_fd(int32_t fd, int32_t *error)
 {
   if (epfd == EPFD_UNINITALIZED)
   {
@@ -113,9 +113,9 @@ void EVENT_unregister_fd(int fd, int *error)
   *error = 0;
 }
 
-void EVENT_wait(int *fd, int *event, int timeoutms, int *error)
+void EVENT_wait(int32_t *fd, int32_t *event, int32_t timeoutms, int32_t *error)
 {
-  int status;
+  int32_t status;
   struct epoll_event ev;
 
   if (epfd == EPFD_UNINITALIZED)

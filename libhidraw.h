@@ -23,16 +23,16 @@
 #ifndef LIBHIDRAW_H
 #define LIBHIDRAW_H
 
-extern void HIDRAW_open(char *name, int *fd, int *error);
+extern void HIDRAW_open(char *name, int32_t *fd, int32_t *error);
 
-extern void HIDRAW_close(int fd, int *error);
+extern void HIDRAW_close(int32_t fd, int32_t *error);
 
-extern void HIDRAW_get_name(int fd, char *name, int size, int *error);
+extern void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error);
 
-extern void HIDRAW_get_info(int fd, int *bustype, int *vendor, int *product, int *error);
+extern void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor, int32_t *product, int32_t *error);
 
-extern void HIDRAW_send(int fd, void *buf, int size, int *error);
+extern void HIDRAW_send(int32_t fd, void *buf, int32_t size, int32_t *error);
 
-extern void HIDRAW_receive(int fd, void *buf, int *size, int *error);
+extern void HIDRAW_receive(int32_t fd, void *buf, int32_t *size, int32_t *error);
 
 #endif

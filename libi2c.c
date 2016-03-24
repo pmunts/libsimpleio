@@ -36,7 +36,7 @@
 
 // Open I2C device
 
-void I2C_open(char *name, int *fd, int *error)
+void I2C_open(char *name, int32_t *fd, int32_t *error)
 {
   // Open the I2C device
 
@@ -53,7 +53,7 @@ void I2C_open(char *name, int *fd, int *error)
 
 // Close I2C device
 
-void I2C_close(int fd, int *error)
+void I2C_close(int32_t fd, int32_t *error)
 {
   if (close(fd))
   {
@@ -67,7 +67,7 @@ void I2C_close(int fd, int *error)
 
 // Perform an I2C transaction
 
-void I2C_transaction(int fd, int slaveaddr, void *cmd, int cmdlen, void *resp, int resplen, int *error)
+void I2C_transaction(int32_t fd, int32_t slaveaddr, void *cmd, int32_t cmdlen, void *resp, int32_t resplen, int32_t *error)
 {
   struct i2c_rdwr_ioctl_data cmdblk;
   struct i2c_msg msgs[2];

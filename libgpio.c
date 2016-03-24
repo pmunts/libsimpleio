@@ -44,10 +44,10 @@
 
 // Open and configure a GPIO pin
 
-void GPIO_configure(int pin, int direction, int state, int edge, int polarity, int *error)
+void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error)
 {
   char buf[256];
-  int fd;
+  int32_t fd;
   ssize_t status;
 
   // Validate parameters
@@ -266,7 +266,7 @@ void GPIO_configure(int pin, int direction, int state, int edge, int polarity, i
 
 // Open GPIO pin device
 
-void GPIO_open(char *name, int *fd, int *error)
+void GPIO_open(char *name, int32_t *fd, int32_t *error)
 {
   *fd = open(name, O_RDWR);
   if (*fd < 0)
@@ -281,7 +281,7 @@ void GPIO_open(char *name, int *fd, int *error)
 
 // Close GPIO pin device
 
-void GPIO_close(int fd, int *error)
+void GPIO_close(int32_t fd, int32_t *error)
 {
   if (close(fd))
   {
@@ -295,7 +295,7 @@ void GPIO_close(int fd, int *error)
 
 // Read state from GPIO pin device
 
-void GPIO_read(int fd, int *state, int *error)
+void GPIO_read(int32_t fd, int32_t *state, int32_t *error)
 {
   char buf[16];
 
@@ -326,7 +326,7 @@ void GPIO_read(int fd, int *state, int *error)
 
 // Write state to GPIO pin device
 
-void GPIO_write(int fd, int state, int *error)
+void GPIO_write(int32_t fd, int32_t state, int32_t *error)
 {
   if (write(fd, state ? "1\n" : "0\n", 2) < 2)
   {

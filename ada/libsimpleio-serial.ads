@@ -29,31 +29,31 @@ PACKAGE libsimpleio.Serial IS
 
   PROCEDURE Open
    (devname  : String;
-    baudrate : Integer;
-    parity   : Integer;
-    databits : Integer;
-    stopbits : Integer;
-    fd       : OUT Integer;
-    error    : OUT Integer);
+    baudrate : Integer32;
+    parity   : Integer32;
+    databits : Integer32;
+    stopbits : Integer32;
+    fd       : OUT Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Open, "SERIAL_open");
 
   PROCEDURE Close
-   (fd       : Integer;
-    error    : OUT Integer);
+   (fd       : Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Close, "SERIAL_close");
 
   PROCEDURE Send
-   (fd       : Integer;
+   (fd       : Integer32;
     buf      : System.Address;
-    size     : Integer;
-    error    : OUT Integer);
+    size     : Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Send, "SERIAL_send");
 
   PROCEDURE Receive
-   (fd       : Integer;
+   (fd       : Integer32;
     buf      : System.Address;
-    size     : IN OUT Integer;
-    error    : OUT Integer);
+    size     : IN OUT Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Receive, "SERIAL_receive");
 
 END libsimpleio.Serial;

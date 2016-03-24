@@ -29,7 +29,7 @@
 #include <libserial.h>
 #include "errmsg.inc"
 
-void SERIAL_open(char *name, int baudrate, int parity, int databits, int stopbits, int *fd, int *error)
+void SERIAL_open(char *name, int32_t baudrate, int32_t parity, int32_t databits, int32_t stopbits, int32_t *fd, int32_t *error)
 {
   struct termios cfg;
 
@@ -246,7 +246,7 @@ void SERIAL_open(char *name, int baudrate, int parity, int databits, int stopbit
   *error = 0;
 }
 
-void SERIAL_close(int fd, int *error)
+void SERIAL_close(int32_t fd, int32_t *error)
 {
   if (close(fd))
   {
@@ -258,9 +258,9 @@ void SERIAL_close(int fd, int *error)
   *error = 0;
 }
 
-void SERIAL_send(int fd, void *buf, int size, int *error)
+void SERIAL_send(int32_t fd, void *buf, int32_t size, int32_t *error)
 {
-  int len = write(fd, buf, size);
+  int32_t len = write(fd, buf, size);
   if (len < 0)
   {
     *error = errno;
@@ -271,9 +271,9 @@ void SERIAL_send(int fd, void *buf, int size, int *error)
   *error = 0;
 }
 
-void SERIAL_receive(int fd, void *buf, int *size, int *error)
+void SERIAL_receive(int32_t fd, void *buf, int32_t *size, int32_t *error)
 {
-  int len = read(fd, buf, *size);
+  int32_t len = read(fd, buf, *size);
   if (len < 0)
   {
     *error = errno;

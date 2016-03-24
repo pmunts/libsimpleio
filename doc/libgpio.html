@@ -39,16 +39,16 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 3 March 2016<BR><A HREF="#inde
 <B>  GPIO_ACTIVEHIGH,</B>
 <B>} GPIO_POLARITY_t;</B>
 
-<B>void GPIO_configure(int </B><I>pin</I><B>, int </B><I>direction</I><B>, int </B><I>state</I><B>, int </B><I>edge</I><B>,</B>
-<B>  int </B><I>polarity</I><B>, int *</B><I>error</I><B>);</B>
+<B>void GPIO_configure(int32_t </B><I>pin</I><B>, int32_t </B><I>direction</I><B>, int32_t </B><I>state</I><B>, int32_t </B><I>edge</I><B>,</B>
+<B>  int32_t </B><I>polarity</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void GPIO_open(char *</B><I>name</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+<B>void GPIO_open(char *</B><I>name</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void GPIO_close(int </B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+<B>void GPIO_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void GPIO_read(int </B><I>fd</I><B>, int *</B><I>state</I><B>, int *</B><I>error</I><B>);</B>
+<B>void GPIO_read(int32_t </B><I>fd</I><B>, int32_t *</B><I>state</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void GPIO_write(int </B><I>fd</I><B>, int </B><I>state</I><B>, int *</B><I>error</I><B>);</B>
+<B>void GPIO_write(int32_t </B><I>fd</I><B>, int32_t </B><I>state</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -213,6 +213,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 09:09:09 GMT, March 07, 2016
+Time: 07:16:12 GMT, March 24, 2016
 </BODY>
 </HTML>

@@ -29,12 +29,12 @@
 .nf
 .B #include <libi2c.h>
 
-.BI "void I2C_open(char *" name ", int *" fd ", int * " error ");"
+.BI "void I2C_open(char *" name ", int32_t *" fd ", int32_t * " error ");"
 
-.BI "void I2C_close(int " fd ", int *" error ");"
+.BI "void I2C_close(int32_t " fd ", int32_t *" error ");"
 
-.BI "void I2C_transaction(int " fd ", int " slaveaddr ", void *" cmd ", int " cmdlen ","
-.BI "  void *" resp ", int " resplen ", int *" error ");"
+.BI "void I2C_transaction(int32_t " fd ", int32_t " slaveaddr ", void *" cmd ", int32_t " cmdlen ","
+.BI "  void *" resp ", int32_t " resplen ", int32_t *" error ");"
 
 .fi
 Link with

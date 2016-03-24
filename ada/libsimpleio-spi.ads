@@ -25,26 +25,26 @@ PACKAGE libsimpleio.SPI IS
 
   PROCEDURE Open
    (devname  : String;
-    mode     : Integer;
-    wordsize : Integer;
-    speed    : Integer;
-    fd       : OUT Integer;
-    error    : OUT Integer);
+    mode     : Integer32;
+    wordsize : Integer32;
+    speed    : Integer32;
+    fd       : OUT Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Open, "SPI_open");
 
   PROCEDURE Close
-   (fd       : Integer;
-    error    : OUT Integer);
+   (fd       : Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Close, "SPI_close");
 
   PROCEDURE Transaction
-   (fd       : Integer;
+   (fd       : Integer32;
     cmd      : System.Address;
-    cmdlen   : Integer;
-    delayus  : Integer;
+    cmdlen   : Integer32;
+    delayus  : Integer32;
     resp     : System.Address;
-    resplen  : Integer;
-    error    : OUT Integer);
+    resplen  : Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Transaction, "SPI_transaction");
 
 END libsimpleio.SPI;

@@ -25,14 +25,14 @@
 
 #include <sys/epoll.h>
 
-extern void EVENT_open(int *error);
+extern void EVENT_open(int32_t *error);
 
-extern void EVENT_close(int *error);
+extern void EVENT_close(int32_t *error);
 
-extern void EVENT_register_fd(int fd, int events, int *error);
+extern void EVENT_register_fd(int32_t fd, int32_t events, int32_t *error);
 
-extern void EVENT_unregister_fd(int fd, int *error);
+extern void EVENT_unregister_fd(int32_t fd, int32_t *error);
 
-extern void EVENT_wait(int *fd, int *event, int timeoutms, int *error);
+extern void EVENT_wait(int32_t *fd, int32_t *event, int32_t timeoutms, int32_t *error);
 
 #endif

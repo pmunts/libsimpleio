@@ -35,7 +35,7 @@
 
 // Open HID raw device
 
-void HIDRAW_open(char *name, int *fd, int *error)
+void HIDRAW_open(char *name, int32_t *fd, int32_t *error)
 {
   *fd = open(name, O_RDWR);
   if (*fd < 0)
@@ -50,7 +50,7 @@ void HIDRAW_open(char *name, int *fd, int *error)
 
 // Close the HID raw device
 
-void HIDRAW_close(int fd, int *error)
+void HIDRAW_close(int32_t fd, int32_t *error)
 {
   if (close(fd))
   {
@@ -64,7 +64,7 @@ void HIDRAW_close(int fd, int *error)
 
 // Get device information string
 
-void HIDRAW_get_name(int fd, char *name, int size, int *error)
+void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)
 {
   memset(name, 0, size);
 
@@ -80,7 +80,7 @@ void HIDRAW_get_name(int fd, char *name, int size, int *error)
 
 // Get device bus type, vendor and product information
 
-void HIDRAW_get_info(int fd, int *bustype, int *vendor, int *product, int *error)
+void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor, int32_t *product, int32_t *error)
 {
   struct hidraw_devinfo devinfo;
 
@@ -99,9 +99,9 @@ void HIDRAW_get_info(int fd, int *bustype, int *vendor, int *product, int *error
 
 // Send a message to the HID raw device
 
-void HIDRAW_send(int fd, void *buf, int size, int *error)
+void HIDRAW_send(int32_t fd, void *buf, int32_t size, int32_t *error)
 {
-  int len = write(fd, buf, size);
+  int32_t len = write(fd, buf, size);
   if (len < 0)
   {
     *error = errno;
@@ -114,9 +114,9 @@ void HIDRAW_send(int fd, void *buf, int size, int *error)
 
 // Receive a message from the HID raw device
 
-void HIDRAW_receive(int fd, void *buf, int *size, int *error)
+void HIDRAW_receive(int32_t fd, void *buf, int32_t *size, int32_t *error)
 {
-  int len = read(fd, buf, *size);
+  int32_t len = read(fd, buf, *size);
   if (len < 0)
   {
     *error = errno;

@@ -19,12 +19,12 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 3 March 2016<BR><A HREF="#inde
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libi2c.h">libi2c.h</A>&gt;</B>
 
-<B>void I2C_open(char *</B><I>name</I><B>, int *</B><I>fd</I><B>, int * </B><I>error</I><B>);</B>
+<B>void I2C_open(char *</B><I>name</I><B>, int32_t *</B><I>fd</I><B>, int32_t * </B><I>error</I><B>);</B>
 
-<B>void I2C_close(int </B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+<B>void I2C_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void I2C_transaction(int </B><I>fd</I><B>, int </B><I>slaveaddr</I><B>, void *</B><I>cmd</I><B>, int </B><I>cmdlen</I><B>,</B>
-<B>  void *</B><I>resp</I><B>, int </B><I>resplen</I><B>, int *</B><I>error</I><B>);</B>
+<B>void I2C_transaction(int32_t </B><I>fd</I><B>, int32_t </B><I>slaveaddr</I><B>, void *</B><I>cmd</I><B>, int32_t </B><I>cmdlen</I><B>,</B>
+<B>  void *</B><I>resp</I><B>, int32_t </B><I>resplen</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -111,6 +111,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 09:09:09 GMT, March 07, 2016
+Time: 07:16:12 GMT, March 24, 2016
 </BODY>
 </HTML>

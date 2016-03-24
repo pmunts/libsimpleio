@@ -24,4 +24,8 @@ WITH System;
 
 PACKAGE libsimpleio IS
   PRAGMA Link_With("-lsimpleio");
+
+  TYPE Integer32 IS RANGE -4294967296 .. 4294967295;
+  FOR Integer32'Size USE 32;
+
 END libsimpleio;

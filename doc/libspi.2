@@ -29,13 +29,13 @@
 .nf
 .B #include <libspi.h>
 
-.BI "void SPI_open(char *" name ", int " mode ", int " wordsize ", int " speed ","
-.BI "  int *" fd ", int * " error ");"
+.BI "void SPI_open(char *" name ", int32_t " mode ", int32_t " wordsize ", int32_t " speed ","
+.BI "  int32_t *" fd ", int32_t * " error ");"
 
-.BI "void SPI_close(int " fd ", int *" error ");"
+.BI "void SPI_close(int32_t " fd ", int32_t *" error ");"
 
-.BI "void SPI_transaction(int " fd ", void *" cmd ", int " cmdlen ", int " delayus ","
-.BI "  void *" resp ", int " resplen ", int *" error ");"
+.BI "void SPI_transaction(int32_t " fd ", void *" cmd ", int32_t " cmdlen ", int32_t " delayus ","
+.BI "  void *" resp ", int32_t " resplen ", int32_t *" error ");"
 
 .fi
 Link with

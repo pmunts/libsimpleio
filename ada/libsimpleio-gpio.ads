@@ -35,35 +35,35 @@ PACKAGE libsimpleio.GPIO IS
   ACTIVEHIGH       : CONSTANT := 1;
 
   PROCEDURE Configure
-   (pin       : Integer;
-    direction : Integer;
-    state     : Integer;
-    edge      : Integer;
-    polarity  : Integer;
-    error     : OUT Integer);
+   (pin       : Integer32;
+    direction : Integer32;
+    state     : Integer32;
+    edge      : Integer32;
+    polarity  : Integer32;
+    error     : OUT Integer32);
   PRAGMA Import(C, Configure, "GPIO_configure");
 
   PROCEDURE Open
    (devname  : String;
-    fd       : OUT Integer;
-    error    : OUT Integer);
+    fd       : OUT Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Open, "GPIO_open");
 
   PROCEDURE Close
-   (fd       : Integer;
-    error    : OUT Integer);
+   (fd       : Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Close, "GPIO_close");
 
   PROCEDURE Read
-   (fd       : Integer;
-    state    : OUT Integer;
-    error    : OUT Integer);
+   (fd       : Integer32;
+    state    : OUT Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Read, "GPIO_read");
 
   PROCEDURE Write
-   (fd       : Integer;
-    state    : Integer;
-    error    : OUT Integer);
+   (fd       : Integer32;
+    state    : Integer32;
+    error    : OUT Integer32);
   PRAGMA Import(C, Write, "GPIO_write");
 
 END libsimpleio.GPIO;

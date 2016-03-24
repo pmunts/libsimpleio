@@ -29,15 +29,15 @@
 .nf
 .B #include <libevent.h>
 
-.BI "void EVENT_open(int *" error ");"
+.BI "void EVENT_open(int32_t *" error ");"
 
-.BI "void EVENT_close(int *" error ");"
+.BI "void EVENT_close(int32_t *" error ");"
 
-.BI "void EVENT_register_fd(int " fd ", int " events ", int *" error ");"
+.BI "void EVENT_register_fd(int32_t " fd ", int32_t " events ", int32_t *" error ");"
 
-.BI "void EVENT_unregister_fd(int " fd ", int *" error ");"
+.BI "void EVENT_unregister_fd(int32_t " fd ", int32_t *" error ");"
 
-.BI "void EVENT_wait(int *" fd ", int *" event ", int " timeoutms ", int *" error ");"
+.BI "void EVENT_wait(int32_t *" fd ", int32_t *" event ", int32_t " timeoutms ", int32_t *" error ");"
 
 .fi
 Link with

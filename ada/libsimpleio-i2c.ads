@@ -25,23 +25,23 @@ PACKAGE libsimpleio.I2C IS
 
   PROCEDURE Open
    (devname   : String;
-    fd        : OUT Integer;
-    error     : OUT Integer);
+    fd        : OUT Integer32;
+    error     : OUT Integer32);
   PRAGMA Import(C, Open, "I2C_open");
 
   PROCEDURE Close
-   (fd        : Integer;
-    error     : OUT Integer);
+   (fd        : Integer32;
+    error     : OUT Integer32);
   PRAGMA Import(C, Close, "I2C_close");
 
   PROCEDURE Transaction
-   (fd        : Integer;
-    slaveaddr : Integer;
+   (fd        : Integer32;
+    slaveaddr : Integer32;
     cmd       : System.Address;
-    cmdlen    : Integer;
+    cmdlen    : Integer32;
     resp      : System.Address;
-    resplen   : Integer;
-    error     : OUT Integer);
+    resplen   : Integer32;
+    error     : OUT Integer32);
   PRAGMA Import(C, Transaction, "I2C_transaction");
 
 END libsimpleio.I2C;

@@ -32,7 +32,7 @@
 
 // Open and configure the SPI port
 
-void SPI_open(char *name, int mode, int wordsize, int speed, int *fd, int *error)
+void SPI_open(char *name, int32_t mode, int32_t wordsize, int32_t speed, int32_t *fd, int32_t *error)
 {
   // Open the SPI device
 
@@ -82,7 +82,7 @@ void SPI_open(char *name, int mode, int wordsize, int speed, int *fd, int *error
 
 // Close the SPI port
 
-void SPI_close(int fd, int *error)
+void SPI_close(int32_t fd, int32_t *error)
 {
   if (close(fd))
   {
@@ -96,7 +96,7 @@ void SPI_close(int fd, int *error)
 
 // Perform an SPI I/O transaction (command and response)
 
-void SPI_transaction(int fd, void *cmd, int cmdlen, int delayus, void *resp, int resplen, int *error)
+void SPI_transaction(int32_t fd, void *cmd, int32_t cmdlen, int32_t delayus, void *resp, int32_t resplen, int32_t *error)
 {
   struct spi_ioc_transfer xfer[2];
 

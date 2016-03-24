@@ -25,10 +25,10 @@
 
 #include <linux/spi/spidev.h>
 
-extern void SPI_open(char *name, int mode, int wordsize, int speed, int *fd, int *error);
+extern void SPI_open(char *name, int32_t mode, int32_t wordsize, int32_t speed, int32_t *fd, int32_t *error);
 
-extern void SPI_close(int fd, int *error);
+extern void SPI_close(int32_t fd, int32_t *error);
 
-extern void SPI_transaction(int fd, void *cmd, int cmdlen, int delayus, void *resp, int resplen, int *error);
+extern void SPI_transaction(int32_t fd, void *cmd, int32_t cmdlen, int32_t delayus, void *resp, int32_t resplen, int32_t *error);
 
 #endif

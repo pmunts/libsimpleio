@@ -43,14 +43,14 @@ typedef enum
   GPIO_ACTIVEHIGH,
 } GPIO_POLARITY_t;
 
-extern void GPIO_configure(int pin, int direction, int state, int edge, int polarity, int *error);
+extern void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error);
 
-extern void GPIO_open(char *name, int *fd, int *error);
+extern void GPIO_open(char *name, int32_t *fd, int32_t *error);
 
-extern void GPIO_close(int fd, int *error);
+extern void GPIO_close(int32_t fd, int32_t *error);
 
-extern void GPIO_read(int fd, int *state, int *error);
+extern void GPIO_read(int32_t fd, int32_t *state, int32_t *error);
 
-extern void GPIO_write(int fd, int state, int *error);
+extern void GPIO_write(int32_t fd, int32_t state, int32_t *error);
 
 #endif

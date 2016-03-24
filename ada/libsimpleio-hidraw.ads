@@ -25,42 +25,42 @@ PACKAGE libsimpleio.HIDRaw IS
 
   PROCEDURE Open
    (devname : String;
-    fd      : OUT Integer;
-    error   : OUT Integer);
+    fd      : OUT Integer32;
+    error   : OUT Integer32);
   PRAGMA Import(C, Open, "HIDRAW_open");
 
   PROCEDURE Close
-   (fd      : Integer;
-    error   : OUT Integer);
+   (fd      : Integer32;
+    error   : OUT Integer32);
   PRAGMA Import(C, Close, "HIDRAW_close");
 
   PROCEDURE GetName
-   (fd      : Integer;
+   (fd      : Integer32;
     name    : System.Address;
-    size    : Integer;
-    error   : OUT Integer);
+    size    : Integer32;
+    error   : OUT Integer32);
   PRAGMA Import(C, GetName, "HIDRAW_get_name");
 
   PROCEDURE GetInfo
-   (fd      : Integer;
-    bustype : OUT Integer;
-    vendor  : OUT Integer;
-    product : OUT Integer;
-    error   : OUT Integer);
+   (fd      : Integer32;
+    bustype : OUT Integer32;
+    vendor  : OUT Integer32;
+    product : OUT Integer32;
+    error   : OUT Integer32);
   PRAGMA Import(C, GetInfo, "HIDRAW_get_info");
 
   PROCEDURE Send
-   (fd      : Integer;
+   (fd      : Integer32;
     buf     : System.Address;
-    size    : Integer;
-    error   : OUT Integer);
+    size    : Integer32;
+    error   : OUT Integer32);
   PRAGMA Import(C, Send, "HIDRAW_send");
 
   PROCEDURE Receive
-   (fd      : Integer;
+   (fd      : Integer32;
     buf     : System.Address;
-    size    : IN OUT Integer;
-    error   : OUT Integer);
+    size    : IN OUT Integer32;
+    error   : OUT Integer32);
   PRAGMA Import(C, Receive, "HIDRAW_receive");
 
 END libsimpleio.HIDRaw;
