@@ -22,7 +22,7 @@
 
 AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
-CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS)
+CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS) -DWAIT_GPIO_LINK
 
 default: libsimpleio.a libsimpleio.so
 

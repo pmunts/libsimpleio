@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 #include <sys/param.h>
 
@@ -43,6 +44,14 @@
 #define EDGE		PINDIR  "/edge"
 #define ACTIVELOW	PINDIR  "/active_low"
 
+static uint64_t milliseconds(void)
+{
+  struct timespec t;
+
+  clock_gettime(CLOCK_REALTIME, &t);
+  return t.tv_sec*1000LL + (1LL*t.tv_nsec)/1000000LL;
+}
+
 // Open and configure a GPIO pin
 
 void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error)
@@ -50,8 +59,6 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
   char buf[MAXPATHLEN];
   int32_t fd;
   ssize_t status;
-  char linkname[MAXPATHLEN];
-  char linktarget[MAXPATHLEN];
 
   // Validate parameters
 
@@ -264,7 +271,11 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     }
   }
 
-  // Symlink /dev/gpioN to /sys/class/gpio/gpioN/value
+#ifdef MAKE_GPIO_LINK
+  // Symlink /dev/gpioN to /sys/class/gpio/gpioN/value -- requires superuser
+
+  char linkname[MAXPATHLEN];
+  char linktarget[MAXPATHLEN];
 
   snprintf(linktarget, sizeof(linktarget), "/sys/class/gpio/gpio%d/value", pin);
   snprintf(linkname, sizeof(linkname), "/dev/gpio%d", pin);
@@ -278,6 +289,29 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
       return;
     }
   }
+#endif
+
+#ifdef WAIT_GPIO_LINK
+  // Wait /dev/gpioN to be created by udev (or mdev) -- requires udev (or mdev)
+  // rules to be installed
+
+  char linkname[MAXPATHLEN];
+  uint64_t start;
+
+  snprintf(linkname, sizeof(linkname), "/dev/gpio%d", pin);
+
+  start = milliseconds();
+
+  while (access(linkname, F_OK))
+  {
+    if (milliseconds() - start > 500)
+    {
+      *error = EIO;
+      ERRORMSG("Timed out waiting for symlink", *error, __LINE__ - 3);
+      return;
+    }
+  }
+#endif
 
   *error = 0;
 }
