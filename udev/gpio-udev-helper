@@ -24,10 +24,10 @@
 
 DEVNAME=`basename /sys${DEVPATH}`
 
-if [ "$ACTION" = "add" ]; then
+if [ "$ACTION" = "add" -a ! -L /dev/${DEVNAME} ]; then
   ln -s -f /sys${DEVPATH}/value /dev/${DEVNAME}
 fi
 
-if [ "$ACTION" = "remove" ]; then
+if [ "$ACTION" = "remove" -a -L /dev/${DEVNAME} ]; then
   rm /dev/${DEVNAME}
 fi

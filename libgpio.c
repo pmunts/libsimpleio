@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/param.h>
 
 #include <errmsg.inc>
 #include <libgpio.h>
@@ -46,9 +47,11 @@
 
 void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error)
 {
-  char buf[256];
+  char buf[MAXPATHLEN];
   int32_t fd;
   ssize_t status;
+  char linkname[MAXPATHLEN];
+  char linktarget[MAXPATHLEN];
 
   // Validate parameters
 
@@ -257,6 +260,21 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     {
       *error = errno;
       ERRORMSG("close() failed", *error, __LINE__ - 3);
+      return;
+    }
+  }
+
+  // Symlink /dev/gpioN to /sys/class/gpio/gpioN/value
+
+  snprintf(linktarget, sizeof(linktarget), "/sys/class/gpio/gpio%d/value", pin);
+  snprintf(linkname, sizeof(linkname), "/dev/gpio%d", pin);
+
+  if (access(linkname, F_OK))
+  {
+    if (symlink(linktarget, linkname))
+    {
+      *error = errno;
+      ERRORMSG("symlink() failed", *error, __LINE__ - 3);
       return;
     }
   }
