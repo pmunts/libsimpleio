@@ -351,6 +351,13 @@ void GPIO_read(int32_t fd, int32_t *state, int32_t *error)
 {
   char buf[16];
 
+  if (lseek(fd, 0L, SEEK_SET) < 0L)
+  {
+    *error = errno;
+    ERRORMSG("lseek() failed", *error, __LINE__ - 3);
+    return;
+  }
+
   if (read(fd, buf, sizeof(buf)) < 2)
   {
     *error = errno;
