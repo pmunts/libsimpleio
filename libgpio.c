@@ -320,11 +320,29 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
 void GPIO_open(char *name, int32_t *fd, int32_t *error)
 {
+  char buf[16];
+
   *fd = open(name, O_RDWR);
   if (*fd < 0)
   {
     *error = errno;
     ERRORMSG("open() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  // Priming read, needed to make edge detection work properly
+
+  if (lseek(*fd, 0, SEEK_SET) < 0)
+  {
+    *error = errno;
+    ERRORMSG("lseek() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (read(*fd, buf, sizeof(buf)) < 0)
+  {
+    *error = errno;
+    ERRORMSG("read() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -349,16 +367,18 @@ void GPIO_close(int32_t fd, int32_t *error)
 
 void GPIO_read(int32_t fd, int32_t *state, int32_t *error)
 {
-  char buf[16];
+  char buf[4];
 
-  if (lseek(fd, 0L, SEEK_SET) < 0L)
+  if (lseek(fd, 0, SEEK_SET) < 0)
   {
     *error = errno;
     ERRORMSG("lseek() failed", *error, __LINE__ - 3);
     return;
   }
 
-  if (read(fd, buf, sizeof(buf)) < 2)
+  memset(buf, 0, sizeof(buf));
+
+  if (read(fd, buf, sizeof(buf)) < 0)
   {
     *error = errno;
     ERRORMSG("read() failed", *error, __LINE__ - 3);
