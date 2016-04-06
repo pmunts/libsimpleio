@@ -55,7 +55,7 @@ install: libsimpleio.a libsimpleio.so
 
 OSNAME		?= unknown
 PKGNAME		:= munts-simpleio
-PKGVERSION	:= $(shell date +%Y-%j)
+PKGVERSION	:= $(shell date +%Y.%j)
 PKGARCH		:= $(shell dpkg --print-architecture)
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
