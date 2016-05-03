@@ -144,6 +144,27 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
       ERRORMSG("close() failed", *error, __LINE__ - 3);
       return;
     }
+
+#ifdef WAIT_GPIO_LINK
+    // Wait for /dev/gpioN to be created by udev or mdev
+
+    char linkname[MAXPATHLEN];
+    uint64_t start;
+
+    snprintf(linkname, sizeof(linkname), "/dev/gpio%d", pin);
+
+    start = milliseconds();
+
+    while (access(linkname, F_OK))
+    {
+      if (milliseconds() - start > 500)
+      {
+        *error = EIO;
+        ERRORMSG("Timed out waiting for symlink", *error, __LINE__ - 3);
+        return;
+      }
+    }
+#endif
   }
 
   // Set polarity
@@ -286,28 +307,6 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     {
       *error = errno;
       ERRORMSG("symlink() failed", *error, __LINE__ - 3);
-      return;
-    }
-  }
-#endif
-
-#ifdef WAIT_GPIO_LINK
-  // Wait /dev/gpioN to be created by udev (or mdev) -- requires udev (or mdev)
-  // rules to be installed
-
-  char linkname[MAXPATHLEN];
-  uint64_t start;
-
-  snprintf(linkname, sizeof(linkname), "/dev/gpio%d", pin);
-
-  start = milliseconds();
-
-  while (access(linkname, F_OK))
-  {
-    if (milliseconds() - start > 500)
-    {
-      *error = EIO;
-      ERRORMSG("Timed out waiting for symlink", *error, __LINE__ - 3);
       return;
     }
   }
