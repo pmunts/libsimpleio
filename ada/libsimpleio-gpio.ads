@@ -23,16 +23,16 @@
 
 PACKAGE libsimpleio.GPIO IS
 
-  DIRECTION_INPUT  : CONSTANT := 0;
-  DIRECTION_OUTPUT : CONSTANT := 1;
+  DIRECTION_INPUT     : CONSTANT Integer := 0;
+  DIRECTION_OUTPUT    : CONSTANT Integer := 1;
 
-  EDGE_NONE        : CONSTANT := 0;
-  EDGE_RISING      : CONSTANT := 1;
-  EDGE_FALLING     : CONSTANT := 2;
-  EDGE_BOTH        : CONSTANT := 3;
+  EDGE_NONE           : CONSTANT Integer := 0;
+  EDGE_RISING         : CONSTANT Integer := 1;
+  EDGE_FALLING        : CONSTANT Integer := 2;
+  EDGE_BOTH           : CONSTANT Integer := 3;
 
-  ACTIVELOW        : CONSTANT := 0;
-  ACTIVEHIGH       : CONSTANT := 1;
+  POLARITY_ACTIVELOW  : CONSTANT Integer := 0;
+  POLARITY_ACTIVEHIGH : CONSTANT Integer := 1;
 
   PROCEDURE Configure
    (pin       : Integer;
