@@ -21,7 +21,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.EVENT IS
+PACKAGE libsimpleio.Event IS
+
+  -- epoll events, extracted from /usr/include/sys/epoll.h
 
   EPOLLIN      : CONSTANT := 16#00000001#;
   EPOLLPRI     : CONSTANT := 16#00000002#;
@@ -64,4 +66,4 @@ PACKAGE libsimpleio.EVENT IS
     error     : OUT Integer);
   PRAGMA Import(C, Wait, "EVENT_wait");
 
-END libsimpleio.EVENT;
+END libsimpleio.Event;
