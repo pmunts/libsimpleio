@@ -33,7 +33,7 @@ INTERFACE
    (fd        : Integer;
     VAR error : Integer); CDECL; EXTERNAL;
 
-  PROCEDURE Transaction
+  PROCEDURE I2C_transaction
    (fd        : Integer;
     slaveaddr : Integer;
     cmd       : Pointer;
