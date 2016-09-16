@@ -36,7 +36,7 @@
 .B "  SERIAL_PARITY_ODD,"
 .B } SERIAL_PARITY_t;
 
-.BI "void SERIAL_open(char *" name ", int32_t " baudrate ", int32_t " parity ", int32_t " databits ","
+.BI "void SERIAL_open(const char *" name ", int32_t " baudrate ", int32_t " parity ", int32_t " databits ","
 .BI "  int32_t " stopbits ", int32_t *"fd ", int32_t *" error ");"
 
 .BI "void SERIAL_close(int32_t " fd ", int32_t *" error ");"

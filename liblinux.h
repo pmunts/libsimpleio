@@ -33,14 +33,14 @@ extern void LINUX_detach(int32_t *error);
 
 // Drop privileges from superuser to ordinary user
 
-extern void LINUX_drop_privileges(char *username, int32_t *error);
+extern void LINUX_drop_privileges(const char *username, int32_t *error);
 
 // Open syslog connection
 
-extern void LINUX_openlog(char *id, int32_t options, int32_t facility, int32_t *error);
+extern void LINUX_openlog(const char *id, int32_t options, int32_t facility, int32_t *error);
 
 // Post syslog message
 
-extern void LINUX_syslog(int32_t priority, char *msg, int32_t *error);
+extern void LINUX_syslog(int32_t priority, const char *msg, int32_t *error);
 
 #endif

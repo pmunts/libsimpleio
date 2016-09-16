@@ -46,7 +46,7 @@ void LINUX_detach(int32_t *error)
 
 // Drop privileges from superuser to ordinary user
 
-void LINUX_drop_privileges(char *username, int32_t *error)
+void LINUX_drop_privileges(const char *username, int32_t *error)
 {
   struct passwd *pwent;
 
@@ -94,7 +94,7 @@ void LINUX_drop_privileges(char *username, int32_t *error)
 
 static char ident[256];
 
-void LINUX_openlog(char *id, int32_t options, int32_t facility, int32_t *error)
+void LINUX_openlog(const char *id, int32_t options, int32_t facility, int32_t *error)
 {
   memset(ident, 0, sizeof(ident));
   strncpy(ident, id, sizeof(ident) - 1);
@@ -105,7 +105,7 @@ void LINUX_openlog(char *id, int32_t options, int32_t facility, int32_t *error)
 
 // Post syslog message
 
-void LINUX_syslog(int32_t priority, char *msg, int32_t *error)
+void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
 {
   syslog(priority, msg);
   *error = 0;

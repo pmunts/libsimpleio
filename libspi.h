@@ -26,7 +26,7 @@
 #include <stdint.h>
 #include <linux/spi/spidev.h>
 
-extern void SPI_open(char *name, int32_t mode, int32_t wordsize, int32_t speed, int32_t *fd, int32_t *error);
+extern void SPI_open(const char *name, int32_t mode, int32_t wordsize, int32_t speed, int32_t *fd, int32_t *error);
 
 extern void SPI_close(int32_t fd, int32_t *error);
 

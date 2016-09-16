@@ -32,7 +32,7 @@
 
 // Open and configure the SPI port
 
-void SPI_open(char *name, int32_t mode, int32_t wordsize, int32_t speed, int32_t *fd, int32_t *error)
+void SPI_open(const char *name, int32_t mode, int32_t wordsize, int32_t speed, int32_t *fd, int32_t *error)
 {
   // Open the SPI device
 

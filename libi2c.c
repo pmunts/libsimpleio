@@ -36,7 +36,7 @@
 
 // Open I2C device
 
-void I2C_open(char *name, int32_t *fd, int32_t *error)
+void I2C_open(const char *name, int32_t *fd, int32_t *error)
 {
   // Open the I2C device
 

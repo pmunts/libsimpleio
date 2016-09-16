@@ -317,7 +317,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
 // Open GPIO pin device
 
-void GPIO_open(char *name, int32_t *fd, int32_t *error)
+void GPIO_open(const char *name, int32_t *fd, int32_t *error)
 {
   char buf[16];
 

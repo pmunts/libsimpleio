@@ -31,11 +31,11 @@
 
 .BI "void LINUX_detach(int32_t *" error ");"
 
-.BI "void LINUX_drop_privileges(char *" username ", int32_t *" error ");"
+.BI "void LINUX_drop_privileges(const char *" username ", int32_t *" error ");"
 
-.BI "void LINUX_openlog(char *" id ", int32_t " options ", int32_t " facility ", int32_t *" error ");"
+.BI "void LINUX_openlog(const char *" id ", int32_t " options ", int32_t " facility ", int32_t *" error ");"
 
-.BI "void LINUX_syslog(int32_t " priority ", char *" msg ", int32_t *" error ");"
+.BI "void LINUX_syslog(int32_t " priority ", const char *" msg ", int32_t *" error ");"
 
 .fi
 Link with

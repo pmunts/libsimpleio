@@ -35,7 +35,7 @@
 
 // Open HID raw device
 
-void HIDRAW_open(char *name, int32_t *fd, int32_t *error)
+void HIDRAW_open(const char *name, int32_t *fd, int32_t *error)
 {
   *fd = open(name, O_RDWR);
   if (*fd < 0)
