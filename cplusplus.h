@@ -1,6 +1,6 @@
-/* GPIO services for Linux */
+// C++ linkage goop: Define _BEGIN_STD_C and _END_STD_C, if necessary
 
-// Copyright (C)2016, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2013-2016, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,44 +20,22 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef LIBGPIO_H
-#define LIBGPIO_H
+#ifndef CPLUSPLUS_H
+#define CPLUSPLUS_H
 
-#include <cplusplus.h>
-#include <stdint.h>
-
-typedef enum
-{
-  GPIO_DIRECTION_INPUT,
-  GPIO_DIRECTION_OUTPUT,
-} GPIO_DIRECTION_t;
-
-typedef enum
-{
-  GPIO_EDGE_NONE,
-  GPIO_EDGE_RISING,
-  GPIO_EDGE_FALLING,
-  GPIO_EDGE_BOTH
-} GPIO_EDGE_t;
-
-typedef enum
-{
-  GPIO_ACTIVELOW,
-  GPIO_ACTIVEHIGH,
-} GPIO_POLARITY_t;
-
-_BEGIN_STD_C
-
-extern void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error);
-
-extern void GPIO_open(const char *name, int32_t *fd, int32_t *error);
-
-extern void GPIO_close(int32_t fd, int32_t *error);
-
-extern void GPIO_read(int32_t fd, int32_t *state, int32_t *error);
-
-extern void GPIO_write(int32_t fd, int32_t state, int32_t *error);
-
-_END_STD_C
+#if !(defined(_BEGIN_STD_C) && defined(_END_STD_C))
+#ifdef __cplusplus
+#ifdef _HAVE_STD_CXX
+#define _BEGIN_STD_C namespace std { extern "C" {
+#define _END_STD_C  } }
+#else
+#define _BEGIN_STD_C extern "C" {
+#define _END_STD_C  }
+#endif
+#else
+#define _BEGIN_STD_C
+#define _END_STD_C
+#endif
+#endif
 
 #endif

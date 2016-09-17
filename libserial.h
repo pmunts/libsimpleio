@@ -23,6 +23,7 @@
 #ifndef LIBSERIAL_H
 #define LIBSERIAL_H
 
+#include <cplusplus.h>
 #include <stdint.h>
 
 typedef enum
@@ -32,6 +33,8 @@ typedef enum
   SERIAL_PARITY_ODD,
 } SERIAL_PARITY_t;
 
+_BEGIN_STD_C
+
 extern void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t databits, int32_t stopbits, int32_t *fd, int32_t *error);
 
 extern void SERIAL_close(int32_t fd, int32_t *error);
@@ -39,5 +42,7 @@ extern void SERIAL_close(int32_t fd, int32_t *error);
 extern void SERIAL_send(int32_t fd, void *buf, int32_t size, int32_t *error);
 
 extern void SERIAL_receive(int32_t fd, void *buf, int32_t *size, int32_t *error);
+
+_END_STD_C
 
 #endif

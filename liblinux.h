@@ -24,8 +24,11 @@
 #ifndef LIBLINUX_H
 #define LIBLINUX_H
 
+#include <cplusplus.h>
 #include <stdint.h>
 #include <syslog.h>
+
+_BEGIN_STD_C
 
 // Detach process from the controlling terminal and run it in the background
 
@@ -42,5 +45,7 @@ extern void LINUX_openlog(const char *id, int32_t options, int32_t facility, int
 // Post syslog message
 
 extern void LINUX_syslog(int32_t priority, const char *msg, int32_t *error);
+
+_END_STD_C
 
 #endif

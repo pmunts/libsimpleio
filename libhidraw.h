@@ -23,7 +23,10 @@
 #ifndef LIBHIDRAW_H
 #define LIBHIDRAW_H
 
+#include <cplusplus.h>
 #include <stdint.h>
+
+_BEGIN_STD_C
 
 extern void HIDRAW_open(const char *name, int32_t *fd, int32_t *error);
 
@@ -36,5 +39,7 @@ extern void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor, int32
 extern void HIDRAW_send(int32_t fd, void *buf, int32_t size, int32_t *error);
 
 extern void HIDRAW_receive(int32_t fd, void *buf, int32_t *size, int32_t *error);
+
+_END_STD_C
 
 #endif
