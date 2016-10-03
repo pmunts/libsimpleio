@@ -27,8 +27,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "liblinux.h"
 #include "errmsg.inc"
+#include "liblinux.h"
 
 // Detach process from the controlling terminal and run it in the background
 

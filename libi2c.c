@@ -31,8 +31,8 @@
 #include <sys/ioctl.h>
 #include <sys/param.h>
 
-#include <libi2c.h>
 #include "errmsg.inc"
+#include "libi2c.h"
 
 // Open I2C device
 

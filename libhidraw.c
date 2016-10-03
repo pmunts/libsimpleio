@@ -30,8 +30,8 @@
 #include <sys/ioctl.h>
 #include <sys/param.h>
 
-#include <libhidraw.h>
 #include "errmsg.inc"
+#include "libhidraw.h"
 
 // Open HID raw device
 

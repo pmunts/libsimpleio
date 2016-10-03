@@ -25,10 +25,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <syslog.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 
+#include "errmsg.inc"
 #include "liblinx.h"
 
 void LINX_transmit_command(int fd, LINX_command_t *cmd, int *error)

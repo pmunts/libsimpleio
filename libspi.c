@@ -27,8 +27,8 @@
 #include <sys/ioctl.h>
 #include <sys/param.h>
 
-#include <libspi.h>
 #include "errmsg.inc"
+#include "libspi.h"
 
 // Open and configure the SPI port
 

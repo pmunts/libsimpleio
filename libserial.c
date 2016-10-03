@@ -26,8 +26,8 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include <libserial.h>
 #include "errmsg.inc"
+#include "libserial.h"
 
 void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t databits, int32_t stopbits, int32_t *fd, int32_t *error)
 {

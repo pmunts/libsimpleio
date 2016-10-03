@@ -24,8 +24,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <libevent.h>
 #include "errmsg.inc"
+#include "libevent.h"
 
 #define EPFD_UNINITALIZED	-1
 

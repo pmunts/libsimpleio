@@ -30,8 +30,8 @@
 #include <unistd.h>
 #include <sys/param.h>
 
-#include <errmsg.inc>
-#include <libgpio.h>
+#include "errmsg.inc"
+#include "libgpio.h"
 
 // Device nodes
 
