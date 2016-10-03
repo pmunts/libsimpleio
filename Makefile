@@ -28,6 +28,7 @@ default: libsimpleio.a libsimpleio.so
 
 SIMPLEIO_COMPONENTS	= libevent.o libgpio.o libhidraw.o libi2c.o
 SIMPLEIO_COMPONENTS	+= libserial.o libspi.o liblinux.o liblinx.o
+SIMPLEIO_COMPONENTS	+= libtcp4.o
 
 # Create static libarary
 
