@@ -1,0 +1,109 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\" LabView LINX Framing Routines
+.\"
+.\" Copyright (C)2016, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH liblinux 2 "4 October 2016" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B liblinux
+\-\- Linux Simple I/O Library: LabView LINX Framing Routines
+.SH SYNOPSIS
+.nf
+.B #include <liblinx.h>
+
+.BI "void LINX_receive_command(int " fd ", LINX_command_t *" cmd ", int *" error ");"
+
+.BI "void LINX_transmit_response(int " fd ", LINX_response_t *" resp ", int *" error ");"
+
+.BI "void LINX_transmit_command(int " fd ", LINX_command_t *" cmd ", int *" error ");"
+
+.BI "void LINX_receive_response(int " fd ", LINX_response_t *" resp ", int *" error ");"
+
+.BI "uint16_t LINX_makeu16(uint8_t " b0 ", uint8_t " b1 ");"
+
+.BI "uint32_t LINX_makeu32(uint8_t " b0 ", uint8_t " b1, " uint8_t " b2 ", uint8_t " b3 ");"
+
+.BI "uint8_t LINX_splitu16(uint16_t " u16 ", unsigned " bn ");"
+
+.BI "uint8_t LINX_splitu32(uint32_t " u32 ", unsigned " bn ");"
+.fi
+
+Link with
+.BR -lsimpleio .
+.SH DESCRIPTION
+.nh
+These routines perform framing and encoding or decoding of LabView
+LINX remote I/O command frames.
+.PP
+The transmit functions encode a frame from a command or response
+structure and write it to the stream indicated by the file descriptor 
+.IR fd .
+The stream will typically be either a serial port or a TCP connection.
+If the frame was written to the stream successfully,
+.IR *error
+will be set to zero, otherwise it will be set to an
+.B errno
+value.
+.PP
+The receive functions read exactly one byte from the stream indicated by
+the file descriptor
+.IR fd .
+If the byte was read successfully and completes a frame,
+.IR *error
+will be set to zero.  If a byte was read
+successfully, but did not
+complete a frame, 
+.IR *error
+will be set to
+.B EAGAIN .
+If the read failed,
+.IR *error
+will be set to an
+.B errno
+value and the previous data discarded.  Successive calls to a
+receive routine must pass the same command or response structure.
+.PP
+The byte packing routines
+.B LINX_makeu16() "and " LINX_makeu32()
+pack two or four unsigned bytes into a 16-bit or 32-bit unsigned integer.
+.IR b0
+is the most significant byte and
+.IR b1 " or " b3
+is the least significant byte.
+.PP
+The byte unpacking routines
+.B LINX_splitu16() and LINX_splitu32()
+return a signle unsigned byte of a 16-bit or 32-bit unsigned integer,
+selected by the
+.IR bn
+byte index parameter.  A byte index of
+.B 0
+selects the most significant byte and a byte index of
+.BR 1 " or " 3
+selects the least significant byte.
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
+.br
+.BR liblinux "(2), " libserial "(2), " libspi "(2), " libtcp4 "(2)"
+.PP
+.B https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies
