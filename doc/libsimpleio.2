@@ -28,17 +28,22 @@
 .nh
 .BR libsimpleio
 is an attempt to encapsulate (as much as possible) the ugliness of Linux I/O
-device access. It provides services for the following types of I/O devices:
-.IP * 2
-GPIO (General Purpose Input/Output) Pins
-.IP * 2
-Raw HID (Human Interface Device) Devices
-.IP * 2
-I2C (Inter-Integrated Circuit) Bus Devices
-.IP * 2
-Serial Ports
-.IP * 2
-SPI (Serial Peripheral Interface) Bus Devices
+device access. It provides services for reading and/or writing the following
+types of devices:
+
+* GPIO (General Purpose Input/Output) Pins
+.br
+* Raw HID (Human Interface Device) Devices
+.br
+* I2C (Inter-Integrated Circuit) Bus Devices
+.br
+* Serial Ports
+.br
+* SPI (Serial Peripheral Interface) Bus Devices
+.br
+* LabView LINX Remote I/O Devices
+.br
+* IPv4 TCP Server Devices
 .PP
 Although
 .BR libsimpleio
