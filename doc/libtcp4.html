@@ -18,9 +18,10 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 5 October 2016<BR><A HREF="#in
 <B>#include &lt;<A HREF="file:///usr/include/libtcp4.h">libtcp4.h</A>&gt;</B>
 
 <B>typedef uint32_t </B><I>IPV4_ADDR</I><B>;</B>
+
 <B>typedef uint16_t </B><I>IPV4_PORT</I><B>;</B>
 
-<B>void TCP4_resolve(char * name</B><I>, IPV4_ADDR *</I><B>addr</B><I>, int * </I><B>error</B><I>);</I>
+<B>void TCP4_resolve(char *</B><I>name</I><B>, IPV4_ADDR *</B><I>addr</I><B>, int *</B><I>error</I><B>);</B>
 
 <B>void TCP4_connect(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
 
@@ -47,6 +48,70 @@ value (upon failure) in
 <I>*error</I>.
 
 <P>
+
+<B>TCP4_resolve()</B>
+
+attempts to resolve an IPv4 address string (containing a domain name, a local
+host name like 
+<B>localhost</B>
+
+or a dot-decimal notation address like
+<B>1.2.3.4 ) passed in </B>
+
+<I>*name</I>
+
+to a 32-bit IPv4 address.  The address is returned in
+<I>*addr</I>.
+
+<P>
+
+<B>TCP4_connect()</B>
+
+attempts to connect to a IPv4 TCP server.  The 32-bit IP address is passed in
+<I>addr</I>
+
+and the 16-bit TCP port number is passed in
+<I>port</I>.
+
+Upon successful connection, a stream file descriptor is returned in
+<I>*fd</I>.
+
+<P>
+
+<B>TCP4_accept()</B>
+
+waits for an incoming connection request from a IPv4 TCP client.  Either
+<B>INADDR_ANY</B>
+
+may be passed in
+<I>addr</I>
+
+to bind to (i.e. listen on) all network interfaces, or the 32-bit
+IPV4 address of a particular network interface may be passed to bind
+to only that interface.  The 16-bit TCP port number is passed in
+<I>port</I>.
+
+Upon successful connection, a stream file descriptor is returned in
+<I>*fd</I>.
+
+<P>
+
+<B>TCP4_server()</B>
+
+operates like
+<B>TCP4_accept()</B>
+
+except that upon successful connection, the original server process forks
+to create a new and separate connection handler process.  The
+server process continues to listen for more connection requests,
+without returning from
+<B>TCP4_server(),</B>
+
+while in the new connection handler process,
+<B>TCP4_server()</B>
+
+does return, with a stream file descriptor for the new connection returned in
+<I>*fd.</I>
 
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
@@ -76,6 +141,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 12:51:43 GMT, October 05, 2016
+Time: 14:58:47 GMT, October 05, 2016
 </BODY>
 </HTML>

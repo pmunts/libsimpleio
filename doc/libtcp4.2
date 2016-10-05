@@ -30,9 +30,10 @@
 .B #include <libtcp4.h>
 
 .BI "typedef uint32_t " IPV4_ADDR ";"
+
 .BI "typedef uint16_t " IPV4_PORT ";"
 
-.BI "void TCP4_resolve(char * "name ", IPV4_ADDR *" addr ", int * " error ");"
+.BI "void TCP4_resolve(char *" name ", IPV4_ADDR *" addr ", int *" error ");"
 
 .BI "void TCP4_connect(IPV4_ADDR " addr ", IPV4_PORT " port ", int *" fd ", int *" error ");"
 
@@ -52,6 +53,48 @@ All functions return either
 value (upon failure) in
 .IR *error .
 .PP
+.B TCP4_resolve()
+attempts to resolve an IPv4 address string (containing a domain name, a local
+host name like 
+.B localhost
+or a dot-decimal notation address like
+.B 1.2.3.4 ) passed in 
+.IR *name
+to a 32-bit IPv4 address.  The address is returned in
+.IR *addr .
+.PP
+.B TCP4_connect()
+attempts to connect to a IPv4 TCP server.  The 32-bit IP address is passed in
+.IR addr
+and the 16-bit TCP port number is passed in
+.IR port .
+Upon successful connection, a stream file descriptor is returned in
+.IR *fd .
+.PP
+.B TCP4_accept()
+waits for an incoming connection request from a IPv4 TCP client.  Either
+.B INADDR_ANY
+may be passed in
+.IR addr
+to bind to (i.e. listen on) all network interfaces, or the 32-bit
+IPV4 address of a particular network interface may be passed to bind
+to only that interface.  The 16-bit TCP port number is passed in
+.IR port . 
+Upon successful connection, a stream file descriptor is returned in
+.IR *fd .
+.PP
+.B TCP4_server()
+operates like
+.B TCP4_accept()
+except that upon successful connection, the original server process forks
+to create a new and separate connection handler process.  The
+server process continues to listen for more connection requests,
+without returning from
+.B TCP4_server(),
+while in the new connection handler process,
+.B TCP4_server()
+does return, with a stream file descriptor for the new connection returned in
+.IR *fd.
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
 .br
