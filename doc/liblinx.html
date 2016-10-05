@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of liblinx</TITLE>
+</HEAD><BODY>
+<H1>liblinx</H1>
+Section: Linux Simple I/O Library (2)<BR>Updated: 5 October 2016<BR><A HREF="#index">Index</A>
+<A HREF="../README.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>liblinx</B>
+
+-- Linux Simple I/O Library: LabView LINX Framing Routines
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A HREF="file:///usr/include/liblinx.h">liblinx.h</A>&gt;</B>
+
+Structures:
+
+<B>typedef struct</B>
+<B>{</B>
+<B>  uint8_t  </B><I>SoF</I><B>;</B>
+<B>  uint8_t  </B><I>PacketSize</I><B>;</B>
+<B>  uint16_t </B><I>PacketNum</I><B>;</B>
+<B>  uint16_t </B><I>Command</I><B>;</B>
+<B>  uint8_t  </B><I>Args[54]</I><B>;</B>
+<B>} </B><I>LINX_command_t</I><B>;</B>
+
+<B>typedef struct</B>
+<B>{</B>
+<B>  uint8_t  </B><I>SoF</I><B>;</B>
+<B>  uint8_t  </B><I>PacketSize</I><B>;</B>
+<B>  uint16_t </B><I>PacketNum</I><B>;</B>
+<B>  uint8_t  </B><I>Status</I><B>;</B>
+<B>  uint8_t  </B><I>Data[55]</I><B>;</B>
+<B>} </B><I>LINX_response_t</I><B>;</B>
+
+Server Routines:
+
+<B>void LINX_receive_command(int </B><I>fd</I><B>, LINX_command_t *</B><I>cmd</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void LINX_transmit_response(int </B><I>fd</I><B>, LINX_response_t *</B><I>resp</I><B>, int *</B><I>error</I><B>);</B>
+
+Client Routines:
+
+<B>void LINX_transmit_command(int </B><I>fd</I><B>, LINX_command_t *</B><I>cmd</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void LINX_receive_response(int </B><I>fd</I><B>, LINX_response_t *</B><I>resp</I><B>, int *</B><I>error</I><B>);</B>
+
+Byte Packing Routines:
+
+<B>uint16_t LINX_makeu16(uint8_t </B><I>b0</I><B>, uint8_t </B><I>b1</I><B>);</B>
+
+<B>uint32_t LINX_makeu32(uint8_t </B><I>b0</I><B>, uint8_t </B><I>b1,</I><B> uint8_t </B><I>b2</I><B>, uint8_t </B><I>b3</I><B>);</B>
+
+Byte Unpacking Routines:
+
+<B>uint8_t LINX_splitu16(uint16_t </B><I>u16</I><B>, unsigned </B><I>bn</I><B>);</B>
+
+<B>uint8_t LINX_splitu32(uint32_t </B><I>u32</I><B>, unsigned </B><I>bn</I><B>);</B>
+</PRE>
+
+<P>
+Link with
+<B>-lsimpleio</B>.
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+These routines perform framing and encoding or decoding of LabView
+LINX remote I/O commands (from client to server) and responses
+(from server to client) to and from a bidirectional byte stream,
+which will typically be either a serial port or a network socket.
+<P>
+
+The transmit functions
+encode a frame from a command or response structure and write it to
+the stream indicated by the stream file descriptor
+<I>fd</I>.
+
+If the frame was written to the stream successfully,
+<I>*error</I>
+
+will be set to zero, otherwise it will be set to an
+<B>errno</B>
+
+value.
+<P>
+
+The receive functions read exactly one byte from
+the stream indicated by the stream file descriptor
+<I>fd</I>.
+
+If the byte was read successfully and completes a frame,
+<I>*error</I>
+
+will be set to zero.  If a byte was read
+successfully, but did not
+complete a frame, 
+<I>*error</I>
+
+will be set to
+<B>EAGAIN.</B>
+
+If the read failed,
+<I>*error</I>
+
+will be set to an
+<B>errno</B>
+
+value and the previous data discarded.  Successive calls to a
+receive routine must pass the same command or response structure.
+<P>
+
+A LINX server running on some hardware device will typically
+have a message loop that calls
+<B>LINX_receive_command()</B>
+
+to get each command from the LINX client, do some work, and then call
+<B>LINX_transmit_response()</B>
+
+to return results to the client.
+<P>
+
+A LINX client will typically call
+<B>LINX_transmit_command()</B>
+
+to send each command to the server and immediately thereafter call
+<B>LINX_receive_response()</B>
+
+to receive the results from the server.
+<P>
+
+The byte packing routines
+<B>LINX_makeu16() and  LINX_makeu32()</B>
+
+pack two or four unsigned bytes into a 16-bit or 32-bit unsigned integer.
+<I>b0</I>
+
+is the most significant byte and
+<I>b1</I> or <I>b3</I>
+
+is the least significant byte.
+<P>
+
+The byte unpacking routines
+<B>LINX_splitu16() and LINX_splitu32()</B>
+
+return a signle unsigned byte of a 16-bit or 32-bit unsigned integer,
+selected by the
+<I>bn</I>
+
+byte index parameter.  A byte index of
+<B>0</B>
+
+selects the most significant byte and a byte index of
+<B>1</B> or <B>3</B>
+
+selects the least significant byte.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2), <B><A HREF="libi2c.html">libi2c</A></B>(2), 
+
+<BR>
+
+<B><A HREF="liblinux.html">liblinux</A></B>(2), <B><A HREF="libserial.html">libserial</A></B>(2), <B><A HREF="libspi.html">libspi</A></B>(2), <B><A HREF="libtcp4.html">libtcp4</A></B>(2)
+
+<P>
+
+<B><A HREF="https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start">https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start</A></B>
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Philip Munts, President, Munts AM Corp dba Munts Technologies
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 10:07:08 GMT, October 05, 2016
+</BODY>
+</HTML>
