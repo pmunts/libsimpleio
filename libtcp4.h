@@ -49,4 +49,12 @@ void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error);
 
 _END_STD_C
 
+// Convenience macros
+
+#define TCP4_send(f, b, s, c, e)	LINUX_write(f, b, s, c, e)
+
+#define TCP4_receive(f, b, s, c, e)	LINUX_read(f, b, s, c, e)
+
+#define TCP4_close(f, e)		LINUX_close(f, e)
+
 #endif
