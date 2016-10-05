@@ -39,7 +39,7 @@ void TCP4_resolve(char *name, IPV4_ADDR *addr, int *error)
 {
   struct hostent *he;
 
-  he = gethostbyname(name);
+  he = gethostbyname2(name, AF_INET);
 
   if (he == NULL)
   {
