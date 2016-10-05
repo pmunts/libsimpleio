@@ -105,7 +105,7 @@ void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
 
 // Wait for exactly one connection from a TCP client
 
-void TCP4_listen(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
+void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
 {
   int s1, s2;
   struct sockaddr_in myaddr;

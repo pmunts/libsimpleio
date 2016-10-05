@@ -39,7 +39,7 @@ void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error);
 
 // Wait (block) for exactly one connection from a TCP client
 
-void TCP4_listen(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error);
+void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error);
 
 // Start TCP server parent--Block until a client connects, then fork
 // and return a file descriptor to the file process
