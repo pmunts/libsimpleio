@@ -21,25 +21,53 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH liblinux 2 "4 October 2016" "version 1.0" "Linux Simple I/O Library"
+.TH liblinx 2 "4 October 2016" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
-.B liblinux
+.B liblinx
 \-\- Linux Simple I/O Library: LabView LINX Framing Routines
 .SH SYNOPSIS
 .nf
 .B #include <liblinx.h>
 
+Structures:
+
+.BI "typedef struct"
+.BI "{"
+.BI "  uint8_t  " SoF ";"
+.BI "  uint8_t  " PacketSize ";"
+.BI "  uint16_t " PacketNum ";"
+.BI "  uint16_t " Command ";"
+.BI "  uint8_t  " Args[54] ";"
+.BI "} " LINX_command_t ";"
+
+.BI "typedef struct"
+.BI "{"
+.BI "  uint8_t  " SoF ";"
+.BI "  uint8_t  " PacketSize ";"
+.BI "  uint16_t " PacketNum ";"
+.BI "  uint8_t  " Status ";"
+.BI "  uint8_t  " Data[55] ";"
+.BI "} " LINX_response_t ";"
+
+Server Routines:
+
 .BI "void LINX_receive_command(int " fd ", LINX_command_t *" cmd ", int *" error ");"
 
 .BI "void LINX_transmit_response(int " fd ", LINX_response_t *" resp ", int *" error ");"
+
+Client Routines:
 
 .BI "void LINX_transmit_command(int " fd ", LINX_command_t *" cmd ", int *" error ");"
 
 .BI "void LINX_receive_response(int " fd ", LINX_response_t *" resp ", int *" error ");"
 
+Byte Packing Routines:
+
 .BI "uint16_t LINX_makeu16(uint8_t " b0 ", uint8_t " b1 ");"
 
 .BI "uint32_t LINX_makeu32(uint8_t " b0 ", uint8_t " b1, " uint8_t " b2 ", uint8_t " b3 ");"
+
+Byte Unpacking Routines:
 
 .BI "uint8_t LINX_splitu16(uint16_t " u16 ", unsigned " bn ");"
 
@@ -51,20 +79,22 @@ Link with
 .SH DESCRIPTION
 .nh
 These routines perform framing and encoding or decoding of LabView
-LINX remote I/O command frames.
+LINX remote I/O commands (from client to server) and responses
+(from server to client) to and from a bidirectional byte stream,
+which will typically be either a serial port or a network socket.
 .PP
-The transmit functions encode a frame from a command or response
-structure and write it to the stream indicated by the file descriptor 
+The transmit functions
+encode a frame from a command or response structure and write it to
+the stream indicated by the stream file descriptor
 .IR fd .
-The stream will typically be either a serial port or a TCP connection.
 If the frame was written to the stream successfully,
 .IR *error
 will be set to zero, otherwise it will be set to an
 .B errno
 value.
 .PP
-The receive functions read exactly one byte from the stream indicated by
-the file descriptor
+The receive functions read exactly one byte from
+the stream indicated by the stream file descriptor
 .IR fd .
 If the byte was read successfully and completes a frame,
 .IR *error
@@ -73,13 +103,26 @@ successfully, but did not
 complete a frame, 
 .IR *error
 will be set to
-.B EAGAIN .
+.B EAGAIN.
 If the read failed,
 .IR *error
 will be set to an
 .B errno
 value and the previous data discarded.  Successive calls to a
 receive routine must pass the same command or response structure.
+.PP
+A LINX server running on some hardware device will typically
+have a message loop that calls
+.B LINX_receive_command()
+to get each command from the LINX client, do some work, and then call
+.B LINX_transmit_response()
+to return results to the client.
+.PP
+A LINX client will typically call
+.B LINX_transmit_command()
+to send each command to the server and immediately thereafter call
+.B LINX_receive_response()
+to receive the results from the server.
 .PP
 The byte packing routines
 .B LINX_makeu16() "and " LINX_makeu32()
