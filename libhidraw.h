@@ -28,18 +28,18 @@
 
 _BEGIN_STD_C
 
-extern void HIDRAW_open(const char *name, int32_t *fd, int32_t *error);
-
-extern void HIDRAW_close(int32_t fd, int32_t *error);
-
 extern void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error);
 
 extern void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor, int32_t *product, int32_t *error);
 
-extern void HIDRAW_send(int32_t fd, void *buf, int32_t size, int32_t *error);
-
-extern void HIDRAW_receive(int32_t fd, void *buf, int32_t *size, int32_t *error);
-
 _END_STD_C
+
+#define HIDRAW_open(n, f, e)		LINUX_open_readwrite(n, f, e)
+
+#define HIDRAW_close(f, e)		LINUX_close(f, e)
+
+#define HIDRAW_send(f, b, s, c, e)	LINUX_write(f, b, s, c, e)
+
+#define HIDRAW_receive(f, b, s, c, e)	LINUX_read(f, b, s, c, e)
 
 #endif

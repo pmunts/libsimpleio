@@ -33,35 +33,6 @@
 #include "errmsg.inc"
 #include "libhidraw.h"
 
-// Open HID raw device
-
-void HIDRAW_open(const char *name, int32_t *fd, int32_t *error)
-{
-  *fd = open(name, O_RDWR);
-  if (*fd < 0)
-  {
-    *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 4);
-    return;
-  }
-
-  *error = 0;
-}
-
-// Close the HID raw device
-
-void HIDRAW_close(int32_t fd, int32_t *error)
-{
-  if (close(fd))
-  {
-    *error = errno;
-    ERRORMSG("close() failed", *error, __LINE__ - 3);
-    return;
-  }
-
-  *error = 0;
-}
-
 // Get device information string
 
 void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)
@@ -94,36 +65,5 @@ void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor, int32_t *pro
   *bustype = devinfo.bustype;
   *vendor = devinfo.vendor;
   *product = devinfo.product;
-  *error = 0;
-}
-
-// Send a message to the HID raw device
-
-void HIDRAW_send(int32_t fd, void *buf, int32_t size, int32_t *error)
-{
-  int32_t len = write(fd, buf, size);
-  if (len < 0)
-  {
-    *error = errno;
-    ERRORMSG("write() failed", *error, __LINE__ - 4);
-    return;
-  }
-
-  *error = 0;
-}
-
-// Receive a message from the HID raw device
-
-void HIDRAW_receive(int32_t fd, void *buf, int32_t *size, int32_t *error)
-{
-  int32_t len = read(fd, buf, *size);
-  if (len < 0)
-  {
-    *error = errno;
-    ERRORMSG("read() failed", *error, __LINE__ - 4);
-    return;
-  }
-
-  *size = len;
   *error = 0;
 }
