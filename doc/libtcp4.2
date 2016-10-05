@@ -1,0 +1,60 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\" IPv4 TCP module
+.\"
+.\" Copyright (C)2016, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libtcp4 2 "5 October 2016" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B libtcp4
+\-\- Linux Simple I/O Library: IPv4 TCP Module
+.SH SYNOPSIS
+.nf
+.B #include <libtcp4.h>
+
+.BI "typedef uint32_t " IPV4_ADDR ";"
+.BI "typedef uint16_t " IPV4_PORT ";"
+
+.BI "void TCP4_resolve(char * "name ", IPV4_ADDR *" addr ", int * " error ");"
+
+.BI "void TCP4_connect(IPV4_ADDR " addr ", IPV4_PORT " port ", int *" fd ", int *" error ");"
+
+.BI "void TCP4_accept(IPV4_ADDR " addr ", IPV4_PORT " port ", int *" fd ", int *" error ");"
+
+.BI "void TCP4_server(IPV4_ADDR " addr ", IPV4_PORT " port ", int *" fd ", int *" error ");"
+
+.fi
+Link with
+.BR -lsimpleio .
+.SH DESCRIPTION
+.nh
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
+.br
+.BR liblinux "(2), " liblinx "(2), " libserial "(2), " libspi "(2)"
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of libtcp4</TITLE>
+</HEAD><BODY>
+<H1>libtcp4</H1>
+Section: Linux Simple I/O Library (2)<BR>Updated: 5 October 2016<BR><A HREF="#index">Index</A>
+<A HREF="../README.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>libtcp4</B>
+
+-- Linux Simple I/O Library: IPv4 TCP Module
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A HREF="file:///usr/include/libtcp4.h">libtcp4.h</A>&gt;</B>
+
+<B>typedef uint32_t </B><I>IPV4_ADDR</I><B>;</B>
+<B>typedef uint16_t </B><I>IPV4_PORT</I><B>;</B>
+
+<B>void TCP4_resolve(char * name</B><I>, IPV4_ADDR *</I><B>addr</B><I>, int * </I><B>error</B><I>);</I>
+
+<B>void TCP4_connect(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void TCP4_accept(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+
+<B>void TCP4_server(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+
+</PRE>
+
+Link with
+<B>-lsimpleio</B>.
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+All functions return either
+<B>0</B>
+
+(upon success) or an
+<B>errno</B>
+
+value (upon failure) in
+<I>*error</I>.
+
+<P>
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2), <B><A HREF="libi2c.html">libi2c</A></B>(2), 
+
+<BR>
+
+<B><A HREF="liblinux.html">liblinux</A></B>(2), <B><A HREF="liblinx.html">liblinx</A></B>(2), <B><A HREF="libserial.html">libserial</A></B>(2), <B><A HREF="libspi.html">libspi</A></B>(2)
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Philip Munts, President, Munts AM Corp dba Munts Technologies
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 12:51:43 GMT, October 05, 2016
+</BODY>
+</HTML>
