@@ -37,12 +37,13 @@ void TCP4_resolve(char *name, IPV4_ADDR *addr, int *error);
 
 void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error);
 
-// Wait (block) for exactly one connection from a TCP client
+// Wait (block) for exactly one connection from a TCP client, then
+// return a file descriptor for the new connection
 
 void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error);
 
-// Start TCP server parent--Block until a client connects, then fork
-// and return a file descriptor to the file process
+// Wait (block) until a client connects, then fork and return a file
+// descriptor for the new connection to the child process
 
 void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error);
 

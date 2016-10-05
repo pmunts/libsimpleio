@@ -47,7 +47,7 @@ void TCP4_resolve(char *name, IPV4_ADDR *addr, int *error)
 
     switch(h_errno)
     {
-      case HOST_NOT_FOUND :    
+      case HOST_NOT_FOUND :
       case NO_ADDRESS :
         *error = ENONET;
         break;
@@ -103,7 +103,8 @@ void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
   *error = 0;
 }
 
-// Wait for exactly one connection from a TCP client
+// Wait (block) for exactly one connection from a TCP client, then
+// return a file descriptor for the new connection
 
 void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
 {
@@ -155,8 +156,8 @@ void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
   *error = 0;
 }
 
-// Start TCP server parent--Block until a client connects, then fork
-// and return a file descriptor to the file process
+// Wait (block) until a client connects, then fork and return a file
+// descriptor to the child process
 
 void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
 {
@@ -211,7 +212,7 @@ void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
     if (fork() == 0)
     {
        close(s1);
-       
+
        *error = 0;
        *fd = s2;
        return;
