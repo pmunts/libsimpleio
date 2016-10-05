@@ -49,14 +49,14 @@ INTERFACE
   PROCEDURE HIDRAW_send
    (fd          : Integer;
     buf         : Pointer;
-    size        : Integer;
+    bufsize     : Integer;
     VAR count   : Integer;
     VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
 
   PROCEDURE HIDRAW_receive
    (fd          : Integer;
     buf         : Pointer;
-    size        : Integer;
+    bufsize     : Integer;
     VAR count   : Integer;
     VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_read';
 
