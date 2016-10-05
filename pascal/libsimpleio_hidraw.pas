@@ -27,11 +27,11 @@ INTERFACE
   PROCEDURE HIDRAW_open
    (name        : PChar;
     VAR fd      : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
 
   PROCEDURE HIDRAW_close
    (fd          : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
   PROCEDURE HIDRAW_get_name
    (fd          : Integer;
@@ -50,13 +50,15 @@ INTERFACE
    (fd          : Integer;
     buf         : Pointer;
     size        : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL;
+    VAR count   : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
 
   PROCEDURE HIDRAW_receive
    (fd          : Integer;
     buf         : Pointer;
-    VAR size    : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL;
+    size        : Integer;
+    VAR count   : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_read';
 
 IMPLEMENTATION
 

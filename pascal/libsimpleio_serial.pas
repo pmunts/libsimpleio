@@ -40,19 +40,21 @@ INTERFACE
 
   PROCEDURE SERIAL_close
    (fd        : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
   PROCEDURE SERIAL_send
    (fd        : Integer;
     buf       : Pointer;
     size      : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR count : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
 
   PROCEDURE SERIAL_receive
    (fd        : Integer;
     buf       : Pointer;
-    VAR size  : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    size      : Integer;
+    VAR count : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_read';
 
 IMPLEMENTATION
 

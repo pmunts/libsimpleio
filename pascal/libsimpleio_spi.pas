@@ -34,7 +34,7 @@ INTERFACE
 
   PROCEDURE SPI_close
    (fd        : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
   PROCEDURE SPI_transaction
    (fd        : Integer;

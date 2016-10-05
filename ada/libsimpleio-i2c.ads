@@ -27,12 +27,12 @@ PACKAGE libsimpleio.I2C IS
    (devname   : String;
     fd        : OUT Integer;
     error     : OUT Integer);
-  PRAGMA Import(C, Open, "I2C_open");
+  PRAGMA Import(C, Open, "LINUX_open_readwrite");
 
   PROCEDURE Close
    (fd        : Integer;
     error     : OUT Integer);
-  PRAGMA Import(C, Close, "I2C_close");
+  PRAGMA Import(C, Close, "LINUX_close");
 
   PROCEDURE Transaction
    (fd        : Integer;

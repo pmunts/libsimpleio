@@ -52,7 +52,7 @@ PACKAGE libsimpleio.GPIO IS
   PROCEDURE Close
    (fd       : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Close, "GPIO_close");
+  PRAGMA Import(C, Close, "LINUX_close");
 
   PROCEDURE Read
    (fd       : Integer;

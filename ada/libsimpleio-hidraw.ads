@@ -27,12 +27,12 @@ PACKAGE libsimpleio.HIDRaw IS
    (devname : String;
     fd      : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Open, "HIDRAW_open");
+  PRAGMA Import(C, Open, "LINUX_open_readwrite");
 
   PROCEDURE Close
    (fd      : Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Close, "HIDRAW_close");
+  PRAGMA Import(C, Close, "LINUX_close");
 
   PROCEDURE GetName
    (fd      : Integer;
@@ -53,14 +53,16 @@ PACKAGE libsimpleio.HIDRaw IS
    (fd      : Integer;
     buf     : System.Address;
     size    : Integer;
+    count   : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Send, "HIDRAW_send");
+  PRAGMA Import(C, Send, "LINUX_write");
 
   PROCEDURE Receive
    (fd      : Integer;
     buf     : System.Address;
-    size    : IN OUT Integer;
+    size    : Integer;
+    count   : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Receive, "HIDRAW_receive");
+  PRAGMA Import(C, Receive, "LINUX_read");
 
 END libsimpleio.HIDRaw;

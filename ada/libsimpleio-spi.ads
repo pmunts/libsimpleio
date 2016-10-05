@@ -35,7 +35,7 @@ PACKAGE libsimpleio.SPI IS
   PROCEDURE Close
    (fd       : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Close, "SPI_close");
+  PRAGMA Import(C, Close, "LINUX_close");
 
   PROCEDURE Transaction
    (fd       : Integer;
