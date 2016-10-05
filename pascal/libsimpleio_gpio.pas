@@ -45,7 +45,7 @@ INTERFACE
     VAR error : Integer); CDECL; EXTERNAL;
 
   PROCEDURE GPIO_open
-   (devname   : PChar;
+   (pin       : Integer;
     VAR fd    : Integer;
     VAR error : Integer); CDECL; EXTERNAL;
 
