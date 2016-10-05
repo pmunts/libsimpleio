@@ -34,37 +34,6 @@
 #include "errmsg.inc"
 #include "libi2c.h"
 
-// Open I2C device
-
-void I2C_open(const char *name, int32_t *fd, int32_t *error)
-{
-  // Open the I2C device
-
-  *fd = open(name, O_RDWR);
-  if (*fd < 0)
-  {
-    *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 4);
-    return;
-  }
-
-  *error = 0;
-}
-
-// Close I2C device
-
-void I2C_close(int32_t fd, int32_t *error)
-{
-  if (close(fd))
-  {
-    *error = errno;
-    ERRORMSG("close() failed", *error, __LINE__ - 3);
-    return;
-  }
-
-  *error = 0;
-}
-
 // Perform an I2C transaction
 
 void I2C_transaction(int32_t fd, int32_t slaveaddr, void *cmd, int32_t cmdlen, void *resp, int32_t resplen, int32_t *error)
