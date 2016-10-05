@@ -52,7 +52,7 @@ PACKAGE libsimpleio.HIDRaw IS
   PROCEDURE Send
    (fd      : Integer;
     buf     : System.Address;
-    size    : Integer;
+    bufsize : Integer;
     count   : OUT Integer;
     error   : OUT Integer);
   PRAGMA Import(C, Send, "LINUX_write");
@@ -60,7 +60,7 @@ PACKAGE libsimpleio.HIDRaw IS
   PROCEDURE Receive
    (fd      : Integer;
     buf     : System.Address;
-    size    : Integer;
+    bufsize : Integer;
     count   : OUT Integer;
     error   : OUT Integer);
   PRAGMA Import(C, Receive, "LINUX_read");
