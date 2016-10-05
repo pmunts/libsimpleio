@@ -317,11 +317,15 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
 // Open GPIO pin device
 
-void GPIO_open(const char *name, int32_t *fd, int32_t *error)
+void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
 {
+  char devname[256];
   char buf[16];
 
-  *fd = open(name, O_RDWR);
+  memset(devname, 0, sizeof(devname));
+  snprintf(devname, sizeof(devname), "/dev/gpio%d", pin);
+
+  *fd = open(devname, O_RDWR);
   if (*fd < 0)
   {
     *error = errno;

@@ -50,7 +50,7 @@ _BEGIN_STD_C
 
 extern void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error);
 
-extern void GPIO_open(const char *name, int32_t *fd, int32_t *error);
+extern void GPIO_open(int32_t pin, int32_t *fd, int32_t *error);
 
 extern void GPIO_close(int32_t fd, int32_t *error);
 
