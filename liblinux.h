@@ -46,6 +46,18 @@ extern void LINUX_openlog(const char *id, int32_t options, int32_t facility, int
 
 extern void LINUX_syslog(int32_t priority, const char *msg, int32_t *error);
 
+// Read from a file descriptor
+
+extern void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error);
+
+// Write to a file descriptor
+
+extern void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error);
+
+// Close a file descriptor
+
+extern void LINUX_close(int32_t fd, int32_t *error);
+
 _END_STD_C
 
 #endif

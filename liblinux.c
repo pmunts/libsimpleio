@@ -110,3 +110,53 @@ void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
   syslog(priority, msg);
   *error = 0;
 }
+
+// Read from a file descriptor
+
+void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
+{
+  *count = 0;
+
+  int32_t len = read(fd, buf, bufsize);
+  if (len < 0)
+  {
+    *error = errno;
+    ERRORMSG("read() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  *count = len;
+  *error = 0;
+}
+
+// Write to a file descriptor
+
+void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
+{
+  *count = 0;
+
+  int32_t len = write(fd, buf, bufsize);
+  if (len < 0)
+  {
+    *error = errno;
+    ERRORMSG("write() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  *count = len;
+  *error = 0;
+}
+
+// Close a file descriptor
+
+void LINUX_close(int32_t fd, int32_t *error)
+{
+  if (close(fd))
+  {
+    *error = errno;
+    ERRORMSG("close() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *error = 0;
+}
