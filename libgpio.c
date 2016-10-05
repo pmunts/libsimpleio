@@ -348,20 +348,6 @@ void GPIO_open(const char *name, int32_t *fd, int32_t *error)
   *error = 0;
 }
 
-// Close GPIO pin device
-
-void GPIO_close(int32_t fd, int32_t *error)
-{
-  if (close(fd))
-  {
-    *error = errno;
-    ERRORMSG("close() failed", *error, __LINE__ - 3);
-    return;
-  }
-
-  *error = 0;
-}
-
 // Read state from GPIO pin device
 
 void GPIO_read(int32_t fd, int32_t *state, int32_t *error)

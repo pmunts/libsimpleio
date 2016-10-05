@@ -60,4 +60,6 @@ extern void GPIO_write(int32_t fd, int32_t state, int32_t *error);
 
 _END_STD_C
 
+#define GPIO_close(f, e) LINUX_close(f, e)
+
 #endif
