@@ -46,6 +46,26 @@ extern void LINUX_openlog(const char *id, int32_t options, int32_t facility, int
 
 extern void LINUX_syslog(int32_t priority, const char *msg, int32_t *error);
 
+// Open a file descriptor
+
+extern void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd, int32_t *error);
+
+// Open a file descriptor for read access
+
+extern void LINUX_open_read(const char *name, int32_t *fd, int32_t *error);
+
+// Open a file descriptor for write access
+
+extern void LINUX_open_write(const char *name, int32_t *fd, int32_t *error);
+
+// Open a file descriptor for read/write access
+
+extern void LINUX_open_readwrite(const char *name, int32_t *fd, int32_t *error);
+
+// Close a file descriptor
+
+extern void LINUX_close(int32_t fd, int32_t *error);
+
 // Read from a file descriptor
 
 extern void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error);
@@ -53,10 +73,6 @@ extern void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count, i
 // Write to a file descriptor
 
 extern void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error);
-
-// Close a file descriptor
-
-extern void LINUX_close(int32_t fd, int32_t *error);
 
 _END_STD_C
 

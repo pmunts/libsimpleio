@@ -22,6 +22,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <errno.h>
+#include <fcntl.h>
 #include <grp.h>
 #include <pwd.h>
 #include <string.h>
@@ -111,6 +112,80 @@ void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
   *error = 0;
 }
 
+// Open a file descriptor
+
+void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd, int32_t *error)
+{
+  *fd = open(name, flags, mode);
+  if (*fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  *error = 0;
+}
+
+// Open a file descriptor for read access
+
+void LINUX_open_read(const char *name, int32_t *fd, int32_t *error)
+{
+  *fd = open(name, O_RDONLY);
+  if (*fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  *error = 0;
+}
+
+// Open a file descriptor for write access
+
+void LINUX_open_write(const char *name, int32_t *fd, int32_t *error)
+{
+  *fd = open(name, O_WRONLY);
+  if (*fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  *error = 0;
+}
+
+// Open a file descriptor for read/write access
+
+void LINUX_open_readwrite(const char *name, int32_t *fd, int32_t *error)
+{
+  *fd = open(name, O_RDWR);
+  if (*fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  *error = 0;
+}
+
+// Close a file descriptor
+
+void LINUX_close(int32_t fd, int32_t *error)
+{
+  if (close(fd))
+  {
+    *error = errno;
+    ERRORMSG("close() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *error = 0;
+}
+
 // Read from a file descriptor
 
 void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
@@ -144,19 +219,5 @@ void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t
   }
 
   *count = len;
-  *error = 0;
-}
-
-// Close a file descriptor
-
-void LINUX_close(int32_t fd, int32_t *error)
-{
-  if (close(fd))
-  {
-    *error = errno;
-    ERRORMSG("close() failed", *error, __LINE__ - 3);
-    return;
-  }
-
   *error = 0;
 }
