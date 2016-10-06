@@ -36,8 +36,7 @@
 .B "  SERIAL_PARITY_ODD,"
 .B } SERIAL_PARITY_t;
 
-.BI "void SERIAL_open(const char *" name ", int32_t " baudrate ", int32_t " parity ", int32_t " databits ","
-.BI "  int32_t " stopbits ", int32_t *"fd ", int32_t *" error ");"
+.BI "void SERIAL_open(const char *" name ", int32_t " baudrate ", int32_t " parity ", int32_t " databits ", int32_t " stopbits ", int32_t *"fd ", int32_t *" error ");"
 
 .BI "void SERIAL_close(int32_t " fd ", int32_t *" error ");"
 
@@ -85,21 +84,27 @@ serial port device is returned in
 .PP
 .B SERIAL_close()
 closes a previously opened serial port device.
+The serial port device file descriptor is passed in
+.IR fd .
 .P
 .B SERIAL_send()
 sends data to the serial port device.
+The serial port device file descriptor is passed in
+.IR fd .
 The transmit buffer address is passed in
-.IR buf " and"
-its size is passed in
+.IR buf
+and its size is passed in
 .IR bufsize .
 Upon success, the number of bytes actually sent will be returned in
 .IR *count .
 .PP
 .B SERIAL_receive()
-receives data from the serial port device.  The receive buffer address
-is passed in
-.IR buf " and"
-its size is passed in
+receives data from the serial port device.
+The serial port device file descriptor is passed in
+.IR fd .
+The receive buffer address is passed in
+.IR buf
+and its size is passed in
 .IR bufsize .
 Upon success, the number of bytes actually received will be returned in
 .IR *count .

@@ -24,8 +24,7 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 5 October 2016<BR><A HREF="#in
 <B>  SERIAL_PARITY_ODD,</B>
 <B>} SERIAL_PARITY_t;</B>
 
-<B>void SERIAL_open(const char *</B><I>name</I><B>, int32_t </B><I>baudrate</I><B>, int32_t </B><I>parity</I><B>, int32_t </B><I>databits</I><B>,</B>
-<B>  int32_t </B><I>stopbits</I><B>, int32_t *fd</B><I>, int32_t *</I><B>error</B><I>);</I>
+<B>void SERIAL_open(const char *</B><I>name</I><B>, int32_t </B><I>baudrate</I><B>, int32_t </B><I>parity</I><B>, int32_t </B><I>databits</I><B>, int32_t </B><I>stopbits</I><B>, int32_t *fd</B><I>, int32_t *</I><B>error</B><I>);</I>
 
 <B>void SERIAL_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -96,15 +95,21 @@ serial port device is returned in
 <B>SERIAL_close()</B>
 
 closes a previously opened serial port device.
+The serial port device file descriptor is passed in
+<I>fd</I>.
+
 <P>
 
 <B>SERIAL_send()</B>
 
 sends data to the serial port device.
-The transmit buffer address is passed in
-<I>buf</I> and
+The serial port device file descriptor is passed in
+<I>fd</I>.
 
-its size is passed in
+The transmit buffer address is passed in
+<I>buf</I>
+
+and its size is passed in
 <I>bufsize</I>.
 
 Upon success, the number of bytes actually sent will be returned in
@@ -114,11 +119,14 @@ Upon success, the number of bytes actually sent will be returned in
 
 <B>SERIAL_receive()</B>
 
-receives data from the serial port device.  The receive buffer address
-is passed in
-<I>buf</I> and
+receives data from the serial port device.
+The serial port device file descriptor is passed in
+<I>fd</I>.
 
-its size is passed in
+The receive buffer address is passed in
+<I>buf</I>
+
+and its size is passed in
 <I>bufsize</I>.
 
 Upon success, the number of bytes actually received will be returned in
@@ -154,6 +162,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 08:17:47 GMT, October 06, 2016
+Time: 08:31:48 GMT, October 06, 2016
 </BODY>
 </HTML>
