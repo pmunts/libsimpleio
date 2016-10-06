@@ -60,21 +60,21 @@ value (upon failure) in
 .IR *error .
 .PP
 .B TCP4_resolve()
-attempts to resolve an IPv4 address string (containing a domain name, a local
-host name like 
+attempts to resolve an IPv4 address string passed in
+.IR *name
+(containing a domain name, a local host name like 
 .B localhost
 or a dot-decimal notation address like
-.B 1.2.3.4 ) passed in 
-.IR *name
-to a 32-bit IPv4 address.  The address is returned in
-.IR *addr .
+.BR 1.2.3.4 ).
+Upon success, the 32-bit IPv4 address will be returned in
+.IR *addr 
 .PP
 .B TCP4_connect()
-attempts to connect to a IPv4 TCP server.  The 32-bit IP address is passed in
+attempts to connect to a IPv4 TCP server.  The 32-bit IPv4 address is passed in
 .IR addr
 and the 16-bit TCP port number is passed in
 .IR port .
-Upon successful connection, a stream file descriptor is returned in
+Upon successful connection, a stream file descriptor will be returned in
 .IR *fd .
 .PP
 .B TCP4_accept()
@@ -86,7 +86,7 @@ to bind to (i.e. listen on) all network interfaces, or the 32-bit
 IPV4 address of a particular network interface may be passed to bind
 to only that interface.  The 16-bit TCP port number is passed in
 .IR port . 
-Upon successful connection, a stream file descriptor is returned in
+Upon successful connection, a stream file descriptor will be returned in
 .IR *fd .
 .PP
 .B TCP4_server()
