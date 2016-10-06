@@ -24,23 +24,23 @@ UNIT libsimpleio_i2c;
 
 INTERFACE
 
-  PROCEDURE I2C_open
+  PROCEDURE Open
    (devname   : PChar;
     VAR fd    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
 
-  PROCEDURE I2C_close
+  PROCEDURE Close
    (fd        : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
-  PROCEDURE I2C_transaction
+  PROCEDURE Transaction
    (fd        : Integer;
     slaveaddr : Integer;
     cmd       : Pointer;
     cmdlen    : Integer;
     resp      : Pointer;
     resplen   : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'I2C_transaction';
 
 IMPLEMENTATION
 

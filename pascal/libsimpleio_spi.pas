@@ -24,26 +24,26 @@ UNIT libsimpleio_spi;
 
 INTERFACE
 
-  PROCEDURE SPI_open
+  PROCEDURE Open
    (devname   : PChar;
     mode      : Integer;
     wordsize  : Integer;
     speed     : Integer;
     VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'SPI_open';
 
-  PROCEDURE SPI_close
+  PROCEDURE Close
    (fd        : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
-  PROCEDURE SPI_transaction
+  PROCEDURE Transaction
    (fd        : Integer;
     cmd       : Pointer;
     cmdlen    : Integer;
     delayus   : Integer;
     resp      : Pointer;
     resplen   : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'SPI_transaction';
 
 IMPLEMENTATION
 

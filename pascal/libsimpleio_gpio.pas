@@ -36,32 +36,32 @@ INTERFACE
     POLARITY_ACTIVELOW  = 0;
     POLARITY_ACTIVEHIGH = 1;
 
-  PROCEDURE GPIO_configure
+  PROCEDURE Configure
    (pin       : integer;
     direction : integer;
     state     : Integer;
     edge      : Integer;
     polarity  : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_configure';
 
-  PROCEDURE GPIO_open
+  PROCEDURE Open
    (pin       : Integer;
     VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_open';
 
-  PROCEDURE GPIO_close
+  PROCEDURE Close
    (fd        : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
-  PROCEDURE GPIO_read
+  PROCEDURE Read
    (fd        : Integer;
     VAR state : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_read';
 
-  PROCEDURE GPIO_write
+  PROCEDURE Write
    (fd        : Integer;
     state     : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_write';
 
 IMPLEMENTATION
 

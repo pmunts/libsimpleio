@@ -29,27 +29,27 @@ INTERFACE
     PARITY_EVEN = 1;
     PARITY_ODD  = 2;
 
-  PROCEDURE SERIAL_open
+  PROCEDURE Open
    (devname   : PChar;
     baudrate  : Integer;
     parity    : Integer;
     databits  : Integer;
     stopbits  : Integer;
     VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'SERIAL_open';
 
-  PROCEDURE SERIAL_close
+  PROCEDURE Close
    (fd        : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
-  PROCEDURE SERIAL_send
+  PROCEDURE Send
    (fd        : Integer;
     buf       : Pointer;
     size      : Integer;
     VAR count : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
 
-  PROCEDURE SERIAL_receive
+  PROCEDURE Receive
    (fd        : Integer;
     buf       : Pointer;
     size      : Integer;

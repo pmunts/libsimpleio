@@ -43,26 +43,26 @@ INTERFACE
     EPOLLONESHOT = $40000000;
     EPOLLET      = $80000000;
 
-  PROCEDURE EVENT_open
-   (VAR error : Integer); CDECL; EXTERNAL;
+  PROCEDURE Open
+   (VAR error : Integer); CDECL; EXTERNAL NAME 'Event_open';
 
-  PROCEDURE EVENT_close
-   (VAR error : Integer); CDECL; EXTERNAL;
+  PROCEDURE Close
+   (VAR error : Integer); CDECL; EXTERNAL NAME 'Event_close';
 
-  PROCEDURE EVENT_register_fd
+  PROCEDURE Register
    (fd        : Integer;
     events    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_register_fd';
 
-  PROCEDURE EVENT_unregister_fd
+  PROCEDURE Unregister
    (fd        : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_unregister_fd';
 
-  PROCEDURE EVENT_wait
+  PROCEDURE Wait
    (VAR fd    : Integer;
     VAR event : Integer;
     timeoutms : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_wait';
 
 IMPLEMENTATION
 

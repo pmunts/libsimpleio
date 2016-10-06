@@ -71,29 +71,29 @@ INTERFACE
 
   { Detach process from controlling terminal and run in the background }
 
-  PROCEDURE LINUX_detach
-   (VAR error : Integer); CDECL; EXTERNAL;
+  PROCEDURE Detach
+   (VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_detach';
 
   { Drop root privileges to those of specified  user }
 
-  PROCEDURE LINUX_drop_privileges
+  PROCEDURE DropPrivileges
    (username  : PChar;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_drop_privileges';
 
   { Open connection to syslog facility }
 
-  PROCEDURE LINUX_openlog
+  PROCEDURE OpenLog
    (id        : PChar;
     options   : Integer;
     facility  : Integer;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_openlog';
 
   { Log a message to syslog facility }
 
-  PROCEDURE LINUX_syslog
+  PROCEDURE Syslog
    (priority  : Integer;
     msg       : PChar;
-    VAR error : Integer); CDECL; EXTERNAL;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_syslog';
 
 IMPLEMENTATION
 

@@ -24,36 +24,36 @@ UNIT libsimpleio_hidraw;
 
 INTERFACE
 
-  PROCEDURE HIDRAW_open
+  PROCEDURE Open
    (name        : PChar;
     VAR fd      : Integer;
     VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
 
-  PROCEDURE HIDRAW_close
+  PROCEDURE Close
    (fd          : Integer;
     VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
-  PROCEDURE HIDRAW_get_name
+  PROCEDURE GetName
    (fd          : Integer;
     name        : PChar;
     size        : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_get_name';
 
-  PROCEDURE HIDRAW_get_info
+  PROCEDURE GetInfo
    (fd          : Integer;
     VAR bustype : Integer;
     VAR vendor  : Integer;
     VAR product : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_get_info';
 
-  PROCEDURE HIDRAW_send
+  PROCEDURE Send
    (fd          : Integer;
     buf         : Pointer;
     bufsize     : Integer;
     VAR count   : Integer;
     VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
 
-  PROCEDURE HIDRAW_receive
+  PROCEDURE Receive
    (fd          : Integer;
     buf         : Pointer;
     bufsize     : Integer;
