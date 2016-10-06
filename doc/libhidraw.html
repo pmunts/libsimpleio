@@ -66,6 +66,9 @@ raw HID device is retured in
 <B>HIDRAW_close()</B>
 
 closes a previously opened raw HID device.
+The HID device file descriptor is passed in
+<I>fd</I>.
+
 <P>
 
 <B>HIDRAW_get_name()</B>
@@ -105,6 +108,9 @@ The vendor and product ID's are returned in
 <B>HIDRAW_send()</B>
 
 sends a message (also known as a HID report) to the raw HID device.
+The HID device file descriptor is passed in
+<I>fd</I>.
+
 The address of the message buffer is passed in
 <I>buf</I>
 
@@ -121,6 +127,9 @@ the number of bytes actually sent will be returned in
 <B>HIDRAW_receive()</B>
 
 receives a message (i.e. a HID report) from the raw HID device.
+The HID device file descriptor is passed in
+<I>fd</I>.
+
 The address of the message buffer is passed in
 <I>buf</I>
 
@@ -160,6 +169,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 08:13:47 GMT, October 06, 2016
+Time: 08:27:04 GMT, October 06, 2016
 </BODY>
 </HTML>

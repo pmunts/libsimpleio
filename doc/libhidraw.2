@@ -64,6 +64,8 @@ raw HID device is retured in
 .PP
 .B HIDRAW_close()
 closes a previously opened raw HID device.
+The HID device file descriptor is passed in
+.IR fd .
 .PP
 .B HIDRAW_get_name()
 fetches an information string from the raw HID device.  The destination buffer address
@@ -88,6 +90,8 @@ The vendor and product ID's are returned in
 .PP
 .B HIDRAW_send()
 sends a message (also known as a HID report) to the raw HID device.
+The HID device file descriptor is passed in
+.IR fd .
 The address of the message buffer is passed in
 .IR buf
 and the size of the message buffer is passed in
@@ -99,6 +103,8 @@ the number of bytes actually sent will be returned in
 .PP
 .B HIDRAW_receive()
 receives a message (i.e. a HID report) from the raw HID device.
+The HID device file descriptor is passed in
+.IR fd .
 The address of the message buffer is passed in
 .IR buf
 and the size of the message buffer is passed in
