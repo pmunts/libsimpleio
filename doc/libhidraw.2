@@ -35,12 +35,11 @@
 
 .BI "void HIDRAW_get_name(int32_t " fd ", char *" name ", int32_t " size ", int32_t *" error ");"
 
-.BI "void HIDRAW_get_info(int32_t " fd ", int32_t *" bustype ", int32_t *" vendor ","
-.BI "  int32_t *" product ", int32_t *" error ");"
+.BI "void HIDRAW_get_info(int32_t " fd ", int32_t *" bustype ", int32_t *" vendor ", int32_t *" product ", int32_t *" error ");"
 
-.BI "void HIDRAW_send(int32_t " fd ", void *" buf ", int32_t " size ", int32_t *" error ");"
+.BI "void HIDRAW_send(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
 
-.BI "void HIDRAW_receive(int32_t " fd ", void *" buf ", int32_t *" size ", int32_t *" error ");"
+.BI "void HIDRAW_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
 
 .fi
 Link with
@@ -90,22 +89,24 @@ The vendor and product ID's are returned in
 .B HIDRAW_send()
 sends a message (also known as a HID report) to the raw HID device.
 The address of the message buffer is passed in
-.IR buf " and"
-the size of the message buffer is passed in
-.IR size .
-The message size will typically be either 64 or 65 bytes, depending on whether the
-particular raw HID device uses the first byte for the report number.
-.PP
-.B HIDRAW_receive()
-receives a message (HID report) from the raw HID device.  The destination address
-is passed in
-.IR buf " and"
-the size of the message buffer is passed in
-.IR *size .
+.IR buf
+and the size of the message buffer is passed in
+.IR bufsize .
 The message size will typically be either 64 or 65 bytes, depending on whether the
 particular raw HID device uses the first byte for the report number.  Upon success,
-the number of bytes received will be returned in
-.IR *size .
+the number of bytes actually sent will be returned in
+.IR *count .
+.PP
+.B HIDRAW_receive()
+receives a message (i.e. a HID report) from the raw HID device.
+The address of the message buffer is passed in
+.IR buf
+and the size of the message buffer is passed in
+.IR bufsize .
+The message size will typically be either 64 or 65 bytes, depending on whether the
+particular raw HID device uses the first byte for the report number.  Upon success,
+the number of bytes actually received will be returned in
+.IR *count .
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libi2c "(2), " liblinux "(2), "
 .br

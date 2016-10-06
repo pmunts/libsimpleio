@@ -23,12 +23,11 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 5 October 2016<BR><A HREF="#in
 
 <B>void HIDRAW_get_name(int32_t </B><I>fd</I><B>, char *</B><I>name</I><B>, int32_t </B><I>size</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void HIDRAW_get_info(int32_t </B><I>fd</I><B>, int32_t *</B><I>bustype</I><B>, int32_t *</B><I>vendor</I><B>,</B>
-<B>  int32_t *</B><I>product</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void HIDRAW_get_info(int32_t </B><I>fd</I><B>, int32_t *</B><I>bustype</I><B>, int32_t *</B><I>vendor</I><B>, int32_t *</B><I>product</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void HIDRAW_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>size</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void HIDRAW_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void HIDRAW_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t *</B><I>size</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void HIDRAW_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -107,28 +106,31 @@ The vendor and product ID's are returned in
 
 sends a message (also known as a HID report) to the raw HID device.
 The address of the message buffer is passed in
-<I>buf</I> and
+<I>buf</I>
 
-the size of the message buffer is passed in
-<I>size</I>.
+and the size of the message buffer is passed in
+<I>bufsize</I>.
 
 The message size will typically be either 64 or 65 bytes, depending on whether the
-particular raw HID device uses the first byte for the report number.
+particular raw HID device uses the first byte for the report number.  Upon success,
+the number of bytes actually sent will be returned in
+<I>*count</I>.
+
 <P>
 
 <B>HIDRAW_receive()</B>
 
-receives a message (HID report) from the raw HID device.  The destination address
-is passed in
-<I>buf</I> and
+receives a message (i.e. a HID report) from the raw HID device.
+The address of the message buffer is passed in
+<I>buf</I>
 
-the size of the message buffer is passed in
-<I>*size</I>.
+and the size of the message buffer is passed in
+<I>bufsize</I>.
 
 The message size will typically be either 64 or 65 bytes, depending on whether the
 particular raw HID device uses the first byte for the report number.  Upon success,
-the number of bytes received will be returned in
-<I>*size</I>.
+the number of bytes actually received will be returned in
+<I>*count</I>.
 
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
@@ -158,6 +160,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 10:21:56 GMT, October 05, 2016
+Time: 08:13:47 GMT, October 06, 2016
 </BODY>
 </HTML>
