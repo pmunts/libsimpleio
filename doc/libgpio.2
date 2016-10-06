@@ -52,7 +52,7 @@
 .BI "void GPIO_configure(int32_t " pin ", int32_t " direction ", int32_t " state ", int32_t " edge ","
 .BI "  int32_t " polarity ", int32_t *" error ");"
 
-.BI "void GPIO_open(const char *" name ", int32_t *" fd ", int32_t *" error ");"
+.BI "void GPIO_open(int32_t " pin ", int32_t *" fd ", int32_t *" error ");"
 
 .BI "void GPIO_close(int32_t " fd ", int32_t *" error ");"
 
@@ -123,12 +123,8 @@ to
 when a GPIO pin is configured.
 .PP
 .B GPIO_open()
-opens a GPIO pin device. The GPIO pin device name, either
-.B /sys/class/gpio/gpioxx/value
-or
-.BR /dev/gpioxx ,
-must be passed in the
-.I name
+opens a GPIO pin device. The GPIO pin number is passed in the
+.IR pin
 parameter.  Upon success, a file descriptor for the GPIO pin device is returned in
 .IR *fd .
 .PP

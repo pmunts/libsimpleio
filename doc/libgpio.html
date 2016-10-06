@@ -40,7 +40,7 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 5 October 2016<BR><A HREF="#in
 <B>void GPIO_configure(int32_t </B><I>pin</I><B>, int32_t </B><I>direction</I><B>, int32_t </B><I>state</I><B>, int32_t </B><I>edge</I><B>,</B>
 <B>  int32_t </B><I>polarity</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void GPIO_open(const char *</B><I>name</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void GPIO_open(int32_t </B><I>pin</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void GPIO_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -146,14 +146,8 @@ when a GPIO pin is configured.
 
 <B>GPIO_open()</B>
 
-opens a GPIO pin device. The GPIO pin device name, either
-<B>/sys/class/gpio/gpioxx/value</B>
-
-or
-<B>/dev/gpioxx</B>,
-
-must be passed in the
-<I>name</I>
+opens a GPIO pin device. The GPIO pin number is passed in the
+<I>pin</I>
 
 parameter.  Upon success, a file descriptor for the GPIO pin device is returned in
 <I>*fd</I>.
@@ -212,6 +206,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 10:21:56 GMT, October 05, 2016
+Time: 08:00:05 GMT, October 06, 2016
 </BODY>
 </HTML>
