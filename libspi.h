@@ -24,6 +24,7 @@
 #define LIBSPI_H
 
 #include <cplusplus.h>
+#include <liblinux.h>
 #include <stdint.h>
 #include <linux/spi/spidev.h>
 

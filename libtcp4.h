@@ -24,6 +24,7 @@
 #define _LIBTCP4_H_
 
 #include <cplusplus.h>
+#include <liblinux.h>
 #include <stdint.h>
 
 typedef uint32_t IPV4_ADDR;

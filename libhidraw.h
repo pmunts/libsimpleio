@@ -24,6 +24,7 @@
 #define LIBHIDRAW_H
 
 #include <cplusplus.h>
+#include <liblinux.h>
 #include <stdint.h>
 
 _BEGIN_STD_C
