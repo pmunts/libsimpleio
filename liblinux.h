@@ -46,6 +46,12 @@ extern void LINUX_openlog(const char *id, int32_t options, int32_t facility, int
 
 extern void LINUX_syslog(int32_t priority, const char *msg, int32_t *error);
 
+/****************************************************************************/
+/*   The following helper functions should not be called directly.  They    */
+/*   will be wrapped for each type of I/O device and language binding.      */
+/*   Example: SERIAL_close() is defined as a macro wrapping LINUX_close().  */
+/****************************************************************************/
+
 // Open a file descriptor
 
 extern void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd, int32_t *error);
