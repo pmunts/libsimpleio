@@ -37,6 +37,11 @@ PACKAGE libsimpleio.Serial IS
     error    : OUT Integer);
   PRAGMA Import(C, Open, "SERIAL_open");
 
+  PROCEDURE Close
+   (fd       : Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, Close, "LINUX_close");
+
   PROCEDURE Send
    (fd       : Integer;
     buf      : System.Address;
@@ -52,10 +57,5 @@ PACKAGE libsimpleio.Serial IS
     count    : OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Receive, "LINUX_read");
-
-  PROCEDURE Close
-   (fd       : Integer;
-    error    : OUT Integer);
-  PRAGMA Import(C, Close, "LINUX_close");
 
 END libsimpleio.Serial;
