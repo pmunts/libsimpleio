@@ -41,9 +41,9 @@
 
 .BI "void SERIAL_close(int32_t " fd ", int32_t *" error ");"
 
-.BI "void SERIAL_send(int32_t " fd ", void *" buf ", int32_t " size ", int32_t *" error ");"
+.BI "void SERIAL_send(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
 
-.BI "void SERIAL_receive(int32_t " fd ", void *" buf ", int32_t *" size ", int32_t *" error ");"
+.BI "void SERIAL_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
 
 .fi
 Link with
@@ -91,16 +91,18 @@ sends data to the serial port device.
 The transmit buffer address is passed in
 .IR buf " and"
 its size is passed in
-.IR size .
+.IR bufsize .
+Upon success, the number of bytes actually sent will be returned in
+.IR *count .
 .PP
 .B SERIAL_receive()
 receives data from the serial port device.  The receive buffer address
 is passed in
 .IR buf " and"
 its size is passed in
-.IR *size .
-Upon success, the number of bytes received will be returned in
-.IR *size .
+.IR bufsize .
+Upon success, the number of bytes actually received will be returned in
+.IR *count .
 .PP
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "

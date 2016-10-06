@@ -29,9 +29,9 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 5 October 2016<BR><A HREF="#in
 
 <B>void SERIAL_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void SERIAL_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>size</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void SERIAL_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void SERIAL_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t *</B><I>size</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void SERIAL_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -105,7 +105,10 @@ The transmit buffer address is passed in
 <I>buf</I> and
 
 its size is passed in
-<I>size</I>.
+<I>bufsize</I>.
+
+Upon success, the number of bytes actually sent will be returned in
+<I>*count</I>.
 
 <P>
 
@@ -116,10 +119,10 @@ is passed in
 <I>buf</I> and
 
 its size is passed in
-<I>*size</I>.
+<I>bufsize</I>.
 
-Upon success, the number of bytes received will be returned in
-<I>*size</I>.
+Upon success, the number of bytes actually received will be returned in
+<I>*count</I>.
 
 <P>
 
@@ -151,6 +154,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 10:21:56 GMT, October 05, 2016
+Time: 08:17:47 GMT, October 06, 2016
 </BODY>
 </HTML>
