@@ -29,6 +29,12 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 5 October 2016<BR><A HREF="#in
 
 <B>void TCP4_server(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
 
+<B>void TCP4_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void TCP4_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void TCP4_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+
 </PRE>
 
 Link with
@@ -111,7 +117,49 @@ while in the new connection handler process,
 <B>TCP4_server()</B>
 
 does return, with a stream file descriptor for the new connection returned in
-<I>*fd.</I>
+<I>*fd</I>.
+
+<P>
+
+<B>TCP4_close()</B>
+
+closes a previously opened IPv4 TCP stream.
+The stream file descriptor is passed in
+<I>fd</I>.
+
+<P>
+
+<B>TCP4_send()</B>
+
+sends data to a IPv4 TCP stream.
+The stream file descriptor is passed in
+<I>fd</I>.
+
+The transmit buffer address is passed in
+<I>buf</I> and
+
+its size is passed in
+<I>bufsize</I>.
+
+Upon success, the number of bytes actually sent will be returned in
+<I>*count</I>.
+
+<P>
+
+<B>TCP4_receive()</B>
+
+receives data from a IPv4 TCP stream.
+The stream file descriptor is passed in
+<I>fd</I>.
+
+The receive buffer address is passed in
+<I>buf</I> and
+
+its size is passed in
+<I>bufsize</I>.
+
+Upon success, the number of bytes actually received will be returned in
+<I>*count</I>.
 
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
@@ -141,6 +189,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 14:58:47 GMT, October 05, 2016
+Time: 08:37:01 GMT, October 06, 2016
 </BODY>
 </HTML>

@@ -41,6 +41,12 @@
 
 .BI "void TCP4_server(IPV4_ADDR " addr ", IPV4_PORT " port ", int *" fd ", int *" error ");"
 
+.BI "void TCP4_close(int32_t " fd ", int32_t *" error ");"
+
+.BI "void TCP4_send(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+
+.BI "void TCP4_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+
 .fi
 Link with
 .BR -lsimpleio .
@@ -94,7 +100,34 @@ without returning from
 while in the new connection handler process,
 .B TCP4_server()
 does return, with a stream file descriptor for the new connection returned in
-.IR *fd.
+.IR *fd .
+.PP
+.B TCP4_close()
+closes a previously opened IPv4 TCP stream.
+The stream file descriptor is passed in
+.IR fd .
+.PP
+.B TCP4_send()
+sends data to a IPv4 TCP stream.
+The stream file descriptor is passed in
+.IR fd .
+The transmit buffer address is passed in
+.IR buf " and"
+its size is passed in
+.IR bufsize .
+Upon success, the number of bytes actually sent will be returned in
+.IR *count .
+.PP
+.B TCP4_receive()
+receives data from a IPv4 TCP stream.
+The stream file descriptor is passed in
+.IR fd .
+The receive buffer address is passed in
+.IR buf " and"
+its size is passed in
+.IR bufsize .
+Upon success, the number of bytes actually received will be returned in
+.IR *count .
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
 .br
