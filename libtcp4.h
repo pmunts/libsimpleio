@@ -30,7 +30,7 @@
 typedef uint32_t IPV4_ADDR;
 typedef uint16_t IPV4_PORT;
 
-// Resolve domain name to IPV4 address
+// Resolve host name to IPV4 address
 
 void TCP4_resolve(char *name, IPV4_ADDR *addr, int *error);
 

@@ -33,7 +33,7 @@
 #include "errmsg.inc"
 #include "libtcp4.h"
 
-// Resolve domain name to IPV4 address
+// Resolve host name to IPV4 address
 
 void TCP4_resolve(char *name, IPV4_ADDR *addr, int *error)
 {
