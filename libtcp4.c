@@ -22,6 +22,7 @@
 
 #include <errno.h>
 #include <netdb.h>
+#include <signal.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -99,6 +100,10 @@ void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
     return;
   }
 
+  /* Prevent SIGPIPE */
+
+  signal(SIGPIPE, SIG_IGN);
+
   *fd = s;
   *error = 0;
 }
@@ -151,6 +156,10 @@ void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
   }
 
   close(s1);
+
+  /* Prevent SIGPIPE */
+
+  signal(SIGPIPE, SIG_IGN);
 
   *fd = s2;
   *error = 0;
