@@ -220,11 +220,15 @@ void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
 
     if (fork() == 0)
     {
-       close(s1);
+      close(s1);
 
-       *error = 0;
-       *fd = s2;
-       return;
+      /* Prevent SIGPIPE */
+
+      signal(SIGPIPE, SIG_IGN);
+
+      *error = 0;
+      *fd = s2;
+      return;
     }
 
     close(s2);
