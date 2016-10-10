@@ -71,7 +71,7 @@ PACKAGE libsimpleio.Linux IS
   PRAGMA Import(C, Detach, "LINUX_detach");
 
   PROCEDURE DropPrivileges
-   (username : string;
+   (username : String;
     error    : OUT Integer);
   PRAGMA Import(C, DropPrivileges, "LINUX_drop_privileges");
 
