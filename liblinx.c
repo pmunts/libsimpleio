@@ -364,12 +364,12 @@ uint32_t LINX_makeu32(uint8_t b0, uint8_t b1, uint8_t b2, uint8_t b3)
   return (b0 << 24) + (b1 << 16) + (b2 << 8) + b3;
 }
 
-uint8_t LINX_splitu16(uint16_t u, unsigned bn)
+uint8_t LINX_splitu16(uint16_t u, int bn)
 {
   return (u >> ((1-bn)*8)) & 0xFF;
 }
 
-uint8_t LINX_splitu32(uint32_t u, unsigned bn)
+uint8_t LINX_splitu32(uint32_t u, int bn)
 {
   return (u >> ((3-bn)*8)) & 0xFF;
 }

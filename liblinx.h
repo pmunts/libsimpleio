@@ -175,9 +175,9 @@ extern uint16_t LINX_makeu16(uint8_t b0, uint8_t b1);
 
 extern uint32_t LINX_makeu32(uint8_t b0, uint8_t b1, uint8_t b2, uint8_t b3);
 
-extern uint8_t LINX_splitu16(uint16_t u16, unsigned bn);
+extern uint8_t LINX_splitu16(uint16_t u16, int bn);
 
-extern uint8_t LINX_splitu32(uint32_t u32, unsigned bn);
+extern uint8_t LINX_splitu32(uint32_t u32, int bn);
 
 _END_STD_C
 
