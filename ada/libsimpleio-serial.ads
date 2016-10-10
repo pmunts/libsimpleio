@@ -23,9 +23,9 @@
 
 PACKAGE libsimpleio.Serial IS
 
-  PARITY_NONE : CONSTANT := 0;
-  PARITY_EVEN : CONSTANT := 1;
-  PARITY_ODD  : CONSTANT := 2;
+  PARITY_NONE : CONSTANT Integer := 0;
+  PARITY_EVEN : CONSTANT Integer := 1;
+  PARITY_ODD  : CONSTANT Integer := 2;
 
   PROCEDURE Open
    (devname  : String;
