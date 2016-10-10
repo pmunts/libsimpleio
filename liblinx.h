@@ -27,7 +27,6 @@
 #include <stdint.h>
 
 #define LINX_SOF	0xFF
-#define LINX_TIMEOUT	1000
 
 // LINX command structure
 
