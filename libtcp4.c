@@ -87,7 +87,7 @@ void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
 
   /* Build address structure for the specified server */
 
-  memset(&addr, 0, sizeof(destaddr));
+  memset(&destaddr, 0, sizeof(destaddr));
   destaddr.sin_family = AF_INET;
   destaddr.sin_addr.s_addr = htonl(addr);
   destaddr.sin_port = htons(port);
