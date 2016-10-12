@@ -1,0 +1,109 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\" Stream Framing Protocol module
+.\"
+.\" Copyright (C)2016, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libstream 2 "12 October 2016" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B libstream
+\-\- Linux Simple I/O Library: Stream Framing Protocol Module
+.SH SYNOPSIS
+.nf
+.B #include <libstream.h>
+
+.BI "void STREAM_encode_frame(void *" src ", int32_t " srclen ", void *" dst ", int32_t " dstsize ", int32_t *" dstlen ", int *" error ");"
+
+.BI "void STREAM_decode_frame(void *" src ", int32_t " srclen ", void *" dst ", int32_t " dstsize ", int32_t *" dstlen ", int *" error ");"
+
+.BI "void STREAM_send_frame(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+
+.BI "void STREAM_receive_frame(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+
+.fi
+Link with
+.BR -lsimpleio .
+.SH DESCRIPTION
+.nh
+These functions encode, decode, send, and receive frames to and from a
+bidirectional byte stream, which will typically be either a serial port
+or a network socket
+.PP
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.B STREAM_encode_frame()
+encodes the message passed in
+.IR *src ,
+with its length passed in
+.IR srclen .
+Empty messages 
+.RI ( srclen ==0)
+are allowed.
+The encoded frame will be returned in
+.IR *dst ,
+whose maximum size must be passed in
+.IR dstsize .
+The size of the destination buffer must be at least 2 *
+.IR srclen
++ 8 bytes.  The actual size of the encoded frame will be returned in
+.IR *count .
+.PP
+.B STREAM_decode_frame()
+decodes the frame passed in
+.IR *src ,
+with its length passed in
+.IR srclen .
+The decoded message will be returned in
+.IR *dst ,
+whose maximum size must be passed in
+.IR dstsize .
+The actual size of the decoded message will be returned in
+.IR *count .
+.PP
+.B STREAM_send()
+writes an encoded frame to the bidirection byte stream.
+The stream file descriptor is passed in
+.IR fd .
+The encoded frame is passed in
+.IR buf " and"
+its size is passed in
+.IR bufsize .
+Upon success, the number of bytes actually sent will be returned in
+.IR *count .
+.PP
+.B STREAM_receive()
+assembles a frame one byte at a time.
+Upon success, the size of the received frame will be returned in
+.IR *count 
+and zero will be returned in
+.IR *error .
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
+.br
+.BR liblinux "(2), " liblinx "(2), " libserial "(2), " libspi "(2), " libtcp4 "(2)" 
+.PP
+.B http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies
