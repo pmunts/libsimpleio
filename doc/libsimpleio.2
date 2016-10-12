@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libsimpleio 2 "6 October 2016" "version 1.0" "Linux Simple I/O Library"
+.TH libsimpleio 2 "12 October 2016" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
 .BR libsimpleio
 \-\- Linux Simple I/O Library
@@ -37,14 +37,16 @@ types of devices:
 .br
 * I2C (Inter-Integrated Circuit) Bus Devices
 .br
+* LabView LINX Remote I/O Devices
+.br
 * Serial Ports
 .br
 * SPI (Serial Peripheral Interface) Bus Devices
 .br
-* LabView LINX Remote I/O Devices
-.br
-* IPv4 TCP Server Devices
+* Stream Framing Protocol Devices
 .PP
+* TCP (over IPv4) Network Devices
+.br
 Although
 .BR libsimpleio
 was originally intended for Linux microcomputers such as the Raspberry Pi,
