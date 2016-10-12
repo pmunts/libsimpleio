@@ -236,17 +236,8 @@ void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *count, in
   // Read a byte from the stream
 
   status = read(fd, &b, 1);
-
-  // Check for no data available, for some reason
-
-  if (((status < 1) && (errno == EAGAIN)) || (status == 0))
-  {
-    *count = 0;
-    *error = EAGAIN;
-    return;
-  }
-
-  FAILIF((status < 1), errno);
+  FAILIF((status < 0), errno);
+  FAILIF((status == 0), EPIPE);
 
   // Process beginning frame delimiters
 
