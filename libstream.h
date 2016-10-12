@@ -23,11 +23,11 @@
 #ifndef _LIBSTREAM_H
 #define _LIBSTREAM_H
 
-extern void STREAM_encode_frame(void *src, size_t srclen, void *dst, size_t dstsize, size_t *dstlen, int *error);
+extern void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error);
 
-extern void STREAM_decode_frame(void *src, size_t srclen, void *dst, size_t dstsize, size_t *dstlen, int *error);
+extern void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error);
 
-extern void STREAM_receive_frame(int fd, void *buf, size_t bufsize, size_t *count, int *error);
+extern void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *count, int *error);
 
 // Convenience macros
 
