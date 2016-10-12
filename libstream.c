@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <unistd.h>
 
 #include "libstream.h"
 
@@ -54,7 +55,7 @@ static uint16_t crc16(const uint8_t* data_p, uint8_t length){
 // be twice the size of the source buffer, plus 8 bytes worst case.
 // Return zero if successfully encoded.
 
-void STREAM_encode_frame(void *src, size_t srclen, void *dst, size_t dstsize, size_t *dstlen, int *error)
+void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error)
 {
   uint8_t *p = src;
   uint8_t *q = dst;
@@ -123,7 +124,7 @@ void STREAM_encode_frame(void *src, size_t srclen, void *dst, size_t dstsize, si
 
   // Append end of frame delimiter
 
-  FAILIF(*dstlen + 2 > dstsize); 
+  FAILIF(*dstlen + 2 > dstsize);
 
   *q++ = DLE;
   *q++ = ETX;
@@ -135,7 +136,7 @@ void STREAM_encode_frame(void *src, size_t srclen, void *dst, size_t dstsize, si
 // Decode a message frame, with DLE byte stuffing and CRC16-CCITT
 // frame check sequence.  Return zero if successfully decoded.
 
-void STREAM_decode_frame(void *src, size_t srclen, void *dst, size_t dstsize, size_t *dstlen, int *error)
+void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error)
 {
   uint8_t *p = src;
   uint8_t *q = dst;
@@ -214,4 +215,97 @@ void STREAM_decode_frame(void *src, size_t srclen, void *dst, size_t dstsize, si
   FAILIF(crccalc != crcsent);
 
   *error = 0;
+}
+
+#undef FAILIF
+#define FAILIF(c, e) if (c) { bytecounter = 0; *count = 0; *error = e; return; }
+
+// Receive a frame, one byte at a time
+
+void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *count, int *error)
+{
+  static unsigned bytecounter = 0;
+  int status;
+  uint8_t b;
+  uint8_t *bp = buf;
+
+  // Validate parameters
+
+  FAILIF((bufsize < 6), EINVAL);
+
+  // Read a byte from the stream
+
+  status = read(fd, &b, 1);
+
+  // Check for no data available, for some reason
+
+  if (((status < 1) && (errno == EAGAIN)) || (status == 0))
+  {
+    *count = 0;
+    *error = EAGAIN;
+    return;
+  }
+
+  FAILIF((status < 1), errno);
+
+  // Process beginning frame delimiters
+
+  switch (bytecounter)
+  {
+    case 0 :
+      FAILIF((b != DLE), EAGAIN);
+      bp[bytecounter++] = b;
+      *count = 0;
+      *error = EAGAIN;
+      return;
+
+    case 1 :
+      FAILIF((b != STX), EAGAIN);
+      bp[bytecounter++] = b;
+      *count = 0;
+      *error = EAGAIN;
+      return;
+
+    default :
+      bp[bytecounter++] = b;
+      break;
+  }
+
+  // Check for complete frame
+
+  if ((bytecounter >= 6) && (bp[bytecounter-2] == DLE) && (bp[bytecounter-1] == ETX))
+  {
+    unsigned i;
+    unsigned dc = 1;
+
+    // Count the DLE's before the ETX
+
+    for (i = 3;; i++)
+    {
+      if (bp[bytecounter-i] == DLE)
+        dc++;
+      else
+        break;
+    }
+
+    // Odd number of DLE's implies complete frame
+    // Even number of DLE's implies DLE ETX in the payload data
+
+    if (dc & 0x01)
+    {
+      *count = bytecounter;
+      bytecounter = 0;
+      *error = 0;
+      return;
+    }
+  }
+
+  // Check for impending buffer overrun
+
+  FAILIF((bytecounter == bufsize), EINVAL);
+
+  // Frame is still incomplete; try again
+
+  *count = 0;
+  *error = EAGAIN;
 }
