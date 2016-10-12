@@ -3,12 +3,14 @@
    libsimpleio is an attempt to encapsulate (as much as possible) the
    ugliness of Linux I/O device access. It provides services for the
    following types of I/O devices:
-
      * GPIO (General Purpose Input/Output) Pins
      * Raw HID (Human Interface Device) Devices
      * I2C (Inter-Integrated Circuit) Bus Devices
+     * [1]Labview LINX Remote I/O Devices
      * Serial Ports
      * SPI (Serial Peripheral Interface) Bus Devices
+     * [2]Stream Framing Protocol Devices
+     * TCP (over IPv4) Network Devices
 
    Although libsimpleio was originally intended for Linux microcomputers
    such as the Raspberry Pi, it can also be useful on larger desktop Linux
@@ -16,15 +18,14 @@
 
 Git Repository
 
-   The source code is available at: [1]http://git.munts.com
+   The source code is available at: [3]http://git.munts.com
 
    Use the following command to clone it:
-
-   git clone http://git.munts.com/libsimpleio.git
+git clone http://git.munts.com/libsimpleio.git
 
 Documentation
 
-   The man pages specifying the API are available at: [2]libsimpleio.html
+   The man pages specifying the API are available at: [4]libsimpleio.html
 
 Copyright:
 
@@ -51,15 +52,17 @@ POSSIBILITY OF SUCH DAMAGE.
 
    Redistributed works herein are copyrighted and/or licensed by their
    respective authors.
-   ___________________________________________________________________
+     __________________________________________________________________
 
-   Questions or comments to Philip Munts [3]phil@munts.net
+   Questions or comments to Philip Munts [5]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
 
 References
 
-   1. http://git.munts.com/
-   2. file:///home/pmunts/src/libsimpleio/doc/libsimpleio.html
-   3. mailto:phil@munts.net
+   1. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
+   2. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
+   3. http://git.munts.com/
+   4. file:///home/pmunts/src/libsimpleio/doc/libsimpleio.html
+   5. mailto:phil@munts.net
