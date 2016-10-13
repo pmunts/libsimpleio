@@ -93,14 +93,9 @@ void LINUX_drop_privileges(const char *username, int32_t *error)
 
 // Open syslog connection
 
-static char ident[256];
-
 void LINUX_openlog(const char *id, int32_t options, int32_t facility, int32_t *error)
 {
-  memset(ident, 0, sizeof(ident));
-  strncpy(ident, id, sizeof(ident) - 1);
-
-  openlog(ident, options, facility);
+  openlog(id, options, facility);
   *error = 0;
 }
 
