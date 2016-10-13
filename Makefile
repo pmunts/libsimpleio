@@ -24,7 +24,7 @@ AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
 CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS) -DWAIT_GPIO_LINK
 
-default: libsimpleio.a libsimpleio.so
+default: package.deb
 
 SIMPLEIO_COMPONENTS	= libevent.o libgpio.o libhidraw.o libi2c.o
 SIMPLEIO_COMPONENTS	+= libserial.o libspi.o liblinux.o liblinx.o
