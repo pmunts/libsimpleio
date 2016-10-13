@@ -3,6 +3,7 @@
    libsimpleio is an attempt to encapsulate (as much as possible) the
    ugliness of Linux I/O device access. It provides services for the
    following types of I/O devices:
+
      * GPIO (General Purpose Input/Output) Pins
      * Raw HID (Human Interface Device) Devices
      * I2C (Inter-Integrated Circuit) Bus Devices
@@ -21,7 +22,8 @@ Git Repository
    The source code is available at: [3]http://git.munts.com
 
    Use the following command to clone it:
-git clone http://git.munts.com/libsimpleio.git
+
+   git clone http://git.munts.com/libsimpleio.git
 
 Documentation
 
@@ -30,6 +32,7 @@ Documentation
 Copyright:
 
    Original works herein are copyrighted as follows:
+
 Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 
 Redistribution and use in source and binary forms, with or without
@@ -52,7 +55,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
    Redistributed works herein are copyrighted and/or licensed by their
    respective authors.
-     __________________________________________________________________
+   ___________________________________________________________________
 
    Questions or comments to Philip Munts [5]phil@munts.net
 
@@ -62,7 +65,7 @@ POSSIBILITY OF SUCH DAMAGE.
 References
 
    1. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
-   2. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
+   2. http://tech.munts.com/MCU/Frameworks/ARM/common/stream_framing.pdf
    3. http://git.munts.com/
    4. file:///home/pmunts/src/libsimpleio/doc/libsimpleio.html
    5. mailto:phil@munts.net
