@@ -27,7 +27,7 @@ extern void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t ds
 
 extern void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error);
 
-extern void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *count, int *error);
+extern void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *framesize, int *error);
 
 // Convenience macros
 

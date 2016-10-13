@@ -218,13 +218,12 @@ void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, 
 }
 
 #undef FAILIF
-#define FAILIF(c, e) if (c) { bytecounter = 0; *count = 0; *error = e; return; }
+#define FAILIF(c, e) if (c) { *framesize = 0; *error = e; return; }
 
 // Receive a frame, one byte at a time
 
-void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *count, int *error)
+void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *framesize, int *error)
 {
-  static unsigned bytecounter = 0;
   int status;
   uint8_t b;
   uint8_t *bp = buf;
@@ -232,6 +231,7 @@ void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *count, int *err
   // Validate parameters
 
   FAILIF((bufsize < 6), EINVAL);
+  FAILIF((*framesize >= bufsize), EINVAL);
 
   // Read a byte from the stream
 
@@ -241,30 +241,31 @@ void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *count, int *err
 
   // Process beginning frame delimiters
 
-  switch (bytecounter)
+  switch (*framesize)
   {
     case 0 :
       FAILIF((b != DLE), EAGAIN);
-      bp[bytecounter++] = b;
-      *count = 0;
+      bp[*framesize] = b;
+      *framesize += 1;
       *error = EAGAIN;
       return;
 
     case 1 :
       FAILIF((b != STX), EAGAIN);
-      bp[bytecounter++] = b;
-      *count = 0;
+      bp[*framesize] = b;
+      *framesize += 1;
       *error = EAGAIN;
       return;
 
     default :
-      bp[bytecounter++] = b;
+      bp[*framesize] = b;
+      *framesize += 1;
       break;
   }
 
   // Check for complete frame
 
-  if ((bytecounter >= 6) && (bp[bytecounter-2] == DLE) && (bp[bytecounter-1] == ETX))
+  if ((*framesize >= 6) && (bp[*framesize-2] == DLE) && (bp[*framesize-1] == ETX))
   {
     unsigned i;
     unsigned dc = 1;
@@ -273,7 +274,7 @@ void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *count, int *err
 
     for (i = 3;; i++)
     {
-      if (bp[bytecounter-i] == DLE)
+      if (bp[*framesize-i] == DLE)
         dc++;
       else
         break;
@@ -284,8 +285,6 @@ void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *count, int *err
 
     if (dc & 0x01)
     {
-      *count = bytecounter;
-      bytecounter = 0;
       *error = 0;
       return;
     }
@@ -293,10 +292,9 @@ void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *count, int *err
 
   // Check for impending buffer overrun
 
-  FAILIF((bytecounter == bufsize), EINVAL);
+  FAILIF((*framesize == bufsize), EINVAL);
 
   // Frame is still incomplete; try again
 
-  *count = 0;
   *error = EAGAIN;
 }
