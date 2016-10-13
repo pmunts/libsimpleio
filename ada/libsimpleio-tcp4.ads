@@ -27,7 +27,8 @@ PACKAGE libsimpleio.TCP4 IS
 
   TYPE IPV4_PORT IS MOD 2**16;
 
-  INADDR_ANY : CONSTANT IPV4_ADDR := 0;
+  INADDR_ANY      : CONSTANT IPV4_ADDR := 16#00000000#;
+  INADDR_LOOPBACK : CONSTANT IPV4_ADDR := 16#7F000001#;	-- aka localhost
 
   -- Resolve host name to 32-bit IPv4 address
 
