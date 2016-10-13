@@ -222,7 +222,7 @@ void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, 
 
 // Receive a frame, one byte at a time
 
-void STREAM_receive(int fd, void *buf, int32_t bufsize, int32_t *framesize, int *error)
+void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *framesize, int *error)
 {
   int status;
   uint8_t b;
