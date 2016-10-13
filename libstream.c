@@ -292,7 +292,7 @@ void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *framesize
 
   // Check for impending buffer overrun
 
-  FAILIF((*framesize == bufsize), EINVAL);
+  FAILIF((*framesize == bufsize), EAGAIN);
 
   // Frame is still incomplete; try again
 
