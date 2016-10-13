@@ -35,7 +35,7 @@
 
 .BI "void STREAM_send_frame(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
 
-.BI "void STREAM_receive_frame(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+.BI "void STREAM_receive_frame(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" framesize ", int32_t *" error ");"
 
 .fi
 Link with
@@ -44,7 +44,8 @@ Link with
 .nh
 These functions encode, decode, send, and receive frames to and from a
 bidirectional byte stream, which will typically be either a serial port
-or a network socket
+or a network socket.  The frames are encoded according the the Stream
+Framing Procotol.  See below for a link to the protocol specification.
 .PP
 All functions return either
 .B 0
@@ -68,7 +69,7 @@ whose maximum size must be passed in
 The size of the destination buffer must be at least 2 *
 .IR srclen
 + 8 bytes.  The actual size of the encoded frame will be returned in
-.IR *count .
+.IR *dstlen .
 .PP
 .B STREAM_decode_frame()
 decodes the frame passed in
@@ -80,11 +81,11 @@ The decoded message will be returned in
 whose maximum size must be passed in
 .IR dstsize .
 The actual size of the decoded message will be returned in
-.IR *count .
+.IR *dstlen .
 .PP
-.B STREAM_send()
-writes an encoded frame to the bidirection byte stream.
-The stream file descriptor is passed in
+.B STREAM_send_frame()
+writes an encoded frame to the bidirectional byte stream
+indicated by the file descriptor
 .IR fd .
 The encoded frame is passed in
 .IR buf " and"
@@ -93,11 +94,27 @@ its size is passed in
 Upon success, the number of bytes actually sent will be returned in
 .IR *count .
 .PP
-.B STREAM_receive()
-assembles a frame one byte at a time.
-Upon success, the size of the received frame will be returned in
-.IR *count 
-and zero will be returned in
+.B STREAM_receive_frame()
+reads one byte from the bidirectional byte stream indicated by
+the file descriptor
+.IR fd 
+and attempts to assemble a frame.  It should be called repeatedly
+with the same 
+.IR *buf ,
+.IR bufsize ,
+and
+.IR *framesize
+parameters.  The
+.IR *framesize
+parameter is incremented for each byte received, and zeroed if an error
+occurs.  The
+.IR *error
+parameter will be set to
+.B EAGAIN
+while a frame is being assembled. Upon successful assembly of a
+complete frame, its size will be returned in
+.IR *framesize
+and zero returned in
 .IR *error .
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "

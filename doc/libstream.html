@@ -23,7 +23,7 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 12 October 2016<BR><A HREF="#i
 
 <B>void STREAM_send_frame(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void STREAM_receive_frame(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void STREAM_receive_frame(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>framesize</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -36,7 +36,8 @@ Link with
 
 These functions encode, decode, send, and receive frames to and from a
 bidirectional byte stream, which will typically be either a serial port
-or a network socket
+or a network socket.  The frames are encoded according the the Stream
+Framing Procotol.  See below for a link to the protocol specification.
 <P>
 
 All functions return either
@@ -72,7 +73,7 @@ The size of the destination buffer must be at least 2 *
 <I>srclen</I>
 
 + 8 bytes.  The actual size of the encoded frame will be returned in
-<I>*count</I>.
+<I>*dstlen</I>.
 
 <P>
 
@@ -91,14 +92,14 @@ whose maximum size must be passed in
 <I>dstsize</I>.
 
 The actual size of the decoded message will be returned in
-<I>*count</I>.
+<I>*dstlen</I>.
 
 <P>
 
-<B>STREAM_send()</B>
+<B>STREAM_send_frame()</B>
 
-writes an encoded frame to the bidirection byte stream.
-The stream file descriptor is passed in
+writes an encoded frame to the bidirectional byte stream
+indicated by the file descriptor
 <I>fd</I>.
 
 The encoded frame is passed in
@@ -112,13 +113,36 @@ Upon success, the number of bytes actually sent will be returned in
 
 <P>
 
-<B>STREAM_receive()</B>
+<B>STREAM_receive_frame()</B>
 
-assembles a frame one byte at a time.
-Upon success, the size of the received frame will be returned in
-<I>*count</I>
+reads one byte from the bidirectional byte stream indicated by
+the file descriptor
+<I>fd</I>
 
-and zero will be returned in
+and attempts to assemble a frame.  It should be called repeatedly
+with the same 
+<I>*buf</I>,
+
+<I>bufsize</I>,
+
+and
+<I>*framesize</I>
+
+parameters.  The
+<I>*framesize</I>
+
+parameter is incremented for each byte received, and zeroed if an error
+occurs.  The
+<I>*error</I>
+
+parameter will be set to
+<B>EAGAIN</B>
+
+while a frame is being assembled. Upon successful assembly of a
+complete frame, its size will be returned in
+<I>*framesize</I>
+
+and zero returned in
 <I>*error</I>.
 
 <A NAME="lbAE">&nbsp;</A>
@@ -153,6 +177,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 06:30:51 GMT, October 13, 2016
+Time: 07:48:57 GMT, October 13, 2016
 </BODY>
 </HTML>
