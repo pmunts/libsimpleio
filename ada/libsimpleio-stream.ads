@@ -43,7 +43,7 @@ PACKAGE libsimpleio.Stream IS
     dstsize  : Integer;
     dstlen   : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Encode, "STREAM_decode_frame");
+  PRAGMA Import(C, Decode, "STREAM_decode_frame");
 
   -- Send a frame to the Stream Framing Protocol peer
 
