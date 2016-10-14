@@ -236,6 +236,15 @@ void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *framesize
   // Read a byte from the stream
 
   status = read(fd, &b, 1);
+
+  // Check for O_NONBLOCK and EAGAIN
+
+  if ((status < 0) && (errno == EAGAIN))
+  {
+    *error = EAGAIN;
+    return;
+  }
+
   FAILIF((status < 0), errno);
   FAILIF((status == 0), EPIPE);
 
