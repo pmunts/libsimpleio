@@ -54,14 +54,14 @@ PACKAGE libStream IS
    (fd       : Integer;
     buf      : System.Address;
     size     : Integer;
-    count    : OUT Integer;
+    len      : OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Send, "LINUX_write");
 
   -- Receive a frame from the Stream Framing Protocol peer.
   -- Each call reads one byte from the stream, so Receive()
   -- must be called repeatedly until a complete frame has
-  -- been assembled.  count must be set to zero each time a
+  -- been assembled.  len must be set to zero each time a
   -- new frame is to be received.
   -- EAGAIN will be returned in error if the current frame
   -- is incomplete.  Zero will be returned in error if the
@@ -70,14 +70,14 @@ PACKAGE libStream IS
   -- and EINVAL indicates that a parameter is invalid.
   -- Invalid frames will be silently ignored with error set
   -- to EAGAIN.  If error is neither zero (frame complete)
-  -- nor EAGAIN (frame incomplete), count will be reset to
+  -- nor EAGAIN (frame incomplete), len will be reset to
   -- zero to prepare for the next incoming frame.
 
   PROCEDURE Receive
    (fd       : Integer;
     buf      : System.Address;
     size     : Integer;
-    count    : IN OUT Integer;
+    len      : IN OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Receive, "STREAM_receive_frame");
 
