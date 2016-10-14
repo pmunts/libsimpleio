@@ -20,48 +20,41 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT libsimpleio_GPIO;
+UNIT libSerial;
 
 INTERFACE
 
   CONST
-    DIRECTION_INPUT     = 0;
-    DIRECTION_OUTPUT    = 1;
-
-    EDGE_NONE           = 0;
-    EDGE_RISING         = 1;
-    EDGE_FALLING        = 2;
-    EDGE_BOTH           = 3;
-
-    POLARITY_ACTIVELOW  = 0;
-    POLARITY_ACTIVEHIGH = 1;
-
-  PROCEDURE Configure
-   (pin       : integer;
-    direction : integer;
-    state     : Integer;
-    edge      : Integer;
-    polarity  : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_configure';
+    PARITY_NONE = 0;
+    PARITY_EVEN = 1;
+    PARITY_ODD  = 2;
 
   PROCEDURE Open
-   (pin       : Integer;
+   (devname   : PChar;
+    baudrate  : Integer;
+    parity    : Integer;
+    databits  : Integer;
+    stopbits  : Integer;
     VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_open';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'SERIAL_open';
 
   PROCEDURE Close
    (fd        : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
-  PROCEDURE Read
+  PROCEDURE Send
    (fd        : Integer;
-    VAR state : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_read';
+    buf       : Pointer;
+    size      : Integer;
+    VAR count : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
 
-  PROCEDURE Write
+  PROCEDURE Receive
    (fd        : Integer;
-    state     : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_write';
+    buf       : Pointer;
+    size      : Integer;
+    VAR count : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_read';
 
 IMPLEMENTATION
 

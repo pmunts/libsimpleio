@@ -1,5 +1,5 @@
 -- Minimal Ada wrapper for the Linux epoll services
--- implemented in libsimpleio.so
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -21,7 +21,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.Event IS
+PACKAGE libEvent IS
+  PRAGMA Link_With("-lsimpleio");
 
   -- epoll events, extracted from /usr/include/sys/epoll.h
 
@@ -66,4 +67,4 @@ PACKAGE libsimpleio.Event IS
     error     : OUT Integer);
   PRAGMA Import(C, Wait, "EVENT_wait");
 
-END libsimpleio.Event;
+END libEvent;

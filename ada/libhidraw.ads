@@ -1,5 +1,5 @@
--- Minimal Ada wrapper for the Linux SPI services
--- implemented in libsimpleio.so
+-- Minimal Ada wrapper for the Linux raw HID services
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -21,30 +21,49 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.SPI IS
+PACKAGE libHIDRaw IS
+  PRAGMA Link_With("-lsimpleio");
 
   PROCEDURE Open
-   (devname  : String;
-    mode     : Integer;
-    wordsize : Integer;
-    speed    : Integer;
-    fd       : OUT Integer;
-    error    : OUT Integer);
-  PRAGMA Import(C, Open, "SPI_open");
+   (devname : String;
+    fd      : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Open, "LINUX_open_readwrite");
 
   PROCEDURE Close
-   (fd       : Integer;
-    error    : OUT Integer);
+   (fd      : Integer;
+    error   : OUT Integer);
   PRAGMA Import(C, Close, "LINUX_close");
 
-  PROCEDURE Transaction
-   (fd       : Integer;
-    cmd      : System.Address;
-    cmdlen   : Integer;
-    delayus  : Integer;
-    resp     : System.Address;
-    resplen  : Integer;
-    error    : OUT Integer);
-  PRAGMA Import(C, Transaction, "SPI_transaction");
+  PROCEDURE GetName
+   (fd      : Integer;
+    name    : System.Address;
+    size    : Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, GetName, "HIDRAW_get_name");
 
-END libsimpleio.SPI;
+  PROCEDURE GetInfo
+   (fd      : Integer;
+    bustype : OUT Integer;
+    vendor  : OUT Integer;
+    product : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, GetInfo, "HIDRAW_get_info");
+
+  PROCEDURE Send
+   (fd      : Integer;
+    buf     : System.Address;
+    bufsize : Integer;
+    count   : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Send, "LINUX_write");
+
+  PROCEDURE Receive
+   (fd      : Integer;
+    buf     : System.Address;
+    bufsize : Integer;
+    count   : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Receive, "LINUX_read");
+
+END libHIDRaw;

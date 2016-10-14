@@ -1,5 +1,5 @@
 -- Minimal Ada wrapper for the Linux Stream Framing Protocol services
--- implemented in libsimpleio.so
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -21,7 +21,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.Stream IS
+PACKAGE libStream IS
+  PRAGMA Link_With("-lsimpleio");
 
   -- Encode a message to a frame
 
@@ -78,4 +79,4 @@ PACKAGE libsimpleio.Stream IS
     error    : OUT Integer);
   PRAGMA Import(C, Receive, "STREAM_receive_frame");
 
-END libsimpleio.Stream;
+END libStream;

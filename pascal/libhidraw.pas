@@ -20,57 +20,45 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT libsimpleio_TCP4;
+UNIT libHIDRaw;
 
 INTERFACE
 
-  CONST
-    INADDR_ANY = 0;
-
-  TYPE
-    IPV4_ADDR = LongWord;
-    IPV4_PORT = Word;
-
-  PROCEDURE Resolve
-   (hostname  : PChar;
-    VAR addr  : IPV4_ADDR;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_resolve';
-
-  PROCEDURE Connect
-   (addr      : IPV4_ADDR;
-    port      : IPV4_PORT;
-    VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_connect';
-
-  PROCEDURE Accept
-   (addr      : IPV4_ADDR;
-    port      : IPV4_PORT;
-    VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_accept';
-
-  PROCEDURE Server
-   (addr      : IPV4_ADDR;
-    port      : IPV4_PORT;
-    VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_server';
+  PROCEDURE Open
+   (name        : PChar;
+    VAR fd      : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
 
   PROCEDURE Close
-   (fd        : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
+   (fd          : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
+
+  PROCEDURE GetName
+   (fd          : Integer;
+    name        : PChar;
+    size        : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_get_name';
+
+  PROCEDURE GetInfo
+   (fd          : Integer;
+    VAR bustype : Integer;
+    VAR vendor  : Integer;
+    VAR product : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_get_info';
 
   PROCEDURE Send
-   (fd        : Integer;
-    buf       : Pointer;
-    size      : Integer;
-    VAR count : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
+   (fd          : Integer;
+    buf         : Pointer;
+    bufsize     : Integer;
+    VAR count   : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
 
   PROCEDURE Receive
-   (fd        : Integer;
-    buf       : Pointer;
-    size      : Integer;
-    VAR count : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_read';
+   (fd          : Integer;
+    buf         : Pointer;
+    bufsize     : Integer;
+    VAR count   : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_read';
 
 IMPLEMENTATION
 

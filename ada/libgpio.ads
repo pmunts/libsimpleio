@@ -1,5 +1,5 @@
--- Minimal Ada wrapper for the Linux raw HID services
--- implemented in libsimpleio.so
+-- Minimal Ada wrapper for the Linux GPIO services
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -21,48 +21,50 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.HIDRaw IS
+PACKAGE libGPIO IS
+  PRAGMA Link_With("-lsimpleio");
+
+  DIRECTION_INPUT     : CONSTANT Integer := 0;
+  DIRECTION_OUTPUT    : CONSTANT Integer := 1;
+
+  EDGE_NONE           : CONSTANT Integer := 0;
+  EDGE_RISING         : CONSTANT Integer := 1;
+  EDGE_FALLING        : CONSTANT Integer := 2;
+  EDGE_BOTH           : CONSTANT Integer := 3;
+
+  POLARITY_ACTIVELOW  : CONSTANT Integer := 0;
+  POLARITY_ACTIVEHIGH : CONSTANT Integer := 1;
+
+  PROCEDURE Configure
+   (pin       : Integer;
+    direction : Integer;
+    state     : Integer;
+    edge      : Integer;
+    polarity  : Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, Configure, "GPIO_configure");
 
   PROCEDURE Open
-   (devname : String;
-    fd      : OUT Integer;
-    error   : OUT Integer);
-  PRAGMA Import(C, Open, "LINUX_open_readwrite");
+   (pin      : Integer;
+    fd       : OUT Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, Open, "GPIO_open");
 
   PROCEDURE Close
-   (fd      : Integer;
-    error   : OUT Integer);
+   (fd       : Integer;
+    error    : OUT Integer);
   PRAGMA Import(C, Close, "LINUX_close");
 
-  PROCEDURE GetName
-   (fd      : Integer;
-    name    : System.Address;
-    size    : Integer;
-    error   : OUT Integer);
-  PRAGMA Import(C, GetName, "HIDRAW_get_name");
+  PROCEDURE Read
+   (fd       : Integer;
+    state    : OUT Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, Read, "GPIO_read");
 
-  PROCEDURE GetInfo
-   (fd      : Integer;
-    bustype : OUT Integer;
-    vendor  : OUT Integer;
-    product : OUT Integer;
-    error   : OUT Integer);
-  PRAGMA Import(C, GetInfo, "HIDRAW_get_info");
+  PROCEDURE Write
+   (fd       : Integer;
+    state    : Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, Write, "GPIO_write");
 
-  PROCEDURE Send
-   (fd      : Integer;
-    buf     : System.Address;
-    bufsize : Integer;
-    count   : OUT Integer;
-    error   : OUT Integer);
-  PRAGMA Import(C, Send, "LINUX_write");
-
-  PROCEDURE Receive
-   (fd      : Integer;
-    buf     : System.Address;
-    bufsize : Integer;
-    count   : OUT Integer;
-    error   : OUT Integer);
-  PRAGMA Import(C, Receive, "LINUX_read");
-
-END libsimpleio.HIDRaw;
+END libGPIO;

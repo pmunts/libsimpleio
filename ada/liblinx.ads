@@ -1,5 +1,5 @@
 -- Minimal Ada wrapper for the LabView LINX Remote I/O services
--- implemented in libsimpleio.so
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -21,7 +21,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.LINX IS
+PACKAGE libLINX IS
+  PRAGMA Link_With("-lsimpleio");
 
   -- Type definitions
 
@@ -229,4 +230,4 @@ PACKAGE libsimpleio.LINX IS
     index : Integer) RETURN uint8_t;
   PRAGMA Import(C, SplitU32, "LINX_splitu32");
 
-END libsimpleio.LINX;
+END libLINX;

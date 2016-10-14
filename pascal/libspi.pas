@@ -20,45 +20,30 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT libsimpleio_HIDRaw;
+UNIT libSPI;
 
 INTERFACE
 
   PROCEDURE Open
-   (name        : PChar;
-    VAR fd      : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
+   (devname   : PChar;
+    mode      : Integer;
+    wordsize  : Integer;
+    speed     : Integer;
+    VAR fd    : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'SPI_open';
 
   PROCEDURE Close
-   (fd          : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
+   (fd        : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
-  PROCEDURE GetName
-   (fd          : Integer;
-    name        : PChar;
-    size        : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_get_name';
-
-  PROCEDURE GetInfo
-   (fd          : Integer;
-    VAR bustype : Integer;
-    VAR vendor  : Integer;
-    VAR product : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_get_info';
-
-  PROCEDURE Send
-   (fd          : Integer;
-    buf         : Pointer;
-    bufsize     : Integer;
-    VAR count   : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
-
-  PROCEDURE Receive
-   (fd          : Integer;
-    buf         : Pointer;
-    bufsize     : Integer;
-    VAR count   : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_read';
+  PROCEDURE Transaction
+   (fd        : Integer;
+    cmd       : Pointer;
+    cmdlen    : Integer;
+    delayus   : Integer;
+    resp      : Pointer;
+    resplen   : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'SPI_transaction';
 
 IMPLEMENTATION
 

@@ -20,27 +20,48 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT libsimpleio_I2C;
+UNIT libGPIO;
 
 INTERFACE
 
+  CONST
+    DIRECTION_INPUT     = 0;
+    DIRECTION_OUTPUT    = 1;
+
+    EDGE_NONE           = 0;
+    EDGE_RISING         = 1;
+    EDGE_FALLING        = 2;
+    EDGE_BOTH           = 3;
+
+    POLARITY_ACTIVELOW  = 0;
+    POLARITY_ACTIVEHIGH = 1;
+
+  PROCEDURE Configure
+   (pin       : integer;
+    direction : integer;
+    state     : Integer;
+    edge      : Integer;
+    polarity  : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_configure';
+
   PROCEDURE Open
-   (devname   : PChar;
+   (pin       : Integer;
     VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_open';
 
   PROCEDURE Close
    (fd        : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
-  PROCEDURE Transaction
+  PROCEDURE Read
    (fd        : Integer;
-    slaveaddr : Integer;
-    cmd       : Pointer;
-    cmdlen    : Integer;
-    resp      : Pointer;
-    resplen   : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'I2C_transaction';
+    VAR state : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_read';
+
+  PROCEDURE Write
+   (fd        : Integer;
+    state     : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_write';
 
 IMPLEMENTATION
 

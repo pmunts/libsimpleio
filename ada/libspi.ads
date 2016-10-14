@@ -1,4 +1,5 @@
--- Parent package for Linux Simple I/O Library wrappers
+-- Minimal Ada wrapper for the Linux SPI services
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -20,8 +21,31 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH System;
-
-PACKAGE libsimpleio IS
+PACKAGE libSPI IS
   PRAGMA Link_With("-lsimpleio");
-END libsimpleio;
+
+  PROCEDURE Open
+   (devname  : String;
+    mode     : Integer;
+    wordsize : Integer;
+    speed    : Integer;
+    fd       : OUT Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, Open, "SPI_open");
+
+  PROCEDURE Close
+   (fd       : Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, Close, "LINUX_close");
+
+  PROCEDURE Transaction
+   (fd       : Integer;
+    cmd      : System.Address;
+    cmdlen   : Integer;
+    delayus  : Integer;
+    resp     : System.Address;
+    resplen  : Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, Transaction, "SPI_transaction");
+
+END libSPI;

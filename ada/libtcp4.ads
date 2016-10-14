@@ -1,5 +1,5 @@
 -- Minimal Ada wrapper for the Linux IPv4 TCP stream services
--- implemented in libsimpleio.so
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -21,7 +21,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.TCP4 IS
+PACKAGE libTCP4 IS
+  PRAGMA Link_With("-lsimpleio");
 
   TYPE IPV4_ADDR IS MOD 2**32;
 
@@ -92,4 +93,4 @@ PACKAGE libsimpleio.TCP4 IS
     error    : OUT Integer);
   PRAGMA Import(C, Receive, "LINUX_read");
 
-END libsimpleio.TCP4;
+END libTCP4;

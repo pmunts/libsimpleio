@@ -1,5 +1,5 @@
--- Minimal Ada wrapper for the Linux GPIO services
--- implemented in libsimpleio.so
+-- Minimal Ada wrapper for the Linux serial port services
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -21,49 +21,42 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.GPIO IS
+PACKAGE libSerial IS
+  PRAGMA Link_With("-lsimpleio");
 
-  DIRECTION_INPUT     : CONSTANT Integer := 0;
-  DIRECTION_OUTPUT    : CONSTANT Integer := 1;
-
-  EDGE_NONE           : CONSTANT Integer := 0;
-  EDGE_RISING         : CONSTANT Integer := 1;
-  EDGE_FALLING        : CONSTANT Integer := 2;
-  EDGE_BOTH           : CONSTANT Integer := 3;
-
-  POLARITY_ACTIVELOW  : CONSTANT Integer := 0;
-  POLARITY_ACTIVEHIGH : CONSTANT Integer := 1;
-
-  PROCEDURE Configure
-   (pin       : Integer;
-    direction : Integer;
-    state     : Integer;
-    edge      : Integer;
-    polarity  : Integer;
-    error     : OUT Integer);
-  PRAGMA Import(C, Configure, "GPIO_configure");
+  PARITY_NONE : CONSTANT Integer := 0;
+  PARITY_EVEN : CONSTANT Integer := 1;
+  PARITY_ODD  : CONSTANT Integer := 2;
 
   PROCEDURE Open
-   (pin      : Integer;
+   (devname  : String;
+    baudrate : Integer;
+    parity   : Integer;
+    databits : Integer;
+    stopbits : Integer;
     fd       : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Open, "GPIO_open");
+  PRAGMA Import(C, Open, "SERIAL_open");
 
   PROCEDURE Close
    (fd       : Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Close, "LINUX_close");
 
-  PROCEDURE Read
+  PROCEDURE Send
    (fd       : Integer;
-    state    : OUT Integer;
+    buf      : System.Address;
+    size     : Integer;
+    count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Read, "GPIO_read");
+  PRAGMA Import(C, Send, "LINUX_write");
 
-  PROCEDURE Write
+  PROCEDURE Receive
    (fd       : Integer;
-    state    : Integer;
+    buf      : System.Address;
+    size     : Integer;
+    count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Write, "GPIO_write");
+  PRAGMA Import(C, Receive, "LINUX_read");
 
-END libsimpleio.GPIO;
+END libSerial;

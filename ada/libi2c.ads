@@ -1,5 +1,5 @@
 -- Minimal Ada wrapper for the Linux I2C services
--- implemented in libsimpleio.so
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -21,7 +21,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.I2C IS
+PACKAGE libI2C IS
+  PRAGMA Link_With("-lsimpleio");
 
   PROCEDURE Open
    (devname   : String;
@@ -44,4 +45,4 @@ PACKAGE libsimpleio.I2C IS
     error     : OUT Integer);
   PRAGMA Import(C, Transaction, "I2C_transaction");
 
-END libsimpleio.I2C;
+END libI2C;

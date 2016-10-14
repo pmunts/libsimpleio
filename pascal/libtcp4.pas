@@ -20,23 +20,39 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT libsimpleio_Serial;
+UNIT libTCP4;
 
 INTERFACE
 
   CONST
-    PARITY_NONE = 0;
-    PARITY_EVEN = 1;
-    PARITY_ODD  = 2;
+    INADDR_ANY = 0;
 
-  PROCEDURE Open
-   (devname   : PChar;
-    baudrate  : Integer;
-    parity    : Integer;
-    databits  : Integer;
-    stopbits  : Integer;
+  TYPE
+    IPV4_ADDR = LongWord;
+    IPV4_PORT = Word;
+
+  PROCEDURE Resolve
+   (hostname  : PChar;
+    VAR addr  : IPV4_ADDR;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_resolve';
+
+  PROCEDURE Connect
+   (addr      : IPV4_ADDR;
+    port      : IPV4_PORT;
     VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'SERIAL_open';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_connect';
+
+  PROCEDURE Accept
+   (addr      : IPV4_ADDR;
+    port      : IPV4_PORT;
+    VAR fd    : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_accept';
+
+  PROCEDURE Server
+   (addr      : IPV4_ADDR;
+    port      : IPV4_PORT;
+    VAR fd    : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_server';
 
   PROCEDURE Close
    (fd        : Integer;

@@ -20,17 +20,14 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT libsimpleio_SPI;
+UNIT libI2C;
 
 INTERFACE
 
   PROCEDURE Open
    (devname   : PChar;
-    mode      : Integer;
-    wordsize  : Integer;
-    speed     : Integer;
     VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'SPI_open';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
 
   PROCEDURE Close
    (fd        : Integer;
@@ -38,12 +35,12 @@ INTERFACE
 
   PROCEDURE Transaction
    (fd        : Integer;
+    slaveaddr : Integer;
     cmd       : Pointer;
     cmdlen    : Integer;
-    delayus   : Integer;
     resp      : Pointer;
     resplen   : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'SPI_transaction';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'I2C_transaction';
 
 IMPLEMENTATION
 

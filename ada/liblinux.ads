@@ -1,5 +1,5 @@
 -- Minimal Ada wrapper for the Linux syscall services
--- implemented in libsimpleio.so
+-- implemented in libso
 
 -- Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 --
@@ -21,7 +21,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libsimpleio.Linux IS
+PACKAGE libLinux IS
+  PRAGMA Link_With("-lsimpleio");
 
   -- syslog option constants (extracted from syslog.h)
 
@@ -88,4 +89,4 @@ PACKAGE libsimpleio.Linux IS
     error    : OUT Integer);
   PRAGMA Import(C, Syslog, "LINUX_syslog");
 
-END libsimpleio.Linux;
+END libLinux;
