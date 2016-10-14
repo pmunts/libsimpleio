@@ -48,8 +48,8 @@ INTERFACE
 
   PROCEDURE Send
    (fd         : Integer;
-    buf        : Pointer;
-    size       : Integer;
+    src        : Pointer;
+    srclen     : Integer;
     VAR sent   : Integer;
     VAR error  : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
 
