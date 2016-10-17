@@ -15,7 +15,7 @@
 
    Although libsimpleio was originally intended for Linux microcomputers
    such as the Raspberry Pi, it can also be useful on larger desktop Linux
-   systems (particularly the raw HID and serial port services).
+   systems.
 
 Git Repository
 
@@ -32,7 +32,6 @@ Documentation
 Copyright:
 
    Original works herein are copyrighted as follows:
-
 Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 
 Redistribution and use in source and binary forms, with or without
