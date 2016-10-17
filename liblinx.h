@@ -159,11 +159,11 @@ _BEGIN_STD_C
 
 extern void LINX_transmit_command(int fd, LINX_command_t *cmd, int *error);
 
-extern void LINX_receive_command(int fd, LINX_command_t *cmd, int *error);
+extern void LINX_receive_command(int fd, LINX_command_t *cmd, int *count, int *error);
 
 extern void LINX_transmit_response(int fd, LINX_response_t *resp, int *error);
 
-extern void LINX_receive_response(int fd, LINX_response_t *resp, int *error);
+extern void LINX_receive_response(int fd, LINX_response_t *resp, int *count, int *error);
 
 // Byte packing and unpacking routines
 

@@ -159,6 +159,7 @@ INTERFACE
   PROCEDURE SendResponse
    (fd        : Integer;
     VAR resp  : LINX_response_t;
+    VAR count : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINX_send_response';
 
   { LabView LINX Remote I/O client procedures }
@@ -171,6 +172,7 @@ INTERFACE
   PROCEDURE ReceiveResponse
    (fd        : Integer;
     VAR resp  : LINX_response_t;
+    VAR count : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINX_receive_response';
 
   { Pack two 8-bit bytes into one 16-bit word }

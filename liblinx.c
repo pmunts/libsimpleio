@@ -76,9 +76,8 @@ void LINX_transmit_command(int fd, LINX_command_t *cmd, int *error)
   *error = 0;
 }
 
-void LINX_receive_command(int fd, LINX_command_t *cmd, int *error)
+void LINX_receive_command(int fd, LINX_command_t *cmd, int *count, int *error)
 {
-  static size_t count = 0;
   int status;
   uint8_t b;
   uint8_t checksum;
@@ -87,9 +86,9 @@ void LINX_receive_command(int fd, LINX_command_t *cmd, int *error)
 
   // Check for buffer overrun
 
-  if (count == 60)
+  if (*count == 60)
   {
-    count = 0;
+    *count = 0;
     *error = EINVAL;
     return;
   }
@@ -102,7 +101,7 @@ void LINX_receive_command(int fd, LINX_command_t *cmd, int *error)
 
   if (status < 0)
   {
-    count = 0;
+    *count = 0;
     *error = errno;
     return;
   }
@@ -111,19 +110,19 @@ void LINX_receive_command(int fd, LINX_command_t *cmd, int *error)
 
   if (status == 0)
   {
-    count = 0;
+    *count = 0;
     *error = EPIPE;
     return;
   }
 
   // Assemble frame
 
-  switch (count)
+  switch (*count)
   {
     case 0 :
       if (b != LINX_SOF)
       {
-        count = 0;
+        *count = 0;
         *error = EINVAL;
         return;
       }
@@ -133,7 +132,7 @@ void LINX_receive_command(int fd, LINX_command_t *cmd, int *error)
     case 1 :
       if ((b < 7) || (b > 60))
       {
-        count = 0;
+        *count = 0;
         *error = EINVAL;
         return;
       }
@@ -157,17 +156,17 @@ void LINX_receive_command(int fd, LINX_command_t *cmd, int *error)
       break;
 
     default :
-      cmd->Args[count-6] = b;
+      cmd->Args[*count-6] = b;
       break;
   }
 
   // Increment byte counter
 
-  count++;
+  *count += 1;
 
   // Check for complete frame
 
-  if ((count < 6) || (count < cmd->PacketSize))
+  if ((*count < 6) || (*count < cmd->PacketSize))
   {
     *error = EAGAIN;
     return;
@@ -179,21 +178,21 @@ void LINX_receive_command(int fd, LINX_command_t *cmd, int *error)
 
   checksum = 0;
 
-  for (i = 0; i < count-1; i++)
+  for (i = 0; i < *count-1; i++)
     checksum += p[i];
 
   // Validate frame checksum
 
-  if (checksum != cmd->Args[count-7])
+  if (checksum != cmd->Args[*count-7])
   {
-    count = 0;
+    *count = 0;
     *error = EINVAL;
     return;
   }
 
   // Frame is complete and valid
 
-  count = 0;
+  *count = 0;
   *error = 0;
 }
 
@@ -239,9 +238,8 @@ void LINX_transmit_response(int fd, LINX_response_t *resp, int *error)
   }
 }
 
-void LINX_receive_response(int fd, LINX_response_t *resp, int *error)
+void LINX_receive_response(int fd, LINX_response_t *resp, int *count, int *error)
 {
-  static size_t count = 0;
   int status;
   uint8_t b;
   uint8_t checksum;
@@ -250,9 +248,9 @@ void LINX_receive_response(int fd, LINX_response_t *resp, int *error)
 
   // Check for buffer overrun
 
-  if (count == 60)
+  if (*count == 60)
   {
-    count = 0;
+    *count = 0;
     *error = EINVAL;
     return;
   }
@@ -265,7 +263,7 @@ void LINX_receive_response(int fd, LINX_response_t *resp, int *error)
 
   if (status < 0)
   {
-    count = 0;
+    *count = 0;
     *error = errno;
     return;
   }
@@ -274,19 +272,19 @@ void LINX_receive_response(int fd, LINX_response_t *resp, int *error)
 
   if (status == 0)
   {
-    count = 0;
+    *count = 0;
     *error = EPIPE;
     return;
   }
 
   // Assemble frame
 
-  switch (count)
+  switch (*count)
   {
     case 0 :
       if (b != LINX_SOF)
       {
-        count = 0;
+        *count = 0;
         *error = EINVAL;
         return;
       }
@@ -296,7 +294,7 @@ void LINX_receive_response(int fd, LINX_response_t *resp, int *error)
     case 1 :
       if ((b < 6) || (b > 60))
       {
-        count = 0;
+        *count = 0;
         *error = EINVAL;
         return;
       }
@@ -316,17 +314,17 @@ void LINX_receive_response(int fd, LINX_response_t *resp, int *error)
       break;
 
     default :
-      resp->Data[count-5] = b;
+      resp->Data[*count-5] = b;
       break;
   }
 
   // Increment byte counter
 
-  count++;
+  *count += 1;
 
   // Check for complete frame
 
-  if ((count < 5) || (count < resp->PacketSize))
+  if ((*count < 5) || (*count < resp->PacketSize))
   {
     *error = EAGAIN;
     return;
@@ -338,19 +336,19 @@ void LINX_receive_response(int fd, LINX_response_t *resp, int *error)
 
   checksum = 0;
 
-  for (i = 0; i < count-1; i++)
+  for (i = 0; i < *count-1; i++)
     checksum += p[i];
 
   // Validate frame checksum
 
-  if (checksum != resp->Data[count-6])
+  if (checksum != resp->Data[*count-6])
   {
-    count = 0;
+    *count = 0;
     *error = EINVAL;
     return;
   }
 
-  count = 0;
+  *count = 0;
   *error = 0;
 }
 
