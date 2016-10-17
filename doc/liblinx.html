@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of liblinx</TITLE>
 </HEAD><BODY>
 <H1>liblinx</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 12 October 2016<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 17 October 2016<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -39,7 +39,7 @@ Structures:
 
 Server Routines:
 
-<B>void LINX_receive_command(int </B><I>fd</I><B>, LINX_command_t *</B><I>cmd</I><B>, int *</B><I>error</I><B>);</B>
+<B>void LINX_receive_command(int </B><I>fd</I><B>, LINX_command_t *</B><I>cmd</I><B>, int *</B><I>count</I><B>, int *</B><I>error</I><B>);</B>
 
 <B>void LINX_transmit_response(int </B><I>fd</I><B>, LINX_response_t *</B><I>resp</I><B>, int *</B><I>error</I><B>);</B>
 
@@ -47,7 +47,7 @@ Client Routines:
 
 <B>void LINX_transmit_command(int </B><I>fd</I><B>, LINX_command_t *</B><I>cmd</I><B>, int *</B><I>error</I><B>);</B>
 
-<B>void LINX_receive_response(int </B><I>fd</I><B>, LINX_response_t *</B><I>resp</I><B>, int *</B><I>error</I><B>);</B>
+<B>void LINX_receive_response(int </B><I>fd</I><B>, LINX_response_t *</B><I>resp</I><B>, int *</B><I>count</I><B>, int *</B><I>error</I><B>);</B>
 
 Byte Packing Routines:
 
@@ -76,7 +76,7 @@ LINX remote I/O commands (from client to server) and responses
 which will typically be either a serial port or a network socket.
 <P>
 
-The transmit functions
+The transmit routines
 encode a frame from a command or response structure and write it to
 the stream indicated by the stream file descriptor
 <I>fd</I>.
@@ -90,7 +90,7 @@ will be set to zero, otherwise it will be set to an
 value.
 <P>
 
-The receive functions read exactly one byte from
+The receive routines read exactly one byte from
 the stream indicated by the stream file descriptor
 <I>fd</I>.
 
@@ -111,8 +111,12 @@ If the read failed,
 will be set to an
 <B>errno</B>
 
-value and the previous data discarded.  Successive calls to a
+value and the previous data discarded.  Successive calls to each
 receive routine must pass the same command or response structure.
+The
+<I>*count</I>
+
+parameter preserves a byte counter between successive function calls.
 <P>
 
 A LINX server running on some hardware device will typically
@@ -192,6 +196,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 14:32:08 GMT, October 12, 2016
+Time: 14:27:10 GMT, October 17, 2016
 </BODY>
 </HTML>
