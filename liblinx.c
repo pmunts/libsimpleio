@@ -46,7 +46,7 @@ void LINX_transmit_command(int fd, LINX_command_t *cmd, int *error)
     return;
   }
 
-  if ((cmd->PacketSize < 7) || (cmd->PacketSize > 60))
+  if ((cmd->PacketSize < 7) || (cmd->PacketSize > sizeof(LINX_command_t)))
   {
     *error = EINVAL;
     return;
@@ -86,7 +86,7 @@ void LINX_receive_command(int fd, LINX_command_t *cmd, int *count, int *error)
 
   // Check for buffer overrun
 
-  if (*count == 60)
+  if (*count >= sizeof(LINX_command_t))
   {
     *count = 0;
     *error = EINVAL;
@@ -130,7 +130,7 @@ void LINX_receive_command(int fd, LINX_command_t *cmd, int *count, int *error)
       break;
 
     case 1 :
-      if ((b < 7) || (b > 60))
+      if ((b < 7) || (b > sizeof(LINX_command_t)))
       {
         *count = 0;
         *error = EINVAL;
@@ -211,7 +211,7 @@ void LINX_transmit_response(int fd, LINX_response_t *resp, int *error)
     return;
   }
 
-  if ((resp->PacketSize < 6) || (resp->PacketSize > 60))
+  if ((resp->PacketSize < 6) || (resp->PacketSize > sizeof(LINX_response_t)))
   {
     *error = EINVAL;
     return;
@@ -248,7 +248,7 @@ void LINX_receive_response(int fd, LINX_response_t *resp, int *count, int *error
 
   // Check for buffer overrun
 
-  if (*count == 60)
+  if (*count >= sizeof(LINX_response_t))
   {
     *count = 0;
     *error = EINVAL;
@@ -292,7 +292,7 @@ void LINX_receive_response(int fd, LINX_response_t *resp, int *count, int *error
       break;
 
     case 1 :
-      if ((b < 6) || (b > 60))
+      if ((b < 6) || (b > sizeof(LINX_response_t)))
       {
         *count = 0;
         *error = EINVAL;
