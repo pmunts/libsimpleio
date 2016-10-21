@@ -24,6 +24,30 @@ AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
 CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS) -DWAIT_GPIO_LINK
 
+ifneq ($(BOARDNAME),)
+# Definitions for cross-compiling for embedded Linux
+
+EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
+include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+
+OSNAME		:= muntsos
+PKGNAME		:= $(TOOLCHAIN_NAME)-libs-libsimpleio
+PKGVERSION	:= $(shell date +%Y.%j)
+PKGARCH		:= all
+PKGSUFFIX	:= $(PKGVERSION)-$(OSNAME)-$(PKGARCH)
+PKGDIR		:= $(PKGNAME)-$(PKGSUFFIX)
+PKGFILE		:= $(PKGDIR).deb
+else
+# Definitions for building for native Linux
+
+OSNAME		?= unknown
+PKGNAME		:= munts-simpleio
+PKGVERSION	:= $(shell date +%Y.%j)
+PKGARCH		:= $(shell dpkg --print-architecture)
+PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
+PKGFILE		:= $(PKGDIR).deb
+endif
+
 default: package.deb
 
 SIMPLEIO_COMPONENTS	= libevent.o libgpio.o libhidraw.o libi2c.o
@@ -57,20 +81,6 @@ install: libsimpleio.a libsimpleio.so
 
 # Create Debian package file
 
-OSNAME		?= unknown
-PKGNAME		:= munts-simpleio
-PKGVERSION	:= $(shell date +%Y.%j)
-PKGARCH		:= $(shell dpkg --print-architecture)
-PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
-PKGFILE		:= $(PKGDIR).deb
-
-$(PKGFILE): $(PKGDIR)
-	chmod -R ugo-w $(PKGDIR)/etc $(PKGDIR)/usr
-	fakeroot dpkg-deb --build $(PKGDIR)
-	chmod -R u+w $(PKGDIR)
-
-package.deb: $(PKGFILE)
-
 $(PKGDIR):
 	mkdir -p				$(PKGDIR)/DEBIAN
 	install -cm 0644 control		$(PKGDIR)/DEBIAN
@@ -82,6 +92,13 @@ $(PKGDIR):
 	mkdir -p				$(PKGDIR)/usr/local/libexec
 	install -cm 0755 udev/gpio-udev-helper	$(PKGDIR)/usr/local/libexec
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
+
+$(PKGFILE): $(PKGDIR)
+	chmod -R ugo-w $(PKGDIR)/etc $(PKGDIR)/usr
+	fakeroot dpkg-deb --build $(PKGDIR)
+	chmod -R u+w $(PKGDIR)
+
+package.deb: $(PKGFILE)
 
 # Remove working files
 
