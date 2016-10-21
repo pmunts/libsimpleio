@@ -27,6 +27,7 @@
 #include <stdint.h>
 
 #define LINX_SOF	0xFF
+#define LINX_VERSION	0x03000000
 
 // LINX command structure
 

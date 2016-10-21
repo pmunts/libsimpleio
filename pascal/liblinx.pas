@@ -26,6 +26,7 @@ INTERFACE
 
   CONST
     LINX_SOF                          = $FF;
+    LINX_VERSION                      = $03000000;
 
     { LabView LINX Remote I/O Commands }
 

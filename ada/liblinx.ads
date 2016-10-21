@@ -56,7 +56,8 @@ PACKAGE libLINX IS
 
   -- Constant definitions
 
-  LINX_SOF : CONSTANT uint8_t := 16#FF#;
+  LINX_SOF     : CONSTANT uint8_t  := 16#FF#;
+  LINX_VERSION : CONSTANT uint32_t := 16#03000000#;
 
   -- LabView LINX remote I/O protocol standard commands
 
