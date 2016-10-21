@@ -87,14 +87,21 @@ $(PKGDIR):
 	sed -i s/@@ARCH@@/$(PKGARCH)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
+ifeq ($(BOARDNAME),)
+# Native package
+	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
 	mkdir -p				$(PKGDIR)/etc/udev/rules.d
 	install -cm 0644 udev/60-gpio.rules	$(PKGDIR)/etc/udev/rules.d
 	mkdir -p				$(PKGDIR)/usr/local/libexec
 	install -cm 0755 udev/gpio-udev-helper	$(PKGDIR)/usr/local/libexec
-	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
+	chmod -R ugo-w $(PKGDIR)/etc
+else
+# Cross-compiled package
+	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local/$(TOOLCHAIN_NAME)/$(CONFIGURE_NAME)/libc/usr
+endif
 
 $(PKGFILE): $(PKGDIR)
-	chmod -R ugo-w $(PKGDIR)/etc $(PKGDIR)/usr
+	chmod -R ugo-w $(PKGDIR)/usr
 	fakeroot dpkg-deb --build $(PKGDIR)
 	chmod -R u+w $(PKGDIR)
 
