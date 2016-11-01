@@ -185,13 +185,12 @@ void LINUX_close(int32_t fd, int32_t *error)
 
 void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
 {
-  *count = 0;
-
   int32_t len = read(fd, buf, bufsize);
   if (len < 0)
   {
+    *count = 0;
     *error = errno;
-    ERRORMSG("read() failed", *error, __LINE__ - 4);
+    ERRORMSG("read() failed", *error, __LINE__ - 5);
     return;
   }
 
@@ -203,13 +202,12 @@ void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t 
 
 void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
 {
-  *count = 0;
-
   int32_t len = write(fd, buf, bufsize);
   if (len < 0)
   {
+    *count = 0;
     *error = errno;
-    ERRORMSG("write() failed", *error, __LINE__ - 4);
+    ERRORMSG("write() failed", *error, __LINE__ - 5);
     return;
   }
 
