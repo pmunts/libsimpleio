@@ -23,8 +23,6 @@
 #include <errno.h>
 #include <netdb.h>
 #include <signal.h>
-#include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
