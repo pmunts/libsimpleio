@@ -23,11 +23,19 @@
 #ifndef _LIBSTREAM_H
 #define _LIBSTREAM_H
 
+#include <cplusplus.h>
+#include <liblinux.h>
+#include <stdint.h>
+
+_BEGIN_STD_C
+
 extern void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error);
 
 extern void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error);
 
 extern void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *framesize, int *error);
+
+_END_STD_C
 
 // Convenience macros
 
