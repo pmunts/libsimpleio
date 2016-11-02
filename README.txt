@@ -64,7 +64,7 @@ POSSIBILITY OF SUCH DAMAGE.
 References
 
    1. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
-   2. http://git.munts.com/arm-mcu/common/stream_framing.pdf
+   2. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
    3. http://git.munts.com/
    4. http://git.munts.com/libsimpleio/doc/libsimpleio.html
    5. mailto:phil@munts.net
