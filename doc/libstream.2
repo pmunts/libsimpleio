@@ -29,9 +29,9 @@
 .nf
 .B #include <libstream.h>
 
-.BI "void STREAM_encode_frame(void *" src ", int32_t " srclen ", void *" dst ", int32_t " dstsize ", int32_t *" dstlen ", int *" error ");"
+.BI "void STREAM_encode_frame(void *" src ", int32_t " srclen ", void *" dst ", int32_t " dstsize ", int32_t *" dstlen ", int32_t *" error ");"
 
-.BI "void STREAM_decode_frame(void *" src ", int32_t " srclen ", void *" dst ", int32_t " dstsize ", int32_t *" dstlen ", int *" error ");"
+.BI "void STREAM_decode_frame(void *" src ", int32_t " srclen ", void *" dst ", int32_t " dstsize ", int32_t *" dstlen ", int32_t *" error ");"
 
 .BI "void STREAM_send_frame(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
 

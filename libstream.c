@@ -53,7 +53,7 @@ static uint16_t crc16(const uint8_t* data_p, uint8_t length){
 // be twice the size of the source buffer, plus 8 bytes worst case.
 // Return zero if successfully encoded.
 
-void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error)
+void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int32_t *error)
 {
   uint8_t *p = src;
   uint8_t *q = dst;
@@ -134,7 +134,7 @@ void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, 
 // Decode a message frame, with DLE byte stuffing and CRC16-CCITT
 // frame check sequence.  Return zero if successfully decoded.
 
-void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error)
+void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int32_t *error)
 {
   uint8_t *p = src;
   uint8_t *q = dst;
@@ -220,7 +220,7 @@ void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, 
 
 // Receive a frame, one byte at a time
 
-void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *framesize, int *error)
+void STREAM_receive_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *framesize, int32_t *error)
 {
   int status;
   uint8_t b;
@@ -306,7 +306,7 @@ void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *framesize
   *error = EAGAIN;
 }
 
-void STREAM_send_frame(int fd, void *buf, int32_t bufsize, int32_t *count, int *error)
+void STREAM_send_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
 {
   int32_t len = write(fd, buf, bufsize);
   if (len < 0)

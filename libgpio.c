@@ -57,8 +57,8 @@ static uint64_t milliseconds(void)
 void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error)
 {
   char buf[MAXPATHLEN];
-  int32_t fd;
-  ssize_t status;
+  int fd;
+  int status;
 
   // Validate parameters
 

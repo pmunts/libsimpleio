@@ -28,12 +28,12 @@
 
 #include "liblinx.h"
 
-void LINX_transmit_command(int fd, LINX_command_t *cmd, int *error)
+void LINX_transmit_command(int32_t fd, LINX_command_t *cmd, int32_t *error)
 {
   uint8_t *p = (uint8_t *) cmd;
   uint8_t checksum = 0;
   int i;
-  ssize_t status;
+  int status;
 
   // Validate frame structure
 
@@ -73,7 +73,7 @@ void LINX_transmit_command(int fd, LINX_command_t *cmd, int *error)
   *error = 0;
 }
 
-void LINX_receive_command(int fd, LINX_command_t *cmd, int *count, int *error)
+void LINX_receive_command(int32_t fd, LINX_command_t *cmd, int32_t *count, int32_t *error)
 {
   int status;
   uint8_t b;
@@ -193,12 +193,12 @@ void LINX_receive_command(int fd, LINX_command_t *cmd, int *count, int *error)
   *error = 0;
 }
 
-void LINX_transmit_response(int fd, LINX_response_t *resp, int *error)
+void LINX_transmit_response(int32_t fd, LINX_response_t *resp, int32_t *error)
 {
   uint8_t *p = (uint8_t *) resp;
   uint8_t checksum = 0;
   int i;
-  ssize_t status;
+  int status;
 
   // Validate frame structure
 
@@ -235,7 +235,7 @@ void LINX_transmit_response(int fd, LINX_response_t *resp, int *error)
   }
 }
 
-void LINX_receive_response(int fd, LINX_response_t *resp, int *count, int *error)
+void LINX_receive_response(int32_t fd, LINX_response_t *resp, int32_t *count, int32_t *error)
 {
   int status;
   uint8_t b;
@@ -359,12 +359,12 @@ uint32_t LINX_makeu32(uint8_t b0, uint8_t b1, uint8_t b2, uint8_t b3)
   return (b0 << 24) + (b1 << 16) + (b2 << 8) + b3;
 }
 
-uint8_t LINX_splitu16(uint16_t u, int bn)
+uint8_t LINX_splitu16(uint16_t u, int32_t bn)
 {
   return (u >> ((1-bn)*8)) & 0xFF;
 }
 
-uint8_t LINX_splitu32(uint32_t u, int bn)
+uint8_t LINX_splitu32(uint32_t u, int32_t bn)
 {
   return (u >> ((3-bn)*8)) & 0xFF;
 }

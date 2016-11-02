@@ -161,13 +161,13 @@ typedef struct
 
 _BEGIN_STD_C
 
-extern void LINX_transmit_command(int fd, LINX_command_t *cmd, int *error);
+extern void LINX_transmit_command(int32_t fd, LINX_command_t *cmd, int32_t *error);
 
-extern void LINX_receive_command(int fd, LINX_command_t *cmd, int *count, int *error);
+extern void LINX_receive_command(int32_t fd, LINX_command_t *cmd, int32_t *count, int32_t *error);
 
-extern void LINX_transmit_response(int fd, LINX_response_t *resp, int *error);
+extern void LINX_transmit_response(int32_t fd, LINX_response_t *resp, int32_t *error);
 
-extern void LINX_receive_response(int fd, LINX_response_t *resp, int *count, int *error);
+extern void LINX_receive_response(int32_t fd, LINX_response_t *resp, int32_t *count, int32_t *error);
 
 // Byte packing and unpacking routines
 
@@ -179,9 +179,9 @@ extern uint16_t LINX_makeu16(uint8_t b0, uint8_t b1);
 
 extern uint32_t LINX_makeu32(uint8_t b0, uint8_t b1, uint8_t b2, uint8_t b3);
 
-extern uint8_t LINX_splitu16(uint16_t u16, int bn);
+extern uint8_t LINX_splitu16(uint16_t u16, int32_t bn);
 
-extern uint8_t LINX_splitu32(uint32_t u32, int bn);
+extern uint8_t LINX_splitu32(uint32_t u32, int32_t bn);
 
 _END_STD_C
 

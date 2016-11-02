@@ -115,7 +115,7 @@ void EVENT_unregister_fd(int32_t fd, int32_t *error)
 
 void EVENT_wait(int32_t *fd, int32_t *event, int32_t timeoutms, int32_t *error)
 {
-  int32_t status;
+  int status;
   struct epoll_event ev;
 
   if (epfd == EPFD_UNINITALIZED)

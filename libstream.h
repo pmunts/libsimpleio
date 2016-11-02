@@ -31,13 +31,13 @@
 
 _BEGIN_STD_C
 
-extern void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error);
+extern void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int32_t *error);
 
-extern void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int *error);
+extern void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int32_t *error);
 
-extern void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *framesize, int *error);
+extern void STREAM_receive_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *framesize, int32_t *error);
 
-extern void STREAM_send_frame(int fd, void *buf, int32_t bufsize, int32_t *count, int *error);
+extern void STREAM_send_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error);
 
 _END_STD_C
 

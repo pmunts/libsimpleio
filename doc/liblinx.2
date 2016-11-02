@@ -21,7 +21,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH liblinx 2 "17 October 2016" "version 1.0" "Linux Simple I/O Library"
+.TH liblinx 2 "2 November 2016" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
 .B liblinx
 \-\- Linux Simple I/O Library: LabView LINX Remote I/O Module
@@ -51,15 +51,15 @@ Structures:
 
 Server Routines:
 
-.BI "void LINX_receive_command(int " fd ", LINX_command_t *" cmd ", int *" count ", int *" error ");"
+.BI "void LINX_receive_command(int32_t " fd ", LINX_command_t *" cmd ", int32_t *" count ", int32_t *" error ");"
 
-.BI "void LINX_transmit_response(int " fd ", LINX_response_t *" resp ", int *" error ");"
+.BI "void LINX_transmit_response(int32_t " fd ", LINX_response_t *" resp ", int32_t *" error ");"
 
 Client Routines:
 
-.BI "void LINX_transmit_command(int " fd ", LINX_command_t *" cmd ", int *" error ");"
+.BI "void LINX_transmit_command(int32_t " fd ", LINX_command_t *" cmd ", int32_t *" error ");"
 
-.BI "void LINX_receive_response(int " fd ", LINX_response_t *" resp ", int *" count ", int *" error ");"
+.BI "void LINX_receive_response(int32_t " fd ", LINX_response_t *" resp ", int32_t *" count ", int32_t *" error ");"
 
 Byte Packing Routines:
 

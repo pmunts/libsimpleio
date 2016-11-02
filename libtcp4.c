@@ -33,7 +33,7 @@
 
 // Resolve host name to IPV4 address
 
-void TCP4_resolve(char *name, IPV4_ADDR *addr, int *error)
+void TCP4_resolve(char *name, IPV4_ADDR *addr, int32_t *error)
 {
   struct hostent *he;
 
@@ -68,7 +68,7 @@ void TCP4_resolve(char *name, IPV4_ADDR *addr, int *error)
 
 // Connect to a TCP server
 
-void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
+void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
 {
   int s;
   struct sockaddr_in destaddr;
@@ -108,7 +108,7 @@ void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
 // Wait (block) for exactly one connection from a TCP client, then
 // return a file descriptor for the new connection
 
-void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
+void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
 {
   int s1, s2;
   struct sockaddr_in myaddr;
@@ -165,7 +165,7 @@ void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
 // Wait (block) until a client connects, then fork and return a file
 // descriptor to the child process
 
-void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int *fd, int *error)
+void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
 {
   int s1, s2;
   struct sockaddr_in myaddr;

@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of libtcp4</TITLE>
 </HEAD><BODY>
 <H1>libtcp4</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 17 October 2016<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 2 November 2016<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -21,13 +21,13 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 17 October 2016<BR><A HREF="#i
 
 <B>typedef uint16_t </B><I>IPV4_PORT</I><B>;</B>
 
-<B>void TCP4_resolve(char *</B><I>name</I><B>, IPV4_ADDR *</B><I>addr</I><B>, int *</B><I>error</I><B>);</B>
+<B>void TCP4_resolve(char *</B><I>name</I><B>, IPV4_ADDR *</B><I>addr</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void TCP4_connect(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+<B>void TCP4_connect(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void TCP4_accept(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+<B>void TCP4_accept(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void TCP4_server(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int *</B><I>fd</I><B>, int *</B><I>error</I><B>);</B>
+<B>void TCP4_server(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void TCP4_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -189,6 +189,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 14:32:08 GMT, October 12, 2016
+Time: 14:44:12 GMT, November 02, 2016
 </BODY>
 </HTML>

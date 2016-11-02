@@ -21,7 +21,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libtcp4 2 "17 October 2016" "version 1.0" "Linux Simple I/O Library"
+.TH libtcp4 2 "2 November 2016" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
 .B libtcp4
 \-\- Linux Simple I/O Library: IPv4 TCP Module
@@ -33,13 +33,13 @@
 
 .BI "typedef uint16_t " IPV4_PORT ";"
 
-.BI "void TCP4_resolve(char *" name ", IPV4_ADDR *" addr ", int *" error ");"
+.BI "void TCP4_resolve(char *" name ", IPV4_ADDR *" addr ", int32_t *" error ");"
 
-.BI "void TCP4_connect(IPV4_ADDR " addr ", IPV4_PORT " port ", int *" fd ", int *" error ");"
+.BI "void TCP4_connect(IPV4_ADDR " addr ", IPV4_PORT " port ", int32_t *" fd ", int32_t *" error ");"
 
-.BI "void TCP4_accept(IPV4_ADDR " addr ", IPV4_PORT " port ", int *" fd ", int *" error ");"
+.BI "void TCP4_accept(IPV4_ADDR " addr ", IPV4_PORT " port ", int32_t *" fd ", int32_t *" error ");"
 
-.BI "void TCP4_server(IPV4_ADDR " addr ", IPV4_PORT " port ", int *" fd ", int *" error ");"
+.BI "void TCP4_server(IPV4_ADDR " addr ", IPV4_PORT " port ", int32_t *" fd ", int32_t *" error ");"
 
 .BI "void TCP4_close(int32_t " fd ", int32_t *" error ");"
 

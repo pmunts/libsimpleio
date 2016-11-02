@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of liblinx</TITLE>
 </HEAD><BODY>
 <H1>liblinx</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 17 October 2016<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 2 November 2016<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -39,15 +39,15 @@ Structures:
 
 Server Routines:
 
-<B>void LINX_receive_command(int </B><I>fd</I><B>, LINX_command_t *</B><I>cmd</I><B>, int *</B><I>count</I><B>, int *</B><I>error</I><B>);</B>
+<B>void LINX_receive_command(int32_t </B><I>fd</I><B>, LINX_command_t *</B><I>cmd</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void LINX_transmit_response(int </B><I>fd</I><B>, LINX_response_t *</B><I>resp</I><B>, int *</B><I>error</I><B>);</B>
+<B>void LINX_transmit_response(int32_t </B><I>fd</I><B>, LINX_response_t *</B><I>resp</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 Client Routines:
 
-<B>void LINX_transmit_command(int </B><I>fd</I><B>, LINX_command_t *</B><I>cmd</I><B>, int *</B><I>error</I><B>);</B>
+<B>void LINX_transmit_command(int32_t </B><I>fd</I><B>, LINX_command_t *</B><I>cmd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void LINX_receive_response(int </B><I>fd</I><B>, LINX_response_t *</B><I>resp</I><B>, int *</B><I>count</I><B>, int *</B><I>error</I><B>);</B>
+<B>void LINX_receive_response(int32_t </B><I>fd</I><B>, LINX_response_t *</B><I>resp</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 Byte Packing Routines:
 
@@ -196,6 +196,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 14:27:10 GMT, October 17, 2016
+Time: 14:44:12 GMT, November 02, 2016
 </BODY>
 </HTML>
