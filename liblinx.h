@@ -23,7 +23,10 @@
 #ifndef _LIBLINX_H_
 #define _LIBLINX_H_
 
+#include <unistd.h>
+#ifndef _BEGIN_STD_C
 #include <cplusplus.h>
+#endif
 #include <stdint.h>
 
 #define LINX_SOF	0xFF

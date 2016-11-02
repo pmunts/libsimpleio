@@ -23,8 +23,10 @@
 #ifndef _LIBSTREAM_H
 #define _LIBSTREAM_H
 
+#include <unistd.h>
+#ifndef _BEGIN_STD_C
 #include <cplusplus.h>
-#include <liblinux.h>
+#endif
 #include <stdint.h>
 
 _BEGIN_STD_C
@@ -35,10 +37,8 @@ extern void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t ds
 
 extern void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *framesize, int *error);
 
+extern void STREAM_send_frame(int fd, void *buf, int32_t bufsize, int32_t *count, int *error);
+
 _END_STD_C
-
-// Convenience macros
-
-#define STREAM_send_frame(f, b, s, c, e) LINUX_write(f, b, s, c, e)
 
 #endif

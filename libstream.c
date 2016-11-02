@@ -305,3 +305,17 @@ void STREAM_receive_frame(int fd, void *buf, int32_t bufsize, int32_t *framesize
 
   *error = EAGAIN;
 }
+
+void STREAM_send_frame(int fd, void *buf, int32_t bufsize, int32_t *count, int *error)
+{
+  int32_t len = write(fd, buf, bufsize);
+  if (len < 0)
+  {
+    *count = 0;
+    *error = errno;
+    return;
+  }
+
+  *count = len;
+  *error = 0;
+}
