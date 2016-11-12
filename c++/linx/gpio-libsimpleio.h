@@ -25,17 +25,17 @@
 
 #include "gpio.h"
 
-class GPIO_liblinx: public GPIO_Interface
+class GPIO_libsimpleio: public GPIO_Interface
 {
   public:
 
     // Constructors
 
-    GPIO_liblinx(int32_t pin, int32_t *error);
+    GPIO_libsimpleio(int32_t pin, int32_t *error);
 
-    GPIO_liblinx(int32_t pin, int32_t direction, int32_t *error);
+    GPIO_libsimpleio(int32_t pin, int32_t direction, int32_t *error);
 
-    GPIO_liblinx(int32_t pin, int32_t direction, int32_t state, int32_t *error);
+    GPIO_libsimpleio(int32_t pin, int32_t direction, int32_t state, int32_t *error);
 
     // Interface methods
 

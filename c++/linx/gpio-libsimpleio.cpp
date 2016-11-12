@@ -22,11 +22,11 @@
 
 #include <libgpio.h>
 
-#include "gpio-liblinx.h"
+#include "gpio-libsimpleio.h"
 
 // GPIO pin constructor
 
-GPIO_liblinx::GPIO_liblinx(int32_t number, int32_t *error)
+GPIO_libsimpleio::GPIO_libsimpleio(int32_t number, int32_t *error)
 {
   int fd;
 
@@ -45,7 +45,7 @@ GPIO_liblinx::GPIO_liblinx(int32_t number, int32_t *error)
 
 // GPIO pin constructor, with data direction parameter
 
-GPIO_liblinx::GPIO_liblinx(int32_t number, int32_t dir, int32_t *error)
+GPIO_libsimpleio::GPIO_libsimpleio(int32_t number, int32_t dir, int32_t *error)
 {
   int fd;
 
@@ -64,7 +64,7 @@ GPIO_liblinx::GPIO_liblinx(int32_t number, int32_t dir, int32_t *error)
 
 // GPIO pin constructor, with data direction and initial state parameters
 
-GPIO_liblinx::GPIO_liblinx(int32_t number, int32_t dir, int32_t state, int32_t *error)
+GPIO_libsimpleio::GPIO_libsimpleio(int32_t number, int32_t dir, int32_t state, int32_t *error)
 {
   int fd;
 
@@ -83,7 +83,7 @@ GPIO_liblinx::GPIO_liblinx(int32_t number, int32_t dir, int32_t state, int32_t *
 
 // GPIO pin configuration method
 
-void GPIO_liblinx::configure(int32_t dir, int32_t *error)
+void GPIO_libsimpleio::configure(int32_t dir, int32_t *error)
 {
   GPIO_configure(this->number, dir, 0, GPIO_EDGE_NONE, GPIO_ACTIVEHIGH, error);
   if (*error) return;
@@ -93,14 +93,14 @@ void GPIO_liblinx::configure(int32_t dir, int32_t *error)
 
 // GPIO pin read method
 
-void GPIO_liblinx::read(int32_t *state, int32_t *error)
+void GPIO_libsimpleio::read(int32_t *state, int32_t *error)
 {
   GPIO_read(this->fd, state, error);
 }
 
 // GPIO pin write method
 
-void GPIO_liblinx::write(int32_t state, int32_t *error)
+void GPIO_libsimpleio::write(int32_t state, int32_t *error)
 {
   GPIO_write(this->fd, state, error);
 }
