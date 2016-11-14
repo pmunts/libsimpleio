@@ -39,7 +39,7 @@ class ADC_Interface
 
 typedef ADC_Interface *ADC_Interface_Ptr;
 
-extern void adc_add_channel(uint8_t channel_number, ADC_Interface_Ptr analog_input);
+extern void adc_add_channel(uint8_t number, ADC_Interface_Ptr object);
 
 extern void adc_init(void);
 

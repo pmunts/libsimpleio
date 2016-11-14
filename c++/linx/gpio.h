@@ -1,4 +1,4 @@
-// General Purpose Input/Output Pin abstract interface module
+// General Purpose Input/Output abstract interface module
 
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //
@@ -39,7 +39,7 @@ class GPIO_Interface
 
 typedef GPIO_Interface *GPIO_Interface_Ptr;
 
-extern void gpio_add_channel(uint8_t channel, GPIO_Interface_Ptr pin);
+extern void gpio_add_channel(uint8_t number, GPIO_Interface_Ptr object);
 
 extern void gpio_init(void);
 

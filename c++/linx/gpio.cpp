@@ -1,4 +1,4 @@
-// General Purpose Input/Output Pin abstract interface module
+// General Purpose Input/Output Channel abstract interface module
 
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //
@@ -33,7 +33,7 @@
 
 typedef std::map<uint8_t, GPIO_Interface_Ptr> GPIO_Map_t;
 
-static GPIO_Map_t PinTable;
+static GPIO_Map_t ChannelTable;
 
 //***************************************************************************
 
@@ -44,7 +44,7 @@ static void GetGPIOChannels(LINX_command_t *cmd, LINX_response_t *resp, int32_t 
   PREPARE_RESPONSE;
   CHECK_COMMAND_SIZE(7, 7);
 
-  for (GPIO_Map_t::iterator it=PinTable.begin(); it!=PinTable.end(); ++it)
+  for (GPIO_Map_t::iterator it=ChannelTable.begin(); it!=ChannelTable.end(); ++it)
     resp->Data[ChannelIndex++] = it->first;
 
   resp->PacketSize += ChannelIndex;
@@ -56,28 +56,28 @@ static void GetGPIOChannels(LINX_command_t *cmd, LINX_response_t *resp, int32_t 
 
 static void GPIOConfigure(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
 {
-  unsigned MaxPins = PinTable.size();
-  unsigned NumPins = cmd->Args[0];
-  uint8_t *PinNums = &cmd->Args[1];
+  unsigned MaxChannels = ChannelTable.size();
+  unsigned NumChannels = cmd->Args[0];
+  uint8_t *ChannelNums = &cmd->Args[1];
   unsigned i;
 
   PREPARE_RESPONSE;
-  CHECK_COMMAND_SIZE(10, 9 + MaxPins + MaxPins / 8);
-  CHECK_COMMAND_SIZE(9 + NumPins + NumPins / 8, 9 + NumPins + NumPins / 8);
+  CHECK_COMMAND_SIZE(10, 9 + MaxChannels + MaxChannels / 8);
+  CHECK_COMMAND_SIZE(9 + NumChannels + NumChannels / 8, 9 + NumChannels + NumChannels / 8);
 
-  // Process the GPIO pin list
+  // Process the GPIO channel list
 
-  for (i = 0; i < NumPins; i++)
+  for (i = 0; i < NumChannels; i++)
   {
-    int32_t p = PinNums[i];
-    int32_t d = (cmd->Args[NumPins + 1 + i / 8] >> (i % 8)) & 0x01;
-    GPIO_Interface_Ptr pin;
+    int32_t n = ChannelNums[i];
+    int32_t d = (cmd->Args[NumChannels + 1 + i / 8] >> (i % 8)) & 0x01;
+    GPIO_Interface_Ptr o;
 
-    // Lookup pin info
+    // Lookup GPIO object
 
     try
     {
-      pin = PinTable[p];
+      o = ChannelTable[n];
     }
 
     catch (int e)
@@ -87,16 +87,16 @@ static void GPIOConfigure(LINX_command_t *cmd, LINX_response_t *resp, int32_t *e
       return;
     }
 
-    // Configure the GPIO pin
+    // Configure the GPIO channel
 
-    pin->configure(d, error);
+    o->configure(d, error);
     if (*error)
     {
       resp->Status = L_UNKNOWN_ERROR;
       return;
     }
 
-    pin->IsOutput = d;
+    o->IsOutput = d;
   }
 
   resp->Status = L_OK;
@@ -107,28 +107,28 @@ static void GPIOConfigure(LINX_command_t *cmd, LINX_response_t *resp, int32_t *e
 
 static void GPIOWrite(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
 {
-  unsigned MaxPins = PinTable.size();
-  unsigned NumPins = cmd->Args[0];
-  uint8_t *PinNums = &cmd->Args[1];
+  unsigned MaxChannels = ChannelTable.size();
+  unsigned NumChannels = cmd->Args[0];
+  uint8_t *ChannelNums = &cmd->Args[1];
   unsigned i;
 
   PREPARE_RESPONSE;
-  CHECK_COMMAND_SIZE(10, 9 + MaxPins + MaxPins / 8);
-  CHECK_COMMAND_SIZE(9 + NumPins + NumPins / 8, 9 + NumPins + NumPins / 8);
+  CHECK_COMMAND_SIZE(10, 9 + MaxChannels + MaxChannels / 8);
+  CHECK_COMMAND_SIZE(9 + NumChannels + NumChannels / 8, 9 + NumChannels + NumChannels / 8);
 
-  // Process the GPIO pin list
+  // Process the GPIO channel list
 
-  for (i = 0; i < NumPins; i++)
+  for (i = 0; i < NumChannels; i++)
   {
-    int32_t p = PinNums[i];
-    int32_t v = (cmd->Args[NumPins + 1 + i / 8] >> (i % 8)) & 0x01;
-    GPIO_Interface_Ptr pin;
+    int32_t n = ChannelNums[i];
+    int32_t v = (cmd->Args[NumChannels + 1 + i / 8] >> (i % 8)) & 0x01;
+    GPIO_Interface_Ptr o;
 
-    // Lookup pin info
+    // Lookup GPIO channel object
 
     try
     {
-      pin = PinTable[p];
+      o = ChannelTable[n];
     }
 
     catch (int e)
@@ -138,23 +138,23 @@ static void GPIOWrite(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error
       return;
     }
 
-    // Configure the GPIO pin as an output, if necessary
+    // Configure the GPIO channel as an output, if necessary
 
-    if (!pin->IsOutput)
+    if (!o->IsOutput)
     {
-      pin->configure(true, error);
+      o->configure(true, error);
       if (*error)
       {
         resp->Status = L_UNKNOWN_ERROR;
         return;
       }
 
-      pin->IsOutput = true;
+      o->IsOutput = true;
     }
 
-    // Write to the GPIO pin
+    // Write to the GPIO channel
 
-    pin->write(v, error);
+    o->write(v, error);
     if (*error)
     {
       resp->Status = L_UNKNOWN_ERROR;
@@ -170,28 +170,28 @@ static void GPIOWrite(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error
 
 static void GPIORead(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
 {
-  unsigned MaxPins = PinTable.size();
-  unsigned NumPins = cmd->PacketSize - 7;
-  uint8_t *PinNums = &cmd->Args[0];
+  unsigned MaxChannels = ChannelTable.size();
+  unsigned NumChannels = cmd->PacketSize - 7;
+  uint8_t *ChannelNums = &cmd->Args[0];
   unsigned i;
 
   PREPARE_RESPONSE;
-  CHECK_COMMAND_SIZE(8, 7 + MaxPins);
-  CHECK_COMMAND_SIZE(7 + NumPins, 7 + NumPins);
+  CHECK_COMMAND_SIZE(8, 7 + MaxChannels);
+  CHECK_COMMAND_SIZE(7 + NumChannels, 7 + NumChannels);
 
-  // Process the GPIO pin list
+  // Process the GPIO channel list
 
-  for (i = 0; i < NumPins; i++)
+  for (i = 0; i < NumChannels; i++)
   {
-    int32_t p = PinNums[i];
+    int32_t n = ChannelNums[i];
     int32_t v;
-    GPIO_Interface_Ptr pin;
+    GPIO_Interface_Ptr o;
 
-    // Lookup pin info
+    // Lookup GPIO channel object
 
     try
     {
-      pin = PinTable[p];
+      o = ChannelTable[n];
     }
 
     catch (int e)
@@ -201,9 +201,9 @@ static void GPIORead(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
       return;
     }
 
-    // Read the GPIO pin
+    // Read the GPIO channel
 
-    pin->read(&v, error);
+    o->read(&v, error);
     if (*error)
     {
       resp->Status = L_UNKNOWN_ERROR;
@@ -213,18 +213,18 @@ static void GPIORead(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
     resp->Data[i / 8] |= (v << (7 - i % 8));
   }
 
-  resp->PacketSize += NumPins/8 + 1;
+  resp->PacketSize += NumChannels/8 + 1;
   resp->Status = L_OK;
   *error = 0;
 }
 
 //***************************************************************************
 
-// Add a GPIO pin to the pin table
+// Add a GPIO channel to the channel table
 
-void gpio_add_channel(uint8_t channel, GPIO_Interface_Ptr pin)
+void gpio_add_channel(uint8_t number, GPIO_Interface_Ptr object)
 {
-  PinTable[channel] = pin;
+  ChannelTable[number] = object;
 }
 
 //***************************************************************************

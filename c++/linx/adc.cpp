@@ -137,9 +137,9 @@ static void AnalogRead(LINX_command_t *cmd, LINX_response_t *resp, int32_t *erro
 
 // Add an analog input object to the channel table
 
-void adc_add_channel(uint8_t n, ADC_Interface_Ptr o)
+void adc_add_channel(uint8_t number, ADC_Interface_Ptr object)
 {
-  ChannelTable[n] = o;
+  ChannelTable[number] = object;
 }
 
 //***************************************************************************
