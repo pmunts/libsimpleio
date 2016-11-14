@@ -45,50 +45,50 @@ GPIO_libsimpleio::GPIO_libsimpleio(int32_t number, int32_t *error)
 
 // GPIO pin constructor, with data direction parameter
 
-GPIO_libsimpleio::GPIO_libsimpleio(int32_t number, int32_t dir, int32_t *error)
+GPIO_libsimpleio::GPIO_libsimpleio(int32_t number, int32_t direction, int32_t *error)
 {
   int fd;
 
   this->IsOutput = false;
   this->fd = -1;
 
-  GPIO_configure(number, dir, 0, GPIO_EDGE_NONE, GPIO_ACTIVEHIGH, error);
+  GPIO_configure(number, direction, 0, GPIO_EDGE_NONE, GPIO_ACTIVEHIGH, error);
   if (*error) return;
 
   GPIO_open(number, &fd, error);
   if (*error) return;
 
-  this->IsOutput = dir;
+  this->IsOutput = direction;
   this->fd = fd;
 }
 
 // GPIO pin constructor, with data direction and initial state parameters
 
-GPIO_libsimpleio::GPIO_libsimpleio(int32_t number, int32_t dir, int32_t state, int32_t *error)
+GPIO_libsimpleio::GPIO_libsimpleio(int32_t number, int32_t direction, int32_t state, int32_t *error)
 {
   int fd;
 
   this->IsOutput = false;
   this->fd = -1;
 
-  GPIO_configure(number, dir, state, GPIO_EDGE_NONE, GPIO_ACTIVEHIGH, error);
+  GPIO_configure(number, direction, state, GPIO_EDGE_NONE, GPIO_ACTIVEHIGH, error);
   if (*error) return;
 
   GPIO_open(number, &fd, error);
   if (*error) return;
 
-  this->IsOutput = dir;
+  this->IsOutput = direction;
   this->fd = fd;
 }
 
 // GPIO pin configuration method
 
-void GPIO_libsimpleio::configure(int32_t dir, int32_t *error)
+void GPIO_libsimpleio::configure(int32_t direction, int32_t *error)
 {
-  GPIO_configure(this->number, dir, 0, GPIO_EDGE_NONE, GPIO_ACTIVEHIGH, error);
+  GPIO_configure(this->number, direction, 0, GPIO_EDGE_NONE, GPIO_ACTIVEHIGH, error);
   if (*error) return;
 
-  this->IsOutput = dir;
+  this->IsOutput = direction;
 }
 
 // GPIO pin read method

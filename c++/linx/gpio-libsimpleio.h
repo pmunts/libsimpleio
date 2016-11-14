@@ -31,11 +31,11 @@ class GPIO_libsimpleio: public GPIO_Interface
 
     // Constructors
 
-    GPIO_libsimpleio(int32_t pin, int32_t *error);
+    GPIO_libsimpleio(int32_t number, int32_t *error);
 
-    GPIO_libsimpleio(int32_t pin, int32_t direction, int32_t *error);
+    GPIO_libsimpleio(int32_t number, int32_t direction, int32_t *error);
 
-    GPIO_libsimpleio(int32_t pin, int32_t direction, int32_t state, int32_t *error);
+    GPIO_libsimpleio(int32_t number, int32_t direction, int32_t state, int32_t *error);
 
     // Interface methods
 
