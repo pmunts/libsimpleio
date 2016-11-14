@@ -105,7 +105,7 @@ PACKAGE libLINX IS
   CMD_GPIO_SQUARE_WAVE                : CONSTANT uint16_t := 16#0043#;
   CMD_GPIO_PULSE_WIDTH                : CONSTANT uint16_t := 16#0044#;
   CMD_SET_ANALOG_REFERENCE            : CONSTANT uint16_t := 16#0060#;
-  CMD_GET_ANALOG_IN_REFERENCE         : CONSTANT uint16_t := 16#0061#;
+  CMD_GET_ANALOG_REFERENCE            : CONSTANT uint16_t := 16#0061#;
   CMD_SET_ANALOG_RESOLUTION           : CONSTANT uint16_t := 16#0062#;
   CMD_GET_ANALOG_RESOLUTION           : CONSTANT uint16_t := 16#0063#;
   CMD_ANALOG_READ                     : CONSTANT uint16_t := 16#0064#;

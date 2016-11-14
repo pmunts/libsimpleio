@@ -74,7 +74,7 @@ INTERFACE
     CMD_GPIO_SQUARE_WAVE              = $0043;
     CMD_GPIO_PULSE_WIDTH              = $0044;
     CMD_SET_ANALOG_REFERENCE          = $0060;
-    CMD_GET_ANALOG_IN_REFERENCE       = $0061;
+    CMD_GET_ANALOG_REFERENCE          = $0061;
     CMD_SET_ANALOG_RESOLUTION         = $0062;
     CMD_GET_ANALOG_RESOLUTION         = $0063;
     CMD_ANALOG_READ                   = $0064;

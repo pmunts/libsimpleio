@@ -152,8 +152,8 @@ void common_init(void)
   // Peripheral subsytem channels query commands
 
   AddCommand(CMD_GET_ANALOG_IN_CHANNELS, NoOperation);
-  AddCommand(CMD_GET_ANALOG_IN_REFERENCE, NoOperation);
   AddCommand(CMD_GET_ANALOG_OUT_CHANNELS, NoOperation);
+  AddCommand(CMD_GET_ANALOG_REFERENCE, NoOperation);
   AddCommand(CMD_GET_CAN_CHANNELS, NoOperation);
   AddCommand(CMD_GET_GPIO_CHANNELS, NoOperation);
   AddCommand(CMD_GET_I2C_CHANNELS, NoOperation);
