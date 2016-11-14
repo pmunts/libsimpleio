@@ -1,4 +1,4 @@
-// Analog to Digital Converter (analog input) abstract interface module
+// LabView Linx Remote I/O Protocol Analog I/O abstract interface module
 
 // Copyright (C)2016, Philip Munts, President, Munts AM Corp.
 //
@@ -27,31 +27,46 @@
 #include <string.h>
 
 #include "common.h"
-#include "adc.h"
-
-// All analog samples reported to LabView are normalized to 32-bits
-// (left justified in the upper bits of the 32-bit sample) with a
-// reference of 4.294967V (i.e. 32 bits at 1 nanovolt per step).
+#include "analog.h"
 
 #define NORMALIZED_REFERENCE	4292967
 #define NORMALIZED_RESOLUTION	32
 
 // Local state variables
 
-typedef std::map<uint8_t, ADC_Interface_Ptr> AnalogChannelMap_t;
+typedef std::map<uint8_t, ADC_Interface_Ptr> ADCChannelMap_t;
+typedef std::map<uint8_t, DAC_Interface_Ptr> DACChannelMap_t;
 
-static AnalogChannelMap_t ChannelTable;
+static ADCChannelMap_t ADCChannelTable;
+static DACChannelMap_t DACChannelTable;
 
 //***************************************************************************
 
-static void GetChannels(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
+static void GetADCChannels(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
 {
   unsigned ChannelIndex = 0;
 
   PREPARE_RESPONSE;
   CHECK_COMMAND_SIZE(7, 7);
 
-  for (AnalogChannelMap_t::iterator it=ChannelTable.begin(); it!=ChannelTable.end(); ++it)
+  for (ADCChannelMap_t::iterator it=ADCChannelTable.begin(); it!=ADCChannelTable.end(); ++it)
+    resp->Data[ChannelIndex++] = it->first;
+
+  resp->PacketSize += ChannelIndex;
+  resp->Status = L_OK;
+  *error = 0;
+}
+
+//***************************************************************************
+
+static void GetDACChannels(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
+{
+  unsigned ChannelIndex = 0;
+
+  PREPARE_RESPONSE;
+  CHECK_COMMAND_SIZE(7, 7);
+
+  for (DACChannelMap_t::iterator it=DACChannelTable.begin(); it!=DACChannelTable.end(); ++it)
     resp->Data[ChannelIndex++] = it->first;
 
   resp->PacketSize += ChannelIndex;
@@ -80,7 +95,7 @@ static void GetReference(LINX_command_t *cmd, LINX_response_t *resp, int32_t *er
 
 static void AnalogRead(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
 {
-  unsigned MaxChannels = ChannelTable.size();
+  unsigned MaxChannels = ADCChannelTable.size();
   unsigned NumChannels = cmd->PacketSize - 7;
   uint8_t *ChannelNums = &cmd->Args[0];
   unsigned i;
@@ -99,11 +114,11 @@ static void AnalogRead(LINX_command_t *cmd, LINX_response_t *resp, int32_t *erro
     uint32_t v;
     ADC_Interface_Ptr o;
 
-    // Lookup analog input channel info
+    // Lookup analog input channel object
 
     try
     {
-      o = ChannelTable[n];
+      o = ADCChannelTable[n];
     }
 
     catch (int e)
@@ -135,20 +150,41 @@ static void AnalogRead(LINX_command_t *cmd, LINX_response_t *resp, int32_t *erro
 
 //***************************************************************************
 
-// Add an analog input object to the channel table
+static void AnalogWrite(LINX_command_t *cmd, LINX_response_t *resp, int32_t *error)
+{
+  PREPARE_RESPONSE;
+
+  resp->Status = L_FUNCTION_NOT_SUPPORTED;
+  *error = EINVAL;
+}
+
+//***************************************************************************
+
+// Add an analog input object to the A/D channel table
 
 void adc_add_channel(uint8_t number, ADC_Interface_Ptr object)
 {
-  ChannelTable[number] = object;
+  ADCChannelTable[number] = object;
+}
+
+//***************************************************************************
+
+// Add an analog output object to the D/A channel table
+
+void dac_add_channel(uint8_t number, DAC_Interface_Ptr object)
+{
+  DACChannelTable[number] = object;
 }
 
 //***************************************************************************
 
 // Register command handlers
 
-void adc_init(void)
+void analog_init(void)
 {
-  AddCommand(CMD_GET_ANALOG_IN_CHANNELS, GetChannels);
-  AddCommand(CMD_GET_ANALOG_IN_REFERENCE, GetReference);
+  AddCommand(CMD_GET_ANALOG_IN_CHANNELS, GetADCChannels);
+  AddCommand(CMD_GET_ANALOG_OUT_CHANNELS, GetDACChannels);
+  AddCommand(CMD_GET_ANALOG_REFERENCE, GetReference);
   AddCommand(CMD_ANALOG_READ, AnalogRead);
+  AddCommand(CMD_ANALOG_WRITE, AnalogWrite);
 }
