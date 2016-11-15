@@ -67,7 +67,7 @@ static void ServoSetPulseWidth(LINX_command_t *cmd, LINX_response_t *resp, int32
   for (i = 0; i < NumChannels; i++)
   {
     uint8_t n = ChannelNums[i];
-    uint8_t w = LINX_makeu16(PulseWidths[i*2+0], PulseWidths[i*2+1]);
+    uint16_t w = LINX_makeu16(PulseWidths[i*2+0], PulseWidths[i*2+1]);
     Servo_Interface_Ptr o;
 
     // Look up servo output channel object
