@@ -171,8 +171,5 @@ void pwm_init(void)
 {
   AddCommand(CMD_GET_PWM_CHANNELS, GetChannels);
   AddCommand(CMD_PWM_SET_FREQUENCY, PWMSetFrequency);
-  // There doesn't seem to be a VI for setting the PWM frequency, so define
-  // a custom command alias.
-  AddCommand(CMD_CUSTOM0, PWMSetFrequency);
   AddCommand(CMD_PWM_SET_DUTYCYCLE, PWMSetDutyCycle);
 }
