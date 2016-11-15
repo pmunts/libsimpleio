@@ -20,9 +20,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <errno.h>
-#include <string.h>
-
 #include "common.h"
 
 // External constants, defined in the main program file

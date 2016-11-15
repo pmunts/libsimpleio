@@ -23,12 +23,7 @@
 
 #include <map>
 
-#include <errno.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "common.h"
-#include "pwm.h"
 
 // Local state variables
 

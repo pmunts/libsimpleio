@@ -23,9 +23,21 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include <errno.h>
 #include <liblinx.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#ifdef __linux__
+#include <syslog.h>
+#endif
 
+#include "analog.h"
 #include "command.h"
+#include "executive.h"
+#include "gpio.h"
+#include "pwm.h"
+#include "servo.h"
 
 // Prepare the LINX response message structure
 

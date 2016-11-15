@@ -22,12 +22,7 @@
 
 #include <map>
 
-#include <errno.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "common.h"
-#include "analog.h"
 
 #define NORMALIZED_REFERENCE	4292967
 #define NORMALIZED_RESOLUTION	32

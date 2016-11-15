@@ -20,12 +20,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <errno.h>
-#include <string.h>
-#ifdef __linux__
-#include <syslog.h>
-#endif
-
 #include "common.h"
 
 // This function will not return until a fatal error occurrs or the
