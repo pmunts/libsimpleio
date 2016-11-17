@@ -200,6 +200,10 @@ void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
     return;
   }
 
+  /* Prevent zombie children */
+
+  signal(SIGCHLD, SIG_IGN);
+
   // Main service loop
 
   for (;;)
