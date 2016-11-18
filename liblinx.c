@@ -233,6 +233,8 @@ void LINX_transmit_response(int32_t fd, LINX_response_t *resp, int32_t *error)
     *error = errno;
     return;
   }
+
+  *error = 0;
 }
 
 void LINX_receive_response(int32_t fd, LINX_response_t *resp, int32_t *count, int32_t *error)
