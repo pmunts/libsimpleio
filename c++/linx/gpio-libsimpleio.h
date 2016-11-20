@@ -29,13 +29,9 @@ class GPIO_libsimpleio: public GPIO_Interface
 {
   public:
 
-    // Constructors
+    // Constructor
 
-    GPIO_libsimpleio(int32_t number, int32_t *error);
-
-    GPIO_libsimpleio(int32_t number, int32_t direction, int32_t *error);
-
-    GPIO_libsimpleio(int32_t number, int32_t direction, int32_t state, int32_t *error);
+    GPIO_libsimpleio(int32_t pin);
 
     // Interface methods
 
@@ -47,7 +43,7 @@ class GPIO_libsimpleio: public GPIO_Interface
 
   private:
 
-    int32_t number;	// Linux GPIO lib pin number
+    int32_t pin;	// Linux GPIO lib pin number
 
     int fd;		// Linux GPIO lib device file descriptor
 };
