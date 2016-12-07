@@ -28,11 +28,17 @@
 #include <stdint.h>
 #include <linux/spi/spidev.h>
 
+// Use hardware controlled chip select
+
+#define SPI_CS_AUTO	-1
+
 _BEGIN_STD_C
 
-extern void SPI_open(const char *name, int32_t mode, int32_t wordsize, int32_t speed, int32_t *fd, int32_t *error);
+extern void SPI_open(const char *name, int32_t mode, int32_t wordsize,
+  int32_t speed, int32_t *fd, int32_t *error);
 
-extern void SPI_transaction(int32_t fd, void *cmd, int32_t cmdlen, int32_t delayus, void *resp, int32_t resplen, int32_t *error);
+extern void SPI_transaction(int32_t spifd, int32_t csfd, void *cmd,
+  int32_t cmdlen, int32_t delayus, void *resp, int32_t resplen, int32_t *error);
 
 _END_STD_C
 

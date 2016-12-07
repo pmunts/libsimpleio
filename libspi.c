@@ -28,11 +28,13 @@
 #include <sys/param.h>
 
 #include "errmsg.inc"
+#include "libgpio.h"
 #include "libspi.h"
 
 // Open and configure the SPI port
 
-void SPI_open(const char *name, int32_t mode, int32_t wordsize, int32_t speed, int32_t *fd, int32_t *error)
+void SPI_open(const char *name, int32_t mode, int32_t wordsize,
+  int32_t speed, int32_t *fd, int32_t *error)
 {
   // Open the SPI device
 
@@ -82,7 +84,8 @@ void SPI_open(const char *name, int32_t mode, int32_t wordsize, int32_t speed, i
 
 // Perform an SPI I/O transaction (command and response)
 
-void SPI_transaction(int32_t fd, void *cmd, int32_t cmdlen, int32_t delayus, void *resp, int32_t resplen, int32_t *error)
+void SPI_transaction(int32_t spifd, int32_t csfd, void *cmd,
+  int32_t cmdlen, int32_t delayus, void *resp, int32_t resplen, int32_t *error)
 {
   struct spi_ioc_transfer xfer[2];
 
@@ -102,13 +105,29 @@ void SPI_transaction(int32_t fd, void *cmd, int32_t cmdlen, int32_t delayus, voi
   xfer[1].rx_buf = (typeof(xfer[1].rx_buf)) resp;
   xfer[1].len = resplen;
 
+  // Assert GPIO controlled chip select (if any)
+
+  if (csfd > 0)
+  {
+    GPIO_write(csfd, 0, error);
+    if (*error) return; 
+  }
+
   // Execute the SPI transfer operations
 
-  if (ioctl(fd, SPI_IOC_MESSAGE(2), xfer) < 0)
+  if (ioctl(spifd, SPI_IOC_MESSAGE(2), xfer) < 0)
   {
     *error = errno;
     ERRORMSG("ioctl for SPI_IOC_MESSAGE failed", *error, __LINE__ - 3);
     return;
+  }
+
+  // Deassert GPIO controlled chip select (if any)
+
+  if (csfd > 0)
+  {
+    GPIO_write(csfd, 1, error);
+    if (*error) return; 
   }
 
   *error = 0;

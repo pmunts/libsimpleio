@@ -24,6 +24,11 @@ UNIT libSPI;
 
 INTERFACE
 
+  { Use hardware controlled chip select }
+
+  CONST
+    SPI_CS_AUTO = -1;
+
   PROCEDURE Open
    (devname   : PChar;
     mode      : Integer;

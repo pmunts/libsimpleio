@@ -26,6 +26,10 @@ WITH System;
 PACKAGE libSPI IS
   PRAGMA Link_With("-lsimpleio");
 
+  -- Use hardware controlled chip select
+
+  SPI_AUTO_CS : CONSTANT Integer := -1;
+
   PROCEDURE Open
    (devname  : String;
     mode     : Integer;
@@ -41,7 +45,8 @@ PACKAGE libSPI IS
   PRAGMA Import(C, Close, "LINUX_close");
 
   PROCEDURE Transaction
-   (fd       : Integer;
+   (spifd    : Integer;
+    csfd     : Integer;
     cmd      : System.Address;
     cmdlen   : Integer;
     delayus  : Integer;

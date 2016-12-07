@@ -29,13 +29,14 @@
 .nf
 .B #include <libspi.h>
 
-.BI "void SPI_open(const char *" name ", int32_t " mode ", int32_t " wordsize ", int32_t " speed ","
-.BI "  int32_t *" fd ", int32_t * " error ");"
+.BI "void SPI_open(const char *" name ", int32_t " mode ", int32_t " wordsize ","
+.BI "  int32_t " speed ", int32_t *" fd ", int32_t * " error ");"
 
 .BI "void SPI_close(int32_t " fd ", int32_t *" error ");"
 
-.BI "void SPI_transaction(int32_t " fd ", void *" cmd ", int32_t " cmdlen ", int32_t " delayus ","
-.BI "  void *" resp ", int32_t " resplen ", int32_t *" error ");"
+.BI "void SPI_transaction(int32_t " spifd ", int32_t " csfd ", void *" cmd ","
+.BI "  int32_t " cmdlen ", int32_t " delayus ", void *" resp ", int32_t " resplen ","
+.BI "  int32_t *" error ");"
 
 .fi
 Link with
@@ -88,7 +89,12 @@ Either the address of a receive buffer and its size must be passed in the
 .IR resp " and " resplen
 parameters, or
 .BR NULL " and " 0
-for a transmit only transaction.
+for a transmit only transaction.  The 
+.IR csfd
+parameter should be set to
+.BR SPI_CS_AUTO
+to use the hardware controlled slave chip select signal or set to the open file descriptor
+for a GPIO pin to use for the software controlled slave chip select signal.
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
 .br

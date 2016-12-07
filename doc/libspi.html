@@ -17,13 +17,14 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 2 November 2016<BR><A HREF="#i
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libspi.h">libspi.h</A>&gt;</B>
 
-<B>void SPI_open(const char *</B><I>name</I><B>, int32_t </B><I>mode</I><B>, int32_t </B><I>wordsize</I><B>, int32_t </B><I>speed</I><B>,</B>
-<B>  int32_t *</B><I>fd</I><B>, int32_t * </B><I>error</I><B>);</B>
+<B>void SPI_open(const char *</B><I>name</I><B>, int32_t </B><I>mode</I><B>, int32_t </B><I>wordsize</I><B>,</B>
+<B>  int32_t </B><I>speed</I><B>, int32_t *</B><I>fd</I><B>, int32_t * </B><I>error</I><B>);</B>
 
 <B>void SPI_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void SPI_transaction(int32_t </B><I>fd</I><B>, void *</B><I>cmd</I><B>, int32_t </B><I>cmdlen</I><B>, int32_t </B><I>delayus</I><B>,</B>
-<B>  void *</B><I>resp</I><B>, int32_t </B><I>resplen</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void SPI_transaction(int32_t </B><I>spifd</I><B>, int32_t </B><I>csfd</I><B>, void *</B><I>cmd</I><B>,</B>
+<B>  int32_t </B><I>cmdlen</I><B>, int32_t </B><I>delayus</I><B>, void *</B><I>resp</I><B>, int32_t </B><I>resplen</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -102,7 +103,14 @@ Either the address of a receive buffer and its size must be passed in the
 parameters, or
 <B>NULL</B> and <B>0</B>
 
-for a transmit only transaction.
+for a transmit only transaction.  The 
+<I>csfd</I>
+
+parameter should be set to
+<B>SPI_CS_AUTO</B>
+
+to use the hardware controlled slave chip select signal or set to the open file descriptor
+for a GPIO pin to use for the software controlled slave chip select signal.
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -131,6 +139,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 14:44:12 GMT, November 02, 2016
+Time: 09:24:37 GMT, December 07, 2016
 </BODY>
 </HTML>
