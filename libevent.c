@@ -27,58 +27,34 @@
 #include "errmsg.inc"
 #include "libevent.h"
 
-#define EPFD_UNINITALIZED	-1
-
-static int32_t epfd = EPFD_UNINITALIZED;
-
-void EVENT_open(int32_t *error)
+void EVENT_open(int32_t *epfd, int32_t *error)
 {
-  if (epfd == EPFD_UNINITALIZED)
+  *epfd = epoll_create(256);
+  if (epfd < 0)
   {
-    epfd = epoll_create(256);
-    if (epfd < 0)
-    {
-      epfd = EPFD_UNINITALIZED;
-      *error = errno;
-      ERRORMSG("epoll_create() failed", *error, __LINE__ - 4);
-      return;
-    }
+    *error = errno;
+    ERRORMSG("epoll_create() failed", *error, __LINE__ - 4);
+    return;
   }
 
   *error = 0;
 }
 
-void EVENT_close(int32_t *error)
+void EVENT_close(int32_t epfd, int32_t *error)
 {
-  if (epfd == EPFD_UNINITALIZED)
-  {
-    *error = EBADF;
-    ERRORMSG("epoll() file descriptor has not been opened", *error, __LINE__ - 3);
-    return;
-  }
-
   if (close(epfd))
   {
-    epfd = EPFD_UNINITALIZED;
     *error = errno;
     ERRORMSG("close() failed", *error, __LINE__ - 3);
     return;
   }
 
-  epfd = EPFD_UNINITALIZED;
   *error = 0;
 }
 
-void EVENT_register_fd(int32_t fd, int32_t events, int32_t *error)
+void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events, int32_t *error)
 {
   struct epoll_event ev;
-
-  if (epfd == EPFD_UNINITALIZED)
-  {
-    *error = EBADF;
-    ERRORMSG("epoll() file descriptor has not been opened", *error, __LINE__ - 3);
-    return;
-  }
 
   memset(&ev, 0, sizeof(ev));
   ev.events = events;
@@ -94,15 +70,8 @@ void EVENT_register_fd(int32_t fd, int32_t events, int32_t *error)
   *error = 0;
 }
 
-void EVENT_unregister_fd(int32_t fd, int32_t *error)
+void EVENT_unregister_fd(int32_t epfd, int32_t fd, int32_t *error)
 {
-  if (epfd == EPFD_UNINITALIZED)
-  {
-    *error = EBADF;
-    ERRORMSG("epoll() file descriptor has not been opened", *error, __LINE__ - 3);
-    return;
-  }
-
   if (epoll_ctl(epfd, EPOLL_CTL_DEL, fd, NULL))
   {
     *error = errno;
@@ -113,17 +82,10 @@ void EVENT_unregister_fd(int32_t fd, int32_t *error)
   *error = 0;
 }
 
-void EVENT_wait(int32_t *fd, int32_t *event, int32_t timeoutms, int32_t *error)
+void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event, int32_t timeoutms, int32_t *error)
 {
   int status;
   struct epoll_event ev;
-
-  if (epfd == EPFD_UNINITALIZED)
-  {
-    *error = EBADF;
-    ERRORMSG("epoll() file descriptor has not been opened", *error, __LINE__ - 3);
-    return;
-  }
 
   status = epoll_wait(epfd, &ev, 1, timeoutms);
   if (status < 0)

@@ -29,15 +29,15 @@
 .nf
 .B #include <libevent.h>
 
-.BI "void EVENT_open(int32_t *" error ");"
+.BI "void EVENT_open(int32_t *" epfd ", int32_t *" error ");"
 
-.BI "void EVENT_close(int32_t *" error ");"
+.BI "void EVENT_close(int32_t " epfd ", int32_t *" error ");"
 
-.BI "void EVENT_register_fd(int32_t " fd ", int32_t " events ", int32_t *" error ");"
+.BI "void EVENT_register_fd(int32_t " epfd ", int32_t " fd ", int32_t " events ", int32_t *" error ");"
 
-.BI "void EVENT_unregister_fd(int32_t " fd ", int32_t *" error ");"
+.BI "void EVENT_unregister_fd(int32_t " epfd ", int32_t " fd ", int32_t *" error ");"
 
-.BI "void EVENT_wait(int32_t *" fd ", int32_t *" event ", int32_t " timeoutms ", int32_t *" error ");"
+.BI "void EVENT_wait(int32_t " epfd ", int32_t *" fd ", int32_t *" event ", int32_t " timeoutms ", int32_t *" error ");"
 
 .fi
 Link with
@@ -57,7 +57,7 @@ must be called before any of the other functions, to open a connection to the
 event notification subsystem.
 .PP
 .B EVENT_close()
-the connection to the
+must be called to close the connection to the
 .B epoll
 subsystem.
 .PP

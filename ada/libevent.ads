@@ -42,26 +42,31 @@ PACKAGE libEvent IS
   EPOLLET      : CONSTANT Integer := -16#80000000#;
 
   PROCEDURE Open
-   (error     : OUT Integer);
+   (epfd      : OUT Integer;
+    error     : OUT Integer);
   PRAGMA Import(C, Open, "EVENT_open");
 
   PROCEDURE Close
-   (error     : OUT Integer);
+   (epfd      : Integer;
+    error     : OUT Integer);
   PRAGMA Import(C, Close, "EVENT_close");
 
   PROCEDURE Register
-   (fd        : Integer;
+   (epfd      : Integer;
+    fd        : Integer;
     events    : Integer;
     error     : OUT Integer);
   PRAGMA Import(C, Register, "EVENT_register_fd");
 
   PROCEDURE Unregister
-   (fd        : Integer;
+   (epfd      : Integer;
+    fd        : Integer;
     error     : OUT Integer);
   PRAGMA Import(C, Unregister, "EVENT_unregister_fd");
 
   PROCEDURE Wait
-   (fd        : OUT Integer;
+   (epfd      : Integer;
+    fd        : OUT Integer;
     event     : OUT Integer;
     timeoutms : Integer;
     error     : OUT Integer);

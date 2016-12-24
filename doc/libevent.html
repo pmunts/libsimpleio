@@ -17,15 +17,15 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 2 November 2016<BR><A HREF="#i
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libevent.h">libevent.h</A>&gt;</B>
 
-<B>void EVENT_open(int32_t *</B><I>error</I><B>);</B>
+<B>void EVENT_open(int32_t *</B><I>epfd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void EVENT_close(int32_t *</B><I>error</I><B>);</B>
+<B>void EVENT_close(int32_t </B><I>epfd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void EVENT_register_fd(int32_t </B><I>fd</I><B>, int32_t </B><I>events</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void EVENT_register_fd(int32_t </B><I>epfd</I><B>, int32_t </B><I>fd</I><B>, int32_t </B><I>events</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void EVENT_unregister_fd(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void EVENT_unregister_fd(int32_t </B><I>epfd</I><B>, int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void EVENT_wait(int32_t *</B><I>fd</I><B>, int32_t *</B><I>event</I><B>, int32_t </B><I>timeoutms</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void EVENT_wait(int32_t </B><I>epfd</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>event</I><B>, int32_t </B><I>timeoutms</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -57,7 +57,7 @@ event notification subsystem.
 
 <B>EVENT_close()</B>
 
-the connection to the
+must be called to close the connection to the
 <B>epoll</B>
 
 subsystem.
@@ -151,6 +151,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 14:44:12 GMT, November 02, 2016
+Time: 13:12:24 GMT, December 24, 2016
 </BODY>
 </HTML>

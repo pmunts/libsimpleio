@@ -44,22 +44,27 @@ INTERFACE
     EPOLLET      = $80000000;
 
   PROCEDURE Open
-   (VAR error : Integer); CDECL; EXTERNAL NAME 'Event_open';
+   (VAR epfd  : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'Event_open';
 
   PROCEDURE Close
-   (VAR error : Integer); CDECL; EXTERNAL NAME 'Event_close';
+   (epfd      : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'Event_close';
 
   PROCEDURE Register
-   (fd        : Integer;
+   (epfd      : Integer;
+    fd        : Integer;
     events    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_register_fd';
 
   PROCEDURE Unregister
-   (fd        : Integer;
+   (epfd      : Integer;
+    fd        : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_unregister_fd';
 
   PROCEDURE Wait
-   (VAR fd    : Integer;
+   (epfd      : Integer;
+    VAR fd    : Integer;
     VAR event : Integer;
     timeoutms : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_wait';
