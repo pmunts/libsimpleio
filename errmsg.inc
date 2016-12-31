@@ -21,8 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef DEBUG
-#include <stdio.h>
-#include <string.h>
 #define ERRORMSG(msg, err, line) fprintf(stderr, "ERROR in %s(), at %s line %d: %s, %s\n", __func__, __FILE__, line, msg, strerror(err))
 #else
 #define ERRORMSG(msg, err, line)
