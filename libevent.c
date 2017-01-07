@@ -71,6 +71,24 @@ void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events, int32_t *error)
   *error = 0;
 }
 
+void EVENT_rearm_fd(int32_t epfd, int32_t fd, int32_t events, int32_t *error)
+{
+  struct epoll_event ev;
+
+  memset(&ev, 0, sizeof(ev));
+  ev.events = events;
+  ev.data.fd = fd;
+
+  if (epoll_ctl(epfd, EPOLL_CTL_MOD, fd, &ev))
+  {
+    *error = errno;
+    ERRORMSG("epoll_ctl() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *error = 0;
+}
+
 void EVENT_unregister_fd(int32_t epfd, int32_t fd, int32_t *error)
 {
   if (epoll_ctl(epfd, EPOLL_CTL_DEL, fd, NULL))

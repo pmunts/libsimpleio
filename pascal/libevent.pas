@@ -57,6 +57,12 @@ INTERFACE
     events    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_register_fd';
 
+  PROCEDURE Rearm
+   (epfd      : Integer;
+    fd        : Integer;
+    events    : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_rearm_fd';
+
   PROCEDURE Unregister
    (epfd      : Integer;
     fd        : Integer;

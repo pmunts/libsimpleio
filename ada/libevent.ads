@@ -58,6 +58,13 @@ PACKAGE libEvent IS
     error     : OUT Integer);
   PRAGMA Import(C, Register, "EVENT_register_fd");
 
+  PROCEDURE Rearm
+   (epfd      : Integer;
+    fd        : Integer;
+    events    : Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, Rearm, "EVENT_rearm_fd");
+
   PROCEDURE Unregister
    (epfd      : Integer;
     fd        : Integer;

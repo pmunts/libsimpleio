@@ -1,4 +1,4 @@
-.\" man page for Munts Technologies Linux Simple I/O Library
+e\" man page for Munts Technologies Linux Simple I/O Library
 .\" libevent event notification module
 .\"
 .\" Copyright (C)2016-2017, Philip Munts, President, Munts AM Corp.
@@ -21,7 +21,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libevent 2 "2 November 2016" "version 1.0" "Linux Simple I/O Library"
+.TH libevent 2 "7 January 2017" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
 .B libevent
 \-\- Linux Simple I/O Library: Event Notification Module
@@ -34,6 +34,8 @@
 .BI "void EVENT_close(int32_t " epfd ", int32_t *" error ");"
 
 .BI "void EVENT_register_fd(int32_t " epfd ", int32_t " fd ", int32_t " events ", int32_t *" error ");"
+
+.BI "void EVENT_rearm_fd(int32_t " epfd ", int32_t " fd ", int32_t " events ", int32_t *" error ");"
 
 .BI "void EVENT_unregister_fd(int32_t " epfd ", int32_t " fd ", int32_t *" error ");"
 
@@ -73,6 +75,13 @@ Event notification codes, such as
 and may be
 .BR OR "'d"
 together to register for more than one type of event notification.
+.PP
+.B EVENT_rearm_fd()
+rearms a file descriptor for further events.  This is only applicable when
+the file descriptor was registered with
+.BR EPOLLONESHOT .
+After such a file descriptor has delivered an event, it will be disabled
+from delivering any further events until it is rearmed.
 .PP
 .B EVENT_unregister_fd()
 unregisters event notifications for the file descriptor
