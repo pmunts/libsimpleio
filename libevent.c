@@ -54,7 +54,7 @@ void EVENT_close(int32_t epfd, int32_t *error)
 }
 
 void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
-  int32_t handle,  int32_t *error)
+  int32_t handle, int32_t *error)
 {
   struct epoll_event ev;
 
@@ -110,6 +110,8 @@ void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event,
 {
   int status;
   struct epoll_event ev;
+
+  memset(&ev, 0, sizeof(ev));
 
   status = epoll_wait(epfd, &ev, 1, timeoutms);
   if (status < 0)
