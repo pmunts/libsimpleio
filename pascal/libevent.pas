@@ -55,12 +55,14 @@ INTERFACE
    (epfd      : Integer;
     fd        : Integer;
     events    : Integer;
+    handle    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_register_fd';
 
   PROCEDURE Rearm
    (epfd      : Integer;
     fd        : Integer;
     events    : Integer;
+    handle    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_rearm_fd';
 
   PROCEDURE Unregister
@@ -69,11 +71,12 @@ INTERFACE
     VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_unregister_fd';
 
   PROCEDURE Wait
-   (epfd      : Integer;
-    VAR fd    : Integer;
-    VAR event : Integer;
-    timeoutms : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_wait';
+   (epfd       : Integer;
+    VAR fd     : Integer;
+    VAR event  : Integer;
+    VAR handle : Integer;
+    timeoutms  : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'EVENT_wait';
 
 IMPLEMENTATION
 

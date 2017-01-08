@@ -55,6 +55,7 @@ PACKAGE libEvent IS
    (epfd      : Integer;
     fd        : Integer;
     events    : Integer;
+    handle    : Integer;
     error     : OUT Integer);
   PRAGMA Import(C, Register, "EVENT_register_fd");
 
@@ -62,6 +63,7 @@ PACKAGE libEvent IS
    (epfd      : Integer;
     fd        : Integer;
     events    : Integer;
+    handle    : Integer;
     error     : OUT Integer);
   PRAGMA Import(C, Rearm, "EVENT_rearm_fd");
 
@@ -75,6 +77,7 @@ PACKAGE libEvent IS
    (epfd      : Integer;
     fd        : OUT Integer;
     event     : OUT Integer;
+    handle    : OUT Integer;
     timeoutms : Integer;
     error     : OUT Integer);
   PRAGMA Import(C, Wait, "EVENT_wait");

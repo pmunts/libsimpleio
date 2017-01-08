@@ -53,13 +53,15 @@ void EVENT_close(int32_t epfd, int32_t *error)
   *error = 0;
 }
 
-void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events, int32_t *error)
+void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
+  int32_t handle,  int32_t *error)
 {
   struct epoll_event ev;
 
   memset(&ev, 0, sizeof(ev));
   ev.events = events;
   ev.data.fd = fd;
+  ev.data.u32 = handle;
 
   if (epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &ev))
   {
@@ -71,13 +73,15 @@ void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events, int32_t *error)
   *error = 0;
 }
 
-void EVENT_rearm_fd(int32_t epfd, int32_t fd, int32_t events, int32_t *error)
+void EVENT_rearm_fd(int32_t epfd, int32_t fd, int32_t events,
+  int32_t handle, int32_t *error)
 {
   struct epoll_event ev;
 
   memset(&ev, 0, sizeof(ev));
   ev.events = events;
   ev.data.fd = fd;
+  ev.data.u32 = handle;
 
   if (epoll_ctl(epfd, EPOLL_CTL_MOD, fd, &ev))
   {
@@ -101,7 +105,8 @@ void EVENT_unregister_fd(int32_t epfd, int32_t fd, int32_t *error)
   *error = 0;
 }
 
-void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event, int32_t timeoutms, int32_t *error)
+void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event,
+  int32_t *handle, int32_t timeoutms, int32_t *error)
 {
   int status;
   struct epoll_event ev;
@@ -109,6 +114,9 @@ void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event, int32_t timeoutms, in
   status = epoll_wait(epfd, &ev, 1, timeoutms);
   if (status < 0)
   {
+    *fd = 0;
+    *event = 0;
+    *handle = 0;
     *error = errno;
     ERRORMSG("epoll_wait() failed", *error, __LINE__ - 3);
     return;
@@ -116,11 +124,15 @@ void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event, int32_t timeoutms, in
 
   if (status == 0)
   {
+    *fd = 0;
+    *event = 0;
+    *handle = 0;
     *error = EAGAIN;
     return;
   }
 
   *fd  = ev.data.fd;
   *event = ev.events;
+  *handle = ev.data.u32;
   *error = 0;
 }

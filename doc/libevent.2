@@ -21,7 +21,7 @@ e\" man page for Munts Technologies Linux Simple I/O Library
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libevent 2 "7 January 2017" "version 1.0" "Linux Simple I/O Library"
+.TH libevent 2 "8 January 2017" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
 .B libevent
 \-\- Linux Simple I/O Library: Event Notification Module
@@ -33,13 +33,16 @@ e\" man page for Munts Technologies Linux Simple I/O Library
 
 .BI "void EVENT_close(int32_t " epfd ", int32_t *" error ");"
 
-.BI "void EVENT_register_fd(int32_t " epfd ", int32_t " fd ", int32_t " events ", int32_t *" error ");"
+.BI "void EVENT_register_fd(int32_t " epfd ", int32_t " fd ", int32_t " events ","
+.BI "  int32_t " handle ", int32_t *" error ");"
 
-.BI "void EVENT_rearm_fd(int32_t " epfd ", int32_t " fd ", int32_t " events ", int32_t *" error ");"
+.BI "void EVENT_rearm_fd(int32_t " epfd ", int32_t " fd ", int32_t " events ","
+.BI "  int32_t " handle ", int32_t *" error ");"
 
 .BI "void EVENT_unregister_fd(int32_t " epfd ", int32_t " fd ", int32_t *" error ");"
 
-.BI "void EVENT_wait(int32_t " epfd ", int32_t *" fd ", int32_t *" event ", int32_t " timeoutms ", int32_t *" error ");"
+.BI "void EVENT_wait(int32_t " epfd ", int32_t *" fd ", int32_t *" event ","
+.BI "  int32_t *" handle ", int32_t " timeoutms ", int32_t *" error ");"
 
 .fi
 Link with
@@ -75,6 +78,10 @@ Event notification codes, such as
 and may be
 .BR OR "'d"
 together to register for more than one type of event notification.
+The 
+.I handle
+parameter is passed to the Linux kernel and will be returned when
+an event occurs.
 .PP
 .B EVENT_rearm_fd()
 rearms a file descriptor for further events.  This is only applicable when
@@ -82,6 +89,10 @@ the file descriptor was registered with
 .BR EPOLLONESHOT .
 After such a file descriptor has delivered an event, it will be disabled
 from delivering any further events until it is rearmed.
+The 
+.I handle
+parameter is passed to the Linux kernel and will be returned when
+an event occurs.
 .PP
 .B EVENT_unregister_fd()
 unregisters event notifications for the file descriptor
@@ -90,26 +101,42 @@ unregisters event notifications for the file descriptor
 .B EVENT_wait()
 waits until an event notification occurs for any of the previously registered file descriptors.  The
 .I timeoutms
-parameter indicates the time in milliseconds to wait for a notfication.  If
-an event notification occurs before the timeout expires,
+parameter indicates the time in milliseconds to wait for an event notification.
+A value of zero indicates
+.B EVENT_wait()
+should return immediately whether or not an event notification is available. 
+If an event notification occurs before the timeout expires,
 .I *error
-is set to
-.B 0
-and
+will be set to
+.BR 0 ,
 .I *fd
 and
 .I *event
-are set to the next available file descriptor and event code.
+will be set to the next available file descriptor and event code, and
+.I *handle
+will be set to whatever value was supplied to
+.B EVENT_register_fd()
+or
+.BR EVENT_rearm_fd() .
 If no event notification occurs
 before the timeout expires,
 .I *error
-is set to
+will be set to
 .B EAGAIN
 and
-.I *fd
+.IR *fd ,
+.IR *event ,
 and
-.I *event
-are invalid.
+.IR *handle
+will all be set to zero.  If some other error occurs, 
+.I *error will be set to an
+.B errno
+value and 
+.IR *fd ,
+.IR *event ,
+and
+.IR *handle
+will all be set to zero.
 .SH SEE ALSO
 .BR libsimpleio "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), " liblinux "(2),"
 .br

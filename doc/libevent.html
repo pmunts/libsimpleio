@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of libevent</TITLE>
 </HEAD><BODY>
 <H1>libevent</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 7 January 2017<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 8 January 2017<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -21,13 +21,16 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 7 January 2017<BR><A HREF="#in
 
 <B>void EVENT_close(int32_t </B><I>epfd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void EVENT_register_fd(int32_t </B><I>epfd</I><B>, int32_t </B><I>fd</I><B>, int32_t </B><I>events</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void EVENT_register_fd(int32_t </B><I>epfd</I><B>, int32_t </B><I>fd</I><B>, int32_t </B><I>events</I><B>,</B>
+<B>  int32_t </B><I>handle</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void EVENT_rearm_fd(int32_t </B><I>epfd</I><B>, int32_t </B><I>fd</I><B>, int32_t </B><I>events</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void EVENT_rearm_fd(int32_t </B><I>epfd</I><B>, int32_t </B><I>fd</I><B>, int32_t </B><I>events</I><B>,</B>
+<B>  int32_t </B><I>handle</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void EVENT_unregister_fd(int32_t </B><I>epfd</I><B>, int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void EVENT_wait(int32_t </B><I>epfd</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>event</I><B>, int32_t </B><I>timeoutms</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void EVENT_wait(int32_t </B><I>epfd</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>event</I><B>,</B>
+<B>  int32_t *</B><I>handle</I><B>, int32_t </B><I>timeoutms</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -83,6 +86,11 @@ and may be
 <B>OR</B>'d
 
 together to register for more than one type of event notification.
+The 
+<I>handle</I>
+
+parameter is passed to the Linux kernel and will be returned when
+an event occurs.
 <P>
 
 <B>EVENT_rearm_fd()</B>
@@ -93,6 +101,11 @@ the file descriptor was registered with
 
 After such a file descriptor has delivered an event, it will be disabled
 from delivering any further events until it is rearmed.
+The 
+<I>handle</I>
+
+parameter is passed to the Linux kernel and will be returned when
+an event occurs.
 <P>
 
 <B>EVENT_unregister_fd()</B>
@@ -107,34 +120,60 @@ unregisters event notifications for the file descriptor
 waits until an event notification occurs for any of the previously registered file descriptors.  The
 <I>timeoutms</I>
 
-parameter indicates the time in milliseconds to wait for a notfication.  If
-an event notification occurs before the timeout expires,
+parameter indicates the time in milliseconds to wait for an event notification.
+A value of zero indicates
+<B>EVENT_wait()</B>
+
+should return immediately whether or not an event notification is available. 
+If an event notification occurs before the timeout expires,
 <I>*error</I>
 
-is set to
-<B>0</B>
+will be set to
+<B>0</B>,
 
-and
 <I>*fd</I>
 
 and
 <I>*event</I>
 
-are set to the next available file descriptor and event code.
+will be set to the next available file descriptor and event code, and
+<I>*handle</I>
+
+will be set to whatever value was supplied to
+<B>EVENT_register_fd()</B>
+
+or
+<B>EVENT_rearm_fd()</B>.
+
 If no event notification occurs
 before the timeout expires,
 <I>*error</I>
 
-is set to
+will be set to
 <B>EAGAIN</B>
 
 and
-<I>*fd</I>
+<I>*fd</I>,
+
+<I>*event</I>,
 
 and
-<I>*event</I>
+<I>*handle</I>
 
-are invalid.
+will all be set to zero.  If some other error occurs, 
+<I>*error will be set to an</I>
+
+<B>errno</B>
+
+value and 
+<I>*fd</I>,
+
+<I>*event</I>,
+
+and
+<I>*handle</I>
+
+will all be set to zero.
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -163,6 +202,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 11:57:25 GMT, January 07, 2017
+Time: 16:57:27 GMT, January 08, 2017
 </BODY>
 </HTML>
