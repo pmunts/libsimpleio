@@ -86,7 +86,7 @@ and may be
 <B>OR</B>'d
 
 together to register for more than one type of event notification.
-The 
+The
 <I>handle</I>
 
 parameter is passed in to the Linux kernel and will be passed back to
@@ -104,7 +104,7 @@ The most common use case is to rearm a file descriptor registered with
 for further event notifications.
 After such a file descriptor has delivered an event, it will be disabled
 from delivering any further event notifications until it is rearmed.
-The 
+The
 <I>handle</I>
 
 parameter is passed in to the Linux kernel and will be passed back to
@@ -129,7 +129,7 @@ parameter indicates the time in milliseconds to wait for an event notification.
 A value of zero indicates
 <B>EVENT_wait()</B>
 
-should return immediately whether or not an event notification is available. 
+should return immediately whether or not an event notification is available.
 If an event notification occurs before the timeout expires,
 <I>*error</I>
 
@@ -165,12 +165,12 @@ and
 and
 <I>*handle</I>
 
-will all be set to zero.  If some other error occurs, 
+will all be set to zero.  If some other error occurs,
 <I>*error will be set to an</I>
 
 <B>errno</B>
 
-value and 
+value and
 <I>*fd</I>,
 
 <I>*event</I>,
@@ -207,6 +207,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 07:59:27 GMT, January 09, 2017
+Time: 08:02:54 GMT, January 09, 2017
 </BODY>
 </HTML>

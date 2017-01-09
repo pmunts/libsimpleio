@@ -209,7 +209,7 @@ INTERFACE
   FUNCTION SplitU32
    (item : Longword;
     index : Integer) : Byte; CDECL; EXTERNAL NAME 'LINX_splitu32';
- 
+
 IMPLEMENTATION
 
   USES

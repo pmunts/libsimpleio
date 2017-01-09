@@ -59,7 +59,7 @@ encodes the message passed in
 .IR *src ,
 with its length passed in
 .IR srclen .
-Empty messages 
+Empty messages
 .RI ( srclen ==0)
 are allowed.
 The encoded frame will be returned in
@@ -97,9 +97,9 @@ Upon success, the number of bytes actually sent will be returned in
 .B STREAM_receive_frame()
 reads one byte from the bidirectional byte stream indicated by
 the file descriptor
-.IR fd 
+.IR fd
 and attempts to assemble a frame.  It should be called repeatedly
-with the same 
+with the same
 .IR *buf ,
 .IR bufsize ,
 and
@@ -119,7 +119,7 @@ and zero returned in
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
 .br
-.BR liblinux "(2), " liblinx "(2), " libserial "(2), " libspi "(2), " libtcp4 "(2)" 
+.BR liblinux "(2), " liblinx "(2), " libserial "(2), " libspi "(2), " libtcp4 "(2)"
 .PP
 .B http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
 .SH AUTHOR

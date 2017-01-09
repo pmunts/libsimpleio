@@ -111,7 +111,7 @@ void SPI_transaction(int32_t spifd, int32_t csfd, void *cmd,
   if (csfd > 0)
   {
     GPIO_write(csfd, 0, error);
-    if (*error) return; 
+    if (*error) return;
   }
 
   // Execute the SPI transfer operations
@@ -128,7 +128,7 @@ void SPI_transaction(int32_t spifd, int32_t csfd, void *cmd,
   if (csfd > 0)
   {
     GPIO_write(csfd, 1, error);
-    if (*error) return; 
+    if (*error) return;
   }
 
   *error = 0;

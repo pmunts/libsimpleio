@@ -78,7 +78,7 @@ parameter.  Event notification codes, such as
 and may be
 .BR OR "'d"
 together to register for more than one type of event notification.
-The 
+The
 .I handle
 parameter is passed in to the Linux kernel and will be passed back to
 .B EVENT_wait()
@@ -91,7 +91,7 @@ The most common use case is to rearm a file descriptor registered with
 for further event notifications.
 After such a file descriptor has delivered an event, it will be disabled
 from delivering any further event notifications until it is rearmed.
-The 
+The
 .I handle
 parameter is passed in to the Linux kernel and will be passed back to
 .B EVENT_wait()
@@ -107,7 +107,7 @@ waits until an event notification occurs for any of the previously registered fi
 parameter indicates the time in milliseconds to wait for an event notification.
 A value of zero indicates
 .B EVENT_wait()
-should return immediately whether or not an event notification is available. 
+should return immediately whether or not an event notification is available.
 If an event notification occurs before the timeout expires,
 .I *error
 will be set to
@@ -131,10 +131,10 @@ and
 .IR *event ,
 and
 .IR *handle
-will all be set to zero.  If some other error occurs, 
+will all be set to zero.  If some other error occurs,
 .I *error will be set to an
 .B errno
-value and 
+value and
 .IR *fd ,
 .IR *event ,
 and

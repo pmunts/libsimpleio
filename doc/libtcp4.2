@@ -62,12 +62,12 @@ value (upon failure) in
 .B TCP4_resolve()
 attempts to resolve an IPv4 address string passed in
 .IR *name
-(containing a domain name, a local host name like 
+(containing a domain name, a local host name like
 .B localhost
 or a dot-decimal notation address like
 .BR 1.2.3.4 ).
 Upon success, the 32-bit IPv4 address will be returned in
-.IR *addr 
+.IR *addr
 .PP
 .B TCP4_connect()
 attempts to connect to a IPv4 TCP server.  The 32-bit IPv4 address is passed in
@@ -85,7 +85,7 @@ may be passed in
 to bind to (i.e. listen on) all network interfaces, or the 32-bit
 IPV4 address of a particular network interface may be passed to bind
 to only that interface.  The 16-bit TCP port number is passed in
-.IR port . 
+.IR port .
 Upon successful connection, a stream file descriptor will be returned in
 .IR *fd .
 .PP
@@ -131,6 +131,6 @@ Upon success, the number of bytes actually received will be returned in
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2), "
 .br
-.BR liblinux "(2), " liblinx "(2), " libserial "(2), " libspi "(2), " libstream "(2)" 
+.BR liblinux "(2), " liblinx "(2), " libserial "(2), " libspi "(2), " libstream "(2)"
 .SH AUTHOR
 Philip Munts, President, Munts AM Corp dba Munts Technologies
