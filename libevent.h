@@ -36,7 +36,7 @@ extern void EVENT_close(int32_t epfd, int32_t *error);
 extern void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
   int32_t handle, int32_t *error);
 
-extern void EVENT_rearm_fd(int32_t epfd, int32_t fd, int32_t events,
+extern void EVENT_modify_fd(int32_t epfd, int32_t fd, int32_t events,
   int32_t handle, int32_t *error);
 
 extern void EVENT_unregister_fd(int32_t epfd, int32_t fd, int32_t *error);

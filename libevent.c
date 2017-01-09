@@ -73,7 +73,7 @@ void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
   *error = 0;
 }
 
-void EVENT_rearm_fd(int32_t epfd, int32_t fd, int32_t events,
+void EVENT_modify_fd(int32_t epfd, int32_t fd, int32_t events,
   int32_t handle, int32_t *error)
 {
   struct epoll_event ev;
@@ -114,6 +114,9 @@ void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event,
   memset(&ev, 0, sizeof(ev));
 
   status = epoll_wait(epfd, &ev, 1, timeoutms);
+
+  // An error occurred:
+
   if (status < 0)
   {
     *fd = 0;
@@ -124,6 +127,8 @@ void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event,
     return;
   }
 
+  // No events are available:
+
   if (status == 0)
   {
     *fd = 0;
@@ -132,6 +137,8 @@ void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event,
     *error = EAGAIN;
     return;
   }
+
+  // An event occurred:
 
   *fd  = ev.data.fd;
   *event = ev.events;
