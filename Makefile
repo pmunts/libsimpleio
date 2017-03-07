@@ -34,8 +34,7 @@ OSNAME		:= muntsos
 PKGNAME		:= $(TOOLCHAIN_NAME)-libs-libsimpleio
 PKGVERSION	:= $(shell date +%Y.%j)
 PKGARCH		:= all
-PKGSUFFIX	:= $(PKGVERSION)-$(OSNAME)-$(PKGARCH)
-PKGDIR		:= $(PKGNAME)-$(PKGSUFFIX)
+PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
 else
 # Definitions for building for native Linux
