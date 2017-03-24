@@ -69,15 +69,12 @@ install: libsimpleio.a libsimpleio.so
 	mkdir -p				$(DESTDIR)/include
 	mkdir -p				$(DESTDIR)/lib
 	mkdir -p				$(DESTDIR)/share/libsimpleio/ada
-	mkdir -p				$(DESTDIR)/share/libsimpleio/c++/linx
 	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 *.h			$(DESTDIR)/include
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 	install -cm 0644 ada/*.ads		$(DESTDIR)/share/libsimpleio/ada
-	install -cm 0644 c++/linx/*.h		$(DESTDIR)/share/libsimpleio/c++/linx
-	install -cm 0644 c++/linx/*.cpp		$(DESTDIR)/share/libsimpleio/c++/linx
 	install -cm 0644 pascal/*.pas		$(DESTDIR)/share/libsimpleio/pascal
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 
