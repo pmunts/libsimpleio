@@ -43,6 +43,7 @@ INTERFACE
 
   PROCEDURE Transaction
    (fd        : Integer;
+    fdcs      : Integer;
     cmd       : Pointer;
     cmdlen    : Integer;
     delayus   : Integer;
