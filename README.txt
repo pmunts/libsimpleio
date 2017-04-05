@@ -12,6 +12,7 @@
      * SPI (Serial Peripheral Interface) Bus Devices
      * [2]Stream Framing Protocol Devices
      * TCP (over IPv4) Network Devices
+     * Watchdog Timer Devices
 
    Although libsimpleio was originally intended for Linux microcomputers
    such as the Raspberry Pi, it can also be useful on larger desktop Linux

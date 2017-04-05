@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of libwatchdog</TITLE>
+</HEAD><BODY>
+<H1>libwatchdog</H1>
+Section: Linux Simple I/O Library (2)<BR>Updated: 5 April 2017<BR><A HREF="#index">Index</A>
+<A HREF="../README.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>libwatchdog</B>
+
+-- Linux Simple I/O Library: Watchdog Timer Module
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A HREF="file:///usr/include/libatchdog.h">libatchdog.h</A>&gt;</B>
+
+<B>void WATCHDOG_open(const char *</B><I>name</I><B>, int32_t *</B><I>fd</I><B>, int32_t * </B><I>error</I><B>);</B>
+
+<B>void WATCHDOG_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void WATCHDOG_get_timeout(int32_t </B><I>fd</I><B>, int32_t *</B><I>timeout</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void WATCHDOG_set_timeout(int32_t </B><I>fd</I><B>, int32_t </B><I>newtimeout</I><B>,</B>
+<B>   int32_t *</B><I>timeout</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void WATCHDOG_kick(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+</PRE>
+
+Link with
+<B>-lsimpleio</B>.
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+All functions return either
+<B>0</B>
+
+(upon success) or an
+<B>errno</B>
+
+value (upon failure) in
+<I>*error</I>.
+
+<P>
+
+<B>WATCHDOG_open()</B>
+
+opens a watchdog timer device.  The device node name, usually
+<B>/dev/watchdog</B>,
+
+must be passed in the
+<I>name</I>
+
+parameter. Upon success, a file descriptor for the
+watchdog timer device is returned in
+<I>*fd</I>.
+
+<P>
+
+<B>WATCHDOG_close()</B>
+
+closes a previously opened watchdog timer device.  Note that this may result in
+watchdog timer expiration and subsequent system reset.
+<P>
+
+<B>WATCHDOG_get_timeout()</B>
+
+may be used to discover the current watchdog timeout period.
+Upon success, the watchdog period in seconds will be returned in
+<I>*timeout</I>.
+
+<P>
+
+<B>WATCHDOG_set_timeout()</B>
+
+may be used to change the watchdog timeout period. The requested new
+timeout period in seconds must be passed in
+<I>newtimeout</I>.
+
+Upon success, the new watchdog period in seconds will be returned in
+<I>*timeout</I>.
+
+Note that the new watchdog period may be different from that requested.
+For example, if the watchdog timer device as a granularity of one minute,
+requesting a timeout of 45 seconds will result in an actual timeout of 60 seconds.
+Also note that the particular watchdog timer device may not allow increasing the
+timeout or may not allow changing it at all.
+<P>
+
+<B>WATCHDOG_kick()</B>
+
+may be used to reset the watchdog timer.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2), <B><A HREF="libi2c.html">libi2c</A></B>(2),
+
+<BR>
+
+<B><A HREF="liblinux.html">liblinux</A></B>(2), <B><A HREF="liblinx.html">liblinx</A></B>(2), <A HREF="libserial.html">libserial</A><B>(2), </B><A HREF="libspi.html">libspi</A><B>(2), </B><A HREF="libstream.html">libstream</A><B>(2),</B>
+
+<BR>
+
+<B><A HREF="libtcp4.html">libtcp4</A></B>(2)
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Philip Munts, President, Munts AM Corp dba Munts Technologies
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 17:54:08 GMT, April 05, 2017
+</BODY>
+</HTML>

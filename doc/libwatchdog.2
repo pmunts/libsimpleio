@@ -1,0 +1,94 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\" Watchdog timer module
+.\"
+.\" Copyright (C)2017, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libwatchdog 2 "5 April 2017" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B libwatchdog
+\-\- Linux Simple I/O Library: Watchdog Timer Module
+.SH SYNOPSIS
+.nf
+.B #include <libatchdog.h>
+
+.BI "void WATCHDOG_open(const char *" name ", int32_t *" fd ", int32_t * " error ");"
+
+.BI "void WATCHDOG_close(int32_t " fd ", int32_t *" error ");"
+
+.BI "void WATCHDOG_get_timeout(int32_t " fd ", int32_t *" timeout ", int32_t *" error ");"
+
+.BI "void WATCHDOG_set_timeout(int32_t " fd ", int32_t " newtimeout ","
+.BI "   int32_t *" timeout ", int32_t *" error ");"
+
+.BI "void WATCHDOG_kick(int32_t " fd ", int32_t *" error ");"
+
+.fi
+Link with
+.BR -lsimpleio .
+.SH DESCRIPTION
+.nh
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.B WATCHDOG_open()
+opens a watchdog timer device.  The device node name, usually
+.BR /dev/watchdog ,
+must be passed in the
+.IR name
+parameter. Upon success, a file descriptor for the
+watchdog timer device is returned in
+.IR *fd .
+.PP
+.B WATCHDOG_close()
+closes a previously opened watchdog timer device.  Note that this may result in
+watchdog timer expiration and subsequent system reset.
+.PP
+.B WATCHDOG_get_timeout()
+may be used to discover the current watchdog timeout period.
+Upon success, the watchdog period in seconds will be returned in
+.IR *timeout .
+.PP
+.B WATCHDOG_set_timeout()
+may be used to change the watchdog timeout period. The requested new
+timeout period in seconds must be passed in
+.IR newtimeout .
+Upon success, the new watchdog period in seconds will be returned in
+.IR *timeout .
+Note that the new watchdog period may be different from that requested.
+For example, if the watchdog timer device as a granularity of one minute,
+requesting a timeout of 45 seconds will result in an actual timeout of 60 seconds.
+Also note that the particular watchdog timer device may not allow increasing the
+timeout or may not allow changing it at all.
+.PP
+.B WATCHDOG_kick()
+may be used to reset the watchdog timer.
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2),"
+.br
+.BR liblinux "(2), " liblinx "(2), "libserial "(2), " libspi "(2), " libstream "(2),"
+.br
+.BR libtcp4 "(2)"
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies

@@ -21,7 +21,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libi2c 2 "2 November 2016" "version 1.0" "Linux Simple I/O Library"
+.TH libi2c 2 "5 April 2017" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
 .B libi2c
 \-\- Linux Simple I/O Library: I2C Module
@@ -54,7 +54,7 @@ opens an I2C bus controller device.  The device name,
 must be passed in the
 .IR name
 parameter. Upon success, a file descriptor for the
-I2C bus controller device is retured in
+I2C bus controller device is returned in
 .IR *fd .
 .PP
 .B I2C_close()
@@ -74,8 +74,10 @@ parameters, or
 .BR NULL " and " 0
 for a transmit only transaction.
 .SH SEE ALSO
-.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " liblinux "(2), "
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " liblinux "(2),"
 .br
-.BR liblinx "(2), " libserial "(2), "libspi "(2), " libstream "(2), " libtcp4 "(2)"
+.BR liblinx "(2), " libserial "(2), "libspi "(2), " libstream "(2), " libtcp4 "(2),"
+.br
+.BR libwatchdog "(2)"
 .SH AUTHOR
 Philip Munts, President, Munts AM Corp dba Munts Technologies
