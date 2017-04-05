@@ -1,5 +1,5 @@
 -- Minimal Ada wrapper for the Linux raw HID services
--- implemented in libso
+-- implemented in libsimpleio.so
 
 -- Copyright (C)2016-2017, Philip Munts, President, Munts AM Corp.
 --
