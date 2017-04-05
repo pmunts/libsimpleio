@@ -82,11 +82,11 @@ may be used to change the watchdog timeout period. The requested new
 timeout period in seconds must be passed in
 <I>newtimeout</I>.
 
-Upon success, the new watchdog period in seconds will be returned in
+Upon success, the actual new watchdog period in seconds will be returned in
 <I>*timeout</I>.
 
 Note that the new watchdog period may be different from that requested.
-For example, if the watchdog timer device as a granularity of one minute,
+For example, if the watchdog timer device has a granularity of one minute,
 requesting a timeout of 45 seconds will result in an actual timeout of 60 seconds.
 Also note that the particular watchdog timer device may not allow increasing the
 timeout or may not allow changing it at all.
@@ -127,6 +127,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 17:54:08 GMT, April 05, 2017
+Time: 19:21:38 GMT, April 05, 2017
 </BODY>
 </HTML>

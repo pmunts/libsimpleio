@@ -74,10 +74,10 @@ Upon success, the watchdog period in seconds will be returned in
 may be used to change the watchdog timeout period. The requested new
 timeout period in seconds must be passed in
 .IR newtimeout .
-Upon success, the new watchdog period in seconds will be returned in
+Upon success, the actual new watchdog period in seconds will be returned in
 .IR *timeout .
 Note that the new watchdog period may be different from that requested.
-For example, if the watchdog timer device as a granularity of one minute,
+For example, if the watchdog timer device has a granularity of one minute,
 requesting a timeout of 45 seconds will result in an actual timeout of 60 seconds.
 Also note that the particular watchdog timer device may not allow increasing the
 timeout or may not allow changing it at all.
