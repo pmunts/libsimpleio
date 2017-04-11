@@ -52,7 +52,7 @@ static uint64_t milliseconds(void)
   return t.tv_sec*1000LL + (1LL*t.tv_nsec)/1000000LL;
 }
 
-// Open and configure a GPIO pin
+// Configure GPIO pin device
 
 void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error)
 {
