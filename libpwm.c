@@ -43,6 +43,7 @@
 #define FILE_POLARITY	DIR_CHAN "/polarity"	// "normal" or "inversed" [sic]
 #define FILE_PERIOD	DIR_CHAN "/period"	// nanoseconds
 #define FILE_ONTIME	DIR_CHAN "/duty_cycle"	// nanoseconds
+#define FILE_UEVENT	DIR_CHAN "/uevent"
 
 static uint64_t milliseconds(void)
 {
@@ -133,13 +134,14 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
     close(fd);
 
-    // Wait for the PWM output channel directory to be created
+    // Wait for the PWM output channel directory to be created and
+    // permissions set properly by the mdev/udev helper
 
-    snprintf(filename, sizeof(filename), DIR_CHAN, chip, channel);
+    snprintf(filename, sizeof(filename), FILE_UEVENT, chip, channel);
 
     uint64_t start = milliseconds();
 
-    while (access(filename, F_OK))
+    while (access(filename, W_OK))
     {
       if (milliseconds() - start > 500)
       {
@@ -242,7 +244,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
   close(fd);
 
-  // Write to duty_cycle (more correctly, the on time in nanosecods...)
+  // Write to duty_cycle (which is actually the on time in nanosecods...)
 
   snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 
