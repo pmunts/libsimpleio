@@ -319,7 +319,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
 void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
 {
-  char devname[256];
+  char devname[MAXPATHLEN];
   char buf[16];
 
   memset(devname, 0, sizeof(devname));
