@@ -45,11 +45,11 @@ INTERFACE
 
   PROCEDURE Open
    (VAR epfd  : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'Event_open';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_open';
 
   PROCEDURE Close
    (epfd      : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'Event_close';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
 
   PROCEDURE Register
    (epfd      : Integer;

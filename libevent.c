@@ -41,18 +41,6 @@ void EVENT_open(int32_t *epfd, int32_t *error)
   *error = 0;
 }
 
-void EVENT_close(int32_t epfd, int32_t *error)
-{
-  if (close(epfd))
-  {
-    *error = errno;
-    ERRORMSG("close() failed", *error, __LINE__ - 3);
-    return;
-  }
-
-  *error = 0;
-}
-
 void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
   int32_t handle, int32_t *error)
 {

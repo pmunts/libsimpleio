@@ -24,14 +24,13 @@
 #define LIBEVENT_H
 
 #include <cplusplus.h>
+#include <liblinux.h>
 #include <stdint.h>
 #include <sys/epoll.h>
 
 _BEGIN_STD_C
 
 extern void EVENT_open(int32_t *epfd, int32_t *error);
-
-extern void EVENT_close(int32_t epfd, int32_t *error);
 
 extern void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
   int32_t handle, int32_t *error);
@@ -45,5 +44,7 @@ extern void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event,
   int32_t *handle, int32_t timeoutms, int32_t *error);
 
 _END_STD_C
+
+#define EVENT_close(f, e) LINUX_close(f, e)
 
 #endif
