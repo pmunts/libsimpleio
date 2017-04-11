@@ -29,7 +29,8 @@
 
 _BEGIN_STD_C
 
-extern void I2C_transaction(int32_t fd, int32_t slaveaddr, void *cmd, int32_t cmdlen, void *resp, int32_t resplen, int32_t *error);
+extern void I2C_transaction(int32_t fd, int32_t slaveaddr, void *cmd,
+  int32_t cmdlen, void *resp, int32_t resplen, int32_t *error);
 
 _END_STD_C
 

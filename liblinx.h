@@ -161,13 +161,17 @@ typedef struct
 
 _BEGIN_STD_C
 
-extern void LINX_transmit_command(int32_t fd, LINX_command_t *cmd, int32_t *error);
+extern void LINX_transmit_command(int32_t fd, LINX_command_t *cmd,
+  int32_t *error);
 
-extern void LINX_receive_command(int32_t fd, LINX_command_t *cmd, int32_t *count, int32_t *error);
+extern void LINX_receive_command(int32_t fd, LINX_command_t *cmd,
+  int32_t *count, int32_t *error);
 
-extern void LINX_transmit_response(int32_t fd, LINX_response_t *resp, int32_t *error);
+extern void LINX_transmit_response(int32_t fd, LINX_response_t *resp,
+  int32_t *error);
 
-extern void LINX_receive_response(int32_t fd, LINX_response_t *resp, int32_t *count, int32_t *error);
+extern void LINX_receive_response(int32_t fd, LINX_response_t *resp,
+  int32_t *count, int32_t *error);
 
 // Byte packing and unpacking routines
 

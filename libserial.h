@@ -36,7 +36,8 @@ typedef enum
 
 _BEGIN_STD_C
 
-extern void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t databits, int32_t stopbits, int32_t *fd, int32_t *error);
+extern void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
+  int32_t databits, int32_t stopbits, int32_t *fd, int32_t *error);
 
 _END_STD_C
 

@@ -38,17 +38,20 @@ extern void TCP4_resolve(char *name, IPV4_ADDR *addr, int32_t *error);
 
 // Connect to a TCP server
 
-extern void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error);
+extern void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port,
+  int32_t *fd, int32_t *error);
 
 // Wait (block) for exactly one connection from a TCP client, then
 // return a file descriptor for the new connection
 
-extern void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error);
+extern void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port,
+  int32_t *fd, int32_t *error);
 
 // Wait (block) until a client connects, then fork and return a file
 // descriptor for the new connection to the child process
 
-extern void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error);
+extern void TCP4_server(IPV4_ADDR addr, IPV4_PORT port,
+  int32_t *fd, int32_t *error);
 
 _END_STD_C
 

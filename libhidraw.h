@@ -29,9 +29,11 @@
 
 _BEGIN_STD_C
 
-extern void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error);
+extern void HIDRAW_get_name(int32_t fd, char *name, int32_t size,
+  int32_t *error);
 
-extern void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor, int32_t *product, int32_t *error);
+extern void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor,
+  int32_t *product, int32_t *error);
 
 _END_STD_C
 
