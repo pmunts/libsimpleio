@@ -51,7 +51,7 @@ default: package.deb
 
 SIMPLEIO_COMPONENTS	= libevent.o libgpio.o libhidraw.o libi2c.o
 SIMPLEIO_COMPONENTS	+= libserial.o libspi.o liblinux.o liblinx.o
-SIMPLEIO_COMPONENTS	+= libtcp4.o libstream.o libwatchdog.o
+SIMPLEIO_COMPONENTS	+= libpwm.o libtcp4.o libstream.o libwatchdog.o
 
 # Create static libarary
 

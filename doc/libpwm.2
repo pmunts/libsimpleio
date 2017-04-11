@@ -1,0 +1,109 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\"
+.\" Copyright (C)2016-2017, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libgpio 2 "11 April 2017" "version 1.0" "Linux Simple I/O Library"
+.SH NAME
+.B libpwm
+\-\- Linux Simple I/O Library: PWM (Pulse Width Modulated) Output Module
+.SH SYNOPSIS
+.nf
+.B #include <libpwm.h>
+
+.B typedef enum
+.B {
+.B "  PWM_ACTIVELOW,"
+.B "  PWM_ACTIVEHIGH,"
+.B } PWM_POLARITY_t;
+
+.BI "void PWM_configure(int32_t " chip ", int32_t " channel ", int32_t " period ",
+.BI "  int32_t " ontime ", int32_t " polarity ", int32_t *" error ");"
+
+.BI "void PWM_open(int32_t " chip ", int32_t " channel ", int32_t *" fd ",
+.BI "  int32_t *" error ");"
+
+.BI "void PWM_close(int32_t " fd ", int32_t *" error ");"
+
+.BI "void PWM_write(int32_t " fd ", int32_t " ontime ", int32_t *" error ");"
+
+.fi
+Link with
+.BR -lsimpleio .
+.SH DESCRIPTION
+.nh
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.B PWM_configure()
+configures a single PWM output.  The
+.I chip
+parameter selects the PWM controller chip (as numbered by the Linux kernel) and the
+.I channel
+parameter selects the PWM output (also as numbered by the Linux kernel) to be configured.
+The
+.I period
+parameter sets the PWM output pulse period in nanoseconds.  Note that many PWM controllers
+require the same PWM pulse frequency for all channels.  Therefore, configuring different
+pulse period values for different channels within the same PWM controller may result
+in incorrect operation.
+The
+.I ontime
+parameter sets the initial PWM output pulse width in nanoseconds.
+The
+.I polarity
+parameter sets the PWM output polarity and may be
+.B PWM_ACTIVELOW
+or
+.BR PWM_ACTIVEHIGH .
+Note that some PWM controllers will not allow the
+.B PWM_ACTIVELOW
+setting.
+.PP
+.B PWM_open()
+opens a (previously) configured PWM output device. The PWM controller chip number must be passed in the
+.I chip
+parameter and the PWM output number must be passed in the
+.I channel
+parameter.  Upon success, a file descriptor for the GPIO pin device is returned in
+.IR *fd .
+.PP
+.B PWM_close()
+closes a previously opened PWM output device.
+.PP
+.B PWM_write()
+changes the PWM output pulse width.  The file descriptor for an open PWM output device
+must be passed in the
+.I *fd
+parameter.  The new PWM output pulse width in nanoseconds must be passed in the
+.I ontime
+parameter.
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libhidraw "(2), " libi2c "(2), " liblinux "(2),"
+.br
+.BR liblinx "(2), " libpwm "(2), " libserial "(2), " libspi "(2), " libstream "(2),"
+.br
+.BR libtcp4 "(2), " libwatchdog "(2)"
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies

@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of libgpio</TITLE>
+</HEAD><BODY>
+<H1>libgpio</H1>
+Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#index">Index</A>
+<A HREF="../README.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>libpwm</B>
+
+-- Linux Simple I/O Library: PWM (Pulse Width Modulated) Output Module
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A HREF="file:///usr/include/libpwm.h">libpwm.h</A>&gt;</B>
+
+<B>typedef enum</B>
+<B>{</B>
+<B>  PWM_ACTIVELOW,</B>
+<B>  PWM_ACTIVEHIGH,</B>
+<B>} PWM_POLARITY_t;</B>
+
+<B>void PWM_configure(int32_t </B><I>chip</I><B>, int32_t </B><I>channel</I><B>, int32_t </B><I>period</I><B>,</B>
+<B>  int32_t </B><I>ontime</I><B>, int32_t </B><I>polarity</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void PWM_open(int32_t </B><I>chip</I><B>, int32_t </B><I>channel</I><B>, int32_t *</B><I>fd</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
+
+<B>void PWM_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void PWM_write(int32_t </B><I>fd</I><B>, int32_t </B><I>ontime</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+</PRE>
+
+Link with
+<B>-lsimpleio</B>.
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+All functions return either
+<B>0</B>
+
+(upon success) or an
+<B>errno</B>
+
+value (upon failure) in
+<I>*error</I>.
+
+<P>
+
+<B>PWM_configure()</B>
+
+configures a single PWM output.  The
+<I>chip</I>
+
+parameter selects the PWM controller chip (as numbered by the Linux kernel) and the
+<I>channel</I>
+
+parameter selects the PWM output (also as numbered by the Linux kernel) to be configured.
+The
+<I>period</I>
+
+parameter sets the PWM output pulse period in nanoseconds.  Note that many PWM controllers
+require the same PWM pulse frequency for all channels.  Therefore, configuring different
+pulse period values for different channels within the same PWM controller may result
+in incorrect operation.
+The
+<I>ontime</I>
+
+parameter sets the initial PWM output pulse width in nanoseconds.
+The
+<I>polarity</I>
+
+parameter sets the PWM output polarity and may be
+<B>PWM_ACTIVELOW</B>
+
+or
+<B>PWM_ACTIVEHIGH</B>.
+
+Note that some PWM controllers will not allow the
+<B>PWM_ACTIVELOW</B>
+
+setting.
+<P>
+
+<B>PWM_open()</B>
+
+opens a (previously) configured PWM output device. The PWM controller chip number must be passed in the
+<I>chip</I>
+
+parameter and the PWM output number must be passed in the
+<I>channel</I>
+
+parameter.  Upon success, a file descriptor for the GPIO pin device is returned in
+<I>*fd</I>.
+
+<P>
+
+<B>PWM_close()</B>
+
+closes a previously opened PWM output device.
+<P>
+
+<B>PWM_write()</B>
+
+changes the PWM output pulse width.  The file descriptor for an open PWM output device
+must be passed in the
+<I>*fd</I>
+
+parameter.  The new PWM output pulse width in nanoseconds must be passed in the
+<I>ontime</I>
+
+parameter.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2), <B><A HREF="libi2c.html">libi2c</A></B>(2), <B><A HREF="liblinux.html">liblinux</A></B>(2),
+
+<BR>
+
+<B><A HREF="liblinx.html">liblinx</A></B>(2), <B><A HREF="libpwm.html">libpwm</A></B>(2), <B><A HREF="libserial.html">libserial</A></B>(2), <B><A HREF="libspi.html">libspi</A></B>(2), <B><A HREF="libstream.html">libstream</A></B>(2),
+
+<BR>
+
+<B><A HREF="libtcp4.html">libtcp4</A></B>(2), <B><A HREF="libwatchdog.html">libwatchdog</A></B>(2)
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Philip Munts, President, Munts AM Corp dba Munts Technologies
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 14:00:12 GMT, April 11, 2017
+</BODY>
+</HTML>
