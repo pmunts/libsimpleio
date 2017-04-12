@@ -39,10 +39,10 @@
 #define EXPORT		GPIODIR "/export"
 #define UNEXPORT	GPIODIR "/unexport"
 #define PINDIR		GPIODIR "/gpio%d"
-#define DIRECTION	PINDIR  "/direction"
-#define VALUE		PINDIR  "/value"
-#define EDGE		PINDIR  "/edge"
 #define ACTIVELOW	PINDIR  "/active_low"
+#define DIRECTION	PINDIR  "/direction"
+#define EDGE		PINDIR  "/edge"
+#define VALUE		PINDIR  "/value"
 
 static uint64_t milliseconds(void)
 {
@@ -58,6 +58,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 {
   char buf[MAXPATHLEN];
   int fd;
+  uint64_t start;
   int status;
 
   // Validate parameters
@@ -145,26 +146,22 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
       return;
     }
 
-#ifdef WAIT_GPIO_LINK
-    // Wait for /dev/gpioN to be created by udev or mdev
+    // Wait for the GPIO pin directory to be created
 
-    char linkname[MAXPATHLEN];
-    uint64_t start;
-
-    snprintf(linkname, sizeof(linkname), "/dev/gpio%d", pin);
+    snprintf(buf, sizeof(buf), VALUE, pin);
 
     start = milliseconds();
 
-    while (access(linkname, F_OK))
+    while (access(buf, W_OK))
     {
       if (milliseconds() - start > 500)
       {
         *error = EIO;
-        ERRORMSG("Timed out waiting for symlink", *error, __LINE__ - 3);
+        ERRORMSG("Timed out waiting for PWM output export", *error,
+          __LINE__ - 3);
         return;
       }
     }
-#endif
   }
 
   // Set polarity
@@ -307,6 +304,24 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     {
       *error = errno;
       ERRORMSG("symlink() failed", *error, __LINE__ - 3);
+      return;
+    }
+  }
+#endif
+
+#ifdef WAIT_GPIO_LINK
+  // Wait for /dev/gpioN to be created by udev or mdev
+
+  snprintf(buf, sizeof(buf), "/dev/gpio%d", pin);
+
+  start = milliseconds();
+
+  while (access(buf, F_OK))
+  {
+    if (milliseconds() - start > 500)
+    {
+      *error = EIO;
+      ERRORMSG("Timed out waiting for symlink", *error, __LINE__ - 3);
       return;
     }
   }
