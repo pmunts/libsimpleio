@@ -137,7 +137,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     // Wait for the PWM output channel directory to be created and
     // permissions set properly by the mdev/udev helper
 
-    snprintf(filename, sizeof(filename), FILE_UEVENT, chip, channel);
+    snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 
     uint64_t start = milliseconds();
 
@@ -146,7 +146,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
       if (milliseconds() - start > 500)
       {
         *error = EIO;
-        ERRORMSG("Timed out waiting for channel directory", *error,
+        ERRORMSG("Timed out waiting for PWM output export", *error,
           __LINE__ - 3);
         return;
       }
