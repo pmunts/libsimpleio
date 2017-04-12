@@ -152,6 +152,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     }
   }
 
+#ifdef NOT_IMPLEMENTED_IN_KERNEL
   // Disable the PWM output
 
   snprintf(filename, sizeof(filename), FILE_ENABLE, chip, channel);
@@ -219,6 +220,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   }
 
   close(fd);
+#endif
 
   // Write to period
 
