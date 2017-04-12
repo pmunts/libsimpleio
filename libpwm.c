@@ -134,8 +134,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
     close(fd);
 
-    // Wait for the PWM output channel directory to be created and
-    // permissions set properly by the mdev/udev helper
+    // Wait for the PWM output channel directory to be created
 
     snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 
