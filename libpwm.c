@@ -93,7 +93,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     return;
   }
 
-  if ((polarity < PWM_ACTIVELOW) || (polarity > PWM_ACTIVEHIGH))
+  if ((polarity < PWM_POLARITY_ACTIVELOW) || (polarity > PWM_POLARITY_ACTIVEHIGH))
   {
     *error = EINVAL;
     ERRORMSG("Invalid PWM output polarity argument", *error, __LINE__ - 3);
@@ -186,7 +186,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     return;
   }
 
-  if (polarity == PWM_ACTIVEHIGH)
+  if (polarity == PWM_POLARITY_ACTIVEHIGH)
     len = snprintf(buf, sizeof(buf), "normal\n");
   else
     len = snprintf(buf, sizeof(buf), "inversed\n");

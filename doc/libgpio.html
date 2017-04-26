@@ -33,8 +33,8 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#ind
 
 <B>typedef enum</B>
 <B>{</B>
-<B>  GPIO_ACTIVELOW,</B>
-<B>  GPIO_ACTIVEHIGH,</B>
+<B>  GPIO_POLARITY_ACTIVELOW,</B>
+<B>  GPIO_POLARITY_ACTIVEHIGH,</B>
 <B>} GPIO_POLARITY_t;</B>
 
 <B>void GPIO_configure(int32_t </B><I>pin</I><B>, int32_t </B><I>direction</I><B>, int32_t </B><I>state</I><B>, int32_t </B><I>edge</I><B>, int32_t </B><I>polarity</I><B>, int32_t *</B><I>error</I><B>);</B>
@@ -121,10 +121,10 @@ The
 <I>polarity</I>
 
 parameter may be
-<B>GPIO_ACTIVELOW</B>
+<B>GPIO_POLARITY_ACTIVELOW</B>
 
 or
-<B>GPIO_ACTIVEHIGH</B>.
+<B>GPIO_POLARITY_ACTIVEHIGH</B>.
 
 <P>
 

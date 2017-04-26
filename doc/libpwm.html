@@ -19,8 +19,8 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#ind
 
 <B>typedef enum</B>
 <B>{</B>
-<B>  PWM_ACTIVELOW,</B>
-<B>  PWM_ACTIVEHIGH,</B>
+<B>  PWM_POLARITY_ACTIVELOW,</B>
+<B>  PWM_POLARITY_ACTIVEHIGH,</B>
 <B>} PWM_POLARITY_t;</B>
 
 <B>void PWM_configure(int32_t </B><I>chip</I><B>, int32_t </B><I>channel</I><B>, int32_t </B><I>period</I><B>,</B>
@@ -77,13 +77,13 @@ The
 <I>polarity</I>
 
 parameter sets the PWM output polarity and may be
-<B>PWM_ACTIVELOW</B>
+<B>PWM_POLARITY_ACTIVELOW</B>
 
 or
-<B>PWM_ACTIVEHIGH</B>.
+<B>PWM_POLARITY_ACTIVEHIGH</B>.
 
 Note that some PWM controllers will not allow the
-<B>PWM_ACTIVELOW</B>
+<B>PWM_POLARITY_ACTIVELOW</B>
 
 setting.
 <P>
@@ -148,6 +148,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 14:00:12 GMT, April 11, 2017
+Time: 06:39:18 GMT, April 26, 2017
 </BODY>
 </HTML>

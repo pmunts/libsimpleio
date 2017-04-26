@@ -30,8 +30,8 @@
 
 .B typedef enum
 .B {
-.B "  PWM_ACTIVELOW,"
-.B "  PWM_ACTIVEHIGH,"
+.B "  PWM_POLARITY_ACTIVELOW,"
+.B "  PWM_POLARITY_ACTIVEHIGH,"
 .B } PWM_POLARITY_t;
 
 .BI "void PWM_configure(int32_t " chip ", int32_t " channel ", int32_t " period ",
@@ -74,11 +74,11 @@ parameter sets the initial PWM output pulse width in nanoseconds.
 The
 .I polarity
 parameter sets the PWM output polarity and may be
-.B PWM_ACTIVELOW
+.B PWM_POLARITY_ACTIVELOW
 or
-.BR PWM_ACTIVEHIGH .
+.BR PWM_POLARITY_ACTIVEHIGH .
 Note that some PWM controllers will not allow the
-.B PWM_ACTIVELOW
+.B PWM_POLARITY_ACTIVELOW
 setting.
 .PP
 .B PWM_open()

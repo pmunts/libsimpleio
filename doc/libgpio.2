@@ -44,8 +44,8 @@
 
 .B typedef enum
 .B {
-.B "  GPIO_ACTIVELOW,"
-.B "  GPIO_ACTIVEHIGH,"
+.B "  GPIO_POLARITY_ACTIVELOW,"
+.B "  GPIO_POLARITY_ACTIVEHIGH,"
 .B } GPIO_POLARITY_t;
 
 .BI "void GPIO_configure(int32_t " pin ", int32_t " direction ", int32_t " state ", int32_t " edge ", int32_t " polarity ", int32_t *" error ");"
@@ -106,9 +106,9 @@ parameter must be
 The
 .I polarity
 parameter may be
-.B GPIO_ACTIVELOW
+.B GPIO_POLARITY_ACTIVELOW
 or
-.BR GPIO_ACTIVEHIGH .
+.BR GPIO_POLARITY_ACTIVEHIGH .
 .PP
 The
 .B udev

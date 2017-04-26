@@ -98,7 +98,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     return;
   }
 
-  if ((polarity < GPIO_ACTIVELOW) || (polarity > GPIO_ACTIVEHIGH))
+  if ((polarity < GPIO_POLARITY_ACTIVELOW) || (polarity > GPIO_POLARITY_ACTIVEHIGH))
   {
     *error = EINVAL;
     ERRORMSG("Invalid polarity argument", *error, __LINE__ - 3);
