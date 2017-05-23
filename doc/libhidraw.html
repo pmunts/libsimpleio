@@ -17,17 +17,24 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#ind
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libhidraw.h">libhidraw.h</A>&gt;</B>
 
+<B>void HIDRAW_find(int32_t </B><I>VID</I><B>, int32_t </B><I>PID</I><B>, char *</B><I>name</I><B>, int32_t </B><I>size</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
+
 <B>void HIDRAW_open(const char *</B><I>name</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void HIDRAW_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void HIDRAW_get_name(int32_t </B><I>fd</I><B>, char *</B><I>name</I><B>, int32_t </B><I>size</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void HIDRAW_get_name(int32_t </B><I>fd</I><B>, char *</B><I>name</I><B>, int32_t </B><I>size</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
 
-<B>void HIDRAW_get_info(int32_t </B><I>fd</I><B>, int32_t *</B><I>bustype</I><B>, int32_t *</B><I>vendor</I><B>, int32_t *</B><I>product</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void HIDRAW_get_info(int32_t </B><I>fd</I><B>, int32_t *</B><I>bustype</I><B>, int32_t *</B><I>vendor</I><B>,</B>
+<B>  int32_t *</B><I>product</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void HIDRAW_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void HIDRAW_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>,</B>
+<B>  int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void HIDRAW_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void HIDRAW_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>,</B>
+<B>  int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -49,10 +56,19 @@ value (upon failure) in
 
 <P>
 
-<B>HIDRAW_open()</B>
+<B>HIDRAW_find()</B> finds the device name (<B>/dev/hidrawN</B>)
 
-opens a raw HID device.  The device name,
-<B>/dev/hidrawx</B>,
+that matches the specified vendor and product ID numbers.  The vendor and product
+ID numbers must be passed in the
+<I>VID</I> and <I>PID</I>
+
+parameters. Upon success, the device name is returned in the
+<I>name</I>
+
+parameter.
+<P>
+
+<B>HIDRAW_open()</B> opens a raw HID device.  The device name (<B>/dev/hidrawN</B>)
 
 must be passed in the
 <I>name</I>
@@ -173,6 +189,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 13:32:38 GMT, April 11, 2017
+Time: 13:30:04 GMT, May 23, 2017
 </BODY>
 </HTML>

@@ -24,6 +24,13 @@ UNIT libHIDRaw;
 
 INTERFACE
 
+  PROCEDURE Find
+   (vendor      : Integer;
+    product     : Integer;
+    name        : PChar;
+    size        : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_find';
+
   PROCEDURE Open
    (name        : PChar;
     VAR fd      : Integer;

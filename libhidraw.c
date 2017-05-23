@@ -34,6 +34,46 @@
 #include "errmsg.inc"
 #include "libhidraw.h"
 
+// Find the raw HID device node matching the specified vendor and product ID's
+
+void HIDRAW_find(int32_t VID, int32_t PID, char *name,
+  int32_t size, int32_t *error)
+{
+  int i, fd;
+  int32_t b, v, p, e;
+
+  for (i = 0; i < 100; i++)
+  {
+    snprintf(name, size, "/dev/hidraw%d", i);
+
+    // Open the candidate device node
+
+    fd = open(name, O_RDWR);
+    if (fd < 0) continue;
+
+    // Try to get HID device info for the candidate device
+
+    HIDRAW_get_info(fd, &b, &v, &p, &e);
+
+    // Close the candidate device node
+
+    close(fd);
+
+    if (e) continue;
+
+    // Look for a matching device
+
+    if ((VID == v) && (PID == p))
+    {
+      *error = 0;
+      return;
+    }
+  }
+
+  *error = ENODEV;
+  ERRORMSG("Cannot find matching raw HID device", *error, __LINE__ - 1);
+}
+
 // Get device information string
 
 void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)

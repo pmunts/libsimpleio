@@ -28,17 +28,24 @@
 .nf
 .B #include <libhidraw.h>
 
+.BI "void HIDRAW_find(int32_t " VID ", int32_t " PID ", char *" name ", int32_t " size ","
+.BI "  int32_t *" error ");"
+
 .BI "void HIDRAW_open(const char *" name ", int32_t *" fd ", int32_t *" error ");"
 
 .BI "void HIDRAW_close(int32_t " fd ", int32_t *" error ");"
 
-.BI "void HIDRAW_get_name(int32_t " fd ", char *" name ", int32_t " size ", int32_t *" error ");"
+.BI "void HIDRAW_get_name(int32_t " fd ", char *" name ", int32_t " size ",
+.BI "  int32_t *" error ");"
 
-.BI "void HIDRAW_get_info(int32_t " fd ", int32_t *" bustype ", int32_t *" vendor ", int32_t *" product ", int32_t *" error ");"
+.BI "void HIDRAW_get_info(int32_t " fd ", int32_t *" bustype ", int32_t *" vendor ","
+.BI "  int32_t *" product ", int32_t *" error ");"
 
-.BI "void HIDRAW_send(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+.BI "void HIDRAW_send(int32_t " fd ", void *" buf ", int32_t " bufsize ","
+.BI "  int32_t *" count ", int32_t *" error ");"
 
-.BI "void HIDRAW_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+.BI "void HIDRAW_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ","
+.BI "  int32_t *" count ", int32_t *" error ");"
 
 .fi
 Link with
@@ -52,9 +59,15 @@ All functions return either
 value (upon failure) in
 .IR *error .
 .PP
-.B HIDRAW_open()
-opens a raw HID device.  The device name,
-.BR /dev/hidrawx ,
+.BR HIDRAW_find() " finds the device name (" /dev/hidrawN ")"
+that matches the specified vendor and product ID numbers.  The vendor and product
+ID numbers must be passed in the
+.IR VID " and " PID
+parameters. Upon success, the device name is returned in the
+.IR name
+parameter.
+.PP
+.BR HIDRAW_open() " opens a raw HID device.  The device name (" /dev/hidrawN ")"
 must be passed in the
 .IR name
 parameter. Upon success, a file descriptor for the
