@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libhidraw 2 "11 April 2017" "version 1.0" "Linux Simple I/O Library"
+.TH libhidraw 2 "23 May 2017" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
 .B libhidraw
 \-\- Linux Simple I/O Library: Raw HID Module
@@ -28,10 +28,10 @@
 .nf
 .B #include <libhidraw.h>
 
-.BI "void HIDRAW_find(int32_t " VID ", int32_t " PID ", char *" name ", int32_t " size ","
-.BI "  int32_t *" error ");"
-
 .BI "void HIDRAW_open(const char *" name ", int32_t *" fd ", int32_t *" error ");"
+
+.BI "void HIDRAW_open_id(int32_t " VID ", int32_t " PID ", int32_t *" fd ","
+.BI "  int32_t *" error ");"
 
 .BI "void HIDRAW_close(int32_t " fd ", int32_t *" error ");"
 
@@ -59,35 +59,37 @@ All functions return either
 value (upon failure) in
 .IR *error .
 .PP
-.BR HIDRAW_find() " finds the device name (" /dev/hidrawN ")"
-that matches the specified vendor and product ID numbers.  The vendor and product
-ID numbers must be passed in the
-.IR VID " and " PID
-parameters. Upon success, the device name is returned in the
-.IR name
-parameter.
+.BR HIDRAW_open() " opens a raw HID device by name.  The device node name (" /dev/hidrawN ")"
+must be passed in
+.IR name .
+Upon success, a file descriptor for the raw HID device is returned in
+.IR *fd .
 .PP
-.BR HIDRAW_open() " opens a raw HID device.  The device name (" /dev/hidrawN ")"
-must be passed in the
-.IR name
-parameter. Upon success, a file descriptor for the
-raw HID device is returned in
+.BR HIDRAW_open_id() " opens the first raw HID device 
+that matches the specified vendor and product ID numbers passed in
+.IR VID " and " PID .
+Upon success, a file descriptor for the raw hid device is returned in
 .IR *fd .
 .PP
 .B HIDRAW_close()
 closes a previously opened raw HID device.
-The HID device file descriptor is passed in
+The HID device file descriptor must be passed in
 .IR fd .
 .PP
 .B HIDRAW_get_name()
-fetches an information string from the raw HID device.  The destination buffer address
-must be passed in
+fetches an information string from the raw HID device.
+The HID device file descriptor must be passed in
+.IR fd .
+The destination buffer address must be passed in
 .I *name
 and the destination buffer size must be passed in
 .IR size .
 .PP
 .B HIDRAW_get_info()
-fetches the bus type, vendor ID and product ID from the raw HID device. The bus
+fetches the bus type, vendor ID and product ID from the raw HID device.
+The HID device file descriptor must be passed in
+.IR fd .
+The bus
 type is returned in
 .IR *bustype ,
 and may be
@@ -102,11 +104,11 @@ The vendor and product ID's are returned in
 .PP
 .B HIDRAW_send()
 sends a message (also known as a HID report) to the raw HID device.
-The HID device file descriptor is passed in
+The HID device file descriptor must be passed in
 .IR fd .
-The address of the message buffer is passed in
+The address of the message buffer must be passed in
 .IR buf
-and the size of the message buffer is passed in
+and the size of the message buffer must be passed in
 .IR bufsize .
 The message size will typically be either 64 or 65 bytes, depending on whether the
 particular raw HID device uses the first byte for the report number.  Upon success,
@@ -115,11 +117,11 @@ the number of bytes actually sent will be returned in
 .PP
 .B HIDRAW_receive()
 receives a message (i.e. a HID report) from the raw HID device.
-The HID device file descriptor is passed in
+The HID device file descriptor must be passed in
 .IR fd .
-The address of the message buffer is passed in
+The address of the message buffer must be passed in
 .IR buf
-and the size of the message buffer is passed in
+and the size of the message buffer must be passed in
 .IR bufsize .
 The message size will typically be either 64 or 65 bytes, depending on whether the
 particular raw HID device uses the first byte for the report number.  Upon success,

@@ -24,17 +24,16 @@ UNIT libHIDRaw;
 
 INTERFACE
 
-  PROCEDURE Find
-   (vendor      : Integer;
-    product     : Integer;
-    name        : PChar;
-    size        : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_find';
-
   PROCEDURE Open
    (name        : PChar;
     VAR fd      : Integer;
     VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
+
+  PROCEDURE OpenID
+   (vendor      : Integer;
+    product     : Integer;
+    VAR fd      : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_open_id';
 
   PROCEDURE Close
    (fd          : Integer;

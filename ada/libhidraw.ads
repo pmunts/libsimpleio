@@ -27,19 +27,18 @@ WITH Interfaces.C;
 PACKAGE libHIDRaw IS
   PRAGMA Link_With("-lsimpleio");
 
-  PROCEDURE Find
-   (vendor  : Integer;
-    product : Integer;
-    devname : Interfaces.C.char_array;
-    size    : Integer;
-    error   : OUT Integer);
-  PRAGMA Import(C, Find, "HIDRAW_find");
-
   PROCEDURE Open
    (devname : String;
     fd      : OUT Integer;
     error   : OUT Integer);
   PRAGMA Import(C, Open, "LINUX_open_readwrite");
+
+  PROCEDURE OpenID
+   (vendor  : Integer;
+    product : Integer;
+    fd      : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, OpenID, "HIDRAW_open_id");
 
   PROCEDURE Close
    (fd      : Integer;

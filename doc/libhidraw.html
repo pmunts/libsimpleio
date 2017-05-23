@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of libhidraw</TITLE>
 </HEAD><BODY>
 <H1>libhidraw</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 23 May 2017<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -17,10 +17,10 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#ind
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libhidraw.h">libhidraw.h</A>&gt;</B>
 
-<B>void HIDRAW_find(int32_t </B><I>VID</I><B>, int32_t </B><I>PID</I><B>, char *</B><I>name</I><B>, int32_t </B><I>size</I><B>,</B>
-<B>  int32_t *</B><I>error</I><B>);</B>
-
 <B>void HIDRAW_open(const char *</B><I>name</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void HIDRAW_open_id(int32_t </B><I>VID</I><B>, int32_t </B><I>PID</I><B>, int32_t *</B><I>fd</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
 
 <B>void HIDRAW_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -56,25 +56,22 @@ value (upon failure) in
 
 <P>
 
-<B>HIDRAW_find()</B> finds the device name (<B>/dev/hidrawN</B>)
+<B>HIDRAW_open()</B> opens a raw HID device by name.  The device node name (<B>/dev/hidrawN</B>)
 
-that matches the specified vendor and product ID numbers.  The vendor and product
-ID numbers must be passed in the
-<I>VID</I> and <I>PID</I>
+must be passed in
+<I>name</I>.
 
-parameters. Upon success, the device name is returned in the
-<I>name</I>
+Upon success, a file descriptor for the raw HID device is returned in
+<I>*fd</I>.
 
-parameter.
 <P>
 
-<B>HIDRAW_open()</B> opens a raw HID device.  The device name (<B>/dev/hidrawN</B>)
+<B>HIDRAW_open_id()</B> opens the first raw HID device 
 
-must be passed in the
-<I>name</I>
+that matches the specified vendor and product ID numbers passed in
+<I>VID</I> and <I>PID</I>.
 
-parameter. Upon success, a file descriptor for the
-raw HID device is returned in
+Upon success, a file descriptor for the raw hid device is returned in
 <I>*fd</I>.
 
 <P>
@@ -82,15 +79,18 @@ raw HID device is returned in
 <B>HIDRAW_close()</B>
 
 closes a previously opened raw HID device.
-The HID device file descriptor is passed in
+The HID device file descriptor must be passed in
 <I>fd</I>.
 
 <P>
 
 <B>HIDRAW_get_name()</B>
 
-fetches an information string from the raw HID device.  The destination buffer address
-must be passed in
+fetches an information string from the raw HID device.
+The HID device file descriptor must be passed in
+<I>fd</I>.
+
+The destination buffer address must be passed in
 <I>*name</I>
 
 and the destination buffer size must be passed in
@@ -100,7 +100,11 @@ and the destination buffer size must be passed in
 
 <B>HIDRAW_get_info()</B>
 
-fetches the bus type, vendor ID and product ID from the raw HID device. The bus
+fetches the bus type, vendor ID and product ID from the raw HID device.
+The HID device file descriptor must be passed in
+<I>fd</I>.
+
+The bus
 type is returned in
 <I>*bustype</I>,
 
@@ -124,13 +128,13 @@ The vendor and product ID's are returned in
 <B>HIDRAW_send()</B>
 
 sends a message (also known as a HID report) to the raw HID device.
-The HID device file descriptor is passed in
+The HID device file descriptor must be passed in
 <I>fd</I>.
 
-The address of the message buffer is passed in
+The address of the message buffer must be passed in
 <I>buf</I>
 
-and the size of the message buffer is passed in
+and the size of the message buffer must be passed in
 <I>bufsize</I>.
 
 The message size will typically be either 64 or 65 bytes, depending on whether the
@@ -143,13 +147,13 @@ the number of bytes actually sent will be returned in
 <B>HIDRAW_receive()</B>
 
 receives a message (i.e. a HID report) from the raw HID device.
-The HID device file descriptor is passed in
+The HID device file descriptor must be passed in
 <I>fd</I>.
 
-The address of the message buffer is passed in
+The address of the message buffer must be passed in
 <I>buf</I>
 
-and the size of the message buffer is passed in
+and the size of the message buffer must be passed in
 <I>bufsize</I>.
 
 The message size will typically be either 64 or 65 bytes, depending on whether the
@@ -189,6 +193,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 13:30:04 GMT, May 23, 2017
+Time: 17:42:40 GMT, May 23, 2017
 </BODY>
 </HTML>

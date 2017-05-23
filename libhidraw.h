@@ -29,8 +29,8 @@
 
 _BEGIN_STD_C
 
-extern void HIDRAW_find(int32_t VID, int32_t PID, char *name,
-  int32_t size, int32_t *error);
+extern void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd,
+  int32_t *error);
 
 extern void HIDRAW_get_name(int32_t fd, char *name, int32_t size,
   int32_t *error);
