@@ -44,7 +44,7 @@ INTERFACE
 
   PROCEDURE Close
    (fd        : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'PWM_close';
 
   PROCEDURE Write
    (fd        : Integer;

@@ -24,12 +24,13 @@
 #define LIBWATCHDOG_H
 
 #include <cplusplus.h>
-#include <liblinux.h>
 #include <stdint.h>
 
-#define WATCHDOG_open(n, f, e)	LINUX_open_readwrite(n, f, e)
-
 _BEGIN_STD_C
+
+extern void WATCHDOG_open(const char *name, int32_t *fd, int32_t * error);
+
+extern void WATCHDOG_close(int32_t fd, int32_t *error);
 
 extern void WATCHDOG_get_timeout(int32_t fd, int32_t *timeout, int32_t *error);
 
@@ -39,7 +40,5 @@ extern void WATCHDOG_set_timeout(int32_t fd, int32_t newtimeout,
 extern void WATCHDOG_kick(int32_t fd, int32_t *error);
 
 _END_STD_C
-
-#define WATCHDOG_close(f, e)	LINUX_close(f, e)
 
 #endif

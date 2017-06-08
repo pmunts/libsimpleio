@@ -48,27 +48,27 @@ INTERFACE
     VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_open';
 
   PROCEDURE Close
-   (epfd      : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
+   (epfd       : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'EVENT_close';
 
   PROCEDURE Register
-   (epfd      : Integer;
-    fd        : Integer;
-    events    : Integer;
-    handle    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_register_fd';
+   (epfd       : Integer;
+    fd         : Integer;
+    events     : Integer;
+    handle     : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'EVENT_register_fd';
 
   PROCEDURE Modify
-   (epfd      : Integer;
-    fd        : Integer;
-    events    : Integer;
-    handle    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_modify_fd';
+   (epfd       : Integer;
+    fd         : Integer;
+    events     : Integer;
+    handle     : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'EVENT_modify_fd';
 
   PROCEDURE Unregister
-   (epfd      : Integer;
-    fd        : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'EVENT_unregister_fd';
+   (epfd       : Integer;
+    fd         : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'EVENT_unregister_fd';
 
   PROCEDURE Wait
    (epfd       : Integer;

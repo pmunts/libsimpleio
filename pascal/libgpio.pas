@@ -51,7 +51,7 @@ INTERFACE
 
   PROCEDURE Close
    (fd        : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_close';
 
   PROCEDURE Read
    (fd        : Integer;

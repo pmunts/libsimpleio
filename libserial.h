@@ -24,7 +24,6 @@
 #define LIBSERIAL_H
 
 #include <cplusplus.h>
-#include <liblinux.h>
 #include <stdint.h>
 
 typedef enum
@@ -39,14 +38,14 @@ _BEGIN_STD_C
 extern void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
   int32_t databits, int32_t stopbits, int32_t *fd, int32_t *error);
 
+extern void SERIAL_close(int32_t fd, int32_t *error);
+
+extern void SERIAL_send(int32_t fd, void *buf, int32_t bufsize,
+  int32_t *count, int32_t *error);
+
+extern void SERIAL_receive(int32_t fd, void *buf, int32_t bufsize,
+  int32_t *count, int32_t *error);
+
 _END_STD_C
-
-// Convenience macros
-
-#define SERIAL_send(f, b, s, c, e)	LINUX_write(f, b, s, c, e)
-
-#define SERIAL_receive(f, b, s, c, e)	LINUX_read(f, b, s, c, e)
-
-#define SERIAL_close(f, e)		LINUX_close(f, e)
 
 #endif

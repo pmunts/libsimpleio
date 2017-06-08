@@ -24,18 +24,17 @@
 #define LIBI2C_H
 
 #include <cplusplus.h>
-#include <liblinux.h>
 #include <stdint.h>
 
 _BEGIN_STD_C
+
+extern void I2C_open(const char *name, int32_t *fd, int32_t * error);
+
+extern void I2C_close(int32_t fd, int32_t *error);
 
 extern void I2C_transaction(int32_t fd, int32_t slaveaddr, void *cmd,
   int32_t cmdlen, void *resp, int32_t resplen, int32_t *error);
 
 _END_STD_C
-
-#define I2C_open(n, f, e)	LINUX_open_readwrite(n, f, e)
-
-#define I2C_close(f, e)		LINUX_close(f, e)
 
 #endif

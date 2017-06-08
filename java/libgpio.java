@@ -56,7 +56,7 @@ public class libgpio
 
   public static native void GPIO_write(int fd, int state, int[] error);
 
-  public static native void LINUX_close(int fd, int[] error);
+  public static native void GPIO_close(int fd, int[] error);
 
   // Bind to libsimpleio.so
 

@@ -31,7 +31,7 @@ PACKAGE libHIDRaw IS
    (devname : String;
     fd      : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Open, "LINUX_open_readwrite");
+  PRAGMA Import(C, Open, "HIDRAW_open");
 
   PROCEDURE OpenID
    (vendor  : Integer;
@@ -43,7 +43,7 @@ PACKAGE libHIDRaw IS
   PROCEDURE Close
    (fd      : Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Close, "LINUX_close");
+  PRAGMA Import(C, Close, "HIDRAW_close");
 
   PROCEDURE GetName
    (fd      : Integer;
@@ -66,7 +66,7 @@ PACKAGE libHIDRaw IS
     bufsize : Integer;
     count   : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Send, "LINUX_write");
+  PRAGMA Import(C, Send, "HIDRAW_send");
 
   PROCEDURE Receive
    (fd      : Integer;
@@ -74,6 +74,6 @@ PACKAGE libHIDRaw IS
     bufsize : Integer;
     count   : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Receive, "LINUX_read");
+  PRAGMA Import(C, Receive, "HIDRAW_receive");
 
 END libHIDRaw;

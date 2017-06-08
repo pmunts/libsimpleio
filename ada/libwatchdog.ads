@@ -32,12 +32,12 @@ PACKAGE libWatchdog IS
    (devname    : String;
     fd         : OUT Integer;
     error      : OUT Integer);
-  PRAGMA Import(C, Open, "LINUX_open_readwrite");
+  PRAGMA Import(C, Open, "WATCHDOG_open");
 
   PROCEDURE Close
    (fd         : Integer;
     error      : OUT Integer);
-  PRAGMA Import(C, Close, "LINUX_close");
+  PRAGMA Import(C, Close, "WATCHDOG_close");
 
   PROCEDURE GetTimeout
    (fd         : Integer;

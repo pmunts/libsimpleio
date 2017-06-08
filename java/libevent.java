@@ -60,7 +60,7 @@ public class libevent
   public static native void EVENT_wait(int epfd, int[] fd, int[] event,
     int[] handle, int timeoutms, int[] error);
 
-  public static native void LINUX_close(int fd, int[] error);
+  public static native void EVENT_close(int fd, int[] error);
 
   // Bind to libsimpleio.so
 

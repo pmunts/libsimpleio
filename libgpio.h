@@ -24,7 +24,6 @@
 #define LIBGPIO_H
 
 #include <cplusplus.h>
-#include <liblinux.h>
 #include <stdint.h>
 
 typedef enum
@@ -58,8 +57,8 @@ extern void GPIO_read(int32_t fd, int32_t *state, int32_t *error);
 
 extern void GPIO_write(int32_t fd, int32_t state, int32_t *error);
 
-_END_STD_C
+extern void GPIO_close(int32_t fd, int32_t *error);
 
-#define GPIO_close(f, e) LINUX_close(f, e)
+_END_STD_C
 
 #endif

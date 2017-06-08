@@ -57,21 +57,21 @@ INTERFACE
 
   PROCEDURE Close
    (fd        : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_close';
 
   PROCEDURE Send
    (fd        : Integer;
     buf       : Pointer;
     size      : Integer;
     VAR count : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_send';
 
   PROCEDURE Receive
    (fd        : Integer;
     buf       : Pointer;
     size      : Integer;
     VAR count : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_read';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_receive';
 
 IMPLEMENTATION
 

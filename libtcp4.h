@@ -24,7 +24,6 @@
 #define _LIBTCP4_H_
 
 #include <cplusplus.h>
-#include <liblinux.h>
 #include <stdint.h>
 
 typedef uint32_t IPV4_ADDR;
@@ -53,14 +52,20 @@ extern void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port,
 extern void TCP4_server(IPV4_ADDR addr, IPV4_PORT port,
   int32_t *fd, int32_t *error);
 
+// Close connection
+
+extern void TCP4_close(int32_t fd, int32_t *error);
+
+// Send data
+
+extern void TCP4_send(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
+  int32_t *error);
+
+// Receive data
+
+extern void TCP4_receive(int32_t fd, void *buf, int32_t bufsize,
+  int32_t *count, int32_t *error);
+
 _END_STD_C
-
-// Convenience macros
-
-#define TCP4_send(f, b, s, c, e)	LINUX_write(f, b, s, c, e)
-
-#define TCP4_receive(f, b, s, c, e)	LINUX_read(f, b, s, c, e)
-
-#define TCP4_close(f, e)		LINUX_close(f, e)
 
 #endif

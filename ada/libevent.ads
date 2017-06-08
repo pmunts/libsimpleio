@@ -49,7 +49,7 @@ PACKAGE libEvent IS
   PROCEDURE Close
    (epfd      : Integer;
     error     : OUT Integer);
-  PRAGMA Import(C, Close, "LINUX_close");
+  PRAGMA Import(C, Close, "EVENT_close");
 
   PROCEDURE Register
    (epfd      : Integer;

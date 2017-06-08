@@ -51,7 +51,7 @@ INTERFACE
     src        : Pointer;
     srclen     : Integer;
     VAR sent   : Integer;
-    VAR error  : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'STREAM_send_frame';
 
   { Receive a frame from the Stream Framing Protocol peer. }
 

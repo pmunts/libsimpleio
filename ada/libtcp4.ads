@@ -73,7 +73,7 @@ PACKAGE libTCP4 IS
   PROCEDURE Close
    (fd       : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Close, "LINUX_close");
+  PRAGMA Import(C, Close, "TCP4_close");
 
   -- Send data to IPv4 TCP connection peer
 
@@ -83,7 +83,7 @@ PACKAGE libTCP4 IS
     size     : Integer;
     count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Send, "LINUX_write");
+  PRAGMA Import(C, Send, "TCP4_send");
 
   -- Receive data from IPv4 TCP connection peer
 
@@ -93,6 +93,6 @@ PACKAGE libTCP4 IS
     size     : Integer;
     count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Receive, "LINUX_read");
+  PRAGMA Import(C, Receive, "TCP4_receive");
 
 END libTCP4;

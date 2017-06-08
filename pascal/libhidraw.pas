@@ -27,7 +27,7 @@ INTERFACE
   PROCEDURE Open
    (name        : PChar;
     VAR fd      : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_open';
 
   PROCEDURE OpenID
    (vendor      : Integer;
@@ -37,7 +37,7 @@ INTERFACE
 
   PROCEDURE Close
    (fd          : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_close';
 
   PROCEDURE GetName
    (fd          : Integer;
@@ -57,14 +57,14 @@ INTERFACE
     buf         : Pointer;
     bufsize     : Integer;
     VAR count   : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_write';
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_send';
 
   PROCEDURE Receive
    (fd          : Integer;
     buf         : Pointer;
     bufsize     : Integer;
     VAR count   : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_read';
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_receive';
 
 IMPLEMENTATION
 

@@ -27,11 +27,11 @@ INTERFACE
   PROCEDURE Open
    (devname   : PChar;
     VAR fd    : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_open_readwrite';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'I2C_open';
 
   PROCEDURE Close
    (fd        : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_close';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'I2C_close';
 
   PROCEDURE Transaction
    (fd        : Integer;

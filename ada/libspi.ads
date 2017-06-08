@@ -42,7 +42,7 @@ PACKAGE libSPI IS
   PROCEDURE Close
    (fd       : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Close, "LINUX_close");
+  PRAGMA Import(C, Close, "SPI_close");
 
   PROCEDURE Transaction
    (spifd    : Integer;

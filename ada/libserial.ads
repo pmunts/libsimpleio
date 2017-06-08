@@ -43,7 +43,7 @@ PACKAGE libSerial IS
   PROCEDURE Close
    (fd       : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Close, "LINUX_close");
+  PRAGMA Import(C, Close, "SERIAL_close");
 
   PROCEDURE Send
    (fd       : Integer;
@@ -51,7 +51,7 @@ PACKAGE libSerial IS
     size     : Integer;
     count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Send, "LINUX_write");
+  PRAGMA Import(C, Send, "SERIAL_send");
 
   PROCEDURE Receive
    (fd       : Integer;
@@ -59,6 +59,6 @@ PACKAGE libSerial IS
     size     : Integer;
     count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Receive, "LINUX_read");
+  PRAGMA Import(C, Receive, "SERIAL_receive");
 
 END libSerial;

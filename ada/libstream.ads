@@ -56,7 +56,7 @@ PACKAGE libStream IS
     srclen   : Integer;
     sent     : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Send, "LINUX_write");
+  PRAGMA Import(C, Send, "STREAM_send_frame");
 
   -- Receive a frame from the Stream Framing Protocol peer.
   -- Each call reads one byte from the stream, so Receive()

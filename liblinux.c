@@ -94,7 +94,8 @@ void LINUX_drop_privileges(const char *username, int32_t *error)
 
 // Open syslog connection
 
-void LINUX_openlog(const char *id, int32_t options, int32_t facility, int32_t *error)
+void LINUX_openlog(const char *id, int32_t options, int32_t facility,
+  int32_t *error)
 {
   openlog(id, options, facility);
   *error = 0;
@@ -110,7 +111,8 @@ void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
 
 // Open a file descriptor
 
-void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd, int32_t *error)
+void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,
+  int32_t *error)
 {
   *fd = open(name, flags, mode);
   if (*fd < 0)
@@ -184,7 +186,8 @@ void LINUX_close(int32_t fd, int32_t *error)
 
 // Read from a file descriptor
 
-void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
+void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
+  int32_t *error)
 {
   int32_t len = read(fd, buf, bufsize);
   if (len < 0)
@@ -201,7 +204,8 @@ void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t 
 
 // Write to a file descriptor
 
-void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
+void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
+  int32_t *error)
 {
   int32_t len = write(fd, buf, bufsize);
   if (len < 0)
@@ -215,3 +219,27 @@ void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t
   *count = len;
   *error = 0;
 }
+
+// Function aliases
+
+#define ALIAS(orig) __attribute__((weak, alias(orig)))
+
+void EVENT_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void GPIO_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void HIDRAW_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void HIDRAW_open(const char *name, int32_t *fd, int32_t *error) ALIAS("LINUX_open_readwrite");
+void HIDRAW_receive(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_read");
+void HIDRAW_send(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_write");
+void I2C_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void I2C_open(const char *name, int32_t *fd, int32_t *error) ALIAS("LINUX_open_readwrite");
+void PWM_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void SERIAL_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void SERIAL_receive(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_read");
+void SERIAL_send(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_write");
+void SPI_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void STREAM_send_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_write");
+void TCP4_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void TCP4_receive(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_read");
+void TCP4_send(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_write");
+void WATCHDOG_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void WATCHDOG_open(const char *name, int32_t *fd, int32_t *error) ALIAS("LINUX_open_readwrite");

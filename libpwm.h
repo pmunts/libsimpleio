@@ -24,7 +24,6 @@
 #define LIBPWM_H
 
 #include <cplusplus.h>
-#include <liblinux.h>
 #include <stdint.h>
 
 typedef enum
@@ -41,10 +40,10 @@ extern void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 extern void PWM_open(int32_t chip, int32_t channel, int32_t *fd,
   int32_t *error);
 
+extern void PWM_close(int32_t fd, int32_t *error);
+
 extern void PWM_write(int32_t fd, int32_t ontime, int32_t *error);
 
 _END_STD_C
-
-#define PWM_close(f, e) LINUX_close(f, e)
 
 #endif
