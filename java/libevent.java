@@ -1,4 +1,4 @@
-// Copyright (C)2016-2017, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -17,6 +17,10 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+
+// This binding relies on the Java Native Access library, available from:
+//
+// https://github.com/java-native-access/jna
 
 package libsimpleio;
 
@@ -41,7 +45,7 @@ public class libevent
   public static final int EPOLLONESHOT = 0x40000000;
   public static final int EPOLLET      = 0x80000000;
 
-  // libc function wrappers
+  // epoll function wrappers
 
   public static native void EVENT_open(int[] epfd, int[] error);
 
@@ -57,6 +61,8 @@ public class libevent
     int[] handle, int timeoutms, int[] error);
 
   public static native void LINUX_close(int fd, int[] error);
+
+  // Bind to libsimpleio.so
 
   static
   {

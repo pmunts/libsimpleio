@@ -1,4 +1,4 @@
-// Copyright (C)2016-2017, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -17,6 +17,10 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+
+// This binding relies on the Java Native Access library, available from:
+//
+// https://github.com/java-native-access/jna
 
 package libsimpleio;
 
@@ -67,7 +71,7 @@ public class liblinux
   public static final int LOG_INFO     = 6; // informational
   public static final int LOG_DEBUG    = 7; // debug-level messages
 
-  // libc function wrappers
+  // Linux helper function wrappers
 
   public static native void LINUX_detach(int[] error);
 
@@ -80,4 +84,10 @@ public class liblinux
   public static native void LINUX_syslog(int priority, String message,
     int[] error);
 
+  // Bind to libsimpleio.so
+
+  static
+  {
+    Native.register("simpleio");
+  }
 }
