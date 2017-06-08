@@ -33,7 +33,7 @@ _BEGIN_STD_C
 
 // Resolve host name to IPV4 address
 
-extern void TCP4_resolve(char *name, IPV4_ADDR *addr, int32_t *error);
+extern void TCP4_resolve(const char *name, IPV4_ADDR *addr, int32_t *error);
 
 // Connect to a TCP server
 
