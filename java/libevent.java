@@ -45,7 +45,7 @@ public class libevent
   public static final int EPOLLONESHOT = 0x40000000;
   public static final int EPOLLET      = 0x80000000;
 
-  // epoll function wrappers
+  // epoll function definitions
 
   public static native void EVENT_open(int[] epfd, int[] error);
 

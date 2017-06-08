@@ -71,7 +71,7 @@ public class liblinux
   public static final int LOG_INFO     = 6; // informational
   public static final int LOG_DEBUG    = 7; // debug-level messages
 
-  // Linux helper function wrappers
+  // Linux system function definitions
 
   public static native void LINUX_detach(int[] error);
 
