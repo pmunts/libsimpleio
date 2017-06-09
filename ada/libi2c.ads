@@ -30,7 +30,7 @@ PACKAGE libI2C IS
    (devname   : String;
     fd        : OUT Integer;
     error     : OUT Integer);
-  PRAGMA Import(C, Open, "I2C_OPEN");
+  PRAGMA Import(C, Open, "I2C_open");
 
   PROCEDURE Close
    (fd        : Integer;
