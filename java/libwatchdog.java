@@ -22,7 +22,7 @@
 //
 // https://github.com/java-native-access/jna
 
-package libsimpleio;
+package com.munts.libsimpleio;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
