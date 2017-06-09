@@ -25,17 +25,19 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class libi2c
 {
   // I2C device function definitions
 
-  public static native void I2C_open(String devname, int[] fd, int[] error);
+  public static native void I2C_open(String devname, IntByReference fd,
+    IntByReference error);
 
-  public static native void I2C_close(int fd, int[] error);
+  public static native void I2C_close(int fd, IntByReference error);
 
-  public static native void I2C_transaction(int fd, int slaveaddr, Pointer cmd,
-    int cmdlen, Pointer resp, int resplen, int[] error);
+  public static native void I2C_transaction(int fd, int slaveaddr, byte[] cmd,
+    int cmdlen, byte[] resp, int resplen, IntByReference error);
 
   // Bind to libsimpleio.so
 

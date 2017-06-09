@@ -25,6 +25,7 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class libserial
 {
@@ -37,15 +38,16 @@ public class libserial
   // Serial port device function definitions
 
   public static native void SERIAL_open(String devname, int baudrate,
-    int parity, int databits, int stopbits, int[] fd, int[] error);
+    int parity, int databits, int stopbits, IntByReference fd,
+    IntByReference error);
 
-  public static native void SERIAL_close(int fd, int[] error);
+  public static native void SERIAL_close(int fd, IntByReference error);
 
-  public static native void SERIAL_send(int fd, Pointer buf, int bufsize,
-    int[] count, int[] error);
+  public static native void SERIAL_send(int fd, byte[] buf, int bufsize,
+    IntByReference count, IntByReference error);
 
-  public static native void SERIAL_receive(int fd, Pointer buf, int bufsize,
-    int[] count, int[] error);
+  public static native void SERIAL_receive(int fd, byte[] buf, int bufsize,
+    IntByReference count, IntByReference error);
 
   // Bind to libsimpleio.so
 

@@ -25,20 +25,22 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class libpwm
 {
   // PWM device function definitions
 
   public static native void PWM_configure(int chip, int channel, int period,
-    int ontime, int polarity, int[] error);
+    int ontime, int polarity, IntByReference error);
 
-  public static native void PWM_open(int chip, int channel, int[] fd,
-    int[] error);
+  public static native void PWM_open(int chip, int channel, IntByReference fd,
+    IntByReference error);
 
-  public static native void PWM_close(int fd, int[] error);
+  public static native void PWM_close(int fd, IntByReference error);
 
-  public static native void PWM_write(int fd, int ontime, int[] error);
+  public static native void PWM_write(int fd, int ontime,
+    IntByReference error);
 
   // Bind to libsimpleio.so
 

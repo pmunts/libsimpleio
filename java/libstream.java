@@ -25,22 +25,23 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class libstream
 {
   // Stream Framing Protocol function definitions
 
-  public static native void STREAM_encode_frame(Pointer src, int srclen,
-    Pointer dst, int dstsize, int[] dstlen, int[] error);
+  public static native void STREAM_encode_frame(byte[] src, int srclen,
+    byte[] dst, int dstsize, IntByReference dstlen, IntByReference error);
 
-  public static native void STREAM_decode_frame(Pointer src, int srclen,
-    Pointer dst, int dstsize, int[] dstlen, int[] error);
+  public static native void STREAM_decode_frame(byte[] src, int srclen,
+    byte[] dst, int dstsize, IntByReference dstlen, IntByReference error);
 
-  public static native void STREAM_receive_frame(int fd, Pointer buf,
-    int bufsize, int[] framesize, int[] error);
+  public static native void STREAM_receive_frame(int fd, byte[] buf,
+    int bufsize, IntByReference framesize, IntByReference error);
 
-  public static native void STREAM_send_frame(int fd, Pointer buf,
-    int bufsize, int[] framesize, int[] error);
+  public static native void STREAM_send_frame(int fd, byte[] buf,
+    int bufsize, IntByReference framesize, IntByReference error);
 
   // Bind to libsimpleio.so
 

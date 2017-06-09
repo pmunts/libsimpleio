@@ -25,18 +25,19 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class libspi
 {
   // SPI device function definitions
 
   public static native void SPI_open(String devname, int mode, int wordsize,
-    int speed, int[] fd, int[] error);
+    int speed, IntByReference fd, IntByReference error);
 
-  public static native void SPI_close(int fd, int[] error);
+  public static native void SPI_close(int fd, IntByReference error);
 
-  public static native void SPI_transaction(int spifd, int csfd, Pointer cmd,
-    int cmdlen, int delayus, Pointer resp, int resplen, int[] error);
+  public static native void SPI_transaction(int spifd, int csfd, byte[] cmd,
+    int cmdlen, int delayus, byte[] resp, int resplen, IntByReference error);
 
   // Bind to libsimpleio.so
 

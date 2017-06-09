@@ -25,29 +25,31 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class libhidraw
 {
   // Raw HID device function definitions
 
-  public static native void HIDRAW_open(String name, int[] fd, int[] error);
+  public static native void HIDRAW_open(String name, IntByReference fd,
+    IntByReference error);
 
-  public static native void HIDRAW_open_id(int VID, int PID, int[] fd,
-    int[] error);
+  public static native void HIDRAW_open_id(int VID, int PID, IntByReference fd,
+    IntByReference error);
 
-  public static native void HIDRAW_close(int fd, int[] error);
+  public static native void HIDRAW_close(int fd, IntByReference error);
 
-  public static native void HIDRAW_get_name(int fd, Pointer buf, int size,
-    int[] error);
+  public static native void HIDRAW_get_name(int fd, byte[] buf, int size,
+    IntByReference error);
 
-  public static native void HIDRAW_get_info(int fd, int[] bustype,
-    int[] vendor, int[] product, int[] error);
+  public static native void HIDRAW_get_info(int fd, IntByReference bustype,
+    IntByReference vendor, IntByReference product, IntByReference error);
 
-  public static native void HIDRAW_send(int fd, Pointer buf, int size,
-    int[] count, int[] error);
+  public static native void HIDRAW_send(int fd, byte[] buf, int size,
+    IntByReference count, IntByReference error);
 
-  public static native void HIDRAW_receive(int fd, Pointer buf, int size,
-    int[] count, int[] error);
+  public static native void HIDRAW_receive(int fd, byte[] buf, int size,
+    IntByReference count, IntByReference error);
 
   // Bind to libsimpleio.so
 

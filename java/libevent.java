@@ -25,6 +25,7 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class libevent
 {
@@ -47,20 +48,23 @@ public class libevent
 
   // epoll function definitions
 
-  public static native void EVENT_open(int[] epfd, int[] error);
+  public static native void EVENT_open(IntByReference epfd,
+    IntByReference error);
 
   public static native void EVENT_register_fd(int epfd, int fd, int events,
-    int handle, int[] error);
+    int handle, IntByReference error);
 
   public static native void EVENT_modify_fd(int epfd, int fd, int events,
-    int handle, int[] error);
+    int handle, IntByReference error);
 
-  public static native void EVENT_unregister_fd(int epfd, int fd, int[]error);
+  public static native void EVENT_unregister_fd(int epfd, int fd,
+    IntByReferenceerror);
 
-  public static native void EVENT_wait(int epfd, int[] fd, int[] event,
-    int[] handle, int timeoutms, int[] error);
+  public static native void EVENT_wait(int epfd, IntByReference fd,
+    IntByReference event, IntByReference handle, int timeoutms,
+    IntByReference error);
 
-  public static native void EVENT_close(int fd, int[] error);
+  public static native void EVENT_close(int fd, IntByReference error);
 
   // Bind to libsimpleio.so
 

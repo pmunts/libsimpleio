@@ -25,6 +25,7 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class liblinux
 {
@@ -73,16 +74,16 @@ public class liblinux
 
   // Linux system function definitions
 
-  public static native void LINUX_detach(int[] error);
+  public static native void LINUX_detach(IntByReference error);
 
   public static native void LINUX_drop_privileges(String username,
-    int[] error);
+    IntByReference error);
 
   public static native void LINUX_openlog(String ident, int options,
-    int facility, int[] error);
+    int facility, IntByReference error);
 
   public static native void LINUX_syslog(int priority, String message,
-    int[] error);
+    IntByReference error);
 
   // Bind to libsimpleio.so
 

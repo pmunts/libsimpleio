@@ -25,22 +25,24 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class libwatchdog
 {
   // Raw HID device function definitions
 
-  public static native void WATCHDOG_open(String name, int[] fd, int[] error);
+  public static native void WATCHDOG_open(String name, IntByReference fd,
+    IntByReference error);
 
-  public static native void WATCHDOG_close(int fd, int[] error);
+  public static native void WATCHDOG_close(int fd, IntByReference error);
 
-  public static native void WATCHDOG_get_timeout(int fd, int[] timeout,
-    int[] error);
+  public static native void WATCHDOG_get_timeout(int fd,
+    IntByReference timeout, IntByReference error);
 
   public static native void WATCHDOG_set_timeout(int fd, int newtimeout,
-    int[] timeout, int[] error);
+    IntByReference timeout, IntByReference error);
 
-  public static native void WATCHDOG_kick(int fd, int[] error);
+  public static native void WATCHDOG_kick(int fd, IntByReference error);
 
   // Bind to libsimpleio.so
 

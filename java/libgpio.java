@@ -25,6 +25,7 @@
 package libsimpleio;
 
 import com.sun.jna.*;
+import com.sun.jna.ptr.*;
 
 public class libgpio
 {
@@ -48,15 +49,18 @@ public class libgpio
   // GPIO function definitions
 
   public static native void GPIO_configure(int pin, int dir, int state,
-    int edge, int polarity, int[] error);
+    int edge, int polarity, IntByReference error);
 
-  public static native void GPIO_open(int pin, int[] fd, int[] error);
+  public static native void GPIO_open(int pin, IntByReference fd,
+    IntByReference error);
 
-  public static native void GPIO_read(int fd, int[] state, int[] error);
+  public static native void GPIO_read(int fd, IntByReference state,
+    IntByReference error);
 
-  public static native void GPIO_write(int fd, int state, int[] error);
+  public static native void GPIO_write(int fd, int state,
+    IntByReference error);
 
-  public static native void GPIO_close(int fd, int[] error);
+  public static native void GPIO_close(int fd, IntByReference error);
 
   // Bind to libsimpleio.so
 
