@@ -29,6 +29,11 @@ import com.sun.jna.ptr.*;
 
 public class libpwm
 {
+  // PWM output polarity constants
+
+  public static final int ACTIVELOW	= 0;
+  public static final int ACTIVEHIGH	= 1;
+
   // PWM device function definitions
 
   public static native void PWM_configure(int chip, int channel, int period,
