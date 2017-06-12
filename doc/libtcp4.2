@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libtcp4 2 "11 April 2017" "version 1.0" "Linux Simple I/O Library"
+.TH libtcp4 2 "12 June 2017" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
 .B libtcp4
 \-\- Linux Simple I/O Library: IPv4 TCP Module
@@ -33,6 +33,8 @@
 .BI "typedef uint16_t " IPV4_PORT ";"
 
 .BI "void TCP4_resolve(char *" name ", IPV4_ADDR *" addr ", int32_t *" error ");"
+
+.BI "void TCP4_ntoa(IPV4_ADDR " addr ", char *" dst ", int32_t " dstsize ", int32_t *" error ");"
 
 .BI "void TCP4_connect(IPV4_ADDR " addr ", IPV4_PORT " port ", int32_t *" fd ", int32_t *" error ");"
 
@@ -63,10 +65,20 @@ attempts to resolve an IPv4 address string passed in
 .IR *name
 (containing a domain name, a local host name like
 .B localhost
-or a dot-decimal notation address like
+or a dotted decimal address like
 .BR 1.2.3.4 ).
 Upon success, the 32-bit IPv4 address will be returned in
 .IR *addr
+.PP
+.B TCP4_ntoa()
+converts an IPv4 address to a dotted decimal address string. The
+address of the destination buffer is passed in
+.IR *dst
+and its size, which must be at least 16 bytes, is passed in
+.IR dstsize .
+Upon success, the dotted decimal address string will be
+returned in
+.IR *dst .
 .PP
 .B TCP4_connect()
 attempts to connect to a IPv4 TCP server.  The 32-bit IPv4 address is passed in

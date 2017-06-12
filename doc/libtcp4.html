@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of libtcp4</TITLE>
 </HEAD><BODY>
 <H1>libtcp4</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 12 June 2017<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -22,6 +22,8 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#ind
 <B>typedef uint16_t </B><I>IPV4_PORT</I><B>;</B>
 
 <B>void TCP4_resolve(char *</B><I>name</I><B>, IPV4_ADDR *</B><I>addr</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void TCP4_ntoa(IPV4_ADDR </B><I>addr</I><B>, char *</B><I>dst</I><B>, int32_t </B><I>dstsize</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void TCP4_connect(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -63,11 +65,26 @@ attempts to resolve an IPv4 address string passed in
 (containing a domain name, a local host name like
 <B>localhost</B>
 
-or a dot-decimal notation address like
+or a dotted decimal address like
 <B>1.2.3.4</B>).
 
 Upon success, the 32-bit IPv4 address will be returned in
 <I>*addr</I>
+
+<P>
+
+<B>TCP4_ntoa()</B>
+
+converts an IPv4 address to a dotted decimal address string. The
+address of the destination buffer is passed in
+<I>*dst</I>
+
+and its size, which must be at least 16 bytes, is passed in
+<I>dstsize</I>.
+
+Upon success, the dotted decimal address string will be
+returned in
+<I>*dst</I>.
 
 <P>
 
@@ -193,6 +210,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 13:32:38 GMT, April 11, 2017
+Time: 08:47:59 GMT, June 12, 2017
 </BODY>
 </HTML>

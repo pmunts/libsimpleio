@@ -30,9 +30,12 @@ import com.sun.jna.ptr.*;
 public class libtcp4
 {
   // TCP/IP v4 function definitions -- These are of questionable
-  // usefulness for Java, but are provided for completeness.
+  // usefulness for Java, but are provided here for completeness.
 
   public static native void TCP4_resolve(String name, IntByReference addr,
+    IntByReference error);
+
+  public static native void TCP4_ntoa(int addr, byte[] dst, int dstsize,
     IntByReference error);
 
   public static native void TCP4_connect(int addr, short port,

@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -64,6 +65,28 @@ void TCP4_resolve(const char *name, IPV4_ADDR *addr, int32_t *error)
   }
 
   *addr = htonl(*(IPV4_ADDR *)he->h_addr);
+  *error = 0;
+}
+
+// Convert IPV4 address to dotted decimal string
+
+void TCP4_ntoa(IPV4_ADDR addr, char *dst, int32_t dstsize, int32_t *error)
+{
+  struct in_addr in;
+
+  // Validate parameters
+
+  if (dstsize < 16)
+  {
+    *error = EINVAL;
+    return;
+  }
+
+  in.s_addr = ntohl(addr);
+
+  memset(dst, 0, dstsize);
+
+  strncpy(dst, inet_ntoa(in), dstsize - 1);
   *error = 0;
 }
 

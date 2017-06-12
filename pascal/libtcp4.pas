@@ -37,6 +37,12 @@ INTERFACE
     VAR addr  : IPV4_ADDR;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_resolve';
 
+  PROCEDURE NtoA
+   (addr      : IPV4_ADDR;
+    dst       : PChar;
+    dstsize   : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_ntoa';
+
   PROCEDURE Connect
    (addr      : IPV4_ADDR;
     port      : IPV4_PORT;

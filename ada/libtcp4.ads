@@ -41,6 +41,15 @@ PACKAGE libTCP4 IS
     error    : OUT Integer);
   PRAGMA Import(C, Resolve, "TCP4_resolve");
 
+  -- Convert IPv4 address to dotted decimal string
+
+  PROCEDURE NtoA
+   (hostaddr : IPV4_ADDR;
+    dst      : OUT String;
+    dstsize  : Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, NtoA, "TCP4_ntoa");
+
   -- Connect to an IPv4 TCP server
 
   PROCEDURE Connect

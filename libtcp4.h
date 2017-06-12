@@ -35,6 +35,11 @@ _BEGIN_STD_C
 
 extern void TCP4_resolve(const char *name, IPV4_ADDR *addr, int32_t *error);
 
+// Convert IPV4 address to dotted decimal string
+
+extern void TCP4_ntoa(IPV4_ADDR addr, char *dst, int32_t dstsize,
+  int32_t *error);
+
 // Connect to a TCP server
 
 extern void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port,
