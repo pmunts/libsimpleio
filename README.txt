@@ -8,6 +8,7 @@
      * Raw HID (Human Interface Device) Devices
      * I2C (Inter-Integrated Circuit) Bus Devices
      * [1]Labview LINX Remote I/O Devices
+     * PWM (Pulse Width Modulated) Output Devices
      * Serial Ports
      * SPI (Serial Peripheral Interface) Bus Devices
      * [2]Stream Framing Protocol Devices
