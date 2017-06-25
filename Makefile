@@ -98,7 +98,7 @@ ifeq ($(BOARDNAME),)
 	chmod -R ugo-w $(PKGDIR)/etc
 else
 # Cross-compiled package
-	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local/$(TOOLCHAIN_NAME)/$(CONFIGURE_NAME)/libc/usr
+	$(MAKE) install DESTDIR=$(PKGDIR)$(GCCSYSROOT)/usr
 endif
 
 $(PKGFILE): $(PKGDIR)
