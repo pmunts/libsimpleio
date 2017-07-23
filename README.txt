@@ -19,17 +19,32 @@
    such as the Raspberry Pi, it can also be useful on larger desktop Linux
    systems.
 
-Git Repository
+   The wrapper functions exported by libsimpleio all follow same uniform
+   pattern:
 
-   The source code is available at: [3]http://git.munts.com
+     * All wrapper functions are proper procedures (void f() in C).
+     * All input arguments of primitive types (int, float, etc.) are
+       passed by value.
+     * All output arguments of primitive types are passed by reference
+       (int *, float *, etc.).
+     * All composite types are passed by reference.
 
-   Use the following command to clone it:
-
-   git clone http://git.munts.com/libsimpleio.git
+   All of the wrapper functions are declared between _BEGIN_STD_C and
+   _END_STD_C for C++. Binding modules are provided for [3]Ada, [4]Java,
+   and [5]Free Pascal.
 
 Documentation
 
-   The man pages specifying the API are available at: [4]libsimpleio.html
+   The man pages specifying the libsimpleio API are available at:
+   [6]libsimpleio.html
+
+Git Repository
+
+   The source code is available at: [7]http://git.munts.com
+
+   Use the following command to clone it:
+
+  git clone http://git.munts.com/libsimpleio.git
 
 Copyright:
 
@@ -58,7 +73,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [5]phil@munts.net
+   Questions or comments to Philip Munts [8]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -67,6 +82,9 @@ References
 
    1. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
    2. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
-   3. http://git.munts.com/
-   4. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-   5. mailto:phil@munts.net
+   3. http://git.munts.com/libsimpleio/ada
+   4. http://git.munts.com/libsimpleio/java
+   5. http://git.munts.com/libsimpleio/pascal
+   6. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+   7. http://git.munts.com/
+   8. mailto:phil@munts.net

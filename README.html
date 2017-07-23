@@ -21,6 +21,25 @@ Protocol</a> Devices</li>
 <p>Although <b>libsimpleio</b> was originally intended for Linux microcomputers
 such as the Raspberry Pi, it can also be useful on larger desktop Linux
 systems.</p>
+<p>The wrapper functions exported by <b>libsimpleio</b> all follow same uniform
+pattern:</p>
+<ul>
+<li>All wrapper functions are proper procedures (<tt>void f()</tt> in C).</li>
+<li>All input arguments of primitive types (<tt>int</tt>, <tt>float</tt>, etc.)
+are passed by value.</li>
+<li>All output arguments of primitive types are passed by reference (<tt>int
+*</tt>, <tt>float *</tt>, etc.).</li>
+<li>All composite types are passed by reference.</li>
+</ul>
+<p>All of the wrapper functions are declared between <tt>_BEGIN_STD_C</tt> and
+<tt>_END_STD_C</tt> for C++. Binding modules are provided for <a href=
+"http://git.munts.com/libsimpleio/ada">Ada</a>, <a href=
+"http://git.munts.com/libsimpleio/java">Java</a>, and <a href=
+"http://git.munts.com/libsimpleio/pascal">Free Pascal</a>.</p>
+<h2>Documentation</h2>
+<p>The man pages specifying the <b>libsimpleio</b> API are available at:
+<a href=
+"http://git.munts.com/libsimpleio/doc/libsimpleio.html">libsimpleio.html</a></p>
 <h2>Git Repository</h2>
 <p>The source code is available at: <a href=
 "http://git.munts.com">http://git.munts.com</a></p>
@@ -28,9 +47,6 @@ systems.</p>
 <pre>
 git clone http://git.munts.com/libsimpleio.git
 </pre>
-<h2>Documentation</h2>
-<p>The man pages specifying the API are available at: <a href=
-"http://git.munts.com/libsimpleio/doc/libsimpleio.html">libsimpleio.html</a></p>
 <h2>Copyright:</h2>
 <p>Original works herein are copyrighted as follows:</p>
 <pre>
