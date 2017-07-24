@@ -6,7 +6,7 @@
 
      * GPIO (General Purpose Input/Output) Pins
      * Raw HID (Human Interface Device) Devices
-     * I2C (Inter-Integrated Circuit) Bus Devices
+     * I^2C (Inter-Integrated Circuit) Bus Devices
      * [1]Labview LINX Remote I/O Devices
      * PWM (Pulse Width Modulated) Output Devices
      * Serial Ports
@@ -19,8 +19,8 @@
    such as the Raspberry Pi, it can also be useful on larger desktop Linux
    systems.
 
-   The wrapper functions exported by libsimpleio all follow same uniform
-   pattern:
+   The wrapper functions exported by libsimpleio all follow the same
+   uniform pattern:
 
      * All wrapper functions are proper procedures (void f() in C).
      * All input arguments of primitive types (int, float, etc.) are
@@ -28,6 +28,7 @@
      * All output arguments of primitive types are passed by reference
        (int *, float *, etc.).
      * All composite types are passed by reference.
+     * int32_t is used wherever possible for int and bool arguments.
 
    All of the wrapper functions are declared between _BEGIN_STD_C and
    _END_STD_C for C++. Binding modules are provided for [3]Ada, [4]Java,
@@ -44,11 +45,12 @@ Git Repository
 
    Use the following command to clone it:
 
-  git clone http://git.munts.com/libsimpleio.git
+   git clone http://git.munts.com/libsimpleio.git
 
 Copyright:
 
    Original works herein are copyrighted as follows:
+
 Copyright (C)2016-2017, Philip Munts, President, Munts AM Corp.
 
 Redistribution and use in source and binary forms, with or without

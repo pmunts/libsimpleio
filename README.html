@@ -5,7 +5,7 @@ types of I/O devices:</p>
 <ul>
 <li>GPIO (General Purpose Input/Output) Pins</li>
 <li>Raw HID (Human Interface Device) Devices</li>
-<li>I2C (Inter-Integrated Circuit) Bus Devices</li>
+<li>I<sup>2</sup>C (Inter-Integrated Circuit) Bus Devices</li>
 <li><a href=
 "https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start">Labview
 LINX Remote I/O</a> Devices</li>
@@ -21,8 +21,8 @@ Protocol</a> Devices</li>
 <p>Although <b>libsimpleio</b> was originally intended for Linux microcomputers
 such as the Raspberry Pi, it can also be useful on larger desktop Linux
 systems.</p>
-<p>The wrapper functions exported by <b>libsimpleio</b> all follow same uniform
-pattern:</p>
+<p>The wrapper functions exported by <b>libsimpleio</b> all follow the same
+uniform pattern:</p>
 <ul>
 <li>All wrapper functions are proper procedures (<tt>void f()</tt> in C).</li>
 <li>All input arguments of primitive types (<tt>int</tt>, <tt>float</tt>, etc.)
@@ -30,6 +30,8 @@ are passed by value.</li>
 <li>All output arguments of primitive types are passed by reference (<tt>int
 *</tt>, <tt>float *</tt>, etc.).</li>
 <li>All composite types are passed by reference.</li>
+<li><tt>int32_t</tt> is used wherever possible for <tt>int</tt> and
+<tt>bool</tt> arguments.</li>
 </ul>
 <p>All of the wrapper functions are declared between <tt>_BEGIN_STD_C</tt> and
 <tt>_END_STD_C</tt> for C++. Binding modules are provided for <a href=
