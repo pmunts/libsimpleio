@@ -24,26 +24,28 @@ AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
 CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS) -DWAIT_GPIO_LINK
 
-ifneq ($(BOARDNAME),)
-# Definitions for cross-compiling for embedded Linux
+ifeq ($(BOARDNAME),)
+# Definitions for compiling for native Linux
+
+DESTDIR		?= /usr/local
+
+OSNAME		?= unknown
+PKGNAME		:= munts-libsimpleio
+PKGVERSION	:= $(shell date +%Y.%j)
+PKGARCH		:= $(shell dpkg --print-architecture)
+PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
+PKGFILE		:= $(PKGDIR).deb
+else
+# Definitions for cross-compiling for MuntsOS embedded Linux
 
 EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 
 OSNAME		:= muntsos
-PKGNAME		:= $(TOOLCHAIN_NAME)-libs-libsimpleio
+PKGNAME		:= $(TOOLCHAIN_NAME)-libsimpleio
 PKGVERSION	:= $(shell date +%Y.%j)
 PKGARCH		:= all
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(PKGARCH)
-PKGFILE		:= $(PKGDIR).deb
-else
-# Definitions for building for native Linux
-
-OSNAME		?= unknown
-PKGNAME		:= munts-simpleio
-PKGVERSION	:= $(shell date +%Y.%j)
-PKGARCH		:= $(shell dpkg --print-architecture)
-PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
 endif
 
@@ -89,7 +91,7 @@ $(PKGDIR):
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
 ifeq ($(BOARDNAME),)
-# Native package
+# Native package for Debian Linux et al
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
 	mkdir -p				$(PKGDIR)/etc/udev/rules.d
 	install -cm 0644 udev/60-gpio.rules	$(PKGDIR)/etc/udev/rules.d
@@ -97,7 +99,7 @@ ifeq ($(BOARDNAME),)
 	install -cm 0755 udev/gpio-udev-helper	$(PKGDIR)/usr/local/libexec
 	chmod -R ugo-w $(PKGDIR)/etc
 else
-# Cross-compiled package
+# Cross-compiled package for MuntsOS embedded Linux
 	$(MAKE) install DESTDIR=$(PKGDIR)$(GCCSYSROOT)/usr
 endif
 
