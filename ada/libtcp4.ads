@@ -26,25 +26,21 @@ WITH System;
 PACKAGE libTCP4 IS
   PRAGMA Link_With("-lsimpleio");
 
-  TYPE IPV4_ADDR IS MOD 2**32;
-
-  TYPE IPV4_PORT IS MOD 2**16;
-
-  INADDR_ANY      : CONSTANT IPV4_ADDR := 16#00000000#;
-  INADDR_LOOPBACK : CONSTANT IPV4_ADDR := 16#7F000001#;	-- aka localhost
+  INADDR_ANY      : CONSTANT Integer := 16#00000000#;
+  INADDR_LOOPBACK : CONSTANT Integer := 16#7F000001#;	-- aka localhost
 
   -- Resolve host name to 32-bit IPv4 address
 
   PROCEDURE Resolve
    (hostname : String;
-    hostaddr : OUT IPV4_ADDR;
+    hostaddr : OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Resolve, "TCP4_resolve");
 
   -- Convert IPv4 address to dotted decimal string
 
   PROCEDURE NtoA
-   (hostaddr : IPV4_ADDR;
+   (hostaddr : Integer;
     dst      : OUT String;
     dstsize  : Integer;
     error    : OUT Integer);
@@ -53,8 +49,8 @@ PACKAGE libTCP4 IS
   -- Connect to an IPv4 TCP server
 
   PROCEDURE Connect
-   (host     : IPV4_ADDR;
-    port     : IPV4_PORT;
+   (host     : Integer;
+    port     : Integer;
     fd       : OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Connect, "TCP4_connect");
@@ -62,8 +58,8 @@ PACKAGE libTCP4 IS
   -- Wait for a connection from an IPv4 TCP client
 
   PROCEDURE AcceptConnection
-   (iface    : IPV4_ADDR;
-    port     : IPV4_PORT;
+   (iface    : Integer;
+    port     : Integer;
     fd       : OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, AcceptConnection, "TCP4_accept");
@@ -71,8 +67,8 @@ PACKAGE libTCP4 IS
   -- Start IPv4 TCP server
 
   PROCEDURE Server
-   (iface    : IPV4_ADDR;
-    port     : IPV4_PORT;
+   (iface    : Integer;
+    port     : Integer;
     fd       : OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Server, "TCP4_server");
