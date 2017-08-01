@@ -100,7 +100,7 @@ INTERFACE
   PROCEDURE StrError
    (error     : Integer;
     msg       : PChar;
-    size      : Integer); CDECL; EXTERNAL NAME 'Linux_strerror';
+    size      : Integer); CDECL; EXTERNAL NAME 'LINUX_strerror';
 
 IMPLEMENTATION
 
