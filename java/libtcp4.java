@@ -38,13 +38,13 @@ public class libtcp4
   public static native void TCP4_ntoa(int addr, byte[] dst, int dstsize,
     IntByReference error);
 
-  public static native void TCP4_connect(int addr, short port,
+  public static native void TCP4_connect(int addr, int port,
     IntByReference fd, IntByReference error);
 
-  public static native void TCP4_accept(int addr, short port,
+  public static native void TCP4_accept(int addr, int port,
     IntByReference fd, IntByReference error);
 
-  public static native void TCP4_server(int addr, short port,
+  public static native void TCP4_server(int addr, int port,
     IntByReference fd, IntByReference error);
 
   public static native void TCP4_send(int fd, byte[] buf, int bufsize,
