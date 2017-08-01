@@ -28,36 +28,32 @@ INTERFACE
     INADDR_ANY      = $00000000;
     INADDR_LOOPBACK = $7F000001;
 
-  TYPE
-    IPV4_ADDR = LongWord;
-    IPV4_PORT = Word;
-
   PROCEDURE Resolve
    (hostname  : PChar;
-    VAR addr  : IPV4_ADDR;
+    VAR addr  : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_resolve';
 
   PROCEDURE NtoA
-   (addr      : IPV4_ADDR;
+   (addr      : Integer;
     dst       : PChar;
     dstsize   : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_ntoa';
 
   PROCEDURE Connect
-   (addr      : IPV4_ADDR;
-    port      : IPV4_PORT;
+   (addr      : Integer;
+    port      : Integer;
     VAR fd    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_connect';
 
   PROCEDURE Accept
-   (addr      : IPV4_ADDR;
-    port      : IPV4_PORT;
+   (addr      : Integer;
+    port      : Integer;
     VAR fd    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_accept';
 
   PROCEDURE Server
-   (addr      : IPV4_ADDR;
-    port      : IPV4_PORT;
+   (addr      : Integer;
+    port      : Integer;
     VAR fd    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_server';
 
