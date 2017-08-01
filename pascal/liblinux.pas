@@ -95,6 +95,13 @@ INTERFACE
     msg       : PChar;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_syslog';
 
+  { Retrieve an error message }
+
+  PROCEDURE StrError
+   (error     : Integer;
+    msg       : PChar;
+    size      : Integer); CDECL; EXTERNAL NAME 'Linux_strerror';
+
 IMPLEMENTATION
 
   USES
