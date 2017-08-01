@@ -85,6 +85,8 @@ public class liblinux
   public static native void LINUX_syslog(int priority, String message,
     IntByReference error);
 
+  public static native void LINUX_strerror(int error, byte[] buf, int size);
+
   // Bind to libsimpleio.so
 
   static
