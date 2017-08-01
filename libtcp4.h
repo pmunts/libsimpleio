@@ -26,35 +26,32 @@
 #include <cplusplus.h>
 #include <stdint.h>
 
-typedef uint32_t IPV4_ADDR;
-typedef uint16_t IPV4_PORT;
-
 _BEGIN_STD_C
 
 // Resolve host name to IPV4 address
 
-extern void TCP4_resolve(const char *name, IPV4_ADDR *addr, int32_t *error);
+extern void TCP4_resolve(const char *name, int32_t *addr, int32_t *error);
 
 // Convert IPV4 address to dotted decimal string
 
-extern void TCP4_ntoa(IPV4_ADDR addr, char *dst, int32_t dstsize,
+extern void TCP4_ntoa(int32_t addr, char *dst, int32_t dstsize,
   int32_t *error);
 
 // Connect to a TCP server
 
-extern void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port,
+extern void TCP4_connect(int32_t addr, int32_t port,
   int32_t *fd, int32_t *error);
 
 // Wait (block) for exactly one connection from a TCP client, then
 // return a file descriptor for the new connection
 
-extern void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port,
+extern void TCP4_accept(int32_t addr, int32_t port,
   int32_t *fd, int32_t *error);
 
 // Wait (block) until a client connects, then fork and return a file
 // descriptor for the new connection to the child process
 
-extern void TCP4_server(IPV4_ADDR addr, IPV4_PORT port,
+extern void TCP4_server(int32_t addr, int32_t port,
   int32_t *fd, int32_t *error);
 
 // Close connection

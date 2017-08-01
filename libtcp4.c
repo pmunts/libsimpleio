@@ -35,7 +35,7 @@
 
 // Resolve host name to IPV4 address
 
-void TCP4_resolve(const char *name, IPV4_ADDR *addr, int32_t *error)
+void TCP4_resolve(const char *name, int32_t *addr, int32_t *error)
 {
   struct hostent *he;
 
@@ -64,13 +64,13 @@ void TCP4_resolve(const char *name, IPV4_ADDR *addr, int32_t *error)
     return;
   }
 
-  *addr = htonl(*(IPV4_ADDR *)he->h_addr);
+  *addr = htonl(*(int32_t *)he->h_addr);
   *error = 0;
 }
 
 // Convert IPV4 address to dotted decimal string
 
-void TCP4_ntoa(IPV4_ADDR addr, char *dst, int32_t dstsize, int32_t *error)
+void TCP4_ntoa(int32_t addr, char *dst, int32_t dstsize, int32_t *error)
 {
   struct in_addr in;
 
@@ -92,12 +92,20 @@ void TCP4_ntoa(IPV4_ADDR addr, char *dst, int32_t dstsize, int32_t *error)
 
 // Connect to a TCP server
 
-void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
+void TCP4_connect(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 {
   int s;
   struct sockaddr_in destaddr;
 
-  /* Attempt to create a socket */
+  // Validate parameters
+
+  if ((port < 1) || (port > 65535))
+  {
+    *error = EINVAL;
+    return;
+  }
+
+  // Attempt to create a socket
 
   s = socket(AF_INET, SOCK_STREAM, 0);
   if (s < 0)
@@ -106,14 +114,14 @@ void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
     return;
   }
 
-  /* Build address structure for the specified server */
+  // Build address structure for the specified server
 
   memset(&destaddr, 0, sizeof(destaddr));
   destaddr.sin_family = AF_INET;
   destaddr.sin_addr.s_addr = htonl(addr);
   destaddr.sin_port = htons(port);
 
-  /* Attempt to open connection to the server */
+  // Attempt to open connection to the server
 
   if (connect(s, (struct sockaddr *)&destaddr, sizeof(destaddr)))
   {
@@ -121,7 +129,7 @@ void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
     return;
   }
 
-  /* Prevent SIGPIPE */
+  // Prevent SIGPIPE
 
   signal(SIGPIPE, SIG_IGN);
 
@@ -132,12 +140,20 @@ void TCP4_connect(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
 // Wait (block) for exactly one connection from a TCP client, then
 // return a file descriptor for the new connection
 
-void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
+void TCP4_accept(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 {
   int s1, s2;
   struct sockaddr_in myaddr;
 
-  /* Attempt to create a socket */
+  // Validate parameters
+
+  if ((port < 1) || (port > 65535))
+  {
+    *error = EINVAL;
+    return;
+  }
+
+  // Attempt to create a socket
 
   s1 = socket(AF_INET, SOCK_STREAM, 0);
   if (s1 < 0)
@@ -146,7 +162,7 @@ void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
     return;
   }
 
-  /* Attempt to bind socket */
+  // Attempt to bind socket
 
   memset(&myaddr, 0, sizeof(myaddr));
   myaddr.sin_family = AF_INET;
@@ -159,7 +175,7 @@ void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
     return;
   }
 
-  /* Establish incoming connection queue */
+  // Establish incoming connection queue
 
   if (listen(s1, 5))
   {
@@ -167,7 +183,7 @@ void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
     return;
   }
 
-  /* Wait for incoming connection */
+  // Wait for incoming connection
 
   s2 = accept(s1, NULL, NULL);
   if (s2 == -1)
@@ -178,7 +194,7 @@ void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
 
   close(s1);
 
-  /* Prevent SIGPIPE */
+  // Prevent SIGPIPE
 
   signal(SIGPIPE, SIG_IGN);
 
@@ -189,12 +205,20 @@ void TCP4_accept(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
 // Wait (block) until a client connects, then fork and return a file
 // descriptor to the child process
 
-void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
+void TCP4_server(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 {
   int s1, s2;
   struct sockaddr_in myaddr;
 
-  /* Attempt to create a socket */
+  // Validate parameters
+
+  if ((port < 1) || (port > 65535))
+  {
+    *error = EINVAL;
+    return;
+  }
+
+  // Attempt to create a socket
 
   s1 = socket(AF_INET, SOCK_STREAM, 0);
   if (s1 < 0)
@@ -203,7 +227,7 @@ void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
     return;
   }
 
-  /* Attempt to bind socket */
+  // Attempt to bind socket
 
   memset(&myaddr, 0, sizeof(myaddr));
   myaddr.sin_family = AF_INET;
@@ -216,7 +240,7 @@ void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
     return;
   }
 
-  /* Establish incoming connection queue */
+  // Establish incoming connection queue
 
   if (listen(s1, 5))
   {
@@ -224,7 +248,7 @@ void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
     return;
   }
 
-  /* Prevent zombie children */
+  // Prevent zombie children
 
   signal(SIGCHLD, SIG_IGN);
 
@@ -232,7 +256,7 @@ void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
 
   for (;;)
   {
-    /* Wait for incoming connection */
+    // Wait for incoming connection
 
     s2 = accept(s1, NULL, NULL);
     if (s2 == -1)
@@ -241,13 +265,13 @@ void TCP4_server(IPV4_ADDR addr, IPV4_PORT port, int32_t *fd, int32_t *error)
       return;
     }
 
-    /* Spawn child process for the new connection */
+    // Spawn child process for the new connection
 
     if (fork() == 0)
     {
       close(s1);
 
-      /* Prevent SIGPIPE */
+      // Prevent SIGPIPE
 
       signal(SIGPIPE, SIG_IGN);
 

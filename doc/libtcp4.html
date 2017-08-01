@@ -17,19 +17,15 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 12 June 2017<BR><A HREF="#inde
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libtcp4.h">libtcp4.h</A>&gt;</B>
 
-<B>typedef uint32_t </B><I>IPV4_ADDR</I><B>;</B>
+<B>void TCP4_resolve(char *</B><I>name</I><B>, int32_t *</B><I>addr</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>typedef uint16_t </B><I>IPV4_PORT</I><B>;</B>
+<B>void TCP4_ntoa(int32_t </B><I>addr</I><B>, char *</B><I>dst</I><B>, int32_t </B><I>dstsize</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void TCP4_resolve(char *</B><I>name</I><B>, IPV4_ADDR *</B><I>addr</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void TCP4_connect(int32_t </B><I>addr</I><B>, int32_t </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void TCP4_ntoa(IPV4_ADDR </B><I>addr</I><B>, char *</B><I>dst</I><B>, int32_t </B><I>dstsize</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void TCP4_accept(int32_t </B><I>addr</I><B>, int32_t </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void TCP4_connect(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
-
-<B>void TCP4_accept(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
-
-<B>void TCP4_server(IPV4_ADDR </B><I>addr</I><B>, IPV4_PORT </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void TCP4_server(int32_t </B><I>addr</I><B>, int32_t </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void TCP4_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -210,6 +206,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 08:47:59 GMT, June 12, 2017
+Time: 13:39:23 GMT, August 01, 2017
 </BODY>
 </HTML>
