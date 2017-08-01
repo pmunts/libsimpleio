@@ -47,6 +47,10 @@ extern void LINUX_openlog(const char *id, int32_t options, int32_t facility,
 
 extern void LINUX_syslog(int32_t priority, const char *msg, int32_t *error);
 
+// Retrieve errno message
+
+extern void LINUX_strerror(int32_t error, char *buf, int32_t bufsize);
+
 /****************************************************************************/
 /*   The following helper functions should not be called directly.  They    */
 /*   will be wrapped for each type of I/O device and language binding.      */

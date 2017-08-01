@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH liblinux 2 "11 April 2017" "version 1.0" "Linux Simple I/O Library"
+.TH liblinux 2 "1 August 2017" "version 1.0" "Linux Simple I/O Library"
 .SH NAME
 .B liblinux
 \-\- Linux Simple I/O Library: Linux System Call Wrapper Module
@@ -32,9 +32,12 @@
 
 .BI "void LINUX_drop_privileges(const char *" username ", int32_t *" error ");"
 
-.BI "void LINUX_openlog(const char *" id ", int32_t " options ", int32_t " facility ", int32_t *" error ");"
+.BI "void LINUX_openlog(const char *" id ", int32_t " options ", int32_t " facility ","
+.BI "  int32_t *" error ");"
 
 .BI "void LINUX_syslog(int32_t " priority ", const char *" msg ", int32_t *" error ");"
+
+.BI "void LINUX_strerror(int32_t " error ", char *" buf ", int32_t " bufsize ");"
 
 .fi
 Link with
@@ -84,6 +87,15 @@ message logger. The
 parameter accepts the same values as the
 .B syslog()
 system library function.
+.PP
+.B LINUX_strerror()
+retrieves the error message for the
+.B errno
+value passed in the
+.I error
+parameter.  A destination buffer address and size must be passed in the
+.IR buf " and " bufsize
+parameters.
 .SH SEE ALSO
 .BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2),"
 .br

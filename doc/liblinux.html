@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of liblinux</TITLE>
 </HEAD><BODY>
 <H1>liblinux</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 1 August 2017<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -21,9 +21,12 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 11 April 2017<BR><A HREF="#ind
 
 <B>void LINUX_drop_privileges(const char *</B><I>username</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void LINUX_openlog(const char *</B><I>id</I><B>, int32_t </B><I>options</I><B>, int32_t </B><I>facility</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void LINUX_openlog(const char *</B><I>id</I><B>, int32_t </B><I>options</I><B>, int32_t </B><I>facility</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
 
 <B>void LINUX_syslog(int32_t </B><I>priority</I><B>, const char *</B><I>msg</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void LINUX_strerror(int32_t </B><I>error</I><B>, char *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>);</B>
 
 </PRE>
 
@@ -98,6 +101,20 @@ parameter accepts the same values as the
 <B>syslog()</B>
 
 system library function.
+<P>
+
+<B>LINUX_strerror()</B>
+
+retrieves the error message for the
+<B>errno</B>
+
+value passed in the
+<I>error</I>
+
+parameter.  A destination buffer address and size must be passed in the
+<I>buf</I> and <I>bufsize</I>
+
+parameters.
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -130,6 +147,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 13:32:38 GMT, April 11, 2017
+Time: 12:44:43 GMT, August 01, 2017
 </BODY>
 </HTML>

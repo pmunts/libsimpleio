@@ -109,6 +109,13 @@ void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
   *error = 0;
 }
 
+// Retrieve errno message
+
+void LINUX_strerror(int32_t error, char *buf, int32_t bufsize)
+{
+  strerror_r(error, buf, bufsize);
+}
+
 // Open a file descriptor
 
 void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,
