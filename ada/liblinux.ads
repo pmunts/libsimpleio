@@ -89,4 +89,10 @@ PACKAGE libLinux IS
     error    : OUT Integer);
   PRAGMA Import(C, Syslog, "LINUX_syslog");
 
+  PROCEDURE StrError
+   (error    : Integer;
+    message  : OUT String;
+    size     : Integer);
+  PRAGMA Import(C, StrError, "LINUX_strerror");
+
 END libLinux;
