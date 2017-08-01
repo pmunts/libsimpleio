@@ -22,7 +22,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH System;
-WITH Interfaces.C;
 
 PACKAGE libHIDRaw IS
   PRAGMA Link_With("-lsimpleio");
@@ -47,7 +46,7 @@ PACKAGE libHIDRaw IS
 
   PROCEDURE GetName
    (fd      : Integer;
-    name    : Interfaces.C.char_array;
+    name    : OUT String;
     size    : Integer;
     error   : OUT Integer);
   PRAGMA Import(C, GetName, "HIDRAW_get_name");
