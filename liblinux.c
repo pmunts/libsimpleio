@@ -113,6 +113,7 @@ void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
 
 void LINUX_strerror(int32_t error, char *buf, int32_t bufsize)
 {
+  memset(buf, 0, bufsize);
   strerror_r(error, buf, bufsize);
 }
 
