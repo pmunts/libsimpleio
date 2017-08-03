@@ -35,7 +35,7 @@ PACKAGE libIPV4 IS
    (hostname : String;
     hostaddr : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Resolve, "IPV4_resolve");
+  PRAGMA Import(C, IP_Resolve, "IPV4_resolve");
 
   -- Convert IPv4 address to dotted decimal string
 
@@ -44,7 +44,7 @@ PACKAGE libIPV4 IS
     dst      : OUT String;
     dstsize  : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, NtoA, "IPV4_ntoa");
+  PRAGMA Import(C, IP_NtoA, "IPV4_ntoa");
 
   -- Connect to an IPv4 TCP server
 
