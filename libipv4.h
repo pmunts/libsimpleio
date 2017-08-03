@@ -20,8 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _LIBTCP4_H_
-#define _LIBTCP4_H_
+#ifndef _LIBIPV4_H_
+#define _LIBIPV4_H_
 
 #include <cplusplus.h>
 #include <stdint.h>
@@ -30,11 +30,11 @@ _BEGIN_STD_C
 
 // Resolve host name to IPV4 address
 
-extern void TCP4_resolve(const char *name, int32_t *addr, int32_t *error);
+extern void IPV4_resolve(const char *name, int32_t *addr, int32_t *error);
 
 // Convert IPV4 address to dotted decimal string
 
-extern void TCP4_ntoa(int32_t addr, char *dst, int32_t dstsize,
+extern void IPV4_ntoa(int32_t addr, char *dst, int32_t dstsize,
   int32_t *error);
 
 // Connect to a TCP server

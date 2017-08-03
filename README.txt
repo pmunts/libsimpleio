@@ -12,7 +12,7 @@
      * Serial Ports
      * SPI (Serial Peripheral Interface) Bus Devices
      * [2]Stream Framing Protocol Devices
-     * TCP (over IPv4) Network Devices
+     * TCP and UDP over IPv4 Network Devices
      * Watchdog Timer Devices
 
    Although libsimpleio was originally intended for Linux microcomputers
@@ -44,7 +44,6 @@ Git Repository
    The source code is available at: [7]http://git.munts.com
 
    Use the following command to clone it:
-
    git clone http://git.munts.com/libsimpleio.git
 
 Copyright:

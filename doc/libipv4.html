@@ -1,25 +1,25 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<HTML><HEAD><TITLE>Man page of libtcp4</TITLE>
+<HTML><HEAD><TITLE>Man page of libipv4</TITLE>
 </HEAD><BODY>
-<H1>libtcp4</H1>
+<H1>libipv4</H1>
 Section: Linux Simple I/O Library (2)<BR>Updated: 12 June 2017<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
 <H2>NAME</H2>
 
-<B>libtcp4</B>
+<B>libipv4</B>
 
 -- Linux Simple I/O Library: IPv4 TCP Module
 <A NAME="lbAC">&nbsp;</A>
 <H2>SYNOPSIS</H2>
 
 <PRE>
-<B>#include &lt;<A HREF="file:///usr/include/libtcp4.h">libtcp4.h</A>&gt;</B>
+<B>#include &lt;<A HREF="file:///usr/include/libipv4.h">libipv4.h</A>&gt;</B>
 
-<B>void TCP4_resolve(char *</B><I>name</I><B>, int32_t *</B><I>addr</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void IPV4_resolve(char *</B><I>name</I><B>, int32_t *</B><I>addr</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void TCP4_ntoa(int32_t </B><I>addr</I><B>, char *</B><I>dst</I><B>, int32_t </B><I>dstsize</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void IPV4_ntoa(int32_t </B><I>addr</I><B>, char *</B><I>dst</I><B>, int32_t </B><I>dstsize</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void TCP4_connect(int32_t </B><I>addr</I><B>, int32_t </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -53,7 +53,7 @@ value (upon failure) in
 
 <P>
 
-<B>TCP4_resolve()</B>
+<B>IPV4_resolve()</B>
 
 attempts to resolve an IPv4 address string passed in
 <I>*name</I>
@@ -69,7 +69,7 @@ Upon success, the 32-bit IPv4 address will be returned in
 
 <P>
 
-<B>TCP4_ntoa()</B>
+<B>IPV4_ntoa()</B>
 
 converts an IPv4 address to a dotted decimal address string. The
 address of the destination buffer is passed in
@@ -206,6 +206,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 13:39:23 GMT, August 01, 2017
+Time: 06:48:26 GMT, August 03, 2017
 </BODY>
 </HTML>

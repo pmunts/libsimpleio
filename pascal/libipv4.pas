@@ -20,7 +20,7 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT libTCP4;
+UNIT libIPV4;
 
 INTERFACE
 
@@ -28,47 +28,47 @@ INTERFACE
     INADDR_ANY      = $00000000;
     INADDR_LOOPBACK = $7F000001;
 
-  PROCEDURE Resolve
+  PROCEDURE IP_Resolve
    (hostname  : PChar;
     VAR addr  : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_resolve';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'IPV4_resolve';
 
-  PROCEDURE NtoA
+  PROCEDURE IP_NtoA
    (addr      : Integer;
     dst       : PChar;
     dstsize   : Integer;
-    VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_ntoa';
+    VAR error : Integer); CDECL; EXTERNAL NAME 'IPV4_ntoa';
 
-  PROCEDURE Connect
+  PROCEDURE TCP_Connect
    (addr      : Integer;
     port      : Integer;
     VAR fd    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_connect';
 
-  PROCEDURE Accept
+  PROCEDURE TCP_Accept
    (addr      : Integer;
     port      : Integer;
     VAR fd    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_accept';
 
-  PROCEDURE Server
+  PROCEDURE TCP_Server
    (addr      : Integer;
     port      : Integer;
     VAR fd    : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_server';
 
-  PROCEDURE Close
+  PROCEDURE TCP_Close
    (fd        : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_close';
 
-  PROCEDURE Send
+  PROCEDURE TCP_Send
    (fd        : Integer;
     buf       : Pointer;
     size      : Integer;
     VAR count : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_send';
 
-  PROCEDURE Receive
+  PROCEDURE TCP_Receive
    (fd        : Integer;
     buf       : Pointer;
     size      : Integer;

@@ -27,15 +27,15 @@ package com.munts.libsimpleio;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libtcp4
+public class libipv4
 {
-  // TCP/IP v4 function definitions -- These are of questionable
-  // usefulness for Java, but are provided here for completeness.
+  // These services are of questionable usefulness for Java, but are provided
+  // here for completeness.
 
-  public static native void TCP4_resolve(String name, IntByReference addr,
+  public static native void IPV4_resolve(String name, IntByReference addr,
     IntByReference error);
 
-  public static native void TCP4_ntoa(int addr, byte[] dst, int dstsize,
+  public static native void IPV4_ntoa(int addr, byte[] dst, int dstsize,
     IntByReference error);
 
   public static native void TCP4_connect(int addr, int port,

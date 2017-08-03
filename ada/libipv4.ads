@@ -1,4 +1,4 @@
--- Minimal Ada wrapper for the Linux IPv4 TCP stream services
+-- Minimal Ada wrapper for the Linux TCP and UDP over IPV4 services
 -- implemented in libsimpleio.so
 
 -- Copyright (C)2016-2017, Philip Munts, President, Munts AM Corp.
@@ -23,7 +23,7 @@
 
 WITH System;
 
-PACKAGE libTCP4 IS
+PACKAGE libIPV4 IS
   PRAGMA Link_With("-lsimpleio");
 
   INADDR_ANY      : CONSTANT Integer := 16#00000000#;
@@ -31,73 +31,73 @@ PACKAGE libTCP4 IS
 
   -- Resolve host name to 32-bit IPv4 address
 
-  PROCEDURE Resolve
+  PROCEDURE IP_Resolve
    (hostname : String;
     hostaddr : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Resolve, "TCP4_resolve");
+  PRAGMA Import(C, Resolve, "IPV4_resolve");
 
   -- Convert IPv4 address to dotted decimal string
 
-  PROCEDURE NtoA
+  PROCEDURE IP_NtoA
    (hostaddr : Integer;
     dst      : OUT String;
     dstsize  : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, NtoA, "TCP4_ntoa");
+  PRAGMA Import(C, NtoA, "IPV4_ntoa");
 
   -- Connect to an IPv4 TCP server
 
-  PROCEDURE Connect
+  PROCEDURE TCP_Connect
    (host     : Integer;
     port     : Integer;
     fd       : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Connect, "TCP4_connect");
+  PRAGMA Import(C, TCP_Connect, "TCP4_connect");
 
   -- Wait for a connection from an IPv4 TCP client
 
-  PROCEDURE AcceptConnection
+  PROCEDURE TCP_Accept
    (iface    : Integer;
     port     : Integer;
     fd       : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, AcceptConnection, "TCP4_accept");
+  PRAGMA Import(C, TCP_Accept, "TCP4_accept");
 
   -- Start IPv4 TCP server
 
-  PROCEDURE Server
+  PROCEDURE TCP_Server
    (iface    : Integer;
     port     : Integer;
     fd       : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Server, "TCP4_server");
+  PRAGMA Import(C, TCP_Server, "TCP4_server");
 
   -- Close a IPv4 TCP connection
 
-  PROCEDURE Close
+  PROCEDURE TCP_Close
    (fd       : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Close, "TCP4_close");
+  PRAGMA Import(C, TCP_Close, "TCP4_close");
 
   -- Send data to IPv4 TCP connection peer
 
-  PROCEDURE Send
+  PROCEDURE TCP_Send
    (fd       : Integer;
     buf      : System.Address;
     size     : Integer;
     count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Send, "TCP4_send");
+  PRAGMA Import(C, TCP_Send, "TCP4_send");
 
   -- Receive data from IPv4 TCP connection peer
 
-  PROCEDURE Receive
+  PROCEDURE TCP_Receive
    (fd       : Integer;
     buf      : System.Address;
     size     : Integer;
     count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, Receive, "TCP4_receive");
+  PRAGMA Import(C, TCP_Receive, "TCP4_receive");
 
-END libTCP4;
+END libIPV4;

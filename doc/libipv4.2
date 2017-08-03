@@ -20,17 +20,17 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libtcp4 2 "12 June 2017" "version 1.0" "Linux Simple I/O Library"
+.TH libipv4 2 "3 August 2017" "version 1.1" "Linux Simple I/O Library"
 .SH NAME
-.B libtcp4
+.B libipv4
 \-\- Linux Simple I/O Library: IPv4 TCP Module
 .SH SYNOPSIS
 .nf
-.B #include <libtcp4.h>
+.B #include <libipv4.h>
 
-.BI "void TCP4_resolve(char *" name ", int32_t *" addr ", int32_t *" error ");"
+.BI "void IPV4_resolve(char *" name ", int32_t *" addr ", int32_t *" error ");"
 
-.BI "void TCP4_ntoa(int32_t " addr ", char *" dst ", int32_t " dstsize ", int32_t *" error ");"
+.BI "void IPV4_ntoa(int32_t " addr ", char *" dst ", int32_t " dstsize ", int32_t *" error ");"
 
 .BI "void TCP4_connect(int32_t " addr ", int32_t " port ", int32_t *" fd ", int32_t *" error ");"
 
@@ -56,7 +56,7 @@ All functions return either
 value (upon failure) in
 .IR *error .
 .PP
-.B TCP4_resolve()
+.B IPV4_resolve()
 attempts to resolve an IPv4 address string passed in
 .IR *name
 (containing a domain name, a local host name like
@@ -66,7 +66,7 @@ or a dotted decimal address like
 Upon success, the 32-bit IPv4 address will be returned in
 .IR *addr
 .PP
-.B TCP4_ntoa()
+.B IPV4_ntoa()
 converts an IPv4 address to a dotted decimal address string. The
 address of the destination buffer is passed in
 .IR *dst

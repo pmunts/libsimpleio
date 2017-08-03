@@ -31,11 +31,11 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#include "libtcp4.h"
+#include "libipv4.h"
 
 // Resolve host name to IPV4 address
 
-void TCP4_resolve(const char *name, int32_t *addr, int32_t *error)
+void IPV4_resolve(const char *name, int32_t *addr, int32_t *error)
 {
   struct hostent *he;
 
@@ -70,7 +70,7 @@ void TCP4_resolve(const char *name, int32_t *addr, int32_t *error)
 
 // Convert IPV4 address to dotted decimal string
 
-void TCP4_ntoa(int32_t addr, char *dst, int32_t dstsize, int32_t *error)
+void IPV4_ntoa(int32_t addr, char *dst, int32_t dstsize, int32_t *error)
 {
   struct in_addr in;
 
