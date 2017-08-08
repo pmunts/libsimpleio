@@ -23,7 +23,7 @@
 .TH libi2c 2 "3 August 2017" "version 1.1" "Linux Simple I/O Library"
 .SH NAME
 .B libi2c
-\-\- Linux Simple I/O Library: I2C Module
+\-\- Linux Simple I/O Library: I\u\s-22\s+2\dC Module
 .SH SYNOPSIS
 .nf
 .B #include <libi2c.h>
@@ -48,20 +48,20 @@ value (upon failure) in
 .IR *error .
 .PP
 .B I2C_open()
-opens an I2C bus controller device.  The device name,
+opens an I\u\s-22\s+2\dC bus controller device.  The device name,
 .BR /dev/i2c-x ,
 must be passed in the
 .IR name
 parameter. Upon success, a file descriptor for the
-I2C bus controller device is returned in
+I\u\s-22\s+2\dC bus controller device is returned in
 .IR *fd .
 .PP
 .B I2C_close()
-closes a previously opened I2C bus controller device.
+closes a previously opened I\u\s-22\s+2\dC bus controller device.
 .PP
 .B I2C_transaction()
-performs a single I2C bus transaction, with optional transmit and receive
-phases.  The I2C slave device address must be passed in the
+performs a single I\u\s-22\s+2\dC bus transaction, with optional transmit and receive
+phases.  The I\u\s-22\s+2\dC slave device address must be passed in the
 .I slaveaddr
 parameter.  Either the address of a command message and its length must be passed in the
 .IR cmd " and " cmdlen
