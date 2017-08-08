@@ -30,6 +30,7 @@ default: html
 	sed -i 's@\.\./index\.html@../README.html@g' $@
 	sed -i 's@\.\./man2/@@g' $@
 	sed -i 's@\.2\.html@.html@g' $@
+	sed -i 's/I<FONT SIZE="-2">2<\/FONT>C/I<sup>2<\/sup>C/g' $@
 
 html:
 	for f in *.2 ; do $(MAKE) `basename $$f .2`.html ; done
