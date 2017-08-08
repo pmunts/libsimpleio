@@ -35,13 +35,16 @@
 .B "  SERIAL_PARITY_ODD,"
 .B } SERIAL_PARITY_t;
 
-.BI "void SERIAL_open(const char *" name ", int32_t " baudrate ", int32_t " parity ", int32_t " databits ", int32_t " stopbits ", int32_t *"fd ", int32_t *" error ");"
+.BI "void SERIAL_open(const char *" name ", int32_t " baudrate ", int32_t " parity ","
+.BI "  int32_t " databits ", int32_t " stopbits ", int32_t *"fd ", int32_t *" error ");"
 
 .BI "void SERIAL_close(int32_t " fd ", int32_t *" error ");"
 
-.BI "void SERIAL_send(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+.BI "void SERIAL_send(int32_t " fd ", void *" buf ", int32_t " bufsize ","
+.BI "  int32_t *" count ", int32_t *" error ");"
 
-.BI "void SERIAL_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+.BI "void SERIAL_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ","
+.BI "  int32_t *" count ", int32_t *" error ");"
 
 .fi
 Link with

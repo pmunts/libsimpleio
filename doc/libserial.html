@@ -24,13 +24,16 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 3 August 2017<BR><A HREF="#ind
 <B>  SERIAL_PARITY_ODD,</B>
 <B>} SERIAL_PARITY_t;</B>
 
-<B>void SERIAL_open(const char *</B><I>name</I><B>, int32_t </B><I>baudrate</I><B>, int32_t </B><I>parity</I><B>, int32_t </B><I>databits</I><B>, int32_t </B><I>stopbits</I><B>, int32_t *fd</B><I>, int32_t *</I><B>error</B><I>);</I>
+<B>void SERIAL_open(const char *</B><I>name</I><B>, int32_t </B><I>baudrate</I><B>, int32_t </B><I>parity</I><B>,</B>
+<B>  int32_t </B><I>databits</I><B>, int32_t </B><I>stopbits</I><B>, int32_t *fd</B><I>, int32_t *</I><B>error</B><I>);</I>
 
 <B>void SERIAL_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void SERIAL_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void SERIAL_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>,</B>
+<B>  int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void SERIAL_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void SERIAL_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>,</B>
+<B>  int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -166,6 +169,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 07:04:55 GMT, August 03, 2017
+Time: 12:33:14 GMT, August 08, 2017
 </BODY>
 </HTML>

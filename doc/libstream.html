@@ -17,13 +17,17 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 3 August 2017<BR><A HREF="#ind
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libstream.h">libstream.h</A>&gt;</B>
 
-<B>void STREAM_encode_frame(void *</B><I>src</I><B>, int32_t </B><I>srclen</I><B>, void *</B><I>dst</I><B>, int32_t </B><I>dstsize</I><B>, int32_t *</B><I>dstlen</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void STREAM_encode_frame(void *</B><I>src</I><B>, int32_t </B><I>srclen</I><B>, void *</B><I>dst</I><B>,</B>
+<B>  int32_t </B><I>dstsize</I><B>, int32_t *</B><I>dstlen</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void STREAM_decode_frame(void *</B><I>src</I><B>, int32_t </B><I>srclen</I><B>, void *</B><I>dst</I><B>, int32_t </B><I>dstsize</I><B>, int32_t *</B><I>dstlen</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void STREAM_decode_frame(void *</B><I>src</I><B>, int32_t </B><I>srclen</I><B>, void *</B><I>dst</I><B>,</B>
+<B>  int32_t </B><I>dstsize</I><B>, int32_t *</B><I>dstlen</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void STREAM_send_frame(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void STREAM_send_frame(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>,</B>
+<B>  int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void STREAM_receive_frame(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>framesize</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void STREAM_receive_frame(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>,</B>
+<B>  int32_t *</B><I>framesize</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -181,6 +185,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 07:04:55 GMT, August 03, 2017
+Time: 12:36:37 GMT, August 08, 2017
 </BODY>
 </HTML>
