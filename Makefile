@@ -77,6 +77,7 @@ install: libsimpleio.a libsimpleio.so
 	install -cm 0644 *.h			$(DESTDIR)/include
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
+	install -cm 0644 doc/UserManual.pdf	$(DESTDIR)/share/libsimpleio
 	install -cm 0644 ada/*.ads		$(DESTDIR)/share/libsimpleio/ada
 	install -cm 0644 java/*.java		$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
 	install -cm 0644 pascal/*.pas		$(DESTDIR)/share/libsimpleio/pascal
