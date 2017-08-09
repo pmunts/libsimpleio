@@ -36,12 +36,15 @@
 
 Documentation
 
+   New The user manual for libsimpleio is available at:
+   [6]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+
    The man pages specifying the libsimpleio API are available at:
-   [6]libsimpleio.html
+   [7]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [7]http://git.munts.com
+   The source code is available at: [8]http://git.munts.com
 
    Use the following command to clone it:
    git clone http://git.munts.com/libsimpleio.git
@@ -74,7 +77,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [8]phil@munts.net
+   Questions or comments to Philip Munts [9]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -86,6 +89,7 @@ References
    3. http://git.munts.com/libsimpleio/ada
    4. http://git.munts.com/libsimpleio/java
    5. http://git.munts.com/libsimpleio/pascal
-   6. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-   7. http://git.munts.com/
-   8. mailto:phil@munts.net
+   6. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   7. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+   8. http://git.munts.com/
+   9. mailto:phil@munts.net
