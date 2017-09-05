@@ -41,11 +41,11 @@ else
 EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 
-OSNAME		:= muntsos
+OSNAME		?= unknown
 PKGNAME		:= $(TOOLCHAIN_NAME)-libsimpleio
 PKGVERSION	:= $(shell date +%Y.%j)
 PKGARCH		:= all
-PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(PKGARCH)
+PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
 endif
 
