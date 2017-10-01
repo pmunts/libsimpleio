@@ -154,7 +154,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
     while (access(buf, W_OK))
     {
-      if (milliseconds() - start > 500)
+      if (milliseconds() - start > 1000)
       {
         *error = EIO;
         ERRORMSG("Timed out waiting for GPIO pin export", *error,
@@ -318,7 +318,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
   while (access(buf, F_OK))
   {
-    if (milliseconds() - start > 500)
+    if (milliseconds() - start > 1000)
     {
       *error = EIO;
       ERRORMSG("Timed out waiting for GPIO symlink", *error, __LINE__ - 3);
