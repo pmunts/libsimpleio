@@ -157,7 +157,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
       if (milliseconds() - start > 500)
       {
         *error = EIO;
-        ERRORMSG("Timed out waiting for PWM output export", *error,
+        ERRORMSG("Timed out waiting for GPIO pin export", *error,
           __LINE__ - 3);
         return;
       }
@@ -321,7 +321,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     if (milliseconds() - start > 500)
     {
       *error = EIO;
-      ERRORMSG("Timed out waiting for symlink", *error, __LINE__ - 3);
+      ERRORMSG("Timed out waiting for GPIO symlink", *error, __LINE__ - 3);
       return;
     }
   }
