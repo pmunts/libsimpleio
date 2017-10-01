@@ -20,8 +20,34 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <syslog.h>
 
-void PrintErrorMessage(const char *func, const char *file, int line, const char *msg, int err);
+void PrintErrorMessage(const char *func, const char *file, int line, const char *msg, int err)
+{
+  char *slevel = getenv("DEBUGLEVEL");
+  if (slevel == NULL) return;
 
-#define ERRORMSG(msg, err, line) PrintErrorMessage(__func__, __FILE__, line, msg, err)
+  int ilevel = atoi(slevel);
+
+  switch (ilevel)
+  {
+    case 1 :
+      fprintf(stderr, "ERROR in %s(), at %s line %d: %s, %s\n", func, file, line, msg, strerror(err));
+      break;
+
+    case 2 :
+      syslog(LOG_ERR, "ERROR in %s(), at %s line %d: %s, %s\n", func, file, line, msg, strerror(err));
+      break;
+
+    case 3 :
+      fprintf(stderr, "ERROR in %s(), at %s line %d: %s, %s\n", func, file, line, msg, strerror(err));
+      syslog(LOG_ERR, "ERROR in %s(), at %s line %d: %s, %s\n", func, file, line, msg, strerror(err));
+      break;
+
+    default :
+      break;
+  }
+}

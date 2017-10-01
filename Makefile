@@ -51,7 +51,7 @@ endif
 
 default: package.deb
 
-SIMPLEIO_COMPONENTS	= libevent.o libgpio.o libhidraw.o libi2c.o
+SIMPLEIO_COMPONENTS	= errmsg.o libevent.o libgpio.o libhidraw.o libi2c.o
 SIMPLEIO_COMPONENTS	+= libserial.o libspi.o liblinux.o liblinx.o
 SIMPLEIO_COMPONENTS	+= libpwm.o libipv4.o libstream.o libwatchdog.o
 
