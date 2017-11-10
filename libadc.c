@@ -60,7 +60,7 @@ void ADC_name(int32_t device, char *name, int32_t namesize, int32_t *error)
     *error = errno;
 
   while ((len > 0) && isspace(name[len-1]))
-    name[len--] = 0;
+    name[--len] = 0;
 
   close(fd);
 }
