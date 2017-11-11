@@ -33,6 +33,11 @@ START_TEST(test_libadc)
   char name[256];
   int32_t error;
   int32_t fd;
+  int32_t sample;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
 
   ADC_name(-1, name, sizeof(name), &error);
   ck_assert(error == EINVAL);
@@ -60,6 +65,15 @@ START_TEST(test_libadc)
 
   ADC_open(0, 999, &fd, &error);
   ck_assert(error == ENOENT);
+
+  ADC_read(2, &sample, &error);
+  ck_assert(error == EINVAL);
+
+  ADC_read(3, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  ADC_read(999, &sample, &error);
+  ck_assert(error == EBADF);
 }
 END_TEST
 
