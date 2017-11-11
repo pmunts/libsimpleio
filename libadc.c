@@ -71,6 +71,7 @@ void ADC_name(int32_t device, char *name, int32_t namesize, int32_t *error)
   if (fd < 0)
   {
     *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 4);
     return;
   }
 
@@ -80,7 +81,10 @@ void ADC_name(int32_t device, char *name, int32_t namesize, int32_t *error)
   if (len >= 0)
     *error = 0;
   else
+  {
     *error = errno;
+    ERRORMSG("read() failed", *error, __LINE__ - 7);
+  }
 
   while ((len > 0) && isspace(name[len-1]))
     name[--len] = 0;
@@ -124,6 +128,7 @@ void ADC_open(int32_t device, int32_t channel, int32_t *fd, int32_t *error)
   {
     *fd = -1;
     *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
     return;
   }
 
