@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-CFLAGS		= -Wall -I..
+CFLAGS		= -Wall -I.. $(DEBUGFLAGS)
 LDFLAGS		= -lcheck -lm -lrt -lpthread -lsubunit -lsimpleio
 
 PROGRAMS	= test_parameter_checks
