@@ -29,13 +29,6 @@
 #include <libadc.h>
 #include <libgpio.h>
 
-static int terminated = false;
-
-void _Exit(int status)
-{
-  terminated = true;
-}
-
 START_TEST(test_libadc)
 {
   char name[256];
@@ -46,9 +39,6 @@ START_TEST(test_libadc)
 #ifdef VERBOSE
   putenv("DEBUGLEVEL=1");
 #endif
-
-  ADC_name(0, name, sizeof(name), NULL);
-  ck_assert(terminated);
 
   ADC_name(-1, name, sizeof(name), &error);
   ck_assert(error == EINVAL);
