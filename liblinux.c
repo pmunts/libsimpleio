@@ -21,6 +21,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <grp.h>
@@ -36,6 +37,8 @@
 
 void LINUX_detach(int32_t *error)
 {
+  assert(error != NULL);
+
   if (daemon(0, 0))
   {
     *error = errno;
@@ -50,6 +53,8 @@ void LINUX_detach(int32_t *error)
 
 void LINUX_drop_privileges(const char *username, int32_t *error)
 {
+  assert(error != NULL);
+
   struct passwd *pwent;
 
   // Look up the user name
@@ -97,6 +102,8 @@ void LINUX_drop_privileges(const char *username, int32_t *error)
 void LINUX_openlog(const char *id, int32_t options, int32_t facility,
   int32_t *error)
 {
+  assert(error != NULL);
+
   openlog(id, options, facility);
   *error = 0;
 }
@@ -105,6 +112,8 @@ void LINUX_openlog(const char *id, int32_t options, int32_t facility,
 
 void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
 {
+  assert(error != NULL);
+
   syslog(priority, msg);
   *error = 0;
 }
@@ -122,6 +131,8 @@ void LINUX_strerror(int32_t error, char *buf, int32_t bufsize)
 void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,
   int32_t *error)
 {
+  assert(error != NULL);
+
   *fd = open(name, flags, mode);
   if (*fd < 0)
   {
@@ -137,6 +148,8 @@ void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,
 
 void LINUX_open_read(const char *name, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   *fd = open(name, O_RDONLY);
   if (*fd < 0)
   {
@@ -152,6 +165,8 @@ void LINUX_open_read(const char *name, int32_t *fd, int32_t *error)
 
 void LINUX_open_write(const char *name, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   *fd = open(name, O_WRONLY);
   if (*fd < 0)
   {
@@ -167,6 +182,8 @@ void LINUX_open_write(const char *name, int32_t *fd, int32_t *error)
 
 void LINUX_open_readwrite(const char *name, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   *fd = open(name, O_RDWR);
   if (*fd < 0)
   {
@@ -182,6 +199,8 @@ void LINUX_open_readwrite(const char *name, int32_t *fd, int32_t *error)
 
 void LINUX_close(int32_t fd, int32_t *error)
 {
+  assert(error != NULL);
+
   if (close(fd))
   {
     *error = errno;
@@ -197,6 +216,8 @@ void LINUX_close(int32_t fd, int32_t *error)
 void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
   int32_t *error)
 {
+  assert(error != NULL);
+
   int32_t len = read(fd, buf, bufsize);
   if (len < 0)
   {
@@ -215,6 +236,8 @@ void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
 void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
   int32_t *error)
 {
+  assert(error != NULL);
+
   int32_t len = write(fd, buf, bufsize);
   if (len < 0)
   {

@@ -27,6 +27,14 @@
 #include <stdlib.h>
 
 #include <libadc.h>
+#include <libgpio.h>
+
+static int terminated = false;
+
+void _Exit(int status)
+{
+  terminated = true;
+}
 
 START_TEST(test_libadc)
 {
@@ -38,6 +46,9 @@ START_TEST(test_libadc)
 #ifdef VERBOSE
   putenv("DEBUGLEVEL=1");
 #endif
+
+  ADC_name(0, name, sizeof(name), NULL);
+  ck_assert(terminated);
 
   ADC_name(-1, name, sizeof(name), &error);
   ck_assert(error == EINVAL);
@@ -77,6 +88,63 @@ START_TEST(test_libadc)
 }
 END_TEST
 
+START_TEST(test_libgpio)
+{
+  int32_t error;
+  int32_t fd;
+  int32_t state;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  GPIO_configure(-1, GPIO_DIRECTION_INPUT, false, GPIO_EDGE_NONE,
+    GPIO_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_configure(0, -1, false, GPIO_EDGE_NONE,
+    GPIO_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_configure(0, 2, false, GPIO_EDGE_NONE,
+    GPIO_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_configure(0, GPIO_DIRECTION_INPUT, -1, GPIO_EDGE_NONE,
+    GPIO_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_configure(0, GPIO_DIRECTION_INPUT, 2, GPIO_EDGE_NONE,
+    GPIO_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_configure(0, GPIO_DIRECTION_INPUT, false, -1,
+    GPIO_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_configure(0, GPIO_DIRECTION_INPUT, false, 4,
+    GPIO_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_configure(0, GPIO_DIRECTION_INPUT, false, GPIO_EDGE_NONE,
+    -1, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_configure(0, GPIO_DIRECTION_INPUT, false, GPIO_EDGE_NONE,
+    2, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_open(-1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_open(0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_open(999, &fd, &error);
+  ck_assert(error == ENOENT);
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -85,6 +153,7 @@ int main(void)
 
   tests = tcase_create("Test Parameter Checking");
   tcase_add_test(tests, test_libadc);
+  tcase_add_test(tests, test_libgpio);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);

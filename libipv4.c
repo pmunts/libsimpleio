@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <netdb.h>
 #include <signal.h>
@@ -36,6 +37,8 @@
 
 void IPV4_resolve(const char *name, int32_t *addr, int32_t *error)
 {
+  assert(error != NULL);
+
   struct hostent *he;
 
   he = gethostbyname2(name, AF_INET);
@@ -71,6 +74,8 @@ void IPV4_resolve(const char *name, int32_t *addr, int32_t *error)
 
 void IPV4_ntoa(int32_t addr, char *dst, int32_t dstsize, int32_t *error)
 {
+  assert(error != NULL);
+
   struct in_addr in;
 
   // Validate parameters
@@ -93,6 +98,8 @@ void IPV4_ntoa(int32_t addr, char *dst, int32_t dstsize, int32_t *error)
 
 void TCP4_connect(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   int s;
   struct sockaddr_in destaddr;
 
@@ -141,6 +148,8 @@ void TCP4_connect(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 
 void TCP4_accept(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   int s1, s2;
   struct sockaddr_in myaddr;
 
@@ -206,6 +215,8 @@ void TCP4_accept(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 
 void TCP4_server(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   int s1, s2;
   struct sockaddr_in myaddr;
 

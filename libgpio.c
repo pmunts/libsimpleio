@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdbool.h>
@@ -56,12 +57,21 @@ static uint64_t milliseconds(void)
 
 void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error)
 {
+  assert(error != NULL);
+
   char buf[MAXPATHLEN];
   int fd;
   uint64_t start;
   int status;
 
   // Validate parameters
+
+  if (pin < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("Invalid pin number argument", *error, __LINE__ - 3);
+    return;
+  }
 
   if ((direction < GPIO_DIRECTION_INPUT) || (direction > GPIO_DIRECTION_OUTPUT))
   {
@@ -334,8 +344,26 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
 void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   char devname[MAXPATHLEN];
   char buf[16];
+
+  // Validate parameters
+
+  if (pin < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("Invalid pin number argument", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
 
   memset(devname, 0, sizeof(devname));
   snprintf(devname, sizeof(devname), "/dev/gpio%d", pin);
@@ -371,6 +399,8 @@ void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
 
 void GPIO_read(int32_t fd, int32_t *state, int32_t *error)
 {
+  assert(error != NULL);
+
   char buf[4];
 
   if (lseek(fd, 0, SEEK_SET) < 0)
@@ -411,6 +441,8 @@ void GPIO_read(int32_t fd, int32_t *state, int32_t *error)
 
 void GPIO_write(int32_t fd, int32_t state, int32_t *error)
 {
+  assert(error != NULL);
+
   if (write(fd, state ? "1\n" : "0\n", 2) < 2)
   {
     *error = errno;

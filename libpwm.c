@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -57,6 +58,8 @@ static uint64_t milliseconds(void)
 void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   int32_t ontime, int32_t polarity, int32_t *error)
 {
+  assert(error != NULL);
+
   char filename[MAXPATHLEN];
   char buf[16];
   int fd;
@@ -274,6 +277,8 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
 void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   char filename[MAXPATHLEN];
 
   snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
@@ -293,6 +298,8 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 
 void PWM_write(int32_t fd, int32_t ontime, int32_t *error)
 {
+  assert(error != NULL);
+
   char buf[16];
   int len;
 

@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -37,6 +38,8 @@
 void SPI_open(const char *name, int32_t mode, int32_t wordsize,
   int32_t speed, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   // Open the SPI device
 
   *fd = open(name, O_RDWR);
@@ -88,6 +91,8 @@ void SPI_open(const char *name, int32_t mode, int32_t wordsize,
 void SPI_transaction(int32_t spifd, int32_t csfd, void *cmd,
   int32_t cmdlen, int32_t delayus, void *resp, int32_t resplen, int32_t *error)
 {
+  assert(error != NULL);
+
   struct spi_ioc_transfer xfer[2];
 
   // Prepare the SPI ioctl transfer structure

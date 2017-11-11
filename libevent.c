@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
@@ -30,6 +31,8 @@
 
 void EVENT_open(int32_t *epfd, int32_t *error)
 {
+  assert(error != NULL);
+
   *epfd = epoll_create(256);
   if (epfd < 0)
   {
@@ -44,6 +47,8 @@ void EVENT_open(int32_t *epfd, int32_t *error)
 void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
   int32_t handle, int32_t *error)
 {
+  assert(error != NULL);
+
   struct epoll_event ev;
 
   memset(&ev, 0, sizeof(ev));
@@ -64,6 +69,8 @@ void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
 void EVENT_modify_fd(int32_t epfd, int32_t fd, int32_t events,
   int32_t handle, int32_t *error)
 {
+  assert(error != NULL);
+
   struct epoll_event ev;
 
   memset(&ev, 0, sizeof(ev));
@@ -83,6 +90,8 @@ void EVENT_modify_fd(int32_t epfd, int32_t fd, int32_t events,
 
 void EVENT_unregister_fd(int32_t epfd, int32_t fd, int32_t *error)
 {
+  assert(error != NULL);
+
   if (epoll_ctl(epfd, EPOLL_CTL_DEL, fd, NULL))
   {
     *error = errno;
@@ -96,6 +105,8 @@ void EVENT_unregister_fd(int32_t epfd, int32_t fd, int32_t *error)
 void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event,
   int32_t *handle, int32_t timeoutms, int32_t *error)
 {
+  assert(error != NULL);
+
   int status;
   struct epoll_event ev;
 

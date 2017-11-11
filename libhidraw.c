@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -38,6 +39,8 @@
 
 void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   int i;
   char name[MAXPATHLEN];
   int32_t b, v, p, e;
@@ -78,6 +81,8 @@ void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
 
 void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)
 {
+  assert(error != NULL);
+
   memset(name, 0, size);
 
   if (ioctl(fd, HIDIOCGRAWNAME(size), name) < 0)
@@ -94,6 +99,8 @@ void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)
 
 void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor, int32_t *product, int32_t *error)
 {
+  assert(error != NULL);
+
   struct hidraw_devinfo devinfo;
 
   if (ioctl(fd, HIDIOCGRAWINFO, &devinfo) < 0)

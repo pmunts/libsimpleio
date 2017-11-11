@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -39,6 +40,8 @@
 
 void I2C_transaction(int32_t fd, int32_t slaveaddr, void *cmd, int32_t cmdlen, void *resp, int32_t resplen, int32_t *error)
 {
+  assert(error != NULL);
+
   struct i2c_rdwr_ioctl_data cmdblk;
   struct i2c_msg msgs[2];
   struct i2c_msg *p;

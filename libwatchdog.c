@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <linux/watchdog.h>
 #include <sys/ioctl.h>
@@ -29,6 +30,8 @@
 
 void WATCHDOG_get_timeout(int32_t fd, int32_t *timeout, int32_t *error)
 {
+  assert(error != NULL);
+
   if (ioctl(fd, WDIOC_GETTIMEOUT, timeout) >= 0)
     *error = 0;
   else
@@ -38,6 +41,8 @@ void WATCHDOG_get_timeout(int32_t fd, int32_t *timeout, int32_t *error)
 void WATCHDOG_set_timeout(int32_t fd, int32_t newtimeout,
   int32_t *timeout, int32_t *error)
 {
+  assert(error != NULL);
+
   *timeout = newtimeout;
 
   if (ioctl(fd, WDIOC_SETTIMEOUT, timeout) >= 0)
@@ -48,6 +53,8 @@ void WATCHDOG_set_timeout(int32_t fd, int32_t newtimeout,
 
 void WATCHDOG_kick(int32_t fd, int32_t *error)
 {
+  assert(error != NULL);
+
   if (ioctl(fd, WDIOC_KEEPALIVE, 0) >= 0)
     *error = 0;
   else

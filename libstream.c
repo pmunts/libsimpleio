@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <errno.h>
 #include <unistd.h>
 
@@ -55,6 +56,8 @@ static uint16_t crc16(const uint8_t* data_p, uint8_t length){
 
 void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int32_t *error)
 {
+  assert(error != NULL);
+
   uint8_t *p = src;
   uint8_t *q = dst;
   uint16_t crc = 0;
@@ -136,6 +139,8 @@ void STREAM_encode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, 
 
 void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, int32_t *dstlen, int32_t *error)
 {
+  assert(error != NULL);
+
   uint8_t *p = src;
   uint8_t *q = dst;
   uint16_t crccalc;
@@ -222,6 +227,8 @@ void STREAM_decode_frame(void *src, int32_t srclen, void *dst, int32_t dstsize, 
 
 void STREAM_receive_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *framesize, int32_t *error)
 {
+  assert(error != NULL);
+
   int status;
   uint8_t b;
   uint8_t *bp = buf;
