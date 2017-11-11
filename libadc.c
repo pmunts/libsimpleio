@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -37,6 +38,8 @@
 
 void ADC_name(int32_t device, char *name, int32_t namesize, int32_t *error)
 {
+  assert(error != NULL);
+
   char filename[MAXPATHLEN];
   int fd;
   ssize_t len;
@@ -94,6 +97,8 @@ void ADC_name(int32_t device, char *name, int32_t namesize, int32_t *error)
 
 void ADC_open(int32_t device, int32_t channel, int32_t *fd, int32_t *error)
 {
+  assert(error != NULL);
+
   char filename[MAXPATHLEN];
 
   // Validate parameters
@@ -137,6 +142,8 @@ void ADC_open(int32_t device, int32_t channel, int32_t *fd, int32_t *error)
 
 void ADC_read(int32_t fd, int32_t *sample, int32_t *error)
 {
+  assert(error != NULL);
+
   char buf[32];
   ssize_t len;
 
