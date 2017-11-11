@@ -403,6 +403,22 @@ void GPIO_read(int32_t fd, int32_t *state, int32_t *error)
 
   char buf[4];
 
+  // Validate parameters
+
+  if (fd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (state == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("state argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   if (lseek(fd, 0, SEEK_SET) < 0)
   {
     *error = errno;
@@ -442,6 +458,22 @@ void GPIO_read(int32_t fd, int32_t *state, int32_t *error)
 void GPIO_write(int32_t fd, int32_t state, int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((state < 0) || (state > 1))
+  {
+    *error = EINVAL;
+    ERRORMSG("state argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   if (write(fd, state ? "1\n" : "0\n", 2) < 2)
   {
