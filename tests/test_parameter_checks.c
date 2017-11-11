@@ -132,6 +132,27 @@ START_TEST(test_libgpio)
 
   GPIO_open(999, &fd, &error);
   ck_assert(error == ENOENT);
+
+  GPIO_read(2, &state, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_read(3, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_read(999, &state, &error);
+  ck_assert(error == EBADF);
+
+  GPIO_write(2, 0, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_write(3, -1, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_write(3, 2, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_write(999, 0, &error);
+  ck_assert(error == EBADF);
 }
 END_TEST
 
