@@ -22,11 +22,13 @@
 
 #include <check.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include <libadc.h>
+#include <libevent.h>
 #include <libgpio.h>
 #include <libhidraw.h>
 
@@ -75,6 +77,51 @@ START_TEST(test_libadc)
   ck_assert(error == EINVAL);
 
   ADC_read(999, &sample, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
+START_TEST(test_libevent)
+{
+  int32_t epfd;
+  int32_t fd;
+  int32_t error;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  EVENT_open(NULL, &error);
+  ck_assert(error == EINVAL);
+
+  EVENT_open(&epfd, &error);
+  ck_assert(error == 0);
+
+  EVENT_register_fd(2, 0, 0, 0, &error);
+  ck_assert(error == EINVAL);
+
+  EVENT_register_fd(epfd, -1, 0, 0, &error);
+  ck_assert(error == EINVAL);
+
+  fd = open("/dev/null", O_RDONLY);
+  ck_assert(fd > 0);
+
+  EVENT_modify_fd(2, fd, 0, 0, &error);
+  ck_assert(error == EINVAL);
+
+  EVENT_modify_fd(epfd, -1, 0, 0, &error);
+  ck_assert(error == EINVAL);
+
+  EVENT_unregister_fd(2, fd, &error);
+  ck_assert(error == EINVAL);
+
+  EVENT_unregister_fd(epfd, -1, &error);
+  ck_assert(error == EINVAL);
+
+  EVENT_close(epfd, &error);
+  ck_assert(error == 0);
+
+  EVENT_close(-1, &error);
   ck_assert(error == EBADF);
 }
 END_TEST
@@ -195,6 +242,7 @@ int main(void)
 
   tests = tcase_create("Test Parameter Checking");
   tcase_add_test(tests, test_libadc);
+  tcase_add_test(tests, test_libevent);
   tcase_add_test(tests, test_libgpio);
   tcase_add_test(tests, test_libhidraw);
 
