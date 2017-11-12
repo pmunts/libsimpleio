@@ -41,9 +41,20 @@ void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   int i;
   char name[MAXPATHLEN];
   int32_t b, v, p, e;
+
+  // Search raw HID devices, looking for matching VID and PID
 
   for (i = 0; i < 100; i++)
   {
@@ -83,6 +94,29 @@ void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (fd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("Invalid fd argument", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (name == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (size < 16)
+  {
+    *error = EINVAL;
+    ERRORMSG("size argument is too small", *error, __LINE__ - 3);
+    return;
+  }
+
   memset(name, 0, size);
 
   if (ioctl(fd, HIDIOCGRAWNAME(size), name) < 0)
@@ -100,6 +134,36 @@ void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)
 void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor, int32_t *product, int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("Invalid fd argument", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (bustype == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("bustype argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (vendor == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("vendor argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (product == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("product argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
 
   struct hidraw_devinfo devinfo;
 

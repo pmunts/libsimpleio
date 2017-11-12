@@ -33,6 +33,15 @@ void EVENT_open(int32_t *epfd, int32_t *error)
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (epfd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("epfd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   *epfd = epoll_create(256);
   if (epfd < 0)
   {
@@ -48,6 +57,22 @@ void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
   int32_t handle, int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (epfd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("epfd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   struct epoll_event ev;
 
@@ -71,6 +96,22 @@ void EVENT_modify_fd(int32_t epfd, int32_t fd, int32_t events,
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (epfd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("epfd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
   struct epoll_event ev;
 
   memset(&ev, 0, sizeof(ev));
@@ -92,6 +133,22 @@ void EVENT_unregister_fd(int32_t epfd, int32_t fd, int32_t *error)
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (epfd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("epfd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
   if (epoll_ctl(epfd, EPOLL_CTL_DEL, fd, NULL))
   {
     *error = errno;
@@ -106,6 +163,43 @@ void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event,
   int32_t *handle, int32_t timeoutms, int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (epfd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("epfd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (event == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("event argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (handle == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("handle argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (timeoutms < -1)
+  {
+    *error = EINVAL;
+    ERRORMSG("timeut argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   int status;
   struct epoll_event ev;
