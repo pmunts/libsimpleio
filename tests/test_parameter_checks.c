@@ -28,6 +28,7 @@
 
 #include <libadc.h>
 #include <libgpio.h>
+#include <libhidraw.h>
 
 START_TEST(test_libadc)
 {
@@ -156,6 +157,36 @@ START_TEST(test_libgpio)
 }
 END_TEST
 
+START_TEST(test_libhidraw)
+{
+  int32_t fd;
+  int32_t error;
+  char name[256];
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  HIDRAW_open_id(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_open_id(0, 0, &fd, &error);
+  ck_assert(error == ENODEV);
+
+  HIDRAW_get_name(2, name, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_get_name(3, NULL, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_get_name(3, name, 15, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_get_name(999, name, sizeof(name), &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -165,6 +196,7 @@ int main(void)
   tests = tcase_create("Test Parameter Checking");
   tcase_add_test(tests, test_libadc);
   tcase_add_test(tests, test_libgpio);
+  tcase_add_test(tests, test_libhidraw);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);
