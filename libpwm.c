@@ -70,35 +70,35 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   if (chip < 0)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid PWM chip number argument", *error, __LINE__ - 3);
+    ERRORMSG("PWM chip number argument", *error, __LINE__ - 3);
     return;
   }
 
   if (channel < 0)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid PWM channel number argument", *error, __LINE__ - 3);
+    ERRORMSG("PWM channel number argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if (period < 0)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid PWM output period argument", *error, __LINE__ - 3);
+    ERRORMSG("PWM output period argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if (ontime < 0)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid PWM output on-time argument", *error, __LINE__ - 3);
+    ERRORMSG("PWM output on-time argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if ((polarity < PWM_POLARITY_ACTIVELOW) || (polarity > PWM_POLARITY_ACTIVEHIGH))
   {
     *error = EINVAL;
-    ERRORMSG("Invalid PWM output polarity argument", *error, __LINE__ - 3);
+    ERRORMSG("PWM output polarity argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -279,8 +279,30 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
-  char filename[MAXPATHLEN];
+  // Validate parameters
 
+  if (chip < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("PWM chip number argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (channel < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("PWM channel number argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  char filename[MAXPATHLEN];
   snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 
   *fd = open(filename, O_WRONLY);
