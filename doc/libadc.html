@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>Man page of libadc</TITLE>
+</HEAD><BODY>
+<H1>libadc</H1>
+Section: Linux Simple I/O Library (2)<BR>Updated: 13 November 2017<BR><A HREF="#index">Index</A>
+<A HREF="../README.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>libadc</B>
+
+-- Linux Simple I/O Library: A/D Input Module
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A HREF="file:///usr/include/libadc.h">libadc.h</A>&gt;</B>
+
+<B>void ADC_get_name(int32_t </B><I>chip</I><B>, char *</B><I>name</I><B>, int32_t </B><I>namesize</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
+
+<B>void ADC_open(int32_t </B><I>chip</I><B>, int32_t </B><I>channel</I><B>, int32_t *</B><I>fd</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
+
+<B>void ADC_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void ADC_read(int32_t </B><I>fd</I><B>, int32_t *</B><I>sample</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+</PRE>
+
+Link with
+<B>-lsimpleio</B>.
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+All functions return either
+<B>0</B>
+
+(upon success) or an
+<B>errno</B>
+
+value (upon failure) in
+<I>*error</I>.
+
+<P>
+
+<B>ADC_get_name()</B>
+
+fetches an information string for an A/D device.
+The chip number must be passed in
+<I>chip</I>.
+
+The destination buffer address must be passed in
+<I>*name</I>
+
+and the destination buffer size must be passed in
+<I>namesize</I>.
+
+The minimum size for the destination buffer is 16 bytes.
+<P>
+
+<B>ADC_open()</B>
+
+opens an A/D input channel device. The A/D chip number must be passed in the
+<I>chip</I>
+
+parameter and the A/D input channel number must be passed in the
+<I>channel</I>
+
+parameter.  Upon success, a file descriptor for the A/D input channel device is returned in
+<I>*fd</I>.
+
+<P>
+
+<B>ADC_close()</B>
+
+closes a previously opened A/D input channel device.
+<P>
+
+<B>ADC_read()</B>
+
+reads a sample from an A/D input channel device.  The file descriptor for an open
+A/D input channel device must be passed in the
+<I>fd</I>
+
+parameter.  The analog sample data will be returned in the
+<I>*sample</I>
+
+parameter.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2), <B><A HREF="libi2c.html">libi2c</A></B>(2),
+
+<BR>
+
+<B><A HREF="libipv4.html">libipv4</A></B>(2), <B><A HREF="liblinux.html">liblinux</A></B>(2), <B><A HREF="liblinx.html">liblinx</A></B>(2), <B><A HREF="libpwm.html">libpwm</A></B>(2), <B><A HREF="libserial.html">libserial</A></B>(2), 
+
+<BR>
+
+<B><A HREF="libspi.html">libspi</A></B>(2), <B><A HREF="libstream.html">libstream</A></B>(2), <B><A HREF="libwatchdog.html">libwatchdog</A></B>(2)
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Philip Munts, President, Munts AM Corp dba Munts Technologies
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 08:57:54 GMT, November 13, 2017
+</BODY>
+</HTML>

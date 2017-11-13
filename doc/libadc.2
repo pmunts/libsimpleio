@@ -1,0 +1,88 @@
+.\" man page for Munts Technologies Linux Simple I/O Library
+.\"
+.\" Copyright (C)2016-2017, Philip Munts, President, Munts AM Corp.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" * Redistributions of source code must retain the above copyright notice,
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.\"
+.TH libadc 2 "13 November 2017" "version 1" "Linux Simple I/O Library"
+.SH NAME
+.B libadc
+\-\- Linux Simple I/O Library: A/D Input Module
+.SH SYNOPSIS
+.nf
+.B #include <libadc.h>
+
+.BI "void ADC_get_name(int32_t " chip ", char *" name ", int32_t " namesize ","
+.BI "  int32_t *" error ");"
+
+.BI "void ADC_open(int32_t " chip ", int32_t " channel ", int32_t *" fd ",
+.BI "  int32_t *" error ");"
+
+.BI "void ADC_close(int32_t " fd ", int32_t *" error ");"
+
+.BI "void ADC_read(int32_t " fd ", int32_t *" sample ", int32_t *" error ");"
+
+.fi
+Link with
+.BR -lsimpleio .
+.SH DESCRIPTION
+.nh
+All functions return either
+.B 0
+(upon success) or an
+.B errno
+value (upon failure) in
+.IR *error .
+.PP
+.B ADC_get_name()
+fetches an information string for an A/D device.
+The chip number must be passed in
+.IR chip .
+The destination buffer address must be passed in
+.I *name
+and the destination buffer size must be passed in
+.IR namesize .
+The minimum size for the destination buffer is 16 bytes.
+.PP
+.B ADC_open()
+opens an A/D input channel device. The A/D chip number must be passed in the
+.I chip
+parameter and the A/D input channel number must be passed in the
+.I channel
+parameter.  Upon success, a file descriptor for the A/D input channel device is returned in
+.IR *fd .
+.PP
+.B ADC_close()
+closes a previously opened A/D input channel device.
+.PP
+.B ADC_read()
+reads a sample from an A/D input channel device.  The file descriptor for an open
+A/D input channel device must be passed in the
+.I fd
+parameter.  The analog sample data will be returned in the
+.I *sample
+parameter.
+.SH SEE ALSO
+.BR libsimpleio "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2), " libi2c "(2),"
+.br
+.BR libipv4 "(2), " liblinux "(2), " liblinx "(2), " libpwm "(2), " libserial "(2), "
+.br
+.BR libspi "(2), " libstream "(2), " libwatchdog "(2)"
+.SH AUTHOR
+Philip Munts, President, Munts AM Corp dba Munts Technologies
