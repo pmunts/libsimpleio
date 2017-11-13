@@ -90,7 +90,7 @@ void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
 
 // Get device information string
 
-void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)
+void HIDRAW_get_name(int32_t fd, char *name, int32_t namesize, int32_t *error)
 {
   assert(error != NULL);
 
@@ -110,16 +110,16 @@ void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)
     return;
   }
 
-  if (size < 16)
+  if (namesize < 16)
   {
     *error = EINVAL;
-    ERRORMSG("size argument is too small", *error, __LINE__ - 3);
+    ERRORMSG("namesize argument is too small", *error, __LINE__ - 3);
     return;
   }
 
-  memset(name, 0, size);
+  memset(name, 0, namesize);
 
-  if (ioctl(fd, HIDIOCGRAWNAME(size), name) < 0)
+  if (ioctl(fd, HIDIOCGRAWNAME(namesize), name) < 0)
   {
     *error = errno;
     ERRORMSG("ioctl() for HIDIOCGRAWNAME failed", *error, __LINE__ - 3);

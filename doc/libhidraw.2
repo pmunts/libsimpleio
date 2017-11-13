@@ -35,7 +35,7 @@
 
 .BI "void HIDRAW_close(int32_t " fd ", int32_t *" error ");"
 
-.BI "void HIDRAW_get_name(int32_t " fd ", char *" name ", int32_t " size ",
+.BI "void HIDRAW_get_name(int32_t " fd ", char *" name ", int32_t " namesize ",
 .BI "  int32_t *" error ");"
 
 .BI "void HIDRAW_get_info(int32_t " fd ", int32_t *" bustype ", int32_t *" vendor ","
@@ -83,7 +83,7 @@ The HID device file descriptor must be passed in
 The destination buffer address must be passed in
 .I *name
 and the destination buffer size must be passed in
-.IR size .
+.IR namesize .
 .PP
 .B HIDRAW_get_info()
 fetches the bus type, vendor ID and product ID from the raw HID device.

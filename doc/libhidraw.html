@@ -24,7 +24,7 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 13 November 2017<BR><A HREF="#
 
 <B>void HIDRAW_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void HIDRAW_get_name(int32_t </B><I>fd</I><B>, char *</B><I>name</I><B>, int32_t </B><I>size</I><B>,</B>
+<B>void HIDRAW_get_name(int32_t </B><I>fd</I><B>, char *</B><I>name</I><B>, int32_t </B><I>namesize</I><B>,</B>
 <B>  int32_t *</B><I>error</I><B>);</B>
 
 <B>void HIDRAW_get_info(int32_t </B><I>fd</I><B>, int32_t *</B><I>bustype</I><B>, int32_t *</B><I>vendor</I><B>,</B>
@@ -94,7 +94,7 @@ The destination buffer address must be passed in
 <I>*name</I>
 
 and the destination buffer size must be passed in
-<I>size</I>.
+<I>namesize</I>.
 
 <P>
 
@@ -193,6 +193,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 08:12:34 GMT, November 13, 2017
+Time: 08:55:55 GMT, November 13, 2017
 </BODY>
 </HTML>

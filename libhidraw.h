@@ -35,7 +35,7 @@ extern void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd,
 
 extern void HIDRAW_close(int32_t fd, int32_t *error);
 
-extern void HIDRAW_get_name(int32_t fd, char *name, int32_t size,
+extern void HIDRAW_get_name(int32_t fd, char *name, int32_t namesize,
   int32_t *error);
 
 extern void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor,
