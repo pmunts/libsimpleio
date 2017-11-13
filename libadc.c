@@ -36,7 +36,7 @@
 #define NAME_FILE	"/sys/bus/iio/devices/iio:device%d/name"
 #define DATA_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_raw"
 
-void ADC_name(int32_t device, char *name, int32_t namesize, int32_t *error)
+void ADC_get_name(int32_t device, char *name, int32_t namesize, int32_t *error)
 {
   assert(error != NULL);
 

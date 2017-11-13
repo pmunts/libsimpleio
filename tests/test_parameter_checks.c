@@ -43,16 +43,16 @@ START_TEST(test_libadc)
   putenv("DEBUGLEVEL=1");
 #endif
 
-  ADC_name(-1, name, sizeof(name), &error);
+  ADC_get_name(-1, name, sizeof(name), &error);
   ck_assert(error == EINVAL);
 
-  ADC_name(0, NULL, sizeof(name), &error);
+  ADC_get_name(0, NULL, sizeof(name), &error);
   ck_assert(error == EINVAL);
 
-  ADC_name(0, name, 15, &error);
+  ADC_get_name(0, name, 15, &error);
   ck_assert(error == EINVAL);
 
-  ADC_name(999, name, sizeof(name), &error);
+  ADC_get_name(999, name, sizeof(name), &error);
   ck_assert(error == ENOENT);
 
   ADC_open(-1, 0, &fd, &error);
