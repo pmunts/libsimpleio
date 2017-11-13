@@ -36,7 +36,7 @@
 #define NAME_FILE	"/sys/bus/iio/devices/iio:device%d/name"
 #define DATA_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_raw"
 
-void ADC_get_name(int32_t device, char *name, int32_t namesize, int32_t *error)
+void ADC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
 {
   assert(error != NULL);
 
@@ -46,10 +46,10 @@ void ADC_get_name(int32_t device, char *name, int32_t namesize, int32_t *error)
 
   // Validate parameters
 
-  if (device < 0)
+  if (chip < 0)
   {
     *error = EINVAL;
-    ERRORMSG("device argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -68,7 +68,7 @@ void ADC_get_name(int32_t device, char *name, int32_t namesize, int32_t *error)
   }
 
   memset(filename, 0, sizeof(filename));
-  snprintf(filename, sizeof(filename), NAME_FILE, device);
+  snprintf(filename, sizeof(filename), NAME_FILE, chip);
 
   fd = open(filename, O_RDONLY);
   if (fd < 0)
@@ -95,7 +95,7 @@ void ADC_get_name(int32_t device, char *name, int32_t namesize, int32_t *error)
   close(fd);
 }
 
-void ADC_open(int32_t device, int32_t channel, int32_t *fd, int32_t *error)
+void ADC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
@@ -103,10 +103,10 @@ void ADC_open(int32_t device, int32_t channel, int32_t *fd, int32_t *error)
 
   // Validate parameters
 
-  if (device < 0)
+  if (chip < 0)
   {
     *error = EINVAL;
-    ERRORMSG("device argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -126,7 +126,7 @@ void ADC_open(int32_t device, int32_t channel, int32_t *fd, int32_t *error)
     return;
   }
 
-  snprintf(filename, sizeof(filename), DATA_FILE, device, channel);
+  snprintf(filename, sizeof(filename), DATA_FILE, chip, channel);
 
   *fd = open(filename, O_RDONLY);
   if (*fd < 0)

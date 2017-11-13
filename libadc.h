@@ -28,10 +28,10 @@
 
 _BEGIN_STD_C
 
-extern void ADC_get_name(int32_t device, char *name, int32_t namesize,
+extern void ADC_get_name(int32_t chip, char *name, int32_t namesize,
   int32_t *error);
 
-extern void ADC_open(int32_t device, int32_t channel, int32_t *fd,
+extern void ADC_open(int32_t chip, int32_t channel, int32_t *fd,
   int32_t *error);
 
 extern void ADC_close(int32_t fd, int32_t *error);
