@@ -209,6 +209,9 @@ START_TEST(test_libhidraw)
   int32_t fd;
   int32_t error;
   char name[256];
+  int32_t bustype;
+  int32_t vendor;
+  int32_t product;
 
 #ifdef VERBOSE
   putenv("DEBUGLEVEL=1");
@@ -231,6 +234,18 @@ START_TEST(test_libhidraw)
 
   HIDRAW_get_name(999, name, sizeof(name), &error);
   ck_assert(error == EBADF);
+
+  HIDRAW_get_info(2, &bustype, &vendor, &product, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_get_info(3, NULL, &vendor, &product, &error);
+  ck_assert(error == EINVAL);
+ 
+  HIDRAW_get_info(3, &bustype, NULL, &product, &error);
+  ck_assert(error == EINVAL);
+ 
+  HIDRAW_get_info(3, &bustype, &vendor, NULL, &error);
+  ck_assert(error == EINVAL);
 }
 END_TEST
 
