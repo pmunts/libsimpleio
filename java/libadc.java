@@ -27,7 +27,7 @@ package com.munts.libsimpleio;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libpwm
+public class libadc
 {
   // A/D input device function definitions
 
