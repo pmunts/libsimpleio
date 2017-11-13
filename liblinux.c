@@ -55,6 +55,15 @@ void LINUX_drop_privileges(const char *username, int32_t *error)
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (username == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("username argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   struct passwd *pwent;
 
   // Look up the user name
@@ -90,7 +99,7 @@ void LINUX_drop_privileges(const char *username, int32_t *error)
   if (setuid(pwent->pw_uid))
   {
     *error = errno;
-    ERRORMSG("setuid() failed", *error, __LINE__ -3);
+    ERRORMSG("setuid() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -104,6 +113,13 @@ void LINUX_openlog(const char *id, int32_t options, int32_t facility,
 {
   assert(error != NULL);
 
+  if (id == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("id argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   openlog(id, options, facility);
   *error = 0;
 }
@@ -114,6 +130,13 @@ void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
 {
   assert(error != NULL);
 
+  if (msg == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("msg argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   syslog(priority, msg);
   *error = 0;
 }
@@ -122,6 +145,20 @@ void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
 
 void LINUX_strerror(int32_t error, char *buf, int32_t bufsize)
 {
+  // Validate parameters
+
+  if (buf == NULL)
+  {
+    ERRORMSG("buf argument is NULL", EINVAL, __LINE__ - 2);
+    return;
+  }
+
+  if (bufsize < 16)
+  {
+    ERRORMSG("bufsize argument is too small", EINVAL, __LINE__ - 2);
+    return;
+  }
+
   memset(buf, 0, bufsize);
   strerror_r(error, buf, bufsize);
 }
@@ -201,6 +238,15 @@ void LINUX_close(int32_t fd, int32_t *error)
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
   if (close(fd))
   {
     *error = errno;
@@ -217,6 +263,15 @@ void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
   int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   int32_t len = read(fd, buf, bufsize);
   if (len < 0)
@@ -237,6 +292,15 @@ void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
   int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   int32_t len = write(fd, buf, bufsize);
   if (len < 0)
