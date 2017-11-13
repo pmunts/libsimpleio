@@ -43,7 +43,7 @@ INTERFACE
   PROCEDURE Read
    (fd         : Integer;
     VAR sample : Integer;
-    VAR error  : Integer); CDECL; EXTERNAL NAME 'ADC_write';
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'ADC_read';
 
 IMPLEMENTATION
 
