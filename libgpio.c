@@ -69,49 +69,49 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
   if (pin < 0)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid pin number argument", *error, __LINE__ - 3);
+    ERRORMSG("pin number argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if ((direction < GPIO_DIRECTION_INPUT) || (direction > GPIO_DIRECTION_OUTPUT))
   {
     *error = EINVAL;
-    ERRORMSG("Invalid direction argument", *error, __LINE__ - 3);
+    ERRORMSG("direction argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if ((state < false) || (state > true))
   {
     *error = EINVAL;
-    ERRORMSG("Invalid state argument", *error, __LINE__ - 3);
+    ERRORMSG("state argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if ((direction == GPIO_DIRECTION_INPUT) && state)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid state argument", *error, __LINE__ - 3);
+    ERRORMSG("state argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if ((edge < GPIO_EDGE_NONE) || (edge > GPIO_EDGE_BOTH))
   {
     *error = EINVAL;
-    ERRORMSG("Invalid edge argument", *error, __LINE__ - 3);
+    ERRORMSG("edge argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if ((direction == GPIO_DIRECTION_OUTPUT) && (edge != GPIO_EDGE_NONE))
   {
     *error = EINVAL;
-    ERRORMSG("Invalid edge argument", *error, __LINE__ - 3);
+    ERRORMSG("edge argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if ((polarity < GPIO_POLARITY_ACTIVELOW) || (polarity > GPIO_POLARITY_ACTIVEHIGH))
   {
     *error = EINVAL;
-    ERRORMSG("Invalid polarity argument", *error, __LINE__ - 3);
+    ERRORMSG("polarity argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -354,7 +354,7 @@ void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
   if (pin < 0)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid pin number argument", *error, __LINE__ - 3);
+    ERRORMSG("pin number argument is invalid", *error, __LINE__ - 3);
     return;
   }
 

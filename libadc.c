@@ -49,21 +49,21 @@ void ADC_get_name(int32_t device, char *name, int32_t namesize, int32_t *error)
   if (device < 0)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid device number", *error, __LINE__ - 3);
+    ERRORMSG("device argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if (name == NULL)
   {
     *error = EINVAL;
-    ERRORMSG("name is NULL", *error, __LINE__ - 3);
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
     return;
   }
 
   if (namesize < 16)
   {
     *error = EINVAL;
-    ERRORMSG("namesize is too small", *error, __LINE__ - 3);
+    ERRORMSG("namesize argument is too small", *error, __LINE__ - 3);
     return;
   }
 
@@ -106,7 +106,7 @@ void ADC_open(int32_t device, int32_t channel, int32_t *fd, int32_t *error)
   if (device < 0)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid device number", *error, __LINE__ - 3);
+    ERRORMSG("device argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -115,14 +115,14 @@ void ADC_open(int32_t device, int32_t channel, int32_t *fd, int32_t *error)
   if (channel < 0)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid channel number", *error, __LINE__ - 3);
+    ERRORMSG("channel argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if (fd == NULL)
   {
     *error = EINVAL;
-    ERRORMSG("fd is NULL", *error, __LINE__ - 3);
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
     return;
   }
 
@@ -153,14 +153,14 @@ void ADC_read(int32_t fd, int32_t *sample, int32_t *error)
   {
     *sample = 0;
     *error = EINVAL;
-    ERRORMSG("Invalid file descriptor", *error, __LINE__ - 3);
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if (sample == NULL)
   {
     *error = EINVAL;
-    ERRORMSG("sample is NULL", *error, __LINE__ - 3);
+    ERRORMSG("sample argument is NULL", *error, __LINE__ - 3);
     return;
   }
 
