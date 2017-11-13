@@ -6,7 +6,7 @@
 
      * GPIO (General Purpose Input/Output) Pins
      * Raw HID (Human Interface Device) Devices
-     * I^2C (Inter-Integrated Circuit) Bus Devices
+     * I2C (Inter-Integrated Circuit) Bus Devices
      * [1]Labview LINX Remote I/O Devices
      * PWM (Pulse Width Modulated) Output Devices
      * Serial Ports
@@ -34,12 +34,20 @@
    _END_STD_C for C++. Binding modules are provided for [3]Ada, [4]Java,
    and [5]Free Pascal.
 
+News
+
+     * 13 November 2017 -- Started writing libsimpleio unit tests. Added
+       many, many parameter checks to the functions in libsimpleio. Fixed
+       a number of errors in the man pages.
+
 Documentation
 
    New The user manual for libsimpleio is available at:
+
    [6]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
+
    [7]libsimpleio.html
 
 Git Repository
@@ -47,6 +55,7 @@ Git Repository
    The source code is available at: [8]http://git.munts.com
 
    Use the following command to clone it:
+
    git clone http://git.munts.com/libsimpleio.git
 
 Copyright:
