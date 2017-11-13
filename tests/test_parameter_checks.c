@@ -78,6 +78,12 @@ START_TEST(test_libadc)
 
   ADC_read(999, &sample, &error);
   ck_assert(error == EBADF);
+
+  ADC_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  ADC_close(999, &error);
+  ck_assert(error == EBADF);
 }
 END_TEST
 
@@ -122,6 +128,9 @@ START_TEST(test_libevent)
   ck_assert(error == 0);
 
   EVENT_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  EVENT_close(999, &error);
   ck_assert(error == EBADF);
 }
 END_TEST
@@ -201,6 +210,12 @@ START_TEST(test_libgpio)
 
   GPIO_write(999, 0, &error);
   ck_assert(error == EBADF);
+
+  GPIO_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_close(999, &error);
+  ck_assert(error == EBADF);
 }
 END_TEST
 
@@ -246,6 +261,12 @@ START_TEST(test_libhidraw)
  
   HIDRAW_get_info(3, &bustype, &vendor, NULL, &error);
   ck_assert(error == EINVAL);
+
+  HIDRAW_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_close(999, &error);
+  ck_assert(error == EBADF);
 }
 END_TEST
 
