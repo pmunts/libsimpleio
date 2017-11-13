@@ -47,5 +47,5 @@ PACKAGE libADC IS
    (fd      : Integer;
     sample  : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Write, "ADC_write");
+  PRAGMA Import(C, Read, "ADC_read");
 END libADC;
