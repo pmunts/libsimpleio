@@ -4,14 +4,16 @@
    ugliness of Linux I/O device access. It provides services for the
    following types of I/O devices:
 
+     * [1]Industrial I/O Subsystem A/D (Analog to Digital) Converter
+       Devices
      * GPIO (General Purpose Input/Output) Pins
      * Raw HID (Human Interface Device) Devices
      * I2C (Inter-Integrated Circuit) Bus Devices
-     * [1]Labview LINX Remote I/O Devices
+     * [2]Labview LINX Remote I/O Devices
      * PWM (Pulse Width Modulated) Output Devices
      * Serial Ports
      * SPI (Serial Peripheral Interface) Bus Devices
-     * [2]Stream Framing Protocol Devices
+     * [3]Stream Framing Protocol Devices
      * TCP and UDP over IPv4 Network Devices
      * Watchdog Timer Devices
 
@@ -31,8 +33,8 @@
      * int32_t is used wherever possible for int and bool arguments.
 
    All of the wrapper functions are declared between _BEGIN_STD_C and
-   _END_STD_C for C++. Binding modules are provided for [3]Ada, [4]Java,
-   and [5]Free Pascal.
+   _END_STD_C for C++. Binding modules are provided for [4]Ada, [5]Java,
+   and [6]Free Pascal.
 
 News
 
@@ -44,15 +46,15 @@ Documentation
 
    New The user manual for libsimpleio is available at:
 
-   [6]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [7]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
 
-   [7]libsimpleio.html
+   [8]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [8]http://git.munts.com
+   The source code is available at: [9]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -86,19 +88,20 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [9]phil@munts.net
+   Questions or comments to Philip Munts [10]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
 
 References
 
-   1. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
-   2. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
-   3. http://git.munts.com/libsimpleio/ada
-   4. http://git.munts.com/libsimpleio/java
-   5. http://git.munts.com/libsimpleio/pascal
-   6. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-   7. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-   8. http://git.munts.com/
-   9. mailto:phil@munts.net
+   1. https://wiki.analog.com/software/linux/docs/iio/iio
+   2. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
+   3. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
+   4. http://git.munts.com/libsimpleio/ada
+   5. http://git.munts.com/libsimpleio/java
+   6. http://git.munts.com/libsimpleio/pascal
+   7. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   8. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+   9. http://git.munts.com/
+  10. mailto:phil@munts.net
