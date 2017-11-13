@@ -99,7 +99,7 @@ void HIDRAW_get_name(int32_t fd, char *name, int32_t size, int32_t *error)
   if (fd < 3)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid fd argument", *error, __LINE__ - 3);
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -140,7 +140,7 @@ void HIDRAW_get_info(int32_t fd, int32_t *bustype, int32_t *vendor, int32_t *pro
   if (fd < 3)
   {
     *error = EINVAL;
-    ERRORMSG("Invalid fd argument", *error, __LINE__ - 3);
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
