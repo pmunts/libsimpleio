@@ -33,6 +33,7 @@
 #include <libhidraw.h>
 #include <libi2c.h>
 #include <libipv4.h>
+#include <liblinux.h>
 
 START_TEST(test_libadc)
 {
@@ -378,6 +379,7 @@ START_TEST(test_libipv4)
   char buf[256];
   int32_t fd;
   int32_t count;
+
 #ifdef VERBOSE
   putenv("DEBUGLEVEL=1");
 #endif
@@ -493,6 +495,227 @@ START_TEST(test_libipv4)
 }
 END_TEST
 
+START_TEST(test_liblinux)
+{
+  int32_t error;
+  char buf[256];
+  int32_t fd;
+  int32_t count;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  LINUX_drop_privileges(NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_drop_privileges("nobody", &error);
+  ck_assert(error == EPERM);
+
+  LINUX_openlog(NULL, LOG_NDELAY, LOG_LOCAL0, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_openlog("test_parameter_checks", LOG_NDELAY, (24 << 3), &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_openlog("test_parameter_checks", LOG_NDELAY, LOG_LOCAL0, &error);
+  ck_assert(error == 0);
+
+  LINUX_syslog(LOG_NOTICE, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_syslog(LOG_NOTICE, "test", &error);
+  ck_assert(error == 0);
+
+  LINUX_strerror(0, NULL, sizeof(buf));
+
+  LINUX_strerror(0, buf, 15);
+
+  LINUX_strerror(0, buf, sizeof(buf));
+  ck_assert(!strcmp(buf, "Success"));
+
+  LINUX_strerror(EPERM, buf, sizeof(buf));
+  ck_assert(!strcmp(buf, "Operation not permitted"));
+
+  LINUX_strerror(EPIPE, buf, sizeof(buf));
+  ck_assert(!strcmp(buf, "Broken pipe"));
+
+  LINUX_open(NULL, O_RDWR, 0644, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_open("/dev/bogus", O_RDWR, 0644, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_open("/dev/bogus", O_RDWR, 0644, &fd, &error);
+  ck_assert(error == ENOENT);
+
+  LINUX_open("/dev/null", O_WRONLY|O_CREAT|O_EXCL, 0644, &fd, &error);
+  ck_assert(error == EEXIST);
+
+  LINUX_open("/dev/null", O_RDWR, 0644, &fd, &error);
+  ck_assert(error == 0);
+  ck_assert(fd > 0);
+
+  LINUX_close(fd, &error);
+  ck_assert(error == 0);
+  fd = -1;
+
+  LINUX_open_read(NULL, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_open_read("/dev/bogus", NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_open_read("/dev/bogus", &fd, &error);
+  ck_assert(error == ENOENT);
+
+  LINUX_open_read("/dev/null", &fd, &error);
+  ck_assert(error == 0);
+
+  LINUX_close(fd, &error);
+  ck_assert(error == 0);
+  fd = -1;
+
+  LINUX_open_write(NULL, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_open_write("/dev/bogus", NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_open_write("/dev/bogus", &fd, &error);
+  ck_assert(error == ENOENT);
+
+  LINUX_open_write("/dev/null", &fd, &error);
+  ck_assert(error == 0);
+
+  LINUX_close(fd, &error);
+  ck_assert(error == 0);
+  fd = -1;
+
+  LINUX_open_readwrite(NULL, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_open_readwrite("/dev/bogus", NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_open_readwrite("/dev/bogus", &fd, &error);
+  ck_assert(error == ENOENT);
+
+  LINUX_open_readwrite("/dev/null", &fd, &error);
+  ck_assert(error == 0);
+
+  LINUX_close(fd, &error);
+  ck_assert(error == 0);
+  fd = -1;
+
+  LINUX_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_close(999, &error);
+  ck_assert(error == EBADF);
+
+  LINUX_open_read("/dev/zero", &fd, &error);
+  ck_assert(error == 0);
+  ck_assert(fd > 0);
+
+  LINUX_read(-1, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_read(fd, NULL, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_read(fd, buf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_read(fd, buf, sizeof(buf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_read(999, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EBADF);
+
+  LINUX_read(fd, buf, sizeof(buf), &count, &error);
+  ck_assert(error == 0);
+  ck_assert(count == sizeof(buf));
+
+  LINUX_close(fd, &error);
+  ck_assert(error == 0);
+  fd = -1;
+
+  LINUX_open_write("/dev/null", &fd, &error);
+  ck_assert(error == 0);
+  ck_assert(fd > 0);
+
+  LINUX_write(-1, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_write(fd, NULL, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_write(fd, buf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_write(fd, buf, sizeof(buf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_write(999, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EBADF);
+
+  LINUX_write(fd, buf, sizeof(buf), &count, &error);
+  ck_assert(error == 0);
+  ck_assert(count == sizeof(buf));
+
+  LINUX_close(fd, &error);
+  ck_assert(error == 0);
+  fd = -1;
+
+  LINUX_open_readwrite("/dev/null", &fd, &error);
+  ck_assert(error == 0);
+  ck_assert(fd > 0);
+
+  LINUX_read(-1, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_read(fd, NULL, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_read(fd, buf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_read(fd, buf, sizeof(buf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_read(999, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EBADF);
+
+  LINUX_read(fd, buf, sizeof(buf), &count, &error);
+  ck_assert(error == 0);
+  ck_assert(count == 0);
+
+  LINUX_write(-1, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_write(fd, NULL, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_write(fd, buf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_write(fd, buf, sizeof(buf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_write(999, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EBADF);
+
+  LINUX_write(fd, buf, sizeof(buf), &count, &error);
+  ck_assert(error == 0);
+  ck_assert(count == sizeof(buf));
+
+  LINUX_close(fd, &error);
+  ck_assert(error == 0);
+  fd = -1;
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -506,6 +729,7 @@ int main(void)
   tcase_add_test(tests, test_libhidraw);
   tcase_add_test(tests, test_libi2c);
   tcase_add_test(tests, test_libipv4);
+  tcase_add_test(tests, test_liblinux);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);
