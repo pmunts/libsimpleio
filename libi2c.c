@@ -38,9 +38,75 @@
 
 // Perform an I2C transaction
 
-void I2C_transaction(int32_t fd, int32_t slaveaddr, void *cmd, int32_t cmdlen, void *resp, int32_t resplen, int32_t *error)
+void I2C_transaction(int32_t fd, int32_t slaveaddr, void *cmd, int32_t cmdlen,
+  void *resp, int32_t resplen, int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((slaveaddr < 0) || (slaveaddr > 127))
+  {
+    *error = EINVAL;
+    ERRORMSG("slaveaddr argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (cmdlen < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("cmdlen argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (resplen < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("resplen argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((cmd == NULL) && (cmdlen != 0))
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd and cmdlen arguments are inconsistent", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((cmd != NULL) && (cmdlen == 0))
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd and cmdlen arguments are inconsistent", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((resp == NULL) && (resplen != 0))
+  {
+    *error = EINVAL;
+    ERRORMSG("resp and resplen arguments are inconsistent", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((resp != NULL) && (resplen == 0))
+  {
+    *error = EINVAL;
+    ERRORMSG("resp and resplen arguments are inconsistent", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((cmd == NULL) && (resp == NULL))
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd and resp arguments are both NULL", *error, __LINE__ - 3);
+    return;
+  }
 
   struct i2c_rdwr_ioctl_data cmdblk;
   struct i2c_msg msgs[2];
