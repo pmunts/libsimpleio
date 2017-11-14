@@ -32,6 +32,7 @@
 #include <libgpio.h>
 #include <libhidraw.h>
 #include <libi2c.h>
+#include <libipv4.h>
 
 START_TEST(test_libadc)
 {
@@ -370,6 +371,128 @@ START_TEST(test_libi2c)
 }
 END_TEST
 
+START_TEST(test_libipv4)
+{
+  int32_t addr;
+  int32_t error;
+  char buf[256];
+  int32_t fd;
+  int32_t count;
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  IPV4_resolve(NULL, &addr, &error);
+  ck_assert(error == EINVAL);
+
+  IPV4_resolve("localhost", NULL, &error);
+  ck_assert(error == EINVAL);
+
+  IPV4_resolve("localhost", &addr, &error);
+  ck_assert(error == 0);
+  ck_assert(addr == 0x7F000001);
+
+  IPV4_resolve("bogus.munts.net", &addr, &error);
+  ck_assert(error == ENONET);
+
+  IPV4_ntoa(0x00000000, NULL, sizeof(buf), &error);
+  ck_assert(error == EINVAL);
+
+  IPV4_ntoa(0x00000000, buf, 15, &error);
+  ck_assert(error == EINVAL);
+
+  IPV4_ntoa(0x00000000, buf, sizeof(buf), &error);
+  ck_assert(error == 0);
+  ck_assert(!strcmp(buf, "0.0.0.0"));
+
+  IPV4_ntoa(0x01020304, buf, sizeof(buf), &error);
+  ck_assert(error == 0);
+  ck_assert(!strcmp(buf, "1.2.3.4"));
+
+  IPV4_ntoa(0xFFFFFFFF, buf, sizeof(buf), &error);
+  ck_assert(error == 0);
+  ck_assert(!strcmp(buf, "255.255.255.255"));
+
+  TCP4_connect(0x00000000, 1234, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_connect(0xFFFFFFFF, 1234, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_connect(0x7F000001, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_connect(0x7F000001, 65536, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_connect(0x7F000001, 1234, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_connect(0x7F000001, 65535, &fd, &error);
+  ck_assert(error == ECONNREFUSED);
+
+  TCP4_accept(0xFFFFFFFF, 1234, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_accept(0x7F000001, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_accept(0x7F000001, 65536, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_accept(0x7F000001, 65535, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_server(0xFFFFFFFF, 1234, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_server(0x7F000001, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_server(0x7F000001, 65536, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_server(0x7F000001, 65535, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_close(999, &error);
+  ck_assert(error == EBADF);
+
+  TCP4_send(-1, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_send(999, NULL, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_send(999, buf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_send(999, buf, sizeof(buf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_send(999, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EBADF);
+
+  TCP4_receive(-1, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_receive(999, NULL, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_receive(999, buf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_receive(999, buf, sizeof(buf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  TCP4_receive(999, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -382,6 +505,7 @@ int main(void)
   tcase_add_test(tests, test_libgpio);
   tcase_add_test(tests, test_libhidraw);
   tcase_add_test(tests, test_libi2c);
+  tcase_add_test(tests, test_libipv4);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);
