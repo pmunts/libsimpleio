@@ -122,7 +122,7 @@ void LINUX_openlog(const char *id, int32_t options, int32_t facility,
     return;
   }
 
-  if ((facility >> 3) >= (1 << LOG_NFACILITIES))
+  if ((facility >> 3) >= LOG_NFACILITIES)
   {
     *error = EINVAL;
     ERRORMSG("facility argument is invalid", *error, __LINE__ - 3);
