@@ -227,10 +227,21 @@ START_TEST(test_libhidraw)
   int32_t bustype;
   int32_t vendor;
   int32_t product;
+  uint8_t buf[256];
+  int32_t count;
 
 #ifdef VERBOSE
   putenv("DEBUGLEVEL=1");
 #endif
+
+  HIDRAW_open(NULL, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_open("/dev/bogus", NULL, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_open("/dev/bogus", &fd, &error);
+  ck_assert(error == ENOENT);
 
   HIDRAW_open_id(0, 0, NULL, &error);
   ck_assert(error == EINVAL);
@@ -260,6 +271,36 @@ START_TEST(test_libhidraw)
   ck_assert(error == EINVAL);
  
   HIDRAW_get_info(3, &bustype, &vendor, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_send(-1, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_send(999, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EBADF);
+
+  HIDRAW_send(0, NULL, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_send(0, buf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_send(0, buf, sizeof(buf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_receive(-1, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_receive(999, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EBADF);
+
+  HIDRAW_receive(0, NULL, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_receive(0, buf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  HIDRAW_receive(0, buf, sizeof(buf), NULL, &error);
   ck_assert(error == EINVAL);
 
   HIDRAW_close(-1, &error);
