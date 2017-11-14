@@ -113,10 +113,19 @@ void LINUX_openlog(const char *id, int32_t options, int32_t facility,
 {
   assert(error != NULL);
 
+  // Validate parameters
+
   if (id == NULL)
   {
     *error = EINVAL;
     ERRORMSG("id argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((facility >> 3) >= (1 << LOG_NFACILITIES))
+  {
+    *error = EINVAL;
+    ERRORMSG("facility argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -170,6 +179,22 @@ void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (name == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   *fd = open(name, flags, mode);
   if (*fd < 0)
   {
@@ -186,6 +211,22 @@ void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,
 void LINUX_open_read(const char *name, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (name == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
 
   *fd = open(name, O_RDONLY);
   if (*fd < 0)
@@ -204,6 +245,22 @@ void LINUX_open_write(const char *name, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (name == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   *fd = open(name, O_WRONLY);
   if (*fd < 0)
   {
@@ -221,7 +278,23 @@ void LINUX_open_readwrite(const char *name, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
-  *fd = open(name, O_RDWR);
+  // Validate parameters
+
+  if (name == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+ *fd = open(name, O_RDWR);
   if (*fd < 0)
   {
     *error = errno;
@@ -273,6 +346,27 @@ void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
     return;
   }
 
+  if (buf == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("buf argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (bufsize < 1)
+  {
+    *error = EINVAL;
+    ERRORMSG("bufsize argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (count == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("count argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   int32_t len = read(fd, buf, bufsize);
   if (len < 0)
   {
@@ -299,6 +393,27 @@ void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
   {
     *error = EINVAL;
     ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (buf == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("buf argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (bufsize < 1)
+  {
+    *error = EINVAL;
+    ERRORMSG("bufsize argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (count == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("count argument is NULL", *error, __LINE__ - 3);
     return;
   }
 
