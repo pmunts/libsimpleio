@@ -26,6 +26,12 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+#ifdef __unix__
+#include "errmsg.inc"
+#else
+#define ERRORMSG(m, e, l)
+#endif
+
 #include "liblinx.h"
 
 void LINX_transmit_command(int32_t fd, LINX_command_t *cmd, int32_t *error)
@@ -37,17 +43,35 @@ void LINX_transmit_command(int32_t fd, LINX_command_t *cmd, int32_t *error)
   int i;
   int status;
 
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (cmd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   // Validate frame structure
 
   if (cmd->SoF != LINX_SOF)
   {
     *error = EINVAL;
+    ERRORMSG("Frame has invalid SOF", *error, __LINE__ - 3);
     return;
   }
 
   if ((cmd->PacketSize < 7) || (cmd->PacketSize > sizeof(LINX_command_t)))
   {
     *error = EINVAL;
+    ERRORMSG("Frame has invalid PacketSize", *error, __LINE__ - 3);
     return;
   }
 
@@ -69,6 +93,7 @@ void LINX_transmit_command(int32_t fd, LINX_command_t *cmd, int32_t *error)
   if (status < 0)
   {
     *error = errno;
+    ERRORMSG("write() failed", *error, __LINE__ - 4);
     return;
   }
 
@@ -84,6 +109,29 @@ void LINX_receive_command(int32_t fd, LINX_command_t *cmd, int32_t *count, int32
   uint8_t checksum;
   uint8_t *p;
   int i;
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (cmd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (count == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("count argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
 
   // Check for buffer overrun
 
@@ -206,17 +254,35 @@ void LINX_transmit_response(int32_t fd, LINX_response_t *resp, int32_t *error)
   int i;
   int status;
 
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (resp == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("resp argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   // Validate frame structure
 
   if (resp->SoF != LINX_SOF)
   {
     *error = EINVAL;
+    ERRORMSG("Frame has invalid SOF", *error, __LINE__ - 3);
     return;
   }
 
   if ((resp->PacketSize < 6) || (resp->PacketSize > sizeof(LINX_response_t)))
   {
     *error = EINVAL;
+    ERRORMSG("Frame has invalid PacketSize", *error, __LINE__ - 3);
     return;
   }
 
@@ -237,6 +303,7 @@ void LINX_transmit_response(int32_t fd, LINX_response_t *resp, int32_t *error)
   if (status < 0)
   {
     *error = errno;
+    ERRORMSG("write() failed", *error, __LINE__ - 4);
     return;
   }
 
@@ -252,6 +319,29 @@ void LINX_receive_response(int32_t fd, LINX_response_t *resp, int32_t *count, in
   uint8_t checksum;
   uint8_t *p;
   int i;
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (resp == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("resp argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (count == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("count argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
 
   // Check for buffer overrun
 
