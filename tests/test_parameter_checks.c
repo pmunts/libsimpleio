@@ -31,6 +31,7 @@
 #include <libevent.h>
 #include <libgpio.h>
 #include <libhidraw.h>
+#include <libi2c.h>
 
 START_TEST(test_libadc)
 {
@@ -266,10 +267,10 @@ START_TEST(test_libhidraw)
 
   HIDRAW_get_info(3, NULL, &vendor, &product, &error);
   ck_assert(error == EINVAL);
- 
+
   HIDRAW_get_info(3, &bustype, NULL, &product, &error);
   ck_assert(error == EINVAL);
- 
+
   HIDRAW_get_info(3, &bustype, &vendor, NULL, &error);
   ck_assert(error == EINVAL);
 
@@ -311,6 +312,64 @@ START_TEST(test_libhidraw)
 }
 END_TEST
 
+START_TEST(test_libi2c)
+{
+  int32_t fd;
+  int32_t error;
+  uint8_t cmd[8];
+  uint8_t resp[8];
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  I2C_open(NULL, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  I2C_open("/dev/bogus", NULL, &error);
+  ck_assert(error == EINVAL);
+
+  I2C_open("/dev/bogus", &fd, &error);
+  ck_assert(error == ENOENT);
+
+  I2C_transaction(2, 0x40, cmd, sizeof(cmd), resp, sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  I2C_transaction(3, -1, cmd, sizeof(cmd), resp, sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  I2C_transaction(3, 128, cmd, sizeof(cmd), resp, sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  I2C_transaction(3, 0x40, cmd, -1, resp, sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  I2C_transaction(3, 0x40, cmd, sizeof(cmd), resp, -1, &error);
+  ck_assert(error == EINVAL);
+
+  I2C_transaction(3, 0x40, NULL, 1, resp, sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  I2C_transaction(3, 0x40, cmd, 0, resp, sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  I2C_transaction(3, 0x40, cmd, sizeof(cmd), NULL, sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  I2C_transaction(3, 0x40, cmd, sizeof(cmd), resp, 0, &error);
+  ck_assert(error == EINVAL);
+
+  I2C_transaction(999, 0x40, cmd, sizeof(cmd), resp, sizeof(resp), &error);
+  ck_assert(error == EBADF);
+
+  I2C_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  I2C_close(999, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -322,6 +381,7 @@ int main(void)
   tcase_add_test(tests, test_libevent);
   tcase_add_test(tests, test_libgpio);
   tcase_add_test(tests, test_libhidraw);
+  tcase_add_test(tests, test_libi2c);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);
