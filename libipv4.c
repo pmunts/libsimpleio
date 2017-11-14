@@ -31,6 +31,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include "errmsg.inc"
 #include "libipv4.h"
 
 // Resolve host name to IPV4 address
@@ -39,9 +40,23 @@ void IPV4_resolve(const char *name, int32_t *addr, int32_t *error)
 {
   assert(error != NULL);
 
-  struct hostent *he;
+  // Validate parameters
 
-  he = gethostbyname2(name, AF_INET);
+  if (name == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (addr == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("addr argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  struct hostent *he = gethostbyname2(name, AF_INET);
 
   if (he == NULL)
   {
@@ -56,17 +71,19 @@ void IPV4_resolve(const char *name, int32_t *addr, int32_t *error)
 
       case TRY_AGAIN :
         *error = EAGAIN;
+        ERRORMSG("gethostbyname2() failed", *error, __LINE__ - 15);
         break;
 
       default :
         *error = EIO;
+        ERRORMSG("gethostbyname2() failed", *error, __LINE__ - 20);
         break;
     }
 
     return;
   }
 
-  *addr = htonl(*(int32_t *)he->h_addr);
+  *addr = ntohl(*(int32_t *)he->h_addr);
   *error = 0;
 }
 
@@ -76,17 +93,24 @@ void IPV4_ntoa(int32_t addr, char *dst, int32_t dstsize, int32_t *error)
 {
   assert(error != NULL);
 
-  struct in_addr in;
-
   // Validate parameters
+
+  if (dst == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("dst argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
 
   if (dstsize < 16)
   {
     *error = EINVAL;
+    ERRORMSG("dstsize argument is too small", *error, __LINE__ - 3);
     return;
   }
 
-  in.s_addr = ntohl(addr);
+  struct in_addr in;
+  in.s_addr = htonl(addr);
 
   memset(dst, 0, dstsize);
 
@@ -100,23 +124,39 @@ void TCP4_connect(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
-  int s;
-  struct sockaddr_in destaddr;
-
   // Validate parameters
+
+  if ((addr == 0x00000000) || (addr == 0xFFFFFFFF))
+  {
+    *error = EINVAL;
+    ERRORMSG("addr argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   if ((port < 1) || (port > 65535))
   {
     *error = EINVAL;
+    ERRORMSG("port argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
     return;
   }
 
   // Attempt to create a socket
 
+  int s;
+  struct sockaddr_in destaddr;
+
   s = socket(AF_INET, SOCK_STREAM, 0);
   if (s < 0)
   {
     *error = errno;
+    ERRORMSG("socket() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -132,6 +172,7 @@ void TCP4_connect(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
   if (connect(s, (struct sockaddr *)&destaddr, sizeof(destaddr)))
   {
     *error = errno;
+    ERRORMSG("connect() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -150,23 +191,39 @@ void TCP4_accept(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
-  int s1, s2;
-  struct sockaddr_in myaddr;
-
   // Validate parameters
+
+  if (addr == 0xFFFFFFFF)
+  {
+    *error = EINVAL;
+    ERRORMSG("addr argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   if ((port < 1) || (port > 65535))
   {
     *error = EINVAL;
+    ERRORMSG("port argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
     return;
   }
 
   // Attempt to create a socket
 
+  int s1, s2;
+  struct sockaddr_in myaddr;
+
   s1 = socket(AF_INET, SOCK_STREAM, 0);
   if (s1 < 0)
   {
     *error = errno;
+    ERRORMSG("socket() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -180,6 +237,7 @@ void TCP4_accept(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
   if (bind(s1, (struct sockaddr *)&myaddr, sizeof(myaddr)))
   {
     *error = errno;
+    ERRORMSG("bind() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -188,6 +246,7 @@ void TCP4_accept(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
   if (listen(s1, 5))
   {
     *error = errno;
+    ERRORMSG("listen() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -197,6 +256,7 @@ void TCP4_accept(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
   if (s2 == -1)
   {
     *error = errno;
+    ERRORMSG("accept() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -217,23 +277,39 @@ void TCP4_server(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
-  int s1, s2;
-  struct sockaddr_in myaddr;
-
   // Validate parameters
+
+  if (addr == 0xFFFFFFFF)
+  {
+    *error = EINVAL;
+    ERRORMSG("addr argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   if ((port < 1) || (port > 65535))
   {
     *error = EINVAL;
+    ERRORMSG("port argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
     return;
   }
 
   // Attempt to create a socket
 
+  int s1, s2;
+  struct sockaddr_in myaddr;
+
   s1 = socket(AF_INET, SOCK_STREAM, 0);
   if (s1 < 0)
   {
     *error = errno;
+    ERRORMSG("socket() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -247,6 +323,7 @@ void TCP4_server(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
   if (bind(s1, (struct sockaddr *)&myaddr, sizeof(myaddr)))
   {
     *error = errno;
+    ERRORMSG("bind() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -255,6 +332,7 @@ void TCP4_server(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
   if (listen(s1, 5))
   {
     *error = errno;
+    ERRORMSG("listen() failed", *error, __LINE__ - 3);
     return;
   }
 
@@ -272,6 +350,7 @@ void TCP4_server(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
     if (s2 == -1)
     {
       *error = errno;
+      ERRORMSG("accept() failed", *error, __LINE__ - 3);
       return;
     }
 
