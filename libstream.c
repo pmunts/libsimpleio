@@ -323,3 +323,21 @@ void STREAM_receive_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *frame
 
   *error = EAGAIN;
 }
+
+#ifndef __unix__
+// This is not necessary with libsimpleio
+
+void STREAM_send_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
+{
+  int32_t len = write(fd, buf, bufsize);
+  if (len < 0)
+  {
+    *count = 0;
+    *error = errno;
+    return;
+  }
+
+  *count = len;
+  *error = 0;
+}
+#endif
