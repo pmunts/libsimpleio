@@ -45,7 +45,7 @@ void I2C_transaction(int32_t fd, int32_t slaveaddr, void *cmd, int32_t cmdlen,
 
   // Validate parameters
 
-  if (fd < 3)
+  if (fd < 0)
   {
     *error = EINVAL;
     ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);

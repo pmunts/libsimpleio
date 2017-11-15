@@ -60,7 +60,7 @@ void EVENT_register_fd(int32_t epfd, int32_t fd, int32_t events,
 
   // Validate parameters
 
-  if (epfd < 3)
+  if (epfd < 0)
   {
     *error = EINVAL;
     ERRORMSG("epfd argument is invalid", *error, __LINE__ - 3);
@@ -98,7 +98,7 @@ void EVENT_modify_fd(int32_t epfd, int32_t fd, int32_t events,
 
   // Validate parameters
 
-  if (epfd < 3)
+  if (epfd < 0)
   {
     *error = EINVAL;
     ERRORMSG("epfd argument is invalid", *error, __LINE__ - 3);
@@ -135,7 +135,7 @@ void EVENT_unregister_fd(int32_t epfd, int32_t fd, int32_t *error)
 
   // Validate parameters
 
-  if (epfd < 3)
+  if (epfd < 0)
   {
     *error = EINVAL;
     ERRORMSG("epfd argument is invalid", *error, __LINE__ - 3);
@@ -166,7 +166,7 @@ void EVENT_wait(int32_t epfd, int32_t *fd, int32_t *event,
 
   // Validate parameters
 
-  if (epfd < 3)
+  if (epfd < 0)
   {
     *error = EINVAL;
     ERRORMSG("epfd argument is invalid", *error, __LINE__ - 3);

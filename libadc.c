@@ -149,7 +149,7 @@ void ADC_read(int32_t fd, int32_t *sample, int32_t *error)
 
   // Validate parameters
 
-  if (fd < 3)
+  if (fd < 0)
   {
     *sample = 0;
     *error = EINVAL;

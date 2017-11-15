@@ -405,7 +405,7 @@ void GPIO_read(int32_t fd, int32_t *state, int32_t *error)
 
   // Validate parameters
 
-  if (fd < 3)
+  if (fd < 0)
   {
     *error = EINVAL;
     ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
@@ -461,7 +461,7 @@ void GPIO_write(int32_t fd, int32_t state, int32_t *error)
 
   // Validate parameters
 
-  if (fd < 3)
+  if (fd < 0)
   {
     *error = EINVAL;
     ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
