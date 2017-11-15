@@ -25,17 +25,37 @@
 #include <linux/watchdog.h>
 #include <sys/ioctl.h>
 
-#include "libwatchdog.h"
 #include "errmsg.inc"
+#include "libwatchdog.h"
 
 void WATCHDOG_get_timeout(int32_t fd, int32_t *timeout, int32_t *error)
 {
   assert(error != NULL);
 
-  if (ioctl(fd, WDIOC_GETTIMEOUT, timeout) >= 0)
-    *error = 0;
-  else
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (timeout == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("timeout argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (ioctl(fd, WDIOC_GETTIMEOUT, timeout) < 0)
+  {
     *error = errno;
+    ERRORMSG("ioctl() for WDIOC_GETTIMEOUT failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *error = 0;
 }
 
 void WATCHDOG_set_timeout(int32_t fd, int32_t newtimeout,
@@ -43,20 +63,60 @@ void WATCHDOG_set_timeout(int32_t fd, int32_t newtimeout,
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (newtimeout < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("newtimeout argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (timeout == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("timeout argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   *timeout = newtimeout;
 
-  if (ioctl(fd, WDIOC_SETTIMEOUT, timeout) >= 0)
-    *error = 0;
-  else
+  if (ioctl(fd, WDIOC_SETTIMEOUT, timeout) < 0)
+  {
     *error = errno;
+    ERRORMSG("ioctl() for WDIOC_SETTIMEOUT failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *error = 0;
 }
 
 void WATCHDOG_kick(int32_t fd, int32_t *error)
 {
   assert(error != NULL);
 
-  if (ioctl(fd, WDIOC_KEEPALIVE, 0) >= 0)
-    *error = 0;
-  else
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (ioctl(fd, WDIOC_KEEPALIVE, 0) < 0)
+  {
     *error = errno;
+    ERRORMSG("ioctl() for WDIOC_KEEPALIVE failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *error = errno;
 }
