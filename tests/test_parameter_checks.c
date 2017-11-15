@@ -39,6 +39,7 @@
 #include <libserial.h>
 #include <libspi.h>
 #include <libstream.h>
+#include <libwatchdog.h>
 
 START_TEST(test_libadc)
 {
@@ -1185,6 +1186,60 @@ START_TEST(test_libstream)
 }
 END_TEST
 
+START_TEST(test_libwatchdog)
+{
+  int32_t fd;
+  int32_t error;
+  int32_t timeout;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  WATCHDOG_open(NULL, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  WATCHDOG_open("/dev/bogus", NULL, &error);
+  ck_assert(error == EINVAL);
+
+  WATCHDOG_open("/dev/bogus", &fd, &error);
+  ck_assert(error == ENOENT);
+
+  WATCHDOG_get_timeout(-1, &timeout, &error);
+  ck_assert(error == EINVAL);
+
+  WATCHDOG_get_timeout(999, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  WATCHDOG_get_timeout(999, &timeout, &error);
+  ck_assert(error == EBADF);
+
+  WATCHDOG_set_timeout(-1, 10, &timeout, &error);
+  ck_assert(error == EINVAL);
+
+  WATCHDOG_set_timeout(999, -1, &timeout, &error);
+  ck_assert(error == EINVAL);
+
+  WATCHDOG_set_timeout(999, 10, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  WATCHDOG_set_timeout(999, 10, &timeout, &error);
+  ck_assert(error == EBADF);
+
+  WATCHDOG_kick(-1, &error);
+  ck_assert(error == EINVAL);
+
+  WATCHDOG_kick(999, &error);
+  ck_assert(error == EBADF);
+
+  WATCHDOG_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  WATCHDOG_close(999, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -1204,6 +1259,7 @@ int main(void)
   tcase_add_test(tests, test_libserial);
   tcase_add_test(tests, test_libspi);
   tcase_add_test(tests, test_libstream);
+  tcase_add_test(tests, test_libwatchdog);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);
