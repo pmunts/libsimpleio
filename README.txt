@@ -38,7 +38,7 @@
 
 News
 
-     * 13 November 2017 -- Started writing libsimpleio unit tests. Added
+     * 15 November 2017 -- Started writing libsimpleio unit tests. Added
        many, many parameter checks to the functions in libsimpleio. Fixed
        a number of errors in the man pages.
 
