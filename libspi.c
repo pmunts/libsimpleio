@@ -40,6 +40,44 @@ void SPI_open(const char *name, int32_t mode, int32_t wordsize,
 {
   assert(error != NULL);
 
+  // Validate parameters
+
+  if (name == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((mode < 0) || (mode > 3))
+  {
+    *error = EINVAL;
+    ERRORMSG("mode argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((wordsize != 0) && (wordsize != 8) && (wordsize != 16) &&
+      (wordsize != 32))
+  {
+    *error = EINVAL;
+    ERRORMSG("wordsize argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (speed < 1)
+  {
+    *error = EINVAL;
+    ERRORMSG("speed argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   // Open the SPI device
 
   *fd = open(name, O_RDWR);
@@ -92,6 +130,82 @@ void SPI_transaction(int32_t spifd, int32_t csfd, void *cmd,
   int32_t cmdlen, int32_t delayus, void *resp, int32_t resplen, int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (spifd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("spifd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (csfd < SPI_CS_AUTO)
+  {
+    *error = EINVAL;
+    ERRORMSG("csfd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (cmdlen < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("cmdlen argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (delayus < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("delayus argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (resplen < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("resplen argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((cmd == NULL) && (cmdlen != 0))
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd and cmdlen arguments are inconsistent", *error,
+      __LINE__ - 3);
+    return;
+  }
+
+  if ((cmd != NULL) && (cmdlen == 0))
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd and cmdlen arguments are inconsistent", *error,
+      __LINE__ - 3);
+    return;
+  }
+
+  if ((resp == NULL) && (resplen != 0))
+  {
+    *error = EINVAL;
+    ERRORMSG("resp and resplen arguments are inconsistent", *error,
+      __LINE__ - 3);
+    return;
+  }
+
+  if ((resp != NULL) && (resplen == 0))
+  {
+    *error = EINVAL;
+    ERRORMSG("resp and resplen arguments are inconsistent", *error,
+      __LINE__ - 3);
+    return;
+  }
+
+  if ((cmd == NULL) && (resp == NULL))
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd and resp arguments are both NULL", *error, __LINE__ - 3);
+    return;
+  }
 
   struct spi_ioc_transfer xfer[2];
 
