@@ -37,6 +37,7 @@
 #include <liblinx.h>
 #include <libpwm.h>
 #include <libserial.h>
+#include <libspi.h>
 
 START_TEST(test_libadc)
 {
@@ -1000,6 +1001,87 @@ START_TEST(test_libserial)
 }
 END_TEST
 
+START_TEST(test_libspi)
+{
+  int32_t fd;
+  int32_t error;
+  uint8_t cmd[16];
+  uint8_t resp[16];
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  SPI_open(NULL, 0, 8, 1000000, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SPI_open("/dev/bogus", -1, 8, 1000000, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SPI_open("/dev/bogus", 4, 8, 1000000, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SPI_open("/dev/bogus", 0, 7, 1000000, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SPI_open("/dev/bogus", 0, 8, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SPI_open("/dev/bogus", 0, 8, 1000000, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  SPI_open("/dev/bogus", 0, 8, 1000000, &fd, &error);
+  ck_assert(error == ENOENT);
+
+  SPI_transaction(-1, SPI_CS_AUTO, &cmd, sizeof(cmd), 1000, &resp,
+    sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  SPI_transaction(999, -2, &cmd, sizeof(cmd), 1000, &resp,
+    sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  SPI_transaction(999, SPI_CS_AUTO, NULL, sizeof(cmd), 1000, &resp,
+    sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  SPI_transaction(999, SPI_CS_AUTO, &cmd, 0, 1000, &resp,
+    sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  SPI_transaction(999, SPI_CS_AUTO, &cmd, sizeof(cmd), -1, &resp,
+    sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  SPI_transaction(999, SPI_CS_AUTO, &cmd, sizeof(cmd), 1000, NULL,
+    sizeof(resp), &error);
+  ck_assert(error == EINVAL);
+
+  SPI_transaction(999, SPI_CS_AUTO, &cmd, sizeof(cmd), 1000, &resp,
+    0, &error);
+  ck_assert(error == EINVAL);
+
+  SPI_transaction(999, SPI_CS_AUTO, NULL, 0, 1000, NULL, 0, &error);
+  ck_assert(error == EINVAL);
+
+  SPI_transaction(999, SPI_CS_AUTO, NULL, 0, 1000, &resp, sizeof(resp), &error);
+  ck_assert(error == EBADF);
+
+  SPI_transaction(999, SPI_CS_AUTO, &cmd, sizeof(cmd), 1000, NULL, 0, &error);
+  ck_assert(error == EBADF);
+
+  SPI_transaction(999, SPI_CS_AUTO, &cmd, sizeof(cmd), 1000, &resp,
+    sizeof(resp), &error);
+  ck_assert(error == EBADF);
+
+  SPI_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  SPI_close(999, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -1017,6 +1099,7 @@ int main(void)
   tcase_add_test(tests, test_liblinx);
   tcase_add_test(tests, test_libpwm);
   tcase_add_test(tests, test_libserial);
+  tcase_add_test(tests, test_libspi);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);
