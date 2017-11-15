@@ -35,6 +35,7 @@
 #include <libipv4.h>
 #include <liblinux.h>
 #include <liblinx.h>
+#include <libpwm.h>
 
 START_TEST(test_libadc)
 {
@@ -878,6 +879,62 @@ START_TEST(test_liblinx)
 }
 END_TEST
 
+START_TEST(test_libpwm)
+{
+  int32_t error;
+  int32_t fd;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  PWM_configure(-1, 0, 100, 100, PWM_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_configure(0, -1, 100, 100, PWM_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_configure(0, 0, -1, 100, PWM_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_configure(0, 0, 100, -1, PWM_POLARITY_ACTIVEHIGH, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_configure(0, 0, 100, 100, PWM_POLARITY_ACTIVELOW - 1, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_configure(0, 0, 100, 100, PWM_POLARITY_ACTIVEHIGH + 1, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_open(-1, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_open(0, -1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_open(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_open(0, 0, &fd, &error);
+  ck_assert(error == ENOENT);
+
+  PWM_write(-1, 100, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_write(3, -1, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_write(999, 100, &error);
+  ck_assert(error == EBADF);
+
+  PWM_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  PWM_close(999, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -893,6 +950,7 @@ int main(void)
   tcase_add_test(tests, test_libipv4);
   tcase_add_test(tests, test_liblinux);
   tcase_add_test(tests, test_liblinx);
+  tcase_add_test(tests, test_libpwm);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);
