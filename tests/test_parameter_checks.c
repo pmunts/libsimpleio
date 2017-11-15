@@ -76,10 +76,10 @@ START_TEST(test_libadc)
   ADC_open(0, 999, &fd, &error);
   ck_assert(error == ENOENT);
 
-  ADC_read(2, &sample, &error);
+  ADC_read(-1, &sample, &error);
   ck_assert(error == EINVAL);
 
-  ADC_read(3, NULL, &error);
+  ADC_read(999, NULL, &error);
   ck_assert(error == EINVAL);
 
   ADC_read(999, &sample, &error);
@@ -109,7 +109,7 @@ START_TEST(test_libevent)
   EVENT_open(&epfd, &error);
   ck_assert(error == 0);
 
-  EVENT_register_fd(2, 0, 0, 0, &error);
+  EVENT_register_fd(-1, 0, 0, 0, &error);
   ck_assert(error == EINVAL);
 
   EVENT_register_fd(epfd, -1, 0, 0, &error);
@@ -118,13 +118,13 @@ START_TEST(test_libevent)
   fd = open("/dev/null", O_RDONLY);
   ck_assert(fd > 0);
 
-  EVENT_modify_fd(2, fd, 0, 0, &error);
+  EVENT_modify_fd(-1, fd, 0, 0, &error);
   ck_assert(error == EINVAL);
 
   EVENT_modify_fd(epfd, -1, 0, 0, &error);
   ck_assert(error == EINVAL);
 
-  EVENT_unregister_fd(2, fd, &error);
+  EVENT_unregister_fd(-1, fd, &error);
   ck_assert(error == EINVAL);
 
   EVENT_unregister_fd(epfd, -1, &error);
@@ -196,22 +196,22 @@ START_TEST(test_libgpio)
   GPIO_open(999, &fd, &error);
   ck_assert(error == ENOENT);
 
-  GPIO_read(2, &state, &error);
+  GPIO_read(-1, &state, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_read(3, NULL, &error);
+  GPIO_read(999, NULL, &error);
   ck_assert(error == EINVAL);
 
   GPIO_read(999, &state, &error);
   ck_assert(error == EBADF);
 
-  GPIO_write(2, 0, &error);
+  GPIO_write(-1, 0, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_write(3, -1, &error);
+  GPIO_write(999, -1, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_write(3, 2, &error);
+  GPIO_write(999, 2, &error);
   ck_assert(error == EINVAL);
 
   GPIO_write(999, 0, &error);
@@ -255,29 +255,32 @@ START_TEST(test_libhidraw)
   HIDRAW_open_id(0, 0, &fd, &error);
   ck_assert(error == ENODEV);
 
-  HIDRAW_get_name(2, name, sizeof(name), &error);
+  HIDRAW_get_name(-1, name, sizeof(name), &error);
   ck_assert(error == EINVAL);
 
-  HIDRAW_get_name(3, NULL, sizeof(name), &error);
+  HIDRAW_get_name(999, NULL, sizeof(name), &error);
   ck_assert(error == EINVAL);
 
-  HIDRAW_get_name(3, name, 15, &error);
+  HIDRAW_get_name(999, name, 15, &error);
   ck_assert(error == EINVAL);
 
   HIDRAW_get_name(999, name, sizeof(name), &error);
   ck_assert(error == EBADF);
 
-  HIDRAW_get_info(2, &bustype, &vendor, &product, &error);
+  HIDRAW_get_info(-1, &bustype, &vendor, &product, &error);
   ck_assert(error == EINVAL);
 
-  HIDRAW_get_info(3, NULL, &vendor, &product, &error);
+  HIDRAW_get_info(999, NULL, &vendor, &product, &error);
   ck_assert(error == EINVAL);
 
-  HIDRAW_get_info(3, &bustype, NULL, &product, &error);
+  HIDRAW_get_info(999, &bustype, NULL, &product, &error);
   ck_assert(error == EINVAL);
 
-  HIDRAW_get_info(3, &bustype, &vendor, NULL, &error);
+  HIDRAW_get_info(999, &bustype, &vendor, NULL, &error);
   ck_assert(error == EINVAL);
+
+  HIDRAW_get_info(999, &bustype, &vendor, &product, &error);
+  ck_assert(error == EBADF);
 
   HIDRAW_send(-1, buf, sizeof(buf), &count, &error);
   ck_assert(error == EINVAL);
@@ -337,31 +340,31 @@ START_TEST(test_libi2c)
   I2C_open("/dev/bogus", &fd, &error);
   ck_assert(error == ENOENT);
 
-  I2C_transaction(2, 0x40, cmd, sizeof(cmd), resp, sizeof(resp), &error);
+  I2C_transaction(-1, 0x40, cmd, sizeof(cmd), resp, sizeof(resp), &error);
   ck_assert(error == EINVAL);
 
-  I2C_transaction(3, -1, cmd, sizeof(cmd), resp, sizeof(resp), &error);
+  I2C_transaction(999, -1, cmd, sizeof(cmd), resp, sizeof(resp), &error);
   ck_assert(error == EINVAL);
 
-  I2C_transaction(3, 128, cmd, sizeof(cmd), resp, sizeof(resp), &error);
+  I2C_transaction(999, 128, cmd, sizeof(cmd), resp, sizeof(resp), &error);
   ck_assert(error == EINVAL);
 
-  I2C_transaction(3, 0x40, cmd, -1, resp, sizeof(resp), &error);
+  I2C_transaction(999, 0x40, cmd, -1, resp, sizeof(resp), &error);
   ck_assert(error == EINVAL);
 
-  I2C_transaction(3, 0x40, cmd, sizeof(cmd), resp, -1, &error);
+  I2C_transaction(999, 0x40, cmd, sizeof(cmd), resp, -1, &error);
   ck_assert(error == EINVAL);
 
-  I2C_transaction(3, 0x40, NULL, 1, resp, sizeof(resp), &error);
+  I2C_transaction(999, 0x40, NULL, 1, resp, sizeof(resp), &error);
   ck_assert(error == EINVAL);
 
-  I2C_transaction(3, 0x40, cmd, 0, resp, sizeof(resp), &error);
+  I2C_transaction(999, 0x40, cmd, 0, resp, sizeof(resp), &error);
   ck_assert(error == EINVAL);
 
-  I2C_transaction(3, 0x40, cmd, sizeof(cmd), NULL, sizeof(resp), &error);
+  I2C_transaction(999, 0x40, cmd, sizeof(cmd), NULL, sizeof(resp), &error);
   ck_assert(error == EINVAL);
 
-  I2C_transaction(3, 0x40, cmd, sizeof(cmd), resp, 0, &error);
+  I2C_transaction(999, 0x40, cmd, sizeof(cmd), resp, 0, &error);
   ck_assert(error == EINVAL);
 
   I2C_transaction(999, 0x40, cmd, sizeof(cmd), resp, sizeof(resp), &error);
@@ -922,7 +925,7 @@ START_TEST(test_libpwm)
   PWM_write(-1, 100, &error);
   ck_assert(error == EINVAL);
 
-  PWM_write(3, -1, &error);
+  PWM_write(999, -1, &error);
   ck_assert(error == EINVAL);
 
   PWM_write(999, 100, &error);
