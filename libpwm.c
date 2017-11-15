@@ -70,35 +70,35 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   if (chip < 0)
   {
     *error = EINVAL;
-    ERRORMSG("PWM chip number argument", *error, __LINE__ - 3);
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if (channel < 0)
   {
     *error = EINVAL;
-    ERRORMSG("PWM channel number argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("channel argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if (period < 0)
   {
     *error = EINVAL;
-    ERRORMSG("PWM output period argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("period argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if (ontime < 0)
   {
     *error = EINVAL;
-    ERRORMSG("PWM output on-time argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("ontime argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if ((polarity < PWM_POLARITY_ACTIVELOW) || (polarity > PWM_POLARITY_ACTIVEHIGH))
   {
     *error = EINVAL;
-    ERRORMSG("PWM output polarity argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("polarity argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -284,14 +284,14 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
   if (chip < 0)
   {
     *error = EINVAL;
-    ERRORMSG("PWM chip number argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
   if (channel < 0)
   {
     *error = EINVAL;
-    ERRORMSG("PWM channel number argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("channel argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -321,6 +321,22 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 void PWM_write(int32_t fd, int32_t ontime, int32_t *error)
 {
   assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 3)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (ontime < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("ontime argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   char buf[16];
   int len;
