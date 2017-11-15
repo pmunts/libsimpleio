@@ -36,6 +36,7 @@
 #include <liblinux.h>
 #include <liblinx.h>
 #include <libpwm.h>
+#include <libserial.h>
 
 START_TEST(test_libadc)
 {
@@ -935,6 +936,67 @@ START_TEST(test_libpwm)
 }
 END_TEST
 
+START_TEST(test_libserial)
+{
+  int32_t fd;
+  int32_t error;
+  uint8_t buf[256];
+  int32_t count;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  SERIAL_open(NULL, 9600, SERIAL_PARITY_NONE, 8, 1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_open("/dev/bogus", 49, SERIAL_PARITY_NONE, 8, 1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE - 1, 8, 1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_ODD + 1, 8, 1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 4, 1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 9, 1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 8, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 8, 3, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 8, 1, &fd, &error);
+  ck_assert(error == ENOENT);
+
+  SERIAL_send(-1, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_send(999, NULL, sizeof(buf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_send(999, buf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_send(999, buf, sizeof(buf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_send(999, buf, sizeof(buf), &count, &error);
+  ck_assert(error == EBADF);
+
+  SERIAL_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  SERIAL_close(999, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -951,6 +1013,7 @@ int main(void)
   tcase_add_test(tests, test_liblinux);
   tcase_add_test(tests, test_liblinx);
   tcase_add_test(tests, test_libpwm);
+  tcase_add_test(tests, test_libserial);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);
