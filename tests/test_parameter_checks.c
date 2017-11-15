@@ -38,6 +38,7 @@
 #include <libpwm.h>
 #include <libserial.h>
 #include <libspi.h>
+#include <libstream.h>
 
 START_TEST(test_libadc)
 {
@@ -1082,6 +1083,108 @@ START_TEST(test_libspi)
 }
 END_TEST
 
+START_TEST(test_libstream)
+{
+  uint8_t msgbuf[256];
+  uint8_t framebuf[518];
+  int32_t count;
+  int error;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  STREAM_encode_frame(NULL, sizeof(msgbuf), framebuf, sizeof(framebuf),
+    &count, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(count == 0);
+
+  STREAM_encode_frame(msgbuf, -1, framebuf, sizeof(framebuf), &count, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(count == 0);
+
+  STREAM_encode_frame(msgbuf, sizeof(msgbuf), NULL, sizeof(framebuf),
+    &count, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(count == 0);
+
+  STREAM_encode_frame(msgbuf, sizeof(msgbuf), framebuf, 5, &count, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(count == 0);
+
+  STREAM_encode_frame(msgbuf, sizeof(msgbuf), framebuf, sizeof(framebuf),
+    NULL, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(count == 0);
+
+  memset(framebuf, 0, sizeof(framebuf));
+  count = 0;
+  STREAM_encode_frame(msgbuf, 0, framebuf, sizeof(framebuf),
+    &count, &error);
+  ck_assert(error == 0);
+  ck_assert(count == 6);
+  ck_assert(framebuf[0] == 0x10);	// DLE
+  ck_assert(framebuf[1] == 0x02);	// STX
+  ck_assert(framebuf[2] == 0x1D);	// FCS high
+  ck_assert(framebuf[3] == 0x0F);	// FCS low
+  ck_assert(framebuf[4] == 0x10);	// DLE
+  ck_assert(framebuf[5] == 0x03);	// ETX
+
+  STREAM_decode_frame(NULL, sizeof(framebuf), msgbuf, sizeof(msgbuf), &count,
+    &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_decode_frame(framebuf, 5, msgbuf, sizeof(msgbuf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_decode_frame(framebuf, sizeof(framebuf), NULL, sizeof(msgbuf), &count,
+    &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_decode_frame(framebuf, sizeof(framebuf), msgbuf, -1, &count, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_decode_frame(framebuf, sizeof(framebuf), msgbuf, sizeof(msgbuf), NULL,
+    &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_decode_frame(framebuf, 6, msgbuf, sizeof(msgbuf), &count,
+    &error);
+  ck_assert(error == 0);
+  ck_assert(count == 0);
+
+  STREAM_send_frame(-1, framebuf, sizeof(framebuf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_send_frame(999, NULL, sizeof(framebuf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_send_frame(999, framebuf, 0, &count, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_send_frame(999, framebuf, sizeof(framebuf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_send_frame(999, framebuf, sizeof(framebuf), &count, &error);
+  ck_assert(error == EBADF);
+
+  STREAM_receive_frame(-1, framebuf, sizeof(framebuf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_receive_frame(999, NULL, sizeof(framebuf), &count, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_receive_frame(999, framebuf, 5, &count, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_receive_frame(999, framebuf, sizeof(framebuf), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  STREAM_receive_frame(999, framebuf, sizeof(framebuf), &count, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 int main(void)
 {
   TCase   *tests;
@@ -1100,6 +1203,7 @@ int main(void)
   tcase_add_test(tests, test_libpwm);
   tcase_add_test(tests, test_libserial);
   tcase_add_test(tests, test_libspi);
+  tcase_add_test(tests, test_libstream);
 
   suite = suite_create("Test Parameter Checking");
   suite_add_tcase(suite, tests);
