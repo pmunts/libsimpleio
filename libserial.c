@@ -39,6 +39,14 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
 
   // Validate parameters
 
+  if (name == NULL)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 4);
+    return;
+  }
+
   switch (baudrate)
   {
     case 50 :
@@ -64,6 +72,7 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
     default :
       *fd = -1;
       *error = EINVAL;
+      ERRORMSG("baudrate argument is invalid", *error, __LINE__ - 25);
       return;
   }
 
@@ -71,6 +80,7 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
   {
     *fd = -1;
     *error = EINVAL;
+    ERRORMSG("parity argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
@@ -78,6 +88,7 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
   {
     *fd = -1;
     *error = EINVAL;
+    ERRORMSG("databits argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
@@ -85,6 +96,7 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
   {
     *fd = -1;
     *error = EINVAL;
+    ERRORMSG("stopbits argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
