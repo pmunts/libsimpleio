@@ -238,7 +238,7 @@ void SPI_transaction(int32_t spifd, int32_t csfd, void *cmd,
   if (ioctl(spifd, SPI_IOC_MESSAGE(2), xfer) < 0)
   {
     *error = errno;
-    ERRORMSG("ioctl for SPI_IOC_MESSAGE failed", *error, __LINE__ - 3);
+    ERRORMSG("ioctl() for SPI_IOC_MESSAGE failed", *error, __LINE__ - 3);
     return;
   }
 
