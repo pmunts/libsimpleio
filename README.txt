@@ -33,28 +33,27 @@
      * int32_t is used wherever possible for int and bool arguments.
 
    All of the wrapper functions are declared between _BEGIN_STD_C and
-   _END_STD_C for C++. Binding modules are provided for [4]Ada, [5]Java,
-   and [6]Free Pascal.
+   _END_STD_C for C++. Binding modules are provided for [4]Ada, [5]C#,
+   [6]Java, and [7]Free Pascal.
 
 News
 
      * 15 November 2017 -- Started writing libsimpleio unit tests. Added
        many, many parameter checks to the functions in libsimpleio. Fixed
        a number of errors in the man pages.
+     * 16 November 2017 -- Released C# bindings for libsimpleio.
 
 Documentation
 
    New The user manual for libsimpleio is available at:
-
-   [7]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [8]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-
-   [8]libsimpleio.html
+   [9]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [9]http://git.munts.com
+   The source code is available at: [10]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -88,7 +87,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [10]phil@munts.net
+   Questions or comments to Philip Munts [11]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -99,9 +98,10 @@ References
    2. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
    3. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
    4. http://git.munts.com/libsimpleio/ada
-   5. http://git.munts.com/libsimpleio/java
-   6. http://git.munts.com/libsimpleio/pascal
-   7. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-   8. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-   9. http://git.munts.com/
-  10. mailto:phil@munts.net
+   5. https://docs.microsoft.com/en-us/dotnet/csharp
+   6. http://git.munts.com/libsimpleio/java
+   7. http://git.munts.com/libsimpleio/pascal
+   8. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   9. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  10. http://git.munts.com/
+  11. mailto:phil@munts.net
