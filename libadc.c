@@ -172,7 +172,7 @@ void ADC_read(int32_t fd, int32_t *sample, int32_t *error)
     *error = errno;
     ERRORMSG("lseek() failed", *error, __LINE__ - 4);
     return;
-  } 
+  }
 
   // Read the raw data file
 
