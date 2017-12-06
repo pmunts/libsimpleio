@@ -28,6 +28,15 @@
 .nf
 .B #include <libstream.h>
 
+.BI "typedef ssize_t (*" STREAM_readfn_t ")(int " fd ", void *" buf ", size_t " count ");"
+
+.BI "typedef ssize_t (*" STREAM_writefn_t ")(int " fd ", const void *" buf ","
+.BI "  size_t " count ");"
+
+.BI "void STREAM_change_readfn(STREAM_readfn_t " newread ", int32_t *" error ");"
+
+.BI "void STREAM_change_writefn(STREAM_writefn_t " newwrite ", int32_t *" error ");"
+
 .BI "void STREAM_encode_frame(void *" src ", int32_t " srclen ", void *" dst ","
 .BI "  int32_t " dstsize ", int32_t *" dstlen ", int32_t *" error ");"
 
@@ -56,6 +65,18 @@ All functions return either
 .B errno
 value (upon failure) in
 .IR *error .
+.PP
+.B STREAM_change_readfn()
+changes the function used to read from the underlying stream from
+the default
+.B read()
+to some other compatible function.
+.PP
+.B STREAM_change_writefn()
+changes the function used to write to the underlying stream from
+the default
+.B write()
+to some other compatible function.
 .PP
 .B STREAM_encode_frame()
 encodes the message passed in

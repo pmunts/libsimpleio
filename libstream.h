@@ -31,6 +31,14 @@
 
 _BEGIN_STD_C
 
+typedef ssize_t (*STREAM_readfn_t)(int fd, void *buf, size_t count);
+
+typedef ssize_t (*STREAM_writefn_t)(int fd, const void *buf, size_t count);
+
+extern void STREAM_change_readfn(STREAM_readfn_t newread, int32_t *error);
+
+extern void STREAM_change_writefn(STREAM_writefn_t newwrite, int32_t *error);
+
 extern void STREAM_encode_frame(void *src, int32_t srclen, void *dst,
   int32_t dstsize, int32_t *dstlen, int32_t *error);
 

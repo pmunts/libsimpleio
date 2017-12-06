@@ -17,6 +17,15 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 13 November 2017<BR><A HREF="#
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libstream.h">libstream.h</A>&gt;</B>
 
+<B>typedef ssize_t (*</B><I>STREAM_readfn_t</I><B>)(int </B><I>fd</I><B>, void *</B><I>buf</I><B>, size_t </B><I>count</I><B>);</B>
+
+<B>typedef ssize_t (*</B><I>STREAM_writefn_t</I><B>)(int </B><I>fd</I><B>, const void *</B><I>buf</I><B>,</B>
+<B>  size_t </B><I>count</I><B>);</B>
+
+<B>void STREAM_change_readfn(STREAM_readfn_t </B><I>newread</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void STREAM_change_writefn(STREAM_writefn_t </B><I>newwrite</I><B>, int32_t *</B><I>error</I><B>);</B>
+
 <B>void STREAM_encode_frame(void *</B><I>src</I><B>, int32_t </B><I>srclen</I><B>, void *</B><I>dst</I><B>,</B>
 <B>  int32_t </B><I>dstsize</I><B>, int32_t *</B><I>dstlen</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -53,6 +62,24 @@ All functions return either
 value (upon failure) in
 <I>*error</I>.
 
+<P>
+
+<B>STREAM_change_readfn()</B>
+
+changes the function used to read from the underlying stream from
+the default
+<B>read()</B>
+
+to some other compatible function.
+<P>
+
+<B>STREAM_change_writefn()</B>
+
+changes the function used to write to the underlying stream from
+the default
+<B>write()</B>
+
+to some other compatible function.
 <P>
 
 <B>STREAM_encode_frame()</B>
@@ -185,6 +212,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 08:18:24 GMT, November 13, 2017
+Time: 09:42:04 GMT, December 06, 2017
 </BODY>
 </HTML>

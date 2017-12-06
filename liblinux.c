@@ -448,7 +448,6 @@ void SERIAL_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void SERIAL_receive(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_read");
 void SERIAL_send(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_write");
 void SPI_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
-void STREAM_send_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_write");
 void TCP4_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void TCP4_receive(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_read");
 void TCP4_send(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_write");

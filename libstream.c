@@ -30,10 +30,6 @@
 #define STX	0x02
 #define ETX	0x03
 
-// Error check macro
-
-#define FAILIF(c) if (c) { if (dstlen != NULL) *dstlen = 0; *error = EINVAL; return; }
-
 // The following CRC16-CCITT subroutine came from:
 // http://stackoverflow.com/questions/10564491/function-to-calculate-a-crc16-checksum
 
@@ -48,6 +44,35 @@ static uint16_t crc16(const uint8_t* data_p, uint8_t length){
     }
     return crc;
 }
+
+// Error check macro
+
+#define FAILIF(c) if (c) { *error = EINVAL; return; }
+
+// Allow overriding the read() function (e.g. use lwip_read)
+
+static STREAM_readfn_t  readfn  = read;
+
+void STREAM_change_readfn(STREAM_readfn_t newread, int32_t *error)
+{
+  FAILIF(newread == NULL);
+  readfn = newread;
+}
+
+// Allow overriding the write() function (e.g. use lwip_write)
+
+static STREAM_writefn_t writefn = write;
+
+void STREAM_change_writefn(STREAM_writefn_t newwrite, int32_t *error)
+{
+  FAILIF(newwrite == NULL);
+  writefn = newwrite;
+}
+
+// Error check macro
+
+#undef FAILIF
+#define FAILIF(c) if (c) { if (dstlen != NULL) *dstlen = 0; *error = EINVAL; return; }
 
 // Encode a message frame, with DLE byte stuffing and CRC16-CCITT
 // frame check sequence.  The size of the destination buffer should
@@ -251,7 +276,7 @@ void STREAM_receive_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *frame
 
   // Read a byte from the stream
 
-  status = read(fd, &b, 1);
+  status = readfn(fd, &b, 1);
 
   // Check for O_NONBLOCK and EAGAIN
 
@@ -324,12 +349,11 @@ void STREAM_receive_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *frame
   *error = EAGAIN;
 }
 
-#ifndef __unix__
 // This is not necessary with libsimpleio
 
 void STREAM_send_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
 {
-  int32_t len = write(fd, buf, bufsize);
+  int32_t len = writefn(fd, buf, bufsize);
   if (len < 0)
   {
     *count = 0;
@@ -340,4 +364,3 @@ void STREAM_send_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *count, i
   *count = len;
   *error = 0;
 }
-#endif
