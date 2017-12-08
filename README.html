@@ -47,6 +47,10 @@ are passed by value.</li>
 many, many parameter checks to the functions in <tt>libsimpleio</tt>. Fixed a
 number of errors in the <tt>man</tt> pages.</li>
 <li>16 November 2017 -- Released C# bindings for <tt>libsimpleio</tt>.</li>
+<li>6 December 2017 -- Added functions <tt>STREAM_change_readfn()</tt> and
+<tt>STREAM_change_writefn()</tt> to replace <tt>read()</tt> and <tt>write</tt>
+inside <tt>libstream</tt>. This is probably most useful with <a href=
+"http://savannah.nongnu.org/projects/lwip">LWIP</a> on microcontrollers.</li>
 </ul>
 <h2>Documentation</h2>
 <p><img src="/icons/new.gif" alt="New">The user manual for <b>libsimpleio</b>
