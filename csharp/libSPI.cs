@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio SPI device services.
+    /// </summary>
     public class libSPI
     {
         [DllImport("simpleio")]

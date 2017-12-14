@@ -21,10 +21,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio raw HID services.
+    /// </summary>
     public class libHIDRaw
     {
         [DllImport("simpleio")]
@@ -39,8 +41,8 @@ namespace EmbeddedLinux.libsimpleio
         public static extern void HIDRAW_close(int fd, out int error);
 
         [DllImport("simpleio")]
-        public static extern void HIDRAW_get_name(int fd, StringBuilder name,
-            int size, out int error);
+        public static extern void HIDRAW_get_name(int fd, 
+            System.Text.StringBuilder name, int size, out int error);
 
         [DllImport("simpleio")]
         public static extern void HIDRAW_get_info(int fd, out int bustype,

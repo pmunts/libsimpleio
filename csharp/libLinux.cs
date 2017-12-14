@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio Linux system call services.
+    /// </summary>
     public class libLinux
     {
         [DllImport("simpleio")]

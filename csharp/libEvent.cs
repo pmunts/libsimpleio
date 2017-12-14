@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio epoll services.
+    /// </summary>
     public class libEvent
     {
         // epoll events, extracted from /usr/include/sys/epoll.h

@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio watchdog timer services.
+    /// </summary>
     public class libWatchdog
     {
         [DllImport("simpleio")]

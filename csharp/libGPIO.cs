@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio GPIO services.
+    /// </summary>
     public class libGPIO
     {
         public const int DIRECTION_INPUT = 0;

@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio serial port services.
+    /// </summary>
     public class libSerial
     {
         public const int PARITY_NONE = 0;

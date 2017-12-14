@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio IPv4 network services.
+    /// </summary>
     public class libIPV4
     {
         [DllImport("simpleio")]

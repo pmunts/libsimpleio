@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio PWM output services.
+    /// </summary>
     public class libPWM
     {
         public const int POLARITY_ACTIVELOW = 0;

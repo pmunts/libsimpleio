@@ -21,23 +21,55 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio A/D converter services.
+    /// </summary>
     public class libADC
     {
+        /// <summary>
+        /// Get the subsystem name for the specified Linux IIO A/D converter
+        /// device.
+        /// </summary>
+        /// <param name="chip">Linux IIO device number.</param>
+        /// <param name="name">Destination buffer.</param>
+        /// <param name="size">Size of destination buffer.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void ADC_get_name(int chip, StringBuilder name,
-          int size, out int error);
+        public static extern void ADC_get_name(int chip,
+          System.Text.StringBuilder name, int size, out int error);
 
+        /// <summary>
+        /// Open a Linux IIO A/D converter input device.
+        /// </summary>
+        /// <param name="chip">Linux IIO device number.</param>
+        /// <param name="channel">Input channel number.</param>
+        /// <param name="fd">File descriptor</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void ADC_open(int chip, int channel, out int fd,
           out int error);
 
+        /// <summary>
+        /// Close a Linux IIO A/D converter input device.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void ADC_close(int fd, out int error);
 
+        /// <summary>
+        /// Read a Linux IIO A/D converter input device.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="sample">Analog sample data.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void ADC_read(int fd, out int sample,
           out int error);

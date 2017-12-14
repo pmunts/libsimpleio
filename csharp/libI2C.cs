@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio I2C bus controller services.
+    /// </summary>
     public class libI2C
     {
         [DllImport("simpleio")]

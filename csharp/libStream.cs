@@ -22,8 +22,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace EmbeddedLinux.libsimpleio
+namespace libsimpleio
 {
+    /// <summary>
+    /// Wrapper for libsimpleio Stream Framing Protocol services.
+    /// </summary>
     public class libStream
     {
         [DllImport("simpleio")]
