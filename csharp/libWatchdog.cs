@@ -84,6 +84,3 @@ namespace libsimpleio
         public static extern void WATCHDOG_kick(int fd, out int error);
     }
 }
-'
-'
-'

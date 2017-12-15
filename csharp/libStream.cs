@@ -84,6 +84,3 @@ namespace libsimpleio
             int bufsize, out int count, out int error);
     }
 }
-'
-'
-'

@@ -75,6 +75,3 @@ namespace libsimpleio
           out int error);
     }
 }
-'
-'
-'

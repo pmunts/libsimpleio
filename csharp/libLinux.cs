@@ -202,6 +202,3 @@ namespace libsimpleio
             System.Text.StringBuilder buf, int bufsize);
     }
 }
-'
-'
-'

@@ -120,6 +120,3 @@ namespace libsimpleio
         public static extern void EVENT_close(int epfd, out int error);
     }
 }
-'
-'
-'

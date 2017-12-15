@@ -91,6 +91,3 @@ namespace libsimpleio
         public static extern void PWM_write(int fd, int ontime, out int error);
     }
 }
-'
-'
-'

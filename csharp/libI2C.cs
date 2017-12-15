@@ -65,6 +65,3 @@ namespace libsimpleio
             byte[] cmd, int cmdlen, byte[] resp, int resplen, out int error);
     }
 }
-'
-'
-'

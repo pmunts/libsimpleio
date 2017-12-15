@@ -73,6 +73,3 @@ namespace libsimpleio
         public static extern void SPI_close(int fd, out int error);
     }
 }
-'
-'
-'
