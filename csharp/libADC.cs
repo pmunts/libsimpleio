@@ -47,7 +47,7 @@ namespace libsimpleio
         /// </summary>
         /// <param name="chip">Linux IIO device number.</param>
         /// <param name="channel">Input channel number.</param>
-        /// <param name="fd">File descriptor</param>
+        /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
         /// value upon failure.</param>
         [DllImport("simpleio")]
@@ -75,3 +75,4 @@ namespace libsimpleio
           out int error);
     }
 }
+'

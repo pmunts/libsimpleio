@@ -29,21 +29,66 @@ namespace libsimpleio
     /// </summary>
     public class libPWM
     {
-        public const int POLARITY_ACTIVELOW = 0;
-        public const int POLARITY_ACTIVEHIGH = 1;
+        /// <summary>
+        /// Configure the PWM output as active low (inverted).
+        /// </summary>
+        /// <remarks>Not all platforms support active low (inverted) PWM
+        /// outputs.</remarks>
+        public const int ActiveLow = 0;
+        /// <summary>
+        /// Configure the PWM output as active high (normal).
+        /// </summary>
+        public const int ActiveHigh = 1;
 
+        /// <summary>
+        /// Configure a Linux PWM output device.
+        /// </summary>
+        /// <param name="chip">Chip number.</param>
+        /// <param name="channel">Channel number.</param>
+        /// <param name="period">Pulse period in microseconds.</param>
+        /// <param name="ontime">Initial on time in microseconds.</param>
+        /// <remarks>On many platforms two more more PWM outputs may share the same
+        /// clock generator, so configuring different PWM pulse periods may not be
+        /// possible.</remarks>
+        /// <param name="polarity">PWM output polarity (0 for active low/inverted or 1
+        /// for active high/normal).</param>
+        /// <remarks>Not all platforms support active low (inverted) PWM outputs.</remarks>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void PWM_configure(int chip, int channel,
           int period, int ontime, int polarity, out int error);
 
+        /// <summary>
+        /// Open a Linux PWM output device.
+        /// </summary>
+        /// <param name="chip">Chip number.</param>
+        /// <param name="channel">Channel number.</param>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void PWM_open(int chip, int channel, out int fd,
           out int error);
 
+        /// <summary>
+        /// Close a Linux PWM output device.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void PWM_close(int fd, out int error);
 
+        /// <summary>
+        /// Set a Linux PWM output device duty cycle.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="ontime">On time in microseconds.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void PWM_write(int fd, int ontime, out int error);
     }
 }
+'

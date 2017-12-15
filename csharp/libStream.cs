@@ -1,4 +1,4 @@
-﻿// C# binding for Stream Framing Protocol services in libsimpleio.so
+// C# binding for Stream Framing Protocol services in libsimpleio.so
 
 // Copyright (C)2017, Philip Munts, President, Munts AM Corp.
 //
@@ -29,20 +29,59 @@ namespace libsimpleio
     /// </summary>
     public class libStream
     {
+        /// <summary>
+        /// Encode a frame.
+        /// </summary>
+        /// <param name="src">Source buffer.</param>
+        /// <param name="srclen">Source buffer size.</param>
+        /// <param name="dst">Destination buffer.</param>
+        /// <param name="dstsize">Destination buffer size.</param>
+        /// <param name="dstlen">Size of encoded frame.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void STREAM_encode_frame(byte[] src, int srclen,
             byte[] dst, int dstsize, out int dstlen, out int error);
 
+        /// <summary>
+        /// Decode a frame.
+        /// </summary>
+        /// <param name="src">Source buffer.</param>
+        /// <param name="srclen">Source buffer size.</param>
+        /// <param name="dst">Destination buffer.</param>
+        /// <param name="dstsize">Destination buffer size.</param>
+        /// <param name="dstlen">Size of decoded frame.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void STREAM_decode_frame(byte[] src, int srclen,
             byte[] dst, int dstsize, out int dstlen, out int error);
 
+        /// <summary>
+        /// Receive an encoded frame.
+        /// </summary>
+        /// <param name="fd">File descriptior.</param>
+        /// <param name="buf">Destination buffer.</param>
+        /// <param name="bufsize">Destination buffer size.</param>
+        /// <param name="count">Number of bytes actually received.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void STREAM_receive_frame(int fd, byte[] buf,
             int bufsize, out int count, out int error);
 
+        /// <summary>
+        /// Send an encoded frame.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="buf">Source buffer.</param>
+        /// <param name="bufsize">Source buffer size.</param>
+        /// <param name="count">Number of bytes actually sent.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void STREAM_send_frame(int fd, byte[] buf,
             int bufsize, out int count, out int error);
     }
 }
+'

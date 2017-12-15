@@ -119,3 +119,4 @@ namespace libsimpleio
         public static extern void GPIO_close(int fd, out int error);
     }
 }
+'

@@ -29,22 +29,59 @@ namespace libsimpleio
     /// </summary>
     public class libWatchdog
     {
+        /// <summary>
+        /// Open a Linux watchdog timer device.
+        /// </summary>
+        /// <param name="devname">Device node name.</param>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void WATCHDOG_open(string devname, out int fd,
             out int error);
 
+        /// <summary>
+        /// Close a Linux watchdog timer device.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void WATCHDOG_close(int fd, out int error);
 
+        /// <summary>
+        /// Query a Linux watchdog timer device.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="timeout">Timeout period in seconds.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void WATCHDOG_get_timeout(int fd, out int timeout,
             out int error);
 
+        /// <summary>
+        /// Change the watchdog timer period.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="newtimeout">Requested timeout period in seconds.</param>
+        /// <param name="timeout">Actual timeout period in seconds.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
+        /// <remarks>Not all platforms allow changing the timeout period.
+        /// Some platforms may not allow <i>increasing</i> the period.</remarks>
         [DllImport("simpleio")]
         public static extern void WATCHDOG_set_timeout(int fd, int newtimeout,
             out int timeout, out int error);
 
+        /// <summary>
+        /// Reset the watchdog timer.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void WATCHDOG_kick(int fd, out int error);
     }
 }
+'
