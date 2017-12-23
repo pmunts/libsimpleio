@@ -70,7 +70,7 @@ namespace libsimpleio
         /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void HIDRAW_get_name(int fd, 
+        public static extern void HIDRAW_get_name(int fd,
             System.Text.StringBuilder name, int size, out int error);
 
         /// <summary>

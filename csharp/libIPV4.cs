@@ -49,7 +49,7 @@ namespace libsimpleio
         /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void IPV4_ntoa(int addr, 
+        public static extern void IPV4_ntoa(int addr,
             System.Text.StringBuilder buf, int bufsize, out int error);
 
         /// <summary>
