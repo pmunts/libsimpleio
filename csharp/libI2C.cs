@@ -25,12 +25,12 @@ using System.Runtime.InteropServices;
 namespace libsimpleio
 {
     /// <summary>
-    /// Wrapper for libsimpleio I2C bus controller services.
+    /// Wrapper for libsimpleio I<sup>2</sup>C bus controller services.
     /// </summary>
     public class libI2C
     {
         /// <summary>
-        /// Open a Linux I2C bus controller device.
+        /// Open a Linux I<sup>2</sup>C bus controller device.
         /// </summary>
         /// <param name="devname">Device node name.</param>
         /// <param name="fd">File descriptor.</param>
@@ -41,7 +41,7 @@ namespace libsimpleio
             out int error);
 
         /// <summary>
-        /// Close a Linux I2C bus controller device.
+        /// Close a Linux I<sup>2</sup>C bus controller device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
@@ -50,7 +50,7 @@ namespace libsimpleio
         public static extern void I2C_close(int fd, out int error);
 
         /// <summary>
-        /// Send bytes to and/or receive bytes from an I2C slave device.
+        /// Send bytes to and/or receive bytes from an I<sup>2</sup>C slave device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="slaveaddr">Slave address.</param>
