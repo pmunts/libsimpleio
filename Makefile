@@ -80,6 +80,7 @@ install: libsimpleio.a libsimpleio.so
 	install -cm 0644 doc/UserManual.pdf	$(DESTDIR)/share/libsimpleio
 	install -cm 0644 java/*.java		$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
 	cp -R -P ada				$(DESTDIR)/share/libsimpleio
+	cp -R -P c++				$(DESTDIR)/share/libsimpleio
 	cp -R -P csharp				$(DESTDIR)/share/libsimpleio
 	cp -R -P pascal				$(DESTDIR)/share/libsimpleio
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
