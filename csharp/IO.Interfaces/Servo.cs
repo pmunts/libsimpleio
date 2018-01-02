@@ -1,4 +1,4 @@
-// Abstract interface for a PWM output
+// Abstract interface for a servo output
 
 // Copyright (C)2017, Philip Munts, President, Munts AM Corp.
 //
@@ -20,15 +20,15 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Interfaces.PWM
+namespace IO.Interfaces.Servo
 {
     /// <summary>
-    ///  Abstract interface for PWM outputs.
+    ///  Abstract interface for servo outputs.
     /// </summary>
     public interface Output
     {
         /// <summary>
-        /// Write-only PWM output duty cycle property.
+        /// Write-only servo output position property.
         /// </summary>
         double dutycycle
         {
