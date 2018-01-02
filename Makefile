@@ -71,19 +71,17 @@ libsimpleio.so: $(SIMPLEIO_COMPONENTS)
 install: libsimpleio.a libsimpleio.so
 	mkdir -p				$(DESTDIR)/include
 	mkdir -p				$(DESTDIR)/lib
-	mkdir -p				$(DESTDIR)/share/libsimpleio/ada
-	mkdir -p				$(DESTDIR)/share/libsimpleio/csharp
+	mkdir -p				$(DESTDIR)/share/libsimpleio
 	mkdir -p				$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
-	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 *.h			$(DESTDIR)/include
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 	install -cm 0644 doc/UserManual.pdf	$(DESTDIR)/share/libsimpleio
-	install -cm 0644 ada/*.ads		$(DESTDIR)/share/libsimpleio/ada
-	install -cm 0644 csharp/*.cs		$(DESTDIR)/share/libsimpleio/csharp
 	install -cm 0644 java/*.java		$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
-	install -cm 0644 pascal/*.pas		$(DESTDIR)/share/libsimpleio/pascal
+	cp -R -P ada				$(DESTDIR)/share/libsimpleio
+	cp -R -P csharp				$(DESTDIR)/share/libsimpleio
+	cp -R -P pascal				$(DESTDIR)/share/libsimpleio
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 
 # Create Debian package file
