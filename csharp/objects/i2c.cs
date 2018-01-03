@@ -113,21 +113,14 @@ namespace EmbeddedLinux.I2C
         /// <param name="slaveaddr">Device slave address.</param>
         /// <param name="cmd">Command buffer.</param>
         /// <param name="cmdlen">Number of bytes to write.</param>
-        /// <param name="delayus">Delay in microseconds between write and read
-        /// operations.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read.</param>
-        public void Transaction(int slaveaddr, byte[] cmd, int cmdlen, int delayus,
-            byte[] resp, int resplen)
+        public void Transaction(int slaveaddr, byte[] cmd, int cmdlen, byte[] resp,
+            int resplen)
         {
             if ((slaveaddr < 0) || (slaveaddr > 127))
             {
                 throw new Exception("Invalid slave address");
-            }
-
-            if (delayus < 0)
-            {
-                throw new Exception("Invalid transaction delay");
             }
 
             if ((cmdlen < 0) || (cmdlen > cmd.Length))

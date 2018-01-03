@@ -49,11 +49,8 @@ namespace IO.Interfaces.I2C
         /// <param name="slaveaddr">I<sup>2</sup>C slave address.</param>
         /// <param name="cmd">Command buffer.</param>
         /// <param name="cmdlen">Number of bytes to write.</param>
-        /// <param name="delayus">Delay in microseconds between write and read
-        /// operations.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read.</param>
-        void Transaction(int slaveaddr, byte[] cmd, int cmdlen, int delayus,
-            byte[] resp, int resplen);
+        void Transaction(int slaveaddr, byte[] cmd, int cmdlen, byte[] resp, int resplen);
     }
 }
