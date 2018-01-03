@@ -31,20 +31,25 @@ namespace IO.Interfaces.SPI
         /// Read bytes from an SPI slave device.
         /// </summary>
         /// <param name="resp">Response buffer.</param>
-        void Read(byte[] resp);
+        /// <param name="resplen">Number of bytes to read.</param>
+        void Read(byte[] resp, int resplen);
 
         /// <summary>
         /// Write bytes to an SPI slave device.
         /// </summary>
         /// <param name="cmd">Command buffer.</param>
-        void Write(byte[] cmd);
+        /// <param name="cmdlen">Number of bytes to write.</param>
+        void Write(byte[] cmd, int cmdlen);
 
         /// <summary>
         /// Write bytes to and read bytes from an SPI slave device.
         /// </summary>
         /// <param name="cmd">Command buffer.</param>
+        /// <param name="cmdlen">Number of bytes to write.</param>
         /// <param name="delayus">Delay in us between write and read operations.</param>
         /// <param name="resp">Response buffer.</param>
-        void Transaction(byte[] cmd, int delayus, byte[]resp);
+        /// <param name="resplen">Number of bytes to read.</param>
+        void Transaction(byte[] cmd, int cmdlen, int delayus, byte[] resp,
+            int resplen);
     }
 }
