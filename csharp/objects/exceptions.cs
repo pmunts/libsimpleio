@@ -1,5 +1,3 @@
-// Define an exception for EmbeddedLinux component errors
-
 // Copyright (C)2017, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -20,7 +18,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace EmbeddedLinux.Exceptions
+namespace libsimpleio.Exceptions
 {
     /// <summary>
     /// Encapsulates exceptions that may include an optional

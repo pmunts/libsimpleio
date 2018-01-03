@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using EmbeddedLinux.Exceptions;
+using libsimpleio.Exceptions;
 
-namespace EmbeddedLinux.I2C
+namespace libsimpleio.I2C
 {
     /// <summary>
     /// Encapsulates Linux I<sup>2</sup>C bus controllers using <c>libsimpleio</c>.

@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using EmbeddedLinux.Exceptions;
+using libsimpleio.Exceptions;
 
-namespace EmbeddedLinux.ADC
+namespace libsimpleio.ADC
 {
     /// <summary>
     /// Encapsulates Linux Industrial I/O Subsystem ADC inputs usingi

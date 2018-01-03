@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using EmbeddedLinux.Exceptions;
+using libsimpleio.Exceptions;
 
-namespace EmbeddedLinux.GPIO
+namespace libsimpleio.GPIO
 {
     /// <summary>
     /// Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
