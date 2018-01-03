@@ -46,6 +46,8 @@ News
        STREAM_change_writefn() to replace read() and write inside
        libstream. This is probably most useful with [8]LWIP on
        microcontrollers.
+     * 3 January 2018 -- Imported C++, C#, and Free Pascal interfaces and
+       objects. Imported the .Net assembly libsimplio.dll.
 
 Documentation
 
