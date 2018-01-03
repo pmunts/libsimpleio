@@ -87,8 +87,14 @@ namespace EmbeddedLinux.SPI
         /// Read bytes from an SPI slave device.
         /// </summary>
         /// <param name="resp">Response buffer.</param>
-        public void Read(byte[] resp)
+        /// <param name="resplen">Number of bytes to read.</param>
+        public void Read(byte[] resp, int resplen)
         {
+            if ((resplen < 0) || (resplen > resp.Length))
+            {
+                throw new Exception("Invalid response length");
+            }
+
             byte[] cmd = new byte[1];
             int error;
 
@@ -105,8 +111,14 @@ namespace EmbeddedLinux.SPI
         /// Write bytes to an SPI slave device.
         /// </summary>
         /// <param name="cmd">Command buffer.</param>
-        public void Write(byte[] cmd)
+        /// <param name="cmdlen">Number of bytes to write.</param>
+        public void Write(byte[] cmd, int cmdlen)
         {
+            if ((cmdlen < 0) || (cmdlen > cmd.Length))
+            {
+                throw new Exception("Invalid command length");
+            }
+
             byte[] resp = new byte[1];
             int error;
 
@@ -123,11 +135,29 @@ namespace EmbeddedLinux.SPI
         /// Write and read bytes to and from an SPI slave device.
         /// </summary>
         /// <param name="cmd">Command buffer.</param>
+        /// <param name="cmdlen">Number of bytes to write.</param>
         /// <param name="delayus">Delay in microseconds between write and read
         /// operations.</param>
         /// <param name="resp">Response buffer.</param>
-        public void Transaction(byte[] cmd, int delayus, byte[] resp)
+        /// <param name="resplen">Number of bytes to read.</param>
+        public void Transaction(byte[] cmd, int cmdlen, int delayus,
+            byte[] resp, int resplen)
         {
+            if (delayus < 0)
+            {
+                throw new Exception("Invalid transaction delay");
+            }
+
+            if ((cmdlen < 0) || (cmdlen > cmd.Length))
+            {
+                throw new Exception("Invalid command length");
+            }
+
+            if ((resplen < 0) || (resplen > resp.Length))
+            {
+                throw new Exception("Invalid response length");
+            }
+
             int error;
 
             libsimpleio.libSPI.SPI_transaction(this.myfd, this.myfdcs, cmd,
