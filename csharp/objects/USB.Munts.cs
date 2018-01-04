@@ -1,4 +1,4 @@
-// Munts Technologies Raw HID Device declarations
+// Munts Technologies USB device identifiers
 
 // Copyright (C)2017, Philip Munts, President, Munts AM Corp.
 //
