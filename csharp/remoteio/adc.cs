@@ -39,7 +39,7 @@ namespace IO.Remote
         /// </summary>
         /// <param name="num">A/D input number: 0 to 127.</param>
         /// <returns>A/D input object.</returns>
-        public IO.Interfaces.ADC.Input ADC_Create(int num)
+        public IO.Interfaces.ADC.Sample ADC_Create(int num)
         {
             return new ADC(this, num);
         }
@@ -48,7 +48,7 @@ namespace IO.Remote
     /// <summary>
     /// Encapsulates remote A/D inputs.
     /// </summary>
-    public class ADC: IO.Interfaces.ADC.Input
+    public class ADC: IO.Interfaces.ADC.Sample
     {
         private Device device;
         private int num;
