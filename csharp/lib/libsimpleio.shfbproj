@@ -42,8 +42,6 @@
     <HelpTitle>Linux I/O Library</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="IO.Devices.ADC.Voltage" isDocumented="True">Analog Voltage Input Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.I2C" isDocumented="True">I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Device Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Ouput) Pins</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
