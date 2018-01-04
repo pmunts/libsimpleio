@@ -27,7 +27,7 @@ namespace libsimpleio.PWM
     /// <summary>
     /// Encapsulates Linux PWM outputs using <c>libsimpleio</c>.
     /// </summary>
-    public class Output_libsimpleio: IO.Interfaces.PWM.Output
+    public class Output: IO.Interfaces.PWM.Output
     {
         private int period;
         private int myfd;
@@ -41,7 +41,7 @@ namespace libsimpleio.PWM
         /// <param name="frequency">PWM pulse frequency.</param>
         /// <param name="dutycycle">PWM output duty cycle (0.0 to 100.0).</param>
         /// <param name="polarity">PWM output polarity.</param>
-        public Output_libsimpleio(int chip, int channel, int frequency,
+        public Output(int chip, int channel, int frequency,
             double dutycycle = 0.0, int polarity = libsimpleio.libPWM.ActiveHigh)
         {
             if (chip < 0)

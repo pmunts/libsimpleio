@@ -27,7 +27,7 @@ namespace libsimpleio.I2C
     /// <summary>
     /// Encapsulates Linux I<sup>2</sup>C bus controllers using <c>libsimpleio</c>.
     /// </summary>
-    public class Bus_libsimpleio : IO.Interfaces.I2C.Bus
+    public class Bus : IO.Interfaces.I2C.Bus
     {
         private int myfd;
 
@@ -35,7 +35,7 @@ namespace libsimpleio.I2C
         /// Constructor for a single I<sup>2</sup>C bus controller.
         /// </summary>
         /// <param name="devname">Device node name.</param>
-        public Bus_libsimpleio(string devname)
+        public Bus(string devname)
         {
             int error;
 

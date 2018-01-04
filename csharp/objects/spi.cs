@@ -27,7 +27,7 @@ namespace libsimpleio.SPI
     /// <summary>
     /// Encapsulates Linux SPI devices using <c>libsimpleio</c>.
     /// </summary>
-    public class Device_libsimpleio: IO.Interfaces.SPI.Device
+    public class Device: IO.Interfaces.SPI.Device
     {
         /// <summary>
         /// Use hardware slave select.
@@ -46,7 +46,7 @@ namespace libsimpleio.SPI
         /// <param name="speed">SPI transfer speed.</param>
         /// <param name="cspin">SPI slave select GPIO pin number, or
         /// <c>AUTOCHIPSELECT</c>.</param>
-        public Device_libsimpleio(string devname, int mode, int wordsize,
+        public Device(string devname, int mode, int wordsize,
             int speed, int cspin = AUTOCHIPSELECT)
         {
             int error;

@@ -28,7 +28,7 @@ namespace libsimpleio.Serial
     /// Encapsulates Linux asynchronous serial port devices using
     /// <c>libsimpleio</c>.
     /// </summary>
-    public class Port_libsimpleio: IO.Interfaces.Serial.Port
+    public class Port: IO.Interfaces.Serial.Port
     {
         private int myfd;
 
@@ -40,7 +40,7 @@ namespace libsimpleio.Serial
         /// <param name="parity">Parity.</param>
         /// <param name="databits">Data bits (5 to 8).</param>
         /// <param name="stopbits">Stop bits (1 or 2).</param>
-        public Port_libsimpleio(string devname, int baudrate, int parity,
+        public Port(string devname, int baudrate, int parity,
             int databits, int stopbits)
         {
             int error;

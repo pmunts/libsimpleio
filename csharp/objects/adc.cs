@@ -28,7 +28,7 @@ namespace libsimpleio.ADC
     /// Encapsulates Linux Industrial I/O Subsystem ADC inputs usingi
     /// <c>libsimpleio</c>.
     /// </summary>
-    public class Sample_libsimpleio: IO.Interfaces.ADC.Sample
+    public class Sample: IO.Interfaces.ADC.Sample
     {
         private int myfd;
 
@@ -58,7 +58,7 @@ namespace libsimpleio.ADC
         /// </summary>
         /// <param name="chip">ADC chip number.</param>
         /// <param name="channel">ADC channel number.</param>
-        public Sample_libsimpleio(int chip, int channel)
+        public Sample(int chip, int channel)
         {
             int error;
 

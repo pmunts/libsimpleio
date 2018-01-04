@@ -27,7 +27,7 @@ namespace libsimpleio.GPIO
     /// <summary>
     /// Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
     /// </summary>
-    public class Pin_libsimpleio : IO.Interfaces.GPIO.Pin
+    public class Pin : IO.Interfaces.GPIO.Pin
     {
         private int myfd;
 
@@ -77,7 +77,7 @@ namespace libsimpleio.GPIO
         /// <param name="state">Initial output state.</param>
         /// <param name="edge">Interrupt edge.</param>
         /// <param name="polarity">Pin polarity.</param>
-        public Pin_libsimpleio(int pin, IO.Interfaces.GPIO.Direction dir,
+        public Pin(int pin, IO.Interfaces.GPIO.Direction dir,
             bool state = false, Edge edge = Edge.None,
             Polarity polarity = Polarity.ActiveHigh)
         {

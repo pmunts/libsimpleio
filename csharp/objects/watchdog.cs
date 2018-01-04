@@ -27,7 +27,7 @@ namespace libsimpleio.Watchdog
     /// <summary>
     /// Encapsulates Linux watchdog timers using <c>libsimpleio</c>.
     /// </summary>
-    public class Timer_libsimpleio: IO.Interfaces.Watchdog.Timer
+    public class Timer: IO.Interfaces.Watchdog.Timer
     {
         /// <summary>
         /// Value indicating he watchdog timer should be disabled.
@@ -42,7 +42,7 @@ namespace libsimpleio.Watchdog
         /// <param name="devname">Device node name.</param>
         /// <param name="timeout">Watchdog timeout setting in seconds, or
         /// <c>Disabled</c>.</param>
-        public Timer_libsimpleio(string devname, int timeout = Disabled)
+        public Timer(string devname, int timeout = Disabled)
         {
             if (timeout < 0)
             {

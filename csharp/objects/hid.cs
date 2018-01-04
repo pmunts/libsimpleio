@@ -27,7 +27,7 @@ namespace libsimpleio.HID
     /// <summary>
     /// Encapsulates Linux raw HID devices using <c>libsimpleio</c>.
     /// </summary>
-    public class Messenger_libsimpleio : IO.Interfaces.Message64.Messenger
+    public class Messenger : IO.Interfaces.Message64.Messenger
     {
         private int myfd;
 
@@ -35,7 +35,7 @@ namespace libsimpleio.HID
         /// Constructor for a single raw HID device.
         /// </summary>
         /// <param name="devname">Device node name.</param>
-        public Messenger_libsimpleio(string devname)
+        public Messenger(string devname)
         {
             int error;
 
@@ -53,7 +53,7 @@ namespace libsimpleio.HID
         /// </summary>
         /// <param name="VID">Vendor ID.</param>
         /// <param name="PID">Product ID.</param>
-        public Messenger_libsimpleio(int VID = USB.Munts.HID.Vendor,
+        public Messenger(int VID = USB.Munts.HID.Vendor,
             int PID = USB.Munts.HID.Product)
         {
             if ((VID < 0) || (VID > 65535))
