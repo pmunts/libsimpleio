@@ -1633,6 +1633,25 @@
             <param name="num">I<sup>2</sup>C bus number: 0 to 127.</param>
             <returns>I<sup>2</sup>C bus controller object.</returns>
         </member>
+        <member name="M:IO.Remote.Device.SPI_Available">
+            <summary>
+            Query available SPI slave devices.
+            </summary>
+            <returns>List of available SPI slave device numbers.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.SPI_Create(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a remote SPI slave device.
+            </summary>
+            <param name="num">SPI slave device number: 0 to 127.</param>
+            <param name="mode">SPI transfer mode: 0 to 3.</param>
+            <param name="wordsize">SPI transfer word size: 8, 16, or 32.</param>
+            <param name="speed">SPI transfer speed in bits per second.</param>
+            <returns>SPI slave device object.</returns>
+            <remarks><para>The actual SPI transfer rate will be the highest
+            realizable rate that does not exceed the value specified in
+            <c>speed</c>.</para></remarks>
+        </member>
         <member name="P:IO.Remote.Device.Version">
             <summary>
             Version string from the Remote I/O device.
@@ -1909,6 +1928,51 @@
             <summary>
             ADC input read response
             </summary>
+        </member>
+        <member name="T:IO.Remote.SPI">
+            <summary>
+            Encapsulates remote SPI slave devices.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.SPI.#ctor(IO.Remote.Device,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a remote SPI slave device.
+            </summary>
+            <param name="dev">Remote I/O device object.</param>
+            <param name="num">SPI slave device number: 0 to 127.</param>
+            <param name="mode">SPI transfer mode: 0 to 3.</param>
+            <param name="wordsize">SPI transfer word size: 8, 16, or 32.</param>
+            <param name="speed">SPI transfer speed in bits per second.</param>
+            <remarks><para>Use <c>Device.SPI_Create()</c> instead of this
+            constructor.</para>
+            <para>The actual SPI transfer rate will be the highest realizable
+            rate that does not exceed the value specified in <c>speed</c>.
+            </para></remarks>
+        </member>
+        <member name="M:IO.Remote.SPI.Read(System.Byte[],System.Int32)">
+            <summary>
+            Read bytes from an SPI slave device.
+            </summary>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read: 1 to 60.</param>
+        </member>
+        <member name="M:IO.Remote.SPI.Write(System.Byte[],System.Int32)">
+            <summary>
+            Write bytes to an SPI slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write: 1 to 57.</param>
+        </member>
+        <member name="M:IO.Remote.SPI.Transaction(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write and read bytes to and from an SPI slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write: 0 to 57.</param>
+            <param name="delayus">Delay in microseconds between write and read
+            operations: 0 to 65535.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read: 0 to 60.</param>
         </member>
     </members>
 </doc>
