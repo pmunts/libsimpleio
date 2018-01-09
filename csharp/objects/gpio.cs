@@ -72,7 +72,7 @@ namespace libsimpleio.GPIO
         /// <summary>
         /// Constructor for a single GPIO pin.
         /// </summary>
-        /// <param name="pin">Linux pin number.</param>
+        /// <param name="pin">Linux GPIO pin number.</param>
         /// <param name="dir">Data direction.</param>
         /// <param name="state">Initial output state.</param>
         /// <param name="edge">Interrupt edge.</param>
