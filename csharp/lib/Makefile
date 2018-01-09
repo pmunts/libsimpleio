@@ -51,6 +51,7 @@ endif
 
 clean: csharp_mk_clean
 	rm -rf IO.Bindings
+	rm -rf IO.Devices
 	rm -rf IO.Interfaces
 	rm -rf IO.Objects
 	rm -rf IO.Remote

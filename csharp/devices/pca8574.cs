@@ -23,8 +23,11 @@ using System;
 namespace PCA8574
 {
     /// <summary>
-    /// Encapsulates PCA8574 and PCF8574 GPIO pins.
+    /// Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
     /// </summary>
+    /// <remarks>This class supports the following I<sup>2</sup>C I/O
+    /// expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
+    /// PCA9674, PCF8574, and TCA9554.</remarks>
     public class Pin: IO.Interfaces.GPIO.Pin
     {
         private static byte PinStates = 0xFF;
