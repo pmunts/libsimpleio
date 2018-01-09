@@ -862,6 +862,71 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
+        <member name="T:PCA8574.Pin">
+            <summary>
+            Encapsulates PCA8574 and PCF8574 GPIO pins.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.GPIO.Pin">
+            <summary>
+            Abstract interface for GPIO pins.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.GPIO.Pin.state">
+            <summary>
+            Read/Write GPIO state property.
+            </summary>
+        </member>
+        <member name="F:PCA8574.Pin.MAX_PINS">
+            <summary>
+            The number of available GPIO pins per chip.
+            </summary>
+        </member>
+        <member name="M:PCA8574.Pin.#ctor(IO.Interfaces.I2C.Bus,System.Int32,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
+            <summary>
+            Constructor for a single GPIO pin.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller instance.</param>
+            <param name="addr">I<sup>2</sup>C slave address.</param>
+            <param name="num">PCA8574 GPIO pin number.</param>
+            <param name="dir">Data direction.</param>
+            <param name="state">Initial output state.</param>
+        </member>
+        <member name="P:PCA8574.Pin.state">
+            <summary>
+            Read/Write GPIO state property.
+            </summary>
+        </member>
+        <member name="T:USB.Munts.HID">
+            <summary>
+            USB device constants for Munts Technologies USB HID devices.
+            </summary>
+        </member>
+        <member name="F:USB.Munts.HID.Vendor">
+            <summary>
+            Vendor ID for Munts Technologies
+            </summary>
+        </member>
+        <member name="F:USB.Munts.HID.Product">
+            <summary>
+            Product ID for Munts Technologies USB hid devices.
+            </summary>
+        </member>
+        <member name="T:USB.Munts.Serial">
+            <summary>
+            USB device constants for Munts Technologies USB serial port devices.
+            </summary>
+        </member>
+        <member name="F:USB.Munts.Serial.Vendor">
+            <summary>
+            Vendor ID for Munts Technologies
+            </summary>
+        </member>
+        <member name="F:USB.Munts.Serial.Product">
+            <summary>
+            Product ID for Munts Technologies USB serial port devices.
+            </summary>
+        </member>
         <member name="T:IO.Interfaces.ADC.Sample">
             <summary>
             Abstract interface for ADC inputs returning an integer sample value.
@@ -909,16 +974,6 @@
         <member name="P:IO.Interfaces.ADC.Input.voltage">
             <summary>
             Read-only property returning the analog input voltage.
-            </summary>
-        </member>
-        <member name="T:IO.Interfaces.GPIO.Pin">
-            <summary>
-            Abstract interface for GPIO pins.
-            </summary>
-        </member>
-        <member name="P:IO.Interfaces.GPIO.Pin.state">
-            <summary>
-            Read/Write GPIO state property.
             </summary>
         </member>
         <member name="T:IO.Interfaces.GPIO.Direction">
@@ -1212,7 +1267,7 @@
             <summary>
             Constructor for a single GPIO pin.
             </summary>
-            <param name="pin">Linux pin number.</param>
+            <param name="pin">Linux GPIO pin number.</param>
             <param name="dir">Data direction.</param>
             <param name="state">Initial output state.</param>
             <param name="edge">Interrupt edge.</param>
@@ -1501,36 +1556,6 @@
             <summary>
             Read-only property returning the Linux file descriptor for the
             SPI slave device.
-            </summary>
-        </member>
-        <member name="T:USB.Munts.HID">
-            <summary>
-            USB device constants for Munts Technologies USB HID devices.
-            </summary>
-        </member>
-        <member name="F:USB.Munts.HID.Vendor">
-            <summary>
-            Vendor ID for Munts Technologies
-            </summary>
-        </member>
-        <member name="F:USB.Munts.HID.Product">
-            <summary>
-            Product ID for Munts Technologies USB hid devices.
-            </summary>
-        </member>
-        <member name="T:USB.Munts.Serial">
-            <summary>
-            USB device constants for Munts Technologies USB serial port devices.
-            </summary>
-        </member>
-        <member name="F:USB.Munts.Serial.Vendor">
-            <summary>
-            Vendor ID for Munts Technologies
-            </summary>
-        </member>
-        <member name="F:USB.Munts.Serial.Product">
-            <summary>
-            Product ID for Munts Technologies USB serial port devices.
             </summary>
         </member>
         <member name="T:libsimpleio.Watchdog.Timer">
