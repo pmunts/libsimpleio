@@ -1038,6 +1038,26 @@
             Output pin (read or write)
             </summary>
         </member>
+        <member name="T:IO.Interfaces.I2C.Speeds">
+            <summary>
+            I<sup>2</sup>C bus speed constants.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.I2C.Speeds.StandardMode">
+            <summary>
+            Standard Mode
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.I2C.Speeds.FastMode">
+            <summary>
+            Fast Mode
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.I2C.Speeds.FastModePlus">
+            <summary>
+            Fast Mode Plus
+            </summary>
+        </member>
         <member name="T:IO.Interfaces.I2C.Bus">
             <summary>
             Abstract interface for I<sup>2</sup>C bus controllers.
@@ -1698,11 +1718,12 @@
             </summary>
             <returns>List of available I<sup>2</sup>C bus numbers.</returns>
         </member>
-        <member name="M:IO.Remote.Device.I2C_Create(System.Int32)">
+        <member name="M:IO.Remote.Device.I2C_Create(System.Int32,System.Int32)">
             <summary>
             Create a remote I<sup>2</sup>C bus controller.
             </summary>
             <param name="num">I<sup>2</sup>C bus number: 0 to 127.</param>
+            <param name="speed">I<sup>2</sup>C bus clock frequency in Hz</param>
             <returns>I<sup>2</sup>C bus controller object.</returns>
         </member>
         <member name="M:IO.Remote.Device.SPI_Available">
@@ -1802,12 +1823,13 @@
             Encapsulates remote I<sup>2</sup>C buses.
             </summary>
         </member>
-        <member name="M:IO.Remote.I2C.#ctor(IO.Remote.Device,System.Int32)">
+        <member name="M:IO.Remote.I2C.#ctor(IO.Remote.Device,System.Int32,System.Int32)">
             <summary>
             Create a remote I<sup>2</sup>C bus controller.
             </summary>
             <param name="dev">Remote I/O device object.</param>
             <param name="num">I<sup>2</sup>C bus number: 0 to 127.</param>
+            <param name="speed">I<sup>2</sup>C bus clock frequency in Hz</param>
             <remarks>Use <c>Device.I2C_Create()</c> instead of this constructor.</remarks>
         </member>
         <member name="M:IO.Remote.I2C.Read(System.Int32,System.Byte[],System.Int32)">

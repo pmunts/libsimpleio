@@ -40,7 +40,8 @@ namespace IO.Remote
         /// <param name="num">I<sup>2</sup>C bus number: 0 to 127.</param>
         /// <param name="speed">I<sup>2</sup>C bus clock frequency in Hz</param>
         /// <returns>I<sup>2</sup>C bus controller object.</returns>
-        public IO.Interfaces.I2C.Bus I2C_Create(int num, int speed)
+        public IO.Interfaces.I2C.Bus I2C_Create(int num,
+            int speed = IO.Interfaces.I2C.Speeds.StandardMode)
         {
             return new I2C(this, num, speed);
         }
@@ -61,7 +62,8 @@ namespace IO.Remote
         /// <param name="num">I<sup>2</sup>C bus number: 0 to 127.</param>
         /// <param name="speed">I<sup>2</sup>C bus clock frequency in Hz</param>
         /// <remarks>Use <c>Device.I2C_Create()</c> instead of this constructor.</remarks>
-        public I2C(Device dev, int num, int speed)
+        public I2C(Device dev, int num,
+            int speed = IO.Interfaces.I2C.Speeds.StandardMode)
         {
             this.device = dev;
             this.num = (byte)num;
