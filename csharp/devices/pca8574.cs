@@ -23,18 +23,16 @@ using System;
 namespace PCA8574
 {
     /// <summary>
-    /// Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
+    /// Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expanders.
     /// </summary>
-    /// <remarks>This class supports the following I<sup>2</sup>C I/O
+    /// <remarks>This class supports the following I<sup>2</sup>C GPIO
     /// expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
     /// PCA9674, PCF8574, and TCA9554.</remarks>
-    public class Pin: IO.Interfaces.GPIO.Pin
+    public class Device
     {
-        private static byte PinStates = 0xFF;
         private IO.Interfaces.I2C.Device dev;
-        private byte mask;
-        private byte[] cmd;
-        private byte[] resp;
+        private byte pins = 0xFF;
+        private byte[] buf = { 0 };
 
         /// <summary>
         /// The number of available GPIO pins per chip.
@@ -42,55 +40,108 @@ namespace PCA8574
         public const int MAX_PINS = 8;
 
         /// <summary>
+        /// Constructor for a PCA8574 (or similar) GPIO Expander.
+        /// </summary>
+        /// <param name="bus">I<sup>2</sup>C bus controller.</param>
+        /// <param name="addr">I<sup>2</sup>C slave address.</param>
+        public Device(IO.Interfaces.I2C.Bus bus, int addr)
+        {
+            this.dev = new IO.Interfaces.I2C.Device(bus, addr);
+            this.Write(0xFF);
+        }
+
+        /// <summary>
+        /// Return actual state of the GPIO pins.
+        /// </summary>
+        /// <returns>Pin states (MSB = GPIO7).</returns>
+        public byte Read()
+        {
+            this.dev.Read(buf, 1);
+            return buf[0];
+        }
+
+        /// <summary>
+        /// Return last known state of the GPIO pins.
+        /// </summary>
+        /// <returns>Pin states (MSB = GPIO7).</returns>
+        public byte State()
+        {
+            return this.pins;
+        }
+
+        /// <summary>
+        /// Write all GPIO pins.
+        /// </summary>
+        /// <param name="data">Data to write to pins (MSB = GPIO7).</param>
+        public void Write(byte data)
+        {
+            this.pins = data;
+            this.buf[0] = pins;
+            this.dev.Write(buf, 1);
+        }
+
+        /// <summary>
+        /// Set selected GPIO pins.
+        /// </summary>
+        /// <param name="data">Pins to set high (MSB = GPIO7).</param>
+        public void Set(byte data)
+        {
+            this.pins |= data;
+            this.buf[0] = pins;
+            this.dev.Write(buf, 1);
+        }
+
+        /// <summary>
+        /// Clear selected GPIO pins.
+        /// </summary>
+        /// <param name="data">Pins to set low (MSB = GPIO7).</param>
+        public void Clear(byte data)
+        {
+            this.pins &= (byte)(~data);
+            this.buf[0] = pins;
+            this.dev.Write(buf, 1);
+        }
+    }
+
+    /// <summary>
+    /// Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
+    /// </summary>
+    /// <remarks>This class supports the following I<sup>2</sup>C GPIO
+    /// expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
+    /// PCA9674, PCF8574, and TCA9554.</remarks>
+    public class Pin : IO.Interfaces.GPIO.Pin
+    {
+        private PCA8574.Device dev;
+        private byte mask;
+        private IO.Interfaces.GPIO.Direction dir;
+
+        /// <summary>
         /// Constructor for a single GPIO pin.
         /// </summary>
-        /// <param name="bus">I<sup>2</sup>C bus controller instance.</param>
-        /// <param name="addr">I<sup>2</sup>C slave address.</param>
-        /// <param name="num">PCA8574 GPIO pin number.</param>
+        /// <param name="dev">PCA8574 (or similar) device.</param>
+        /// <param name="num">GPIO pin number.</param>
         /// <param name="dir">Data direction.</param>
         /// <param name="state">Initial output state.</param>
-        public Pin(IO.Interfaces.I2C.Bus bus, int addr, int num, 
+        public Pin(PCA8574.Device dev, int num,
             IO.Interfaces.GPIO.Direction dir, bool state = false)
         {
             // Validate parameters
 
-            if ((addr < 0) || (addr > 127))
-            {
-                throw new Exception("Invalid I2C slave address parameter");
-            }
-
-            if ((num < 0) || (num >= MAX_PINS))
+            if ((num < 0) || (num >= PCA8574.Device.MAX_PINS))
             {
                 throw new Exception("Invalid GPIO pin number parameter");
             }
 
-            dev = new IO.Interfaces.I2C.Device(bus, addr);
-
-            mask = (byte)(1 << num);
-
-            cmd = new byte[1];
-            resp = new byte[1];
+            this.dev = dev;
+            this.mask = (byte)(1 << num);
+            this.dir = dir;
 
             if (dir == IO.Interfaces.GPIO.Direction.Input)
-                PinStates |= mask;
+                this.dev.Set(this.mask);
             else if (state)
-                PinStates |= mask;
+                this.dev.Set(this.mask);
             else
-                PinStates &= (byte)(~mask);
-
-            WritePins();
-        }
-
-        private byte ReadPins()
-        {
-            this.dev.Read(this.resp, 1);
-            return resp[0];
-        }
-
-        private void WritePins()
-        {
-            this.cmd[0] = PinStates;
-            this.dev.Write(this.cmd, 1);
+                this.dev.Clear(this.mask);
         }
 
         /// <summary>
@@ -100,17 +151,21 @@ namespace PCA8574
         {
             get
             {
-                return ((ReadPins() & this.mask) != 0);
+                if (this.dir == IO.Interfaces.GPIO.Direction.Input)
+                    return ((this.dev.Read() & this.mask) != 0);
+                else
+                    return ((this.dev.State() & this.mask) != 0);
             }
 
             set
             {
-                if (value)
-                    PinStates |= this.mask;
-                else
-                    PinStates &= (byte)(~this.mask);
+                if (this.dir == IO.Interfaces.GPIO.Direction.Input)
+                    throw new Exception("Cannot write to input pin");
 
-                WritePins();
+                if (value)
+                    this.dev.Set(mask);
+                else
+                    this.dev.Clear(mask);
             }
         }
     }

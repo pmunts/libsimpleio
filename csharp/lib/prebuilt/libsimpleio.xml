@@ -862,6 +862,51 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
+        <member name="F:PCA8574.Device.MAX_PINS">
+            <summary>
+            The number of available GPIO pins per chip.
+            </summary>
+        </member>
+        <member name="M:PCA8574.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32)">
+            <summary>
+            Constructor for a PCA8574 (or similar) GPIO Expander.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller.</param>
+            <param name="addr">I<sup>2</sup>C slave address.</param>
+            <remarks>This class supports the following I<sup>2</sup>C I/O
+            expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
+            PCA9674, PCF8574, and TCA9554.</remarks>
+        </member>
+        <member name="M:PCA8574.Device.Read">
+            <summary>
+            Return actual state of the GPIO pins.
+            </summary>
+            <returns>Pin states (MSB = GPIO7).</returns>
+        </member>
+        <member name="M:PCA8574.Device.State">
+            <summary>
+            Return last known state of the GPIO pins.
+            </summary>
+            <returns>Pin states (MSB = GPIO7).</returns>
+        </member>
+        <member name="M:PCA8574.Device.Write(System.Byte)">
+            <summary>
+            Write all GPIO pins.
+            </summary>
+            <param name="data">Data to write to pins (MSB = GPIO7).</param>
+        </member>
+        <member name="M:PCA8574.Device.Set(System.Byte)">
+            <summary>
+            Set selected GPIO pins.
+            </summary>
+            <param name="data">Pins to set high (MSB = GPIO7).</param>
+        </member>
+        <member name="M:PCA8574.Device.Clear(System.Byte)">
+            <summary>
+            Clear selected GPIO pins.
+            </summary>
+            <param name="data">Pins to set low (MSB = GPIO7).</param>
+        </member>
         <member name="T:PCA8574.Pin">
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
@@ -880,18 +925,12 @@
             Read/Write GPIO state property.
             </summary>
         </member>
-        <member name="F:PCA8574.Pin.MAX_PINS">
-            <summary>
-            The number of available GPIO pins per chip.
-            </summary>
-        </member>
-        <member name="M:PCA8574.Pin.#ctor(IO.Interfaces.I2C.Bus,System.Int32,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
+        <member name="M:PCA8574.Pin.#ctor(PCA8574.Device,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
             <summary>
             Constructor for a single GPIO pin.
             </summary>
-            <param name="bus">I<sup>2</sup>C bus controller instance.</param>
-            <param name="addr">I<sup>2</sup>C slave address.</param>
-            <param name="num">PCA8574 GPIO pin number.</param>
+            <param name="dev">PCA8574 (or similar) device.</param>
+            <param name="num">GPIO pin number.</param>
             <param name="dir">Data direction.</param>
             <param name="state">Initial output state.</param>
         </member>
