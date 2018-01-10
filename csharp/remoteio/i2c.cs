@@ -38,10 +38,11 @@ namespace IO.Remote
         /// Create a remote I<sup>2</sup>C bus controller.
         /// </summary>
         /// <param name="num">I<sup>2</sup>C bus number: 0 to 127.</param>
+        /// <param name="speed">I<sup>2</sup>C bus clock frequency in Hz</param>
         /// <returns>I<sup>2</sup>C bus controller object.</returns>
-        public IO.Interfaces.I2C.Bus I2C_Create(int num)
+        public IO.Interfaces.I2C.Bus I2C_Create(int num, int speed)
         {
-            return new I2C(this, num);
+            return new I2C(this, num, speed);
         }
     }
 
@@ -58,8 +59,9 @@ namespace IO.Remote
         /// </summary>
         /// <param name="dev">Remote I/O device object.</param>
         /// <param name="num">I<sup>2</sup>C bus number: 0 to 127.</param>
+        /// <param name="speed">I<sup>2</sup>C bus clock frequency in Hz</param>
         /// <remarks>Use <c>Device.I2C_Create()</c> instead of this constructor.</remarks>
-        public I2C(Device dev, int num)
+        public I2C(Device dev, int num, int speed)
         {
             this.device = dev;
             this.num = (byte)num;
@@ -69,12 +71,19 @@ namespace IO.Remote
             if ((num < 0) || (num >= Device.MAX_CHANNELS))
                 throw new Exception("Invalid I2C bus number");
 
+            if ((speed < 0) || (speed > IO.Interfaces.I2C.Speeds.FastModePlus))
+                throw new Exception("Invalid I2C bus speed");
+
             Message cmd = new Message(0);
             Message resp = new Message();
 
             cmd.payload[0] = (byte)MessageTypes.I2C_CONFIGURE_REQUEST;
             cmd.payload[1] = 6;
             cmd.payload[2] = (byte)num;
+            cmd.payload[3] = (byte)((speed >> 24) & 0xFF);
+            cmd.payload[4] = (byte)((speed >> 16) & 0xFF);
+            cmd.payload[5] = (byte)((speed >> 8) & 0xFF);
+            cmd.payload[6] = (byte)(speed & 0xFF);
 
             device.Dispatcher(cmd, resp);
         }
