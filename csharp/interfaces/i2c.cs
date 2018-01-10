@@ -23,6 +23,27 @@
 namespace IO.Interfaces.I2C
 {
     /// <summary>
+    /// I<sup>2</sup>C bus speed constants.
+    /// </summary>
+    public static class Speeds
+    {
+        /// <summary>
+        /// Standard Mode
+        /// </summary>
+        public const int StandardMode = 100000;
+
+        /// <summary>
+        /// Fast Mode
+        /// </summary>
+        public const int FastMode = 400000;
+
+        /// <summary>
+        /// Fast Mode Plus
+        /// </summary>
+        public const int FastModePlus = 1000000;
+    }
+
+    /// <summary>
     /// Abstract interface for I<sup>2</sup>C bus controllers.
     /// </summary>
     public interface Bus
