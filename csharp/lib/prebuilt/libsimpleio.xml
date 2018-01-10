@@ -862,6 +862,14 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
+        <member name="T:PCA8574.Device">
+            <summary>
+            Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expanders.
+            </summary>
+            <remarks>This class supports the following I<sup>2</sup>C GPIO
+            expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
+            PCA9674, PCF8574, and TCA9554.</remarks>
+        </member>
         <member name="F:PCA8574.Device.MAX_PINS">
             <summary>
             The number of available GPIO pins per chip.
@@ -873,9 +881,6 @@
             </summary>
             <param name="bus">I<sup>2</sup>C bus controller.</param>
             <param name="addr">I<sup>2</sup>C slave address.</param>
-            <remarks>This class supports the following I<sup>2</sup>C I/O
-            expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
-            PCA9674, PCF8574, and TCA9554.</remarks>
         </member>
         <member name="M:PCA8574.Device.Read">
             <summary>
@@ -911,7 +916,7 @@
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
             </summary>
-            <remarks>This class supports the following I<sup>2</sup>C I/O
+            <remarks>This class supports the following I<sup>2</sup>C GPIO
             expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
             PCA9674, PCF8574, and TCA9554.</remarks>
         </member>
