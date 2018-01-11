@@ -20,7 +20,7 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT Message64_HID_libsimpleio;
+UNIT HID_libsimpleio;
 
 INTERFACE
 
