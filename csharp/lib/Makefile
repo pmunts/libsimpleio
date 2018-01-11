@@ -43,7 +43,7 @@ endif
 ifeq ($(OS),Windows_NT)
 ifeq ($(CONFIGURATION), Release)
 release: libsimpleio.dll
-	cp *.dll *.xml *.chm prebuilt
+	cp *.dll *.xml *.chm ..
 endif
 endif
 
