@@ -23,6 +23,8 @@
 AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
 CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS) -DWAIT_GPIO_LINK
+CXX		= $(CROSS_COMPILE)g++
+CXXFLAGS	= $(CFLAGS) -std=c++11 -Ic++
 
 ifeq ($(BOARDNAME),)
 # Definitions for compiling for native Linux
@@ -56,36 +58,47 @@ SIMPLEIO_COMPONENTS	+= libserial.o libspi.o liblinux.o liblinx.o
 SIMPLEIO_COMPONENTS	+= libpwm.o libipv4.o libstream.o libwatchdog.o
 SIMPLEIO_COMPONENTS	+= libadc.o
 
+# Compile C and C++ source files
+
+compile.done:
+	rm -rf obj
+	mkdir obj
+	for F in *.c ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
+	for F in c++/*.cpp ; do $(CXX) $(CXXFLAGS) -c -o obj/`basename $$F .cpp`.o $$F ; done
+	touch $@
+
 # Create static libarary
 
-libsimpleio.a: $(SIMPLEIO_COMPONENTS)
-	$(AR) rcs $@ $^
+libsimpleio.a: compile.done
+	$(AR) rcs $@ obj/*.o
 
 # Create shared library
 
-libsimpleio.so: $(SIMPLEIO_COMPONENTS)
-	$(CC) -shared -o $@ $^
+libsimpleio.so: compile.done
+	$(CC) -shared -o $@ obj/*.o
 
 # Install headers and library files
 
 install: libsimpleio.a libsimpleio.so
-	mkdir -p				$(DESTDIR)/include
+	mkdir -p				$(DESTDIR)/include/libsimpleio/c++
 	mkdir -p				$(DESTDIR)/lib
 	mkdir -p				$(DESTDIR)/share/libsimpleio/ada
+	mkdir -p				$(DESTDIR)/share/libsimpleio/c++
 	mkdir -p				$(DESTDIR)/share/libsimpleio/csharp
-	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
+	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
 	mkdir -p				$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
 	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
 	mkdir -p				$(DESTDIR)/share/man/man2
-	install -cm 0644 *.h			$(DESTDIR)/include
+	install -cm 0644 *.h			$(DESTDIR)/include/libsimpleio
+	install -cm 0644 c++/*.h		$(DESTDIR)/include/libsimpleio/c++
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
-	install -cm 0644 doc/UserManual.pdf	$(DESTDIR)/share/libsimpleio
 	install -cm 0644 ada/*			$(DESTDIR)/share/libsimpleio/ada
+	cp -R -P -p c++/linx-server		$(DESTDIR)/share/libsimpleio/c++
 	install -cm 0644 csharp/libsimpleio.*	$(DESTDIR)/share/libsimpleio/csharp
+	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 java/*.java		$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
 	install -cm 0644 pascal/*		$(DESTDIR)/share/libsimpleio/pascal
-	cp -R -P c++				$(DESTDIR)/share/libsimpleio
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 
 # Create Debian package file
@@ -119,7 +132,7 @@ package.deb: $(PKGFILE)
 # Remove working files
 
 clean:
-	-rm -rf *.a *.deb *.o *.so $(PKGDIR)
+	-rm -rf obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean
 
