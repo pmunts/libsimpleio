@@ -23,8 +23,6 @@
 AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
 CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS) -DWAIT_GPIO_LINK
-CXX		= $(CROSS_COMPILE)g++
-CXXFLAGS	= $(CFLAGS) -std=c++11 -Ic++
 
 ifeq ($(BOARDNAME),)
 # Definitions for compiling for native Linux
@@ -64,7 +62,6 @@ compile.done:
 	rm -rf obj
 	mkdir obj
 	for F in *.c ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
-	for F in c++/*.cpp ; do $(CXX) $(CXXFLAGS) -c -o obj/`basename $$F .cpp`.o $$F ; done
 	touch $@
 
 # Create static libarary
@@ -80,7 +77,7 @@ libsimpleio.so: compile.done
 # Install headers and library files
 
 install: libsimpleio.a libsimpleio.so
-	mkdir -p				$(DESTDIR)/include/libsimpleio/c++
+	mkdir -p				$(DESTDIR)/include
 	mkdir -p				$(DESTDIR)/lib
 	mkdir -p				$(DESTDIR)/share/libsimpleio/ada
 	mkdir -p				$(DESTDIR)/share/libsimpleio/c++
@@ -89,16 +86,15 @@ install: libsimpleio.a libsimpleio.so
 	mkdir -p				$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
 	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
 	mkdir -p				$(DESTDIR)/share/man/man2
-	install -cm 0644 *.h			$(DESTDIR)/include/libsimpleio
-	install -cm 0644 c++/*.h		$(DESTDIR)/include/libsimpleio/c++
+	install -cm 0644 *.h			$(DESTDIR)/include
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
-	install -cm 0644 ada/*			$(DESTDIR)/share/libsimpleio/ada
-	cp -R -P -p c++/linx-server		$(DESTDIR)/share/libsimpleio/c++
+	cp -R -P -p ada/*			$(DESTDIR)/share/libsimpleio/ada
+	cp -R -P -p c++/*			$(DESTDIR)/share/libsimpleio/c++
 	install -cm 0644 csharp/libsimpleio.*	$(DESTDIR)/share/libsimpleio/csharp
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 java/*.java		$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
-	install -cm 0644 pascal/*		$(DESTDIR)/share/libsimpleio/pascal
+	cp -R -P -p pascal/*			$(DESTDIR)/share/libsimpleio/pascal
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 
 # Create Debian package file
