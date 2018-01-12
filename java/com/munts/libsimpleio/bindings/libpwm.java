@@ -22,22 +22,30 @@
 //
 // https://github.com/java-native-access/jna
 
-package com.munts.libsimpleio;
+package com.munts.libsimpleio.bindings;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libspi
+public class libpwm
 {
-  // SPI device function definitions
+  // PWM output polarity constants
 
-  public static native void SPI_open(String devname, int mode, int wordsize,
-    int speed, IntByReference fd, IntByReference error);
+  public static final int ACTIVELOW	= 0;
+  public static final int ACTIVEHIGH	= 1;
 
-  public static native void SPI_close(int fd, IntByReference error);
+  // PWM device function definitions
 
-  public static native void SPI_transaction(int spifd, int csfd, byte[] cmd,
-    int cmdlen, int delayus, byte[] resp, int resplen, IntByReference error);
+  public static native void PWM_configure(int chip, int channel, int period,
+    int ontime, int polarity, IntByReference error);
+
+  public static native void PWM_open(int chip, int channel, IntByReference fd,
+    IntByReference error);
+
+  public static native void PWM_close(int fd, IntByReference error);
+
+  public static native void PWM_write(int fd, int ontime,
+    IntByReference error);
 
   // Bind to libsimpleio.so
 

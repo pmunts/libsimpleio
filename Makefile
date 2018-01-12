@@ -89,12 +89,12 @@ install: libsimpleio.a libsimpleio.so
 	install -cm 0644 *.h			$(DESTDIR)/include
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
-	cp -R -P -p ada/*			$(DESTDIR)/share/libsimpleio/ada
-	cp -R -P -p c++/*			$(DESTDIR)/share/libsimpleio/c++
-	cp -R -P -p csharp/*			$(DESTDIR)/share/libsimpleio/csharp
+	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
+	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
+	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
-	install -cm 0644 java/*.java		$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
-	cp -R -P -p pascal/*			$(DESTDIR)/share/libsimpleio/pascal
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 
 # Create Debian package file

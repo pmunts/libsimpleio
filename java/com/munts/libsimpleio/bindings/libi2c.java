@@ -22,45 +22,22 @@
 //
 // https://github.com/java-native-access/jna
 
-package com.munts.libsimpleio;
+package com.munts.libsimpleio.bindings;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libgpio
+public class libi2c
 {
-  // GPIO data direction constants
+  // I2C device function definitions
 
-  public static final int INPUT		= 0;
-  public static final int OUTPUT	= 1;
-
-  // GPIO input interrupt edge constants
-
-  public static final int NONE		= 0;
-  public static final int RISING	= 1;
-  public static final int FALLING	= 2;
-  public static final int BOTH		= 3;
-
-  // GPIO polarity constants
-
-  public static final int ACTIVELOW	= 0;
-  public static final int ACTIVEHIGH	= 1;
-
-  // GPIO function definitions
-
-  public static native void GPIO_configure(int pin, int dir, int state,
-    int edge, int polarity, IntByReference error);
-
-  public static native void GPIO_open(int pin, IntByReference fd,
+  public static native void I2C_open(String devname, IntByReference fd,
     IntByReference error);
 
-  public static native void GPIO_read(int fd, IntByReference state,
-    IntByReference error);
+  public static native void I2C_close(int fd, IntByReference error);
 
-  public static native void GPIO_write(int fd, int state,
-    IntByReference error);
-
-  public static native void GPIO_close(int fd, IntByReference error);
+  public static native void I2C_transaction(int fd, int slaveaddr, byte[] cmd,
+    int cmdlen, byte[] resp, int resplen, IntByReference error);
 
   // Bind to libsimpleio.so
 

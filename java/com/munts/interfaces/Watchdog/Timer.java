@@ -18,34 +18,15 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// This binding relies on the Java Native Access library, available from:
-//
-// https://github.com/java-native-access/jna
+package com.munts.interfaces.Watchdog;
 
-package com.munts.libsimpleio;
+// Define an abstract interface for all watchdog timer objects
 
-import com.sun.jna.*;
-import com.sun.jna.ptr.*;
-
-public class libadc
+public interface Timer
 {
-  // A/D input device function definitions
+  int GetTimeout();
 
-  public static native void ADC_get_name(int chip, byte[] buf, int size,
-    IntByReference error);
+  void SetTimeout(int timeout);
 
-  public static native void ADC_open(int chip, int channel, IntByReference fd,
-    IntByReference error);
-
-  public static native void ADC_close(int fd, IntByReference error);
-
-  public static native void ADC_read(int fd, IntByReference sample,
-    IntByReference error);
-
-  // Bind to libsimpleio.so
-
-  static
-  {
-    Native.register("simpleio");
-  }
+  void Kick();
 }

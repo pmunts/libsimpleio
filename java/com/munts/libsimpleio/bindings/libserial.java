@@ -22,30 +22,32 @@
 //
 // https://github.com/java-native-access/jna
 
-package com.munts.libsimpleio;
+package com.munts.libsimpleio.bindings;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libpwm
+public class libserial
 {
-  // PWM output polarity constants
+  // Parity settings
 
-  public static final int ACTIVELOW	= 0;
-  public static final int ACTIVEHIGH	= 1;
+  public static final int NONE = 0;
+  public static final int EVEN = 1;
+  public static final int ODD  = 2;
 
-  // PWM device function definitions
+  // Serial port device function definitions
 
-  public static native void PWM_configure(int chip, int channel, int period,
-    int ontime, int polarity, IntByReference error);
-
-  public static native void PWM_open(int chip, int channel, IntByReference fd,
+  public static native void SERIAL_open(String devname, int baudrate,
+    int parity, int databits, int stopbits, IntByReference fd,
     IntByReference error);
 
-  public static native void PWM_close(int fd, IntByReference error);
+  public static native void SERIAL_close(int fd, IntByReference error);
 
-  public static native void PWM_write(int fd, int ontime,
-    IntByReference error);
+  public static native void SERIAL_send(int fd, byte[] buf, int bufsize,
+    IntByReference count, IntByReference error);
+
+  public static native void SERIAL_receive(int fd, byte[] buf, int bufsize,
+    IntByReference count, IntByReference error);
 
   // Bind to libsimpleio.so
 

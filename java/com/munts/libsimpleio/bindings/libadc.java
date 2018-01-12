@@ -22,32 +22,25 @@
 //
 // https://github.com/java-native-access/jna
 
-package com.munts.libsimpleio;
+package com.munts.libsimpleio.bindings;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libserial
+public class libadc
 {
-  // Parity settings
+  // A/D input device function definitions
 
-  public static final int NONE = 0;
-  public static final int EVEN = 1;
-  public static final int ODD  = 2;
-
-  // Serial port device function definitions
-
-  public static native void SERIAL_open(String devname, int baudrate,
-    int parity, int databits, int stopbits, IntByReference fd,
+  public static native void ADC_get_name(int chip, byte[] buf, int size,
     IntByReference error);
 
-  public static native void SERIAL_close(int fd, IntByReference error);
+  public static native void ADC_open(int chip, int channel, IntByReference fd,
+    IntByReference error);
 
-  public static native void SERIAL_send(int fd, byte[] buf, int bufsize,
-    IntByReference count, IntByReference error);
+  public static native void ADC_close(int fd, IntByReference error);
 
-  public static native void SERIAL_receive(int fd, byte[] buf, int bufsize,
-    IntByReference count, IntByReference error);
+  public static native void ADC_read(int fd, IntByReference sample,
+    IntByReference error);
 
   // Bind to libsimpleio.so
 

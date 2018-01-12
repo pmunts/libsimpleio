@@ -22,22 +22,34 @@
 //
 // https://github.com/java-native-access/jna
 
-package com.munts.libsimpleio;
+package com.munts.libsimpleio.bindings;
 
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libi2c
+public class libhidraw
 {
-  // I2C device function definitions
+  // Raw HID device function definitions
 
-  public static native void I2C_open(String devname, IntByReference fd,
+  public static native void HIDRAW_open(String name, IntByReference fd,
     IntByReference error);
 
-  public static native void I2C_close(int fd, IntByReference error);
+  public static native void HIDRAW_open_id(int VID, int PID, IntByReference fd,
+    IntByReference error);
 
-  public static native void I2C_transaction(int fd, int slaveaddr, byte[] cmd,
-    int cmdlen, byte[] resp, int resplen, IntByReference error);
+  public static native void HIDRAW_close(int fd, IntByReference error);
+
+  public static native void HIDRAW_get_name(int fd, byte[] buf, int size,
+    IntByReference error);
+
+  public static native void HIDRAW_get_info(int fd, IntByReference bustype,
+    IntByReference vendor, IntByReference product, IntByReference error);
+
+  public static native void HIDRAW_send(int fd, byte[] buf, int size,
+    IntByReference count, IntByReference error);
+
+  public static native void HIDRAW_receive(int fd, byte[] buf, int size,
+    IntByReference count, IntByReference error);
 
   // Bind to libsimpleio.so
 

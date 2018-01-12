@@ -18,36 +18,12 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// This binding relies on the Java Native Access library, available from:
-//
-// https://github.com/java-native-access/jna
+package com.munts.interfaces.GPIO;
 
-package com.munts.libsimpleio;
+// These GPIO pin directions are (potentially) common to all GPIO pin objects
 
-import com.sun.jna.*;
-import com.sun.jna.ptr.*;
-
-public class libstream
+public enum Direction
 {
-  // Stream Framing Protocol function definitions
-
-  public static native void STREAM_encode_frame(byte[] src, int srclen,
-    byte[] dst, int dstsize, IntByReference dstlen, IntByReference error);
-
-  public static native void STREAM_decode_frame(byte[] src, int srclen,
-    byte[] dst, int dstsize, IntByReference dstlen, IntByReference error);
-
-  public static native void STREAM_receive_frame(int fd, byte[] buf,
-    int bufsize, IntByReference framesize, IntByReference error);
-
-  public static native void STREAM_send_frame(int fd, byte[] buf,
-    int bufsize, IntByReference framesize, IntByReference error);
-
-  // Bind to libsimpleio.so
-
-  static
-  {
-    Native.register("simpleio");
-  }
+  Input,
+  Output
 }
-

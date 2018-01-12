@@ -18,43 +18,13 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// This binding relies on the Java Native Access library, available from:
-//
-// https://github.com/java-native-access/jna
+package com.munts.interfaces.ADC;
 
-package com.munts.libsimpleio;
+// Define an abstract interface for all ADC input objects
 
-import com.sun.jna.*;
-import com.sun.jna.ptr.*;
-
-public class libhidraw
+public interface Input
 {
-  // Raw HID device function definitions
+  int read();
 
-  public static native void HIDRAW_open(String name, IntByReference fd,
-    IntByReference error);
-
-  public static native void HIDRAW_open_id(int VID, int PID, IntByReference fd,
-    IntByReference error);
-
-  public static native void HIDRAW_close(int fd, IntByReference error);
-
-  public static native void HIDRAW_get_name(int fd, byte[] buf, int size,
-    IntByReference error);
-
-  public static native void HIDRAW_get_info(int fd, IntByReference bustype,
-    IntByReference vendor, IntByReference product, IntByReference error);
-
-  public static native void HIDRAW_send(int fd, byte[] buf, int size,
-    IntByReference count, IntByReference error);
-
-  public static native void HIDRAW_receive(int fd, byte[] buf, int size,
-    IntByReference count, IntByReference error);
-
-  // Bind to libsimpleio.so
-
-  static
-  {
-    Native.register("simpleio");
-  }
+  double voltage();
 }
