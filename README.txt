@@ -48,6 +48,7 @@ News
        microcontrollers.
      * 3 January 2018 -- Imported C++, C#, and Free Pascal interfaces and
        objects. Imported the .Net assembly libsimplio.dll.
+     * 12 January 2018 -- Inmported Ada and Java intefaces and objects.
 
 Documentation
 
