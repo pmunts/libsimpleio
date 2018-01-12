@@ -103,7 +103,7 @@ namespace IO.Remote
             cmd.payload[6] = (byte)(speed >> 16);
             cmd.payload[7] = (byte)(speed >> 8);
             cmd.payload[8] = (byte)(speed >> 0);
-            
+
             device.Dispatcher(cmd, resp);
         }
 
@@ -166,7 +166,7 @@ namespace IO.Remote
         /// operations: 0 to 65535.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read: 0 to 60.</param>
-        public void Transaction(byte[] cmd, int cmdlen, int delayus, 
+        public void Transaction(byte[] cmd, int cmdlen, int delayus,
             byte[] resp, int resplen)
         {
             // Validate parameters
