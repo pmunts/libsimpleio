@@ -36,6 +36,12 @@
    _END_STD_C for C++. Binding modules are provided for [4]Ada, [5]C#,
    [6]Java, and [7]Free Pascal.
 
+   Source code files for Ada, C++, C#, Java, and Free Pascal that define
+   OOP (Object Oriented Programming) classes for libsimpleio are also
+   provided. Since libsimpleio is intended for general utility, as a
+   matter of policy these classes will provide interface and device
+   services, but not any platform dependent services.
+
 News
 
      * 15 November 2017 -- Started writing libsimpleio unit tests. Added
@@ -48,7 +54,7 @@ News
        microcontrollers.
      * 3 January 2018 -- Imported C++, C#, and Free Pascal interfaces and
        objects. Imported the .Net assembly libsimplio.dll.
-     * 12 January 2018 -- Inmported Ada and Java intefaces and objects.
+     * 12 January 2018 -- Imported Ada and Java intefaces and objects.
 
 Documentation
 
