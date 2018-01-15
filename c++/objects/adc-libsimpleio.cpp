@@ -44,7 +44,7 @@ ADC_libsimpleio::InputClass::InputClass(unsigned chip, unsigned channel,
   this->offset = offset;
 }
 
-// Read methods
+// Methods
 
 int ADC_libsimpleio::InputClass::read(void)
 {
@@ -60,4 +60,16 @@ int ADC_libsimpleio::InputClass::read(void)
 double ADC_libsimpleio::InputClass::voltage(void)
 {
   return this->read()*this->stepsize/this->gain - this->offset;
+}
+
+// Operators
+
+ADC_libsimpleio::InputClass::operator int(void)
+{
+  return this->read();
+}
+
+ADC_libsimpleio::InputClass::operator double(void)
+{
+  return this->voltage();
 }

@@ -26,8 +26,8 @@
 #include <cstdint>
 #include <cstdlib>
 
-#include <adc.h>
-#include <i2c.h>
+#include <adc-interface.h>
+#include <i2c-interface.h>
 
 namespace ADS1015
 {
@@ -74,9 +74,17 @@ namespace ADS1015
     InputClass(Device dev, unsigned channel, unsigned range, double gain = 1.0,
       double offset = 0.0);
 
+    // ADC input methods
+
     virtual int read(void);
 
     virtual double voltage(void);
+
+    // ADC input operators
+
+    virtual operator int(void);
+
+    virtual operator double(void);
 
   private:
 

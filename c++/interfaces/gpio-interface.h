@@ -1,4 +1,4 @@
-// Abstract interface for PWM (Pulse Width Modulated) outputs
+// Abstract interface for GPIO pins
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,24 +20,32 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _PWM_H
-#define _PWM_H
+#ifndef _GPIO_H
+#define _GPIO_H
 
 namespace Interfaces
 {
-  struct PWM_Interface
+  struct GPIO_Interface
   {
-    // Duty cycle constants
+    // GPIO data direction constants
 
-    static constexpr double DUTYCYCLE_MIN = 0.0;
-    static constexpr double DUTYCYCLE_MAX = 100.0;
+    static const unsigned Input = 0;
+    static const unsigned Output = 1;
 
-    // PWM output methods
+    // GPIO methods
 
-    virtual void write(double dutycycle) = 0;
+    virtual bool read(void) = 0;
+
+    virtual void write(const bool state) = 0;
+
+    // GPIO operators
+
+    virtual operator bool(void) = 0;
+
+    virtual void operator =(const bool state) = 0;
   };
 
-  typedef PWM_Interface *PWM;
+  typedef GPIO_Interface *GPIO;
 }
 
 #endif

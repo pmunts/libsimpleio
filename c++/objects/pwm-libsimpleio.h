@@ -23,7 +23,7 @@
 #ifndef _PWM_LIBSIMPLEIO_H
 #define _PWM_LIBSIMPLEIO_H
 
-#include <pwm.h>
+#include <pwm-interface.h>
 
 struct PWM_libsimpleio: public Interfaces::PWM_Interface
 {
@@ -35,9 +35,13 @@ struct PWM_libsimpleio: public Interfaces::PWM_Interface
   PWM_libsimpleio(unsigned chip, unsigned pin, unsigned frequency,
     double dutycycle = 0.0, unsigned polarity = ActiveHigh);
 
-  // Write method
+  // PWM output methods
 
-  virtual void write(double dutycycle);
+  virtual void write(const double dutycycle);
+
+  // PWM output operators
+
+  virtual void operator =(const double dutycycle);
 
 private:
 

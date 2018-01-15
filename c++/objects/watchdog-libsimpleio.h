@@ -23,7 +23,7 @@
 #ifndef _WATCHDOG_LIBSIMPLEIO_H
 #define _WATCHDOG_LIBSIMPLEIO_H
 
-#include <watchdog.h>
+#include <watchdog-interface.h>
 
 struct Watchdog_libsimpleio: public Interfaces::Watchdog_Interface
 {

@@ -26,8 +26,8 @@
 #include <cstdint>
 #include <cstdlib>
 
-#include <dac.h>
-#include <spi.h>
+#include <dac-interface.h>
+#include <spi-interface.h>
 
 namespace MCP4822
 {
@@ -57,9 +57,17 @@ namespace MCP4822
     OutputClass(Device dev, unsigned channel, double gain = 1.0,
       double offset = 0.0);
 
-    virtual void write(int level);
+    // DAC output methods
 
-    virtual void write(double voltage);
+    virtual void write(const int level);
+
+    virtual void write(const double voltage);
+
+    // DAC output operators
+
+    virtual void operator =(const int level);
+
+    virtual void operator =(const double voltage);
 
   private:
 

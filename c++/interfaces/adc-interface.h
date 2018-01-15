@@ -1,4 +1,4 @@
-// Abstract interface for DAC (Digital to Analog Converter) outputs
+// Abstract interface for ADC (Analog to Digital Converter) inputs
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,19 +20,27 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _DAC_H
-#define _DAC_H
+#ifndef _ADC_H
+#define _ADC_H
 
 namespace Interfaces
 {
-  struct DAC_Interface
+  struct ADC_Interface
   {
-    virtual void write(int level) = 0;
+    // ADC input methods
 
-    virtual void write(double voltage) = 0;
+    virtual int read(void) = 0;
+
+    virtual double voltage(void) = 0;
+
+    // ADC input operators
+
+    virtual operator int(void) = 0;
+
+    virtual operator double(void) = 0;
   };
 
-  typedef DAC_Interface *DAC;
+  typedef ADC_Interface *ADC;
 }
 
 #endif

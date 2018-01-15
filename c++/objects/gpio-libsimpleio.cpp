@@ -46,7 +46,7 @@ GPIO_libsimpleio::GPIO_libsimpleio(unsigned pin, unsigned direction,
   this->fd = fd;
 }
 
-// Methods
+// GPIO Methods
 
 bool GPIO_libsimpleio::read(void)
 {
@@ -59,10 +59,22 @@ bool GPIO_libsimpleio::read(void)
   return state;
 }
 
-void GPIO_libsimpleio::write(bool state)
+void GPIO_libsimpleio::write(const bool state)
 {
   int32_t error;
 
   GPIO_write(this->fd, state, &error);
   if (error) throw error;
+}
+
+// GPIO operators
+
+GPIO_libsimpleio::operator bool(void)
+{
+  return this->read();
+}
+
+void GPIO_libsimpleio::operator =(const bool state)
+{
+  this->write(state);
 }

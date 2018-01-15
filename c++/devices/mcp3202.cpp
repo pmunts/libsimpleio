@@ -52,7 +52,7 @@ uint16_t MCP3202::DeviceClass::read(unsigned channel, bool differential)
   return (resp[0] << 4) + (resp[1] >> 4);
 }
 
-// Input class constructor
+// InputClass constructor
 
 MCP3202::InputClass::InputClass(Device dev, unsigned channel,
   bool differential, double reference, double gain, double offset)
@@ -70,7 +70,7 @@ MCP3202::InputClass::InputClass(Device dev, unsigned channel,
   this->offset = offset;
 }
 
-// Input class methods
+// InputClass methods
 
 int MCP3202::InputClass::read(void)
 {
@@ -80,4 +80,16 @@ int MCP3202::InputClass::read(void)
 double MCP3202::InputClass::voltage(void)
 {
   return double(read())*this->reference/double(Steps)/this->gain - this->offset;
+}
+
+// InputClass operators
+
+MCP3202::InputClass::operator int(void)
+{
+  return this->read();
+}
+
+MCP3202::InputClass::operator double(void)
+{
+  return this->voltage();
 }

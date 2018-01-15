@@ -23,7 +23,7 @@
 #ifndef _I2C_LIBSIMPLEIO_H
 #define _I2C_LIBSIMPLEIO_H
 
-#include <i2c.h>
+#include <i2c-interface.h>
 
 struct I2C_libsimpleio: public Interfaces::I2C_Interface
 {

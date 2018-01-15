@@ -46,13 +46,20 @@ PWM_libsimpleio::PWM_libsimpleio(unsigned chip, unsigned channel,
   this->period = period;
 }
 
-// Write method
+// PWM output methods
 
-void PWM_libsimpleio::write(double dutycycle)
+void PWM_libsimpleio::write(const double dutycycle)
 {
   const unsigned ontime = dutycycle/100.0*this->period;
   int error;
 
   PWM_write(this->fd, ontime, &error);
   if (error) throw(error);
+}
+
+// PWM output operators
+
+void PWM_libsimpleio::operator =(const double dutycycle)
+{
+  this->write(dutycycle);
 }

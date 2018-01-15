@@ -52,7 +52,7 @@ void MCP4822::DeviceClass::write(unsigned channel, int level)
   this->dev->Transaction(cmd, 2, 0, NULL, 0);
 }
 
-// Output class constructor
+// OutputClass constructor
 
 MCP4822::OutputClass::OutputClass(Device dev, unsigned channel,
   double gain, double offset)
@@ -68,16 +68,28 @@ MCP4822::OutputClass::OutputClass(Device dev, unsigned channel,
   this->offset = offset;
 }
 
-// Output class methods
+// OutputClass methods
 
-void MCP4822::OutputClass::write(int level)
+void MCP4822::OutputClass::write(const int level)
 {
   if ((level < 0) || (level >= int(Steps))) throw EINVAL;
 
   this->dev->write(this->channel, level);
 }
 
-void MCP4822::OutputClass::write(double voltage)
+void MCP4822::OutputClass::write(const double voltage)
 {
  OutputClass::write(uint16_t((voltage + this->offset)*1000));
+}
+
+// OutputClass operators
+
+void MCP4822::OutputClass::operator =(const int level)
+{
+  this->write(level);
+}
+
+void MCP4822::OutputClass::operator =(const double voltage)
+{
+  this->write(voltage);
 }

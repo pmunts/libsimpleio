@@ -52,7 +52,7 @@ uint16_t MCP3208::DeviceClass::read(unsigned channel, bool differential)
   return (resp[0] << 4) + (resp[1] >> 4);
 }
 
-// Input class constructor
+// InputClass constructor
 
 MCP3208::InputClass::InputClass(Device dev, unsigned channel,
   bool differential, double reference, double gain, double offset)
@@ -70,7 +70,7 @@ MCP3208::InputClass::InputClass(Device dev, unsigned channel,
   this->offset = offset;
 }
 
-// Input class methods
+// InputClass methods
 
 int MCP3208::InputClass::read(void)
 {
@@ -81,4 +81,16 @@ double MCP3208::InputClass::voltage(void)
 {
   return double(read())*this->reference/double(Steps)/this->gain -
     this->offset;
+}
+
+// InputClass operators
+
+MCP3208::InputClass::operator int(void)
+{
+  return this->read();
+}
+
+MCP3208::InputClass::operator double(void)
+{
+  return this->voltage();
 }

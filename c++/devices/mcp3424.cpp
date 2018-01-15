@@ -171,3 +171,15 @@ double MCP3424::InputClass::voltage(void)
   return double(this->read())/Steps[this->resolution]*2.048*Gains[this->range]/
     this->gain - this->offset;
 }
+
+// InputClass operators
+
+MCP3424::InputClass::operator int(void)
+{
+  return this->read();
+}
+
+MCP3424::InputClass::operator double(void)
+{
+  return this->voltage();
+}

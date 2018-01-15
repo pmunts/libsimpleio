@@ -26,8 +26,8 @@
 #include <cstdint>
 #include <cstdlib>
 
-#include <adc.h>
-#include <i2c.h>
+#include <adc-interface.h>
+#include <i2c-interface.h>
 
 namespace MCP3424
 {
@@ -64,9 +64,17 @@ namespace MCP3424
     InputClass(Device dev, unsigned channel, unsigned resolution,
       unsigned range, double gain = 1.0, double offset = 0.0);
 
+    // ADC input methods
+
     virtual int read(void);
 
     virtual double voltage(void);
+
+    // ADC input operators
+
+    virtual operator int(void);
+
+    virtual operator double(void);
 
   private:
 

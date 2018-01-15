@@ -35,7 +35,11 @@ namespace Interfaces
 
     // Motor output methods
 
-    virtual void write(double velocity) = 0;
+    virtual void write(const double velocity) = 0;
+
+    // Motor output operators
+
+    virtual void operator =(const double velocity) = 0;
   };
 
   typedef Motor_Interface *Motor;

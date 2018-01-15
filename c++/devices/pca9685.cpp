@@ -149,11 +149,23 @@ bool PCA9685::GPIO::read(void)
   return memcmp(regdata, GPIO_OFF, sizeof(regdata));
 }
 
-void PCA9685::GPIO::write(bool state)
+void PCA9685::GPIO::write(const bool state)
 {
   // Write the channel settings
 
   this->dev->WriteChannel(this->channel, state ? GPIO_ON : GPIO_OFF);
+}
+
+// GPIO operators
+
+PCA9685::GPIO::operator bool(void)
+{
+  return this->read();
+}
+
+void PCA9685::GPIO::operator =(const bool state)
+{
+  this->write(state);
 }
 
 //*****************************************************************************
@@ -182,9 +194,9 @@ PCA9685::PWM::PWM(Device dev, unsigned channel, double dutycycle)
   this->channel = channel;
 }
 
-// PWM methods
+// PWM output methods
 
-void PCA9685::PWM::write(double dutycycle)
+void PCA9685::PWM::write(const double dutycycle)
 {
   // Validate parameters
 
@@ -199,6 +211,13 @@ void PCA9685::PWM::write(double dutycycle)
   // Write the channel settings
 
   this->dev->WriteChannel(channel, data);
+}
+
+// PWM output operators
+
+void PCA9685::PWM::operator =(const double dutycycle)
+{
+  this->write(dutycycle);
 }
 
 //*****************************************************************************
@@ -228,7 +247,9 @@ PCA9685::Servo::Servo(Device dev, unsigned channel, double position)
   this->channel = channel;
 }
 
-void PCA9685::Servo::write(double position)
+// Servo output methods
+
+void PCA9685::Servo::write(const double position)
 {
   // Validate parameters
 
@@ -244,4 +265,11 @@ void PCA9685::Servo::write(double position)
   // Write the channel settings
 
   this->dev->WriteChannel(channel, data);
+}
+
+// Servo output operators
+
+void PCA9685::Servo::operator =(const double position)
+{
+  this->write(position);
 }

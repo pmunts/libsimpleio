@@ -23,7 +23,7 @@
 #ifndef _ADC_LIBSIMPLEIO_H
 #define _ADC_LIBSIMPLEIO_H
 
-#include <adc.h>
+#include <adc-interface.h>
 
 namespace ADC_libsimpleio
 {
@@ -32,9 +32,17 @@ namespace ADC_libsimpleio
     InputClass(unsigned chip, unsigned pin, unsigned resolution,
       double reference, double gain = 1.0, double offset = 0.0);
 
+    // ADC input methods
+
     virtual int read(void);
 
     virtual double voltage(void);
+
+    // ADC input operators
+
+    virtual operator int(void);
+
+    virtual operator double(void);
 
   private:
 

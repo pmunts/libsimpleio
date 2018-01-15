@@ -23,8 +23,8 @@
 #ifndef _SPI_LIBSIMPLEIO_H
 #define _SPI_LIBSIMPLEIO_H
 
+#include <spi-interface.h>
 #include <libspi.h>
-#include <spi.h>
 
 struct SPI_libsimpleio: public Interfaces::SPI_Interface
 {

@@ -26,10 +26,10 @@
 #include <cstdint>
 #include <cstdlib>
 
-#include <gpio.h>
-#include <i2c.h>
-#include <pwm.h>
-#include <servo.h>
+#include <gpio-interface.h>
+#include <i2c-interface.h>
+#include <pwm-interface.h>
+#include <servo-interface.h>
 
 namespace PCA9685
 {
@@ -76,7 +76,11 @@ namespace PCA9685
 
     virtual bool read(void);
 
-    virtual void write(bool state);
+    virtual void write(const bool state);
+
+    virtual operator bool(void);
+
+    virtual void operator =(const bool state);
 
   private:
 
@@ -91,7 +95,9 @@ namespace PCA9685
     PWM(Device dev, unsigned channel,
       double dutycycle = Interfaces::PWM_Interface::DUTYCYCLE_MIN);
 
-    virtual void write(double dutycycle);
+    virtual void write(const double dutycycle);
+
+    virtual void operator =(const double dutycycle);
 
   private:
 
@@ -106,7 +112,9 @@ namespace PCA9685
     Servo(Device dev, unsigned channel,
       double position = Interfaces::Servo_Interface::POSITION_NEUTRAL);
 
-    virtual void write(double position);
+    virtual void write(const double position);
+
+    virtual void operator =(const double position);
 
   private:
 

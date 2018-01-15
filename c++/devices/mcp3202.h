@@ -26,8 +26,8 @@
 #include <cstdint>
 #include <cstdlib>
 
-#include <adc.h>
-#include <spi.h>
+#include <adc-interface.h>
+#include <spi-interface.h>
 
 namespace MCP3202
 {
@@ -59,9 +59,17 @@ namespace MCP3202
     InputClass(Device dev, unsigned channel, bool differential = false,
       double reference = 3.3, double gain = 1.0, double offset = 0.0);
 
+    // ADC input methods
+
     virtual int read(void);
 
     virtual double voltage(void);
+
+    // ADC input operators
+
+    virtual operator int(void);
+
+    virtual operator double(void);
 
   private:
 

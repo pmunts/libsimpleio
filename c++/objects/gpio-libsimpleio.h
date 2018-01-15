@@ -23,7 +23,7 @@
 #ifndef _GPIO_LIBSIMPLEIO_H
 #define _GPIO_LIBSIMPLEIO_H
 
-#include <gpio.h>
+#include <gpio-interface.h>
 #include <libgpio.h>
 
 struct GPIO_libsimpleio: public Interfaces::GPIO_Interface
@@ -32,9 +32,17 @@ struct GPIO_libsimpleio: public Interfaces::GPIO_Interface
     unsigned edge = GPIO_EDGE_NONE,
     unsigned polarity = GPIO_POLARITY_ACTIVEHIGH);
 
+  // GPIO methods
+
   virtual bool read(void);
 
-  virtual void write(bool state);
+  virtual void write(const bool state);
+
+  // GPIO operators
+
+  virtual operator bool(void);
+
+  virtual void operator =(const bool state);
 
 private:
 

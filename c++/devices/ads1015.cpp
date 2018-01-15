@@ -121,3 +121,15 @@ double ADS1015::InputClass::voltage(void)
   return double(this->read())*Ranges[this->range]/double(Steps)*2.0/
     this->gain - this->offset;
 }
+
+// InputClass operators
+
+ADS1015::InputClass::operator int(void)
+{
+  return this->read();
+}
+
+ADS1015::InputClass::operator double(void)
+{
+  return this->voltage();
+}

@@ -35,7 +35,11 @@ namespace Interfaces
 
     // Servo output methods
 
-    virtual void write(double position) = 0;
+    virtual void write(const double position) = 0;
+
+    // Servo output operators
+
+    virtual void operator =(const double position) = 0;
   };
 
   typedef Servo_Interface *Servo;
