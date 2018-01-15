@@ -25,28 +25,27 @@
 
 #include <pwm-interface.h>
 
-struct PWM_libsimpleio: public Interfaces::PWM_Interface
+namespace libsimpleio::PWM
 {
-  static const unsigned ActiveLow  = 0;
-  static const unsigned ActiveHigh = 1;
+  struct Output_Class: public Interfaces::PWM::Output_Interface
+  {
+    static const unsigned ActiveLow  = 0;
+    static const unsigned ActiveHigh = 1;
 
-  // Constructor
+    // Constructor
 
-  PWM_libsimpleio(unsigned chip, unsigned pin, unsigned frequency,
-    double dutycycle = 0.0, unsigned polarity = ActiveHigh);
+    Output_Class(unsigned chip, unsigned pin, unsigned frequency,
+      double dutycycle = 0.0, unsigned polarity = ActiveHigh);
 
-  // PWM output methods
+    // PWM output methods
 
-  virtual void write(const double dutycycle);
+    virtual void write(const double dutycycle);
 
-  // PWM output operators
+  private:
 
-  virtual void operator =(const double dutycycle);
-
-private:
-
-  int fd;
-  unsigned period;
-};
+    int fd;
+    unsigned period;
+  };
+}
 
 #endif

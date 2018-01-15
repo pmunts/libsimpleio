@@ -23,12 +23,14 @@
 #include <cerrno>
 #include <fcntl.h>
 #include <cstdlib>
+
 #include <watchdog-libsimpleio.h>
 #include <libwatchdog.h>
 
 // Constructor
 
-Watchdog_libsimpleio::Watchdog_libsimpleio(const char *devname, unsigned timeout)
+libsimpleio::Watchdog::Timer_Class::Timer_Class(const char *devname,
+  unsigned timeout)
 {
   int32_t fd;
   int32_t error;
@@ -44,7 +46,7 @@ Watchdog_libsimpleio::Watchdog_libsimpleio(const char *devname, unsigned timeout
 
   // Change the watchdog timeout period, if requested
 
-  if (timeout != Watchdog_libsimpleio::DefaultTimeout)
+  if (timeout != libsimpleio::Watchdog::DefaultTimeout)
   {
     int32_t newtimeout;
 
@@ -57,7 +59,7 @@ Watchdog_libsimpleio::Watchdog_libsimpleio(const char *devname, unsigned timeout
 
 // Methods
 
-unsigned Watchdog_libsimpleio::GetTimeout(void)
+unsigned libsimpleio::Watchdog::Timer_Class::GetTimeout(void)
 {
   int32_t timeout;
   int32_t error;
@@ -68,7 +70,7 @@ unsigned Watchdog_libsimpleio::GetTimeout(void)
   return timeout;
 }
 
-unsigned Watchdog_libsimpleio::SetTimeout(unsigned timeout)
+unsigned libsimpleio::Watchdog::Timer_Class::SetTimeout(unsigned timeout)
 {
   int32_t newtimeout;
   int32_t error;
@@ -79,7 +81,7 @@ unsigned Watchdog_libsimpleio::SetTimeout(unsigned timeout)
   return timeout;
 }
 
-void Watchdog_libsimpleio::Kick(void)
+void libsimpleio::Watchdog::Timer_Class::Kick(void)
 {
   int32_t error;
 

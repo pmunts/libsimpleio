@@ -22,12 +22,14 @@
 
 #include <cerrno>
 #include <cstdlib>
+
 #include <spi-libsimpleio.h>
+#include <libspi.h>
 
 // Constructor
 
-SPI_libsimpleio::SPI_libsimpleio(const char *name, unsigned mode, unsigned wordsize,
-  unsigned speed, int csfd)
+libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
+  unsigned wordsize, unsigned speed, int csfd)
 {
   // Validate parameters
 
@@ -46,8 +48,8 @@ SPI_libsimpleio::SPI_libsimpleio(const char *name, unsigned mode, unsigned words
 
 // Methods
 
-void SPI_libsimpleio::Transaction(void *cmd, unsigned cmdlen, unsigned delayus,
-  void *resp, unsigned resplen)
+void libsimpleio::SPI::Device_Class::Transaction(void *cmd, unsigned cmdlen,
+  unsigned delayus, void *resp, unsigned resplen)
 {
   // Validate parameters
 

@@ -26,27 +26,24 @@
 #include <gpio-interface.h>
 #include <libgpio.h>
 
-struct GPIO_libsimpleio: public Interfaces::GPIO_Interface
+namespace libsimpleio::GPIO
 {
-  GPIO_libsimpleio(unsigned pin, unsigned direction, bool state = false,
-    unsigned edge = GPIO_EDGE_NONE,
-    unsigned polarity = GPIO_POLARITY_ACTIVEHIGH);
+  struct Pin_Class: public Interfaces::GPIO::Pin_Interface
+  {
+    Pin_Class(unsigned pin, unsigned direction, bool state = false,
+      unsigned edge = GPIO_EDGE_NONE,
+      unsigned polarity = GPIO_POLARITY_ACTIVEHIGH);
 
-  // GPIO methods
+    // GPIO methods
 
-  virtual bool read(void);
+    virtual bool read(void);
 
-  virtual void write(const bool state);
+    virtual void write(const bool state);
 
-  // GPIO operators
+  private:
 
-  virtual operator bool(void);
-
-  virtual void operator =(const bool state);
-
-private:
-
-  int fd;
-};
+    int fd;
+  };
+}
 
 #endif

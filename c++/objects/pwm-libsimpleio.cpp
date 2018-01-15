@@ -21,12 +21,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
+
 #include <pwm-libsimpleio.h>
 #include <libpwm.h>
 
 // Constructor
 
-PWM_libsimpleio::PWM_libsimpleio(unsigned chip, unsigned channel,
+libsimpleio::PWM::Output_Class::Output_Class(unsigned chip, unsigned channel,
   unsigned frequency, double dutycycle, unsigned polarity)
 {
   const unsigned period = 1.0E9/frequency;		// nanoseconds
@@ -48,18 +49,11 @@ PWM_libsimpleio::PWM_libsimpleio(unsigned chip, unsigned channel,
 
 // PWM output methods
 
-void PWM_libsimpleio::write(const double dutycycle)
+void libsimpleio::PWM::Output_Class::write(const double dutycycle)
 {
   const unsigned ontime = dutycycle/100.0*this->period;
   int error;
 
   PWM_write(this->fd, ontime, &error);
   if (error) throw(error);
-}
-
-// PWM output operators
-
-void PWM_libsimpleio::operator =(const double dutycycle)
-{
-  this->write(dutycycle);
 }

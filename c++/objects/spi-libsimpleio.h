@@ -26,18 +26,21 @@
 #include <spi-interface.h>
 #include <libspi.h>
 
-struct SPI_libsimpleio: public Interfaces::SPI_Interface
+namespace libsimpleio::SPI
 {
-  SPI_libsimpleio(const char *name, unsigned mode, unsigned wordsize,
-    unsigned speed, int csfd = SPI_CS_AUTO);
+  struct Device_Class: public Interfaces::SPI::Device_Interface
+  {
+    Device_Class(const char *name, unsigned mode, unsigned wordsize,
+      unsigned speed, int csfd = SPI_CS_AUTO);
 
-  virtual void Transaction(void *cmd, unsigned cmdline, unsigned delayus,
-    void *resp, unsigned resplen);
+    virtual void Transaction(void *cmd, unsigned cmdline, unsigned delayus,
+      void *resp, unsigned resplen);
 
-private:
+  private:
 
-  int fd;
-  int csfd;
-};
+    int fd;
+    int csfd;
+  };
+}
 
 #endif

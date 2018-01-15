@@ -20,12 +20,12 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _ADC_H
-#define _ADC_H
+#ifndef _ADC_INTERFACE_H
+#define _ADC_INTERFACE_H
 
-namespace Interfaces
+namespace Interfaces::ADC
 {
-  struct ADC_Interface
+  struct Input_Interface
   {
     // ADC input methods
 
@@ -35,12 +35,12 @@ namespace Interfaces
 
     // ADC input operators
 
-    virtual operator int(void) = 0;
+    operator int(void);
 
-    virtual operator double(void) = 0;
+    operator double(void);
   };
 
-  typedef ADC_Interface *ADC;
+  typedef Input_Interface *Input;
 }
 
 #endif

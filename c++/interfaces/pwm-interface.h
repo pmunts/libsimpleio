@@ -20,28 +20,28 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _PWM_H
-#define _PWM_H
+#ifndef _PWM_INTERFACE_H
+#define _PWM_INTERFACE_H
 
-namespace Interfaces
+namespace Interfaces::PWM
 {
-  struct PWM_Interface
+  // Duty cycle constants
+
+  static constexpr double DUTYCYCLE_MIN = 0.0;
+  static constexpr double DUTYCYCLE_MAX = 100.0;
+
+  struct Output_Interface
   {
-    // Duty cycle constants
-
-    static constexpr double DUTYCYCLE_MIN = 0.0;
-    static constexpr double DUTYCYCLE_MAX = 100.0;
-
     // PWM output methods
 
     virtual void write(const double dutycycle) = 0;
 
     // PWM output operators
 
-    virtual void operator =(const double dutycycle) = 0;
+    void operator =(const double dutycycle);
   };
 
-  typedef PWM_Interface *PWM;
+  typedef Output_Interface *Output;
 }
 
 #endif

@@ -23,13 +23,12 @@
 #include <cerrno>
 #include <cstdint>
 
-#include <libadc.h>
-
 #include <adc-libsimpleio.h>
+#include <libadc.h>
 
 // Constructor
 
-ADC_libsimpleio::InputClass::InputClass(unsigned chip, unsigned channel,
+libsimpleio::ADC::Input_Class::Input_Class(unsigned chip, unsigned channel,
   unsigned resolution, double reference, double gain, double offset)
 {
   int fd;
@@ -46,7 +45,7 @@ ADC_libsimpleio::InputClass::InputClass(unsigned chip, unsigned channel,
 
 // Methods
 
-int ADC_libsimpleio::InputClass::read(void)
+int libsimpleio::ADC::Input_Class::read(void)
 {
   int32_t sample;
   int32_t error;
@@ -57,19 +56,7 @@ int ADC_libsimpleio::InputClass::read(void)
   return sample;
 }
 
-double ADC_libsimpleio::InputClass::voltage(void)
+double libsimpleio::ADC::Input_Class::voltage(void)
 {
   return this->read()*this->stepsize/this->gain - this->offset;
-}
-
-// Operators
-
-ADC_libsimpleio::InputClass::operator int(void)
-{
-  return this->read();
-}
-
-ADC_libsimpleio::InputClass::operator double(void)
-{
-  return this->voltage();
 }

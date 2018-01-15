@@ -1,4 +1,4 @@
-// Abstract interface for I2C bus controllers
+// Abstract interface for GPIO pins
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,18 +20,14 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _I2C_INTERFACE_H
-#define _I2C_INTERFACE_H
+#include <gpio-interface.h>
 
-namespace Interfaces::I2C
+Interfaces::GPIO::Pin_Interface::operator bool(void)
 {
-  struct Bus_Interface
-  {
-    virtual void Transaction(unsigned slaveaddr, void *cmd, unsigned cmdlen,
-      void *resp, unsigned resplen) = 0;
-  };
-
-  typedef Bus_Interface *Bus;
+  return this->read();
 }
 
-#endif
+void Interfaces::GPIO::Pin_Interface::operator =(const bool state)
+{
+  this->write(state);
+}

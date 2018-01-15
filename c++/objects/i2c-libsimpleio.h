@@ -25,16 +25,19 @@
 
 #include <i2c-interface.h>
 
-struct I2C_libsimpleio: public Interfaces::I2C_Interface
+namespace libsimpleio::I2C
 {
-  I2C_libsimpleio(const char *filename);
+  struct Bus_Class: public Interfaces::I2C::Bus_Interface
+  {
+    Bus_Class(const char *filename);
 
-  virtual void Transaction(unsigned slaveaddr, void *cmd, unsigned cmdlen,
-    void *resp, unsigned resplen);
+    virtual void Transaction(unsigned slaveaddr, void *cmd, unsigned cmdlen,
+      void *resp, unsigned resplen);
 
-private:
+  private:
 
-  int fd;
-};
+    int fd;
+  };
+}
 
 #endif

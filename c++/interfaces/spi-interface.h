@@ -20,18 +20,18 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _SPI_H
-#define _SPI_H
+#ifndef _SPI_INTERFACE_H
+#define _SPI_INTERFACE_H
 
-namespace Interfaces
+namespace Interfaces::SPI
 {
-  struct SPI_Interface
+  struct Device_Interface
   {
     virtual void Transaction(void *cmd, unsigned cmdlen, unsigned delayus,
       void *resp, unsigned resplen) = 0;
   };
 
-  typedef SPI_Interface *SPI;
+  typedef Device_Interface *Device;
 }
 
 #endif

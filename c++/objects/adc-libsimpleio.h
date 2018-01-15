@@ -25,11 +25,11 @@
 
 #include <adc-interface.h>
 
-namespace ADC_libsimpleio
+namespace libsimpleio::ADC
 {
-  struct InputClass: public Interfaces::ADC_Interface
+  struct Input_Class: public Interfaces::ADC::Input_Interface
   {
-    InputClass(unsigned chip, unsigned pin, unsigned resolution,
+    Input_Class(unsigned chip, unsigned pin, unsigned resolution,
       double reference, double gain = 1.0, double offset = 0.0);
 
     // ADC input methods
@@ -37,12 +37,6 @@ namespace ADC_libsimpleio
     virtual int read(void);
 
     virtual double voltage(void);
-
-    // ADC input operators
-
-    virtual operator int(void);
-
-    virtual operator double(void);
 
   private:
 

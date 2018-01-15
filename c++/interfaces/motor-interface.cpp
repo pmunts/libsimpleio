@@ -1,4 +1,4 @@
-// Abstract interface for I2C bus controllers
+// Abstract interface for continuously variable motor control outputs
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,18 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _I2C_INTERFACE_H
-#define _I2C_INTERFACE_H
+#include <motor-interface.h>
 
-namespace Interfaces::I2C
+void Interfaces::Motor::Output_Interface::operator =(const double velocity)
 {
-  struct Bus_Interface
-  {
-    virtual void Transaction(unsigned slaveaddr, void *cmd, unsigned cmdlen,
-      void *resp, unsigned resplen) = 0;
-  };
-
-  typedef Bus_Interface *Bus;
+  this->write(velocity);
 }
-
-#endif

@@ -21,12 +21,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
+
 #include <gpio-libsimpleio.h>
+#include <libgpio.h>
 
 // Constructor
 
-GPIO_libsimpleio::GPIO_libsimpleio(unsigned pin, unsigned direction,
-    bool state, unsigned edge, unsigned polarity)
+libsimpleio::GPIO::Pin_Class::Pin_Class(unsigned pin,
+  unsigned direction, bool state, unsigned edge, unsigned polarity)
 {
   // Validate parameters
 
@@ -48,7 +50,7 @@ GPIO_libsimpleio::GPIO_libsimpleio(unsigned pin, unsigned direction,
 
 // GPIO Methods
 
-bool GPIO_libsimpleio::read(void)
+bool libsimpleio::GPIO::Pin_Class::read(void)
 {
   int32_t state;
   int32_t error;
@@ -59,22 +61,10 @@ bool GPIO_libsimpleio::read(void)
   return state;
 }
 
-void GPIO_libsimpleio::write(const bool state)
+void libsimpleio::GPIO::Pin_Class::write(const bool state)
 {
   int32_t error;
 
   GPIO_write(this->fd, state, &error);
   if (error) throw error;
-}
-
-// GPIO operators
-
-GPIO_libsimpleio::operator bool(void)
-{
-  return this->read();
-}
-
-void GPIO_libsimpleio::operator =(const bool state)
-{
-  this->write(state);
 }

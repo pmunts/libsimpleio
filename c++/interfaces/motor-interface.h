@@ -20,29 +20,29 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _MOTOR_H
-#define _MOTOR_H
+#ifndef _MOTOR_INTERFACE_H
+#define _MOTOR_INTERFACE_H
 
-namespace Interfaces
+namespace Interfaces::Motor
 {
-  struct Motor_Interface
+  // Normalized motor velocity constants
+
+  static constexpr double VELOCITY_MIN  = -1.0; // Full speed reverse
+  static constexpr double VELOCITY_MAX  = +1.0; // Full speed forward
+  static constexpr double VELOCITY_STOP = 0.0;
+
+  struct Output_Interface
   {
-    // Normalized motor velocity constants
-
-    static constexpr double VELOCITY_MIN  = -1.0; // Full speed reverse
-    static constexpr double VELOCITY_MAX  = +1.0; // Full speed forward
-    static constexpr double VELOCITY_STOP = 0.0;
-
     // Motor output methods
 
     virtual void write(const double velocity) = 0;
 
     // Motor output operators
 
-    virtual void operator =(const double velocity) = 0;
+    void operator =(const double velocity);
   };
 
-  typedef Motor_Interface *Motor;
+  typedef Output_Interface *Output;
 }
 
 #endif

@@ -25,23 +25,26 @@
 
 #include <watchdog-interface.h>
 
-struct Watchdog_libsimpleio: public Interfaces::Watchdog_Interface
+namespace libsimpleio::Watchdog
 {
-  static constexpr const char *DefaultDevice = "/dev/watchdog";
+  static const char *DefaultDevice = "/dev/watchdog";
   static const unsigned DefaultTimeout = 0;
 
-  Watchdog_libsimpleio(const char *devname = DefaultDevice,
-    unsigned timeout = DefaultTimeout);
+  struct Timer_Class: public Interfaces::Watchdog::Timer_Interface
+  {
+    Timer_Class(const char *devname = DefaultDevice,
+      unsigned timeout = DefaultTimeout);
 
-  virtual unsigned GetTimeout(void);
+    virtual unsigned GetTimeout(void);
 
-  virtual unsigned SetTimeout(unsigned timeout);
+    virtual unsigned SetTimeout(unsigned timeout);
 
-  virtual void Kick(void);
+    virtual void Kick(void);
 
-private:
+  private:
 
-  int fd;
-};
+    int fd;
+  };
+}
 
 #endif

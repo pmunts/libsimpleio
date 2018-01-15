@@ -20,12 +20,12 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _DAC_H
-#define _DAC_H
+#ifndef _DAC_INTERFACE_H
+#define _DAC_INTERFACE_H
 
-namespace Interfaces
+namespace Interfaces::DAC
 {
-  struct DAC_Interface
+  struct Output_Interface
   {
     // DAC output methods
 
@@ -35,12 +35,12 @@ namespace Interfaces
 
     // DAC output operators
 
-    virtual void operator =(const int level) = 0;
+    void operator =(const int level);
 
-    virtual void operator =(const double voltage) = 0;
+    void operator =(const double voltage);
   };
 
-  typedef DAC_Interface *DAC;
+  typedef Output_Interface *Output;
 }
 
 #endif

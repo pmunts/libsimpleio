@@ -20,12 +20,12 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _WATCHDOG_H
-#define _WATCHDOG_H
+#ifndef _WATCHDOG_INTERFACE_H
+#define _WATCHDOG_INTERFACE_H
 
-namespace Interfaces
+namespace Interfaces::Watchdog
 {
-  struct Watchdog_Interface
+  struct Timer_Interface
   {
     virtual unsigned GetTimeout(void) = 0;
 
@@ -34,7 +34,7 @@ namespace Interfaces
     virtual void Kick(void) = 0;
   };
 
-  typedef Watchdog_Interface *Watchdog;
+  typedef Timer_Interface *Timer;
 }
 
 #endif

@@ -20,32 +20,32 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _GPIO_H
-#define _GPIO_H
+#ifndef _GPIO_INTERFACE_H
+#define _GPIO_INTERFACE_H
 
-namespace Interfaces
+namespace Interfaces::GPIO
 {
-  struct GPIO_Interface
+  // GPIO data direction constants
+
+  static const unsigned INPUT = 0;
+  static const unsigned OUTPUT = 1;
+
+  struct Pin_Interface
   {
-    // GPIO data direction constants
-
-    static const unsigned Input = 0;
-    static const unsigned Output = 1;
-
-    // GPIO methods
+    // GPIO pin methods
 
     virtual bool read(void) = 0;
 
     virtual void write(const bool state) = 0;
 
-    // GPIO operators
+    // GPIO pin operators
 
-    virtual operator bool(void) = 0;
+    operator bool(void);
 
-    virtual void operator =(const bool state) = 0;
+    void operator =(const bool state);
   };
 
-  typedef GPIO_Interface *GPIO;
+  typedef Pin_Interface *Pin;
 }
 
 #endif

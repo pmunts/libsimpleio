@@ -23,12 +23,13 @@
 #include <cerrno>
 #include <fcntl.h>
 #include <cstdlib>
+
 #include <i2c-libsimpleio.h>
 #include <libi2c.h>
 
 // Constructor
 
-I2C_libsimpleio::I2C_libsimpleio(const char *filename)
+libsimpleio::I2C::Bus_Class::Bus_Class(const char *filename)
 {
   // Validate parameters
 
@@ -42,7 +43,7 @@ I2C_libsimpleio::I2C_libsimpleio(const char *filename)
 
 // Methods
 
-void I2C_libsimpleio::Transaction(unsigned slaveaddr, void *cmd,
+void libsimpleio::I2C::Bus_Class::Transaction(unsigned slaveaddr, void *cmd,
   unsigned cmdlen, void *resp, unsigned resplen)
 {
   // Validate parameters
