@@ -22,9 +22,9 @@
 
 #include <dac-interface.h>
 
-void Interfaces::DAC::Output_Interface::operator =(const int level)
+void Interfaces::DAC::Output_Interface::operator =(const int sample)
 {
-  this->write(level);
+  this->write(sample);
 }
 
 void Interfaces::DAC::Output_Interface::operator =(const double voltage)

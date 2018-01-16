@@ -29,13 +29,13 @@ namespace Interfaces::DAC
   {
     // DAC output methods
 
-    virtual void write(const int level) = 0;
+    virtual void write(const int sample) = 0;
 
     virtual void write(const double voltage) = 0;
 
     // DAC output operators
 
-    void operator =(const int level);
+    void operator =(const int sample);
 
     void operator =(const double voltage);
   };
