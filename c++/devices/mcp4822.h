@@ -40,7 +40,7 @@ namespace MCP4822
   {
     Device_Class(Interfaces::SPI::Device dev);
 
-    void write(unsigned channel, int level);
+    void write(unsigned channel, int sample);
 
   private:
 
@@ -53,12 +53,12 @@ namespace MCP4822
 
   struct Output_Class: public Interfaces::DAC::Output_Interface
   {
-    Output_Class(Device dev, unsigned channel, double gain = 1.0,
-      double offset = 0.0);
+    Output_Class(Device dev, unsigned channel, double reference = 3.3,
+      double gain = 1.0, double offset = 0.0);
 
     // DAC output methods
 
-    virtual void write(const int level);
+    virtual void write(const int sample);
 
     virtual void write(const double voltage);
 
@@ -66,6 +66,7 @@ namespace MCP4822
 
     Device dev;
     unsigned channel;
+    double reference;
     double gain;
     double offset;
   };

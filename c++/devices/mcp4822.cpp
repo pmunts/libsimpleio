@@ -37,17 +37,17 @@ MCP4822::Device_Class::Device_Class(Interfaces::SPI::Device dev)
 
 // Device class methods
 
-void MCP4822::Device_Class::write(unsigned channel, int level)
+void MCP4822::Device_Class::write(unsigned channel, int sample)
 {
   // Validate parameters
 
   if (channel >= MaxChannels) throw EINVAL;
-  if ((level < 0) || (level >= int(Steps))) throw EINVAL;
+  if ((sample < 0) || (sample >= int(Steps))) throw EINVAL;
 
   uint8_t cmd[2];
 
-  cmd[0] = 0x10 + (channel << 7) + (level >> 8);
-  cmd[1] = level & 0xFF;
+  cmd[0] = 0x10 + (channel << 7) + (sample >> 8);
+  cmd[1] = sample & 0xFF;
 
   this->dev->Transaction(cmd, 2, 0, nullptr, 0);
 }
@@ -55,7 +55,7 @@ void MCP4822::Device_Class::write(unsigned channel, int level)
 // Output_Class constructor
 
 MCP4822::Output_Class::Output_Class(Device dev, unsigned channel,
-  double gain, double offset)
+  double reference, double gain, double offset)
 {
   // Validate parameters
 
@@ -64,22 +64,26 @@ MCP4822::Output_Class::Output_Class(Device dev, unsigned channel,
 
   this->dev = dev;
   this->channel = channel;
+  this->reference = reference;
   this->gain = gain;
   this->offset = offset;
 }
 
 // Output_Class methods
 
-void MCP4822::Output_Class::write(const int level)
+void MCP4822::Output_Class::write(const int sample)
 {
   // Validate parameters
 
-  if ((level < 0) || (level >= int(Steps))) throw EINVAL;
+  if ((sample < 0) || (sample >= int(Steps))) throw EINVAL;
 
-  this->dev->write(this->channel, level);
+  this->dev->write(this->channel, sample);
 }
 
 void MCP4822::Output_Class::write(const double voltage)
 {
- Output_Class::write(uint16_t((voltage + this->offset)*1000));
+  double VDAC = (voltage - this->offset)/this->gain;
+  uint16_t sample = VDAC/this->reference*double(Steps);
+
+  Output_Class::write(sample);
 }
