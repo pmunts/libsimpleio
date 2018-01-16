@@ -21,6 +21,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
+
 #include <mcp3424.h>
 
 // Define some sign extending functions
@@ -53,22 +54,22 @@ static int SignExtend18(unsigned n)
   return w.x;
 }
 
-// DeviceClass constructor
+// Device_Class constructor
 
-MCP3424::DeviceClass::DeviceClass(Interfaces::I2C bus, unsigned addr)
+MCP3424::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
 {
   // Validate parameters
 
-  if (bus == NULL) throw EINVAL;
+  if (bus == nullptr) throw EINVAL;
   if (addr > 127) throw EINVAL;
 
   this->bus = bus;
   this->addr = addr;
 }
 
-// DeviceClass read() method
+// Device_Class read() method
 
-int MCP3424::DeviceClass::read(unsigned channel, unsigned resolution,
+int MCP3424::Device_Class::read(unsigned channel, unsigned resolution,
   unsigned range)
 {
   // Validate parameters
@@ -80,7 +81,7 @@ int MCP3424::DeviceClass::read(unsigned channel, unsigned resolution,
   // Issue command to begin a conversion
 
   uint8_t cmd[1] = { uint8_t(0x80 + (channel << 5) + (resolution << 2) + range) };
-  this->bus->Transaction(this->addr, cmd, sizeof(cmd), NULL, 0);
+  this->bus->Transaction(this->addr, cmd, sizeof(cmd), nullptr, 0);
 
   // Process results
 
@@ -92,7 +93,7 @@ int MCP3424::DeviceClass::read(unsigned channel, unsigned resolution,
 
       do
       {
-        this->bus->Transaction(this->addr, NULL, 0, resp, sizeof(resp));
+        this->bus->Transaction(this->addr, nullptr, 0, resp, sizeof(resp));
       } while (resp[sizeof(resp)-1] & 0x80);
 
       return SignExtend12((resp[0] << 8) + resp[1]);
@@ -105,7 +106,7 @@ int MCP3424::DeviceClass::read(unsigned channel, unsigned resolution,
 
       do
       {
-        this->bus->Transaction(this->addr, NULL, 0, resp, sizeof(resp));
+        this->bus->Transaction(this->addr, nullptr, 0, resp, sizeof(resp));
       } while (resp[sizeof(resp)-1] & 0x80);
 
       return SignExtend14((resp[0] << 8) + resp[1]);
@@ -118,7 +119,7 @@ int MCP3424::DeviceClass::read(unsigned channel, unsigned resolution,
 
       do
       {
-        this->bus->Transaction(this->addr, NULL, 0, resp, sizeof(resp));
+        this->bus->Transaction(this->addr, nullptr, 0, resp, sizeof(resp));
       } while (resp[sizeof(resp)-1] & 0x80);
 
       return SignExtend16((resp[0] << 8) + resp[1]);
@@ -131,7 +132,7 @@ int MCP3424::DeviceClass::read(unsigned channel, unsigned resolution,
 
       do
       {
-        this->bus->Transaction(this->addr, NULL, 0, resp, sizeof(resp));
+        this->bus->Transaction(this->addr, nullptr, 0, resp, sizeof(resp));
       } while (resp[sizeof(resp)-1] & 0x80);
 
       return SignExtend18((resp[0] << 16) + (resp[1] << 8) + resp[2]);
@@ -145,7 +146,7 @@ int MCP3424::DeviceClass::read(unsigned channel, unsigned resolution,
 
 // Analog input class constructor
 
-MCP3424::InputClass::InputClass(Device dev, unsigned channel,
+MCP3424::Input_Class::Input_Class(Device dev, unsigned channel,
   unsigned resolution, unsigned range, double gain, double offset)
 {
   this->dev = dev;
@@ -158,7 +159,7 @@ MCP3424::InputClass::InputClass(Device dev, unsigned channel,
 
 // Analog input class methods
 
-int MCP3424::InputClass::read(void)
+int MCP3424::Input_Class::read(void)
 {
   return dev->read(this->channel, this->resolution, this->range);
 }
@@ -166,20 +167,8 @@ int MCP3424::InputClass::read(void)
 static const int Steps[] = { 2048, 8192, 32768, 131072 };
 static const int Gains[] = { 1, 2, 4, 8 };
 
-double MCP3424::InputClass::voltage(void)
+double MCP3424::Input_Class::voltage(void)
 {
   return double(this->read())/Steps[this->resolution]*2.048*Gains[this->range]/
     this->gain - this->offset;
-}
-
-// InputClass operators
-
-MCP3424::InputClass::operator int(void)
-{
-  return this->read();
-}
-
-MCP3424::InputClass::operator double(void)
-{
-  return this->voltage();
 }

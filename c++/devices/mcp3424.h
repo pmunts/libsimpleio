@@ -24,7 +24,6 @@
 #define _MCP3424_H
 
 #include <cstdint>
-#include <cstdlib>
 
 #include <adc-interface.h>
 #include <i2c-interface.h>
@@ -43,25 +42,25 @@ namespace MCP3424
 
   // Device class
 
-  struct DeviceClass
+  struct Device_Class
   {
-    DeviceClass(Interfaces::I2C bus, unsigned addr);
+    Device_Class(Interfaces::I2C::Bus bus, unsigned addr);
 
     int read(unsigned channel, unsigned resolution, unsigned range);
 
   private:
 
-    Interfaces::I2C bus;
+    Interfaces::I2C::Bus bus;
     unsigned addr;
   };
 
-  typedef DeviceClass *Device;
+  typedef Device_Class *Device;
 
   // Analog input class
 
-  struct InputClass: public Interfaces::ADC_Interface
+  struct Input_Class: public Interfaces::ADC::Input_Interface
   {
-    InputClass(Device dev, unsigned channel, unsigned resolution,
+    Input_Class(Device dev, unsigned channel, unsigned resolution,
       unsigned range, double gain = 1.0, double offset = 0.0);
 
     // ADC input methods
@@ -69,12 +68,6 @@ namespace MCP3424
     virtual int read(void);
 
     virtual double voltage(void);
-
-    // ADC input operators
-
-    virtual operator int(void);
-
-    virtual operator double(void);
 
   private:
 

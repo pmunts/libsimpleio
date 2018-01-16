@@ -21,23 +21,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
+
 #include <mcp4822.h>
-#include <spi-libsimpleio.h>
 
 // Device class constructor
 
-MCP4822::DeviceClass::DeviceClass(const char *name)
+MCP4822::Device_Class::Device_Class(Interfaces::SPI::Device dev)
 {
   // Validate parameters
 
-  if (name == NULL) throw EINVAL;
+  if (dev == nullptr) throw EINVAL;
 
-  this->dev = new SPI_libsimpleio(name, 0, 8, 20000000);
+  this->dev = dev;
 }
 
 // Device class methods
 
-void MCP4822::DeviceClass::write(unsigned channel, int level)
+void MCP4822::Device_Class::write(unsigned channel, int level)
 {
   // Validate parameters
 
@@ -49,17 +49,17 @@ void MCP4822::DeviceClass::write(unsigned channel, int level)
   cmd[0] = 0x10 + (channel << 7) + (level >> 8);
   cmd[1] = level & 0xFF;
 
-  this->dev->Transaction(cmd, 2, 0, NULL, 0);
+  this->dev->Transaction(cmd, 2, 0, nullptr, 0);
 }
 
-// OutputClass constructor
+// Output_Class constructor
 
-MCP4822::OutputClass::OutputClass(Device dev, unsigned channel,
+MCP4822::Output_Class::Output_Class(Device dev, unsigned channel,
   double gain, double offset)
 {
   // Validate parameters
 
-  if (dev == NULL) throw EINVAL;
+  if (dev == nullptr) throw EINVAL;
   if (channel >= MaxChannels) throw EINVAL;
 
   this->dev = dev;
@@ -68,28 +68,18 @@ MCP4822::OutputClass::OutputClass(Device dev, unsigned channel,
   this->offset = offset;
 }
 
-// OutputClass methods
+// Output_Class methods
 
-void MCP4822::OutputClass::write(const int level)
+void MCP4822::Output_Class::write(const int level)
 {
+  // Validate parameters
+
   if ((level < 0) || (level >= int(Steps))) throw EINVAL;
 
   this->dev->write(this->channel, level);
 }
 
-void MCP4822::OutputClass::write(const double voltage)
+void MCP4822::Output_Class::write(const double voltage)
 {
- OutputClass::write(uint16_t((voltage + this->offset)*1000));
-}
-
-// OutputClass operators
-
-void MCP4822::OutputClass::operator =(const int level)
-{
-  this->write(level);
-}
-
-void MCP4822::OutputClass::operator =(const double voltage)
-{
-  this->write(voltage);
+ Output_Class::write(uint16_t((voltage + this->offset)*1000));
 }

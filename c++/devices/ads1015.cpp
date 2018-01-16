@@ -21,28 +21,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
+
 #include <ads1015.h>
 
 // Map full scale range enum to double
 
 static const double Ranges[] = { 6.144, 4.096, 2.048, 1.024, 0.512, 0.256 };
 
-// DeviceClass constructor
+// Device_Class constructor
 
-ADS1015::DeviceClass::DeviceClass(Interfaces::I2C bus, unsigned addr)
+ADS1015::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
 {
   // Validate parameters
 
-  if (bus == NULL) throw EINVAL;
+  if (bus == nullptr) throw EINVAL;
   if (addr > 127) throw EINVAL;
 
   this->bus = bus;
   this->addr = addr;
 }
 
-// DeviceClass ReadRegister() method
+// Device_Class ReadRegister() method
 
-uint16_t ADS1015::DeviceClass::ReadRegister(unsigned reg)
+uint16_t ADS1015::Device_Class::ReadRegister(unsigned reg)
 {
   // Validate parameters
 
@@ -58,9 +59,9 @@ uint16_t ADS1015::DeviceClass::ReadRegister(unsigned reg)
   return (resp[0] << 8) + resp[1];
 }
 
-// DeviceClass WriteRegister() method
+// Device_Class WriteRegister() method
 
-void ADS1015::DeviceClass::WriteRegister(unsigned reg, uint16_t value)
+void ADS1015::Device_Class::WriteRegister(unsigned reg, uint16_t value)
 {
   // Validate parameters
 
@@ -72,22 +73,22 @@ void ADS1015::DeviceClass::WriteRegister(unsigned reg, uint16_t value)
   cmd[1] = value / 256;
   cmd[2] = value % 256;
 
-  this->bus->Transaction(this->addr, cmd, 3, NULL, 0);
+  this->bus->Transaction(this->addr, cmd, 3, nullptr, 0);
 }
 
 // Permute the channel numbers so that the single ended channels are 0-3
 
 static const unsigned PermuteChannels[] = { 4, 5, 6, 7, 0, 1, 2, 3 };
 
-// InputClass constructor
+// Input_Class constructor
 
-ADS1015::InputClass::InputClass(Device dev, unsigned channel, unsigned range,
+ADS1015::Input_Class::Input_Class(Device dev, unsigned channel, unsigned range,
   double gain, double offset)
 {
   // Validate parameters
 
 
-  if (dev == NULL) throw EINVAL;
+  if (dev == nullptr) throw EINVAL;
   if (channel > Diff23) throw EINVAL;
   if (range > FSR256) throw EINVAL;
 
@@ -98,9 +99,9 @@ ADS1015::InputClass::InputClass(Device dev, unsigned channel, unsigned range,
   this->offset = offset;
 }
 
-// InputClass methods
+// Input_Class methods
 
-int ADS1015::InputClass::read(void)
+int ADS1015::Input_Class::read(void)
 {
   // Start conversion
 
@@ -116,20 +117,8 @@ int ADS1015::InputClass::read(void)
   return int16_t(this->dev->ReadRegister(CONVERSION))/16;
 }
 
-double ADS1015::InputClass::voltage(void)
+double ADS1015::Input_Class::voltage(void)
 {
   return double(this->read())*Ranges[this->range]/double(Steps)*2.0/
     this->gain - this->offset;
-}
-
-// InputClass operators
-
-ADS1015::InputClass::operator int(void)
-{
-  return this->read();
-}
-
-ADS1015::InputClass::operator double(void)
-{
-  return this->voltage();
 }

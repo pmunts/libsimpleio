@@ -24,7 +24,7 @@
 #include <cstring>
 #include <pca9685.h>
 
-// PCA9685 Register addresses -- Only a few are defined: Those that we
+// PCA9685 Register addresses -- Only a few are defined here: Those that we
 // will need below
 
 #define MODE1		0x00
@@ -32,14 +32,14 @@
 #define LED0_ON_L	0x06
 #define PRE_SCALE	0xFE
 
-// DeviceClass constructor
+// Device_Class constructor
 
-PCA9685::DeviceClass::DeviceClass(Interfaces::I2C bus, unsigned addr,
+PCA9685::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr,
   unsigned freq, unsigned clock)
 {
   // Validate parameters
 
-  if (bus == NULL) throw EINVAL;
+  if (bus == nullptr) throw EINVAL;
   if (addr > 127) throw EINVAL;
   if (clock > 50000000) throw EINVAL;
 
@@ -67,19 +67,19 @@ PCA9685::DeviceClass::DeviceClass(Interfaces::I2C bus, unsigned addr,
   WriteRegister(MODE2, 0x0C); // Totem-pole outputs, change on ACK
 }
 
-// DeviceClass methods
+// Device_Class methods
 
-void PCA9685::DeviceClass::WriteRegister(uint8_t regaddr, uint8_t regdata)
+void PCA9685::Device_Class::WriteRegister(uint8_t regaddr, uint8_t regdata)
 {
   uint8_t cmd[2];
 
   cmd[0] = regaddr;
   cmd[1] = regdata;
 
-  this->bus->Transaction(this->addr, cmd, sizeof(cmd), NULL, 0);
+  this->bus->Transaction(this->addr, cmd, sizeof(cmd), nullptr, 0);
 }
 
-void PCA9685::DeviceClass::ReadChannel(unsigned channel, uint8_t *regdata)
+void PCA9685::Device_Class::ReadChannel(unsigned channel, uint8_t *regdata)
 {
   // Validate parameters
 
@@ -92,7 +92,7 @@ void PCA9685::DeviceClass::ReadChannel(unsigned channel, uint8_t *regdata)
   this->bus->Transaction(this->addr, cmd, sizeof(cmd), regdata, 4);
 }
 
-void PCA9685::DeviceClass::WriteChannel(unsigned channel,
+void PCA9685::Device_Class::WriteChannel(unsigned channel,
   const uint8_t *regdata)
 {
   // Validate parameters
@@ -107,10 +107,10 @@ void PCA9685::DeviceClass::WriteChannel(unsigned channel,
   cmd[3] = regdata[2];
   cmd[4] = regdata[3];
 
-  this->bus->Transaction(this->addr, cmd, sizeof(cmd), NULL, 0);
+  this->bus->Transaction(this->addr, cmd, sizeof(cmd), nullptr, 0);
 }
 
-unsigned PCA9685::DeviceClass::frequency(void)
+unsigned PCA9685::Device_Class::frequency(void)
 {
   return this->freq;
 }
@@ -122,13 +122,14 @@ unsigned PCA9685::DeviceClass::frequency(void)
 static const uint8_t GPIO_ON[]  = { 0x00, 0x10, 0x00, 0x00 };
 static const uint8_t GPIO_OFF[] = { 0x00, 0x00, 0x00, 0x10 };
 
-// GPIO constructor
+// GPIO output constructor
 
-PCA9685::GPIO::GPIO(Device dev, unsigned channel, bool state)
+PCA9685::GPIO_Output_Class::GPIO_Output_Class(Device dev, unsigned channel,
+  bool state)
 {
   // Validate parameters
 
-  if (dev == NULL) throw EINVAL;
+  if (dev == nullptr) throw EINVAL;
   if (channel >= MaxChannels) throw EINVAL;
 
   // Write the channel settings
@@ -139,9 +140,9 @@ PCA9685::GPIO::GPIO(Device dev, unsigned channel, bool state)
   this->channel = channel;
 }
 
-// GPIO methods
+// GPIO output methods
 
-bool PCA9685::GPIO::read(void)
+bool PCA9685::GPIO_Output_Class::read(void)
 {
   uint8_t regdata[4];
 
@@ -149,37 +150,26 @@ bool PCA9685::GPIO::read(void)
   return memcmp(regdata, GPIO_OFF, sizeof(regdata));
 }
 
-void PCA9685::GPIO::write(const bool state)
+void PCA9685::GPIO_Output_Class::write(const bool state)
 {
   // Write the channel settings
 
   this->dev->WriteChannel(this->channel, state ? GPIO_ON : GPIO_OFF);
 }
 
-// GPIO operators
-
-PCA9685::GPIO::operator bool(void)
-{
-  return this->read();
-}
-
-void PCA9685::GPIO::operator =(const bool state)
-{
-  this->write(state);
-}
-
 //*****************************************************************************
 
 // PWM output constructor
 
-PCA9685::PWM::PWM(Device dev, unsigned channel, double dutycycle)
+PCA9685::PWM_Output_Class::PWM_Output_Class(Device dev, unsigned channel,
+  double dutycycle)
 {
   // Validate parameters
 
-  if (dev == NULL) throw EINVAL;
+  if (dev == nullptr) throw EINVAL;
   if (channel >= MaxChannels) throw EINVAL;
-  if (dutycycle < Interfaces::PWM_Interface::DUTYCYCLE_MIN) throw EINVAL;
-  if (dutycycle > Interfaces::PWM_Interface::DUTYCYCLE_MAX) throw EINVAL;
+  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw EINVAL;
+  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw EINVAL;
 
   // Calculate the channel settings for the desired duty cycle
 
@@ -196,12 +186,12 @@ PCA9685::PWM::PWM(Device dev, unsigned channel, double dutycycle)
 
 // PWM output methods
 
-void PCA9685::PWM::write(const double dutycycle)
+void PCA9685::PWM_Output_Class::write(const double dutycycle)
 {
   // Validate parameters
 
-  if (dutycycle < Interfaces::PWM_Interface::DUTYCYCLE_MIN) throw EINVAL;
-  if (dutycycle > Interfaces::PWM_Interface::DUTYCYCLE_MAX) throw EINVAL;
+  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw EINVAL;
+  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw EINVAL;
 
   // Calculate the channel settings for the desired duty cycle
 
@@ -213,25 +203,19 @@ void PCA9685::PWM::write(const double dutycycle)
   this->dev->WriteChannel(channel, data);
 }
 
-// PWM output operators
-
-void PCA9685::PWM::operator =(const double dutycycle)
-{
-  this->write(dutycycle);
-}
-
 //*****************************************************************************
 
 // Servo output constructor
 
-PCA9685::Servo::Servo(Device dev, unsigned channel, double position)
+PCA9685::Servo_Output_Class::Servo_Output_Class(Device dev, unsigned channel,
+  double position)
 {
   // Validate parameters
 
-  if (dev == NULL) throw EINVAL;
+  if (dev == nullptr) throw EINVAL;
   if (channel >= MaxChannels) throw EINVAL;
-  if (position < Interfaces::Servo_Interface::POSITION_MIN) throw EINVAL;
-  if (position > Interfaces::Servo_Interface::POSITION_MAX) throw EINVAL;
+  if (position < Interfaces::Servo::POSITION_MIN) throw EINVAL;
+  if (position > Interfaces::Servo::POSITION_MAX) throw EINVAL;
 
   // Calculate the channel settings for the desired position
 
@@ -249,12 +233,12 @@ PCA9685::Servo::Servo(Device dev, unsigned channel, double position)
 
 // Servo output methods
 
-void PCA9685::Servo::write(const double position)
+void PCA9685::Servo_Output_Class::write(const double position)
 {
   // Validate parameters
 
-  if (position < Interfaces::Servo_Interface::POSITION_MIN) throw EINVAL;
-  if (position > Interfaces::Servo_Interface::POSITION_MAX) throw EINVAL;
+  if (position < Interfaces::Servo::POSITION_MIN) throw EINVAL;
+  if (position > Interfaces::Servo::POSITION_MAX) throw EINVAL;
 
   // Calculate the channel settings for the desired position
 
@@ -265,11 +249,4 @@ void PCA9685::Servo::write(const double position)
   // Write the channel settings
 
   this->dev->WriteChannel(channel, data);
-}
-
-// Servo output operators
-
-void PCA9685::Servo::operator =(const double position)
-{
-  this->write(position);
 }

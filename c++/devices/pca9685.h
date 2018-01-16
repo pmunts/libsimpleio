@@ -24,7 +24,6 @@
 #define _PCA9685_H
 
 #include <cstdint>
-#include <cstdlib>
 
 #include <gpio-interface.h>
 #include <i2c-interface.h>
@@ -37,9 +36,9 @@ namespace PCA9685
 
   // PCA9685 device class
 
-  struct DeviceClass
+  struct Device_Class
   {
-    DeviceClass(Interfaces::I2C bus, unsigned addr, unsigned freq = 50,
+    Device_Class(Interfaces::I2C::Bus bus, unsigned addr, unsigned freq = 50,
       unsigned clock = 0);
 
     // Read the 4-byte PCA9685 output channel settings block
@@ -56,31 +55,27 @@ namespace PCA9685
 
   private:
 
-    Interfaces::I2C bus;
+    Interfaces::I2C::Bus bus;
     unsigned addr;
     unsigned freq;
 
-    // Write a single PCA9685 register -- Only used in the DeviceClass
+    // Write a single PCA9685 register -- Only used in the Device_Class
     // constructor
 
     void WriteRegister(uint8_t regaddr, uint8_t regdata);
   };
 
-  typedef DeviceClass *Device;
+  typedef Device_Class *Device;
 
   // PCA9685 GPIO output class
 
-  struct GPIO: public Interfaces::GPIO_Interface
+  struct GPIO_Output_Class: public Interfaces::GPIO::Pin_Interface
   {
-    GPIO(Device dev, unsigned channel, bool state = false);
+    GPIO_Output_Class(Device dev, unsigned channel, bool state = false);
 
     virtual bool read(void);
 
     virtual void write(const bool state);
-
-    virtual operator bool(void);
-
-    virtual void operator =(const bool state);
 
   private:
 
@@ -90,14 +85,12 @@ namespace PCA9685
 
   // PCA9685 PWM output class
 
-  struct PWM: public Interfaces::PWM_Interface
+  struct PWM_Output_Class: public Interfaces::PWM::Output_Interface
   {
-    PWM(Device dev, unsigned channel,
-      double dutycycle = Interfaces::PWM_Interface::DUTYCYCLE_MIN);
+    PWM_Output_Class(Device dev, unsigned channel,
+      double dutycycle = Interfaces::PWM::DUTYCYCLE_MIN);
 
     virtual void write(const double dutycycle);
-
-    virtual void operator =(const double dutycycle);
 
   private:
 
@@ -107,14 +100,12 @@ namespace PCA9685
 
   // PCA9685 servo output class
 
-  struct Servo: public Interfaces::Servo_Interface
+  struct Servo_Output_Class: public Interfaces::Servo::Output_Interface
   {
-    Servo(Device dev, unsigned channel,
-      double position = Interfaces::Servo_Interface::POSITION_NEUTRAL);
+    Servo_Output_Class(Device dev, unsigned channel,
+      double position = Interfaces::Servo::POSITION_NEUTRAL);
 
     virtual void write(const double position);
-
-    virtual void operator =(const double position);
 
   private:
 

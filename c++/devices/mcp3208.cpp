@@ -21,23 +21,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
+
 #include <mcp3208.h>
-#include <spi-libsimpleio.h>
 
 // Device class constructor
 
-MCP3208::DeviceClass::DeviceClass(const char *name)
+MCP3208::Device_Class::Device_Class(Interfaces::SPI::Device dev)
 {
   // Validate parameters
 
-  if (name == NULL) throw EINVAL;
+  if (dev == nullptr) throw EINVAL;
 
-  this->dev = new SPI_libsimpleio(name, 0, 8, 1000000);
+  this->dev = dev;
 }
 
 // Device class methods
 
-uint16_t MCP3208::DeviceClass::read(unsigned channel, bool differential)
+uint16_t MCP3208::Device_Class::read(unsigned channel, bool differential)
 {
   // Validate parameters
 
@@ -52,14 +52,14 @@ uint16_t MCP3208::DeviceClass::read(unsigned channel, bool differential)
   return (resp[0] << 4) + (resp[1] >> 4);
 }
 
-// InputClass constructor
+// Input_Class constructor
 
-MCP3208::InputClass::InputClass(Device dev, unsigned channel,
+MCP3208::Input_Class::Input_Class(Device dev, unsigned channel,
   bool differential, double reference, double gain, double offset)
 {
   // Validate parameters
 
-  if (dev == NULL) throw EINVAL;
+  if (dev == nullptr) throw EINVAL;
   if (channel >= MaxChannels) throw EINVAL;
 
   this->dev = dev;
@@ -70,27 +70,15 @@ MCP3208::InputClass::InputClass(Device dev, unsigned channel,
   this->offset = offset;
 }
 
-// InputClass methods
+// Input_Class methods
 
-int MCP3208::InputClass::read(void)
+int MCP3208::Input_Class::read(void)
 {
   return this->dev->read(this->channel, this->differential);
 }
 
-double MCP3208::InputClass::voltage(void)
+double MCP3208::Input_Class::voltage(void)
 {
-  return double(read())*this->reference/double(Steps)/this->gain -
+  return double(this->read())*this->reference/double(Steps)/this->gain -
     this->offset;
-}
-
-// InputClass operators
-
-MCP3208::InputClass::operator int(void)
-{
-  return this->read();
-}
-
-MCP3208::InputClass::operator double(void)
-{
-  return this->voltage();
 }

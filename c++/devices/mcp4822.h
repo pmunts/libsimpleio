@@ -24,7 +24,6 @@
 #define _MCP4822_H
 
 #include <cstdint>
-#include <cstdlib>
 
 #include <dac-interface.h>
 #include <spi-interface.h>
@@ -37,24 +36,24 @@ namespace MCP4822
 
   // MCP4822 device class
 
-  struct DeviceClass
+  struct Device_Class
   {
-    DeviceClass(const char *name);
+    Device_Class(Interfaces::SPI::Device dev);
 
     void write(unsigned channel, int level);
 
   private:
 
-    Interfaces::SPI dev;
+    Interfaces::SPI::Device dev;
   };
 
-  typedef DeviceClass *Device;
+  typedef Device_Class *Device;
 
   // MCP4822 analog output class
 
-  struct OutputClass: public Interfaces::DAC_Interface
+  struct Output_Class: public Interfaces::DAC::Output_Interface
   {
-    OutputClass(Device dev, unsigned channel, double gain = 1.0,
+    Output_Class(Device dev, unsigned channel, double gain = 1.0,
       double offset = 0.0);
 
     // DAC output methods
@@ -62,12 +61,6 @@ namespace MCP4822
     virtual void write(const int level);
 
     virtual void write(const double voltage);
-
-    // DAC output operators
-
-    virtual void operator =(const int level);
-
-    virtual void operator =(const double voltage);
 
   private:
 

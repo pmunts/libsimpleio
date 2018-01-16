@@ -24,7 +24,6 @@
 #define _MCP3202_H
 
 #include <cstdint>
-#include <cstdlib>
 
 #include <adc-interface.h>
 #include <spi-interface.h>
@@ -39,24 +38,24 @@ namespace MCP3202
 
   // MCP3202 device class
 
-  struct DeviceClass
+  struct Device_Class
   {
-    DeviceClass(const char *name);
+    Device_Class(Interfaces::SPI::Device dev);
 
     uint16_t read(unsigned channel, bool differential = SingleEnded);
 
   private:
 
-    Interfaces::SPI dev;
+    Interfaces::SPI::Device dev;
   };
 
-  typedef DeviceClass *Device;
+  typedef Device_Class *Device;
 
   // MCP3202 analog input class
 
-  struct InputClass: public Interfaces::ADC_Interface
+  struct Input_Class: public Interfaces::ADC::Input_Interface
   {
-    InputClass(Device dev, unsigned channel, bool differential = false,
+    Input_Class(Device dev, unsigned channel, bool differential = false,
       double reference = 3.3, double gain = 1.0, double offset = 0.0);
 
     // ADC input methods
@@ -64,12 +63,6 @@ namespace MCP3202
     virtual int read(void);
 
     virtual double voltage(void);
-
-    // ADC input operators
-
-    virtual operator int(void);
-
-    virtual operator double(void);
 
   private:
 
