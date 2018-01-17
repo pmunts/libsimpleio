@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
-#include <cstdlib>
 
 #include <spi-libsimpleio.h>
 #include <libspi.h>
@@ -33,7 +32,7 @@ libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
 {
   // Validate parameters
 
-  if (name == NULL) throw EINVAL;
+  if (name == nullptr) throw EINVAL;
   if (mode > 3) throw EINVAL;
 
   int32_t fd;
@@ -53,11 +52,11 @@ void libsimpleio::SPI::Device_Class::Transaction(void *cmd, unsigned cmdlen,
 {
   // Validate parameters
 
-  if ((cmd == NULL) && (resp == NULL)) throw EINVAL;
-  if ((cmd == NULL) && (cmdlen != 0)) throw EINVAL;
-  if ((cmd != NULL) && (cmdlen == 0)) throw EINVAL;
-  if ((resp == NULL) && (resplen != 0)) throw EINVAL;
-  if ((resp != NULL) && (resplen == 0)) throw EINVAL;
+  if ((cmd == nullptr) && (resp == nullptr)) throw EINVAL;
+  if ((cmd == nullptr) && (cmdlen != 0)) throw EINVAL;
+  if ((cmd != nullptr) && (cmdlen == 0)) throw EINVAL;
+  if ((resp == nullptr) && (resplen != 0)) throw EINVAL;
+  if ((resp != nullptr) && (resplen == 0)) throw EINVAL;
 
   int error;
 

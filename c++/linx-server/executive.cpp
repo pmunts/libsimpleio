@@ -42,7 +42,7 @@ void executive(int fd, int32_t *error)
     {
       case 0 :
         LookupCommand(cmd.Command, &handler);
-        if (handler == NULL)
+        if (handler == nullptr)
         {
 #ifdef __linux__
           syslog(LOG_ERR, "ERROR: Unrecognized command %04X", cmd.Command);

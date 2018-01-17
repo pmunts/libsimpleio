@@ -35,12 +35,12 @@ void AddCommand(uint16_t number, command_handler_t handler)
   CommandTable[number] = handler;
 }
 
-// Lookup command handler.  Return *handler=NULL if not found.
+// Lookup command handler.  Return *handler=nullptr if not found.
 
 void LookupCommand(uint16_t number, command_handler_t *handler)
 {
   if (CommandTable.find(number) == CommandTable.end())
-    *handler = NULL;
+    *handler = nullptr;
   else
     *handler = CommandTable[number];
 }

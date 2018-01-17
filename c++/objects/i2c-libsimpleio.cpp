@@ -21,8 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
-#include <fcntl.h>
-#include <cstdlib>
 
 #include <i2c-libsimpleio.h>
 #include <libi2c.h>
@@ -33,7 +31,7 @@ libsimpleio::I2C::Bus_Class::Bus_Class(const char *filename)
 {
   // Validate parameters
 
-  if (filename == NULL) throw EINVAL;
+  if (filename == nullptr) throw EINVAL;
 
   int fd = open(filename, O_RDWR);
   if (fd < 0) throw(errno);
@@ -49,11 +47,11 @@ void libsimpleio::I2C::Bus_Class::Transaction(unsigned slaveaddr, void *cmd,
   // Validate parameters
 
   if (slaveaddr > 127) throw EINVAL;
-  if ((cmd == NULL) && (resp == NULL)) throw EINVAL;
-  if ((cmd == NULL) && (cmdlen != 0)) throw EINVAL;
-  if ((cmd != NULL) && (cmdlen == 0)) throw EINVAL;
-  if ((resp == NULL) && (resplen != 0)) throw EINVAL;
-  if ((resp != NULL) && (resplen == 0)) throw EINVAL;
+  if ((cmd == nullptr) && (resp == nullptr)) throw EINVAL;
+  if ((cmd == nullptr) && (cmdlen != 0)) throw EINVAL;
+  if ((cmd != nullptr) && (cmdlen == 0)) throw EINVAL;
+  if ((resp == nullptr) && (resplen != 0)) throw EINVAL;
+  if ((resp != nullptr) && (resplen == 0)) throw EINVAL;
 
   int32_t error;
 

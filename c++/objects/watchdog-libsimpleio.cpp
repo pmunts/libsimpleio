@@ -21,8 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
-#include <fcntl.h>
-#include <cstdlib>
 
 #include <watchdog-libsimpleio.h>
 #include <libwatchdog.h>
@@ -37,7 +35,7 @@ libsimpleio::Watchdog::Timer_Class::Timer_Class(const char *devname,
 
   // Validate parameters
 
-  if (devname == NULL) throw EINVAL;
+  if (devname == nullptr) throw EINVAL;
 
   // Open the watchdog timer device
 

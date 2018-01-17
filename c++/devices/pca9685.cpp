@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <cerrno>
-#include <cstring>
 #include <pca9685.h>
 
 // PCA9685 Register addresses -- Only a few are defined here: Those that we

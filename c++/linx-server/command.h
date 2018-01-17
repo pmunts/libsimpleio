@@ -31,7 +31,7 @@ typedef void (*command_handler_t)(LINX_command_t *cmd, LINX_response_t *resp, in
 
 extern void AddCommand(uint16_t number, command_handler_t handler);
 
-// Lookup command handler.  Return *handler=NULL if not found.
+// Lookup command handler.  Return *handler=nullptr if not found.
 
 extern void LookupCommand(uint16_t number, command_handler_t *handler);
 
