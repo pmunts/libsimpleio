@@ -42,6 +42,9 @@
    matter of policy these classes will provide interface and device
    services, but not any platform dependent services.
 
+   Some platform specific libraries and test programs using libsimpleio
+   are available at: [8]http://git.munts.com/arm-linux-mcu/examples.
+
 News
 
      * 15 November 2017 -- Started writing libsimpleio unit tests. Added
@@ -50,23 +53,25 @@ News
      * 16 November 2017 -- Released C# bindings for libsimpleio.
      * 6 December 2017 -- Added functions STREAM_change_readfn() and
        STREAM_change_writefn() to replace read() and write inside
-       libstream. This is probably most useful with [8]LWIP on
+       libstream. This is probably most useful with [9]LWIP on
        microcontrollers.
      * 3 January 2018 -- Imported C++, C#, and Free Pascal interfaces and
        objects. Imported the .Net assembly libsimplio.dll.
-     * 12 January 2018 -- Imported Ada and Java intefaces and objects.
+     * 12 January 2018 -- Imported Ada and Java interfaces and objects.
+     * 17 January 2018 -- Extensively reworked the C++ interfaces and
+       objects.
 
 Documentation
 
    New The user manual for libsimpleio is available at:
-   [9]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [10]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-   [10]libsimpleio.html
+   [11]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [11]http://git.munts.com
+   The source code is available at: [12]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -100,7 +105,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [12]phil@munts.net
+   Questions or comments to Philip Munts [13]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -114,8 +119,9 @@ References
    5. https://docs.microsoft.com/en-us/dotnet/csharp
    6. http://git.munts.com/libsimpleio/java
    7. http://git.munts.com/libsimpleio/pascal
-   8. http://savannah.nongnu.org/projects/lwip
-   9. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  10. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  11. http://git.munts.com/
-  12. mailto:phil@munts.net
+   8. http://git.munts.com/arm-linux-mcu/examples
+   9. http://savannah.nongnu.org/projects/lwip
+  10. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  11. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  12. http://git.munts.com/
+  13. mailto:phil@munts.net
