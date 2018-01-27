@@ -52,6 +52,7 @@ namespace IO.Remote
     {
         private Device device;
         private int num;
+        private int nbits;
 
         /// <summary>
         /// Create a remote A/D input.
@@ -69,6 +70,8 @@ namespace IO.Remote
             if ((num < 0) || (num >= Device.MAX_CHANNELS))
                 throw new Exception("Invalid A/D input number");
 
+            // Dispatch command message
+
             Message cmd = new Message(0);
             Message resp = new Message();
 
@@ -77,6 +80,10 @@ namespace IO.Remote
             cmd.payload[2] = (byte)num;
 
             device.Dispatcher(cmd, resp);
+
+            // Save resolution from the response message
+
+            this.nbits = resp.payload[3];
         }
 
         /// <summary>
@@ -100,6 +107,17 @@ namespace IO.Remote
                     ((uint)(resp.payload[4]) << 16) +
                     ((uint)(resp.payload[5]) << 8) +
                     (uint)resp.payload[6]));
+            }
+        }
+
+        /// <summary>
+        /// Read-only property returning the number of bits of resolution.
+        /// </summary>
+        public int resolution
+        {
+            get
+            {
+                return this.nbits;
             }
         }
     }

@@ -34,6 +34,14 @@ namespace IO.Interfaces.ADC
         {
             get;
         }
+
+        /// <summary>
+        /// Read-only property returning the number of bits of resolution.
+        /// </summary>
+        int resolution
+        {
+            get;
+        }
     }
 
     /// <summary>
@@ -63,38 +71,13 @@ namespace IO.Interfaces.ADC
         /// <summary>
         /// Create an ADC voltage input.
         /// </summary>
-        /// <param name="inp">ADC input object.</param>
-        /// <param name="stepsize">ADC step size in volts.</param>
+        /// <param name="inp">ADC sample object.</param>
+        /// <param name="reference">ADC reference in volts.</param>
+        /// <param name="gain">ADC input gain in volts per volt.</param>
         /// <param name="offset">ADC input offset in volts.</param>
-        public Input(Sample inp, double stepsize,
+        public Input(Sample inp, double reference, double gain = 1.0,
             double offset = 0.0)
         {
-            if (stepsize <= 0.0)
-            {
-                throw new System.Exception("stepsize parameter is invalid");
-            }
-
-            this.inp = inp;
-            this.stepsize = stepsize;
-            this.offset = offset;
-        }
-
-        /// <summary>
-        /// Create an ADC voltage input.
-        /// </summary>
-        /// <param name="inp">ADC input object.</param>
-        /// <param name="resolution">ADC resolution in bits.</param>
-        /// <param name="reference">ADC reference in volts.</param>
-        /// <param name="gain">Analog input gain in volts per volt.</param>
-        /// <param name="offset">Analog input offset in volts.</param>
-        public Input(Sample inp, int resolution,
-            double reference, double gain = 1.0, double offset = 0.0)
-        {
-            if (resolution < 1)
-            {
-                throw new System.Exception("resolution parameter is invalid");
-            }
-
             if (reference == 0.0)
             {
                 throw new System.Exception("reference parameter is invalid");
@@ -106,7 +89,7 @@ namespace IO.Interfaces.ADC
             }
 
             this.inp = inp;
-            this.stepsize = reference / System.Math.Pow(2, resolution) / gain;
+            this.stepsize = reference / System.Math.Pow(2, inp.resolution) / gain;
             this.offset = offset;
         }
 

@@ -31,6 +31,7 @@ namespace libsimpleio.ADC
     public class Sample: IO.Interfaces.ADC.Sample
     {
         private int myfd;
+        private int nbits;
 
         /// <summary>
         /// Retrieve the subsystem name string for a Linux Industrial
@@ -58,7 +59,8 @@ namespace libsimpleio.ADC
         /// </summary>
         /// <param name="chip">ADC chip number.</param>
         /// <param name="channel">ADC channel number.</param>
-        public Sample(int chip, int channel)
+        /// <param name="resolution">Bits of resolution.</param>
+        public Sample(int chip, int channel, int resolution)
         {
             int error;
 
@@ -78,6 +80,8 @@ namespace libsimpleio.ADC
             {
                 throw new Exception("ADC_open() failed", error);
             }
+
+            this.nbits = resolution;
         }
 
         /// <summary>
@@ -98,6 +102,17 @@ namespace libsimpleio.ADC
                 }
 
                 return rawdata;
+            }
+        }
+
+        /// <summary>
+        /// Read-only property returning the number of bits of resolution.
+        /// </summary>
+        public int resolution
+        {
+            get
+            {
+                return this.nbits;
             }
         }
 
