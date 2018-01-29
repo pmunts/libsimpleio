@@ -42,7 +42,7 @@ EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 
 OSNAME		?= unknown
-PKGNAME		:= $(TOOLCHAIN_NAME)-libsimpleio
+PKGNAME		:= gcc-$(TOOLCHAIN_NAME)-libsimpleio
 PKGVERSION	:= $(shell date +%Y.%j)
 PKGARCH		:= all
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
