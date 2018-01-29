@@ -27,14 +27,17 @@
 
 // Constructor
 
-libsimpleio::I2C::Bus_Class::Bus_Class(const char *filename)
+libsimpleio::I2C::Bus_Class::Bus_Class(const char *name)
 {
   // Validate parameters
 
-  if (filename == nullptr) throw EINVAL;
+  if (name == nullptr) throw EINVAL;
 
-  int fd = open(filename, O_RDWR);
-  if (fd < 0) throw(errno);
+  int32_t fd;
+  int32_t error;
+
+  I2C_open(name, &fd, &error);
+  if (error) throw error;
 
   this->fd = fd;
 }

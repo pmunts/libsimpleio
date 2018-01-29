@@ -29,7 +29,7 @@ namespace libsimpleio::I2C
 {
   struct Bus_Class: public Interfaces::I2C::Bus_Interface
   {
-    Bus_Class(const char *filename);
+    Bus_Class(const char *name);
 
     virtual void Transaction(unsigned slaveaddr, void *cmd, unsigned cmdlen,
       void *resp, unsigned resplen);
