@@ -49,7 +49,8 @@ namespace libsimpleio.ADC
                 throw new Exception("Invalid chip number");
             }
 
-            libsimpleio.libADC.ADC_get_name(chip, name, name.Length, out error);
+            libsimpleio.libADC.ADC_get_name(chip, name, name.Capacity,
+                out error);
 
             return name.ToString();
         }

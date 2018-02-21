@@ -136,7 +136,8 @@ namespace libsimpleio.HID
                 System.Text.StringBuilder buf = new System.Text.StringBuilder(256);
                 int error;
 
-                libsimpleio.libHIDRaw.HIDRAW_get_name(this.fd, buf, buf.Length, out error);
+                libsimpleio.libHIDRaw.HIDRAW_get_name(this.fd, buf,
+                    buf.Capacity, out error);
 
                 if (error != 0)
                 {

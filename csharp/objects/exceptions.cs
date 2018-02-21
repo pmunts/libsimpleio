@@ -45,7 +45,7 @@ namespace libsimpleio.Exceptions
         public Exception(string message, int error)
         {
             System.Text.StringBuilder buf = new System.Text.StringBuilder(256);
-            libsimpleio.libLinux.LINUX_strerror(error, buf, buf.Length);
+            libsimpleio.libLinux.LINUX_strerror(error, buf, buf.Capacity);
             System.Console.WriteLine(message + ", " + buf.ToString());
         }
     }
