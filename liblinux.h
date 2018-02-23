@@ -25,6 +25,7 @@
 #define LIBLINUX_H
 
 #include <cplusplus.h>
+#include <poll.h>
 #include <stdint.h>
 #include <syslog.h>
 
