@@ -51,6 +51,11 @@ extern void LINUX_syslog(int32_t priority, const char *msg, int32_t *error);
 
 extern void LINUX_strerror(int32_t error, char *buf, int32_t bufsize);
 
+// Wait for an event on one or more files
+
+extern void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
+  int32_t *results, int32_t timeout, int32_t *error);
+
 /****************************************************************************/
 /*   The following helper functions should not be called directly.  They    */
 /*   will be wrapped for each type of I/O device and language binding.      */

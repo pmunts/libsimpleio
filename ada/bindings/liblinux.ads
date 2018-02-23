@@ -95,4 +95,24 @@ PACKAGE libLinux IS
     size     : Integer);
   PRAGMA Import(C, StrError, "LINUX_strerror");
 
+  TYPE FilesType   IS ARRAY (Natural RANGE <>) OF Integer;
+  TYPE EventsType  IS ARRAY (Natural RANGE <>) OF Integer;
+  TYPE ResultsType IS ARRAY (Natural RANGE <>) OF Integer;
+
+  POLLIN   : CONSTANT Integer := 16#0001#;
+  POLLPRI  : CONSTANT Integer := 16#0002#;
+  POLLOUT  : CONSTANT Integer := 16#0004#;
+  POLLERR  : CONSTANT Integer := 16#0008#;
+  POLLHUP  : CONSTANT Integer := 16#0010#;
+  POLLNVAL : CONSTANT Integer := 16#0020#;
+
+  PROCEDURE Poll
+   (numfiles : Integer;
+    files    : IN OUT FilesType;
+    events   : IN OUT EventsType;
+    results  : IN OUT ResultsType;
+    timeout  : Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, Poll, "LINUX_poll");
+
 END libLinux;

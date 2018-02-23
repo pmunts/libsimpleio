@@ -25,6 +25,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <grp.h>
+#include <poll.h>
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -171,6 +172,85 @@ void LINUX_strerror(int32_t error, char *buf, int32_t bufsize)
 
   memset(buf, 0, bufsize);
   strerror_r(error, buf, bufsize);
+}
+
+// Wait for an event on one or more files
+
+void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
+  int32_t *results, int32_t timeout, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (numfiles < 1)
+  {
+    *error = EINVAL;
+    ERRORMSG("numfiles argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (files == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("files argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (events == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("events argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (results == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("results argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+ // Prepare the poll request structure
+
+  struct pollfd fds[10];
+
+  int i;
+
+  for (i = 0; i < numfiles; i++)
+  {
+    fds[i].fd = files[i];
+    fds[i].events = events[i];
+    fds[i].revents = 0;
+  }
+
+  // Wait for something to happen
+
+  int count = poll(fds, numfiles, timeout);
+
+  // Timeout occurred
+
+  if (count == 0)
+  {
+    *error = EAGAIN;
+    return;
+  }
+
+  // An error occurred
+
+  if (count < 0)
+  {
+    *error = errno;
+    ERRORMSG("poll() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  // An event occurred
+
+  for (i = 0; i < numfiles; i++)
+    results[i] = fds[i].revents;
+
+  *error = 0;
 }
 
 // Open a file descriptor
