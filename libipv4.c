@@ -66,7 +66,7 @@ void IPV4_resolve(const char *name, int32_t *addr, int32_t *error)
     {
       case HOST_NOT_FOUND :
       case NO_ADDRESS :
-        *error = ENONET;
+        *error = EIO;
         break;
 
       case TRY_AGAIN :
