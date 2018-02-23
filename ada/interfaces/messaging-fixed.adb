@@ -22,7 +22,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH errno;
-WITH libEvent;
+WITH libLinux;
 
 PACKAGE BODY Messaging.Fixed IS
 
@@ -37,46 +37,30 @@ PACKAGE BODY Messaging.Fixed IS
     resp      : OUT Message;
     timeoutms : Natural) IS
 
-    error  : Integer;
-    fd     : Integer;
-    event  : Integer;
-    handle : Integer;
-
   BEGIN
     self.Send(cmd);
 
-    IF (timeoutms /= 0) AND (self.fd > 2) THEN
-      libEvent.Register(epfd, self.fd, libevent.EPOLLIN, 0, error);
+    IF (timeoutms /= 0) THEN
+      DECLARE
+        error   : Integer;
+        files   : LibLinux.FilesType(0 .. 0);
+        events  : LibLinux.EventsType(0 .. 0);
+        results : LibLinux.ResultsTYpe(0 .. 0);
+      BEGIN
+        files(0)   := self.fd;
+        events(0)  := LibLinux.POLLIN;
+        results(0) := 0;
 
-      IF (error /= 0) AND (error /= errno.EEXIST) THEN
-        RAISE Program_Error WITH "libEvent.Register() failed, " &
-          errno.strerror(error);
-      END IF;
+        LibLinux.Poll(1, files, events, results, timeoutms, error);
 
-      libEvent.Wait(epfd, fd, event, handle, timeoutms, error);
-
-      IF error /= 0 THEN
-        RAISE Program_Error WITH "libEvent.Wait() failed, " &
-          errno.strerror(error);
-      END IF;
-
-      libEvent.Unregister(epfd, self.fd, error);
-
-      IF error /= 0 THEN
-        RAISE Program_Error WITH "libEvent.Unregister() failed, " &
-          errno.strerror(error);
-      END IF;
+        IF error /= 0 THEN
+          RAISE Program_Error WITH "libEvent.Wait() failed, " &
+            errno.strerror(error);
+        END IF;
+      END;
     END IF;
 
     self.Receive(resp);
   END Transaction;
 
-  error : Integer;
-
-BEGIN
-  libEvent.Open(epfd, error);
-
-  IF error /= 0 THEN
-    RAISE Program_Error WITH "libEvent.Open() failed, " & errno.strerror(error);
-  END IF;
 END Messaging.Fixed;
