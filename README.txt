@@ -60,6 +60,7 @@ News
      * 12 January 2018 -- Imported Ada and Java interfaces and objects.
      * 17 January 2018 -- Extensively reworked the C++ interfaces and
        objects.
+     * 26 February 2018 -- Added LINUX_poll(), which wraps poll().
 
 Documentation
 
