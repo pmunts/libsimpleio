@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of liblinux</TITLE>
 </HEAD><BODY>
 <H1>liblinux</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 13 November 2017<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 26 February 2018<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -28,6 +28,8 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 13 November 2017<BR><A HREF="#
 
 <B>void LINUX_strerror(int32_t </B><I>error</I><B>, char *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>);</B>
 
+<B>void LINUX_poll(int32_t </B><I>numfiles</I><B>, int32_t *</B><I>files</I><B>, int32_t *</B><I>events</I><B>,</B>
+<B>  int32_t *</B><I>results</I><B>, int32_t </B><I>timeout</I><B>, int32_t *</B><I>error</I><B>);</B>
 </PRE>
 
 Link with
@@ -115,6 +117,44 @@ parameter.  A destination buffer address and size must be passed in the
 <I>buf</I> and <I>bufsize</I>
 
 parameters.
+<P>
+
+<B>LINUX_poll()</B>
+
+waits for events on an set of file descriptors.  The number of file descriptors
+is passed in the
+<I>numfiles</I>
+
+parameter.  An array of file descriptors is passed in the
+<I>files</I>
+
+parameter.  An array of requested events, using the same values as the
+<B>poll()</B>
+
+system library function, is passed in the
+<I>events</I>
+
+parameter.  The results for each file descriptor, also using the same values
+as the
+<B>poll()</B>
+
+system library function, will be returned in the
+<I>results</I>
+
+parameter.  A timeout in milliseconds may be passed in the
+<I>timeout</I>
+
+parameter.  A timeout of zero indicates an immediate return without waiting at all.
+A timeout of
+<B>-1</B>
+
+indicates waiting forever.  If the timeout expires without any
+event on any file descriptor occurring, then
+<I>error</I>
+
+will be set to
+<B>EAGAIN</B>.
+
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -147,6 +187,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 13:12:31 GMT, November 16, 2017
+Time: 13:53:09 GMT, February 26, 2018
 </BODY>
 </HTML>

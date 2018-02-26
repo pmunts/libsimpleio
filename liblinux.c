@@ -210,6 +210,13 @@ void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
     return;
   }
 
+  if (timeout < -1)
+  {
+    *error = EINVAL;
+    ERRORMSG("timeout argument is out of range", *error, __LINE__ - 3);
+    return;
+  }
+
  // Prepare the poll request structure
 
   struct pollfd fds[10];
