@@ -27,6 +27,10 @@ INTERFACE
   USES
     SysUtils;
 
+  CONST
+    DUTYCYCLE_MIN = 0.0;    { percent }
+    DUTYCYCLE_MAX = 100.0;  { percent }
+
   TYPE
 
     { Define an exception for PWM errors }

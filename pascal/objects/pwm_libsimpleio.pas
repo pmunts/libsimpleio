@@ -37,7 +37,7 @@ INTERFACE
        (chip      : Cardinal;
         channel   : Cardinal;
         frequency : Cardinal;
-        dutycycle : Real = 0.0;
+        dutycycle : Real = DUTYCYCLE_MIN;
         polarity  : Polarities = ActiveHigh);
 
       DESTRUCTOR Destroy; OVERRIDE;
@@ -71,12 +71,12 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-    IF (dutycycle < 0.0) OR (dutycycle > 100.0) THEN
+    IF (dutycycle < DUTYCYCLE_MIN) OR (dutycycle > DUTYCYCLE_MAX) THEN
       RAISE PWM_Error.create('ERROR: Invalid duty cycle parameter, ' +
         strerror(EINVAL));
 
     Self.period := Round(1.0E9/frequency);
-    ontime := Round(dutycycle/100.0*period);
+    ontime := Round(dutycycle/DUTYCYCLE_MAX*period);
 
     libPWM.Configure(chip, channel, period, ontime, Ord(polarity), error);
 
@@ -120,7 +120,7 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-    ontime := Round(dutycycle/100.0*Self.period);
+    ontime := Round(dutycycle/DUTYCYCLE_MAX*Self.period);
 
     libPWM.Write(Self.fd, ontime, error);
 
