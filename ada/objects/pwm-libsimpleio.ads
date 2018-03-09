@@ -41,7 +41,7 @@ PACKAGE PWM.libsimpleio IS
    (chip      : Natural;
     channel   : Natural;
     frequency : Positive;
-    dutycycle : PWM.DutyCycle := 0.0;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output;
 
   -- PWM output write method

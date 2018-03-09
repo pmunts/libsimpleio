@@ -29,6 +29,9 @@ PACKAGE PWM IS
 
   TYPE DutyCycle IS NEW Float RANGE 0.0 .. 100.0;
 
+  MinimumDutyCycle : CONSTANT DutyCycle := DutyCycle'First;
+  MaximumDutyCycle : CONSTANT DutyCycle := DutyCycle'Last;
+
   -- Instantiate text I/O package
 
   PACKAGE DutyCycle_IO IS NEW Ada.Text_IO.Float_IO(DutyCycle);

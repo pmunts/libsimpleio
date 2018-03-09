@@ -31,7 +31,7 @@ PACKAGE BODY PWM.libsimpleio IS
    (chip      : Natural;
     channel   : Natural;
     frequency : Positive;
-    dutycycle : PWM.DutyCycle := 0.0;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output IS
 
     fd     : Integer;
@@ -44,7 +44,7 @@ PACKAGE BODY PWM.libsimpleio IS
     -- The Linux kernel expects period and on-time values in nanoseconds
 
     period := Integer(1.0E9/Float(frequency));
-    ontime := Integer(Float(dutycycle/100.0)*Float(period));
+    ontime := Integer(Float(dutycycle/PWM.MaximumDutyCycle)*Float(period));
 
     libPWM.Configure(chip, channel, period, ontime, Polarities'Pos(polarity), error);
 
@@ -71,7 +71,7 @@ PACKAGE BODY PWM.libsimpleio IS
     error  : Integer;
 
   BEGIN
-    ontime := Integer(Float(dutycycle/100.0)*Float(self.period));
+    ontime := Integer(Float(dutycycle/PWM.MaximumDutyCycle)*Float(self.period));
 
     libPWM.Write(self.fd, ontime, error);
 
