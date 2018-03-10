@@ -44,6 +44,7 @@
 #define FILE_PERIOD	DIR_CHAN "/period"	// nanoseconds
 #define FILE_ONTIME	DIR_CHAN "/duty_cycle"	// nanoseconds
 #define FILE_UEVENT	DIR_CHAN "/uevent"
+#define SYMLINK_NAME	"/dev/pwm%d.%d"
 
 static uint64_t milliseconds(void)
 {
@@ -132,30 +133,58 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
       return;
     }
 
-    // Close th PWM chip export file
+    // Close the PWM chip export file
 
     close(fd);
 
-    // Wait for the PWM output channel directory to be created
+    // Wait for the PWM output channel device to be created
 
-    snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
+#ifdef WAIT_DEV_LINK
+    snprintf(filename, sizeof(filename), SYMLINK_NAME, chip, channel);
+#else
+    snprintf(filename, sizeof(filename), FILE_ONTIME, channel);
+#endif
 
     uint64_t start = milliseconds();
 
-    while (access(filename, W_OK))
+    while (access(filename, F_OK))
     {
-      if (milliseconds() - start > 500)
+      if (milliseconds() - start > 1000)
       {
         *error = EIO;
         ERRORMSG("Timed out waiting for PWM output export", *error,
           __LINE__ - 3);
         return;
       }
+
+      usleep(100000);
     }
   }
 
-#ifdef NOT_IMPLEMENTED_IN_KERNEL
-  // Disable the PWM output
+  // Write to period
+
+  snprintf(filename, sizeof(filename), FILE_PERIOD, chip, channel);
+
+  fd = open(filename, O_WRONLY);
+  if (fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("Cannot open period", *error, __LINE__ - 4);
+    return;
+  }
+
+  len = snprintf(buf, sizeof(buf), "%d\n", period);
+
+  if (write(fd, buf, len) < len)
+  {
+    *error = errno;
+    ERRORMSG("Cannot write to period", *error, __LINE__ - 3);
+    return;
+  }
+
+  close(fd);
+
+ // Disable the PWM output
 
   snprintf(filename, sizeof(filename), FILE_ENABLE, chip, channel);
 
@@ -222,30 +251,6 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   }
 
   close(fd);
-#endif
-
-  // Write to period
-
-  snprintf(filename, sizeof(filename), FILE_PERIOD, chip, channel);
-
-  fd = open(filename, O_WRONLY);
-  if (fd < 0)
-  {
-    *error = errno;
-    ERRORMSG("Cannot open period", *error, __LINE__ - 4);
-    return;
-  }
-
-  len = snprintf(buf, sizeof(buf), "%d\n", period);
-
-  if (write(fd, buf, len) < len)
-  {
-    *error = errno;
-    ERRORMSG("Cannot write to period", *error, __LINE__ - 3);
-    return;
-  }
-
-  close(fd);
 
   // Write to duty_cycle (which is actually the on time in nanosecods...)
 
@@ -277,9 +282,11 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
 void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 {
-  assert(error != NULL);
+  char filename[MAXPATHLEN];
 
   // Validate parameters
+
+  assert(error != NULL);
 
   if (chip < 0)
   {
@@ -302,7 +309,25 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
     return;
   }
 
-  char filename[MAXPATHLEN];
+  // Try to open the /dev/pwmx.y symlink first
+
+  snprintf(filename, sizeof(filename), SYMLINK_NAME, chip, channel);
+  
+  if (access(filename, F_OK))
+  {
+    *fd = open(filename, O_WRONLY);
+
+    if (*fd < 0)
+    {
+      *error = errno;
+      ERRORMSG("Cannot open duty_cycle", *error, __LINE__ - 4);
+    }
+
+    return;
+  }
+
+  // Otherwise try to open /sys/.../duty_cycle
+
   snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 
   *fd = open(filename, O_WRONLY);
