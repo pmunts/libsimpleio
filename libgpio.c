@@ -306,7 +306,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     }
   }
 
-#ifdef MAKE_GPIO_LINK
+#ifdef MAKE_DEV_LINK
   // Symlink /dev/gpioN to /sys/class/gpio/gpioN/value -- requires superuser
 
   char linkname[MAXPATHLEN];
