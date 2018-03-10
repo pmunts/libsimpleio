@@ -44,6 +44,7 @@
 #define DIRECTION	PINDIR  "/direction"
 #define EDGE		PINDIR  "/edge"
 #define VALUE		PINDIR  "/value"
+#define SYMLINK		"/dev/gpio%d"
 
 static uint64_t milliseconds(void)
 {
@@ -156,9 +157,13 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
       return;
     }
 
-    // Wait for the GPIO pin directory to be created
+    // Wait for the GPIO pin device to be created
 
+#ifdef WAIT_DEV_LINK
+    snprintf(buf, sizeof(buf), SYMLINK, pin);
+#else
     snprintf(buf, sizeof(buf), VALUE, pin);
+#endif
 
     start = milliseconds();
 
@@ -171,6 +176,8 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
           __LINE__ - 3);
         return;
       }
+
+      usleep(100000);
     }
   }
 
@@ -305,8 +312,8 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
   char linkname[MAXPATHLEN];
   char linktarget[MAXPATHLEN];
 
-  snprintf(linktarget, sizeof(linktarget), "/sys/class/gpio/gpio%d/value", pin);
-  snprintf(linkname, sizeof(linkname), "/dev/gpio%d", pin);
+  snprintf(linktarget, sizeof(linktarget), VALUE, pin);
+  snprintf(linkname, sizeof(linkname), SYMLINK, pin);
 
   if (access(linkname, F_OK))
   {
@@ -314,24 +321,6 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     {
       *error = errno;
       ERRORMSG("symlink() failed", *error, __LINE__ - 3);
-      return;
-    }
-  }
-#endif
-
-#ifdef WAIT_GPIO_LINK
-  // Wait for /dev/gpioN to be created by udev or mdev
-
-  snprintf(buf, sizeof(buf), "/dev/gpio%d", pin);
-
-  start = milliseconds();
-
-  while (access(buf, F_OK))
-  {
-    if (milliseconds() - start > 1000)
-    {
-      *error = EIO;
-      ERRORMSG("Timed out waiting for GPIO symlink", *error, __LINE__ - 3);
       return;
     }
   }
@@ -366,7 +355,7 @@ void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
   }
 
   memset(devname, 0, sizeof(devname));
-  snprintf(devname, sizeof(devname), "/dev/gpio%d", pin);
+  snprintf(devname, sizeof(devname), SYMLINK, pin);
 
   *fd = open(devname, O_RDWR);
   if (*fd < 0)

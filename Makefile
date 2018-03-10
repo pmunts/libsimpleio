@@ -22,7 +22,7 @@
 
 AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
-CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS) -DWAIT_GPIO_LINK
+CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS) -DWAIT_DEV_LINK
 
 ifeq ($(BOARDNAME),)
 # Definitions for compiling for native Linux
