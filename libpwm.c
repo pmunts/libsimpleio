@@ -142,7 +142,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 #ifdef WAIT_DEV_LINK
     snprintf(filename, sizeof(filename), SYMLINK_NAME, chip, channel);
 #else
-    snprintf(filename, sizeof(filename), FILE_ONTIME, channel);
+    snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 #endif
 
     uint64_t start = milliseconds();
@@ -275,6 +275,26 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
   close(fd);
 
+#ifdef MAKE_DEV_LINK
+  // Symlink /dev/pwmX.Y to /sys/.../duty_cycle -- requires superuser
+
+  char linkname[MAXPATHLEN];
+  char linktarget[MAXPATHLEN];
+
+  snprintf(linktarget, sizeof(linktarget), FILE_ONTIME, chip, channel);
+  snprintf(linkname, sizeof(linkname), SYMLINK_NAME, chip, channel);
+
+  if (access(linkname, F_OK))
+  {
+    if (symlink(linktarget, linkname))
+    {
+      *error = errno;
+      ERRORMSG("symlink() failed", *error, __LINE__ - 3);
+      return;
+    }
+  }
+#endif
+
   *error = 0;
 }
 
@@ -309,32 +329,19 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
     return;
   }
 
-  // Try to open the /dev/pwmx.y symlink first
+  memset(filename, 0, sizeof(filename));
 
+#if defined(MAKE_DEV_LINK) || defined(WAIT_DEV_LINK)
   snprintf(filename, sizeof(filename), SYMLINK_NAME, chip, channel);
-  
-  if (access(filename, F_OK))
-  {
-    *fd = open(filename, O_WRONLY);
-
-    if (*fd < 0)
-    {
-      *error = errno;
-      ERRORMSG("Cannot open duty_cycle", *error, __LINE__ - 4);
-    }
-
-    return;
-  }
-
-  // Otherwise try to open /sys/.../duty_cycle
-
+#else
   snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
+#endif
 
   *fd = open(filename, O_WRONLY);
   if (*fd < 0)
   {
     *error = errno;
-    ERRORMSG("Cannot open duty_cycle", *error, __LINE__ - 4);
+    ERRORMSG("open() failed", *error, __LINE__ - 4);
     return;
   }
 
@@ -375,7 +382,7 @@ void PWM_write(int32_t fd, int32_t ontime, int32_t *error)
   if (write(fd, buf, len) < len)
   {
     *error = errno;
-    ERRORMSG("Cannot write to duty_cycle", *error, __LINE__ - 3);
+    ERRORMSG("write() failed", *error, __LINE__ - 3);
     return;
   }
 
