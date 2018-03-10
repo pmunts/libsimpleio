@@ -138,7 +138,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     if (fd < 0)
     {
       *error = errno;
-      ERRORMSG("open() for " EXPORT " failed", *error, __LINE__ - 4);
+      ERRORMSG("open() failed", *error, __LINE__ - 4);
       return;
     }
 
@@ -333,12 +333,12 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
 void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
 {
-  assert(error != NULL);
-
-  char devname[MAXPATHLEN];
+  char filename[MAXPATHLEN];
   char buf[16];
 
   // Validate parameters
+
+  assert(error != NULL);
 
   if (pin < 0)
   {
@@ -354,10 +354,15 @@ void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
     return;
   }
 
-  memset(devname, 0, sizeof(devname));
-  snprintf(devname, sizeof(devname), SYMLINK, pin);
+  memset(filename, 0, sizeof(filename));
 
-  *fd = open(devname, O_RDWR);
+#if defined(MAKE_DEV_LINK) || defined(WAIT_DEV_LINK)
+  snprintf(filename, sizeof(filename), SYMLINK, pin);
+#else
+  snprintf(filename, sizeof(filename), VALUE, pin);
+#endif
+
+  *fd = open(filename, O_RDWR);
   if (*fd < 0)
   {
     *error = errno;
