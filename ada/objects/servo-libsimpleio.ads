@@ -36,7 +36,7 @@ PACKAGE Servo.libsimpleio IS
   FUNCTION Create
    (chip      : Natural;
     channel   : Natural;
-    frequency : Positive;
+    frequency : Positive := 50;
     position  : Servo.Position := Servo.NeutralPosition)
     RETURN Servo.Interfaces.Output;
 
