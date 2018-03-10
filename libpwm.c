@@ -39,12 +39,18 @@
 #define FILE_EXPORT	DIR_CHIP "/export"
 #define FILE_UNEXPORT	DIR_CHIP "/unexport"
 #define DIR_CHAN	DIR_CHIP "/pwm%d/"
+#if defined(MAKE_DEV_LINK) || defined(WAIT_DEV_LINK)
+#define DEV_LINK	"/dev/pwm%d.%d"
+#define FILE_ENABLE	DEV_LINK "/enable"
+#define FILE_ONTIME	DEV_LINK "/duty_cycle"	// nanoseconds
+#define FILE_PERIOD	DEV_LINK "/period"	// nanoseconds
+#define FILE_POLARITY	DEV_LINK "/polarity"	// "normal" or "inversed" [sic]
+#else
 #define FILE_ENABLE	DIR_CHAN "/enable"
-#define FILE_POLARITY	DIR_CHAN "/polarity"	// "normal" or "inversed" [sic]
-#define FILE_PERIOD	DIR_CHAN "/period"	// nanoseconds
 #define FILE_ONTIME	DIR_CHAN "/duty_cycle"	// nanoseconds
-#define FILE_UEVENT	DIR_CHAN "/uevent"
-#define SYMLINK_NAME	"/dev/pwm%d.%d"
+#define FILE_PERIOD	DIR_CHAN "/period"	// nanoseconds
+#define FILE_POLARITY	DIR_CHAN "/polarity"	// "normal" or "inversed" [sic]
+#endif
 
 static uint64_t milliseconds(void)
 {
@@ -105,7 +111,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
   // Export the PWM channel, if necessary
 
-  snprintf(filename, sizeof(filename), DIR_CHAN, chip, channel);
+  snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 
   if (access(filename, F_OK))
   {
@@ -139,11 +145,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
     // Wait for the PWM output channel device to be created
 
-#ifdef WAIT_DEV_LINK
-    snprintf(filename, sizeof(filename), SYMLINK_NAME, chip, channel);
-#else
     snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
-#endif
 
     uint64_t start = milliseconds();
 
@@ -276,13 +278,13 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   close(fd);
 
 #ifdef MAKE_DEV_LINK
-  // Symlink /dev/pwmX.Y to /sys/.../duty_cycle -- requires superuser
+  // Symlink /dev/pwmX.Y to /sys/class/pwmchipN/pwmN -- requires superuser
 
   char linkname[MAXPATHLEN];
   char linktarget[MAXPATHLEN];
 
-  snprintf(linktarget, sizeof(linktarget), FILE_ONTIME, chip, channel);
-  snprintf(linkname, sizeof(linkname), SYMLINK_NAME, chip, channel);
+  snprintf(linktarget, sizeof(linktarget), DIR_CHAN, chip, channel);
+  snprintf(linkname, sizeof(linkname), DEV_LINK, chip, channel);
 
   if (access(linkname, F_OK))
   {
@@ -330,12 +332,7 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
   }
 
   memset(filename, 0, sizeof(filename));
-
-#if defined(MAKE_DEV_LINK) || defined(WAIT_DEV_LINK)
-  snprintf(filename, sizeof(filename), SYMLINK_NAME, chip, channel);
-#else
   snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
-#endif
 
   *fd = open(filename, O_WRONLY);
   if (*fd < 0)
