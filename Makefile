@@ -109,9 +109,9 @@ ifeq ($(BOARDNAME),)
 # Native package for Debian Linux et al
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
 	mkdir -p				$(PKGDIR)/etc/udev/rules.d
-	install -cm 0644 udev/60-gpio.rules	$(PKGDIR)/etc/udev/rules.d
+	install -cm 0644 udev/*.rules		$(PKGDIR)/etc/udev/rules.d
 	mkdir -p				$(PKGDIR)/usr/local/libexec
-	install -cm 0755 udev/gpio-udev-helper	$(PKGDIR)/usr/local/libexec
+	install -cm 0755 udev/udev-helper-*	$(PKGDIR)/usr/local/libexec
 	chmod -R ugo-w $(PKGDIR)/etc
 else
 # Cross-compiled package for MuntsOS embedded Linux
