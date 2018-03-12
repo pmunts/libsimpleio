@@ -61,6 +61,7 @@ News
      * 17 January 2018 -- Extensively reworked the C++ interfaces and
        objects.
      * 26 February 2018 -- Added LINUX_poll(), which wraps poll().
+     * 12 March 2018 -- Reworked GPIO and PWM routines and udev rules.
 
 Documentation
 
