@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# udev helper script for creating and removing /dev/pwm-X:Y symlink
+# udev helper script for setting PWM output device permissions and
+# creating and removing the /dev/pwm-X:Y symlink
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
