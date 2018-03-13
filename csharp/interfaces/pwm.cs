@@ -1,4 +1,4 @@
-// Abstract interface for a PWM output
+// Abstract interface for PWM outputs
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace IO.Interfaces.PWM
     public interface Output
     {
         /// <summary>
-        /// Write-only PWM output duty cycle property.
+        /// Write-only PWM duty cycle property.
         /// </summary>
         double dutycycle
         {
