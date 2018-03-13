@@ -27,13 +27,15 @@
 
 namespace libsimpleio::PWM
 {
+  // PWM output polarity constants
+
+  const unsigned ActiveLow  = 0;
+  const unsigned ActiveHigh = 1;
+
+  // PWM output class definition
+
   struct Output_Class: public Interfaces::PWM::Output_Interface
   {
-    // PWM output polarity constants
-
-    static const unsigned ActiveLow  = 0;
-    static const unsigned ActiveHigh = 1;
-
     // Constructor
 
     Output_Class(unsigned chip, unsigned pin, unsigned frequency,
