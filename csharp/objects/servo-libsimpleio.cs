@@ -30,7 +30,6 @@ namespace libsimpleio.Servo
     public class Output: IO.Interfaces.Servo.Output
     {
         private int myfd;
-        private double lastpos;
 
         /// <summary>
         /// Constructor for a single servo output.
@@ -82,20 +81,13 @@ namespace libsimpleio.Servo
             {
                 throw new Exception("PWM_open() failed", error);
             }
-
-            this.lastpos = position;
         }
 
         /// <summary>
-        /// Read/Write property for getting or setting the PWM output duty cycle.
+        /// Write-only property for setting the PWM output duty cycle.
         /// </summary>
         public double position
         {
-            get
-            {
-                return this.lastpos;
-            }
-
             set
             {
                 if ((value < IO.Interfaces.Servo.Positions.Minimum) ||
@@ -104,7 +96,7 @@ namespace libsimpleio.Servo
                     throw new Exception("Invalid position");
                 }
 
-                int ontime = (int)(1500000.0 + 500000.0 * position);
+                int ontime = (int)(1500000.0 + 500000.0 * value);
                 int error;
 
                 libsimpleio.libPWM.PWM_write(this.myfd, ontime, out error);
@@ -113,8 +105,6 @@ namespace libsimpleio.Servo
                 {
                     throw new Exception("PWM_write() failed", error);
                 }
-
-                this.lastpos = value;
             }
         }
 

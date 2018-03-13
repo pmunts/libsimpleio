@@ -31,7 +31,6 @@ namespace libsimpleio.PWM
     {
         private int period;
         private int myfd;
-        private double lastduty;
 
         /// <summary>
         /// Constructor for a single PWM output.
@@ -90,20 +89,13 @@ namespace libsimpleio.PWM
             {
                 throw new Exception("PWM_open() failed", error);
             }
-
-            this.lastduty = dutycycle;
         }
 
         /// <summary>
-        /// Read/Write property for getting or setting the PWM output duty cycle.
+        /// Write-only property for setting the PWM output duty cycle.
         /// </summary>
         public double dutycycle
         {
-            get
-            {
-                return this.lastduty;
-            }
-
             set
             {
                 if ((value < IO.Interfaces.PWM.DutyCycles.Minimum) ||
@@ -121,8 +113,6 @@ namespace libsimpleio.PWM
                 {
                     throw new Exception("PWM_write() failed", error);
                 }
-
-                this.lastduty = value;
             }
         }
 
