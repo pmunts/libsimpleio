@@ -23,6 +23,27 @@
 namespace IO.Interfaces.Servo
 {
     /// <summary>
+    /// Servo position contants.
+    /// </summary>
+    public static class Positions
+    {
+        /// <summary>
+        /// Minimum displacement position.
+        /// </summary>
+        public const double Minimum = -1.0;
+
+        /// <summary>
+        /// Zero displacement (neutral) position.
+        /// </summary>
+        public const double Neutral = 0.0;
+
+        /// <summary>
+        /// Maximum displacement position.
+        /// </summary>
+        public const double Maximum = 1.0;
+    }
+
+    /// <summary>
     ///  Abstract interface for servo outputs.
     /// </summary>
     public interface Output

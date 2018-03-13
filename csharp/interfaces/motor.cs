@@ -23,6 +23,22 @@
 namespace IO.Interfaces.Motor
 {
     /// <summary>
+    /// Motor velocity contants.
+    /// </summary>
+    public static class Velocites
+    {
+        /// <summary>
+        /// Minimum velocity (full speed reverse).
+        /// </summary>
+        public const double Minimum = -1.0;
+
+        /// <summary>
+        /// Maximum velocity (full speed forward).
+        /// </summary>
+        public const double Maximum = 1.0;
+    }
+
+    /// <summary>
     ///  Abstract interface for variable speed motor outputs.
     /// </summary>
     public interface Output

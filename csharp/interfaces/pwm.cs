@@ -23,6 +23,22 @@
 namespace IO.Interfaces.PWM
 {
     /// <summary>
+    /// PWM dutycycle contants.
+    /// </summary>
+    public static class DutyCycles
+    {
+        /// <summary>
+        /// Minimum duty cycle (percent).
+        /// </summary>
+        public const double Minimum = 0.0;
+
+        /// <summary>
+        /// Maximum duty cycle (percent).
+        /// </summary>
+        public const double Maximum = 100.0;
+    }
+
+    /// <summary>
     ///  Abstract interface for PWM outputs.
     /// </summary>
     public interface Output
