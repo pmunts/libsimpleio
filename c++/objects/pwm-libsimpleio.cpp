@@ -30,12 +30,22 @@
 libsimpleio::PWM::Output_Class::Output_Class(unsigned chip, unsigned channel,
   unsigned frequency, double dutycycle, unsigned polarity)
 {
-  const unsigned period = 1.0E9/frequency;		// nanoseconds
-  const unsigned ontime = dutycycle/100.0*period;	// nanoseconds
-  int fd;
-  int error;
+  // Validate parameters
+
+  if (frequency < 1) throw(EINVAL);
+  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw(EINVAL);
+  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw(EINVAL);
+  if (polarity > libsimpleio::PWM::ActiveHigh) throw(EINVAL);
+
+  // Calculate the PWM pulse frequency and initial pulse width in nanoseconds
+
+  const unsigned period = 1.0E9/frequency;
+  const unsigned ontime = dutycycle/100.0*period;
 
   // Configure the PWM output
+
+  int fd;
+  int error;
 
   PWM_configure(chip, channel, period, ontime, polarity, &error);
   if (error) throw(error);
@@ -51,6 +61,11 @@ libsimpleio::PWM::Output_Class::Output_Class(unsigned chip, unsigned channel,
 
 void libsimpleio::PWM::Output_Class::write(const double dutycycle)
 {
+  // Validate parameters
+
+  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw(EINVAL);
+  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw(EINVAL);
+
   const unsigned ontime = dutycycle/100.0*this->period;
   int error;
 
