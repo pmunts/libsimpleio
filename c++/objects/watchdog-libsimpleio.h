@@ -27,8 +27,8 @@
 
 namespace libsimpleio::Watchdog
 {
-  const char *DefaultDevice = "/dev/watchdog";
-  const unsigned DefaultTimeout = 0;
+  static const char *DefaultDevice = "/dev/watchdog";
+  static const unsigned DefaultTimeout = 0;
 
   struct Timer_Class: public Interfaces::Watchdog::Timer_Interface
   {

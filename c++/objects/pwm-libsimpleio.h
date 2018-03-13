@@ -29,8 +29,8 @@ namespace libsimpleio::PWM
 {
   // PWM output polarity constants
 
-  const unsigned ActiveLow  = 0;
-  const unsigned ActiveHigh = 1;
+  static const unsigned ActiveLow  = 0;
+  static const unsigned ActiveHigh = 1;
 
   // PWM output class definition
 
