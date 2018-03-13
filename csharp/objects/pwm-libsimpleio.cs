@@ -55,7 +55,7 @@ namespace libsimpleio.PWM
                 throw new Exception("Invalid channel number");
             }
 
-            if (frequency < 0)
+            if (frequency < 1)
             {
                 throw new Exception("Invalid frequency");
             }
