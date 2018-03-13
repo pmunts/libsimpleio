@@ -32,10 +32,10 @@ libsimpleio::Servo::Output_Class::Output_Class(unsigned chip, unsigned channel,
 {
   // Validate parameters
 
-  if (frequency < 1) throw(EINVAL);
-  if (frequency > 400) throw(EINVAL);
-  if (position < Interfaces::Servo::POSITION_MIN) throw(EINVAL);
-  if (position > Interfaces::Servo::POSITION_MAX) throw(EINVAL);
+  if (frequency < 1) throw EINVAL;
+  if (frequency > 400) throw EINVAL;
+  if (position < Interfaces::Servo::POSITION_MIN) throw EINVAL;
+  if (position > Interfaces::Servo::POSITION_MAX) throw EINVAL;
 
   // Calculate the PWM pulse frequency and initial pulse width in nanoseconds
 
@@ -48,10 +48,10 @@ libsimpleio::Servo::Output_Class::Output_Class(unsigned chip, unsigned channel,
   int error;
 
   PWM_configure(chip, channel, period, ontime, PWM_POLARITY_ACTIVEHIGH, &error);
-  if (error) throw(error);
+  if (error) throw error;
 
   PWM_open(chip, channel, &fd, &error);
-  if (error) throw(error);
+  if (error) throw error;
 
   this->fd = fd;
 }
@@ -62,8 +62,8 @@ void libsimpleio::Servo::Output_Class::write(const double position)
 {
   // Validate parameters
 
-  if (position < Interfaces::Servo::POSITION_MIN) throw(EINVAL);
-  if (position > Interfaces::Servo::POSITION_MAX) throw(EINVAL);
+  if (position < Interfaces::Servo::POSITION_MIN) throw EINVAL;
+  if (position > Interfaces::Servo::POSITION_MAX) throw EINVAL;
 
   // Calculate the required PWM pulse width in nanoseconds
 
@@ -74,5 +74,5 @@ void libsimpleio::Servo::Output_Class::write(const double position)
   int error;
 
   PWM_write(this->fd, ontime, &error);
-  if (error) throw(error);
+  if (error) throw error;
 }

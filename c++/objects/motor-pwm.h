@@ -37,7 +37,7 @@ namespace Motor::PWM
     // One GPIO output for direction control
 
     Output_Class(Interfaces::PWM::Output speed, Interfaces::GPIO::Pin dir,
-      const double velocity = 0.0);
+      const double velocity = Interfaces::Motor::VELOCITY_STOP);
 
     // Type 2 motor control systems:
 
@@ -45,7 +45,7 @@ namespace Motor::PWM
     // One PWM output for counter-clockwise rotation
 
     Output_Class(Interfaces::PWM::Output cw, Interfaces::PWM::Output ccw,
-      const double velocity = 0.0);
+      const double velocity = Interfaces::Motor::VELOCITY_STOP);
 
     // Motor output methods
 

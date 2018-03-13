@@ -35,7 +35,7 @@ libsimpleio::ADC::Input_Class::Input_Class(unsigned chip, unsigned channel,
   int error;
 
   ADC_open(chip, channel, &fd, &error);
-  if (error) throw(error);
+  if (error) throw error;
 
   this->fd = fd;
   this->stepsize = reference/((double)(1 << resolution));
@@ -51,7 +51,7 @@ int libsimpleio::ADC::Input_Class::read(void)
   int32_t error;
 
   ADC_read(this->fd, &sample, &error);
-  if (error) throw(error);
+  if (error) throw error;
 
   return sample;
 }

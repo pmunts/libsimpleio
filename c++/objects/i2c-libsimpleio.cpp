@@ -59,5 +59,5 @@ void libsimpleio::I2C::Bus_Class::Transaction(unsigned slaveaddr, void *cmd,
   int32_t error;
 
   I2C_transaction(this->fd, slaveaddr, cmd, cmdlen, resp, resplen, &error);
-  if (error) throw(error);
+  if (error) throw error;
 }

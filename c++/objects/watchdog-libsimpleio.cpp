@@ -40,7 +40,7 @@ libsimpleio::Watchdog::Timer_Class::Timer_Class(const char *devname,
   // Open the watchdog timer device
 
   WATCHDOG_open(devname, &fd, &error);
-  if (error) throw(error);
+  if (error) throw error;
 
   // Change the watchdog timeout period, if requested
 
@@ -49,7 +49,7 @@ libsimpleio::Watchdog::Timer_Class::Timer_Class(const char *devname,
     int32_t newtimeout;
 
     WATCHDOG_set_timeout(fd, timeout, &newtimeout, &error);
-    if (error) throw(error);
+    if (error) throw error;
   }
 
   this->fd = fd;
@@ -63,7 +63,7 @@ unsigned libsimpleio::Watchdog::Timer_Class::GetTimeout(void)
   int32_t error;
 
   WATCHDOG_get_timeout(this->fd, &timeout, &error);
-  if (error) throw(error);
+  if (error) throw error;
 
   return timeout;
 }
@@ -74,7 +74,7 @@ unsigned libsimpleio::Watchdog::Timer_Class::SetTimeout(unsigned timeout)
   int32_t error;
 
   WATCHDOG_set_timeout(this->fd, timeout, &newtimeout, &error);
-  if (error) throw(error);
+  if (error) throw error;
 
   return timeout;
 }
@@ -84,5 +84,5 @@ void libsimpleio::Watchdog::Timer_Class::Kick(void)
   int32_t error;
 
   WATCHDOG_kick(this->fd, &error);
-  if (error) throw(error);
+  if (error) throw error;
 }

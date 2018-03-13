@@ -34,11 +34,10 @@ Motor::PWM::Output_Class::Output_Class(Interfaces::PWM::Output speed,
 {
   // Validate parameters
 
-  if (velocity < Interfaces::Motor::VELOCITY_MIN)
-    throw EINVAL;
-
-  if (velocity > Interfaces::Motor::VELOCITY_MAX)
-    throw EINVAL;
+  if (speed == nullptr) throw EINVAL;
+  if (dir == nullptr) throw EINVAL;
+  if (velocity < Interfaces::Motor::VELOCITY_MIN) throw EINVAL;
+  if (velocity > Interfaces::Motor::VELOCITY_MAX) throw EINVAL;
 
   this->dir = dir;
   this->pwm1 = speed;
@@ -57,11 +56,10 @@ Motor::PWM::Output_Class::Output_Class(Interfaces::PWM::Output cw,
 {
   // Validate parameters
 
-  if (velocity < Interfaces::Motor::VELOCITY_MIN)
-    throw EINVAL;
-
-  if (velocity > Interfaces::Motor::VELOCITY_MAX)
-    throw EINVAL;
+  if (cw == nullptr) throw EINVAL;
+  if (ccw == nullptr) throw EINVAL;
+  if (velocity < Interfaces::Motor::VELOCITY_MIN) throw EINVAL;
+  if (velocity > Interfaces::Motor::VELOCITY_MAX) throw EINVAL;
 
   this->dir = nullptr;
   this->pwm1 = cw;
@@ -76,13 +74,10 @@ void Motor::PWM::Output_Class::write(const double velocity)
 {
   // Validate parameters
 
-  if (velocity < Interfaces::Motor::VELOCITY_MIN)
-    throw EINVAL;
+  if (velocity < Interfaces::Motor::VELOCITY_MIN) throw EINVAL;
+  if (velocity > Interfaces::Motor::VELOCITY_MAX) throw EINVAL;
 
-  if (velocity > Interfaces::Motor::VELOCITY_MAX)
-    throw EINVAL;
-
-  if (velocity >= 0.0)
+  if (velocity >= Interfaces::Motor::VELOCITY_STOP)
   {
     if (this->dir == nullptr)
     {
