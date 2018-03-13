@@ -31,7 +31,7 @@ namespace libsimpleio.PWM
     {
         private int period;
         private int myfd;
-        private double duty;
+        private double lastduty;
 
         /// <summary>
         /// Constructor for a single PWM output.
@@ -42,7 +42,8 @@ namespace libsimpleio.PWM
         /// <param name="dutycycle">PWM output duty cycle (0.0 to 100.0).</param>
         /// <param name="polarity">PWM output polarity.</param>
         public Output(int chip, int channel, int frequency,
-            double dutycycle = 0.0, int polarity = libsimpleio.libPWM.ActiveHigh)
+            double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum,
+            int polarity = libsimpleio.libPWM.ActiveHigh)
         {
             if (chip < 0)
             {
@@ -71,7 +72,7 @@ namespace libsimpleio.PWM
                 throw new Exception("Invalid polarity");
             }
 
-            this.period = (int)(1E9 / frequency + 0.5);
+            this.period = (int)(1.0E9 / frequency);
             int ontime = (int)(dutycycle / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
             int error;
 
@@ -83,15 +84,14 @@ namespace libsimpleio.PWM
                 throw new Exception("PWM_configure() failed", error);
             }
 
-            libsimpleio.libPWM.PWM_open(chip, channel, out this.myfd,
-                out error);
+            libsimpleio.libPWM.PWM_open(chip, channel, out this.myfd, out error);
 
             if (error != 0)
             {
                 throw new Exception("PWM_open() failed", error);
             }
 
-            this.duty = dutycycle;
+            this.lastduty = dutycycle;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace libsimpleio.PWM
         {
             get
             {
-                return this.duty;
+                return this.lastduty;
             }
 
             set
@@ -112,7 +112,7 @@ namespace libsimpleio.PWM
                     throw new Exception("Invalid duty cycle");
                 }
 
-                int ontime = (int)(value / IO.Interfaces.PWM.DutyCycles.Maximum * this.period + 0.5);
+                int ontime = (int)(value / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
                 int error;
 
                 libsimpleio.libPWM.PWM_write(this.myfd, ontime, out error);
@@ -122,7 +122,7 @@ namespace libsimpleio.PWM
                     throw new Exception("PWM_write() failed", error);
                 }
 
-                this.duty = value;
+                this.lastduty = value;
             }
         }
 
