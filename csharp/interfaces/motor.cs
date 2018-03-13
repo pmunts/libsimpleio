@@ -25,7 +25,7 @@ namespace IO.Interfaces.Motor
     /// <summary>
     /// Motor velocity contants.
     /// </summary>
-    public static class Velocites
+    public static class Velocities
     {
         /// <summary>
         /// Minimum velocity (full speed reverse).
