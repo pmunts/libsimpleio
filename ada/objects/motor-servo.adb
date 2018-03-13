@@ -26,12 +26,9 @@ PACKAGE BODY Motor.Servo IS
    (output : Standard.Servo.Interfaces.Output;
     velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output IS
 
-    dev : ACCESS OutputSubclass;
-
   BEGIN
-    dev := NEW OutputSubclass'(output => output);
-    dev.Put(0.0);
-    RETURN dev;
+    output.Put(Standard.Servo.Position(velo));
+    RETURN NEW OutputSubclass'(output => output);
   END Create;
 
   PROCEDURE Put
