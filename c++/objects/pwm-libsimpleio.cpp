@@ -66,8 +66,12 @@ void libsimpleio::PWM::Output_Class::write(const double dutycycle)
   if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw(EINVAL);
   if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw(EINVAL);
 
+  // Calculate the required PWM pulse width in nanoseconds
+
   const unsigned ontime = dutycycle/100.0*this->period;
   int error;
+
+  // Set the PWM pulse width
 
   PWM_write(this->fd, ontime, &error);
   if (error) throw(error);
