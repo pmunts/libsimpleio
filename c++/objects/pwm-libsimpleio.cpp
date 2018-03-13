@@ -32,10 +32,10 @@ libsimpleio::PWM::Output_Class::Output_Class(unsigned chip, unsigned channel,
 {
   // Validate parameters
 
-  if (frequency < 1) throw(EINVAL);
-  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw(EINVAL);
-  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw(EINVAL);
-  if (polarity > libsimpleio::PWM::ActiveHigh) throw(EINVAL);
+  if (frequency < 1) throw EINVAL;
+  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw EINVAL;
+  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw EINVAL;
+  if (polarity > libsimpleio::PWM::ActiveHigh) throw EINVAL;
 
   // Calculate the PWM pulse frequency and initial pulse width in nanoseconds
 
@@ -48,10 +48,10 @@ libsimpleio::PWM::Output_Class::Output_Class(unsigned chip, unsigned channel,
   int error;
 
   PWM_configure(chip, channel, period, ontime, polarity, &error);
-  if (error) throw(error);
+  if (error) throw error;
 
   PWM_open(chip, channel, &fd, &error);
-  if (error) throw(error);
+  if (error) throw error;
 
   this->fd = fd;
   this->period = period;
@@ -63,8 +63,8 @@ void libsimpleio::PWM::Output_Class::write(const double dutycycle)
 {
   // Validate parameters
 
-  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw(EINVAL);
-  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw(EINVAL);
+  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw EINVAL;
+  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw EINVAL;
 
   // Calculate the required PWM pulse width in nanoseconds
 
@@ -74,5 +74,5 @@ void libsimpleio::PWM::Output_Class::write(const double dutycycle)
   // Set the PWM pulse width
 
   PWM_write(this->fd, ontime, &error);
-  if (error) throw(error);
+  if (error) throw error;
 }
