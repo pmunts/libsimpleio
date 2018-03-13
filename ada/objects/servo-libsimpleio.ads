@@ -54,7 +54,6 @@ PRIVATE
 
   TYPE OutputSubclass IS NEW Standard.Servo.Interfaces.OutputInterface WITH RECORD
     fd     : Integer;
-    period : Integer;
   END RECORD;
 
 END Servo.libsimpleio;

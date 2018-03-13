@@ -61,7 +61,7 @@ PACKAGE BODY Servo.libsimpleio IS
       RAISE Servo_Error WITH "libPWM.Open() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN NEW OutputSubclass'(fd, period);
+    RETURN NEW OutputSubclass'(fd => fd);
   END Create;
 
   -- Servo output write method
