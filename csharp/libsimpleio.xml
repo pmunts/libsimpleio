@@ -1168,6 +1168,30 @@
             serial port device.
             </summary>
         </member>
+        <member name="T:libsimpleio.Servo.Output">
+            <summary>
+            Encapsulates Linux servo outputs using <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="M:libsimpleio.Servo.Output.#ctor(System.Int32,System.Int32,System.Int32,System.Double)">
+            <summary>
+            Constructor for a single servo output.
+            </summary>
+            <param name="chip">PWM chip number.</param>
+            <param name="channel">PWM channel number.</param>
+            <param name="frequency">PWM pulse frequency.</param>
+            <param name="position">Initial servo position (-1.0 to +1.0).</param>
+        </member>
+        <member name="P:libsimpleio.Servo.Output.position">
+            <summary>
+            Read/Write property for getting or setting the PWM output duty cycle.
+            </summary>
+        </member>
+        <member name="P:libsimpleio.Servo.Output.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the PWM output.
+            </summary>
+        </member>
         <member name="T:libsimpleio.SPI.Device">
             <summary>
             Encapsulates Linux SPI devices using <c>libsimpleio</c>.
@@ -1564,6 +1588,46 @@
             <param name="cmd">Command to be sent.</param>
             <param name="resp">Response to be received.</param>
         </member>
+        <member name="T:IO.Interfaces.Motor.Velocites">
+            <summary>
+            Motor velocity contants.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Motor.Velocites.Minimum">
+            <summary>
+            Minimum velocity (full speed reverse).
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Motor.Velocites.Maximum">
+            <summary>
+            Maximum velocity (full speed forward).
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.Motor.Output">
+            <summary>
+             Abstract interface for variable speed motor outputs.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.Motor.Output.velocity">
+            <summary>
+            Write-only motor velocity property.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.PWM.DutyCycles">
+            <summary>
+            PWM dutycycle contants.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.PWM.DutyCycles.Minimum">
+            <summary>
+            Minimum duty cycle (percent).
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.PWM.DutyCycles.Maximum">
+            <summary>
+            Maximum duty cycle (percent).
+            </summary>
+        </member>
         <member name="T:IO.Interfaces.PWM.Output">
             <summary>
              Abstract interface for PWM outputs.
@@ -1571,7 +1635,7 @@
         </member>
         <member name="P:IO.Interfaces.PWM.Output.dutycycle">
             <summary>
-            Write-only PWM output duty cycle property.
+            Write-only PWM duty cycle property.
             </summary>
         </member>
         <member name="T:IO.Interfaces.Serial.Port">
@@ -1609,14 +1673,34 @@
             <param name="buf">Input data buffer.</param>
             <param name="bufsize">Size of input data buffer.</param>
         </member>
+        <member name="T:IO.Interfaces.Servo.Positions">
+            <summary>
+            Servo position contants.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Servo.Positions.Minimum">
+            <summary>
+            Minimum displacement position.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Servo.Positions.Neutral">
+            <summary>
+            Zero displacement (neutral) position.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Servo.Positions.Maximum">
+            <summary>
+            Maximum displacement position.
+            </summary>
+        </member>
         <member name="T:IO.Interfaces.Servo.Output">
             <summary>
              Abstract interface for servo outputs.
             </summary>
         </member>
-        <member name="P:IO.Interfaces.Servo.Output.dutycycle">
+        <member name="P:IO.Interfaces.Servo.Output.position">
             <summary>
-            Write-only servo output position property.
+            Write-only servo position property.
             </summary>
         </member>
         <member name="T:IO.Interfaces.SPI.Device">
