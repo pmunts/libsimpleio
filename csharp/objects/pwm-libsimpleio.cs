@@ -59,7 +59,8 @@ namespace libsimpleio.PWM
                 throw new Exception("Invalid frequency");
             }
 
-            if ((dutycycle < 0.0) || (dutycycle > 100.0))
+            if ((dutycycle < IO.Interfaces.PWM.DutyCycles.Minimum) ||
+                (dutycycle > IO.Interfaces.PWM.DutyCycles.Maximum))
             {
                 throw new Exception("Invalid duty cycle");
             }
@@ -71,7 +72,7 @@ namespace libsimpleio.PWM
             }
 
             this.period = (int)(1E9 / frequency + 0.5);
-            int ontime = (int)(dutycycle / 100.0 * this.period);
+            int ontime = (int)(dutycycle / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
             int error;
 
             libsimpleio.libPWM.PWM_configure(chip, channel, period, ontime,
@@ -105,12 +106,13 @@ namespace libsimpleio.PWM
 
             set
             {
-                if ((value < 0.0) || (value > 100.0))
+                if ((value < IO.Interfaces.PWM.DutyCycles.Minimum) ||
+                    (value > IO.Interfaces.PWM.DutyCycles.Maximum))
                 {
                     throw new Exception("Invalid duty cycle");
                 }
 
-                int ontime = (int)(value / 100.0 * this.period + 0.5);
+                int ontime = (int)(value / IO.Interfaces.PWM.DutyCycles.Maximum * this.period + 0.5);
                 int error;
 
                 libsimpleio.libPWM.PWM_write(this.myfd, ontime, out error);
