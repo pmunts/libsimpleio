@@ -1,4 +1,4 @@
-// Abstract interface for a servo output
+// Abstract interface for servo outputs
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -28,9 +28,9 @@ namespace IO.Interfaces.Servo
     public interface Output
     {
         /// <summary>
-        /// Write-only servo output position property.
+        /// Write-only servo position property.
         /// </summary>
-        double dutycycle
+        double position
         {
             set;
         }
