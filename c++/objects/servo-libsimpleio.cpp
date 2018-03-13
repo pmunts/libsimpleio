@@ -39,8 +39,8 @@ libsimpleio::Servo::Output_Class::Output_Class(unsigned chip, unsigned channel,
 
   // Calculate the PWM pulse frequency and initial pulse width in nanoseconds
 
-  const unsigned period = unsigned(1.0E9/frequency + 0.5);
-  const unsigned ontime = 1500000 + unsigned(500000.0*position + 0.5);
+  const unsigned period = 1.0E9/frequency;
+  const unsigned ontime = 1500000.0 + 500000.0*position;
 
   // Configure the PWM output
 
@@ -67,7 +67,7 @@ void libsimpleio::Servo::Output_Class::write(const double position)
 
   // Calculate the required PWM pulse width in nanoseconds
 
-  const unsigned ontime = 1500000 + unsigned(500000.0*position + 0.5);
+  const unsigned ontime = 1500000.0 + 500000.0*position;
 
   // Set the PWM pulse width
 
