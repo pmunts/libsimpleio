@@ -38,7 +38,8 @@ namespace libsimpleio.PWM
         /// <param name="chip">PWM chip number.</param>
         /// <param name="channel">PWM channel number.</param>
         /// <param name="frequency">PWM pulse frequency.</param>
-        /// <param name="dutycycle">PWM output duty cycle (0.0 to 100.0).</param>
+        /// <param name="dutycycle">Initial PWM output duty cycle.
+        /// Allowed values are 0.0 to 100.0 percent.</param>
         /// <param name="polarity">PWM output polarity.</param>
         public Output(int chip, int channel, int frequency,
             double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum,
@@ -93,6 +94,7 @@ namespace libsimpleio.PWM
 
         /// <summary>
         /// Write-only property for setting the PWM output duty cycle.
+        /// Allowed values are 0.0 to 100.0 percent.
         /// </summary>
         public double dutycycle
         {

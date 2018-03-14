@@ -37,7 +37,8 @@ namespace libsimpleio.Servo
         /// <param name="chip">PWM chip number.</param>
         /// <param name="channel">PWM channel number.</param>
         /// <param name="frequency">PWM pulse frequency.</param>
-        /// <param name="position">Initial servo position (-1.0 to +1.0).</param>
+        /// <param name="position">Initial servo position).
+        /// Allowed values are -1.0 to +1.0.</param>
         public Output(int chip, int channel, int frequency = 50,
             double position = IO.Interfaces.Servo.Positions.Neutral)
         {
@@ -84,7 +85,8 @@ namespace libsimpleio.Servo
         }
 
         /// <summary>
-        /// Write-only property for setting the PWM output duty cycle.
+        /// Write-only property for setting the servo position.
+        /// Allowed values are -1.0 to +1.0.
         /// </summary>
         public double position
         {
@@ -109,7 +111,7 @@ namespace libsimpleio.Servo
         }
 
         /// <summary>
-        /// Read-only property returning the Linux file descriptor for the PWM output.
+        /// Read-only property returning the Linux file descriptor for the servo output.
         /// </summary>
         public int fd
         {
