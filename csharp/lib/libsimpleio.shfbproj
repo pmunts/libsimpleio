@@ -60,7 +60,7 @@
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.GPIO" isDocumented="True">GPIO (General Purpose Input/Output) Pin Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.HID" isDocumented="True">Raw HID (Human Interface Device) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.I2C" isDocumented="True">I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controller Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Objects.libsimpleio.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.PWM" isDocumented="True">PWM (Pulse WIdth Modulated) Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.SPI" isDocumented="True">SPI (Serial Peripheral Interconnect) Device Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Serial" isDocumented="True">Asynchronous Serial Port Services</NamespaceSummaryItem>

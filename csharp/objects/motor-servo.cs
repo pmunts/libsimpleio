@@ -22,7 +22,7 @@
 
 using IO.Objects.libsimpleio.Exceptions;
 
-namespace IO.Objects.libsimpleio.Motor.Servo
+namespace IO.Objects.Motor.Servo
 {
     /// <summary>
     /// Encapsulates motors connected to servo outputs (e.g. continuous
