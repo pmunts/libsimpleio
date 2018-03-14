@@ -934,36 +934,6 @@
             Read/Write GPIO state property.
             </summary>
         </member>
-        <member name="T:IO.Devices.USB.Munts.HID">
-            <summary>
-            USB device constants for Munts Technologies USB HID devices.
-            </summary>
-        </member>
-        <member name="F:IO.Devices.USB.Munts.HID.Vendor">
-            <summary>
-            Vendor ID for Munts Technologies
-            </summary>
-        </member>
-        <member name="F:IO.Devices.USB.Munts.HID.Product">
-            <summary>
-            Product ID for Munts Technologies USB hid devices.
-            </summary>
-        </member>
-        <member name="T:IO.Devices.USB.Munts.Serial">
-            <summary>
-            USB device constants for Munts Technologies USB serial port devices.
-            </summary>
-        </member>
-        <member name="F:IO.Devices.USB.Munts.Serial.Vendor">
-            <summary>
-            Vendor ID for Munts Technologies
-            </summary>
-        </member>
-        <member name="F:IO.Devices.USB.Munts.Serial.Product">
-            <summary>
-            Product ID for Munts Technologies USB serial port devices.
-            </summary>
-        </member>
         <member name="T:IO.Interfaces.ADC.Sample">
             <summary>
             Abstract interface for ADC inputs returning an integer sample value.
@@ -1567,28 +1537,6 @@
             I<sup>2</sup>C bus controller.
             </summary>
         </member>
-        <member name="T:IO.Objects.libsimpleio.Motor.Servo.Output">
-            <summary>
-            Encapsulates motors connected to servo outputs (e.g. continuous
-            rotation servos).
-            </summary>
-        </member>
-        <member name="M:IO.Objects.libsimpleio.Motor.Servo.Output.#ctor(IO.Interfaces.Servo.Output,System.Double)">
-            <summary>
-            Consructor for a single motor output.
-            </summary>
-            <param name="servo">Servo output instance.</param>
-            <param name="velocity">Initial normalized motor velocity.
-            Allowed values are -1.0 (full speed reverse) to +1.0
-            (full speed forward.</param>
-        </member>
-        <member name="P:IO.Objects.libsimpleio.Motor.Servo.Output.velocity">
-            <summary>
-            Write-only property for setting the normalized motor velocity.
-            Allowed values are -1.0 (full speed reverse) to +1.0
-            (full speed forward.
-            </summary>
-        </member>
         <member name="T:IO.Objects.libsimpleio.PWM.Output">
             <summary>
             Encapsulates Linux PWM outputs using <c>libsimpleio</c>.
@@ -1782,6 +1730,58 @@
             <summary>
             Read-only property returning the Linux file descriptor for the
             watchdog timer.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.Motor.Servo.Output">
+            <summary>
+            Encapsulates motors connected to servo outputs (e.g. continuous
+            rotation servos).
+            </summary>
+        </member>
+        <member name="M:IO.Objects.Motor.Servo.Output.#ctor(IO.Interfaces.Servo.Output,System.Double)">
+            <summary>
+            Consructor for a single motor output.
+            </summary>
+            <param name="servo">Servo output instance.</param>
+            <param name="velocity">Initial normalized motor velocity.
+            Allowed values are -1.0 (full speed reverse) to +1.0
+            (full speed forward.</param>
+        </member>
+        <member name="P:IO.Objects.Motor.Servo.Output.velocity">
+            <summary>
+            Write-only property for setting the normalized motor velocity.
+            Allowed values are -1.0 (full speed reverse) to +1.0
+            (full speed forward.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.USB.Munts.HID">
+            <summary>
+            USB device constants for Munts Technologies USB HID devices.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.USB.Munts.HID.Vendor">
+            <summary>
+            Vendor ID for Munts Technologies
+            </summary>
+        </member>
+        <member name="F:IO.Objects.USB.Munts.HID.Product">
+            <summary>
+            Product ID for Munts Technologies USB hid devices.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.USB.Munts.Serial">
+            <summary>
+            USB device constants for Munts Technologies USB serial port devices.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.USB.Munts.Serial.Vendor">
+            <summary>
+            Vendor ID for Munts Technologies
+            </summary>
+        </member>
+        <member name="F:IO.Objects.USB.Munts.Serial.Product">
+            <summary>
+            Product ID for Munts Technologies USB serial port devices.
             </summary>
         </member>
         <member name="T:IO.Remote.Device">
