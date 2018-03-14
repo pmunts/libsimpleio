@@ -1,4 +1,4 @@
-// Motor using servo output (e.g. continuous rotation servo)
+// Motor services, using servo output (e.g. continuous rotation servo)
 
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
@@ -23,7 +23,7 @@
 namespace IO.Objects.Motor.Servo
 {
     /// <summary>
-    /// Encapsulates motors connected to servo outputs (e.g. continuous
+    /// Encapsulates motors controlled by servo outputs (e.g. continuous
     /// rotation servos).
     /// </summary>
     public class Output : IO.Interfaces.Motor.Output
