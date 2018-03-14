@@ -979,6 +979,52 @@
             Read-only property returning the analog input voltage.
             </summary>
         </member>
+        <member name="T:IO.Interfaces.DAC.Sample">
+            <summary>
+            Abstract interface for DAC outputs accepting an integer output sample
+            value.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.DAC.Sample.sample">
+            <summary>
+            Write-only property for setting the DAC output level.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.DAC.Sample.resolution">
+            <summary>
+            Read-only property returning the number of bits of resolution.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.DAC.Voltage">
+            <summary>
+            Abstract interface for DAC outputs accepting a floating point
+            output voltage value.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.DAC.Voltage.voltage">
+            <summary>
+            Write-only property for setting the DAC output voltage.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.DAC.Output">
+            <summary>
+            Encapsulates DAC voltage outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.DAC.Output.#ctor(IO.Interfaces.DAC.Sample,System.Double,System.Double,System.Double)">
+            <summary>
+            Create an DAC voltage output.
+            </summary>
+            <param name="output">DAC output object.</param>
+            <param name="reference">DAC output reference in volts.</param>
+            <param name="gain">DAC output gain in volts per volt.</param>
+            <param name="offset">DAC output offset in volts.</param>
+        </member>
+        <member name="P:IO.Interfaces.DAC.Output.voltage">
+            <summary>
+            Write-only for setting the DAC output voltage.
+            </summary>
+        </member>
         <member name="T:IO.Interfaces.GPIO.Pin">
             <summary>
             Abstract interface for GPIO pins.
@@ -1194,41 +1240,6 @@
             <summary>
             Write-only PWM duty cycle property.
             </summary>
-        </member>
-        <member name="T:IO.Interfaces.Serial.Port">
-            <summary>
-            Abstract property for serial port devices.
-            </summary>
-        </member>
-        <member name="M:IO.Interfaces.Serial.Port.Send(System.Byte[],System.Int32,System.Int32@)">
-            <summary>
-            Send bytes to a serial port device.
-            </summary>
-            <param name="buf">Output data buffer.</param>
-            <param name="bufsize">Number of bytes to transmit.</param>
-            <param name="count">Number of bytes actually sent.</param>
-        </member>
-        <member name="M:IO.Interfaces.Serial.Port.Send(System.String,System.Int32@)">
-            <summary>
-            Send a string to a serial port device.
-            </summary>
-            <param name="buf">Output data buffer.</param>
-            <param name="count">Number of bytes actually sent.</param>
-        </member>
-        <member name="M:IO.Interfaces.Serial.Port.Receive(System.Byte[],System.Int32,System.Int32@)">
-            <summary>
-            Receive bytes from a serial port device.
-            </summary>
-            <param name="buf">Input data buffer.</param>
-            <param name="bufsize">Size of input data buffer.</param>
-            <param name="count">Number of bytes actually received.</param>
-        </member>
-        <member name="M:IO.Interfaces.Serial.Port.Receive(System.String@,System.Int32)">
-            <summary>
-            Receive a string from a serial port device.
-            </summary>
-            <param name="buf">Input data buffer.</param>
-            <param name="bufsize">Size of input data buffer.</param>
         </member>
         <member name="T:IO.Interfaces.Servo.Positions">
             <summary>
@@ -1568,58 +1579,6 @@
             <summary>
             Read-only property returning the Linux file descriptor for the PWM
             output.
-            </summary>
-        </member>
-        <member name="T:IO.Objects.libsimpleio.Serial.Port">
-            <summary>
-            Encapsulates Linux asynchronous serial port devices using
-            <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="M:IO.Objects.libsimpleio.Serial.Port.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Constructor for a single asynchronous serial port device.
-            </summary>
-            <param name="devname">Device node name.</param>
-            <param name="baudrate">Baud rate.</param>
-            <param name="parity">Parity.</param>
-            <param name="databits">Data bits (5 to 8).</param>
-            <param name="stopbits">Stop bits (1 or 2).</param>
-        </member>
-        <member name="M:IO.Objects.libsimpleio.Serial.Port.Send(System.Byte[],System.Int32,System.Int32@)">
-            <summary>
-            Write bytes to the serial port device.
-            </summary>
-            <param name="buf">Transmit data buffer.</param>
-            <param name="bufsize">Number of bytes to send.</param>
-            <param name="count">Number of bytes actually sent.</param>
-        </member>
-        <member name="M:IO.Objects.libsimpleio.Serial.Port.Send(System.String,System.Int32@)">
-            <summary>
-            Write an ASCII string to the serial port device.
-            </summary>
-            <param name="s">String to send.</param>
-            <param name="count">Number of bytes actually sent.</param>
-        </member>
-        <member name="M:IO.Objects.libsimpleio.Serial.Port.Receive(System.Byte[],System.Int32,System.Int32@)">
-            <summary>
-            Receive bytes from a serial port device.
-            </summary>
-            <param name="buf">Receive data buffer.</param>
-            <param name="bufsize">Size of the receive data buffer.</param>
-            <param name="count">Number of bytes actually received.</param>
-        </member>
-        <member name="M:IO.Objects.libsimpleio.Serial.Port.Receive(System.String@,System.Int32)">
-            <summary>
-            Receive an ASCII string from a serial port device.
-            </summary>
-            <param name="s">Destination string.</param>
-            <param name="bufsize">Maximum number of bytes to receive.</param>
-        </member>
-        <member name="P:IO.Objects.libsimpleio.Serial.Port.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for the
-            serial port device.
             </summary>
         </member>
         <member name="T:IO.Objects.libsimpleio.Servo.Output">
