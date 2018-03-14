@@ -4,12 +4,12 @@
         <name>libsimpleio</name>
     </assembly>
     <members>
-        <member name="T:libsimpleio.libADC">
+        <member name="T:IO.Bindings.libsimpleio.libADC">
             <summary>
             Wrapper for libsimpleio A/D converter services.
             </summary>
         </member>
-        <member name="M:libsimpleio.libADC.ADC_get_name(System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libADC.ADC_get_name(System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
             <summary>
             Get the subsystem name for the specified Linux IIO A/D converter
             device.
@@ -20,7 +20,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libADC.ADC_open(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libADC.ADC_open(System.Int32,System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Open a Linux IIO A/D converter input device.
             </summary>
@@ -30,7 +30,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libADC.ADC_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libADC.ADC_close(System.Int32,System.Int32@)">
             <summary>
             Close a Linux IIO A/D converter input device.
             </summary>
@@ -38,7 +38,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libADC.ADC_read(System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libADC.ADC_read(System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Read a Linux IIO A/D converter input device.
             </summary>
@@ -47,12 +47,12 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libEvent">
+        <member name="T:IO.Bindings.libsimpleio.libEvent">
             <summary>
             Wrapper for libsimpleio epoll services.
             </summary>
         </member>
-        <member name="M:libsimpleio.libEvent.EVENT_open(System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_open(System.Int32@,System.Int32@)">
             <summary>
             Open an <code>epoll</code> event dispatcher.
             </summary>
@@ -60,7 +60,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libEvent.EVENT_register_fd(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_register_fd(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
             <summary>
             Register a file descriptor with an <code>epoll</code> event dispatcher.
             </summary>
@@ -72,7 +72,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libEvent.EVENT_modify_fd(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_modify_fd(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
             <summary>
             Modify a file registration.
             </summary>
@@ -84,7 +84,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libEvent.EVENT_unregister_fd(System.Int32,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_unregister_fd(System.Int32,System.Int32,System.Int32@)">
             <summary>
             Unregister a file from an <code>epoll</code> dispatcher.
             </summary>
@@ -93,7 +93,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libEvent.EVENT_wait(System.Int32,System.Int32@,System.Int32@,System.Int32@,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_wait(System.Int32,System.Int32@,System.Int32@,System.Int32@,System.Int32,System.Int32@)">
             <summary>
             Wait for events from an <code>epoll</code> dispatcher.
             </summary>
@@ -107,7 +107,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libEvent.EVENT_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_close(System.Int32,System.Int32@)">
             <summary>
             Close an <code>epoll</code> event dispatcher.
             </summary>
@@ -115,52 +115,52 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libGPIO">
+        <member name="T:IO.Bindings.libsimpleio.libGPIO">
             <summary>
             Wrapper for libsimpleio GPIO services.
             </summary>
         </member>
-        <member name="F:libsimpleio.libGPIO.DIRECTION_INPUT">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.DIRECTION_INPUT">
             <summary>
             Input data direction.
             </summary>
         </member>
-        <member name="F:libsimpleio.libGPIO.DIRECTION_OUTPUT">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.DIRECTION_OUTPUT">
             <summary>
             Out data direction.
             </summary>
         </member>
-        <member name="F:libsimpleio.libGPIO.EDGE_NONE">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.EDGE_NONE">
             <summary>
             Interrupts are disabled.
             </summary>
         </member>
-        <member name="F:libsimpleio.libGPIO.EDGE_RISING">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.EDGE_RISING">
             <summary>
             Interrupt on rising edge.
             </summary>
         </member>
-        <member name="F:libsimpleio.libGPIO.EDGE_FALLING">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.EDGE_FALLING">
             <summary>
             Interrupt on falling edge.
             </summary>
         </member>
-        <member name="F:libsimpleio.libGPIO.EDGE_BOTH">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.EDGE_BOTH">
             <summary>
             Interrupt on both edges.
             </summary>
         </member>
-        <member name="F:libsimpleio.libGPIO.POLARITY_ACTIVELOW">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.POLARITY_ACTIVELOW">
             <summary>
             Active low (inverted) polarity.
             </summary>
         </member>
-        <member name="F:libsimpleio.libGPIO.POLARITY_ACTIVEHIGH">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.POLARITY_ACTIVEHIGH">
             <summary>
             Active high (normal) polarity.
             </summary>
         </member>
-        <member name="M:libsimpleio.libGPIO.GPIO_configure(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_configure(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
             <summary>
             Configure a Linux GPIO pin.
             </summary>
@@ -172,7 +172,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libGPIO.GPIO_open(System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_open(System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Open a Linux GPIO pin device.
             </summary>
@@ -181,7 +181,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libGPIO.GPIO_read(System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_read(System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Read a Linux GPIO pin.
             </summary>
@@ -190,7 +190,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libGPIO.GPIO_write(System.Int32,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_write(System.Int32,System.Int32,System.Int32@)">
             <summary>
             Write a Linux GPIO pin.
             </summary>
@@ -199,7 +199,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libGPIO.GPIO_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_close(System.Int32,System.Int32@)">
             <summary>
             Close a Linux GPIO pin device.
             </summary>
@@ -207,12 +207,12 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libHIDRaw">
+        <member name="T:IO.Bindings.libsimpleio.libHIDRaw">
             <summary>
             Wrapper for libsimpleio raw HID services.
             </summary>
         </member>
-        <member name="M:libsimpleio.libHIDRaw.HIDRAW_open(System.String,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open(System.String,System.Int32@,System.Int32@)">
             <summary>
             Open a Linux raw HID device by device node name.
             </summary>
@@ -221,7 +221,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libHIDRaw.HIDRAW_open_id(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open_id(System.Int32,System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Open a Linux raw HID device by vendor ID and product ID.
             </summary>
@@ -231,7 +231,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libHIDRaw.HIDRAW_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_close(System.Int32,System.Int32@)">
             <summary>
             Close a Linux raw HID.
             </summary>
@@ -239,7 +239,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libHIDRaw.HIDRAW_get_name(System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_get_name(System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
             <summary>
             Get Linux raw HID name string.
             </summary>
@@ -249,7 +249,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libHIDRaw.HIDRAW_get_info(System.Int32,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_get_info(System.Int32,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
             <summary>
             Get Linux raw HID bus type, vendor ID, and product ID.
             </summary>
@@ -260,7 +260,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libHIDRaw.HIDRAW_send(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_send(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Send a 64-byte report to a Linux HID.
             </summary>
@@ -271,7 +271,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libHIDRaw.HIDRAW_receive(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_receive(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Get a 64-byte report from a Linux HID.
             </summary>
@@ -282,12 +282,12 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libI2C">
+        <member name="T:IO.Bindings.libsimpleio.libI2C">
             <summary>
             Wrapper for libsimpleio I<sup>2</sup>C bus controller services.
             </summary>
         </member>
-        <member name="M:libsimpleio.libI2C.I2C_open(System.String,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libI2C.I2C_open(System.String,System.Int32@,System.Int32@)">
             <summary>
             Open a Linux I<sup>2</sup>C bus controller device.
             </summary>
@@ -296,7 +296,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libI2C.I2C_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libI2C.I2C_close(System.Int32,System.Int32@)">
             <summary>
             Close a Linux I<sup>2</sup>C bus controller device.
             </summary>
@@ -304,7 +304,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libI2C.I2C_transaction(System.Int32,System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libI2C.I2C_transaction(System.Int32,System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32@)">
             <summary>
             Send bytes to and/or receive bytes from an I<sup>2</sup>C slave device.
             </summary>
@@ -317,12 +317,12 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libIPV4">
+        <member name="T:IO.Bindings.libsimpleio.libIPV4">
             <summary>
             Wrapper for libsimpleio IPv4 network services.
             </summary>
         </member>
-        <member name="M:libsimpleio.libIPV4.IPV4_resolve(System.String,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libIPV4.IPV4_resolve(System.String,System.Int32@,System.Int32@)">
             <summary>
             Resolve a domain name to an IPv4 address.
             </summary>
@@ -331,7 +331,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libIPV4.IPV4_ntoa(System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libIPV4.IPV4_ntoa(System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
             <summary>
             Convert an IPv4 address to a dotted notation string (<i>e.g.</i> 1.2.3.4).
             </summary>
@@ -341,7 +341,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libIPV4.TCP4_connect(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_connect(System.Int32,System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Connect to a TCP server.
             </summary>
@@ -351,7 +351,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libIPV4.TCP4_accept(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_accept(System.Int32,System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Start TCP server and wait for a single connection.
             </summary>
@@ -362,7 +362,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libIPV4.TCP4_server(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_server(System.Int32,System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Start a TCP server and fork for each connection.
             </summary>
@@ -373,7 +373,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libIPV4.TCP4_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_close(System.Int32,System.Int32@)">
             <summary>
             Close a TCP connection.
             </summary>
@@ -381,7 +381,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libIPV4.TCP4_send(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_send(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Send bytes to TCP peer.
             </summary>
@@ -392,7 +392,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libIPV4.TCP4_receive(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_receive(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Receive bytes from TCP peer.
             </summary>
@@ -403,159 +403,159 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libLinux">
+        <member name="T:IO.Bindings.libsimpleio.libLinux">
             <summary>
             Wrapper for libsimpleio Linux system call services.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_KERN">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_KERN">
             <summary>
             Kernel messages.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_USER">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_USER">
             <summary>
             Random user-level messages.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_MAIL">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_MAIL">
             <summary>
             Mail system.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_DAEMON">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_DAEMON">
             <summary>
             System daemons.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_AUTH">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_AUTH">
             <summary>
             Security/authorization messages.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_SYSLOG">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_SYSLOG">
             <summary>
             Messages generated internally by syslogd
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_LPR">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LPR">
             <summary>
             Line printer subsystem
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_NEWS">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_NEWS">
             <summary>
             Network news subsystem
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_UUCP">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_UUCP">
             <summary>
             UUCP subsystem
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_CRON">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_CRON">
             <summary>
             <code>cron</code> daemon messages.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_AUTHPRIV">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_AUTHPRIV">
             <summary>
             Securit/authorization messages.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_FTP">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_FTP">
             <summary>
             <code>FTP</code> daemon messages.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_LOCAL0">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LOCAL0">
             <summary>
             Reserved for local use.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_LOCAL1">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LOCAL1">
             <summary>
             Reserved for local use.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_LOCAL2">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LOCAL2">
             <summary>
             Reserved for local use.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_LOCAL3">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LOCAL3">
             <summary>
             Reserved for local use.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_LOCAL4">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LOCAL4">
             <summary>
             Reserved for local use.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_LOCAL5">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LOCAL5">
             <summary>
             Reserved for local use.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_LOCAL6">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LOCAL6">
             <summary>
             Reserved for local use.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_LOCAL7">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LOCAL7">
             <summary>
             Reserved for local use.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_EMERG">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_EMERG">
             <summary>
             System is unusable.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_ALERT">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_ALERT">
             <summary>
             Action must be taken immediately.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_CRIT">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_CRIT">
             <summary>
             Critical condition.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_ERR">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_ERR">
             <summary>
             Error condition.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_WARNING">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_WARNING">
             <summary>
             Warning condition.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_NOTICE">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_NOTICE">
             <summary>
             Normal but significant condition.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_INFO">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_INFO">
             <summary>
             Informational message.
             </summary>
         </member>
-        <member name="F:libsimpleio.libLinux.LOG_DEBUG">
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_DEBUG">
             <summary>
             Debug message.
             </summary>
         </member>
-        <member name="M:libsimpleio.libLinux.LINUX_detach(System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_detach(System.Int32@)">
             <summary>
             Detach the process and run it in the background.
             </summary>
             <param name="error">Error code.  Zero upon success or an
             <code>errno</code> value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libLinux.LINUX_drop_privileges(System.String,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_drop_privileges(System.String,System.Int32@)">
             <summary>
             Drop process privileges to those of the specified user.
             <remarks>Only a process running at superuser privilege is allowed
@@ -565,7 +565,7 @@
             <param name="error">Error code.  Zero upon success or an
             <code>errno</code> value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libLinux.LINUX_openlog(System.String,System.Int32,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_openlog(System.String,System.Int32,System.Int32,System.Int32@)">
             <summary>
             Open a connection to the <code>syslog</code> service.
             </summary>
@@ -575,7 +575,7 @@
             <param name="error">Error code.  Zero upon success or an
             <code>errno</code> value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libLinux.LINUX_syslog(System.Int32,System.String,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_syslog(System.Int32,System.String,System.Int32@)">
             <summary>
             Send a message to the <code>syslog</code> service.
             </summary>
@@ -584,7 +584,7 @@
             <param name="error">Error code.  Zero upon success or an
             <code>errno</code> value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libLinux.LINUX_strerror(System.Int32,System.Text.StringBuilder,System.Int32)">
+        <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_strerror(System.Int32,System.Text.StringBuilder,System.Int32)">
             <summary>
             Retrieve the error message for a particular <code>errno</code>
             error code.
@@ -593,24 +593,24 @@
             <param name="buf">Destination buffer.</param>
             <param name="bufsize">Destination buffer size.</param>
         </member>
-        <member name="T:libsimpleio.libPWM">
+        <member name="T:IO.Bindings.libsimpleio.libPWM">
             <summary>
             Wrapper for libsimpleio PWM output services.
             </summary>
         </member>
-        <member name="F:libsimpleio.libPWM.ActiveLow">
+        <member name="F:IO.Bindings.libsimpleio.libPWM.ActiveLow">
             <summary>
             Configure the PWM output as active low (inverted).
             </summary>
             <remarks>Not all platforms support active low (inverted) PWM
             outputs.</remarks>
         </member>
-        <member name="F:libsimpleio.libPWM.ActiveHigh">
+        <member name="F:IO.Bindings.libsimpleio.libPWM.ActiveHigh">
             <summary>
             Configure the PWM output as active high (normal).
             </summary>
         </member>
-        <member name="M:libsimpleio.libPWM.PWM_configure(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libPWM.PWM_configure(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
             <summary>
             Configure a Linux PWM output device.
             </summary>
@@ -627,7 +627,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libPWM.PWM_open(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libPWM.PWM_open(System.Int32,System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Open a Linux PWM output device.
             </summary>
@@ -637,7 +637,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libPWM.PWM_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libPWM.PWM_close(System.Int32,System.Int32@)">
             <summary>
             Close a Linux PWM output device.
             </summary>
@@ -645,7 +645,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libPWM.PWM_write(System.Int32,System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libPWM.PWM_write(System.Int32,System.Int32,System.Int32@)">
             <summary>
             Set a Linux PWM output device duty cycle.
             </summary>
@@ -654,27 +654,27 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libSerial">
+        <member name="T:IO.Bindings.libsimpleio.libSerial">
             <summary>
             Wrapper for libsimpleio serial port services.
             </summary>
         </member>
-        <member name="F:libsimpleio.libSerial.PARITY_NONE">
+        <member name="F:IO.Bindings.libsimpleio.libSerial.PARITY_NONE">
             <summary>
             Disable parity checking.
             </summary>
         </member>
-        <member name="F:libsimpleio.libSerial.PARITY_EVEN">
+        <member name="F:IO.Bindings.libsimpleio.libSerial.PARITY_EVEN">
             <summary>
             Request even parity checking.
             </summary>
         </member>
-        <member name="F:libsimpleio.libSerial.PARITY_ODD">
+        <member name="F:IO.Bindings.libsimpleio.libSerial.PARITY_ODD">
             <summary>
             Request odd parity checking.
             </summary>
         </member>
-        <member name="M:libsimpleio.libSerial.SERIAL_open(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libSerial.SERIAL_open(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Open a Linux serial port device.
             </summary>
@@ -687,7 +687,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libSerial.SERIAL_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libSerial.SERIAL_close(System.Int32,System.Int32@)">
             <summary>
             Close a Linux serial port device.
             </summary>
@@ -695,7 +695,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libSerial.SERIAL_send(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libSerial.SERIAL_send(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Send data to a Linux serial port device.
             </summary>
@@ -706,7 +706,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libSerial.SERIAL_receive(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libSerial.SERIAL_receive(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Receive data from a Linux serial port device.
             </summary>
@@ -717,12 +717,12 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libSPI">
+        <member name="T:IO.Bindings.libsimpleio.libSPI">
             <summary>
             Wrapper for libsimpleio SPI device services.
             </summary>
         </member>
-        <member name="M:libsimpleio.libSPI.SPI_open(System.String,System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libSPI.SPI_open(System.String,System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32@)">
              <summary>
              Open a Linux SPI device.
              </summary>
@@ -738,7 +738,7 @@
             <code>/dev/spidevX.Y</code> where <code>X</code> is the SPI bus
             controller number and <code>Y</code> is the SPI slave select number.</remarks>
         </member>
-        <member name="M:libsimpleio.libSPI.SPI_transaction(System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libSPI.SPI_transaction(System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32@)">
             <summary>
             Send bytes to and/or receive bytes from a Linux SPI device.
             </summary>
@@ -752,7 +752,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libSPI.SPI_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libSPI.SPI_close(System.Int32,System.Int32@)">
             <summary>
             Close a Linux SPI device.
             </summary>
@@ -760,12 +760,12 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libStream">
+        <member name="T:IO.Bindings.libsimpleio.libStream">
             <summary>
             Wrapper for libsimpleio Stream Framing Protocol services.
             </summary>
         </member>
-        <member name="M:libsimpleio.libStream.STREAM_encode_frame(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libStream.STREAM_encode_frame(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Encode a frame.
             </summary>
@@ -777,7 +777,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libStream.STREAM_decode_frame(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libStream.STREAM_decode_frame(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Decode a frame.
             </summary>
@@ -789,7 +789,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libStream.STREAM_receive_frame(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libStream.STREAM_receive_frame(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Receive an encoded frame.
             </summary>
@@ -800,7 +800,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libStream.STREAM_send_frame(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libStream.STREAM_send_frame(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Send an encoded frame.
             </summary>
@@ -811,12 +811,12 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.libWatchdog">
+        <member name="T:IO.Bindings.libsimpleio.libWatchdog">
             <summary>
             Wrapper for libsimpleio watchdog timer services.
             </summary>
         </member>
-        <member name="M:libsimpleio.libWatchdog.WATCHDOG_open(System.String,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_open(System.String,System.Int32@,System.Int32@)">
             <summary>
             Open a Linux watchdog timer device.
             </summary>
@@ -825,7 +825,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libWatchdog.WATCHDOG_close(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_close(System.Int32,System.Int32@)">
             <summary>
             Close a Linux watchdog timer device.
             </summary>
@@ -833,7 +833,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libWatchdog.WATCHDOG_get_timeout(System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_get_timeout(System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Query a Linux watchdog timer device.
             </summary>
@@ -842,7 +842,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="M:libsimpleio.libWatchdog.WATCHDOG_set_timeout(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_set_timeout(System.Int32,System.Int32,System.Int32@,System.Int32@)">
             <summary>
             Change the watchdog timer period.
             </summary>
@@ -854,7 +854,7 @@
             <remarks>Not all platforms allow changing the timeout period.
             Some platforms may not allow <i>increasing</i> the period.</remarks>
         </member>
-        <member name="M:libsimpleio.libWatchdog.WATCHDOG_kick(System.Int32,System.Int32@)">
+        <member name="M:IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_kick(System.Int32,System.Int32@)">
             <summary>
             Reset the watchdog timer.
             </summary>
@@ -862,425 +862,7 @@
             <param name="error">Error code.  Zero upon success or an <code>errno</code>
             value upon failure.</param>
         </member>
-        <member name="T:libsimpleio.ADC.Sample">
-            <summary>
-            Encapsulates Linux Industrial I/O Subsystem ADC inputs usingi
-            <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="M:libsimpleio.ADC.Sample.name(System.Int32)">
-            <summary>
-            Retrieve the subsystem name string for a Linux Industrial
-            I/O Subsystem ADC device.
-            </summary>
-            <param name="chip">ADC chip number.</param>
-            <returns>Subsystem name.</returns>
-        </member>
-        <member name="M:libsimpleio.ADC.Sample.#ctor(System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Constructor for a single ADC input.
-            </summary>
-            <param name="chip">ADC chip number.</param>
-            <param name="channel">ADC channel number.</param>
-            <param name="resolution">Bits of resolution.</param>
-        </member>
-        <member name="P:libsimpleio.ADC.Sample.sample">
-            <summary>
-            Read-only property returning an integer analog sample from an ADC input.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.ADC.Sample.resolution">
-            <summary>
-            Read-only property returning the number of bits of resolution.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.ADC.Sample.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for the ADC input.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.Exceptions.Exception">
-            <summary>
-            Encapsulates exceptions that may include an optional
-            <c>errno</c> value.
-            </summary>
-        </member>
-        <member name="M:libsimpleio.Exceptions.Exception.#ctor(System.String)">
-            <summary>
-            Constructor for an exception that writes an error message to
-            standard output.
-            </summary>
-            <param name="message">Error message.</param>
-        </member>
-        <member name="M:libsimpleio.Exceptions.Exception.#ctor(System.String,System.Int32)">
-            <summary>
-            Constructor for an exception that writes an error message
-            including an <c>errno</c> value.
-            </summary>
-            <param name="message">Error message.</param>
-            <param name="error">Error code.</param>
-        </member>
-        <member name="T:libsimpleio.GPIO.Pin">
-            <summary>
-            Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.GPIO.Pin.Edge">
-            <summary>
-            GPIO input interrupt edge settings.
-            </summary>
-        </member>
-        <member name="F:libsimpleio.GPIO.Pin.Edge.None">
-            <summary>
-            Configure GPIO input pin with interrupt disabled.
-            </summary>
-        </member>
-        <member name="F:libsimpleio.GPIO.Pin.Edge.Rising">
-            <summary>
-            Configure GPIO input pin to interrupt on rising edge.
-            </summary>
-        </member>
-        <member name="F:libsimpleio.GPIO.Pin.Edge.Falling">
-            <summary>
-            Configure GPIO pin to interrupt on falling edge.
-            </summary>
-        </member>
-        <member name="F:libsimpleio.GPIO.Pin.Edge.Both">
-            <summary>
-            Configure GPIO pin to interrupt on both edges.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.GPIO.Pin.Polarity">
-            <summary>
-            GPIO polarity settings
-            </summary>
-        </member>
-        <member name="F:libsimpleio.GPIO.Pin.Polarity.ActiveLow">
-            <summary>
-            Configure GPIO pin as active low (inverted logic).
-            </summary>
-        </member>
-        <member name="F:libsimpleio.GPIO.Pin.Polarity.ActiveHigh">
-            <summary>
-            Configure GPIO pin as active high (normal logic).
-            </summary>
-        </member>
-        <member name="M:libsimpleio.GPIO.Pin.#ctor(System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean,libsimpleio.GPIO.Pin.Edge,libsimpleio.GPIO.Pin.Polarity)">
-            <summary>
-            Constructor for a single GPIO pin.
-            </summary>
-            <param name="pin">Linux GPIO pin number.</param>
-            <param name="dir">Data direction.</param>
-            <param name="state">Initial output state.</param>
-            <param name="edge">Interrupt edge.</param>
-            <param name="polarity">Pin polarity.</param>
-        </member>
-        <member name="P:libsimpleio.GPIO.Pin.state">
-            <summary>
-            Read/Write GPIO state property.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.GPIO.Pin.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for the GPIO pin.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.HID.Messenger">
-            <summary>
-            Encapsulates Linux raw HID devices using <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="M:libsimpleio.HID.Messenger.#ctor(System.String)">
-            <summary>
-            Constructor for a single raw HID device.
-            </summary>
-            <param name="devname">Device node name.</param>
-        </member>
-        <member name="M:libsimpleio.HID.Messenger.#ctor(System.Int32,System.Int32)">
-            <summary>
-            Constructor for a single raw HID device.
-            </summary>
-            <param name="VID">Vendor ID.</param>
-            <param name="PID">Product ID.</param>
-        </member>
-        <member name="M:libsimpleio.HID.Messenger.Send(IO.Interfaces.Message64.Message)">
-            <summary>
-            Send a 64-byte command message to a raw HID device.
-            </summary>
-            <param name="cmd">64-byte command message.</param>
-        </member>
-        <member name="M:libsimpleio.HID.Messenger.Receive(IO.Interfaces.Message64.Message)">
-            <summary>
-            Receive a 64-byte response message from a raw HID device.
-            </summary>
-            <param name="resp">64-byte response message.</param>
-        </member>
-        <member name="M:libsimpleio.HID.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
-            <summary>
-            Send a 64-byte command message and receive a 64-byte response mesage.
-            </summary>
-            <param name="cmd">64-byte command message.</param>
-            <param name="resp">64-byte response message.</param>
-        </member>
-        <member name="P:libsimpleio.HID.Messenger.name">
-            <summary>
-            Read-only property returning the device information string for a
-            raw HID device.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.HID.Messenger.bustype">
-            <summary>
-            Read-only property returning the bus type identifierfor a raw HID device.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.HID.Messenger.vendor">
-            <summary>
-            Read-only property returning the bus type identifierfor a raw HID device.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.HID.Messenger.product">
-            <summary>
-            Read-only property returning the vendor identifierfor a raw HID device.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.HID.Messenger.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for a raw
-            HID device.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.I2C.Bus">
-            <summary>
-            Encapsulates Linux I<sup>2</sup>C bus controllers using <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="M:libsimpleio.I2C.Bus.#ctor(System.String)">
-            <summary>
-            Constructor for a single I<sup>2</sup>C bus controller.
-            </summary>
-            <param name="devname">Device node name.</param>
-        </member>
-        <member name="M:libsimpleio.I2C.Bus.Read(System.Int32,System.Byte[],System.Int32)">
-            <summary>
-            Read bytes from an I<sup>2</sup>C device.
-            </summary>
-            <param name="slaveaddr">Slave device address.</param>
-            <param name="resp">Response buffer.</param>
-            <param name="resplen">Number of bytes to read.</param>
-        </member>
-        <member name="M:libsimpleio.I2C.Bus.Write(System.Int32,System.Byte[],System.Int32)">
-            <summary>
-            Write bytes to an I<sup>2</sup>C device.
-            </summary>
-            <param name="slaveaddr">Slave device address.</param>
-            <param name="cmd">Command buffer.</param>
-            <param name="cmdlen">Number of bytes to write.</param>
-        </member>
-        <member name="M:libsimpleio.I2C.Bus.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32)">
-            <summary>
-            Write and receive bytes to/from an I<sup>2</sup>C device.
-            </summary>
-            <param name="slaveaddr">Device slave address.</param>
-            <param name="cmd">Command buffer.</param>
-            <param name="cmdlen">Number of bytes to write.</param>
-            <param name="resp">Response buffer.</param>
-            <param name="resplen">Number of bytes to read.</param>
-        </member>
-        <member name="P:libsimpleio.I2C.Bus.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for the I<sup>2</sup>C bus controller.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.PWM.Output">
-            <summary>
-            Encapsulates Linux PWM outputs using <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="M:libsimpleio.PWM.Output.#ctor(System.Int32,System.Int32,System.Int32,System.Double,System.Int32)">
-            <summary>
-            Constructor for a single PWM output.
-            </summary>
-            <param name="chip">PWM chip number.</param>
-            <param name="channel">PWM channel number.</param>
-            <param name="frequency">PWM pulse frequency.</param>
-            <param name="dutycycle">PWM output duty cycle (0.0 to 100.0).</param>
-            <param name="polarity">PWM output polarity.</param>
-        </member>
-        <member name="P:libsimpleio.PWM.Output.dutycycle">
-            <summary>
-            Read/Write property for getting or setting the PWM output duty cycle.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.PWM.Output.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for the PWM output.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.Serial.Port">
-            <summary>
-            Encapsulates Linux asynchronous serial port devices using
-            <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="M:libsimpleio.Serial.Port.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Constructor for a single asynchronous serial port device.
-            </summary>
-            <param name="devname">Device node name.</param>
-            <param name="baudrate">Baud rate.</param>
-            <param name="parity">Parity.</param>
-            <param name="databits">Data bits (5 to 8).</param>
-            <param name="stopbits">Stop bits (1 or 2).</param>
-        </member>
-        <member name="M:libsimpleio.Serial.Port.Send(System.Byte[],System.Int32,System.Int32@)">
-            <summary>
-            Write bytes to the serial port device.
-            </summary>
-            <param name="buf">Transmit data buffer.</param>
-            <param name="bufsize">Number of bytes to send.</param>
-            <param name="count">Number of bytes actually sent.</param>
-        </member>
-        <member name="M:libsimpleio.Serial.Port.Send(System.String,System.Int32@)">
-            <summary>
-            Write an ASCII string to the serial port device.
-            </summary>
-            <param name="s">String to send.</param>
-            <param name="count">Number of bytes actually sent.</param>
-        </member>
-        <member name="M:libsimpleio.Serial.Port.Receive(System.Byte[],System.Int32,System.Int32@)">
-            <summary>
-            Receive bytes from a serial port device.
-            </summary>
-            <param name="buf">Receive data buffer.</param>
-            <param name="bufsize">Size of the receive data buffer.</param>
-            <param name="count">Number of bytes actually received.</param>
-        </member>
-        <member name="M:libsimpleio.Serial.Port.Receive(System.String@,System.Int32)">
-            <summary>
-            Receive an ASCII string from a serial port device.
-            </summary>
-            <param name="s">Destination string.</param>
-            <param name="bufsize">Maximum number of bytes to receive.</param>
-        </member>
-        <member name="P:libsimpleio.Serial.Port.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for the
-            serial port device.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.Servo.Output">
-            <summary>
-            Encapsulates Linux servo outputs using <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="M:libsimpleio.Servo.Output.#ctor(System.Int32,System.Int32,System.Int32,System.Double)">
-            <summary>
-            Constructor for a single servo output.
-            </summary>
-            <param name="chip">PWM chip number.</param>
-            <param name="channel">PWM channel number.</param>
-            <param name="frequency">PWM pulse frequency.</param>
-            <param name="position">Initial servo position (-1.0 to +1.0).</param>
-        </member>
-        <member name="P:libsimpleio.Servo.Output.position">
-            <summary>
-            Read/Write property for getting or setting the PWM output duty cycle.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.Servo.Output.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for the PWM output.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.SPI.Device">
-            <summary>
-            Encapsulates Linux SPI devices using <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="F:libsimpleio.SPI.Device.AUTOCHIPSELECT">
-            <summary>
-            Use hardware slave select.
-            </summary>
-        </member>
-        <member name="M:libsimpleio.SPI.Device.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Constructor for a single SPI device.
-            </summary>
-            <param name="devname">Device node name.</param>
-            <param name="mode">SPI clock mode.</param>
-            <param name="wordsize">SPI transfer word size.</param>
-            <param name="speed">SPI transfer speed.</param>
-            <param name="cspin">SPI slave select GPIO pin number, or
-            <c>AUTOCHIPSELECT</c>.</param>
-        </member>
-        <member name="M:libsimpleio.SPI.Device.Read(System.Byte[],System.Int32)">
-            <summary>
-            Read bytes from an SPI slave device.
-            </summary>
-            <param name="resp">Response buffer.</param>
-            <param name="resplen">Number of bytes to read.</param>
-        </member>
-        <member name="M:libsimpleio.SPI.Device.Write(System.Byte[],System.Int32)">
-            <summary>
-            Write bytes to an SPI slave device.
-            </summary>
-            <param name="cmd">Command buffer.</param>
-            <param name="cmdlen">Number of bytes to write.</param>
-        </member>
-        <member name="M:libsimpleio.SPI.Device.Transaction(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32)">
-            <summary>
-            Write and read bytes to and from an SPI slave device.
-            </summary>
-            <param name="cmd">Command buffer.</param>
-            <param name="cmdlen">Number of bytes to write.</param>
-            <param name="delayus">Delay in microseconds between write and read
-            operations.</param>
-            <param name="resp">Response buffer.</param>
-            <param name="resplen">Number of bytes to read.</param>
-        </member>
-        <member name="P:libsimpleio.SPI.Device.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for the
-            SPI slave device.
-            </summary>
-        </member>
-        <member name="T:libsimpleio.Watchdog.Timer">
-            <summary>
-            Encapsulates Linux watchdog timers using <c>libsimpleio</c>.
-            </summary>
-        </member>
-        <member name="F:libsimpleio.Watchdog.Timer.Disabled">
-            <summary>
-            Value indicating he watchdog timer should be disabled.
-            </summary>
-        </member>
-        <member name="M:libsimpleio.Watchdog.Timer.#ctor(System.String,System.Int32)">
-            <summary>
-            Constructor for a single watchdog timer.
-            </summary>
-            <param name="devname">Device node name.</param>
-            <param name="timeout">Watchdog timeout setting in seconds, or
-            <c>Disabled</c>.</param>
-        </member>
-        <member name="M:libsimpleio.Watchdog.Timer.Kick">
-            <summary>
-            Reset the watchdog timer.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.Watchdog.Timer.timeout">
-            <summary>
-            Get or set the watchdog timeout.  Not all platforms may support
-            this.  Even if supported, there may be constraints.  For example,
-            some platforms allow shortening the timeout but not lengthening it.
-            </summary>
-        </member>
-        <member name="P:libsimpleio.Watchdog.Timer.fd">
-            <summary>
-            Read-only property returning the Linux file descriptor for the
-            watchdog timer.
-            </summary>
-        </member>
-        <member name="T:PCA8574.Device">
+        <member name="T:IO.Devices.PCA8574.Device">
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expanders.
             </summary>
@@ -1288,49 +870,49 @@
             expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
             PCA9674, PCF8574, and TCA9554.</remarks>
         </member>
-        <member name="F:PCA8574.Device.MAX_PINS">
+        <member name="F:IO.Devices.PCA8574.Device.MAX_PINS">
             <summary>
             The number of available GPIO pins per chip.
             </summary>
         </member>
-        <member name="M:PCA8574.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32)">
+        <member name="M:IO.Devices.PCA8574.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32)">
             <summary>
             Constructor for a PCA8574 (or similar) GPIO Expander.
             </summary>
             <param name="bus">I<sup>2</sup>C bus controller.</param>
             <param name="addr">I<sup>2</sup>C slave address.</param>
         </member>
-        <member name="M:PCA8574.Device.Read">
+        <member name="M:IO.Devices.PCA8574.Device.Read">
             <summary>
             Return actual state of the GPIO pins.
             </summary>
             <returns>Pin states (MSB = GPIO7).</returns>
         </member>
-        <member name="M:PCA8574.Device.State">
+        <member name="M:IO.Devices.PCA8574.Device.State">
             <summary>
             Return last known state of the GPIO pins.
             </summary>
             <returns>Pin states (MSB = GPIO7).</returns>
         </member>
-        <member name="M:PCA8574.Device.Write(System.Byte)">
+        <member name="M:IO.Devices.PCA8574.Device.Write(System.Byte)">
             <summary>
             Write all GPIO pins.
             </summary>
             <param name="data">Data to write to pins (MSB = GPIO7).</param>
         </member>
-        <member name="M:PCA8574.Device.Set(System.Byte)">
+        <member name="M:IO.Devices.PCA8574.Device.Set(System.Byte)">
             <summary>
             Set selected GPIO pins.
             </summary>
             <param name="data">Pins to set high (MSB = GPIO7).</param>
         </member>
-        <member name="M:PCA8574.Device.Clear(System.Byte)">
+        <member name="M:IO.Devices.PCA8574.Device.Clear(System.Byte)">
             <summary>
             Clear selected GPIO pins.
             </summary>
             <param name="data">Pins to set low (MSB = GPIO7).</param>
         </member>
-        <member name="T:PCA8574.Pin">
+        <member name="T:IO.Devices.PCA8574.Pin">
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
             </summary>
@@ -1338,7 +920,7 @@
             expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
             PCA9674, PCF8574, and TCA9554.</remarks>
         </member>
-        <member name="M:PCA8574.Pin.#ctor(PCA8574.Device,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
+        <member name="M:IO.Devices.PCA8574.Pin.#ctor(IO.Devices.PCA8574.Device,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
             <summary>
             Constructor for a single GPIO pin.
             </summary>
@@ -1347,37 +929,37 @@
             <param name="dir">Data direction.</param>
             <param name="state">Initial output state.</param>
         </member>
-        <member name="P:PCA8574.Pin.state">
+        <member name="P:IO.Devices.PCA8574.Pin.state">
             <summary>
             Read/Write GPIO state property.
             </summary>
         </member>
-        <member name="T:USB.Munts.HID">
+        <member name="T:IO.Devices.USB.Munts.HID">
             <summary>
             USB device constants for Munts Technologies USB HID devices.
             </summary>
         </member>
-        <member name="F:USB.Munts.HID.Vendor">
+        <member name="F:IO.Devices.USB.Munts.HID.Vendor">
             <summary>
             Vendor ID for Munts Technologies
             </summary>
         </member>
-        <member name="F:USB.Munts.HID.Product">
+        <member name="F:IO.Devices.USB.Munts.HID.Product">
             <summary>
             Product ID for Munts Technologies USB hid devices.
             </summary>
         </member>
-        <member name="T:USB.Munts.Serial">
+        <member name="T:IO.Devices.USB.Munts.Serial">
             <summary>
             USB device constants for Munts Technologies USB serial port devices.
             </summary>
         </member>
-        <member name="F:USB.Munts.Serial.Vendor">
+        <member name="F:IO.Devices.USB.Munts.Serial.Vendor">
             <summary>
             Vendor ID for Munts Technologies
             </summary>
         </member>
-        <member name="F:USB.Munts.Serial.Product">
+        <member name="F:IO.Devices.USB.Munts.Serial.Product">
             <summary>
             Product ID for Munts Technologies USB serial port devices.
             </summary>
@@ -1588,17 +1170,17 @@
             <param name="cmd">Command to be sent.</param>
             <param name="resp">Response to be received.</param>
         </member>
-        <member name="T:IO.Interfaces.Motor.Velocites">
+        <member name="T:IO.Interfaces.Motor.Velocities">
             <summary>
             Motor velocity contants.
             </summary>
         </member>
-        <member name="F:IO.Interfaces.Motor.Velocites.Minimum">
+        <member name="F:IO.Interfaces.Motor.Velocities.Minimum">
             <summary>
             Minimum velocity (full speed reverse).
             </summary>
         </member>
-        <member name="F:IO.Interfaces.Motor.Velocites.Maximum">
+        <member name="F:IO.Interfaces.Motor.Velocities.Maximum">
             <summary>
             Maximum velocity (full speed forward).
             </summary>
@@ -1745,6 +1327,461 @@
         <member name="P:IO.Interfaces.Watchdog.Timer.timeout">
             <summary>
             Read/Write watchdog timer period property.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.ADC.Sample">
+            <summary>
+            Encapsulates Linux Industrial I/O Subsystem ADC inputs usingi
+            <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.ADC.Sample.name(System.Int32)">
+            <summary>
+            Retrieve the subsystem name string for a Linux Industrial
+            I/O Subsystem ADC device.
+            </summary>
+            <param name="chip">ADC chip number.</param>
+            <returns>Subsystem name.</returns>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.ADC.Sample.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor for a single ADC input.
+            </summary>
+            <param name="chip">ADC chip number.</param>
+            <param name="channel">ADC channel number.</param>
+            <param name="resolution">Bits of resolution.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.ADC.Sample.sample">
+            <summary>
+            Read-only property returning an integer analog sample from an ADC
+            input.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.ADC.Sample.resolution">
+            <summary>
+            Read-only property returning the number of bits of resolution.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.ADC.Sample.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the ADC
+            input.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.Exceptions.Exception">
+            <summary>
+            Encapsulates exceptions that may include an optional
+            <c>errno</c> value.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Exceptions.Exception.#ctor(System.String)">
+            <summary>
+            Constructor for an exception that writes an error message to
+            standard output.
+            </summary>
+            <param name="message">Error message.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Exceptions.Exception.#ctor(System.String,System.Int32)">
+            <summary>
+            Constructor for an exception that writes an error message
+            including an <c>errno</c> value.
+            </summary>
+            <param name="message">Error message.</param>
+            <param name="error">Error code.</param>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.GPIO.Pin">
+            <summary>
+            Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.GPIO.Pin.Edge">
+            <summary>
+            GPIO input interrupt edge settings.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Edge.None">
+            <summary>
+            Configure GPIO input pin with interrupt disabled.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Edge.Rising">
+            <summary>
+            Configure GPIO input pin to interrupt on rising edge.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Edge.Falling">
+            <summary>
+            Configure GPIO pin to interrupt on falling edge.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Edge.Both">
+            <summary>
+            Configure GPIO pin to interrupt on both edges.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.GPIO.Pin.Polarity">
+            <summary>
+            GPIO polarity settings
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Polarity.ActiveLow">
+            <summary>
+            Configure GPIO pin as active low (inverted logic).
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Polarity.ActiveHigh">
+            <summary>
+            Configure GPIO pin as active high (normal logic).
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.GPIO.Pin.#ctor(System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean,IO.Objects.libsimpleio.GPIO.Pin.Edge,IO.Objects.libsimpleio.GPIO.Pin.Polarity)">
+            <summary>
+            Constructor for a single GPIO pin.
+            </summary>
+            <param name="pin">Linux GPIO pin number.</param>
+            <param name="dir">Data direction.</param>
+            <param name="state">Initial output state.</param>
+            <param name="edge">Interrupt edge.</param>
+            <param name="polarity">Pin polarity.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.GPIO.Pin.state">
+            <summary>
+            Read/Write GPIO state property.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.GPIO.Pin.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the
+            GPIO pin.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.HID.Messenger">
+            <summary>
+            Encapsulates Linux raw HID devices using <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.HID.Messenger.#ctor(System.String)">
+            <summary>
+            Constructor for a single raw HID device.
+            </summary>
+            <param name="devname">Device node name.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.HID.Messenger.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor for a single raw HID device.
+            </summary>
+            <param name="VID">Vendor ID.</param>
+            <param name="PID">Product ID.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.HID.Messenger.Send(IO.Interfaces.Message64.Message)">
+            <summary>
+            Send a 64-byte command message to a raw HID device.
+            </summary>
+            <param name="cmd">64-byte command message.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.HID.Messenger.Receive(IO.Interfaces.Message64.Message)">
+            <summary>
+            Receive a 64-byte response message from a raw HID device.
+            </summary>
+            <param name="resp">64-byte response message.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.HID.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
+            <summary>
+            Send a 64-byte command message and receive a 64-byte response
+            message.
+            </summary>
+            <param name="cmd">64-byte command message.</param>
+            <param name="resp">64-byte response message.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.HID.Messenger.name">
+            <summary>
+            Read-only property returning the device information string for a
+            raw HID device.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.HID.Messenger.bustype">
+            <summary>
+            Read-only property returning the bus type identifierfor a raw HID
+            device.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.HID.Messenger.vendor">
+            <summary>
+            Read-only property returning the bus type identifierfor a raw HID
+            device.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.HID.Messenger.product">
+            <summary>
+            Read-only property returning the vendor identifierfor a raw HID
+            device.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.HID.Messenger.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for a raw
+            HID device.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.I2C.Bus">
+            <summary>
+            Encapsulates Linux I<sup>2</sup>C bus controllers using
+            <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.I2C.Bus.#ctor(System.String)">
+            <summary>
+            Constructor for a single I<sup>2</sup>C bus controller.
+            </summary>
+            <param name="devname">Device node name.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.I2C.Bus.Read(System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Read bytes from an I<sup>2</sup>C device.
+            </summary>
+            <param name="slaveaddr">Slave device address.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.I2C.Bus.Write(System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write bytes to an I<sup>2</sup>C device.
+            </summary>
+            <param name="slaveaddr">Slave device address.</param>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.I2C.Bus.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write and receive bytes to/from an I<sup>2</sup>C device.
+            </summary>
+            <param name="slaveaddr">Device slave address.</param>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.I2C.Bus.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the
+            I<sup>2</sup>C bus controller.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.Motor.Servo.Output">
+            <summary>
+            Encapsulates motors connected to servo outputs (e.g. continuous
+            rotation servos).
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Motor.Servo.Output.#ctor(IO.Interfaces.Servo.Output,System.Double)">
+            <summary>
+            Consructor for a single motor output.
+            </summary>
+            <param name="servo">Servo output instance.</param>
+            <param name="velocity">Initial normalized motor velocity.
+            Allowed values are -1.0 (full speed reverse) to +1.0
+            (full speed forward.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.Motor.Servo.Output.velocity">
+            <summary>
+            Write-only property for setting the normalized motor velocity.
+            Allowed values are -1.0 (full speed reverse) to +1.0
+            (full speed forward.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.PWM.Output">
+            <summary>
+            Encapsulates Linux PWM outputs using <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.PWM.Output.#ctor(System.Int32,System.Int32,System.Int32,System.Double,System.Int32)">
+            <summary>
+            Constructor for a single PWM output.
+            </summary>
+            <param name="chip">PWM chip number.</param>
+            <param name="channel">PWM channel number.</param>
+            <param name="frequency">PWM pulse frequency.</param>
+            <param name="dutycycle">Initial PWM output duty cycle.
+            Allowed values are 0.0 to 100.0 percent.</param>
+            <param name="polarity">PWM output polarity.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.PWM.Output.dutycycle">
+            <summary>
+            Write-only property for setting the PWM output duty cycle.
+            Allowed values are 0.0 to 100.0 percent.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.PWM.Output.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the PWM
+            output.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.Serial.Port">
+            <summary>
+            Encapsulates Linux asynchronous serial port devices using
+            <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Serial.Port.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor for a single asynchronous serial port device.
+            </summary>
+            <param name="devname">Device node name.</param>
+            <param name="baudrate">Baud rate.</param>
+            <param name="parity">Parity.</param>
+            <param name="databits">Data bits (5 to 8).</param>
+            <param name="stopbits">Stop bits (1 or 2).</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Serial.Port.Send(System.Byte[],System.Int32,System.Int32@)">
+            <summary>
+            Write bytes to the serial port device.
+            </summary>
+            <param name="buf">Transmit data buffer.</param>
+            <param name="bufsize">Number of bytes to send.</param>
+            <param name="count">Number of bytes actually sent.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Serial.Port.Send(System.String,System.Int32@)">
+            <summary>
+            Write an ASCII string to the serial port device.
+            </summary>
+            <param name="s">String to send.</param>
+            <param name="count">Number of bytes actually sent.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Serial.Port.Receive(System.Byte[],System.Int32,System.Int32@)">
+            <summary>
+            Receive bytes from a serial port device.
+            </summary>
+            <param name="buf">Receive data buffer.</param>
+            <param name="bufsize">Size of the receive data buffer.</param>
+            <param name="count">Number of bytes actually received.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Serial.Port.Receive(System.String@,System.Int32)">
+            <summary>
+            Receive an ASCII string from a serial port device.
+            </summary>
+            <param name="s">Destination string.</param>
+            <param name="bufsize">Maximum number of bytes to receive.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.Serial.Port.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the
+            serial port device.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.Servo.Output">
+            <summary>
+            Encapsulates Linux servo outputs using <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Servo.Output.#ctor(System.Int32,System.Int32,System.Int32,System.Double)">
+            <summary>
+            Constructor for a single servo output.
+            </summary>
+            <param name="chip">PWM chip number.</param>
+            <param name="channel">PWM channel number.</param>
+            <param name="frequency">PWM pulse frequency.</param>
+            <param name="position">Initial servo position).
+            Allowed values are -1.0 to +1.0.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.Servo.Output.position">
+            <summary>
+            Write-only property for setting the servo position.
+            Allowed values are -1.0 to +1.0.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.Servo.Output.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the
+            servo output.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.SPI.Device">
+            <summary>
+            Encapsulates Linux SPI devices using <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.SPI.Device.AUTOCHIPSELECT">
+            <summary>
+            Use hardware slave select.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.SPI.Device.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor for a single SPI device.
+            </summary>
+            <param name="devname">Device node name.</param>
+            <param name="mode">SPI clock mode.</param>
+            <param name="wordsize">SPI transfer word size.</param>
+            <param name="speed">SPI transfer speed.</param>
+            <param name="cspin">SPI slave select GPIO pin number, or
+            <c>AUTOCHIPSELECT</c>.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.SPI.Device.Read(System.Byte[],System.Int32)">
+            <summary>
+            Read bytes from an SPI slave device.
+            </summary>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.SPI.Device.Write(System.Byte[],System.Int32)">
+            <summary>
+            Write bytes to an SPI slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.SPI.Device.Transaction(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write and read bytes to and from an SPI slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+            <param name="delayus">Delay in microseconds between write and read
+            operations.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.SPI.Device.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the
+            SPI slave device.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.Watchdog.Timer">
+            <summary>
+            Encapsulates Linux watchdog timers using <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.Watchdog.Timer.Disabled">
+            <summary>
+            Value indicating he watchdog timer should be disabled.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Watchdog.Timer.#ctor(System.String,System.Int32)">
+            <summary>
+            Constructor for a single watchdog timer.
+            </summary>
+            <param name="devname">Device node name.</param>
+            <param name="timeout">Watchdog timeout setting in seconds, or
+            <c>Disabled</c>.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.Watchdog.Timer.Kick">
+            <summary>
+            Reset the watchdog timer.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.Watchdog.Timer.timeout">
+            <summary>
+            Get or set the watchdog timeout.  Not all platforms may support
+            this.  Even if supported, there may be constraints.  For example,
+            some platforms allow shortening the timeout but not lengthening it.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.Watchdog.Timer.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the
+            watchdog timer.
             </summary>
         </member>
         <member name="T:IO.Remote.Device">

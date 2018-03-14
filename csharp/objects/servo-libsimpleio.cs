@@ -1,4 +1,4 @@
-// Servo output services using libsimpleio
+// Servo output services using IO.Objects.libsimpleio
 
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using libsimpleio.Exceptions;
+using IO.Objects.libsimpleio.Exceptions;
 
-namespace libsimpleio.Servo
+namespace IO.Objects.libsimpleio.Servo
 {
     /// <summary>
     /// Encapsulates Linux servo outputs using <c>libsimpleio</c>.
@@ -67,16 +67,17 @@ namespace libsimpleio.Servo
             int ontime = (int)(1500000.0 + 500000.0 * position);
             int error;
 
-            libsimpleio.libPWM.PWM_configure(chip, channel, period, ontime,
-                libPWM.ActiveHigh, out error);
+            IO.Bindings.libsimpleio.libPWM.PWM_configure(chip, channel,
+                period, ontime, IO.Bindings.libsimpleio.libPWM.ActiveHigh,
+                out error);
 
             if (error != 0)
             {
                 throw new Exception("PWM_configure() failed", error);
             }
 
-            libsimpleio.libPWM.PWM_open(chip, channel, out this.myfd,
-                out error);
+            IO.Bindings.libsimpleio.libPWM.PWM_open(chip, channel,
+                out this.myfd, out error);
 
             if (error != 0)
             {
@@ -101,7 +102,8 @@ namespace libsimpleio.Servo
                 int ontime = (int)(1500000.0 + 500000.0 * value);
                 int error;
 
-                libsimpleio.libPWM.PWM_write(this.myfd, ontime, out error);
+                IO.Bindings.libsimpleio.libPWM.PWM_write(this.myfd,
+                    ontime, out error);
 
                 if (error != 0)
                 {
@@ -111,7 +113,8 @@ namespace libsimpleio.Servo
         }
 
         /// <summary>
-        /// Read-only property returning the Linux file descriptor for the servo output.
+        /// Read-only property returning the Linux file descriptor for the
+        /// servo output.
         /// </summary>
         public int fd
         {

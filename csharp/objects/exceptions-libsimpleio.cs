@@ -18,7 +18,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace libsimpleio.Exceptions
+namespace IO.Objects.libsimpleio.Exceptions
 {
     /// <summary>
     /// Encapsulates exceptions that may include an optional
@@ -45,7 +45,8 @@ namespace libsimpleio.Exceptions
         public Exception(string message, int error)
         {
             System.Text.StringBuilder buf = new System.Text.StringBuilder(256);
-            libsimpleio.libLinux.LINUX_strerror(error, buf, buf.Capacity);
+            IO.Bindings.libsimpleio.libLinux.LINUX_strerror(error, buf,
+                buf.Capacity);
             System.Console.WriteLine(message + ", " + buf.ToString());
         }
     }

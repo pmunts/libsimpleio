@@ -1,4 +1,4 @@
-// I2C bus controller services using libsimpleio
+// I2C bus controller services using IO.Objects.libsimpleio
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,12 +20,13 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using libsimpleio.Exceptions;
+using IO.Objects.libsimpleio.Exceptions;
 
-namespace libsimpleio.I2C
+namespace IO.Objects.libsimpleio.I2C
 {
     /// <summary>
-    /// Encapsulates Linux I<sup>2</sup>C bus controllers using <c>libsimpleio</c>.
+    /// Encapsulates Linux I<sup>2</sup>C bus controllers using
+    /// <c>libsimpleio</c>.
     /// </summary>
     public class Bus : IO.Interfaces.I2C.Bus
     {
@@ -39,7 +40,8 @@ namespace libsimpleio.I2C
         {
             int error;
 
-            libsimpleio.libI2C.I2C_open(devname, out this.myfd, out error);
+            IO.Bindings.libsimpleio.libI2C.I2C_open(devname, out this.myfd,
+                out error);
 
             if (error != 0)
             {
@@ -68,8 +70,8 @@ namespace libsimpleio.I2C
             byte[] cmd = new byte[1];
             int error;
 
-            libsimpleio.libI2C.I2C_transaction(this.myfd, slaveaddr, cmd, 0,
-                resp, resplen, out error);
+            IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+                slaveaddr, cmd, 0, resp, resplen, out error);
 
             if (error != 0)
             {
@@ -98,8 +100,8 @@ namespace libsimpleio.I2C
             byte[] resp = new byte[1];
             int error;
 
-            libsimpleio.libI2C.I2C_transaction(this.myfd, slaveaddr, cmd,
-                cmdlen, resp, 0, out error);
+            IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+                slaveaddr, cmd, cmdlen, resp, 0, out error);
 
             if (error != 0)
             {
@@ -115,8 +117,8 @@ namespace libsimpleio.I2C
         /// <param name="cmdlen">Number of bytes to write.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read.</param>
-        public void Transaction(int slaveaddr, byte[] cmd, int cmdlen, byte[] resp,
-            int resplen)
+        public void Transaction(int slaveaddr, byte[] cmd, int cmdlen,
+            byte[] resp, int resplen)
         {
             if ((slaveaddr < 0) || (slaveaddr > 127))
             {
@@ -135,8 +137,8 @@ namespace libsimpleio.I2C
 
             int error;
 
-            libsimpleio.libI2C.I2C_transaction(this.myfd, slaveaddr, cmd,
-                cmdlen, resp, resplen, out error);
+            IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+                slaveaddr, cmd, cmdlen, resp, resplen, out error);
 
             if (error != 0)
             {
@@ -145,7 +147,8 @@ namespace libsimpleio.I2C
         }
 
         /// <summary>
-        /// Read-only property returning the Linux file descriptor for the I<sup>2</sup>C bus controller.
+        /// Read-only property returning the Linux file descriptor for the
+        /// I<sup>2</sup>C bus controller.
         /// </summary>
         public int fd
         {

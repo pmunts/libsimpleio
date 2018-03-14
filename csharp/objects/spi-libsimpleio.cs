@@ -1,4 +1,4 @@
-// SPI device services using libsimpleio
+// SPI device services using IO.Objects.libsimpleio
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using libsimpleio.Exceptions;
+using IO.Objects.libsimpleio.Exceptions;
 
-namespace libsimpleio.SPI
+namespace IO.Objects.libsimpleio.SPI
 {
     /// <summary>
     /// Encapsulates Linux SPI devices using <c>libsimpleio</c>.
@@ -53,8 +53,8 @@ namespace libsimpleio.SPI
 
             this.myfdcs = AUTOCHIPSELECT;
 
-            libsimpleio.libSPI.SPI_open(devname, mode, wordsize, speed,
-                out this.myfd, out error);
+            IO.Bindings.libsimpleio.libSPI.SPI_open(devname, mode, wordsize,
+                speed, out this.myfd, out error);
 
             if (error != 0)
             {
@@ -63,18 +63,19 @@ namespace libsimpleio.SPI
 
             if (cspin != AUTOCHIPSELECT)
             {
-                libsimpleio.libGPIO.GPIO_configure(cspin,
-                    libsimpleio.libGPIO.DIRECTION_OUTPUT, 1,
-                    libsimpleio.libGPIO.EDGE_NONE,
-                    libsimpleio.libGPIO.POLARITY_ACTIVEHIGH, out error);
+                IO.Bindings.libsimpleio.libGPIO.GPIO_configure(cspin,
+                    IO.Bindings.libsimpleio.libGPIO.DIRECTION_OUTPUT, 1,
+                    IO.Bindings.libsimpleio.libGPIO.EDGE_NONE,
+                    IO.Bindings.libsimpleio.libGPIO.POLARITY_ACTIVEHIGH,
+                    out error);
 
                 if (error != 0)
                 {
                     throw new Exception("GPIO_configure() failed", error);
                 }
 
-                libsimpleio.libGPIO.GPIO_open(cspin, out this.myfdcs,
-                    out error);
+                IO.Bindings.libsimpleio.libGPIO.GPIO_open(cspin,
+                    out this.myfdcs, out error);
 
                 if (error != 0)
                 {
@@ -98,8 +99,8 @@ namespace libsimpleio.SPI
             byte[] cmd = new byte[1];
             int error;
 
-            libsimpleio.libSPI.SPI_transaction(this.myfd, this.myfdcs, cmd, 0,
-                0, resp, resp.Length, out error);
+            IO.Bindings.libsimpleio.libSPI.SPI_transaction(this.myfd,
+                this.myfdcs, cmd, 0, 0, resp, resp.Length, out error);
 
             if (error != 0)
             {
@@ -122,8 +123,8 @@ namespace libsimpleio.SPI
             byte[] resp = new byte[1];
             int error;
 
-            libsimpleio.libSPI.SPI_transaction(this.myfd, this.myfdcs, cmd,
-                cmd.Length, 0, resp, resp.Length, out error);
+            IO.Bindings.libsimpleio.libSPI.SPI_transaction(this.myfd,
+                this.myfdcs, cmd, cmd.Length, 0, resp, resp.Length, out error);
 
             if (error != 0)
             {
@@ -160,8 +161,9 @@ namespace libsimpleio.SPI
 
             int error;
 
-            libsimpleio.libSPI.SPI_transaction(this.myfd, this.myfdcs, cmd,
-                cmd.Length, delayus, resp, resp.Length, out error);
+            IO.Bindings.libsimpleio.libSPI.SPI_transaction(this.myfd,
+                this.myfdcs, cmd, cmd.Length, delayus, resp, resp.Length,
+                out error);
 
             if (error != 0)
             {

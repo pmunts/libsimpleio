@@ -22,7 +22,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace libsimpleio
+namespace IO.Bindings.libsimpleio
 {
     /// <summary>
     /// Wrapper for libsimpleio Linux system call services.

@@ -42,6 +42,9 @@
     <HelpTitle>Linux I/O Library</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <NamespaceSummaries>
+      <NamespaceSummaryItem name="IO.Bindings.libsimpleio" isDocumented="True">Wrapper Classes for the Linux Simple I/O Library (&lt;a href="http://git.munts.com/libsimpleio"&gt;http://git.munts.com/libsimpleio&lt;/a&gt;)</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.PCA8574" isDocumented="True">PCA8574 (and similar) I&amp;lt;sup&amp;gt;2&amp;lt;/sup&amp;gt;C GPIO Expander Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&amp;lt;a href="http://tech.munts.com"&amp;gt;http://tech.munts.com&amp;lt;/a&amp;gt;) USB devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Ouput) Pins</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
@@ -52,20 +55,18 @@
       <NamespaceSummaryItem name="IO.Interfaces.Serial" isDocumented="True">Abstract Interface for Asynchronous Serial Ports</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Servo" isDocumented="True">Abstract Interface for Servo Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Watchdog" isDocumented="True">Abstract Interface for Watchdog Timers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.ADC" isDocumented="True">ADC (Analog to Digital Converter) Input Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.Exceptions" isDocumented="True">Exception Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.GPIO" isDocumented="True">GPIO (General Purpose Input/Output) Pin Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.HID" isDocumented="True">Raw HID (Human Interface Device) Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.I2C" isDocumented="True">I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controller Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.PWM" isDocumented="True">PWM (Pulse WIdth Modulated) Output Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.SPI" isDocumented="True">SPI (Serial Peripheral Interconnect) Device Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.Serial" isDocumented="True">Asynchronous Serial Port Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.Servo" isDocumented="True">Servo Output Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.Watchdog" isDocumented="True">Watchdog Timer Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="PCA8574" isDocumented="True">PCA8574 (and similar) I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&lt;a href="http://tech.munts.com"&gt;http://tech.munts.com&lt;/a&gt;) USB devices</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio" isDocumented="True">Wrapper Classes for the Linux Simple I/O Library (&lt;a href="http://git.munts.com/libsimpleio"&gt;http://git.munts.com/libsimpleio&lt;/a&gt;)</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.ADC" isDocumented="True">ADC (Analog to Digital Converter) Input Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.Exceptions" isDocumented="True">Exception Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.GPIO" isDocumented="True">GPIO (General Purpose Input/Output) Pin Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.HID" isDocumented="True">Raw HID (Human Interface Device) Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.I2C" isDocumented="True">I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controller Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.PWM" isDocumented="True">PWM (Pulse WIdth Modulated) Output Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.SPI" isDocumented="True">SPI (Serial Peripheral Interconnect) Device Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.Serial" isDocumented="True">Asynchronous Serial Port Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.Servo" isDocumented="True">Servo Output Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="libsimpleio.Watchdog" isDocumented="True">Watchdog Timer Services</NamespaceSummaryItem>
     </NamespaceSummaries>
     <VisibleItems>None</VisibleItems>
   </PropertyGroup>

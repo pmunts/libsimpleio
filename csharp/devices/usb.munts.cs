@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace USB.Munts
+namespace IO.Devices.USB.Munts
 {
     /// <summary>
     /// USB device constants for Munts Technologies USB HID devices.

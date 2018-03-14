@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using libsimpleio.Exceptions;
+using IO.Objects.libsimpleio.Exceptions;
 
-namespace libsimpleio.Motor.Servo
+namespace IO.Objects.libsimpleio.Motor.Servo
 {
     /// <summary>
     /// Encapsulates motors connected to servo outputs (e.g. continuous

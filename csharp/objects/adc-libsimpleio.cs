@@ -1,4 +1,4 @@
-// PWM output services using libsimpleio
+// PWM output services using IO.Objects.libsimpleio
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using libsimpleio.Exceptions;
+using IO.Objects.libsimpleio.Exceptions;
 
-namespace libsimpleio.ADC
+namespace IO.Objects.libsimpleio.ADC
 {
     /// <summary>
     /// Encapsulates Linux Industrial I/O Subsystem ADC inputs usingi
@@ -41,7 +41,8 @@ namespace libsimpleio.ADC
         /// <returns>Subsystem name.</returns>
         public static string name(int chip)
         {
-            System.Text.StringBuilder name = new System.Text.StringBuilder(256);
+            System.Text.StringBuilder name =
+                new System.Text.StringBuilder(256);
             int error;
 
             if (chip < 0)
@@ -49,8 +50,8 @@ namespace libsimpleio.ADC
                 throw new Exception("Invalid chip number");
             }
 
-            libsimpleio.libADC.ADC_get_name(chip, name, name.Capacity,
-                out error);
+            IO.Bindings.libsimpleio.libADC.ADC_get_name(chip, name,
+                name.Capacity, out error);
 
             return name.ToString();
         }
@@ -75,7 +76,8 @@ namespace libsimpleio.ADC
                 throw new Exception("Invalid channel number");
             }
 
-            libsimpleio.libADC.ADC_open(chip, channel, out this.myfd, out error);
+            IO.Bindings.libsimpleio.libADC.ADC_open(chip, channel,
+                out this.myfd, out error);
 
             if (error != 0)
             {
@@ -86,7 +88,8 @@ namespace libsimpleio.ADC
         }
 
         /// <summary>
-        /// Read-only property returning an integer analog sample from an ADC input.
+        /// Read-only property returning an integer analog sample from an ADC
+        /// input.
         /// </summary>
         public int sample
         {
@@ -95,7 +98,8 @@ namespace libsimpleio.ADC
                 int rawdata;
                 int error;
 
-                libsimpleio.libADC.ADC_read(this.myfd, out rawdata, out error);
+                IO.Bindings.libsimpleio.libADC.ADC_read(this.myfd,
+                    out rawdata, out error);
 
                 if (error != 0)
                 {
@@ -118,7 +122,8 @@ namespace libsimpleio.ADC
         }
 
         /// <summary>
-        /// Read-only property returning the Linux file descriptor for the ADC input.
+        /// Read-only property returning the Linux file descriptor for the ADC
+        /// input.
         /// </summary>
         public int fd
         {

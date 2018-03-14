@@ -1,4 +1,4 @@
-// Watchdog timer services using libsimpleio
+// Watchdog timer services using IO.Objects.libsimpleio
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using libsimpleio.Exceptions;
+using IO.Objects.libsimpleio.Exceptions;
 
-namespace libsimpleio.Watchdog
+namespace IO.Objects.libsimpleio.Watchdog
 {
     /// <summary>
     /// Encapsulates Linux watchdog timers using <c>libsimpleio</c>.
@@ -51,8 +51,8 @@ namespace libsimpleio.Watchdog
 
             int error;
 
-            libsimpleio.libWatchdog.WATCHDOG_open(devname, out this.myfd,
-                out error);
+            IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_open(devname,
+                out this.myfd, out error);
 
             if (error != 0)
             {
@@ -63,12 +63,13 @@ namespace libsimpleio.Watchdog
             {
                 int newtimeout;
 
-                libsimpleio.libWatchdog.WATCHDOG_set_timeout(this.myfd, timeout,
-                    out newtimeout, out error);
+                IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_set_timeout(this.myfd,
+                    timeout, out newtimeout, out error);
 
                 if (error != 0)
                 {
-                    throw new Exception("WATCHDOG_set_timeout() failed", error);
+                    throw new Exception("WATCHDOG_set_timeout() failed",
+                        error);
                 }
             }
         }
@@ -80,7 +81,8 @@ namespace libsimpleio.Watchdog
         {
             int error;
 
-            libsimpleio.libWatchdog.WATCHDOG_kick(this.myfd, out error);
+            IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_kick(this.myfd,
+                out error);
 
             if (error != 0)
             {
@@ -100,8 +102,8 @@ namespace libsimpleio.Watchdog
                 int error;
                 int value;
 
-                libsimpleio.libWatchdog.WATCHDOG_get_timeout(this.myfd, out value,
-                    out error);
+                IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_get_timeout(this.myfd,
+                    out value, out error);
 
                 if (error != 0)
                 {
@@ -121,8 +123,8 @@ namespace libsimpleio.Watchdog
                 int newtimeout;
                 int error;
 
-                libsimpleio.libWatchdog.WATCHDOG_set_timeout(this.myfd, value,
-                    out newtimeout, out error);
+                IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_set_timeout(this.myfd,
+                    value, out newtimeout, out error);
 
                 if (error != 0)
                 {

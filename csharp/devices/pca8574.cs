@@ -20,7 +20,7 @@
 
 using System;
 
-namespace PCA8574
+namespace IO.Devices.PCA8574
 {
     /// <summary>
     /// Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expanders.

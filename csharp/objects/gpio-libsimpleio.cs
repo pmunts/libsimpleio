@@ -1,4 +1,4 @@
-// GPIO pin services using libsimpleio
+// GPIO pin services using IO.Objects.libsimpleio
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using libsimpleio.Exceptions;
+using IO.Objects.libsimpleio.Exceptions;
 
-namespace libsimpleio.GPIO
+namespace IO.Objects.libsimpleio.GPIO
 {
     /// <summary>
     /// Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
@@ -88,15 +88,16 @@ namespace libsimpleio.GPIO
 
             int error;
 
-            libsimpleio.libGPIO.GPIO_configure(pin, (int)dir, state ? 1 : 0,
-                (int)edge, (int)polarity, out error);
+            IO.Bindings.libsimpleio.libGPIO.GPIO_configure(pin, (int)dir,
+                state ? 1 : 0, (int)edge, (int)polarity, out error);
 
             if (error != 0)
             {
                 throw new Exception("GPIO_configure() failed", error);
             }
 
-            libsimpleio.libGPIO.GPIO_open(pin, out this.myfd, out error);
+            IO.Bindings.libsimpleio.libGPIO.GPIO_open(pin, out this.myfd,
+                out error);
 
             if (error != 0)
             {
@@ -114,7 +115,8 @@ namespace libsimpleio.GPIO
                 int error;
                 int value;
 
-                libsimpleio.libGPIO.GPIO_read(this.myfd, out value, out error);
+                IO.Bindings.libsimpleio.libGPIO.GPIO_read(this.myfd,
+                    out value, out error);
 
                 if (error != 0)
                 {
@@ -128,7 +130,8 @@ namespace libsimpleio.GPIO
             {
                 int error;
 
-                libsimpleio.libGPIO.GPIO_write(this.myfd, value ? 1 : 0, out error);
+                IO.Bindings.libsimpleio.libGPIO.GPIO_write(this.myfd,
+                    value ? 1 : 0, out error);
 
                 if (error != 0)
                 {
@@ -138,7 +141,8 @@ namespace libsimpleio.GPIO
         }
 
         /// <summary>
-        /// Read-only property returning the Linux file descriptor for the GPIO pin.
+        /// Read-only property returning the Linux file descriptor for the
+        /// GPIO pin.
         /// </summary>
         public int fd
         {

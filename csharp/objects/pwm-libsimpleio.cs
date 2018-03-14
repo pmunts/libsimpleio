@@ -1,4 +1,4 @@
-// PWM output services using libsimpleio
+// PWM output services using IO.Objects.libsimpleio
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using libsimpleio.Exceptions;
+using IO.Objects.libsimpleio.Exceptions;
 
-namespace libsimpleio.PWM
+namespace IO.Objects.libsimpleio.PWM
 {
     /// <summary>
     /// Encapsulates Linux PWM outputs using <c>libsimpleio</c>.
@@ -43,7 +43,7 @@ namespace libsimpleio.PWM
         /// <param name="polarity">PWM output polarity.</param>
         public Output(int chip, int channel, int frequency,
             double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum,
-            int polarity = libsimpleio.libPWM.ActiveHigh)
+            int polarity = IO.Bindings.libsimpleio.libPWM.ActiveHigh)
         {
             if (chip < 0)
             {
@@ -66,25 +66,26 @@ namespace libsimpleio.PWM
                 throw new Exception("Invalid duty cycle");
             }
 
-            if ((polarity < libsimpleio.libPWM.ActiveLow) ||
-                (polarity > libsimpleio.libPWM.ActiveHigh))
+            if ((polarity < IO.Bindings.libsimpleio.libPWM.ActiveLow) ||
+                (polarity > IO.Bindings.libsimpleio.libPWM.ActiveHigh))
             {
                 throw new Exception("Invalid polarity");
             }
 
             this.period = (int)(1.0E9 / frequency);
-            int ontime = (int)(dutycycle / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
+            int ontime =(int)(dutycycle / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
             int error;
 
-            libsimpleio.libPWM.PWM_configure(chip, channel, period, ontime,
-                (int)polarity, out error);
+            IO.Bindings.libsimpleio.libPWM.PWM_configure(chip, channel,
+                period, ontime, (int)polarity, out error);
 
             if (error != 0)
             {
                 throw new Exception("PWM_configure() failed", error);
             }
 
-            libsimpleio.libPWM.PWM_open(chip, channel, out this.myfd, out error);
+            IO.Bindings.libsimpleio.libPWM.PWM_open(chip, channel,
+                out this.myfd, out error);
 
             if (error != 0)
             {
@@ -109,7 +110,8 @@ namespace libsimpleio.PWM
                 int ontime = (int)(value / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
                 int error;
 
-                libsimpleio.libPWM.PWM_write(this.myfd, ontime, out error);
+                IO.Bindings.libsimpleio.libPWM.PWM_write(this.myfd,
+                    ontime, out error);
 
                 if (error != 0)
                 {
@@ -119,7 +121,8 @@ namespace libsimpleio.PWM
         }
 
         /// <summary>
-        /// Read-only property returning the Linux file descriptor for the PWM output.
+        /// Read-only property returning the Linux file descriptor for the PWM
+        /// output.
         /// </summary>
         public int fd
         {

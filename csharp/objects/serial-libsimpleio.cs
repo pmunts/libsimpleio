@@ -1,4 +1,4 @@
-// GPIO pin services using libsimpleio
+// GPIO pin services using IO.Objects.libsimpleio
 
 // Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using libsimpleio.Exceptions;
+using IO.Objects.libsimpleio.Exceptions;
 
-namespace libsimpleio.Serial
+namespace IO.Objects.libsimpleio.Serial
 {
     /// <summary>
     /// Encapsulates Linux asynchronous serial port devices using
@@ -45,8 +45,8 @@ namespace libsimpleio.Serial
         {
             int error;
 
-            libsimpleio.libSerial.SERIAL_open(devname, baudrate, parity,
-                databits, stopbits, out this.myfd, out error);
+            IO.Bindings.libsimpleio.libSerial.SERIAL_open(devname, baudrate,
+                parity, databits, stopbits, out this.myfd, out error);
 
             if (error != 0)
             {
@@ -64,8 +64,8 @@ namespace libsimpleio.Serial
         {
             int error;
 
-            libsimpleio.libSerial.SERIAL_send(this.myfd, buf, bufsize,
-                out count, out error);
+            IO.Bindings.libsimpleio.libSerial.SERIAL_send(this.myfd, buf,
+                bufsize, out count, out error);
 
             if (error != 0)
             {
@@ -95,8 +95,8 @@ namespace libsimpleio.Serial
         {
             int error;
 
-            libsimpleio.libSerial.SERIAL_receive(this.myfd, buf, bufsize,
-                out count, out error);
+            IO.Bindings.libsimpleio.libSerial.SERIAL_receive(this.myfd, buf,
+                bufsize, out count, out error);
 
             if (error != 0)
             {
