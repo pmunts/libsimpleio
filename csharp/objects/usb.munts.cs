@@ -25,7 +25,7 @@ namespace IO.Objects.USB.Munts
     /// <summary>
     /// USB device constants for Munts Technologies USB HID devices.
     /// </summary>
-    public class HID
+    public static class HID
     {
         /// <summary>
         /// Vendor ID for Munts Technologies
@@ -41,7 +41,7 @@ namespace IO.Objects.USB.Munts
     /// <summary>
     /// USB device constants for Munts Technologies USB serial port devices.
     /// </summary>
-    public class Serial
+    public static class Serial
     {
         /// <summary>
         /// Vendor ID for Munts Technologies
