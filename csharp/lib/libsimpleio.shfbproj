@@ -54,6 +54,7 @@
       <NamespaceSummaryItem name="IO.Interfaces.Serial" isDocumented="True">Abstract Interface for Asynchronous Serial Ports</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Servo" isDocumented="True">Abstract Interface for Servo Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Watchdog" isDocumented="True">Abstract Interface for Watchdog Timers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&lt;a href="http://tech.munts.com"&gt;http://tech.munts.com&lt;/a&gt;) USB devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.ADC" isDocumented="True">ADC (Analog to Digital Converter) Input Services</NamespaceSummaryItem>
