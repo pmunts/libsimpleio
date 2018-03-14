@@ -53,8 +53,8 @@ namespace IO.Objects.libsimpleio.HID
         /// </summary>
         /// <param name="VID">Vendor ID.</param>
         /// <param name="PID">Product ID.</param>
-        public Messenger(int VID = IO.Devices.USB.Munts.HID.Vendor,
-            int PID = IO.Devices.USB.Munts.HID.Product)
+        public Messenger(int VID = IO.Objects.USB.Munts.HID.Vendor,
+            int PID = IO.Objects.USB.Munts.HID.Product)
         {
             if ((VID < 0) || (VID > 65535))
             {

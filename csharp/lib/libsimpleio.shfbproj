@@ -44,7 +44,7 @@
     <NamespaceSummaries>
       <NamespaceSummaryItem name="IO.Bindings.libsimpleio" isDocumented="True">Wrapper Classes for the Linux Simple I/O Library (&lt;a href="http://git.munts.com/libsimpleio"&gt;http://git.munts.com/libsimpleio&lt;/a&gt;)</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA8574" isDocumented="True">PCA8574 (and similar) I&amp;lt;sup&amp;gt;2&amp;lt;/sup&amp;gt;C GPIO Expander Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&amp;lt;a href="http://tech.munts.com"&amp;gt;http://tech.munts.com&amp;lt;/a&amp;gt;) USB devices</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&amp;lt;a href="http://tech.munts.com"&amp;gt;http://tech.munts.com&amp;lt;/a&amp;gt;) USB devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Ouput) Pins</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
