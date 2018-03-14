@@ -20,8 +20,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Exceptions;
-
 namespace IO.Objects.Motor.Servo
 {
     /// <summary>
@@ -42,16 +40,8 @@ namespace IO.Objects.Motor.Servo
         public Output(IO.Interfaces.Servo.Output servo,
           double velocity = IO.Interfaces.Motor.Velocities.Minimum)
         {
-            // Validate parameters
-
-            if ((velocity < IO.Interfaces.Motor.Velocities.Minimum) ||
-                (velocity > IO.Interfaces.Motor.Velocities.Maximum))
-            {
-                throw new Exception("Invalid velocity");
-            }
-
+            servo.position = velocity;
             this.servo = servo;
-            this.servo.position = velocity;
         }
 
         /// <summary>
