@@ -33,6 +33,11 @@ namespace IO.Interfaces.Motor
         public const double Minimum = -1.0;
 
         /// <summary>
+        /// Zero velocity (motor stopped).
+        /// </summary>
+        public const double Stop = 0.0;
+
+        /// <summary>
         /// Maximum velocity (full speed forward).
         /// </summary>
         public const double Maximum = 1.0;
