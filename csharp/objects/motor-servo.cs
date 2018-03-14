@@ -38,7 +38,7 @@ namespace IO.Objects.Motor.Servo
         /// Allowed values are -1.0 (full speed reverse) to +1.0
         /// (full speed forward.</param>
         public Output(IO.Interfaces.Servo.Output servo,
-          double velocity = IO.Interfaces.Motor.Velocities.Minimum)
+          double velocity = IO.Interfaces.Motor.Velocities.Stop)
         {
             servo.position = velocity;
             this.servo = servo;
