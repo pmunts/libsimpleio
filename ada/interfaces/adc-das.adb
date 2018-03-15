@@ -34,7 +34,8 @@ PACKAGE BODY ADC.DAS IS
     adcoffset : Voltage.Volts := Offset) RETURN Input IS
 
   BEGIN
-    RETURN NEW InputSubclass'(InputClass(adcin.ALL) WITH adcgain, adcoffset);
+    RETURN NEW InputSubclass'(InputClass(adcin.ALL) WITH
+      Reference/Voltage.Volts(2**Resolution), adcgain, adcoffset);
   END Create;
 
   -- Methods
@@ -42,8 +43,8 @@ PACKAGE BODY ADC.DAS IS
   FUNCTION Get(self : IN OUT InputSubclass) RETURN Voltage.Volts IS
 
   BEGIN
-    RETURN Voltage.Volts(Analog.Sample'(self.Get))*Reference/
-      Voltage.Volts(2**Resolution)/self.gain - self.offset;
+    RETURN Voltage.Volts(Analog.Sample'(self.Get))*self.StepSize/self.gain -
+      self.offset;
   END Get;
 
   PROCEDURE SetGain(self : IN OUT InputSubclass; gain : Voltage.Volts) IS

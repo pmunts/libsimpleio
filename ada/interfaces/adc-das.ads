@@ -60,8 +60,9 @@ PRIVATE
 
   TYPE InputSubclass IS NEW Inputclass AND
     Voltage.Interfaces.InputInterface WITH RECORD
-    Gain   : Voltage.Volts;
-    Offset : Voltage.Volts;
+    StepSize : Voltage.Volts;
+    Gain     : Voltage.Volts;
+    Offset   : Voltage.Volts;
   END RECORD;
 
 END ADC.DAS;
