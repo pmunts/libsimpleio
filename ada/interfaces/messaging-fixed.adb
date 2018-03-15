@@ -35,7 +35,7 @@ PACKAGE BODY Messaging.Fixed IS
    (self      : MessengerInterface'Class;
     cmd       : Message;
     resp      : OUT Message;
-    timeoutms : Natural) IS
+    timeoutms : Natural := 0) IS
 
   BEGIN
     self.Send(cmd);

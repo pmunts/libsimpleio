@@ -54,7 +54,7 @@ PACKAGE Messaging.Fixed IS
    (self      : MessengerInterface'Class;
     cmd       : Message;
     resp      : OUT Message;
-    timeoutms : Natural);
+    timeoutms : Natural := 0);
 
   -- Retrieve the underlying Linux file descriptor
   -- If no file descriptor is available, return -1.
