@@ -73,7 +73,7 @@ INTERFACE
 
       { Public methods }
 
-      FUNCTION Read : Integer;
+      FUNCTION ReadSample : Integer;
 
       FUNCTION ReadVoltage : Real;
     PRIVATE
@@ -162,11 +162,9 @@ IMPLEMENTATION
 
   { Method implementing ADC.ADCInput.Read }
 
-  FUNCTION InputSubclass.Read : Integer;
+  FUNCTION InputSubclass.ReadSample : Integer;
 
   BEGIN
-    Read := 1234;
-
     { Start conversion }
 
     Self.dev.WriteRegister(CONFIG, (1 SHL 15) + (Self.channel SHL 12) +
@@ -177,7 +175,7 @@ IMPLEMENTATION
     REPEAT
     UNTIL (Self.dev.ReadRegister(CONFIG) AND $8000) <> 0;
 
-    Read := SmallInt(Self.dev.ReadRegister(CONVERSION) SHR 4);
+    ReadSample := SmallInt(Self.dev.ReadRegister(CONVERSION) SHR 4);
   END;
 
   { Method implementing Voltage.VoltageInput.ReadVoltage }
@@ -189,7 +187,7 @@ IMPLEMENTATION
      (6.144, 4.096, 2.048, 1.024, 0.512, 0.256);
 
   BEGIN
-    ReadVoltage := Self.Read*RangeValues[Self.range]/Steps*2.0/gain - offset;
+    ReadVoltage := Self.ReadSample*RangeValues[Self.range]/Steps*2.0/gain - offset;
   END;
 
 END.

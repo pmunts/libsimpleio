@@ -31,9 +31,9 @@ INTERFACE
     DAC_Error = CLASS(Exception);
 
     DACOutput = INTERFACE
-      PROCEDURE Write(sample : Integer);
+      PROCEDURE WriteSample(sample : Integer);
 
-      PROPERTY sample : Integer WRITE Write;
+      PROPERTY sample : Integer WRITE WriteSample;
     END;
 
 IMPLEMENTATION

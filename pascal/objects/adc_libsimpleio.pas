@@ -41,7 +41,7 @@ INTERFACE
 
       DESTRUCTOR Destroy; OVERRIDE;
 
-      FUNCTION Read : Integer;
+      FUNCTION ReadSample : Integer;
 
       FUNCTION ReadVoltage : Real;
 
@@ -97,9 +97,9 @@ IMPLEMENTATION
     INHERITED;
   END;
 
-  { Method implementing ADC.ADCInput.Read }
+  { Method implementing ADC.ADCInput.ReadSample }
 
-  FUNCTION InputSubclass.Read : Integer;
+  FUNCTION InputSubclass.ReadSample : Integer;
 
   VAR
     sample : Integer;
@@ -111,7 +111,7 @@ IMPLEMENTATION
     IF error <> 0 THEN
       RAISE ADC_Error.create('ERROR: libADC.Read() failed, ' + strerror(error));
 
-    Read := sample;
+    ReadSample := sample;
   END;
 
   { Method implementing Voltage.VoltageInput.ReadVoltage }
@@ -119,7 +119,7 @@ IMPLEMENTATION
   FUNCTION InputSubclass.ReadVoltage : Real;
 
   BEGIN
-    ReadVoltage := Self.Read*Self.stepsize/Self.gain - Self.offset;
+    ReadVoltage := Self.ReadSample*Self.stepsize/Self.gain - Self.offset;
   END;
 
 END.

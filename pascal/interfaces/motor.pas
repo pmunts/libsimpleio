@@ -44,11 +44,11 @@ INTERFACE
 
       { Write method }
 
-      PROCEDURE Write(velocity : Real);
+      PROCEDURE WriteVelocity(velocity : Real);
 
       { Velocity property }
 
-      PROPERTY velocity : Real WRITE Write;
+      PROPERTY velocity : Real WRITE WriteVelocity;
     END;
 
 IMPLEMENTATION

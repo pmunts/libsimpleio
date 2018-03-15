@@ -42,9 +42,9 @@ INTERFACE
 
       DESTRUCTOR Destroy; OVERRIDE;
 
-      PROCEDURE Write(dutycycle : Real);
+      PROCEDURE WriteDutyCycle(dutycycle : Real);
 
-      PROPERTY dutycycle : Real WRITE Write;
+      PROPERTY dutycycle : Real WRITE WriteDutyCycle;
 
     PRIVATE
       fd     : Integer;
@@ -113,7 +113,7 @@ IMPLEMENTATION
 
   {  PWM_libsimpleio.DeviceSubclass write method }
 
-  PROCEDURE DeviceSubclass.Write(dutycycle : Real);
+  PROCEDURE DeviceSubclass.WriteDutyCycle(dutycycle : Real);
 
   VAR
     ontime : Integer;

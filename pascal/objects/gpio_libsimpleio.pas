@@ -41,11 +41,11 @@ INTERFACE
 
       DESTRUCTOR Destroy; OVERRIDE;
 
-      FUNCTION Read : Boolean;
+      FUNCTION ReadState : Boolean;
 
-      PROCEDURE Write(state : Boolean);
+      PROCEDURE WriteState(state : Boolean);
 
-      PROPERTY state : Boolean READ Read WRITE Write;
+      PROPERTY state : Boolean READ ReadState WRITE WriteState;
     PRIVATE
       fd : Integer;
     END;
@@ -106,7 +106,7 @@ IMPLEMENTATION
 
   { GPIO read method }
 
-  FUNCTION PinSubclass.Read : Boolean;
+  FUNCTION PinSubclass.ReadState : Boolean;
 
   VAR
     s      : Integer;
@@ -119,12 +119,12 @@ IMPLEMENTATION
       RAISE GPIO_Error.create('ERROR: libGPIO.read() failed, ' +
         strerror(error));
 
-    Read := Boolean(s);
+    ReadState := Boolean(s);
   END;
 
   { GPIO write method }
 
-  PROCEDURE PinSubclass.Write(state : Boolean);
+  PROCEDURE PinSubclass.WriteState(state : Boolean);
 
   VAR
     error  : Integer;

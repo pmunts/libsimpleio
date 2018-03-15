@@ -31,9 +31,9 @@ INTERFACE
     ADC_Error = CLASS(Exception);
 
     ADCInput = INTERFACE
-      FUNCTION Read : Integer;
+      FUNCTION ReadSample : Integer;
 
-      PROPERTY sample : Integer READ Read;
+      PROPERTY sample : Integer READ ReadSample;
     END;
 
 IMPLEMENTATION

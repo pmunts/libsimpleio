@@ -31,7 +31,7 @@ INTERFACE
     VoltageInput = INTERFACE
       FUNCTION ReadVoltage : Real;
 
-      PROPERTY voltage : Real READ Read;
+      PROPERTY voltage : Real READ ReadVoltage;
     END;
 
     { Abstract interface for a voltage output device }
@@ -39,7 +39,7 @@ INTERFACE
     VoltageOutput = INTERFACE
       PROCEDURE WriteVoltage(v : Real);
 
-      PROPERTY voltage : Real WRITE Write;
+      PROPERTY voltage : Real WRITE WriteVoltage;
     END;
 
 IMPLEMENTATION
