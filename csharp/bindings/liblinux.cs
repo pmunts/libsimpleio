@@ -200,5 +200,48 @@ namespace IO.Bindings.libsimpleio
         [DllImport("simpleio")]
         public static extern void LINUX_strerror(int error,
             System.Text.StringBuilder buf, int bufsize);
+
+        /// <summary>
+        /// There is data to read.
+        /// </summary>
+        public const int POLLIN = 0x01;
+        /// <summary>
+        /// There is urgent data to read.
+        /// </summary>
+        public const int POLLPRI = 0x02;
+        /// <summary>
+        /// Writing is now possible.
+        /// </summary>
+        public const int POLLOUT = 0x04;
+        /// <summary>
+        /// An error occurred.
+        /// </summary>
+        public const int POLLERR = 0x08;
+        /// <summary>
+        /// Peer closed connection.
+        /// </summary>
+        public const int POLLHUP = 0x10;
+        /// <summary>
+        /// File descriptor is invalid.
+        /// </summary>
+        public const int POLLNVAL = 0x20;
+
+        /// <summary>
+        /// Wait for an event on one or more files.
+        /// </summary>
+        /// <param name="numfiles">Number elements in each of the
+        /// following arrays.</param>
+        /// <param name="files">File descriptors.</param>
+        /// <param name="events">Events to wait for on each file
+        /// descriptor.</param>
+        /// <param name="results">Events that occurred on each file
+        /// descriptor.</param>
+        /// <param name="timeoutms">Milliseconds to wait for an event
+        /// to occur.  A value of -1 means wait forever and a value
+        /// of 0 means do not wait at all.</param>
+        /// <param name="error">Error code.</param>
+        [DllImport("simpleio")]
+        public static extern void LINUX_poll(int numfiles, int[] files,
+            int[] events, int[] results, int timeoutms, out int error);
     }
 }
