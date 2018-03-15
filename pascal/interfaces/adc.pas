@@ -32,6 +32,8 @@ INTERFACE
 
     ADCInput = INTERFACE
       FUNCTION Read : Integer;
+
+      PROPERTY sample : Integer READ Read;
     END;
 
 IMPLEMENTATION
