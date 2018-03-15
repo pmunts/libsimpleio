@@ -121,10 +121,30 @@ namespace IO.Objects.libsimpleio.HID
         /// </summary>
         /// <param name="cmd">64-byte command message.</param>
         /// <param name="resp">64-byte response message.</param>
+        /// <param name="timeoutms">Time in milliseconds to wait for
+        /// a response.  Zero means wait forever.</param>
         public void Transaction(IO.Interfaces.Message64.Message cmd,
-            IO.Interfaces.Message64.Message resp)
+            IO.Interfaces.Message64.Message resp, int timeoutms)
         {
+            // Validate parameters
+
+            if (timeoutms < 0)
+            {
+                throw new Exception("Invalid timeout");
+            }
+
+            // Send command message
+
             this.Send(cmd);
+
+            // Wait for response message
+
+            if (timeoutms > 0)
+            {
+            }
+
+            // Receive response message
+
             this.Receive(resp);
         }
 
