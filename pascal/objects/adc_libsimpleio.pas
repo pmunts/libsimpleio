@@ -30,7 +30,7 @@ INTERFACE
 
     { Analog input subclass }
 
-    InputSubclass = CLASS(TInterfacedObject, ADCInput, VoltageInput)
+    InputSubclass = CLASS(TInterfacedObject, SampleInput, VoltageInput)
       CONSTRUCTOR Create
        (chip       : Cardinal;
         channel    : Cardinal;
@@ -97,7 +97,7 @@ IMPLEMENTATION
     INHERITED;
   END;
 
-  { Method implementing ADC.ADCInput.ReadSample }
+  { Method implementing ADC.SampleInput.ReadSample }
 
   FUNCTION InputSubclass.ReadSample : Integer;
 

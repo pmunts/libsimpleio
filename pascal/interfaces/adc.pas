@@ -30,7 +30,7 @@ INTERFACE
   TYPE
     ADC_Error = CLASS(Exception);
 
-    ADCInput = INTERFACE
+    SampleInput = INTERFACE
       FUNCTION ReadSample : Integer;
 
       PROPERTY sample : Integer READ ReadSample;

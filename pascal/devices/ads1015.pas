@@ -63,7 +63,7 @@ INTERFACE
 
     { ADS1015 analog input class }
 
-    InputSubclass = CLASS(TInterfacedObject, ADCInput, VoltageInput)
+    InputSubclass = CLASS(TInterfacedObject, SampleInput, VoltageInput)
       CONSTRUCTOR Create
        (dev     : Device;
         channel : Channels;
@@ -160,7 +160,7 @@ IMPLEMENTATION
     Self.offset := offset;
   END;
 
-  { Method implementing ADC.ADCInput.Read }
+  { Method implementing ADC.SampleInput.ReadSample }
 
   FUNCTION InputSubclass.ReadSample : Integer;
 

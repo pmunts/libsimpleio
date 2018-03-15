@@ -29,9 +29,9 @@ INTERFACE
   TYPE
     Polarities = (ActiveLow, ActiveHigh);
 
-    { Define a class implementing PWM.Device }
+    { Define a class implementing DutyCycleOutput }
 
-    DeviceSubclass = CLASS(TInterfacedObject, PWM.Device)
+    OutputSubclass = CLASS(TInterfacedObject, DutyCycleOutput)
 
       CONSTRUCTOR Create
        (chip      : Cardinal;
@@ -57,9 +57,9 @@ IMPLEMENTATION
     errno,
     libPWM;
 
-  { PWM_libsimpleio.DeviceSubclass constructor }
+  { PWM_libsimpleio.OutputSubclass constructor }
 
-  CONSTRUCTOR DeviceSubclass.Create
+  CONSTRUCTOR OutputSubclass.Create
    (chip      : Cardinal;
     channel   : Cardinal;
     frequency : Cardinal;
@@ -91,9 +91,9 @@ IMPLEMENTATION
         strerror(error));
   END;
 
-  { PWM_libsimpleio.DeviceSubclass destructor }
+  { PWM_libsimpleio.OutputSubclass destructor }
 
-  DESTRUCTOR DeviceSubclass.Destroy;
+  DESTRUCTOR OutputSubclass.Destroy;
 
   VAR
     error  : Integer;
@@ -111,9 +111,9 @@ IMPLEMENTATION
     INHERITED;
   END;
 
-  {  PWM_libsimpleio.DeviceSubclass write method }
+  {  PWM_libsimpleio.OutputSubclass write method }
 
-  PROCEDURE DeviceSubclass.WriteDutyCycle(dutycycle : Real);
+  PROCEDURE OutputSubclass.WriteDutyCycle(dutycycle : Real);
 
   VAR
     ontime : Integer;
