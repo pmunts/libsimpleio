@@ -593,6 +593,52 @@
             <param name="buf">Destination buffer.</param>
             <param name="bufsize">Destination buffer size.</param>
         </member>
+        <member name="F:IO.Bindings.libsimpleio.libLinux.POLLIN">
+            <summary>
+            There is data to read.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libLinux.POLLPRI">
+            <summary>
+            There is urgent data to read.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libLinux.POLLOUT">
+            <summary>
+            Writing is now possible.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libLinux.POLLERR">
+            <summary>
+            An error occurred.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libLinux.POLLHUP">
+            <summary>
+            Peer closed connection.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libLinux.POLLNVAL">
+            <summary>
+            File descriptor is invalid.
+            </summary>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_poll(System.Int32,System.Int32[],System.Int32[],System.Int32[],System.Int32,System.Int32@)">
+            <summary>
+            Wait for an event on one or more files.
+            </summary>
+            <param name="numfiles">Number elements in each of the
+            following arrays.</param>
+            <param name="files">File descriptors.</param>
+            <param name="events">Events to wait for on each file
+            descriptor.</param>
+            <param name="results">Events that occurred on each file
+            descriptor.</param>
+            <param name="timeoutms">Milliseconds to wait for an event
+            to occur.  A value of -1 means wait forever and a value
+            of 0 means do not wait at all.</param>
+            <param name="error">Error code.</param>
+        </member>
         <member name="T:IO.Bindings.libsimpleio.libPWM">
             <summary>
             Wrapper for libsimpleio PWM output services.
@@ -1179,12 +1225,14 @@
             </summary>
             <param name="resp">Message received.</param>
         </member>
-        <member name="M:IO.Interfaces.Message64.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
+        <member name="M:IO.Interfaces.Message64.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message,System.Int32)">
             <summary>
             Send a 64-byte command and receive a 64-byte response.
             </summary>
             <param name="cmd">Command to be sent.</param>
             <param name="resp">Response to be received.</param>
+            <param name="timeoutms">Time in milliseconds to wait for
+            a response.  Zero means wait forever.</param>
         </member>
         <member name="T:IO.Interfaces.Motor.Velocities">
             <summary>
@@ -1471,13 +1519,15 @@
             </summary>
             <param name="resp">64-byte response message.</param>
         </member>
-        <member name="M:IO.Objects.libsimpleio.HID.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
+        <member name="M:IO.Objects.libsimpleio.HID.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message,System.Int32)">
             <summary>
             Send a 64-byte command message and receive a 64-byte response
             message.
             </summary>
             <param name="cmd">64-byte command message.</param>
             <param name="resp">64-byte response message.</param>
+            <param name="timeoutms">Time in milliseconds to wait for
+            a response.  Zero means wait forever.</param>
         </member>
         <member name="P:IO.Objects.libsimpleio.HID.Messenger.name">
             <summary>

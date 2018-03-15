@@ -124,7 +124,7 @@ namespace IO.Objects.libsimpleio.HID
         /// <param name="timeoutms">Time in milliseconds to wait for
         /// a response.  Zero means wait forever.</param>
         public void Transaction(IO.Interfaces.Message64.Message cmd,
-            IO.Interfaces.Message64.Message resp, int timeoutms)
+            IO.Interfaces.Message64.Message resp, int timeoutms = 0)
         {
             // Validate parameters
 
@@ -133,17 +133,29 @@ namespace IO.Objects.libsimpleio.HID
                 throw new Exception("Invalid timeout");
             }
 
-            // Send command message
+            // Send the command message
 
             this.Send(cmd);
 
-            // Wait for response message
+            // Wait for the response message
 
             if (timeoutms > 0)
             {
+                int[] files = { this.fd };
+                int[] events = { IO.Bindings.libsimpleio.libLinux.POLLIN };
+                int[] results = { 0 };
+                int error;
+
+                IO.Bindings.libsimpleio.libLinux.LINUX_poll(1, files, events,
+                    results, timeoutms, out error);
+
+                if (error != 0)
+                {
+                    throw new Exception("LINUX_poll() failed", error);
+                }
             }
 
-            // Receive response message
+            // Receive the response message
 
             this.Receive(resp);
         }
