@@ -31,7 +31,7 @@ PACKAGE BODY MCP3208 IS
   FUNCTION Create
    (spidev  : SPI.Device;
     chan    : Channel;
-    config  : Configuration := SingleEnded) RETURN ADC.Interfaces.Input IS
+    config  : Configuration := SingleEnded) RETURN Analog.Interfaces.Input IS
 
   BEGIN
     CASE config IS
@@ -45,7 +45,7 @@ PACKAGE BODY MCP3208 IS
 
   -- Methods
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN ADC.Sample IS
+  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
     cmd  : SPI.Command(0 .. 0);
     resp : SPI.Response(0 .. 1);
@@ -54,7 +54,7 @@ PACKAGE BODY MCP3208 IS
     cmd(0) := self.cmd;
     self.spidev.Transaction(cmd, cmd'Length, 0, resp, resp'Length);
 
-    RETURN ADC.Sample(Standard.Interfaces.Shift_Left(
+    RETURN Analog.Sample(Standard.Interfaces.Shift_Left(
       Standard.Interfaces.Unsigned_32(resp(0)), 4) +
       Standard.Interfaces.Shift_Right(Standard.Interfaces.Unsigned_32(resp(1)), 4));
   END Get;

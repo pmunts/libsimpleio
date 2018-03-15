@@ -20,7 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ADC;
+WITH Analog;
 WITH I2C;
 
 PACKAGE ADC121C021 IS
@@ -29,23 +29,23 @@ PACKAGE ADC121C021 IS
 
   Resolution : CONSTANT Positive := 12;
 
-  -- Define a subclass of ADC.Interfaces.InputInterface
+  -- Define a subclass of Analog.Interfaces.InputInterface
 
-  TYPE InputSubclass IS NEW ADC.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
 
   -- Constructors
 
   FUNCTION Create
    (bus  : I2C.Bus;
-    addr : I2C.Address) RETURN ADC.Interfaces.Input;
+    addr : I2C.Address) RETURN Analog.Interfaces.Input;
 
   -- Methods
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN ADC.Sample;
+  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
 
 PRIVATE
 
-  TYPE InputSubclass IS NEW ADC.Interfaces.InputInterface WITH RECORD
+  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH RECORD
     bus     : I2C.Bus;
     address : I2C.Address;
   END RECORD;

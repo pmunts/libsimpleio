@@ -36,7 +36,7 @@ PACKAGE BODY ADC.RemoteIO IS
 
   FUNCTION Create
    (dev  : Standard.RemoteIO.Device;
-    num  : Standard.RemoteIO.ChannelNumber) RETURN ADC.Interfaces.Input IS
+    num  : Standard.RemoteIO.ChannelNumber) RETURN Analog.Interfaces.Input IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -58,7 +58,7 @@ PACKAGE BODY ADC.RemoteIO IS
 
   -- Read A/D input pin
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN ADC.Sample IS
+  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -72,7 +72,7 @@ PACKAGE BODY ADC.RemoteIO IS
 
     self.dev.Transaction(cmd, resp);
 
-    RETURN ADC.Sample
+    RETURN Analog.Sample
      (Standard.Interfaces.Shift_Left(Standard.Interfaces.Unsigned_32(resp(3)), 24) +
       Standard.Interfaces.Shift_Left(Standard.Interfaces.Unsigned_32(resp(4)), 16) +
       Standard.Interfaces.Shift_Left(Standard.Interfaces.Unsigned_32(resp(5)),  8) +

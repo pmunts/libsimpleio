@@ -20,7 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ADC;
+WITH Analog;
 WITH SPI;
 
 PACKAGE MCP3204 IS
@@ -29,9 +29,9 @@ PACKAGE MCP3204 IS
 
   Resolution : CONSTANT Positive := 12;
 
-  -- Define a subclass of ADC.Interfaces.InputInterface
+  -- Define a subclass of Analog.Interfaces.InputInterface
 
-  TYPE InputSubclass IS NEW ADC.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
 
   -- Define some types for analog input channels
 
@@ -47,15 +47,15 @@ PACKAGE MCP3204 IS
   FUNCTION Create
    (spidev : SPI.Device;
     chan   : Channel;
-    config : Configuration := SingleEnded) RETURN ADC.Interfaces.Input;
+    config : Configuration := SingleEnded) RETURN Analog.Interfaces.Input;
 
   -- Methods
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN ADC.Sample;
+  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
 
 PRIVATE
 
-  TYPE InputSubclass IS NEW ADC.Interfaces.InputInterface WITH RECORD
+  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH RECORD
     spidev : SPI.Device;
     cmd    : SPI.Byte;
   END RECORD;

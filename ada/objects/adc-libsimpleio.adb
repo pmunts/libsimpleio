@@ -29,7 +29,7 @@ PACKAGE BODY ADC.libsimpleio IS
 
   FUNCTION Create
    (chip    : Natural;
-    channel : Natural) RETURN ADC.Interfaces.Input IS
+    channel : Natural) RETURN Analog.Interfaces.Input IS
 
     fd    : Integer;
     error : Integer;
@@ -47,7 +47,7 @@ PACKAGE BODY ADC.libsimpleio IS
   -- ADC input read method
 
   FUNCTION Get
-   (self : IN OUT InputSubclass) RETURN ADC.Sample IS
+   (self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
     sample : Integer;
     error  : Integer;
@@ -59,7 +59,7 @@ PACKAGE BODY ADC.libsimpleio IS
       RAISE ADC_Error WITH "libADC.Read() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN ADC.Sample(sample);
+    RETURN Analog.Sample(sample);
   END Get;
 
   -- Retrieve the underlying Linux file descriptor

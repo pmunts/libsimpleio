@@ -20,25 +20,26 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Analog;
 WITH RemoteIO;
 
 PACKAGE ADC.RemoteIO IS
 
-  TYPE InputSubclass IS NEW ADC.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
 
   -- A/D input pin object constructor
 
   FUNCTION Create
    (dev : Standard.RemoteIO.Device;
-    num : Standard.RemoteIO.ChannelNumber) RETURN ADC.Interfaces.Input;
+    num : Standard.RemoteIO.ChannelNumber) RETURN Analog.Interfaces.Input;
 
   -- Read A/D input pin
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN ADC.Sample;
+  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
 
 PRIVATE
 
-  TYPE InputSubclass IS NEW ADC.Interfaces.InputInterface WITH RECORD
+  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH RECORD
     dev : Standard.RemoteIO.Device;
     num : Standard.RemoteIO.ChannelNumber;
   END RECORD;

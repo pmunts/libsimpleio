@@ -20,23 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO;
-WITH IO_Interfaces;
-
 PACKAGE ADC IS
 
   ADC_Error : EXCEPTION;
-
-  -- Define a type for sampled analog data
-
-  TYPE Sample IS MOD 2**32;
-
-  -- Instantiate text I/O package
-
-  PACKAGE Sample_IO IS NEW Ada.Text_IO.Modular_IO(Sample);
-
-  -- Instantiate abstract interfaces package
-
-  PACKAGE Interfaces IS NEW IO_Interfaces(Sample);
 
 END ADC;

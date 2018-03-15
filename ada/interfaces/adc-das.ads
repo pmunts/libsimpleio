@@ -21,11 +21,12 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ADC;
+WITH Analog;
 WITH Voltage;
 
 GENERIC
 
-  TYPE InputClass(<>) IS NEW ADC.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputClass(<>) IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
 
   Resolution : IN Positive;
   Reference  : IN Voltage.Volts;
@@ -44,7 +45,7 @@ PACKAGE ADC.DAS IS
   -- Constructor
 
   FUNCTION Create
-   (adcin     : ADC.Interfaces.Input;
+   (adcin     : Analog.Interfaces.Input;
     adcgain   : Voltage.volts := Gain;
     adcoffset : Voltage.Volts := Offset) RETURN Input;
 

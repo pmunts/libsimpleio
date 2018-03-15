@@ -26,10 +26,10 @@
 -- In differential input mode, sample values range from -2048 to +2047.
 -- In single ended input mode, sample values range from 0 to +2047.
 --
--- Since ADC.Sample is unsigned, special care must be taken when converting
--- ADC.Sample from the Get() method to Voltage.Volts.
+-- Since Analog.Sample is unsigned, special care must be taken when converting
+-- Analog.Sample from the Get() method to Voltage.Volts.
 
-WITH ADC;
+WITH Analog;
 WITH I2C;
 WITH Voltage;
 
@@ -39,9 +39,9 @@ PACKAGE ADS1015 IS
 
   Resolution : CONSTANT Positive := 12;
 
-  -- Define a subclass of ADC.Interfaces.InputInterface
+  -- Define a subclass of Analog.Interfaces.InputInterface
 
-  TYPE InputSubclass IS NEW ADC.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
 
   -- Full scale range selectors in millivolts
 
@@ -54,11 +54,11 @@ PACKAGE ADS1015 IS
   -- Analog input constructor
 
   FUNCTION Create(bus : I2C.Bus; addr : I2C.Address; chan : Channel;
-    fsr : FullScaleRange) RETURN ADC.Interfaces.Input;
+    fsr : FullScaleRange) RETURN Analog.Interfaces.Input;
 
   -- Analog input method
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN ADC.Sample;
+  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
 
   -- Retrieve PGA gain
 
@@ -68,7 +68,7 @@ PRIVATE
 
   TYPE RegData IS MOD 2**16;
 
-  TYPE InputSubclass IS NEW ADC.Interfaces.InputInterface WITH RECORD
+  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH RECORD
     bus  : I2C.Bus;
     addr : I2C.Address;
     mux  : RegData;

@@ -20,24 +20,24 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ADC;
+WITH Analog;
 
 PACKAGE ADC.libsimpleio IS
 
   -- Type definitions
 
-  TYPE InputSubclass IS NEW ADC.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
 
   -- ADC input object constructor
 
   FUNCTION Create
    (chip    : Natural;
-    channel : Natural) RETURN ADC.Interfaces.Input;
+    channel : Natural) RETURN Analog.Interfaces.Input;
 
   -- ADC input read method
 
   FUNCTION Get
-   (self    : IN OUT InputSubclass) RETURN ADC.Sample;
+   (self    : IN OUT InputSubclass) RETURN Analog.Sample;
 
   -- Retrieve the underlying Linux file descriptor
 
@@ -45,7 +45,7 @@ PACKAGE ADC.libsimpleio IS
 
 PRIVATE
 
-  TYPE InputSubclass IS NEW Standard.ADC.Interfaces.InputInterface WITH RECORD
+  TYPE InputSubclass IS NEW Standard.Analog.Interfaces.InputInterface WITH RECORD
     fd : Integer;
   END RECORD;
 

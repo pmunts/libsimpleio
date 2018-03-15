@@ -90,7 +90,7 @@ PACKAGE BODY ADS1015 IS
   -- Analog input constructor
 
   FUNCTION Create(bus : I2C.Bus; addr : I2C.Address; chan : Channel;
-    fsr : FullScaleRange) RETURN ADC.Interfaces.Input IS
+    fsr : FullScaleRange) RETURN Analog.Interfaces.Input IS
 
   BEGIN
     RETURN NEW InputSubclass'(bus, addr, MuxMap(chan), PGAMap(fsr),
@@ -99,7 +99,7 @@ PACKAGE BODY ADS1015 IS
 
   -- Analog input method
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN ADC.Sample IS
+  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
     data : RegData;
 
@@ -115,7 +115,7 @@ PACKAGE BODY ADS1015 IS
 
     ReadRegister(self.bus, self.addr, Conversion, data);
 
-    RETURN ADC.Sample(data/16);
+    RETURN Analog.Sample(data/16);
   END Get;
 
   -- Retrieve PGA gain
