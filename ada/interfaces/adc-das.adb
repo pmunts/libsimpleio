@@ -1,4 +1,4 @@
--- Generic package for a Data Acquisition System
+-- Generic package for an Analog Data Acquisition System
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
