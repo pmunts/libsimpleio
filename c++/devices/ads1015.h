@@ -48,34 +48,23 @@ namespace ADS1015
 
   enum Channels { AIN0, AIN1, AIN2, AIN3, Diff01, Diff03, Diff13, Diff23 };
 
-  // Device class
+  // Device class (incomplete)
 
-  struct Device_Class
-  {
-    Device_Class(Interfaces::I2C::Bus bus, unsigned addr);
-
-    uint16_t ReadRegister(unsigned reg);
-
-    void WriteRegister(unsigned reg, uint16_t value);
-
-  private:
-
-    Interfaces::I2C::Bus bus;
-    unsigned addr;
-  };
+  struct Device_Class;
 
   typedef Device_Class *Device;
 
   // Analog input class
 
-  struct Input_Class: public Interfaces::ADC::Input_Interface
+  struct Input_Class: public Interfaces::ADC::Sample_Interface,
+    public Interfaces::ADC::Voltage_Interface
   {
     Input_Class(Device dev, unsigned channel, unsigned range, double gain = 1.0,
       double offset = 0.0);
 
-    // ADC input methods
-
     virtual int sample(void);
+
+    virtual unsigned resolution(void);
 
     virtual double voltage(void);
 
@@ -86,6 +75,24 @@ namespace ADS1015
     unsigned range;
     double gain;
     double offset;
+  };
+
+  // Device class (completed)
+
+  struct Device_Class
+  {
+    Device_Class(Interfaces::I2C::Bus bus, unsigned addr);
+
+  private:
+
+    uint16_t ReadRegister(unsigned reg);
+
+    void WriteRegister(unsigned reg, uint16_t value);
+
+    Interfaces::I2C::Bus bus;
+    unsigned addr;
+
+    friend class Input_Class;
   };
 }
 

@@ -40,32 +40,23 @@ namespace MCP3424
 
   enum PGAGains { PGA1, PGA2, PGA4, PGA8 };
 
-  // Device class
+  // Device class (incomplete)
 
-  struct Device_Class
-  {
-    Device_Class(Interfaces::I2C::Bus bus, unsigned addr);
-
-    int sample(unsigned channel, unsigned resolution, unsigned range);
-
-  private:
-
-    Interfaces::I2C::Bus bus;
-    unsigned addr;
-  };
+  struct Device_Class;
 
   typedef Device_Class *Device;
 
   // Analog input class
 
-  struct Input_Class: public Interfaces::ADC::Input_Interface
+  struct Input_Class: public Interfaces::ADC::Sample_Interface,
+    public Interfaces::ADC::Voltage_Interface
   {
     Input_Class(Device dev, unsigned channel, unsigned resolution,
       unsigned range, double gain = 1.0, double offset = 0.0);
 
-    // ADC input methods
-
     virtual int sample(void);
+
+    virtual unsigned resolution(void);
 
     virtual double voltage(void);
 
@@ -73,10 +64,26 @@ namespace MCP3424
 
     Device dev;
     unsigned channel;
-    unsigned resolution;
+    unsigned res;
     unsigned range;
     double gain;
     double offset;
+  };
+
+  // Device class (completed)
+
+  struct Device_Class
+  {
+    Device_Class(Interfaces::I2C::Bus bus, unsigned addr);
+
+  private:
+
+    int sample(unsigned channel, unsigned resolution, unsigned range);
+
+    Interfaces::I2C::Bus bus;
+    unsigned addr;
+
+    friend class Input_Class;
   };
 }
 

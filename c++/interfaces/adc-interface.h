@@ -25,22 +25,59 @@
 
 namespace Interfaces::ADC
 {
-  struct Input_Interface
+  // Abstract interface for ADC raw sampled data inputs
+
+  struct Sample_Interface
   {
-    // ADC input methods
+    // Methods
 
     virtual int sample(void) = 0;
 
-    virtual double voltage(void) = 0;
+    virtual unsigned resolution(void) = 0;
 
-    // ADC input operators
+    // Operators
 
     operator int(void);
+  };
+
+  typedef Sample_Interface *Sample;
+
+  // Abstract interface for ADC scaled voltage inputs
+
+  struct Voltage_Interface
+  {
+    // Methods
+
+    virtual double voltage(void) = 0;
+
+    // Operators
 
     operator double(void);
   };
 
-  typedef Input_Interface *Input;
+  typedef Voltage_Interface *Voltage;
+
+  // Utility class for converting ADC raw sampled data to scale voltage value
+
+  struct Input_Class: public Voltage_Interface
+  {
+    // Constructors
+
+    Input_Class(Sample input, double reference, double gain = 1.0,
+      double offset = 0.0);
+
+    // Methods
+
+    virtual double voltage(void);
+
+  private:
+
+    Sample input;
+    double stepsize;
+    double offset;
+  };
+
+  typedef Input_Class *Input;
 }
 
 #endif

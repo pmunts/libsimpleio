@@ -117,6 +117,11 @@ int ADS1015::Input_Class::sample(void)
   return int16_t(this->dev->ReadRegister(CONVERSION))/16;
 }
 
+unsigned ADS1015::Input_Class::resolution(void)
+{
+  return ADS1015::Resolution;
+}
+
 double ADS1015::Input_Class::voltage(void)
 {
   return double(this->sample())*Ranges[this->range]/double(Steps)*2.0/

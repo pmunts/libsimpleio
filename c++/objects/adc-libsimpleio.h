@@ -27,23 +27,22 @@
 
 namespace libsimpleio::ADC
 {
-  struct Input_Class: public Interfaces::ADC::Input_Interface
+  struct Sample_Subclass: public Interfaces::ADC::Sample_Interface
   {
-    Input_Class(unsigned chip, unsigned pin, unsigned resolution,
-      double reference, double gain = 1.0, double offset = 0.0);
+    // Constructors
 
-    // ADC input methods
+    Sample_Subclass(unsigned chip, unsigned pin, unsigned resolution);
+
+    // Methods
 
     virtual int sample(void);
 
-    virtual double voltage(void);
+    virtual unsigned resolution(void);
 
   private:
 
     int fd;
-    double stepsize;
-    double gain;
-    double offset;
+    unsigned numbits;
   };
 }
 

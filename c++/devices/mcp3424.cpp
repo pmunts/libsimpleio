@@ -151,7 +151,7 @@ MCP3424::Input_Class::Input_Class(Device dev, unsigned channel,
 {
   this->dev = dev;
   this->channel = channel;
-  this->resolution = resolution;
+  this->res = resolution;
   this->range = range;
   this->gain = gain;
   this->offset = offset;
@@ -161,7 +161,14 @@ MCP3424::Input_Class::Input_Class(Device dev, unsigned channel,
 
 int MCP3424::Input_Class::sample(void)
 {
-  return dev->sample(this->channel, this->resolution, this->range);
+  return dev->sample(this->channel, this->res, this->range);
+}
+
+static const unsigned Bits[]  = { 12, 14, 16, 18 };
+
+unsigned MCP3424::Input_Class::resolution(void)
+{
+  return Bits[this->res];
 }
 
 static const int Steps[] = { 2048, 8192, 32768, 131072 };
@@ -169,6 +176,6 @@ static const int Gains[] = { 1, 2, 4, 8 };
 
 double MCP3424::Input_Class::voltage(void)
 {
-  return double(this->sample())/Steps[this->resolution]*2.048*Gains[this->range]/
+  return double(this->sample())/Steps[this->res]*2.048*Gains[this->range]/
     this->gain - this->offset;
 }

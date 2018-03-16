@@ -35,27 +35,10 @@ MCP3208::Device_Class::Device_Class(Interfaces::SPI::Device dev)
   this->dev = dev;
 }
 
-// Device class methods
+// Sample_Subclass constructor
 
-uint16_t MCP3208::Device_Class::sample(unsigned channel, bool differential)
-{
-  // Validate parameters
-
-  if (channel > MaxChannels) throw EINVAL;
-
-  uint8_t cmd[1];
-  uint8_t resp[2];
-
-  cmd[0] = (differential ? 0x40 : 0x60) + (channel << 2);
-  this->dev->Transaction(cmd, 1, 0, resp, 2);
-
-  return (resp[0] << 4) + (resp[1] >> 4);
-}
-
-// Input_Class constructor
-
-MCP3208::Input_Class::Input_Class(Device dev, unsigned channel,
-  bool differential, double reference, double gain, double offset)
+MCP3208::Sample_Subclass::Sample_Subclass(Device dev, unsigned channel,
+  bool differential)
 {
   // Validate parameters
 
@@ -65,20 +48,22 @@ MCP3208::Input_Class::Input_Class(Device dev, unsigned channel,
   this->dev = dev;
   this->channel = channel;
   this->differential = differential;
-  this->reference = reference;
-  this->gain = gain;
-  this->offset = offset;
 }
 
-// Input_Class methods
+// Sample_Subclass methods
 
-int MCP3208::Input_Class::sample(void)
+int MCP3208::Sample_Subclass::sample(void)
 {
-  return this->dev->sample(this->channel, this->differential);
+  uint8_t cmd[1];
+  uint8_t resp[2];
+
+  cmd[0] = (differential ? 0x40 : 0x60) + (channel << 2);
+  this->dev->dev->Transaction(cmd, 1, 0, resp, 2);
+
+  return (resp[0] << 4) + (resp[1] >> 4);
 }
 
-double MCP3208::Input_Class::voltage(void)
+unsigned MCP3208::Sample_Subclass::resolution(void)
 {
-  return double(this->sample())*this->reference/double(Steps)/this->gain -
-    this->offset;
+  return MCP3208::Resolution;
 }

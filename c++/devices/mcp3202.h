@@ -36,42 +36,42 @@ namespace MCP3202
   const bool SingleEnded = false;
   const bool Differential = true;
 
-  // MCP3202 device class
+  // MCP3202 device class (incomplete)
 
-  struct Device_Class
-  {
-    Device_Class(Interfaces::SPI::Device dev);
-
-    uint16_t sample(unsigned channel, bool differential = SingleEnded);
-
-  private:
-
-    Interfaces::SPI::Device dev;
-  };
+  struct Device_Class;
 
   typedef Device_Class *Device;
 
   // MCP3202 analog input class
 
-  struct Input_Class: public Interfaces::ADC::Input_Interface
+  struct Sample_Subclass: public Interfaces::ADC::Sample_Interface
   {
-    Input_Class(Device dev, unsigned channel, bool differential = false,
-      double reference = 3.3, double gain = 1.0, double offset = 0.0);
+    Sample_Subclass(Device dev, unsigned channel, bool differential = false);
 
     // ADC input methods
 
     virtual int sample(void);
 
-    virtual double voltage(void);
+    virtual unsigned resolution(void);
 
   private:
 
     Device dev;
     unsigned channel;
     bool differential;
-    double reference;
-    double gain;
-    double offset;
+  };
+
+  // MCP3202 device class (completed)
+
+  struct Device_Class
+  {
+    Device_Class(Interfaces::SPI::Device dev);
+
+  private:
+
+    Interfaces::SPI::Device dev;
+
+    friend class Sample_Subclass;
   };
 }
 

@@ -26,26 +26,22 @@
 #include <adc-libsimpleio.h>
 #include <libadc.h>
 
-// Constructor
+// Constructors
 
-libsimpleio::ADC::Input_Class::Input_Class(unsigned chip, unsigned channel,
-  unsigned resolution, double reference, double gain, double offset)
+libsimpleio::ADC::Sample_Subclass::Sample_Subclass(unsigned chip,
+  unsigned channel, unsigned resolution)
 {
-  int fd;
   int error;
 
-  ADC_open(chip, channel, &fd, &error);
+  ADC_open(chip, channel, &this->fd, &error);
   if (error) throw error;
 
-  this->fd = fd;
-  this->stepsize = reference/((double)(1 << resolution));
-  this->gain = gain;
-  this->offset = offset;
+  this->numbits = resolution;
 }
 
 // Methods
 
-int libsimpleio::ADC::Input_Class::sample(void)
+int libsimpleio::ADC::Sample_Subclass::sample(void)
 {
   int32_t sample;
   int32_t error;
@@ -56,7 +52,7 @@ int libsimpleio::ADC::Input_Class::sample(void)
   return sample;
 }
 
-double libsimpleio::ADC::Input_Class::voltage(void)
+unsigned libsimpleio::ADC::Sample_Subclass::resolution(void)
 {
-  return this->sample()*this->stepsize/this->gain - this->offset;
+  return this->numbits;
 }
