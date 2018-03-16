@@ -25,22 +25,59 @@
 
 namespace Interfaces::DAC
 {
-  struct Output_Interface
+  // Abstract interface for DAC raw sampled data outputs
+
+  struct Sample_Interface
   {
-    // DAC output methods
+    // Methods
 
     virtual void write(const int sample) = 0;
 
-    virtual void write(const double voltage) = 0;
+    virtual unsigned resolution(void) = 0;
 
-    // DAC output operators
+    // Operators
 
     void operator =(const int sample);
+  };
+
+  typedef Sample_Interface *Sample;
+
+  // Abstract interface for DAC scaled voltage outputs
+
+  struct Voltage_Interface
+  {
+    // Methods
+
+    virtual void write(const double voltage) = 0;
+
+    // Operators
 
     void operator =(const double voltage);
   };
 
-  typedef Output_Interface *Output;
+  typedef Voltage_Interface *Voltage;
+
+  // Utility class for converting DAC raw sample data to scaled voltage
+
+  struct Output_Class: public Voltage_Interface
+  {
+    // Constructors
+
+    Output_Class(Sample output, double reference, double gain = 1.0,
+      double offset = 0.0);
+
+    // Methods
+
+    virtual void write(const double voltage);
+
+  private:
+
+    Sample output;
+    double stepsize;
+    double offset;
+  };
+
+  typedef Output_Class *Output;
 }
 
 #endif

@@ -52,10 +52,9 @@ void MCP4822::Device_Class::write(unsigned channel, int sample)
   this->dev->Transaction(cmd, 2, 0, nullptr, 0);
 }
 
-// Output_Class constructor
+// Sample_Subclass constructor
 
-MCP4822::Output_Class::Output_Class(Device dev, unsigned channel,
-  double reference, double gain, double offset)
+MCP4822::Sample_Subclass::Sample_Subclass(Device dev, unsigned channel)
 {
   // Validate parameters
 
@@ -64,14 +63,11 @@ MCP4822::Output_Class::Output_Class(Device dev, unsigned channel,
 
   this->dev = dev;
   this->channel = channel;
-  this->reference = reference;
-  this->gain = gain;
-  this->offset = offset;
 }
 
-// Output_Class methods
+// Sample_Subclass methods
 
-void MCP4822::Output_Class::write(const int sample)
+void MCP4822::Sample_Subclass::write(const int sample)
 {
   // Validate parameters
 
@@ -80,10 +76,7 @@ void MCP4822::Output_Class::write(const int sample)
   this->dev->write(this->channel, sample);
 }
 
-void MCP4822::Output_Class::write(const double voltage)
+unsigned MCP4822::Sample_Subclass::resolution(void)
 {
-  double VDAC = (voltage - this->offset)/this->gain;
-  uint16_t sample = VDAC/this->reference*double(Steps);
-
-  Output_Class::write(sample);
+  return MCP4822::Resolution;
 }

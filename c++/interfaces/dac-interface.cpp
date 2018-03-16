@@ -20,14 +20,34 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <cerrno>
+
 #include <dac-interface.h>
 
-void Interfaces::DAC::Output_Interface::operator =(const int sample)
+void Interfaces::DAC::Sample_Interface::operator =(const int sample)
 {
   this->write(sample);
 }
 
-void Interfaces::DAC::Output_Interface::operator =(const double voltage)
+void Interfaces::DAC::Voltage_Interface::operator =(const double voltage)
 {
   this->write(voltage);
+}
+
+Interfaces::DAC::Output_Class::Output_Class(Interfaces::DAC::Sample output,
+  double reference, double gain, double offset)
+{
+  // Validate parameters
+
+  if (reference == 0.0) throw EINVAL;
+  if (gain == 0.0) throw EINVAL;
+
+  this->output = output;
+  this->stepsize = reference/(2 << output->resolution())/gain;
+  this->offset = offset;
+}
+
+void Interfaces::DAC::Output_Class::write(const double voltage)
+{
+  this->output->write((voltage - offset)/stepsize);
 }

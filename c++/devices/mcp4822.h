@@ -34,33 +34,23 @@ namespace MCP4822
   static const unsigned Resolution = 12;
   static const unsigned Steps = 4096;
 
-  // MCP4822 device class
+  // MCP4822 device class (incomplete)
 
-  struct Device_Class
-  {
-    Device_Class(Interfaces::SPI::Device dev);
-
-    void write(unsigned channel, int sample);
-
-  private:
-
-    Interfaces::SPI::Device dev;
-  };
+  struct Device_Class;
 
   typedef Device_Class *Device;
 
   // MCP4822 analog output class
 
-  struct Output_Class: public Interfaces::DAC::Output_Interface
+  struct Sample_Subclass: public Interfaces::DAC::Sample_Interface
   {
-    Output_Class(Device dev, unsigned channel, double reference = 3.3,
-      double gain = 1.0, double offset = 0.0);
+    Sample_Subclass(Device dev, unsigned channel);
 
     // DAC output methods
 
     virtual void write(const int sample);
 
-    virtual void write(const double voltage);
+    virtual unsigned resolution(void);
 
   private:
 
@@ -70,6 +60,22 @@ namespace MCP4822
     double gain;
     double offset;
   };
+
+  // MCP4822 device class (completed)
+
+  struct Device_Class
+  {
+    Device_Class(Interfaces::SPI::Device dev);
+
+  private:
+
+    void write(unsigned channel, int sample);
+
+    Interfaces::SPI::Device dev;
+
+    friend class Sample_Subclass;
+  };
+
 }
 
 #endif
