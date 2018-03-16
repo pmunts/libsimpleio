@@ -177,7 +177,7 @@ IMPLEMENTATION
     ReadSample := SmallInt(Self.dev.ReadRegister(CONVERSION) SHR 4);
   END;
 
-  { Method implementing Voltage.VoltageInput.ReadVoltage }
+  { Method implementing ADC.Input.ReadVoltage }
 
   FUNCTION InputSubclass.ReadVoltage : Real;
 
