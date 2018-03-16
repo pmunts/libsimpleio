@@ -29,7 +29,7 @@ namespace Interfaces::ADC
   {
     // ADC input methods
 
-    virtual int read(void) = 0;
+    virtual int sample(void) = 0;
 
     virtual double voltage(void) = 0;
 

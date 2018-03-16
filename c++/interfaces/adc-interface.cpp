@@ -24,7 +24,7 @@
 
 Interfaces::ADC::Input_Interface::operator int(void)
 {
-  return this->read();
+  return this->sample();
 }
 
 Interfaces::ADC::Input_Interface::operator double(void)
