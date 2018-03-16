@@ -1011,14 +1011,13 @@
             Encapsulates ADC voltage inputs.
             </summary>
         </member>
-        <member name="M:IO.Interfaces.ADC.Input.#ctor(IO.Interfaces.ADC.Sample,System.Double,System.Double,System.Double)">
+        <member name="M:IO.Interfaces.ADC.Input.#ctor(IO.Interfaces.ADC.Sample,System.Double,System.Double)">
             <summary>
             Create an ADC voltage input.
             </summary>
-            <param name="inp">ADC sample object.</param>
+            <param name="input">ADC sample object.</param>
             <param name="reference">ADC reference in volts.</param>
             <param name="gain">ADC input gain in volts per volt.</param>
-            <param name="offset">ADC input offset in volts.</param>
         </member>
         <member name="P:IO.Interfaces.ADC.Input.voltage">
             <summary>
@@ -1057,14 +1056,13 @@
             Encapsulates DAC voltage outputs.
             </summary>
         </member>
-        <member name="M:IO.Interfaces.DAC.Output.#ctor(IO.Interfaces.DAC.Sample,System.Double,System.Double,System.Double)">
+        <member name="M:IO.Interfaces.DAC.Output.#ctor(IO.Interfaces.DAC.Sample,System.Double,System.Double)">
             <summary>
             Create an DAC voltage output.
             </summary>
             <param name="output">DAC output object.</param>
             <param name="reference">DAC output reference in volts.</param>
             <param name="gain">DAC output gain in volts per volt.</param>
-            <param name="offset">DAC output offset in volts.</param>
         </member>
         <member name="P:IO.Interfaces.DAC.Output.voltage">
             <summary>

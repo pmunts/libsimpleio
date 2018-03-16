@@ -64,19 +64,16 @@ namespace IO.Interfaces.ADC
     /// </summary>
     public class Input: Voltage
     {
-        private Sample inp;
+        private Sample input;
         private double stepsize;
-        private double offset;
 
         /// <summary>
         /// Create an ADC voltage input.
         /// </summary>
-        /// <param name="inp">ADC sample object.</param>
+        /// <param name="input">ADC sample object.</param>
         /// <param name="reference">ADC reference in volts.</param>
         /// <param name="gain">ADC input gain in volts per volt.</param>
-        /// <param name="offset">ADC input offset in volts.</param>
-        public Input(Sample inp, double reference, double gain = 1.0,
-            double offset = 0.0)
+        public Input(Sample input, double reference, double gain = 1.0)
         {
             if (reference == 0.0)
             {
@@ -88,9 +85,10 @@ namespace IO.Interfaces.ADC
                 throw new System.Exception("gain parameter is invalid");
             }
 
-            this.inp = inp;
-            this.stepsize = reference / System.Math.Pow(2, inp.resolution) / gain;
-            this.offset = offset;
+            this.input = input;
+
+            this.stepsize =
+                reference / System.Math.Pow(2, input.resolution) / gain;
         }
 
         /// <summary>
@@ -100,7 +98,7 @@ namespace IO.Interfaces.ADC
         {
             get
             {
-                return this.inp.sample * this.stepsize - this.offset;
+                return this.input.sample * this.stepsize;
             }
         }
     }

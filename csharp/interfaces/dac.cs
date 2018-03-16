@@ -63,11 +63,10 @@ namespace IO.Interfaces.DAC
     /// <summary>
     /// Encapsulates DAC voltage outputs.
     /// </summary>
-    public class Output: Voltage
+    public class Output : Voltage
     {
         private Sample output;
         private double stepsize;
-        private double offset;
 
         /// <summary>
         /// Create an DAC voltage output.
@@ -75,9 +74,7 @@ namespace IO.Interfaces.DAC
         /// <param name="output">DAC output object.</param>
         /// <param name="reference">DAC output reference in volts.</param>
         /// <param name="gain">DAC output gain in volts per volt.</param>
-        /// <param name="offset">DAC output offset in volts.</param>
-        public Output(Sample output, double reference, double gain = 1.0,
-            double offset = 0.0)
+        public Output(Sample output, double reference, double gain = 1.0)
         {
             if (reference == 0.0)
             {
@@ -93,8 +90,6 @@ namespace IO.Interfaces.DAC
 
             this.stepsize =
                 reference / System.Math.Pow(2, output.resolution) / gain;
-
-            this.offset = offset;
         }
 
         /// <summary>
@@ -104,8 +99,7 @@ namespace IO.Interfaces.DAC
         {
             set
             {
-                this.output.sample =
-                    (int)((value - this.offset) / this.stepsize);
+                this.output.sample = (int)(value / this.stepsize + 0.5);
             }
         }
     }
