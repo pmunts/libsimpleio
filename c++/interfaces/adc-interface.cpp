@@ -20,6 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <cerrno>
+
 #include <adc-interface.h>
 
 Interfaces::ADC::Sample_Interface::operator int(void)
@@ -35,6 +37,11 @@ Interfaces::ADC::Voltage_Interface::operator double(void)
 Interfaces::ADC::Input_Class::Input_Class(Sample input, double reference,
   double gain, double offset)
 {
+  // Validate parameters
+
+  if (reference == 0.0) throw EINVAL;
+  if (gain == 0.0) throw EINVAL;
+
   this->input = input;
   this->stepsize = reference/(2 << input->resolution())/gain;
   this->offset = offset;
