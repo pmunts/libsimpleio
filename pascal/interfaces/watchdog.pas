@@ -35,7 +35,7 @@ INTERFACE
 
     { Define an interface for watchdog timer devices }
 
-    Device = INTERFACE
+    Timer = INTERFACE
 
       { Get timeout method }
 

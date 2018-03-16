@@ -39,7 +39,7 @@ INTERFACE
 
     { Define an interface for PWM output devices }
 
-    DutyCycleOutput = INTERFACE
+    Output = INTERFACE
 
       { Write method }
 

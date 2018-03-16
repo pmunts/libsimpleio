@@ -28,9 +28,6 @@ INTERFACE
     I2C;
 
   TYPE
-
-    { Define a class implementing the I2C.Bus interface }
-
     BusSubclass = CLASS(TInterfacedObject, I2C.Bus)
       CONSTRUCTOR Create(name : String);
 

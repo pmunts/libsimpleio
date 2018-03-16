@@ -35,7 +35,7 @@ INTERFACE
 
     Message = ARRAY [0 .. Size - 1] OF Byte;
 
-    IMessenger = INTERFACE
+    Messenger = INTERFACE
       PROCEDURE Send(cmd : Message);
 
       PROCEDURE Receive(VAR resp : Message);

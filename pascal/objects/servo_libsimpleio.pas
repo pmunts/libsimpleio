@@ -27,11 +27,7 @@ INTERFACE
   USES Servo;
 
   TYPE
-
-    { Define a class implementing Servo.PositionOutput }
-
-    OutputSubclass = CLASS(TInterfacedObject, PositionOutput)
-
+    OutputSubclass = CLASS(TInterfacedObject, Servo.Output)
       CONSTRUCTOR Create
        (chip      : Cardinal;
         channel   : Cardinal;

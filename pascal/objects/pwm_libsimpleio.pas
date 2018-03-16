@@ -29,10 +29,7 @@ INTERFACE
   TYPE
     Polarities = (ActiveLow, ActiveHigh);
 
-    { Define a class implementing DutyCycleOutput }
-
-    OutputSubclass = CLASS(TInterfacedObject, DutyCycleOutput)
-
+    OutputSubclass = CLASS(TInterfacedObject, PWM.Output)
       CONSTRUCTOR Create
        (chip      : Cardinal;
         channel   : Cardinal;

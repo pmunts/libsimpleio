@@ -32,7 +32,7 @@ INTERFACE
     DefaultProduct = $0AFA;  { USB HID device }
 
   TYPE
-    Messenger = CLASS(TInterfacedObject, IMessenger)
+    MessengerSubclass = CLASS(TInterfacedObject, Message64.Messenger)
       CONSTRUCTOR Create(vid : Integer = DefaultVendor;
         pid : Integer = DefaultProduct);
 
@@ -59,7 +59,7 @@ IMPLEMENTATION
 
   { Create a Message64 messenger object using libsimpleio raw HID transport }
 
-  CONSTRUCTOR Messenger.Create(vid : Integer; pid : Integer);
+  CONSTRUCTOR MessengerSubclass.Create(vid : Integer; pid : Integer);
 
   VAR
     error  : Integer;
@@ -74,7 +74,7 @@ IMPLEMENTATION
 
   { Send a Message64 message using libsimpleio raw HID transport }
 
-  PROCEDURE Messenger.Send(cmd : Message);
+  PROCEDURE MessengerSubclass.Send(cmd : Message);
 
   VAR
     count : Integer;
@@ -90,7 +90,7 @@ IMPLEMENTATION
 
   { Receive a Message64 message using libsimpleio raw HID transport }
 
-  PROCEDURE Messenger.Receive(VAR resp : Message);
+  PROCEDURE MessengerSubclass.Receive(VAR resp : Message);
 
   VAR
     count : Integer;
@@ -106,7 +106,7 @@ IMPLEMENTATION
 
   { Perform a Message64 command/response transaction }
 
-  PROCEDURE Messenger.Transaction(cmd : Message; VAR resp : Message);
+  PROCEDURE MessengerSubclass.Transaction(cmd : Message; VAR resp : Message);
 
   BEGIN
     Send(cmd);
@@ -115,7 +115,7 @@ IMPLEMENTATION
 
   { Get the HID device name }
 
-  FUNCTION Messenger.GetName : String;
+  FUNCTION MessengerSubclass.GetName : String;
 
   VAR
     cname : ARRAY [0 .. 255] OF Char;
@@ -133,7 +133,7 @@ IMPLEMENTATION
 
   { Get the HID device bus type, vendor ID, and product ID information }
 
-  PROCEDURE Messenger.GetInfo(VAR bustype : Integer; VAR vendor : Integer;
+  PROCEDURE MessengerSubclass.GetInfo(VAR bustype : Integer; VAR vendor : Integer;
     VAR product : Integer);
 
   VAR

@@ -26,9 +26,6 @@ INTERFACE
     ADC;
 
   TYPE
-
-    { Analog input subclass }
-
     InputSubclass = CLASS(TInterfacedObject, ADC.Input)
       CONSTRUCTOR Create
        (chip       : Cardinal;

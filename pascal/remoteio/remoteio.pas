@@ -60,7 +60,7 @@ INTERFACE
       SPI_TRANSACTION_RESPONSE);
 
     Device = CLASS
-      CONSTRUCTOR Create(m : IMessenger);
+      CONSTRUCTOR Create(m : Message64.Messenger);
 
       PROCEDURE Transaction(cmd : Message; VAR resp : Message);
 
@@ -68,7 +68,7 @@ INTERFACE
 
       FUNCTION Capability : String;
     PRIVATE
-      msg : IMessenger;
+      msg : Message64.Messenger;
     END;
 
 IMPLEMENTATION
@@ -78,7 +78,7 @@ IMPLEMENTATION
 
   { Create a Remote I/O Protocol device object }
 
-  CONSTRUCTOR Device.Create(m : IMessenger);
+  CONSTRUCTOR Device.Create(m : Message64.Messenger);
 
   BEGIN
     Self.msg := m;

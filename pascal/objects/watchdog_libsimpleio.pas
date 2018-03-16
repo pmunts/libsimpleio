@@ -28,15 +28,12 @@ INTERFACE
     Watchdog;
 
   CONST
-    DefaultDevice  = '/dev/watchdog';
+    DefaultTimer  = '/dev/watchdog';
     DefaultTimeout = 0;
 
   TYPE
-
-    { Define a class implementing the Watchdog.Device interface }
-
-    DeviceSubclass = CLASS(TInterfacedObject, Watchdog.Device)
-      CONSTRUCTOR Create(name : String = DefaultDevice; timeout : Cardinal = 0);
+    TimerSubclass = CLASS(TInterfacedObject, Watchdog.Timer)
+      CONSTRUCTOR Create(name : String = DefaultTimer; timeout : Cardinal = 0);
 
       DESTRUCTOR Destroy; OVERRIDE;
 
@@ -58,7 +55,7 @@ IMPLEMENTATION
 
   { Constructor }
 
-  CONSTRUCTOR DeviceSubclass.Create(name : String; timeout : Cardinal);
+  CONSTRUCTOR TimerSubclass.Create(name : String; timeout : Cardinal);
 
   VAR
     error      : Integer;
@@ -83,7 +80,7 @@ IMPLEMENTATION
 
   { Destructor }
 
-  DESTRUCTOR DeviceSubclass.Destroy;
+  DESTRUCTOR TimerSubclass.Destroy;
 
   VAR
     error  : Integer;
@@ -100,7 +97,7 @@ IMPLEMENTATION
 
   { Get timeout method }
 
-  FUNCTION DeviceSubclass.GetTimeout : Cardinal;
+  FUNCTION TimerSubclass.GetTimeout : Cardinal;
 
   VAR
     timeout : Integer;
@@ -118,7 +115,7 @@ IMPLEMENTATION
 
   { Set timeout method }
 
-  PROCEDURE DeviceSubclass.SetTimeout(timeout : Cardinal);
+  PROCEDURE TimerSubclass.SetTimeout(timeout : Cardinal);
 
   VAR
     newtimeout : Integer;
@@ -134,7 +131,7 @@ IMPLEMENTATION
 
   { Kick watchdog timer method }
 
-  PROCEDURE DeviceSubclass.Kick;
+  PROCEDURE TimerSubclass.Kick;
 
   VAR
     error  : Integer;

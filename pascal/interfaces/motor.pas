@@ -40,7 +40,7 @@ INTERFACE
 
     { Define an interface for motor control outputs }
 
-    VelocityOutput = INTERFACE
+    Output = INTERFACE
 
       { Write method }
 

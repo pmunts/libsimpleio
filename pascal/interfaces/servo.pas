@@ -40,7 +40,7 @@ INTERFACE
 
     { Define an interface for servo outputs }
 
-    PositionOutput = INTERFACE
+    Output = INTERFACE
 
       { Write method }
 

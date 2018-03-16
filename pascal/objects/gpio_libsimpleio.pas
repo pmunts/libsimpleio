@@ -32,9 +32,7 @@ INTERFACE
 
     Polarities = (ActiveLow, ActiveHigh);
 
-    { Define a class that implements the GPIO.Pin interface }
-
-    PinSubclass = CLASS(TInterfacedObject, Pin)
+    PinSubclass = CLASS(TInterfacedObject, GPIO.Pin)
       CONSTRUCTOR Create(num : Integer; dir : Direction;
         state : Boolean = False; edge : Edges = None;
         polarity : Polarities = ActiveHigh);
