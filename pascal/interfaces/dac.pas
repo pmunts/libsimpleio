@@ -34,6 +34,10 @@ INTERFACE
       PROCEDURE WriteSample(sample : Integer);
 
       PROPERTY sample : Integer WRITE WriteSample;
+
+      PROCEDURE WriteVoltage(voltage : Real);
+
+      PROPERTY voltage : Real WRITE WriteVoltage;
     END;
 
 IMPLEMENTATION

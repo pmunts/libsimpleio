@@ -23,14 +23,13 @@ UNIT ADC_libsimpleio;
 INTERFACE
 
   USES
-    ADC,
-    Voltage;
+    ADC;
 
   TYPE
 
     { Analog input subclass }
 
-    InputSubclass = CLASS(TInterfacedObject, SampleInput, VoltageInput)
+    InputSubclass = CLASS(TInterfacedObject, ADC.Input)
       CONSTRUCTOR Create
        (chip       : Cardinal;
         channel    : Cardinal;

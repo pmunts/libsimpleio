@@ -30,10 +30,14 @@ INTERFACE
   TYPE
     ADC_Error = CLASS(Exception);
 
-    SampleInput = INTERFACE
+    Input = INTERFACE
       FUNCTION ReadSample : Integer;
 
+      FUNCTION ReadVoltage : Real;
+
       PROPERTY sample : Integer READ ReadSample;
+
+      PROPERTY voltage : Real READ ReadVoltage;
     END;
 
 IMPLEMENTATION

@@ -24,8 +24,7 @@ INTERFACE
 
   USES
     ADC,
-    I2C,
-    Voltage;
+    I2C;
 
   { Intrinsic characteristics of the ADS1015 A/D converter }
 
@@ -63,7 +62,7 @@ INTERFACE
 
     { ADS1015 analog input class }
 
-    InputSubclass = CLASS(TInterfacedObject, SampleInput, VoltageInput)
+    InputSubclass = CLASS(TInterfacedObject, ADC.Input)
       CONSTRUCTOR Create
        (dev     : Device;
         channel : Channels;
