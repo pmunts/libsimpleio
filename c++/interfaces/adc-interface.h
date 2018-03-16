@@ -63,8 +63,7 @@ namespace Interfaces::ADC
   {
     // Constructors
 
-    Input_Class(Sample input, double reference, double gain = 1.0,
-      double offset = 0.0);
+    Input_Class(Sample input, double reference, double gain = 1.0);
 
     // Methods
 
@@ -74,7 +73,6 @@ namespace Interfaces::ADC
 
     Sample input;
     double stepsize;
-    double offset;
   };
 
   typedef Input_Class *Input;

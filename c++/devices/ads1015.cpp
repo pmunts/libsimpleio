@@ -83,7 +83,7 @@ static const unsigned PermuteChannels[] = { 4, 5, 6, 7, 0, 1, 2, 3 };
 // Input_Class constructor
 
 ADS1015::Input_Class::Input_Class(Device dev, unsigned channel, unsigned range,
-  double gain, double offset)
+  double gain)
 {
   // Validate parameters
 
@@ -96,7 +96,6 @@ ADS1015::Input_Class::Input_Class(Device dev, unsigned channel, unsigned range,
   this->channel = PermuteChannels[channel];
   this->range = range;
   this->gain = gain;
-  this->offset = offset;
 }
 
 // Input_Class methods
@@ -124,6 +123,5 @@ unsigned ADS1015::Input_Class::resolution(void)
 
 double ADS1015::Input_Class::voltage(void)
 {
-  return double(this->sample())*Ranges[this->range]/double(Steps)*2.0/
-    this->gain - this->offset;
+  return double(this->sample())*Ranges[this->range]/double(Steps)*2.0/this->gain;
 }

@@ -63,8 +63,7 @@ namespace Interfaces::DAC
   {
     // Constructors
 
-    Output_Class(Sample output, double reference, double gain = 1.0,
-      double offset = 0.0);
+    Output_Class(Sample output, double reference, double gain = 1.0);
 
     // Methods
 
@@ -74,7 +73,6 @@ namespace Interfaces::DAC
 
     Sample output;
     double stepsize;
-    double offset;
   };
 
   typedef Output_Class *Output;

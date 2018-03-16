@@ -35,7 +35,7 @@ Interfaces::ADC::Voltage_Interface::operator double(void)
 }
 
 Interfaces::ADC::Input_Class::Input_Class(Sample input, double reference,
-  double gain, double offset)
+  double gain)
 {
   // Validate parameters
 
@@ -44,10 +44,9 @@ Interfaces::ADC::Input_Class::Input_Class(Sample input, double reference,
 
   this->input = input;
   this->stepsize = reference/(2 << input->resolution())/gain;
-  this->offset = offset;
 }
 
 double Interfaces::ADC::Input_Class::voltage(void)
 {
-  return this->input->sample()*this->stepsize - this->offset;
+  return this->input->sample()*this->stepsize;
 }

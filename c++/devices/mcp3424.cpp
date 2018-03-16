@@ -147,14 +147,13 @@ int MCP3424::Device_Class::sample(unsigned channel, unsigned resolution,
 // Analog input class constructor
 
 MCP3424::Input_Class::Input_Class(Device dev, unsigned channel,
-  unsigned resolution, unsigned range, double gain, double offset)
+  unsigned resolution, unsigned range, double gain)
 {
   this->dev = dev;
   this->channel = channel;
   this->res = resolution;
   this->range = range;
   this->gain = gain;
-  this->offset = offset;
 }
 
 // Analog input class methods
@@ -176,6 +175,5 @@ static const int Gains[] = { 1, 2, 4, 8 };
 
 double MCP3424::Input_Class::voltage(void)
 {
-  return double(this->sample())/Steps[this->res]*2.048*Gains[this->range]/
-    this->gain - this->offset;
+  return double(this->sample())/Steps[this->res]*2.048*Gains[this->range]/this->gain;
 }

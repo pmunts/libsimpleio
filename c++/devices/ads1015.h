@@ -59,8 +59,7 @@ namespace ADS1015
   struct Input_Class: public Interfaces::ADC::Sample_Interface,
     public Interfaces::ADC::Voltage_Interface
   {
-    Input_Class(Device dev, unsigned channel, unsigned range, double gain = 1.0,
-      double offset = 0.0);
+    Input_Class(Device dev, unsigned channel, unsigned range, double gain = 1.0);
 
     virtual int sample(void);
 
@@ -74,7 +73,6 @@ namespace ADS1015
     unsigned channel;
     unsigned range;
     double gain;
-    double offset;
   };
 
   // Device class (completed)

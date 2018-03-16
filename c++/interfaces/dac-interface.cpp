@@ -35,7 +35,7 @@ void Interfaces::DAC::Voltage_Interface::operator =(const double voltage)
 }
 
 Interfaces::DAC::Output_Class::Output_Class(Interfaces::DAC::Sample output,
-  double reference, double gain, double offset)
+  double reference, double gain)
 {
   // Validate parameters
 
@@ -44,10 +44,9 @@ Interfaces::DAC::Output_Class::Output_Class(Interfaces::DAC::Sample output,
 
   this->output = output;
   this->stepsize = reference/(2 << output->resolution())/gain;
-  this->offset = offset;
 }
 
 void Interfaces::DAC::Output_Class::write(const double voltage)
 {
-  this->output->write((voltage - offset)/stepsize);
+  this->output->write(voltage/stepsize);
 }

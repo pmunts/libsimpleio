@@ -67,8 +67,7 @@ INTERFACE
        (dev     : Device;
         channel : Channels;
         range   : Ranges;
-        gain    : Real = 1.0;
-        offset  : Real = 0.0);
+        gain    : Real = 1.0);
 
       { Public methods }
 
@@ -82,7 +81,6 @@ INTERFACE
       channel : Cardinal;
       range   : Cardinal;
       gain    : Real;
-      offset  : Real;
     END;
 
 IMPLEMENTATION
@@ -147,8 +145,7 @@ IMPLEMENTATION
    (dev     : Device;
     channel : Channels;
     range   : Ranges;
-    gain    : Real;
-    offset  : Real);
+    gain    : Real);
 
   BEGIN
     Self.dev := dev;
@@ -158,7 +155,6 @@ IMPLEMENTATION
       Self.channel := Ord(channel) - 4;
     Self.range := Ord(range);
     Self.gain := gain;
-    Self.offset := offset;
   END;
 
   { Method implementing ADC.Sample.sample }
@@ -196,7 +192,7 @@ IMPLEMENTATION
      (6.144, 4.096, 2.048, 1.024, 0.512, 0.256);
 
   BEGIN
-    voltage := Self.sample*RangeValues[Self.range]/ResolutionSteps*2.0/gain - offset;
+    voltage := Self.sample*RangeValues[Self.range]/ResolutionSteps*2.0/gain;
   END;
 
 END.

@@ -45,8 +45,7 @@ INTERFACE
     { Classes }
 
     Input = CLASS(TInterfacedObject, Voltage)
-      CONSTRUCTOR Create(input : Sample; reference : Real; gain : Real = 1.0;
-        offset : Real = 0.0);
+      CONSTRUCTOR Create(input : Sample; reference : Real; gain : Real = 1.0);
 
       DESTRUCTOR Destroy; OVERRIDE;
         
@@ -55,7 +54,6 @@ INTERFACE
     PRIVATE
       input    : Sample;
       stepsize : Real;
-      offset   : Real;
     END;
 
 IMPLEMENTATION
@@ -63,8 +61,7 @@ IMPLEMENTATION
   USES
     Math;
 
-  CONSTRUCTOR Input.Create(input : Sample; reference : Real; gain : Real;
-    offset: Real);
+  CONSTRUCTOR Input.Create(input : Sample; reference : Real; gain : Real);
 
   BEGIN
     IF reference = 0.0 THEN
@@ -75,7 +72,6 @@ IMPLEMENTATION
   
     Self.input    := input;
     Self.stepsize := reference/intpower(2, input.resolution)/gain;
-    Self.offset   := offset
   END;
 
   DESTRUCTOR Input.Destroy;
@@ -89,7 +85,7 @@ IMPLEMENTATION
   FUNCTION Input.Voltage : Real;
 
   BEGIN
-    Voltage := Self.input.sample*Self.stepsize - Self.offset;
+    Voltage := Self.input.sample*Self.stepsize;
   END;
 
 END.

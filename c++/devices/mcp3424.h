@@ -52,7 +52,7 @@ namespace MCP3424
     public Interfaces::ADC::Voltage_Interface
   {
     Input_Class(Device dev, unsigned channel, unsigned resolution,
-      unsigned range, double gain = 1.0, double offset = 0.0);
+      unsigned range, double gain = 1.0);
 
     virtual int sample(void);
 
@@ -67,7 +67,6 @@ namespace MCP3424
     unsigned res;
     unsigned range;
     double gain;
-    double offset;
   };
 
   // Device class (completed)

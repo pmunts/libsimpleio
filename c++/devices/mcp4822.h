@@ -58,7 +58,6 @@ namespace MCP4822
     unsigned channel;
     double reference;
     double gain;
-    double offset;
   };
 
   // MCP4822 device class (completed)
