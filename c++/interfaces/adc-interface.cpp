@@ -43,7 +43,7 @@ Interfaces::ADC::Input_Class::Input_Class(Sample input, double reference,
   if (gain == 0.0) throw EINVAL;
 
   this->input = input;
-  this->stepsize = reference/(2 << input->resolution())/gain;
+  this->stepsize = reference/(1 << input->resolution())/gain;
 }
 
 double Interfaces::ADC::Input_Class::voltage(void)

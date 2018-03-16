@@ -43,7 +43,7 @@ Interfaces::DAC::Output_Class::Output_Class(Interfaces::DAC::Sample output,
   if (gain == 0.0) throw EINVAL;
 
   this->output = output;
-  this->stepsize = reference/(2 << output->resolution())/gain;
+  this->stepsize = reference/(1 << output->resolution())/gain;
 }
 
 void Interfaces::DAC::Output_Class::write(const double voltage)
