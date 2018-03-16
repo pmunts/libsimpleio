@@ -101,7 +101,7 @@ ADS1015::Input_Class::Input_Class(Device dev, unsigned channel, unsigned range,
 
 // Input_Class methods
 
-int ADS1015::Input_Class::read(void)
+int ADS1015::Input_Class::sample(void)
 {
   // Start conversion
 
@@ -119,6 +119,6 @@ int ADS1015::Input_Class::read(void)
 
 double ADS1015::Input_Class::voltage(void)
 {
-  return double(this->read())*Ranges[this->range]/double(Steps)*2.0/
+  return double(this->sample())*Ranges[this->range]/double(Steps)*2.0/
     this->gain - this->offset;
 }

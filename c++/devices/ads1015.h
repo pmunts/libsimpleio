@@ -75,7 +75,7 @@ namespace ADS1015
 
     // ADC input methods
 
-    virtual int read(void);
+    virtual int sample(void);
 
     virtual double voltage(void);
 

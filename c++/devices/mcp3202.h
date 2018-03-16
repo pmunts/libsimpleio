@@ -42,7 +42,7 @@ namespace MCP3202
   {
     Device_Class(Interfaces::SPI::Device dev);
 
-    uint16_t read(unsigned channel, bool differential = SingleEnded);
+    uint16_t sample(unsigned channel, bool differential = SingleEnded);
 
   private:
 
@@ -60,7 +60,7 @@ namespace MCP3202
 
     // ADC input methods
 
-    virtual int read(void);
+    virtual int sample(void);
 
     virtual double voltage(void);
 

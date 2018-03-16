@@ -37,7 +37,7 @@ MCP3208::Device_Class::Device_Class(Interfaces::SPI::Device dev)
 
 // Device class methods
 
-uint16_t MCP3208::Device_Class::read(unsigned channel, bool differential)
+uint16_t MCP3208::Device_Class::sample(unsigned channel, bool differential)
 {
   // Validate parameters
 
@@ -72,13 +72,13 @@ MCP3208::Input_Class::Input_Class(Device dev, unsigned channel,
 
 // Input_Class methods
 
-int MCP3208::Input_Class::read(void)
+int MCP3208::Input_Class::sample(void)
 {
-  return this->dev->read(this->channel, this->differential);
+  return this->dev->sample(this->channel, this->differential);
 }
 
 double MCP3208::Input_Class::voltage(void)
 {
-  return double(this->read())*this->reference/double(Steps)/this->gain -
+  return double(this->sample())*this->reference/double(Steps)/this->gain -
     this->offset;
 }

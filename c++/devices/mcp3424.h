@@ -46,7 +46,7 @@ namespace MCP3424
   {
     Device_Class(Interfaces::I2C::Bus bus, unsigned addr);
 
-    int read(unsigned channel, unsigned resolution, unsigned range);
+    int sample(unsigned channel, unsigned resolution, unsigned range);
 
   private:
 
@@ -65,7 +65,7 @@ namespace MCP3424
 
     // ADC input methods
 
-    virtual int read(void);
+    virtual int sample(void);
 
     virtual double voltage(void);
 

@@ -67,9 +67,9 @@ MCP3424::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
   this->addr = addr;
 }
 
-// Device_Class read() method
+// Device_Class sample() method
 
-int MCP3424::Device_Class::read(unsigned channel, unsigned resolution,
+int MCP3424::Device_Class::sample(unsigned channel, unsigned resolution,
   unsigned range)
 {
   // Validate parameters
@@ -159,9 +159,9 @@ MCP3424::Input_Class::Input_Class(Device dev, unsigned channel,
 
 // Analog input class methods
 
-int MCP3424::Input_Class::read(void)
+int MCP3424::Input_Class::sample(void)
 {
-  return dev->read(this->channel, this->resolution, this->range);
+  return dev->sample(this->channel, this->resolution, this->range);
 }
 
 static const int Steps[] = { 2048, 8192, 32768, 131072 };
@@ -169,6 +169,6 @@ static const int Gains[] = { 1, 2, 4, 8 };
 
 double MCP3424::Input_Class::voltage(void)
 {
-  return double(this->read())/Steps[this->resolution]*2.048*Gains[this->range]/
+  return double(this->sample())/Steps[this->resolution]*2.048*Gains[this->range]/
     this->gain - this->offset;
 }
