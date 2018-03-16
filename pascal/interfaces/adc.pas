@@ -30,16 +30,66 @@ INTERFACE
   TYPE
     ADC_Error = CLASS(Exception);
 
-    Input = INTERFACE
-      FUNCTION ReadSample : Integer;
+    { Abstract interfaces }
 
-      FUNCTION ReadVoltage : Real;
+    Sample = INTERFACE
+      FUNCTION sample : Integer;
 
-      PROPERTY sample : Integer READ ReadSample;
+      FUNCTION resolution : Cardinal;
+    END;
 
-      PROPERTY voltage : Real READ ReadVoltage;
+    Voltage = INTERFACE
+      FUNCTION voltage : Real;
+    END;
+
+    { Classes }
+
+    Input = CLASS(TInterfacedObject, Voltage)
+      CONSTRUCTOR Create(input : Sample; reference : Real; gain : Real = 1.0;
+        offset : Real = 0.0);
+
+      DESTRUCTOR Destroy; OVERRIDE;
+        
+      FUNCTION voltage : Real;
+
+    PRIVATE
+      input    : Sample;
+      stepsize : Real;
+      offset   : Real;
     END;
 
 IMPLEMENTATION
+
+  USES
+    Math;
+
+  CONSTRUCTOR Input.Create(input : Sample; reference : Real; gain : Real;
+    offset: Real);
+
+  BEGIN
+    IF reference = 0.0 THEN
+      RAISE ADC_Error.create('ERROR: reference voltage cannot be zero');
+
+    IF gain = 0.0 THEN
+      RAISE ADC_Error.create('ERROR: gain cannot be zero');
+  
+    Self.input    := input;
+    Self.stepsize := reference/intpower(2, input.resolution)/gain;
+    Self.offset   := offset
+  END;
+
+  DESTRUCTOR Input.Destroy;
+
+  BEGIN
+    FreeAndNil(Self.input);
+
+    INHERITED;
+  END;
+
+  FUNCTION Input.Voltage : Real;
+
+  BEGIN
+    Voltage := Self.input.sample*Self.stepsize - Self.offset;
+  END;
 
 END.

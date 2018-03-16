@@ -29,9 +29,9 @@ INTERFACE
   { Intrinsic characteristics of the ADS1015 A/D converter }
 
   CONST
-    MaxChannels = 4;
-    Resolution  = 12;
-    Steps       = 4096;
+    MaxChannels     = 4;
+    ResolutionBits  = 12;
+    ResolutionSteps = 4096;
 
   TYPE
 
@@ -62,7 +62,7 @@ INTERFACE
 
     { ADS1015 analog input class }
 
-    InputSubclass = CLASS(TInterfacedObject, ADC.Input)
+    InputSubclass = CLASS(TInterfacedObject, ADC.Sample, ADC.Voltage)
       CONSTRUCTOR Create
        (dev     : Device;
         channel : Channels;
@@ -72,9 +72,11 @@ INTERFACE
 
       { Public methods }
 
-      FUNCTION ReadSample : Integer;
+      FUNCTION sample : Integer;
 
-      FUNCTION ReadVoltage : Real;
+      FUNCTION resolution : Cardinal;
+
+      FUNCTION voltage : Real;
     PRIVATE
       dev     : Device;
       channel : Cardinal;
@@ -159,9 +161,9 @@ IMPLEMENTATION
     Self.offset := offset;
   END;
 
-  { Method implementing ADC.SampleInput.ReadSample }
+  { Method implementing ADC.Sample.sample }
 
-  FUNCTION InputSubclass.ReadSample : Integer;
+  FUNCTION InputSubclass.sample : Integer;
 
   BEGIN
     { Start conversion }
@@ -174,19 +176,27 @@ IMPLEMENTATION
     REPEAT
     UNTIL (Self.dev.ReadRegister(CONFIG) AND $8000) <> 0;
 
-    ReadSample := SmallInt(Self.dev.ReadRegister(CONVERSION) SHR 4);
+    sample := SmallInt(Self.dev.ReadRegister(CONVERSION) SHR 4);
   END;
 
-  { Method implementing ADC.Input.ReadVoltage }
+  { Method implementing ADC.sample.resolution }
 
-  FUNCTION InputSubclass.ReadVoltage : Real;
+  FUNCTION InputSubclass.resolution : Cardinal;
+
+  BEGIN
+    resolution := ResolutionBits;
+  END;
+
+  { Method implementing ADC.Voltage.voltage }
+
+  FUNCTION InputSubclass.voltage : Real;
 
   CONST
     RangeValues : ARRAY [0 .. 5] OF Real =
      (6.144, 4.096, 2.048, 1.024, 0.512, 0.256);
 
   BEGIN
-    ReadVoltage := Self.ReadSample*RangeValues[Self.range]/Steps*2.0/gain - offset;
+    voltage := Self.sample*RangeValues[Self.range]/ResolutionSteps*2.0/gain - offset;
   END;
 
 END.

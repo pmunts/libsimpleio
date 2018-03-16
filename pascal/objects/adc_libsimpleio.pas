@@ -26,43 +26,32 @@ INTERFACE
     ADC;
 
   TYPE
-    InputSubclass = CLASS(TInterfacedObject, ADC.Input)
+    SampleSubclass = CLASS(TInterfacedObject, ADC.Sample)
       CONSTRUCTOR Create
        (chip       : Cardinal;
         channel    : Cardinal;
-        resolution : Cardinal;
-        reference  : Real;
-        gain       : Real = 1.0;
-        offset     : Real = 0.0);
+        resolution : Cardinal);
 
       DESTRUCTOR Destroy; OVERRIDE;
 
-      FUNCTION ReadSample : Integer;
+      FUNCTION sample : Integer;
 
-      FUNCTION ReadVoltage : Real;
-
+      FUNCTION resolution : Cardinal;
     PRIVATE
-
       fd       : Integer;
-      stepsize : Real;
-      gain     : Real;
-      offset   : Real;
+      numbits  : Cardinal;
     END;
 
 IMPLEMENTATION
 
   USES
     errno,
-    libADC,
-    Math;
+    libADC;
 
-  CONSTRUCTOR InputSubclass.Create
+  CONSTRUCTOR SampleSubclass.Create
    (chip       : Cardinal;
     channel    : Cardinal;
-    resolution : Cardinal;
-    reference  : Real;
-    gain       : Real;
-    offset     : Real);
+    resolution : Cardinal);
 
   VAR
     error : Integer;
@@ -73,12 +62,10 @@ IMPLEMENTATION
     IF error <> 0 THEN
       RAISE ADC_Error.create('ERROR: libADC.Open() failed, ' + strerror(error));
 
-    self.stepsize := reference/power(2, resolution);
-    Self.gain := gain;
-    Self.offset := offset;
+    Self.numbits := resolution;
   END;
 
-  DESTRUCTOR InputSubclass.Destroy;
+  DESTRUCTOR SampleSubclass.Destroy;
 
   VAR
     error : Integer;
@@ -93,29 +80,29 @@ IMPLEMENTATION
     INHERITED;
   END;
 
-  { Method implementing ADC.SampleInput.ReadSample }
+  { Method implementing ADC.Sample.sample }
 
-  FUNCTION InputSubclass.ReadSample : Integer;
+  FUNCTION SampleSubclass.sample : Integer;
 
   VAR
-    sample : Integer;
+    data   : Integer;
     error  : Integer;
 
   BEGIN
-    libADC.Read(Self.fd, sample, error);
+    libADC.Read(Self.fd, data, error);
 
     IF error <> 0 THEN
       RAISE ADC_Error.create('ERROR: libADC.Read() failed, ' + strerror(error));
 
-    ReadSample := sample;
+    sample := data;
   END;
 
-  { Method implementing ADC.Input.ReadVoltage }
+  { Method implementing ADC.Sample.resolution }
 
-  FUNCTION InputSubclass.ReadVoltage : Real;
+  FUNCTION SampleSubclass.resolution : Cardinal;
 
   BEGIN
-    ReadVoltage := Self.ReadSample*Self.stepsize/Self.gain - Self.offset;
+    resolution := Self.numbits;
   END;
 
 END.
