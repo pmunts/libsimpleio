@@ -45,7 +45,7 @@ libsimpleio::ADC::Input_Class::Input_Class(unsigned chip, unsigned channel,
 
 // Methods
 
-int libsimpleio::ADC::Input_Class::read(void)
+int libsimpleio::ADC::Input_Class::sample(void)
 {
   int32_t sample;
   int32_t error;
@@ -58,5 +58,5 @@ int libsimpleio::ADC::Input_Class::read(void)
 
 double libsimpleio::ADC::Input_Class::voltage(void)
 {
-  return this->read()*this->stepsize/this->gain - this->offset;
+  return this->sample()*this->stepsize/this->gain - this->offset;
 }
