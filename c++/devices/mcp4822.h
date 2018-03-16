@@ -30,9 +30,9 @@
 
 namespace MCP4822
 {
-  const unsigned MaxChannels = 2;
-  const unsigned Resolution = 12;
-  const unsigned Steps = 4096;
+  static const unsigned MaxChannels = 2;
+  static const unsigned Resolution = 12;
+  static const unsigned Steps = 4096;
 
   // MCP4822 device class
 

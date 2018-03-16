@@ -30,7 +30,7 @@
 
 namespace MCP3424
 {
-  const unsigned MaxChannels = 4;
+  static const unsigned MaxChannels = 4;
 
   // Resolution settings
 

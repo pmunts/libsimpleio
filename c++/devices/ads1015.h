@@ -30,9 +30,9 @@
 
 namespace ADS1015
 {
-  const unsigned MaxChannels = 4;
-  const unsigned Resolution = 12;
-  const unsigned Steps = 4096;
+  static const unsigned MaxChannels = 4;
+  static const unsigned Resolution = 12;
+  static const unsigned Steps = 4096;
 
   enum Registers { CONVERSION, CONFIG, LOW_THRESHOLD, HIGH_THRESHOLD };
 

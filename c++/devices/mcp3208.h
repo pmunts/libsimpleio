@@ -30,11 +30,11 @@
 
 namespace MCP3208
 {
-  const unsigned MaxChannels = 8;
-  const unsigned Resolution = 12;
-  const unsigned Steps = 4096;
-  const bool SingleEnded = false;
-  const bool Differential = true;
+  static const unsigned MaxChannels = 8;
+  static const unsigned Resolution = 12;
+  static const unsigned Steps = 4096;
+  static const bool SingleEnded = false;
+  static const bool Differential = true;
 
   // MCP3208 device class (incomplete)
 

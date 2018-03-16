@@ -32,7 +32,7 @@
 
 namespace PCA9685
 {
-  const unsigned MaxChannels = 16;
+  static const unsigned MaxChannels = 16;
 
   // PCA9685 device class
 
