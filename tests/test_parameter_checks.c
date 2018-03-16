@@ -568,6 +568,24 @@ START_TEST(test_liblinux)
   LINUX_poll(1, files, events, results, -2, &error);
   ck_assert(error == EINVAL);
 
+  files[0] = 999;
+  events[0] = POLLIN;
+  results[0] = 0;
+
+  LINUX_poll(1, files, events, results, -1, &error);
+  ck_assert(error == 0);
+  ck_assert(results[0] == POLLNVAL);
+
+  files[0] = open("/dev/null", O_RDONLY);
+  ck_assert(files[0] > 2);
+
+  events[0] = POLLPRI;
+  results[0] = 0;
+
+  LINUX_poll(1, files, events, results, 100, &error);
+  ck_assert(error == EAGAIN);
+  ck_assert(results[0] == 0);
+
   LINUX_open(NULL, O_RDWR, 0644, &fd, &error);
   ck_assert(error == EINVAL);
 
