@@ -57,7 +57,7 @@ namespace Interfaces::ADC
 
   typedef Voltage_Interface *Voltage;
 
-  // Utility class for converting ADC raw sampled data to scale voltage value
+  // Utility class for converting ADC raw sample data to scaled voltage
 
   struct Input_Class: public Voltage_Interface
   {
