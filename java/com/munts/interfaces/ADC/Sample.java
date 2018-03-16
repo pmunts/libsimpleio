@@ -1,4 +1,4 @@
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,33 +20,11 @@
 
 package com.munts.interfaces.ADC;
 
-public class Input implements Voltage
+// Define an abstract interface for all ADC raw sample input objects
+
+public interface Sample
 {
-  private Sample input;
-  private double stepsize;
-  private double gain;
+  int read();
 
-  // Constructors
-
-  public Input(Sample input, double reference, double gain)
-  {
-    // Validate parameters
-
-    if (reference == 0.0)
-      throw new RuntimeException("ERROR: reference is invalid");
-
-    if  (gain == 0.0)
-      throw new RuntimeException("ERROR: gain is invalid");
-
-    this.input = input;
-    this.stepsize = reference/(1 << input.resolution());
-    this.gain = gain;
-  }
-
-  // Methods
-
-  public double voltage()
-  {
-    return this.input.read()*this.stepsize/this.gain;
-  }
+  int resolution();
 }

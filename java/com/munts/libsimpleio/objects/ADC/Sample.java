@@ -26,17 +26,14 @@ import com.munts.libsimpleio.bindings.libadc;
 import com.munts.libsimpleio.objects.errno;
 import com.sun.jna.ptr.IntByReference;
 
-public class Input implements com.munts.interfaces.ADC.Input
+public class Sample implements com.munts.interfaces.ADC.Sample
 {
   private int fd;
-  private double stepsize;
-  private double gain;
-  private double offset;
+  private int numbits;
 
   // ADC input object constructor
 
-  public Input(int chip, int channel, int resolution,
-    double reference, double gain, double offset)
+  public Sample(int chip, int channel, int resolution)
   {
     IntByReference fd = new IntByReference();
     IntByReference error = new IntByReference();
@@ -61,12 +58,10 @@ public class Input implements com.munts.interfaces.ADC.Input
         errno.strerror(error.getValue()));
 
     this.fd = fd.getValue();
-    this.stepsize = reference/(1 << resolution);
-    this.gain = gain;
-    this.offset = offset;
+    this.numbits = resolution;
   }
 
-  // Analog input read method returning raw sample value
+  // Analog input method returning raw sample value
 
   public int read()
   {
@@ -82,11 +77,11 @@ public class Input implements com.munts.interfaces.ADC.Input
     return sample.getValue();
   }
 
-  // Analog input read method returning voltage
+  // Analog input method returning the resolution
 
-  public double voltage()
+  public int resolution()
   {
-    return this.read()*this.stepsize/this.gain - this.offset;
+    return this.numbits;
   }
 
   public void finalize()
@@ -96,5 +91,6 @@ public class Input implements com.munts.interfaces.ADC.Input
     libadc.ADC_close(this.fd, error);
 
     this.fd = -1;
+    this.numbits = -1;
   }
 }
