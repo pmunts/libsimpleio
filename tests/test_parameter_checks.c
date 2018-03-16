@@ -404,7 +404,7 @@ START_TEST(test_libipv4)
   ck_assert(addr == 0x7F000001);
 
   IPV4_resolve("bogus.munts.net", &addr, &error);
-  ck_assert(error == ENONET);
+  ck_assert(error == EIO);
 
   IPV4_ntoa(0x00000000, NULL, sizeof(buf), &error);
   ck_assert(error == EINVAL);
@@ -548,6 +548,25 @@ START_TEST(test_liblinux)
 
   LINUX_strerror(EPIPE, buf, sizeof(buf));
   ck_assert(!strcmp(buf, "Broken pipe"));
+
+  int32_t files[1];
+  int32_t events[1];
+  int32_t results[1];
+
+  LINUX_poll(0, files, events, results, 0, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_poll(1, NULL, events, results, 0, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_poll(1, files, NULL, results, 0, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_poll(1, files, events, NULL, 0, &error);
+  ck_assert(error == EINVAL);
+
+  LINUX_poll(1, files, events, results, -2, &error);
+  ck_assert(error == EINVAL);
 
   LINUX_open(NULL, O_RDWR, 0644, &fd, &error);
   ck_assert(error == EINVAL);
