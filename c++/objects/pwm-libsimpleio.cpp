@@ -39,8 +39,8 @@ libsimpleio::PWM::Output_Class::Output_Class(unsigned chip, unsigned channel,
 
   // Calculate the PWM pulse frequency and initial pulse width in nanoseconds
 
-  const unsigned period = 1.0E9/frequency;
-  const unsigned ontime = dutycycle/100.0*period;
+  unsigned period = 1.0E9/frequency;
+  unsigned ontime = dutycycle/100.0*period;
 
   // Configure the PWM output
 
@@ -68,7 +68,7 @@ void libsimpleio::PWM::Output_Class::write(const double dutycycle)
 
   // Calculate the required PWM pulse width in nanoseconds
 
-  const unsigned ontime = dutycycle/100.0*this->period;
+  unsigned ontime = dutycycle/100.0*this->period;
   int error;
 
   // Set the PWM pulse width
