@@ -349,17 +349,22 @@ void STREAM_receive_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *frame
   *error = EAGAIN;
 }
 
-// This is not necessary with libsimpleio
+#undef FAILIF
+#define FAILIF(c, e) if (c) { if (count != NULL) *count = 0; *error = e; return; }
+
+// Send a frame
 
 void STREAM_send_frame(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error)
 {
+  // Validate parameters
+
+  FAILIF((fd < 0), EINVAL);
+  FAILIF((buf == NULL), EINVAL);
+  FAILIF((bufsize < 6), EINVAL);
+  FAILIF((count == NULL), EINVAL);
+
   int32_t len = writefn(fd, buf, bufsize);
-  if (len < 0)
-  {
-    *count = 0;
-    *error = errno;
-    return;
-  }
+  FAILIF((len < 0), errno);
 
   *count = len;
   *error = 0;
