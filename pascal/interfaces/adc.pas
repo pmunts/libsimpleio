@@ -48,7 +48,7 @@ INTERFACE
       CONSTRUCTOR Create(input : Sample; reference : Real; gain : Real = 1.0);
 
       DESTRUCTOR Destroy; OVERRIDE;
-        
+
       FUNCTION voltage : Real;
 
     PRIVATE
@@ -69,7 +69,7 @@ IMPLEMENTATION
 
     IF gain = 0.0 THEN
       RAISE ADC_Error.create('ERROR: gain cannot be zero');
-  
+
     Self.input    := input;
     Self.stepsize := reference/intpower(2, input.resolution)/gain;
   END;
