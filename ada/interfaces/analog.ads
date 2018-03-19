@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Text_IO;
-WITH IO_Interfaces;
 
 PACKAGE Analog IS
 
@@ -33,8 +32,28 @@ PACKAGE Analog IS
 
   PACKAGE Sample_IO IS NEW Ada.Text_IO.Modular_IO(Sample);
 
-  -- Instantiate abstract interfaces package
+  -- Interfaces
 
-  PACKAGE Interfaces IS NEW IO_Interfaces(Sample);
+  TYPE InputInterface IS INTERFACE;
+
+  TYPE OutputInterface IS INTERFACE;
+
+  -- Access types
+
+  TYPE Input IS ACCESS ALL InputInterface'Class;
+
+  TYPE Output IS ACCESS ALL OutputInterface'Class;
+
+  -- Analog to Digital Converter Methods
+
+  FUNCTION Get(Self : IN OUT InputInterface) RETURN Sample IS ABSTRACT;
+
+  FUNCTION GetResolution(Self : IN OUT InputInterface) RETURN Positive IS ABSTRACT;
+
+  -- Digital to Analog Converter Methods
+
+  PROCEDURE Put(Self : IN OUT OutputInterface; value : Sample) IS ABSTRACT;
+
+  FUNCTION GetResolution(Self : IN OUT OutputInterface) RETURN Positive IS ABSTRACT;
 
 END Analog;

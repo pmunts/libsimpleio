@@ -1,4 +1,4 @@
--- Generic package for an Analog Data Acquisition System
+-- Abstract Analog to Digital Converter interface definitions
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,49 +20,37 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Analog;
 WITH Voltage;
 
-GENERIC
+USE TYPE Voltage.Volts;
 
-  TYPE InputClass(<>) IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
-
-  Resolution : IN Positive;
-  Reference  : IN Voltage.Volts;
-  Gain       : IN Voltage.Volts := 1.0;
-  Offset     : IN Voltage.Volts := 0.0;
-
-PACKAGE ADC.DAS IS
-
-  -- Define subclass of InputClass
-
-  TYPE InputSubclass IS NEW InputClass AND
-    Voltage.Interfaces.InputInterface WITH PRIVATE;
-
-  TYPE Input IS ACCESS InputSubClass;
+PACKAGE BODY ADC IS
 
   -- Constructor
 
   FUNCTION Create
-   (adcin     : Analog.Interfaces.Input;
-    adcgain   : Voltage.volts := Gain;
-    adcoffset : Voltage.Volts := Offset) RETURN Input;
+   (input     : Analog.Input;
+    reference : Voltage.Volts;
+    gain      : Voltage.Volts := 1.0) RETURN Voltage.Interfaces.Input IS
+
+  BEGIN
+    IF reference = 0.0 THEN
+      RAISE ADC_Error WITH "ERROR: reference voltage cannot be zero";
+    END IF;
+
+    IF gain = 0.0 THEN
+      RAISE ADC_Error WITH "ERROR: gain cannot be zero";
+    END IF;
+
+    RETURN NEW InputSubclass'(input, reference/2.0**input.GetResolution/gain);
+  END Create;
 
   -- Methods
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN Voltage.Volts;
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Voltage.Volts IS
 
-  PROCEDURE SetGain(self : IN OUT InputSubclass; gain : Voltage.Volts);
+  BEGIN
+    RETURN Voltage.Volts(Self.input.Get)*Self.stepsize;
+  END Get;
 
-  PROCEDURE SetOffset(self : IN OUT InputSubclass; offset : Voltage.Volts);
-
-PRIVATE
-
-  TYPE InputSubclass IS NEW Inputclass AND
-    Voltage.Interfaces.InputInterface WITH RECORD
-    StepSize : Voltage.Volts;
-    Gain     : Voltage.Volts;
-    Offset   : Voltage.Volts;
-  END RECORD;
-
-END ADC.DAS;
+END ADC;

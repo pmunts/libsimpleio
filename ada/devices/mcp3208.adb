@@ -31,7 +31,7 @@ PACKAGE BODY MCP3208 IS
   FUNCTION Create
    (spidev  : SPI.Device;
     chan    : Channel;
-    config  : Configuration := SingleEnded) RETURN Analog.Interfaces.Input IS
+    config  : Configuration := SingleEnded) RETURN Analog.Input IS
 
   BEGIN
     CASE config IS
@@ -58,5 +58,11 @@ PACKAGE BODY MCP3208 IS
       Standard.Interfaces.Unsigned_32(resp(0)), 4) +
       Standard.Interfaces.Shift_Right(Standard.Interfaces.Unsigned_32(resp(1)), 4));
   END Get;
+
+  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive IS
+
+  BEGIN
+    RETURN Resolution;
+  END GetResolution;
 
 END MCP3208;

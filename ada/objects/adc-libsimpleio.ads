@@ -26,18 +26,22 @@ PACKAGE ADC.libsimpleio IS
 
   -- Type definitions
 
-  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
 
   -- ADC input object constructor
 
   FUNCTION Create
-   (chip    : Natural;
-    channel : Natural) RETURN Analog.Interfaces.Input;
+   (chip       : Natural;
+    channel    : Natural;
+    resolution : Positive) RETURN Analog.Input;
 
   -- ADC input read method
 
-  FUNCTION Get
-   (self    : IN OUT InputSubclass) RETURN Analog.Sample;
+  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
+
+  -- Retrieve the A/D converter resolution
+
+  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive;
 
   -- Retrieve the underlying Linux file descriptor
 
@@ -45,8 +49,9 @@ PACKAGE ADC.libsimpleio IS
 
 PRIVATE
 
-  TYPE InputSubclass IS NEW Standard.Analog.Interfaces.InputInterface WITH RECORD
-    fd : Integer;
+  TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
+    fd         : Integer;
+    resolution : Positive;
   END RECORD;
 
 END ADC.libsimpleio;

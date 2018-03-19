@@ -25,23 +25,28 @@ WITH RemoteIO;
 
 PACKAGE ADC.RemoteIO IS
 
-  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
 
   -- A/D input pin object constructor
 
   FUNCTION Create
    (dev : Standard.RemoteIO.Device;
-    num : Standard.RemoteIO.ChannelNumber) RETURN Analog.Interfaces.Input;
+    num : Standard.RemoteIO.ChannelNumber) RETURN Analog.Input;
 
   -- Read A/D input pin
 
   FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
 
+  -- Retrieve A/D converter resolution
+
+  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive;
+
 PRIVATE
 
-  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH RECORD
-    dev : Standard.RemoteIO.Device;
-    num : Standard.RemoteIO.ChannelNumber;
+  TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
+    dev        : Standard.RemoteIO.Device;
+    num        : Standard.RemoteIO.ChannelNumber;
+    resolution : Positive;
   END RECORD;
 
 END ADC.RemoteIO;

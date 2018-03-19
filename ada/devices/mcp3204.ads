@@ -29,9 +29,9 @@ PACKAGE MCP3204 IS
 
   Resolution : CONSTANT Positive := 12;
 
-  -- Define a subclass of Analog.Interfaces.InputInterface
+  -- Define a subclass of Analog.InputInterface
 
-  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
 
   -- Define some types for analog input channels
 
@@ -47,15 +47,17 @@ PACKAGE MCP3204 IS
   FUNCTION Create
    (spidev : SPI.Device;
     chan   : Channel;
-    config : Configuration := SingleEnded) RETURN Analog.Interfaces.Input;
+    config : Configuration := SingleEnded) RETURN Analog.Input;
 
   -- Methods
 
   FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
 
+  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive;
+
 PRIVATE
 
-  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH RECORD
+  TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
     spidev : SPI.Device;
     cmd    : SPI.Byte;
   END RECORD;

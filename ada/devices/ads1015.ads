@@ -39,9 +39,9 @@ PACKAGE ADS1015 IS
 
   Resolution : CONSTANT Positive := 12;
 
-  -- Define a subclass of Analog.Interfaces.InputInterface
+  -- Define a subclass of Analog.InputInterface
 
-  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH PRIVATE;
+  TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
 
   -- Full scale range selectors in millivolts
 
@@ -54,21 +54,25 @@ PACKAGE ADS1015 IS
   -- Analog input constructor
 
   FUNCTION Create(bus : I2C.Bus; addr : I2C.Address; chan : Channel;
-    fsr : FullScaleRange) RETURN Analog.Interfaces.Input;
+    fsr : FullScaleRange) RETURN Analog.Input;
 
   -- Analog input method
 
   FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
 
+  -- Retrieve resolution
+
+  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive;
+
   -- Retrieve PGA gain
 
-  FUNCTION Gain(self : IN OUT InputSubclass) RETURN Voltage.Volts;
+  FUNCTION GetGain(self : IN OUT InputSubclass) RETURN Voltage.Volts;
 
 PRIVATE
 
   TYPE RegData IS MOD 2**16;
 
-  TYPE InputSubclass IS NEW Analog.Interfaces.InputInterface WITH RECORD
+  TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
     bus  : I2C.Bus;
     addr : I2C.Address;
     mux  : RegData;

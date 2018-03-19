@@ -111,7 +111,7 @@ PACKAGE BODY ADC121C021 IS
 
   FUNCTION Create
    (bus  : I2C.Bus;
-    addr : I2C.Address) RETURN Analog.Interfaces.Input IS
+    addr : I2C.Address) RETURN Analog.Input IS
 
     input : ACCESS InputSubClass;
 
@@ -128,5 +128,11 @@ PACKAGE BODY ADC121C021 IS
   BEGIN
     RETURN Analog.Sample(ReadRegister16(self, ConversionResult) AND SAMPLE_MASK);
   END Get;
+
+  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive IS
+
+  BEGIN
+    RETURN resolution;
+  END GetResolution;
 
 END ADC121C021;

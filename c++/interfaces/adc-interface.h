@@ -73,6 +73,7 @@ namespace Interfaces::ADC
 
     Sample input;
     double stepsize;
+    double gain;
   };
 
   typedef Input_Class *Input;

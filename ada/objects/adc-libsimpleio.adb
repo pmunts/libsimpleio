@@ -28,8 +28,9 @@ PACKAGE BODY ADC.libsimpleio IS
   -- ADC input object constructor
 
   FUNCTION Create
-   (chip    : Natural;
-    channel : Natural) RETURN Analog.Interfaces.Input IS
+   (chip       : Natural;
+    channel    : Natural;
+    resolution : Positive) RETURN Analog.Input IS
 
     fd    : Integer;
     error : Integer;
@@ -41,7 +42,7 @@ PACKAGE BODY ADC.libsimpleio IS
       RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN NEW InputSubclass'(fd => fd);
+    RETURN NEW InputSubclass'(fd, resolution);
   END Create;
 
   -- ADC input read method
@@ -61,6 +62,14 @@ PACKAGE BODY ADC.libsimpleio IS
 
     RETURN Analog.Sample(sample);
   END Get;
+
+  -- Retrieve the A/D converter resolution
+
+  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive IS
+
+  BEGIN
+    RETURN Self.resolution;
+  END GetResolution;
 
   -- Retrieve the underlying Linux file descriptor
 

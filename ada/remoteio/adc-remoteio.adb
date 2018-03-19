@@ -36,7 +36,7 @@ PACKAGE BODY ADC.RemoteIO IS
 
   FUNCTION Create
    (dev  : Standard.RemoteIO.Device;
-    num  : Standard.RemoteIO.ChannelNumber) RETURN Analog.Interfaces.Input IS
+    num  : Standard.RemoteIO.ChannelNumber) RETURN Analog.Input IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -53,7 +53,7 @@ PACKAGE BODY ADC.RemoteIO IS
 
     dev.Transaction(cmd, resp);
 
-    RETURN NEW InputSubclass'(dev, num);
+    RETURN NEW InputSubclass'(dev, num, Positive(resp(3)));
   END Create;
 
   -- Read A/D input pin
@@ -78,5 +78,13 @@ PACKAGE BODY ADC.RemoteIO IS
       Standard.Interfaces.Shift_Left(Standard.Interfaces.Unsigned_32(resp(5)),  8) +
       Standard.Interfaces.Unsigned_32(resp(6)));
   END Get;
+
+  -- Retrieve the A/D converter resolution
+
+  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
+
+  BEGIN
+    RETURN Self.resolution;
+  END GetResolution;
 
 END ADC.RemoteIO;

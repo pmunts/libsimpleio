@@ -20,8 +20,31 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Analog;
+WITH Voltage;
+
 PACKAGE ADC IS
 
   ADC_Error : EXCEPTION;
+
+  TYPE InputSubclass IS NEW Voltage.Interfaces.InputInterface WITH PRIVATE;
+
+  -- Constructor
+
+  FUNCTION Create
+   (input     : Analog.Input;
+    reference : Voltage.Volts;
+    gain      : Voltage.Volts := 1.0) RETURN Voltage.Interfaces.Input;
+
+  -- Methods
+
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Voltage.Volts;
+
+PRIVATE
+
+  TYPE InputSubclass IS NEW Voltage.Interfaces.InputInterface WITH RECORD
+    input    : Analog.Input;
+    stepsize : Voltage.Volts;
+  END RECORD;
 
 END ADC;
