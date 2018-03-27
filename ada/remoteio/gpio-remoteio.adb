@@ -25,7 +25,7 @@ WITH Messaging;
 WITH Message64;
 WITH RemoteIO;
 
-USE TYPE Messaging.Byte;
+USE TYPE Message64.Byte;
 
 PACKAGE BODY GPIO.RemoteIO IS
 
@@ -45,7 +45,7 @@ PACKAGE BODY GPIO.RemoteIO IS
     -- Configure the GPIO pin as input or output
 
     cmd := (OTHERS => 0);
-    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.GPIO_CONFIGURE_REQUEST));
     cmd(1) := 1;
     cmd(2 + num / 8) := 2**(7 - num MOD 8);
@@ -60,7 +60,7 @@ PACKAGE BODY GPIO.RemoteIO IS
 
     IF dir = Output THEN
       cmd := (OTHERS => 0);
-      cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
+      cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
         Standard.RemoteIO.GPIO_WRITE_REQUEST));
       cmd(1) := 2;
       cmd(2 + num / 8) := 2**(7 - num MOD 8);
@@ -84,7 +84,7 @@ PACKAGE BODY GPIO.RemoteIO IS
 
   BEGIN
     cmd := (OTHERS => 0);
-    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.GPIO_READ_REQUEST));
     cmd(1) := 3;
     cmd(2 + self.num / 8) := 2**(7 - self.num MOD 8);
@@ -107,7 +107,7 @@ PACKAGE BODY GPIO.RemoteIO IS
 
   BEGIN
     cmd := (OTHERS => 0);
-    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.GPIO_WRITE_REQUEST));
     cmd(1) := 4;
     cmd(2 + self.num / 8) := 2**(7 - self.num MOD 8);

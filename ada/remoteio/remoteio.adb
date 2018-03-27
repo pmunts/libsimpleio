@@ -27,7 +27,7 @@ WITH errno;
 WITH Message64;
 WITH Messaging;
 
-USE TYPE Messaging.Byte;
+USE TYPE Message64.Byte;
 
 PACKAGE BODY RemoteIO IS
 
@@ -158,14 +158,14 @@ PACKAGE BODY RemoteIO IS
     chanset : ChannelSets.Set;
 
   BEGIN
-    cmd(0) := Messaging.Byte(MessageTypes'Pos(QueryCommands(service)));
+    cmd(0) := Message64.Byte(MessageTypes'Pos(QueryCommands(service)));
     cmd(1) := 5;
 
     self.Transaction(cmd, resp);
 
     FOR c IN ChannelNumber LOOP
-      IF (Messaging.Byte(resp(3 + c/8)) AND
-        Messaging.Byte(2**(7 - c MOD 8))) /= 0 THEN
+      IF (Message64.Byte(resp(3 + c/8)) AND
+        Message64.Byte(2**(7 - c MOD 8))) /= 0 THEN
         chanset.Include(c);
       END IF;
     END LOOP;

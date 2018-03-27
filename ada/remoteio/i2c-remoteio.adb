@@ -39,14 +39,14 @@ PACKAGE BODY I2C.RemoteIO IS
 
   BEGIN
     cmd := (OTHERS => 0);
-    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.I2C_CONFIGURE_REQUEST));
-    cmd(1) := Messaging.Byte(1);
-    cmd(2) := Messaging.Byte(num);
-    cmd(3) := Messaging.Byte(speed/16777216);
-    cmd(4) := Messaging.Byte(speed/65536 MOD 256);
-    cmd(5) := Messaging.Byte(speed/256 MOD 256);
-    cmd(6) := Messaging.Byte(speed MOD 256);
+    cmd(1) := Message64.Byte(1);
+    cmd(2) := Message64.Byte(num);
+    cmd(3) := Message64.Byte(speed/16777216);
+    cmd(4) := Message64.Byte(speed/65536 MOD 256);
+    cmd(5) := Message64.Byte(speed/256 MOD 256);
+    cmd(6) := Message64.Byte(speed MOD 256);
 
     dev.Transaction(cmd, resp);
 
@@ -97,16 +97,16 @@ PACKAGE BODY I2C.RemoteIO IS
 
   BEGIN
     cmdmsg := (OTHERS => 0);
-    cmdmsg(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmdmsg(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.I2C_TRANSACTION_REQUEST));
-    cmdmsg(1) := Messaging.Byte(2);
-    cmdmsg(2) := Messaging.Byte(self.num);
-    cmdmsg(3) := Messaging.Byte(addr);
-    cmdmsg(4) := Messaging.Byte(cmdlen);
-    cmdmsg(5) := Messaging.Byte(resplen);
+    cmdmsg(1) := Message64.Byte(2);
+    cmdmsg(2) := Message64.Byte(self.num);
+    cmdmsg(3) := Message64.Byte(addr);
+    cmdmsg(4) := Message64.Byte(cmdlen);
+    cmdmsg(5) := Message64.Byte(resplen);
 
     FOR i IN 1 .. cmdlen LOOP
-      cmdmsg(i + 5) := Messaging.Byte(cmd(i - 1));
+      cmdmsg(i + 5) := Message64.Byte(cmd(i - 1));
     END LOOP;
 
     self.dev.Transaction(cmdmsg, respmsg);

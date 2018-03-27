@@ -22,6 +22,4 @@
 
 PACKAGE Messaging IS
 
-  TYPE Byte IS MOD 256;
-
 END Messaging;
