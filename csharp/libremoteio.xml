@@ -1,0 +1,964 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>libremoteio</name>
+    </assembly>
+    <members>
+        <member name="T:IO.Objects.USB.HID.Messenger">
+            <summary>
+            Encapsulates USB raw HID devices, using the HidSharp library.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.USB.HID.Messenger.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Create a 64-byte messenger object bound to a USB HID device.
+            </summary>
+            <param name="vid">USB vendor ID</param>
+            <param name="pid">USB product ID</param>
+        </member>
+        <member name="P:IO.Objects.USB.HID.Messenger.Info">
+            <summary>
+            Information string from the USB HID device.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.USB.HID.Messenger.Send(IO.Interfaces.Message64.Message)">
+            <summary>
+            Send a 64-byte message to a USB HID device.
+            </summary>
+            <param name="cmd">Message to be sent.</param>
+        </member>
+        <member name="M:IO.Objects.USB.HID.Messenger.Receive(IO.Interfaces.Message64.Message)">
+            <summary>
+            Receive a 64-byte message from a USB HID device.
+            </summary>
+            <param name="resp">Message received.</param>
+        </member>
+        <member name="M:IO.Objects.USB.HID.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message,System.Int32)">
+            <summary>
+            Send a 64-byte command message to and receive a 64-byte response
+            message from a USB HID device.
+            </summary>
+            <param name="cmd">Message to be sent.</param>
+            <param name="resp">Message received.</param>
+            <param name="timeoutms">Time in milliseconds to wait for
+            a response.  Zero means wait forever.</param>
+        </member>
+        <member name="T:IO.Objects.USB.Munts.HID">
+            <summary>
+            USB device constants for Munts Technologies USB HID devices.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.USB.Munts.HID.Vendor">
+            <summary>
+            Vendor ID for Munts Technologies
+            </summary>
+        </member>
+        <member name="F:IO.Objects.USB.Munts.HID.Product">
+            <summary>
+            Product ID for Munts Technologies USB hid devices.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.USB.Munts.Serial">
+            <summary>
+            USB device constants for Munts Technologies USB serial port devices.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.USB.Munts.Serial.Vendor">
+            <summary>
+            Vendor ID for Munts Technologies
+            </summary>
+        </member>
+        <member name="F:IO.Objects.USB.Munts.Serial.Product">
+            <summary>
+            Product ID for Munts Technologies USB serial port devices.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.Motor.Servo.Output">
+            <summary>
+            Encapsulates motors controlled by servo outputs (e.g. continuous
+            rotation servos).
+            </summary>
+        </member>
+        <member name="M:IO.Objects.Motor.Servo.Output.#ctor(IO.Interfaces.Servo.Output,System.Double)">
+            <summary>
+            Consructor for a single motor output.
+            </summary>
+            <param name="servo">Servo output instance.</param>
+            <param name="velocity">Initial normalized motor velocity.
+            Allowed values are -1.0 (full speed reverse) to +1.0
+            (full speed forward.</param>
+        </member>
+        <member name="P:IO.Objects.Motor.Servo.Output.velocity">
+            <summary>
+            Write-only property for setting the normalized motor velocity.
+            Allowed values are -1.0 (full speed reverse) to +1.0
+            (full speed forward.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.PCA8574.Device">
+            <summary>
+            Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expanders.
+            </summary>
+            <remarks>This class supports the following I<sup>2</sup>C GPIO
+            expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
+            PCA9674, PCF8574, and TCA9554.</remarks>
+        </member>
+        <member name="F:IO.Devices.PCA8574.Device.MAX_PINS">
+            <summary>
+            The number of available GPIO pins per chip.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.PCA8574.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32)">
+            <summary>
+            Constructor for a PCA8574 (or similar) GPIO Expander.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller.</param>
+            <param name="addr">I<sup>2</sup>C slave address.</param>
+        </member>
+        <member name="M:IO.Devices.PCA8574.Device.Read">
+            <summary>
+            Return actual state of the GPIO pins.
+            </summary>
+            <returns>Pin states (MSB = GPIO7).</returns>
+        </member>
+        <member name="M:IO.Devices.PCA8574.Device.State">
+            <summary>
+            Return last known state of the GPIO pins.
+            </summary>
+            <returns>Pin states (MSB = GPIO7).</returns>
+        </member>
+        <member name="M:IO.Devices.PCA8574.Device.Write(System.Byte)">
+            <summary>
+            Write all GPIO pins.
+            </summary>
+            <param name="data">Data to write to pins (MSB = GPIO7).</param>
+        </member>
+        <member name="M:IO.Devices.PCA8574.Device.Set(System.Byte)">
+            <summary>
+            Set selected GPIO pins.
+            </summary>
+            <param name="data">Pins to set high (MSB = GPIO7).</param>
+        </member>
+        <member name="M:IO.Devices.PCA8574.Device.Clear(System.Byte)">
+            <summary>
+            Clear selected GPIO pins.
+            </summary>
+            <param name="data">Pins to set low (MSB = GPIO7).</param>
+        </member>
+        <member name="T:IO.Devices.PCA8574.Pin">
+            <summary>
+            Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
+            </summary>
+            <remarks>This class supports the following I<sup>2</sup>C GPIO
+            expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
+            PCA9674, PCF8574, and TCA9554.</remarks>
+        </member>
+        <member name="M:IO.Devices.PCA8574.Pin.#ctor(IO.Devices.PCA8574.Device,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
+            <summary>
+            Constructor for a single GPIO pin.
+            </summary>
+            <param name="dev">PCA8574 (or similar) device.</param>
+            <param name="num">GPIO pin number.</param>
+            <param name="dir">Data direction.</param>
+            <param name="state">Initial output state.</param>
+        </member>
+        <member name="P:IO.Devices.PCA8574.Pin.state">
+            <summary>
+            Read/Write GPIO state property.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.ADC.Sample">
+            <summary>
+            Abstract interface for ADC inputs returning an integer sample value.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.ADC.Sample.sample">
+            <summary>
+            Read-only property returning an integer analog sample value.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.ADC.Sample.resolution">
+            <summary>
+            Read-only property returning the number of bits of resolution.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.ADC.Voltage">
+            <summary>
+            Abstract interface for ADC inputs returning a floating point voltage
+            value.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.ADC.Voltage.voltage">
+            <summary>
+            Read-only property returning a floating point analog voltage value.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.ADC.Input">
+            <summary>
+            Encapsulates ADC voltage inputs.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.ADC.Input.#ctor(IO.Interfaces.ADC.Sample,System.Double,System.Double)">
+            <summary>
+            Create an ADC voltage input.
+            </summary>
+            <param name="input">ADC sample object.</param>
+            <param name="reference">ADC reference in volts.</param>
+            <param name="gain">ADC input gain in volts per volt.</param>
+        </member>
+        <member name="P:IO.Interfaces.ADC.Input.voltage">
+            <summary>
+            Read-only property returning the analog input voltage.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.DAC.Sample">
+            <summary>
+            Abstract interface for DAC outputs accepting an integer output sample
+            value.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.DAC.Sample.sample">
+            <summary>
+            Write-only property for setting the DAC output level.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.DAC.Sample.resolution">
+            <summary>
+            Read-only property returning the number of bits of resolution.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.DAC.Voltage">
+            <summary>
+            Abstract interface for DAC outputs accepting a floating point
+            output voltage value.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.DAC.Voltage.voltage">
+            <summary>
+            Write-only property for setting the DAC output voltage.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.DAC.Output">
+            <summary>
+            Encapsulates DAC voltage outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.DAC.Output.#ctor(IO.Interfaces.DAC.Sample,System.Double,System.Double)">
+            <summary>
+            Create an DAC voltage output.
+            </summary>
+            <param name="output">DAC output object.</param>
+            <param name="reference">DAC output reference in volts.</param>
+            <param name="gain">DAC output gain in volts per volt.</param>
+        </member>
+        <member name="P:IO.Interfaces.DAC.Output.voltage">
+            <summary>
+            Write-only for setting the DAC output voltage.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.GPIO.Pin">
+            <summary>
+            Abstract interface for GPIO pins.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.GPIO.Pin.state">
+            <summary>
+            Read/Write GPIO state property.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.GPIO.Direction">
+            <summary>
+            GPIO pin data direction settings.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.GPIO.Direction.Input">
+            <summary>
+            Input pin (read only)
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.GPIO.Direction.Output">
+            <summary>
+            Output pin (read or write)
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.I2C.Speeds">
+            <summary>
+            I<sup>2</sup>C bus speed constants.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.I2C.Speeds.StandardMode">
+            <summary>
+            Standard Mode
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.I2C.Speeds.FastMode">
+            <summary>
+            Fast Mode
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.I2C.Speeds.FastModePlus">
+            <summary>
+            Fast Mode Plus
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.I2C.Bus">
+            <summary>
+            Abstract interface for I<sup>2</sup>C bus controllers.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.I2C.Bus.Read(System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Read bytes from an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="slaveaddr">I<sup>2</sup>C slave address.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="M:IO.Interfaces.I2C.Bus.Write(System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write bytes to an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="slaveaddr">I<sup>2</sup>C slave address.</param>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+        </member>
+        <member name="M:IO.Interfaces.I2C.Bus.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write and read bytes to and from an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="slaveaddr">I<sup>2</sup>C slave address.</param>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="T:IO.Interfaces.I2C.Device">
+            <summary>
+            Encapsulates I<sup>2</sup>C slave devices.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.I2C.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32)">
+            <summary>
+            Create an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller object.</param>
+            <param name="slaveaddr">I<sup>2</sup>C slave address.</param>
+        </member>
+        <member name="M:IO.Interfaces.I2C.Device.Read(System.Byte[],System.Int32)">
+            <summary>
+            Read bytes from an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="M:IO.Interfaces.I2C.Device.Write(System.Byte[],System.Int32)">
+            <summary>
+            Write bytes to an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+        </member>
+        <member name="M:IO.Interfaces.I2C.Device.Transaction(System.Byte[],System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write and read bytes to and from an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="T:IO.Interfaces.Message64.Message">
+            <summary>
+            Encapsulates 64-byte messages.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Message64.Message.Size">
+            <summary>
+            Message payload size.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Message64.Message.payload">
+            <summary>
+            Message payload.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.Message64.Message.#ctor">
+            <summary>
+            Create a message object without initializing the payload.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.Message64.Message.#ctor(System.Byte)">
+            <summary>
+            Create a message object with an initialized payload.
+            </summary>
+            <param name="fill">Value to initialize the payload with.</param>
+        </member>
+        <member name="T:IO.Interfaces.Message64.Messenger">
+            <summary>
+            Abstract interface for sending and receiving 64-byte messages.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.Message64.Messenger.Send(IO.Interfaces.Message64.Message)">
+            <summary>
+            Send a 64-byte message.
+            </summary>
+            <param name="cmd">Message to be sent.</param>
+        </member>
+        <member name="M:IO.Interfaces.Message64.Messenger.Receive(IO.Interfaces.Message64.Message)">
+            <summary>
+            Receive a 64-byte message.
+            </summary>
+            <param name="resp">Message received.</param>
+        </member>
+        <member name="M:IO.Interfaces.Message64.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message,System.Int32)">
+            <summary>
+            Send a 64-byte command and receive a 64-byte response.
+            </summary>
+            <param name="cmd">Command to be sent.</param>
+            <param name="resp">Response to be received.</param>
+            <param name="timeoutms">Time in milliseconds to wait for
+            a response.  Zero means wait forever.</param>
+        </member>
+        <member name="T:IO.Interfaces.Motor.Velocities">
+            <summary>
+            Motor velocity contants.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Motor.Velocities.Minimum">
+            <summary>
+            Minimum velocity (full speed reverse).
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Motor.Velocities.Stop">
+            <summary>
+            Zero velocity (motor stopped).
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Motor.Velocities.Maximum">
+            <summary>
+            Maximum velocity (full speed forward).
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.Motor.Output">
+            <summary>
+             Abstract interface for variable speed motor outputs.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.Motor.Output.velocity">
+            <summary>
+            Write-only motor velocity property.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.PWM.DutyCycles">
+            <summary>
+            PWM dutycycle contants.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.PWM.DutyCycles.Minimum">
+            <summary>
+            Minimum duty cycle (percent).
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.PWM.DutyCycles.Maximum">
+            <summary>
+            Maximum duty cycle (percent).
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.PWM.Output">
+            <summary>
+             Abstract interface for PWM outputs.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.PWM.Output.dutycycle">
+            <summary>
+            Write-only PWM duty cycle property.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.Servo.Positions">
+            <summary>
+            Servo position contants.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Servo.Positions.Minimum">
+            <summary>
+            Minimum displacement position.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Servo.Positions.Neutral">
+            <summary>
+            Zero displacement (neutral) position.
+            </summary>
+        </member>
+        <member name="F:IO.Interfaces.Servo.Positions.Maximum">
+            <summary>
+            Maximum displacement position.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.Servo.Output">
+            <summary>
+             Abstract interface for servo outputs.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.Servo.Output.position">
+            <summary>
+            Write-only servo position property.
+            </summary>
+        </member>
+        <member name="T:IO.Interfaces.SPI.Device">
+            <summary>
+            Abstract interface for SPI slave devices.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.SPI.Device.Read(System.Byte[],System.Int32)">
+            <summary>
+            Read bytes from an SPI slave device.
+            </summary>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="M:IO.Interfaces.SPI.Device.Write(System.Byte[],System.Int32)">
+            <summary>
+            Write bytes to an SPI slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+        </member>
+        <member name="M:IO.Interfaces.SPI.Device.Transaction(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write bytes to and read bytes from an SPI slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+            <param name="delayus">Delay in us between write and read operations.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="T:IO.Interfaces.Watchdog.Timer">
+            <summary>
+            Abstract interface for watchdog timers.
+            </summary>
+        </member>
+        <member name="M:IO.Interfaces.Watchdog.Timer.Kick">
+            <summary>
+            Reset the watchdog timer.
+            </summary>
+        </member>
+        <member name="P:IO.Interfaces.Watchdog.Timer.timeout">
+            <summary>
+            Read/Write watchdog timer period property.
+            </summary>
+        </member>
+        <member name="T:IO.Remote.Device">
+            <summary>
+            Encasulates a remote I/O device.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.Device.ADC_Available">
+            <summary>
+            Query available A/D inputs.
+            </summary>
+            <returns>List of available A/D input numbers.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.ADC_Create(System.Int32)">
+            <summary>
+            Create a remote A/D input.
+            </summary>
+            <param name="num">A/D input number: 0 to 127.</param>
+            <returns>A/D input object.</returns>
+        </member>
+        <member name="F:IO.Remote.Device.MAX_CHANNELS">
+            <summary>
+            Maximum number of channels each subsystem can support.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.Device.#ctor(IO.Interfaces.Message64.Messenger)">
+            <summary>
+            Create a Remote I/O device object.
+            </summary>
+            <param name="m">Message transport object</param>
+        </member>
+        <member name="M:IO.Remote.Device.Dispatcher(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
+            <summary>
+            Command dispatcher.
+            </summary>
+            <param name="cmd">Command to be sent.</param>
+            <param name="resp">Response to be received.</param>
+        </member>
+        <member name="P:IO.Remote.Device.Version">
+            <summary>
+            Version string from the Remote I/O device.
+            </summary>
+        </member>
+        <member name="P:IO.Remote.Device.Capabilities">
+            <summary>
+            Capability string from the Remote I/O device.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.Device.GPIO_Available">
+            <summary>
+            Query available GPIO pins.
+            </summary>
+            <returns>List of available GPIO pin numbers.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.GPIO_Create(System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
+            <summary>
+            Create a remote GPIO pin object.
+            </summary>
+            <param name="num">GPIO pin number: 0 to 127.</param>
+            <param name="dir">GPIO pin data direction: Input or Output.</param>
+            <param name="state">GPIO pin initial output state: true or false.  Ignored for input pins.</param>
+            <returns>GPIO pin object.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.I2C_Available">
+            <summary>
+            Query available I<sup>2</sup>C buses.
+            </summary>
+            <returns>List of available I<sup>2</sup>C bus numbers.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.I2C_Create(System.Int32,System.Int32)">
+            <summary>
+            Create a remote I<sup>2</sup>C bus controller.
+            </summary>
+            <param name="num">I<sup>2</sup>C bus number: 0 to 127.</param>
+            <param name="speed">I<sup>2</sup>C bus clock frequency in Hz</param>
+            <returns>I<sup>2</sup>C bus controller object.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.SPI_Available">
+            <summary>
+            Query available SPI slave devices.
+            </summary>
+            <returns>List of available SPI slave device numbers.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.SPI_Create(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a remote SPI slave device.
+            </summary>
+            <param name="num">SPI slave device number: 0 to 127.</param>
+            <param name="mode">SPI transfer mode: 0 to 3.</param>
+            <param name="wordsize">SPI transfer word size: 8, 16, or 32.</param>
+            <param name="speed">SPI transfer speed in bits per second.</param>
+            <returns>SPI slave device object.</returns>
+            <remarks><para>The actual SPI transfer rate will be the highest
+            realizable rate that does not exceed the value specified in
+            <c>speed</c>.</para></remarks>
+        </member>
+        <member name="T:IO.Remote.ADC">
+            <summary>
+            Encapsulates remote A/D inputs.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.ADC.#ctor(IO.Remote.Device,System.Int32)">
+            <summary>
+            Create a remote A/D input.
+            </summary>
+            <param name="dev">Remote I/O device object.</param>
+            <param name="num">A/D input number: 0 to 127.</param>
+            <remarks>Use <c>Device.ADC_Create()</c> instead of this constructor.</remarks>
+        </member>
+        <member name="P:IO.Remote.ADC.sample">
+            <summary>
+            Read-only property returning an integer analog input sample.
+            </summary>
+        </member>
+        <member name="P:IO.Remote.ADC.resolution">
+            <summary>
+            Read-only property returning the number of bits of resolution.
+            </summary>
+        </member>
+        <member name="T:IO.Remote.PeripheralTypes">
+            <summary>
+            Types of remote peripherals
+            </summary>
+        </member>
+        <member name="F:IO.Remote.PeripheralTypes.ADC">
+            <summary>
+            A/D peripherals
+            </summary>
+        </member>
+        <member name="F:IO.Remote.PeripheralTypes.GPIO">
+            <summary>
+            GPIO pins
+            </summary>
+        </member>
+        <member name="F:IO.Remote.PeripheralTypes.I2C">
+            <summary>
+            I<sup>2</sup>C bus controllers
+            </summary>
+        </member>
+        <member name="F:IO.Remote.PeripheralTypes.SPI">
+            <summary>
+            SPI slave devices
+            </summary>
+        </member>
+        <member name="T:IO.Remote.GPIO">
+            <summary>
+            Encapsulates remote GPIO pins.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.GPIO.#ctor(IO.Remote.Device,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
+            <summary>
+            Create a remote GPIO pin.
+            </summary>
+            <param name="dev">Remote I/O device object.</param>
+            <param name="num">GPIO pin number: 0 to 127.</param>
+            <param name="dir">GPIO pin data direction: Input or Output.</param>
+            <param name="state">GPIO pin initial output state: true or false.  Ignored for input pins.</param>
+            <remarks>Use <c>Device.GPIO_Create()</c> instead of this constructor.</remarks>
+        </member>
+        <member name="P:IO.Remote.GPIO.state">
+            <summary>
+            Read/Write GPIO state property.
+            </summary>
+        </member>
+        <member name="T:IO.Remote.I2C">
+            <summary>
+            Encapsulates remote I<sup>2</sup>C buses.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.I2C.#ctor(IO.Remote.Device,System.Int32,System.Int32)">
+            <summary>
+            Create a remote I<sup>2</sup>C bus controller.
+            </summary>
+            <param name="dev">Remote I/O device object.</param>
+            <param name="num">I<sup>2</sup>C bus number: 0 to 127.</param>
+            <param name="speed">I<sup>2</sup>C bus clock frequency in Hz</param>
+            <remarks>Use <c>Device.I2C_Create()</c> instead of this constructor.</remarks>
+        </member>
+        <member name="M:IO.Remote.I2C.Read(System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Read bytes from an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="slaveaddr">I<sup>2</sup>C slave address.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="M:IO.Remote.I2C.Write(System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write bytes to an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="slaveaddr">I<sup>2</sup>C slave address.</param>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+        </member>
+        <member name="M:IO.Remote.I2C.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write and read bytes to and from an I<sup>2</sup>C slave device.
+            </summary>
+            <param name="slaveaddr">I<sup>2</sup>C slave address.</param>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read.</param>
+        </member>
+        <member name="T:IO.Remote.MessageTypes">
+            <summary>
+            Remote I/O protocol message types
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.LOOPBACK_REQUEST">
+            <summary>
+            Loopback request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.LOOPBACK_RESPONSE">
+            <summary>
+            Loopback response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.VERSION_REQUEST">
+            <summary>
+            Version string request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.VERSION_RESPONSE">
+            <summary>
+            Version string response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.CAPABILITY_REQUEST">
+            <summary>
+            Capability string request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.CAPABILITY_RESPONSE">
+            <summary>
+            Capability string response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.GPIO_PRESENT_REQUEST">
+            <summary>
+            GPIO pins available request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.GPIO_PRESENT_RESPONSE">
+            <summary>
+            GPIO pins available response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.GPIO_CONFIGURE_REQUEST">
+            <summary>
+            GPIO pins configure request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.GPIO_CONFIGURE_RESPONSE">
+            <summary>
+            GPIO pins configure response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.GPIO_READ_REQUEST">
+            <summary>
+            GPIO pins read request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.GPIO_READ_RESPONSE">
+            <summary>
+            GPIO pins read response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.GPIO_WRITE_REQUEST">
+            <summary>
+            GPIO pins write request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.GPIO_WRITE_RESPONSE">
+            <summary>
+            GPIO pins write response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.I2C_PRESENT_REQUEST">
+            <summary>
+            I<sup>2</sup>C buses available request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.I2C_PRESENT_RESPONSE">
+            <summary>
+            I<sup>2</sup>C buses available response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.I2C_CONFIGURE_REQUEST">
+            <summary>
+            I<sup>2</sup>C bus configure request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.I2C_CONFIGURE_RESPONSE">
+            <summary>
+            I<sup>2</sup>C bus configure response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.I2C_TRANSACTION_REQUEST">
+            <summary>
+            I<sup>2</sup>C bus transaction request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.I2C_TRANSACTION_RESPONSE">
+            <summary>
+            I<sup>2</sup>C bus transaction response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.SPI_PRESENT_REQUEST">
+            <summary>
+             SPI slave devices available request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.SPI_PRESENT_RESPONSE">
+            <summary>
+            SPI slave devices available response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.SPI_CONFIGURE_REQUEST">
+            <summary>
+            SPI slave device configure request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.SPI_CONFIGURE_RESPONSE">
+            <summary>
+             SPI slave device configure response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.SPI_TRANSACTION_REQUEST">
+            <summary>
+             SPI bus transaction request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.SPI_TRANSACTION_RESPONSE">
+            <summary>
+             SPI bus transaction response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.ADC_PRESENT_REQUEST">
+            <summary>
+            ADC inputs available request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.ADC_PRESENT_RESPONSE">
+            <summary>
+            ADC inputs available response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.ADC_CONFIGURE_REQUEST">
+            <summary>
+            ADC input configure request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.ADC_CONFIGURE_RESPONSE">
+            <summary>
+            ADC input configure response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.ADC_READ_REQUEST">
+            <summary>
+            ADC input read request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.ADC_READ_RESPONSE">
+            <summary>
+            ADC input read response
+            </summary>
+        </member>
+        <member name="T:IO.Remote.SPI">
+            <summary>
+            Encapsulates remote SPI slave devices.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.SPI.#ctor(IO.Remote.Device,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a remote SPI slave device.
+            </summary>
+            <param name="dev">Remote I/O device object.</param>
+            <param name="num">SPI slave device number: 0 to 127.</param>
+            <param name="mode">SPI transfer mode: 0 to 3.</param>
+            <param name="wordsize">SPI transfer word size: 8, 16, or 32.</param>
+            <param name="speed">SPI transfer speed in bits per second.</param>
+            <remarks><para>Use <c>Device.SPI_Create()</c> instead of this
+            constructor.</para>
+            <para>The actual SPI transfer rate will be the highest realizable
+            rate that does not exceed the value specified in <c>speed</c>.
+            </para></remarks>
+        </member>
+        <member name="M:IO.Remote.SPI.Read(System.Byte[],System.Int32)">
+            <summary>
+            Read bytes from an SPI slave device.
+            </summary>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read: 1 to 60.</param>
+        </member>
+        <member name="M:IO.Remote.SPI.Write(System.Byte[],System.Int32)">
+            <summary>
+            Write bytes to an SPI slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write: 1 to 57.</param>
+        </member>
+        <member name="M:IO.Remote.SPI.Transaction(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32)">
+            <summary>
+            Write and read bytes to and from an SPI slave device.
+            </summary>
+            <param name="cmd">Command buffer.</param>
+            <param name="cmdlen">Number of bytes to write: 0 to 57.</param>
+            <param name="delayus">Delay in microseconds between write and read
+            operations: 0 to 65535.</param>
+            <param name="resp">Response buffer.</param>
+            <param name="resplen">Number of bytes to read: 0 to 60.</param>
+        </member>
+    </members>
+</doc>
