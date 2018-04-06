@@ -1,4 +1,4 @@
-# Generic Makefile template for building C# applications
+# Makefile definitions for C# programming
 
 # Copyright (C)2014-2018, Philip Munts, President, Munts AM Corp.
 #
@@ -20,42 +20,51 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Override the following macro to build out of tree
+CONFIGURATION	?= Release
 
-CSHARPSRC	?= ..
+# Pick Visual Studio or Mono compiler
 
-CONFIGURATION	= Release
-
-default: libsimpleio.dll
-
-# Build the projects
-
-libsimpleio.dll:
-	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) libsimpleio.csproj
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
-	"$(MSBUILD)" libsimpleio.shfbproj
-endif
-endif
-
-# Release the assembly and help file
-
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
-release: libsimpleio.dll
-	cp libsimpleio.dll libsimpleio.xml libsimpleio.chm ..
-endif
+ifeq ($(OS), Windows_NT)
+CSC		?= C:/PROGRA~2/MSBuild/14.0/Bin/csc.exe
+MSBUILD		?= C:/PROGRA~2/MSBuild/14.0/Bin/MSBuild.exe
+MSBUILDTARGET	?= /t:Build
+MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION) /p:CSHARPSRC=$(CSHARPSRC)
+MSBUILDPROJECT	?=
+else
+CSC		?= mcs
+MSBUILD		?= msbuild
+MSBUILDTARGET	?= /t:Build
+MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION) /p:CSHARPSRC=$(CSHARPSRC)
+MSBUILDPROJECT	?=
 endif
 
-# Remove working files
+# Don't delete intermediate files
 
-clean: csharp_mk_clean
-	rm -rf IO.Bindings
-	rm -rf IO.Devices
-	rm -rf IO.Interfaces
-	rm -rf IO.Objects
-	rm -rf IO.Remote
+.SECONDARY:
+
+# C# pattern rules
+
+%.exe: %.cs
+	"$(CSC)" $(CSCFLAGS) $^
+
+# This default target placeholder depends on the default target
+# in the superordinate Makefile
+
+csharp_mk_default: default
+
+# Clean out working files
+
+csharp_mk_clean:
+	rm -rf *.chm *.dll *.exe *.log *.mdb *.pdb *.xml *~ Help
+	-$(CSHARPSRC)/utilities/vsclean.sh
+
+# Build Visual Studio C# project with MSBuild
+
+csharp_mk_build:
+	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
 
 # Include subordinate makefiles
 
-include $(CSHARPSRC)/include/csharp.mk
+ifeq ($(shell uname), Darwin)
+sinclude $(CSHARPSRC)/MacOS/MonoApp.mk
+endif

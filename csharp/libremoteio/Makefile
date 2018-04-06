@@ -22,7 +22,7 @@
 
 # Override the following macro to build out of tree
 
-CSHARPSRC	?= $(EMBLINUXBASE)/examples/csharp
+CSHARPSRC	?= ..
 
 CONFIGURATION	= Release
 
