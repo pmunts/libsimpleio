@@ -62,18 +62,21 @@ News
        objects.
      * 26 February 2018 -- Added LINUX_poll(), which wraps poll().
      * 12 March 2018 -- Reworked GPIO and PWM routines and udev rules.
+     * 6 April 2018 -- Imported a project to build libremoteio.dll, an
+       implementation of the [10]Remote I/O Protocol that is portable
+       across Linux, MacOS, and Windows.
 
 Documentation
 
    New The user manual for libsimpleio is available at:
-   [10]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [11]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-   [11]libsimpleio.html
+   [12]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [12]http://git.munts.com
+   The source code is available at: [13]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -107,7 +110,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [13]phil@munts.net
+   Questions or comments to Philip Munts [14]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -123,7 +126,8 @@ References
    7. http://git.munts.com/libsimpleio/pascal
    8. http://git.munts.com/arm-linux-mcu/examples
    9. http://savannah.nongnu.org/projects/lwip
-  10. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  11. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  12. http://git.munts.com/
-  13. mailto:phil@munts.net
+  10. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
+  11. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  12. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  13. http://git.munts.com/
+  14. mailto:phil@munts.net
