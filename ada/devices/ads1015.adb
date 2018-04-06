@@ -128,7 +128,7 @@ PACKAGE BODY ADS1015 IS
 
   -- Retrieve PGA gain
 
-  FUNCTION GetGain(self : IN OUT InputSubclass) RETURN Voltage.Volts IS 
+  FUNCTION GetGain(self : IN OUT InputSubclass) RETURN Voltage.Volts IS
 
   BEGIN
     RETURN self.gain;
