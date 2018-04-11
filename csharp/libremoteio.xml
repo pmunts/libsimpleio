@@ -9,12 +9,15 @@
             Encapsulates USB raw HID devices, using the HidSharp library.
             </summary>
         </member>
-        <member name="M:IO.Objects.USB.HID.Messenger.#ctor(System.Int32,System.Int32)">
+        <member name="M:IO.Objects.USB.HID.Messenger.#ctor(System.Int32,System.Int32,System.Int32)">
             <summary>
             Create a 64-byte messenger object bound to a USB HID device.
             </summary>
             <param name="vid">USB vendor ID</param>
             <param name="pid">USB product ID</param>
+            <param name="timeoutms">Time in milliseconds to wait for
+            read and write operations to complete.  Zero means wait
+            forever.</param>
         </member>
         <member name="P:IO.Objects.USB.HID.Messenger.Info">
             <summary>
@@ -33,15 +36,13 @@
             </summary>
             <param name="resp">Message received.</param>
         </member>
-        <member name="M:IO.Objects.USB.HID.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message,System.Int32)">
+        <member name="M:IO.Objects.USB.HID.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
             <summary>
             Send a 64-byte command message to and receive a 64-byte response
             message from a USB HID device.
             </summary>
             <param name="cmd">Message to be sent.</param>
             <param name="resp">Message received.</param>
-            <param name="timeoutms">Time in milliseconds to wait for
-            a response.  Zero means wait forever.</param>
         </member>
         <member name="T:IO.Objects.USB.Munts.HID">
             <summary>
@@ -410,14 +411,12 @@
             </summary>
             <param name="resp">Message received.</param>
         </member>
-        <member name="M:IO.Interfaces.Message64.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message,System.Int32)">
+        <member name="M:IO.Interfaces.Message64.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
             <summary>
             Send a 64-byte command and receive a 64-byte response.
             </summary>
             <param name="cmd">Command to be sent.</param>
             <param name="resp">Response to be received.</param>
-            <param name="timeoutms">Time in milliseconds to wait for
-            a response.  Zero means wait forever.</param>
         </member>
         <member name="T:IO.Interfaces.Motor.Velocities">
             <summary>

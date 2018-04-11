@@ -27,7 +27,6 @@ namespace IO.Objects.USB.HID
     /// </summary>
     public class Messenger : IO.Interfaces.Message64.Messenger
     {
-
         // Transport library selector
 
         private enum Transport
@@ -62,7 +61,18 @@ namespace IO.Objects.USB.HID
                 int bufsize, out int count, out int error);
         }
 
-        private int fd;
+        private class libLinux
+        {
+            public const int POLLIN = 0x01;
+            public const int POLLOUT = 0x04;
+
+            [System.Runtime.InteropServices.DllImport("simpleio")]
+            public static extern void LINUX_poll(int numfiles, int[] files,
+                int[] events, int[] results, int timeoutms, out int error);
+        }
+
+        private int fd = -1;
+        private int timeout = 0;
 
         // Private information for the HidSharp library
 
@@ -75,10 +85,18 @@ namespace IO.Objects.USB.HID
         /// </summary>
         /// <param name="vid">USB vendor ID</param>
         /// <param name="pid">USB product ID</param>
+        /// <param name="timeoutms">Time in milliseconds to wait for
+        /// read and write operations to complete.  Zero means wait
+        /// forever.</param>
         public Messenger(int vid = IO.Objects.USB.Munts.HID.Vendor,
-          int pid = IO.Objects.USB.Munts.HID.Product)
+          int pid = IO.Objects.USB.Munts.HID.Product, int timeoutms = 5000)
         {
             // Validate parameters
+
+            if (timeoutms < 0)
+            {
+                throw new Exception("Invalid timeout");
+            }
 
             if ((vid < 0) || (vid > 65535))
             {
@@ -135,12 +153,17 @@ namespace IO.Objects.USB.HID
                     }
 
                     hid_stream = hid_device.Open();
+
+                    hid_stream.ReadTimeout = timeoutms;
+                    hid_stream.WriteTimeout = timeoutms;
                 }
                 catch (System.Exception e)
                 {
                     throw new Exception("Cannot open USB HID device, " + e.Message);
                 }
             }
+
+            this.timeout = timeoutms;
         }
 
         /// <summary>
@@ -196,6 +219,21 @@ namespace IO.Objects.USB.HID
                         int count;
                         int error;
 
+                        if (this.timeout > 0)
+                        {
+                            int[] files = { this.fd };
+                            int[] events = { libLinux.POLLOUT };
+                            int[] results = { 0 };
+
+                            libLinux.LINUX_poll(1, files, events, results,
+                                this.timeout, out error);
+
+                            if (error != 0)
+                            {
+                                throw new Exception("LINUX_poll() failed");
+                            }
+                        }
+
                         libHIDRaw.HIDRAW_send(this.fd, cmd.payload,
                             IO.Interfaces.Message64.Message.Size, out count,
                             out error);
@@ -214,7 +252,6 @@ namespace IO.Objects.USB.HID
                             new byte[IO.Interfaces.Message64.Message.Size + 1];
 
                         outbuf[0] = 0;
-
 
                         for (int i = 0; i < IO.Interfaces.Message64.Message.Size; i++)
                             outbuf[i + this.reportID_offset] = cmd.payload[i];
@@ -238,6 +275,21 @@ namespace IO.Objects.USB.HID
                     {
                         int count;
                         int error;
+
+                        if (this.timeout > 0)
+                        {
+                            int[] files = { this.fd };
+                            int[] events = { libLinux.POLLIN };
+                            int[] results = { 0 };
+
+                            libLinux.LINUX_poll(1, files, events, results,
+                                this.timeout, out error);
+
+                            if (error != 0)
+                            {
+                                throw new Exception("LINUX_poll() failed");
+                            }
+                        }
 
                         libHIDRaw.HIDRAW_receive(this.fd, resp.payload,
                             IO.Interfaces.Message64.Message.Size, out count,
@@ -276,10 +328,8 @@ namespace IO.Objects.USB.HID
         /// </summary>
         /// <param name="cmd">Message to be sent.</param>
         /// <param name="resp">Message received.</param>
-        /// <param name="timeoutms">Time in milliseconds to wait for
-        /// a response.  Zero means wait forever.</param>
         public void Transaction(IO.Interfaces.Message64.Message cmd,
-            IO.Interfaces.Message64.Message resp, int timeoutms = 0)
+            IO.Interfaces.Message64.Message resp)
         {
             Send(cmd);
             Receive(resp);
