@@ -69,6 +69,15 @@ INTERFACE
     LOG_INFO     = 6; { informational                    }
     LOG_DEBUG    = 7; { debug-level messages             }
 
+    { poll event constants (extracted from poll.h) }
+
+    POLLIN       = $0001;
+    POLLPRI      = $0002;
+    POLLOUT      = $0004;
+    POLLERR      = $0008;
+    POLLHUP      = $0010;
+    POLLNVAL     = $0020;
+
   { Detach process from controlling terminal and run in the background }
 
   PROCEDURE Detach
@@ -101,6 +110,16 @@ INTERFACE
    (error     : Integer;
     msg       : PChar;
     size      : Integer); CDECL; EXTERNAL NAME 'LINUX_strerror';
+
+  { Wait for I/O ready }
+
+  PROCEDURE Poll
+   (numfiles    : Integer;
+    VAR files   : ARRAY OF Integer;
+    VAR events  : ARRAY OF Integer;
+    VAR results : ARRAY OF Integer;
+    timeoutms   : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_poll';
 
 IMPLEMENTATION
 
