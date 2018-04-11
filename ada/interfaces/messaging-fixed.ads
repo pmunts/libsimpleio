@@ -49,7 +49,7 @@ PACKAGE Messaging.Fixed IS
 
   -- Perform a command/response transaction (similar to an RPC call)
 
-  -- Note this is NOT a primitive operation of MessageInterface and its
+  -- Note this is NOT a primitive operation of MessengerInterface and its
   -- descendants, and does NOT need to be reimplemented for those descendants
 
   PROCEDURE Transaction

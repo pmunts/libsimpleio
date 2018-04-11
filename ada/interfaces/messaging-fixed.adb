@@ -27,7 +27,7 @@ WITH libLinux;
 PACKAGE BODY Messaging.Fixed IS
 
   -- This classwide procedure can be used by any subclass implementing
-  -- MessageInterface.
+  -- MessengerInterface.
 
   PROCEDURE Transaction
    (self      : MessengerInterface'Class;
