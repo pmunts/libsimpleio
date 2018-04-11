@@ -68,7 +68,7 @@ PACKAGE BODY HID.libsimpleio IS
         errno.strerror(error);
     END IF;
 
-    RETURN NEW MessengerSubclasbindings/liblinux.adss'(fd, timeoutms);
+    RETURN NEW MessengerSubclass'(fd, timeoutms);
   END;
 
   -- Send a message to a HID device
@@ -82,9 +82,9 @@ PACKAGE BODY HID.libsimpleio IS
     IF self.timeout > 0 THEN
       DECLARE
 
-        files   : libLinux.FilesType(0 .. 0)  := self.fd;
-        events  : liblinux.EventsType(0 .. 0) := libLinux.POLLOUT;
-        results : liblinux.EventsType(0 .. 0) := 0;
+        files   : libLinux.FilesType(0 .. 0)   := (OTHERS => self.fd);
+        events  : libLinux.EventsType(0 .. 0)  := (OTHERS => libLinux.POLLOUT);
+        results : libLinux.ResultsType(0 .. 0) := (OTHERS => 0);
 
       BEGIN
         libLinux.Poll(1, files, events, results, self.timeout, error);
@@ -92,6 +92,7 @@ PACKAGE BODY HID.libsimpleio IS
         IF error /= 0 THEN
           RAISE Standard.HID.HID_Error WITH "libLinux.Poll() failed, " &
             errno.strerror(error);
+        END IF;
       END;
     END IF;
 
@@ -114,9 +115,9 @@ PACKAGE BODY HID.libsimpleio IS
     IF self.timeout > 0 THEN
       DECLARE
 
-        files   : libLinux.FilesType(0 .. 0)  := self.fd;
-        events  : liblinux.EventsType(0 .. 0) := libLinux.POLLIN;
-        results : liblinux.EventsType(0 .. 0) := 0;
+        files   : libLinux.FilesType(0 .. 0)   := (OTHERS => self.fd);
+        events  : libLinux.EventsType(0 .. 0)  := (OTHERS => libLinux.POLLIN);
+        results : libLinux.ResultsType(0 .. 0) := (OTHERS =>0);
 
       BEGIN
         libLinux.Poll(1, files, events, results, self.timeout, error);
@@ -124,6 +125,7 @@ PACKAGE BODY HID.libsimpleio IS
         IF error /= 0 THEN
           RAISE Standard.HID.HID_Error WITH "libLinux.Poll() failed, " &
             errno.strerror(error);
+        END IF;
       END;
     END IF;
 
