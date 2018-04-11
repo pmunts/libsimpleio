@@ -34,7 +34,7 @@ INTERFACE
   TYPE
     MessengerSubclass = CLASS(TInterfacedObject, Message64.Messenger)
       CONSTRUCTOR Create(vid : Integer = DefaultVendor;
-        pid : Integer = DefaultProduct);
+        pid : Integer = DefaultProduct; timeoutms : Cardinal = 5000);
 
       PROCEDURE Send(cmd : Message);
 
@@ -48,18 +48,21 @@ INTERFACE
         VAR product : Integer);
 
     PRIVATE
-      fd : Integer;
+      fd      : Integer;
+      timeout : Cardinal;
     END;
 
 IMPLEMENTATION
 
   USES
     errno,
-    libHIDRaw;
+    libHIDRaw,
+    libLinux;
 
   { Create a Message64 messenger object using libsimpleio raw HID transport }
 
-  CONSTRUCTOR MessengerSubclass.Create(vid : Integer; pid : Integer);
+  CONSTRUCTOR MessengerSubclass.Create(vid : Integer; pid : Integer;
+    timeoutms : Cardinal);
 
   VAR
     error  : Integer;
@@ -69,7 +72,9 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Message64_Error.create('ERROR: libHIDRaw.OpenID() failed, ' +
-        strerror(error));
+        errno.strerror(error));
+
+    Self.timeout := timeoutms;
   END;
 
   { Send a Message64 message using libsimpleio raw HID transport }
@@ -77,15 +82,30 @@ IMPLEMENTATION
   PROCEDURE MessengerSubclass.Send(cmd : Message);
 
   VAR
-    count : Integer;
-    error : Integer;
+    files   : ARRAY [0 .. 0] OF Integer;
+    events  : ARRAY [0 .. 0] OF Integer;
+    results : ARRAY [0 .. 0] OF Integer;
+    count   : Integer;
+    error   : Integer;
 
   BEGIN
+    IF Self.timeout > 0 THEN
+      BEGIN
+        files[0]   := Self.fd;
+        events[0]  := libLinux.POLLOUT;
+        results[0] := 0;
+
+        libLinux.Poll(1, files, events, results, Self.timeout, error);
+        IF error <> 0 THEN
+          RAISE Message64_Error.create('ERROR: liblinux.Poll() failed, ' +
+            errno.strerror(error));
+      END;
+
     libHIDRaw.Send(Self.fd, @cmd, Message64.Size, count, error);
 
     IF error <> 0 THEN
       RAISE Message64_Error.create('ERROR: libHIDRaw.Send() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { Receive a Message64 message using libsimpleio raw HID transport }
@@ -93,15 +113,30 @@ IMPLEMENTATION
   PROCEDURE MessengerSubclass.Receive(VAR resp : Message);
 
   VAR
-    count : Integer;
-    error : Integer;
+    files   : ARRAY [0 .. 0] OF Integer;
+    events  : ARRAY [0 .. 0] OF Integer;
+    results : ARRAY [0 .. 0] OF Integer;
+    count   : Integer;
+    error   : Integer;
 
   BEGIN
+    IF Self.timeout > 0 THEN
+      BEGIN
+        files[0]   := Self.fd;
+        events[0]  := libLinux.POLLIN;
+        results[0] := 0;
+
+        libLinux.Poll(1, files, events, results, Self.timeout, error);
+        IF error <> 0 THEN
+          RAISE Message64_Error.create('ERROR: liblinux.Poll() failed, ' +
+            errno.strerror(error));
+      END;
+
     libHIDRaw.Receive(Self.fd, @resp, Message64.Size, count, error);
 
     IF error <> 0 THEN
       RAISE Message64_Error.create('ERROR: libHIDRaw.Send() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { Perform a Message64 command/response transaction }
@@ -126,7 +161,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Message64_Error.create('ERROR: libHIDRaw.GetName() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     GetName := cname;
   END;
@@ -144,7 +179,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Message64_Error.create('ERROR: libHIDRaw.GetInfo() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
 END.
