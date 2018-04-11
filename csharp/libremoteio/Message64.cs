@@ -89,7 +89,7 @@ namespace IO.Objects.USB.HID
         /// read and write operations to complete.  Zero means wait
         /// forever.</param>
         public Messenger(int vid = IO.Objects.USB.Munts.HID.Vendor,
-          int pid = IO.Objects.USB.Munts.HID.Product, int timeoutms = 5000)
+          int pid = IO.Objects.USB.Munts.HID.Product, int timeoutms = 1000)
         {
             // Validate parameters
 

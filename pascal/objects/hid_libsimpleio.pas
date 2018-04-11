@@ -34,7 +34,7 @@ INTERFACE
   TYPE
     MessengerSubclass = CLASS(TInterfacedObject, Message64.Messenger)
       CONSTRUCTOR Create(vid : Integer = DefaultVendor;
-        pid : Integer = DefaultProduct; timeoutms : Cardinal = 5000);
+        pid : Integer = DefaultProduct; timeoutms : Cardinal = 1000);
 
       PROCEDURE Send(cmd : Message);
 

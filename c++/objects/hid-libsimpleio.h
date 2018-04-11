@@ -33,9 +33,9 @@ namespace libsimpleio::HID
 
   struct Messenger_Class: public Interfaces::Message64::Messenger_Interface
   {
-    Messenger_Class(const char *name, unsigned timeoutms = 5000);
+    Messenger_Class(const char *name, unsigned timeoutms = 1000);
 
-    Messenger_Class(uint16_t VID, uint16_t PID, unsigned timeoutms = 5000);
+    Messenger_Class(uint16_t VID, uint16_t PID, unsigned timeoutms = 1000);
 
     virtual void Send(Interfaces::Message64::Message cmd);
 
