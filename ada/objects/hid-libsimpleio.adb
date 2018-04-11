@@ -25,13 +25,16 @@ WITH Ada.Strings.Fixed;
 
 WITH errno;
 WITH libHIDRaw;
+WITH libLinux;
 WITH Message64;
 
 PACKAGE BODY HID.libsimpleio IS
 
   -- Constructor using raw HID device node name
 
-  FUNCTION Create (name : String) RETURN Message64.Messenger IS
+  FUNCTION Create
+   (name      : String;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
     fd    : Integer;
     error : Integer;
@@ -44,14 +47,15 @@ PACKAGE BODY HID.libsimpleio IS
         errno.strerror(error);
     END IF;
 
-    RETURN NEW MessengerSubclass'(fd => fd);
+    RETURN NEW MessengerSubclass'(fd, timeoutms);
   END Create;
 
   -- Constructor using HID vendor and product ID's
 
   FUNCTION Create
-   (vid : Standard.HID.Vendor;
-    pid : Standard.HID.Product) RETURN Message64.Messenger IS
+   (vid       : Standard.HID.Vendor;
+    pid       : Standard.HID.Product;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
     fd    : Integer;
     error : Integer;
@@ -64,7 +68,7 @@ PACKAGE BODY HID.libsimpleio IS
         errno.strerror(error);
     END IF;
 
-    RETURN NEW MessengerSubclass'(fd => fd);
+    RETURN NEW MessengerSubclasbindings/liblinux.adss'(fd, timeoutms);
   END;
 
   -- Send a message to a HID device
@@ -75,6 +79,22 @@ PACKAGE BODY HID.libsimpleio IS
     count : Integer;
 
   BEGIN
+    IF self.timeout > 0 THEN
+      DECLARE
+
+        files   : libLinux.FilesType(0 .. 0)  := self.fd;
+        events  : liblinux.EventsType(0 .. 0) := libLinux.POLLOUT;
+        results : liblinux.EventsType(0 .. 0) := 0;
+
+      BEGIN
+        libLinux.Poll(1, files, events, results, self.timeout, error);
+
+        IF error /= 0 THEN
+          RAISE Standard.HID.HID_Error WITH "libLinux.Poll() failed, " &
+            errno.strerror(error);
+      END;
+    END IF;
+
     libHIDRaw.Send(self.fd, msg'Address, msg'Length, count, error);
 
     IF error /= 0 THEN
@@ -91,6 +111,22 @@ PACKAGE BODY HID.libsimpleio IS
     count : Integer;
 
   BEGIN
+    IF self.timeout > 0 THEN
+      DECLARE
+
+        files   : libLinux.FilesType(0 .. 0)  := self.fd;
+        events  : liblinux.EventsType(0 .. 0) := libLinux.POLLIN;
+        results : liblinux.EventsType(0 .. 0) := 0;
+
+      BEGIN
+        libLinux.Poll(1, files, events, results, self.timeout, error);
+
+        IF error /= 0 THEN
+          RAISE Standard.HID.HID_Error WITH "libLinux.Poll() failed, " &
+            errno.strerror(error);
+      END;
+    END IF;
+
     libHIDRaw.Receive(self.fd, msg'Address, msg'Length, count, error);
 
     IF error /= 0 THEN

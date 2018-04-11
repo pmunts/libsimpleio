@@ -26,40 +26,16 @@ WITH libLinux;
 
 PACKAGE BODY Messaging.Fixed IS
 
-  epfd : Integer;
-
   -- This classwide procedure can be used by any subclass implementing
   -- MessageInterface.
 
   PROCEDURE Transaction
    (self      : MessengerInterface'Class;
     cmd       : Message;
-    resp      : OUT Message;
-    timeoutms : Natural := 0) IS
+    resp      : OUT Message) IS
 
   BEGIN
     self.Send(cmd);
-
-    IF (timeoutms /= 0) THEN
-      DECLARE
-        error   : Integer;
-        files   : LibLinux.FilesType(0 .. 0);
-        events  : LibLinux.EventsType(0 .. 0);
-        results : LibLinux.ResultsTYpe(0 .. 0);
-      BEGIN
-        files(0)   := self.fd;
-        events(0)  := LibLinux.POLLIN;
-        results(0) := 0;
-
-        LibLinux.Poll(1, files, events, results, timeoutms, error);
-
-        IF error /= 0 THEN
-          RAISE Program_Error WITH "libEvent.Wait() failed, " &
-            errno.strerror(error);
-        END IF;
-      END;
-    END IF;
-
     self.Receive(resp);
   END Transaction;
 

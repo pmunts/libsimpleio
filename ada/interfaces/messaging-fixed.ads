@@ -55,8 +55,7 @@ PACKAGE Messaging.Fixed IS
   PROCEDURE Transaction
    (self      : MessengerInterface'Class;
     cmd       : Message;
-    resp      : OUT Message;
-    timeoutms : Natural := 0);
+    resp      : OUT Message);
 
   -- Retrieve the underlying Linux file descriptor
   -- If no file descriptor is available, return -1.

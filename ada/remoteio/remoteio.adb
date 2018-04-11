@@ -47,7 +47,7 @@ PACKAGE BODY RemoteIO IS
     resp : OUT Message64.Message) IS
 
   BEGIN
-    self.msg.Transaction(cmd, resp, 1000);
+    self.msg.Transaction(cmd, resp);
 
     IF resp(0) /= cmd(0) + 1 THEN
       RAISE RemoteIO_Error WITH "Invalid response message type";
@@ -88,7 +88,7 @@ PACKAGE BODY RemoteIO IS
 
     -- Dispatch the version request command
 
-    self.msg.Transaction(cmd, resp, 1000);
+    self.msg.Transaction(cmd, resp);
 
     -- Copy the version string
 
@@ -127,7 +127,7 @@ PACKAGE BODY RemoteIO IS
 
     -- Dispatch the capability request command
 
-    self.msg.Transaction(cmd, resp, 1000);
+    self.msg.Transaction(cmd, resp);
 
     -- Copy the capability string
 

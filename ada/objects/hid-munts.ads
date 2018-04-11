@@ -35,8 +35,9 @@ PACKAGE HID.Munts IS
   -- The following constructor can be used instead of Message64.HID.Create()
 
   FUNCTION Create
-   (vid : Vendor := HID.Munts.VID;
-    pid : Product := HID.Munts.PID) RETURN Message64.Messenger
+   (vid       : Vendor  := HID.Munts.VID;
+    pid       : Product := HID.Munts.PID;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger
   RENAMES HID.libsimpleio.Create;
 
 END HID.Munts;

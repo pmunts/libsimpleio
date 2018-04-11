@@ -31,13 +31,15 @@ PACKAGE HID.libsimpleio IS
   -- Constructor using raw HID device node name
 
   FUNCTION Create
-   (name : String) RETURN Message64.Messenger;
+   (name      : String;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
   -- Constructor using HID vendor and product ID's
 
   FUNCTION Create
-   (vid  : Standard.HID.Vendor;
-    pid  : Standard.HID.Product) RETURN Message64.Messenger;
+   (vid       : Standard.HID.Vendor;
+    pid       : Standard.HID.Product;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
   -- Send a message (i.e. report) to a HID device
 
@@ -59,7 +61,8 @@ PACKAGE HID.libsimpleio IS
 PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
-    fd : Integer;
+    fd      : Integer;
+    timeout : Integer;
   END RECORD;
 
 END HID.libsimpleio;
