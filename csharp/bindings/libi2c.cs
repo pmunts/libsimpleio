@@ -34,7 +34,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="devname">Device node name.</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void I2C_open(string devname, out int fd,
@@ -44,7 +44,7 @@ namespace IO.Bindings.libsimpleio
         /// Close a Linux I<sup>2</sup>C bus controller device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void I2C_close(int fd, out int error);
@@ -58,7 +58,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="cmdlen">Source buffer size.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Response buffer size.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void I2C_transaction(int fd, int slaveaddr,

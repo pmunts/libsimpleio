@@ -36,7 +36,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="chip">Linux IIO device number.</param>
         /// <param name="name">Destination buffer.</param>
         /// <param name="size">Size of destination buffer.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void ADC_get_name(int chip,
@@ -48,7 +48,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="chip">Linux IIO device number.</param>
         /// <param name="channel">Input channel number.</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void ADC_open(int chip, int channel, out int fd,
@@ -58,7 +58,7 @@ namespace IO.Bindings.libsimpleio
         /// Close a Linux IIO A/D converter input device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void ADC_close(int fd, out int error);
@@ -68,7 +68,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="sample">Analog sample data.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void ADC_read(int fd, out int sample,

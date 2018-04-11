@@ -72,7 +72,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="state">Initial state for output pin.</param>
         /// <param name="edge">Interrupt edge for input pin.</param>
         /// <param name="polarity">Polarity</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void GPIO_configure(int pin, int direction,
@@ -83,7 +83,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="pin">Pin number.</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void GPIO_open(int pin, out int fd, out int error);
@@ -93,7 +93,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="state">Pin state.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void GPIO_read(int fd, out int state,
@@ -104,7 +104,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="state">Pin state.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void GPIO_write(int fd, int state, out int error);
@@ -113,7 +113,7 @@ namespace IO.Bindings.libsimpleio
         /// Close a Linux GPIO pin device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void GPIO_close(int fd, out int error);

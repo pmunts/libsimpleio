@@ -34,7 +34,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="hostname">Host name to resolve.</param>
         /// <param name="addr">IPv4 address.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void IPV4_resolve(string hostname, out int addr,
@@ -46,7 +46,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="addr">IPv4 address</param>
         /// <param name="buf">Destination buffer.</param>
         /// <param name="bufsize">Destination buffer size.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void IPV4_ntoa(int addr,
@@ -58,7 +58,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="addr">IPv4 address.</param>
         /// <param name="port">TCP port number.</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void TCP4_connect(int addr, int port,
@@ -71,7 +71,7 @@ namespace IO.Bindings.libsimpleio
         /// 0.0.0.0 to listen on all interfaces.</param>
         /// <param name="port">TCP port number.</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void TCP4_accept(int addr, int port,
@@ -84,7 +84,7 @@ namespace IO.Bindings.libsimpleio
         /// 0.0.0.0 to listen on all interfaces.</param>
         /// <param name="port">TCP port number.</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void TCP4_server(int addr, int port,
@@ -94,7 +94,7 @@ namespace IO.Bindings.libsimpleio
         /// Close a TCP connection.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void TCP4_close(int fd, out int error);
@@ -106,7 +106,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="buf">Source buffer.</param>
         /// <param name="bufsize">Source buffer size.</param>
         /// <param name="count">Number of bytes actually sent.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void TCP4_send(int fd, byte[] buf, int bufsize,
@@ -119,7 +119,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="buf">Destination buffer.</param>
         /// <param name="bufsize">Destination buffer size.</param>
         /// <param name="count">Number of bytes actually received.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void TCP4_receive(int fd, byte[] buf, int bufsize,

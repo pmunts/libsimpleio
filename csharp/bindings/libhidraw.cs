@@ -34,7 +34,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="devname">Device node name.</param>
         /// <param name="fd">Device node name.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void HIDRAW_open(string devname, out int fd,
@@ -46,7 +46,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="VID">Vendor ID.</param>
         /// <param name="PID">Product ID.</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void HIDRAW_open_id(int VID, int PID, out int fd,
@@ -56,7 +56,7 @@ namespace IO.Bindings.libsimpleio
         /// Close a Linux raw HID.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void HIDRAW_close(int fd, out int error);
@@ -67,7 +67,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="fd">File descriptor.</param>
         /// <param name="name">Destination buffer.</param>
         /// <param name="size">Size of destination buffer.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void HIDRAW_get_name(int fd,
@@ -80,7 +80,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="bustype">Bus type.</param>
         /// <param name="vendor">Vendor ID.</param>
         /// <param name="product">Product ID.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void HIDRAW_get_info(int fd, out int bustype,
@@ -93,7 +93,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="buf">Source buffer.</param>
         /// <param name="bufsize">Source buffer size.</param>
         /// <param name="count">Number of bytes actually sent.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void HIDRAW_send(int fd, byte[] buf, int bufsize,
@@ -106,7 +106,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="buf">Destination buffer.</param>
         /// <param name="bufsize">Destination buffer size.</param>
         /// <param name="count">Number of bytes actually received.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void HIDRAW_receive(int fd, byte[] buf, int bufsize,

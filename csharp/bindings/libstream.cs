@@ -37,7 +37,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="dst">Destination buffer.</param>
         /// <param name="dstsize">Destination buffer size.</param>
         /// <param name="dstlen">Size of encoded frame.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void STREAM_encode_frame(byte[] src, int srclen,
@@ -51,7 +51,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="dst">Destination buffer.</param>
         /// <param name="dstsize">Destination buffer size.</param>
         /// <param name="dstlen">Size of decoded frame.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void STREAM_decode_frame(byte[] src, int srclen,
@@ -64,7 +64,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="buf">Destination buffer.</param>
         /// <param name="bufsize">Destination buffer size.</param>
         /// <param name="count">Number of bytes actually received.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void STREAM_receive_frame(int fd, byte[] buf,
@@ -77,7 +77,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="buf">Source buffer.</param>
         /// <param name="bufsize">Source buffer size.</param>
         /// <param name="count">Number of bytes actually sent.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void STREAM_send_frame(int fd, byte[] buf,

@@ -51,7 +51,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="databits">Word size setting (5 to 8).</param>
         /// <param name="stopbits">Number of stop bits (1 or 2).</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void SERIAL_open(string devname, int baudrate,
@@ -61,7 +61,7 @@ namespace IO.Bindings.libsimpleio
         /// Close a Linux serial port device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void SERIAL_close(int fd, out int error);
@@ -73,7 +73,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="buf">Source buffer.</param>
         /// <param name="bufsize">Source buffer size.</param>
         /// <param name="count">Number of bytes actually sent.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void SERIAL_send(int fd, byte[] buf, int bufsize,
@@ -86,7 +86,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="buf">Destination buffer.</param>
         /// <param name="bufsize">Destination buffer size.</param>
         /// <param name="count">Number of bytes actually received.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void SERIAL_receive(int fd, byte[] buf,

@@ -53,7 +53,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="polarity">PWM output polarity (0 for active low/inverted or 1
         /// for active high/normal).</param>
         /// <remarks>Not all platforms support active low (inverted) PWM outputs.</remarks>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void PWM_configure(int chip, int channel,
@@ -65,7 +65,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="chip">Chip number.</param>
         /// <param name="channel">Channel number.</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void PWM_open(int chip, int channel, out int fd,
@@ -75,7 +75,7 @@ namespace IO.Bindings.libsimpleio
         /// Close a Linux PWM output device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void PWM_close(int fd, out int error);
@@ -85,7 +85,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="ontime">On time in microseconds.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void PWM_write(int fd, int ontime, out int error);

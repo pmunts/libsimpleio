@@ -37,12 +37,12 @@ namespace IO.Bindings.libsimpleio
         /// <param name="wordsize">SPI transfer word size (8, 16, or 32).</param>
         /// <param name="speed">SPI transfer speed in Hz.</param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         ///<remarks>The Linux kernel create a device nodes for each SPI slave
         ///device, of the form
-        ///<code>/dev/spidevX.Y</code> where <code>X</code> is the SPI bus
-        ///controller number and <code>Y</code> is the SPI slave select number.</remarks>
+        ///<c>/dev/spidevX.Y</c> where <c>X</c> is the SPI bus
+        ///controller number and <c>Y</c> is the SPI slave select number.</remarks>
         [DllImport("simpleio")]
         public static extern void SPI_open(string devname, int mode,
             int wordsize, int speed, out int fd, out int error);
@@ -57,7 +57,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="delayus">Delay in microseconds between the write and read operations.</param>
         /// <param name="resp">Destination buffer.</param>
         /// <param name="resplen">Destination buffer size.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void SPI_transaction(int fd, int csfd, byte[] cmd,
@@ -67,7 +67,7 @@ namespace IO.Bindings.libsimpleio
         /// Close a Linux SPI device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void SPI_close(int fd, out int error);

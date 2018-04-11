@@ -17,7 +17,7 @@
             <param name="chip">Linux IIO device number.</param>
             <param name="name">Destination buffer.</param>
             <param name="size">Size of destination buffer.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libADC.ADC_open(System.Int32,System.Int32,System.Int32@,System.Int32@)">
@@ -27,7 +27,7 @@
             <param name="chip">Linux IIO device number.</param>
             <param name="channel">Input channel number.</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libADC.ADC_close(System.Int32,System.Int32@)">
@@ -35,7 +35,7 @@
             Close a Linux IIO A/D converter input device.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libADC.ADC_read(System.Int32,System.Int32@,System.Int32@)">
@@ -44,7 +44,7 @@
             </summary>
             <param name="fd">File descriptor.</param>
             <param name="sample">Analog sample data.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libEvent">
@@ -54,22 +54,22 @@
         </member>
         <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_open(System.Int32@,System.Int32@)">
             <summary>
-            Open an <code>epoll</code> event dispatcher.
+            Open an <c>epoll</c> event dispatcher.
             </summary>
             <param name="epfd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_register_fd(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
             <summary>
-            Register a file descriptor with an <code>epoll</code> event dispatcher.
+            Register a file descriptor with an <c>epoll</c> event dispatcher.
             </summary>
             <param name="epfd">File descriptor for the dispatcher.</param>
             <param name="fd">File descriptor to register for events.</param>
             <param name="events">Events to register for.  May be a sum of the
             individual event flags.</param>
             <param name="handle">Event handle.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_modify_fd(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
@@ -81,21 +81,21 @@
             <param name="events">Events to register for.  May be a sum of the
             individual event flags.</param>
             <param name="handle">Event handle.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_unregister_fd(System.Int32,System.Int32,System.Int32@)">
             <summary>
-            Unregister a file from an <code>epoll</code> dispatcher.
+            Unregister a file from an <c>epoll</c> dispatcher.
             </summary>
             <param name="epfd">File descriptor for the dispatcher.></param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_wait(System.Int32,System.Int32@,System.Int32@,System.Int32@,System.Int32,System.Int32@)">
             <summary>
-            Wait for events from an <code>epoll</code> dispatcher.
+            Wait for events from an <c>epoll</c> dispatcher.
             </summary>
             <param name="epfd">File descriptor for the displatcher.</param>
             <param name="fd">File descriptor the event is applicable to.</param>
@@ -104,15 +104,15 @@
             <param name="handle">Event handle provided whent the file descriptor
             was registered.</param>
             <param name="timeoutms">Time in milliseconds to wait for an event.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libEvent.EVENT_close(System.Int32,System.Int32@)">
             <summary>
-            Close an <code>epoll</code> event dispatcher.
+            Close an <c>epoll</c> event dispatcher.
             </summary>
             <param name="epfd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libGPIO">
@@ -169,7 +169,7 @@
             <param name="state">Initial state for output pin.</param>
             <param name="edge">Interrupt edge for input pin.</param>
             <param name="polarity">Polarity</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_open(System.Int32,System.Int32@,System.Int32@)">
@@ -178,7 +178,7 @@
             </summary>
             <param name="pin">Pin number.</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_read(System.Int32,System.Int32@,System.Int32@)">
@@ -187,7 +187,7 @@
             </summary>
             <param name="fd">File descriptor.</param>
             <param name="state">Pin state.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_write(System.Int32,System.Int32,System.Int32@)">
@@ -196,7 +196,7 @@
             </summary>
             <param name="fd">File descriptor.</param>
             <param name="state">Pin state.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_close(System.Int32,System.Int32@)">
@@ -204,7 +204,7 @@
             Close a Linux GPIO pin device.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libHIDRaw">
@@ -218,7 +218,7 @@
             </summary>
             <param name="devname">Device node name.</param>
             <param name="fd">Device node name.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open_id(System.Int32,System.Int32,System.Int32@,System.Int32@)">
@@ -228,7 +228,7 @@
             <param name="VID">Vendor ID.</param>
             <param name="PID">Product ID.</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_close(System.Int32,System.Int32@)">
@@ -236,7 +236,7 @@
             Close a Linux raw HID.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_get_name(System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
@@ -246,7 +246,7 @@
             <param name="fd">File descriptor.</param>
             <param name="name">Destination buffer.</param>
             <param name="size">Size of destination buffer.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_get_info(System.Int32,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
@@ -257,7 +257,7 @@
             <param name="bustype">Bus type.</param>
             <param name="vendor">Vendor ID.</param>
             <param name="product">Product ID.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_send(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
@@ -268,7 +268,7 @@
             <param name="buf">Source buffer.</param>
             <param name="bufsize">Source buffer size.</param>
             <param name="count">Number of bytes actually sent.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_receive(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
@@ -279,7 +279,7 @@
             <param name="buf">Destination buffer.</param>
             <param name="bufsize">Destination buffer size.</param>
             <param name="count">Number of bytes actually received.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libI2C">
@@ -293,7 +293,7 @@
             </summary>
             <param name="devname">Device node name.</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libI2C.I2C_close(System.Int32,System.Int32@)">
@@ -301,7 +301,7 @@
             Close a Linux I<sup>2</sup>C bus controller device.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libI2C.I2C_transaction(System.Int32,System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32@)">
@@ -314,7 +314,7 @@
             <param name="cmdlen">Source buffer size.</param>
             <param name="resp">Response buffer.</param>
             <param name="resplen">Response buffer size.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libIPV4">
@@ -328,7 +328,7 @@
             </summary>
             <param name="hostname">Host name to resolve.</param>
             <param name="addr">IPv4 address.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libIPV4.IPV4_ntoa(System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
@@ -338,7 +338,7 @@
             <param name="addr">IPv4 address</param>
             <param name="buf">Destination buffer.</param>
             <param name="bufsize">Destination buffer size.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_connect(System.Int32,System.Int32,System.Int32@,System.Int32@)">
@@ -348,7 +348,7 @@
             <param name="addr">IPv4 address.</param>
             <param name="port">TCP port number.</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_accept(System.Int32,System.Int32,System.Int32@,System.Int32@)">
@@ -359,7 +359,7 @@
             0.0.0.0 to listen on all interfaces.</param>
             <param name="port">TCP port number.</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_server(System.Int32,System.Int32,System.Int32@,System.Int32@)">
@@ -370,7 +370,7 @@
             0.0.0.0 to listen on all interfaces.</param>
             <param name="port">TCP port number.</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_close(System.Int32,System.Int32@)">
@@ -378,7 +378,7 @@
             Close a TCP connection.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_send(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
@@ -389,7 +389,7 @@
             <param name="buf">Source buffer.</param>
             <param name="bufsize">Source buffer size.</param>
             <param name="count">Number of bytes actually sent.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libIPV4.TCP4_receive(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
@@ -400,7 +400,7 @@
             <param name="buf">Destination buffer.</param>
             <param name="bufsize">Destination buffer size.</param>
             <param name="count">Number of bytes actually received.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libLinux">
@@ -455,7 +455,7 @@
         </member>
         <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_CRON">
             <summary>
-            <code>cron</code> daemon messages.
+            <c>cron</c> daemon messages.
             </summary>
         </member>
         <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_AUTHPRIV">
@@ -465,7 +465,7 @@
         </member>
         <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_FTP">
             <summary>
-            <code>FTP</code> daemon messages.
+            <c>FTP</c> daemon messages.
             </summary>
         </member>
         <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_LOCAL0">
@@ -553,7 +553,7 @@
             Detach the process and run it in the background.
             </summary>
             <param name="error">Error code.  Zero upon success or an
-            <code>errno</code> value upon failure.</param>
+            <c>errno</c> value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_drop_privileges(System.String,System.Int32@)">
             <summary>
@@ -563,30 +563,30 @@
             </summary>
             <param name="username">User privileges to assume.</param>
             <param name="error">Error code.  Zero upon success or an
-            <code>errno</code> value upon failure.</param>
+            <c>errno</c> value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_openlog(System.String,System.Int32,System.Int32,System.Int32@)">
             <summary>
-            Open a connection to the <code>syslog</code> service.
+            Open a connection to the <c>syslog</c> service.
             </summary>
             <param name="id">Program identifier.</param>
             <param name="options">Logging options.</param>
             <param name="facility">Logging facility identifier.</param>
             <param name="error">Error code.  Zero upon success or an
-            <code>errno</code> value upon failure.</param>
+            <c>errno</c> value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_syslog(System.Int32,System.String,System.Int32@)">
             <summary>
-            Send a message to the <code>syslog</code> service.
+            Send a message to the <c>syslog</c> service.
             </summary>
             <param name="priority">Message priority</param>
             <param name="msg">Message to send.</param>
             <param name="error">Error code.  Zero upon success or an
-            <code>errno</code> value upon failure.</param>
+            <c>errno</c> value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_strerror(System.Int32,System.Text.StringBuilder,System.Int32)">
             <summary>
-            Retrieve the error message for a particular <code>errno</code>
+            Retrieve the error message for a particular <c>errno</c>
             error code.
             </summary>
             <param name="error">Error code.</param>
@@ -670,7 +670,7 @@
             <param name="polarity">PWM output polarity (0 for active low/inverted or 1
             for active high/normal).</param>
             <remarks>Not all platforms support active low (inverted) PWM outputs.</remarks>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libPWM.PWM_open(System.Int32,System.Int32,System.Int32@,System.Int32@)">
@@ -680,7 +680,7 @@
             <param name="chip">Chip number.</param>
             <param name="channel">Channel number.</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libPWM.PWM_close(System.Int32,System.Int32@)">
@@ -688,7 +688,7 @@
             Close a Linux PWM output device.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libPWM.PWM_write(System.Int32,System.Int32,System.Int32@)">
@@ -697,7 +697,7 @@
             </summary>
             <param name="fd">File descriptor.</param>
             <param name="ontime">On time in microseconds.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libSerial">
@@ -730,7 +730,7 @@
             <param name="databits">Word size setting (5 to 8).</param>
             <param name="stopbits">Number of stop bits (1 or 2).</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libSerial.SERIAL_close(System.Int32,System.Int32@)">
@@ -738,7 +738,7 @@
             Close a Linux serial port device.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libSerial.SERIAL_send(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
@@ -749,7 +749,7 @@
             <param name="buf">Source buffer.</param>
             <param name="bufsize">Source buffer size.</param>
             <param name="count">Number of bytes actually sent.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libSerial.SERIAL_receive(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
@@ -760,7 +760,7 @@
             <param name="buf">Destination buffer.</param>
             <param name="bufsize">Destination buffer size.</param>
             <param name="count">Number of bytes actually received.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libSPI">
@@ -777,12 +777,12 @@
              <param name="wordsize">SPI transfer word size (8, 16, or 32).</param>
              <param name="speed">SPI transfer speed in Hz.</param>
              <param name="fd">File descriptor.</param>
-             <param name="error">Error code.  Zero upon success or an <code>errno</code>
+             <param name="error">Error code.  Zero upon success or an <c>errno</c>
              value upon failure.</param>
             <remarks>The Linux kernel create a device nodes for each SPI slave
             device, of the form
-            <code>/dev/spidevX.Y</code> where <code>X</code> is the SPI bus
-            controller number and <code>Y</code> is the SPI slave select number.</remarks>
+            <c>/dev/spidevX.Y</c> where <c>X</c> is the SPI bus
+            controller number and <c>Y</c> is the SPI slave select number.</remarks>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libSPI.SPI_transaction(System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32@)">
             <summary>
@@ -795,7 +795,7 @@
             <param name="delayus">Delay in microseconds between the write and read operations.</param>
             <param name="resp">Destination buffer.</param>
             <param name="resplen">Destination buffer size.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libSPI.SPI_close(System.Int32,System.Int32@)">
@@ -803,7 +803,7 @@
             Close a Linux SPI device.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libStream">
@@ -820,7 +820,7 @@
             <param name="dst">Destination buffer.</param>
             <param name="dstsize">Destination buffer size.</param>
             <param name="dstlen">Size of encoded frame.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libStream.STREAM_decode_frame(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
@@ -832,7 +832,7 @@
             <param name="dst">Destination buffer.</param>
             <param name="dstsize">Destination buffer size.</param>
             <param name="dstlen">Size of decoded frame.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libStream.STREAM_receive_frame(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
@@ -843,7 +843,7 @@
             <param name="buf">Destination buffer.</param>
             <param name="bufsize">Destination buffer size.</param>
             <param name="count">Number of bytes actually received.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libStream.STREAM_send_frame(System.Int32,System.Byte[],System.Int32,System.Int32@,System.Int32@)">
@@ -854,7 +854,7 @@
             <param name="buf">Source buffer.</param>
             <param name="bufsize">Source buffer size.</param>
             <param name="count">Number of bytes actually sent.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libWatchdog">
@@ -868,7 +868,7 @@
             </summary>
             <param name="devname">Device node name.</param>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_close(System.Int32,System.Int32@)">
@@ -876,7 +876,7 @@
             Close a Linux watchdog timer device.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_get_timeout(System.Int32,System.Int32@,System.Int32@)">
@@ -885,7 +885,7 @@
             </summary>
             <param name="fd">File descriptor.</param>
             <param name="timeout">Timeout period in seconds.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_set_timeout(System.Int32,System.Int32,System.Int32@,System.Int32@)">
@@ -895,7 +895,7 @@
             <param name="fd">File descriptor.</param>
             <param name="newtimeout">Requested timeout period in seconds.</param>
             <param name="timeout">Actual timeout period in seconds.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
             <remarks>Not all platforms allow changing the timeout period.
             Some platforms may not allow <i>increasing</i> the period.</remarks>
@@ -905,7 +905,7 @@
             Reset the watchdog timer.
             </summary>
             <param name="fd">File descriptor.</param>
-            <param name="error">Error code.  Zero upon success or an <code>errno</code>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
         <member name="T:IO.Devices.PCA8574.Device">

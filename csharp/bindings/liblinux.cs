@@ -68,7 +68,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         public const int LOG_UUCP = (8 << 3);
         /// <summary>
-        /// <code>cron</code> daemon messages.
+        /// <c>cron</c> daemon messages.
         /// </summary>
         public const int LOG_CRON = (9 << 3);
         /// <summary>
@@ -76,7 +76,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         public const int LOG_AUTHPRIV = (10 << 3);
         /// <summary>
-        /// <code>FTP</code> daemon messages.
+        /// <c>FTP</c> daemon messages.
         /// </summary>
         public const int LOG_FTP = (11 << 3);
         /// <summary>
@@ -151,7 +151,7 @@ namespace IO.Bindings.libsimpleio
         /// Detach the process and run it in the background.
         /// </summary>
         /// <param name="error">Error code.  Zero upon success or an
-        /// <code>errno</code> value upon failure.</param>
+        /// <c>errno</c> value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void LINUX_detach(out int error);
 
@@ -162,36 +162,36 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="username">User privileges to assume.</param>
         /// <param name="error">Error code.  Zero upon success or an
-        /// <code>errno</code> value upon failure.</param>
+        /// <c>errno</c> value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void LINUX_drop_privileges(string username,
             out int error);
 
         /// <summary>
-        /// Open a connection to the <code>syslog</code> service.
+        /// Open a connection to the <c>syslog</c> service.
         /// </summary>
         /// <param name="id">Program identifier.</param>
         /// <param name="options">Logging options.</param>
         /// <param name="facility">Logging facility identifier.</param>
         /// <param name="error">Error code.  Zero upon success or an
-        /// <code>errno</code> value upon failure.</param>
+        /// <c>errno</c> value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void LINUX_openlog(string id, int options,
             int facility, out int error);
 
         /// <summary>
-        /// Send a message to the <code>syslog</code> service.
+        /// Send a message to the <c>syslog</c> service.
         /// </summary>
         /// <param name="priority">Message priority</param>
         /// <param name="msg">Message to send.</param>
         /// <param name="error">Error code.  Zero upon success or an
-        /// <code>errno</code> value upon failure.</param>
+        /// <c>errno</c> value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void LINUX_syslog(int priority, string msg,
             out int error);
 
         /// <summary>
-        /// Retrieve the error message for a particular <code>errno</code>
+        /// Retrieve the error message for a particular <c>errno</c>
         /// error code.
         /// </summary>
         /// <param name="error">Error code.</param>

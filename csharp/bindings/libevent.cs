@@ -47,23 +47,23 @@ namespace IO.Bindings.libsimpleio
         private const int EPOLLET      = -2147483648;
 
         /// <summary>
-        /// Open an <code>epoll</code> event dispatcher.
+        /// Open an <c>epoll</c> event dispatcher.
         /// </summary>
         /// <param name="epfd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void EVENT_open(out int epfd, out int error);
 
         /// <summary>
-        /// Register a file descriptor with an <code>epoll</code> event dispatcher.
+        /// Register a file descriptor with an <c>epoll</c> event dispatcher.
         /// </summary>
         /// <param name="epfd">File descriptor for the dispatcher.</param>
         /// <param name="fd">File descriptor to register for events.</param>
         /// <param name="events">Events to register for.  May be a sum of the
         /// individual event flags.</param>
         /// <param name="handle">Event handle.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void EVENT_register_fd(int epfd, int fd,
@@ -77,25 +77,25 @@ namespace IO.Bindings.libsimpleio
         /// <param name="events">Events to register for.  May be a sum of the
         /// individual event flags.</param>
         /// <param name="handle">Event handle.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void EVENT_modify_fd(int epfd, int fd,
             int events, int handle, out int error);
 
         /// <summary>
-        /// Unregister a file from an <code>epoll</code> dispatcher.
+        /// Unregister a file from an <c>epoll</c> dispatcher.
         /// </summary>
         /// <param name="epfd">File descriptor for the dispatcher.></param>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void EVENT_unregister_fd(int epfd, int fd,
             out int error);
 
         /// <summary>
-        /// Wait for events from an <code>epoll</code> dispatcher.
+        /// Wait for events from an <c>epoll</c> dispatcher.
         /// </summary>
         /// <param name="epfd">File descriptor for the displatcher.</param>
         /// <param name="fd">File descriptor the event is applicable to.</param>
@@ -104,17 +104,17 @@ namespace IO.Bindings.libsimpleio
         /// <param name="handle">Event handle provided whent the file descriptor
         /// was registered.</param>
         /// <param name="timeoutms">Time in milliseconds to wait for an event.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void EVENT_wait(int epfd, out int fd,
             out int events, out int handle, int timeoutms, out int error);
 
         /// <summary>
-        /// Close an <code>epoll</code> event dispatcher.
+        /// Close an <c>epoll</c> event dispatcher.
         /// </summary>
         /// <param name="epfd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <code>errno</code>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void EVENT_close(int epfd, out int error);
