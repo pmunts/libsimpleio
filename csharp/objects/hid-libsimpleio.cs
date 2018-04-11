@@ -30,13 +30,24 @@ namespace IO.Objects.libsimpleio.HID
     public class Messenger : IO.Interfaces.Message64.Messenger
     {
         private int myfd;
+        private int timeout;
 
         /// <summary>
         /// Constructor for a single raw HID device.
         /// </summary>
         /// <param name="devname">Device node name.</param>
-        public Messenger(string devname)
+        /// <param name="timeoutms">Time in milliseconds to wait for
+        /// read and write operations to complete.  Zero means wait
+        /// forever.</param>
+        public Messenger(string devname, int timeoutms = 5000)
         {
+            // Validate parameters
+
+            if (timeoutms < 0)
+            {
+                throw new Exception("Invalid timeout");
+            }
+
             int error;
 
             IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open(devname,
@@ -46,6 +57,8 @@ namespace IO.Objects.libsimpleio.HID
             {
                 throw new Exception("HIDRAW_open() failed", error);
             }
+
+            this.timeout = timeoutms;
         }
 
         /// <summary>
@@ -53,9 +66,14 @@ namespace IO.Objects.libsimpleio.HID
         /// </summary>
         /// <param name="VID">Vendor ID.</param>
         /// <param name="PID">Product ID.</param>
+        /// <param name="timeoutms">Time in milliseconds to wait for
+        /// read and write operations to complete.  Zero means wait
+        /// forever.</param>
         public Messenger(int VID = IO.Objects.USB.Munts.HID.Vendor,
-            int PID = IO.Objects.USB.Munts.HID.Product)
+            int PID = IO.Objects.USB.Munts.HID.Product, int timeoutms = 5000)
         {
+            // Validate parameters
+
             if ((VID < 0) || (VID > 65535))
             {
                 throw new Exception("Invalid vendor ID");
@@ -64,6 +82,11 @@ namespace IO.Objects.libsimpleio.HID
             if ((PID < 0) || (PID > 65535))
             {
                 throw new Exception("Invalid product ID");
+            }
+
+            if (timeoutms < 0)
+            {
+                throw new Exception("Invalid timeout");
             }
 
             int error;
@@ -75,6 +98,8 @@ namespace IO.Objects.libsimpleio.HID
             {
                 throw new Exception("HIDRAW_open_id() failed", error);
             }
+
+            this.timeout = timeoutms;
         }
 
         /// <summary>
@@ -83,8 +108,23 @@ namespace IO.Objects.libsimpleio.HID
         /// <param name="cmd">64-byte command message.</param>
         public void Send(IO.Interfaces.Message64.Message cmd)
         {
-            int count;
             int error;
+            int count;
+
+            if (this.timeout > 0)
+            {
+                int[] files = { this.fd };
+                int[] events = { IO.Bindings.libsimpleio.libLinux.POLLOUT };
+                int[] results = { 0 };
+
+                IO.Bindings.libsimpleio.libLinux.LINUX_poll(1, files, events,
+                    results, this.timeout, out error);
+
+                if (error != 0)
+                {
+                    throw new Exception("LINUX_poll() failed", error);
+                }
+            }
 
             IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_send(this.myfd,
                 cmd.payload, IO.Interfaces.Message64.Message.Size, out count,
@@ -102,8 +142,23 @@ namespace IO.Objects.libsimpleio.HID
         /// <param name="resp">64-byte response message.</param>
         public void Receive(IO.Interfaces.Message64.Message resp)
         {
-            int count;
             int error;
+            int count;
+
+            if (this.timeout > 0)
+            {
+                int[] files = { this.fd };
+                int[] events = { IO.Bindings.libsimpleio.libLinux.POLLIN };
+                int[] results = { 0 };
+
+                IO.Bindings.libsimpleio.libLinux.LINUX_poll(1, files, events,
+                    results, this.timeout, out error);
+
+                if (error != 0)
+                {
+                    throw new Exception("LINUX_poll() failed", error);
+                }
+            }
 
             IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_receive(this.myfd,
                 resp.payload, IO.Interfaces.Message64.Message.Size,
@@ -121,42 +176,10 @@ namespace IO.Objects.libsimpleio.HID
         /// </summary>
         /// <param name="cmd">64-byte command message.</param>
         /// <param name="resp">64-byte response message.</param>
-        /// <param name="timeoutms">Time in milliseconds to wait for
-        /// a response.  Zero means wait forever.</param>
         public void Transaction(IO.Interfaces.Message64.Message cmd,
-            IO.Interfaces.Message64.Message resp, int timeoutms = 0)
+            IO.Interfaces.Message64.Message resp)
         {
-            // Validate parameters
-
-            if (timeoutms < 0)
-            {
-                throw new Exception("Invalid timeout");
-            }
-
-            // Send the command message
-
             this.Send(cmd);
-
-            // Wait for the response message
-
-            if (timeoutms > 0)
-            {
-                int[] files = { this.fd };
-                int[] events = { IO.Bindings.libsimpleio.libLinux.POLLIN };
-                int[] results = { 0 };
-                int error;
-
-                IO.Bindings.libsimpleio.libLinux.LINUX_poll(1, files, events,
-                    results, timeoutms, out error);
-
-                if (error != 0)
-                {
-                    throw new Exception("LINUX_poll() failed", error);
-                }
-            }
-
-            // Receive the response message
-
             this.Receive(resp);
         }
 

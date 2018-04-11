@@ -78,8 +78,6 @@ namespace IO.Interfaces.Message64
         /// </summary>
         /// <param name="cmd">Command to be sent.</param>
         /// <param name="resp">Response to be received.</param>
-        /// <param name="timeoutms">Time in milliseconds to wait for
-        /// a response.  Zero means wait forever.</param>
-        void Transaction(Message cmd, Message resp, int timeoutms = 0);
+        void Transaction(Message cmd, Message resp);
     }
 }

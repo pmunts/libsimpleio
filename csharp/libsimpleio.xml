@@ -1223,14 +1223,12 @@
             </summary>
             <param name="resp">Message received.</param>
         </member>
-        <member name="M:IO.Interfaces.Message64.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message,System.Int32)">
+        <member name="M:IO.Interfaces.Message64.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
             <summary>
             Send a 64-byte command and receive a 64-byte response.
             </summary>
             <param name="cmd">Command to be sent.</param>
             <param name="resp">Response to be received.</param>
-            <param name="timeoutms">Time in milliseconds to wait for
-            a response.  Zero means wait forever.</param>
         </member>
         <member name="T:IO.Interfaces.Motor.Velocities">
             <summary>
@@ -1492,18 +1490,24 @@
             Encapsulates Linux raw HID devices using <c>libsimpleio</c>.
             </summary>
         </member>
-        <member name="M:IO.Objects.libsimpleio.HID.Messenger.#ctor(System.String)">
+        <member name="M:IO.Objects.libsimpleio.HID.Messenger.#ctor(System.String,System.Int32)">
             <summary>
             Constructor for a single raw HID device.
             </summary>
             <param name="devname">Device node name.</param>
+            <param name="timeoutms">Time in milliseconds to wait for
+            read and write operations to complete.  Zero means wait
+            forever.</param>
         </member>
-        <member name="M:IO.Objects.libsimpleio.HID.Messenger.#ctor(System.Int32,System.Int32)">
+        <member name="M:IO.Objects.libsimpleio.HID.Messenger.#ctor(System.Int32,System.Int32,System.Int32)">
             <summary>
             Constructor for a single raw HID device.
             </summary>
             <param name="VID">Vendor ID.</param>
             <param name="PID">Product ID.</param>
+            <param name="timeoutms">Time in milliseconds to wait for
+            read and write operations to complete.  Zero means wait
+            forever.</param>
         </member>
         <member name="M:IO.Objects.libsimpleio.HID.Messenger.Send(IO.Interfaces.Message64.Message)">
             <summary>
@@ -1517,15 +1521,13 @@
             </summary>
             <param name="resp">64-byte response message.</param>
         </member>
-        <member name="M:IO.Objects.libsimpleio.HID.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message,System.Int32)">
+        <member name="M:IO.Objects.libsimpleio.HID.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
             <summary>
             Send a 64-byte command message and receive a 64-byte response
             message.
             </summary>
             <param name="cmd">64-byte command message.</param>
             <param name="resp">64-byte response message.</param>
-            <param name="timeoutms">Time in milliseconds to wait for
-            a response.  Zero means wait forever.</param>
         </member>
         <member name="P:IO.Objects.libsimpleio.HID.Messenger.name">
             <summary>
