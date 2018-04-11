@@ -46,7 +46,7 @@ namespace Interfaces::Message64
 
     virtual void Receive(Message resp) = 0;
 
-    virtual void Transaction(Message cmd, Message resp, unsigned timeoutms = 0) = 0;
+    virtual void Transaction(Message cmd, Message resp) = 0;
   };
 
   typedef Messenger_Interface *Messenger;

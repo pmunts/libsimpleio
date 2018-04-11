@@ -33,20 +33,21 @@ namespace libsimpleio::HID
 
   struct Messenger_Class: public Interfaces::Message64::Messenger_Interface
   {
-    Messenger_Class(const char *name);
+    Messenger_Class(const char *name, unsigned timeoutms = 5000);
 
-    Messenger_Class(uint16_t VID, uint16_t PID);
+    Messenger_Class(uint16_t VID, uint16_t PID, unsigned timeoutms = 5000);
 
     virtual void Send(Interfaces::Message64::Message cmd);
 
     virtual void Receive(Interfaces::Message64::Message resp);
 
     virtual void Transaction(Interfaces::Message64::Message cmd,
-      Interfaces::Message64::Message resp, unsigned timeoutms = 0);
+      Interfaces::Message64::Message resp);
 
   private:
 
     int fd;
+    unsigned timeout;
   };
 }
 

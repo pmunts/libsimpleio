@@ -29,7 +29,8 @@
 
 // Constructors
 
-libsimpleio::HID::Messenger_Class::Messenger_Class(const char *name)
+libsimpleio::HID::Messenger_Class::Messenger_Class(const char *name,
+  unsigned timeoutms)
 {
   int32_t fd;
   int32_t error;
@@ -38,9 +39,11 @@ libsimpleio::HID::Messenger_Class::Messenger_Class(const char *name)
   if (error) throw error;
 
   this->fd = fd;
+  this->timeout = timeoutms;
 }
 
-libsimpleio::HID::Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID)
+libsimpleio::HID::Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID,
+  unsigned timeoutms)
 {
   int32_t fd;
   int32_t error;
@@ -49,6 +52,7 @@ libsimpleio::HID::Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID)
   if (error) throw error;
 
   this->fd = fd;
+  this->timeout = timeoutms;
 }
 
 // Methods
@@ -58,6 +62,16 @@ void libsimpleio::HID::Messenger_Class::Send(
 {
   int32_t count;
   int32_t error;
+
+  if (this->timeout > 0)
+  {
+    int32_t files[1]   = { this->fd };
+    int32_t events[1]  = { POLLOUT };
+    int32_t results[1] = { 0 };
+
+    LINUX_poll(1, files, events, results, this->timeout, &error);
+    if (error) throw error;
+  }
 
   HIDRAW_send(this->fd, cmd->payload, Interfaces::Message64::Size, &count,
     &error);
@@ -72,6 +86,16 @@ void libsimpleio::HID::Messenger_Class::Receive(
   int32_t count;
   int32_t error;
 
+  if (this->timeout > 0)
+  {
+    int32_t files[1]   = { this->fd };
+    int32_t events[1]  = { POLLIN };
+    int32_t results[1] = { 0 };
+
+    LINUX_poll(1, files, events, results, this->timeout, &error);
+    if (error) throw error;
+  }
+
   HIDRAW_receive(this->fd, cmd->payload, Interfaces::Message64::Size, &count,
     &error);
 
@@ -80,27 +104,8 @@ void libsimpleio::HID::Messenger_Class::Receive(
 }
 
 void libsimpleio::HID::Messenger_Class::Transaction(
-  Interfaces::Message64::Message cmd, Interfaces::Message64::Message resp,
-  unsigned timeoutms)
+  Interfaces::Message64::Message cmd, Interfaces::Message64::Message resp)
 {
-  // Send the command
-
   this->Send(cmd);
-
-  // Wait for the response
-
-  if (timeoutms > 0)
-  {
-    int32_t files[1]   = { this->fd };
-    int32_t events[1]  = { POLLIN };
-    int32_t results[1] = { 0 };
-    int32_t error;
-
-    LINUX_poll(1, files, events, results, timeoutms, &error);
-    if (error) throw error;
-  }
-
-  // Receive the response
-
   this->Receive(resp);
 }
