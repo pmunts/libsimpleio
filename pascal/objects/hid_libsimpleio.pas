@@ -82,25 +82,10 @@ IMPLEMENTATION
   PROCEDURE MessengerSubclass.Send(cmd : Message);
 
   VAR
-    files   : ARRAY [0 .. 0] OF Integer;
-    events  : ARRAY [0 .. 0] OF Integer;
-    results : ARRAY [0 .. 0] OF Integer;
     count   : Integer;
     error   : Integer;
 
   BEGIN
-    IF Self.timeout > 0 THEN
-      BEGIN
-        files[0]   := Self.fd;
-        events[0]  := libLinux.POLLOUT;
-        results[0] := 0;
-
-        libLinux.Poll(1, files, events, results, Self.timeout, error);
-        IF error <> 0 THEN
-          RAISE Message64_Error.create('ERROR: liblinux.Poll() failed, ' +
-            errno.strerror(error));
-      END;
-
     libHIDRaw.Send(Self.fd, @cmd, Message64.Size, count, error);
 
     IF error <> 0 THEN

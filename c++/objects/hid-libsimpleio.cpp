@@ -63,16 +63,6 @@ void libsimpleio::HID::Messenger_Class::Send(
   int32_t count;
   int32_t error;
 
-  if (this->timeout > 0)
-  {
-    int32_t files[1]   = { this->fd };
-    int32_t events[1]  = { POLLOUT };
-    int32_t results[1] = { 0 };
-
-    LINUX_poll(1, files, events, results, this->timeout, &error);
-    if (error) throw error;
-  }
-
   HIDRAW_send(this->fd, cmd->payload, Interfaces::Message64::Size, &count,
     &error);
 

@@ -79,23 +79,6 @@ PACKAGE BODY HID.libsimpleio IS
     count : Integer;
 
   BEGIN
-    IF self.timeout > 0 THEN
-      DECLARE
-
-        files   : libLinux.FilesType(0 .. 0)   := (OTHERS => self.fd);
-        events  : libLinux.EventsType(0 .. 0)  := (OTHERS => libLinux.POLLOUT);
-        results : libLinux.ResultsType(0 .. 0) := (OTHERS => 0);
-
-      BEGIN
-        libLinux.Poll(1, files, events, results, self.timeout, error);
-
-        IF error /= 0 THEN
-          RAISE Standard.HID.HID_Error WITH "libLinux.Poll() failed, " &
-            errno.strerror(error);
-        END IF;
-      END;
-    END IF;
-
     libHIDRaw.Send(self.fd, msg'Address, msg'Length, count, error);
 
     IF error /= 0 THEN
