@@ -64,7 +64,6 @@ namespace IO.Objects.USB.HID
         private class libLinux
         {
             public const int POLLIN = 0x01;
-            public const int POLLOUT = 0x04;
 
             [System.Runtime.InteropServices.DllImport("simpleio")]
             public static extern void LINUX_poll(int numfiles, int[] files,
@@ -218,21 +217,6 @@ namespace IO.Objects.USB.HID
                     {
                         int count;
                         int error;
-
-                        if (this.timeout > 0)
-                        {
-                            int[] files = { this.fd };
-                            int[] events = { libLinux.POLLOUT };
-                            int[] results = { 0 };
-
-                            libLinux.LINUX_poll(1, files, events, results,
-                                this.timeout, out error);
-
-                            if (error != 0)
-                            {
-                                throw new Exception("LINUX_poll() failed");
-                            }
-                        }
 
                         libHIDRaw.HIDRAW_send(this.fd, cmd.payload,
                             IO.Interfaces.Message64.Message.Size, out count,

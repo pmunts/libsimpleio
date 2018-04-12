@@ -111,21 +111,6 @@ namespace IO.Objects.libsimpleio.HID
             int error;
             int count;
 
-            if (this.timeout > 0)
-            {
-                int[] files = { this.fd };
-                int[] events = { IO.Bindings.libsimpleio.libLinux.POLLOUT };
-                int[] results = { 0 };
-
-                IO.Bindings.libsimpleio.libLinux.LINUX_poll(1, files, events,
-                    results, this.timeout, out error);
-
-                if (error != 0)
-                {
-                    throw new Exception("LINUX_poll() failed", error);
-                }
-            }
-
             IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_send(this.myfd,
                 cmd.payload, IO.Interfaces.Message64.Message.Size, out count,
                 out error);
