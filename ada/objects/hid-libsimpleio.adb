@@ -120,7 +120,19 @@ PACKAGE BODY HID.libsimpleio IS
     END IF;
   END Receive;
 
-  -- Retrieve the underlying Linux file descriptor
+  -- Perform a command/response transaction (similar to an RPC call)
+
+  PROCEDURE Transaction
+   (self      : MessengerSubclass;
+    cmd       : IN Message64.Message;
+    resp      : OUT Message64.Message) IS
+
+  BEGIN
+    self.Send(cmd);
+    self.Receive(resp);
+  END Transaction;
+
+ -- Retrieve the underlying Linux file descriptor
 
   FUNCTION fd(self : MessengerSubclass) RETURN Integer IS
 

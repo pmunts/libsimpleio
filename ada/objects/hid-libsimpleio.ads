@@ -53,6 +53,13 @@ PACKAGE HID.libsimpleio IS
    (self : MessengerSubclass;
     msg  : OUT Message64.Message);
 
+  -- Perform a command/response transaction (similar to an RPC call)
+
+  PROCEDURE Transaction
+   (self      : MessengerSubclass;
+    cmd       : IN Message64.Message;
+    resp      : OUT Message64.Message);
+
   -- Retrieve the underlying Linux file descriptor
 
   FUNCTION fd

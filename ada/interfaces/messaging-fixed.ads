@@ -49,18 +49,9 @@ PACKAGE Messaging.Fixed IS
 
   -- Perform a command/response transaction (similar to an RPC call)
 
-  -- Note this is NOT a primitive operation of MessengerInterface and its
-  -- descendants, and does NOT need to be reimplemented for those descendants
-
   PROCEDURE Transaction
-   (self      : MessengerInterface'Class;
-    cmd       : Message;
-    resp      : OUT Message);
-
-  -- Retrieve the underlying Linux file descriptor
-  -- If no file descriptor is available, return -1.
-
-  FUNCTION fd
-   (self      : MessengerInterface) RETURN Integer IS ABSTRACT;
+   (self      : MessengerInterface;
+    cmd       : IN Message;
+    resp      : OUT Message) IS ABSTRACT;
 
 END Messaging.Fixed;
