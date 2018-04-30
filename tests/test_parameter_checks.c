@@ -228,6 +228,112 @@ START_TEST(test_libgpio)
 }
 END_TEST
 
+START_TEST(test_libgpiod)
+{
+  char name[32];
+  char label[32];
+  int32_t lines;
+  int32_t error;
+  int32_t flags;
+  int32_t fd;
+  int32_t state;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  GPIO_chip_info(-1, name, sizeof(name), label, sizeof(label), &lines, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_chip_info(999, name, sizeof(name), label, sizeof(label), &lines, &error);
+  ck_assert(error == ENOENT);
+
+  GPIO_chip_info(0, NULL, sizeof(name), label, sizeof(label), &lines, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_chip_info(0, name, sizeof(name)-1, label, sizeof(label), &lines, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_chip_info(0, name, sizeof(name), NULL, sizeof(label), &lines, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_chip_info(0, name, sizeof(name), label, sizeof(label)-1, &lines, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_chip_info(0, name, sizeof(name), label, sizeof(label), NULL, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_info(-1, 0, &flags, name, sizeof(name), label, sizeof(label), &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_info(999, 0, &flags, name, sizeof(name), label, sizeof(label), &error);
+  ck_assert(error == ENOENT);
+
+  GPIO_line_info(0, -1, &flags, name, sizeof(name), label, sizeof(label), &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_info(0, 0, NULL, name, sizeof(name), label, sizeof(label), &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_info(0, 0, &flags, NULL, sizeof(name), label, sizeof(label), &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_info(0, 0, &flags, name, sizeof(name)-1, label, sizeof(label), &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_info(0, 0, &flags, name, sizeof(name), NULL, sizeof(label), &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_info(0, 0, &flags, name, sizeof(name), label, sizeof(label)-1, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(-1, 0, GPIOHANDLE_REQUEST_INPUT, false, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, -1, GPIOHANDLE_REQUEST_INPUT, false, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, -1, false, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, -1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, 2, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, false, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_read(-1, &state, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_read(999, &state, &error);
+  ck_assert(error == EBADF);
+
+  GPIO_line_read(0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_write(-1, false, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_write(999, false, &error);
+  ck_assert(error == EBADF);
+
+  GPIO_line_write(0, -1, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_write(0, 2, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_close(999, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 START_TEST(test_libhidraw)
 {
   int32_t fd;
@@ -1287,6 +1393,7 @@ int main(void)
   tcase_add_test(tests, test_libadc);
   tcase_add_test(tests, test_libevent);
   tcase_add_test(tests, test_libgpio);
+  tcase_add_test(tests, test_libgpiod);
   tcase_add_test(tests, test_libhidraw);
   tcase_add_test(tests, test_libi2c);
   tcase_add_test(tests, test_libipv4);

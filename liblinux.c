@@ -524,6 +524,7 @@ void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
 void ADC_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void EVENT_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void GPIO_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void GPIO_line_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void HIDRAW_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void HIDRAW_open(const char *name, int32_t *fd, int32_t *error) ALIAS("LINUX_open_readwrite");
 void HIDRAW_receive(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_read");

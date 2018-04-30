@@ -29,6 +29,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 #include <sys/param.h>
 
 #include "errmsg.inc"
@@ -473,6 +474,332 @@ void GPIO_write(int32_t fd, int32_t state, int32_t *error)
   {
     *error = errno;
     ERRORMSG("write() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *error = 0;
+}
+
+void GPIO_chip_info(int32_t chip, char *name, int32_t namelen,
+  char *label, int32_t labellen, int32_t *lines, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (chip < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (name == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (namelen < 32)
+  {
+    *error = EINVAL;
+    ERRORMSG("namelen argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (label == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("label argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (labellen < 32)
+  {
+    *error = EINVAL;
+    ERRORMSG("labellen argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (lines == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("lines argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Open the GPIO controller device
+
+  char nodename[32];
+  memset(nodename, 0, sizeof(nodename));
+  snprintf(nodename, sizeof(nodename), "/dev/gpiochip%d", chip);
+
+  int chipfd = open(nodename, O_RDWR);
+
+  if (chipfd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Query the GPIO controller device info
+
+  struct gpiochip_info info;
+
+  if (ioctl(chipfd, GPIO_GET_CHIPINFO_IOCTL, &info) < 0)
+  {
+    *error = errno;
+    ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
+    close(chipfd);
+    return;
+  }
+
+  close(chipfd);
+
+  memset(name, 0, namelen);
+  strncpy(name, info.name, namelen - 1);
+
+  memset(label, 0, labellen);
+  strncpy(label, info.label, labellen - 1);
+
+  *lines = info.lines;
+  *error = 0;
+}
+
+void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags, char *name,
+  int32_t namelen, char *consumer, int32_t consumerlen, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (chip < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (line < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("line argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (flags == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("flags argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (name == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (namelen < 32)
+  {
+    *error = EINVAL;
+    ERRORMSG("namelen argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+  
+  if (consumer == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("consumer argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (consumerlen < 32)
+  {
+    *error = EINVAL;
+    ERRORMSG("consumerlen argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Open the GPIO controller device
+
+  char nodename[32];
+  memset(nodename, 0, sizeof(nodename));
+  snprintf(nodename, sizeof(nodename), "/dev/gpiochip%d", chip);
+
+  int chipfd = open(nodename, O_RDWR);
+
+  if (chipfd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Query the GPIO line info
+
+  struct gpioline_info info = { line };
+
+  if (ioctl(chipfd, GPIO_GET_LINEINFO_IOCTL, &info) < 0 )
+  {
+    *error = errno;
+    ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
+    close(chipfd);
+    return;
+  }
+
+  memset(name, 0, namelen);
+  memset(consumer, 0, consumerlen);
+
+  *flags = info.flags;
+  strncpy(name, info.name, namelen - 1);
+  strncpy(consumer, info.consumer, consumerlen - 1);
+
+  *error = 0;
+}
+ 
+void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t state,
+  int32_t *fd, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (chip < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (line < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("line argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (flags < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("flags argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((state < 0) || (state > 1))
+  {
+    *error = EINVAL;
+    ERRORMSG("state argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Open GPIO controller device
+
+  char nodename[32];
+  memset(nodename, 0, sizeof(nodename));
+  snprintf(nodename, sizeof(nodename), "/dev/gpiochip%d", chip);
+
+  int chipfd = open(nodename, O_RDWR);
+
+  if (chipfd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Request GPIO line handle
+
+  struct gpiohandle_request req;
+  memset(&req, 0, sizeof(req));
+  req.lineoffsets[0] = line;
+  req.flags = flags;
+  req.default_values[0] = state;
+  req.lines = 1;
+
+  if (ioctl(chipfd, GPIO_GET_LINEHANDLE_IOCTL, &req) < 0)
+  {
+    *error = errno;
+    ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
+    close(chipfd);
+    return;
+  }
+
+  close(chipfd);
+
+  *fd = req.fd;
+  *error = 0;
+}
+
+void GPIO_line_read(int32_t fd, int32_t *state, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (state == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("state argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  struct gpiohandle_data data = {{ 0 }};
+
+  if (ioctl(fd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data) < 0)
+  {
+    *error = errno;
+    ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *state = data.values[0];
+  *error = 0;
+}
+
+void GPIO_line_write(int32_t fd, int32_t state, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((state < 0) || (state > 1))
+  {
+    *error = EINVAL;
+    ERRORMSG("state argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  struct gpiohandle_data data = {{ state }};
+
+  if (ioctl(fd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data) < 0)
+  {
+    *error = errno;
+    ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
     return;
   }
 
