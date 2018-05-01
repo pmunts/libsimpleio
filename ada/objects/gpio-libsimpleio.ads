@@ -26,6 +26,8 @@ PACKAGE GPIO.libsimpleio IS
 
   -- Type definitions
 
+  TYPE Driver IS (PushPull, OpenDrain, OpenSource);
+
   TYPE Edge IS (None, Rising, Falling, Both);
 
   TYPE Polarity IS (ActiveLow, ActiveHigh);
@@ -34,7 +36,7 @@ PACKAGE GPIO.libsimpleio IS
 
   TYPE Pin IS ACCESS PinSubclass;
 
-  -- Constructor returning GPIO.libsimpleio.Pin
+  -- Constructor using old sysfs API, returning GPIO.libsimpleio.Pin
 
   FUNCTION Create
    (number   : Positive;
@@ -43,12 +45,34 @@ PACKAGE GPIO.libsimpleio IS
     edge     : GPIO.libsimpleio.Edge := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin;
 
-  -- Constructor returning GPIO.pin
+  -- Constructor using old sysfs API, returning GPIO.pin
 
   FUNCTION Create
    (number   : Positive;
     dir      : GPIO.Direction;
     state    : Boolean := False;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
+
+  -- Constructor using new gpiod API, returning GPIO.libsimpleio.Pin
+
+  FUNCTION Create
+   (chip     : Natural;
+    line     : Natural;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin;
+
+  -- Constructor using new gpiod API, returning GPIO.Pin
+
+  FUNCTION Create
+   (chip     : Natural;
+    line     : Natural;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
     edge     : GPIO.libsimpleio.Edge := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
 
@@ -64,15 +88,13 @@ PACKAGE GPIO.libsimpleio IS
 
   FUNCTION fd(self : PinSubclass) RETURN Integer;
 
-  Unused : CONSTANT PinSubclass;
-
 PRIVATE
 
+  TYPE API_Revisions IS (API_sysfs, API_gpiod);
+
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
-    num : Integer;
+    api : API_Revisions;
     fd  : Integer;
   END RECORD;
-
-  Unused : CONSTANT PinSubclass := PinSubclass'(-1, -1);
 
 END GPIO.libsimpleio;
