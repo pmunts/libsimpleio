@@ -72,7 +72,7 @@ extern void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags,
   int32_t *error);
 
 extern void GPIO_line_open(int32_t chip, int32_t line, int32_t flags,
-  int32_t state, int32_t *fd, int32_t *error);
+  int32_t events, int32_t state, int32_t *fd, int32_t *error);
 
 extern void GPIO_line_read(int32_t fd, int32_t *state, int32_t *error);
 

@@ -609,7 +609,7 @@ void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags, char *name,
     ERRORMSG("namelen argument is invalid", *error, __LINE__ - 3);
     return;
   }
-  
+
   if (consumer == NULL)
   {
     *error = EINVAL;
@@ -660,9 +660,47 @@ void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags, char *name,
 
   *error = 0;
 }
- 
+
+// Exhaustive list of valid handle request flag combinations
+
+static const bool ValidFlags[32] =
+{
+  false,  // 0x00
+  true,   // 0x01 -- INPUT
+  true,   // 0x02 -- OUTPUT
+  false,  // 0x03 -- INPUT|OUTPUT
+  false,  // 0x04 -- ACTIVE_LOW
+  true,   // 0x05 -- INPUT|ACTIVE_LOW
+  true,   // 0x06 -- OUTPUT|ACTIVE_LOW
+  false,  // 0x07 -- INPUT|OUTPUT|ACTIVELOW
+  false,  // 0x08 -- OPEN_DRAIN
+  false,  // 0x09 -- INPUT|OPEN_DRAIN
+  true,   // 0x0A -- OUTPUT|OPEN_DRAIN
+  false,  // 0x0B -- INPUT|OUTPUT|OPEN_DRAIN
+  false,  // 0x0C -- ACTIVE_LOW|OPEN_DRAIN
+  false,  // 0x0D -- INPUT|ACTIVE_LOW|OPEN_DRAIN
+  true,   // 0x0E -- OUTPUT|ACTIVE_LOW|OPEN_DRAIN
+  false,  // 0x0F -- INPUT|OUTPUT|ACTIVE_LOW|OPEN_DRAIN
+  false,  // 0x10 -- OPEN_SOURCE
+  false,  // 0x11 -- INPUT|OPEN_SOURCE
+  true,   // 0x12 -- OUTPUT|OPEN_SOURCE
+  false,  // 0x13 -- INPUT|OUTPUT|OPEN_SOURCE
+  false,  // 0x14 -- ACTIVE_LOW|OPEN_SOURCE
+  false,  // 0x15 -- INPUT|ACTIVE_LOW|OPEN_SOURCE
+  true,   // 0x16 -- OUTPUT_ACTIVE_LOW|OPEN_SOURCE
+  false,  // 0x17 -- INPUT|OUTPUT|ACTIVE_LOW|OPEN_SOURCE
+  false,  // 0x18 -- OPEN_DRAIN|OPEN_SOURCE
+  false,  // 0x19 -- INPUT|OPEN_DRAIN|OPEN_SOURCE
+  false,  // 0x1A -- OUTPUT|OPEN_DRAIN|OPEN_SOURCE
+  false,  // 0x1B -- INPUT|OUTPUT|OPEN_DRAIN|OPEN_SOURCE
+  false,  // 0x1C -- ACTIVE_LOW|OPEN_DRAIN|OPEN_SOURCE
+  false,  // 0x1D -- INPUT|ACTIVE_LOW|OPEN_DRAIN|OPEN_SOURCE
+  false,  // 0x1E -- OUTPUT|ACTIVE_LOW|OPEN_DRAIN|OPEN_SOURCE
+  false,  // 0x1F -- INPUT|OUTPUT|ACTIVE_LOW|OPEN_DRAIN|OPEN_SOURCE
+};
+
 void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t state,
-  int32_t *fd, int32_t *error)
+  int32_t events, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
@@ -682,10 +720,17 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t state,
     return;
   }
 
-  if (flags < 0)
+  if (flags & 0xFFFFFFE0)
   {
     *error = EINVAL;
     ERRORMSG("flags argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (!ValidFlags[flags])
+  {
+    *error = EINVAL;
+    ERRORMSG("flags argument is inconsistent", *error, __LINE__ - 3);
     return;
   }
 
@@ -693,6 +738,20 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t state,
   {
     *error = EINVAL;
     ERRORMSG("state argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (events & 0xFFFFFFFC)
+  {
+    *error = EINVAL;
+    ERRORMSG("events argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((flags & GPIOHANDLE_REQUEST_OUTPUT) && (events != 0))
+  {
+    *error = EINVAL;
+    ERRORMSG("flags and events are inconsistent", *error, __LINE__ - 3);
     return;
   }
 
@@ -718,26 +777,50 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t state,
     return;
   }
 
-  // Request GPIO line handle
-
-  struct gpiohandle_request req;
-  memset(&req, 0, sizeof(req));
-  req.lineoffsets[0] = line;
-  req.flags = flags;
-  req.default_values[0] = state;
-  req.lines = 1;
-
-  if (ioctl(chipfd, GPIO_GET_LINEHANDLE_IOCTL, &req) < 0)
+  if (events)
   {
-    *error = errno;
-    ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
-    close(chipfd);
-    return;
+    // Request GPIO event handle
+
+    struct gpioevent_request req;
+    memset(&req,  0, sizeof(req));
+    req.lineoffset = line;
+    req.handleflags = flags;
+    req.eventflags = events;
+
+    if (ioctl(chipfd, GPIO_GET_LINEEVENT_IOCTL, &req) < 0)
+    {
+      *error = errno;
+      ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
+      close(chipfd);
+      return;
+    }
+
+    *fd = req.fd;
+  }
+  else
+  {
+    // Request GPIO line handle
+
+    struct gpiohandle_request req;
+    memset(&req, 0, sizeof(req));
+    req.lineoffsets[0] = line;
+    req.flags = flags;
+    req.default_values[0] = state;
+    req.lines = 1;
+
+    if (ioctl(chipfd, GPIO_GET_LINEHANDLE_IOCTL, &req) < 0)
+    {
+      *error = errno;
+      ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
+      close(chipfd);
+      return;
+    }
+
+    *fd = req.fd;
   }
 
   close(chipfd);
 
-  *fd = req.fd;
   *error = 0;
 }
 
