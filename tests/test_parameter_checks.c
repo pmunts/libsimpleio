@@ -287,22 +287,142 @@ START_TEST(test_libgpiod)
   GPIO_line_info(0, 0, &flags, name, sizeof(name), label, sizeof(label)-1, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(-1, 0, GPIOHANDLE_REQUEST_INPUT, false, &fd, &error);
+  GPIO_line_open(-1, 0, GPIOHANDLE_REQUEST_INPUT, false, 0, &fd, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, -1, GPIOHANDLE_REQUEST_INPUT, false, &fd, &error);
+  GPIO_line_open(0, -1, GPIOHANDLE_REQUEST_INPUT, false, 0, &fd, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, -1, false, &fd, &error);
+  GPIO_line_open(0, 0, -1, false, 0, &fd, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, -1, &fd, &error);
+  GPIO_line_open(0, 0, 0x21, false, 0, &fd, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, 2, &fd, &error);
+  GPIO_line_open(0, 0, 0, false, 0, &fd, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, false, NULL, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT,
+    false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_ACTIVE_LOW,
+    false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
+    GPIOHANDLE_REQUEST_ACTIVE_LOW, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OPEN_DRAIN,
+    false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OPEN_DRAIN,
+    false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
+    GPIOHANDLE_REQUEST_OPEN_DRAIN, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_ACTIVE_LOW|
+    GPIOHANDLE_REQUEST_OPEN_DRAIN, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_ACTIVE_LOW|
+    GPIOHANDLE_REQUEST_OPEN_DRAIN, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
+    GPIOHANDLE_REQUEST_ACTIVE_LOW|GPIOHANDLE_REQUEST_OPEN_DRAIN, false, 0,
+    &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OPEN_SOURCE,
+    false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OPEN_SOURCE,
+    false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_ACTIVE_LOW|
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_ACTIVE_LOW|
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
+    GPIOHANDLE_REQUEST_ACTIVE_LOW|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
+    &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OPEN_DRAIN|
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OPEN_DRAIN|
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT|GPIOHANDLE_REQUEST_OPEN_DRAIN|
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
+    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
+    &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_ACTIVE_LOW|
+    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
+    &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_ACTIVE_LOW|
+    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
+    &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT|GPIOHANDLE_REQUEST_ACTIVE_LOW|
+    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
+    &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
+    GPIOHANDLE_REQUEST_ACTIVE_LOW|GPIOHANDLE_REQUEST_OPEN_DRAIN|
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, -1, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, 2, 0, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, false, -1, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, false, 4, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT, false, GPIOEVENT_REQUEST_RISING_EDGE, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT, false, GPIOEVENT_REQUEST_FALLING_EDGE, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT, false, GPIOEVENT_REQUEST_BOTH_EDGES, &fd, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, false, 0, NULL, &error);
   ck_assert(error == EINVAL);
 
   GPIO_line_read(-1, &state, &error);
