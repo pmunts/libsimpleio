@@ -24,6 +24,8 @@
 PACKAGE libGPIO IS
   PRAGMA Link_With("-lsimpleio");
 
+  -- Old GPIO pin number API
+
   DIRECTION_INPUT     : CONSTANT Integer := 0;
   DIRECTION_OUTPUT    : CONSTANT Integer := 1;
 
@@ -66,5 +68,73 @@ PACKAGE libGPIO IS
     state    : Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Write, "GPIO_write");
+
+  -- New GPIO descriptor API
+
+  LINE_INFO_KERNEL         : CONSTANT Integer := 16#0001#;
+  LINE_INFO_OUTPUT         : CONSTANT Integer := 16#0002#;
+  LINE_INFO_ACTIVE_LOW     : CONSTANT Integer := 16#0004#;
+  LINE_INFO_OPEN_DRAIN     : CONSTANT Integer := 16#0008#;
+  LINE_INFO_OPEN_SOURCE    : CONSTANT Integer := 16#0010#;
+
+  LINE_REQUEST_INPUT       : CONSTANT Integer := 16#0001#;
+  LINE_REQUEST_OUTPUT      : CONSTANT Integer := 16#0002#;
+  LINE_REQUEST_ACTIVE_HIGH : CONSTANT Integer := 16#0000#;
+  LINE_REQUEST_ACTIVE_LOW  : CONSTANT Integer := 16#0004#;
+  LINE_REQUEST_PUSH_PULL   : CONSTANT Integer := 16#0000#;
+  LINE_REQUEST_OPEN_DRAIN  : CONSTANT Integer := 16#0008#;
+  LINE_REQUEST_OPEN_SOURCE : CONSTANT Integer := 16#0010#;
+  LINE_REQUEST_NONE        : CONSTANT Integer := 16#0000#;
+  LINE_REQUEST_RISING      : CONSTANT Integer := 16#0001#;
+  LINE_REQUEST_FALLING     : CONSTANT Integer := 16#0002#;
+  LINE_REQUEST_BOTH        : CONSTANT Integer := 16#0003#;
+
+  PROCEDURE GetChipInfo
+   (chip      : Integer;
+    name      : OUT String;
+    namesize  : Integer;
+    label     : OUT String;
+    labelsize : Integer;
+    lines     : OUT Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, GetChipInfo, "GPIO_chip_info");
+
+  PROCEDURE GetLineInfo
+   (chip      : Integer;
+    line      : Integer;
+    flags     : OUT Integer;
+    name      : OUT String;
+    namesize  : Integer;
+    label     : OUT String;
+    labelsize : Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, GetLineInfo, "GPIO_line_info");
+
+  PROCEDURE LineOpen
+   (chip      : Integer;
+    line      : Integer;
+    flags     : Integer;
+    events    : Integer;
+    state     : integer;
+    fd        : OUT Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, LineOpen, "GPIO_line_open");
+
+  PROCEDURE LineClose
+   (fd        : Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, LineClose, "GPIO_line_close");
+
+  PROCEDURE LineRead
+   (fd        : Integer;
+    state     : OUT Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, LineRead, "GPIO_line_read");
+
+  PROCEDURE LineWrite
+   (fd        : Integer;
+    state     : Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, LineWrite, "GPIO_line_write");
 
 END libGPIO;
