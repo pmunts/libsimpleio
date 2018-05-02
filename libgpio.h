@@ -78,7 +78,7 @@ extern void GPIO_line_read(int32_t fd, int32_t *state, int32_t *error);
 
 extern void GPIO_line_write(int32_t fd, int32_t state, int32_t *error);
 
-extern void GPIO_line_event(int32_t fd, int32_t *event, int32_t *error);
+extern void GPIO_line_event(int32_t fd, int32_t *state, int32_t *error);
 
 extern void GPIO_line_close(int32_t fd, int32_t *error);
 

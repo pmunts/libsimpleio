@@ -889,11 +889,9 @@ void GPIO_line_write(int32_t fd, int32_t state, int32_t *error)
   *error = 0;
 }
 
-void GPIO_line_event(int32_t fd, int32_t *event, int32_t *error)
+void GPIO_line_event(int32_t fd, int32_t *state, int32_t *error)
 {
   assert(error != NULL);
-
-  *event = 0;
 
   // Validate parameters
 
@@ -904,7 +902,7 @@ void GPIO_line_event(int32_t fd, int32_t *event, int32_t *error)
     return;
   }
 
-  if (event == NULL)
+  if (state == NULL)
   {
     *error = EINVAL;
     ERRORMSG("event argument is NULL", *error, __LINE__ - 3);
@@ -917,11 +915,27 @@ void GPIO_line_event(int32_t fd, int32_t *event, int32_t *error)
 
   if (read(fd, &data, sizeof(data)) != sizeof(data))
   {
-    *error = errno;
+    *error = EIO;
     ERRORMSG("read() failed", *error, __LINE__ - 3);
     return;
   }
 
-  *event = data.id;
-  *error = 0;
+  // Decode result
+
+  switch (data.id)
+  {
+    case GPIOEVENT_EVENT_RISING_EDGE:
+      *state = true;
+      *error = 0;
+      break;
+
+    case GPIOEVENT_EVENT_FALLING_EDGE:
+      *state = false;
+      *error = 0;
+      break;
+
+    default:
+      *error = EIO;
+      break;
+  }
 }
