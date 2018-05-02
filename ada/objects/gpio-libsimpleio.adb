@@ -54,7 +54,7 @@ PACKAGE BODY GPIO.libsimpleio IS
       RAISE GPIO_Error WITH "libGPIO.Open() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN NEW PinSubclass'(API_sysfs, fd);
+    RETURN NEW PinSubclass'(sysfs, fd);
   END Create;
 
   -- Constructor using old sysfs API, returning GPIO.pin
@@ -116,7 +116,11 @@ PACKAGE BODY GPIO.libsimpleio IS
       RAISE GPIO_Error WITH "libGPIO.LineOpen() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN NEW PinSubclass'(API_gpiod, fd);
+    IF edge > None THEN
+      RETURN NEW PinSubclass'(gpiod_interrupt, fd);
+    ELSE
+      RETURN NEW PinSubclass'(gpiod, fd);
+    END IF;
   END Create;
 
   -- Constructor using new gpiod API, returning GPIO.Pin
@@ -142,8 +146,8 @@ PACKAGE BODY GPIO.libsimpleio IS
     error : Integer;
 
   BEGIN
-    CASE self.api IS
-      WHEN API_sysfs =>
+    CASE self.kind IS
+      WHEN sysfs =>
         libGPIO.Read(self.fd, state, error);
 
         IF error /= 0 THEN
@@ -151,11 +155,19 @@ PACKAGE BODY GPIO.libsimpleio IS
             errno.strerror(error);
         END IF;
 
-      WHEN API_gpiod =>
+      WHEN gpiod =>
         libGPIO.LineRead(self.fd, state, error);
 
         IF error /= 0 THEN
           RAISE GPIO_Error WITH "libGPIO.LineRead() failed, " &
+            errno.strerror(error);
+        END IF;
+
+      WHEN gpiod_interrupt =>
+        libGPIO.LineEvent(self.fd, state, error);
+
+        IF error /= 0 THEN
+          RAISE GPIO_Error WITH "libGPIO.LineEvent() failed, " &
             errno.strerror(error);
         END IF;
     END CASE;
@@ -170,20 +182,23 @@ PACKAGE BODY GPIO.libsimpleio IS
     error : Integer;
 
   BEGIN
-    CASE self.api IS
-      WHEN API_sysfs =>
+    CASE self.kind IS
+      WHEN sysfs =>
         libGPIO.Write(self.fd, Boolean'Pos(state), error);
 
         IF error /= 0 THEN
           RAISE GPIO_Error WITH "libGPIO.Write() failed, " & errno.strerror(error);
         END IF;
 
-      WHEN API_gpiod =>
+      WHEN gpiod =>
         libGPIO.LineWrite(self.fd, Boolean'Pos(state), error);
 
         IF error /= 0 THEN
           RAISE GPIO_Error WITH "libGPIO.LineWrite() failed, " & errno.strerror(error);
         END IF;
+
+      WHEN gpiod_interrupt =>
+        RAISE GPIO_Error WITH "Cannot write to an interrupt input";
     END CASE;
   END Put;
 

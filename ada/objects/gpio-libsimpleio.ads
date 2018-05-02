@@ -90,11 +90,11 @@ PACKAGE GPIO.libsimpleio IS
 
 PRIVATE
 
-  TYPE API_Revisions IS (API_sysfs, API_gpiod);
+  TYPE Kinds IS (sysfs, gpiod, gpiod_interrupt);
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
-    api : API_Revisions;
-    fd  : Integer;
+    kind : Kinds;
+    fd   : Integer;
   END RECORD;
 
 END GPIO.libsimpleio;
