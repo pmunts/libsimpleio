@@ -888,3 +888,40 @@ void GPIO_line_write(int32_t fd, int32_t state, int32_t *error)
 
   *error = 0;
 }
+
+void GPIO_line_event(int32_t fd, int32_t *event, int32_t *error)
+{
+  assert(error != NULL);
+
+  *event = 0;
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (event == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("event argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Read event data structure
+
+  struct gpioevent_data data;
+
+  if (read(fd, &data, sizeof(data)) != sizeof(data))
+  {
+    *error = errno;
+    ERRORMSG("read() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *event = data.id;
+  *error = 0;
+}

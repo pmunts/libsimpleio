@@ -27,8 +27,6 @@
 #include <stdint.h>
 #include <linux/gpio.h>
 
-// Old GPIO sysfs API:
-
 typedef enum
 {
   GPIO_DIRECTION_INPUT,
@@ -50,6 +48,8 @@ typedef enum
 } GPIO_POLARITY_t;
 
 _BEGIN_STD_C
+
+// Old GPIO sysfs API:
 
 extern void GPIO_configure(int32_t pin, int32_t direction, int32_t state,
   int32_t edge, int32_t polarity, int32_t *error);
@@ -77,6 +77,8 @@ extern void GPIO_line_open(int32_t chip, int32_t line, int32_t flags,
 extern void GPIO_line_read(int32_t fd, int32_t *state, int32_t *error);
 
 extern void GPIO_line_write(int32_t fd, int32_t state, int32_t *error);
+
+extern void GPIO_line_event(int32_t fd, int32_t *event, int32_t *error);
 
 extern void GPIO_line_close(int32_t fd, int32_t *error);
 
