@@ -84,6 +84,7 @@ PACKAGE libGPIO IS
   LINE_REQUEST_PUSH_PULL   : CONSTANT Integer := 16#0000#;
   LINE_REQUEST_OPEN_DRAIN  : CONSTANT Integer := 16#0008#;
   LINE_REQUEST_OPEN_SOURCE : CONSTANT Integer := 16#0010#;
+
   LINE_REQUEST_NONE        : CONSTANT Integer := 16#0000#;
   LINE_REQUEST_RISING      : CONSTANT Integer := 16#0001#;
   LINE_REQUEST_FALLING     : CONSTANT Integer := 16#0002#;
@@ -115,7 +116,7 @@ PACKAGE libGPIO IS
     line      : Integer;
     flags     : Integer;
     events    : Integer;
-    state     : integer;
+    state     : Integer;
     fd        : OUT Integer;
     error     : OUT Integer);
   PRAGMA Import(C, LineOpen, "GPIO_line_open");
