@@ -137,4 +137,10 @@ PACKAGE libGPIO IS
     error     : OUT Integer);
   PRAGMA Import(C, LineWrite, "GPIO_line_write");
 
+  PROCEDURE LineEvent
+   (fd        : Integer;
+    state     : OUT Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, LineEvent, "GPIO_line_event");
+
 END libGPIO;
