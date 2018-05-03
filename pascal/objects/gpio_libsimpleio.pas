@@ -28,14 +28,34 @@ INTERFACE
     GPIO;
 
   TYPE
-    Edges = (None, Rising, Falling, Both);
+    Designator = RECORD
+      chip : Integer;
+      line : Integer;
+    END;
+
+    Drivers = (PushPull, OpenDrain, OpenSource);
 
     Polarities = (ActiveLow, ActiveHigh);
 
+    Edges = (None, Rising, Falling, Both);
+
     PinSubclass = CLASS(TInterfacedObject, GPIO.Pin)
-      CONSTRUCTOR Create(num : Integer; dir : Direction;
-        state : Boolean = False; edge : Edges = None;
-        polarity : Polarities = ActiveHigh);
+      CONSTRUCTOR Create
+       (pin      : Designator;
+        dir      : Direction;
+        state    : Boolean = False;
+        driver   : Drivers = PushPull;
+        polarity : Polarities = ActiveHigh;
+        edge     : Edges = None);
+
+      CONSTRUCTOR Create
+       (chip     : Integer;
+        line     : Integer;
+        dir      : Direction;
+        state    : Boolean = False;
+        driver   : Drivers = PushPull;
+        polarity : Polarities = ActiveHigh;
+        edge     : Edges = None);
 
       DESTRUCTOR Destroy; OVERRIDE;
 
@@ -45,7 +65,8 @@ INTERFACE
 
       PROPERTY state : Boolean READ ReadState WRITE WriteState;
     PRIVATE
-      fd : Integer;
+      fd  : Integer;
+      int : Boolean;
     END;
 
 IMPLEMENTATION
@@ -54,32 +75,91 @@ IMPLEMENTATION
     errno,
     libGPIO;
 
-  { GPIO_libsimpleio.PinSubclass constructor }
+  PROCEDURE ComputeFlags
+   (dir        : Direction;
+    driver     : Drivers;
+    polarity   : Polarities;
+    edge       : Edges;
+    VAR flags  : Integer;
+    VAR events : integer);
 
-  CONSTRUCTOR PinSubclass.Create(num : Integer; dir : Direction;
-    state : Boolean; edge : Edges; polarity : Polarities);
+  BEGIN
+    CASE dir OF
+      GPIO.Input  : flags := LINE_REQUEST_INPUT;
+      GPIO.Output : flags := LINE_REQUEST_OUTPUT;
+    END;
+
+    CASE driver OF
+      PushPull    : flags := flags OR LINE_REQUEST_PUSH_PULL;
+      OpenDrain   : flags := flags OR LINE_REQUEST_OPEN_DRAIN;
+      OpenSource  : flags := flags OR LINE_REQUEST_OPEN_SOURCE;
+    END;
+
+    CASE polarity OF
+      ActiveHigh  : flags := flags OR LINE_REQUEST_ACTIVE_HIGH;
+      ActiveLow   : flags := flags OR LINE_REQUEST_ACTIVE_LOW;
+    END;
+
+    CASE edge OF
+      None        : events := LINE_REQUEST_NONE;
+      Rising      : events := LINE_REQUEST_RISING;
+      Falling     : events := LINE_REQUEST_FALLING;
+      Both        : events := LINE_REQUEST_BOTH;
+    END;
+  END;
+
+  { GPIO_libsimpleio.PinSubclass constructors }
+
+  CONSTRUCTOR PinSubclass.Create
+   (pin      : Designator;
+    dir      : Direction;
+    state    : Boolean;
+    driver   : Drivers;
+    polarity : Polarities;
+    edge     : Edges);
 
   VAR
+    flags  : Integer;
+    events : Integer;
     error  : Integer;
 
   BEGIN
+    ComputeFlags(dir, driver, polarity, edge, flags, events);
 
-    { Configure the GPIO pin }
-
-    libGPIO.Configure(num, Ord(dir), Ord(State), Ord(edge), ord(polarity),
-      error);
+    libGPIO.LineOpen(pin.chip, pin.line, flags, events, Ord(state),
+      Self.fd, error);
 
     IF error <> 0 THEN
       RAISE GPIO_Error.create('ERROR: libGPIO.Configure() failed, ' +
         strerror(error));
 
-    { Open the GPIO pin device node }
+    Self.int := (Edge <> None);
+  END;
 
-    libGPIO.Open(num, Self.fd, error);
+  CONSTRUCTOR PinSubclass.Create
+   (chip     : Integer;
+    line     : Integer;
+    dir      : Direction;
+    state    : Boolean = False;
+    driver   : Drivers = PushPull;
+    polarity : Polarities = ActiveHigh;
+    edge     : Edges = None);
+
+  VAR
+    flags  : Integer;
+    events : Integer;
+    error  : Integer;
+
+  BEGIN
+    ComputeFlags(dir, driver, polarity, edge, flags, events);
+
+    libGPIO.LineOpen(chip, line, flags, events, Ord(state), Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE GPIO_Error.create('ERROR: libGPIO.Open() failed, ' +
+      RAISE GPIO_Error.create('ERROR: libGPIO.Configure() failed, ' +
         strerror(error));
+
+    Self.int := (edge <> None);
   END;
 
   { GPIO_libsimpleio.PinSubclass destructor }
@@ -111,11 +191,22 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-    libGPIO.Read(Self.fd, s, error);
+    IF Self.int THEN
+      BEGIN
+        libGPIO.LineEvent(Self.fd, s, error);
 
-    IF error <> 0 THEN
-      RAISE GPIO_Error.create('ERROR: libGPIO.read() failed, ' +
-        strerror(error));
+        IF error <> 0 THEN
+          RAISE GPIO_Error.create('ERROR: libGPIO.LineEvent() failed, ' +
+            strerror(error))
+      END
+    ELSE
+      BEGIN
+        libGPIO.LineRead(Self.fd, s, error);
+
+        IF error <> 0 THEN
+          RAISE GPIO_Error.create('ERROR: libGPIO.LineRead() failed, ' +
+            strerror(error))
+      END;
 
     ReadState := Boolean(s);
   END;
@@ -128,6 +219,9 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
+    IF Self.int THEN
+      RAISE GPIO_Error.create('ERROR: Cannot write to interrupt input');
+
     libGPIO.Write(Self.fd, Ord(state), error);
 
     IF error <> 0 THEN

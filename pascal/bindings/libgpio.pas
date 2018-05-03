@@ -24,6 +24,8 @@ UNIT libGPIO;
 
 INTERFACE
 
+  { Old GPIO sysfs API }
+
   CONST
     DIRECTION_INPUT     = 0;
     DIRECTION_OUTPUT    = 1;
@@ -62,6 +64,75 @@ INTERFACE
    (fd        : Integer;
     state     : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_write';
+
+  { New GPIO descriptor API }
+
+  CONST
+    LINE_INFO_KERNEL         = $0001;
+    LINE_INFO_OUTPUT         = $0002;
+    LINE_INFO_ACTIVE_LOW     = $0004;
+    LINE_INFO_OPEN_DRAIN     = $0008;
+    LINE_INFO_OPEN_SOURCE    = $0010;
+
+    LINE_REQUEST_INPUT       = $0001;
+    LINE_REQUEST_OUTPUT      = $0002;
+    LINE_REQUEST_ACTIVE_HIGH = $0000;
+    LINE_REQUEST_ACTIVE_LOW  = $0004;
+    LINE_REQUEST_PUSH_PULL   = $0000;
+    LINE_REQUEST_OPEN_DRAIN  = $0008;
+    LINE_REQUEST_OPEN_SOURCE = $0010;
+
+    LINE_REQUEST_NONE        = $0000;
+    LINE_REQUEST_RISING      = $0001;
+    LINE_REQUEST_FALLING     = $0002;
+    LINE_REQUEST_BOTH        = $0003;
+
+  PROCEDURE ChipInfo
+   (chip      : Integer;
+    name      : PChar;
+    namelen   : Integer;
+    slabel    : PChar;
+    labellen  : Integer;
+    VAR lines : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_chip_info';
+
+  PROCEDURE LineInfo
+   (chip      : Integer;
+    line      : Integer;
+    VAR flags : Integer;
+    name      : PChar;
+    namelen   : Integer;
+    consumer  : PChar;
+    consumerlen : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_line_info';
+ 
+  PROCEDURE LineOpen
+   (chip      : Integer;
+    line      : Integer;
+    flags     : Integer;
+    events    : Integer;
+    state     : Integer;
+    VAR fd    : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_line_open';
+
+  PROCEDURE LineRead
+   (fd        : Integer;
+    VAR state : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_line_read';
+
+  PROCEDURE LineWrite
+   (fd        : Integer;
+    state     : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_line_write';
+
+  PROCEDURE LineEvent
+   (fd        : Integer;
+    VAR state : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_line_event';
+
+  PROCEDURE LineClose
+   (fd        : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_line_close';
 
 IMPLEMENTATION
 
