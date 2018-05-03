@@ -28,11 +28,23 @@
 
 namespace libsimpleio::GPIO
 {
+  typedef struct
+  {
+    unsigned chip;
+    unsigned line;
+  } Designator;
+
   struct Pin_Class: public Interfaces::GPIO::Pin_Interface
   {
-    Pin_Class(unsigned pin, unsigned direction, bool state = false,
-      unsigned edge = GPIO_EDGE_NONE,
-      unsigned polarity = GPIO_POLARITY_ACTIVEHIGH);
+    Pin_Class(unsigned chip, unsigned line, unsigned direction,
+      bool state = false, unsigned driver = GPIO_DRIVER_PUSHPULL,
+      unsigned polarity = GPIO_POLARITY_ACTIVEHIGH,
+      unsigned edge = GPIO_EDGE_NONE);
+
+    Pin_Class(Designator pin, unsigned direction,
+      bool state = false, unsigned driver = GPIO_DRIVER_PUSHPULL,
+      unsigned polarity = GPIO_POLARITY_ACTIVEHIGH,
+      unsigned edge = GPIO_EDGE_NONE);
 
     // GPIO methods
 
@@ -43,6 +55,7 @@ namespace libsimpleio::GPIO
   private:
 
     int fd;
+    bool interrupt;
   };
 }
 

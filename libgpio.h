@@ -71,6 +71,10 @@ extern void GPIO_close(int32_t fd, int32_t *error);
 
 // New GPIO descriptor API:
 
+#define GPIOHANDLE_REQUEST_ACTIVE_HIGH	0
+#define GPIOHANDLE_REQUEST_PUSH_PULL	0
+#define GPIOEVENT_REQUEST_NONE		0
+
 extern void GPIO_chip_info(int32_t chip, char *name, int32_t namelen,
   char *label, int32_t labellen, int32_t *lines, int32_t *error);
 
