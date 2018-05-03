@@ -446,6 +446,15 @@ START_TEST(test_libgpiod)
   GPIO_line_write(0, 2, &error);
   ck_assert(error == EINVAL);
 
+  GPIO_line_event(-1, &state, &error);
+  ck_assert(error == EINVAL);
+
+  GPIO_line_event(999, &state, &error);
+  ck_assert(error == EIO);
+
+  GPIO_line_event(0, NULL, &error);
+  ck_assert(error == EINVAL);
+
   GPIO_line_close(-1, &error);
   ck_assert(error == EINVAL);
 
