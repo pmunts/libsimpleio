@@ -39,6 +39,21 @@ namespace IO.Bindings.libsimpleio
         public const int DIRECTION_OUTPUT = 1;
 
         /// <summary>
+        /// Push-pull (source and sink) output driver.
+        /// </summary>
+        public const int DRIVER_PUSHPULL = 0;
+
+        /// <summary>
+        /// Open drain (sink only) output driver.
+        /// </summary>
+        public const int DRIVER_OPENDRAIN = 1;
+
+        /// <summary>
+        /// Open source (source only) output driver
+        /// </summary>
+        public const int DRIVER_OPENSOURCE = 2;
+
+        /// <summary>
         /// Interrupts are disabled.
         /// </summary>
         public const int EDGE_NONE = 0;
@@ -63,6 +78,8 @@ namespace IO.Bindings.libsimpleio
         /// Active high (normal) polarity.
         /// </summary>
         public const int POLARITY_ACTIVEHIGH = 1;
+
+        // Old GPIO sysfs API:
 
         /// <summary>
         /// Configure a Linux GPIO pin.
@@ -117,5 +134,98 @@ namespace IO.Bindings.libsimpleio
         /// value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void GPIO_close(int fd, out int error);
+
+        // New GPIO descriptor API:
+
+        /// <summary>
+        /// Get GPIO chip information.
+        /// </summary>
+        /// <param name="chip">GPIO chip number.</param>
+        /// <param name="name">GPIO chip name.</param>
+        /// <param name="namesize">Maximum size of name.</param>
+        /// <param name="label">GPIO chip label.</param>
+        /// <param name="labelsize">Maximum size of label.</param>
+        /// <param name="lines">Number of GPIO lines.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void GPIO_chip_info(int chip,
+            System.Text.StringBuilder name, int namesize,
+            System.Text.StringBuilder label, int labelsize,
+            out int lines, out int error);
+
+        /// <summary>
+        /// Get GPIO line information.
+        /// </summary>
+        /// <param name="chip">GPIO chip number.</param>
+        /// <param name="line">GPIO line number.</param>
+        /// <param name="name">GPIO line name.</param>
+        /// <param name="namesize">Maximum size of name.</param>
+        /// <param name="label">GPIO line label.</param>
+        /// <param name="labelsize">Maximum size of label.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void GPIO_line_info(int chip, int line,
+            System.Text.StringBuilder name, int namesize,
+            System.Text.StringBuilder label, int labelsize, out int error);
+
+        /// <summary>
+        /// Open a single GPIO line.
+        /// </summary>
+        /// <param name="chip">GPIO chip number.</param>
+        /// <param name="line">GPIO line number.</param>
+        /// <param name="flags">GPIO line configuration flags.</param>
+        /// <param name="events">GPIO line event flags.</param>
+        /// <param name="state">GPIO initial output state.</param>
+        /// <param name="fd">Linux file descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void GPIO_line_open(int chip, int line, int flags,
+            int events, int state, out int fd, out int error);
+
+        /// <summary>
+        /// Read the state of a single GPIO line.
+        /// </summary>
+        /// <param name="fd">Linux file descriptor.</param>
+        /// <param name="state">State of the GPIO line.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void GPIO_line_read(int fd, out int state,
+            out int error);
+
+        /// <summary>
+        /// Write the state of a single GPIO line.
+        /// </summary>
+        /// <param name="fd">Linux file descriptor.</param>
+        /// <param name="state">State of the GPIO line.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void GPIO_line_write(int fd, int state,
+            out int error);
+
+        /// <summary>
+        /// Read an edge trigger event from single GPIO line.
+        /// </summary>
+        /// <param name="fd">Linux file descriptor.</param>
+        /// <param name="state">State of the GPIO line after the edge trigger
+        /// event.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void GPIO_line_event(int fd, out int state,
+            out int error);
+
+        /// <summary>
+        /// Close a single GPIO line.
+        /// </summary>
+        /// <param name="fd">Linux file descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void GPIO_line_close(int fd, out int error);
     }
 }
