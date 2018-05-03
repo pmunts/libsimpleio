@@ -76,8 +76,10 @@ INTERFACE
 
     LINE_REQUEST_INPUT       = $0001;
     LINE_REQUEST_OUTPUT      = $0002;
+
     LINE_REQUEST_ACTIVE_HIGH = $0000;
     LINE_REQUEST_ACTIVE_LOW  = $0004;
+
     LINE_REQUEST_PUSH_PULL   = $0000;
     LINE_REQUEST_OPEN_DRAIN  = $0008;
     LINE_REQUEST_OPEN_SOURCE = $0010;
@@ -105,7 +107,7 @@ INTERFACE
     consumer  : PChar;
     consumerlen : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_line_info';
- 
+
   PROCEDURE LineOpen
    (chip      : Integer;
     line      : Integer;
