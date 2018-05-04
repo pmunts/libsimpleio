@@ -29,8 +29,8 @@ INTERFACE
 
   TYPE
     Designator = RECORD
-      chip : Integer;
-      line : Integer;
+      chip : Cardinal;
+      line : Cardinal;
     END;
 
     Drivers = (PushPull, OpenDrain, OpenSource);
@@ -49,8 +49,8 @@ INTERFACE
         edge     : Edges = None);
 
       CONSTRUCTOR Create
-       (chip     : Integer;
-        line     : Integer;
+       (chip     : Cardinal;
+        line     : Cardinal;
         dir      : Direction;
         state    : Boolean = False;
         driver   : Drivers = PushPull;
@@ -68,6 +68,9 @@ INTERFACE
       fd  : Integer;
       int : Boolean;
     END;
+
+  CONST
+    Unavailable : Designator = (chip : High(Cardinal); line : High(Cardinal));
 
 IMPLEMENTATION
 
@@ -124,6 +127,9 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
+    IF (pin.chip = Unavailable.chip) OR (pin.line = Unavailable.line) THEN
+      RAISE GPIO_Error.create('ERROR: GPIO designator is invalid');
+
     ComputeFlags(dir, driver, polarity, edge, flags, events);
 
     libGPIO.LineOpen(pin.chip, pin.line, flags, events, Ord(state),
@@ -137,8 +143,8 @@ IMPLEMENTATION
   END;
 
   CONSTRUCTOR PinSubclass.Create
-   (chip     : Integer;
-    line     : Integer;
+   (chip     : Cardinal;
+    line     : Cardinal;
     dir      : Direction;
     state    : Boolean = False;
     driver   : Drivers = PushPull;
