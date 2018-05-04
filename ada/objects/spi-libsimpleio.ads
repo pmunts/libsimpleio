@@ -20,9 +20,12 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH GPIO.libsimpleio;
+
 PACKAGE SPI.libsimpleio IS
 
-  AUTOCHIPSELECT : CONSTANT Natural := 0;
+  AUTOCHIPSELECT : CONSTANT GPIO.libsimpleio.Designator :=
+    GPIO.libsimpleio.Unavailable;
 
   TYPE DeviceSubclass IS NEW SPI.DeviceInterface WITH PRIVATE;
 
@@ -33,7 +36,7 @@ PACKAGE SPI.libsimpleio IS
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;
-    cspin    : Natural := AUTOCHIPSELECT) RETURN SPI.Device;
+    cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT) RETURN SPI.Device;
 
   -- Write only SPI bus cycle method
 

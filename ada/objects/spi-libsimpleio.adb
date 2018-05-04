@@ -23,8 +23,11 @@
 WITH System;
 
 WITH errno;
+WITH GPIO.libsimpleio;
 WITH libGPIO;
 WITH libSPI;
+
+USE TYPE GPIO.libsimpleio.Designator;
 
 PACKAGE BODY SPI.libsimpleio IS
 
@@ -35,7 +38,7 @@ PACKAGE BODY SPI.libsimpleio IS
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;
-    cspin    : Natural := AUTOCHIPSELECT) RETURN SPI.Device IS
+    cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT) RETURN SPI.Device IS
 
     fd       : Integer;
     fdcs     : Integer;
@@ -51,17 +54,12 @@ PACKAGE BODY SPI.libsimpleio IS
     IF cspin = AUTOCHIPSELECT THEN
       fdcs := libSPI.SPI_AUTO_CS;
     ELSE
-      libGPIO.Configure(cspin, libGPIO.DIRECTION_OUTPUT, 1, libGPIO.EDGE_NONE,
-        libGPIO.POLARITY_ACTIVEHIGH, error);
+      libGPIO.LineOpen(cspin.chip, cspin.line, libGPIO.LINE_REQUEST_OUTPUT +
+        libGPIO.LINE_REQUEST_ACTIVE_HIGH + libGPIO.LINE_REQUEST_PUSH_PULL,
+        libGPIO.LINE_REQUEST_NONE, 1, fdcs, error);
 
       IF error /= 0 THEN
-        RAISE SPI_Error WITH "libsimpleio.GPIO.Configure() failed, " & errno.strerror(error);
-      END IF;
-
-      libGPIO.Open(cspin, fdcs, error);
-
-      IF error /= 0 THEN
-        RAISE SPI_Error WITH "libsimpleio.GPIO.Open() failed, " & errno.strerror(error);
+        RAISE SPI_Error WITH "libGPIO.LineOpen() failed, " & errno.strerror(error);
       END IF;
     END IF;
 
