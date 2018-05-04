@@ -65,6 +65,8 @@ libsimpleio::GPIO::Pin_Class::Pin_Class(libsimpleio::GPIO::Designator pin,
 
   // Validate parameters
 
+  if (pin.chip == libsimpleio::GPIO::Unavailable.chip) throw EINVAL;
+  if (pin.line == libsimpleio::GPIO::Unavailable.line) throw EINVAL;
   if (direction > GPIO_DIRECTION_OUTPUT) throw EINVAL;
   if (driver > GPIO_DRIVER_OPEN_SOURCE) throw EINVAL;
   if (polarity > GPIO_POLARITY_ACTIVEHIGH) throw EINVAL;

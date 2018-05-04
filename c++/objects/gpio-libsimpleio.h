@@ -23,6 +23,7 @@
 #ifndef _GPIO_LIBSIMPLEIO_H
 #define _GPIO_LIBSIMPLEIO_H
 
+#include <climits>
 #include <gpio-interface.h>
 #include <libgpio.h>
 
@@ -33,6 +34,8 @@ namespace libsimpleio::GPIO
     unsigned chip;
     unsigned line;
   } Designator;
+
+  const Designator Unavailable = { UINT_MAX, UINT_MAX };
 
   struct Pin_Class: public Interfaces::GPIO::Pin_Interface
   {
