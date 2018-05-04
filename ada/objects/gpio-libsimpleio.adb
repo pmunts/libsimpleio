@@ -138,6 +138,34 @@ PACKAGE BODY GPIO.libsimpleio IS
     RETURN GPIO.Pin(Pin'(Create(chip, line, dir, state, driver, edge, polarity)));
   END Create;
 
+  -- Constructor using new gpiod API, returning GPIO.libsimpleio.Pin
+
+  FUNCTION Create
+   (desg     : Designator;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin IS
+
+  BEGIN
+    RETURN Create(desg.chip, desg.line, dir, state, driver, edge, polarity);
+  END Create;
+
+  -- Constructor using new gpiod API, returning GPIO.Pin
+
+  FUNCTION Create
+   (desg     : Designator;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin IS
+
+  BEGIN
+    RETURN Create(desg.chip, desg.line, dir, state, driver, edge, polarity);
+  END Create;
+
   -- Read GPIO pin state
 
   FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS

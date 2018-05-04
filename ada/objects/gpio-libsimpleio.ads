@@ -26,6 +26,11 @@ PACKAGE GPIO.libsimpleio IS
 
   -- Type definitions
 
+  TYPE Designator IS RECORD
+    chip : Natural;
+    line : Natural;
+  END RECORD;
+
   TYPE Driver IS (PushPull, OpenDrain, OpenSource);
 
   TYPE Edge IS (None, Rising, Falling, Both);
@@ -70,6 +75,26 @@ PACKAGE GPIO.libsimpleio IS
   FUNCTION Create
    (chip     : Natural;
     line     : Natural;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
+
+  -- Constructor using new gpiod API, returning GPIO.libsimpleio.Pin
+
+  FUNCTION Create
+   (desg     : Designator;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin;
+
+  -- Constructor using new gpiod API, returning GPIO.Pin
+
+  FUNCTION Create
+   (desg     : Designator;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
