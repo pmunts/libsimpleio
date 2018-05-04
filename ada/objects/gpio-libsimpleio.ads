@@ -113,6 +113,10 @@ PACKAGE GPIO.libsimpleio IS
 
   FUNCTION fd(self : PinSubclass) RETURN Integer;
 
+  -- Define a constant designator for unavailable GPIO pins
+
+  Unavailable : CONSTANT Designator := (16#7FFFFFFF#, 16#7FFFFFFF#);
+
 PRIVATE
 
   TYPE Kinds IS (sysfs, gpiod, gpiod_interrupt);

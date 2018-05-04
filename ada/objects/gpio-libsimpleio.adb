@@ -149,6 +149,10 @@ PACKAGE BODY GPIO.libsimpleio IS
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin IS
 
   BEGIN
+    IF desg = Unavailable THEN
+      RAISE GPIO_Error WITH "GPIO pin is not available";
+    END IF;
+
     RETURN Create(desg.chip, desg.line, dir, state, driver, edge, polarity);
   END Create;
 
@@ -163,6 +167,10 @@ PACKAGE BODY GPIO.libsimpleio IS
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin IS
 
   BEGIN
+    IF desg = Unavailable THEN
+      RAISE GPIO_Error WITH "GPIO pin is not available";
+    END IF;
+
     RETURN Create(desg.chip, desg.line, dir, state, driver, edge, polarity);
   END Create;
 
