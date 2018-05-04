@@ -28,49 +28,7 @@ WITH libGPIO;
 
 PACKAGE BODY GPIO.libsimpleio IS
 
-  -- Constructor using old sysfs API, returning GPIO.libsimpleio.Pin
-
-  FUNCTION Create
-   (number   : Positive;
-    dir      : Direction;
-    state    : Boolean := False;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.libsimpleio.Pin IS
-
-    fd       : Integer;
-    error    : Integer;
-
-  BEGIN
-    libGPIO.Configure(number, Direction'Pos(dir), Boolean'Pos(state),
-      GPIO.libsimpleio.Edge'Pos(edge), GPIO.libsimpleio.Polarity'Pos(polarity), error);
-
-    IF error /= 0 THEN
-      RAISE GPIO_Error WITH "libGPIO.Configure() failed, " & errno.strerror(error);
-    END IF;
-
-    libGPIO.Open(number, fd, error);
-
-    IF error /= 0 THEN
-      RAISE GPIO_Error WITH "libGPIO.Open() failed, " & errno.strerror(error);
-    END IF;
-
-    RETURN NEW PinSubclass'(sysfs, fd);
-  END Create;
-
-  -- Constructor using old sysfs API, returning GPIO.pin
-
-  FUNCTION Create
-   (number   : Positive;
-    dir      : Direction;
-    state    : Boolean := False;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin IS
-
-  BEGIN
-    RETURN GPIO.Pin(Pin'(Create(number, dir, state, edge, polarity)));
-  END Create;
-
-  -- Constructor using new gpiod API, returning GPIO.libsimpleio.Pin
+  -- Constructors returning GPIO.libsimpleio.Pin
 
   FUNCTION Create
    (chip     : Natural;
@@ -83,10 +41,15 @@ PACKAGE BODY GPIO.libsimpleio IS
 
     flags  : Integer;
     events : Integer;
+    kind   : Kinds;
     fd     : Integer;
     error  : Integer;
 
   BEGIN
+    IF (chip = Unavailable.chip) OR (line = Unavailable.line) THEN
+      RAISE GPIO_Error WITH "Invalid GPIO designator";
+    END IF;
+
     CASE dir IS
       WHEN GPIO.Input  => flags := libGPIO.LINE_REQUEST_INPUT;
       WHEN GPIO.Output => flags := libGPIO.LINE_REQUEST_OUTPUT;
@@ -116,14 +79,30 @@ PACKAGE BODY GPIO.libsimpleio IS
       RAISE GPIO_Error WITH "libGPIO.LineOpen() failed, " & errno.strerror(error);
     END IF;
 
-    IF edge > None THEN
-      RETURN NEW PinSubclass'(gpiod_interrupt, fd);
+    IF dir = GPIO.Output THEN
+      kind := output;
+    ELSIF edge = None THEN
+      kind := input;
     ELSE
-      RETURN NEW PinSubclass'(gpiod, fd);
+      kind := interrupt;
     END IF;
+
+    RETURN NEW PinSubclass'(kind, fd);
   END Create;
 
-  -- Constructor using new gpiod API, returning GPIO.Pin
+  FUNCTION Create
+   (desg     : Designator;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin IS
+
+  BEGIN
+    RETURN Create(desg.chip, desg.line, dir, state, driver, edge, polarity);
+  END Create;
+
+  -- Constructors returning GPIO.Pin
 
   FUNCTION Create
    (chip     : Natural;
@@ -138,26 +117,6 @@ PACKAGE BODY GPIO.libsimpleio IS
     RETURN GPIO.Pin(Pin'(Create(chip, line, dir, state, driver, edge, polarity)));
   END Create;
 
-  -- Constructor using new gpiod API, returning GPIO.libsimpleio.Pin
-
-  FUNCTION Create
-   (desg     : Designator;
-    dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin IS
-
-  BEGIN
-    IF desg = Unavailable THEN
-      RAISE GPIO_Error WITH "GPIO pin is not available";
-    END IF;
-
-    RETURN Create(desg.chip, desg.line, dir, state, driver, edge, polarity);
-  END Create;
-
-  -- Constructor using new gpiod API, returning GPIO.Pin
-
   FUNCTION Create
    (desg     : Designator;
     dir      : GPIO.Direction;
@@ -167,10 +126,6 @@ PACKAGE BODY GPIO.libsimpleio IS
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin IS
 
   BEGIN
-    IF desg = Unavailable THEN
-      RAISE GPIO_Error WITH "GPIO pin is not available";
-    END IF;
-
     RETURN Create(desg.chip, desg.line, dir, state, driver, edge, polarity);
   END Create;
 
@@ -183,15 +138,7 @@ PACKAGE BODY GPIO.libsimpleio IS
 
   BEGIN
     CASE self.kind IS
-      WHEN sysfs =>
-        libGPIO.Read(self.fd, state, error);
-
-        IF error /= 0 THEN
-          RAISE GPIO_Error WITH "libGPIO.Read() failed, " &
-            errno.strerror(error);
-        END IF;
-
-      WHEN gpiod =>
+      WHEN input|output =>
         libGPIO.LineRead(self.fd, state, error);
 
         IF error /= 0 THEN
@@ -199,7 +146,7 @@ PACKAGE BODY GPIO.libsimpleio IS
             errno.strerror(error);
         END IF;
 
-      WHEN gpiod_interrupt =>
+      WHEN interrupt =>
         libGPIO.LineEvent(self.fd, state, error);
 
         IF error /= 0 THEN
@@ -219,22 +166,15 @@ PACKAGE BODY GPIO.libsimpleio IS
 
   BEGIN
     CASE self.kind IS
-      WHEN sysfs =>
-        libGPIO.Write(self.fd, Boolean'Pos(state), error);
-
-        IF error /= 0 THEN
-          RAISE GPIO_Error WITH "libGPIO.Write() failed, " & errno.strerror(error);
-        END IF;
-
-      WHEN gpiod =>
+      WHEN output =>
         libGPIO.LineWrite(self.fd, Boolean'Pos(state), error);
 
         IF error /= 0 THEN
           RAISE GPIO_Error WITH "libGPIO.LineWrite() failed, " & errno.strerror(error);
         END IF;
 
-      WHEN gpiod_interrupt =>
-        RAISE GPIO_Error WITH "Cannot write to an interrupt input";
+      WHEN input|interrupt =>
+        RAISE GPIO_Error WITH "Cannot write to a GPIO input";
     END CASE;
   END Put;
 

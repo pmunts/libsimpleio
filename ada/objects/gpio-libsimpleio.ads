@@ -41,25 +41,11 @@ PACKAGE GPIO.libsimpleio IS
 
   TYPE Pin IS ACCESS PinSubclass;
 
-  -- Constructor using old sysfs API, returning GPIO.libsimpleio.Pin
+  -- Constant definitions
 
-  FUNCTION Create
-   (number   : Positive;
-    dir      : GPIO.Direction;
-    state    : Boolean := False;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin;
+  Unavailable : CONSTANT Designator := (Natural'Last, Natural'Last);
 
-  -- Constructor using old sysfs API, returning GPIO.pin
-
-  FUNCTION Create
-   (number   : Positive;
-    dir      : GPIO.Direction;
-    state    : Boolean := False;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
-
-  -- Constructor using new gpiod API, returning GPIO.libsimpleio.Pin
+  -- Constructors returning GPIO.libsimpleio.Pin
 
   FUNCTION Create
    (chip     : Natural;
@@ -69,19 +55,6 @@ PACKAGE GPIO.libsimpleio IS
     driver   : GPIO.libsimpleio.Driver := PushPull;
     edge     : GPIO.libsimpleio.Edge := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin;
-
-  -- Constructor using new gpiod API, returning GPIO.Pin
-
-  FUNCTION Create
-   (chip     : Natural;
-    line     : Natural;
-    dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
-
-  -- Constructor using new gpiod API, returning GPIO.libsimpleio.Pin
 
   FUNCTION Create
    (desg     : Designator;
@@ -91,7 +64,16 @@ PACKAGE GPIO.libsimpleio IS
     edge     : GPIO.libsimpleio.Edge := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN Pin;
 
-  -- Constructor using new gpiod API, returning GPIO.Pin
+  -- Constructors returning GPIO.Pin
+
+  FUNCTION Create
+   (chip     : Natural;
+    line     : Natural;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
 
   FUNCTION Create
    (desg     : Designator;
@@ -113,13 +95,9 @@ PACKAGE GPIO.libsimpleio IS
 
   FUNCTION fd(self : PinSubclass) RETURN Integer;
 
-  -- Define a constant designator for unavailable GPIO pins
-
-  Unavailable : CONSTANT Designator := (16#7FFFFFFF#, 16#7FFFFFFF#);
-
 PRIVATE
 
-  TYPE Kinds IS (sysfs, gpiod, gpiod_interrupt);
+  TYPE Kinds IS (input, output, interrupt);
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
     kind : Kinds;
