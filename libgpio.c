@@ -699,8 +699,8 @@ static const bool ValidFlags[32] =
   false,  // 0x1F -- INPUT|OUTPUT|ACTIVE_LOW|OPEN_DRAIN|OPEN_SOURCE
 };
 
-void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t state,
-  int32_t events, int32_t *fd, int32_t *error)
+void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t events,
+  int32_t state, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
@@ -734,13 +734,6 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t state,
     return;
   }
 
-  if ((state < 0) || (state > 1))
-  {
-    *error = EINVAL;
-    ERRORMSG("state argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
-
   if (events & 0xFFFFFFFC)
   {
     *error = EINVAL;
@@ -752,6 +745,13 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t state,
   {
     *error = EINVAL;
     ERRORMSG("flags and events are inconsistent", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((state < 0) || (state > 1))
+  {
+    *error = EINVAL;
+    ERRORMSG("state argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
