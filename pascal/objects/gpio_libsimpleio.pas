@@ -228,10 +228,10 @@ IMPLEMENTATION
     IF Self.int THEN
       RAISE GPIO_Error.create('ERROR: Cannot write to interrupt input');
 
-    libGPIO.Write(Self.fd, Ord(state), error);
+    libGPIO.LineWrite(Self.fd, Ord(state), error);
 
     IF error <> 0 THEN
-      RAISE GPIO_Error.create('ERROR: libGPIO.read() failed, ' +
+      RAISE GPIO_Error.create('ERROR: libGPIO.LineWrite() failed, ' +
         strerror(error));
   END;
 
