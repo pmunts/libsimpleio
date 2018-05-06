@@ -32,7 +32,7 @@ namespace IO.Objects.libsimpleio.SPI
         /// <summary>
         /// Use hardware slave select.
         /// </summary>
-        public const int AUTOCHIPSELECT = -1;
+        public const IO.Objects.libsimpleio.GPIO.Pin AUTOCHIPSELECT = null;
 
         private int myfd;
         private int myfdcs;
@@ -47,11 +47,9 @@ namespace IO.Objects.libsimpleio.SPI
         /// <param name="cspin">SPI slave select GPIO pin number, or
         /// <c>AUTOCHIPSELECT</c>.</param>
         public Device(string devname, int mode, int wordsize,
-            int speed, int cspin = AUTOCHIPSELECT)
+            int speed, IO.Objects.libsimpleio.GPIO.Pin cspin = AUTOCHIPSELECT)
         {
             int error;
-
-            this.myfdcs = AUTOCHIPSELECT;
 
             IO.Bindings.libsimpleio.libSPI.SPI_open(devname, mode, wordsize,
                 speed, out this.myfd, out error);
@@ -61,27 +59,10 @@ namespace IO.Objects.libsimpleio.SPI
                 throw new Exception("SPI_open() failed", error);
             }
 
-            if (cspin != AUTOCHIPSELECT)
-            {
-                IO.Bindings.libsimpleio.libGPIO.GPIO_configure(cspin,
-                    IO.Bindings.libsimpleio.libGPIO.DIRECTION_OUTPUT, 1,
-                    IO.Bindings.libsimpleio.libGPIO.EDGE_NONE,
-                    IO.Bindings.libsimpleio.libGPIO.POLARITY_ACTIVEHIGH,
-                    out error);
-
-                if (error != 0)
-                {
-                    throw new Exception("GPIO_configure() failed", error);
-                }
-
-                IO.Bindings.libsimpleio.libGPIO.GPIO_open(cspin,
-                    out this.myfdcs, out error);
-
-                if (error != 0)
-                {
-                    throw new Exception("GPIO_open() failed", error);
-                }
-            }
+            if (cspin == AUTOCHIPSELECT)
+                this.myfdcs = IO.Bindings.libsimpleio.libSPI.SPI_AUTO_CS;
+            else
+                this.myfdcs = cspin.fd;
         }
 
         /// <summary>
