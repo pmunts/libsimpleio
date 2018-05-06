@@ -30,6 +30,11 @@ namespace IO.Bindings.libsimpleio
     public class libSPI
     {
         /// <summary>
+        /// Use hardware slave select.
+        /// </summary>
+        public const int SPI_AUTO_CS = -1;
+
+        /// <summary>
         /// Open a Linux SPI device.
         /// </summary>
         /// <param name="devname">Device node name.</param>
