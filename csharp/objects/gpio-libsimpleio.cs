@@ -25,11 +25,65 @@ using IO.Objects.libsimpleio.Exceptions;
 namespace IO.Objects.libsimpleio.GPIO
 {
     /// <summary>
+    /// GPIO pin designator.
+    /// </summary>
+    public sealed class Designator
+    {
+        /// <summary>
+        /// Linux kernel GPIO chip number.
+        /// </summary>
+        public uint chip;
+
+        /// <summary>
+        /// Linux kernel GPIO line number.
+        /// </summary>
+        public uint line;
+
+        /// <summary>
+        /// GPIO pin designator constructor.
+        /// </summary>
+        /// <param name="chip">Linux kernel GPIO chip number.</param>
+        /// <param name="line">Linux kernel GPIO line number.</param>
+        public Designator(uint chip, uint line)
+        {
+            this.chip = chip;
+            this.line = line;
+        }
+    }
+
+    /// <summary>
     /// Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
     /// </summary>
     public class Pin : IO.Interfaces.GPIO.Pin
     {
         private int myfd;
+        private Kinds kind;
+
+        /// <summary>
+        /// GPIO pin designator for unusable pins.
+        /// </summary>
+        public static readonly Designator Unavailable = new Designator(uint.MaxValue, uint.MaxValue);
+
+        /// <summary>
+        /// GPIO output driver settings.
+        /// </summary>
+        public enum Driver
+        {
+            /// <summary>
+            /// Push Pull (current source/sink) output driver.
+            /// </summary>
+            PushPull,
+
+            /// <summary>
+            /// Open Drain (current sink) output driver.
+            /// </summary>
+            OpenDrain,
+
+            /// <summary>
+            /// Open Source (current source) output driver.
+            /// </summary>
+            OpenSource
+        };
 
         /// <summary>
         /// GPIO input interrupt edge settings.
@@ -40,14 +94,17 @@ namespace IO.Objects.libsimpleio.GPIO
             /// Configure GPIO input pin with interrupt disabled.
             /// </summary>
             None,
+
             /// <summary>
             /// Configure GPIO input pin to interrupt on rising edge.
             /// </summary>
             Rising,
+
             /// <summary>
             /// Configure GPIO pin to interrupt on falling edge.
             /// </summary>
             Falling,
+
             /// <summary>
             /// Configure GPIO pin to interrupt on both edges.
             /// </summary>
@@ -63,45 +120,200 @@ namespace IO.Objects.libsimpleio.GPIO
             /// Configure GPIO pin as active low (inverted logic).
             /// </summary>
             ActiveLow,
+
             /// <summary>
             /// Configure GPIO pin as active high (normal logic).
             /// </summary>
             ActiveHigh
         };
 
+        private enum Kinds
+        {
+            Input,
+            Output,
+            Interrupt
+        };
+
+        private void CalculateFlags(IO.Interfaces.GPIO.Direction dir,
+            Driver driver, Edge edge, Polarity polarity, out int flags,
+            out int events, out Kinds kind)
+        {
+            flags = 0;
+            events = 0;
+            kind = Kinds.Input;
+
+            // Validate parameters
+
+            if ((dir < IO.Interfaces.GPIO.Direction.Input) ||
+                (dir > IO.Interfaces.GPIO.Direction.Output))
+            {
+                throw new Exception("Invalid direction parameter");
+            }
+
+            if ((driver < Driver.PushPull) || (driver > Driver.OpenSource))
+            {
+                throw new Exception("Invalid driver parameter");
+            }
+
+            if ((edge < Edge.None) || (edge > Edge.Both))
+            {
+                throw new Exception("Invalid edge parameter");
+            }
+
+            if ((polarity < Polarity.ActiveLow) || (polarity > Polarity.ActiveHigh))
+            {
+                throw new Exception("Invalid polarity parameter");
+            }
+
+            // Set flags for the GPIO pin data direction
+
+            switch (dir)
+            {
+                case IO.Interfaces.GPIO.Direction.Input:
+                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_INPUT;
+                    break;
+
+                case IO.Interfaces.GPIO.Direction.Output:
+                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_OUTPUT;
+                    break;
+            }
+
+            // Set flags for the GPIO pin output driver
+
+            switch (driver)
+            {
+                case Driver.PushPull:
+                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_PUSH_PULL;
+                    break;
+
+                case Driver.OpenDrain:
+                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_OPEN_DRAIN;
+                    break;
+
+                case Driver.OpenSource:
+                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_OPEN_SOURCE;
+                    break;
+            }
+
+            // Set flags for the GPIO pin polarity
+
+            switch (polarity)
+            {
+                case Polarity.ActiveLow:
+                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_ACTIVE_LOW;
+                    break;
+
+                case Polarity.ActiveHigh:
+                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_ACTIVE_HIGH;
+                    break;
+            }
+
+            // Set flags for the GPIO pin input interrupt trigger edge(s)
+
+            switch (edge)
+            {
+                case Edge.None:
+                    events |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_NONE;
+                    break;
+
+                case Edge.Rising:
+                    events |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_RISING;
+                    break;
+
+                case Edge.Falling:
+                    events |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_FALLING;
+                    break;
+
+                case Edge.Both:
+                    events |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_BOTH;
+                    break;
+            }
+
+            if (dir == Interfaces.GPIO.Direction.Output)
+                kind = Kinds.Output;
+            else if (edge != Edge.None)
+                kind = Kinds.Interrupt;
+            else
+                kind = Kinds.Input;
+        }
+
         /// <summary>
         /// Constructor for a single GPIO pin.
         /// </summary>
-        /// <param name="pin">Linux GPIO pin number.</param>
+        /// <param name="chip">Linux kernel GPIO chip number.</param>
+        /// <param name="line">Linux kernel GPIO line number.</param>
         /// <param name="dir">Data direction.</param>
         /// <param name="state">Initial output state.</param>
-        /// <param name="edge">Interrupt edge.</param>
-        /// <param name="polarity">Pin polarity.</param>
-        public Pin(int pin, IO.Interfaces.GPIO.Direction dir,
-            bool state = false, Edge edge = Edge.None,
-            Polarity polarity = Polarity.ActiveHigh)
+        /// <param name="driver">Output driver setting</param>
+        /// <param name="edge">Interrupt edge setting.</param>
+        /// <param name="polarity">Polarity setting.</param>
+        public Pin(uint chip, uint line, IO.Interfaces.GPIO.Direction dir,
+            bool state = false, Driver driver = Driver.PushPull,
+            Edge edge = Edge.None, Polarity polarity = Polarity.ActiveHigh)
         {
-            if (pin < 0)
+            // Validate the GPIO chip and line numbers
+
+            if (chip == Unavailable.chip)
             {
-                throw new Exception("Invalid GPIO pin number");
+                throw new System.Exception("GPIO chip number is invalid");
             }
 
+            if (line == Unavailable.line)
+            {
+                throw new System.Exception("GPIO line number is invalid");
+            }
+
+            int flags;
+            int events;
             int error;
 
-            IO.Bindings.libsimpleio.libGPIO.GPIO_configure(pin, (int)dir,
-                state ? 1 : 0, (int)edge, (int)polarity, out error);
+            CalculateFlags(dir, driver, edge, polarity, out flags, out events,
+                out this.kind);
 
-            if (error != 0)
-            {
-                throw new Exception("GPIO_configure() failed", error);
-            }
-
-            IO.Bindings.libsimpleio.libGPIO.GPIO_open(pin, out this.myfd,
+            IO.Bindings.libsimpleio.libGPIO.GPIO_line_open((int)chip,
+                (int)line, flags, events, state ? 1 : 0, out this.myfd,
                 out error);
 
             if (error != 0)
             {
-                throw new Exception("GPIO_open() failed", error);
+                throw new Exception("GPIO_line_open() failed", error);
+            }
+        }
+
+        /// <summary>
+        /// Constructor for a single GPIO pin.
+        /// </summary>
+        /// <param name="pin">GPIO pin designator.</param>
+        /// <param name="dir">Data direction.</param>
+        /// <param name="state">Initial output state.</param>
+        /// <param name="driver">Output driver setting</param>
+        /// <param name="edge">Interrupt edge setting.</param>
+        /// <param name="polarity">Polarity setting.</param>
+        public Pin(Designator pin, IO.Interfaces.GPIO.Direction dir,
+            bool state = false, Driver driver = Driver.PushPull,
+            Edge edge = Edge.None, Polarity polarity = Polarity.ActiveHigh)
+        {
+            // Validate the GPIO pin designator
+
+            if ((pin.chip == Unavailable.chip) || (pin.line == Unavailable.line))
+            {
+                throw new Exception("GPIO pin designator is invalid");
+            }
+
+            int flags;
+            int events;
+            int error;
+
+            CalculateFlags(dir, driver, edge, polarity, out flags, out events,
+                out this.kind);
+
+            IO.Bindings.libsimpleio.libGPIO.GPIO_line_open((int)pin.chip,
+                (int)pin.line, flags, events, state ? 1 : 0, out this.myfd,
+                out error);
+
+            if (error != 0)
+            {
+                throw new Exception("GPIO_line_open() failed", error);
             }
         }
 
@@ -113,14 +325,30 @@ namespace IO.Objects.libsimpleio.GPIO
             get
             {
                 int error;
-                int value;
+                int value = 0;
 
-                IO.Bindings.libsimpleio.libGPIO.GPIO_read(this.myfd,
-                    out value, out error);
-
-                if (error != 0)
+                switch (this.kind)
                 {
-                    throw new Exception("GPIO_read() failed", error);
+                    case Kinds.Input:
+                    case Kinds.Output:
+                        IO.Bindings.libsimpleio.libGPIO.GPIO_line_read(this.myfd,
+                            out value, out error);
+
+                        if (error != 0)
+                        {
+                            throw new Exception("GPIO_line_read() failed", error);
+                        }
+                        break;
+
+                    case Kinds.Interrupt:
+                        IO.Bindings.libsimpleio.libGPIO.GPIO_line_event(this.myfd,
+                            out value, out error);
+
+                        if (error != 0)
+                        {
+                            throw new Exception("GPIO_line_event() failed", error);
+                        }
+                        break;
                 }
 
                 return (value == 0) ? false : true;
@@ -130,12 +358,21 @@ namespace IO.Objects.libsimpleio.GPIO
             {
                 int error;
 
-                IO.Bindings.libsimpleio.libGPIO.GPIO_write(this.myfd,
-                    value ? 1 : 0, out error);
-
-                if (error != 0)
+                switch (this.kind)
                 {
-                    throw new Exception("GPIO_write() failed", error);
+                    case Kinds.Input:
+                    case Kinds.Interrupt:
+                        throw new Exception("Cannot write to input pin");
+
+                    case Kinds.Output:
+                        IO.Bindings.libsimpleio.libGPIO.GPIO_line_write(this.myfd,
+                            value ? 1 : 0, out error);
+
+                        if (error != 0)
+                        {
+                            throw new Exception("GPIO_line_write() failed", error);
+                        }
+                        break;
                 }
             }
         }

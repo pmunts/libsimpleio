@@ -138,6 +138,75 @@ namespace IO.Bindings.libsimpleio
         // New GPIO descriptor API:
 
         /// <summary>
+        /// GPIO line is being used by the kernel.
+        /// </summary>
+        public const int LINE_INFO_KERNEL         = 0x0001;
+        /// <summary>
+        /// GPIO line is configured as an output.
+        /// </summary>
+        public const int LINE_INFO_OUTPUT         = 0x0002;
+        /// <summary>
+        /// GPIO line is configured as active low (inverted).
+        /// </summary>
+        public const int LINE_INFO_ACTIVE_LOW     = 0x0004;
+        /// <summary>
+        /// GPIO line is configured as open drain (current sink only).
+        /// </summary>
+        public const int LINE_INFO_OPEN_DRAIN     = 0x0008;
+        /// <summary>
+        /// GPIO line is configured as open source (current source only).
+        /// </summary>
+        public const int LINE_INFO_OPEN_SOURCE    = 0x0010;
+
+        /// <summary>
+        /// Select GPIO line direction input.
+        /// </summary>
+        public const int LINE_REQUEST_INPUT       = 0x0001;
+        /// <summary>
+        /// Select GPIO line direction output.
+        /// </summary>
+        public const int LINE_REQUEST_OUTPUT      = 0x0002;
+
+        /// <summary>
+        /// Select GPIO line polarity active high (normal).
+        /// </summary>
+        public const int LINE_REQUEST_ACTIVE_HIGH = 0x0000;
+        /// <summary>
+        /// Select GPIO line polarity active low (inverted).
+        /// </summary>
+        public const int LINE_REQUEST_ACTIVE_LOW  = 0x0004;
+
+        /// <summary>
+        /// Select GPIO line driver push-pull (current source and sink).
+        /// </summary>
+        public const int LINE_REQUEST_PUSH_PULL   = 0x0000;
+        /// <summary>
+        /// Select GPIO line driver open drain (current sink only).
+        /// </summary>
+        public const int LINE_REQUEST_OPEN_DRAIN  = 0x0008;
+        /// <summary>
+        /// Select GPIO line driver open source (current source only).
+        /// </summary>
+        public const int LINE_REQUEST_OPEN_SOURCE = 0x0010;
+
+        /// <summary>
+        /// Disable GPIO input interrupt.
+        /// </summary>
+        public const int LINE_REQUEST_NONE        = 0x0000;
+        /// <summary>
+        /// Enable GPIO input interrupt on rising edge.
+        /// </summary>
+        public const int LINE_REQUEST_RISING      = 0x0001;
+        /// <summary>
+        /// Enable GPIO input interrupt on falling edge.
+        /// </summary>
+        public const int LINE_REQUEST_FALLING     = 0x0002;
+        /// <summary>
+        /// Enable GPIO input interrupt on both edges.
+        /// </summary>
+        public const int LINE_REQUEST_BOTH        = 0x0003;
+
+        /// <summary>
         /// Get GPIO chip information.
         /// </summary>
         /// <param name="chip">GPIO chip number.</param>

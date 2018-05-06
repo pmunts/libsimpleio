@@ -130,6 +130,21 @@
             Out data direction.
             </summary>
         </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.DRIVER_PUSHPULL">
+            <summary>
+            Push-pull (source and sink) output driver.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.DRIVER_OPENDRAIN">
+            <summary>
+            Open drain (sink only) output driver.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.DRIVER_OPENSOURCE">
+            <summary>
+            Open source (source only) output driver
+            </summary>
+        </member>
         <member name="F:IO.Bindings.libsimpleio.libGPIO.EDGE_NONE">
             <summary>
             Interrupts are disabled.
@@ -204,6 +219,161 @@
             Close a Linux GPIO pin device.
             </summary>
             <param name="fd">File descriptor.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_INFO_KERNEL">
+            <summary>
+            GPIO line is being used by the kernel.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_INFO_OUTPUT">
+            <summary>
+            GPIO line is configured as an output.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_INFO_ACTIVE_LOW">
+            <summary>
+            GPIO line is configured as active low (inverted).
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_INFO_OPEN_DRAIN">
+            <summary>
+            GPIO line is configured as open drain (current sink only).
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_INFO_OPEN_SOURCE">
+            <summary>
+            GPIO line is configured as open source (current source only).
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_INPUT">
+            <summary>
+            Select GPIO line direction input.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_OUTPUT">
+            <summary>
+            Select GPIO line direction output.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_ACTIVE_HIGH">
+            <summary>
+            Select GPIO line polarity active high (normal).
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_ACTIVE_LOW">
+            <summary>
+            Select GPIO line polarity active low (inverted).
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_PUSH_PULL">
+            <summary>
+            Select GPIO line driver push-pull (current source and sink).
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_OPEN_DRAIN">
+            <summary>
+            Select GPIO line driver open drain (current sink only).
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_OPEN_SOURCE">
+            <summary>
+            Select GPIO line driver open source (current source only).
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_NONE">
+            <summary>
+            Disable GPIO input interrupt.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_RISING">
+            <summary>
+            Enable GPIO input interrupt on rising edge.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_FALLING">
+            <summary>
+            Enable GPIO input interrupt on falling edge.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_BOTH">
+            <summary>
+            Enable GPIO input interrupt on both edges.
+            </summary>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_chip_info(System.Int32,System.Text.StringBuilder,System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            Get GPIO chip information.
+            </summary>
+            <param name="chip">GPIO chip number.</param>
+            <param name="name">GPIO chip name.</param>
+            <param name="namesize">Maximum size of name.</param>
+            <param name="label">GPIO chip label.</param>
+            <param name="labelsize">Maximum size of label.</param>
+            <param name="lines">Number of GPIO lines.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_line_info(System.Int32,System.Int32,System.Text.StringBuilder,System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
+            <summary>
+            Get GPIO line information.
+            </summary>
+            <param name="chip">GPIO chip number.</param>
+            <param name="line">GPIO line number.</param>
+            <param name="name">GPIO line name.</param>
+            <param name="namesize">Maximum size of name.</param>
+            <param name="label">GPIO line label.</param>
+            <param name="labelsize">Maximum size of label.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_line_open(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            Open a single GPIO line.
+            </summary>
+            <param name="chip">GPIO chip number.</param>
+            <param name="line">GPIO line number.</param>
+            <param name="flags">GPIO line configuration flags.</param>
+            <param name="events">GPIO line event flags.</param>
+            <param name="state">GPIO initial output state.</param>
+            <param name="fd">Linux file descriptor.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_line_read(System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            Read the state of a single GPIO line.
+            </summary>
+            <param name="fd">Linux file descriptor.</param>
+            <param name="state">State of the GPIO line.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_line_write(System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Write the state of a single GPIO line.
+            </summary>
+            <param name="fd">Linux file descriptor.</param>
+            <param name="state">State of the GPIO line.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_line_event(System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            Read an edge trigger event from single GPIO line.
+            </summary>
+            <param name="fd">Linux file descriptor.</param>
+            <param name="state">State of the GPIO line after the edge trigger
+            event.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libGPIO.GPIO_line_close(System.Int32,System.Int32@)">
+            <summary>
+            Close a single GPIO line.
+            </summary>
+            <param name="fd">Linux file descriptor.</param>
             <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
@@ -766,6 +936,11 @@
         <member name="T:IO.Bindings.libsimpleio.libSPI">
             <summary>
             Wrapper for libsimpleio SPI device services.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libSPI.SPI_AUTO_CS">
+            <summary>
+            Use hardware slave select.
             </summary>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libSPI.SPI_open(System.String,System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32@)">
@@ -1419,9 +1594,56 @@
             <param name="message">Error message.</param>
             <param name="error">Error code.</param>
         </member>
+        <member name="T:IO.Objects.libsimpleio.GPIO.Designator">
+            <summary>
+            GPIO pin designator.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Designator.chip">
+            <summary>
+            Linux kernel GPIO chip number.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Designator.line">
+            <summary>
+            Linux kernel GPIO line number.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.GPIO.Designator.#ctor(System.UInt32,System.UInt32)">
+            <summary>
+            GPIO pin designator constructor.
+            </summary>
+            <param name="chip">Linux kernel GPIO chip number.</param>
+            <param name="line">Linux kernel GPIO line number.</param>
+        </member>
         <member name="T:IO.Objects.libsimpleio.GPIO.Pin">
             <summary>
             Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Unavailable">
+            <summary>
+            GPIO pin designator for unusable pins.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.GPIO.Pin.Driver">
+            <summary>
+            GPIO output driver settings.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Driver.PushPull">
+            <summary>
+            Push Pull (current source/sink) output driver.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Driver.OpenDrain">
+            <summary>
+            Open Drain (current sink) output driver.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.GPIO.Pin.Driver.OpenSource">
+            <summary>
+            Open Source (current source) output driver.
             </summary>
         </member>
         <member name="T:IO.Objects.libsimpleio.GPIO.Pin.Edge">
@@ -1464,15 +1686,28 @@
             Configure GPIO pin as active high (normal logic).
             </summary>
         </member>
-        <member name="M:IO.Objects.libsimpleio.GPIO.Pin.#ctor(System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean,IO.Objects.libsimpleio.GPIO.Pin.Edge,IO.Objects.libsimpleio.GPIO.Pin.Polarity)">
+        <member name="M:IO.Objects.libsimpleio.GPIO.Pin.#ctor(System.UInt32,System.UInt32,IO.Interfaces.GPIO.Direction,System.Boolean,IO.Objects.libsimpleio.GPIO.Pin.Driver,IO.Objects.libsimpleio.GPIO.Pin.Edge,IO.Objects.libsimpleio.GPIO.Pin.Polarity)">
             <summary>
             Constructor for a single GPIO pin.
             </summary>
-            <param name="pin">Linux GPIO pin number.</param>
+            <param name="chip">Linux kernel GPIO chip number.</param>
+            <param name="line">Linux kernel GPIO line number.</param>
             <param name="dir">Data direction.</param>
             <param name="state">Initial output state.</param>
-            <param name="edge">Interrupt edge.</param>
-            <param name="polarity">Pin polarity.</param>
+            <param name="driver">Output driver setting</param>
+            <param name="edge">Interrupt edge setting.</param>
+            <param name="polarity">Polarity setting.</param>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.GPIO.Pin.#ctor(IO.Objects.libsimpleio.GPIO.Designator,IO.Interfaces.GPIO.Direction,System.Boolean,IO.Objects.libsimpleio.GPIO.Pin.Driver,IO.Objects.libsimpleio.GPIO.Pin.Edge,IO.Objects.libsimpleio.GPIO.Pin.Polarity)">
+            <summary>
+            Constructor for a single GPIO pin.
+            </summary>
+            <param name="pin">GPIO pin designator.</param>
+            <param name="dir">Data direction.</param>
+            <param name="state">Initial output state.</param>
+            <param name="driver">Output driver setting</param>
+            <param name="edge">Interrupt edge setting.</param>
+            <param name="polarity">Polarity setting.</param>
         </member>
         <member name="P:IO.Objects.libsimpleio.GPIO.Pin.state">
             <summary>
@@ -1668,7 +1903,7 @@
             Use hardware slave select.
             </summary>
         </member>
-        <member name="M:IO.Objects.libsimpleio.SPI.Device.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+        <member name="M:IO.Objects.libsimpleio.SPI.Device.#ctor(System.String,System.Int32,System.Int32,System.Int32,IO.Objects.libsimpleio.GPIO.Pin)">
             <summary>
             Constructor for a single SPI device.
             </summary>
