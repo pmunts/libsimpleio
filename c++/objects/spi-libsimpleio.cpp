@@ -28,12 +28,14 @@
 // Constructor
 
 libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
-  unsigned wordsize, unsigned speed, int csfd)
+  unsigned wordsize, unsigned speed, libsimpleio::GPIO::Designator cspin)
 {
   // Validate parameters
 
   if (name == nullptr) throw EINVAL;
   if (mode > 3) throw EINVAL;
+
+  // Open SPI slave device
 
   int32_t fd;
   int32_t error;
@@ -42,7 +44,18 @@ libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
   if (error) throw error;
 
   this->fd = fd;
-  this->csfd = csfd;
+
+  // Open chip select GPIO, if necessary
+
+  if ((cspin.chip == AUTOCHIPSELECT.chip) ||
+      (cspin.line == AUTOCHIPSELECT.line))
+    this->csfd = SPI_CS_AUTO;
+  else
+  {
+    GPIO_line_open(cspin.chip, cspin.line, GPIOHANDLE_REQUEST_OUTPUT, 0, true,
+      &this->csfd, &error);
+    if (error) throw error;
+  }
 }
 
 // Methods

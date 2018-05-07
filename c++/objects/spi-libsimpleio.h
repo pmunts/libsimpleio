@@ -23,15 +23,19 @@
 #ifndef _SPI_LIBSIMPLEIO_H
 #define _SPI_LIBSIMPLEIO_H
 
+#include <gpio-libsimpleio.h>
 #include <spi-interface.h>
 #include <libspi.h>
 
 namespace libsimpleio::SPI
 {
+  const libsimpleio::GPIO::Designator AUTOCHIPSELECT =
+    libsimpleio::GPIO::Unavailable;
+
   struct Device_Class: public Interfaces::SPI::Device_Interface
   {
     Device_Class(const char *name, unsigned mode, unsigned wordsize,
-      unsigned speed, int csfd = SPI_CS_AUTO);
+      unsigned speed, libsimpleio::GPIO::Designator cspin = AUTOCHIPSELECT);
 
     virtual void Transaction(void *cmd, unsigned cmdline, unsigned delayus,
       void *resp, unsigned resplen);
