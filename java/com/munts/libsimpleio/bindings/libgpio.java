@@ -29,6 +29,8 @@ import com.sun.jna.ptr.*;
 
 public class libgpio
 {
+  // Old GPIO sysfs API:
+
   // GPIO data direction constants
 
   public static final int INPUT		= 0;
@@ -62,6 +64,48 @@ public class libgpio
 
   public static native void GPIO_close(int fd, IntByReference error);
 
+  // New GPIO descriptor API:
+
+  public static final int LINE_INFO_KERNEL         = 0x0001;
+  public static final int LINE_INFO_OUTPUT         = 0x0002;
+  public static final int LINE_INFO_ACTIVE_LOW     = 0x0004;
+  public static final int LINE_INFO_OPEN_DRAIN     = 0x0008;
+  public static final int LINE_INFO_OPEN_SOURCE    = 0x0010;
+
+  public static final int LINE_REQUEST_INPUT       = 0x0001;
+  public static final int LINE_REQUEST_OUTPUT      = 0x0002;
+  public static final int LINE_REQUEST_ACTIVE_HIGH = 0x0000;
+  public static final int LINE_REQUEST_ACTIVE_LOW  = 0x0004;
+  public static final int LINE_REQUEST_PUSH_PULL   = 0x0000;
+  public static final int LINE_REQUEST_OPEN_DRAIN  = 0x0008;
+  public static final int LINE_REQUEST_OPEN_SOURCE = 0x0010;
+
+  public static final int EVENT_REQUEST_NONE        = 0x0000;
+  public static final int EVENT_REQUEST_RISING      = 0x0001;
+  public static final int EVENT_REQUEST_FALLING     = 0x0002;
+  public static final int EVENT_REQUEST_BOTH        = 0x0003;
+
+  public static native void GPIO_chip_info(int chip, byte[] name, int namelen,
+    byte[] label, int labellen, IntByReference lines, IntByReference error);
+
+  public static native void GPIO_line_info(int chip, int line,
+    IntByReference flags, byte[] name, int namelen, byte[] label,
+    int labellen, IntByReference error);
+
+  public static native void GPIO_line_open(int chip, int line, int flags,
+    int events, int state, IntByReference fd, IntByReference error);
+
+  public static native void GPIO_line_close(int fd, IntByReference error);
+
+  public static native void GPIO_line_read(int fd, IntByReference state,
+    IntByReference error);
+
+  public static native void GPIO_line_write(int fd, int state,
+    IntByReference error);
+
+  public static native void GPIO_line_event(int fd, IntByReference state,
+    IntByReference error);
+  
   // Bind to libsimpleio.so
 
   static
