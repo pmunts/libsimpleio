@@ -213,19 +213,19 @@ namespace IO.Objects.libsimpleio.GPIO
             switch (edge)
             {
                 case Edge.None:
-                    events |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_NONE;
+                    events |= IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_NONE;
                     break;
 
                 case Edge.Rising:
-                    events |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_RISING;
+                    events |= IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_RISING;
                     break;
 
                 case Edge.Falling:
-                    events |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_FALLING;
+                    events |= IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_FALLING;
                     break;
 
                 case Edge.Both:
-                    events |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_BOTH;
+                    events |= IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_BOTH;
                     break;
             }
 

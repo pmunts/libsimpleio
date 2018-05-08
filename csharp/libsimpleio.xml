@@ -282,22 +282,22 @@
             Select GPIO line driver open source (current source only).
             </summary>
         </member>
-        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_NONE">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_NONE">
             <summary>
             Disable GPIO input interrupt.
             </summary>
         </member>
-        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_RISING">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_RISING">
             <summary>
             Enable GPIO input interrupt on rising edge.
             </summary>
         </member>
-        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_FALLING">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_FALLING">
             <summary>
             Enable GPIO input interrupt on falling edge.
             </summary>
         </member>
-        <member name="F:IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_BOTH">
+        <member name="F:IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_BOTH">
             <summary>
             Enable GPIO input interrupt on both edges.
             </summary>

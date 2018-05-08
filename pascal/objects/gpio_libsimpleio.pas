@@ -104,10 +104,10 @@ IMPLEMENTATION
     END;
 
     CASE edge OF
-      None        : events := LINE_REQUEST_NONE;
-      Rising      : events := LINE_REQUEST_RISING;
-      Falling     : events := LINE_REQUEST_FALLING;
-      Both        : events := LINE_REQUEST_BOTH;
+      None        : events := EVENT_REQUEST_NONE;
+      Rising      : events := EVENT_REQUEST_RISING;
+      Falling     : events := EVENT_REQUEST_FALLING;
+      Both        : events := EVENT_REQUEST_BOTH;
     END;
   END;
 

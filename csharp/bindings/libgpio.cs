@@ -192,19 +192,19 @@ namespace IO.Bindings.libsimpleio
         /// <summary>
         /// Disable GPIO input interrupt.
         /// </summary>
-        public const int LINE_REQUEST_NONE        = 0x0000;
+        public const int EVENT_REQUEST_NONE        = 0x0000;
         /// <summary>
         /// Enable GPIO input interrupt on rising edge.
         /// </summary>
-        public const int LINE_REQUEST_RISING      = 0x0001;
+        public const int EVENT_REQUEST_RISING      = 0x0001;
         /// <summary>
         /// Enable GPIO input interrupt on falling edge.
         /// </summary>
-        public const int LINE_REQUEST_FALLING     = 0x0002;
+        public const int EVENT_REQUEST_FALLING     = 0x0002;
         /// <summary>
         /// Enable GPIO input interrupt on both edges.
         /// </summary>
-        public const int LINE_REQUEST_BOTH        = 0x0003;
+        public const int EVENT_REQUEST_BOTH        = 0x0003;
 
         /// <summary>
         /// Get GPIO chip information.

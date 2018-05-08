@@ -67,10 +67,10 @@ PACKAGE BODY GPIO.libsimpleio IS
     END CASE;
 
     CASE edge IS
-      WHEN None        => events := libGPIO.LINE_REQUEST_NONE;
-      WHEN Rising      => events := libGPIO.LINE_REQUEST_RISING;
-      WHEN Falling     => events := libGPIO.LINE_REQUEST_FALLING;
-      WHEN Both        => events := libGPIO.LINE_REQUEST_BOTH;
+      WHEN None        => events := libGPIO.EVENT_REQUEST_NONE;
+      WHEN Rising      => events := libGPIO.EVENT_REQUEST_RISING;
+      WHEN Falling     => events := libGPIO.EVENT_REQUEST_FALLING;
+      WHEN Both        => events := libGPIO.EVENT_REQUEST_BOTH;
     END CASE;
 
     libGPIO.LineOpen(chip, line, flags, events, Boolean'Pos(state), fd, error);

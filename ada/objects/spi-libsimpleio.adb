@@ -56,7 +56,7 @@ PACKAGE BODY SPI.libsimpleio IS
     ELSE
       libGPIO.LineOpen(cspin.chip, cspin.line, libGPIO.LINE_REQUEST_OUTPUT +
         libGPIO.LINE_REQUEST_ACTIVE_HIGH + libGPIO.LINE_REQUEST_PUSH_PULL,
-        libGPIO.LINE_REQUEST_NONE, 1, fdcs, error);
+        libGPIO.EVENT_REQUEST_NONE, 1, fdcs, error);
 
       IF error /= 0 THEN
         RAISE SPI_Error WITH "libGPIO.LineOpen() failed, " & errno.strerror(error);
