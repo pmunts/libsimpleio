@@ -569,7 +569,7 @@ void GPIO_chip_info(int32_t chip, char *name, int32_t namelen,
 }
 
 void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags, char *name,
-  int32_t namelen, char *consumer, int32_t consumerlen, int32_t *error)
+  int32_t namelen, char *label, int32_t labellen, int32_t *error)
 {
   assert(error != NULL);
 
@@ -610,17 +610,17 @@ void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags, char *name,
     return;
   }
 
-  if (consumer == NULL)
+  if (label == NULL)
   {
     *error = EINVAL;
-    ERRORMSG("consumer argument is NULL", *error, __LINE__ - 3);
+    ERRORMSG("label argument is NULL", *error, __LINE__ - 3);
     return;
   }
 
-  if (consumerlen < 32)
+  if (labellen < 32)
   {
     *error = EINVAL;
-    ERRORMSG("consumerlen argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("labellen argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
@@ -652,11 +652,11 @@ void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags, char *name,
   }
 
   memset(name, 0, namelen);
-  memset(consumer, 0, consumerlen);
+  memset(label, 0, labellen);
 
   *flags = info.flags;
   strncpy(name, info.name, namelen - 1);
-  strncpy(consumer, info.consumer, consumerlen - 1);
+  strncpy(label, info.label, labellen - 1);
 
   *error = 0;
 }

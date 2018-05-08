@@ -79,7 +79,7 @@ extern void GPIO_chip_info(int32_t chip, char *name, int32_t namelen,
   char *label, int32_t labellen, int32_t *lines, int32_t *error);
 
 extern void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags,
-  char *name, int32_t namelen, char *consumer, int32_t consumerlen,
+  char *name, int32_t namelen, char *label, int32_t labellen,
   int32_t *error);
 
 extern void GPIO_line_open(int32_t chip, int32_t line, int32_t flags,

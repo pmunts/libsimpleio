@@ -104,8 +104,8 @@ INTERFACE
     VAR flags : Integer;
     name      : PChar;
     namelen   : Integer;
-    consumer  : PChar;
-    consumerlen : Integer;
+    slabel    : PChar;
+    labellen  : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'GPIO_line_info';
 
   PROCEDURE LineOpen
