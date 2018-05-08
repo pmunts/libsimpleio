@@ -24,10 +24,12 @@ UNIT SPI_libsimpleio;
 
 INTERFACE
 
-  USES SPI;
+  USES
+    GPIO_libsimpleio,
+    SPI;
 
   CONST
-    AUTOCHIPSELECT = -1;
+    AUTOCHIPSELECT : Designator = (chip : High(Cardinal); line : High(Cardinal));
 
   TYPE
     Modes = 0 .. 3;
@@ -39,8 +41,14 @@ INTERFACE
        (name     : String;
         mode     : Modes;
         wordsize : Cardinal;
+        speed    : Cardinal);
+
+      CONSTRUCTOR Create
+       (name     : String;
+        mode     : Modes;
+        wordsize : Cardinal;
         speed    : Cardinal;
-        cspin    : Integer = AUTOCHIPSELECT);
+        cspin    : GPIO_libsimpleio.Designator);
 
       DESTRUCTOR Destroy; OVERRIDE;
 
@@ -54,10 +62,11 @@ INTERFACE
 
       PROCEDURE Transaction
        (cmd      : ARRAY OF Byte;
-        cmdlen   : Cardinal;n
+        cmdlen   : Cardinal;
         delayus  : Cardinal;
         VAR resp : ARRAY OF Byte;
         resplen  : Cardinal);
+
     PRIVATE
       fd   : Integer;
       fdcs : Integer;
@@ -76,8 +85,7 @@ IMPLEMENTATION
    (name     : String;
     mode     : Modes;
     wordsize : Cardinal;
-    speed    : Cardinal;
-    cspin    : Integer);
+    speed    : Cardinal);
 
   VAR
     error  : Integer;
@@ -89,24 +97,38 @@ IMPLEMENTATION
       RAISE SPI_Error.create('ERROR: libSPI.Open() failed, ' +
         strerror(error));
 
-    IF cspin = AUTOCHIPSELECT THEN
+    Self.fdcs := libSPI.SPI_CS_AUTO;
+  END;
+
+  CONSTRUCTOR DeviceSubclass.Create
+   (name     : String;
+    mode     : Modes;
+    wordsize : Cardinal;
+    speed    : Cardinal;
+    cspin    : GPIO_libsimpleio.Designator);
+
+  VAR
+    error  : Integer;
+
+  BEGIN
+    libSPI.Open(PChar(name), mode, wordsize, speed, Self.fd, error);
+
+    IF error <> 0 THEN
+      RAISE SPI_Error.create('ERROR: libSPI.Open() failed, ' +
+        strerror(error));
+
+    IF (cspin.chip = AUTOCHIPSELECT.chip) AND
+       (cspin.line = AUTOCHIPSELECT.line) THEN
+      Self.fdcs := libSPI.SPI_CS_AUTO
+    ELSE
       BEGIN
-        fdcs := SPI_CS_AUTO;
-        EXIT;
+        libGPIO.LineOpen(cspin.chip, cspin.line, LINE_REQUEST_OUTPUT, 0, 1,
+          Self.fdcs, error);
+
+        IF error <> 0 THEN
+          RAISE SPI_Error.create('ERROR: libSPI.LineOpen() failed, ' +
+            strerror(error));
       END;
-
-    libGPIO.Configure(cspin, DIRECTION_OUTPUT, 1, EDGE_NONE,
-      POLARITY_ACTIVEHIGH, error);
-
-    IF error <> 0 THEN
-      RAISE SPI_Error.create('ERROR: libGPIO.Configure() failed, ' +
-        strerror(error));
-
-    libGPIO.Open(cspin, Self.fdcs, error);
-
-    IF error <> 0 THEN
-      RAISE SPI_Error.create('ERROR: libGPIO.Open() failed, ' +
-        strerror(error));
   END;
 
   { SPI_libsimpleio.DeviceSubclass destructor }
