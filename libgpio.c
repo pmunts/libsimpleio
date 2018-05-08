@@ -656,7 +656,7 @@ void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags, char *name,
 
   *flags = info.flags;
   strncpy(name, info.name, namelen - 1);
-  strncpy(label, info.label, labellen - 1);
+  strncpy(label, info.consumer, labellen - 1);
 
   *error = 0;
 }
