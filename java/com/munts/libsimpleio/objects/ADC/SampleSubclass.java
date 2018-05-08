@@ -22,18 +22,19 @@
 
 package com.munts.libsimpleio.objects.ADC;
 
+import com.munts.interfaces.ADC.Sample;
 import com.munts.libsimpleio.bindings.libadc;
 import com.munts.libsimpleio.objects.errno;
 import com.sun.jna.ptr.IntByReference;
 
-public class Sample implements com.munts.interfaces.ADC.Sample
+public class SampleSubclass implements Sample
 {
   private int fd;
   private int numbits;
 
   // ADC input object constructor
 
-  public Sample(int chip, int channel, int resolution)
+  public SampleSubclass(int chip, int channel, int resolution)
   {
     IntByReference fd = new IntByReference();
     IntByReference error = new IntByReference();

@@ -22,51 +22,54 @@
 
 package com.munts.libsimpleio.objects.GPIO;
 
+import com.munts.interfaces.GPIO.*;
 import com.munts.libsimpleio.bindings.libgpio;
-import com.munts.interfaces.GPIO.Direction;
 import com.munts.libsimpleio.objects.errno;
 import com.sun.jna.ptr.IntByReference;
 
-public class Pin implements com.munts.interfaces.GPIO.Pin
+public class PinSubclass implements Pin
 {
   private int fd;
+  private boolean interrupt;
+  private enum Kinds { input, output, interrupt };
+  private Kinds kind;
 
-  // GPIO pin object constructor
+  // GPIO pin object constructors
 
-  public Pin(int pin, Direction dir, boolean state)
+  public PinSubclass(Builder b)
   {
     IntByReference error = new IntByReference();
     IntByReference fd = new IntByReference();
 
-    // Configure the GPIO pin
+    // Open the GPIO pin device
 
-    libgpio.GPIO_configure(pin, dir.ordinal(), (state ? 1 : 0), libgpio.NONE,
-      libgpio.ACTIVEHIGH, error);
 
-    if (error.getValue() != errno.EOK)
-      throw new RuntimeException("ERROR: GPIO_configure() failed, " +
-        errno.strerror(error.getValue()));
-
-    // Open the GPIO pin device node
-
-    libgpio.GPIO_open(pin, fd, error);
+    libgpio.GPIO_line_open(b.chip, b.line, b.flags, b.events, 0, fd, error);
 
     if (error.getValue() != errno.EOK)
-      throw new RuntimeException("ERROR: GPIO_open() failed, " +
+      throw new RuntimeException("ERROR: GPIO_line_open() failed, " +
         errno.strerror(error.getValue()));
 
     this.fd = fd.getValue();
   }
 
-  public void write(boolean state)
+  public PinSubclass(Builder b, boolean state)
   {
     IntByReference error = new IntByReference();
 
-    libgpio.GPIO_write(this.fd, (state ? 1 : 0), error);
+    IntByReference fd = new IntByReference();
+
+    // Open the GPIO pin device
+
+    libgpio.GPIO_line_open(b.chip, b.line, b.flags, b.events, state ? 1 : 0,
+      fd, error);
 
     if (error.getValue() != errno.EOK)
-      throw new RuntimeException("ERROR: GPIO_write() failed, " +
+      throw new RuntimeException("ERROR: GPIO_line_open() failed, " +
         errno.strerror(error.getValue()));
+
+
+    this.fd = fd.getValue();
   }
 
   public boolean read()
@@ -74,20 +77,46 @@ public class Pin implements com.munts.interfaces.GPIO.Pin
     IntByReference state = new IntByReference();
     IntByReference error = new IntByReference();
 
-    libgpio.GPIO_read(this.fd, state, error);
+    if (this.interrupt)
+    {
+      libgpio.GPIO_line_event(this.fd, state, error);
 
-    if (error.getValue() != errno.EOK)
-      throw new RuntimeException("ERROR: GPIO_read() failed, " +
-        errno.strerror(error.getValue()));
+      if (error.getValue() != errno.EOK)
+        throw new RuntimeException("ERROR: GPIO_line_event() failed, " +
+          errno.strerror(error.getValue()));
+    }
+    else
+    {
+      libgpio.GPIO_line_read(this.fd, state, error);
+
+      if (error.getValue() != errno.EOK)
+        throw new RuntimeException("ERROR: GPIO_line_read() failed, " +
+          errno.strerror(error.getValue()));
+    }
 
     return (state.getValue() == 1 ? true : false);
+  }
+
+  public void write(boolean state)
+  {
+    IntByReference error = new IntByReference();
+
+    libgpio.GPIO_line_write(this.fd, (state ? 1 : 0), error);
+
+    if (error.getValue() != errno.EOK)
+      throw new RuntimeException("ERROR: GPIO_line_write() failed, " +
+        errno.strerror(error.getValue()));
   }
 
   public void finalize()
   {
     IntByReference error = new IntByReference();
 
-    libgpio.GPIO_close(this.fd, error);
+    libgpio.GPIO_line_close(this.fd, error);
+
+    if (error.getValue() != errno.EOK)
+      throw new RuntimeException("ERROR: GPIO_line_close() failed, " +
+        errno.strerror(error.getValue()));
 
     this.fd = -1;
   }

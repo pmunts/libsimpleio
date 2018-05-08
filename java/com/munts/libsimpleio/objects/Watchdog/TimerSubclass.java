@@ -22,11 +22,12 @@
 
 package com.munts.libsimpleio.objects.Watchdog;
 
+import com.munts.interfaces.Watchdog.Timer;
 import com.munts.libsimpleio.bindings.libwatchdog;
 import com.munts.libsimpleio.objects.errno;
 import com.sun.jna.ptr.IntByReference;
 
-public class Timer implements com.munts.interfaces.Watchdog.Timer
+public class TimerSubclass implements Timer
 {
   private int fd;
 
@@ -35,7 +36,7 @@ public class Timer implements com.munts.interfaces.Watchdog.Timer
 
   // Watchdog timer object constructor
 
-  public Timer(String devname, int timeout)
+  public TimerSubclass(String devname, int timeout)
   {
     IntByReference fd = new IntByReference();
     IntByReference error = new IntByReference();
@@ -67,7 +68,7 @@ public class Timer implements com.munts.interfaces.Watchdog.Timer
 
   // Watchdog timer object constructor with default parameters
 
-  public Timer()
+  public TimerSubclass()
   {
     IntByReference fd = new IntByReference();
     IntByReference error = new IntByReference();

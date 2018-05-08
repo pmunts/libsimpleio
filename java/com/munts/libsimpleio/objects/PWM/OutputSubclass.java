@@ -22,18 +22,19 @@
 
 package com.munts.libsimpleio.objects.PWM;
 
+import com.munts.interfaces.PWM.Output;
 import com.munts.libsimpleio.bindings.libpwm;
 import com.munts.libsimpleio.objects.errno;
 import com.sun.jna.ptr.IntByReference;
 
-public class Output implements com.munts.interfaces.PWM.Output
+public class OutputSubclass implements Output
 {
   private int fd;
   private int period;
 
   // PWM output object constructor
 
-  public Output(int chip, int channel, int frequency,
+  public OutputSubclass(int chip, int channel, int frequency,
     double dutycycle, int polarity)
   {
     int ontime;
@@ -77,7 +78,7 @@ public class Output implements com.munts.interfaces.PWM.Output
 
   // PWM output object constructor with default polarity
 
-  public Output(int chip, int channel, int frequency, double dutycycle)
+  public OutputSubclass(int chip, int channel, int frequency, double dutycycle)
   {
     int ontime;
     IntByReference fd = new IntByReference();
@@ -118,7 +119,7 @@ public class Output implements com.munts.interfaces.PWM.Output
 
   // PWM output object constructor with default polarity and duty cycle
 
-  public Output(int chip, int channel, int frequency)
+  public OutputSubclass(int chip, int channel, int frequency)
   {
     IntByReference fd = new IntByReference();
     IntByReference error = new IntByReference();
