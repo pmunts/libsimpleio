@@ -47,7 +47,7 @@ libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
 
   // Open chip select GPIO, if necessary
 
-  if ((cspin.chip == AUTOCHIPSELECT.chip) ||
+  if ((cspin.chip == AUTOCHIPSELECT.chip) &&
       (cspin.line == AUTOCHIPSELECT.line))
     this->csfd = SPI_CS_AUTO;
   else
