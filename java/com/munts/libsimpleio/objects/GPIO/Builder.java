@@ -101,19 +101,19 @@ public class Builder
     switch (edge)
     {
       case None:
-        this.flags = libgpio.EVENT_REQUEST_NONE;
+        this.events = libgpio.EVENT_REQUEST_NONE;
         break;
 
       case Rising:
-        this.flags = libgpio.EVENT_REQUEST_RISING;
+        this.events = libgpio.EVENT_REQUEST_RISING;
         break;
 
       case Falling:
-        this.flags = libgpio.EVENT_REQUEST_FALLING;
+        this.events = libgpio.EVENT_REQUEST_FALLING;
         break;
 
       case Both:
-        this.flags = libgpio.EVENT_REQUEST_BOTH;
+        this.events = libgpio.EVENT_REQUEST_BOTH;
         break;
 
       default:
