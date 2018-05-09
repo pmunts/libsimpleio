@@ -20,13 +20,33 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libgpio 2 "13 November 2017" "version 1" "Linux Simple I/O Library"
+.TH libgpio 2 "8 May 2018" "version 1" "Linux Simple I/O Library"
 .SH NAME
 .B libgpio
 \-\- Linux Simple I/O Library: GPIO Module
 .SH SYNOPSIS
 .nf
 .B #include <libgpio.h>
+
+.BI "void GPIO_chip_info(int32_t " chip ", char *" name ", int32_t " namesize ","
+.BI "  char *" label ", int32_t " labelsize ", int32_t *" lines ", int32_t *" error ");"
+
+.BI "void GPIO_line_info(int32_t " chip ", int32_t " line ", int32_t *" flags ","
+.BI "  char *" name ", int32_t " namesize ", char *" label ", int32_t " labelsize ","
+.BI "  int32_t " error ");"
+
+.BI "void GPIO_line_open(int32_t " chip ", int32_t " line ", int32_t " flags ","
+.BI "  int32_t " events ", int32_t " state ", int32_t *" fd ", int32_t *" error ");"
+
+.BI "void GPIO_line_close(int32_t " fd ", int32_t *" error ");"
+
+.BI "void GPIO_line_read(int32_t " fd ", int32_t *" state ", int32_t *" error ");"
+
+.BI "void GPIO_line_write(int32_t " fd ", int32_t " state ", int32_t *" error ");"
+
+.BI "void GPIO_line_event(int32_t " fd ", int32_t *" state ", int32_t *" error ");"
+
+.I Deprecated sysfs API:
 
 .B typedef enum
 .B {
@@ -71,6 +91,85 @@ All functions return either
 value (upon failure) in
 .IR *error .
 .PP
+
+.B GPIO_chip_info()
+retrieves information about a particular GPIO chip (subsystem).  The
+.I chip
+parameter selects the particular GPIO chip.
+Information strings are returned in
+.IR name " and " label
+(with maximum sizes indicated by
+.IR namesize " and " labelsize ")"
+and the number of GPIO lines (pins) available from this chip is returned in
+.IR lines .
+.PP
+
+.B GPIO_line_info()
+retrieves information about a particular GPIO pin.  The
+.IR chip " and " line
+parmeters select the particular GPIO pin.
+Current configuration flags for the GPIO pin are returned in
+.IR flags .
+Information strings are returned in
+.IR name " and " label
+(with maximum sizes indicated by
+.IR namesize " and " labelsize ")."
+.PP
+
+.B GPIO_line_open()
+configures and opens a single GPIO pin.   The
+.IR chip " and " line
+parmeters select the particular GPIO pin.  Requested configuration flags
+are passed in
+.IR flags ,
+requested event (interrupt edge) flags are passed in
+.IR events ,
+and the initial state
+.RB ( 0 " or " 1 )
+for output pins is passed in
+.IR state .
+Upon success, a file descriptor for the GPIO pin will be returned in
+.IR *fd .
+.PP
+
+.B GPIO_line_close()
+closes a previously opened GPIO pin.
+.PP
+
+.B GPIO_line_read()
+gets the current state of a GPIO pin.  The state
+.RB ( 0 " or " 1 )
+of the GPIO pin will be returned in
+.IR *state .
+.PP
+
+.B GPIO_line_write()
+sets a GPIO pin output state.  The new state
+.RB ( 0 " or " 1 )
+is passed in the
+.I state
+parameter.
+.PP
+
+.B GPIO_line_event()
+waits (blocking the calling process) for an interrupt on an GPIO interrupt
+input pin (configured with
+.BR GPIOHANDLE_REQUEST_INPUT " in the "
+.IR flags " parameter and "
+.BR GPIOEVENT_REQUEST_RISING_EDGE ", " GPIOEVENT_REQUEST_FALLING_EDGE ", or "
+.BR GPIOEVENT_REQUEST_BOTH_EDGES " in the "
+.IR events " parameter to "
+.IR GPIO_line_open() ")."
+The state
+.RB ( 0 " or " 1 )
+of the GPIO pin
+.B after
+the interrupt will be returned in
+.IR *state .
+.PP
+
+.I Deprecated sysfs API:
+
 .B GPIO_configure()
 configures a single GPIO pin.  The
 .I pin
