@@ -43,31 +43,12 @@ public class PinSubclass implements Pin
 
     // Open the GPIO pin device
 
-
-    libgpio.GPIO_line_open(b.chip, b.line, b.flags, b.events, 0, fd, error);
-
-    if (error.getValue() != errno.EOK)
-      throw new RuntimeException("ERROR: GPIO_line_open() failed, " +
-        errno.strerror(error.getValue()));
-
-    this.fd = fd.getValue();
-  }
-
-  public PinSubclass(Builder b, boolean state)
-  {
-    IntByReference error = new IntByReference();
-
-    IntByReference fd = new IntByReference();
-
-    // Open the GPIO pin device
-
-    libgpio.GPIO_line_open(b.chip, b.line, b.flags, b.events, state ? 1 : 0,
+    libgpio.GPIO_line_open(b.chip, b.line, b.flags, b.events, b.state,
       fd, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: GPIO_line_open() failed, " +
         errno.strerror(error.getValue()));
-
 
     this.fd = fd.getValue();
   }

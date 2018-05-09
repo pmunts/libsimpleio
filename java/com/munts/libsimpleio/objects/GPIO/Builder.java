@@ -20,7 +20,9 @@
 
 package com.munts.libsimpleio.objects.GPIO;
 
+import com.munts.interfaces.GPIO.Pin;
 import com.munts.libsimpleio.bindings.libgpio;
+import com.munts.libsimpleio.objects.GPIO.PinSubclass;
 
 public class Builder
 {
@@ -28,13 +30,15 @@ public class Builder
   public int line;
   public int flags;
   public int events;
+  public int state;
 
   public Builder(int chip, int line)
   {
     this.chip = chip;
     this.line = line;
-    this.flags = libgpio.LINE_REQUEST_INPUT;
-    this.events = libgpio.EVENT_REQUEST_NONE;
+    this.flags = 0;
+    this.events = 0;
+    this.state = 0;
   }
 
   public void SetDirection(com.munts.interfaces.GPIO.Direction direction)
@@ -115,5 +119,15 @@ public class Builder
       default:
         throw new RuntimeException("ERROR: Invalid interrupt edge parameter");
     }
+  }
+
+  public void SetState(boolean state)
+  {
+    this.state = state ? 1 : 0;
+  }
+
+  public Pin Create()
+  {
+    return new PinSubclass(this);
   }
 }
