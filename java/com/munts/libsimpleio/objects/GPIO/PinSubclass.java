@@ -30,7 +30,6 @@ import com.sun.jna.ptr.IntByReference;
 public class PinSubclass implements Pin
 {
   private int fd;
-  private boolean interrupt;
   private enum Kinds { input, output, interrupt };
   private Kinds kind;
 
@@ -51,6 +50,13 @@ public class PinSubclass implements Pin
         errno.strerror(error.getValue()));
 
     this.fd = fd.getValue();
+
+    if ((b.flags & libgpio.LINE_REQUEST_OUTPUT) != 0)
+      this.kind = Kinds.output;
+    else if (b.events == libgpio.EVENT_REQUEST_NONE)
+      this.kind = Kinds.input;
+    else
+      this.kind = Kinds.interrupt;
   }
 
   public boolean read()
@@ -58,7 +64,7 @@ public class PinSubclass implements Pin
     IntByReference state = new IntByReference();
     IntByReference error = new IntByReference();
 
-    if (this.interrupt)
+    if (this.kind == Kinds.interrupt)
     {
       libgpio.GPIO_line_event(this.fd, state, error);
 
@@ -80,6 +86,9 @@ public class PinSubclass implements Pin
 
   public void write(boolean state)
   {
+    if (this.kind != Kinds.output)
+      throw new RuntimeException("ERROR: Cannot write to input pin");
+
     IntByReference error = new IntByReference();
 
     libgpio.GPIO_line_write(this.fd, (state ? 1 : 0), error);
