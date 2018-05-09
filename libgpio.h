@@ -27,6 +27,36 @@
 #include <stdint.h>
 #include <linux/gpio.h>
 
+// These flags are not defined in linux/gpio.h
+
+#define GPIOHANDLE_REQUEST_ACTIVE_HIGH	0
+#define GPIOHANDLE_REQUEST_PUSH_PULL	0
+#define GPIOEVENT_REQUEST_NONE		0
+
+_BEGIN_STD_C
+
+extern void GPIO_chip_info(int32_t chip, char *name, int32_t namesize,
+  char *label, int32_t labelsize, int32_t *lines, int32_t *error);
+
+extern void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags,
+  char *name, int32_t namesize, char *label, int32_t labelsize,
+  int32_t *error);
+
+extern void GPIO_line_open(int32_t chip, int32_t line, int32_t flags,
+  int32_t events, int32_t state, int32_t *fd, int32_t *error);
+
+extern void GPIO_line_read(int32_t fd, int32_t *state, int32_t *error);
+
+extern void GPIO_line_write(int32_t fd, int32_t state, int32_t *error);
+
+extern void GPIO_line_event(int32_t fd, int32_t *state, int32_t *error);
+
+extern void GPIO_line_close(int32_t fd, int32_t *error);
+
+_END_STD_C
+
+//******************* Old GPIO sysfs API (now deprecated): ********************
+
 typedef enum
 {
   GPIO_DIRECTION_INPUT,
@@ -56,8 +86,6 @@ typedef enum
 
 _BEGIN_STD_C
 
-// Old GPIO sysfs API:
-
 extern void GPIO_configure(int32_t pin, int32_t direction, int32_t state,
   int32_t edge, int32_t polarity, int32_t *error);
 
@@ -68,30 +96,6 @@ extern void GPIO_read(int32_t fd, int32_t *state, int32_t *error);
 extern void GPIO_write(int32_t fd, int32_t state, int32_t *error);
 
 extern void GPIO_close(int32_t fd, int32_t *error);
-
-// New GPIO descriptor API:
-
-#define GPIOHANDLE_REQUEST_ACTIVE_HIGH	0
-#define GPIOHANDLE_REQUEST_PUSH_PULL	0
-#define GPIOEVENT_REQUEST_NONE		0
-
-extern void GPIO_chip_info(int32_t chip, char *name, int32_t namelen,
-  char *label, int32_t labellen, int32_t *lines, int32_t *error);
-
-extern void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags,
-  char *name, int32_t namelen, char *label, int32_t labellen,
-  int32_t *error);
-
-extern void GPIO_line_open(int32_t chip, int32_t line, int32_t flags,
-  int32_t events, int32_t state, int32_t *fd, int32_t *error);
-
-extern void GPIO_line_read(int32_t fd, int32_t *state, int32_t *error);
-
-extern void GPIO_line_write(int32_t fd, int32_t state, int32_t *error);
-
-extern void GPIO_line_event(int32_t fd, int32_t *state, int32_t *error);
-
-extern void GPIO_line_close(int32_t fd, int32_t *error);
 
 _END_STD_C
 
