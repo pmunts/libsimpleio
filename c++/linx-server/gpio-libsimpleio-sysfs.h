@@ -1,4 +1,4 @@
-// LabView LINX GPIO using libsimpleio
+// LabView LINX GPIO using libsimpleio, with old sysfs API
 
 // Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -25,13 +25,13 @@
 
 #include "gpio.h"
 
-class GPIO_libsimpleio: public GPIO_Interface
+class GPIO_libsimpleio_sysfs: public GPIO_Interface
 {
   public:
 
     // Constructor
 
-    GPIO_libsimpleio(int32_t pin);
+    GPIO_libsimpleio_sysfs(int32_t pin);
 
     // Interface methods
 
@@ -43,9 +43,9 @@ class GPIO_libsimpleio: public GPIO_Interface
 
   private:
 
-    int32_t pin;	// Linux GPIO lib pin number
+    int32_t pin;	// Linux GPIO sysfs pin number
 
-    int fd;		// Linux GPIO lib device file descriptor
+    int fd;		// Linux GPIO sysfs device file descriptor
 };
 
 #endif

@@ -1,4 +1,4 @@
-// LabView LINX GPIO using libsimpleio
+// LabView LINX GPIO using libsimpleio, with old sysfs API
 
 // Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 //
@@ -22,11 +22,11 @@
 
 #include <libgpio.h>
 
-#include "gpio-libsimpleio.h"
+#include "gpio-libsimpleio-sysfs.h"
 
 // GPIO pin constructor
 
-GPIO_libsimpleio::GPIO_libsimpleio(int32_t pin)
+GPIO_libsimpleio_sysfs::GPIO_libsimpleio_sysfs(int32_t pin)
 {
   this->IsOutput = false;
   this->pin = pin;
@@ -35,7 +35,7 @@ GPIO_libsimpleio::GPIO_libsimpleio(int32_t pin)
 
 // GPIO pin configuration method
 
-void GPIO_libsimpleio::configure(int32_t direction, int32_t *error)
+void GPIO_libsimpleio_sysfs::configure(int32_t direction, int32_t *error)
 {
   GPIO_configure(this->pin, direction, 0, GPIO_EDGE_NONE,
     GPIO_POLARITY_ACTIVEHIGH, error);
@@ -56,7 +56,7 @@ void GPIO_libsimpleio::configure(int32_t direction, int32_t *error)
 
 // GPIO pin read method
 
-void GPIO_libsimpleio::read(int32_t *state, int32_t *error)
+void GPIO_libsimpleio_sysfs::read(int32_t *state, int32_t *error)
 {
   if (this->fd == -1)
   {
@@ -78,7 +78,7 @@ void GPIO_libsimpleio::read(int32_t *state, int32_t *error)
 
 // GPIO pin write method
 
-void GPIO_libsimpleio::write(int32_t state, int32_t *error)
+void GPIO_libsimpleio_sysfs::write(int32_t state, int32_t *error)
 {
   if (this->fd == -1)
   {
