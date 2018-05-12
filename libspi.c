@@ -229,7 +229,7 @@ void SPI_transaction(int32_t spifd, int32_t csfd, void *cmd,
 
   if (csfd > 0)
   {
-    GPIO_write(csfd, 0, error);
+    GPIO_line_write(csfd, 0, error);
     if (*error) return;
   }
 
@@ -246,7 +246,7 @@ void SPI_transaction(int32_t spifd, int32_t csfd, void *cmd,
 
   if (csfd > 0)
   {
-    GPIO_write(csfd, 1, error);
+    GPIO_line_write(csfd, 1, error);
     if (*error) return;
   }
 
