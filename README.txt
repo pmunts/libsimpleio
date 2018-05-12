@@ -65,6 +65,8 @@ News
      * 6 April 2018 -- Imported a project to build libremoteio.dll, an
        implementation of the [10]Remote I/O Protocol that is portable
        across Linux, MacOS, and Windows.
+     * 12 May 2018 -- Switched from the deprecated GPIO sysfs API to the
+       new GPIO descriptor API.
 
 Documentation
 
