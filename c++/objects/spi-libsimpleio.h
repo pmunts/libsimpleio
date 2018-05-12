@@ -37,7 +37,7 @@ namespace libsimpleio::SPI
     Device_Class(const char *name, unsigned mode, unsigned wordsize,
       unsigned speed, libsimpleio::GPIO::Designator cspin = AUTOCHIPSELECT);
 
-    virtual void Transaction(void *cmd, unsigned cmdline, unsigned delayus,
+    virtual void Transaction(void *cmd, unsigned cmdlen, unsigned delayus,
       void *resp, unsigned resplen);
 
   private:
