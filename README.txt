@@ -67,6 +67,8 @@ News
        across Linux, MacOS, and Windows.
      * 12 May 2018 -- Switched from the deprecated GPIO sysfs API to the
        new GPIO descriptor API.
+     * 14 May 2018 -- Install include files to
+       /usr/local/include/libsimpleio/.
 
 Documentation
 
