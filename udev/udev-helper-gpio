@@ -31,6 +31,16 @@ SetPerms()
 
 DEVNAME=`basename ${DEVPATH}`
 
+# Handle GPIO chip events
+
+echo ${DEVNAME} | egrep 'gpiochip[0-9]+'
+
+if [ $? -eq 0 ]; then
+  if [ "$ACTION" = "add" ]; then
+    SetPerms /dev/${DEVNAME} 0660
+  fi
+fi
+
 # Handle GPIO pin events
 
 echo ${DEVNAME} | egrep 'gpio[0-9]+'
