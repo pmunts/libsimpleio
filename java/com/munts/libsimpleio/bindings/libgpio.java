@@ -105,7 +105,7 @@ public class libgpio
 
   public static native void GPIO_line_event(int fd, IntByReference state,
     IntByReference error);
-  
+
   // Bind to libsimpleio.so
 
   static
