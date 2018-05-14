@@ -25,7 +25,7 @@
 
 #include <climits>
 #include <gpio-interface.h>
-#include <libgpio.h>
+#include <libsimpleio/libgpio.h>
 
 namespace libsimpleio::GPIO
 {

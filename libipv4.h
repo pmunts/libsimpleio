@@ -23,7 +23,7 @@
 #ifndef _LIBIPV4_H_
 #define _LIBIPV4_H_
 
-#include <cplusplus.h>
+#include <libsimpleio/cplusplus.h>
 #include <stdint.h>
 
 _BEGIN_STD_C

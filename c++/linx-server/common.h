@@ -24,7 +24,7 @@
 #define _COMMON_H_
 
 #include <errno.h>
-#include <liblinx.h>
+#include <libsimpleio/liblinx.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>

@@ -23,7 +23,7 @@
 #ifndef LIBWATCHDOG_H
 #define LIBWATCHDOG_H
 
-#include <cplusplus.h>
+#include <libsimpleio/cplusplus.h>
 #include <stdint.h>
 
 _BEGIN_STD_C

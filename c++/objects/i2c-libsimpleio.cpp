@@ -23,7 +23,7 @@
 #include <cerrno>
 
 #include <i2c-libsimpleio.h>
-#include <libi2c.h>
+#include <libsimpleio/libi2c.h>
 
 // Constructor
 

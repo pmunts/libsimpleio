@@ -25,7 +25,7 @@
 
 #include <gpio-libsimpleio.h>
 #include <spi-interface.h>
-#include <libspi.h>
+#include <libsimpleio/libspi.h>
 
 namespace libsimpleio::SPI
 {

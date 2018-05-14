@@ -23,7 +23,7 @@
 #ifndef LIBI2C_H
 #define LIBI2C_H
 
-#include <cplusplus.h>
+#include <libsimpleio/cplusplus.h>
 #include <stdint.h>
 
 _BEGIN_STD_C

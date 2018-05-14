@@ -23,7 +23,7 @@
 #ifndef LIBHIDRAW_H
 #define LIBHIDRAW_H
 
-#include <cplusplus.h>
+#include <libsimpleio/cplusplus.h>
 #include <stdint.h>
 
 _BEGIN_STD_C

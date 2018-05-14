@@ -23,7 +23,7 @@
 #ifndef LIBGPIO_H
 #define LIBGPIO_H
 
-#include <cplusplus.h>
+#include <libsimpleio/cplusplus.h>
 #include <stdint.h>
 #include <linux/gpio.h>
 

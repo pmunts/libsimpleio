@@ -23,7 +23,7 @@
 #ifndef LIBEVENT_H
 #define LIBEVENT_H
 
-#include <cplusplus.h>
+#include <libsimpleio/cplusplus.h>
 #include <stdint.h>
 #include <sys/epoll.h>
 

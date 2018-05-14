@@ -23,7 +23,7 @@
 #include <cerrno>
 
 #include <pwm-libsimpleio.h>
-#include <libpwm.h>
+#include <libsimpleio/libpwm.h>
 
 // Constructor
 

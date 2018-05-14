@@ -23,7 +23,7 @@
 #ifndef LIBSPI_H
 #define LIBSPI_H
 
-#include <cplusplus.h>
+#include <libsimpleio/cplusplus.h>
 #include <stdint.h>
 #include <linux/spi/spidev.h>
 

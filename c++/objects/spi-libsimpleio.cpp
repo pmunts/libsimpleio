@@ -23,7 +23,7 @@
 #include <cerrno>
 
 #include <spi-libsimpleio.h>
-#include <libspi.h>
+#include <libsimpleio/libspi.h>
 
 // Constructor
 

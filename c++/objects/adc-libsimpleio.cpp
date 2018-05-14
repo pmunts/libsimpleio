@@ -24,7 +24,7 @@
 #include <cstdint>
 
 #include <adc-libsimpleio.h>
-#include <libadc.h>
+#include <libsimpleio/libadc.h>
 
 // Constructors
 

@@ -22,7 +22,7 @@
 
 AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
-CFLAGS		= -Wall -fPIC -I. $(DEBUGFLAGS) -DWAIT_DEV_LINK
+CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS) -DWAIT_DEV_LINK
 
 ifeq ($(BOARDNAME),)
 # Definitions for compiling for native Linux
@@ -77,7 +77,7 @@ libsimpleio.so: compile.done
 # Install headers and library files
 
 install: libsimpleio.a libsimpleio.so
-	mkdir -p				$(DESTDIR)/include
+	mkdir -p				$(DESTDIR)/include/libsimpleio
 	mkdir -p				$(DESTDIR)/lib
 	mkdir -p				$(DESTDIR)/share/libsimpleio/ada
 	mkdir -p				$(DESTDIR)/share/libsimpleio/c++
@@ -86,7 +86,7 @@ install: libsimpleio.a libsimpleio.so
 	mkdir -p				$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
 	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
 	mkdir -p				$(DESTDIR)/share/man/man2
-	install -cm 0644 *.h			$(DESTDIR)/include
+	install -cm 0644 *.h			$(DESTDIR)/include/libsimpleio
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio

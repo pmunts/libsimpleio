@@ -23,7 +23,7 @@
 #include <cerrno>
 
 #include <gpio-libsimpleio.h>
-#include <libgpio.h>
+#include <libsimpleio/libgpio.h>
 
 static const int32_t DirectionFlags[] =
 {

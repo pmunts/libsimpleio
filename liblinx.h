@@ -25,7 +25,7 @@
 
 #include <unistd.h>
 #ifndef _BEGIN_STD_C
-#include <cplusplus.h>
+#include <libsimpleio/cplusplus.h>
 #endif
 #include <stdint.h>
 

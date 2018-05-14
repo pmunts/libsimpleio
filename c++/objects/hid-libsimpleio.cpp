@@ -24,8 +24,8 @@
 #include <cstdint>
 
 #include <hid-libsimpleio.h>
-#include <libhidraw.h>
-#include <liblinux.h>
+#include <libsimpleio/libhidraw.h>
+#include <libsimpleio/liblinux.h>
 
 // Constructors
 

@@ -23,7 +23,7 @@
 #ifndef LIBSERIAL_H
 #define LIBSERIAL_H
 
-#include <cplusplus.h>
+#include <libsimpleio/cplusplus.h>
 #include <stdint.h>
 
 typedef enum

@@ -23,7 +23,7 @@
 #include <cerrno>
 
 #include <watchdog-libsimpleio.h>
-#include <libwatchdog.h>
+#include <libsimpleio/libwatchdog.h>
 
 // Constructor
 
