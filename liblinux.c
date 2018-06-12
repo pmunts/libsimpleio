@@ -130,7 +130,13 @@ void LINUX_openlog(const char *id, int32_t options, int32_t facility,
     return;
   }
 
-  openlog(id, options, facility);
+  // Save the identity string in a static buffer
+
+  static char ident[256];
+  memset(ident, 0, sizeof(ident));
+  strncpy(ident, id, sizeof(ident) - 1);
+
+  openlog(strlen(ident) ? ident : NULL, options, facility);
   *error = 0;
 }
 
