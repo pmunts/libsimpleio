@@ -29,6 +29,8 @@ import com.sun.jna.ptr.*;
 
 public class liblinux
 {
+  public static final String LOG_PROGNAME = "";
+
   // syslog option constants (extracted from syslog.h)
 
   public static final int LOG_PID      = 0x0001; // log the pid with each message

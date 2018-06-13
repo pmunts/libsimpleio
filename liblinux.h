@@ -29,6 +29,8 @@
 #include <stdint.h>
 #include <syslog.h>
 
+#define LOG_PROGNAME	""
+
 _BEGIN_STD_C
 
 // Detach process from the controlling terminal and run it in the background

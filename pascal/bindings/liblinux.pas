@@ -25,6 +25,7 @@ UNIT libLinux;
 INTERFACE
 
   CONST
+    LOG_PROGNAME = '';
 
     { syslog option constants (extracted from syslog.h) }
 

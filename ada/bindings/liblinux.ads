@@ -24,6 +24,8 @@
 PACKAGE libLinux IS
   PRAGMA Link_With("-lsimpleio");
 
+  LOG_PROGNAME : CONSTANT String := "" & ASCII.NUL;
+
   -- syslog option constants (extracted from syslog.h)
 
   LOG_PID      : CONSTANT Integer := 16#0001#; -- log the pid with each message

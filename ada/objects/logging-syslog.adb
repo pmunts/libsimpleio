@@ -26,7 +26,7 @@ WITH libLinux;
 PACKAGE BODY Logging.Syslog IS
 
   FUNCTION Create
-   (sender   : String;
+   (sender   : String := libLinux.LOG_PROGNAME;
     options  : Integer := libLinux.LOG_NDELAY + libLinux.LOG_PID +
       libLinux.LOG_PERROR;
     facility : Integer := libLinux.LOG_SYSLOG) RETURN Logger IS
