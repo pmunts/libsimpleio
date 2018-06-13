@@ -29,6 +29,11 @@ namespace IO.Bindings.libsimpleio
     /// </summary>
     public class libLinux
     {
+        /// <summary>
+        /// Use the program name for the identity string.
+        /// </summary>
+        public const string LOG_PROGNAME = "";
+
         // Facilities -- Extracted from syslog.h
 
         /// <summary>

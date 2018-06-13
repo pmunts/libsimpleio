@@ -578,6 +578,11 @@
             Wrapper for libsimpleio Linux system call services.
             </summary>
         </member>
+        <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_PROGNAME">
+            <summary>
+            Use the program name for the identity string.
+            </summary>
+        </member>
         <member name="F:IO.Bindings.libsimpleio.libLinux.LOG_KERN">
             <summary>
             Kernel messages.
