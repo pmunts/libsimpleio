@@ -814,6 +814,13 @@
             of 0 means do not wait at all.</param>
             <param name="error">Error code.</param>
         </member>
+        <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_usleep(System.Int32,System.Int32@)">
+            <summary>
+            Sleep for the specified number of microseconds.
+            </summary>
+            <param name="microsecs">Number of microseconds to sleep.</param>
+            <param name="error">Error code.</param>
+        </member>
         <member name="T:IO.Bindings.libsimpleio.libPWM">
             <summary>
             Wrapper for libsimpleio PWM output services.
