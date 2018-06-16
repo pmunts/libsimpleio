@@ -15,7 +15,7 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 26 February 2018<BR><A HREF="#
 <H2>SYNOPSIS</H2>
 
 <PRE>
-<B>#include &lt;<A HREF="file:///usr/include/liblinux.h">liblinux.h</A>&gt;</B>
+<B>#include &lt;<A HREF="file:///usr/include/libsimpleio/liblinux.h">libsimpleio/liblinux.h</A>&gt;</B>
 
 <B>void LINUX_detach(int32_t *</B><I>error</I><B>);</B>
 
@@ -30,6 +30,9 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 26 February 2018<BR><A HREF="#
 
 <B>void LINUX_poll(int32_t </B><I>numfiles</I><B>, int32_t *</B><I>files</I><B>, int32_t *</B><I>events</I><B>,</B>
 <B>  int32_t *</B><I>results</I><B>, int32_t </B><I>timeout</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void LINUX_usleep(int32_t </B><I>microseconds</I><B>, int32_t *</B><I>error</I><B>);</B>
+
 </PRE>
 
 Link with
@@ -155,6 +158,16 @@ event on any file descriptor occurring, then
 will be set to
 <B>EAGAIN</B>.
 
+<P>
+
+<B>LINUX_usleep()</B>
+
+causes the calling program to sleep for the period indicated by
+<I>microseconds</I>, by calling the
+
+<B>usleep()</B>
+
+system library function.
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -187,6 +200,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 13:53:09 GMT, February 26, 2018
+Time: 14:36:31 GMT, June 16, 2018
 </BODY>
 </HTML>

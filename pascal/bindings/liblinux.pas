@@ -122,6 +122,12 @@ INTERFACE
     timeoutms   : Integer;
     VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_poll';
 
+  { Sleep for awhile *)
+
+  PROCEDURE USleep
+   (microsecs : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_usleep';
+
 IMPLEMENTATION
 
   USES

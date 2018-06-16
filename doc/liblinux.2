@@ -41,6 +41,9 @@
 
 .BI "void LINUX_poll(int32_t " numfiles ", int32_t *" files ", int32_t *" events ","
 .BI "  int32_t *" results ", int32_t " timeout ", int32_t *" error ");"
+
+.BI "void LINUX_usleep(int32_t " microseconds ", int32_t *" error ");"
+
 .fi
 Link with
 .BR -lsimpleio .
@@ -124,6 +127,12 @@ event on any file descriptor occurring, then
 .I error
 will be set to
 .BR EAGAIN .
+.PP
+.B LINUX_usleep()
+causes the calling program to sleep for the period indicated by
+.IR microseconds ", by calling the"
+.B usleep()
+system library function.
 .SH SEE ALSO
 .BR libsimpleio "(2), " libadc "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2),"
 .br

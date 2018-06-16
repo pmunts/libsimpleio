@@ -117,4 +117,9 @@ PACKAGE libLinux IS
     error    : OUT Integer);
   PRAGMA Import(C, Poll, "LINUX_poll");
 
+  PROCEDURE USleep
+   (usecs : Integer;
+    error : OUT Integer);
+  PRAGMA Import(C, Poll, "LINUX_usleep");
+
 END libLinux;

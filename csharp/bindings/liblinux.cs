@@ -248,5 +248,13 @@ namespace IO.Bindings.libsimpleio
         [DllImport("simpleio")]
         public static extern void LINUX_poll(int numfiles, int[] files,
             int[] events, int[] results, int timeoutms, out int error);
+
+        /// <summary>
+        /// Sleep for the specified number of microseconds.
+        /// </summary>
+        /// <param name="microsecs">Number of microseconds to sleep.</param>
+        /// <param name="error">Error code.</param>
+        [DllImport("simpleio")]
+        public static extern void LINUX_usleep(int microsecs, out int error);
     }
 }

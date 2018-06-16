@@ -265,6 +265,16 @@ void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
   *error = 0;
 }
 
+// Sleep for some number of microseconds
+
+void LINUX_usleep(int32_t microseconds, int32_t *error)
+{
+  if (usleep(microseconds))
+    *error = errno;
+  else
+    *error = 0;
+}
+
 // Open a file descriptor
 
 void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,

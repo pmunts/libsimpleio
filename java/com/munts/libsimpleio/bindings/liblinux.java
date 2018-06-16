@@ -89,6 +89,11 @@ public class liblinux
 
   public static native void LINUX_strerror(int error, byte[] buf, int size);
 
+  public static native void LINUX_poll(int numfiles, int[] files, int events,
+    int results, int timeout, IntByReference error);
+
+  public static native void LINUX_usleep(int microsecs, IntByReference error);
+
   // Bind to libsimpleio.so
 
   static
