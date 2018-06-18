@@ -29,10 +29,15 @@ namespace IO.Objects.libsimpleio.Watchdog
     /// </summary>
     public class Timer: IO.Interfaces.Watchdog.Timer
     {
+        /// 
+        /// Default watchdog timer device name.
+        ///
+        public const string DefaultDevice = "/dev/watchdog";
+
         /// <summary>
-        /// Value indicating he watchdog timer should be disabled.
+        /// Value indicating the watchdog timer should be disabled.
         /// </summary>
-        public const int Disabled = 0;
+        public const int DefaultTimeout = 0;
 
         private int myfd;
 
@@ -41,8 +46,8 @@ namespace IO.Objects.libsimpleio.Watchdog
         /// </summary>
         /// <param name="devname">Device node name.</param>
         /// <param name="timeout">Watchdog timeout setting in seconds, or
-        /// <c>Disabled</c>.</param>
-        public Timer(string devname, int timeout = Disabled)
+        /// <c>DefaultTimeout</c>.</param>
+        public Timer(string devname = DefaultDevice, int timeout = DefaultTimeout)
         {
             if (timeout < 0)
             {
@@ -59,7 +64,7 @@ namespace IO.Objects.libsimpleio.Watchdog
                 throw new Exception("WATCHDOG_open() failed", error);
             }
 
-            if (timeout != Disabled)
+            if (timeout != DefaultTimeout)
             {
                 int newtimeout;
 
