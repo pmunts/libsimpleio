@@ -1962,9 +1962,14 @@
             Encapsulates Linux watchdog timers using <c>libsimpleio</c>.
             </summary>
         </member>
-        <member name="F:IO.Objects.libsimpleio.Watchdog.Timer.Disabled">
+        <member name="F:IO.Objects.libsimpleio.Watchdog.Timer.DefaultDevice">
+             <summary>
+             Default watchdog timer device name.
+            </summary>
+        </member>
+        <member name="F:IO.Objects.libsimpleio.Watchdog.Timer.DefaultTimeout">
             <summary>
-            Value indicating he watchdog timer should be disabled.
+            Default watchdog timer timeout value (disabled).
             </summary>
         </member>
         <member name="M:IO.Objects.libsimpleio.Watchdog.Timer.#ctor(System.String,System.Int32)">
@@ -1973,7 +1978,7 @@
             </summary>
             <param name="devname">Device node name.</param>
             <param name="timeout">Watchdog timeout setting in seconds, or
-            <c>Disabled</c>.</param>
+            <c>DefaultTimeout</c>.</param>
         </member>
         <member name="M:IO.Objects.libsimpleio.Watchdog.Timer.Kick">
             <summary>

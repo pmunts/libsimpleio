@@ -29,9 +29,9 @@ namespace IO.Objects.libsimpleio.Watchdog
     /// </summary>
     public class Timer: IO.Interfaces.Watchdog.Timer
     {
-        ///
+        /// <summary>
         /// Default watchdog timer device name.
-        ///
+        ///</summary>
         public const string DefaultDevice = "/dev/watchdog";
 
         /// <summary>
