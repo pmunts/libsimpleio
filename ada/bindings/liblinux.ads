@@ -120,6 +120,6 @@ PACKAGE libLinux IS
   PROCEDURE USleep
    (usecs : Integer;
     error : OUT Integer);
-  PRAGMA Import(C, Poll, "LINUX_usleep");
+  PRAGMA Import(C, USleep, "LINUX_usleep");
 
 END libLinux;
