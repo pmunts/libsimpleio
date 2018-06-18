@@ -70,6 +70,7 @@ News
      * 14 May 2018 -- Install include files to
        /usr/local/include/libsimpleio/.
      * 16 June 2018 -- Added LINUX_usleep().
+     * 18 June 2018 -- Minor fixes and consistency cleanups.
 
 Documentation
 
