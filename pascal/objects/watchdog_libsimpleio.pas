@@ -28,12 +28,12 @@ INTERFACE
     Watchdog;
 
   CONST
-    DefaultTimer  = '/dev/watchdog';
+    DefaultDevice  = '/dev/watchdog';
     DefaultTimeout = 0;
 
   TYPE
     TimerSubclass = CLASS(TInterfacedObject, Watchdog.Timer)
-      CONSTRUCTOR Create(name : String = DefaultTimer; timeout : Cardinal = 0);
+      CONSTRUCTOR Create(name : String = DefaultDevice; timeout : Cardinal = 0);
 
       DESTRUCTOR Destroy; OVERRIDE;
 

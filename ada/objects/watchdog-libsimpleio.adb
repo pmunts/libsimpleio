@@ -28,7 +28,7 @@ PACKAGE BODY Watchdog.libsimpleio IS
   -- Watchdog device object constructor
 
   FUNCTION Create
-   (devname : String   := DefaultTimer;
+   (devname : String   := DefaultDevice;
     timeout : Duration := DefaultTimeout) RETURN Watchdog.Timer IS
 
     fd            : Integer;

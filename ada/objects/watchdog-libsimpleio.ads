@@ -22,7 +22,7 @@
 
 PACKAGE Watchdog.libsimpleio IS
 
-  DefaultTimer  : CONSTANT String   := "/dev/watchdog";
+  DefaultDevice  : CONSTANT String   := "/dev/watchdog";
   DefaultTimeout : CONSTANT Duration := 0.0;
 
   TYPE TimerSubclass IS NEW Watchdog.TimerInterface WITH PRIVATE;
@@ -30,7 +30,7 @@ PACKAGE Watchdog.libsimpleio IS
   -- Watchdog device object constructor
 
   FUNCTION Create
-   (devname : String   := DefaultTimer;
+   (devname : String   := DefaultDevice;
     timeout : Duration := DefaultTimeout) RETURN Watchdog.Timer;
 
   -- Method to get the watchdog timeout in seconds
