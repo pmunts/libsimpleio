@@ -26,8 +26,6 @@ WITH System;
 PACKAGE libWatchdog IS
   PRAGMA Link_With("-lsimpleio");
 
-  DEVICE_NODE : CONSTANT String := "/dev/watchdog" & ASCII.NUL;
-
   PROCEDURE Open
    (devname    : String;
     fd         : OUT Integer;

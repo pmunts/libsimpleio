@@ -24,9 +24,6 @@ UNIT libWatchdog;
 
 INTERFACE
 
-  CONST
-    DEVICE_NODE = '/dev/watchdog';
-
   PROCEDURE Open
    (devname     : PChar;
     VAR fd      : Integer;
