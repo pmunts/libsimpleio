@@ -29,13 +29,13 @@ namespace IO.Objects.libsimpleio.Watchdog
     /// </summary>
     public class Timer: IO.Interfaces.Watchdog.Timer
     {
-        /// 
+        ///
         /// Default watchdog timer device name.
         ///
         public const string DefaultDevice = "/dev/watchdog";
 
         /// <summary>
-        /// Value indicating the watchdog timer should be disabled.
+        /// Default watchdog timer timeout value (disabled).
         /// </summary>
         public const int DefaultTimeout = 0;
 
