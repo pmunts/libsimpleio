@@ -68,6 +68,24 @@ extern void TCP4_send(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
 extern void TCP4_receive(int32_t fd, void *buf, int32_t bufsize,
   int32_t *count, int32_t *error);
 
+// Open a UDP socket
+
+extern void UDP4_open(int32_t addr, int32_t port, int32_t *fd, int32_t *error);
+
+// Close a UDP socket
+
+extern void UDP4_close(int32_t fd, int32_t *error);
+
+// Send a UDP datagram
+
+extern void UDP4_send(int32_t fd, int32_t addr, int32_t port, void *buf,
+  int32_t bufsize, int32_t flags, int32_t *count, int32_t *error);
+
+// Receive a UDP datagram
+
+extern void UDP4_receive(int32_t fd, int32_t *addr, int32_t *port, void *buf,
+  int32_t bufsize, int32_t flags, int32_t *count, int32_t *error);
+
 _END_STD_C
 
 #endif

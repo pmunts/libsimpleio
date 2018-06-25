@@ -15,7 +15,7 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 13 November 2017<BR><A HREF="#
 <H2>SYNOPSIS</H2>
 
 <PRE>
-<B>#include &lt;<A HREF="file:///usr/include/libipv4.h">libipv4.h</A>&gt;</B>
+<B>#include &lt;<A HREF="file:///usr/include/libsimpleio/libipv4.h">libsimpleio/libipv4.h</A>&gt;</B>
 
 <B>void IPV4_resolve(char *</B><I>name</I><B>, int32_t *</B><I>addr</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -29,10 +29,21 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 13 November 2017<BR><A HREF="#
 
 <B>void TCP4_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void TCP4_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void TCP4_send(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
 
-<B>void TCP4_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void TCP4_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>, int32_t *</B><I>count</I><B>,</B>
+<B>  int32_t *</B><I>error</I><B>);</B>
 
+<B>void UDP4_open(int32_t </B><I>addr</I><B>, int32_t </B><I>port</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void UDP4_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void UDP4_send(int32_t </B><I>fd</I><B>, int32_t </B><I>addr</I><B>, int32_t </B><I>port</I><B>, void *</B><I>buf</I><B>,</B>
+<B>  int32_t </B><I>bufsize</I><B>, int32_t </B><I>flags</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void UDP4_receive(int32_t </B><I>fd</I><B>, int32_t *</B><I>addr</I><B>, int32_t *</B><I>port</I><B>, void *</B><I>buf</I><B>,</B>
+<B>  int32_t </B><I>bufsize</I><B>, int32_t </B><I>flags</I><B>, int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
 </PRE>
 
 Link with
@@ -65,7 +76,7 @@ or a dotted decimal address like
 <B>1.2.3.4</B>).
 
 Upon success, the 32-bit IPv4 address will be returned in
-<I>*addr</I>
+<I>*addr</I>.
 
 <P>
 
@@ -174,6 +185,91 @@ its size is passed in
 Upon success, the number of bytes actually received will be returned in
 <I>*count</I>.
 
+<P>
+
+<B>UDP4_open()</B>
+
+opens a UDP datagram socket.  The IP address of the network interface to
+bind the socket to
+is passed in the
+<I>addr</I>
+
+parameter.  A value of zero or
+<B>INADDR_ANY</B>
+
+indicates the socket should bind to all network interfaces.
+The UDP port number is passed in the
+<I>port</I>
+
+parameter.  A value of zero indicates the kernel should automatically select
+a port number.  Upon successful completion, a UDP socket file descriptor will
+be returned in
+<I>*fd</I>.
+
+<P>
+
+<B>UDP4_close()</B>
+
+closes a previously opened UDP socket.
+The UDP socket file descriptor is passed in
+<I>fd</I>.
+
+<P>
+
+<B>UDP4_send()</B>
+
+sends a UDP datagram.  The UDP socket file descriptor is passed in
+<I>fd</I>.
+
+The IPv4 address of the destination network node is passed in
+<I>addr</I>.
+
+The UDP port number of the destination network node is passed in
+<I>port</I>.
+
+The UDP datagram is passed in
+<I>*buf</I>
+
+and its size in bytes is passed in
+<I>bufsize</I>.
+
+Flags for the
+<B>sendto()</B>
+
+Linux system call are passed in
+<I>flags</I>.
+
+The number of bytes sent will be returned in
+<I>*count</I>.
+
+<P>
+
+<B>UDP4_receive()</B>
+
+receives a UDP datagram.  The UDP socket file descriptor is passed in
+<I>fd</I>.
+
+The IPv4 address of the source network node will be returned in
+<I>*addr</I>.
+
+The UDP port number of the source network node will be returned in
+<I>*port</I>.
+
+The UDP datagram will be returned in
+<I>*buf</I>.
+
+The size of the datagram buffer will be passed in
+<I>bufsize</I>.
+
+Flags for the
+<B>recvfrom()</B>
+
+Linux system call are passed in
+<I>flags</I>.
+
+The number of bytes received will be returned in
+<I>*count</I>.
+
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -206,6 +302,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 08:12:35 GMT, November 13, 2017
+Time: 15:27:41 GMT, June 25, 2018
 </BODY>
 </HTML>

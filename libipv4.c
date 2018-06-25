@@ -372,3 +372,200 @@ void TCP4_server(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
     close(s2);
   }
 }
+
+// Open a UDP socket
+
+void UDP4_open(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (port < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("port argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Create the UDP socket
+
+  struct sockaddr_in srcaddr;
+
+  *fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+  if (*fd < 0)
+  {
+    *fd = -1;
+    *error = errno;
+    return;
+  }
+
+  // Bind the socket to the specified interface(s)
+
+  memset(&srcaddr, 0, sizeof(srcaddr));
+
+  srcaddr.sin_family = AF_INET;
+  srcaddr.sin_addr.s_addr = htonl(addr);
+  srcaddr.sin_port = htons(port);
+
+  if (bind(*fd, (struct sockaddr *) &srcaddr, sizeof(srcaddr)) < 0)
+  {
+    close(*fd);
+    *fd = -1;
+    *error = errno;
+    return;
+  }
+
+  *error = 0;
+}
+
+// Send a UDP datagram
+
+void UDP4_send(int32_t fd, int32_t addr, int32_t port, void *buf,
+  int32_t bufsize, int32_t flags, int32_t *count, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (port < 1)
+  {
+    *error = EINVAL;
+    ERRORMSG("port argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (buf == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("buf argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (bufsize < 1)
+  {
+    *error = EINVAL;
+    ERRORMSG("bufsize argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (count == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("count argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Build the destination address structure
+
+  struct sockaddr_in dstaddr;
+
+  memset(&dstaddr, 0, sizeof(dstaddr));
+
+  dstaddr.sin_family = AF_INET;
+  dstaddr.sin_addr.s_addr = htonl(addr);
+  dstaddr.sin_port = htons(port);
+
+  // Send the UDP datagram
+
+  *count = sendto(fd, buf, bufsize, 0, (struct sockaddr *) &dstaddr,
+    sizeof(dstaddr));
+
+  if (*count < 0)
+  {
+    *count = 0;
+    *error = errno;
+    return;
+  }
+
+  *error = 0;
+}
+
+// Receive a UDP datagram
+
+void UDP4_receive(int32_t fd, int32_t *addr, int32_t *port, void *buf,
+  int32_t bufsize, int32_t flags, int32_t *count, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (addr == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("addr argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (port == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("port argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (buf == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("buf argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (bufsize < 1)
+  {
+    *error = EINVAL;
+    ERRORMSG("bufsize argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (count == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("count argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Receive a UDP datagram
+
+  struct sockaddr_in srcaddr;
+  socklen_t addrlen = sizeof(srcaddr);
+
+  memset(&srcaddr, 0, sizeof(srcaddr));
+
+  *count = recvfrom(fd, buf, bufsize, flags, (struct sockaddr *) &srcaddr,
+    &addrlen);
+
+  if (*count < 0)
+  {
+    *count = 0;
+    *error = errno;
+    return;
+  }
+
+  // Retrieve sender IP address and UDP port number
+
+  *addr = ntohl(srcaddr.sin_addr.s_addr);
+  *port = ntohs(srcaddr.sin_port);
+  *error = 0;
+}

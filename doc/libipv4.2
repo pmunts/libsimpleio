@@ -40,10 +40,21 @@
 
 .BI "void TCP4_close(int32_t " fd ", int32_t *" error ");"
 
-.BI "void TCP4_send(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+.BI "void TCP4_send(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ","
+.BI "  int32_t *" error ");"
 
-.BI "void TCP4_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ", int32_t *" error ");"
+.BI "void TCP4_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ", int32_t *" count ","
+.BI "  int32_t *" error ");"
 
+.BI "void UDP4_open(int32_t " addr ", int32_t " port ", int32_t *" fd ", int32_t *" error ");"
+
+.BI "void UDP4_close(int32_t " fd ", int32_t *" error ");"
+
+.BI "void UDP4_send(int32_t " fd ", int32_t " addr ", int32_t " port ", void *" buf ","
+.BI "  int32_t " bufsize ", int32_t " flags ", int32_t *" count ", int32_t *" error ");"
+
+.BI "void UDP4_receive(int32_t " fd ", int32_t *" addr ", int32_t *" port ", void *" buf ","
+.BI "  int32_t " bufsize ", int32_t " flags ", int32_t *" count ", int32_t *" error ");"
 .fi
 Link with
 .BR -lsimpleio .
@@ -64,7 +75,7 @@ attempts to resolve an IPv4 address string passed in
 or a dotted decimal address like
 .BR 1.2.3.4 ).
 Upon success, the 32-bit IPv4 address will be returned in
-.IR *addr
+.IR *addr .
 .PP
 .B IPV4_ntoa()
 converts an IPv4 address to a dotted decimal address string. The
@@ -134,6 +145,62 @@ The receive buffer address is passed in
 its size is passed in
 .IR bufsize .
 Upon success, the number of bytes actually received will be returned in
+.IR *count .
+.PP
+.B UDP4_open()
+opens a UDP datagram socket.  The IP address of the network interface to
+bind the socket to
+is passed in the
+.IR addr
+parameter.  A value of zero or
+.B INADDR_ANY
+indicates the socket should bind to all network interfaces.
+The UDP port number is passed in the
+.IR port
+parameter.  A value of zero indicates the kernel should automatically select
+a port number.  Upon successful completion, a UDP socket file descriptor will
+be returned in
+.IR *fd .
+.PP
+.B UDP4_close()
+closes a previously opened UDP socket.
+The UDP socket file descriptor is passed in
+.IR fd .
+.PP
+.B UDP4_send()
+sends a UDP datagram.  The UDP socket file descriptor is passed in
+.IR fd .
+The IPv4 address of the destination network node is passed in
+.IR addr .
+The UDP port number of the destination network node is passed in
+.IR port .
+The UDP datagram is passed in
+.IR *buf
+and its size in bytes is passed in
+.IR bufsize .
+Flags for the
+.B sendto()
+Linux system call are passed in
+.IR flags .
+The number of bytes sent will be returned in
+.IR *count .
+.PP
+.B UDP4_receive()
+receives a UDP datagram.  The UDP socket file descriptor is passed in
+.IR fd .
+The IPv4 address of the source network node will be returned in
+.IR *addr .
+The UDP port number of the source network node will be returned in
+.IR *port .
+The UDP datagram will be returned in
+.IR *buf .
+The size of the datagram buffer will be passed in
+.IR bufsize .
+Flags for the
+.B recvfrom()
+Linux system call are passed in
+.IR flags .
+The number of bytes received will be returned in
 .IR *count .
 .SH SEE ALSO
 .BR libsimpleio "(2), " libadc "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2),"

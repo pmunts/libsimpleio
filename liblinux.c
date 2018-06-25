@@ -555,5 +555,6 @@ void SPI_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void TCP4_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void TCP4_receive(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_read");
 void TCP4_send(int32_t fd, void *buf, int32_t bufsize, int32_t *count, int32_t *error) ALIAS("LINUX_write");
+void UDP4_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void WATCHDOG_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void WATCHDOG_open(const char *name, int32_t *fd, int32_t *error) ALIAS("LINUX_open_readwrite");
