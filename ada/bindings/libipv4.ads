@@ -26,8 +26,10 @@ WITH System;
 PACKAGE libIPV4 IS
   PRAGMA Link_With("-lsimpleio");
 
-  INADDR_ANY      : CONSTANT Integer := 16#00000000#;
-  INADDR_LOOPBACK : CONSTANT Integer := 16#7F000001#;	-- aka localhost
+  INADDR_ANY       : CONSTANT Integer := 16#00000000#;
+  INADDR_NONE      : CONSTANT Integer := 16#FFFFFFFF#;
+  INADDR_BROADCAST : CONSTANT Integer := 16#FFFFFFFF#;
+  INADDR_LOOPBACK  : CONSTANT Integer := 16#7F000001#;	-- aka localhost
 
   -- Resolve host name to 32-bit IPv4 address
 

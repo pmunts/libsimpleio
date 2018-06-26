@@ -25,8 +25,10 @@ UNIT libIPV4;
 INTERFACE
 
   CONST
-    INADDR_ANY      = $00000000;
-    INADDR_LOOPBACK = $7F000001;
+    INADDR_ANY       = $00000000;
+    INADDR_NONE      = $FFFFFFFF;
+    INADDR_BROADCAST = $FFFFFFFF;
+    INADDR_LOOPBACK  = $7F000001;  { aka localhost }
 
   PROCEDURE IP_Resolve
    (hostname  : PChar;
