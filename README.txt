@@ -71,6 +71,7 @@ News
        /usr/local/include/libsimpleio/.
      * 16 June 2018 -- Added LINUX_usleep().
      * 18 June 2018 -- Minor fixes and consistency cleanups.
+     * 27 June 2018 -- Added UDP over IPv4 services.
 
 Documentation
 
