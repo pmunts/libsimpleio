@@ -29,6 +29,10 @@ import com.sun.jna.ptr.*;
 
 public class libipv4
 {
+  public static final int INADDR_ANY = 0;
+  public static final int INADDR_LOOPBACK = 0x7F000001;
+  public static final int INADDR_BROADCAST = -1;
+
   // These services are of questionable usefulness for Java, but are provided
   // here for completeness.
 
