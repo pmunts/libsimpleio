@@ -27,9 +27,8 @@ PACKAGE libIPV4 IS
   PRAGMA Link_With("-lsimpleio");
 
   INADDR_ANY       : CONSTANT Integer := 0;
-  INADDR_NONE      : CONSTANT Integer := -1;
-  INADDR_BROADCAST : CONSTANT Integer := -1;
   INADDR_LOOPBACK  : CONSTANT Integer := 16#7F000001#;	-- aka localhost
+  INADDR_BROADCAST : CONSTANT Integer := -1;
 
   -- Resolve host name to 32-bit IPv4 address
 
