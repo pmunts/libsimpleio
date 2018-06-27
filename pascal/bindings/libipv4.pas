@@ -77,6 +77,36 @@ INTERFACE
     VAR count : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'TCP4_receive';
 
+  PROCEDURE UDP4_Open
+   (host      : Integer;
+    port      : Integer;
+    VAR fd    : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'UDP4_open';
+
+  PROCEDURE UDP4_Close
+   (fd        : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'UDP4_close';
+
+  PROCEDURE UDP4_Send
+   (fd        : Integer;
+    host      : Integer;
+    port      : Integer;
+    buf       : Pointer;
+    bufsize   : Integer;
+    flags     : Integer;
+    VAR count : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'UDP4_send';
+
+  PROCEDURE UDP4_Receive
+   (fd        : Integer;
+    VAR host  : Integer;
+    VAR port  : Integer;
+    buf       : Pointer;
+    bufsize   : Integer;
+    flags     : Integer;
+    VAR count : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'UDP4_receive';
+
 IMPLEMENTATION
 
   USES

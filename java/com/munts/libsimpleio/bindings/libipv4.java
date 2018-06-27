@@ -53,6 +53,18 @@ public class libipv4
   public static native void TCP4_receive(int fd, byte[] buf, int bufsize,
     IntByReference count, IntByReference error);
 
+  public static native void UDP4_open(int host, int port, IntByReference fd,
+    IntByReference error);
+
+  public static native void UDP4_close(int fd, IntByReference error);
+
+  public static native void UDP4_send(int fd, int host, int port, byte[] buf,
+    int bufsize, int flags, IntByReference count, IntByReference error);
+
+  public static native void UDP4_receive(int fd, IntByReference host,
+    IntByReference port, byte[] buf, int bufsize, int flags,
+    IntByReference count, IntByReference error);
+
   // Bind to libsimpleio.so
 
   static

@@ -26,9 +26,9 @@ WITH System;
 PACKAGE libIPV4 IS
   PRAGMA Link_With("-lsimpleio");
 
-  INADDR_ANY       : CONSTANT Integer := 16#00000000#;
-  INADDR_NONE      : CONSTANT Integer := 16#FFFFFFFF#;
-  INADDR_BROADCAST : CONSTANT Integer := 16#FFFFFFFF#;
+  INADDR_ANY       : CONSTANT Integer := 0;
+  INADDR_NONE      : CONSTANT Integer := -1;
+  INADDR_BROADCAST : CONSTANT Integer := -1;
   INADDR_LOOPBACK  : CONSTANT Integer := 16#7F000001#;	-- aka localhost
 
   -- Resolve host name to 32-bit IPv4 address
@@ -101,5 +101,47 @@ PACKAGE libIPV4 IS
     count    : OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, TCP_Receive, "TCP4_receive");
+
+  -- Open a UDP socket
+
+  PROCEDURE UDP4_Open
+   (host     : Integer;
+    port     : Integer;
+    fd       : OUT Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, UDP4_Open, "UDP4_open");
+
+  -- Close a UDP socket
+
+  PROCEDURE UDP4_Close
+   (fd       : Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, UDP4_Close, "UDP4_close");
+
+  -- Send a UDP datagram
+
+  PROCEDURE UDP4_Send
+   (fd       : Integer;
+    host     : Integer;
+    port     : Integer;
+    buf      : System.Address;
+    bufsize  : Integer;
+    flags    : Integer;
+    count    : OUT Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, UDP4_Send, "UDP4_send");
+
+  -- Receive a UDP datagram
+
+  PROCEDURE UDP4_Receive
+   (fd       : Integer;
+    host     : OUT Integer;
+    port     : OUT Integer;
+    buf      : System.Address;
+    bufsize  : Integer;
+    flags    : Integer;
+    count    : OUT Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, UDP4_Receive, "UDP4_receive");
 
 END libIPV4;
