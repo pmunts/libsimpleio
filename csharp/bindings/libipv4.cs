@@ -34,13 +34,32 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         public const int INADDR_ANY = 0;
         /// <summary>
-        /// IPv4 address for binding to the loopback interface (aka <c>localhost</c>).
+        /// IPv4 address for binding to the loopback interface (aka
+        /// <c>localhost</c>).
         /// </summary>
         public const int INADDR_LOOPBACK = 0x7F000001;
         /// <summary>
         /// IPv4 broadcast address.
         /// </summary>
         public const int INADDR_BROADCAST = -1;
+
+        /// <summary>
+        /// Don't use a gateway to send out the packet, send to hosts only on
+        /// directly connected networks.
+        /// </summary>
+        public const int MSG_DONTROUTE = 0x0004;
+        /// <summary>
+        /// Enables nonblocking operation; if the operation would block,
+        /// <c>EAGAIN</c> or <c>EWOULDBLOCK</c> is returned.
+        /// </summary>
+        public const int MSG_DONTWAIT = 0x0040;
+        /// <summary>
+        /// The caller has more data to send.  This flag informs the kernel
+        /// to package all of the data sent in calls with this flag set into
+        /// a single datagram which is transmitted only when a call is
+        /// performed that does not specify this flag.
+        /// </summary>
+        public const int MSG_MORE = 0x8000;
 
         /// <summary>
         /// Resolve a domain name to an IPv4 host address.

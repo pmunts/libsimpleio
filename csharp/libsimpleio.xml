@@ -499,12 +499,33 @@
         </member>
         <member name="F:IO.Bindings.libsimpleio.libIPV4.INADDR_LOOPBACK">
             <summary>
-            IPv4 address for binding to the loopback interface (aka <c>localhost</c>).
+            IPv4 address for binding to the loopback interface (aka
+            <c>localhost</c>).
             </summary>
         </member>
         <member name="F:IO.Bindings.libsimpleio.libIPV4.INADDR_BROADCAST">
             <summary>
             IPv4 broadcast address.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libIPV4.MSG_DONTROUTE">
+            <summary>
+            Don't use a gateway to send out the packet, send to hosts only on
+            directly connected networks.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libIPV4.MSG_DONTWAIT">
+            <summary>
+            Enables nonblocking operation; if the operation would block,
+            <c>EAGAIN</c> or <c>EWOULDBLOCK</c> is returned.
+            </summary>
+        </member>
+        <member name="F:IO.Bindings.libsimpleio.libIPV4.MSG_MORE">
+            <summary>
+            The caller has more data to send.  This flag informs the kernel
+            to package all of the data sent in calls with this flag set into
+            a single datagram which is transmitted only when a call is
+            performed that does not specify this flag.
             </summary>
         </member>
         <member name="M:IO.Bindings.libsimpleio.libIPV4.IPV4_resolve(System.String,System.Int32@,System.Int32@)">
