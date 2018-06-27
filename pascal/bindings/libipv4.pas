@@ -29,6 +29,12 @@ INTERFACE
     INADDR_LOOPBACK  = $7F000001;  { Bind to loopback interface aka localhost }
     INADDR_BROADCAST = $FFFFFFFF;
 
+    (* Flags for UDP4_Send() and UDP4_Receive() *)
+
+    MSG_DONTROUTE    = $0004;
+    MSG_DONTWAIT     = $0040;
+    MSG_MORE         = $8000;
+
   PROCEDURE IP_Resolve
    (hostname  : PChar;
     VAR addr  : Integer;

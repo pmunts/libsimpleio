@@ -30,6 +30,12 @@ PACKAGE libIPV4 IS
   INADDR_LOOPBACK  : CONSTANT Integer := 16#7F000001#;	-- aka localhost
   INADDR_BROADCAST : CONSTANT Integer := -1;
 
+  -- Flags for UDP4_Send() and UDP4_Receive()
+
+  MSG_DONTROUTE : CONSTANT Integer := 16#0004#;
+  MSG_DONTWAIT  : CONSTANT Integer := 16#0040#;
+  MSG_MORE      : CONSTANT Integer := 16#8000#;
+
   -- Resolve host name to 32-bit IPv4 address
 
   PROCEDURE IP_Resolve

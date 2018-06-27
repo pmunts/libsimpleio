@@ -29,9 +29,13 @@ import com.sun.jna.ptr.*;
 
 public class libipv4
 {
-  public static final int INADDR_ANY = 0;
-  public static final int INADDR_LOOPBACK = 0x7F000001;
+  public static final int INADDR_ANY       = 0;
+  public static final int INADDR_LOOPBACK  = 0x7F000001;
   public static final int INADDR_BROADCAST = -1;
+
+  public static final int MSG_DONTROUTE    = 0x0004;
+  public static final int MSG_DONTWAIT     = 0x0040;
+  public static final int MSG_MORE         = 0x8000;
 
   // These services are of questionable usefulness for Java, but are provided
   // here for completeness.
