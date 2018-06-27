@@ -30,64 +30,77 @@ namespace IO.Bindings.libsimpleio
     public class libIPV4
     {
         /// <summary>
-        /// Resolve a domain name to an IPv4 address.
+        /// IPv4 address for binding to all network interfaces.
+        /// </summary>
+        public const int INADDR_ANY = 0;
+        /// <summary>
+        /// IPv4 address for binding to the loopback interface (aka <c>localhost</c>).
+        /// </summary>
+        public const int INADDR_LOOPBACK = 0x7F000001;
+        /// <summary>
+        /// IPv4 broadcast address.
+        /// </summary>
+        public const int INADDR_BROADCAST = -1;
+
+        /// <summary>
+        /// Resolve a domain name to an IPv4 host address.
         /// </summary>
         /// <param name="hostname">Host name to resolve.</param>
-        /// <param name="addr">IPv4 address.</param>
+        /// <param name="host">IPv4 host address.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void IPV4_resolve(string hostname, out int addr,
+        public static extern void IPV4_resolve(string hostname, out int host,
             out int error);
 
         /// <summary>
         /// Convert an IPv4 address to a dotted notation string (<i>e.g.</i> 1.2.3.4).
         /// </summary>
-        /// <param name="addr">IPv4 address</param>
+        /// <param name="host">IPv4 host address</param>
         /// <param name="buf">Destination buffer.</param>
         /// <param name="bufsize">Destination buffer size.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void IPV4_ntoa(int addr,
+        public static extern void IPV4_ntoa(int host,
             System.Text.StringBuilder buf, int bufsize, out int error);
 
         /// <summary>
         /// Connect to a TCP server.
         /// </summary>
-        /// <param name="addr">IPv4 address.</param>
+        /// <param name="host">IPv4 host address.</param>
         /// <param name="port">TCP port number.</param>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void TCP4_connect(int addr, int port,
+        public static extern void TCP4_connect(int host, int port,
             out int fd, out int error);
 
         /// <summary>
         /// Start TCP server and wait for a single connection.
         /// </summary>
-        /// <param name="addr">IPv4 address, of the interface to listen on.  Use
+        /// <param name="host">IPv4 address, of the interface to listen on.  Use
         /// 0.0.0.0 to listen on all interfaces.</param>
         /// <param name="port">TCP port number.</param>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void TCP4_accept(int addr, int port,
+        public static extern void TCP4_accept(int host, int port,
             out int fd, out int error);
 
         /// <summary>
         /// Start a TCP server and fork for each connection.
         /// </summary>
-        /// <param name="addr">IPv4 address, of the interface to listen on.  Use
+        /// <param name="host">IPv4 address, of the interface to listen on.  Use
         /// 0.0.0.0 to listen on all interfaces.</param>
         /// <param name="port">TCP port number.</param>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void TCP4_server(int addr, int port,
+        public static extern void TCP4_server(int host, int port,
             out int fd, out int error);
 
         /// <summary>
@@ -124,5 +137,59 @@ namespace IO.Bindings.libsimpleio
         [DllImport("simpleio")]
         public static extern void TCP4_receive(int fd, byte[] buf, int bufsize,
             out int count, out int error);
+
+        /// <summary>
+        /// Open a UDP socket.
+        /// </summary>
+        /// <param name="host">IPv4 host address.</param>
+        /// <param name="port">UDP port number.</param>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void UDP4_open(int host, int port,
+            out int fd, out int error);
+
+        /// <summary>
+        /// Close a UDP socket.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void UDP4_close(int fd, out int error);
+
+        /// <summary>
+        /// Send a UDP datagram.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="host">Destination IPv4 host address.</param>
+        /// <param name="port">Destination UDP port number.</param>
+        /// <param name="buf">Source buffer.</param>
+        /// <param name="bufsize">Source buffer size.</param>
+        /// <param name="flags">Flags for the Linux <c>sendto()</c> system call.</param>
+        /// <param name="count">Number of bytes actually sent.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void UDP4_send(int fd, int host, int port,
+            byte[] buf, int bufsize, int flags, out int count, out int error);
+
+        /// <summary>
+        /// Receive a UDP datagram.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="host">Source IPv4 host address.</param>
+        /// <param name="port">Source UDP port number.</param>
+        /// <param name="buf">Destination buffer.</param>
+        /// <param name="bufsize">Destination buffer size.</param>
+        /// <param name="flags">Flags for the Linux <c>recvfrom()</c> system call.</param>
+        /// <param name="count">Number of bytes actually received.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void UDP4_receive(int fd, out int host,
+            out int port, byte[] buf, int bufsize, int flags, out int count,
+            out int error);
     }
 }
