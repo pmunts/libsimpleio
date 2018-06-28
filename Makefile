@@ -84,6 +84,7 @@ install: libsimpleio.a libsimpleio.so
 	mkdir -p				$(DESTDIR)/share/libsimpleio/csharp
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
 	mkdir -p				$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
+	mkdir -p				$(DESTDIR)/share/libsimpleio/modula2
 	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 *.h			$(DESTDIR)/include/libsimpleio
@@ -93,6 +94,7 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
