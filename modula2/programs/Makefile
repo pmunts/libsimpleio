@@ -20,6 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+
 # Override the following macro to build out of tree:
 
 MODULA2_SRC	?= .
@@ -27,7 +29,8 @@ MODULA2_SRC	?= .
 include $(MODULA2_SRC)/modula2.mk
 
 GM2_FLAGS	+= -fno-pth
-GM2_FLAGS	+= -I../bindings -I../modules
+GM2_FLAGS	+= -I$(LIBSIMPLEIO)/modula2/bindings
+GM2_FLAGS	+= -I$(LIBSIMPLEIO)/modula2/modules
 GM2_LIBS	+= -lsimpleio
 
 # Compile the test programs
