@@ -72,18 +72,20 @@ News
      * 16 June 2018 -- Added LINUX_usleep().
      * 18 June 2018 -- Minor fixes and consistency cleanups.
      * 27 June 2018 -- Added UDP over IPv4 services.
+     * 28 June 2018 -- Imported initial support for [11]GNU Modula-2. This
+       is not complete, and what is done is still pretty rough.
 
 Documentation
 
    New The user manual for libsimpleio is available at:
-   [11]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [12]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-   [12]libsimpleio.html
+   [13]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [13]http://git.munts.com
+   The source code is available at: [14]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -117,7 +119,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [14]phil@munts.net
+   Questions or comments to Philip Munts [15]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -134,7 +136,8 @@ References
    8. http://git.munts.com/arm-linux-mcu/examples
    9. http://savannah.nongnu.org/projects/lwip
   10. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
-  11. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  12. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  13. http://git.munts.com/
-  14. mailto:phil@munts.net
+  11. https://www.nongnu.org/gm2/homepage.html
+  12. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  13. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  14. http://git.munts.com/
+  15. mailto:phil@munts.net
