@@ -1,0 +1,92 @@
+(* libsimpleio bindings for GNU Modula-2 *)
+
+(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(*                                                                             *)
+(* Redistribution and use in source and binary forms, with or without          *)
+(* modification, are permitted provided that the following conditions are met: *)
+(*                                                                             *)
+(* * Redistributions of source code must retain the above copyright notice,    *)
+(*   this list of conditions and the following disclaimer.                     *)
+(*                                                                             *)
+(* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" *)
+(* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE   *)
+(* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE  *)
+(* ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE   *)
+(* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR         *)
+(* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF        *)
+(* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS    *)
+(* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN     *)
+(* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)     *)
+(* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
+(* POSSIBILITY OF SUCH DAMAGE.                                                 *)
+
+DEFINITION MODULE FOR "C" libgpio;
+
+  CONST
+    LINE_INFO_KERNEL         = 0001H;
+    LINE_INFO_OUTPUT         = 0002H;
+    LINE_INFO_ACTIVE_LOW     = 0004H;
+    LINE_INFO_OPEN_DRAIN     = 0008H;
+    LINE_INFO_OPEN_SOURCE    = 0010H;
+
+    LINE_REQUEST_INPUT       = 0001H;
+    LINE_REQUEST_OUTPUT      = 0002H;
+    LINE_REQUEST_ACTIVE_HIGH = 0000H;
+    LINE_REQUEST_ACTIVE_LOW  = 0004H;
+    LINE_REQUEST_PUSH_PULL   = 0000H;
+    LINE_REQUEST_OPEN_DRAIN  = 0008H;
+    LINE_REQUEST_OPEN_SOURCE = 0010H;
+
+    EVENT_REQUEST_NONE       = 0000H;
+    EVENT_REQUEST_RISING     = 0001H;
+    EVENT_REQUEST_FALLING    = 0002H;
+    EVENT_REQUEST_BOTH       = 0003H;
+
+  PROCEDURE GPIO_chip_info
+   (chip      : CARDINAL;
+    VAR name  : ARRAY OF CHAR;
+    namesize  : CARDINAL;
+    VAR label : ARRAY OF CHAR;
+    labelsize : CARDINAL;
+    VAR lines : CARDINAL;
+    VAR error : CARDINAL);
+
+  PROCEDURE GPIO_line_info
+   (chip      : CARDINAL;
+    line      : CARDINAL;
+    VAR flags : CARDINAL;
+    VAR name  : ARRAY OF CHAR;
+    namesize  : CARDINAL;
+    VAR label : ARRAY OF CHAR;
+    labelsize : CARDINAL;
+    VAR error : CARDINAL);
+
+  PROCEDURE GPIO_line_open
+   (chip      : CARDINAL;
+    line      : CARDINAL;
+    flags     : CARDINAL;
+    events    : CARDINAL;
+    state     : CARDINAL;
+    VAR fd    : INTEGER;
+    VAR error : CARDINAL);
+
+  PROCEDURE GPIO_line_close
+   (fd        : INTEGER;
+    VAR error : CARDINAL);
+
+  PROCEDURE GPIO_line_read
+   (fd        : INTEGER;
+    VAR state : CARDINAL;
+    VAR error : CARDINAL);
+
+  PROCEDURE GPIO_line_write
+   (fd        : INTEGER;
+    state     : CARDINAL;
+    VAR error : CARDINAL);
+
+  PROCEDURE GPIO_line_event
+   (fd        : INTEGER;
+    VAR state : CARDINAL;
+    VAR error : CARDINAL);
+
+END libgpio.

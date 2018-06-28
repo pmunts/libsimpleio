@@ -1,0 +1,83 @@
+(* Raw HID services using libsimpleio *)
+
+(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(*                                                                             *)
+(* Redistribution and use in source and binary forms, with or without          *)
+(* modification, are permitted provided that the following conditions are met: *)
+(*                                                                             *)
+(* * Redistributions of source code must retain the above copyright notice,    *)
+(*   this list of conditions and the following disclaimer.                     *)
+(*                                                                             *)
+(* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" *)
+(* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE   *)
+(* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE  *)
+(* ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE   *)
+(* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR         *)
+(* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF        *)
+(* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS    *)
+(* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN     *)
+(* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)     *)
+(* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
+(* POSSIBILITY OF SUCH DAMAGE.                                                 *)
+
+DEFINITION MODULE hid_libsimpleio;
+
+  FROM message64 IMPORT Message;
+
+  TYPE
+    Device;
+
+  CONST
+    NOWAIT  = 0;
+    FOREVER = 0FFFFFFFFH;
+
+  (* Open raw HID device given vendor and product ID's *)
+
+  PROCEDURE Open
+   (vendor    : CARDINAL;
+    product   : CARDINAL;
+    timeoutms : CARDINAL;
+    VAR dev   : Device;
+    VAR error : CARDINAL);
+
+  (* Open raw HID device given device node name (/dev/hidrawX) *)
+
+  PROCEDURE OpenDevice
+   (name      : ARRAY OF CHAR;
+    timeoutms : CARDINAL;
+    VAR dev   : Device;
+    VAR error : CARDINAL);
+
+  (* Close raw HID device *)
+
+  PROCEDURE Close
+   (VAR dev   : Device;
+    VAR error : CARDINAL);
+
+  (* Send 64-byte message to raw HID device *)
+
+  PROCEDURE Send
+   (dev       : Device;
+    msg       : Message;
+    VAR error : CARDINAL);
+
+  (* Receive 64-byte message from raw HID device *)
+
+  PROCEDURE Receive
+   (dev       : Device;
+    VAR msg   : Message;
+    VAR error : CARDINAL);
+
+  (* Perform command/response transaction *)
+
+  PROCEDURE Transaction
+   (dev       : Device;
+    cmd       : Message;
+    VAR resp  : Message;
+    VAR error : CARDINAL);
+
+  (* Retrieve the underlying Linux file descriptor *)
+
+  PROCEDURE fd(dev : Device) : INTEGER;
+
+END hid_libsimpleio.

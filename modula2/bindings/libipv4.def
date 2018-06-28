@@ -1,0 +1,139 @@
+(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(*                                                                             *)
+(* Redistribution and use in source and binary forms, with or without          *)
+(* modification, are permitted provided that the following conditions are met: *)
+(*                                                                             *)
+(* * Redistributions of source code must retain the above copyright notice,    *)
+(*   this list of conditions and the following disclaimer.                     *)
+(*                                                                             *)
+(* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" *)
+(* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE   *)
+(* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE  *)
+(* ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE   *)
+(* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR         *)
+(* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF        *)
+(* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS    *)
+(* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN     *)
+(* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)     *)
+(* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
+(* POSSIBILITY OF SUCH DAMAGE.                                                 *)
+
+DEFINITION MODULE FOR "C" libipv4;
+
+  FROM SYSTEM IMPORT BYTE;
+
+  CONST
+    INADDR_ANY       = 000000000H;
+    INADDR_LOOPBACK  = 07F000001H;
+    INADDR_BROADCAST = 0FFFFFFFFH;
+
+  (* Flags for UDP send and receive *)
+
+    MSG_DONTROUTE    = 0004H;
+    MSG_DONTWAIT     = 0040H;
+    MSG_MORE         = 8000H;
+
+  (* Resolve host name to 32-bit IPv4 address *)
+
+  PROCEDURE IPV4_resolve
+   (name      : ARRAY OF CHAR;
+    VAR addr  : CARDINAL;
+    VAR error : CARDINAL);
+
+  (* Convert 32-bit IPv4 address to dotted decimal string *)
+
+  PROCEDURE IPV4_ntoa
+   (addr      : CARDINAL;
+    VAR dst   : ARRAY OF CHAR;
+    dstsize   : CARDINAL;
+    VAR error : CARDINAL);
+
+  (* Connect to a TCP server *)
+
+  PROCEDURE TCP4_connect
+   (addr      : CARDINAL;
+    port      : CARDINAL;
+    VAR fd    : INTEGER;
+    VAR error : CARDINAL);
+
+  (* Wait (block) for exactly one connection from a TCP client, then *)
+  (* return a file descriptor for the new connection                 *)
+
+  PROCEDURE TCP4_accept
+   (addr      : CARDINAL;
+    port      : CARDINAL;
+    VAR fd    : INTEGER;
+    VAR error : CARDINAL);
+
+  (* Wait (block) until a client connects, then fork and return a file *)
+  (* descriptor for the new connection to the child process            *)
+
+  PROCEDURE TCP4_server
+   (addr      : CARDINAL;
+    port      : CARDINAL;
+    VAR fd    : INTEGER;
+    VAR error : CARDINAL);
+
+  (* Close a TCP connection *)
+
+  PROCEDURE TCP4_close
+   (fd        : INTEGER;
+    VAR error : CARDINAL);
+
+  (* Send data over TCP connection *)
+
+  PROCEDURE TCP4_send
+   (fd        : INTEGER;
+    buf       : ARRAY OF BYTE;
+    bufsize   : CARDINAL;
+    VAR count : CARDINAL;
+    VAR error : CARDINAL);
+
+  (* Receive data over TCP connection *)
+
+  PROCEDURE TCP4_receive
+   (fd        : INTEGER;
+    VAR buf   : ARRAY OF BYTE;
+    bufsize   : CARDINAL;
+    VAR count : CARDINAL;
+    VAR error : CARDINAL);
+
+  (* Open a UDP socket *)
+
+  PROCEDURE UDP4_open
+   (addr      : CARDINAL;        (* My IPv4 address *)
+    port      : CARDINAL;        (* My UDP port *)
+    VAR fd    : INTEGER;
+    VAR error : CARDINAL);
+
+  (* Close a UDP socket *)
+
+  PROCEDURE UDP4_close
+   (fd        : INTEGER;
+    VAR error : CARDINAL);
+
+  (* Send a UDP datagram *)
+
+  PROCEDURE UDP4_send
+   (fd        : INTEGER;
+    addr      : CARDINAL;        (* Destination IPv4 address *)
+    port      : CARDINAL;        (* Destination UDP port *)
+    buf       : ARRAY OF BYTE;
+    bufsize   : CARDINAL;
+    flags     : CARDINAL;
+    VAR count : CARDINAL;
+    VAR error : CARDINAL);
+
+  (* Receive a UDP datagram *)
+
+  PROCEDURE UDP4_receive
+   (fd        : INTEGER;
+    VAR addr  : CARDINAL;        (* Source IPv4 address *)
+    VAR port  : CARDINAL;        (* Source UDP port *)
+    VAR buf   : ARRAY OF BYTE;
+    bufsize   : CARDINAL;
+    flags     : CARDINAL;
+    VAR count : CARDINAL;
+    VAR error : CARDINAL);
+
+END libipv4.
