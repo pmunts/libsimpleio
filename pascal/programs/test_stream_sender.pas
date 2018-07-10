@@ -1,0 +1,85 @@
+{ Linux Simple I/O Library Stream Framing Protocol sender                     }
+
+{ Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.             }
+{                                                                             }
+{ Redistribution and use in source and binary forms, with or without          }
+{ modification, are permitted provided that the following conditions are met: }
+{                                                                             }
+{ * Redistributions of source code must retain the above copyright notice,    }
+{   this list of conditions and the following disclaimer.                     }
+{                                                                             }
+{ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" }
+{ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE   }
+{ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE  }
+{ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE   }
+{ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR         }
+{ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF        }
+{ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS    }
+{ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN     }
+{ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)     }
+{ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
+{ POSSIBILITY OF SUCH DAMAGE.                                                 }
+
+PROGRAM test_stream_sender(input, output);
+
+USES
+  errno,
+  sysutils,
+  libStream,
+  libIPV4;
+
+CONST
+  host      = INADDR_LOOPBACK;
+  port      = 12345;
+
+TYPE
+  BytePtr   = ^Byte;
+
+VAR
+  fd        : Integer;
+  error     : Integer;
+  msg       : String;
+  frame     : ARRAY [0 .. 255] OF Byte;
+  framesize : Integer;
+  count     : Integer;
+
+BEGIN
+  writeln('Stream Framing Protocol Sender Test');
+  writeln;
+
+  libIPV4.TCP_Connect(host, port, fd, error);
+  IF error <> 0 THEN
+    BEGIN
+      writeln('ERROR: TCP_Connect() failed, ', strerror(error));
+      Halt(1);
+    END;
+
+  framesize := 0;
+
+  REPEAT
+    readln(msg);
+
+    libStream.Encode(BytePtr(@msg)+1, Length(msg), @frame, SizeOf(frame), framesize, error);
+    IF error <> 0 THEN
+      BEGIN
+        writeln('ERROR: Encode() failed, ', strerror(error));
+        Halt(1);
+      END;
+
+    libStream.Send(fd, @frame, framesize, count, error);
+    IF error = EPIPE THEN EXIT;
+
+    IF error <> 0 THEN
+      BEGIN
+        writeln('ERROR: Send() failed, ', strerror(error));
+        Halt(1);
+      END;
+  UNTIL msg = 'quit';
+
+  libIPV4.TCP_Close(fd, error);
+  IF error <> 0 THEN
+    BEGIN
+      writeln('TCP_Close() failed, ', strerror(error));
+      Halt(1);
+    END;
+END.
