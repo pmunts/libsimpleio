@@ -46,7 +46,7 @@ modula2_mk_default: default
 # Compile subordinate implementation modules
 
 subordinates.a:
-	$(MODULA2_SRC)/subordinates.py $(GM2) $(AR) "$(GM2_FLAGS)"
+	$(MODULA2_SRC)/include/subordinates.py $(GM2) $(AR) "$(GM2_FLAGS)"
 
 ###############################################################################
 

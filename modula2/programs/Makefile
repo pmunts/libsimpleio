@@ -25,7 +25,7 @@
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 MODULA2_SRC	?= $(LIBSIMPLEIO)/modula2
 
-include $(MODULA2_SRC)/modula2.mk
+include $(MODULA2_SRC)/include/modula2.mk
 
 GM2_FLAGS	+= -fno-pth
 GM2_FLAGS	+= -I$(MODULA2_SRC)/bindings
