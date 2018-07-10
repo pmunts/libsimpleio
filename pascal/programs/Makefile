@@ -33,7 +33,7 @@ endif
 
 PASCAL_SRC	?= $(LIBSIMPLEIO)/pascal
 
-include $(PASCAL_SRC)/pascal.mk
+include $(PASCAL_SRC)/include/pascal.mk
 
 FPC_FLAGS	+= -Fu$(PASCAL_SRC)/bindings
 FPC_FLAGS	+= -Fu$(PASCAL_SRC)/devices
