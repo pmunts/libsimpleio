@@ -1,4 +1,4 @@
-{ GPIO Interrupt Button and LED Test using libsimpleio.so }
+{ GPIO Interrupt Button and LED Test using libsimpleio }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
@@ -31,7 +31,7 @@ VAR
   LED      : GPIO.Pin;
 
 BEGIN
-  writeln('GPIO Interrupt Button and LED Test using libsimpleio.so');
+  writeln('GPIO Interrupt Button and LED Test using libsimpleio');
   writeln;
 
   { Configure the button input and LED output }

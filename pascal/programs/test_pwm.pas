@@ -33,7 +33,7 @@ VAR
 
 BEGIN
   writeln;
-  writeln('PWM Output Test using libsimpleio.so');
+  writeln('PWM Output Test using libsimpleio');
   writeln;
 
   { Create some PWM output objects }

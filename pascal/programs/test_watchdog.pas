@@ -33,7 +33,7 @@ VAR
 
 BEGIN
   writeln;
-  writeln('Watchdog Timer Test using libsimpleio.so');
+  writeln('Watchdog Timer Test using libsimpleio');
   writeln;
 
   { Create watchdog timer device instance }

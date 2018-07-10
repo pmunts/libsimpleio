@@ -33,7 +33,7 @@ VAR
 
 BEGIN
   writeln;
-  writeln('Servo Output Test using libsimpleio.so');
+  writeln('Servo Output Test using libsimpleio');
   writeln;
 
   { Create some servo output objects }
