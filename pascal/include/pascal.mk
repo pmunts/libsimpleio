@@ -34,7 +34,7 @@ PTOP_FLAGS	= -i 2 -c $(PTOP_CFG)
 # Definitions for MuntsOS
 
 ifneq ($(BOARDNAME),)
-EMBLINUXBASE	?= ../../..
+EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 endif
 
@@ -103,8 +103,8 @@ pascal_mk_default: default
 # Clean out working files
 
 pascal_mk_clean:
-	-rm -f *.exe *.log *.o *.ppu ppas.sh *.tmp link.res
-	-rm -f $(PASCAL_SRC)/*.o $(PASCAL_SRC)/*.ppu
+	rm -f *.exe *.log *.o *.ppu ppas.sh *.tmp link.res
+	rm -f $(PASCAL_SRC)/*.o $(PASCAL_SRC)/*.ppu
 
 pascal_mk_reallyclean: pascal_mk_clean
 
