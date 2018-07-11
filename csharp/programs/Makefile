@@ -20,15 +20,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifneq ($(BOARDNAME),)
-# Cross compile for MuntsOS
-include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
-LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
-else
-# Native compile for Linux
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-endif
-
 # Override the following macro to build out of tree
 
 CSHARPSRC	?= $(LIBSIMPLEIO)/csharp
