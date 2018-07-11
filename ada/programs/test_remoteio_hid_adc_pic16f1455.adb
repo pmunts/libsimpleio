@@ -1,4 +1,4 @@
--- Test a PCA8574 as 8 individual GPIO pins
+-- Test program for the PIC16F1455 HID Remote I/O Analog to Digital Converter
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,47 +22,45 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH GPIO;
+WITH ADC.RemoteIO;
+WITH ADC.RemoteIO.PIC16F1455;
 WITH HID.Munts;
-WITH I2C;
-WITH I2C.RemoteIO;
-WITH PCA8574;
-WITH PCA8574.GPIO;
 WITH RemoteIO;
+WITH Voltage;
 
-PROCEDURE test_pca8574_gpio IS
+PROCEDURE test_remoteio_hid_adc_pic16f1455 IS
 
-  bus   : I2C.Bus;
-  dev   : PCA8574.Device;
-  pins  : ARRAY (PCA8574.GPIO.PinNumber) OF GPIO.Pin;
+  remdev : RemoteIO.Device;
+  inputs : ARRAY (0 .. 4) OF Voltage.Interfaces.Input;
 
 BEGIN
   New_Line;
-  Put_Line("PCA8574 GPIO Toggle Test");
+  Put_Line("PIC16F1455 Remote I/O A/D Converter Test");
   New_Line;
 
-  -- Create I2C bus object
+  -- Open the remote I/O device
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Create(HID.Munts.Create), 0,
-    I2C.SpeedStandard);
+  remdev := RemoteIO.Create(HID.Munts.Create);
 
-  -- Create PCA8574 device object
+  -- Configure analog inputs
 
-  dev   := PCA8574.Create(bus, 16#38#);
-
-  -- Configure GPIO pins
-
-  FOR n IN pins'Range LOOP
-    pins(n) := PCA8574.GPIO.Create(dev, n, GPIO.Output);
+  FOR i IN inputs'Range LOOP
+    inputs(i) := ADC.RemoteIO.PIC16F1455.Create(remdev, i);
   END LOOP;
 
-  -- Toggle GPIO pins
+  -- Display analog input voltages
 
-  Put_Line("Toggling pins...");
+  Put_Line("Press CONTROL-C to exit.");
+  New_Line;
 
   LOOP
-    FOR p OF pins LOOP
-      p.Put(NOT p.Get);
+    Put("Voltages:");
+
+    FOR v OF inputs LOOP
+      Voltage.Volts_IO.Put(v.Get, 3, 3, 0);
     END LOOP;
+
+    New_Line;
+    DELAY 2.0;
   END LOOP;
-END test_pca8574_gpio;
+END test_remoteio_hid_adc_pic16f1455;

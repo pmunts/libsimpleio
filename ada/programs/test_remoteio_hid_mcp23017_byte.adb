@@ -1,4 +1,4 @@
--- Test program for the PIC16F1455 HID Remote I/O Analog to Digital Converter
+-- Test an MCP23017 as 2 8-bit parallel ports
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,45 +22,60 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH ADC.RemoteIO;
-WITH ADC.RemoteIO.PIC16F1455;
 WITH HID.Munts;
+WITH I2C;
+WITH I2C.RemoteIO;
+WITH MCP23017;
+WITH MCP23017.BytePorts;
 WITH RemoteIO;
-WITH Voltage;
 
-PROCEDURE test_remoteio_adc_pic16f1455 IS
+PROCEDURE test_remoteio_hid_mcp23017_byte IS
 
-  remdev : RemoteIO.Device;
-  inputs : ARRAY (0 .. 4) OF Voltage.Interfaces.Input;
+  PACKAGE Byte_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.BytePorts.Byte);
+  USE Byte_IO;
+
+  bus   : I2C.Bus;
+  dev   : MCP23017.Device;
+  PortA : MCP23017.BytePorts.Port;
+  PortB : MCP23017.BytePorts.Port;
 
 BEGIN
+  Put_Line("MCP23017 Byte I/O Test");
   New_Line;
-  Put_Line("PIC16F1455 Remote I/O A/D Converter Test");
-  New_Line;
 
-  -- Open the remote I/O device
+  -- Create I2C bus object
 
-  remdev := RemoteIO.Create(HID.Munts.Create);
+  bus := I2C.RemoteIO.Create(RemoteIO.Create(HID.Munts.Create), 0,
+    I2C.SpeedFast);
 
-  -- Configure analog inputs
+  -- Create MCP23017 device object
 
-  FOR i IN inputs'Range LOOP
-    inputs(i) := ADC.RemoteIO.PIC16F1455.Create(remdev, i);
-  END LOOP;
+  dev   := MCP23017.Create(bus, 16#20#);
 
-  -- Display analog input voltages
+  -- Create 8-bit port objects
 
-  Put_Line("Press CONTROL-C to exit.");
-  New_Line;
+  PortA := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPA);
+  PortB := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPB);
+
+  -- Configure all port A pins as outputs
+
+  PortA.SetDirections(16#FF#);
+  PortB.SetPullups(16#00#);
+
+  -- Configure all port B pins as inputs with pullups
+
+  PortB.SetDirections(16#00#);
+  PortB.SetPullups(16#FF#);
+
+  -- Toggle port A outputs and read port B inputs
 
   LOOP
-    Put("Voltages:");
-
-    FOR v OF inputs LOOP
-      Voltage.Volts_IO.Put(v.Get, 3, 3, 0);
+    FOR n IN MCP23017.BytePorts.Byte LOOP
+      PortA.Put(n);
+      Put("PortB => ");
+      Put(PortB.Get, 0, 16);
+      Put(ASCII.CR);
     END LOOP;
-
-    New_Line;
-    DELAY 2.0;
   END LOOP;
-END test_remoteio_adc_pic16f1455;
+
+END test_remoteio_hid_mcp23017_byte;

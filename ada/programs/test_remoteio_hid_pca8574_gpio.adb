@@ -1,4 +1,4 @@
--- Test an MCP23017 as 2 8-bit parallel ports
+-- Test a PCA8574 as 8 individual GPIO pins
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,60 +22,47 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH GPIO;
 WITH HID.Munts;
 WITH I2C;
 WITH I2C.RemoteIO;
-WITH MCP23017;
-WITH MCP23017.BytePorts;
+WITH PCA8574;
+WITH PCA8574.GPIO;
 WITH RemoteIO;
 
-PROCEDURE test_mcp23017_byteports IS
-
-  PACKAGE Byte_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.BytePorts.Byte);
-  USE Byte_IO;
+PROCEDURE test_remoteio_hid_pca8574_gpio IS
 
   bus   : I2C.Bus;
-  dev   : MCP23017.Device;
-  PortA : MCP23017.BytePorts.Port;
-  PortB : MCP23017.BytePorts.Port;
+  dev   : PCA8574.Device;
+  pins  : ARRAY (PCA8574.GPIO.PinNumber) OF GPIO.Pin;
 
 BEGIN
-  Put_Line("MCP23017 Byte I/O Test");
+  New_Line;
+  Put_Line("PCA8574 GPIO Toggle Test");
   New_Line;
 
   -- Create I2C bus object
 
   bus := I2C.RemoteIO.Create(RemoteIO.Create(HID.Munts.Create), 0,
-    I2C.SpeedFast);
+    I2C.SpeedStandard);
 
-  -- Create MCP23017 device object
+  -- Create PCA8574 device object
 
-  dev   := MCP23017.Create(bus, 16#20#);
+  dev   := PCA8574.Create(bus, 16#38#);
 
-  -- Create 8-bit port objects
+  -- Configure GPIO pins
 
-  PortA := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPA);
-  PortB := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPB);
-
-  -- Configure all port A pins as outputs
-
-  PortA.SetDirections(16#FF#);
-  PortB.SetPullups(16#00#);
-
-  -- Configure all port B pins as inputs with pullups
-
-  PortB.SetDirections(16#00#);
-  PortB.SetPullups(16#FF#);
-
-  -- Toggle port A outputs and read port B inputs
-
-  LOOP
-    FOR n IN MCP23017.BytePorts.Byte LOOP
-      PortA.Put(n);
-      Put("PortB => ");
-      Put(PortB.Get, 0, 16);
-      Put(ASCII.CR);
-    END LOOP;
+  FOR n IN pins'Range LOOP
+    pins(n) := PCA8574.GPIO.Create(dev, n, GPIO.Output);
   END LOOP;
 
-END test_mcp23017_byteports;
+  -- Toggle GPIO pins
+
+  Put_Line("Toggling pins...");
+
+  LOOP
+    FOR p OF pins LOOP
+      p.Put(NOT p.Get);
+    END LOOP;
+  END LOOP;
+END test_remoteio_hid_pca8574_gpio;

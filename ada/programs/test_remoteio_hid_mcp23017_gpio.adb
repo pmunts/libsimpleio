@@ -30,7 +30,7 @@ WITH MCP23017;
 WITH MCP23017.GPIO;
 WITH RemoteIO;
 
-PROCEDURE test_mcp23017_gpio IS
+PROCEDURE test_remoteio_hid_mcp23017_gpio IS
 
   bus   : I2C.Bus;
   dev   : MCP23017.Device;
@@ -65,4 +65,4 @@ BEGIN
       p.Put(NOT p.Get);
     END LOOP;
   END LOOP;
-END test_mcp23017_gpio;
+END test_remoteio_hid_mcp23017_gpio;
