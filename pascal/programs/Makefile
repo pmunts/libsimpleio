@@ -22,14 +22,13 @@
 
 ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
 else
 # Native compile for Linux
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 endif
 
-# Override the follow macro definition to build out of tree
+# Override the follow macro to build out of tree
 
 PASCAL_SRC	?= $(LIBSIMPLEIO)/pascal
 
