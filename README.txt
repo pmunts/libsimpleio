@@ -71,8 +71,8 @@ News
      * 27 June 2018 -- Added UDP over IPv4 services.
      * 28 June 2018 -- Imported initial support for [10]GNU Modula-2. This
        is not complete, and what is done is still pretty rough.
-     * 11 July 2018 -- Imported many test programs from
-       [11]http://git.munts.com/arm-linux-mcu/examples.
+     * 11 July 2018 -- Imported many test programs from [11]MuntsOS Embedded
+       Linux.
 
 Documentation
 
