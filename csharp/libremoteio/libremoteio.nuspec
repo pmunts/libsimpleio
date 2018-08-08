@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>Copyright 2018</copyright>
+    <tags>Linux Remote I/O GPIO I2C SPI</tags>
+  </metadata>
+  <files>
+    <file src="libremoteio.chm" target="content/libremoteio" />
+  </files>
+</package>
