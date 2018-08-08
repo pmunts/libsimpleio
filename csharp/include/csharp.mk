@@ -55,7 +55,7 @@ csharp_mk_default: default
 # Clean out working files
 
 csharp_mk_clean:
-	rm -rf *.chm *.dll *.exe *.log *.mdb *.pdb *.xml *~ Help
+	rm -rf *.chm *.dll *.exe *.log *.mdb *.nupkg *.pdb *.xml *~ Help
 	-$(CSHARPSRC)/include/vsclean.sh
 
 # Build Visual Studio C# project with MSBuild
