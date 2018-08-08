@@ -71,20 +71,22 @@ News
      * 27 June 2018 -- Added UDP over IPv4 services.
      * 28 June 2018 -- Imported initial support for [10]GNU Modula-2. This
        is not complete, and what is done is still pretty rough.
-     * 11 July 2018 -- Imported many test programs from [11]MuntsOS Embedded
-       Linux.
+     * 11 July 2018 -- Imported many test programs from [11]MuntsOS
+       Embedded Linux.
+     * 8 August 2018 -- The .Net assembly libraries libsimpleio.dll and
+       libremoteio.dll have now been published to [12]NuGet..
 
 Documentation
 
    New The user manual for libsimpleio is available at:
-   [12]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [13]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-   [13]libsimpleio.html
+   [14]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [14]http://git.munts.com
+   The source code is available at: [15]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -118,7 +120,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [15]phil@munts.net
+   Questions or comments to Philip Munts [16]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -136,7 +138,8 @@ References
    9. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
   10. https://www.nongnu.org/gm2/homepage.html
   11. http://git.munts.com/arm-linux-mcu/examples
-  12. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  13. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  14. http://git.munts.com/
-  15. mailto:phil@munts.net
+  12. https://www.nuget.org/
+  13. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  14. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  15. http://git.munts.com/
+  16. mailto:phil@munts.net
