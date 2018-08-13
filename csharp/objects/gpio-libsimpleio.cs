@@ -27,7 +27,7 @@ namespace IO.Objects.libsimpleio.GPIO
     /// <summary>
     /// GPIO pin designator.
     /// </summary>
-    public sealed class Designator
+    public struct Designator
     {
         /// <summary>
         /// Linux kernel GPIO chip number.
