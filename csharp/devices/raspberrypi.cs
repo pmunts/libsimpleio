@@ -28,12 +28,6 @@ namespace IO.Devices
   /// </summary>
   public static class RaspberryPi
   {
-    public static readonly string I2C1  = "/dev/i2c-1";
-    public static readonly string SPI00 = "/dev/spidev0.0";
-    public static readonly string SPI01 = "/dev/spidev0.1";
-    public static readonly string SPI10 = "/dev/spidev1.0";  // Requires a special device tree overlay
-    public static readonly string UART0 = "/dev/ttyAMA0";
-
     // The following GPIO pins are available on all Raspberry Pi Models
 
     public static readonly Designator GPIO2  = new Designator(0, 2);   // I2C1 SDA
