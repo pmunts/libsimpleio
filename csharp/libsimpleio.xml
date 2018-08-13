@@ -1177,6 +1177,213 @@
             <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
+        <member name="T:IO.Devices.BeagleBone">
+            <summary>
+            This class defines identifiers for the devices provided by the
+            BeagleBone hardware platform.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO2">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO3">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO4">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO5">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO7">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO8">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO9">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO10">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO11">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO12">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO13">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO14">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO15">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO20">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO22">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO23">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO26">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO27">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO30">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO31">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO32">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO33">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO34">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO35">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO36">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO37">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO38">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO39">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO44">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO45">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO46">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO47">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO48">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO49">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO50">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO51">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO60">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO61">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO62">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO63">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO65">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO66">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO67">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO68">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO69">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO70">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO71">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO72">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO73">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO74">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO75">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO76">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO77">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO78">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO79">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO80">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO81">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO86">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO87">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO88">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO89">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO110">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO111">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO112">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO113">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO115">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.BeagleBone.GPIO117">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
         <member name="T:IO.Devices.PCA8574.Device">
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expanders.
@@ -1248,6 +1455,228 @@
             <summary>
             Read/Write GPIO state property.
             </summary>
+        </member>
+        <member name="T:IO.Devices.PocketBeagle">
+            <summary>
+            This class defines identifiers for the devices provided by the
+            PocketBeagle hardware platform.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO2">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO3">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO4">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO5">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO7">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO12">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO13">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO14">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO15">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO19">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO20">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO23">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO26">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO27">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO30">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO31">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO40">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO41">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO42">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO43">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO44">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO45">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO46">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO47">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO50">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO52">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO57">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO58">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO59">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO60">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO64">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO65">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO86">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO87">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO88">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO89">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO110">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO111">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO112">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO113">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO114">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO115">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO116">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.PocketBeagle.GPIO117">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="T:IO.Devices.RaspberryPi">
+            <summary>
+            This class defines identifiers for the devices provided by the
+            Raspberry Pi hardware platform.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO2">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO3">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO4">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO7">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO8">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO9">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO10">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO11">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO14">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO15">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO17">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO18">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO22">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO23">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO24">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO25">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO27">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO5">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO6">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO12">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO13">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO16">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO19">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO20">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO21">
+            <summary>Legacy GPIO pin designator</summary>
+        </member>
+        <member name="F:IO.Devices.RaspberryPi.GPIO26">
+            <summary>Legacy GPIO pin designator</summary>
         </member>
         <member name="T:IO.Interfaces.ADC.Sample">
             <summary>
