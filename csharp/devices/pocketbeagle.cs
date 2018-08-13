@@ -26,7 +26,7 @@ namespace IO.Devices
 {
   /// <summary>
   /// </summary>
-  public static class BeagleBone
+  public static class PocketBeagle
   {
     public static readonly Designator GPIO2   = new Designator(0,  2);  // P1.8   SPI0 SCLK
     public static readonly Designator GPIO3   = new Designator(0,  3);  // P1.10  SPI0 MISO
