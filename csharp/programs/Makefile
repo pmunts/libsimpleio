@@ -27,7 +27,6 @@ CSHARPSRC	?= $(LIBSIMPLEIO)/csharp
 
 include $(CSHARPSRC)/include/csharp.mk
 
-CSCFLAGS	+= -r:netstandard.dll
 CSCFLAGS	+= -r:$(CSHARPSRC)/libsimpleio.dll
 
 # Compile the test programs
