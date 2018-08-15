@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Linux Simple I/O Library</Description>
+    <AssemblyVersion>1.0</AssemblyVersion>
+    <FileVersion>1.0</FileVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\libsimpleio.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\libsimpleio.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\bindings\*.cs">
+      <Link>IO.Bindings\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\devices\*.cs">
+      <Link>IO.Devices\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\interfaces\*.cs">
+      <Link>IO.Interfaces\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\objects\*.cs">
+      <Link>IO.Objects\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\remoteio\*.cs">
+      <Link>IO.Remote\%(FileName)</Link>
+    </Compile>
+  </ItemGroup>
+
+</Project>
