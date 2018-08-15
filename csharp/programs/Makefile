@@ -1,4 +1,4 @@
-# Makefile for building C# example programs for MuntsOS
+# Makefile for building C# example programs
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
@@ -27,12 +27,13 @@ CSHARPSRC	?= $(LIBSIMPLEIO)/csharp
 
 include $(CSHARPSRC)/include/csharp.mk
 
+CSCFLAGS	+= -r:netstandard.dll
 CSCFLAGS	+= -r:$(CSHARPSRC)/libsimpleio.dll
 
 # Compile the test programs
 
 default:
-	cp $(LIBSIMPLEIO)/csharp/libsimpleio.dll .
+	cp $(CSHARPSRC)/libsimpleio.dll .
 	chmod 644 libsimpleio.dll
 	for F in *.cs ; do $(MAKE) `basename $$F .cs`.exe ; done
 

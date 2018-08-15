@@ -31,13 +31,10 @@ default: libsimpleio.dll
 # Build the projects
 
 libsimpleio.dll:
-	dotnet build libsimpleio.csproj -c $(CONFIGURATION)
-	cp bin/$(CONFIGURATION)/netstandard2.0/libsimpleio.dll .
-	cp bin/$(CONFIGURATION)/netstandard2.0/libsimpleio.xml .
+	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) libsimpleio.csproj
 ifeq ($(OS),Windows_NT)
 ifeq ($(CONFIGURATION), Release)
 	"$(MSBUILD)" libsimpleio.shfbproj
-	cp Help/libsimpleio.chm .
 endif
 endif
 
@@ -47,14 +44,17 @@ ifeq ($(OS),Windows_NT)
 ifeq ($(CONFIGURATION), Release)
 release: libsimpleio.dll
 	cp libsimpleio.dll libsimpleio.xml libsimpleio.chm ..
-	nuget pack libsimpleio.csproj -Prop Configuration=Release 
 endif
 endif
 
 # Remove working files
 
 clean: csharp_mk_clean
-	rm -rf netstandard2.0
+	rm -rf IO.Bindings
+	rm -rf IO.Devices
+	rm -rf IO.Interfaces
+	rm -rf IO.Objects
+	rm -rf IO.Remote
 
 # Include subordinate makefiles
 
