@@ -75,18 +75,27 @@ News
        Embedded Linux.
      * 8 August 2018 -- The .Net assembly libraries libsimpleio.dll and
        libremoteio.dll have now been published to [12]NuGet..
+     * 16 August 2018 -- Rebuilt the C# library .dll files to target .Net
+       Framework 4.6.1. Cleaned up the C# library .dll and package
+       metadata. Added an experimental [13].Net Standard library builder.
+       The published libraries will remain .Net Framework 4.6.1 for now,
+       as there are still some issues using .Net Standard libraries with
+       Mono. Also performed some general file reorganization and house
+       cleaning.
 
 Documentation
 
    New The user manual for libsimpleio is available at:
-   [13]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+
+   [14]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-   [14]libsimpleio.html
+
+   [15]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [15]http://git.munts.com
+   The source code is available at: [16]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -120,7 +129,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [16]phil@munts.net
+   Questions or comments to Philip Munts [17]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -139,7 +148,8 @@ References
   10. https://www.nongnu.org/gm2/homepage.html
   11. http://git.munts.com/arm-linux-mcu/examples
   12. https://www.nuget.org/
-  13. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  14. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  15. http://git.munts.com/
-  16. mailto:phil@munts.net
+  13. https://docs.microsoft.com/en-us/dotnet/standard/net-standard
+  14. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  15. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  16. http://git.munts.com/
+  17. mailto:phil@munts.net
