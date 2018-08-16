@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Munts AM Corp dba Munts Technologies")]
 [assembly: AssemblyProduct("Linux Simple I/O Library")]
-[assembly: AssemblyCopyright("Copyright ©2017, Philip Munts, President, Munts AM Corp")]
+[assembly: AssemblyCopyright("Copyright (C)2018 Philip Munts, President, Munts AM Corp dba Munts Technologies")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
