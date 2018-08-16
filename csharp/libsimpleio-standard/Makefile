@@ -20,42 +20,17 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Override the following macro to build out of tree
-
-CSHARPSRC	?= ..
-
+LIBNAME		= libsimpleio-standard
+VERSION		= 1.0.`date '+%Y.%j'`
 CONFIGURATION	= Release
 
-default: libsimpleio.dll
+# Build library package
 
-# Build the projects
-
-libsimpleio.dll:
-	dotnet build libsimpleio.csproj -c $(CONFIGURATION)
-	cp bin/$(CONFIGURATION)/netstandard2.0/libsimpleio.dll .
-	cp bin/$(CONFIGURATION)/netstandard2.0/libsimpleio.xml .
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
-	"$(MSBUILD)" libsimpleio.shfbproj
-	cp Help/libsimpleio.chm .
-endif
-endif
-
-# Release the assembly and help file
-
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
-release: libsimpleio.dll
-	cp libsimpleio.dll libsimpleio.xml libsimpleio.chm ..
-	nuget pack libsimpleio.csproj -Prop Configuration=Release 
-endif
-endif
+build:
+	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
+	cp bin/$(CONFIGURATION)/*.nupkg .
 
 # Remove working files
 
-clean: csharp_mk_clean
-	rm -rf netstandard2.0
-
-# Include subordinate makefiles
-
-include $(CSHARPSRC)/include/csharp.mk
+clean:
+	rm -rf bin obj *.nupkg
