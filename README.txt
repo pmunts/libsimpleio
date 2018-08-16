@@ -77,11 +77,11 @@ News
        libremoteio.dll have now been published to [12]NuGet..
      * 16 August 2018 -- Rebuilt the C# library .dll files to target .Net
        Framework 4.6.1. Cleaned up the C# library .dll and package
-       metadata. Added an experimental [13].Net Standard library builder.
-       The published libraries will remain .Net Framework 4.6.1 for now,
-       as there are still some issues using .Net Standard libraries with
-       Mono. Also performed some general file reorganization and house
-       cleaning.
+       metadata. Added experimental [13].Net Standard library builders for
+       libsimpleio and libremoteio. The published libraries will remain
+       .Net Framework 4.6.1 for now, as there are still some issues using
+       .Net Standard libraries with Mono. Also performed some general file
+       reorganization and house cleaning.
 
 Documentation
 
