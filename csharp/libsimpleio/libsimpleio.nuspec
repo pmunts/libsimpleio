@@ -4,14 +4,17 @@
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>$author$</authors>
+    <description>$description$</description>
+    <summary>$description$</summary>
+    <authors>Philip Munts</authors>
     <owners>$author$</owners>
     <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
     <licenseUrl>http://git.munts.com/libsimpleio/COPYING</licenseUrl>
+    <copyright>Copyright (C)2018 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
+    <tags>Linux I/O ADC GPIO I2C SPI Serial Watchdog</tags>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <copyright>Copyright 2018 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
-    <tags>Linux I/O GPIO I2C SPI Serial Watchdog</tags>
+    <releaseNotes>
+    </releaseNotes>
   </metadata>
   <files>
     <file src="libsimpleio.chm" target="content/libsimpleio" />
