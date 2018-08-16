@@ -92,11 +92,8 @@ install: libsimpleio.a libsimpleio.so
 	install -cm 0755 *.so			$(DESTDIR)/lib
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
-	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
-	rm -rf					$(DESTDIR)/share/libsimpleio/csharp/libsimpleio
-	rm -rf					$(DESTDIR)/share/libsimpleio/csharp/libsimpleio-standard
-	rm -rf					$(DESTDIR)/share/libsimpleio/csharp/libremoteio
-	rm -rf					$(DESTDIR)/share/libsimpleio/csharp/libremoteio-standard
+	cp csharp/libremoteio.*			$(DESTDIR)/share/libsimpleio/csharp
+	cp csharp/libsimpleio.*			$(DESTDIR)/share/libsimpleio/csharp
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
