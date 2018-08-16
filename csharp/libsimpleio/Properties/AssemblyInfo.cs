@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Linux I/O Library")]
-[assembly: AssemblyDescription("Linux I/O Library")]
+[assembly: AssemblyTitle("Linux Simple I/O Library")]
+[assembly: AssemblyDescription("Linux Simple I/O Library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Munts AM Corp dba Munts Technologies")]
-[assembly: AssemblyProduct("Linux I/O Library")]
+[assembly: AssemblyProduct("Linux Simple I/O Library")]
 [assembly: AssemblyCopyright("Copyright ©2017, Philip Munts, President, Munts AM Corp")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
