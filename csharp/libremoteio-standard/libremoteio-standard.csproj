@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>$(BUILDVERSION)</Version>
+    <AssemblyVersion>$(BUILDVERSION)</AssemblyVersion>
+    <FileVersion>$(BUILDVERSION)</FileVersion>
+    <Title>USB HID Remote I/O Library</Title>
+    <Description>USB HID Remote I/O Library</Description>
+    <Authors>Philip Munts</Authors>
+    <Copyright>Copyright (C)2018 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
+    <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
+    <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
+    <PackageTags>Linux I/O; ADC; GPIO; I2C; SPI; Serial; USB HID; Watchdog</PackageTags>
+    <PackageReleaseNotes>
+    </PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\libremoteio\Message64.cs">
+      <Link>%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\devices\*.cs">
+      <Link>IO.Devices\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\interfaces\*.cs">
+      <Link>IO.Interfaces\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\objects\motor-servo.cs">
+      <Link>IO.Objects\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\objects\usb.munts.cs">
+      <Link>IO.Objects\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\remoteio\*.cs">
+      <Link>IO.Remote\%(FileName)</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="hidsharp" Version="1.5.0" />
+  </ItemGroup>
+
+</Project>
