@@ -94,6 +94,8 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	cp csharp/libremoteio.*			$(DESTDIR)/share/libsimpleio/csharp
 	cp csharp/libsimpleio.*			$(DESTDIR)/share/libsimpleio/csharp
+	cp -R -P -p csharp/include		$(DESTDIR)/share/libsimpleio/csharp
+	cp -R -P -p csharp/programs		$(DESTDIR)/share/libsimpleio/csharp
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
