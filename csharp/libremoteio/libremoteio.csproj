@@ -47,6 +47,9 @@
     <Compile Include="..\interfaces\*.cs">
       <Link>IO.Interfaces\%(FileName)</Link>
     </Compile>
+    <Compile Include="..\objects\motor-pwm.cs">
+      <Link>IO.Objects\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\objects\motor-servo.cs">
       <Link>IO.Objects\%(FileName)</Link>
     </Compile>
