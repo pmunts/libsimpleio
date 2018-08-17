@@ -22,7 +22,7 @@
 
 # Override the following macro to build out of tree
 
-CSHARPSRC	?= $(HOME)/src/csharp
+CSHARPSRC	?= $(LIBSIMPLEIO)/csharp
 
 # Build the project
 
