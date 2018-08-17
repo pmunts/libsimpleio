@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("USB HID Remote I/O Library")]
-[assembly: AssemblyDescription("USB HID Remote I/O Library")]
+[assembly: AssemblyTitle("USB HID Remote I/O Library for .Net Framework 4.7.1")]
+[assembly: AssemblyDescription("USB HID Remote I/O Library for .Net Framework 4.7.1")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Munts AM Corp dba Munts Technologies")]
-[assembly: AssemblyProduct("USB HID Remote I/O Library")]
+[assembly: AssemblyProduct("USB HID Remote I/O Library for .Net Framework 4.7.1")]
 [assembly: AssemblyCopyright("Copyright (C)2018 Philip Munts, President, Munts AM Corp dba Munts Technologies")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -39,7 +39,7 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <Preliminary>False</Preliminary>
     <NamingMethod>Guid</NamingMethod>
-    <HelpTitle>Linux I/O Library</HelpTitle>
+    <HelpTitle>Linux Simple I/O Library</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="IO.Bindings.libsimpleio" isDocumented="True">Wrapper Classes for the Linux Simple I/O Library (&lt;a href="http://git.munts.com/libsimpleio"&gt;http://git.munts.com/libsimpleio&lt;/a&gt;)</NamespaceSummaryItem>

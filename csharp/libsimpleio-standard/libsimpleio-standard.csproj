@@ -5,8 +5,8 @@
     <AssemblyVersion>$(BUILDVERSION)</AssemblyVersion>
     <FileVersion>$(BUILDVERSION)</FileVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Title>Linux Simple I/O Library</Title>
-    <Description>Linux Simple I/O Library</Description>
+    <Title>Linux Simple I/O Library for .Net Standard 2.0</Title>
+    <Description>Linux Simple I/O Library for .Net Standard 2.0</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2018 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
