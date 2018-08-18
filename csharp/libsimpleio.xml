@@ -1177,6 +1177,28 @@
             <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
+        <member name="T:IO.Devices.ADC121C021.Sample">
+            <summary>
+            Encapsulates the ADC121C021 I<sup>2</sup>C A/D converter.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.ADC121C021.Sample.#ctor(IO.Interfaces.I2C.Bus,System.Byte)">
+            <summary>
+            Constructor for an ADC121C021 analog input.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller.</param>
+            <param name="addr">I<sup>2</sup>C slave address.</param>
+        </member>
+        <member name="P:IO.Devices.ADC121C021.Sample.sample">
+            <summary>
+            Returns a single 12-bit analog sample.
+            </summary>
+        </member>
+        <member name="P:IO.Devices.ADC121C021.Sample.resolution">
+            <summary>
+            Return the number of bits of A/D resolution.
+            </summary>
+        </member>
         <member name="T:IO.Devices.PCA8574.Device">
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expanders.

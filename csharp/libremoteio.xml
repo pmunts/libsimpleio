@@ -74,6 +74,44 @@
             Product ID for Munts Technologies USB serial port devices.
             </summary>
         </member>
+        <member name="T:IO.Objects.Motor.PWM.Output">
+            <summary>
+            Encapsulates motors controlled by PWM and GPIO outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.Motor.PWM.Output.#ctor(IO.Interfaces.GPIO.Pin,IO.Interfaces.PWM.Output,System.Double)">
+            <summary>
+            Constructor for a single motor, using one GPIO pin for
+            direction control, and one PWM output for speed control.
+            </summary>
+            <param name="direction">GPIO pin instance (for direction
+            control).</param>
+            <param name="speed">PWM output instance (for speed
+            control).</param>
+            <param name="velocity">Initial normalized motor velocity.
+            Allowed values are -1.0 (full speed reverse) to +1.0
+            (full speed forward.</param>
+        </member>
+        <member name="M:IO.Objects.Motor.PWM.Output.#ctor(IO.Interfaces.PWM.Output,IO.Interfaces.PWM.Output,System.Double)">
+            <summary>
+            Constructor for a single motor, using two PWM outputs
+            for clockwise and counterclockwise rotation control.
+            </summary>
+            <param name="clockwise">PWM output instance (for clockwise
+            rotation control).</param>
+            <param name="counterclockwise">PWM output instance (for
+            counterclockwise rotation control).</param>
+            <param name="velocity">Initial normalized motor velocity.
+            Allowed values are -1.0 (full speed reverse) to +1.0
+            (full speed forward.</param>
+        </member>
+        <member name="P:IO.Objects.Motor.PWM.Output.velocity">
+            <summary>
+            Write-only property for setting the normalized motor velocity.
+            Allowed values are -1.0 (full speed reverse) to +1.0
+            (full speed forward.
+            </summary>
+        </member>
         <member name="T:IO.Objects.Motor.Servo.Output">
             <summary>
             Encapsulates motors controlled by servo outputs (e.g. continuous
@@ -94,6 +132,28 @@
             Write-only property for setting the normalized motor velocity.
             Allowed values are -1.0 (full speed reverse) to +1.0
             (full speed forward.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.ADC121C021.Sample">
+            <summary>
+            Encapsulates the ADC121C021 I<sup>2</sup>C A/D converter.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.ADC121C021.Sample.#ctor(IO.Interfaces.I2C.Bus,System.Byte)">
+            <summary>
+            Constructor for an ADC121C021 analog input.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller.</param>
+            <param name="addr">I<sup>2</sup>C slave address.</param>
+        </member>
+        <member name="P:IO.Devices.ADC121C021.Sample.sample">
+            <summary>
+            Returns a single 12-bit analog sample.
+            </summary>
+        </member>
+        <member name="P:IO.Devices.ADC121C021.Sample.resolution">
+            <summary>
+            Return the number of bits of A/D resolution.
             </summary>
         </member>
         <member name="T:IO.Devices.PCA8574.Device">
