@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_led_button
+namespace test_gpio_button_led
 {
     class Program
     {

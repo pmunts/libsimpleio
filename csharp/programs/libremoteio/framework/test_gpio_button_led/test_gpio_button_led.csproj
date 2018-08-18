@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{396E72C1-8C9F-4017-BE6A-419A1625C59B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>test_led_button</RootNamespace>
-    <AssemblyName>test_led_button</AssemblyName>
+    <RootNamespace>test_gpio_button_led</RootNamespace>
+    <AssemblyName>test_gpio_button_led</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
