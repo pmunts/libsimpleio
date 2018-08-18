@@ -67,11 +67,10 @@ namespace IO.Objects.libsimpleio.I2C
                 throw new Exception("Invalid response length");
             }
 
-            byte[] cmd = new byte[1];
             int error;
 
             IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
-                slaveaddr, cmd, 0, resp, resplen, out error);
+                slaveaddr, null, 0, resp, resplen, out error);
 
             if (error != 0)
             {
@@ -97,11 +96,10 @@ namespace IO.Objects.libsimpleio.I2C
                 throw new Exception("Invalid command length");
             }
 
-            byte[] resp = new byte[1];
             int error;
 
             IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
-                slaveaddr, cmd, cmdlen, resp, 0, out error);
+                slaveaddr, cmd, cmdlen, null, 0, out error);
 
             if (error != 0)
             {
