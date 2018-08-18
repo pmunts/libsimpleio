@@ -82,20 +82,24 @@ News
        .Net Framework 4.6.1 for now, as there are still some issues using
        .Net Standard libraries with Mono. Also performed some general file
        reorganization and house cleaning.
+     * 18 August 2018 -- Rebuilt the C# library .dll files to target .Net
+       Framework 4.7.1. Added support for the [14]ADC121C021 A/D converter
+       chip, which is used in the [15]Grove I2C A/D Converter module.
+       Fixed a few issues in the I2C stack. Performed yet more file
+       reorganization and house cleaning. Made C# .dll and package
+       metadata more clear about what is what.
 
 Documentation
 
    New The user manual for libsimpleio is available at:
-
-   [14]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [16]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-
-   [15]libsimpleio.html
+   [17]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [16]http://git.munts.com
+   The source code is available at: [18]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -129,7 +133,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [17]phil@munts.net
+   Questions or comments to Philip Munts [19]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -149,7 +153,9 @@ References
   11. http://git.munts.com/arm-linux-mcu/examples
   12. https://www.nuget.org/
   13. https://docs.microsoft.com/en-us/dotnet/standard/net-standard
-  14. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  15. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  16. http://git.munts.com/
-  17. mailto:phil@munts.net
+  14. http://www.ti.com/product/ADC121C021
+  15. http://wiki.seeedstudio.com/Grove-I2C_ADC
+  16. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  17. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  18. http://git.munts.com/
+  19. mailto:phil@munts.net
