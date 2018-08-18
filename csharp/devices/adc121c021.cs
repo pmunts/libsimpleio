@@ -45,7 +45,7 @@ namespace IO.Devices.ADC121C021
 
             cmd[0] = addr;
             cmd[1] = data;
-            this.bus.Transaction(this.addr, cmd, 2, null, 0);
+            this.bus.Write(this.addr, cmd, 2);
         }
 
         private int ReadRegister16(byte addr)
@@ -61,7 +61,9 @@ namespace IO.Devices.ADC121C021
         /// <summary>
         /// Constructor for an ADC121C021 analog input.
         /// </summary>
-        Sample(IO.Interfaces.I2C.Bus bus, byte addr)
+        /// <param name="bus">I<sup>2</sup>C bus controller.</param>
+        /// <param name="addr">I<sup>2</sup>C slave address.</param>
+        public Sample(IO.Interfaces.I2C.Bus bus, byte addr)
         {
             this.bus = bus;
             this.addr = addr;
