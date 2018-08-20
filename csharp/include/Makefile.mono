@@ -33,7 +33,6 @@ CSCFLAGS	+= -r:$(CSHARPSRC)/libsimpleio.dll
 
 default:
 	cp $(CSHARPSRC)/libsimpleio.dll .
-	chmod 644 libsimpleio.dll
 	for F in *.cs ; do $(MAKE) `basename $$F .cs`.exe ; done
 
 # Remove working files
