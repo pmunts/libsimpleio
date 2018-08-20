@@ -43,7 +43,7 @@ include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 
 OSNAME		?= unknown
 PKGNAME		:= gcc-$(TOOLCHAIN_NAME)-libsimpleio
-PKGVERSION	:= $(shell date +%Y.%j)
+PKGVERSION	:= $(shell date +%Y.%j)$(BUILDNUM)
 PKGARCH		:= all
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
