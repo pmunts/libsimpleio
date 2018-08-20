@@ -31,7 +31,7 @@ DESTDIR		?= /usr/local
 
 OSNAME		?= unknown
 PKGNAME		:= munts-libsimpleio
-PKGVERSION	:= $(shell date +%Y.%j)
+PKGVERSION	:= $(shell date +%Y.%j)$(BUILDNUM)
 PKGARCH		:= $(shell dpkg --print-architecture)
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
