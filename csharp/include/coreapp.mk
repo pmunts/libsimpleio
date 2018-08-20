@@ -50,7 +50,7 @@ $(PKGDIR): coreapp_mk_build
 	sed -i s/@@NAME@@/$(PKGNAME)/g				$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
 	mkdir -p 						$(PKGDIR)/$(COREAPPBIN)
-	echo "exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll"	>$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
+	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
 	chmod 755						$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
 	mkdir -p 						$(PKGDIR)/$(COREAPPLIB)
 	cp -R -P -p $(COREAPPPUB)/*				$(PKGDIR)/$(COREAPPLIB)
@@ -69,7 +69,7 @@ coreapp_mk_deb: $(PKGFILE)
 
 coreapp_mk_tarball: coreapp_mk_build
 	mkdir -p 						$(TARROOT)/$(COREAPPBIN)
-	echo "exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll"	>$(TARROOT)/$(COREAPPBIN)/$(COREAPPNAME)
+	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(TARROOT)/$(COREAPPBIN)/$(COREAPPNAME)
 	chmod 755						$(TARROOT)/$(COREAPPBIN)/$(COREAPPNAME)
 	mkdir -p 						$(TARROOT)/$(COREAPPLIB)
 	cp -R -P -p $(COREAPPPUB)/*				$(TARROOT)/$(COREAPPLIB)
