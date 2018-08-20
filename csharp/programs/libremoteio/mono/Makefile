@@ -32,7 +32,7 @@ CSCFLAGS	+= -r:$(CSHARPSRC)/libremoteio.dll
 # Compile the test programs
 
 default:
-	cp $(CSHARPSRC)/libremoteio.dll .
+	install -cm 0644 $(CSHARPSRC)/libremoteio.dll .
 	for F in *.cs ; do $(MAKE) `basename $$F .cs`.exe ; done
 
 # Remove working files

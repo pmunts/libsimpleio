@@ -32,7 +32,7 @@ CSCFLAGS	+= -r:$(CSHARPSRC)/libsimpleio.dll
 # Compile the test programs
 
 default:
-	cp $(CSHARPSRC)/libsimpleio.dll .
+	install -cm 0644 $(CSHARPSRC)/libsimpleio.dll .
 	for F in *.cs ; do $(MAKE) `basename $$F .cs`.exe ; done
 
 # Remove working files
