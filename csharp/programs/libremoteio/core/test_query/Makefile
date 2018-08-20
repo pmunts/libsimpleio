@@ -1,4 +1,4 @@
-# Generic Makefile template for building .Net Core applications
+# Generic Makefile template for building C# .Net Core applications
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
