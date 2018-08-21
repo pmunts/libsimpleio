@@ -45,7 +45,7 @@ namespace test_grove_i2c_adc
 
       Console.WriteLine("Resolution: " + adc.resolution.ToString() + " bits\n");
 
-      for (; ; )
+      for (;;)
       {
         Console.WriteLine("Voltage => " + inp.voltage.ToString("F2"));
         Thread.Sleep(1000);
