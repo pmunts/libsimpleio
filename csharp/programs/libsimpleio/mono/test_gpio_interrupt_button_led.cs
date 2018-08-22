@@ -23,7 +23,7 @@
 using System;
 using System.Threading;
 
-namespace test_gpio_button_led
+namespace test_gpio_interrupt_button_led
 {
   class Program
   {

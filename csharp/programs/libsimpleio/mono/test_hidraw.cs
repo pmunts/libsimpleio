@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_rawhid
+namespace test_hidraw
 {
   class Program
   {

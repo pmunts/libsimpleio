@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_remoteio_hid
+namespace test_remoteio_pca8574_toggle_port
 {
   class Program
   {
