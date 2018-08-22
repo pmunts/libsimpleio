@@ -1,4 +1,4 @@
-# Ada definitions for libsimpleio
+# GNAT Ada definitions for libsimpleio
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
