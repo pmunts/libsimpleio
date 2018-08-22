@@ -1,6 +1,6 @@
-# Makefile for building C++ example programs
+# C++ make definitions for libsimpleio
 
-# Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,34 +20,26 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-CXXDEPS		+= libsimpleio++.a
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
 
-ifneq ($(BOARDNAME),)
-# Cross compile for MuntsOS
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
-include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
-CXX_SRC		?= $(EMBLINUXBASE)/examples/c++
-include $(CXX_SRC)/include/c++.mk
-LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
-else
-# Native compile for Linux
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-CXX_SRC		?= $(LIBSIMPLEIO)/c++
-include $(CXX_SRC)/include/c++.mk
-endif
+LDFLAGS		+= -L. -lsimpleio -lsimpleio++
 
-include $(LIBSIMPLEIO)/c++/include/libsimpleio.mk
+# Build the C++ class library
 
-# Compile the test programs
-
-default:
-	for F in *.cpp ; do $(MAKE) `basename $$F .cpp` ; done
+libsimpleio++.a:
+	for F in $(LIBSIMPLEIO)/c++/interfaces/*.cpp ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
+	for F in $(LIBSIMPLEIO)/c++/objects/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
+	for F in $(LIBSIMPLEIO)/c++/devices/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
+	$(AR) rcs $@ *.o
+	rm -f *.o
 
 # Remove working files
 
-clean: cxx_mk_clean libsimpleio_mk_clean
-	for F in *.cpp ; do rm -f `basename $$F .cpp` ; done
+libsimpleio_mk_clean:
+	rm -f libsimpleio++.a
 
-reallyclean: clean cxx_mk_reallyclean libsimpleio_mk_reallyclean
+libsimpleio_mk_reallyclean: libsimpleio_mk_clean
 
-distclean: reallyclean cxx_mk_distclean libsimpleio_mk_distclean
+libsimpleio_mk_distclean: libsimpleio_mk_reallyclean

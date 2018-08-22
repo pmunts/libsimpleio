@@ -1,4 +1,4 @@
-# Makefile for building C++ example programs
+# Makefile definitions for building C++ example programs
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
@@ -20,50 +20,29 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifneq ($(BOARDNAME),)
-# Cross compile for MuntsOS
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
-include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
-endif
+# Do not remove intermediate files
 
-# Modify the following macro to build out of tree
-
-CXX_SRC		?= $(LIBSIMPLEIO)/c++
+.SECONDARY:
 
 CXX	 	= $(CROSS_COMPILE)g++
 STRIP		= $(CROSS_COMPILE)strip
 
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
-CXXFLAGS	+= -I$(CXX_SRC)/devices
-CXXFLAGS	+= -I$(CXX_SRC)/interfaces
-CXXFLAGS	+= -I$(CXX_SRC)/objects
-LDFLAGS		+= -L. -lsimpleio -lsimpleio++
-
-# Default target placeholder
-
-cxx_mk_default: default
 
 # Define a pattern rule to compile a C++ program
 
-%: %.cpp libsimpleio++.a
+%: %.cpp $(CXXDEPS)
 	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
 	$(STRIP) $@
 
-# Build the C++ class library
+# Default make target
 
-libsimpleio++.a:
-	for F in $(LIBSIMPLEIO)/c++/interfaces/*.cpp ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
-	for F in $(LIBSIMPLEIO)/c++/objects/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
-	for F in $(LIBSIMPLEIO)/c++/devices/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
-	$(AR) rcs $@ *.o
-	rm -f *.o
+cxx_mk_default: default
 
 # Remove working files
 
 cxx_mk_clean:
-	for F in *.cpp ; do rm -f `basename $$F .cpp` ; done
 
 cxx_mk_reallyclean: cxx_mk_clean
-	rm -f *.a
 
 cxx_mk_distclean: cxx_mk_reallyclean
