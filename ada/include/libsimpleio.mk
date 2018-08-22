@@ -1,4 +1,4 @@
-# Makefile for building Ada example programs
+# Ada definitions for libsimpleio
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
@@ -20,31 +20,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifneq ($(BOARDNAME),)
-# Cross compile for MuntsOS
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
-ADA_SRC		?= $(EMBLINUXBASE)/examples/ada
-include $(ADA_SRC)/include/ada.mk
-LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
-else
-# Native compile for Linux
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-ADA_SRC		?= $(LIBSIMPLEIO)/ada
-include $(ADA_SRC)/include/ada.mk
-endif
-
-include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
-
-# Compile the test programs
-
-default:
-	for F in *.adb ; do $(MAKE) `basename $$F .adb` ; done
-
-# Remove working files
-
-clean: ada_mk_clean
-	for F in *.adb ; do rm -f `basename $$F .adb` ; done
-
-reallyclean: clean ada_mk_reallyclean
-
-distclean: reallyclean ada_mk_distclean
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/bindings
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/devices
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/interfaces
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/packages
