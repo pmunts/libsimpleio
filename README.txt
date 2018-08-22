@@ -88,6 +88,9 @@ News
        Fixed a few issues in the I2C stack. Performed yet more file
        reorganization and house cleaning. Made C# .dll and package
        metadata more clear about what is what.
+     * 22 August 2018 -- Fixed various issues with cross-compiling the
+       example programs. Added more test programs for the PCA8574 I2C
+       GPIO expander.
 
 Documentation
 
