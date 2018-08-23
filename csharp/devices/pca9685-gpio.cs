@@ -44,7 +44,7 @@ namespace IO.Devices.PCA9685.GPIO
     /// Constructor for a single GPIO output pin.
     /// </summary>
     /// <param name="dev">PCA9685 device object.</param>
-    /// <param name="channel">GPIO output channel number.</param>
+    /// <param name="channel">Output channel number.</param>
     /// <param name="state">Initial output state.</param>
     public Pin(Device dev, int channel, bool state = false)
     {
@@ -66,7 +66,7 @@ namespace IO.Devices.PCA9685.GPIO
     {
       get
       {
-        dev.ReadChannel(channel, out data);
+        dev.ReadChannel(channel, ref data);
 
         if (Compare(data, ON))
           return true;
