@@ -29,6 +29,9 @@
     <Compile Include="..\bindings\*.cs">
       <Link>IO.Bindings\%(FileName)</Link>
     </Compile>
+    <Compile Include="..\common\*.cs">
+      <Link>IO.Objects\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
     </Compile>
