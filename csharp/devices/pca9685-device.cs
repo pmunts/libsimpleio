@@ -121,6 +121,7 @@ namespace IO.Devices.PCA9685
     }
 
     private readonly IO.Interfaces.I2C.Device dev;
+    private readonly int freq;
     private byte[] cmd;
     private byte[] resp;
 
@@ -137,6 +138,7 @@ namespace IO.Devices.PCA9685
       int clock = INTERNAL)
     {
       dev = new IO.Interfaces.I2C.Device(bus, addr);
+      this.freq = freq;
       cmd = new byte[5];
       resp = new byte[4];
 
@@ -158,7 +160,7 @@ namespace IO.Devices.PCA9685
       WriteRegister((byte)Registers.MODE2, 0x0C);
     }
 
-    private void ReadRegister(byte addr, out byte data)
+    private void ReadRegister(byte addr, ref byte data)
     {
       cmd[0] = addr;
       dev.Transaction(cmd, 1, resp, 1);
@@ -177,14 +179,18 @@ namespace IO.Devices.PCA9685
     /// </summary>
     /// <param name="channel">Output channel number.</param>
     /// <param name="data">Output channel data (4 bytes).</param>
-    public void ReadChannel(byte channel, out byte[] data)
+    public void ReadChannel(byte channel, ref byte[] data)
     {
       if (channel > MAX_CHANNEL)
         throw new System.Exception("Invalid channel number");
 
       cmd[0] = System.Convert.ToByte((int)Registers.LED0_ON_L + channel * 4);
       dev.Transaction(cmd, 1, resp, 4);
-      data = resp;
+
+      data[0] = resp[0];
+      data[1] = resp[1];
+      data[2] = resp[2];
+      data[3] = resp[3];
     }
 
     /// <summary>
@@ -202,7 +208,19 @@ namespace IO.Devices.PCA9685
       cmd[2] = data[1];
       cmd[3] = data[2];
       cmd[4] = data[3];
+
       dev.Write(cmd, 5);
+    }
+
+    /// <summary>
+    /// Read-only PWM pulse frequency property
+    /// </summary>
+    int Frequency
+    {
+      get
+      {
+        return this.freq;
+      }
     }
   }
 }
