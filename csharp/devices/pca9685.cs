@@ -149,7 +149,7 @@ namespace IO.Devices.PCA9685
     {
       if (channel > MAX_CHANNEL) throw new Exception("Invalid channel number");
 
-      cmd[0] = (byte)((int)Registers.LED0_ON_L + channel * 4);
+      cmd[0] = System.Convert.ToByte((int)Registers.LED0_ON_L + channel * 4);
       dev.Transaction(cmd, 1, resp, 4);
       data = resp;
     }
@@ -163,7 +163,7 @@ namespace IO.Devices.PCA9685
     {
       if (channel > MAX_CHANNEL) throw new Exception("Invalid channel number");
 
-      cmd[0] = (byte)((int)Registers.LED0_ON_L + channel * 4);
+      cmd[0] = System.Convert.ToByte((int)Registers.LED0_ON_L + channel * 4);
       cmd[1] = data[0];
       cmd[2] = data[1];
       cmd[3] = data[2];
@@ -176,7 +176,7 @@ namespace IO.Devices.PCA9685
     /// </summary>
     /// <param name="bus">I<sup>2</sup>C bus controller object.</param>
     /// <param name="addr">I<sup>2</sup>C slave address.</param>
-    /// <param name="freq">PWM pulse frequency.</param>
+    /// <param name="freq">PWM pulse frequency.  Default is 50 Hz.</param>
     /// <param name="clock">PCA9685 clock source.
     /// Use <c>INTERNAL</c>c> to select the internal 25 MHz clock generator.
     /// </param>
@@ -234,17 +234,19 @@ namespace IO.Devices.PCA9685
     /// <param name="state">Initial output state.</param>
     public Pin(Device dev, int channel, bool state = false)
     {
+      // Validate parameters
+
       if ((channel < Device.MIN_CHANNEL) || (channel > Device.MAX_CHANNEL))
         throw new Exception("Invalid channel number");
 
       this.dev = dev;
-      this.channel = (byte)channel;
+      this.channel = System.Convert.ToByte(channel);
       this.data = new byte[4];
       this.state = state;
     }
 
     /// <summary>
-    /// Read/Write GPIO state property.
+    /// Read/Write GPIO output state property.
     /// </summary>
     public bool state
     {
@@ -285,6 +287,8 @@ namespace IO.Devices.PCA9685
     /// Allowed values are 0.0 to 100.0 percent.</param>
     public Output(Device dev, int channel, double dutycycle = 0.0)
     {
+      // Validate parameters
+
       if ((channel < Device.MIN_CHANNEL) || (channel > Device.MAX_CHANNEL))
         throw new Exception("Invalid channel number");
 
@@ -293,9 +297,8 @@ namespace IO.Devices.PCA9685
         throw new Exception("Invalid duty cycle");
 
       this.dev = dev;
-      this.channel = (byte)channel;
+      this.channel = System.Convert.ToByte(channel);
       this.data = new byte[4];
-
       this.dutycycle = dutycycle;
     }
 
@@ -307,12 +310,21 @@ namespace IO.Devices.PCA9685
     {
       set
       {
+        // Validate parameters
+
         if ((value < IO.Interfaces.PWM.DutyCycles.Minimum) ||
             (value > IO.Interfaces.PWM.DutyCycles.Maximum))
           throw new Exception("Invalid duty cycle");
 
+        UInt16 offtime = System.Convert.ToUInt16(value*40.95);
+
+        data[0] = 0;
+        data[1] = 0;
+        data[2] = System.Convert.ToByte(offtime % 256);
+        data[3] = System.Convert.ToByte(offtime / 256);
+
+        dev.WriteChannel(channel, data);
       }
     }
-
   }
 }
