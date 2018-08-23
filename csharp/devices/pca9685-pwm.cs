@@ -33,10 +33,11 @@ namespace IO.Devices.PCA9685.PWM
     /// Constructor for a single PWM output.
     /// </summary>
     /// <param name="dev">PCA9685 device object.</param>
-    /// <param name="channel">PWM output channel number.</param>
+    /// <param name="channel">Output channel number.</param>
     /// <param name="dutycycle">Initial PWM output duty cycle.
     /// Allowed values are 0.0 to 100.0 percent.</param>
-    public Output(Device dev, int channel, double dutycycle = 0.0)
+    public Output(Device dev, int channel,
+      double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum)
     {
       // Validate parameters
 
