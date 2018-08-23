@@ -26,9 +26,19 @@ namespace IO.Devices.PCA9685
   public class Device
   {
     /// <summary>
-    /// Select internal 25 MHz oscillator.
+    /// Minimum clock frequency.
     /// </summary>
-    public const int INTERNAL = 0;
+    public const int MIN_CLOCK = 1;
+
+    /// <summary>
+    /// Maximum clock frequency.
+    /// </summary>
+    public const int MAX_CLOCK = 50000000;
+
+    /// <summary>
+    /// Select internal 25 MHz clock oscillator.
+    /// </summary>
+    public const int INTERNAL_CLOCK = 0;
 
     /// <summary>
     /// Minimum PCA9685 output channel number.
@@ -132,17 +142,25 @@ namespace IO.Devices.PCA9685
     /// <param name="addr">I<sup>2</sup>C slave address.</param>
     /// <param name="freq">PWM pulse frequency.  Default is 50 Hz.</param>
     /// <param name="clock">PCA9685 clock source.
-    /// Use <c>INTERNAL</c>c> to select the internal 25 MHz clock generator.
+    /// Use <c>INTERNAL_CLOCK</c>c> to select the internal 25 MHz clock generator.
     /// </param>
     public Device(IO.Interfaces.I2C.Bus bus, int addr, int freq = 50,
-      int clock = INTERNAL)
+      int clock = INTERNAL_CLOCK)
     {
+      // Validate parameters
+
+      if (freq < 1)
+        throw new System.Exception("Invalid PWM pulse frequency");
+
+      if ((clock < MIN_CLOCK) || (clock > MAX_CLOCK))
+        throw new System.Exception("Invalid clock frequency");
+
       dev = new IO.Interfaces.I2C.Device(bus, addr);
       this.freq = freq;
       cmd = new byte[5];
       resp = new byte[4];
 
-      if (clock == INTERNAL)
+      if (clock == INTERNAL_CLOCK)
       {
         // Use internal 25 MHz clock
         WriteRegister((byte)Registers.MODE1, 0x30); // Set SLEEP
@@ -213,9 +231,9 @@ namespace IO.Devices.PCA9685
     }
 
     /// <summary>
-    /// Read-only PWM pulse frequency property
+    /// Read-only property returning the configured PWM pulse frequency.
     /// </summary>
-    int Frequency
+    public int Frequency
     {
       get
       {
