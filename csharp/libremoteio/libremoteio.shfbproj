@@ -33,6 +33,7 @@
     <NamespaceSummaries>
       <NamespaceSummaryItem name="IO.Devices.ADC121C021" isDocumented="True">ADC121C021 I&lt;sup&gt;2&lt;/sup&gt;C A/D Converter Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA8574" isDocumented="True">PCA8574 (and similar) I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.PCA9685" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.DAC" isDocumented="True">Abstract Interface for DAC (Digital to Analog Converter) Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Ouput) Pins</NamespaceSummaryItem>

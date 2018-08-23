@@ -22,9 +22,25 @@ using System;
 
 namespace IO.Devices.PCA9685
 {
-  class Device
+  /// <summary>
+  /// Encapsulates the PCA9685 I<sup>2</sup>C PWM Controller.
+  /// </summary>
+  public class Device
   {
+    /// <summary>
+    /// Select internal 25 MHz oscillator.
+    /// </summary>
     public const int INTERNAL = 0;
+
+    /// <summary>
+    /// Minimum PCA9685 output channel number.
+    /// </summary>
+    public const int MIN_CHANNEL = 0;
+
+    /// <summary>
+    /// Maximum PCA9685 output channel number.
+    /// </summary>
+    public const int MAX_CHANNEL = 15;
 
     private enum Registers
     {
@@ -124,18 +140,28 @@ namespace IO.Devices.PCA9685
       dev.Write(cmd, 2);
     }
 
-    private void ReadChannel(byte channel, out byte[] data)
+    /// <summary>
+    /// Read PCA9685 output channel data.
+    /// </summary>
+    /// <param name="channel">Output channel number.</param>
+    /// <param name="data">Output channel data (4 bytes).</param>
+    public void ReadChannel(byte channel, out byte[] data)
     {
-      if (channel > 15) throw new Exception("Invalid channel number");
+      if (channel > MAX_CHANNEL) throw new Exception("Invalid channel number");
 
       cmd[0] = (byte)((int)Registers.LED0_ON_L + channel * 4);
       dev.Transaction(cmd, 1, resp, 4);
       data = resp;
     }
 
-    private void WriteChannel(byte channel, byte[] data)
+    /// <summary>
+    /// Write PCA9685 output channel data.
+    /// </summary>
+    /// <param name="channel">Output channel number.</param>
+    /// <param name="data">Output channel data.</param>
+    public void WriteChannel(byte channel, byte[] data)
     {
-      if (channel > 15) throw new Exception("Invalid channel number");
+      if (channel > MAX_CHANNEL) throw new Exception("Invalid channel number");
 
       cmd[0] = (byte)((int)Registers.LED0_ON_L + channel * 4);
       cmd[1] = data[0];
@@ -145,6 +171,15 @@ namespace IO.Devices.PCA9685
       dev.Write(cmd, 5);
     }
 
+    /// <summary>
+    /// Constructor for a single PCA9685 device.
+    /// </summary>
+    /// <param name="bus">I<sup>2</sup>C bus controller object.</param>
+    /// <param name="addr">I<sup>2</sup>C slave address.</param>
+    /// <param name="freq">PWM pulse frequency.</param>
+    /// <param name="clock">PCA9685 clock source.
+    /// Use <c>INTERNAL</c>c> to select the internal 25 MHz clock generator.
+    /// </param>
     public Device(IO.Interfaces.I2C.Bus bus, int addr, int freq = 50,
       int clock = INTERNAL)
     {
@@ -169,46 +204,115 @@ namespace IO.Devices.PCA9685
 
       WriteRegister((byte)Registers.MODE2, 0x0C);
     }
+  }
 
-    public class Pin : IO.Interfaces.GPIO.Pin
+  /// <summary>
+  /// Encapsulates PCA9685 GPIO outputs.
+  /// </summary>
+  public class Pin : IO.Interfaces.GPIO.Pin
+  {
+    private readonly static byte[] ON = { 0x00, 0x10, 0x00, 0x00 };
+    private readonly static byte[] OFF = { 0x00, 0x00, 0x00, 0x10 };
+    private Device dev;
+    private byte channel;
+    private byte[] data;
+
+    private bool Compare(byte[] x, byte[] y)
     {
-      private readonly static byte[] ON = { 0x00, 0x10, 0x00, 0x00 };
-      private readonly static byte[] OFF = { 0x00, 0x00, 0x00, 0x10 };
-      private Device dev;
-      private byte channel;
-      private byte[] data;
+      if (x[0] != y[0]) return false;
+      if (x[1] != y[1]) return false;
+      if (x[2] != y[2]) return false;
+      if (x[3] != y[3]) return false;
+      return true;
+    }
 
-      public Pin(Device dev, int channel, bool state = false)
+    /// <summary>
+    /// Constructor for a single GPIO output pin.
+    /// </summary>
+    /// <param name="dev">PCA9685 device object.</param>
+    /// <param name="channel">GPIO output channel number.</param>
+    /// <param name="state">Initial output state.</param>
+    public Pin(Device dev, int channel, bool state = false)
+    {
+      if ((channel < Device.MIN_CHANNEL) || (channel > Device.MAX_CHANNEL))
+        throw new Exception("Invalid channel number");
+
+      this.dev = dev;
+      this.channel = (byte)channel;
+      this.data = new byte[4];
+      this.state = state;
+    }
+
+    /// <summary>
+    /// Read/Write GPIO state property.
+    /// </summary>
+    public bool state
+    {
+      get
       {
-        if ((channel < 0) || (channel > 15))
-          throw new Exception("Invalid GPIO pin number");
+        dev.ReadChannel(channel, out data);
 
-        this.dev = dev;
-        this.channel = (byte)channel;
+        if (Compare(data, ON))
+          return true;
+        else if (Compare(data, OFF))
+          return false;
+        else
+          throw new Exception("Unexpected channel data");
       }
 
-      /// <summary>
-      /// Read/Write GPIO state property.
-      /// </summary>
-      public bool state
+      set
       {
-        get
-        {
-          dev.ReadChannel(channel, out data);
-
-          if (data == ON)
-            return true;
-          else if (data == OFF)
-            return false;
-          else
-            throw new Exception("Unexpected channel data");
-        }
-
-        set
-        {
-          dev.WriteChannel(channel, value ? ON : OFF);
-        }
+        dev.WriteChannel(channel, value ? ON : OFF);
       }
     }
+  }
+
+  /// <summary>
+  /// Encapsulates PCA9685 PWM outputs.
+  /// </summary>
+  public class Output : IO.Interfaces.PWM.Output
+  {
+    private Device dev;
+    private byte channel;
+    private byte[] data;
+
+    /// <summary>
+    /// Constructor for a single PWM output.
+    /// </summary>
+    /// <param name="dev">PCA9685 device object.</param>
+    /// <param name="channel">PWM output channel number.</param>
+    /// <param name="dutycycle">Initial PWM output duty cycle.
+    /// Allowed values are 0.0 to 100.0 percent.</param>
+    public Output(Device dev, int channel, double dutycycle = 0.0)
+    {
+      if ((channel < Device.MIN_CHANNEL) || (channel > Device.MAX_CHANNEL))
+        throw new Exception("Invalid channel number");
+
+      if ((dutycycle < IO.Interfaces.PWM.DutyCycles.Minimum) ||
+          (dutycycle > IO.Interfaces.PWM.DutyCycles.Maximum))
+        throw new Exception("Invalid duty cycle");
+
+      this.dev = dev;
+      this.channel = (byte)channel;
+      this.data = new byte[4];
+
+      this.dutycycle = dutycycle;
+    }
+
+    /// <summary>
+    /// Write-only property for setting the PWM output duty cycle.
+    /// Allowed values are 0.0 to 100.0 percent.
+    /// </summary>
+    public double dutycycle
+    {
+      set
+      {
+        if ((value < IO.Interfaces.PWM.DutyCycles.Minimum) ||
+            (value > IO.Interfaces.PWM.DutyCycles.Maximum))
+          throw new Exception("Invalid duty cycle");
+
+      }
+    }
+
   }
 }
