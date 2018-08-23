@@ -22,7 +22,7 @@
 
 using IO.Objects.libsimpleio.GPIO;
 
-namespace IO.Objects
+namespace IO.Objects.Platforms
 {
     /// <summary>
     /// This class defines identifiers for the devices provided by the
