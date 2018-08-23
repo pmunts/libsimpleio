@@ -41,20 +41,14 @@
   <ItemGroup>
     <Compile Include="Message64.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\common\*.cs">
+      <Link>IO.Objects\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
     </Compile>
     <Compile Include="..\interfaces\*.cs">
       <Link>IO.Interfaces\%(FileName)</Link>
-    </Compile>
-    <Compile Include="..\objects\motor-pwm.cs">
-      <Link>IO.Objects\%(FileName)</Link>
-    </Compile>
-    <Compile Include="..\objects\motor-servo.cs">
-      <Link>IO.Objects\%(FileName)</Link>
-    </Compile>
-    <Compile Include="..\objects\usb.munts.cs">
-      <Link>IO.Objects\%(FileName)</Link>
     </Compile>
     <Compile Include="..\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>

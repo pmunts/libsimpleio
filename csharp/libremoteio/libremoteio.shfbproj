@@ -108,3 +108,4 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 </Project>
+../libsimpleio/libsimpleio.shfbproj:      <NamespaceSummaryItem name="IO.Objects.Platforms" isDocumented="True">Platform Definition Classes</NamespaceSummaryItem>
