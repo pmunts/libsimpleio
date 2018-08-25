@@ -152,7 +152,7 @@ namespace IO.Devices.PCA9685
       if (freq < 1)
         throw new System.Exception("Invalid PWM pulse frequency");
 
-      if ((clock < MIN_CLOCK) || (clock > MAX_CLOCK))
+      if ((clock != INTERNAL_CLOCK) && ((clock < MIN_CLOCK) || (clock > MAX_CLOCK)))
         throw new System.Exception("Invalid clock frequency");
 
       dev = new IO.Interfaces.I2C.Device(bus, addr);
