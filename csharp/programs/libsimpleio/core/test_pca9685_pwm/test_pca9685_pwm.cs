@@ -36,7 +36,7 @@ namespace test_pca9685_pwm
         new IO.Objects.libsimpleio.I2C.Bus("/dev/i2c-1");
 
       IO.Devices.PCA9685.Device dev =
-        new IO.Devices.PCA9685.Device(bus, 0x40, 100);
+        new IO.Devices.PCA9685.Device(bus, 0x40, 1000);
 
       IO.Interfaces.PWM.Output PWM0 =
         new IO.Devices.PCA9685.PWM.Output(dev, 0);
