@@ -43,7 +43,7 @@ namespace test_pca9685_pwm
 
       // Sweep PWM pulse width back and forth
 
-      Console.WriteLine("\nPress CONTROL-C to exit");
+      Console.WriteLine("Press CONTROL-C to exit");
 
       for (;;)
       {

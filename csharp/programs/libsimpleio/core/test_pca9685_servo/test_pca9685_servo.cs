@@ -36,14 +36,14 @@ namespace test_pca9685_servo
         new IO.Objects.libsimpleio.I2C.Bus("/dev/i2c-1");
 
       IO.Devices.PCA9685.Device dev =
-        new IO.Devices.PCA9685.Device(bus, 0x40, 100);
+        new IO.Devices.PCA9685.Device(bus, 0x40, 50);
 
       IO.Interfaces.Servo.Output Servo0 =
         new IO.Devices.PCA9685.Servo.Output(dev, 0);
 
       // Sweep servo position back and forth
 
-      Console.WriteLine("\nPress CONTROL-C to exit");
+      Console.WriteLine("Press CONTROL-C to exit");
 
       for (;;)
       {

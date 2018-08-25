@@ -43,7 +43,7 @@ namespace test_pca9685_gpio
 
       // Toggle the GPIO output
 
-      Console.WriteLine("\nPress CONTROL-C to exit");
+      Console.WriteLine("Press CONTROL-C to exit");
 
       for (;;)
         GPIO0.state = !GPIO0.state;
