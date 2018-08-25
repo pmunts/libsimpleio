@@ -49,8 +49,8 @@ namespace IO.Devices.PCA9685.Servo
           (position > IO.Interfaces.Servo.Positions.Maximum))
         throw new System.Exception("Invalid servo position");
 
-      if ((this.dev.Frequency < 50) || (this.dev.Frequency > 400))
-        throw new System.Exception("Invalid PWM pulse frequency");
+      if ((dev.Frequency < 50) || (dev.Frequency > 400))
+        throw new System.Exception("Invalid PWM pulse frequency for servos");
 
       this.dev = dev;
       this.channel = System.Convert.ToByte(channel);
@@ -69,8 +69,8 @@ namespace IO.Devices.PCA9685.Servo
       {
         // Validate parameters
 
-        if ((value < IO.Interfaces.PWM.DutyCycles.Minimum) ||
-            (value > IO.Interfaces.PWM.DutyCycles.Maximum))
+        if ((value < IO.Interfaces.Servo.Positions.Minimum) ||
+            (value > IO.Interfaces.Servo.Positions.Maximum))
           throw new System.Exception("Invalid servo position");
 
         System.UInt16 offtime = System.Convert.ToUInt16((2.0475*value + 6.1425)*freq);
