@@ -228,6 +228,124 @@
             Read/Write GPIO state property.
             </summary>
         </member>
+        <member name="T:IO.Devices.PCA9685.Device">
+            <summary>
+            Encapsulates the PCA9685 I<sup>2</sup>C PWM Controller.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9685.Device.MIN_CLOCK">
+            <summary>
+            Minimum clock frequency.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9685.Device.MAX_CLOCK">
+            <summary>
+            Maximum clock frequency.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9685.Device.INTERNAL_CLOCK">
+            <summary>
+            Select internal 25 MHz clock oscillator.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9685.Device.MIN_CHANNEL">
+            <summary>
+            Minimum PCA9685 output channel number.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9685.Device.MAX_CHANNEL">
+            <summary>
+            Maximum PCA9685 output channel number.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.PCA9685.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor for a single PCA9685 device.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller object.</param>
+            <param name="addr">I<sup>2</sup>C slave address.</param>
+            <param name="freq">PWM pulse frequency.  Default is 50 Hz.</param>
+            <param name="clock">PCA9685 clock source.
+            Use <c>INTERNAL_CLOCK</c>c> to select the internal 25 MHz clock generator.
+            </param>
+        </member>
+        <member name="M:IO.Devices.PCA9685.Device.ReadChannel(System.Byte,System.Byte[]@)">
+            <summary>
+            Read PCA9685 output channel data.
+            </summary>
+            <param name="channel">Output channel number.</param>
+            <param name="data">Output channel data (4 bytes).</param>
+        </member>
+        <member name="M:IO.Devices.PCA9685.Device.WriteChannel(System.Byte,System.Byte[])">
+            <summary>
+            Write PCA9685 output channel data.
+            </summary>
+            <param name="channel">Output channel number.</param>
+            <param name="data">Output channel data.</param>
+        </member>
+        <member name="P:IO.Devices.PCA9685.Device.Frequency">
+            <summary>
+            Read-only property returning the configured PWM pulse frequency.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.PCA9685.GPIO.Pin">
+            <summary>
+            Encapsulates PCA9685 GPIO outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.PCA9685.GPIO.Pin.#ctor(IO.Devices.PCA9685.Device,System.Int32,System.Boolean)">
+            <summary>
+            Constructor for a single GPIO output pin.
+            </summary>
+            <param name="dev">PCA9685 device object.</param>
+            <param name="channel">Output channel number.</param>
+            <param name="state">Initial output state.</param>
+        </member>
+        <member name="P:IO.Devices.PCA9685.GPIO.Pin.state">
+            <summary>
+            Read/Write GPIO output state property.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.PCA9685.PWM.Output">
+            <summary>
+            Encapsulates PCA9685 PWM outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.PCA9685.PWM.Output.#ctor(IO.Devices.PCA9685.Device,System.Int32,System.Double)">
+            <summary>
+            Constructor for a single PWM output.
+            </summary>
+            <param name="dev">PCA9685 device object.</param>
+            <param name="channel">Output channel number.</param>
+            <param name="dutycycle">Initial PWM output duty cycle.
+            Allowed values are 0.0 to 100.0 percent.</param>
+        </member>
+        <member name="P:IO.Devices.PCA9685.PWM.Output.dutycycle">
+            <summary>
+            Write-only property for setting the PWM output duty cycle.
+            Allowed values are 0.0 to 100.0 percent.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.PCA9685.Servo.Output">
+            <summary>
+            Encapsulates PCA9685 servo outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.PCA9685.Servo.Output.#ctor(IO.Devices.PCA9685.Device,System.Int32,System.Double)">
+            <summary>
+            Constructor for a single servo output.
+            </summary>
+            <param name="dev">PCA9685 device object.</param>
+            <param name="channel">Output channel number.</param>
+            <param name="position">Initial normalized servo position.
+            Allowed values are -0.0 to +1.0.</param>
+        </member>
+        <member name="P:IO.Devices.PCA9685.Servo.Output.position">
+            <summary>
+            Write-only property for setting the normalized servo position.
+            Allowed values are -0.0 to+1.0.
+            </summary>
+        </member>
         <member name="T:IO.Interfaces.ADC.Sample">
             <summary>
             Abstract interface for ADC inputs returning an integer sample value.
