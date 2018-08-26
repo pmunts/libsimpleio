@@ -91,6 +91,8 @@ News
      * 22 August 2018 -- Fixed various issues with cross-compiling the
        example programs. Added more test programs for the PCA8574 I2C
        GPIO expander.
+     * 26 August 2018 -- Added support for the PCA9685 I2C PWM controller
+       to the .Net libraries.
 
 Documentation
 
