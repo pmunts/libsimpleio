@@ -52,7 +52,7 @@ PACKAGE BODY MCP3204 IS
 
   BEGIN
     cmd(0) := self.cmd;
-    self.spidev.Transaction(cmd, cmd'Length, 0, resp, resp'Length);
+    self.spidev.Transaction(cmd, cmd'Length, resp, resp'Length);
 
     RETURN Analog.Sample(Standard.Interfaces.Shift_Left(
       Standard.Interfaces.Unsigned_32(resp(0)), 4) +

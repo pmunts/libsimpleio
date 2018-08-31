@@ -71,7 +71,7 @@ PACKAGE BODY SPI.RemoteIO IS
   BEGIN
     cmd := (OTHERS => 0);
 
-    Transaction(self, cmd, 0, 0, resp, resplen);
+    Transaction(self, cmd, 0, resp, resplen);
   END Read;
 
   -- Write only SPI device transaction method
@@ -84,7 +84,7 @@ PACKAGE BODY SPI.RemoteIO IS
     resp : Response(0 .. 0);
 
   BEGIN
-    Transaction(self, cmd, cmdlen, 0, resp, 0);
+    Transaction(self, cmd, cmdlen, resp, 0);
   END Write;
 
   -- Combined Write/Read SPI device transaction method
@@ -93,9 +93,9 @@ PACKAGE BODY SPI.RemoteIO IS
    (self    : DeviceSubclass;
     cmd     : Command;
     cmdlen  : Natural;
-    delayus : Natural;
     resp    : OUT Response;
-    resplen : Natural) IS
+    resplen : Natural;
+    delayus : Natural := 0) IS
 
     cmdmsg  : Message64.Message;
     respmsg : Message64.Message;

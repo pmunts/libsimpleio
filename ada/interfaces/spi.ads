@@ -63,8 +63,8 @@ PACKAGE SPI IS
    (self     : DeviceInterface;
     cmd      : Command;
     cmdlen   : Natural;
-    delayus  : Natural;
     resp     : OUT Response;
-    resplen  : Natural) IS ABSTRACT;
+    resplen  : Natural;
+    delayus  : Natural := 0) IS ABSTRACT;
 
 END SPI;

@@ -58,9 +58,9 @@ PACKAGE SPI.libsimpleio IS
    (self     : DeviceSubclass;
     cmd      : Command;
     cmdlen   : Natural;
-    delayus  : Natural;
     resp     : OUT Response;
-    resplen  : Natural);
+    resplen  : Natural;
+    delayus  : Natural := 0);
 
   -- Retrieve the underlying Linux file descriptor
 
