@@ -46,6 +46,9 @@ release: libremoteio.dll
 	mv libremoteio.dll libremoteio-orig.dll
 	$(ILMERGE) /v4 /out:libremoteio.dll libremoteio-orig.dll HidSharp.dll
 	cp libremoteio.dll libremoteio.xml libremoteio.chm ..
+	mv libremoteio-orig.dll libremoteio.dll
+	nuget pack
+	cp *.nupkg ..
 endif
 endif
 

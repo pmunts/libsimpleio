@@ -44,6 +44,8 @@ ifeq ($(OS),Windows_NT)
 ifeq ($(CONFIGURATION), Release)
 release: libsimpleio.dll
 	cp libsimpleio.dll libsimpleio.xml libsimpleio.chm ..
+	nuget pack
+	cp *.nupkg ..
 endif
 endif
 
