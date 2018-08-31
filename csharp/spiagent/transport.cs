@@ -1,6 +1,3 @@
-// Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware
-// transport interface definition
-
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -24,15 +21,16 @@
 namespace SPIAgent
 {
     /// <summary>
-    /// Abstract interface for SPIAgent transport implementations.
+    /// Abstract interface for SPIAgent transport mechanisms.
     /// </summary>
     public interface ITransport
     {
         /// <summary>
-        /// Issue a command to the current server.
+        /// Issue a command to and receive a response from the LPC1114 I/O
+        /// Processor.
         /// </summary>
-        /// <param name="cmd">Command message structure.</param>
-        /// <param name="resp">Response message structure.</param>
+        /// <param name="cmd">Command message object.</param>
+        /// <param name="resp">Response message object.</param>
         void Command(SPIAGENT_COMMAND_MSG_t cmd, ref SPIAGENT_RESPONSE_MSG_t resp);
     }
 }
