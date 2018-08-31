@@ -32,6 +32,9 @@
     <Compile Include="..\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>
     </Compile>
+    <Compile Include="..\spiagent\*.cs">
+      <Link>IO.Remote\%(FileName)</Link>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
