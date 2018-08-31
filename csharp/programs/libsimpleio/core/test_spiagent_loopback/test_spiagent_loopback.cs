@@ -47,8 +47,10 @@ namespace test_spiagent_loopback
 
       iterations = Int32.Parse(args[1]);
 
-      IO.Interfaces.I2C.Bus bus = new IO.Objects.libsimpleio.I2C.Bus(args[0]);
-      ITransport spiagent = new Transport_I2C(bus);
+      IO.Interfaces.I2C.Bus bus =
+        new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+
+      Transport_I2C spiagent = new Transport_I2C(bus);
 
       // Issue some SPI transactions
 

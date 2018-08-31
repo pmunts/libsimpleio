@@ -41,8 +41,10 @@ namespace test_spiagent_version
                 Environment.Exit(1);
             }
 
-            IO.Interfaces.I2C.Bus bus = new IO.Objects.libsimpleio.I2C.Bus(args[0]);
-            ITransport spiagent = new Transport_I2C(bus);
+            IO.Interfaces.I2C.Bus bus =
+              new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+
+            Transport_I2C spiagent = new Transport_I2C(bus);
 
             cmd = new SPIAGENT_COMMAND_MSG_t();
             resp = new SPIAGENT_RESPONSE_MSG_t();
