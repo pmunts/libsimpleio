@@ -75,6 +75,7 @@ PACKAGE I2C IS
     cmd     : Command;
     cmdlen  : Natural;
     resp    : OUT Response;
-    resplen : Natural) IS ABSTRACT;
+    resplen : Natural;
+    delayus : Natural := 0) IS ABSTRACT;
 
 END I2C;

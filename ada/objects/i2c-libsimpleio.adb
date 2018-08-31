@@ -24,6 +24,7 @@ WITH System;
 
 WITH errno;
 WITH libI2C;
+WITH libLinux;
 
 PACKAGE BODY I2C.libsimpleio IS
 
@@ -88,15 +89,36 @@ PACKAGE BODY I2C.libsimpleio IS
     cmd     : I2C.Command;
     cmdlen  : Natural;
     resp    : OUT I2C.Response;
-    resplen : Natural) IS
+    resplen : Natural;
+    delayus : Natural := 0) IS
 
     error   : Integer;
 
   BEGIN
-    libI2C.Transaction(self.fd, Integer(addr), cmd'Address, cmdlen, resp'Address, resplen, error);
+    IF delayus = 0 THEN
+      libI2C.Transaction(self.fd, Integer(addr), cmd'Address, cmdlen, resp'Address, resplen, error);
 
-    IF error /= 0 THEN
-      RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
+      IF error /= 0 THEN
+        RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
+      END IF;
+    ELSE
+      libI2C.Transaction(self.fd, Integer(addr), cmd'Address, cmdlen, System.Null_Address, 0, error);
+
+      IF error /= 0 THEN
+        RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
+      END IF;
+
+      libLinux.usleep(delayus, error);
+
+      IF error /= 0 THEN
+        RAISE I2C_Error WITH "libLinux.usleep() failed, " & errno.strerror(error);
+      END IF;
+
+      libI2C.Transaction(self.fd, Integer(addr), System.Null_Address, 0, resp'Address, resplen, error);
+
+      IF error /= 0 THEN
+        RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
+      END IF;
     END IF;
   END Transaction;
 

@@ -54,7 +54,8 @@ PACKAGE I2C.libsimpleio IS
     cmd     : I2C.Command;
     cmdlen  : Natural;
     resp    : OUT I2C.Response;
-    resplen : Natural);
+    resplen : Natural;
+    delayus : Natural := 0);
 
   -- Retrieve the underlying Linux file descriptor
 
