@@ -34,6 +34,8 @@ PACKAGE SPI IS
 
   TYPE Response IS ARRAY (Natural RANGE <>) OF Byte;
 
+  TYPE MicroSeconds IS RANGE 0 .. 65536;
+
   -- Define an abstract interface for SPI devices
 
   TYPE DeviceInterface IS INTERFACE;
@@ -65,6 +67,6 @@ PACKAGE SPI IS
     cmdlen   : Natural;
     resp     : OUT Response;
     resplen  : Natural;
-    delayus  : Natural := 0) IS ABSTRACT;
+    delayus  : MicroSeconds := 0) IS ABSTRACT;
 
 END SPI;

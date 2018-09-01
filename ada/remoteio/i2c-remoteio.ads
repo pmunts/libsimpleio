@@ -59,7 +59,7 @@ PACKAGE I2C.RemoteIO IS
     cmdlen  : Natural;
     resp    : OUT Response;
     resplen : Natural;
-    delayus : Natural := 0);
+    delayus : MicroSeconds := 0);
 
 PRIVATE
 

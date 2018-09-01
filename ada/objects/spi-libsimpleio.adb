@@ -108,7 +108,7 @@ PACKAGE BODY SPI.libsimpleio IS
     cmdlen  : Natural;
     resp    : OUT Response;
     resplen : Natural;
-    delayus : Natural := 0) IS
+    delayus : MicroSeconds := 0) IS
 
     error   : Integer;
 

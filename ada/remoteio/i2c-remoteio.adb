@@ -91,7 +91,7 @@ PACKAGE BODY I2C.RemoteIO IS
     cmdlen  : Natural;
     resp    : OUT Response;
     resplen : Natural;
-    delayus : Natural := 0) IS
+    delayus : MicroSeconds := 0) IS
 
     cmdmsg  : Message64.Message;
     respmsg : Message64.Message;
@@ -105,9 +105,11 @@ PACKAGE BODY I2C.RemoteIO IS
     cmdmsg(3) := Message64.Byte(addr);
     cmdmsg(4) := Message64.Byte(cmdlen);
     cmdmsg(5) := Message64.Byte(resplen);
+    cmdmsg(6) := delayus / 256;
+    cmdmsg(7) := delayus MOD 256;
 
     FOR i IN 1 .. cmdlen LOOP
-      cmdmsg(i + 5) := Message64.Byte(cmd(i - 1));
+      cmdmsg(i + 7) := Message64.Byte(cmd(i - 1));
     END LOOP;
 
     self.dev.Transaction(cmdmsg, respmsg);

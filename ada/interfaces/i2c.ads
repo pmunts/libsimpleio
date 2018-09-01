@@ -36,6 +36,8 @@ PACKAGE I2C IS
 
   TYPE Response IS ARRAY (Natural RANGE <>) OF Byte;
 
+  TYPE MicroSeconds IS RANGE 0 .. 65535;
+
   -- Define an abstract interface for I2C bus controllers
 
   TYPE BusInterface IS INTERFACE;
@@ -76,6 +78,6 @@ PACKAGE I2C IS
     cmdlen  : Natural;
     resp    : OUT Response;
     resplen : Natural;
-    delayus : Natural := 0) IS ABSTRACT;
+    delayus : MicroSeconds := 0) IS ABSTRACT;
 
 END I2C;

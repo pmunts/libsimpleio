@@ -90,7 +90,7 @@ PACKAGE BODY I2C.libsimpleio IS
     cmdlen  : Natural;
     resp    : OUT I2C.Response;
     resplen : Natural;
-    delayus : Natural := 0) IS
+    delayus : MicroSeconds := 0) IS
 
     error   : Integer;
 
