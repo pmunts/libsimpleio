@@ -108,7 +108,7 @@ PACKAGE BODY I2C.libsimpleio IS
         RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
       END IF;
 
-      libLinux.usleep(delayus, error);
+      libLinux.usleep(Integer(delayus), error);
 
       IF error /= 0 THEN
         RAISE I2C_Error WITH "libLinux.usleep() failed, " & errno.strerror(error);

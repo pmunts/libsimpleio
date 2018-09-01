@@ -105,8 +105,8 @@ PACKAGE BODY I2C.RemoteIO IS
     cmdmsg(3) := Message64.Byte(addr);
     cmdmsg(4) := Message64.Byte(cmdlen);
     cmdmsg(5) := Message64.Byte(resplen);
-    cmdmsg(6) := delayus / 256;
-    cmdmsg(7) := delayus MOD 256;
+    cmdmsg(6) := Message64.Byte(delayus / 256);
+    cmdmsg(7) := Message64.Byte(delayus MOD 256);
 
     FOR i IN 1 .. cmdlen LOOP
       cmdmsg(i + 7) := Message64.Byte(cmd(i - 1));

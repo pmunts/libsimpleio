@@ -48,7 +48,8 @@ PACKAGE BODY SPI.libsimpleio IS
     libSPI.Open(name & ASCII.NUL, mode, wordsize, speed, fd, error);
 
     IF error /= 0 THEN
-      RAISE SPI_Error WITH "libsimpleio.SPI.Open() failed, " & errno.strerror(error);
+      RAISE SPI_Error WITH "libsimpleio.SPI.Open() failed, " &
+        errno.strerror(error);
     END IF;
 
     IF cspin = AUTOCHIPSELECT THEN
@@ -59,7 +60,8 @@ PACKAGE BODY SPI.libsimpleio IS
         libGPIO.EVENT_REQUEST_NONE, 1, fdcs, error);
 
       IF error /= 0 THEN
-        RAISE SPI_Error WITH "libGPIO.LineOpen() failed, " & errno.strerror(error);
+        RAISE SPI_Error WITH "libGPIO.LineOpen() failed, " &
+          errno.strerror(error);
       END IF;
     END IF;
 
@@ -76,10 +78,12 @@ PACKAGE BODY SPI.libsimpleio IS
     error  : Integer;
 
   BEGIN
-    libSPI.Transaction(self.fd, self.fdcs, cmd'Address, cmdlen, 0, System.Null_Address, 0, error);
+    libSPI.Transaction(self.fd, self.fdcs, cmd'Address, cmdlen, 0,
+      System.Null_Address, 0, error);
 
     IF error /= 0 THEN
-      RAISE SPI_Error WITH "libsimpleio.SPI.Transaction() failed, " & errno.strerror(error);
+      RAISE SPI_Error WITH "libsimpleio.SPI.Transaction() failed, " &
+        errno.strerror(error);
     END IF;
   END Write;
 
@@ -93,10 +97,12 @@ PACKAGE BODY SPI.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    libSPI.Transaction(self.fd, self.fdcs, System.Null_Address, 0, 0, resp'Address, resplen, error);
+    libSPI.Transaction(self.fd, self.fdcs, System.Null_Address, 0, 0,
+      resp'Address, resplen, error);
 
     IF error /= 0 THEN
-      RAISE SPI_Error WITH "libsimpleio.SPI.Transaction() failed, " & errno.strerror(error);
+      RAISE SPI_Error WITH "libsimpleio.SPI.Transaction() failed, " &
+        errno.strerror(error);
     END IF;
   END Read;
 
@@ -117,10 +123,12 @@ PACKAGE BODY SPI.libsimpleio IS
       RAISE SPI_Error WITH "Invalid delay value";
     END IF;
 
-    libSPI.Transaction(self.fd, self.fdcs, cmd'Address, cmdlen, delayus, resp'Address, resplen, error);
+    libSPI.Transaction(self.fd, self.fdcs, cmd'Address, cmdlen,
+      Integer(delayus), resp'Address, resplen, error);
 
     IF error /= 0 THEN
-      RAISE SPI_Error WITH "libsimpleio.SPI.Transaction() failed, " & errno.strerror(error);
+      RAISE SPI_Error WITH "libsimpleio.SPI.Transaction() failed, " &
+        errno.strerror(error);
     END IF;
   END Transaction;
 
