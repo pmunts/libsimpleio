@@ -23,76 +23,76 @@ using IO.Objects.libsimpleio.Exceptions;
 
 namespace SPIAgent
 {
-  /// <summary>
-  /// SPIAgent transport implementation using <c>libspiagent.so</c> to
-  /// communicate with the LPC1114 I/O Processor.
-  /// </summary>
-  public class Transport_libspiagent : ITransport
-  {
-    private int[] cmdbuf;
-    private int[] respbuf;
-
-    [DllImport("spiagent")]
-    private static extern void spiagent_open(string devname, out int error);
-
-    [DllImport("spiagent")]
-    private static extern void spiagent_close(out int error);
-
-    [DllImport("spiagent")]
-    private static extern void spiagent_command(int[] cmd, int[] resp,
-      out int error);
-
     /// <summary>
-    /// Constructor for an SPIAgent transport object.
+    /// SPIAgent transport implementation using <c>libspiagent.so</c> to
+    /// communicate with the LPC1114 I/O Processor.
     /// </summary>
-    /// <param name="servername">Server name.</param>
-    public Transport_libspiagent(string servername)
+    public class Transport_libspiagent : ITransport
     {
-      int error;
+        private int[] cmdbuf;
+        private int[] respbuf;
 
-      spiagent_open(servername, out error);
+        [DllImport("spiagent")]
+        private static extern void spiagent_open(string devname, out int error);
 
-      if (error != 0)
-        throw new Exception("spiagent_open() failed", error);
+        [DllImport("spiagent")]
+        private static extern void spiagent_close(out int error);
 
-      cmdbuf = new int[3];
-      respbuf = new int[4];
+        [DllImport("spiagent")]
+        private static extern void spiagent_command(int[] cmd, int[] resp,
+          out int error);
+
+        /// <summary>
+        /// Constructor for an SPIAgent transport object.
+        /// </summary>
+        /// <param name="servername">Server name.</param>
+        public Transport_libspiagent(string servername)
+        {
+            int error;
+
+            spiagent_open(servername, out error);
+
+            if (error != 0)
+                throw new Exception("spiagent_open() failed", error);
+
+            cmdbuf = new int[3];
+            respbuf = new int[4];
+        }
+
+        ~Transport_libspiagent()
+        {
+            int error;
+
+            spiagent_close(out error);
+
+            if (error != 0)
+                throw new Exception("spiagent_close() failed", error);
+        }
+
+        /// <summary>
+        /// Issue a command to and receive a response from the LPC1114 I/O
+        /// Processor.
+        /// </summary>
+        /// <param name="cmd">Command message object.</param>
+        /// <param name="resp">Response message object.</param>
+        public void Command(SPIAGENT_COMMAND_MSG_t cmd,
+          ref SPIAGENT_RESPONSE_MSG_t resp)
+        {
+            int error;
+
+            cmdbuf[0] = cmd.command;
+            cmdbuf[1] = cmd.pin;
+            cmdbuf[2] = cmd.data;
+
+            spiagent_command(cmdbuf, respbuf, out error);
+
+            if (error != 0)
+                throw new Exception("spiagent_command() failed", error);
+
+            resp.command = respbuf[0];
+            resp.pin = respbuf[1];
+            resp.data = respbuf[2];
+            resp.error = respbuf[3];
+        }
     }
-
-    ~Transport_libspiagent()
-    {
-      int error;
-
-      spiagent_close(out error);
-
-      if (error != 0)
-        throw new Exception("spiagent_close() failed", error);
-    }
-
-    /// <summary>
-    /// Issue a command to and receive a response from the LPC1114 I/O
-    /// Processor.
-    /// </summary>
-    /// <param name="cmd">Command message object.</param>
-    /// <param name="resp">Response message object.</param>
-    public void Command(SPIAGENT_COMMAND_MSG_t cmd,
-      ref SPIAGENT_RESPONSE_MSG_t resp)
-    {
-      int error;
-
-      cmdbuf[0] = cmd.command;
-      cmdbuf[1] = cmd.pin;
-      cmdbuf[2] = cmd.data;
-
-      spiagent_command(cmdbuf, respbuf, out error);
-
-      if (error != 0)
-        throw new Exception("spiagent_command() failed", error);
-
-      resp.command = respbuf[0];
-      resp.pin     = respbuf[1];
-      resp.data    = respbuf[2];
-      resp.error   = respbuf[3];
-    }
-  }
 }
