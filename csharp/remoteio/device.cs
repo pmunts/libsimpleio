@@ -55,6 +55,7 @@ namespace IO.Remote
         private Messenger transport;
         private String Version_string;
         private String Capability_string;
+        private byte msgnum = 0;
 
         /// <summary>
         /// Maximum number of channels each subsystem can support.
@@ -92,6 +93,13 @@ namespace IO.Remote
         /// <param name="resp">Response to be received.</param>
         public void Dispatcher(Message cmd, Message resp)
         {
+            unchecked
+            {
+                msgnum += 17;
+            }
+
+            cmd.payload[1] = msgnum;
+
             this.transport.Transaction(cmd, resp);
 
             if (resp.payload[0] != cmd.payload[0] + 1)

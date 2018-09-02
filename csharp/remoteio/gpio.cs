@@ -84,7 +84,6 @@ namespace IO.Remote
             Message resp = new Message();
 
             cmd.payload[0] = (byte)MessageTypes.GPIO_CONFIGURE_REQUEST;
-            cmd.payload[1] = 9;
             cmd.payload[2 + bytenum] |= bitmask;
 
             if (dir == IO.Interfaces.GPIO.Direction.Output)
@@ -95,7 +94,6 @@ namespace IO.Remote
             cmd = new Message(0);
 
             cmd.payload[0] = (byte)MessageTypes.GPIO_WRITE_REQUEST;
-            cmd.payload[1] = 10;
             cmd.payload[2 + bytenum] |= bitmask;
 
             if (state == true)
@@ -118,7 +116,6 @@ namespace IO.Remote
                 Message resp = new Message();
 
                 cmd.payload[0] = (byte)MessageTypes.GPIO_READ_REQUEST;
-                cmd.payload[1] = 11;
                 cmd.payload[2 + bytenum] |= bitmask;
 
                 this.device.Dispatcher(cmd, resp);
@@ -135,7 +132,6 @@ namespace IO.Remote
                 Message resp = new Message();
 
                 cmd.payload[0] = (byte)MessageTypes.GPIO_WRITE_REQUEST;
-                cmd.payload[1] = 12;
                 cmd.payload[2 + bytenum] |= bitmask;
 
                 if (value)

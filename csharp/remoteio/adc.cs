@@ -76,7 +76,6 @@ namespace IO.Remote
             Message resp = new Message();
 
             cmd.payload[0] = (byte)MessageTypes.ADC_CONFIGURE_REQUEST;
-            cmd.payload[1] = 6;
             cmd.payload[2] = (byte)num;
 
             device.Dispatcher(cmd, resp);
@@ -97,7 +96,6 @@ namespace IO.Remote
                 Message resp = new Message();
 
                 cmd.payload[0] = (byte)MessageTypes.ADC_READ_REQUEST;
-                cmd.payload[1] = 7;
                 cmd.payload[2] = (byte)this.num;
 
                 this.device.Dispatcher(cmd, resp);
