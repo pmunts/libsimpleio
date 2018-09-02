@@ -115,32 +115,81 @@ namespace IO.Objects.libsimpleio.I2C
         /// <param name="cmdlen">Number of bytes to write.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read.</param>
+        /// <param name="delayus">Delay in microseconds between the I<sup>2</sup>C
+        /// write and read cycles.  Allowed values are 0 to 65535 microseconds.</param>
         public void Transaction(int slaveaddr, byte[] cmd, int cmdlen,
-            byte[] resp, int resplen)
+                byte[] resp, int resplen, int delayus = 0)
         {
+            // Validate parameters
+
             if ((slaveaddr < 0) || (slaveaddr > 127))
-            {
-                throw new Exception("Invalid slave address");
-            }
+                throw new Exception("Invalid I2C slave address parameter");
 
-            if ((cmdlen < 0) || (cmdlen > cmd.Length))
-            {
-                throw new Exception("Invalid command length");
-            }
+            if ((cmd == null) && (resp == null))
+                throw new Exception("Command buffer and response buffer are both null");
 
-            if ((resplen < 0) || (resplen > resp.Length))
-            {
-                throw new Exception("Invalid response length");
-            }
+            if ((cmdlen == 0) && (resplen == 0))
+                throw new Exception("Command length and response length are both zero");
+
+            if ((cmd == null) && (cmdlen != 0))
+                throw new Exception("Command buffer is null but command length is nonzero");
+
+            if ((cmd != null) && (cmdlen == 0))
+                throw new Exception("Command buffer is not null but command length is zero");
+
+            if ((resp == null) && (resplen != 0))
+                throw new Exception("Response buffer is null but response length is nonzero");
+
+            if ((resp != null) && (resplen == 0))
+                throw new Exception("Response buffer is not null but response length is zero");
+
+            if (cmd != null)
+                if ((cmdlen < 1) || (cmdlen > 56) || (cmd.Length < cmdlen))
+                    throw new Exception("Invalid command length parameter");
+
+            if (resp != null)
+                if ((resplen < 1) || (resplen > 60) || (resp.Length < resplen))
+                    throw new Exception("Invalid response length parameter");
+
+            if ((delayus < 0) || (delayus > 65535))
+                throw new Exception("Invalid delay parameter");
 
             int error;
 
-            IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
-                slaveaddr, cmd, cmdlen, resp, resplen, out error);
-
-            if (error != 0)
+            if (delayus == 0)
             {
-                throw new Exception("I2C_transaction() failed", error);
+                IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+                    slaveaddr, cmd, cmdlen, resp, resplen, out error);
+
+                if (error != 0)
+                {
+                    throw new Exception("I2C_transaction() failed", error);
+                }
+            }
+            else
+            {
+                IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+                    slaveaddr, cmd, cmdlen, null, 0, out error);
+
+                if (error != 0)
+                {
+                    throw new Exception("I2C_transaction() failed", error);
+                }
+
+                IO.Bindings.libsimpleio.libLinux.LINUX_usleep(delayus, out error);
+
+                if (error != 0)
+                {
+                    throw new Exception("LINUX_usleep() failed", error);
+                }
+
+                IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+                    slaveaddr, null, 0, resp, resplen, out error);
+
+                if (error != 0)
+                {
+                    throw new Exception("I2C_transaction() failed", error);
+                }
             }
         }
 

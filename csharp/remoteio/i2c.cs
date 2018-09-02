@@ -50,7 +50,7 @@ namespace IO.Remote
     /// <summary>
     /// Encapsulates remote I<sup>2</sup>C buses.
     /// </summary>
-    public class I2C: IO.Interfaces.I2C.Bus
+    public class I2C : IO.Interfaces.I2C.Bus
     {
         private Device device;
         private int num;
@@ -80,7 +80,6 @@ namespace IO.Remote
             Message resp = new Message();
 
             cmd.payload[0] = (byte)MessageTypes.I2C_CONFIGURE_REQUEST;
-            cmd.payload[1] = 6;
             cmd.payload[2] = (byte)num;
             cmd.payload[3] = (byte)((speed >> 24) & 0xFF);
             cmd.payload[4] = (byte)((speed >> 16) & 0xFF);
@@ -100,7 +99,7 @@ namespace IO.Remote
         {
             // Validate parameters
 
-            if ((slaveaddr < 0) || (slaveaddr > 255))
+            if ((slaveaddr < 0) || (slaveaddr > 127))
                 throw new Exception("Invalid I2C slave address");
 
             if ((resplen < 1) || (resplen > 60) || (resp.Length < resplen))
@@ -110,10 +109,8 @@ namespace IO.Remote
             Message rmsg = new Message();
 
             cmsg.payload[0] = (byte)MessageTypes.I2C_TRANSACTION_REQUEST;
-            cmsg.payload[1] = 7;
             cmsg.payload[2] = (byte)this.num;
             cmsg.payload[3] = (byte)slaveaddr;
-            cmsg.payload[4] = 0;
             cmsg.payload[5] = (byte)resplen;
 
             this.device.Dispatcher(cmsg, rmsg);
@@ -132,24 +129,22 @@ namespace IO.Remote
         {
             // Validate parameters
 
-            if ((slaveaddr < 0) || (slaveaddr > 255))
+            if ((slaveaddr < 0) || (slaveaddr > 127))
                 throw new Exception("Invalid I2C slave address");
 
-            if ((cmdlen < 1) || (cmdlen > 58) || (cmd.Length < cmdlen))
+            if ((cmdlen < 1) || (cmdlen > 56) || (cmd.Length < cmdlen))
                 throw new Exception("Invalid command length");
 
             Message cmsg = new Message(0);
             Message rmsg = new Message();
 
             for (int i = 0; i < cmdlen; i++)
-              cmsg.payload[i + 6] = cmd[i];
+                cmsg.payload[i + 6] = cmd[i];
 
             cmsg.payload[0] = (byte)MessageTypes.I2C_TRANSACTION_REQUEST;
-            cmsg.payload[1] = 7;
             cmsg.payload[2] = (byte)this.num;
             cmsg.payload[3] = (byte)slaveaddr;
             cmsg.payload[4] = (byte)cmdlen;
-            cmsg.payload[5] = 0;
 
             this.device.Dispatcher(cmsg, rmsg);
         }
@@ -162,37 +157,63 @@ namespace IO.Remote
         /// <param name="cmdlen">Number of bytes to write.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read.</param>
+        /// <param name="delayus">Delay in microseconds between the I<sup>2</sup>C
+        /// write and read cycles.  Allowed values are 0 to 65535 microseconds.</param>
         public void Transaction(int slaveaddr, byte[] cmd, int cmdlen,
-            byte[] resp, int resplen)
+            byte[] resp, int resplen, int delayus)
         {
             // Validate parameters
 
-            if ((slaveaddr < 0) || (slaveaddr > 255))
-                throw new Exception("Invalid I2C slave address");
+            if ((slaveaddr < 0) || (slaveaddr > 127))
+                throw new Exception("Invalid I2C slave address parameter");
 
-            if ((cmdlen < 1) || (cmdlen > 58) || (cmd.Length < cmdlen))
-                throw new Exception("Invalid command length");
+            if ((cmd == null) && (resp == null))
+                throw new Exception("Command buffer and response buffer are both null");
 
-            if ((resplen < 1) || (resplen > 60) || (resp.Length < resplen))
-                throw new Exception("Invalid response length");
+            if ((cmdlen == 0) && (resplen == 0))
+                throw new Exception("Command length and response length are both zero");
+
+            if ((cmd == null) && (cmdlen != 0))
+                throw new Exception("Command buffer is null but command length is nonzero");
+
+            if ((cmd != null) && (cmdlen == 0))
+                throw new Exception("Command buffer is not null but command length is zero");
+
+            if ((resp == null) && (resplen != 0))
+                throw new Exception("Response buffer is null but response length is nonzero");
+
+            if ((resp != null) && (resplen == 0))
+                throw new Exception("Response buffer is not null but response length is zero");
+
+            if (cmd != null)
+                if ((cmdlen < 1) || (cmdlen > 56) || (cmd.Length < cmdlen))
+                    throw new Exception("Invalid command length parameter");
+
+            if (resp != null)
+                if ((resplen < 1) || (resplen > 60) || (resp.Length < resplen))
+                    throw new Exception("Invalid response length parameter");
+
+            if ((delayus < 0) || (delayus > 65535))
+                throw new Exception("Invalid delay parameter");
 
             Message cmsg = new Message(0);
             Message rmsg = new Message();
 
-            for (int i = 0; i < cmdlen; i++)
-              cmsg.payload[i + 6] = cmd[i];
-
             cmsg.payload[0] = (byte)MessageTypes.I2C_TRANSACTION_REQUEST;
-            cmsg.payload[1] = 7;
             cmsg.payload[2] = (byte)this.num;
             cmsg.payload[3] = (byte)slaveaddr;
             cmsg.payload[4] = (byte)cmdlen;
             cmsg.payload[5] = (byte)resplen;
+            cmsg.payload[6] = (byte)(delayus / 256);
+            cmsg.payload[7] = (byte)(delayus % 256);
+
+            for (int i = 0; i < cmdlen; i++)
+                cmsg.payload[8 + i] = cmd[i];
 
             this.device.Dispatcher(cmsg, rmsg);
 
             for (int i = 0; i < resplen; i++)
-                resp[i] = rmsg.payload[i + 4];
+                resp[i] = rmsg.payload[4 + i];
         }
     }
 }

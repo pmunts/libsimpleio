@@ -72,7 +72,10 @@ namespace IO.Interfaces.I2C
         /// <param name="cmdlen">Number of bytes to write.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read.</param>
-        void Transaction(int slaveaddr, byte[] cmd, int cmdlen, byte[] resp, int resplen);
+        /// <param name="delayus">Delay in microseconds between the I<sup>2</sup>C
+        /// write and read cycles.  Allowed values are 0 to 65535 microseconds.</param>
+        void Transaction(int slaveaddr, byte[] cmd, int cmdlen, byte[] resp,
+            int resplen, int delayus = 0);
     }
 
     /// <summary>
@@ -126,7 +129,10 @@ namespace IO.Interfaces.I2C
         /// <param name="cmdlen">Number of bytes to write.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read.</param>
-        public void Transaction(byte[] cmd, int cmdlen, byte[] resp, int resplen)
+        /// <param name="delayus">Delay in microseconds between the I<sup>2</sup>C
+        /// write and read cycles.  Allowed values are 0 to 65535 microseconds.</param>
+        public void Transaction(byte[] cmd, int cmdlen, byte[] resp,
+            int resplen, int delayus = 0)
         {
             this.bus.Transaction(this.addr, cmd, cmdlen, resp, resplen);
         }
