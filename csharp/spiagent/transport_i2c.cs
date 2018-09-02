@@ -108,9 +108,8 @@ namespace SPIAgent
       {
         // The LEGO infrared protocol takes a REALLY LONG time...
 
-        dev.Write(cmd_bytes, cmd_bytes.Length);
-        System.Threading.Thread.Sleep(20);
-        dev.Read(resp_bytes, resp_bytes.Length);
+        dev.Transaction(cmd_bytes, cmd_bytes.Length, resp_bytes,
+          resp_bytes.Length, 20000);
       }
       else if (clockstretch)
       {
@@ -125,9 +124,8 @@ namespace SPIAgent
         // The I2C bus does not support clock stretching, so we have to pause
         // between sending the command and receiving the response.
 
-        dev.Write(cmd_bytes, cmd_bytes.Length);
-        usleep(100);
-        dev.Read(resp_bytes, resp_bytes.Length);
+        dev.Transaction(cmd_bytes, cmd_bytes.Length, resp_bytes,
+          resp_bytes.Length, 100);
       }
 
       // Assemble the response message from the response byte array
