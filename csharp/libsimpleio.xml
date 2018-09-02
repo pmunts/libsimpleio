@@ -1555,7 +1555,7 @@
             <param name="cmd">Command buffer.</param>
             <param name="cmdlen">Number of bytes to write.</param>
         </member>
-        <member name="M:IO.Objects.libsimpleio.I2C.Bus.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32)">
+        <member name="M:IO.Objects.libsimpleio.I2C.Bus.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)">
             <summary>
             Write and receive bytes to/from an I<sup>2</sup>C device.
             </summary>
@@ -1564,6 +1564,8 @@
             <param name="cmdlen">Number of bytes to write.</param>
             <param name="resp">Response buffer.</param>
             <param name="resplen">Number of bytes to read.</param>
+            <param name="delayus">Delay in microseconds between the I<sup>2</sup>C
+            write and read cycles.  Allowed values are 0 to 65535 microseconds.</param>
         </member>
         <member name="P:IO.Objects.libsimpleio.I2C.Bus.fd">
             <summary>
@@ -2515,7 +2517,7 @@
             <param name="cmd">Command buffer.</param>
             <param name="cmdlen">Number of bytes to write.</param>
         </member>
-        <member name="M:IO.Interfaces.I2C.Bus.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32)">
+        <member name="M:IO.Interfaces.I2C.Bus.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)">
             <summary>
             Write and read bytes to and from an I<sup>2</sup>C slave device.
             </summary>
@@ -2524,6 +2526,8 @@
             <param name="cmdlen">Number of bytes to write.</param>
             <param name="resp">Response buffer.</param>
             <param name="resplen">Number of bytes to read.</param>
+            <param name="delayus">Delay in microseconds between the I<sup>2</sup>C
+            write and read cycles.  Allowed values are 0 to 65535 microseconds.</param>
         </member>
         <member name="T:IO.Interfaces.I2C.Device">
             <summary>
@@ -2551,7 +2555,7 @@
             <param name="cmd">Command buffer.</param>
             <param name="cmdlen">Number of bytes to write.</param>
         </member>
-        <member name="M:IO.Interfaces.I2C.Device.Transaction(System.Byte[],System.Int32,System.Byte[],System.Int32)">
+        <member name="M:IO.Interfaces.I2C.Device.Transaction(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)">
             <summary>
             Write and read bytes to and from an I<sup>2</sup>C slave device.
             </summary>
@@ -2559,6 +2563,8 @@
             <param name="cmdlen">Number of bytes to write.</param>
             <param name="resp">Response buffer.</param>
             <param name="resplen">Number of bytes to read.</param>
+            <param name="delayus">Delay in microseconds between the I<sup>2</sup>C
+            write and read cycles.  Allowed values are 0 to 65535 microseconds.</param>
         </member>
         <member name="T:IO.Interfaces.Message64.Message">
             <summary>
@@ -2931,7 +2937,7 @@
             <param name="cmd">Command buffer.</param>
             <param name="cmdlen">Number of bytes to write.</param>
         </member>
-        <member name="M:IO.Remote.I2C.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32)">
+        <member name="M:IO.Remote.I2C.Transaction(System.Int32,System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)">
             <summary>
             Write and read bytes to and from an I<sup>2</sup>C slave device.
             </summary>
@@ -2940,6 +2946,8 @@
             <param name="cmdlen">Number of bytes to write.</param>
             <param name="resp">Response buffer.</param>
             <param name="resplen">Number of bytes to read.</param>
+            <param name="delayus">Delay in microseconds between the I<sup>2</sup>C
+            write and read cycles.  Allowed values are 0 to 65535 microseconds.</param>
         </member>
         <member name="T:IO.Remote.MessageTypes">
             <summary>
@@ -3320,6 +3328,19 @@
             <summary>
             This property gets or sets this LPC1114 GPIO pin's state.
             </summary>
+        </member>
+        <member name="T:SPIAgent.ITransport">
+            <summary>
+            Abstract interface for SPIAgent transport mechanisms.
+            </summary>
+        </member>
+        <member name="M:SPIAgent.ITransport.Command(SPIAgent.SPIAGENT_COMMAND_MSG_t,SPIAgent.SPIAGENT_RESPONSE_MSG_t@)">
+            <summary>
+            Issue a command to and receive a response from the LPC1114 I/O
+            Processor.
+            </summary>
+            <param name="cmd">Command message object.</param>
+            <param name="resp">Response message object.</param>
         </member>
         <member name="T:SPIAgent.LEGORC">
             <summary>
@@ -3819,17 +3840,27 @@
             This read-only property returns the most recent LPC1114 32-bit timer capture delta value.
             </summary>
         </member>
-        <member name="T:SPIAgent.ITransport">
+        <member name="T:SPIAgent.Transport_I2C">
             <summary>
-            Abstract interface for SPIAgent transport implementations.
+            SPIAgent transport implementation using I<sup>2</sup>C to
+            communicate with the LPC1114 I/O Processor.
             </summary>
         </member>
-        <member name="M:SPIAgent.ITransport.Command(SPIAgent.SPIAGENT_COMMAND_MSG_t,SPIAgent.SPIAGENT_RESPONSE_MSG_t@)">
+        <member name="M:SPIAgent.Transport_I2C.#ctor(IO.Interfaces.I2C.Bus,System.Boolean)">
             <summary>
-            Issue a command to the current server.
+            Constructor for an SPIAgent transport object.
             </summary>
-            <param name="cmd">Command message structure.</param>
-            <param name="resp">Response message structure.</param>
+            <param name="bus">I<sup>2</sup>C bus controller instance.</param>
+            <param name="clockstretch"><c>true</c> if the I<sup>2</sup>C bus
+            controller supports clock stretching.</param>
+        </member>
+        <member name="M:SPIAgent.Transport_I2C.Command(SPIAgent.SPIAGENT_COMMAND_MSG_t,SPIAgent.SPIAGENT_RESPONSE_MSG_t@)">
+            <summary>
+            Issue a command to and receive a response from the LPC1114 I/O
+            Processor.
+            </summary>
+            <param name="cmd">Command message object.</param>
+            <param name="resp">Response message object.</param>
         </member>
         <member name="T:lpc11xx.Pins">
             <summary>
