@@ -134,7 +134,7 @@ namespace IO.Interfaces.I2C
         public void Transaction(byte[] cmd, int cmdlen, byte[] resp,
             int resplen, int delayus = 0)
         {
-            this.bus.Transaction(this.addr, cmd, cmdlen, resp, resplen);
+            this.bus.Transaction(this.addr, cmd, cmdlen, resp, resplen, delayus);
         }
     }
 }
