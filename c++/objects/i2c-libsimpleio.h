@@ -32,7 +32,7 @@ namespace libsimpleio::I2C
     Bus_Class(const char *name);
 
     virtual void Transaction(unsigned slaveaddr, void *cmd, unsigned cmdlen,
-      void *resp, unsigned resplen);
+      void *resp, unsigned resplen, unsigned delayus = 0);
 
   private:
 

@@ -24,6 +24,7 @@
 
 #include <i2c-libsimpleio.h>
 #include <libsimpleio/libi2c.h>
+#include <libsimpleio/liblinux.h>
 
 // Constructor
 
@@ -45,7 +46,7 @@ libsimpleio::I2C::Bus_Class::Bus_Class(const char *name)
 // Methods
 
 void libsimpleio::I2C::Bus_Class::Transaction(unsigned slaveaddr, void *cmd,
-  unsigned cmdlen, void *resp, unsigned resplen)
+  unsigned cmdlen, void *resp, unsigned resplen, unsigned delayus)
 {
   // Validate parameters
 
@@ -55,9 +56,24 @@ void libsimpleio::I2C::Bus_Class::Transaction(unsigned slaveaddr, void *cmd,
   if ((cmd != nullptr) && (cmdlen == 0)) throw EINVAL;
   if ((resp == nullptr) && (resplen != 0)) throw EINVAL;
   if ((resp != nullptr) && (resplen == 0)) throw EINVAL;
+  if (delayus > 65535) throw EINVAL;
 
   int32_t error;
 
-  I2C_transaction(this->fd, slaveaddr, cmd, cmdlen, resp, resplen, &error);
-  if (error) throw error;
+  if (delayus)
+  {
+    I2C_transaction(this->fd, slaveaddr, cmd, cmdlen, nullptr, 0, &error);
+    if (error) throw error;
+
+    LINUX_usleep(delayus, &error);
+    if (error) throw error;
+
+    I2C_transaction(this->fd, slaveaddr, nullptr, 0, resp, resplen, &error);
+    if (error) throw error;
+  }
+  else
+  {
+    I2C_transaction(this->fd, slaveaddr, cmd, cmdlen, resp, resplen, &error);
+    if (error) throw error;
+  }
 }

@@ -28,7 +28,7 @@ namespace Interfaces::I2C
   struct Bus_Interface
   {
     virtual void Transaction(unsigned slaveaddr, void *cmd, unsigned cmdlen,
-      void *resp, unsigned resplen) = 0;
+      void *resp, unsigned resplen, unsigned delayus = 0) = 0;
   };
 
   typedef Bus_Interface *Bus;
