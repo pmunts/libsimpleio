@@ -62,7 +62,8 @@ INTERFACE
         cmd      : ARRAY OF Byte;
         cmdlen   : Cardinal;
         VAR resp : ARRAY OF Byte;
-        resplen  : Cardinal);
+        resplen  : Cardinal;
+        delayus  : Cardinal = 0);
     END;
 
 IMPLEMENTATION
