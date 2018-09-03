@@ -24,6 +24,39 @@
 namespace SPIAgent
 {
     /// <summary>
+    /// Helper functions for converting between message objects and byte arrays.
+    /// </summary>
+    public static class MessageConversions
+    {
+        /// <summary>
+        /// Extract a single byte from a 32-bit integer.
+        /// </summary>
+        /// <param name="n">The 32-bit integer to split up.</param>
+        /// <param name="b">The number (0 to 3) of the byte to extract.</param>
+        /// <returns>A single byte.</returns>
+        public static byte Split32(int n, int b)
+        {
+            if ((b < 0) || (b > 3))
+                throw new System.Exception("Invalid byte number");
+
+            return System.Convert.ToByte((n >> (b * 8)) & 0xFF);
+        }
+
+        /// <summary>
+        /// Combine for bytes into a 32-bit integer.
+        /// </summary>
+        /// <param name="b0">Least significant byte (bits 0 to 7).</param>
+        /// <param name="b1">Low middle byte (bits 8 to 15).</param>
+        /// <param name="b2">High middle byte (bits 16 to 23).</param>
+        /// <param name="b3">Most significant byte (bits 24 to 31).</param>
+        /// <returns>A 32-bit integer.</returns>
+        public static int Build32(byte b0, byte b1, byte b2, byte b3)
+        {
+            return (b3 << 24) | (b2 << 16) | (b1 << 8) | b0;
+        }
+    }
+
+    /// <summary>
     /// Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware command message object
     /// </summary>
     public class SPIAGENT_COMMAND_MSG_t
@@ -42,6 +75,52 @@ namespace SPIAgent
         /// Data item to SPI Agent Firmware
         /// </summary>
         public int data;
+
+        /// <summary>
+        /// Convert a command message object to a byte array.
+        /// </summary>
+        /// <param name="buf">Destination byte array.  Must be at least
+        /// 12 bytes long.</param>
+        public void ToBytes(ref byte[] buf)
+        {
+            if (buf.Length < 12)
+                throw new System.Exception("Byte buffer is too small");
+
+            buf[0] = MessageConversions.Split32(this.command, 0);
+            buf[1] = MessageConversions.Split32(this.command, 1);
+            buf[2] = MessageConversions.Split32(this.command, 2);
+            buf[3] = MessageConversions.Split32(this.command, 3);
+
+            buf[4] = MessageConversions.Split32(this.pin, 0);
+            buf[5] = MessageConversions.Split32(this.pin, 1);
+            buf[6] = MessageConversions.Split32(this.pin, 2);
+            buf[7] = MessageConversions.Split32(this.pin, 3);
+
+            buf[8] = MessageConversions.Split32(this.data, 0);
+            buf[9] = MessageConversions.Split32(this.data, 1);
+            buf[10] = MessageConversions.Split32(this.data, 2);
+            buf[11] = MessageConversions.Split32(this.data, 3);
+        }
+
+        /// <summary>
+        /// Convert a command message object from a byte array.
+        /// </summary>
+        /// <param name="buf">Source byte array.  Must be at least
+        /// 12 bytes long.</param>
+        public void FromBytes(ref byte[] buf)
+        {
+            if (buf.Length < 12)
+                throw new System.Exception("Byte buffer is too small");
+
+            this.command =
+                MessageConversions.Build32(buf[0], buf[1], buf[2], buf[3]);
+
+            this.pin =
+                MessageConversions.Build32(buf[4], buf[5], buf[6], buf[7]);
+
+            this.data =
+                MessageConversions.Build32(buf[8], buf[9],buf[10], buf[11]);
+        }
     }
 
     /// <summary>
@@ -68,5 +147,59 @@ namespace SPIAgent
         /// Error code (errno value) from SPI Agent Firmware
         /// </summary>
         public int error;
+
+        /// <summary>
+        /// Convert a response message object to a byte array.
+        /// </summary>
+        /// <param name="buf">Destination byte array.  Must be at least
+        /// 16 bytes long.</param>
+        public void ToBytes(ref byte[] buf)
+        {
+            if (buf.Length < 16)
+                throw new System.Exception("Byte buffer is too small");
+
+            buf[0] = MessageConversions.Split32(this.command, 0);
+            buf[1] = MessageConversions.Split32(this.command, 1);
+            buf[2] = MessageConversions.Split32(this.command, 2);
+            buf[3] = MessageConversions.Split32(this.command, 3);
+
+            buf[4] = MessageConversions.Split32(this.pin, 0);
+            buf[5] = MessageConversions.Split32(this.pin, 1);
+            buf[6] = MessageConversions.Split32(this.pin, 2);
+            buf[7] = MessageConversions.Split32(this.pin, 3);
+
+            buf[8] = MessageConversions.Split32(this.data, 0);
+            buf[9] = MessageConversions.Split32(this.data, 1);
+            buf[10] = MessageConversions.Split32(this.data, 2);
+            buf[11] = MessageConversions.Split32(this.data, 3);
+
+            buf[12] = MessageConversions.Split32(this.error, 0);
+            buf[13] = MessageConversions.Split32(this.error, 1);
+            buf[14] = MessageConversions.Split32(this.error, 2);
+            buf[15] = MessageConversions.Split32(this.error, 3);
+        }
+
+        /// <summary>
+        /// Convert a response message object from a byte array.
+        /// </summary>
+        /// <param name="buf">Source byte array.  Must be at least
+        /// 12 bytes long.</param>
+        public void FromBytes(ref byte[] buf)
+        {
+            if (buf.Length < 12)
+                throw new System.Exception("Byte buffer is too small");
+
+            this.command =
+                MessageConversions.Build32(buf[0], buf[1], buf[2], buf[3]);
+
+            this.pin =
+                MessageConversions.Build32(buf[4], buf[5], buf[6], buf[7]);
+
+            this.data =
+                MessageConversions.Build32(buf[8], buf[9], buf[10], buf[11]);
+
+            this.error =
+                MessageConversions.Build32(buf[12], buf[13], buf[14], buf[15]);
+        }
     }
 }
