@@ -53,10 +53,10 @@ INTERFACE
 
       PROCEDURE Transaction
        (cmd      : ARRAY OF Byte;
-        cmdlne   : Cardinal;
-        delayus  : Cardinal;
+        cmdlen   : Cardinal;
         VAR resp : ARRAY OF Byte;
-        resplen  : Cardinal);
+        resplen  : Cardinal;
+        delayus  : Cardinal = 0);
     END;
 
 IMPLEMENTATION

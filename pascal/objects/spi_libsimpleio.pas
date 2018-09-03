@@ -63,9 +63,9 @@ INTERFACE
       PROCEDURE Transaction
        (cmd      : ARRAY OF Byte;
         cmdlen   : Cardinal;
-        delayus  : Cardinal;
         VAR resp : ARRAY OF Byte;
-        resplen  : Cardinal);
+        resplen  : Cardinal;
+        delayus  : Cardinal = 0);
 
     PRIVATE
       fd   : Integer;
@@ -196,9 +196,9 @@ IMPLEMENTATION
   PROCEDURE DeviceSubclass.Transaction
    (cmd      : ARRAY OF Byte;
     cmdlen   : Cardinal;
-    delayus  : Cardinal;
     VAR resp : ARRAY OF Byte;
-    resplen  : Cardinal);
+    resplen  : Cardinal;
+    delayus  : Cardinal);
 
   VAR
     error  : Integer;
