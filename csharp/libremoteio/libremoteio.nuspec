@@ -14,7 +14,6 @@
     <tags>Linux; Remote I/O; ADC; GPIO; I2C; SPI; USB HID</tags>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes>
-Added SPIAgent transport classes using libsimpleio.so and SPI.  Fixed some bugs.
     </releaseNotes>
   </metadata>
   <files>

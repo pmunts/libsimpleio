@@ -13,7 +13,6 @@
     <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
     <PackageTags>Linux I/O; ADC; GPIO; I2C; SPI; Serial; USB HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
-Added SPIAgent transport classes using libsimpleio.so and SPI.  Fixed some bugs.
     </PackageReleaseNotes>
   </PropertyGroup>
 
