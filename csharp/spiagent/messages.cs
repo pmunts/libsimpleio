@@ -23,17 +23,9 @@
 
 namespace SPIAgent
 {
-    /// <summary>
-    /// Helper functions for converting between message objects and byte arrays.
-    /// </summary>
+    /// <exclude/>
     public static class MessageConversions
     {
-        /// <summary>
-        /// Extract a single byte from a 32-bit integer.
-        /// </summary>
-        /// <param name="n">The 32-bit integer to split up.</param>
-        /// <param name="b">The number (0 to 3) of the byte to extract.</param>
-        /// <returns>A single byte.</returns>
         public static byte Split32(int n, int b)
         {
             if ((b < 0) || (b > 3))
@@ -42,14 +34,6 @@ namespace SPIAgent
             return System.Convert.ToByte((n >> (b * 8)) & 0xFF);
         }
 
-        /// <summary>
-        /// Combine for bytes into a 32-bit integer.
-        /// </summary>
-        /// <param name="b0">Least significant byte (bits 0 to 7).</param>
-        /// <param name="b1">Low middle byte (bits 8 to 15).</param>
-        /// <param name="b2">High middle byte (bits 16 to 23).</param>
-        /// <param name="b3">Most significant byte (bits 24 to 31).</param>
-        /// <returns>A 32-bit integer.</returns>
         public static int Build32(byte b0, byte b1, byte b2, byte b3)
         {
             return (b3 << 24) | (b2 << 16) | (b1 << 8) | b0;
@@ -57,7 +41,8 @@ namespace SPIAgent
     }
 
     /// <summary>
-    /// Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware command message object
+    /// Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware
+    /// command message object.
     /// </summary>
     public class SPIAGENT_COMMAND_MSG_t
     {
@@ -124,7 +109,8 @@ namespace SPIAgent
     }
 
     /// <summary>
-    /// Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware response message object
+    /// Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware
+    /// response message object.
     /// </summary>
     public class SPIAGENT_RESPONSE_MSG_t
     {
