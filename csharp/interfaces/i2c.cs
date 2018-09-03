@@ -79,7 +79,7 @@ namespace IO.Interfaces.I2C
     }
 
     /// <summary>
-    /// Encapsulates I<sup>2</sup>C slave devices.
+    /// Encapsulates a single I<sup>2</sup>C slave device.
     /// </summary>
     public class Device
     {
