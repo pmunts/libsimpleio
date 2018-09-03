@@ -46,10 +46,11 @@ namespace IO.Interfaces.SPI
         /// </summary>
         /// <param name="cmd">Command buffer.</param>
         /// <param name="cmdlen">Number of bytes to write.</param>
-        /// <param name="delayus">Delay in us between write and read operations.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read.</param>
-        void Transaction(byte[] cmd, int cmdlen, int delayus, byte[] resp,
-            int resplen);
+        /// <param name="delayus">Delay in microseconds between write and read
+        /// operations.</param>
+        void Transaction(byte[] cmd, int cmdlen, byte[] resp, int resplen,
+            int delayus = 0);
     }
 }

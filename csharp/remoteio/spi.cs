@@ -166,22 +166,37 @@ namespace IO.Remote
         /// operations: 0 to 65535.</param>
         /// <param name="resp">Response buffer.</param>
         /// <param name="resplen">Number of bytes to read: 0 to 60.</param>
-        public void Transaction(byte[] cmd, int cmdlen, int delayus,
-            byte[] resp, int resplen)
+        public void Transaction(byte[] cmd, int cmdlen, byte[] resp,
+            int resplen, int delayus = 0)
         {
-            // Validate parameters
-
-            if ((cmdlen < 0) || (cmdlen > 57) || (cmdlen > cmd.Length))
-                throw new Exception("Invalid command length");
-
-            if ((resplen < 0) || (resplen > 60) || (resplen > resp.Length))
-                throw new Exception("Invalid response length");
+            if ((cmd == null) && (resp == null))
+                throw new Exception("Command buffer and response buffer are both null");
 
             if ((cmdlen == 0) && (resplen == 0))
-                throw new Exception("Command and response length cannot both be zero");
+                throw new Exception("Command length and response length are both zero");
+
+            if ((cmd == null) && (cmdlen != 0))
+                throw new Exception("Command buffer is null but command length is nonzero");
+
+            if ((cmd != null) && (cmdlen == 0))
+                throw new Exception("Command buffer is not null but command length is zero");
+
+            if ((resp == null) && (resplen != 0))
+                throw new Exception("Response buffer is null but response length is nonzero");
+
+            if ((resp != null) && (resplen == 0))
+                throw new Exception("Response buffer is not null but response length is zero");
+
+            if (cmd != null)
+                if ((cmdlen < 1) || (cmdlen > 56) || (cmd.Length < cmdlen))
+                    throw new Exception("Invalid command length parameter");
+
+            if (resp != null)
+                if ((resplen < 1) || (resplen > 60) || (resp.Length < resplen))
+                    throw new Exception("Invalid response length parameter");
 
             if ((delayus < 0) || (delayus > 65535))
-                throw new Exception("Invalid delay");
+                throw new Exception("Invalid delay parameter");
 
             Message cmsg = new Message(0);
             Message rmsg = new Message();
