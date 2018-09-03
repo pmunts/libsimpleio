@@ -515,7 +515,7 @@
         </member>
         <member name="T:IO.Interfaces.I2C.Device">
             <summary>
-            Encapsulates I<sup>2</sup>C slave devices.
+            Encapsulates a single I<sup>2</sup>C slave device.
             </summary>
         </member>
         <member name="M:IO.Interfaces.I2C.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32)">
@@ -704,15 +704,16 @@
             <param name="cmd">Command buffer.</param>
             <param name="cmdlen">Number of bytes to write.</param>
         </member>
-        <member name="M:IO.Interfaces.SPI.Device.Transaction(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32)">
+        <member name="M:IO.Interfaces.SPI.Device.Transaction(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)">
             <summary>
             Write bytes to and read bytes from an SPI slave device.
             </summary>
             <param name="cmd">Command buffer.</param>
             <param name="cmdlen">Number of bytes to write.</param>
-            <param name="delayus">Delay in us between write and read operations.</param>
             <param name="resp">Response buffer.</param>
             <param name="resplen">Number of bytes to read.</param>
+            <param name="delayus">Delay in microseconds between write and read
+            operations.</param>
         </member>
         <member name="T:IO.Interfaces.Watchdog.Timer">
             <summary>
@@ -1132,7 +1133,7 @@
             <param name="cmd">Command buffer.</param>
             <param name="cmdlen">Number of bytes to write: 1 to 57.</param>
         </member>
-        <member name="M:IO.Remote.SPI.Transaction(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32)">
+        <member name="M:IO.Remote.SPI.Transaction(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)">
             <summary>
             Write and read bytes to and from an SPI slave device.
             </summary>
@@ -1380,9 +1381,13 @@
             <param name="d">Direction identifier.</param>
             <param name="s">Speed.</param>
         </member>
+        <member name="T:SPIAgent.MessageConversions">
+            <exclude/>
+        </member>
         <member name="T:SPIAgent.SPIAGENT_COMMAND_MSG_t">
             <summary>
-            Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware command message object
+            Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware
+            command message object.
             </summary>
         </member>
         <member name="F:SPIAgent.SPIAGENT_COMMAND_MSG_t.command">
@@ -1400,9 +1405,24 @@
             Data item to SPI Agent Firmware
             </summary>
         </member>
+        <member name="M:SPIAgent.SPIAGENT_COMMAND_MSG_t.ToBytes(System.Byte[]@)">
+            <summary>
+            Convert a command message object to a byte array.
+            </summary>
+            <param name="buf">Destination byte array.  Must be at least
+            12 bytes long.</param>
+        </member>
+        <member name="M:SPIAgent.SPIAGENT_COMMAND_MSG_t.FromBytes(System.Byte[]@)">
+            <summary>
+            Convert a command message object from a byte array.
+            </summary>
+            <param name="buf">Source byte array.  Must be at least
+            12 bytes long.</param>
+        </member>
         <member name="T:SPIAgent.SPIAGENT_RESPONSE_MSG_t">
             <summary>
-            Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware response message object
+            Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware
+            response message object.
             </summary>
         </member>
         <member name="F:SPIAgent.SPIAGENT_RESPONSE_MSG_t.command">
@@ -1424,6 +1444,20 @@
             <summary>
             Error code (errno value) from SPI Agent Firmware
             </summary>
+        </member>
+        <member name="M:SPIAgent.SPIAGENT_RESPONSE_MSG_t.ToBytes(System.Byte[]@)">
+            <summary>
+            Convert a response message object to a byte array.
+            </summary>
+            <param name="buf">Destination byte array.  Must be at least
+            16 bytes long.</param>
+        </member>
+        <member name="M:SPIAgent.SPIAGENT_RESPONSE_MSG_t.FromBytes(System.Byte[]@)">
+            <summary>
+            Convert a response message object from a byte array.
+            </summary>
+            <param name="buf">Source byte array.  Must be at least
+            12 bytes long.</param>
         </member>
         <member name="T:SPIAgent.Pins">
             <summary>
@@ -1839,6 +1873,26 @@
             controller supports clock stretching.</param>
         </member>
         <member name="M:SPIAgent.Transport_I2C.Command(SPIAgent.SPIAGENT_COMMAND_MSG_t,SPIAgent.SPIAGENT_RESPONSE_MSG_t@)">
+            <summary>
+            Issue a command to and receive a response from the LPC1114 I/O
+            Processor.
+            </summary>
+            <param name="cmd">Command message object.</param>
+            <param name="resp">Response message object.</param>
+        </member>
+        <member name="T:SPIAgent.Transport_SPI">
+            <summary>
+            SPIAgent transport implementation using SPI to communicate with the
+            LPC1114 I/O Processor.
+            </summary>
+        </member>
+        <member name="M:SPIAgent.Transport_SPI.#ctor(IO.Interfaces.SPI.Device)">
+            <summary>
+            Constructor for an SPIAgent transport object.
+            </summary>
+            <param name="dev">SPI device instance.</param>
+        </member>
+        <member name="M:SPIAgent.Transport_SPI.Command(SPIAgent.SPIAGENT_COMMAND_MSG_t,SPIAgent.SPIAGENT_RESPONSE_MSG_t@)">
             <summary>
             Issue a command to and receive a response from the LPC1114 I/O
             Processor.

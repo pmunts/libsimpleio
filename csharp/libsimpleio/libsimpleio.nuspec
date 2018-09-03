@@ -14,6 +14,7 @@
     <tags>Linux I/O; ADC; GPIO; I2C; SPI; Serial; Watchdog</tags>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes>
+Added SPIAgent transport classes using libsimpleio.so and SPI.  Fixed some bugs.
     </releaseNotes>
   </metadata>
   <files>
