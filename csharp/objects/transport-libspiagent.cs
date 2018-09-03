@@ -59,6 +59,9 @@ namespace SPIAgent
             respbuf = new int[4];
         }
 
+        /// <summary>
+        /// Finalizer for an SPIAgent transport object.
+        /// </summary>
         ~Transport_libspiagent()
         {
             int error;
