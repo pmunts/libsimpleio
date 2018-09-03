@@ -49,7 +49,7 @@ void MCP4822::Device_Class::write(unsigned channel, int sample)
   cmd[0] = 0x10 + (channel << 7) + (sample >> 8);
   cmd[1] = sample & 0xFF;
 
-  this->dev->Transaction(cmd, 2, 0, nullptr, 0);
+  this->dev->Transaction(cmd, 2, nullptr, 0);
 }
 
 // Sample_Subclass constructor

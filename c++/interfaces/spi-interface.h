@@ -27,8 +27,8 @@ namespace Interfaces::SPI
 {
   struct Device_Interface
   {
-    virtual void Transaction(void *cmd, unsigned cmdlen, unsigned delayus,
-      void *resp, unsigned resplen) = 0;
+    virtual void Transaction(void *cmd, unsigned cmdlen, void *resp,
+      unsigned resplen, unsigned delayus = 0) = 0;
   };
 
   typedef Device_Interface *Device;

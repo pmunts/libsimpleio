@@ -61,7 +61,7 @@ libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
 // Methods
 
 void libsimpleio::SPI::Device_Class::Transaction(void *cmd, unsigned cmdlen,
-  unsigned delayus, void *resp, unsigned resplen)
+  void *resp, unsigned resplen, unsigned delayus)
 {
   // Validate parameters
 

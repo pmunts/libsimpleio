@@ -58,7 +58,7 @@ int MCP3208::Sample_Subclass::sample(void)
   uint8_t resp[2];
 
   cmd[0] = (differential ? 0x40 : 0x60) + (channel << 2);
-  this->dev->dev->Transaction(cmd, 1, 0, resp, 2);
+  this->dev->dev->Transaction(cmd, 1, resp, 2);
 
   return (resp[0] << 4) + (resp[1] >> 4);
 }
