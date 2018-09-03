@@ -30,6 +30,11 @@ build:
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	cp bin/$(CONFIGURATION)/*.nupkg .
 
+# Release library package
+
+release: build
+	cp *.nupkg ..
+
 # Remove working files
 
 clean:
