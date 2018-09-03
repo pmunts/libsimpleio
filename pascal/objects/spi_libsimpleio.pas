@@ -204,6 +204,9 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
+    IF delayus > 65535 THEN
+      RAISE SPI_Error.create('ERROR: delayus parameter is invalid');
+
     libSPI.Transaction(Self.fd, Self.fdcs, @cmd, cmdlen, delayus, @resp,
       resplen, error);
 

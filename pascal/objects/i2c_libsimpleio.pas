@@ -48,7 +48,8 @@ INTERFACE
         cmd      : ARRAY OF Byte;
         cmdlen   : Cardinal;
         VAR resp : ARRAY OF Byte;
-        resplen  : Cardinal);
+        resplen  : Cardinal;
+        delayus  : Cardinal = 0);
     PRIVATE
       fd : Integer;
     END;
@@ -57,7 +58,8 @@ IMPLEMENTATION
 
   USES
     errno,
-    libI2C;
+    libI2C,
+    libLinux;
 
   { I2C_libsimpleio.BusSubclass constructor }
 
@@ -134,17 +136,44 @@ IMPLEMENTATION
     cmd      : ARRAY OF Byte;
     cmdlen   : Cardinal;
     VAR resp : ARRAY OF Byte;
-    resplen  : Cardinal);
+    resplen  : Cardinal;
+    delayus  : Cardinal);
 
   VAR
     error  : Integer;
 
   BEGIN
-    libI2C.Transaction(Self.fd, addr, @cmd, cmdlen, @resp, resplen, error);
+    IF delayus > 65535 THEN
+      RAISE SPI_Error.create('ERROR: delayus parameter is invalid');
 
-    IF error <> 0 THEN
-      RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
-        strerror(error));
+    IF delayus > 0 THEN
+      BEGIN
+        libI2C.Transaction(Self.fd, addr, @cmd, cmdlen, NIL, 0, error);
+
+        IF error <> 0 THEN
+          RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
+            strerror(error));
+
+        libLinux.usleep(delayus, error);
+
+        IF error <> 0 THEN
+          RAISE I2C_Error.create('ERROR: libLiux.usleep() failed, ' +
+            strerror(error));
+
+        libI2C.Transaction(Self.fd, addr, NIL, 0, @resp, resplen, error);
+
+        IF error <> 0 THEN
+          RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
+            strerror(error));
+      END
+    ELSE
+      BEGIN
+        libI2C.Transaction(Self.fd, addr, @cmd, cmdlen, @resp, resplen, error);
+
+        IF error <> 0 THEN
+          RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
+            strerror(error));
+      END;
   END;
 
 END.
