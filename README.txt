@@ -93,18 +93,25 @@ News
        GPIO expander.
      * 26 August 2018 -- Added support for the PCA9685 I2C PWM controller
        to the .Net libraries.
+     * 3 September 2018 -- Added support for the [16]Raspberry Pi LPC1114
+       I/O Processor Expansion Board to the C# libraries. Added a delay
+       parameter to the I2C transaction methods for Ada, C++, C#, and
+       Free Pascal. The [17]Remote I/O Procotol has also been updated in
+       add a delay parameter to the I2C transaction request message.
 
 Documentation
 
    New The user manual for libsimpleio is available at:
-   [16]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+
+   [18]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-   [17]libsimpleio.html
+
+   [19]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [18]http://git.munts.com
+   The source code is available at: [20]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -138,7 +145,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [19]phil@munts.net
+   Questions or comments to Philip Munts [21]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -160,7 +167,9 @@ References
   13. https://docs.microsoft.com/en-us/dotnet/standard/net-standard
   14. http://www.ti.com/product/ADC121C021
   15. http://wiki.seeedstudio.com/Grove-I2C_ADC
-  16. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  17. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  18. http://git.munts.com/
-  19. mailto:phil@munts.net
+  16. http://git.munts.com/rpi-mcu/expansion/LPC1114
+  17. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
+  18. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  19. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  20. http://git.munts.com/
+  21. mailto:phil@munts.net
