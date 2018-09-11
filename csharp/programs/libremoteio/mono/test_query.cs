@@ -20,7 +20,7 @@ namespace test_query
 
             // Display the available ADC inputs
 
-            Console.Write("ADC inputs: ");
+            Console.Write("ADC inputs:  ");
 
             foreach (int input in dev.ADC_Available())
                 Console.Write(input.ToString() + " ");
@@ -29,7 +29,7 @@ namespace test_query
 
             // Display the available GPIO pins
 
-            Console.Write("GPIO Pins:  ");
+            Console.Write("GPIO Pins:   ");
 
             foreach (int pin in dev.GPIO_Available())
               Console.Write(pin.ToString() + " ");
@@ -38,9 +38,18 @@ namespace test_query
 
             // Display the available I2C buses
 
-            Console.Write("I2C buses:  ");
+            Console.Write("I2C buses:   ");
 
             foreach (int bus in dev.I2C_Available())
+                Console.Write(bus.ToString() + " ");
+
+            Console.WriteLine();
+
+            // Display the available SPI devices
+
+            Console.Write("SPI devices: ");
+
+            foreach (int bus in dev.SPI_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();
