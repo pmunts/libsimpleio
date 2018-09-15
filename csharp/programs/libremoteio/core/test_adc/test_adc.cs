@@ -19,6 +19,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
+using System.Collections;
 using System.Threading;
 
 namespace test_adc
@@ -32,17 +33,31 @@ namespace test_adc
             IO.Remote.Device dev =
                 new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
-            IO.Interfaces.ADC.Input[] Inputs = new IO.Interfaces.ADC.Input[4];
+            Console.Write("Channels:    ");
 
-            for (int c = 0; c < 4; c++)
-                Inputs[c] =
-                    new IO.Interfaces.ADC.Input(dev.ADC_Create(c), 5.0);
+            foreach (int input in dev.ADC_Available())
+                Console.Write(" " + input.ToString());
+
+            Console.WriteLine();
+
+            ArrayList S = new ArrayList();
+
+            foreach (int c in dev.ADC_Available())
+                S.Add(new IO.Remote.ADC(dev, c));
+
+            Console.Write("Resolutions: ");
+
+            foreach (IO.Interfaces.ADC.Sample inp in S)
+                Console.Write(" " + inp.resolution.ToString());
+
+            Console.WriteLine();
 
             for (;;)
             {
-                for (int c = 0; c < 4; c++)
-                    Console.Write("AIN" + c.ToString() + ": " +
-                        Inputs[c].voltage.ToString("0.00") + "  ");
+                Console.Write("Samples:     ");
+
+                foreach (IO.Interfaces.ADC.Sample inp in S)
+                  Console.Write(String.Format(" {0:00000}", inp.sample));
 
                 Console.WriteLine();
                 Thread.Sleep(2000);
