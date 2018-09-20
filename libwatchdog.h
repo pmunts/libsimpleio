@@ -28,7 +28,7 @@
 
 _BEGIN_STD_C
 
-extern void WATCHDOG_open(const char *name, int32_t *fd, int32_t * error);
+extern void WATCHDOG_open(const char *name, int32_t *fd, int32_t *error);
 
 extern void WATCHDOG_close(int32_t fd, int32_t *error);
 
