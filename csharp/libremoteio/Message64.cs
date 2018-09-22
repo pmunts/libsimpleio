@@ -82,13 +82,15 @@ namespace IO.Objects.USB.HID
         /// <summary>
         /// Create a 64-byte messenger object bound to a USB HID device.
         /// </summary>
-        /// <param name="vid">USB vendor ID</param>
-        /// <param name="pid">USB product ID</param>
+        /// <param name="vid">Vendor ID</param>
+        /// <param name="pid">Product ID</param>
+        /// <param name="serialnumber">Serial number</param>
         /// <param name="timeoutms">Time in milliseconds to wait for
         /// read and write operations to complete.  Zero means wait
         /// forever.</param>
         public Messenger(int vid = IO.Objects.USB.Munts.HID.Vendor,
-          int pid = IO.Objects.USB.Munts.HID.Product, int timeoutms = 1000)
+          int pid = IO.Objects.USB.Munts.HID.Product,
+          string serialnumber = null, int timeoutms = 1000)
         {
             // Validate parameters
 
@@ -143,12 +145,12 @@ namespace IO.Objects.USB.HID
                 {
                     // Open the USB HID device
 
-                    HidSharp.HidDeviceLoader loader = new HidSharp.HidDeviceLoader();
-                    hid_device = loader.GetDeviceOrDefault(vid, pid);
+                    HidSharp.DeviceList list = HidSharp.DeviceList.Local;
 
-                    if (hid_device == null)
+                    if (!list.TryGetHidDevice(out hid_device, vid, pid, null,
+                      serialnumber))
                     {
-                        throw new Exception("Cannot find matching USB device");
+                        throw new Exception("DeviceList.TryGetHidDevice() failed");
                     }
 
                     hid_stream = hid_device.Open();
@@ -193,8 +195,9 @@ namespace IO.Objects.USB.HID
 
                     case Transport.HidSharp:
                         {
-                            return this.hid_device.Manufacturer.Trim() + " " +
-                                this.hid_device.ProductName.Trim();
+                            return this.hid_device.GetManufacturer().Trim() +
+                                " " + this.hid_device.GetProductName().Trim() +
+                                " " + this.hid_device.GetSerialNumber().Trim();
                         }
 
                     default:

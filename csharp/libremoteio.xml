@@ -9,12 +9,13 @@
             Encapsulates USB raw HID devices, using the HidSharp library.
             </summary>
         </member>
-        <member name="M:IO.Objects.USB.HID.Messenger.#ctor(System.Int32,System.Int32,System.Int32)">
+        <member name="M:IO.Objects.USB.HID.Messenger.#ctor(System.Int32,System.Int32,System.String,System.Int32)">
             <summary>
             Create a 64-byte messenger object bound to a USB HID device.
             </summary>
-            <param name="vid">USB vendor ID</param>
-            <param name="pid">USB product ID</param>
+            <param name="vid">Vendor ID</param>
+            <param name="pid">Product ID</param>
+            <param name="serialnumber">Serial number</param>
             <param name="timeoutms">Time in milliseconds to wait for
             read and write operations to complete.  Zero means wait
             forever.</param>
