@@ -133,14 +133,6 @@ namespace IO.Objects.USB.HID
 
                 this.transport = Transport.HidSharp;
 
-                // No report ID byte on  Unix or MacOS
-
-                if ((Environment.OSVersion.Platform == PlatformID.Unix) ||
-                    (Environment.OSVersion.Platform == PlatformID.MacOSX))
-                {
-                    reportID_offset = 0;
-                }
-
                 try
                 {
                     // Open the USB HID device
