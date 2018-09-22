@@ -1,4 +1,4 @@
-// Remote I/O PCA8574 GPIO Port Toggle Test
+// PCA8574 GPIO Port Toggle Test
 
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_remoteio_pca8574_toggle_port
+namespace test_pca8574_toggle_port
 {
   class Program
   {
@@ -37,8 +37,7 @@ namespace test_remoteio_pca8574_toggle_port
 
       IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 
-      IO.Devices.PCA8574.Device dev =
-        new IO.Devices.PCA8574.Device(bus, 0x38);
+      IO.Devices.PCA8574.Device dev = new IO.Devices.PCA8574.Device(bus, 0x38);
 
       for (;;)
       {

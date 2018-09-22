@@ -1,4 +1,4 @@
-// Remote I/O PCA8574 GPIO Pin Toggle Test
+// PCA8574 GPIO Pin Toggle Test
 
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_remoteio_pca8574_toggle_pin
+namespace test_pca8574_toggle_pin
 {
   class Program
   {
