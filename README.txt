@@ -98,7 +98,7 @@ News
        parameter to the I2C transaction methods for Ada, C++, C#, and
        Free Pascal. The [17]Remote I/O Procotol has also been updated in
        add a delay parameter to the I2C transaction request message.
-     * 22 September 2018 -- Modified libremoteio to use HidSharp 2.0.2.
+     * 23 September 2018 -- Modified libremoteio to use HidSharp 2.0.2.
        Added an optional USB serial device serial number parameter to the
        constructor for the libremoteio Messenger class. Added more C# test
        programs.
