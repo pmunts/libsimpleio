@@ -139,7 +139,7 @@ namespace IO.Remote
             Message rmsg = new Message();
 
             for (int i = 0; i < cmdlen; i++)
-                cmsg.payload[i + 6] = cmd[i];
+                cmsg.payload[8 + i] = cmd[i];
 
             cmsg.payload[0] = (byte)MessageTypes.I2C_TRANSACTION_REQUEST;
             cmsg.payload[2] = (byte)this.num;
