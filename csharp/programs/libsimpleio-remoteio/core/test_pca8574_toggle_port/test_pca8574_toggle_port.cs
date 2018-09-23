@@ -37,8 +37,7 @@ namespace test_pca8574_toggle_port
 
       IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 
-      IO.Devices.PCA8574.Device dev =
-        new IO.Devices.PCA8574.Device(bus, 0x38);
+      IO.Devices.PCA8574.Device dev = new IO.Devices.PCA8574.Device(bus, 0x38);
 
       for (;;)
       {
