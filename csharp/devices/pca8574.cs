@@ -31,7 +31,7 @@ namespace IO.Devices.PCA8574
     public class Device
     {
         private IO.Interfaces.I2C.Device dev;
-        private byte pins = 0xFF;
+        private byte latch;
         private byte[] buf = { 0 };
 
         /// <summary>
@@ -61,45 +61,26 @@ namespace IO.Devices.PCA8574
         }
 
         /// <summary>
-        /// Return last known state of the GPIO pins.
-        /// </summary>
-        /// <returns>Pin states (MSB = GPIO7).</returns>
-        public byte State()
-        {
-            return this.pins;
-        }
-
-        /// <summary>
         /// Write all GPIO pins.
         /// </summary>
         /// <param name="data">Data to write to pins (MSB = GPIO7).</param>
         public void Write(byte data)
         {
-            this.pins = data;
-            this.buf[0] = pins;
+            this.buf[0] = data;
             this.dev.Write(buf, 1);
+            this.latch = data;
         }
 
         /// <summary>
-        /// Set selected GPIO pins.
+        /// This read-only property returns the last value written to the
+        /// output latch.
         /// </summary>
-        /// <param name="data">Pins to set high (MSB = GPIO7).</param>
-        public void Set(byte data)
+        public byte Latch
         {
-            this.pins |= data;
-            this.buf[0] = pins;
-            this.dev.Write(buf, 1);
-        }
-
-        /// <summary>
-        /// Clear selected GPIO pins.
-        /// </summary>
-        /// <param name="data">Pins to set low (MSB = GPIO7).</param>
-        public void Clear(byte data)
-        {
-            this.pins &= (byte)(~data);
-            this.buf[0] = pins;
-            this.dev.Write(buf, 1);
+            get
+            {
+                return this.latch;
+            }
         }
     }
 
@@ -111,7 +92,7 @@ namespace IO.Devices.PCA8574
     /// PCA9674, PCF8574, and TCA9554.</remarks>
     public class Pin : IO.Interfaces.GPIO.Pin
     {
-        private PCA8574.Device dev;
+        private Device dev;
         private byte mask;
         private IO.Interfaces.GPIO.Direction dir;
 
@@ -137,11 +118,9 @@ namespace IO.Devices.PCA8574
             this.dir = dir;
 
             if (dir == IO.Interfaces.GPIO.Direction.Input)
-                this.dev.Set(this.mask);
-            else if (state)
-                this.dev.Set(this.mask);
+                this.state = true;
             else
-                this.dev.Clear(this.mask);
+                this.state = state;
         }
 
         /// <summary>
@@ -154,18 +133,17 @@ namespace IO.Devices.PCA8574
                 if (this.dir == IO.Interfaces.GPIO.Direction.Input)
                     return ((this.dev.Read() & this.mask) != 0);
                 else
-                    return ((this.dev.State() & this.mask) != 0);
+                    return ((this.dev.Latch & this.mask) != 0);
             }
 
             set
             {
                 if (this.dir == IO.Interfaces.GPIO.Direction.Input)
                     throw new Exception("Cannot write to input pin");
-
-                if (value)
-                    this.dev.Set(mask);
+                else if (value)
+                    this.dev.Write((byte)(this.dev.Latch | this.mask));
                 else
-                    this.dev.Clear(mask);
+                    this.dev.Write((byte)(this.dev.Latch & ~this.mask));
             }
         }
     }

@@ -2198,29 +2198,17 @@
             </summary>
             <returns>Pin states (MSB = GPIO7).</returns>
         </member>
-        <member name="M:IO.Devices.PCA8574.Device.State">
-            <summary>
-            Return last known state of the GPIO pins.
-            </summary>
-            <returns>Pin states (MSB = GPIO7).</returns>
-        </member>
         <member name="M:IO.Devices.PCA8574.Device.Write(System.Byte)">
             <summary>
             Write all GPIO pins.
             </summary>
             <param name="data">Data to write to pins (MSB = GPIO7).</param>
         </member>
-        <member name="M:IO.Devices.PCA8574.Device.Set(System.Byte)">
+        <member name="P:IO.Devices.PCA8574.Device.Latch">
             <summary>
-            Set selected GPIO pins.
+            This read-only property returns the last value written to the
+            output latch.
             </summary>
-            <param name="data">Pins to set high (MSB = GPIO7).</param>
-        </member>
-        <member name="M:IO.Devices.PCA8574.Device.Clear(System.Byte)">
-            <summary>
-            Clear selected GPIO pins.
-            </summary>
-            <param name="data">Pins to set low (MSB = GPIO7).</param>
         </member>
         <member name="T:IO.Devices.PCA8574.Pin">
             <summary>
