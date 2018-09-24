@@ -38,9 +38,11 @@ PACKAGE PCA8574 IS
 
   -- PCA8574 methods
 
-  FUNCTION Get(self : DeviceClass) RETURN Byte;
+  FUNCTION Get(self : IN OUT DeviceClass) RETURN Byte;
 
-  PROCEDURE Put(self : DeviceClass; data : Byte);
+  PROCEDURE Put(self : IN OUT DeviceClass; data : Byte);
+
+  FUNCTION State(self : IN OUT DeviceClass) RETURN Byte;
 
 PRIVATE
 
@@ -49,6 +51,7 @@ PRIVATE
   TYPE DeviceClass IS TAGGED RECORD
     bus  : I2C.Bus;
     addr : I2C.Address;
+    pins : Byte;
   END RECORD;
 
 END PCA8574;

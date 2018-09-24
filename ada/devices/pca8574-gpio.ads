@@ -48,7 +48,8 @@ PRIVATE
 
   TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
     device : PCA8574.Device;
-    number : PCA8574.GPIO.PinNumber;
+    dir    : Standard.GPIO.Direction;
+    mask   : PCA8574.Byte;
   END RECORD;
 
 END PCA8574.GPIO;

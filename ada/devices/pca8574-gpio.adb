@@ -40,7 +40,7 @@ PACKAGE BODY PCA8574.GPIO IS
     p : Standard.GPIO.Pin;
 
   BEGIN
-    p := NEW PinSubclass'(device, number);
+    p := NEW PinSubclass'(device, direction, PinMasks(number));
 
     IF direction = Standard.GPIO.Input THEN
       p.Put(True);
@@ -56,7 +56,7 @@ PACKAGE BODY PCA8574.GPIO IS
   FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS
 
   BEGIN
-    RETURN (self.device.Get AND PinMasks(self.number)) /= 0;
+    RETURN (self.device.Get AND self.mask) /= 0;
   END Get;
 
   -- GPIO pin write method
@@ -65,9 +65,9 @@ PACKAGE BODY PCA8574.GPIO IS
 
   BEGIN
     IF state THEN
-      self.device.Put(self.device.Get OR PinMasks(self.number));
+      self.device.Put(self.device.Get OR self.mask);
     ELSE
-      self.device.Put(self.device.Get AND NOT PinMasks(self.number));
+      self.device.Put(self.device.Get AND NOT self.mask);
     END IF;
   END Put;
 

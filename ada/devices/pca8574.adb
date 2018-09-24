@@ -27,12 +27,12 @@ PACKAGE BODY PCA8574 IS
   FUNCTION Create(bus : I2C.Bus; addr : I2C.Address) RETURN Device IS
 
   BEGIN
-    RETURN NEW DeviceClass'(bus, addr);
+    RETURN NEW DeviceClass'(bus, addr, 16#FF#);
   END Create;
 
   -- PCA8574 methods
 
-  FUNCTION Get(self : DeviceClass) RETURN Byte IS
+  FUNCTION Get(self : IN OUT DeviceClass) RETURN Byte IS
 
     resp : I2C.Response(0 .. 0);
 
@@ -42,7 +42,7 @@ PACKAGE BODY PCA8574 IS
     RETURN Byte(resp(0));
   END Get;
 
-  PROCEDURE Put(self : DeviceClass; data : Byte) IS
+  PROCEDURE Put(self : IN OUT DeviceClass; data : Byte) IS
 
     cmd : I2C.Command(0 .. 0);
 
@@ -50,6 +50,14 @@ PACKAGE BODY PCA8574 IS
     cmd(0) := I2C.Byte(data);
 
     self.bus.Write(self.addr, cmd, cmd'Length);
+
+    self.pins := data;
   END Put;
+
+  FUNCTION State(self : IN OUT DeviceClass ) RETURN Byte IS
+
+  BEGIN
+    RETURN self.pins;
+  END;
 
 END PCA8574;
