@@ -56,7 +56,11 @@ PACKAGE BODY PCA8574.GPIO IS
   FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS
 
   BEGIN
-    RETURN (self.device.Get AND self.mask) /= 0;
+    IF self.dir = Standard.GPIO.Input THEN
+      RETURN (self.device.Get AND self.mask) /= 0;
+    ELSE
+      RETURN (self.device.latch AND self.mask) /= 0;
+    END IF;
   END Get;
 
   -- GPIO pin write method
@@ -64,10 +68,12 @@ PACKAGE BODY PCA8574.GPIO IS
   PROCEDURE Put(self : IN OUT PinSubclass; state: Boolean) IS
 
   BEGIN
-    IF state THEN
-      self.device.Put(self.device.Get OR self.mask);
+    IF self.dir = Standard.GPIO.Input THEN
+      RAISE Standard.GPIO.GPIO_Error WITH "Cannot write to input pin";
+    ELSIF state THEN
+      self.device.Put(self.device.latch OR self.mask);
     ELSE
-      self.device.Put(self.device.Get AND NOT self.mask);
+      self.device.Put(self.device.latch AND NOT self.mask);
     END IF;
   END Put;
 

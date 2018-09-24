@@ -42,16 +42,14 @@ PACKAGE PCA8574 IS
 
   PROCEDURE Put(self : IN OUT DeviceClass; data : Byte);
 
-  FUNCTION State(self : IN OUT DeviceClass) RETURN Byte;
-
 PRIVATE
 
   -- Complete the definition for PCA8574.DeviceClass
 
   TYPE DeviceClass IS TAGGED RECORD
-    bus  : I2C.Bus;
-    addr : I2C.Address;
-    pins : Byte;
+    bus   : I2C.Bus;
+    addr  : I2C.Address;
+    latch : Byte;
   END RECORD;
 
 END PCA8574;

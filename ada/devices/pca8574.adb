@@ -57,13 +57,7 @@ PACKAGE BODY PCA8574 IS
 
     self.bus.Write(self.addr, cmd, cmd'Length);
 
-    self.pins := data;
+    self.latch := data;
   END Put;
-
-  FUNCTION State(self : IN OUT DeviceClass ) RETURN Byte IS
-
-  BEGIN
-    RETURN self.pins;
-  END;
 
 END PCA8574;
