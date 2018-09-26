@@ -29,7 +29,9 @@ INTERFACE
     SysUtils;
 
   TYPE
-    RemoteIO_Error = CLASS(Exception);
+    Error = CLASS(Exception);
+
+    Channels = 0 .. 127;
 
     MessageTypes =
      (LOOPBACK_REQUEST,
@@ -92,13 +94,13 @@ IMPLEMENTATION
     Self.msg.Transaction(cmd, resp);
 
     IF resp[0] <> cmd[0] + 1 THEN
-      RAISE RemoteIO_Error.create('ERROR: Incorrect response message type');
+      RAISE RemoteIO.Error.create('ERROR: Incorrect response message type');
 
     IF resp[1] <> cmd[1] THEN
-      RAISE RemoteIO_Error.create('ERROR: Incorrect response message number');
+      RAISE RemoteIO.Error.create('ERROR: Incorrect response message number');
 
     IF resp[2] <> EOK THEN
-      RAISE RemoteIO_Error.create('ERROR: Command failed, ' + strerror(resp[2]));
+      RAISE RemoteIO.Error.create('ERROR: Command failed, ' + strerror(resp[2]));
   END;
 
   { Fetch the Remote I/O Protocol device version string }
