@@ -71,6 +71,7 @@ INTERFACE
       FUNCTION Capability : String;
     PRIVATE
       msg : Message64.Messenger;
+      num : Byte;
     END;
 
 IMPLEMENTATION
@@ -84,6 +85,7 @@ IMPLEMENTATION
 
   BEGIN
     Self.msg := m;
+    Self.num := 0;
   END;
 
   { Perform a Remote I/O Protocol operation }
@@ -91,6 +93,9 @@ IMPLEMENTATION
   PROCEDURE Device.Transaction(cmd : Message; VAR resp : Message);
 
   BEGIN
+    Self.num := Self.num + 17;
+    cmd[1] := Self.num;
+
     Self.msg.Transaction(cmd, resp);
 
     IF resp[0] <> cmd[0] + 1 THEN
@@ -117,7 +122,6 @@ IMPLEMENTATION
     FillChar(cmd, SizeOf(cmd), 0);
 
     cmd[0] := Ord(VERSION_REQUEST);
-    cmd[1] := 1;
 
     Self.Transaction(cmd, resp);
 
@@ -141,7 +145,6 @@ IMPLEMENTATION
     FillChar(cmd, SizeOf(cmd), 0);
 
     cmd[0] := Ord(CAPABILITY_REQUEST);
-    cmd[1] := 1;
 
     Self.Transaction(cmd, resp);
 
