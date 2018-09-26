@@ -27,6 +27,11 @@ INTERFACE
   USES
     SysUtils;
 
+  CONST
+    SpeedStandard = 100000;
+    SpeedFast     = 400000;
+    SpeedFastPlus = 1000000;
+
   TYPE
 
     { Define an exception for I2C errors }
