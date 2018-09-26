@@ -157,6 +157,28 @@
             Return the number of bits of A/D resolution.
             </summary>
         </member>
+        <member name="T:IO.Devices.PCA8574.GPIO.Pin">
+            <summary>
+            Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
+            </summary>
+            <remarks>This class supports the following I<sup>2</sup>C GPIO
+            expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
+            PCA9674, PCF8574, and TCA9554.</remarks>
+        </member>
+        <member name="M:IO.Devices.PCA8574.GPIO.Pin.#ctor(IO.Devices.PCA8574.Device,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
+            <summary>
+            Constructor for a single GPIO pin.
+            </summary>
+            <param name="dev">PCA8574 (or similar) device.</param>
+            <param name="num">GPIO pin number.</param>
+            <param name="dir">Data direction.</param>
+            <param name="state">Initial output state.</param>
+        </member>
+        <member name="P:IO.Devices.PCA8574.GPIO.Pin.state">
+            <summary>
+            Read/Write GPIO state property.
+            </summary>
+        </member>
         <member name="T:IO.Devices.PCA8574.Device">
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expanders.
@@ -195,26 +217,62 @@
             output latch.
             </summary>
         </member>
-        <member name="T:IO.Devices.PCA8574.Pin">
+        <member name="T:IO.Devices.PCA9685.GPIO.Pin">
             <summary>
-            Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
+            Encapsulates PCA9685 GPIO outputs.
             </summary>
-            <remarks>This class supports the following I<sup>2</sup>C GPIO
-            expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
-            PCA9674, PCF8574, and TCA9554.</remarks>
         </member>
-        <member name="M:IO.Devices.PCA8574.Pin.#ctor(IO.Devices.PCA8574.Device,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
+        <member name="M:IO.Devices.PCA9685.GPIO.Pin.#ctor(IO.Devices.PCA9685.Device,System.Int32,System.Boolean)">
             <summary>
-            Constructor for a single GPIO pin.
+            Constructor for a single GPIO output pin.
             </summary>
-            <param name="dev">PCA8574 (or similar) device.</param>
-            <param name="num">GPIO pin number.</param>
-            <param name="dir">Data direction.</param>
+            <param name="dev">PCA9685 device object.</param>
+            <param name="channel">Output channel number.</param>
             <param name="state">Initial output state.</param>
         </member>
-        <member name="P:IO.Devices.PCA8574.Pin.state">
+        <member name="P:IO.Devices.PCA9685.GPIO.Pin.state">
             <summary>
-            Read/Write GPIO state property.
+            Read/Write GPIO output state property.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.PCA9685.PWM.Output">
+            <summary>
+            Encapsulates PCA9685 PWM outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.PCA9685.PWM.Output.#ctor(IO.Devices.PCA9685.Device,System.Int32,System.Double)">
+            <summary>
+            Constructor for a single PWM output.
+            </summary>
+            <param name="dev">PCA9685 device object.</param>
+            <param name="channel">Output channel number.</param>
+            <param name="dutycycle">Initial PWM output duty cycle.
+            Allowed values are 0.0 to 100.0 percent.</param>
+        </member>
+        <member name="P:IO.Devices.PCA9685.PWM.Output.dutycycle">
+            <summary>
+            Write-only property for setting the PWM output duty cycle.
+            Allowed values are 0.0 to 100.0 percent.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.PCA9685.Servo.Output">
+            <summary>
+            Encapsulates PCA9685 servo outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.PCA9685.Servo.Output.#ctor(IO.Devices.PCA9685.Device,System.Int32,System.Double)">
+            <summary>
+            Constructor for a single servo output.
+            </summary>
+            <param name="dev">PCA9685 device object.</param>
+            <param name="channel">Output channel number.</param>
+            <param name="position">Initial normalized servo position.
+            Allowed values are -0.0 to +1.0.</param>
+        </member>
+        <member name="P:IO.Devices.PCA9685.Servo.Output.position">
+            <summary>
+            Write-only property for setting the normalized servo position.
+            Allowed values are -0.0 to+1.0.
             </summary>
         </member>
         <member name="T:IO.Devices.PCA9685.Device">
@@ -275,64 +333,6 @@
         <member name="P:IO.Devices.PCA9685.Device.Frequency">
             <summary>
             Read-only property returning the configured PWM pulse frequency.
-            </summary>
-        </member>
-        <member name="T:IO.Devices.PCA9685.GPIO.Pin">
-            <summary>
-            Encapsulates PCA9685 GPIO outputs.
-            </summary>
-        </member>
-        <member name="M:IO.Devices.PCA9685.GPIO.Pin.#ctor(IO.Devices.PCA9685.Device,System.Int32,System.Boolean)">
-            <summary>
-            Constructor for a single GPIO output pin.
-            </summary>
-            <param name="dev">PCA9685 device object.</param>
-            <param name="channel">Output channel number.</param>
-            <param name="state">Initial output state.</param>
-        </member>
-        <member name="P:IO.Devices.PCA9685.GPIO.Pin.state">
-            <summary>
-            Read/Write GPIO output state property.
-            </summary>
-        </member>
-        <member name="T:IO.Devices.PCA9685.PWM.Output">
-            <summary>
-            Encapsulates PCA9685 PWM outputs.
-            </summary>
-        </member>
-        <member name="M:IO.Devices.PCA9685.PWM.Output.#ctor(IO.Devices.PCA9685.Device,System.Int32,System.Double)">
-            <summary>
-            Constructor for a single PWM output.
-            </summary>
-            <param name="dev">PCA9685 device object.</param>
-            <param name="channel">Output channel number.</param>
-            <param name="dutycycle">Initial PWM output duty cycle.
-            Allowed values are 0.0 to 100.0 percent.</param>
-        </member>
-        <member name="P:IO.Devices.PCA9685.PWM.Output.dutycycle">
-            <summary>
-            Write-only property for setting the PWM output duty cycle.
-            Allowed values are 0.0 to 100.0 percent.
-            </summary>
-        </member>
-        <member name="T:IO.Devices.PCA9685.Servo.Output">
-            <summary>
-            Encapsulates PCA9685 servo outputs.
-            </summary>
-        </member>
-        <member name="M:IO.Devices.PCA9685.Servo.Output.#ctor(IO.Devices.PCA9685.Device,System.Int32,System.Double)">
-            <summary>
-            Constructor for a single servo output.
-            </summary>
-            <param name="dev">PCA9685 device object.</param>
-            <param name="channel">Output channel number.</param>
-            <param name="position">Initial normalized servo position.
-            Allowed values are -0.0 to +1.0.</param>
-        </member>
-        <member name="P:IO.Devices.PCA9685.Servo.Output.position">
-            <summary>
-            Write-only property for setting the normalized servo position.
-            Allowed values are -0.0 to+1.0.
             </summary>
         </member>
         <member name="T:IO.Interfaces.ADC.Sample">

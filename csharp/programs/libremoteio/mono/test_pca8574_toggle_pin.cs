@@ -37,7 +37,7 @@ namespace test_pca8574_toggle_pin
 
       IO.Devices.PCA8574.Device dev = new IO.Devices.PCA8574.Device(bus, 0x38);
 
-      IO.Interfaces.GPIO.Pin GPIO0 = new IO.Devices.PCA8574.Pin(dev, 0,
+      IO.Interfaces.GPIO.Pin GPIO0 = new IO.Devices.PCA8574.GPIO.Pin(dev, 0,
         IO.Interfaces.GPIO.Direction.Output, false);
 
       for (;;)
