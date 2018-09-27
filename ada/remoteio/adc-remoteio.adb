@@ -48,7 +48,6 @@ PACKAGE BODY ADC.RemoteIO IS
     cmd := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.ADC_CONFIGURE_REQUEST));
-    cmd(1) := 1;
     cmd(2) := Message64.Byte(num);
 
     dev.Transaction(cmd, resp);
@@ -67,7 +66,6 @@ PACKAGE BODY ADC.RemoteIO IS
     cmd := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.ADC_READ_REQUEST));
-    cmd(1) := 3;
     cmd(2) := Message64.Byte(self.num);
 
     self.dev.Transaction(cmd, resp);

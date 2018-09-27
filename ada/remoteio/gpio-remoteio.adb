@@ -47,7 +47,6 @@ PACKAGE BODY GPIO.RemoteIO IS
     cmd := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.GPIO_CONFIGURE_REQUEST));
-    cmd(1) := 1;
     cmd(2 + num / 8) := 2**(7 - num MOD 8);
 
     IF dir = Output THEN
@@ -62,7 +61,6 @@ PACKAGE BODY GPIO.RemoteIO IS
       cmd := (OTHERS => 0);
       cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
         Standard.RemoteIO.GPIO_WRITE_REQUEST));
-      cmd(1) := 2;
       cmd(2 + num / 8) := 2**(7 - num MOD 8);
 
       IF state THEN
@@ -86,7 +84,6 @@ PACKAGE BODY GPIO.RemoteIO IS
     cmd := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.GPIO_READ_REQUEST));
-    cmd(1) := 3;
     cmd(2 + self.num / 8) := 2**(7 - self.num MOD 8);
 
     self.dev.Transaction(cmd, resp);
@@ -109,7 +106,6 @@ PACKAGE BODY GPIO.RemoteIO IS
     cmd := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.GPIO_WRITE_REQUEST));
-    cmd(1) := 4;
     cmd(2 + self.num / 8) := 2**(7 - self.num MOD 8);
 
     IF state THEN

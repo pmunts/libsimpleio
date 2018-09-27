@@ -36,17 +36,20 @@ PACKAGE BODY RemoteIO IS
   FUNCTION Create(msg : Message64.Messenger) RETURN Device IS
 
   BEGIN
-    RETURN NEW DeviceRecord'(msg => msg);
+    RETURN NEW DeviceRecord'(msg, 0);
   END Create;
 
   -- Execute an operation
 
   PROCEDURE Transaction
-   (self : DeviceRecord;
-    cmd  : Message64.Message;
+   (self : IN OUT DeviceRecord;
+    cmd  : IN OUT Message64.Message;
     resp : OUT Message64.Message) IS
 
   BEGIN
+    self.num := self.num + 23;
+    cmd(1) := self.num;
+
     self.msg.Transaction(cmd, resp);
 
     IF resp(0) /= cmd(0) + 1 THEN
@@ -65,7 +68,7 @@ PACKAGE BODY RemoteIO IS
 
   -- Get the remote device version string
 
-  FUNCTION GetVersion(self : DeviceRecord) RETURN String IS
+  FUNCTION GetVersion(self : IN OUT DeviceRecord) RETURN String IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -84,7 +87,6 @@ PACKAGE BODY RemoteIO IS
     -- Build the version request command
 
     cmd(0) := MessageTypes'Pos(VERSION_REQUEST);
-    cmd(1) := 123;
 
     -- Dispatch the version request command
 
@@ -104,7 +106,7 @@ PACKAGE BODY RemoteIO IS
 
   -- Get the remote device capability string
 
-  FUNCTION GetCapability(self : DeviceRecord) RETURN String IS
+  FUNCTION GetCapability(self : IN OUT DeviceRecord) RETURN String IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -123,7 +125,6 @@ PACKAGE BODY RemoteIO IS
     -- Build the capability request command
 
     cmd(0) := MessageTypes'Pos(CAPABILITY_REQUEST);
-    cmd(1) := 234;
 
     -- Dispatch the capability request command
 
@@ -150,7 +151,7 @@ PACKAGE BODY RemoteIO IS
     SPI_PRESENT_REQUEST);
 
   FUNCTION GetAvailableChannels
-   (self    : DeviceRecord;
+   (self    : IN OUT DeviceRecord;
     service : ChannelTypes) RETURN ChannelSets.Set IS
 
     cmd     : Message64.Message;
@@ -159,7 +160,6 @@ PACKAGE BODY RemoteIO IS
 
   BEGIN
     cmd(0) := Message64.Byte(MessageTypes'Pos(QueryCommands(service)));
-    cmd(1) := 5;
 
     self.Transaction(cmd, resp);
 

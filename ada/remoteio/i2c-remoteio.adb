@@ -41,7 +41,6 @@ PACKAGE BODY I2C.RemoteIO IS
     cmd := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.I2C_CONFIGURE_REQUEST));
-    cmd(1) := Message64.Byte(1);
     cmd(2) := Message64.Byte(num);
     cmd(3) := Message64.Byte(speed/16777216);
     cmd(4) := Message64.Byte(speed/65536 MOD 256);
