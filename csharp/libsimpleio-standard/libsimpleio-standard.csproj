@@ -41,6 +41,9 @@
     <Compile Include="..\objects\*.cs">
       <Link>IO.Objects\%(FileName)</Link>
     </Compile>
+    <Compile Include="..\platforms\*.cs">
+      <Link>IO.Platforms\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>
     </Compile>

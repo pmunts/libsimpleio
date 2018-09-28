@@ -23,15 +23,16 @@
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/platforms
 
 LDFLAGS		+= -L. -lsimpleio -lsimpleio++
 
 # Build the C++ class library
 
 libsimpleio++.a:
+	for F in $(LIBSIMPLEIO)/c++/devices/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
 	for F in $(LIBSIMPLEIO)/c++/interfaces/*.cpp ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
 	for F in $(LIBSIMPLEIO)/c++/objects/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
-	for F in $(LIBSIMPLEIO)/c++/devices/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
 	$(AR) rcs $@ *.o
 	rm -f *.o
 
