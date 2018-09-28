@@ -27,7 +27,7 @@ namespace IO.Devices.PCA8574
     /// </summary>
     /// <remarks>This class supports the following I<sup>2</sup>C GPIO
     /// expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
-    /// PCA9674, PCF8574, and TCA9554.</remarks>
+    /// PCA9674, and PCF8574.</remarks>
     public class Device
     {
         private IO.Interfaces.I2C.Device dev;
