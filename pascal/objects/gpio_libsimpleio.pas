@@ -137,7 +137,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE GPIO_Error.create('ERROR: libGPIO.Configure() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     Self.int := (Edge <> None);
   END;
@@ -163,7 +163,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE GPIO_Error.create('ERROR: libGPIO.Configure() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     Self.int := (edge <> None);
   END;
@@ -183,7 +183,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE GPIO_Error.create('ERROR: libGPIO.Close() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     INHERITED;
   END;
@@ -203,7 +203,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE GPIO_Error.create('ERROR: libGPIO.LineEvent() failed, ' +
-            strerror(error))
+            errno.strerror(error))
       END
     ELSE
       BEGIN
@@ -211,7 +211,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE GPIO_Error.create('ERROR: libGPIO.LineRead() failed, ' +
-            strerror(error))
+            errno.strerror(error))
       END;
 
     ReadState := Boolean(s);
@@ -232,7 +232,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE GPIO_Error.create('ERROR: libGPIO.LineWrite() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
 END.

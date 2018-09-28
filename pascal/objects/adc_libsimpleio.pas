@@ -60,7 +60,8 @@ IMPLEMENTATION
     libADC.Open(chip, channel, Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE ADC_Error.create('ERROR: libADC.Open() failed, ' + strerror(error));
+      RAISE ADC_Error.create('ERROR: libADC.Open() failed, ' +
+        errno.strerror(error));
 
     Self.numbits := resolution;
   END;
@@ -75,7 +76,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE ADC_Error.create('ERROR: libADC.Close() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     INHERITED;
   END;
@@ -92,7 +93,8 @@ IMPLEMENTATION
     libADC.Read(Self.fd, data, error);
 
     IF error <> 0 THEN
-      RAISE ADC_Error.create('ERROR: libADC.Read() failed, ' + strerror(error));
+      RAISE ADC_Error.create('ERROR: libADC.Read() failed, ' +
+        errno.strerror(error));
 
     sample := data;
   END;

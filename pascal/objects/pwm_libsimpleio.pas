@@ -70,7 +70,7 @@ IMPLEMENTATION
   BEGIN
     IF (dutycycle < DUTYCYCLE_MIN) OR (dutycycle > DUTYCYCLE_MAX) THEN
       RAISE PWM_Error.create('ERROR: Invalid duty cycle parameter, ' +
-        strerror(EINVAL));
+        errno.strerror(EINVAL));
 
     Self.period := Round(1.0E9/frequency);
     ontime := Round(dutycycle/DUTYCYCLE_MAX*period);
@@ -79,13 +79,13 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE PWM_Error.create('ERROR: libPWM.Configure() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     libPWM.Open(chip, channel, Self.fd, error);
 
     IF error <> 0 THEN
       RAISE PWM_Error.create('ERROR: libPWM.Open() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { PWM_libsimpleio.OutputSubclass destructor }
@@ -103,7 +103,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE PWM_Error.create('ERROR: libPWM.Close() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     INHERITED;
   END;
@@ -123,7 +123,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE PWM_Error.create('ERROR: libPWM.Write() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
 END.

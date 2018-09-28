@@ -66,7 +66,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Watchdog_Error.create('ERROR: libWatchdog.Open() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     IF timeout <> DefaultTimeout THEN
       BEGIN
@@ -74,7 +74,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE Watchdog_Error.create('ERROR: libWatchdog.Open() failed, ' +
-            strerror(error));
+            errno.strerror(error));
       END;
   END;
 
@@ -90,7 +90,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Watchdog_Error.create('ERROR: libWatchdog.Close() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     INHERITED;
   END;
@@ -108,7 +108,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Watchdog_Error.create('ERROR: libWatchdog.GetTimeout() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     GetTimeout := timeout;
   END;
@@ -126,7 +126,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Watchdog_Error.create('ERROR: libWatchdog.SetTimeout() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { Kick watchdog timer method }
@@ -141,7 +141,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Watchdog_Error.create('ERROR: libWatchdog.Kick() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
 END.

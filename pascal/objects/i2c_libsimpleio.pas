@@ -73,7 +73,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE I2C_Error.create('ERROR: libI2C.Open() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { I2C_libsimpleio.BusSubclass destructor }
@@ -88,7 +88,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE I2C_Error.create('ERROR: libI2C.Close() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     INHERITED;
   END;
@@ -108,7 +108,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { I2C write method }
@@ -126,7 +126,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { I2C write/read transaction method }
@@ -144,7 +144,7 @@ IMPLEMENTATION
 
   BEGIN
     IF delayus > 65535 THEN
-      RAISE SPI_Error.create('ERROR: delayus parameter is invalid');
+      RAISE I2C_Error.create('ERROR: delayus parameter is invalid');
 
     IF delayus > 0 THEN
       BEGIN
@@ -152,19 +152,19 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
-            strerror(error));
+            errno.strerror(error));
 
         libLinux.usleep(delayus, error);
 
         IF error <> 0 THEN
           RAISE I2C_Error.create('ERROR: libLiux.usleep() failed, ' +
-            strerror(error));
+            errno.strerror(error));
 
         libI2C.Transaction(Self.fd, addr, NIL, 0, @resp, resplen, error);
 
         IF error <> 0 THEN
           RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
-            strerror(error));
+            errno.strerror(error));
       END
     ELSE
       BEGIN
@@ -172,7 +172,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
-            strerror(error));
+            errno.strerror(error));
       END;
   END;
 

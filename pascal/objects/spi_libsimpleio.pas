@@ -95,7 +95,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI_Error.create('ERROR: libSPI.Open() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     Self.fdcs := libSPI.SPI_CS_AUTO;
   END;
@@ -115,7 +115,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI_Error.create('ERROR: libSPI.Open() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     IF (cspin.chip = AUTOCHIPSELECT.chip) AND
        (cspin.line = AUTOCHIPSELECT.line) THEN
@@ -127,7 +127,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE SPI_Error.create('ERROR: libSPI.LineOpen() failed, ' +
-            strerror(error));
+            errno.strerror(error));
       END;
   END;
 
@@ -143,7 +143,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI_Error.create('ERROR: libSPI.Close() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     IF Self.fdcs = SPI_CS_AUTO THEN
       EXIT;
@@ -152,7 +152,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI_Error.create('ERROR: libGPIO.Close() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     INHERITED;
   END;
@@ -171,7 +171,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI_Error.create('ERROR: libSPI.Transaction() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { SPI write method }
@@ -188,7 +188,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI_Error.create('ERROR: libSPI.Transaction() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { SPI write/read transaction method }
@@ -212,7 +212,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI_Error.create('ERROR: libSPI.Transaction() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
 END.

@@ -66,7 +66,7 @@ IMPLEMENTATION
   BEGIN
     IF (position < POSITION_MIN) OR (position > POSITION_MAX) THEN
       RAISE Servo_Error.create('ERROR: Invalid position parameter, ' +
-        strerror(EINVAL));
+        errno.strerror(EINVAL));
 
     period := Round(1.0E9/frequency);
     ontime := Round(1500000.0 + 500000.0*position);
@@ -75,13 +75,13 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Servo_Error.create('ERROR: libPWM.Configure() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     libPWM.Open(chip, channel, Self.fd, error);
 
     IF error <> 0 THEN
       RAISE Servo_Error.create('ERROR: libPWM.Open() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
   { Servo_libsimpleio.OutputSubclass destructor }
@@ -99,7 +99,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Servo_Error.create('ERROR: libPWM.Close() failed, ' +
-        strerror(error));
+        errno.strerror(error));
 
     INHERITED;
   END;
@@ -119,7 +119,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Servo_Error.create('ERROR: libPWM.Write() failed, ' +
-        strerror(error));
+        errno.strerror(error));
   END;
 
 END.
