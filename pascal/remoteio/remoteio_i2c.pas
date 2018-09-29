@@ -1,4 +1,3 @@
-{ Remote I/O Protocol Implementation                                          }
 { I2C bus controller services using the Remote I/O Protocol                   }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
@@ -21,12 +20,13 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT RemoteIO;
+UNIT RemoteIO_I2C;
 
 INTERFACE
 
   USES
     I2C,
+    Message64,
     RemoteIO;
 
   TYPE
@@ -62,12 +62,40 @@ INTERFACE
 
     PRIVATE
       dev : RemoteIO.Device;
+      num : RemoteIo.Channels;
     END;
 
 IMPLEMENTATION
 
   USES
     errno;
+
+  CONSTRUCTOR BusSubclass.Create
+   (dev      : RemoteIO.Device;
+    num      : RemoteIO.Channels;
+    speed    : Cardinal);
+
+  VAR
+    cmdmsg  : Message64.Message;
+    respmsg : Message64.Message;
+
+  BEGIN
+    self.dev := dev;
+    self.num := num;
+
+    { Configure the I2C bus controller }
+
+    FillChar(cmdmsg, SizeOf(cmdmsg), #0);
+
+    cmdmsg[0] := Ord(RemoteIO.I2C_CONFIGURE_REQUEST);
+    cmdmsg[2] := Self.num;
+    cmdmsg[3] := (speed SHR 24) AND $FF;
+    cmdmsg[4] := (speed SHR 16) AND $FF;
+    cmdmsg[5] := (speed SHR 8)  AND $FF;
+    cmdmsg[6] := (speed SHR 0)  AND $FF;
+
+    dev.Transaction(cmdmsg, respmsg);
+  END;
 
   { I2C read method }
 
@@ -80,13 +108,13 @@ IMPLEMENTATION
     cmd : ARRAY [0 .. 0] OF Byte;
 
   BEGIN
-    cmd(0) := 0;
+    cmd[0] := 0;
     Self.Transaction(addr, cmd, 0, resp, resplen);
   END;
 
   { I2C write method }
 
-  PROCEDURE Write
+  PROCEDURE BusSubclass.Write
    (addr     : Address;
     cmd      : ARRAY OF Byte;
     cmdlen   : Cardinal);
@@ -100,7 +128,7 @@ IMPLEMENTATION
 
   { I2C write/read transaction method }
 
-  PROCEDURE Transaction
+  PROCEDURE BusSubclass.Transaction
    (addr     : Address;
     cmd      : ARRAY OF Byte;
     cmdlen   : Cardinal;
@@ -126,16 +154,17 @@ IMPLEMENTATION
 
     FillChar(cmdmsg, SizeOf(cmdmsg), #0);
 
-    cmdmsg[0] := RemoteIO.I2C_TRANSACTION_REQUEST;
+    cmdmsg[0] := Ord(RemoteIO.I2C_TRANSACTION_REQUEST);
     cmdmsg[2] := Self.num;
     cmdmsg[3] := addr;
     cmdmsg[4] := cmdlen;
     cmdmsg[5] := resplen;
-    cmdmsg[6] := delay DIV 256;
-    cmdmsg[7] := delay MOD 256;
+    cmdmsg[6] := delayus DIV 256;
+    cmdmsg[7] := delayus MOD 256;
 
-    FOR i := 0 TO cmdlen - 1 DO
-      cmdmsg[i + 8] := cmd[i];
+    IF cmdlen > 0 THEN
+      FOR i := 0 TO cmdlen - 1 DO
+        cmdmsg[i + 8] := cmd[i];
 
     Self.dev.Transaction(cmdmsg, respmsg);
   END;
