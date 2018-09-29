@@ -26,7 +26,6 @@ INTERFACE
 
   USES
     I2C,
-    Message64,
     RemoteIO;
 
   TYPE
@@ -62,13 +61,14 @@ INTERFACE
 
     PRIVATE
       dev : RemoteIO.Device;
-      num : RemoteIo.Channels;
+      num : RemoteIO.Channels;
     END;
 
 IMPLEMENTATION
 
   USES
-    errno;
+    errno,
+    Message64;
 
   CONSTRUCTOR BusSubclass.Create
    (dev      : RemoteIO.Device;
@@ -95,6 +95,10 @@ IMPLEMENTATION
     cmdmsg[6] := (speed SHR 0)  AND $FF;
 
     dev.Transaction(cmdmsg, respmsg);
+
+    IF respmsg[2] <> 0 THEN
+      RAISE RemoteIO.Error.Create
+       ('ERROR: Remote IO transaction failed, ' + errno.strerror(respmsg[2]));
   END;
 
   { I2C read method }
@@ -145,19 +149,19 @@ IMPLEMENTATION
     { Validate parameters }
 
     IF cmdlen > 56 THEN
-      RAISE RemoteIO.Error.create
+      RAISE RemoteIO.Error.Create
        ('ERROR: Command length is out of range');
 
     IF resplen > 60 THEN
-      RAISE RemoteIO.Error.create
+      RAISE RemoteIO.Error.Create
        ('ERROR: Response length is out of range');
 
     IF (cmdlen = 0) AND (resplen = 0) THEN
-      RAISE RemoteIO.Error.create
+      RAISE RemoteIO.Error.Create
        ('ERROR: Command length and response length are both zero');
 
     IF delayus > 65535 THEN
-      RAISE RemoteIO.Error.create
+      RAISE RemoteIO.Error.Create
        ('ERROR: delayus parameter is out of range');
 
     FillChar(cmdmsg, SizeOf(cmdmsg), #0);
@@ -175,6 +179,10 @@ IMPLEMENTATION
         cmdmsg[8 + i] := cmd[i];
 
     Self.dev.Transaction(cmdmsg, respmsg);
+
+    IF respmsg[2] <> 0 THEN
+      RAISE RemoteIO.Error.Create
+       ('ERROR: Remote IO transaction failed, ' + errno.strerror(respmsg[2]));
 
     IF resplen > 0 THEN
       FOR i := 0 TO resplen -1 DO
