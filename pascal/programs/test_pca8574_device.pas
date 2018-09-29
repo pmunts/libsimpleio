@@ -20,7 +20,7 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_pca8574_port;
+PROGRAM test_pca8574_device;
 
 USES
   I2C,
