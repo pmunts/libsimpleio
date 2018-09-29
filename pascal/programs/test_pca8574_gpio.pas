@@ -1,4 +1,4 @@
-{ PCA8574 I2C GPIO Expander Pin Toggle Test }
+{ PCA8574 I2C GPIO Expander GPIO Pin Toggle Test }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -37,7 +37,7 @@ VAR
 
 BEGIN
   WriteLn;
-  WriteLn('PCA8574 I2C GPIO Expander Device Toggle Test');
+  WriteLn('PCA8574 I2C GPIO Expander GPIO Pin Toggle Test');
   WriteLn;
 
   { Validate parameters }
