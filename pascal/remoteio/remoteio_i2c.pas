@@ -144,6 +144,14 @@ IMPLEMENTATION
   BEGIN
     { Validate parameters }
 
+    IF cmdlen > 56 THEN
+      RAISE RemoteIO.Error.create
+       ('ERROR: Command length is out of range');
+
+    IF resplen > 60 THEN
+      RAISE RemoteIO.Error.create
+       ('ERROR: Response length is out of range');
+
     IF (cmdlen = 0) AND (resplen = 0) THEN
       RAISE RemoteIO.Error.create
        ('ERROR: Command length and response length are both zero');
@@ -164,9 +172,13 @@ IMPLEMENTATION
 
     IF cmdlen > 0 THEN
       FOR i := 0 TO cmdlen - 1 DO
-        cmdmsg[i + 8] := cmd[i];
+        cmdmsg[8 + i] := cmd[i];
 
     Self.dev.Transaction(cmdmsg, respmsg);
+
+    IF resplen > 0 THEN
+      FOR i := 0 TO resplen -1 DO
+        resp[i] := respmsg[4 + i];
   END;
 
 END.
