@@ -94,7 +94,7 @@ IMPLEMENTATION
     libSPI.Open(PChar(name), mode, wordsize, speed, Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE SPI_Error.create('ERROR: libSPI.Open() failed, ' +
+      RAISE SPI_Error.Create('ERROR: libSPI.Open() failed, ' +
         errno.strerror(error));
 
     Self.fdcs := libSPI.SPI_CS_AUTO;
@@ -114,7 +114,7 @@ IMPLEMENTATION
     libSPI.Open(PChar(name), mode, wordsize, speed, Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE SPI_Error.create('ERROR: libSPI.Open() failed, ' +
+      RAISE SPI_Error.Create('ERROR: libSPI.Open() failed, ' +
         errno.strerror(error));
 
     IF (cspin.chip = AUTOCHIPSELECT.chip) AND
@@ -126,7 +126,7 @@ IMPLEMENTATION
           Self.fdcs, error);
 
         IF error <> 0 THEN
-          RAISE SPI_Error.create('ERROR: libSPI.LineOpen() failed, ' +
+          RAISE SPI_Error.Create('ERROR: libSPI.LineOpen() failed, ' +
             errno.strerror(error));
       END;
   END;
@@ -142,7 +142,7 @@ IMPLEMENTATION
     libSPI.Close(Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE SPI_Error.create('ERROR: libSPI.Close() failed, ' +
+      RAISE SPI_Error.Create('ERROR: libSPI.Close() failed, ' +
         errno.strerror(error));
 
     IF Self.fdcs = SPI_CS_AUTO THEN
@@ -151,7 +151,7 @@ IMPLEMENTATION
     libGPIO.Close(Self.fdcs, error);
 
     IF error <> 0 THEN
-      RAISE SPI_Error.create('ERROR: libGPIO.Close() failed, ' +
+      RAISE SPI_Error.Create('ERROR: libGPIO.Close() failed, ' +
         errno.strerror(error));
 
     INHERITED;
@@ -170,7 +170,7 @@ IMPLEMENTATION
     libSPI.Transaction(Self.fd, Self.fdcs, NIL, 0, 0, @resp, resplen, error);
 
     IF error <> 0 THEN
-      RAISE SPI_Error.create('ERROR: libSPI.Transaction() failed, ' +
+      RAISE SPI_Error.Create('ERROR: libSPI.Transaction() failed, ' +
         errno.strerror(error));
   END;
 
@@ -187,7 +187,7 @@ IMPLEMENTATION
     libSPI.Transaction(Self.fd, Self.fdcs, @cmd, cmdlen, 0, NIL, 0, error);
 
     IF error <> 0 THEN
-      RAISE SPI_Error.create('ERROR: libSPI.Transaction() failed, ' +
+      RAISE SPI_Error.Create('ERROR: libSPI.Transaction() failed, ' +
         errno.strerror(error));
   END;
 
@@ -205,13 +205,13 @@ IMPLEMENTATION
 
   BEGIN
     IF delayus > 65535 THEN
-      RAISE SPI_Error.create('ERROR: delayus parameter is invalid');
+      RAISE SPI_Error.Create('ERROR: delayus parameter is invalid');
 
     libSPI.Transaction(Self.fd, Self.fdcs, @cmd, cmdlen, delayus, @resp,
       resplen, error);
 
     IF error <> 0 THEN
-      RAISE SPI_Error.create('ERROR: libSPI.Transaction() failed, ' +
+      RAISE SPI_Error.Create('ERROR: libSPI.Transaction() failed, ' +
         errno.strerror(error));
   END;
 

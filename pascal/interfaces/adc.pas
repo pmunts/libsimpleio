@@ -65,10 +65,10 @@ IMPLEMENTATION
 
   BEGIN
     IF reference = 0.0 THEN
-      RAISE ADC_Error.create('ERROR: reference voltage cannot be zero');
+      RAISE ADC_Error.Create('ERROR: reference voltage cannot be zero');
 
     IF gain = 0.0 THEN
-      RAISE ADC_Error.create('ERROR: gain cannot be zero');
+      RAISE ADC_Error.Create('ERROR: gain cannot be zero');
 
     Self.input    := input;
     Self.stepsize := reference/intpower(2, input.resolution)/gain;

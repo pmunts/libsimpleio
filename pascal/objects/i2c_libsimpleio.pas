@@ -72,7 +72,7 @@ IMPLEMENTATION
     libI2C.Open(PChar(name), Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE I2C_Error.create('ERROR: libI2C.Open() failed, ' +
+      RAISE I2C_Error.Create('ERROR: libI2C.Open() failed, ' +
         errno.strerror(error));
   END;
 
@@ -87,7 +87,7 @@ IMPLEMENTATION
     libI2C.Close(Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE I2C_Error.create('ERROR: libI2C.Close() failed, ' +
+      RAISE I2C_Error.Create('ERROR: libI2C.Close() failed, ' +
         errno.strerror(error));
 
     INHERITED;
@@ -107,7 +107,7 @@ IMPLEMENTATION
     libI2C.Transaction(Self.fd, addr, NIL, 0, @resp, resplen, error);
 
     IF error <> 0 THEN
-      RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
+      RAISE I2C_Error.Create('ERROR: libI2C.Transaction() failed, ' +
         errno.strerror(error));
   END;
 
@@ -125,7 +125,7 @@ IMPLEMENTATION
     libI2C.Transaction(Self.fd, addr, @cmd, cmdlen, NIL, 0, error);
 
     IF error <> 0 THEN
-      RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
+      RAISE I2C_Error.Create('ERROR: libI2C.Transaction() failed, ' +
         errno.strerror(error));
   END;
 
@@ -144,26 +144,26 @@ IMPLEMENTATION
 
   BEGIN
     IF delayus > 65535 THEN
-      RAISE I2C_Error.create('ERROR: delayus parameter is invalid');
+      RAISE I2C_Error.Create('ERROR: delayus parameter is invalid');
 
     IF delayus > 0 THEN
       BEGIN
         libI2C.Transaction(Self.fd, addr, @cmd, cmdlen, NIL, 0, error);
 
         IF error <> 0 THEN
-          RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
+          RAISE I2C_Error.Create('ERROR: libI2C.Transaction() failed, ' +
             errno.strerror(error));
 
         libLinux.usleep(delayus, error);
 
         IF error <> 0 THEN
-          RAISE I2C_Error.create('ERROR: libLiux.usleep() failed, ' +
+          RAISE I2C_Error.Create('ERROR: libLiux.usleep() failed, ' +
             errno.strerror(error));
 
         libI2C.Transaction(Self.fd, addr, NIL, 0, @resp, resplen, error);
 
         IF error <> 0 THEN
-          RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
+          RAISE I2C_Error.Create('ERROR: libI2C.Transaction() failed, ' +
             errno.strerror(error));
       END
     ELSE
@@ -171,7 +171,7 @@ IMPLEMENTATION
         libI2C.Transaction(Self.fd, addr, @cmd, cmdlen, @resp, resplen, error);
 
         IF error <> 0 THEN
-          RAISE I2C_Error.create('ERROR: libI2C.Transaction() failed, ' +
+          RAISE I2C_Error.Create('ERROR: libI2C.Transaction() failed, ' +
             errno.strerror(error));
       END;
   END;

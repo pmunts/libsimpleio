@@ -114,7 +114,7 @@ IMPLEMENTATION
 
   BEGIN
     IF regaddr > HIGH_THRESHOLD THEN
-      RAISE ADC_Error.create('ERROR: Invalid register address');
+      RAISE ADC_Error.Create('ERROR: Invalid register address');
 
     cmd[0] := regaddr;
     Self.bus.Transaction(Self.addr, cmd, SizeOf(cmd), resp, SizeOf(resp));
@@ -130,7 +130,7 @@ IMPLEMENTATION
 
   BEGIN
     IF regaddr > HIGH_THRESHOLD THEN
-      RAISE ADC_Error.create('ERROR: Invalid register address');
+      RAISE ADC_Error.Create('ERROR: Invalid register address');
 
     cmd[0] := regaddr;
     cmd[1] := regdata DIV 256;
