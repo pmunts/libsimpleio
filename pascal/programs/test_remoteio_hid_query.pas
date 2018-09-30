@@ -56,51 +56,63 @@ BEGIN
   Writeln('Remote I/O device capability: ', d.Capability);
   Writeln;
 
-  chans := d.ADC_Inputs;
-
-  IF chans <> NIL THEN
+  IF Pos('ADC', d.Capability) <> 0 THEN
     BEGIN
-      Write('ADC inputs: ');
-      
-      FOR c := 0 TO Length(chans) - 1 DO
-        Write(' ', chans[c]);
+      chans := d.ADC_Inputs;
 
-      Writeln;
+      IF chans <> NIL THEN
+        BEGIN
+          Write('ADC inputs: ');
+      
+          FOR c := 0 TO Length(chans) - 1 DO
+            Write(' ', chans[c]);
+
+          Writeln;
+        END;
     END;
 
-  chans := d.GPIO_Pins;
-
-  IF chans <> NIL THEN
+  IF Pos('GPIO', d.Capability) <> 0 THEN
     BEGIN
-      Write('GPIO pins:  ');
-      
-      FOR c := 0 TO Length(chans) - 1 DO
-        Write(' ', chans[c]);
+      chans := d.GPIO_Pins;
 
-      Writeln;
+      IF chans <> NIL THEN
+        BEGIN
+          Write('GPIO pins:  ');
+      
+          FOR c := 0 TO Length(chans) - 1 DO
+            Write(' ', chans[c]);
+
+          Writeln;
+        END;
     END;
 
-  chans := d.I2C_Buses;
-
-  IF chans <> NIL THEN
+  IF Pos('I2C', d.Capability) <> 0 THEN
     BEGIN
-      Write('I2C buses:  ');
-      
-      FOR c := 0 TO Length(chans) - 1 DO
-        Write(' ', chans[c]);
+      chans := d.I2C_Buses;
 
-      Writeln;
+      IF chans <> NIL THEN
+        BEGIN
+          Write('I2C buses:  ');
+      
+          FOR c := 0 TO Length(chans) - 1 DO
+            Write(' ', chans[c]);
+
+          Writeln;
+        END;
     END;
 
-  chans := d.SPI_Devices;
-
-  IF chans <> NIL THEN
+  IF Pos('SPI', d.Capability) <> 0 THEN
     BEGIN
-      Write('SPI Devices:');
-      
-      FOR c := 0 TO Length(chans) - 1 DO
-        Write(' ', chans[c]);
+      chans := d.SPI_Devices;
 
-      Writeln;
+      IF chans <> NIL THEN
+        BEGIN
+          Write('SPI Devices:');
+      
+          FOR c := 0 TO Length(chans) - 1 DO
+            Write(' ', chans[c]);
+
+          Writeln;
+        END;
     END;
 END.
