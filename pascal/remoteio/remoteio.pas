@@ -70,6 +70,8 @@ INTERFACE
       ADC_READ_RESPONSE);
 
     Device = CLASS
+      CONSTRUCTOR Create;
+
       CONSTRUCTOR Create(m : Message64.Messenger);
 
       PROCEDURE Transaction(cmd : Message; VAR resp : Message);
@@ -92,9 +94,17 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno;
+    errno,
+    HID_libsimpleio;
 
   { Create a Remote I/O Protocol device object }
+
+  CONSTRUCTOR Device.Create;
+
+  BEGIN
+    Self.msg := HID_libsimpleio.MessengerSubclass.Create;
+    Self.num := 0;
+  END;
 
   CONSTRUCTOR Device.Create(m : Message64.Messenger);
 

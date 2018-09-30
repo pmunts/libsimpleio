@@ -24,9 +24,7 @@ PROGRAM test_remoteio_hid_pca8574_gpio;
 
 USES
   GPIO,
-  HID_libsimpleio,
   I2C,
-  Message64,
   PCA8574,
   PCA8574_GPIO,
   RemoteIO,
@@ -34,7 +32,6 @@ USES
   SysUtils;
 
 VAR
-  hidmsg : Message64.Messenger;
   remdev : RemoteIO.Device;
   bus    : I2C.Bus;
   dev    : PCA8574.Device;
@@ -47,8 +44,7 @@ BEGIN
 
   { Create objects }
 
-  hidmsg := HID_libsimpleio.MessengerSubclass.Create;
-  remdev := RemoteIO.Device.Create(hidmsg);
+  remdev := RemoteIO.Device.Create;
   bus    := RemoteIO_I2C.BusSubclass.Create(remdev, 0);
   dev    := PCA8574.Device.Create(bus, $38);
   pin    := PCA8574_GPIO.PinSubclass.Create(dev, 0, GPIO.Output);

@@ -22,14 +22,11 @@ PROGRAM test_remoteio_hid_led;
 
 USES
   GPIO,
-  HID_libsimpleio,
-  Message64,
   RemoteIO,
   RemoteIO_GPIO,
   SysUtils;
 
 VAR
-  hidmsg : Message64.Messenger;
   remdev : RemoteIO.Device;
   LED    : GPIO.Pin;
 
@@ -40,8 +37,7 @@ BEGIN
 
   { Create objects }
 
-  hidmsg := HID_libsimpleio.MessengerSubclass.Create;
-  remdev := RemoteIO.Device.Create(hidmsg);
+  remdev := RemoteIO.Device.Create;
   LED    := RemoteIO_GPIO.PinSubclass.Create(remdev, 0, GPIO.Output);
 
   { Flash LED }

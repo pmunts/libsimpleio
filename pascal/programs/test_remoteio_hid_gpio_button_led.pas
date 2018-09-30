@@ -24,13 +24,10 @@ PROGRAM test_remoteio_hid_gpio_button_led;
 
 USES
   GPIO,
-  HID_libsimpleio,
-  Message64,
   RemoteIO,
   RemoteIO_GPIO;
 
 VAR
-  hidmsg   : Message64.Messenger;
   remdev   : RemoteIO.Device;
   button   : GPIO.Pin;
   LED      : GPIO.Pin;
@@ -43,8 +40,7 @@ BEGIN
 
   { Configure the button input and LED output }
 
-  hidmsg := HID_libsimpleio.MessengerSubclass.Create;
-  remdev := RemoteIO.Device.Create(hidmsg);
+  remdev := RemoteIO.Device.Create;
   button := RemoteIO_GPIO.PinSubclass.Create(remdev, 1, GPIO.Input);
   LED    := RemoteIO_GPIO.PinSubclass.Create(remdev, 0, GPIO.Output);
 
