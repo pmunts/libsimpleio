@@ -33,6 +33,8 @@ INTERFACE
 
     Channels = 0 .. 127;
 
+    ChannelArray = ARRAY OF Channels;
+
     MessageTypes =
      (LOOPBACK_REQUEST,
       LOOPBACK_RESPONSE,
@@ -59,19 +61,32 @@ INTERFACE
       SPI_CONFIGURE_REQUEST,
       SPI_CONFIGURE_RESPONSE,
       SPI_TRANSACTION_REQUEST,
-      SPI_TRANSACTION_RESPONSE);
+      SPI_TRANSACTION_RESPONSE,
+      ADC_PRESENT_REQUEST,
+      ADC_PRESENT_RESPONSE,
+      ADC_CONFIGURE_REQUEST,
+      ADC_CONFIGURE_RESPONSE,
+      ADC_READ_REQUEST,
+      ADC_READ_RESPONSE);
 
     Device = CLASS
       CONSTRUCTOR Create(m : Message64.Messenger);
 
       PROCEDURE Transaction(cmd : Message; VAR resp : Message);
 
-      FUNCTION Version : String;
+      { Queries }
 
-      FUNCTION Capability : String;
+      FUNCTION Version     : String;
+      FUNCTION Capability  : String;
+      FUNCTION ADC_Inputs  : ChannelArray;
+      FUNCTION GPIO_Pins   : ChannelArray;
+      FUNCTION I2C_Buses   : ChannelArray;
+      FUNCTION SPI_Devices : ChannelArray;
     PRIVATE
       msg : Message64.Messenger;
       num : Byte;
+
+      FUNCTION QueryChannels(query : MessageTypes) : ChannelArray;
     END;
 
 IMPLEMENTATION
@@ -152,6 +167,59 @@ IMPLEMENTATION
       caps[i] := Char(resp[3 + i]);
 
     Capability := caps;
+  END;
+
+  FUNCTION Device.QueryChannels(query : MessageTypes) : ChannelArray;
+
+  VAR
+    cmd   : Message64.Message;
+    resp  : Message64.Message;
+    i     : Cardinal;
+    chans : ARRAY OF RemoteIO.Channels;
+
+  BEGIN
+    chans := NIL;
+
+    cmd[0] := Ord(query);
+
+    Self.Transaction(cmd, resp);
+
+    IF resp[2] <> 0 THEN
+      RAISE RemoteIO.Error.Create
+       ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
+
+    FOR i := 0 TO 127 DO
+      IF resp[3 + i DIV 8] AND (1 SHL (7 - i MOD 8)) <> 0 THEN
+        BEGIN
+          SetLength(chans, Length(chans) + 1);
+          chans[Length(chans)-1] := i;
+        END;
+
+    QueryChannels := chans;
+  END;
+
+  FUNCTION Device.ADC_Inputs : ChannelArray;
+
+  BEGIN
+    ADC_Inputs := Self.QueryChannels(ADC_PRESENT_REQUEST);
+  END;
+
+  FUNCTION Device.GPIO_Pins : ChannelArray;
+
+  BEGIN
+    GPIO_Pins := Self.QueryChannels(GPIO_PRESENT_REQUEST);
+  END;
+
+  FUNCTION Device.I2C_Buses : ChannelArray;
+
+  BEGIN
+    I2C_Buses := Self.QueryChannels(I2C_PRESENT_REQUEST);
+  END;
+
+  FUNCTION Device.SPI_Devices : ChannelArray;
+
+  BEGIN
+    SPI_Devices := Self.QueryChannels(SPI_PRESENT_REQUEST);
   END;
 
 END.

@@ -36,6 +36,8 @@ VAR
   product    : Integer;
   version    : String;
   capability : String;
+  chans      : ChannelArray;
+  c          : Cardinal;
 
 BEGIN
   Writeln;
@@ -55,4 +57,52 @@ BEGIN
   Writeln('Remote I/O device version:    ', d.Version);
   Writeln('Remote I/O device capability: ', d.Capability);
   Writeln;
+
+  chans := d.ADC_Inputs;
+
+  IF chans <> NIL THEN
+    BEGIN
+      Write('ADC inputs: ');
+      
+      FOR c := 0 TO Length(chans) - 1 DO
+        Write(' ', chans[c]);
+
+      Writeln;
+    END;
+
+  chans := d.GPIO_Pins;
+
+  IF chans <> NIL THEN
+    BEGIN
+      Write('GPIO pins:  ');
+      
+      FOR c := 0 TO Length(chans) - 1 DO
+        Write(' ', chans[c]);
+
+      Writeln;
+    END;
+
+  chans := d.I2C_Buses;
+
+  IF chans <> NIL THEN
+    BEGIN
+      Write('I2C buses:  ');
+      
+      FOR c := 0 TO Length(chans) - 1 DO
+        Write(' ', chans[c]);
+
+      Writeln;
+    END;
+
+  chans := d.SPI_Devices;
+
+  IF chans <> NIL THEN
+    BEGIN
+      Write('SPI Devices:');
+      
+      FOR c := 0 TO Length(chans) - 1 DO
+        Write(' ', chans[c]);
+
+      Writeln;
+    END;
 END.
