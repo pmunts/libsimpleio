@@ -34,8 +34,6 @@ VAR
   bustype    : Integer;
   vendor     : Integer;
   product    : Integer;
-  version    : String;
-  capability : String;
   chans      : ChannelArray;
   c          : Cardinal;
 
