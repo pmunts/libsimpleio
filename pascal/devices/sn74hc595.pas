@@ -31,7 +31,7 @@ INTERFACE
   CONST
     Mode     = 0;
     WordSize = 8;
-    MaxSpeed = 100000000;
+    MaxSpeed = 4000000;
 
   TYPE
     Error = CLASS(Exception);
@@ -51,6 +51,7 @@ INTERFACE
 
       PROCEDURE Write(data : ARRAY OF Byte);
 
+      FUNCTION Bytes : Cardinal;
     PRIVATE
       dev : SPI.Device;
       buf : ARRAY OF Byte;
@@ -129,6 +130,12 @@ IMPLEMENTATION
       Self.buf[i] := data[i];
 
     Self.dev.Write(Self.buf, Length(Self.buf));
+  END;
+
+  FUNCTION Device.Bytes : Cardinal;
+
+  BEGIN
+    Bytes := Length(Self.buf);
   END;
 
 END.
