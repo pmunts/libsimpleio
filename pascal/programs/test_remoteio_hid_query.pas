@@ -63,7 +63,7 @@ BEGIN
       IF chans <> NIL THEN
         BEGIN
           Write('ADC inputs: ');
-      
+
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);
 
@@ -78,7 +78,7 @@ BEGIN
       IF chans <> NIL THEN
         BEGIN
           Write('GPIO pins:  ');
-      
+
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);
 
@@ -93,7 +93,7 @@ BEGIN
       IF chans <> NIL THEN
         BEGIN
           Write('I2C buses:  ');
-      
+
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);
 
@@ -108,7 +108,7 @@ BEGIN
       IF chans <> NIL THEN
         BEGIN
           Write('SPI Devices:');
-      
+
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);
 
