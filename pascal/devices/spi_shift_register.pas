@@ -1,4 +1,4 @@
-{ 74HC595 shift register device services }
+{ SPI driven shift register device services. }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -20,18 +20,13 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT SN74HC595;
+UNIT SPI_Shift_Register;
 
 INTERFACE
 
   USES
     SPI,
     SysUtils;
-
-  CONST
-    Mode     = 0;
-    WordSize = 8;
-    MaxSpeed = 4000000;
 
   TYPE
     Error = CLASS(Exception);
@@ -50,6 +45,8 @@ INTERFACE
       PROCEDURE Read(VAR data : ARRAY OF Byte);
 
       PROCEDURE Write(data : ARRAY OF Byte);
+
+      { Return the number of 8-bit stages }
 
       FUNCTION Bytes : Cardinal;
     PRIVATE
@@ -131,6 +128,8 @@ IMPLEMENTATION
 
     Self.dev.Write(Self.buf, Length(Self.buf));
   END;
+
+  { Return the number of 8-bit stages }
 
   FUNCTION Device.Bytes : Cardinal;
 

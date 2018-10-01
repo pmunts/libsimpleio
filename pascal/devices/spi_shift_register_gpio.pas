@@ -1,4 +1,4 @@
-{ 74HC595 and similar shift registers GPIO pin services }
+{ SPI driven shift register GPIO pin services. }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -20,18 +20,18 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT SN74HC595_GPIO;
+UNIT SPI_Shift_Register_GPIO;
 
 INTERFACE
 
   USES
     GPIO,
-    SN74HC595;
+    SPI_Shift_Register;
 
   TYPE
     PinSubclass = CLASS(TInterfacedObject, GPIO.Pin)
       CONSTRUCTOR Create
-       (dev   : SN74HC595.Device;
+       (dev   : SPI_Shift_Register.Device;
         num   : Cardinal;
         state : Boolean = False);
 
@@ -41,7 +41,7 @@ INTERFACE
 
       PROPERTY state : Boolean READ ReadState WRITE WriteState;
     PRIVATE
-      mydev  : SN74HC595.Device;
+      mydev  : SPI_Shift_Register.Device;
       mybyte : Cardinal;
       mymask : Byte;
       mybuf  : ARRAY OF Byte;
@@ -50,7 +50,7 @@ INTERFACE
 IMPLEMENTATION
 
       CONSTRUCTOR PinSubclass.Create
-       (dev   : SN74HC595.Device;
+       (dev   : SPI_Shift_Register.Device;
         num   : Cardinal;
         state : Boolean = False);
 
