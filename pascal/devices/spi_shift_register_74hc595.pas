@@ -1,5 +1,3 @@
-{ HID Remote I/O 74HC595 Shift Register Device Test }
-
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
@@ -20,38 +18,14 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_remoteio_hid_74x595_device;
+UNIT SPI_Shift_Register_74HC595;
 
-USES
-  RemoteIO,
-  RemoteIO_SPI,
-  SPI,
-  SPI_Shift_Register,
-  SPI_Shift_Register_74HC595;
+INTERFACE
 
-VAR
-  remdev : RemoteIO.Device;
-  spidev : SPI.Device;
-  regdev : SPI_Shift_Register.Device;
+  CONST
+    SPI_Clock_Mode = 0;
+    SPI_Clock_Max  = 4000000;  { Most pessimistic limit at 2V }
 
-BEGIN
-  WriteLn;
-  WriteLn('HID Remote I/O 74HC595 Shift Register Device Test');
-  Writeln;
+IMPLEMENTATION
 
-  { Create objects }
-
-  remdev := RemoteIO.Device.Create;
-  spidev := RemoteIO_SPI.DeviceSubclass.Create(remdev, 0,
-    SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
-    SPI_Shift_Register_74HC595.SPI_Clock_Max);
-  regdev := SPI_Shift_Register.Device.Create(spidev);
-
-  { Toggle outputs }
-
-  regdev.Write($00);
-
-  REPEAT
-    regdev.Write(NOT regdev.Read);
-  UNTIL False;
 END.
