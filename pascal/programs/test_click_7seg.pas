@@ -1,4 +1,4 @@
-{ Mikroelektronika 7Seg Click Test }
+{ Mikroelektronika 7Seg Click Test for PocketBeagle }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -29,13 +29,60 @@ USES
   PWM,
   PWM_libsimpleio,
   SPI,
-  SPI_libsimpleio;
+  SPI_libsimpleio,
+  SPI_Shift_Register_74HC595,
+  SysUtils;
 
 VAR
   spidev : SPI.Device;
-  pwmpin : GPIO.Pin;
+  pwmout : PWM.Output;
   rstpin : GPIO.Pin;
+  disp   : Click_7Seg.Display;
+  n      : Cardinal;
 
 BEGIN
-  
+  Writeln;
+  Writeln('Mikroelektronika 7Seg Click Test for PocketBeagle');
+  Writeln;
+
+  spidev := SPI_libsimpleio.DeviceSubclass.Create('/dev/spidev2.1',
+    SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
+    SPI_Shift_Register_74HC595.SPI_Clock_Max);
+  pwmout := PWM_libsimpleio.OutputSubclass.Create(0, 0, 1000);
+  rstpin := GPIO_libsimpleio.PinSubclass.Create(1, 13, GPIO.Output, True);
+  disp   := Click_7Seg.Display.Create(spidev, pwmout, rstpin);
+
+  FOR n := 0 TO 99 DO
+    BEGIN
+      disp.Write(n, True, True, False, 100.0);
+      sleep(200);
+    END;     
+
+  sleep(1000);
+
+  FOR n := 99 DOWNTO 0 DO
+    BEGIN
+      disp.Write(n, False, False, True, 75.0);
+      sleep(200);
+    END;     
+
+  sleep(1000);
+
+  FOR n := 0 TO 255 DO
+    BEGIN
+      disp.WriteHex(n, True, True, False, 50.0);
+      sleep(200);
+    END;     
+
+  sleep(1000);
+
+  FOR n := 255 DOWNTO 0 DO
+    BEGIN
+      disp.WriteHex(n, False, False, True, 25.0);
+      sleep(200);
+    END;     
+
+  sleep(1000);
+
+  disp.WriteSegments($00, $00);
 END.
