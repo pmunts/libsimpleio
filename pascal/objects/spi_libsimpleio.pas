@@ -139,6 +139,9 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
+    IF Self.fd = -1 THEN
+      EXIT;
+
     libSPI.Close(Self.fd, error);
 
     IF error <> 0 THEN
