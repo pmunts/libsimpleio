@@ -56,12 +56,14 @@ INTERFACE
 
       PROCEDURE Write
        (data      : Byte;
+        blank     : Boolean = False;
         dpleft    : Boolean = False;
         dpright   : Boolean = False;
         bright    : Real = PWM.DUTYCYCLE_MAX);
 
       PROCEDURE WriteHex
        (data      : Byte;
+        blank     : Boolean = False;
         dpleft    : Boolean = False;
         dpright   : Boolean = False;
         bright    : Real = PWM.DUTYCYCLE_MAX);
@@ -161,6 +163,7 @@ IMPLEMENTATION
 
   PROCEDURE Display.Write
    (data      : Byte;
+    blank     : Boolean = False;
     dpleft    : Boolean = False;
     dpright   : Boolean = False;
     bright    : Real = PWM.DUTYCYCLE_MAX);
@@ -180,7 +183,11 @@ IMPLEMENTATION
 
     { Calculate display patterns }
 
-    dataleft  := GlyphTable[data DIV 10];
+    IF (data DIV 10 = 0) AND blank THEN
+      dataleft := $00
+    ELSE
+      dataleft  := GlyphTable[data DIV 10];
+
     dataright := GlyphTable[data MOD 10];
 
     IF dpleft THEN
@@ -199,6 +206,7 @@ IMPLEMENTATION
 
   PROCEDURE Display.WriteHex
    (data      : Byte;
+    blank     : Boolean = False;
     dpleft    : Boolean = False;
     dpright   : Boolean = False;
     bright    : Real = PWM.DUTYCYCLE_MAX);
@@ -215,7 +223,11 @@ IMPLEMENTATION
 
     { Calculate display patterns }
 
-    dataleft  := GlyphTable[data DIV 16];
+    IF (data DIV 16 = 0) AND blank THEN
+      dataleft := $00
+    ELSE
+      dataleft  := GlyphTable[data DIV 16];
+
     dataright := GlyphTable[data MOD 16];
 
     IF dpleft THEN
@@ -246,8 +258,8 @@ IMPLEMENTATION
     IF (bright < PWM.DUTYCYCLE_MIN) OR (bright > PWM.DUTYCYCLE_MAX) THEN
       RAISE Error.Create('ERROR: Invalid brightness parameter');
 
-    outbuf[0] := PermuteSegments[dataleft];
-    outbuf[1] := PermuteSegments[dataright];
+    outbuf[0] := PermuteSegments[dataright];
+    outbuf[1] := PermuteSegments[dataleft];
 
     Self.regdev.Write(outbuf);
 
