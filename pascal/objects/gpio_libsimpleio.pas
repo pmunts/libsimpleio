@@ -25,14 +25,10 @@ UNIT GPIO_libsimpleio;
 INTERFACE
 
   USES
+    libsimpleio,
     GPIO;
 
   TYPE
-    Designator = RECORD
-      chip : Cardinal;
-      line : Cardinal;
-    END;
-
     Drivers = (PushPull, OpenDrain, OpenSource);
 
     Polarities = (ActiveLow, ActiveHigh);
@@ -41,7 +37,7 @@ INTERFACE
 
     PinSubclass = CLASS(TInterfacedObject, GPIO.Pin)
       CONSTRUCTOR Create
-       (pin      : Designator;
+       (pin      : libsimpleio.Designator;
         dir      : Direction;
         state    : Boolean = False;
         driver   : Drivers = PushPull;
@@ -68,9 +64,6 @@ INTERFACE
       fd  : Integer;
       int : Boolean;
     END;
-
-  CONST
-    Unavailable : Designator = (chip : High(Cardinal); line : High(Cardinal));
 
 IMPLEMENTATION
 
@@ -114,7 +107,7 @@ IMPLEMENTATION
   { GPIO_libsimpleio.PinSubclass constructors }
 
   CONSTRUCTOR PinSubclass.Create
-   (pin      : Designator;
+   (pin      : libsimpleio.Designator;
     dir      : Direction;
     state    : Boolean;
     driver   : Drivers;
@@ -127,12 +120,9 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-    IF (pin.chip = Unavailable.chip) OR (pin.line = Unavailable.line) THEN
-      RAISE GPIO_Error.Create('ERROR: GPIO designator is invalid');
-
     ComputeFlags(dir, driver, polarity, edge, flags, events);
 
-    libGPIO.LineOpen(pin.chip, pin.line, flags, events, Ord(state),
+    libGPIO.LineOpen(pin.chip, pin.chan, flags, events, Ord(state),
       Self.fd, error);
 
     IF error <> 0 THEN

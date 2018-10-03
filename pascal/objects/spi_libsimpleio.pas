@@ -25,11 +25,13 @@ UNIT SPI_libsimpleio;
 INTERFACE
 
   USES
+    libsimpleio,
     GPIO_libsimpleio,
     SPI;
 
   CONST
-    AUTOCHIPSELECT : Designator = (chip : High(Cardinal); line : High(Cardinal));
+    AUTOCHIPSELECT : libsimpleio.Designator =
+      (chip : High(Cardinal); chan : High(Cardinal));
 
   TYPE
     Modes = 0 .. 3;
@@ -48,7 +50,7 @@ INTERFACE
         mode     : Modes;
         wordsize : Cardinal;
         speed    : Cardinal;
-        cspin    : GPIO_libsimpleio.Designator);
+        cspin    : libsimpleio.Designator);
 
       DESTRUCTOR Destroy; OVERRIDE;
 
@@ -105,7 +107,7 @@ IMPLEMENTATION
     mode     : Modes;
     wordsize : Cardinal;
     speed    : Cardinal;
-    cspin    : GPIO_libsimpleio.Designator);
+    cspin    : libsimpleio.Designator);
 
   VAR
     error  : Integer;
@@ -118,11 +120,11 @@ IMPLEMENTATION
         errno.strerror(error));
 
     IF (cspin.chip = AUTOCHIPSELECT.chip) AND
-       (cspin.line = AUTOCHIPSELECT.line) THEN
+       (cspin.chan = AUTOCHIPSELECT.chan) THEN
       Self.fdcs := libSPI.SPI_CS_AUTO
     ELSE
       BEGIN
-        libGPIO.LineOpen(cspin.chip, cspin.line, LINE_REQUEST_OUTPUT, 0, 1,
+        libGPIO.LineOpen(cspin.chip, cspin.chan, LINE_REQUEST_OUTPUT, 0, 1,
           Self.fdcs, error);
 
         IF error <> 0 THEN

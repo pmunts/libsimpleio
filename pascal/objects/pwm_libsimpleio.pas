@@ -24,12 +24,20 @@ UNIT PWM_libsimpleio;
 
 INTERFACE
 
-  USES PWM;
+  USES
+    libsimpleio,
+    PWM;
 
   TYPE
     Polarities = (ActiveLow, ActiveHigh);
 
     OutputSubclass = CLASS(TInterfacedObject, PWM.Output)
+      CONSTRUCTOR Create
+       (output    : libsimpleio.designator;
+        frequency : Cardinal;
+        dutycycle : Real = DUTYCYCLE_MIN;
+        polarity  : Polarities = ActiveHigh);
+
       CONSTRUCTOR Create
        (chip      : Cardinal;
         channel   : Cardinal;
@@ -55,6 +63,38 @@ IMPLEMENTATION
     libPWM;
 
   { PWM_libsimpleio.OutputSubclass constructor }
+
+  CONSTRUCTOR OutputSubclass.Create
+   (output    : libsimpleio.Designator;
+    frequency : Cardinal;
+    dutycycle : Real;
+    polarity  : Polarities);
+
+  VAR
+    ontime : Integer;
+    error  : Integer;
+
+  BEGIN
+    IF (dutycycle < DUTYCYCLE_MIN) OR (dutycycle > DUTYCYCLE_MAX) THEN
+      RAISE PWM_Error.Create('ERROR: Invalid duty cycle parameter, ' +
+        errno.strerror(EINVAL));
+
+    Self.period := Round(1.0E9/frequency);
+    ontime := Round(dutycycle/DUTYCYCLE_MAX*period);
+
+    libPWM.Configure(output.chip, output.chan, period, ontime,
+      Ord(polarity), error);
+
+    IF error <> 0 THEN
+      RAISE PWM_Error.Create('ERROR: libPWM.Configure() failed, ' +
+        errno.strerror(error));
+
+    libPWM.Open(output.chip, output.chan, Self.fd, error);
+
+    IF error <> 0 THEN
+      RAISE PWM_Error.Create('ERROR: libPWM.Open() failed, ' +
+        errno.strerror(error));
+  END;
 
   CONSTRUCTOR OutputSubclass.Create
    (chip      : Cardinal;

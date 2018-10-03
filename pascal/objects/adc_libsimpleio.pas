@@ -23,10 +23,15 @@ UNIT ADC_libsimpleio;
 INTERFACE
 
   USES
+    libsimpleio,
     ADC;
 
   TYPE
     SampleSubclass = CLASS(TInterfacedObject, ADC.Sample)
+      CONSTRUCTOR Create
+       (input      : libsimpleio.Designator;
+        resolution : Cardinal);
+
       CONSTRUCTOR Create
        (chip       : Cardinal;
         channel    : Cardinal;
@@ -47,6 +52,23 @@ IMPLEMENTATION
   USES
     errno,
     libADC;
+
+  CONSTRUCTOR SampleSubclass.Create
+   (input      : libsimpleio.Designator;
+    resolution : Cardinal);
+
+  VAR
+    error : Integer;
+
+  BEGIN
+    libADC.Open(input.chip, input.chan, Self.fd, error);
+
+    IF error <> 0 THEN
+      RAISE ADC_Error.Create('ERROR: libADC.Open() failed, ' +
+        errno.strerror(error));
+
+    Self.numbits := resolution;
+  END;
 
   CONSTRUCTOR SampleSubclass.Create
    (chip       : Cardinal;
