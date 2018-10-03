@@ -39,10 +39,10 @@ BEGIN
   Writeln;
 
   Write('Enter chip number:    ');
-  readln(chip);
+  Readln(chip);
 
   Write('Enter channel number: ');
-  readln(channel);
+  Readln(channel);
 
   { Create a servo output object }
 

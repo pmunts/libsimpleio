@@ -73,7 +73,7 @@ BEGIN
 
   REPEAT
     Write('Enter some text: ');
-    readln(msg);
+    Readln(msg);
 
     msg := msg + #13#10; { append CR/LF }
 

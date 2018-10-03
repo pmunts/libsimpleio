@@ -57,7 +57,7 @@ BEGIN
   framesize := 0;
 
   REPEAT
-    readln(msg);
+    Readln(msg);
 
     libStream.Encode(BytePtr(@msg)+1, Length(msg), @frame, SizeOf(frame), framesize, error);
     IF error <> 0 THEN
