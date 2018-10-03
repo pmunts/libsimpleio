@@ -24,10 +24,17 @@ UNIT Servo_libsimpleio;
 
 INTERFACE
 
-  USES Servo;
+  USES
+    libsimpleio,
+    Servo;
 
   TYPE
     OutputSubclass = CLASS(TInterfacedObject, Servo.Output)
+      CONSTRUCTOR Create
+       (output    : libsimpleio.Designator;
+        frequency : Cardinal;
+        position  : Real = POSITION_NEUTRAL);
+
       CONSTRUCTOR Create
        (chip      : Cardinal;
         channel   : Cardinal;
@@ -51,6 +58,37 @@ IMPLEMENTATION
     libPWM;
 
   { Servo_libsimpleio.OutputSubclass constructor }
+
+  CONSTRUCTOR OutputSubclass.Create
+   (output    : libsimpleio.Designator;
+    frequency : Cardinal;
+    position  : Real);
+
+  VAR
+    period : Integer;
+    ontime : Integer;
+    error  : Integer;
+
+  BEGIN
+    IF (position < POSITION_MIN) OR (position > POSITION_MAX) THEN
+      RAISE Servo.Error.Create('ERROR: Invalid position parameter, ' +
+        errno.strerror(EINVAL));
+
+    period := Round(1.0E9/frequency);
+    ontime := Round(1500000.0 + 500000.0*position);
+
+    libPWM.Configure(output.chip, output.chan, period, ontime, 1, error);
+
+    IF error <> 0 THEN
+      RAISE Servo.Error.Create('ERROR: libPWM.Configure() failed, ' +
+        errno.strerror(error));
+
+    libPWM.Open(output.chip, output.chan, Self.fd, error);
+
+    IF error <> 0 THEN
+      RAISE Servo.Error.Create('ERROR: libPWM.Open() failed, ' +
+        errno.strerror(error));
+  END;
 
   CONSTRUCTOR OutputSubclass.Create
    (chip      : Cardinal;
