@@ -28,29 +28,37 @@ USES
   Servo_libsimpleio;
 
 VAR
-  Servo0 : Servo.Output;
-  n      : Integer;
+  chip    : Cardinal;
+  channel : Cardinal;
+  S       : Servo.Output;
+  n       : Integer;
 
 BEGIN
   writeln;
   writeln('Servo Output Test using libsimpleio');
   writeln;
 
+  write('Enter chip number:    ');
+  readln(chip);
+
+  write('Enter channel number: ');
+  readln(channel);
+
   { Create some servo output objects }
 
-  Servo0 := Servo_libsimpleio.OutputSubclass.Create(0, 0, 100);
+  S := Servo_libsimpleio.OutputSubclass.Create(chip, channel, 50);
 
   { Sweep the pulse width back and forth }
 
   FOR n := -100 TO 100 DO
     BEGIN
-      Servo0.position := n/100.0;
+      S.position := n/100.0;
       Sleep(50);
     END;
 
   FOR n := 100 DOWNTO -100 DO
     BEGIN
-      Servo0.position := n/100.0;
+      S.position := n/100.0;
       Sleep(50);
     END;
 END.
