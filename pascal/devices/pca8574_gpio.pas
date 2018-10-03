@@ -89,7 +89,7 @@ IMPLEMENTATION
 
   BEGIN
     IF self.mydir = GPIO.Input THEN
-      RAISE GPIO_Error.Create('ERROR: Cannot write to input pin');
+      RAISE GPIO.Error.Create('ERROR: Cannot write to input pin');
 
     IF state THEN
       Self.mydev.Write(Self.mydev.Latch OR Self.mymask)

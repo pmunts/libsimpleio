@@ -35,7 +35,7 @@ INTERFACE
 
     { Define an exception for PWM errors }
 
-    PWM_Error = CLASS(Exception);
+    Error = CLASS(Exception);
 
     { Define an interface for PWM output devices }
 

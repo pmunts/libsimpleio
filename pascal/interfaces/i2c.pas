@@ -36,7 +36,7 @@ INTERFACE
 
     { Define an exception for I2C errors }
 
-    I2C_Error = CLASS(Exception);
+    Error = CLASS(Exception);
 
     { Define a subrange for I2C addresses }
 

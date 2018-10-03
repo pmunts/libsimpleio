@@ -36,7 +36,7 @@ INTERFACE
 
     { Define an exception for motor errors }
 
-    Motor_Error = CLASS(Exception);
+    Error = CLASS(Exception);
 
     { Define an interface for motor control outputs }
 

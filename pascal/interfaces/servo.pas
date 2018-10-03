@@ -36,7 +36,7 @@ INTERFACE
 
     { Define an exception for servo errors }
 
-    Servo_Error = CLASS(Exception);
+    Error = CLASS(Exception);
 
     { Define an interface for servo outputs }
 

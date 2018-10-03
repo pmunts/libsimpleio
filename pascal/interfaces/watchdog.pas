@@ -31,7 +31,7 @@ INTERFACE
 
     { Define an exception for watchdog timer device errors }
 
-    Watchdog_Error = CLASS(Exception);
+    Error = CLASS(Exception);
 
     { Define an interface for watchdog timer devices }
 

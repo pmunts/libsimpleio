@@ -126,7 +126,7 @@ IMPLEMENTATION
       Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE GPIO_Error.Create('ERROR: libGPIO.Configure() failed, ' +
+      RAISE GPIO.Error.Create('ERROR: libGPIO.Configure() failed, ' +
         errno.strerror(error));
 
     Self.int := (Edge <> None);
@@ -152,7 +152,7 @@ IMPLEMENTATION
     libGPIO.LineOpen(chip, line, flags, events, Ord(state), Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE GPIO_Error.Create('ERROR: libGPIO.Configure() failed, ' +
+      RAISE GPIO.Error.Create('ERROR: libGPIO.Configure() failed, ' +
         errno.strerror(error));
 
     Self.int := (edge <> None);
@@ -172,7 +172,7 @@ IMPLEMENTATION
     libGPIO.Close(Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE GPIO_Error.Create('ERROR: libGPIO.Close() failed, ' +
+      RAISE GPIO.Error.Create('ERROR: libGPIO.Close() failed, ' +
         errno.strerror(error));
 
     INHERITED;
@@ -192,7 +192,7 @@ IMPLEMENTATION
         libGPIO.LineEvent(Self.fd, s, error);
 
         IF error <> 0 THEN
-          RAISE GPIO_Error.Create('ERROR: libGPIO.LineEvent() failed, ' +
+          RAISE GPIO.Error.Create('ERROR: libGPIO.LineEvent() failed, ' +
             errno.strerror(error))
       END
     ELSE
@@ -200,7 +200,7 @@ IMPLEMENTATION
         libGPIO.LineRead(Self.fd, s, error);
 
         IF error <> 0 THEN
-          RAISE GPIO_Error.Create('ERROR: libGPIO.LineRead() failed, ' +
+          RAISE GPIO.Error.Create('ERROR: libGPIO.LineRead() failed, ' +
             errno.strerror(error))
       END;
 
@@ -216,12 +216,12 @@ IMPLEMENTATION
 
   BEGIN
     IF Self.int THEN
-      RAISE GPIO_Error.Create('ERROR: Cannot write to interrupt input');
+      RAISE GPIO.Error.Create('ERROR: Cannot write to interrupt input');
 
     libGPIO.LineWrite(Self.fd, Ord(state), error);
 
     IF error <> 0 THEN
-      RAISE GPIO_Error.Create('ERROR: libGPIO.LineWrite() failed, ' +
+      RAISE GPIO.Error.Create('ERROR: libGPIO.LineWrite() failed, ' +
         errno.strerror(error));
   END;
 

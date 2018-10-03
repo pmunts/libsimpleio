@@ -65,7 +65,7 @@ IMPLEMENTATION
     libWatchdog.Open(PChar(name), Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE Watchdog_Error.Create('ERROR: libWatchdog.Open() failed, ' +
+      RAISE Watchdog.Error.Create('ERROR: libWatchdog.Open() failed, ' +
         errno.strerror(error));
 
     IF timeout <> DefaultTimeout THEN
@@ -73,7 +73,7 @@ IMPLEMENTATION
         libWatchdog.SetTimeout(Self.fd, timeout, newtimeout, error);
 
         IF error <> 0 THEN
-          RAISE Watchdog_Error.Create('ERROR: libWatchdog.Open() failed, ' +
+          RAISE Watchdog.Error.Create('ERROR: libWatchdog.Open() failed, ' +
             errno.strerror(error));
       END;
   END;
@@ -89,7 +89,7 @@ IMPLEMENTATION
     libWatchdog.Close(Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE Watchdog_Error.Create('ERROR: libWatchdog.Close() failed, ' +
+      RAISE Watchdog.Error.Create('ERROR: libWatchdog.Close() failed, ' +
         errno.strerror(error));
 
     INHERITED;
@@ -107,7 +107,7 @@ IMPLEMENTATION
     libWatchdog.GetTimeout(Self.fd, timeout, error);
 
     IF error <> 0 THEN
-      RAISE Watchdog_Error.Create('ERROR: libWatchdog.GetTimeout() failed, ' +
+      RAISE Watchdog.Error.Create('ERROR: libWatchdog.GetTimeout() failed, ' +
         errno.strerror(error));
 
     GetTimeout := timeout;
@@ -125,7 +125,7 @@ IMPLEMENTATION
     libWatchdog.SetTimeout(Self.fd, timeout, newtimeout, error);
 
     IF error <> 0 THEN
-      RAISE Watchdog_Error.Create('ERROR: libWatchdog.SetTimeout() failed, ' +
+      RAISE Watchdog.Error.Create('ERROR: libWatchdog.SetTimeout() failed, ' +
         errno.strerror(error));
   END;
 
@@ -140,7 +140,7 @@ IMPLEMENTATION
     libWatchdog.Kick(Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE Watchdog_Error.Create('ERROR: libWatchdog.Kick() failed, ' +
+      RAISE Watchdog.Error.Create('ERROR: libWatchdog.Kick() failed, ' +
         errno.strerror(error));
   END;
 

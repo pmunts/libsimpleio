@@ -31,7 +31,7 @@ INTERFACE
 
     { Define an exception for SPI errors }
 
-    SPI_Error = CLASS(Exception);
+    Error = CLASS(Exception);
 
     { Define an interface for SPI devices }
 

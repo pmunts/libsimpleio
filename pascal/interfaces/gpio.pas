@@ -28,7 +28,7 @@ INTERFACE
     SysUtils;
 
   TYPE
-    GPIO_Error = CLASS(Exception);
+    Error = CLASS(Exception);
 
     Direction = (Input, Output);
 

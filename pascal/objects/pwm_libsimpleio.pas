@@ -76,7 +76,7 @@ IMPLEMENTATION
 
   BEGIN
     IF (dutycycle < DUTYCYCLE_MIN) OR (dutycycle > DUTYCYCLE_MAX) THEN
-      RAISE PWM_Error.Create('ERROR: Invalid duty cycle parameter, ' +
+      RAISE PWM.Error.Create('ERROR: Invalid duty cycle parameter, ' +
         errno.strerror(EINVAL));
 
     Self.period := Round(1.0E9/frequency);
@@ -86,13 +86,13 @@ IMPLEMENTATION
       Ord(polarity), error);
 
     IF error <> 0 THEN
-      RAISE PWM_Error.Create('ERROR: libPWM.Configure() failed, ' +
+      RAISE PWM.Error.Create('ERROR: libPWM.Configure() failed, ' +
         errno.strerror(error));
 
     libPWM.Open(output.chip, output.chan, Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE PWM_Error.Create('ERROR: libPWM.Open() failed, ' +
+      RAISE PWM.Error.Create('ERROR: libPWM.Open() failed, ' +
         errno.strerror(error));
   END;
 
@@ -109,7 +109,7 @@ IMPLEMENTATION
 
   BEGIN
     IF (dutycycle < DUTYCYCLE_MIN) OR (dutycycle > DUTYCYCLE_MAX) THEN
-      RAISE PWM_Error.Create('ERROR: Invalid duty cycle parameter, ' +
+      RAISE PWM.Error.Create('ERROR: Invalid duty cycle parameter, ' +
         errno.strerror(EINVAL));
 
     Self.period := Round(1.0E9/frequency);
@@ -118,13 +118,13 @@ IMPLEMENTATION
     libPWM.Configure(chip, channel, period, ontime, Ord(polarity), error);
 
     IF error <> 0 THEN
-      RAISE PWM_Error.Create('ERROR: libPWM.Configure() failed, ' +
+      RAISE PWM.Error.Create('ERROR: libPWM.Configure() failed, ' +
         errno.strerror(error));
 
     libPWM.Open(chip, channel, Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE PWM_Error.Create('ERROR: libPWM.Open() failed, ' +
+      RAISE PWM.Error.Create('ERROR: libPWM.Open() failed, ' +
         errno.strerror(error));
   END;
 
@@ -142,7 +142,7 @@ IMPLEMENTATION
     libPWM.Close(Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE PWM_Error.Create('ERROR: libPWM.Close() failed, ' +
+      RAISE PWM.Error.Create('ERROR: libPWM.Close() failed, ' +
         errno.strerror(error));
 
     INHERITED;
@@ -162,7 +162,7 @@ IMPLEMENTATION
     libPWM.Write(Self.fd, ontime, error);
 
     IF error <> 0 THEN
-      RAISE PWM_Error.Create('ERROR: libPWM.Write() failed, ' +
+      RAISE PWM.Error.Create('ERROR: libPWM.Write() failed, ' +
         errno.strerror(error));
   END;
 

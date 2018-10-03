@@ -71,7 +71,7 @@ IMPLEMENTATION
     libHIDRaw.OpenID(vid, pid, Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE Message64_Error.Create('ERROR: libHIDRaw.OpenID() failed, ' +
+      RAISE Message64.Error.Create('ERROR: libHIDRaw.OpenID() failed, ' +
         errno.strerror(error));
 
     Self.timeout := timeoutms;
@@ -89,7 +89,7 @@ IMPLEMENTATION
     libHIDRaw.Send(Self.fd, @cmd, Message64.Size, count, error);
 
     IF error <> 0 THEN
-      RAISE Message64_Error.Create('ERROR: libHIDRaw.Send() failed, ' +
+      RAISE Message64.Error.Create('ERROR: libHIDRaw.Send() failed, ' +
         errno.strerror(error));
   END;
 
@@ -113,14 +113,14 @@ IMPLEMENTATION
 
         libLinux.Poll(1, files, events, results, Self.timeout, error);
         IF error <> 0 THEN
-          RAISE Message64_Error.Create('ERROR: liblinux.Poll() failed, ' +
+          RAISE Message64.Error.Create('ERROR: liblinux.Poll() failed, ' +
             errno.strerror(error));
       END;
 
     libHIDRaw.Receive(Self.fd, @resp, Message64.Size, count, error);
 
     IF error <> 0 THEN
-      RAISE Message64_Error.Create('ERROR: libHIDRaw.Send() failed, ' +
+      RAISE Message64.Error.Create('ERROR: libHIDRaw.Send() failed, ' +
         errno.strerror(error));
   END;
 
@@ -145,7 +145,7 @@ IMPLEMENTATION
     libHIDRaw.GetName(Self.fd, cname, SizeOf(cname), error);
 
     IF error <> 0 THEN
-      RAISE Message64_Error.Create('ERROR: libHIDRaw.GetName() failed, ' +
+      RAISE Message64.Error.Create('ERROR: libHIDRaw.GetName() failed, ' +
         errno.strerror(error));
 
     GetName := cname;
@@ -163,7 +163,7 @@ IMPLEMENTATION
     libHIDRaw.GetInfo(Self.fd, bustype, vendor, product, error);
 
     IF error <> 0 THEN
-      RAISE Message64_Error.Create('ERROR: libHIDRaw.GetInfo() failed, ' +
+      RAISE Message64.Error.Create('ERROR: libHIDRaw.GetInfo() failed, ' +
         errno.strerror(error));
   END;
 

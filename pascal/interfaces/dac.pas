@@ -28,7 +28,7 @@ INTERFACE
     SysUtils;
 
   TYPE
-    DAC_Error = CLASS(Exception);
+    Error = CLASS(Exception);
 
     SampleOutput = INTERFACE
       PROCEDURE WriteSample(sample : Integer);

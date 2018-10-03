@@ -31,7 +31,7 @@ INTERFACE
     Size = 64;
 
   TYPE
-    Message64_Error = CLASS(Exception);
+    Error = CLASS(Exception);
 
     Message = ARRAY [0 .. Size - 1] OF Byte;
 
