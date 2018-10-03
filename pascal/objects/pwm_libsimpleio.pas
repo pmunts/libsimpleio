@@ -33,7 +33,7 @@ INTERFACE
 
     OutputSubclass = CLASS(TInterfacedObject, PWM.Output)
       CONSTRUCTOR Create
-       (output    : libsimpleio.designator;
+       (output    : libsimpleio.Designator;
         frequency : Cardinal;
         dutycycle : Real = DUTYCYCLE_MIN;
         polarity  : Polarities = ActiveHigh);
