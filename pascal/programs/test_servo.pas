@@ -30,7 +30,7 @@ USES
 VAR
   chip    : Cardinal;
   channel : Cardinal;
-  S       : Servo.Output;
+  output  : Servo.Output;
   n       : Integer;
 
 BEGIN
@@ -44,21 +44,21 @@ BEGIN
   write('Enter channel number: ');
   readln(channel);
 
-  { Create some servo output objects }
+  { Create a servo output object }
 
-  S := Servo_libsimpleio.OutputSubclass.Create(chip, channel, 50);
+  output := Servo_libsimpleio.OutputSubclass.Create(chip, channel, 50);
 
   { Sweep the pulse width back and forth }
 
   FOR n := -100 TO 100 DO
     BEGIN
-      S.position := n/100.0;
+      output.position := n/100.0;
       Sleep(50);
     END;
 
   FOR n := 100 DOWNTO -100 DO
     BEGIN
-      S.position := n/100.0;
+      output.position := n/100.0;
       Sleep(50);
     END;
 END.
