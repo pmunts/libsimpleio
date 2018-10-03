@@ -102,6 +102,8 @@ News
        Added an optional USB serial device serial number parameter to the
        constructor for the libremoteio Messenger class. Added more C# test
        programs.
+     * 3 October 2018 -- More progress on the Free Pascal units and
+       programs.
 
 Documentation
 
