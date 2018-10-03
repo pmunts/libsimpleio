@@ -31,6 +31,7 @@ GM2_FLAGS	+= -fno-pth
 GM2_FLAGS	+= -I$(MODULA2_SRC)/bindings
 GM2_FLAGS	+= -I$(MODULA2_SRC)/devices
 GM2_FLAGS	+= -I$(MODULA2_SRC)/modules
+GM2_FLAGS	+= -I$(MODULA2_SRC)/platforms
 GM2_LIBS	+= -lsimpleio
 
 # Compile the test programs

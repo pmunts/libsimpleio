@@ -23,7 +23,8 @@ DEFINITION MODULE RaspberryPi;
   FROM Channel IMPORT Designator;
 
   CONST
-  (* The following GPIO pins are available on all Raspberry Pi Models *)
+
+    (* The following GPIO pins are available on all Raspberry Pi Models *)
 
     GPIO2  = Designator{0,  2};  (* I2C1 SDA *)
     GPIO3  = Designator{0,  3};  (* I2C1 SCL *)
