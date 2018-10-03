@@ -24,5 +24,4 @@ FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/bindings
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/devices
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/interfaces
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/objects
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/platforms
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/remoteio

@@ -23,7 +23,6 @@
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/platforms
 
 LDFLAGS		+= -L. -lsimpleio -lsimpleio++
 
