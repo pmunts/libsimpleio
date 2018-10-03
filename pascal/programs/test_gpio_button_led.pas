@@ -33,8 +33,8 @@ VAR
   newstate : Boolean;
 
 BEGIN
-  writeln('GPIO Button and LED Test using libsimpleio');
-  writeln;
+  Writeln('GPIO Button and LED Test using libsimpleio');
+  Writeln;
 
   { Configure the button input and LED output }
 
@@ -53,8 +53,8 @@ BEGIN
     IF newstate <> oldstate THEN
       BEGIN
         CASE newstate OF
-          True  : writeln('PRESSED');
-          False : writeln('RELEASED');
+          True  : Writeln('PRESSED');
+          False : Writeln('RELEASED');
         END;
 
         LED.state := newstate;

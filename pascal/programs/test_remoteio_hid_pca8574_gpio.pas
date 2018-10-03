@@ -38,9 +38,9 @@ VAR
   pin    : GPIO.Pin;
 
 BEGIN
-  WriteLn;
-  WriteLn('PCA8574 I2C GPIO Expander GPIO Pin Toggle Test');
-  WriteLn;
+  Writeln;
+  Writeln('PCA8574 I2C GPIO Expander GPIO Pin Toggle Test');
+  Writeln;
 
   { Create objects }
 

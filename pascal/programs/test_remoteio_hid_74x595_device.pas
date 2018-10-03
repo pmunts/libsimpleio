@@ -35,8 +35,8 @@ VAR
   regdev : SPI_Shift_Register.Device;
 
 BEGIN
-  WriteLn;
-  WriteLn('HID Remote I/O 74HC595 Shift Register Device Test');
+  Writeln;
+  Writeln('HID Remote I/O 74HC595 Shift Register Device Test');
   Writeln;
 
   { Create objects }

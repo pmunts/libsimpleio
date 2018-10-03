@@ -35,8 +35,8 @@ VAR
   newstate : Boolean;
 
 BEGIN
-  writeln('HID Remote I/O GPIO Button and LED');
-  writeln;
+  Writeln('HID Remote I/O GPIO Button and LED');
+  Writeln;
 
   { Configure the button input and LED output }
 
@@ -56,8 +56,8 @@ BEGIN
     IF newstate <> oldstate THEN
       BEGIN
         CASE newstate OF
-          True  : writeln('PRESSED');
-          False : writeln('RELEASED');
+          True  : Writeln('PRESSED');
+          False : Writeln('RELEASED');
         END;
 
         LED.state := newstate;

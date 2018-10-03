@@ -37,8 +37,8 @@ VAR
   chan     : Cardinal;
 
 BEGIN
-  WriteLn;
-  WriteLn('HID Remote Analog Input Test');
+  Writeln;
+  Writeln('HID Remote Analog Input Test');
   Writeln;
 
   { Create objects }

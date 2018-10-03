@@ -35,9 +35,9 @@ VAR
   dev    : PCA8574.Device;
 
 BEGIN
-  WriteLn;
-  WriteLn('PCA8574 I2C GPIO Expander Device Toggle Test');
-  WriteLn;
+  Writeln;
+  Writeln('PCA8574 I2C GPIO Expander Device Toggle Test');
+  Writeln;
 
   { Create objects }
 

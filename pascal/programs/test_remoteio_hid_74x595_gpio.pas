@@ -38,9 +38,9 @@ VAR
   pin    : GPIO.Pin;
 
 BEGIN
-  WriteLn;
-  WriteLn('HID Remote I/O 74HC595 Shift Register GPIO Pin Test');
-  WriteLn;
+  Writeln;
+  Writeln('HID Remote I/O 74HC595 Shift Register GPIO Pin Test');
+  Writeln;
 
   { Create objects }
 

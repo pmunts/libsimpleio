@@ -31,8 +31,8 @@ VAR
   LED      : GPIO.Pin;
 
 BEGIN
-  writeln('GPIO Interrupt Button and LED Test using libsimpleio');
-  writeln;
+  Writeln('GPIO Interrupt Button and LED Test using libsimpleio');
+  Writeln;
 
   { Configure the button input and LED output }
 
@@ -48,13 +48,13 @@ BEGIN
     CASE button.state OF
       True  :
         BEGIN
-          writeln('PRESSED');
+          Writeln('PRESSED');
           LED.state := True;
         END;
 
       False :
         BEGIN
-          writeln('RELEASED');
+          Writeln('RELEASED');
           LED.state := False;
         END;
     END;

@@ -41,15 +41,15 @@ VAR
   count   : Integer;
 
 BEGIN
-  writeln('TCP4 Client Test');
-  writeln;
+  Writeln('TCP4 Client Test');
+  Writeln;
 
   addr := 0;
   error := 0;
 
   IF ParamCount <> 2 THEN
     BEGIN
-      writeln('Usage: test_tcp4_client <hostname> <port>');
+      Writeln('Usage: test_tcp4_client <hostname> <port>');
       Halt(1);
     END;
 
@@ -58,7 +58,7 @@ BEGIN
   IP_Resolve(PChar(ParamStr(1)), addr, error);
   IF error <> 0 THEN
     BEGIN
-      writeln('IP_Resolve() for ', ParamStr(1), ' failed, ', strerror(error));
+      Writeln('IP_Resolve() for ', ParamStr(1), ' failed, ', strerror(error));
       Halt(1);
     END;
 
@@ -67,12 +67,12 @@ BEGIN
   TCP_Connect(addr, StrToInt(ParamStr(2)), fd, error);
   IF error <> 0 THEN
     BEGIN
-      writeln('TCP_Connect() to ', ParamStr(1), ' failed, ', strerror(error));
+      Writeln('TCP_Connect() to ', ParamStr(1), ' failed, ', strerror(error));
       Halt(1);
     END;
 
   REPEAT
-    write('Enter some text: ');
+    Write('Enter some text: ');
     readln(msg);
 
     msg := msg + #13#10; { append CR/LF }
@@ -84,7 +84,7 @@ BEGIN
       ECONNRESET  : BREAK;
       EPIPE       : BREAK;
     ELSE
-      writeln('TCP_Send() failed, ', strerror(error));
+      Writeln('TCP_Send() failed, ', strerror(error));
       BREAK;
     END;
   UNTIL False;
@@ -92,9 +92,9 @@ BEGIN
   TCP_Close(fd, error);
   IF error <> 0 THEN
     BEGIN
-      writeln('TCP_Close() failed, ', strerror(error));
+      Writeln('TCP_Close() failed, ', strerror(error));
       Halt(1);
     END;
 
-  writeln('Connection closed.');
+  Writeln('Connection closed.');
 END.

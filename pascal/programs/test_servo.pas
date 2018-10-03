@@ -34,14 +34,14 @@ VAR
   n       : Integer;
 
 BEGIN
-  writeln;
-  writeln('Servo Output Test using libsimpleio');
-  writeln;
+  Writeln;
+  Writeln('Servo Output Test using libsimpleio');
+  Writeln;
 
-  write('Enter chip number:    ');
+  Write('Enter chip number:    ');
   readln(chip);
 
-  write('Enter channel number: ');
+  Write('Enter channel number: ');
   readln(channel);
 
   { Create a servo output object }

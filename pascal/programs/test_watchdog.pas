@@ -32,9 +32,9 @@ VAR
   i  : Integer;
 
 BEGIN
-  writeln;
-  writeln('Watchdog Timer Test using libsimpleio');
-  writeln;
+  Writeln;
+  Writeln('Watchdog Timer Test using libsimpleio');
+  Writeln;
 
   { Create watchdog timer device instance }
 
@@ -42,31 +42,31 @@ BEGIN
 
   { Display the default watchdog timeout period }
 
-  writeln('Default timeout: ', wd.GetTimeout);
+  Writeln('Default timeout: ', wd.GetTimeout);
 
   { Change the watchdog timeout period }
 
   wd.SetTimeout(5);
 
-  writeln('New timeout:     ', wd.GetTimeout);
-  writeln;
+  Writeln('New timeout:     ', wd.GetTimeout);
+  Writeln;
 
   { Kick the dog for 5 seconds }
 
   FOR i := 1 TO 5 DO
     BEGIN
-      writeln('Kick the dog...');
+      Writeln('Kick the dog...');
       wd.Kick;
       Sleep(1000);
     END;
 
-  writeln;
+  Writeln;
 
   { Stop kicking the dog }
 
   FOR i := 1 TO 10 DO
     BEGIN
-      writeln('Don''t kick the dog...');
+      Writeln('Don''t kick the dog...');
       Sleep(1000);
     END;
 END.

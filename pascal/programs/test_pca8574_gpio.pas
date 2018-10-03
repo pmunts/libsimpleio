@@ -36,16 +36,16 @@ VAR
   pin : GPIO.Pin;
 
 BEGIN
-  WriteLn;
-  WriteLn('PCA8574 I2C GPIO Expander GPIO Pin Toggle Test');
-  WriteLn;
+  Writeln;
+  Writeln('PCA8574 I2C GPIO Expander GPIO Pin Toggle Test');
+  Writeln;
 
   { Validate parameters }
 
   IF ParamCount <> 2 THEN
     BEGIN
-      WriteLn('Usage: test_pca8574_device <bus> <address>');
-      WriteLn;
+      Writeln('Usage: test_pca8574_device <bus> <address>');
+      Writeln;
       Halt(1);
     END;
 

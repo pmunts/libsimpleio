@@ -31,8 +31,8 @@ VAR
   LED    : GPIO.Pin;
 
 BEGIN
-  WriteLn;
-  WriteLn('HID Remote I/O LED Test');
+  Writeln;
+  Writeln('HID Remote I/O LED Test');
   Writeln;
 
   { Create objects }
