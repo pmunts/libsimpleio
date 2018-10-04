@@ -381,17 +381,18 @@ void UDP4_open(int32_t addr, int32_t port, int32_t *fd, int32_t *error)
 
   // Validate parameters
 
-  if (port < 0)
-  {
-    *error = EINVAL;
-    ERRORMSG("port argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
-
   if (fd == NULL)
   {
     *error = EINVAL;
     ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (port < 0)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("port argument is invalid", *error, __LINE__ - 4);
     return;
   }
 

@@ -42,39 +42,43 @@ void SPI_open(const char *name, int32_t mode, int32_t wordsize,
 
   // Validate parameters
 
-  if (name == NULL)
+  if (fd == NULL)
   {
     *error = EINVAL;
-    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (name == NULL)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 4);
     return;
   }
 
   if ((mode < 0) || (mode > 3))
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("mode argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("mode argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
   if ((wordsize != 0) && (wordsize != 8) && (wordsize != 16) &&
       (wordsize != 32))
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("wordsize argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("wordsize argument is invalid", *error, __LINE__ - 5);
     return;
   }
 
   if (speed < 1)
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("speed argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
-
-  if (fd == NULL)
-  {
-    *error = EINVAL;
-    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    ERRORMSG("speed argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
@@ -83,8 +87,9 @@ void SPI_open(const char *name, int32_t mode, int32_t wordsize,
   *fd = open(name, O_RDWR);
   if (*fd < 0)
   {
+    *fd = -1;
     *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
     return;
   }
 

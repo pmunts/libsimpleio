@@ -181,6 +181,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   {
     *error = errno;
     ERRORMSG("Cannot write to period", *error, __LINE__ - 3);
+    close(fd);
     return;
   }
 
@@ -202,6 +203,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   {
     *error = errno;
     ERRORMSG("Cannot write to enable", *error, __LINE__ - 3);
+    close(fd);
     return;
   }
 
@@ -228,6 +230,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   {
     *error = errno;
     ERRORMSG("Cannot write to polarity", *error, __LINE__ - 3);
+    close(fd);
     return;
   }
 
@@ -249,6 +252,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   {
     *error = errno;
     ERRORMSG("Cannot write to enable", *error, __LINE__ - 3);
+    close(fd);
     return;
   }
 
@@ -272,6 +276,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   {
     *error = errno;
     ERRORMSG("Cannot write to duty_cycle", *error, __LINE__ - 3);
+    close(fd);
     return;
   }
 
@@ -310,24 +315,26 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 
   assert(error != NULL);
 
-  if (chip < 0)
+  if (fd == NULL)
   {
     *error = EINVAL;
-    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (chip < 0)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
   if (channel < 0)
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("channel argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
-
-  if (fd == NULL)
-  {
-    *error = EINVAL;
-    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    ERRORMSG("channel argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
@@ -337,6 +344,7 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
   *fd = open(filename, O_WRONLY);
   if (*fd < 0)
   {
+    *fd = -1;
     *error = errno;
     ERRORMSG("open() failed", *error, __LINE__ - 4);
     return;

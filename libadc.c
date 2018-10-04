@@ -99,25 +99,7 @@ void ADC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
-  char filename[MAXPATHLEN];
-
   // Validate parameters
-
-  if (chip < 0)
-  {
-    *error = EINVAL;
-    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
-
-  // Validate parameters
-
-  if (channel < 0)
-  {
-    *error = EINVAL;
-    ERRORMSG("channel argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
 
   if (fd == NULL)
   {
@@ -126,6 +108,25 @@ void ADC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
     return;
   }
 
+  if (chip < 0)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 4);
+    return;
+  }
+
+  // Validate parameters
+
+  if (channel < 0)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("channel argument is invalid", *error, __LINE__ - 4);
+    return;
+  }
+
+  char filename[MAXPATHLEN];
   snprintf(filename, sizeof(filename), DATA_FILE, chip, channel);
 
   *fd = open(filename, O_RDONLY);

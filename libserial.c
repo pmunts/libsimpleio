@@ -39,6 +39,13 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
 
   // Validate parameters
 
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   if (name == NULL)
   {
     *fd = -1;
@@ -105,8 +112,9 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
   *fd = open(name, O_RDWR);
   if (*fd < 0)
   {
+    *fd = -1;
     *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
     return;
   }
 

@@ -83,7 +83,7 @@ void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
     close(*fd);
   }
 
-  *fd = 0;
+  *fd = -1;
   *error = ENODEV;
   ERRORMSG("Cannot find matching raw HID device", *error, __LINE__ - 1);
 }

@@ -284,13 +284,6 @@ void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,
 
   // Validate parameters
 
-  if (name == NULL)
-  {
-    *error = EINVAL;
-    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
-    return;
-  }
-
   if (fd == NULL)
   {
     *error = EINVAL;
@@ -298,11 +291,20 @@ void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,
     return;
   }
 
+  if (name == NULL)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 4);
+    return;
+  }
+
   *fd = open(name, flags, mode);
   if (*fd < 0)
   {
+    *fd = -1;
     *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
     return;
   }
 
@@ -317,13 +319,6 @@ void LINUX_open_read(const char *name, int32_t *fd, int32_t *error)
 
   // Validate parameters
 
-  if (name == NULL)
-  {
-    *error = EINVAL;
-    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
-    return;
-  }
-
   if (fd == NULL)
   {
     *error = EINVAL;
@@ -331,11 +326,20 @@ void LINUX_open_read(const char *name, int32_t *fd, int32_t *error)
     return;
   }
 
+  if (name == NULL)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 4);
+    return;
+  }
+
   *fd = open(name, O_RDONLY);
   if (*fd < 0)
   {
+    *fd = -1;
     *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
     return;
   }
 
@@ -350,13 +354,6 @@ void LINUX_open_write(const char *name, int32_t *fd, int32_t *error)
 
   // Validate parameters
 
-  if (name == NULL)
-  {
-    *error = EINVAL;
-    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
-    return;
-  }
-
   if (fd == NULL)
   {
     *error = EINVAL;
@@ -364,11 +361,20 @@ void LINUX_open_write(const char *name, int32_t *fd, int32_t *error)
     return;
   }
 
+  if (name == NULL)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 4);
+    return;
+  }
+
   *fd = open(name, O_WRONLY);
   if (*fd < 0)
   {
+    *fd = -1;
     *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
     return;
   }
 
@@ -383,13 +389,6 @@ void LINUX_open_readwrite(const char *name, int32_t *fd, int32_t *error)
 
   // Validate parameters
 
-  if (name == NULL)
-  {
-    *error = EINVAL;
-    ERRORMSG("name argument is NULL", *error, __LINE__ - 3);
-    return;
-  }
-
   if (fd == NULL)
   {
     *error = EINVAL;
@@ -397,11 +396,20 @@ void LINUX_open_readwrite(const char *name, int32_t *fd, int32_t *error)
     return;
   }
 
- *fd = open(name, O_RDWR);
+  if (name == NULL)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 4);
+    return;
+  }
+
+  *fd = open(name, O_RDWR);
   if (*fd < 0)
   {
+    *fd = -1;
     *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
     return;
   }
 

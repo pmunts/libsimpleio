@@ -43,10 +43,11 @@ void EVENT_open(int32_t *epfd, int32_t *error)
   }
 
   *epfd = epoll_create(256);
-  if (epfd < 0)
+  if (*epfd < 0)
   {
+    *epfd = -1;
     *error = errno;
-    ERRORMSG("epoll_create() failed", *error, __LINE__ - 4);
+    ERRORMSG("epoll_create() failed", *error, __LINE__ - 5);
     return;
   }
 
