@@ -130,15 +130,7 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-
-    { Close the PWM output device file handle }
-
     libPWM.Close(Self.fd, error);
-
-    IF error <> 0 THEN
-      RAISE Servo.Error.Create('ERROR: libPWM.Close() failed, ' +
-        errno.strerror(error));
-
     INHERITED;
   END;
 
