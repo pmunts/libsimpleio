@@ -65,18 +65,22 @@ START_TEST(test_libadc)
   ck_assert(error == ENOENT);
 
   ADC_open(-1, 0, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   ADC_open(0, -1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   ADC_open(0, 0, NULL, &error);
   ck_assert(error == EINVAL);
 
   ADC_open(999, 0, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   ADC_open(0, 999, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   ADC_read(-1, &sample, &error);
@@ -191,18 +195,22 @@ START_TEST(test_libgpio)
   ck_assert(error == EINVAL);
 
   GPIO_open(-1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_open(0, NULL, &error);
   ck_assert(error == EINVAL);
 
   GPIO_open(999, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   GPIO_read(-1, &state, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_read(999, NULL, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_read(999, &state, &error);
@@ -287,142 +295,174 @@ START_TEST(test_libgpiod)
   GPIO_line_info(0, 0, &flags, name, sizeof(name), label, sizeof(label)-1, &error);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(-1, 0, GPIOHANDLE_REQUEST_INPUT, false, 0, &fd, &error);
+  GPIO_line_open(-1, 0, GPIOHANDLE_REQUEST_INPUT, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, -1, GPIOHANDLE_REQUEST_INPUT, false, 0, &fd, &error);
+  GPIO_line_open(0, -1, GPIOHANDLE_REQUEST_INPUT, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, -1, false, 0, &fd, &error);
+  GPIO_line_open(0, 0, -1, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, 0x21, false, 0, &fd, &error);
+  GPIO_line_open(0, 0, 0x21, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, 0, false, 0, &fd, &error);
+  GPIO_line_open(0, 0, 0, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT,
-    false, 0, &fd, &error);
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_ACTIVE_LOW,
-    false, 0, &fd, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_ACTIVE_LOW, GPIO_EDGE_NONE, false,
+    &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
-    GPIOHANDLE_REQUEST_ACTIVE_LOW, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_ACTIVE_LOW, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OPEN_DRAIN,
-    false, 0, &fd, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OPEN_DRAIN, GPIO_EDGE_NONE, false,
+    &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OPEN_DRAIN,
-    false, 0, &fd, &error);
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
-    GPIOHANDLE_REQUEST_OPEN_DRAIN, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_DRAIN, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_ACTIVE_LOW|
-    GPIOHANDLE_REQUEST_OPEN_DRAIN, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_DRAIN, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_ACTIVE_LOW|
-    GPIOHANDLE_REQUEST_OPEN_DRAIN, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_DRAIN, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
-    GPIOHANDLE_REQUEST_ACTIVE_LOW|GPIOHANDLE_REQUEST_OPEN_DRAIN, false, 0,
-    &fd, &error);
+    GPIOHANDLE_REQUEST_ACTIVE_LOW|GPIOHANDLE_REQUEST_OPEN_DRAIN,
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OPEN_SOURCE,
-    false, 0, &fd, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OPEN_SOURCE, GPIO_EDGE_NONE, false,
+    &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OPEN_SOURCE,
-    false, 0, &fd, &error);
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
-    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_ACTIVE_LOW|
-    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_ACTIVE_LOW|
-    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
-    GPIOHANDLE_REQUEST_ACTIVE_LOW|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
-    &fd, &error);
+    GPIOHANDLE_REQUEST_ACTIVE_LOW|GPIOHANDLE_REQUEST_OPEN_SOURCE,
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OPEN_DRAIN|
-    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE,
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OPEN_DRAIN|
-    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT|GPIOHANDLE_REQUEST_OPEN_DRAIN|
-    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
-    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
-    &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE,
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_ACTIVE_LOW|
-    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
-    &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE,
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_ACTIVE_LOW|
-    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
-    &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE,
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT|GPIOHANDLE_REQUEST_ACTIVE_LOW|
-    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0,
-    &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_DRAIN|GPIOHANDLE_REQUEST_OPEN_SOURCE,
+    GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT|GPIOHANDLE_REQUEST_OUTPUT|
     GPIOHANDLE_REQUEST_ACTIVE_LOW|GPIOHANDLE_REQUEST_OPEN_DRAIN|
-    GPIOHANDLE_REQUEST_OPEN_SOURCE, false, 0, &fd, &error);
+    GPIOHANDLE_REQUEST_OPEN_SOURCE, GPIO_EDGE_NONE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, -1, 0, &fd, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, -1, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, 2, 0, &fd, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, 4, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, false, -1, &fd, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT,
+    GPIOEVENT_REQUEST_RISING_EDGE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, false, 4, &fd, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT,
+    GPIOEVENT_REQUEST_FALLING_EDGE, false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT, false, GPIOEVENT_REQUEST_RISING_EDGE, &fd, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT, GPIOEVENT_REQUEST_BOTH_EDGES,
+    false, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT, false, GPIOEVENT_REQUEST_FALLING_EDGE, &fd, &error);
-  ck_assert(error == EINVAL);
-
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_OUTPUT, false, GPIOEVENT_REQUEST_BOTH_EDGES, &fd, &error);
-  ck_assert(error == EINVAL);
-
-  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, false, 0, NULL, &error);
+  GPIO_line_open(0, 0, GPIOHANDLE_REQUEST_INPUT, GPIO_EDGE_NONE, false, NULL,
+    &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   GPIO_line_read(-1, &state, &error);
@@ -479,18 +519,21 @@ START_TEST(test_libhidraw)
 #endif
 
   HIDRAW_open(NULL, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   HIDRAW_open("/dev/bogus", NULL, &error);
   ck_assert(error == EINVAL);
 
   HIDRAW_open("/dev/bogus", &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   HIDRAW_open_id(0, 0, NULL, &error);
   ck_assert(error == EINVAL);
 
   HIDRAW_open_id(0, 0, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENODEV);
 
   HIDRAW_get_name(-1, name, sizeof(name), &error);
@@ -570,12 +613,14 @@ START_TEST(test_libi2c)
 #endif
 
   I2C_open(NULL, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   I2C_open("/dev/bogus", NULL, &error);
   ck_assert(error == EINVAL);
 
   I2C_open("/dev/bogus", &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   I2C_transaction(-1, 0x40, cmd, sizeof(cmd), resp, sizeof(resp), &error);
@@ -822,15 +867,18 @@ START_TEST(test_liblinux)
   ck_assert(results[0] == 0);
 
   LINUX_open(NULL, O_RDWR, 0644, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   LINUX_open("/dev/bogus", O_RDWR, 0644, NULL, &error);
   ck_assert(error == EINVAL);
 
   LINUX_open("/dev/bogus", O_RDWR, 0644, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   LINUX_open("/dev/null", O_WRONLY|O_CREAT|O_EXCL, 0644, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EEXIST);
 
   LINUX_open("/dev/null", O_RDWR, 0644, &fd, &error);
@@ -842,12 +890,14 @@ START_TEST(test_liblinux)
   fd = -1;
 
   LINUX_open_read(NULL, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   LINUX_open_read("/dev/bogus", NULL, &error);
   ck_assert(error == EINVAL);
 
   LINUX_open_read("/dev/bogus", &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   LINUX_open_read("/dev/null", &fd, &error);
@@ -858,12 +908,14 @@ START_TEST(test_liblinux)
   fd = -1;
 
   LINUX_open_write(NULL, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   LINUX_open_write("/dev/bogus", NULL, &error);
   ck_assert(error == EINVAL);
 
   LINUX_open_write("/dev/bogus", &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   LINUX_open_write("/dev/null", &fd, &error);
@@ -874,12 +926,14 @@ START_TEST(test_liblinux)
   fd = -1;
 
   LINUX_open_readwrite(NULL, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   LINUX_open_readwrite("/dev/bogus", NULL, &error);
   ck_assert(error == EINVAL);
 
   LINUX_open_readwrite("/dev/bogus", &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   LINUX_open_readwrite("/dev/null", &fd, &error);
@@ -1010,12 +1064,14 @@ START_TEST(test_liblinx)
 #endif
 
   LINUX_open_readwrite(NULL, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   LINUX_open_readwrite("/dev/bogus", NULL, &error);
   ck_assert(error == EINVAL);
 
   LINUX_open_readwrite("/dev/bogus", &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   LINUX_open_readwrite("/dev/null", &fd, &error);
@@ -1068,12 +1124,14 @@ START_TEST(test_liblinx)
   fd = -1;
 
   LINUX_open_readwrite(NULL, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   LINUX_open_readwrite("/dev/bogus", NULL, &error);
   ck_assert(error == EINVAL);
 
   LINUX_open_readwrite("/dev/bogus", &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   LINUX_open_readwrite("/dev/null", &fd, &error);
@@ -1186,15 +1244,18 @@ START_TEST(test_libpwm)
   ck_assert(error == EINVAL);
 
   PWM_open(-1, 0, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   PWM_open(0, -1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   PWM_open(0, 0, NULL, &error);
   ck_assert(error == EINVAL);
 
   PWM_open(0, 0, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   PWM_write(-1, 100, &error);
@@ -1226,30 +1287,39 @@ START_TEST(test_libserial)
 #endif
 
   SERIAL_open(NULL, 9600, SERIAL_PARITY_NONE, 8, 1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SERIAL_open("/dev/bogus", 49, SERIAL_PARITY_NONE, 8, 1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE - 1, 8, 1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_ODD + 1, 8, 1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 4, 1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 9, 1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 8, 0, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 8, 3, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SERIAL_open("/dev/bogus", 9600, SERIAL_PARITY_NONE, 8, 1, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   SERIAL_send(-1, buf, sizeof(buf), &count, &error);
@@ -1287,24 +1357,30 @@ START_TEST(test_libspi)
 #endif
 
   SPI_open(NULL, 0, 8, 1000000, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SPI_open("/dev/bogus", -1, 8, 1000000, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SPI_open("/dev/bogus", 4, 8, 1000000, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SPI_open("/dev/bogus", 0, 7, 1000000, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SPI_open("/dev/bogus", 0, 8, 0, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   SPI_open("/dev/bogus", 0, 8, 1000000, NULL, &error);
   ck_assert(error == EINVAL);
 
   SPI_open("/dev/bogus", 0, 8, 1000000, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   SPI_transaction(-1, SPI_CS_AUTO, &cmd, sizeof(cmd), 1000, &resp,
@@ -1469,12 +1545,14 @@ START_TEST(test_libwatchdog)
 #endif
 
   WATCHDOG_open(NULL, &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
   WATCHDOG_open("/dev/bogus", NULL, &error);
   ck_assert(error == EINVAL);
 
   WATCHDOG_open("/dev/bogus", &fd, &error);
+  ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
   WATCHDOG_get_timeout(-1, &timeout, &error);
