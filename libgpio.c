@@ -261,59 +261,66 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t events,
 
   // Validate parameters
 
-  if (chip < 0)
+  if (fd == NULL)
   {
     *error = EINVAL;
-    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (chip < 0)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
   if (line < 0)
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("line argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("line argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
   if (flags & 0xFFFFFFE0)
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("flags argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("flags argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
   if (!ValidFlags[flags])
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("flags argument is inconsistent", *error, __LINE__ - 3);
+    ERRORMSG("flags argument is inconsistent", *error, __LINE__ - 4);
     return;
   }
 
   if (events & 0xFFFFFFFC)
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("events argument is invalid", *error, __LINE__ - 3);
+    ERRORMSG("events argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
   if ((flags & GPIOHANDLE_REQUEST_OUTPUT) && (events != 0))
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("flags and events are inconsistent", *error, __LINE__ - 3);
+    ERRORMSG("flags and events are inconsistent", *error, __LINE__ - 4);
     return;
   }
 
   if ((state < 0) || (state > 1))
   {
+    *fd = -1;
     *error = EINVAL;
-    ERRORMSG("state argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
-
-  if (fd == NULL)
-  {
-    *error = EINVAL;
-    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    ERRORMSG("state argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
@@ -327,8 +334,9 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t events,
 
   if (chipfd < 0)
   {
+    *fd = -1;
     *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 3);
+    ERRORMSG("open() failed", *error, __LINE__ - 4);
     return;
   }
 
@@ -344,8 +352,9 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t events,
 
     if (ioctl(chipfd, GPIO_GET_LINEEVENT_IOCTL, &req) < 0)
     {
+      *fd = -1;
       *error = errno;
-      ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
+      ERRORMSG("ioctl() failed", *error, __LINE__ - 4);
       close(chipfd);
       return;
     }
@@ -365,8 +374,9 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t events,
 
     if (ioctl(chipfd, GPIO_GET_LINEHANDLE_IOCTL, &req) < 0)
     {
+      *fd = -1;
       *error = errno;
-      ERRORMSG("ioctl() failed", *error, __LINE__ - 3);
+      ERRORMSG("ioctl() failed", *error, __LINE__ - 4);
       close(chipfd);
       return;
     }
