@@ -141,24 +141,8 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-    IF Self.fd = -1 THEN
-      EXIT;
-
     libSPI.Close(Self.fd, error);
-
-    IF error <> 0 THEN
-      RAISE SPI.Error.Create('ERROR: libSPI.Close() failed, ' +
-        errno.strerror(error));
-
-    IF Self.fdcs = SPI_CS_AUTO THEN
-      EXIT;
-
     libGPIO.Close(Self.fdcs, error);
-
-    IF error <> 0 THEN
-      RAISE SPI.Error.Create('ERROR: libGPIO.Close() failed, ' +
-        errno.strerror(error));
-
     INHERITED;
   END;
 

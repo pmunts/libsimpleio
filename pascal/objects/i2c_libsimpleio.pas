@@ -85,11 +85,6 @@ IMPLEMENTATION
 
   BEGIN
     libI2C.Close(Self.fd, error);
-
-    IF error <> 0 THEN
-      RAISE I2C.Error.Create('ERROR: libI2C.Close() failed, ' +
-        errno.strerror(error));
-
     INHERITED;
   END;
 

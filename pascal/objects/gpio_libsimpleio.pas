@@ -166,15 +166,7 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-
-    { Close the GPIO pin file handle }
-
     libGPIO.Close(Self.fd, error);
-
-    IF error <> 0 THEN
-      RAISE GPIO.Error.Create('ERROR: libGPIO.Close() failed, ' +
-        errno.strerror(error));
-
     INHERITED;
   END;
 

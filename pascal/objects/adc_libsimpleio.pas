@@ -95,11 +95,6 @@ IMPLEMENTATION
 
   BEGIN
     libADC.Close(Self.fd, error);
-
-    IF error <> 0 THEN
-      RAISE ADC.Error.Create('ERROR: libADC.Close() failed, ' +
-        errno.strerror(error));
-
     INHERITED;
   END;
 

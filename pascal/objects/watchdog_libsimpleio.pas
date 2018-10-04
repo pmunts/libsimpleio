@@ -87,11 +87,6 @@ IMPLEMENTATION
 
   BEGIN
     libWatchdog.Close(Self.fd, error);
-
-    IF error <> 0 THEN
-      RAISE Watchdog.Error.Create('ERROR: libWatchdog.Close() failed, ' +
-        errno.strerror(error));
-
     INHERITED;
   END;
 
