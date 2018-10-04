@@ -308,7 +308,7 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t events,
     return;
   }
 
-  if ((flags & GPIOHANDLE_REQUEST_OUTPUT) && (events != 0))
+  if ((flags & GPIOHANDLE_REQUEST_OUTPUT) && (events > GPIO_EDGE_NONE))
   {
     *fd = -1;
     *error = EINVAL;
