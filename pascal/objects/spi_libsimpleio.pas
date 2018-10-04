@@ -27,7 +27,8 @@ INTERFACE
   USES
     libsimpleio,
     GPIO_libsimpleio,
-    SPI;
+    SPI,
+    SysUtils;
 
   CONST
     AUTOCHIPSELECT : libsimpleio.Designator =
@@ -40,13 +41,13 @@ INTERFACE
 
     DeviceSubclass = CLASS(TInterfacedObject, SPI.Device)
       CONSTRUCTOR Create
-       (name     : String;
+       (slave    : libsimpleio.Designator;
         mode     : Modes;
         wordsize : Cardinal;
         speed    : Cardinal);
 
       CONSTRUCTOR Create
-       (name     : String;
+       (slave    : libsimpleio.Designator;
         mode     : Modes;
         wordsize : Cardinal;
         speed    : Cardinal;
@@ -81,18 +82,21 @@ IMPLEMENTATION
     libGPIO,
     libSPI;
 
-  { SPI_libsimpleio.DeviceSubclass constructor }
+  { SPI_libsimpleio.DeviceSubclass constructors }
 
   CONSTRUCTOR DeviceSubclass.Create
-   (name     : String;
+   (slave    : libsimpleio.Designator;
     mode     : Modes;
     wordsize : Cardinal;
     speed    : Cardinal);
 
   VAR
+    name   : String;
     error  : Integer;
 
   BEGIN
+    name := Format('/dev/spidev%d.%d', [slave.chip, slave.chan]);
+
     libSPI.Open(PChar(name), mode, wordsize, speed, Self.fd, error);
 
     IF error <> 0 THEN
@@ -103,16 +107,19 @@ IMPLEMENTATION
   END;
 
   CONSTRUCTOR DeviceSubclass.Create
-   (name     : String;
+   (slave    : libsimpleio.Designator;
     mode     : Modes;
     wordsize : Cardinal;
     speed    : Cardinal;
     cspin    : libsimpleio.Designator);
 
   VAR
+    name   : String;
     error  : Integer;
 
   BEGIN
+    name := Format('/dev/spidev%d.%d', [slave.chip, slave.chan]);
+
     libSPI.Open(PChar(name), mode, wordsize, speed, Self.fd, error);
 
     IF error <> 0 THEN
