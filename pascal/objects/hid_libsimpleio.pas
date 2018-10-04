@@ -36,6 +36,8 @@ INTERFACE
       CONSTRUCTOR Create(vid : Integer = DefaultVendor;
         pid : Integer = DefaultProduct; timeoutms : Cardinal = 1000);
 
+      DESTRUCTOR Destroy; OVERRIDE;
+
       PROCEDURE Send(cmd : Message);
 
       PROCEDURE Receive(VAR resp : Message);
@@ -77,7 +79,19 @@ IMPLEMENTATION
     Self.timeout := timeoutms;
   END;
 
-  { Send a Message64 message using libsimpleio raw HID transport }
+  { Destructor }
+
+  DESTRUCTOR TimerSubclass.Destroy;
+
+  VAR
+    error  : Integer;
+
+  BEGIN
+    libHIDRaw.Close(Self.fd, error);
+    INHERITED;
+  END;
+
+ { Send a Message64 message using libsimpleio raw HID transport }
 
   PROCEDURE MessengerSubclass.Send(cmd : Message);
 
