@@ -81,7 +81,7 @@ IMPLEMENTATION
 
   { Destructor }
 
-  DESTRUCTOR TimerSubclass.Destroy;
+  DESTRUCTOR MessengerSubclass.Destroy;
 
   VAR
     error  : Integer;
