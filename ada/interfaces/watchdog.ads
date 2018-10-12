@@ -37,14 +37,14 @@ PACKAGE Watchdog IS
 
   -- Method to get the watchdog timeout in seconds
 
-  FUNCTION GetTimeout(self : TimerInterface) RETURN Duration IS ABSTRACT;
+  FUNCTION GetTimeout(Self : TimerInterface) RETURN Duration IS ABSTRACT;
 
   -- Method to change the watchdog timeout in seconds
 
-  PROCEDURE SetTimeout(self : TimerInterface; timeout : Duration) IS ABSTRACT;
+  PROCEDURE SetTimeout(Self : TimerInterface; timeout : Duration) IS ABSTRACT;
 
   -- Method to reset the watchdog timer
 
-  PROCEDURE Kick(self : TimerInterface) IS ABSTRACT;
+  PROCEDURE Kick(Self : TimerInterface) IS ABSTRACT;
 
 END Watchdog;

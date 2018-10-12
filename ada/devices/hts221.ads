@@ -37,11 +37,11 @@ PACKAGE HTS221 IS
 
   -- Get Celsius temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
 
   -- Get relative humidity
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Humidity.Relative;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Humidity.Relative;
 
 PRIVATE
 

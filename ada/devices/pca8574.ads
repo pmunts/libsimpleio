@@ -38,9 +38,9 @@ PACKAGE PCA8574 IS
 
   -- PCA8574 methods
 
-  FUNCTION Get(self : IN OUT DeviceClass) RETURN Byte;
+  FUNCTION Get(Self : IN OUT DeviceClass) RETURN Byte;
 
-  PROCEDURE Put(self : IN OUT DeviceClass; data : Byte);
+  PROCEDURE Put(Self : IN OUT DeviceClass; data : Byte);
 
 PRIVATE
 

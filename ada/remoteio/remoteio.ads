@@ -85,22 +85,22 @@ PACKAGE RemoteIO IS
   FUNCTION Create(msg : Message64.Messenger) RETURN Device;
 
   PROCEDURE Transaction
-   (self : IN OUT DeviceRecord;
+   (Self : IN OUT DeviceRecord;
     cmd  : IN OUT Message64.Message;
     resp : OUT Message64.Message);
 
   -- Get the remote device version string
 
-  FUNCTION GetVersion(self : IN OUT DeviceRecord) RETURN String;
+  FUNCTION GetVersion(Self : IN OUT DeviceRecord) RETURN String;
 
   -- Get the remote device capability string
 
-  FUNCTION GetCapability(self : IN OUT DeviceRecord) RETURN String;
+  FUNCTION GetCapability(Self : IN OUT DeviceRecord) RETURN String;
 
   -- Get the available channels for a given service type
 
   FUNCTION GetAvailableChannels
-   (self    : IN OUT DeviceRecord;
+   (Self    : IN OUT DeviceRecord;
     service : ChannelTypes) RETURN ChannelSets.Set;
 
 PRIVATE

@@ -55,7 +55,7 @@ PACKAGE BODY PCA9685 IS
   -- Write PCA9685 register
 
   PROCEDURE WriteRegister
-   (self : DeviceClass;
+   (Self : DeviceClass;
     reg  : RegisterName;
     data : RegisterData) IS
 
@@ -65,13 +65,13 @@ PACKAGE BODY PCA9685 IS
     cmd(0) := I2C.Byte(RegisterName'Enum_Rep(reg));
     cmd(1) := I2C.Byte(data);
 
-    self.bus.Write(self.address, cmd, 2);
+    Self.bus.Write(Self.address, cmd, 2);
   END WriteRegister;
 
   -- Write PCA9685 channel data
 
   PROCEDURE WriteChannel
-   (self    : DeviceClass;
+   (Self    : DeviceClass;
     channel : ChannelNumber;
     data    : ChannelData) IS
 
@@ -84,13 +84,13 @@ PACKAGE BODY PCA9685 IS
     cmd(3) := I2C.Byte(data(2));
     cmd(4) := I2C.Byte(data(3));
 
-    self.bus.Write(self.address, cmd, cmd'Length);
+    Self.bus.Write(Self.address, cmd, cmd'Length);
   END WriteChannel;
 
   -- Read PCA9685 channel data
 
   PROCEDURE ReadChannel
-   (self    : DeviceClass;
+   (Self    : DeviceClass;
     channel : ChannelNumber;
     data    : OUT ChannelData) IS
 
@@ -99,7 +99,7 @@ PACKAGE BODY PCA9685 IS
 
   BEGIN
     cmd(0) := I2C.Byte(RegisterName'Enum_rep(LED0_ON_L) + channel*4);
-    self.bus.Transaction(self.address, cmd, cmd'Length, resp, resp'Length);
+    Self.bus.Transaction(Self.address, cmd, cmd'Length, resp, resp'Length);
 
     data(0) := RegisterData(resp(0));
     data(1) := RegisterData(resp(1));

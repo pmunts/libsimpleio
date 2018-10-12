@@ -36,7 +36,7 @@ PACKAGE Motor.PWM IS
     velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output;
 
   PROCEDURE Put
-   (self : IN OUT OutputSubclass1;
+   (Self : IN OUT OutputSubclass1;
     velo : Velocity);
 
   -- Type 2 motor outputs: Consisting of CW (clockwise) and CCW
@@ -50,7 +50,7 @@ PACKAGE Motor.PWM IS
     velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output;
 
   PROCEDURE Put
-   (self : IN OUT OutputSubclass2;
+   (Self : IN OUT OutputSubclass2;
     velo : Velocity);
 
 PRIVATE

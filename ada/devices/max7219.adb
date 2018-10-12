@@ -32,27 +32,27 @@ PACKAGE BODY MAX7219 IS
 
   -- Reset the MAX7219 device
 
-  PROCEDURE Initialize(self : DeviceClass) IS
+  PROCEDURE Initialize(Self : DeviceClass) IS
 
   BEGIN
-    self.Put(SHUTDOWN,   16#01#);
-    self.Put(DECODEMODE, 16#00#);
-    self.Put(INTENSITY,  16#0F#);
-    self.Put(SCANLIMIT,  16#07#);
-    self.Put(DIGIT0,     16#00#);
-    self.Put(DIGIT1,     16#00#);
-    self.Put(DIGIT2,     16#00#);
-    self.Put(DIGIT3,     16#00#);
-    self.Put(DIGIT4,     16#00#);
-    self.Put(DIGIT5,     16#00#);
-    self.Put(DIGIT6,     16#00#);
-    self.Put(DIGIT7,     16#00#);
+    Self.Put(SHUTDOWN,   16#01#);
+    Self.Put(DECODEMODE, 16#00#);
+    Self.Put(INTENSITY,  16#0F#);
+    Self.Put(SCANLIMIT,  16#07#);
+    Self.Put(DIGIT0,     16#00#);
+    Self.Put(DIGIT1,     16#00#);
+    Self.Put(DIGIT2,     16#00#);
+    Self.Put(DIGIT3,     16#00#);
+    Self.Put(DIGIT4,     16#00#);
+    Self.Put(DIGIT5,     16#00#);
+    Self.Put(DIGIT6,     16#00#);
+    Self.Put(DIGIT7,     16#00#);
   END Initialize;
 
   -- Write a MAX7219 register
 
   PROCEDURE Put
-   (self : DeviceClass;
+   (Self : DeviceClass;
     reg  : Register;
     dat  : Data) IS
 
@@ -62,7 +62,7 @@ PACKAGE BODY MAX7219 IS
     cmd(0) := SPI.Byte(reg);
     cmd(1) := SPI.Byte(dat);
 
-    self.dev.Write(cmd, cmd'Length);
+    Self.dev.Write(cmd, cmd'Length);
   END Put;
 
 END MAX7219;

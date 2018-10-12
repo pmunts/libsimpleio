@@ -100,21 +100,21 @@ PRIVATE
   -- Write PCA9685 register
 
   PROCEDURE WriteRegister
-   (self  : DeviceClass;
+   (Self  : DeviceClass;
     reg   : RegisterName;
     data  : RegisterData);
 
   -- Write PCA9685 channel data
 
   PROCEDURE WriteChannel
-   (self    : DeviceClass;
+   (Self    : DeviceClass;
     channel : ChannelNumber;
     data    : ChannelData);
 
   -- Read PCA9685 channel data
 
   PROCEDURE ReadChannel
-   (self    : DeviceClass;
+   (Self    : DeviceClass;
     channel : ChannelNumber;
     data    : OUT ChannelData);
 

@@ -45,21 +45,21 @@ PACKAGE BODY MCP3208 IS
 
   -- Methods
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample IS
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
     cmd  : SPI.Command(0 .. 0);
     resp : SPI.Response(0 .. 1);
 
   BEGIN
-    cmd(0) := self.cmd;
-    self.spidev.Transaction(cmd, cmd'Length, resp, resp'Length);
+    cmd(0) := Self.cmd;
+    Self.spidev.Transaction(cmd, cmd'Length, resp, resp'Length);
 
     RETURN Analog.Sample(Standard.Interfaces.Shift_Left(
       Standard.Interfaces.Unsigned_32(resp(0)), 4) +
       Standard.Interfaces.Shift_Right(Standard.Interfaces.Unsigned_32(resp(1)), 4));
   END Get;
 
-  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive IS
+  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN Resolution;

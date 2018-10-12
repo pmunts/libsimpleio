@@ -51,7 +51,7 @@ PACKAGE BODY BMP280 IS
   -- Write to a single BMP280 register
 
   PROCEDURE WriteRegister
-   (self    : IN OUT DeviceSubclass;
+   (Self    : IN OUT DeviceSubclass;
     regaddr : I2C.Byte;
     regdata : I2C.Byte) IS
 
@@ -61,13 +61,13 @@ PACKAGE BODY BMP280 IS
     cmd(0) := regaddr;
     cmd(1) := regdata;
 
-    self.bus.Write(self.address, cmd, cmd'Length);
+    Self.bus.Write(Self.address, cmd, cmd'Length);
   END WriteRegister;
 
   -- Read from one or more BMP280 registers
 
   PROCEDURE ReadRegisters
-   (self    : IN OUT DeviceSubclass;
+   (Self    : IN OUT DeviceSubclass;
     regaddr : I2C.Byte;
     regdata : OUT I2C.Response) IS
 
@@ -76,7 +76,7 @@ PACKAGE BODY BMP280 IS
   BEGIN
     cmd(0) :=  regaddr;
 
-    self.bus.Transaction(self.address, cmd, cmd'Length, regdata, regdata'Length);
+    Self.bus.Transaction(Self.address, cmd, cmd'Length, regdata, regdata'Length);
   END ReadRegisters;
 
   -- Define conversions for calibration data
@@ -96,48 +96,48 @@ PACKAGE BODY BMP280 IS
 
   FUNCTION Create(bus : I2C.Bus; addr : I2C.Address) RETURN Device IS
 
-    self    : Device := NEW DeviceSubclass'(bus, addr,
+    Self    : Device := NEW DeviceSubclass'(bus, addr,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     status  : I2C.Response(0 .. 0);
     caldata : I2C.Response(0 .. 25);
 
   BEGIN
-    self.WriteRegister(REG_CONTROL, CONTROL_SLEEP);
-    self.WriteRegister(REG_CONFIG,  2#0000_0000#);
+    Self.WriteRegister(REG_CONTROL, CONTROL_SLEEP);
+    Self.WriteRegister(REG_CONFIG,  2#0000_0000#);
 
     -- Wait while the BMP280 is busy
 
     LOOP
-      self.ReadRegisters(REG_STATUS, status);
+      Self.ReadRegisters(REG_STATUS, status);
       EXIT WHEN (status(0) AND 16#03#) = 16#00#;
     END LOOP;
 
     -- Read calibration data
 
-    self.ReadRegisters(REG_CALIB0, caldata);
+    Self.ReadRegisters(REG_CALIB0, caldata);
 
     -- Extract calibration data
 
-    self.dig_T1 := ToUnsigned16(caldata(0), caldata(1));
-    self.dig_T2 := ToSigned16(caldata(2),   caldata(3));
-    self.dig_T3 := ToSigned16(caldata(4),   caldata(5));
-    self.dig_P1 := ToUnsigned16(caldata(6), caldata(7));
-    self.dig_P2 := ToSigned16(caldata(8),   caldata(9));
-    self.dig_P3 := ToSigned16(caldata(10),  caldata(11));
-    self.dig_P4 := ToSigned16(caldata(12),  caldata(13));
-    self.dig_P5 := ToSigned16(caldata(14),  caldata(15));
-    self.dig_P6 := ToSigned16(caldata(16),  caldata(17));
-    self.dig_P7 := ToSigned16(caldata(18),  caldata(19));
-    self.dig_P8 := ToSigned16(caldata(20),  caldata(21));
-    self.dig_P9 := ToSigned16(caldata(22),  caldata(23));
+    Self.dig_T1 := ToUnsigned16(caldata(0), caldata(1));
+    Self.dig_T2 := ToSigned16(caldata(2),   caldata(3));
+    Self.dig_T3 := ToSigned16(caldata(4),   caldata(5));
+    Self.dig_P1 := ToUnsigned16(caldata(6), caldata(7));
+    Self.dig_P2 := ToSigned16(caldata(8),   caldata(9));
+    Self.dig_P3 := ToSigned16(caldata(10),  caldata(11));
+    Self.dig_P4 := ToSigned16(caldata(12),  caldata(13));
+    Self.dig_P5 := ToSigned16(caldata(14),  caldata(15));
+    Self.dig_P6 := ToSigned16(caldata(16),  caldata(17));
+    Self.dig_P7 := ToSigned16(caldata(18),  caldata(19));
+    Self.dig_P8 := ToSigned16(caldata(20),  caldata(21));
+    Self.dig_P9 := ToSigned16(caldata(22),  caldata(23));
 
-    RETURN self;
+    RETURN Self;
   END Create;
 
   -- Convert 20-bit temperature sample to Celsius
 
   FUNCTION ToCelsius
-   (self    : IN OUT DeviceSubclass;
+   (Self    : IN OUT DeviceSubclass;
     regdata : I2C.Response) RETURN Float IS
 
     adc_T   : Integer;
@@ -168,10 +168,10 @@ PACKAGE BODY BMP280 IS
     A1 := Float(adc_T)/16384.0;
     A2 := Float(adc_T)/131072.0;
 
-    C1 := Float(self.dig_T1)/1024.0;
-    C2 := Float(self.dig_T1)/8192.0;
-    C3 := Float(self.dig_T2);
-    C4 := Float(self.dig_T3);
+    C1 := Float(Self.dig_T1)/1024.0;
+    C2 := Float(Self.dig_T1)/8192.0;
+    C3 := Float(Self.dig_T2);
+    C4 := Float(Self.dig_T3);
 
     var1 := (A1 - C1)*C3;
     var2 := (A2 - C2)*(A2 - C2)*C4;
@@ -182,7 +182,7 @@ PACKAGE BODY BMP280 IS
   -- Convert 20-bit pressure sample to Pascals
 
   FUNCTION ToPascals
-   (self    : IN OUT DeviceSubclass;
+   (Self    : IN OUT DeviceSubclass;
     regdata : I2C.Response) RETURN Float IS
 
     adc_P : Integer;
@@ -216,25 +216,25 @@ PACKAGE BODY BMP280 IS
     adc_P := Integer(regdata(0))*4096 + Integer(regdata(1))*16 +
       Integer(regdata(2))/16;
 
-    var1 := self.ToCelsius(regdata)*2560.0 - 64000.0;
-    var2 := var1*var1*Float(self.dig_P6)/32768.0;
-    var2 := var2 + var1*Float(self.dig_P5)*2.0;
-    var2 := var2/4.0 + Float(self.dig_P4)*65536.0;
-    var1 := (Float(self.dig_P3)*var1*var1/524288.0 + Float(self.dig_P2)*var1)/524288.0;
-    var1 := (1.0 + var1/32768.0)*Float(self.dig_P1);
+    var1 := Self.ToCelsius(regdata)*2560.0 - 64000.0;
+    var2 := var1*var1*Float(Self.dig_P6)/32768.0;
+    var2 := var2 + var1*Float(Self.dig_P5)*2.0;
+    var2 := var2/4.0 + Float(Self.dig_P4)*65536.0;
+    var1 := (Float(Self.dig_P3)*var1*var1/524288.0 + Float(Self.dig_P2)*var1)/524288.0;
+    var1 := (1.0 + var1/32768.0)*Float(Self.dig_P1);
 
     p    := 1048576.0 - Float(adc_P);
     p    := (p - (var2/4096.0))*6250.0/var1;
-    var1 := Float(self.dig_P9)*p*p/2147483648.0;
-    var2 := p*Float(self.dig_P8)/32768.0;
-    p    := p + (var1 + var2 + Float(self.dig_P7))/16.0;
+    var1 := Float(Self.dig_P9)*p*p/2147483648.0;
+    var2 := p*Float(Self.dig_P8)/32768.0;
+    p    := p + (var1 + var2 + Float(Self.dig_P7))/16.0;
 
     RETURN p;
   END ToPascals;
 
   -- Read BMP280 pressure
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Pressure.Pascals IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Pressure.Pascals IS
 
     status  : I2C.Response(0 .. 0);
     regdata : I2C.Response(0 .. 5);
@@ -243,27 +243,27 @@ PACKAGE BODY BMP280 IS
 
     -- Initiate sampling
 
-    self.WriteRegister(REG_CONTROL, CONTROL_SAMPLE);
+    Self.WriteRegister(REG_CONTROL, CONTROL_SAMPLE);
 
     -- Wait while the BMP280 is busy
 
     LOOP
-      self.ReadRegisters(REG_STATUS, status);
+      Self.ReadRegisters(REG_STATUS, status);
       EXIT WHEN (status(0) AND 16#03#) = 16#00#;
     END LOOP;
 
     -- Read sample data
 
-    self.ReadRegisters(REG_PMSB, regdata);
+    Self.ReadRegisters(REG_PMSB, regdata);
 
     -- Convert to Pascals
 
-    RETURN Pressure.Pascals(self.ToPascals(regdata));
+    RETURN Pressure.Pascals(Self.ToPascals(regdata));
   END Get;
 
   -- Read BMP280 temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
     status  : I2C.Response(0 .. 0);
     regdata : I2C.Response(0 .. 5);
@@ -272,22 +272,22 @@ PACKAGE BODY BMP280 IS
 
     -- Initiate sampling
 
-    self.WriteRegister(REG_CONTROL, CONTROL_SAMPLE);
+    Self.WriteRegister(REG_CONTROL, CONTROL_SAMPLE);
 
     -- Wait while the BMP280 is busy
 
     LOOP
-      self.ReadRegisters(REG_STATUS, status);
+      Self.ReadRegisters(REG_STATUS, status);
       EXIT WHEN (status(0) AND 16#03#) = 16#00#;
     END LOOP;
 
     -- Read sample data
 
-    self.ReadRegisters(REG_PMSB, regdata);
+    Self.ReadRegisters(REG_PMSB, regdata);
 
     -- Convert to Celsius
 
-    RETURN Temperature.Celsius(self.ToCelsius(regdata));
+    RETURN Temperature.Celsius(Self.ToCelsius(regdata));
   END Get;
 
 END BMP280;

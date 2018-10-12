@@ -75,21 +75,21 @@ PACKAGE TMP102 IS
   -- Read TMP102 register
 
   PROCEDURE ReadRegister
-   (self : DeviceSubclass;
+   (Self : DeviceSubclass;
     reg  : RegisterName;
     data : OUT RegisterData);
 
   -- Write TMP102 register
 
   PROCEDURE WriteRegister
-   (self : DeviceSubclass;
+   (Self : DeviceSubclass;
     reg  : RegisterName;
     data : RegisterData);
 
   -- Configure the alert output pin
 
   PROCEDURE ConfigureAlert
-   (self     : DeviceSubclass;
+   (Self     : DeviceSubclass;
     mode     : AlertMode;
     polarity : AlertPolarity;
     lowtemp  : Temperature.Celsius;
@@ -97,7 +97,7 @@ PACKAGE TMP102 IS
 
   -- Sample TMP102 temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
 
 PRIVATE
 

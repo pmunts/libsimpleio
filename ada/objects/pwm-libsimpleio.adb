@@ -64,16 +64,16 @@ PACKAGE BODY PWM.libsimpleio IS
   -- PWM output write method
 
   PROCEDURE Put
-   (self      : IN OUT OutputSubclass;
+   (Self      : IN OUT OutputSubclass;
     dutycycle : PWM.DutyCycle) IS
 
     ontime : Integer;
     error  : Integer;
 
   BEGIN
-    ontime := Integer(Float(dutycycle/PWM.MaximumDutyCycle)*Float(self.period));
+    ontime := Integer(Float(dutycycle/PWM.MaximumDutyCycle)*Float(Self.period));
 
-    libPWM.Write(self.fd, ontime, error);
+    libPWM.Write(Self.fd, ontime, error);
 
     IF error /= 0 THEN
       RAISE PWM_Error WITH "libPWM.Write() failed, " & errno.strerror(error);
@@ -82,10 +82,10 @@ PACKAGE BODY PWM.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : OutputSubclass) RETURN Integer IS
+  FUNCTION fd(Self : OutputSubclass) RETURN Integer IS
 
   BEGIN
-    RETURN self.fd;
+    RETURN Self.fd;
   END fd;
 
 END PWM.libsimpleio;

@@ -36,7 +36,7 @@ PACKAGE PCA9685.Servo IS
 
   -- PCA9685 servo output method
 
-  PROCEDURE Put(self : IN OUT OutputSubclass; pos : Standard.Servo.Position);
+  PROCEDURE Put(Self : IN OUT OutputSubclass; pos : Standard.Servo.Position);
 
 PRIVATE
 

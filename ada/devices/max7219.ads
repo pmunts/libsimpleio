@@ -39,12 +39,12 @@ PACKAGE MAX7219 IS
 
   -- Reset the MAX7219 device
 
-  PROCEDURE Initialize(self : DeviceClass);
+  PROCEDURE Initialize(Self : DeviceClass);
 
   -- Write a MAX7219 register
 
   PROCEDURE Put
-   (self : DeviceClass;
+   (Self : DeviceClass;
     reg  : Register;
     dat  : Data);
 

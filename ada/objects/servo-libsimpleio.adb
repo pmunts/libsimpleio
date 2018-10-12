@@ -67,7 +67,7 @@ PACKAGE BODY Servo.libsimpleio IS
   -- Servo output write method
 
   PROCEDURE Put
-   (self      : IN OUT OutputSubclass;
+   (Self      : IN OUT OutputSubclass;
     position  : Servo.Position) IS
 
     ontime : Integer;
@@ -76,7 +76,7 @@ PACKAGE BODY Servo.libsimpleio IS
   BEGIN
     ontime := 1500000 + Integer(500000.0*position);
 
-    libPWM.Write(self.fd, ontime, error);
+    libPWM.Write(Self.fd, ontime, error);
 
     IF error /= 0 THEN
       RAISE Servo_Error WITH "libPWM.Write() failed, " & errno.strerror(error);
@@ -85,10 +85,10 @@ PACKAGE BODY Servo.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : OutputSubclass) RETURN Integer IS
+  FUNCTION fd(Self : OutputSubclass) RETURN Integer IS
 
   BEGIN
-    RETURN self.fd;
+    RETURN Self.fd;
   END fd;
 
 END Servo.libsimpleio;

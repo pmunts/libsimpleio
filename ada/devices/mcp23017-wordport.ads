@@ -34,15 +34,15 @@ PACKAGE MCP23017.WordPort IS
 
   -- Parallel port configuration methods
 
-  PROCEDURE SetDirections(self : PortClass; data : Word); -- 1=output, 0=input
+  PROCEDURE SetDirections(Self : PortClass; data : Word); -- 1=output, 0=input
 
-  PROCEDURE SetPullups(self : PortClass; data : Word); -- 1=enabled, 0=disabled
+  PROCEDURE SetPullups(Self : PortClass; data : Word); -- 1=enabled, 0=disabled
 
   -- Parallel port I/O methods
 
-  FUNCTION Get(self : PortClass) RETURN Word;
+  FUNCTION Get(Self : PortClass) RETURN Word;
 
-  PROCEDURE Put(self : PortClass; data : Word);
+  PROCEDURE Put(Self : PortClass; data : Word);
 
 PRIVATE
 

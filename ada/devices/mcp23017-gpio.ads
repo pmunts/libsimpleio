@@ -39,11 +39,11 @@ PACKAGE MCP23017.GPIO IS
 
   -- GPIO pin read method
 
-  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean;
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
 
   -- GPIO pin write method
 
-  PROCEDURE Put(self : IN OUT PinSubclass; state: Boolean);
+  PROCEDURE Put(Self : IN OUT PinSubclass; state: Boolean);
 
 PRIVATE
 

@@ -58,15 +58,15 @@ PACKAGE ADS1015 IS
 
   -- Analog input method
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample;
 
   -- Retrieve resolution
 
-  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive;
+  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
 
   -- Retrieve PGA gain
 
-  FUNCTION GetGain(self : IN OUT InputSubclass) RETURN Voltage.Volts;
+  FUNCTION GetGain(Self : IN OUT InputSubclass) RETURN Voltage.Volts;
 
 PRIVATE
 

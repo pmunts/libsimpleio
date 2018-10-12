@@ -55,7 +55,7 @@ PACKAGE BODY I2C.RemoteIO IS
   -- Read only I2C bus cycle method
 
   PROCEDURE Read
-   (self    : BusSubclass;
+   (Self    : BusSubclass;
     addr    : Address;
     resp    : OUT Response;
     resplen : Natural) IS
@@ -64,13 +64,13 @@ PACKAGE BODY I2C.RemoteIO IS
 
   BEGIN
     cmd(0) := 0;
-    Transaction(self, addr, cmd, 0, resp, resplen);
+    Transaction(Self, addr, cmd, 0, resp, resplen);
   END Read;
 
   -- Write only I2C bus cycle method
 
   PROCEDURE Write
-   (self   : BusSubclass;
+   (Self   : BusSubclass;
     addr   : Address;
     cmd    : Command;
     cmdlen : Natural) IS
@@ -78,13 +78,13 @@ PACKAGE BODY I2C.RemoteIO IS
     resp : Response(0 .. 0);
 
   BEGIN
-    Transaction(self, addr, cmd, cmdlen, resp, 0);
+    Transaction(Self, addr, cmd, cmdlen, resp, 0);
   END Write;
 
   -- Combined Write/Read I2C bus cycle method
 
   PROCEDURE Transaction
-   (self    : BusSubclass;
+   (Self    : BusSubclass;
     addr    : Address;
     cmd     : Command;
     cmdlen  : Natural;
@@ -100,7 +100,7 @@ PACKAGE BODY I2C.RemoteIO IS
     cmdmsg(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.I2C_TRANSACTION_REQUEST));
     cmdmsg(1) := Message64.Byte(2);
-    cmdmsg(2) := Message64.Byte(self.num);
+    cmdmsg(2) := Message64.Byte(Self.num);
     cmdmsg(3) := Message64.Byte(addr);
     cmdmsg(4) := Message64.Byte(cmdlen);
     cmdmsg(5) := Message64.Byte(resplen);
@@ -111,7 +111,7 @@ PACKAGE BODY I2C.RemoteIO IS
       cmdmsg(i + 7) := Message64.Byte(cmd(i - 1));
     END LOOP;
 
-    self.dev.Transaction(cmdmsg, respmsg);
+    Self.dev.Transaction(cmdmsg, respmsg);
 
     FOR i IN 1 .. Natural(respmsg(3)) LOOP
       resp(i - 1) := I2C.Byte(respmsg(i + 3));

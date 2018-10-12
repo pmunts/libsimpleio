@@ -32,36 +32,36 @@ PACKAGE BODY MCP23017.WordPort IS
 
   -- Parallel port configuration methods
 
-  PROCEDURE SetDirections(self : PortClass; data : Word) IS
+  PROCEDURE SetDirections(Self : PortClass; data : Word) IS
 
   -- data: 1=output, 0=input
 
   BEGIN
-    self.dev.WriteRegister16(IODIR, NOT RegisterData16(data));
+    Self.dev.WriteRegister16(IODIR, NOT RegisterData16(data));
   END SetDirections;
 
-  PROCEDURE SetPullups(self : PortClass; data : Word) IS
+  PROCEDURE SetPullups(Self : PortClass; data : Word) IS
 
   -- data: 1=pullup enabled, 0=pullup disabled
 
   BEGIN
-    self.dev.WriteRegister16(GPPU, RegisterData16(data));
+    Self.dev.WriteRegister16(GPPU, RegisterData16(data));
   END SetPullups;
 
   -- Parallel port I/O methods
 
-  PROCEDURE Put(self : PortClass; data : Word) IS
+  PROCEDURE Put(Self : PortClass; data : Word) IS
 
   BEGIN
-    self.dev.WriteRegister16(GPIOLAT, RegisterData16(data));
+    Self.dev.WriteRegister16(GPIOLAT, RegisterData16(data));
   END Put;
 
-  FUNCTION Get(self : PortClass) RETURN Word IS
+  FUNCTION Get(Self : PortClass) RETURN Word IS
 
     data : RegisterData16;
 
   BEGIN
-    self.dev.ReadRegister16(GPIODAT, data);
+    Self.dev.ReadRegister16(GPIODAT, data);
 
     RETURN Word(data);
   END Get;

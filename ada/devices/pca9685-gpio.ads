@@ -35,11 +35,11 @@ PACKAGE PCA9685.GPIO IS
 
   -- PCA9685 GPIO read method
 
-  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean;
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
 
   -- PCA9685 GPIO write method
 
-  PROCEDURE Put(self : IN OUT PinSubclass; state: Boolean);
+  PROCEDURE Put(Self : IN OUT PinSubclass; state: Boolean);
 
 PRIVATE
 

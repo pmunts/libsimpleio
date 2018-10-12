@@ -99,31 +99,31 @@ PACKAGE BODY MCP23017.GPIO IS
 
   -- GPIO read method
 
-  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
 
     data : RegisterData16;
 
   BEGIN
-    self.device.ReadRegister16(GPIODAT, data);
-    RETURN (data AND PinMasks(self.number)) /= 0;
+    Self.device.ReadRegister16(GPIODAT, data);
+    RETURN (data AND PinMasks(Self.number)) /= 0;
   END Get;
 
   -- GPIO write method
 
-  PROCEDURE Put(self : IN OUT PinSubclass; state: Boolean) IS
+  PROCEDURE Put(Self : IN OUT PinSubclass; state: Boolean) IS
 
     data : RegisterData16;
 
   BEGIN
-    self.device.ReadRegister16(GPIOLAT, data);
+    Self.device.ReadRegister16(GPIOLAT, data);
 
     IF state THEN
-      data := data OR PinMasks(self.number);
+      data := data OR PinMasks(Self.number);
     ELSE
-      data := data AND NOT PinMasks(self.number);
+      data := data AND NOT PinMasks(Self.number);
     END IF;
 
-    self.device.WriteRegister16(GPIOLAT, data);
+    Self.device.WriteRegister16(GPIOLAT, data);
   END Put;
 
 END MCP23017.GPIO;

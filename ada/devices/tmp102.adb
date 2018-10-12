@@ -61,7 +61,7 @@ PACKAGE BODY TMP102 IS
   -- Read TMP102 register
 
   PROCEDURE ReadRegister
-   (self : DeviceSubclass;
+   (Self : DeviceSubclass;
     reg  : RegisterName;
     data : OUT RegisterData) IS
 
@@ -70,14 +70,14 @@ PACKAGE BODY TMP102 IS
 
   BEGIN
     cmd(0) := I2C.Byte(RegisterName'Pos(reg));
-    self.bus.Transaction(self.address, cmd, 1, resp, 2);
+    Self.bus.Transaction(Self.address, cmd, 1, resp, 2);
     data := RegisterData(resp(0))*256 + RegisterData(resp(1));
   END ReadRegister;
 
   -- Write TMP102 register
 
   PROCEDURE WriteRegister
-   (self : DeviceSubclass;
+   (Self : DeviceSubclass;
     reg  : RegisterName;
     data : RegisterData) IS
 
@@ -88,13 +88,13 @@ PACKAGE BODY TMP102 IS
     cmd(1) := I2C.Byte(data / 256);
     cmd(2) := I2C.Byte(data MOD 256);
 
-    self.bus.Write(self.address, cmd, 3);
+    Self.bus.Write(Self.address, cmd, 3);
   END WriteRegister;
 
   -- Configure the alert output pin
 
   PROCEDURE ConfigureAlert
-   (self     : DeviceSubclass;
+   (Self     : DeviceSubclass;
     mode     : AlertMode;
     polarity : AlertPolarity;
     lowtemp  : Temperature.Celsius;
@@ -103,7 +103,7 @@ PACKAGE BODY TMP102 IS
     config   : RegisterData;
 
   BEGIN
-    self.ReadRegister(ConfigReg, config);
+    Self.ReadRegister(ConfigReg, config);
 
     IF mode = Interrupt THEN
       config := config OR CONFIG_TM;
@@ -117,19 +117,19 @@ PACKAGE BODY TMP102 IS
       config := config AND NOT CONFIG_POL;
     END IF;
 
-    self.WriteRegister(ConfigReg, config);
-    self.WriteRegister(LowLimit, RegisterData(ToUnsigned(SignedRegisterData(lowtemp/SCALE_FACTOR))));
-    self.WriteRegister(HighLimit, RegisterData(ToUnsigned(SignedRegisterData(hightemp/SCALE_FACTOR))));
+    Self.WriteRegister(ConfigReg, config);
+    Self.WriteRegister(LowLimit, RegisterData(ToUnsigned(SignedRegisterData(lowtemp/SCALE_FACTOR))));
+    Self.WriteRegister(HighLimit, RegisterData(ToUnsigned(SignedRegisterData(hightemp/SCALE_FACTOR))));
   END ConfigureAlert;
 
   -- Sample TMP102 temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
     rawtemp : RegisterData;
 
   BEGIN
-    self.ReadRegister(TempReg, rawtemp);
+    Self.ReadRegister(TempReg, rawtemp);
     RETURN Temperature.Celsius(ToSigned(rawtemp))*SCALE_FACTOR;
   END Get;
 

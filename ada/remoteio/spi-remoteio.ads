@@ -39,21 +39,21 @@ PACKAGE SPI.RemoteIO IS
   -- Read only SPI device transaction method
 
   PROCEDURE Read
-   (self    : DeviceSubclass;
+   (Self    : DeviceSubclass;
     resp    : OUT Response;
     resplen : Natural);
 
   -- Write only SPI device transaction method
 
   PROCEDURE Write
-   (self   : DeviceSubclass;
+   (Self   : DeviceSubclass;
     cmd    : Command;
     cmdlen : Natural);
 
   -- Combined Write/Read SPI device transaction method
 
   PROCEDURE Transaction
-   (self    : DeviceSubclass;
+   (Self    : DeviceSubclass;
     cmd     : Command;
     cmdlen  : Natural;
     resp    : OUT Response;

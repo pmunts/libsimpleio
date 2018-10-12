@@ -80,7 +80,7 @@ PACKAGE BODY MPL3115A2 IS
   -- Read MPL3115A2 register
 
   PROCEDURE ReadRegister
-   (self : DeviceSubclass;
+   (Self : DeviceSubclass;
     reg  : RegisterAddr;
     data : OUT RegisterData) IS
 
@@ -89,14 +89,14 @@ PACKAGE BODY MPL3115A2 IS
 
   BEGIN
     cmd(0) := I2C.Byte(reg);
-    self.bus.Transaction(self.address, cmd, 1, resp, 1);
+    Self.bus.Transaction(Self.address, cmd, 1, resp, 1);
     data := RegisterData(resp(0));
   END ReadRegister;
 
   -- Write MPL3115A2 register
 
   PROCEDURE WriteRegister
-   (self : DeviceSubclass;
+   (Self : DeviceSubclass;
     reg  : RegisterAddr;
     data : RegisterData) IS
 
@@ -106,12 +106,12 @@ PACKAGE BODY MPL3115A2 IS
     cmd(0) := I2C.Byte(reg);
     cmd(1) := I2C.Byte(data);
 
-    self.bus.Write(self.address, cmd, 2);
+    Self.bus.Write(Self.address, cmd, 2);
   END WriteRegister;
 
   -- Read MPL3115A2 temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
     cr1     : RegisterData;
     Thibyte : RegisterData;
@@ -121,20 +121,20 @@ PACKAGE BODY MPL3115A2 IS
 
     -- Initiate one shot sample by setting the OST bit
 
-    self.WriteRegister(CTRL_REG1, OST);
+    Self.WriteRegister(CTRL_REG1, OST);
 
     -- Wait for the sampling process to complete, which is indicated
     -- when OST has been cleared automatically
 
     LOOP
-      self.ReadRegister(CTRL_REG1, cr1);
+      Self.ReadRegister(CTRL_REG1, cr1);
       EXIT WHEN (cr1 AND OST) = 0;
     END LOOP;
 
     -- Fetch temperature data bytes
 
-    self.ReadRegister(TEMP_HIGH, Thibyte);
-    self.ReadRegister(TEMP_LOW, Tlobyte);
+    Self.ReadRegister(TEMP_HIGH, Thibyte);
+    Self.ReadRegister(TEMP_LOW, Tlobyte);
 
     -- Return the temperature converted to Celsius value
 
@@ -145,7 +145,7 @@ PACKAGE BODY MPL3115A2 IS
 
   -- Read MPL3115A2 barometric pressure
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Pressure.Pascals IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Pressure.Pascals IS
 
     cr1       : RegisterData;
     Phighbyte : RegisterData;
@@ -156,21 +156,21 @@ PACKAGE BODY MPL3115A2 IS
 
     -- Initiate one shot sample by setting the OST bit
 
-    self.WriteRegister(CTRL_REG1, OST);
+    Self.WriteRegister(CTRL_REG1, OST);
 
     -- Wait for the sampling process to complete, which is indicated
     -- when OST has been cleared automatically
 
     LOOP
-      self.ReadRegister(CTRL_REG1, cr1);
+      Self.ReadRegister(CTRL_REG1, cr1);
       EXIT WHEN (cr1 AND OST) = 0;
     END LOOP;
 
     -- Fetch pressure data bytes
 
-    self.ReadRegister(PRESSURE_HIGH, Phighbyte);
-    self.ReadRegister(PRESSURE_MID, Pmidbyte);
-    self.ReadRegister(PRESSURE_LOW, Plowbyte);
+    Self.ReadRegister(PRESSURE_HIGH, Phighbyte);
+    Self.ReadRegister(PRESSURE_MID, Pmidbyte);
+    Self.ReadRegister(PRESSURE_LOW, Plowbyte);
 
     -- Return the temperature converted to Celsius value
 

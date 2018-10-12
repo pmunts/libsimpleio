@@ -38,11 +38,11 @@ PACKAGE GPIO.RemoteIO IS
 
   -- Read GPIO pin state
 
-  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean;
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
 
   -- Write GPIO pin state
 
-  PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean);
+  PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean);
 
 PRIVATE
 

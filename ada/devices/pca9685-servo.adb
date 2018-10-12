@@ -45,21 +45,21 @@ PACKAGE BODY PCA9685.Servo IS
   -- PCA9685 servo output method
 
   PROCEDURE Put
-   (self : IN OUT OutputSubclass;
+   (Self : IN OUT OutputSubclass;
     pos  : Standard.Servo.Position) IS
 
     offtime : Natural;
     data    : ChannelData;
 
   BEGIN
-    offtime := Natural((2.0475*Float(pos) + 6.1425)*Float(self.device.frequency));
+    offtime := Natural((2.0475*Float(pos) + 6.1425)*Float(Self.device.frequency));
 
     data(0) := 0;
     data(1) := 0;
     data(2) := RegisterData(offtime MOD 256);
     data(3) := RegisterData(offtime / 256);
 
-    self.device.WriteChannel(self.channel, data);
+    Self.device.WriteChannel(Self.channel, data);
   END Put;
 
 END PCA9685.Servo;

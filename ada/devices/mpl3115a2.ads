@@ -68,24 +68,24 @@ PACKAGE MPL3115A2 IS
   -- Read MPL3115A2 register
 
   PROCEDURE ReadRegister
-   (self : DeviceSubclass;
+   (Self : DeviceSubclass;
     reg  : RegisterAddr;
     data : OUT RegisterData);
 
   -- Write MPL3115A2 register
 
   PROCEDURE WriteRegister
-   (self : DeviceSubclass;
+   (Self : DeviceSubclass;
     reg  : RegisterAddr;
     data : RegisterData);
 
   -- Read MPL3115A2 temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
 
   -- Read MPL3115A2 pressure
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Pressure.Pascals;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Pressure.Pascals;
 
 PRIVATE
 

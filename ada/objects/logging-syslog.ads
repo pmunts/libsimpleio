@@ -34,19 +34,19 @@ PACKAGE Logging.Syslog IS
 
   -- Log an error event
 
-  PROCEDURE Error(self : LoggerSubclass; message : String);
+  PROCEDURE Error(Self : LoggerSubclass; message : String);
 
   -- Log an error event, with errno value
 
-  PROCEDURE Error(self : LoggerSubclass; message : String; errnum : Integer);
+  PROCEDURE Error(Self : LoggerSubclass; message : String; errnum : Integer);
 
   -- Log a warning event
 
-  PROCEDURE Warning(self : LoggerSubclass; message : String);
+  PROCEDURE Warning(Self : LoggerSubclass; message : String);
 
   -- Log a notification event
 
-  PROCEDURE Note(self : LoggerSubclass; message : String);
+  PROCEDURE Note(Self : LoggerSubclass; message : String);
 
 PRIVATE
 

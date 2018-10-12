@@ -48,10 +48,10 @@ PACKAGE Joystick IS
 
   -- Joystick position method
 
-  FUNCTION Position(self : DeviceInterface) RETURN Positions IS ABSTRACT;
+  FUNCTION Position(Self : DeviceInterface) RETURN Positions IS ABSTRACT;
 
   -- Joystick pressed method
 
-  FUNCTION Pressed(self : DeviceInterface) RETURN Boolean IS ABSTRACT;
+  FUNCTION Pressed(Self : DeviceInterface) RETURN Boolean IS ABSTRACT;
 
 END Joystick;

@@ -48,7 +48,7 @@ PACKAGE BODY I2C.libsimpleio IS
   -- Read only I2C bus cycle method
 
   PROCEDURE Read
-   (self    : I2C.libsimpleio.BusSubclass;
+   (Self    : I2C.libsimpleio.BusSubclass;
     addr    : I2C.Address;
     resp    : OUT I2C.Response;
     resplen : Natural) IS
@@ -56,7 +56,7 @@ PACKAGE BODY I2C.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    libI2C.Transaction(self.fd, Integer(addr), System.Null_Address, 0, resp'Address, resplen, error);
+    libI2C.Transaction(Self.fd, Integer(addr), System.Null_Address, 0, resp'Address, resplen, error);
 
     IF error /= 0 THEN
       RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
@@ -66,7 +66,7 @@ PACKAGE BODY I2C.libsimpleio IS
   -- Write only I2C bus cycle method
 
   PROCEDURE Write
-   (self    : I2C.libsimpleio.BusSubclass;
+   (Self    : I2C.libsimpleio.BusSubclass;
     addr    : I2C.Address;
     cmd     : I2C.Command;
     cmdlen  : Natural) IS
@@ -74,7 +74,7 @@ PACKAGE BODY I2C.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    libI2C.Transaction(self.fd, Integer(addr), cmd'Address, cmdlen, System.Null_Address, 0, error);
+    libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen, System.Null_Address, 0, error);
 
     IF error /= 0 THEN
       RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
@@ -84,7 +84,7 @@ PACKAGE BODY I2C.libsimpleio IS
   -- Combined Write/Read I2C bus cycle method
 
   PROCEDURE Transaction
-   (self    : I2C.libsimpleio.BusSubclass;
+   (Self    : I2C.libsimpleio.BusSubclass;
     addr    : I2C.Address;
     cmd     : I2C.Command;
     cmdlen  : Natural;
@@ -96,13 +96,13 @@ PACKAGE BODY I2C.libsimpleio IS
 
   BEGIN
     IF delayus = 0 THEN
-      libI2C.Transaction(self.fd, Integer(addr), cmd'Address, cmdlen, resp'Address, resplen, error);
+      libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen, resp'Address, resplen, error);
 
       IF error /= 0 THEN
         RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
       END IF;
     ELSE
-      libI2C.Transaction(self.fd, Integer(addr), cmd'Address, cmdlen, System.Null_Address, 0, error);
+      libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen, System.Null_Address, 0, error);
 
       IF error /= 0 THEN
         RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
@@ -114,7 +114,7 @@ PACKAGE BODY I2C.libsimpleio IS
         RAISE I2C_Error WITH "libLinux.usleep() failed, " & errno.strerror(error);
       END IF;
 
-      libI2C.Transaction(self.fd, Integer(addr), System.Null_Address, 0, resp'Address, resplen, error);
+      libI2C.Transaction(Self.fd, Integer(addr), System.Null_Address, 0, resp'Address, resplen, error);
 
       IF error /= 0 THEN
         RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
@@ -124,10 +124,10 @@ PACKAGE BODY I2C.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : BusSubclass) RETURN Integer IS
+  FUNCTION fd(Self : BusSubclass) RETURN Integer IS
 
   BEGIN
-    RETURN self.fd;
+    RETURN Self.fd;
   END fd;
 
 END I2C.libsimpleio;

@@ -64,13 +64,13 @@ PACKAGE BODY Watchdog.libsimpleio IS
 
   -- Method to get the watchdog timeout in seconds
 
-  FUNCTION GetTimeout(self : TimerSubclass) RETURN Duration IS
+  FUNCTION GetTimeout(Self : TimerSubclass) RETURN Duration IS
 
     timeout : Integer;
     error   : Integer;
 
   BEGIN
-    libWatchdog.GetTimeout(self.fd, timeout, error);
+    libWatchdog.GetTimeout(Self.fd, timeout, error);
 
     IF error /= 0 THEN
       RAISE Watchdog_Error WITH "libWatchdog.GetTimeout() failed, " &
@@ -82,13 +82,13 @@ PACKAGE BODY Watchdog.libsimpleio IS
 
   -- Method to change the watchdog timeout in seconds
 
-  PROCEDURE SetTimeout(self : TimerSubclass; timeout : Duration) IS
+  PROCEDURE SetTimeout(Self : TimerSubclass; timeout : Duration) IS
 
     error         : Integer;
     actualtimeout : Integer;
 
   BEGIN
-    libWatchdog.SetTimeout(self.fd, Integer(timeout), actualtimeout, error);
+    libWatchdog.SetTimeout(Self.fd, Integer(timeout), actualtimeout, error);
 
     IF error /= 0 THEN
       RAISE Watchdog_Error WITH "libWatchdog.SetTimeout() failed, " &
@@ -98,12 +98,12 @@ PACKAGE BODY Watchdog.libsimpleio IS
 
   -- Method to reset the watchdog timer
 
-  PROCEDURE Kick(self : TimerSubclass) IS
+  PROCEDURE Kick(Self : TimerSubclass) IS
 
     error : Integer;
 
   BEGIN
-    libWatchdog.Kick(self.fd, error);
+    libWatchdog.Kick(Self.fd, error);
 
     IF error /= 0 THEN
       RAISE Watchdog_Error WITH "libWatchdog.Kick() failed, " &
@@ -113,10 +113,10 @@ PACKAGE BODY Watchdog.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : TimerSubclass) RETURN Integer IS
+  FUNCTION fd(Self : TimerSubclass) RETURN Integer IS
 
   BEGIN
-    RETURN self.fd;
+    RETURN Self.fd;
   END fd;
 
 END Watchdog.libsimpleio;

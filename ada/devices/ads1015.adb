@@ -99,28 +99,28 @@ PACKAGE BODY ADS1015 IS
 
   -- Analog input method
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample IS
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
     data : RegData;
 
   BEGIN
-    data := Start + self.mux + self.pga + Mode;
+    data := Start + Self.mux + Self.pga + Mode;
 
-    WriteRegister(self.bus, self.addr, Config, data);
+    WriteRegister(Self.bus, Self.addr, Config, data);
 
     LOOP
-      ReadRegister(self.bus, self.addr, Config, data);
+      ReadRegister(Self.bus, Self.addr, Config, data);
       EXIT WHEN (data AND Idle) = Idle;
     END LOOP;
 
-    ReadRegister(self.bus, self.addr, Conversion, data);
+    ReadRegister(Self.bus, Self.addr, Conversion, data);
 
     RETURN Analog.Sample(data/16);
   END Get;
 
   -- Retrieve resolution
 
-  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive IS
+  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN Resolution - 1;
@@ -128,10 +128,10 @@ PACKAGE BODY ADS1015 IS
 
   -- Retrieve PGA gain
 
-  FUNCTION GetGain(self : IN OUT InputSubclass) RETURN Voltage.Volts IS
+  FUNCTION GetGain(Self : IN OUT InputSubclass) RETURN Voltage.Volts IS
 
   BEGIN
-    RETURN self.gain;
+    RETURN Self.gain;
   END GetGain;
 
 END ADS1015;

@@ -36,7 +36,7 @@ PACKAGE Messaging.Text IS
   -- Method for sending a message via a message relay
 
   PROCEDURE Send
-   (self      : RelayInterface;
+   (Self      : RelayInterface;
     sender    : String;
     recipient : String;
     message   : String;

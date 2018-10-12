@@ -84,28 +84,28 @@ PRIVATE
   -- Read an 8-bit register
 
   PROCEDURE ReadRegister8
-   (self  : DeviceClass;
+   (Self  : DeviceClass;
     reg   : RegisterAddress8;
     data  : OUT RegisterData8);
 
   -- Write an 8-bit register
 
   PROCEDURE WriteRegister8
-   (self  : DeviceClass;
+   (Self  : DeviceClass;
     reg   : RegisterAddress8;
     data  : RegisterData8);
 
   -- Read a 16-bit register
 
   PROCEDURE ReadRegister16
-   (self  : DeviceClass;
+   (Self  : DeviceClass;
     reg   : RegisterAddress16;
     data  : OUT RegisterData16);
 
   -- Write a 16-bit register pair
 
   PROCEDURE WriteRegister16
-   (self  : DeviceClass;
+   (Self  : DeviceClass;
     reg   : RegisterAddress16;
     data  : RegisterData16);
 

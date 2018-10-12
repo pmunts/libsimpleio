@@ -43,12 +43,12 @@ PACKAGE Servo.libsimpleio IS
   -- Servo output write method
 
   PROCEDURE Put
-   (self      : IN OUT OutputSubclass;
+   (Self      : IN OUT OutputSubclass;
     position  : Servo.Position);
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : OutputSubclass) RETURN Integer;
+  FUNCTION fd(Self : OutputSubclass) RETURN Integer;
 
 PRIVATE
 

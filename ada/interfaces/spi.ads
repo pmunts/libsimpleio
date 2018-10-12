@@ -48,21 +48,21 @@ PACKAGE SPI IS
   -- Write only SPI bus cycle method
 
   PROCEDURE Write
-   (self     : DeviceInterface;
+   (Self     : DeviceInterface;
     cmd      : Command;
     cmdlen   : Natural) IS ABSTRACT;
 
   -- Read only SPI bus cycle method
 
   PROCEDURE Read
-   (self     : DeviceInterface;
+   (Self     : DeviceInterface;
     resp     : OUT Response;
     resplen  : Natural) IS ABSTRACT;
 
   -- Combined Write/Read SPI bus cycle method
 
   PROCEDURE Transaction
-   (self     : DeviceInterface;
+   (Self     : DeviceInterface;
     cmd      : Command;
     cmdlen   : Natural;
     resp     : OUT Response;

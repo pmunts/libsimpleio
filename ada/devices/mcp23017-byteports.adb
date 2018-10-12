@@ -32,53 +32,53 @@ PACKAGE BODY MCP23017.BytePorts IS
 
   -- Parallel port configuration methods
 
-  PROCEDURE SetDirections(self : PortClass; data : Byte) IS
+  PROCEDURE SetDirections(Self : PortClass; data : Byte) IS
 
   -- data: 1=output, 0=input
 
   BEGIN
-    IF self.which = GPA THEN
-      self.dev.WriteRegister8(IODIRA, NOT RegisterData8(data));
+    IF Self.which = GPA THEN
+      Self.dev.WriteRegister8(IODIRA, NOT RegisterData8(data));
     ELSE
-      self.dev.WriteRegister8(IODIRB, NOT RegisterData8(data));
+      Self.dev.WriteRegister8(IODIRB, NOT RegisterData8(data));
     END IF;
   END SetDirections;
 
-  PROCEDURE SetPullups(self : PortClass; data : Byte) IS
+  PROCEDURE SetPullups(Self : PortClass; data : Byte) IS
 
   -- data: 1=pullup enabled, 0=pullup disabled
 
   BEGIN
-    IF self.which = GPA THEN
-      self.dev.WriteRegister8(GPPUA, RegisterData8(data));
+    IF Self.which = GPA THEN
+      Self.dev.WriteRegister8(GPPUA, RegisterData8(data));
     ELSE
-      self.dev.WriteRegister8(GPPUB, RegisterData8(data));
+      Self.dev.WriteRegister8(GPPUB, RegisterData8(data));
     END IF;
   END SetPullups;
 
   -- Parallel port I/O methods
 
-  FUNCTION Get(self : PortClass) RETURN Byte IS
+  FUNCTION Get(Self : PortClass) RETURN Byte IS
 
     data : RegisterData8;
 
   BEGIN
-    IF self.which = GPA THEN
-      self.dev.ReadRegister8(GPIOA, data);
+    IF Self.which = GPA THEN
+      Self.dev.ReadRegister8(GPIOA, data);
     ELSE
-      self.dev.ReadRegister8(GPIOB, data);
+      Self.dev.ReadRegister8(GPIOB, data);
     END IF;
 
     RETURN Byte(data);
   END Get;
 
-  PROCEDURE Put(self : PortClass; data : Byte) IS
+  PROCEDURE Put(Self : PortClass; data : Byte) IS
 
   BEGIN
-    IF self.which = GPA THEN
-      self.dev.WriteRegister8(OLATA, RegisterData8(data));
+    IF Self.which = GPA THEN
+      Self.dev.WriteRegister8(OLATA, RegisterData8(data));
     ELSE
-      self.dev.WriteRegister8(OLATB, RegisterData8(data));
+      Self.dev.WriteRegister8(OLATB, RegisterData8(data));
     END IF;
   END Put;
 

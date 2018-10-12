@@ -47,12 +47,12 @@ PACKAGE PWM.libsimpleio IS
   -- PWM output write method
 
   PROCEDURE Put
-   (self      : IN OUT OutputSubclass;
+   (Self      : IN OUT OutputSubclass;
     dutycycle : PWM.DutyCycle);
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : OutputSubclass) RETURN Integer;
+  FUNCTION fd(Self : OutputSubclass) RETURN Integer;
 
 PRIVATE
 

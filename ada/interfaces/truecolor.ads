@@ -51,7 +51,7 @@ PACKAGE TrueColor IS
   -- Write a single pixel
 
   PROCEDURE Put
-   (self  : DisplayInterface;
+   (Self  : DisplayInterface;
     row   : Natural;
     col   : Natural;
     value : Pixel) IS ABSTRACT;
@@ -59,13 +59,13 @@ PACKAGE TrueColor IS
   -- Write a pixel buffer
 
   PROCEDURE Put
-   (self  : DisplayInterface;
+   (Self  : DisplayInterface;
     buf   : Screen) IS ABSTRACT;
 
   -- Clear the display
 
   PROCEDURE Clear
-   (self  : DisplayInterface) IS ABSTRACT;
+   (Self  : DisplayInterface) IS ABSTRACT;
 
   -- HTML color names (from http://www.w3schools.com/colors/colors_names.asp)
 

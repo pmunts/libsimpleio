@@ -51,9 +51,9 @@ PACKAGE MCP3204 IS
 
   -- Methods
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample;
 
-  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive;
+  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
 
 PRIVATE
 

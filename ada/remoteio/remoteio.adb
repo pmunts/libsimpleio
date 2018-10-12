@@ -42,15 +42,15 @@ PACKAGE BODY RemoteIO IS
   -- Execute an operation
 
   PROCEDURE Transaction
-   (self : IN OUT DeviceRecord;
+   (Self : IN OUT DeviceRecord;
     cmd  : IN OUT Message64.Message;
     resp : OUT Message64.Message) IS
 
   BEGIN
-    self.num := self.num + 23;
-    cmd(1) := self.num;
+    Self.num := Self.num + 23;
+    cmd(1) := Self.num;
 
-    self.msg.Transaction(cmd, resp);
+    Self.msg.Transaction(cmd, resp);
 
     IF resp(0) /= cmd(0) + 1 THEN
       RAISE RemoteIO_Error WITH "Invalid response message type";
@@ -68,7 +68,7 @@ PACKAGE BODY RemoteIO IS
 
   -- Get the remote device version string
 
-  FUNCTION GetVersion(self : IN OUT DeviceRecord) RETURN String IS
+  FUNCTION GetVersion(Self : IN OUT DeviceRecord) RETURN String IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -90,7 +90,7 @@ PACKAGE BODY RemoteIO IS
 
     -- Dispatch the version request command
 
-    self.msg.Transaction(cmd, resp);
+    Self.msg.Transaction(cmd, resp);
 
     -- Copy the version string
 
@@ -106,7 +106,7 @@ PACKAGE BODY RemoteIO IS
 
   -- Get the remote device capability string
 
-  FUNCTION GetCapability(self : IN OUT DeviceRecord) RETURN String IS
+  FUNCTION GetCapability(Self : IN OUT DeviceRecord) RETURN String IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -128,7 +128,7 @@ PACKAGE BODY RemoteIO IS
 
     -- Dispatch the capability request command
 
-    self.msg.Transaction(cmd, resp);
+    Self.msg.Transaction(cmd, resp);
 
     -- Copy the capability string
 
@@ -151,7 +151,7 @@ PACKAGE BODY RemoteIO IS
     SPI_PRESENT_REQUEST);
 
   FUNCTION GetAvailableChannels
-   (self    : IN OUT DeviceRecord;
+   (Self    : IN OUT DeviceRecord;
     service : ChannelTypes) RETURN ChannelSets.Set IS
 
     cmd     : Message64.Message;
@@ -161,7 +161,7 @@ PACKAGE BODY RemoteIO IS
   BEGIN
     cmd(0) := Message64.Byte(MessageTypes'Pos(QueryCommands(service)));
 
-    self.Transaction(cmd, resp);
+    Self.Transaction(cmd, resp);
 
     FOR c IN ChannelNumber LOOP
       IF (Message64.Byte(resp(3 + c/8)) AND

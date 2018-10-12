@@ -48,13 +48,13 @@ PACKAGE BODY ADC.libsimpleio IS
   -- ADC input read method
 
   FUNCTION Get
-   (self : IN OUT InputSubclass) RETURN Analog.Sample IS
+   (Self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
     sample : Integer;
     error  : Integer;
 
   BEGIN
-    libADC.Read(self.fd, sample, error);
+    libADC.Read(Self.fd, sample, error);
 
     IF error /= 0 THEN
       RAISE ADC_Error WITH "libADC.Read() failed, " & errno.strerror(error);
@@ -65,7 +65,7 @@ PACKAGE BODY ADC.libsimpleio IS
 
   -- Retrieve the A/D converter resolution
 
-  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive IS
+  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN Self.resolution;
@@ -73,10 +73,10 @@ PACKAGE BODY ADC.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : InputSubclass) RETURN Integer IS
+  FUNCTION fd(Self : InputSubclass) RETURN Integer IS
 
   BEGIN
-    RETURN self.fd;
+    RETURN Self.fd;
   END fd;
 
 END ADC.libsimpleio;

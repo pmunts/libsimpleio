@@ -38,19 +38,19 @@ PACKAGE Messaging.Fixed IS
   -- Send a message
 
   PROCEDURE Send
-   (self      : MessengerInterface;
+   (Self      : MessengerInterface;
     msg       : IN Message) IS ABSTRACT;
 
   -- Receive a message
 
   PROCEDURE Receive
-   (self      : MessengerInterface;
+   (Self      : MessengerInterface;
     msg       : OUT Message) IS ABSTRACT;
 
   -- Perform a command/response transaction (similar to an RPC call)
 
   PROCEDURE Transaction
-   (self      : MessengerInterface;
+   (Self      : MessengerInterface;
     cmd       : IN Message;
     resp      : OUT Message) IS ABSTRACT;
 

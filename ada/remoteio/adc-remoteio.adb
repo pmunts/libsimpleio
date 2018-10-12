@@ -57,7 +57,7 @@ PACKAGE BODY ADC.RemoteIO IS
 
   -- Read A/D input pin
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample IS
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -66,9 +66,9 @@ PACKAGE BODY ADC.RemoteIO IS
     cmd := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.ADC_READ_REQUEST));
-    cmd(2) := Message64.Byte(self.num);
+    cmd(2) := Message64.Byte(Self.num);
 
-    self.dev.Transaction(cmd, resp);
+    Self.dev.Transaction(cmd, resp);
 
     RETURN Analog.Sample
      (Standard.Interfaces.Shift_Left(Standard.Interfaces.Unsigned_32(resp(3)), 24) +

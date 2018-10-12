@@ -37,19 +37,19 @@ PACKAGE Logging IS
 
   -- Log an error
 
-  PROCEDURE Error(self : LoggerInterface; message : String) IS ABSTRACT;
+  PROCEDURE Error(Self : LoggerInterface; message : String) IS ABSTRACT;
 
   -- Log an error including an errno value
 
-  PROCEDURE Error(self : LoggerInterface; message : String;
+  PROCEDURE Error(Self : LoggerInterface; message : String;
     errnum : Integer) IS ABSTRACT;
 
   -- Log a warning
 
-  PROCEDURE Warning(self : LoggerInterface; message : String) IS ABSTRACT;
+  PROCEDURE Warning(Self : LoggerInterface; message : String) IS ABSTRACT;
 
   -- Log an informational note
 
-  PROCEDURE Note(self : LoggerInterface; message : String) IS ABSTRACT;
+  PROCEDURE Note(Self : LoggerInterface; message : String) IS ABSTRACT;
 
 END Logging;

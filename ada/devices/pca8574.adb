@@ -38,26 +38,26 @@ PACKAGE BODY PCA8574 IS
 
   -- PCA8574 methods
 
-  FUNCTION Get(self : IN OUT DeviceClass) RETURN Byte IS
+  FUNCTION Get(Self : IN OUT DeviceClass) RETURN Byte IS
 
     resp : I2C.Response(0 .. 0);
 
   BEGIN
-    self.bus.Read(self.addr, resp, resp'Length);
+    Self.bus.Read(Self.addr, resp, resp'Length);
 
     RETURN Byte(resp(0));
   END Get;
 
-  PROCEDURE Put(self : IN OUT DeviceClass; data : Byte) IS
+  PROCEDURE Put(Self : IN OUT DeviceClass; data : Byte) IS
 
     cmd : I2C.Command(0 .. 0);
 
   BEGIN
     cmd(0) := I2C.Byte(data);
 
-    self.bus.Write(self.addr, cmd, cmd'Length);
+    Self.bus.Write(Self.addr, cmd, cmd'Length);
 
-    self.latch := data;
+    Self.latch := data;
   END Put;
 
 END PCA8574;

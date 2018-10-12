@@ -44,19 +44,19 @@ PACKAGE LSM9DS1 IS
 
   -- Get acceleration vector
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Accelerometer.Vector;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Accelerometer.Vector;
 
   -- Get gyroscope vector
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Gyroscope.Vector;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Gyroscope.Vector;
 
   -- Get magnetometer vector
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Magnetometer.Vector;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Magnetometer.Vector;
 
   -- Get temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
 
 PRIVATE
 

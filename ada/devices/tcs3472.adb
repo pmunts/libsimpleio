@@ -114,14 +114,14 @@ PACKAGE BODY TCS3472 IS
   -- Methods
 
   FUNCTION Get
-   (self : IN OUT DeviceSubclass) RETURN Sample IS
+   (Self : IN OUT DeviceSubclass) RETURN Sample IS
 
   BEGIN
-    RETURN self.Get(1, 1, X1, False);
+    RETURN Self.Get(1, 1, X1, False);
   END Get;
 
   FUNCTION Get
-   (self   : IN OUT DeviceSubclass;
+   (Self   : IN OUT DeviceSubclass;
     aticks : Time;
     wticks : Time := 1;
     gain   : Gains := X1;
@@ -136,31 +136,31 @@ PACKAGE BODY TCS3472 IS
 
     -- Power on the TCS3472
 
-    WriteRegister(self.bus, self.address, ENABLE, PON);
+    WriteRegister(Self.bus, Self.address, ENABLE, PON);
     DELAY 0.01;
 
-    WriteRegister(self.bus, self.address, CONFIG,
+    WriteRegister(Self.bus, Self.address, CONFIG,
      (IF wlong THEN 16#00# ELSE 16#02#));
 
-    WriteRegister(self.bus, self.address, ATIME, I2C.Byte(256 - aticks));
-    WriteRegister(self.bus, self.address, WTIME, I2C.Byte(256 - wticks));
-    WriteRegister(self.bus, self.address, ENABLE, PON OR WEN OR AEN);
+    WriteRegister(Self.bus, Self.address, ATIME, I2C.Byte(256 - aticks));
+    WriteRegister(Self.bus, Self.address, WTIME, I2C.Byte(256 - wticks));
+    WriteRegister(Self.bus, Self.address, ENABLE, PON OR WEN OR AEN);
 
     -- Wait for acquisition to complete
 
     LOOP
-      ReadRegister(self.bus, self.address, STATUS, stat);
+      ReadRegister(Self.bus, Self.address, STATUS, stat);
       EXIT WHEN (stat AND 16#01#) = 16#01#;
     END LOOP;
 
     -- Fetch acquisition results
 
     cmd(0) := AUTOINC + CDATAL;
-    self.bus.Transaction(self.address, cmd, cmd'Length, resp, resp'Length);
+    Self.bus.Transaction(Self.address, cmd, cmd'Length, resp, resp'Length);
 
     -- Power off the TCS3472
 
-    WriteRegister(self.bus, self.address, ENABLE, 0);
+    WriteRegister(Self.bus, Self.address, ENABLE, 0);
 
     -- Extract acquisition results
 

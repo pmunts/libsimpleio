@@ -48,7 +48,7 @@ PACKAGE BODY HTU21D IS
 
   -- Get Celsius temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
     cmd      : I2C.Command(0 .. 0);
     resp     : I2C.Response(0 .. 2);
@@ -56,7 +56,7 @@ PACKAGE BODY HTU21D IS
 
   BEGIN
     cmd(0) := CMD_GET_TEMPERATURE;
-    self.bus.Transaction(self.address, cmd, 1, resp, 3);
+    Self.bus.Transaction(Self.address, cmd, 1, resp, 3);
     rawvalue := (SensorData(resp(0))*256 + SensorData(resp(1))) AND 16#FFFC#;
 
     RETURN Temperature.Celsius(175.72*Float(rawvalue)/65536.0 - 46.85);
@@ -64,7 +64,7 @@ PACKAGE BODY HTU21D IS
 
   -- Get relative humidity
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Humidity.Relative IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Humidity.Relative IS
 
     cmd      : I2C.Command(0 .. 0);
     resp     : I2C.Response(0 .. 2);
@@ -72,7 +72,7 @@ PACKAGE BODY HTU21D IS
 
   BEGIN
     cmd(0) := CMD_GET_HUMIDITY;
-    self.bus.Transaction(self.address, cmd, 1, resp, 3);
+    Self.bus.Transaction(Self.address, cmd, 1, resp, 3);
     rawvalue := (SensorData(resp(0))*256 + SensorData(resp(1))) AND 16#FFF0#;
 
     IF rawvalue > 55574 THEN -- Clip high value to 100%

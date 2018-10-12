@@ -37,11 +37,11 @@ PACKAGE BMP280 IS
 
   -- Read BMP280 pressure
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Pressure.Pascals;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Pressure.Pascals;
 
   -- Read BMP280 temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
 
 PRIVATE
 

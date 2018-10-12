@@ -75,7 +75,7 @@ PACKAGE BODY GPIO.RemoteIO IS
 
   -- Read GPIO pin state
 
-  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -84,11 +84,11 @@ PACKAGE BODY GPIO.RemoteIO IS
     cmd := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.GPIO_READ_REQUEST));
-    cmd(2 + self.num / 8) := 2**(7 - self.num MOD 8);
+    cmd(2 + Self.num / 8) := 2**(7 - Self.num MOD 8);
 
-    self.dev.Transaction(cmd, resp);
+    Self.dev.Transaction(cmd, resp);
 
-    IF (resp(3 + self.num / 8) AND 2**(7 - self.num MOD 8)) = 0 THEN
+    IF (resp(3 + Self.num / 8) AND 2**(7 - Self.num MOD 8)) = 0 THEN
       RETURN False;
     ELSE
       RETURN True;
@@ -97,7 +97,7 @@ PACKAGE BODY GPIO.RemoteIO IS
 
   -- Write GPIO pin state
 
-  PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean) IS
+  PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -106,13 +106,13 @@ PACKAGE BODY GPIO.RemoteIO IS
     cmd := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.GPIO_WRITE_REQUEST));
-    cmd(2 + self.num / 8) := 2**(7 - self.num MOD 8);
+    cmd(2 + Self.num / 8) := 2**(7 - Self.num MOD 8);
 
     IF state THEN
-      cmd(18 + self.num / 8) := 2**(7 - self.num MOD 8);
+      cmd(18 + Self.num / 8) := 2**(7 - Self.num MOD 8);
     END IF;
 
-    self.dev.Transaction(cmd, resp);
+    Self.dev.Transaction(cmd, resp);
   END Put;
 
 END GPIO.RemoteIO;

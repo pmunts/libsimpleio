@@ -31,7 +31,7 @@ PACKAGE Motor.Servo IS
     velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output;
 
   PROCEDURE Put
-   (self : IN OUT OutputSubclass;
+   (Self : IN OUT OutputSubclass;
     velo : Velocity);
 
 PRIVATE

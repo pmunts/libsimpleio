@@ -39,18 +39,18 @@ PACKAGE BODY Motor.PWM IS
   END Create;
 
   PROCEDURE Put
-   (self : IN OUT OutputSubclass1;
+   (Self : IN OUT OutputSubclass1;
     velo : Velocity) IS
 
   BEGIN
     IF velo >= 0.0 THEN
       -- Forward
-      self.dirout.Put(True);
-      self.pwmout.Put(Standard.PWM.DutyCycle(100.0*velo));
+      Self.dirout.Put(True);
+      Self.pwmout.Put(Standard.PWM.DutyCycle(100.0*velo));
     ELSE
       -- Reverse
-      self.dirout.Put(False);
-      self.pwmout.Put(Standard.PWM.DutyCycle(-100.0*velo));
+      Self.dirout.Put(False);
+      Self.pwmout.Put(Standard.PWM.DutyCycle(-100.0*velo));
     END IF;
   END Put;
 
@@ -71,18 +71,18 @@ PACKAGE BODY Motor.PWM IS
   END Create;
 
   PROCEDURE Put
-   (self : IN OUT OutputSubclass2;
+   (Self : IN OUT OutputSubclass2;
     velo : Velocity) IS
 
   BEGIN
     IF velo >= 0.0 THEN
       -- Forward
-      self.ccwout.Put(0.0);
-      self.cwout.Put(Standard.PWM.DutyCycle(100.0*velo));
+      Self.ccwout.Put(0.0);
+      Self.cwout.Put(Standard.PWM.DutyCycle(100.0*velo));
     ELSE
       -- Reverse
-      self.cwout.Put(0.0);
-      self.ccwout.Put(Standard.PWM.DutyCycle(-100.0*velo));
+      Self.cwout.Put(0.0);
+      Self.ccwout.Put(Standard.PWM.DutyCycle(-100.0*velo));
     END IF;
   END Put;
 

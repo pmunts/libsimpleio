@@ -71,14 +71,14 @@ PACKAGE BODY SPI.libsimpleio IS
   -- Write only SPI bus cycle method
 
   PROCEDURE Write
-   (self   : DeviceSubclass;
+   (Self   : DeviceSubclass;
     cmd    : Command;
     cmdlen : Natural) IS
 
     error  : Integer;
 
   BEGIN
-    libSPI.Transaction(self.fd, self.fdcs, cmd'Address, cmdlen, 0,
+    libSPI.Transaction(Self.fd, Self.fdcs, cmd'Address, cmdlen, 0,
       System.Null_Address, 0, error);
 
     IF error /= 0 THEN
@@ -90,14 +90,14 @@ PACKAGE BODY SPI.libsimpleio IS
   -- Read only SPI bus cycle method
 
   PROCEDURE Read
-   (self    : DeviceSubclass;
+   (Self    : DeviceSubclass;
     resp    : OUT Response;
     resplen : Natural) IS
 
     error   : Integer;
 
   BEGIN
-    libSPI.Transaction(self.fd, self.fdcs, System.Null_Address, 0, 0,
+    libSPI.Transaction(Self.fd, Self.fdcs, System.Null_Address, 0, 0,
       resp'Address, resplen, error);
 
     IF error /= 0 THEN
@@ -109,7 +109,7 @@ PACKAGE BODY SPI.libsimpleio IS
   -- Combined Write/Read SPI bus cycle method
 
   PROCEDURE Transaction
-   (self    : DeviceSubclass;
+   (Self    : DeviceSubclass;
     cmd     : Command;
     cmdlen  : Natural;
     resp    : OUT Response;
@@ -123,7 +123,7 @@ PACKAGE BODY SPI.libsimpleio IS
       RAISE SPI_Error WITH "Invalid delay value";
     END IF;
 
-    libSPI.Transaction(self.fd, self.fdcs, cmd'Address, cmdlen,
+    libSPI.Transaction(Self.fd, Self.fdcs, cmd'Address, cmdlen,
       Integer(delayus), resp'Address, resplen, error);
 
     IF error /= 0 THEN
@@ -134,10 +134,10 @@ PACKAGE BODY SPI.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : DeviceSubclass) RETURN Integer IS
+  FUNCTION fd(Self : DeviceSubclass) RETURN Integer IS
 
   BEGIN
-    RETURN self.fd;
+    RETURN Self.fd;
   END fd;
 
 END SPI.libsimpleio;

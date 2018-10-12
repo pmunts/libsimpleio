@@ -37,11 +37,11 @@ PACKAGE LPS25H IS
 
   -- Get Celsius temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
 
   -- Get barometric pressure
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Pressure.Pascals;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Pressure.Pascals;
 
 PRIVATE
 

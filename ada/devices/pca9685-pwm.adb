@@ -44,7 +44,7 @@ PACKAGE BODY PCA9685.PWM IS
 
  -- PCA9685 PWM output method
 
-  PROCEDURE Put(self : IN OUT OutputSubclass;
+  PROCEDURE Put(Self : IN OUT OutputSubclass;
     duty : Standard.PWM.DutyCycle) IS
 
     offtime : Natural;
@@ -58,7 +58,7 @@ PACKAGE BODY PCA9685.PWM IS
     data(2) := RegisterData(offtime MOD 256);
     data(3) := RegisterData(offtime / 256);
 
-    self.device.WriteChannel(self.channel, data);
+    Self.device.WriteChannel(Self.channel, data);
   END Put;
 
 END PCA9685.PWM;

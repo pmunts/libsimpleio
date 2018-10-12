@@ -37,15 +37,15 @@ PACKAGE ADC.libsimpleio IS
 
   -- ADC input read method
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample;
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample;
 
   -- Retrieve the A/D converter resolution
 
-  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive;
+  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : InputSubclass) RETURN Integer;
+  FUNCTION fd(Self : InputSubclass) RETURN Integer;
 
 PRIVATE
 

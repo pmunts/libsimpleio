@@ -60,10 +60,10 @@ PACKAGE TCS3472 IS
   -- Methods
 
   FUNCTION Get
-   (self : IN OUT DeviceSubclass) RETURN Sample;
+   (Self : IN OUT DeviceSubclass) RETURN Sample;
 
   FUNCTION Get
-   (self   : IN OUT DeviceSubclass;
+   (Self   : IN OUT DeviceSubclass;
     aticks : Time;
     wticks : Time := 1;
     gain   : Gains := X1;

@@ -35,7 +35,7 @@ PACKAGE PCA9685.PWM IS
 
   -- PCA9685 PWM output method
 
-  PROCEDURE Put(self : IN OUT OutputSubclass; duty : Standard.PWM.DutyCycle);
+  PROCEDURE Put(Self : IN OUT OutputSubclass; duty : Standard.PWM.DutyCycle);
 
 PRIVATE
 

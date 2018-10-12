@@ -35,19 +35,19 @@ PACKAGE Watchdog.libsimpleio IS
 
   -- Method to get the watchdog timeout in seconds
 
-  FUNCTION GetTimeout(self : TimerSubclass) RETURN Duration;
+  FUNCTION GetTimeout(Self : TimerSubclass) RETURN Duration;
 
   -- Method to change the watchdog timeout in seconds
 
-  PROCEDURE SetTimeout(self : TimerSubclass; timeout : Duration);
+  PROCEDURE SetTimeout(Self : TimerSubclass; timeout : Duration);
 
   -- Method to reset the watchdog timer
 
-  PROCEDURE Kick(self : TimerSubclass);
+  PROCEDURE Kick(Self : TimerSubclass);
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : TimerSubclass) RETURN Integer;
+  FUNCTION fd(Self : TimerSubclass) RETURN Integer;
 
 PRIVATE
 

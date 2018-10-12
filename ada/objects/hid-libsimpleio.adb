@@ -73,13 +73,13 @@ PACKAGE BODY HID.libsimpleio IS
 
   -- Send a message to a HID device
 
-  PROCEDURE Send(self : MessengerSubclass; msg : Message64.Message) IS
+  PROCEDURE Send(Self : MessengerSubclass; msg : Message64.Message) IS
 
     error : Integer;
     count : Integer;
 
   BEGIN
-    libHIDRaw.Send(self.fd, msg'Address, msg'Length, count, error);
+    libHIDRaw.Send(Self.fd, msg'Address, msg'Length, count, error);
 
     IF error /= 0 THEN
       RAISE Standard.HID.HID_Error WITH "libHIDRaw.Send() failed, " &
@@ -89,21 +89,21 @@ PACKAGE BODY HID.libsimpleio IS
 
   -- Receive a message from a HID device
 
-  PROCEDURE Receive(self : MessengerSubclass; msg : OUT Message64.Message) IS
+  PROCEDURE Receive(Self : MessengerSubclass; msg : OUT Message64.Message) IS
 
     error : Integer;
     count : Integer;
 
   BEGIN
-    IF self.timeout > 0 THEN
+    IF Self.timeout > 0 THEN
       DECLARE
 
-        files   : libLinux.FilesType(0 .. 0)   := (OTHERS => self.fd);
+        files   : libLinux.FilesType(0 .. 0)   := (OTHERS => Self.fd);
         events  : libLinux.EventsType(0 .. 0)  := (OTHERS => libLinux.POLLIN);
         results : libLinux.ResultsType(0 .. 0) := (OTHERS =>0);
 
       BEGIN
-        libLinux.Poll(1, files, events, results, self.timeout, error);
+        libLinux.Poll(1, files, events, results, Self.timeout, error);
 
         IF error /= 0 THEN
           RAISE Standard.HID.HID_Error WITH "libLinux.Poll() failed, " &
@@ -112,7 +112,7 @@ PACKAGE BODY HID.libsimpleio IS
       END;
     END IF;
 
-    libHIDRaw.Receive(self.fd, msg'Address, msg'Length, count, error);
+    libHIDRaw.Receive(Self.fd, msg'Address, msg'Length, count, error);
 
     IF error /= 0 THEN
       RAISE Standard.HID.HID_Error WITH "libHIDRaw.Receive() failed, " &
@@ -123,21 +123,21 @@ PACKAGE BODY HID.libsimpleio IS
   -- Perform a command/response transaction (similar to an RPC call)
 
   PROCEDURE Transaction
-   (self      : MessengerSubclass;
+   (Self      : MessengerSubclass;
     cmd       : IN Message64.Message;
     resp      : OUT Message64.Message) IS
 
   BEGIN
-    self.Send(cmd);
-    self.Receive(resp);
+    Self.Send(cmd);
+    Self.Receive(resp);
   END Transaction;
 
  -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : MessengerSubclass) RETURN Integer IS
+  FUNCTION fd(Self : MessengerSubclass) RETURN Integer IS
 
   BEGIN
-    RETURN self.fd;
+    RETURN Self.fd;
   END fd;
 
 END HID.libsimpleio;

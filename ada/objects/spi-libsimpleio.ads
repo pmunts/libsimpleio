@@ -41,21 +41,21 @@ PACKAGE SPI.libsimpleio IS
   -- Write only SPI bus cycle method
 
   PROCEDURE Write
-   (self     : DeviceSubclass;
+   (Self     : DeviceSubclass;
     cmd      : Command;
     cmdlen   : Natural);
 
   -- Read only SPI bus cycle method
 
   PROCEDURE Read
-   (self     : DeviceSubclass;
+   (Self     : DeviceSubclass;
     resp     : OUT Response;
     resplen  : Natural);
 
   -- Combined Write/Read SPI bus cycle method
 
   PROCEDURE Transaction
-   (self     : DeviceSubclass;
+   (Self     : DeviceSubclass;
     cmd      : Command;
     cmdlen   : Natural;
     resp     : OUT Response;
@@ -64,7 +64,7 @@ PACKAGE SPI.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : DeviceSubclass) RETURN Integer;
+  FUNCTION fd(Self : DeviceSubclass) RETURN Integer;
 
 PRIVATE
 

@@ -46,13 +46,13 @@ PACKAGE BODY MAX31855 IS
 
   -- Get the 32-bit status word from the MAX31855
 
-  FUNCTION GetRawData(self : DeviceSubclass)
+  FUNCTION GetRawData(Self : DeviceSubclass)
     RETURN Standard.Interfaces.Unsigned_32 IS
 
     respbuf : SPI.Response(0 .. 3);
 
   BEGIN
-    self.dev.Read(respbuf, respbuf'Length);
+    Self.dev.Read(respbuf, respbuf'Length);
 
     RETURN Standard.Interfaces.Shift_Left(Standard.Interfaces.Unsigned_32(respbuf(0)), 24) +
            Standard.Interfaces.Shift_Left(Standard.Interfaces.Unsigned_32(respbuf(1)), 16) +
@@ -62,13 +62,13 @@ PACKAGE BODY MAX31855 IS
 
   -- Get thermocouple temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
     rawdata  : Standard.Interfaces.Unsigned_32;
     tempdata : Standard.Interfaces.Unsigned_32;
 
   BEGIN
-    rawdata := GetRawData(self);
+    rawdata := GetRawData(Self);
 
     -- Check for thermocouple input fault
 
@@ -99,14 +99,14 @@ PACKAGE BODY MAX31855 IS
 
   -- Get reference junction temperature
 
-  FUNCTION GetReferenceJunctionTemperature(self : DeviceSubclass)
+  FUNCTION GetReferenceJunctionTemperature(Self : DeviceSubclass)
     RETURN Temperature.Celsius IS
 
     rawdata  : Standard.Interfaces.Unsigned_32;
     tempdata : Standard.Interfaces.Unsigned_32;
 
   BEGIN
-    rawdata  := GetRawData(self);
+    rawdata  := GetRawData(Self);
 
     -- Extract reference junction temperature field
 
@@ -123,12 +123,12 @@ PACKAGE BODY MAX31855 IS
 
   -- Get thermocouple fault condition
 
-  FUNCTION Fault(self : DeviceSubclass) RETURN SensorFaults IS
+  FUNCTION Fault(Self : DeviceSubclass) RETURN SensorFaults IS
 
     rawdata : Standard.Interfaces.Unsigned_32;
 
   BEGIN
-    rawdata := GetRawData(self);
+    rawdata := GetRawData(Self);
 
     IF (rawdata AND MASK_FAULT) = 0 THEN
       RETURN OK;

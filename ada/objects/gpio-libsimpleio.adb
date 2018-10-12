@@ -131,15 +131,15 @@ PACKAGE BODY GPIO.libsimpleio IS
 
   -- Read GPIO pin state
 
-  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
 
     state : Integer;
     error : Integer;
 
   BEGIN
-    CASE self.kind IS
+    CASE Self.kind IS
       WHEN input|output =>
-        libGPIO.LineRead(self.fd, state, error);
+        libGPIO.LineRead(Self.fd, state, error);
 
         IF error /= 0 THEN
           RAISE GPIO_Error WITH "libGPIO.LineRead() failed, " &
@@ -147,7 +147,7 @@ PACKAGE BODY GPIO.libsimpleio IS
         END IF;
 
       WHEN interrupt =>
-        libGPIO.LineEvent(self.fd, state, error);
+        libGPIO.LineEvent(Self.fd, state, error);
 
         IF error /= 0 THEN
           RAISE GPIO_Error WITH "libGPIO.LineEvent() failed, " &
@@ -160,14 +160,14 @@ PACKAGE BODY GPIO.libsimpleio IS
 
   -- Write GPIO pin state
 
-  PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean) IS
+  PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
     error : Integer;
 
   BEGIN
-    CASE self.kind IS
+    CASE Self.kind IS
       WHEN output =>
-        libGPIO.LineWrite(self.fd, Boolean'Pos(state), error);
+        libGPIO.LineWrite(Self.fd, Boolean'Pos(state), error);
 
         IF error /= 0 THEN
           RAISE GPIO_Error WITH "libGPIO.LineWrite() failed, " & errno.strerror(error);
@@ -180,10 +180,10 @@ PACKAGE BODY GPIO.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : PinSubclass) RETURN Integer IS
+  FUNCTION fd(Self : PinSubclass) RETURN Integer IS
 
   BEGIN
-    RETURN self.fd;
+    RETURN Self.fd;
   END fd;
 
 END GPIO.libsimpleio;

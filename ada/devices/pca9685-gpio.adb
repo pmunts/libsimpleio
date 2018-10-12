@@ -34,23 +34,23 @@ PACKAGE BODY PCA9685.GPIO IS
     channel : PCA9685.ChannelNumber;
     state   : Boolean := False) RETURN Standard.GPIO.Pin IS
 
-    self : Standard.GPIO.Pin;
+    Self : Standard.GPIO.Pin;
 
   BEGIN
-    self := NEW PinSubclass'(device, channel);
-    self.Put(state);
+    Self := NEW PinSubclass'(device, channel);
+    Self.Put(state);
 
-    RETURN self;
+    RETURN Self;
   END Create;
 
  -- PCA9685 GPIO read method
 
-  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
 
     data : ChannelData;
 
   BEGIN
-    self.device.ReadChannel(self.channel, data);
+    Self.device.ReadChannel(Self.channel, data);
 
     IF data = GPIO_ON THEN
       RETURN True;
@@ -63,13 +63,13 @@ PACKAGE BODY PCA9685.GPIO IS
 
  -- PCA9685 GPIO write method
 
-  PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean) IS
+  PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
   BEGIN
     IF state THEN
-      self.device.WriteChannel(self.channel, GPIO_ON);
+      Self.device.WriteChannel(Self.channel, GPIO_ON);
     ELSE
-      self.device.WriteChannel(self.channel, GPIO_OFF);
+      Self.device.WriteChannel(Self.channel, GPIO_OFF);
     END IF;
   END Put;
 

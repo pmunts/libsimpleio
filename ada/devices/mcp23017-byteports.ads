@@ -36,15 +36,15 @@ PACKAGE MCP23017.BytePorts IS
 
   -- Parallel port configuration methods
 
-  PROCEDURE SetDirections(self : PortClass; data : Byte); -- 1=output, 0=input
+  PROCEDURE SetDirections(Self : PortClass; data : Byte); -- 1=output, 0=input
 
-  PROCEDURE SetPullups(self : PortClass; data : Byte); -- 1enabled, 0=disabled
+  PROCEDURE SetPullups(Self : PortClass; data : Byte); -- 1enabled, 0=disabled
 
   -- Parallel port I/O methods
 
-  FUNCTION Get(self : PortClass) RETURN Byte;
+  FUNCTION Get(Self : PortClass) RETURN Byte;
 
-  PROCEDURE Put(self : PortClass; data : Byte);
+  PROCEDURE Put(Self : PortClass; data : Byte);
 
 PRIVATE
 

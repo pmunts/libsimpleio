@@ -37,7 +37,7 @@ PACKAGE I2C.RemoteIO IS
   -- Read only I2C bus cycle method
 
   PROCEDURE Read
-   (self    : BusSubclass;
+   (Self    : BusSubclass;
     addr    : Address;
     resp    : OUT Response;
     resplen : Natural);
@@ -45,7 +45,7 @@ PACKAGE I2C.RemoteIO IS
   -- Write only I2C bus cycle method
 
   PROCEDURE Write
-   (self   : BusSubclass;
+   (Self   : BusSubclass;
     addr   : Address;
     cmd    : Command;
     cmdlen : Natural);
@@ -53,7 +53,7 @@ PACKAGE I2C.RemoteIO IS
   -- Combined Write/Read I2C bus cycle method
 
   PROCEDURE Transaction
-   (self    : BusSubclass;
+   (Self    : BusSubclass;
     addr    : Address;
     cmd     : Command;
     cmdlen  : Natural;

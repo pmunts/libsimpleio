@@ -39,15 +39,15 @@ PACKAGE MAX31855 IS
 
   -- Get thermocouple temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
 
   -- Get reference junction temperature
 
-  FUNCTION GetReferenceJunctionTemperature(self : DeviceSubclass) RETURN Temperature.Celsius;
+  FUNCTION GetReferenceJunctionTemperature(Self : DeviceSubclass) RETURN Temperature.Celsius;
 
   -- Get thermocouple fault condition
 
-  FUNCTION Fault(self : DeviceSubclass) RETURN SensorFaults;
+  FUNCTION Fault(Self : DeviceSubclass) RETURN SensorFaults;
 
 PRIVATE
 

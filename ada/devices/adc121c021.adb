@@ -47,7 +47,7 @@ PACKAGE BODY ADC121C021 IS
   -- Read a single byte register
 
   FUNCTION ReadRegister8
-   (self : InputSubclass;
+   (Self : InputSubclass;
     addr : RegAddr8) RETURN RegData8 IS
 
     cmd  : I2C.Command(0 .. 0);
@@ -55,14 +55,14 @@ PACKAGE BODY ADC121C021 IS
 
   BEGIN
     cmd(0) := I2C.Byte(addr);
-    self.Bus.Transaction(self.Address, cmd, cmd'Length, resp, resp'Length);
+    Self.Bus.Transaction(Self.Address, cmd, cmd'Length, resp, resp'Length);
     RETURN RegData8(resp(0));
   END ReadRegister8;
 
   -- Read a double byte register
 
   FUNCTION ReadRegister16
-   (self : InputSubclass;
+   (Self : InputSubclass;
     addr : RegAddr16) RETURN RegData16 IS
 
     cmd  : I2C.Command(0 .. 0);
@@ -70,14 +70,14 @@ PACKAGE BODY ADC121C021 IS
 
   BEGIN
     cmd(0) := I2C.Byte(addr);
-    self.Bus.Transaction(self.Address, cmd, cmd'Length, resp, resp'Length);
+    Self.Bus.Transaction(Self.Address, cmd, cmd'Length, resp, resp'Length);
     RETURN RegData16(resp(0))*256 + RegData16(resp(1));
   END ReadRegister16;
 
   -- Write a single byte register
 
   PROCEDURE WriteRegister8
-   (self : InputSubclass;
+   (Self : InputSubclass;
     addr : RegAddr8;
     data : RegData8) IS
 
@@ -87,13 +87,13 @@ PACKAGE BODY ADC121C021 IS
     cmd(0) := I2C.Byte(addr);
     cmd(1) := I2C.Byte(data);
 
-    self.Bus.Write(self.Address, cmd, cmd'Length);
+    Self.Bus.Write(Self.Address, cmd, cmd'Length);
   END WriteRegister8;
 
   -- Write a double byte register
 
   PROCEDURE WriteRegister16
-   (self : InputSubclass;
+   (Self : InputSubclass;
     addr : RegAddr16;
     data : RegData16) IS
 
@@ -104,7 +104,7 @@ PACKAGE BODY ADC121C021 IS
     cmd(1) := I2C.Byte(data / 256);
     cmd(2) := I2C.Byte(data MOD 256);
 
-    self.Bus.Write(self.Address, cmd, cmd'Length);
+    Self.Bus.Write(Self.Address, cmd, cmd'Length);
   END WriteRegister16;
 
   -- Constructors
@@ -123,13 +123,13 @@ PACKAGE BODY ADC121C021 IS
 
   -- Methods
 
-  FUNCTION Get(self : IN OUT InputSubclass) RETURN Analog.Sample IS
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
   BEGIN
-    RETURN Analog.Sample(ReadRegister16(self, ConversionResult) AND SAMPLE_MASK);
+    RETURN Analog.Sample(ReadRegister16(Self, ConversionResult) AND SAMPLE_MASK);
   END Get;
 
-  FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive IS
+  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN resolution;

@@ -198,24 +198,24 @@ PACKAGE BODY HTS221 IS
 
   -- Get Celsius temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
     S : Signed16;
 
   BEGIN
-    S := ReadRegister16(self.bus, self.address, TEMP_OUT_L);
-    RETURN Temperature.Celsius(self.Tm*Float(S) + self.Tb);
+    S := ReadRegister16(Self.bus, Self.address, TEMP_OUT_L);
+    RETURN Temperature.Celsius(Self.Tm*Float(S) + Self.Tb);
   END Get;
 
   -- Get relative humidity
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Humidity.Relative IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Humidity.Relative IS
 
     S : Signed16;
 
   BEGIN
-    S := ReadRegister16(self.bus, self.address, HUMIDITY_OUT_L);
-    RETURN Humidity.Relative(self.Hm*Float(S) + self.Hb);
+    S := ReadRegister16(Self.bus, Self.address, HUMIDITY_OUT_L);
+    RETURN Humidity.Relative(Self.Hm*Float(S) + Self.Hb);
   END Get;
 
 END HTS221;

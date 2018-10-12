@@ -37,7 +37,7 @@ PACKAGE BODY Logging.Syslog IS
 
   -- Log an error event
 
-  PROCEDURE Error(self : LoggerSubclass; message : String) IS
+  PROCEDURE Error(Self : LoggerSubclass; message : String) IS
 
     err : Integer;
 
@@ -47,7 +47,7 @@ PACKAGE BODY Logging.Syslog IS
 
   -- Log an error event, with errno value
 
-  PROCEDURE Error(self : LoggerSubclass; message : String; errnum : Integer) IS
+  PROCEDURE Error(Self : LoggerSubclass; message : String; errnum : Integer) IS
 
     err : Integer;
 
@@ -58,7 +58,7 @@ PACKAGE BODY Logging.Syslog IS
 
   -- Log a warning event
 
-  PROCEDURE Warning(self : LoggerSubclass; message : String) IS
+  PROCEDURE Warning(Self : LoggerSubclass; message : String) IS
 
     err : Integer;
 
@@ -69,7 +69,7 @@ PACKAGE BODY Logging.Syslog IS
 
   -- Log a notification event
 
-  PROCEDURE Note(self : LoggerSubclass; message : String) IS
+  PROCEDURE Note(Self : LoggerSubclass; message : String) IS
 
     err : Integer;
 

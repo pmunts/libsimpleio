@@ -56,7 +56,7 @@ PACKAGE I2C IS
   -- Read only I2C bus cycle method
 
   PROCEDURE Read
-   (self    : BusInterface;
+   (Self    : BusInterface;
     addr    : Address;
     resp    : OUT Response;
     resplen : Natural) IS ABSTRACT;
@@ -64,7 +64,7 @@ PACKAGE I2C IS
   -- Write only I2C bus cycle method
 
   PROCEDURE Write
-   (self   : BusInterface;
+   (Self   : BusInterface;
     addr   : Address;
     cmd    : Command;
     cmdlen : Natural) IS ABSTRACT;
@@ -72,7 +72,7 @@ PACKAGE I2C IS
   -- Combined Write/Read I2C bus cycle method
 
   PROCEDURE Transaction
-   (self    : BusInterface;
+   (Self    : BusInterface;
     addr    : Address;
     cmd     : Command;
     cmdlen  : Natural;

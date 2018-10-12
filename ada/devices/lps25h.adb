@@ -138,29 +138,29 @@ PACKAGE BODY LPS25H IS
 
   -- Get Celsius temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
     sample : Signed16;
 
   BEGIN
     sample := ToSigned16
-     (Unsigned16(ReadRegister(self.bus, self.address, TEMP_OUT_L)) +
-      Unsigned16(ReadRegister(self.bus, self.address, TEMP_OUT_H))*256);
+     (Unsigned16(ReadRegister(Self.bus, Self.address, TEMP_OUT_L)) +
+      Unsigned16(ReadRegister(Self.bus, Self.address, TEMP_OUT_H))*256);
 
     RETURN Temperature.Celsius(42.5 + Float(sample)/480.0);
   END Get;
 
   -- Get barometric pressure
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Pressure.Pascals IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Pressure.Pascals IS
 
     sample : Signed24;
 
   BEGIN
     sample := ToSigned24
-     (Unsigned24(ReadRegister(self.bus, self.address, PRESS_OUT_L)) +
-      Unsigned24(ReadRegister(self.bus, self.address, PRESS_OUT_M))*256 +
-      Unsigned24(ReadRegister(self.bus, self.address, PRESS_OUT_H))*65536);
+     (Unsigned24(ReadRegister(Self.bus, Self.address, PRESS_OUT_L)) +
+      Unsigned24(ReadRegister(Self.bus, Self.address, PRESS_OUT_M))*256 +
+      Unsigned24(ReadRegister(Self.bus, Self.address, PRESS_OUT_H))*65536);
 
     RETURN Pressure.Pascals(Float(sample)/40.96);
   END Get;

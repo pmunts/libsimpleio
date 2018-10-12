@@ -32,11 +32,11 @@ PACKAGE BODY Motor.Servo IS
   END Create;
 
   PROCEDURE Put
-   (self : IN OUT OutputSubclass;
+   (Self : IN OUT OutputSubclass;
     velo : Velocity) IS
 
   BEGIN
-    self.output.Put(Standard.Servo.Position(velo));
+    Self.output.Put(Standard.Servo.Position(velo));
   END Put;
 
 END Motor.Servo;

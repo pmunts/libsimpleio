@@ -218,7 +218,7 @@ PACKAGE BODY LSM9DS1 IS
 
   -- Get acceleration vector
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Accelerometer.Vector IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Accelerometer.Vector IS
 
     cmd     : I2C.Command(0 .. 0);
     resp    : I2C.Response(0 .. 5);
@@ -231,7 +231,7 @@ PACKAGE BODY LSM9DS1 IS
 
   BEGIN
     cmd(0) := I2C.Byte(OUT_X_L_XL);
-    self.bus.Transaction(self.addr_acc, cmd, cmd'Length, resp, resp'Length);
+    Self.bus.Transaction(Self.addr_acc, cmd, cmd'Length, resp, resp'Length);
 
     SampleX := ToSigned16(Unsigned16(resp(0)) + Unsigned16(resp(1))*256);
     SampleY := ToSigned16(Unsigned16(resp(2)) + Unsigned16(resp(3))*256);
@@ -246,7 +246,7 @@ PACKAGE BODY LSM9DS1 IS
 
   -- Get gyroscope vector
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Gyroscope.Vector IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Gyroscope.Vector IS
 
   BEGIN
     RETURN Gyroscope.Vector'(0.0, 0.0, 0.0);
@@ -254,7 +254,7 @@ PACKAGE BODY LSM9DS1 IS
 
   -- Get magnetic field vector
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Magnetometer.Vector IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Magnetometer.Vector IS
 
     cmd     : I2C.Command(0 .. 0);
     resp    : I2C.Response(0 .. 5);
@@ -267,7 +267,7 @@ PACKAGE BODY LSM9DS1 IS
 
   BEGIN
     cmd(0) := I2C.Byte(OUT_X_L_M);
-    self.bus.Transaction(self.addr_mag, cmd, cmd'Length, resp, resp'Length);
+    Self.bus.Transaction(Self.addr_mag, cmd, cmd'Length, resp, resp'Length);
 
     SampleX := ToSigned16(Unsigned16(resp(0)) + Unsigned16(resp(1))*256);
     SampleY := ToSigned16(Unsigned16(resp(2)) + Unsigned16(resp(3))*256);
@@ -282,7 +282,7 @@ PACKAGE BODY LSM9DS1 IS
 
   -- Get temperature
 
-  FUNCTION Get(self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
     cmd    : I2C.Command(0 .. 0);
     resp   : I2C.Response(0 .. 1);
@@ -290,7 +290,7 @@ PACKAGE BODY LSM9DS1 IS
 
   BEGIN
     cmd(0) := I2C.Byte(OUT_TEMP_L);
-    self.bus.Transaction(self.addr_acc, cmd, cmd'Length, resp, resp'Length);
+    Self.bus.Transaction(Self.addr_acc, cmd, cmd'Length, resp, resp'Length);
 
     -- Convert from I2C bytes to 16-bit signed
 

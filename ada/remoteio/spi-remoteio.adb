@@ -62,7 +62,7 @@ PACKAGE BODY SPI.RemoteIO IS
   -- Read only SPI device transaction method
 
   PROCEDURE Read
-   (self    : DeviceSubclass;
+   (Self    : DeviceSubclass;
     resp    : OUT Response;
     resplen : Natural) IS
 
@@ -71,26 +71,26 @@ PACKAGE BODY SPI.RemoteIO IS
   BEGIN
     cmd := (OTHERS => 0);
 
-    Transaction(self, cmd, 0, resp, resplen);
+    Transaction(Self, cmd, 0, resp, resplen);
   END Read;
 
   -- Write only SPI device transaction method
 
   PROCEDURE Write
-   (self   : DeviceSubclass;
+   (Self   : DeviceSubclass;
     cmd    : Command;
     cmdlen : Natural) IS
 
     resp : Response(0 .. 0);
 
   BEGIN
-    Transaction(self, cmd, cmdlen, resp, 0);
+    Transaction(Self, cmd, cmdlen, resp, 0);
   END Write;
 
   -- Combined Write/Read SPI device transaction method
 
   PROCEDURE Transaction
-   (self    : DeviceSubclass;
+   (Self    : DeviceSubclass;
     cmd     : Command;
     cmdlen  : Natural;
     resp    : OUT Response;
@@ -117,7 +117,7 @@ PACKAGE BODY SPI.RemoteIO IS
     cmdmsg(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.SPI_TRANSACTION_REQUEST));
     cmdmsg(1) := 2;
-    cmdmsg(2) := Message64.Byte(self.num);
+    cmdmsg(2) := Message64.Byte(Self.num);
     cmdmsg(3) := Message64.Byte(cmdlen);
     cmdmsg(4) := Message64.Byte(resplen);
     cmdmsg(5) := Message64.Byte(delayus / 256);
@@ -127,7 +127,7 @@ PACKAGE BODY SPI.RemoteIO IS
       cmdmsg(7 + i) := Message64.Byte(cmd(i));
     END LOOP;
 
-    self.dev.Transaction(cmdmsg, respmsg);
+    Self.dev.Transaction(cmdmsg, respmsg);
 
     FOR i IN Natural RANGE 0 .. Natural(respmsg(3)) - 1 LOOP
       resp(i) := SPI.Byte(respmsg(4 + i));

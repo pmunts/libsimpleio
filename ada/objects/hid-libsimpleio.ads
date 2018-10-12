@@ -44,26 +44,26 @@ PACKAGE HID.libsimpleio IS
   -- Send a message (i.e. report) to a HID device
 
   PROCEDURE Send
-   (self : MessengerSubclass;
+   (Self : MessengerSubclass;
     msg  : Message64.Message);
 
   -- Receive a message (i.e. report) from a HID device
 
   PROCEDURE Receive
-   (self : MessengerSubclass;
+   (Self : MessengerSubclass;
     msg  : OUT Message64.Message);
 
   -- Perform a command/response transaction (similar to an RPC call)
 
   PROCEDURE Transaction
-   (self      : MessengerSubclass;
+   (Self      : MessengerSubclass;
     cmd       : IN Message64.Message;
     resp      : OUT Message64.Message);
 
   -- Retrieve the underlying Linux file descriptor
 
   FUNCTION fd
-   (self : MessengerSubclass) RETURN Integer;
+   (Self : MessengerSubclass) RETURN Integer;
 
 PRIVATE
 

@@ -33,7 +33,7 @@ PACKAGE I2C.libsimpleio IS
   -- Read only I2C bus cycle method
 
   PROCEDURE Read
-   (self    : BusSubclass;
+   (Self    : BusSubclass;
     addr    : I2C.Address;
     resp    : OUT I2C.Response;
     resplen : Natural);
@@ -41,7 +41,7 @@ PACKAGE I2C.libsimpleio IS
   -- Write only I2C bus cycle method
 
   PROCEDURE Write
-   (self   : BusSubclass;
+   (Self   : BusSubclass;
     addr   : I2C.Address;
     cmd    : I2C.Command;
     cmdlen : Natural);
@@ -49,7 +49,7 @@ PACKAGE I2C.libsimpleio IS
   -- Combined Write/Read I2C bus cycle method
 
   PROCEDURE Transaction
-   (self    : BusSubclass;
+   (Self    : BusSubclass;
     addr    : I2C.Address;
     cmd     : I2C.Command;
     cmdlen  : Natural;
@@ -59,7 +59,7 @@ PACKAGE I2C.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(self : BusSubclass) RETURN Integer;
+  FUNCTION fd(Self : BusSubclass) RETURN Integer;
 
 PRIVATE
 

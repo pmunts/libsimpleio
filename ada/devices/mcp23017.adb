@@ -46,7 +46,7 @@ PACKAGE BODY MCP23017 IS
   -- Read an 8-bit register
 
   PROCEDURE ReadRegister8
-   (self  : DeviceClass;
+   (Self  : DeviceClass;
     reg   : RegisterAddress8;
     data  : OUT RegisterData8) IS
 
@@ -56,7 +56,7 @@ PACKAGE BODY MCP23017 IS
   BEGIN
     cmd(0) := I2C.Byte(reg);
 
-    self.bus.Transaction(self.address, cmd, cmd'Length, resp, resp'Length);
+    Self.bus.Transaction(Self.address, cmd, cmd'Length, resp, resp'Length);
 
     data := RegisterData8(resp(0));
   END ReadRegister8;
@@ -64,7 +64,7 @@ PACKAGE BODY MCP23017 IS
   -- Write an 8-bit register
 
   PROCEDURE WriteRegister8
-   (self : DeviceClass;
+   (Self : DeviceClass;
     reg  : RegisterAddress8;
     data : RegisterData8) IS
 
@@ -74,13 +74,13 @@ PACKAGE BODY MCP23017 IS
     cmd(0) := I2C.Byte(reg);
     cmd(1) := I2C.Byte(data);
 
-    self.bus.Write(self.address, cmd, cmd'Length);
+    Self.bus.Write(Self.address, cmd, cmd'Length);
   END WriteRegister8;
 
   -- Read a 16-bit register
 
   PROCEDURE ReadRegister16
-   (self  : DeviceClass;
+   (Self  : DeviceClass;
     reg   : RegisterAddress16;
     data  : OUT RegisterData16) IS
 
@@ -90,7 +90,7 @@ PACKAGE BODY MCP23017 IS
   BEGIN
     cmd(0) := I2C.Byte(reg);
 
-    self.bus.Transaction(self.address, cmd, cmd'Length, resp, resp'Length);
+    Self.bus.Transaction(Self.address, cmd, cmd'Length, resp, resp'Length);
 
     data := RegisterData16(resp(0)) + RegisterData16(resp(1))*256;
   END ReadRegister16;
@@ -98,7 +98,7 @@ PACKAGE BODY MCP23017 IS
   -- Write a 16-bit register pair
 
   PROCEDURE WriteRegister16
-   (self : DeviceClass;
+   (Self : DeviceClass;
     reg  : RegisterAddress16;
     data : RegisterData16) IS
 
@@ -109,7 +109,7 @@ PACKAGE BODY MCP23017 IS
     cmd(1) := I2C.Byte(data MOD 256);
     cmd(2) := I2C.Byte(data / 256);
 
-    self.bus.Write(self.address, cmd, cmd'Length);
+    Self.bus.Write(Self.address, cmd, cmd'Length);
   END WriteRegister16;
 
 END MCP23017;
