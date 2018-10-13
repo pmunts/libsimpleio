@@ -37,18 +37,20 @@ PACKAGE BODY PCA9534.GPIO IS
     direction : Standard.GPIO.Direction;
     state     : Boolean := False) RETURN Standard.GPIO.Pin IS
 
-    p : Standard.GPIO.Pin;
-
   BEGIN
-    p := NEW PinSubclass'(device, direction, PinMasks(number));
-
     IF direction = Standard.GPIO.Input THEN
-      device.Put(ConfigurationReg, device.ddr AND NOT PinMasks(number));
+      device.Put(ConfigurationReg, device.config OR PinMasks(number));
     ELSE
-      device.Put(device.latch AND PinMasks(number));
+      device.Put(ConfigurationReg, device.config AND NOT PinMasks(number));
+
+      IF state THEN
+        device.Put(device.latch OR PinMasks(number));
+      ELSE
+        device.Put(device.latch AND NOT PinMasks(number));
+      END IF;
     END IF;
 
-    RETURN p;
+    RETURN NEW PinSubclass'(device, direction, PinMasks(number));
   END Create;
 
   -- GPIO pin read method
