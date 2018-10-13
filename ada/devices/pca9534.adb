@@ -33,7 +33,7 @@ PACKAGE BODY PCA9534 IS
     dev : Device;
 
   BEGIN
-    dev := NEW DeviceClass'(bus, addr, 0, 0);
+    dev := NEW DeviceClass'(bus, addr, AllInputs, AllOff);
 
     dev.Put(ConfigurationReg, config);
     dev.Put(PolarityInversionReg, AllNormal);
@@ -43,9 +43,6 @@ PACKAGE BODY PCA9534 IS
   END Create;
 
   -- Read from a PCA9534 register
-
-  -- Note: configuration bits will be inverted after reading from the
-  -- configuration register, so that 1=output.
 
   FUNCTION Get
    (Self : IN OUT DeviceClass;
@@ -57,18 +54,10 @@ PACKAGE BODY PCA9534 IS
   BEGIN
     cmd(0) := I2C.Byte(addr);
     Self.bus.Transaction(Self.addr, cmd, cmd'Length, resp, resp'Length);
-
-    IF addr = ConfigurationReg THEN
-      RETURN NOT Byte(resp(0));
-    ELSE
-      RETURN Byte(resp(0));
-    END IF;
+    RETURN Byte(resp(0));
   END Get;
 
   -- Write to a PCA9534 register
-
-  -- Note: configuration bits will be inverted before writing to the
-  -- configuration register, so that 1=output.
 
   PROCEDURE Put
    (Self : IN OUT DeviceClass;
@@ -83,17 +72,12 @@ PACKAGE BODY PCA9534 IS
     END IF;
 
     cmd(0) := I2C.Byte(addr);
-
-    IF addr = ConfigurationReg THEN
-      cmd(1) := I2C.Byte(NOT data);
-    ELSE
-      cmd(1) := I2C.Byte(data);
-    END IF;
+    cmd(1) := I2C.Byte(data);
 
     Self.bus.Write(Self.addr, cmd, cmd'Length);
 
     IF addr = ConfigurationReg THEN
-      Self.ddr := NOT data;
+      Self.config := data;
     ELSIF addr = OutputPortReg THEN
       Self.latch := data;
     END IF;

@@ -42,7 +42,7 @@ PACKAGE PCA9534 IS
 
   -- PCA9534 register data constants
 
-  AllInputs  : CONSTANT Byte := 16#00#;
+  AllInputs  : CONSTANT Byte := 16#FF#;
   AllOutputs : CONSTANT Byte := 16#00#;
   AllNormal  : CONSTANT Byte := 16#00#;
   AllOff     : CONSTANT Byte := 16#00#;
@@ -57,17 +57,11 @@ PACKAGE PCA9534 IS
 
   -- Read from a PCA9534 register
 
-  -- Note: configuration bits will be inverted after reading from the
-  -- configuration register, so that 1=output.
-
   FUNCTION Get
    (Self : IN OUT DeviceClass;
     addr : RegisterAddress) RETURN Byte;
 
   -- Write to a PCA9534 register
-
-  -- Note: configuration bits will be inverted before writing to the
-  -- configuration register, so that 1=output.
 
   PROCEDURE Put
    (Self : IN OUT DeviceClass;
@@ -90,10 +84,10 @@ PRIVATE
   -- Complete the definition for PCA9534.DeviceClass
 
   TYPE DeviceClass IS TAGGED RECORD
-    bus   : I2C.Bus;
-    addr  : I2C.Address;
-    ddr   : Byte;
-    latch : Byte;
+    bus    : I2C.Bus;
+    addr   : I2C.Address;
+    config : Byte;
+    latch  : Byte;
   END RECORD;
 
 END PCA9534;
