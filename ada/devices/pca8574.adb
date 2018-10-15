@@ -24,14 +24,16 @@ PACKAGE BODY PCA8574 IS
 
   -- PCA8574 device object constructor
 
-  FUNCTION Create(bus : I2C.Bus; addr : I2C.Address) RETURN Device IS
+  FUNCTION Create
+   (bus    : I2C.Bus;
+    addr   : I2C.Address;
+    states : Byte := 16#FF#) RETURN Device IS
 
     dev : Device;
 
   BEGIN
     dev := NEW DeviceClass'(bus, addr, 0);
-
-    dev.Put(16#FF#);  -- Make all pins input
+    dev.Put(states);
 
     RETURN dev;
   END Create;

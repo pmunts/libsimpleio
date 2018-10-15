@@ -34,7 +34,10 @@ PACKAGE PCA8574 IS
 
   -- PCA8574 device object constructor
 
-  FUNCTION Create(bus : I2C.Bus; addr : I2C.Address) RETURN Device;
+  FUNCTION Create
+   (bus    : I2C.Bus;
+    addr   : I2C.Address;
+    states : Byte := 16#FF#) RETURN Device;
 
   -- PCA8574 methods
 
