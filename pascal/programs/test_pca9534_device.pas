@@ -53,8 +53,8 @@ BEGIN
 
   { Configure all pins as outputs }
 
-  dev.WriteRegister(ConfigurationReg, AllOutputs);
-  dev.WriteRegister(OutputPortReg, AllOff);
+  dev.Write(ConfigurationReg, AllOutputs);
+  dev.Write(OutputPortReg, AllOff);
 
   { Toggle pins }
 

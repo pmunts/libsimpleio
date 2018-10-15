@@ -38,12 +38,12 @@ INTERFACE
 
       { Read from a PCA9534 register }
 
-      FUNCTION ReadRegister
+      FUNCTION Read
        (reg  : RegisterAddress) : Byte;
 
       { Write to a PCA9534 register }
 
-      PROCEDURE WriteRegister
+      PROCEDURE Write
        (reg  : RegisterAddress;
         data : Byte);
 
@@ -89,7 +89,7 @@ IMPLEMENTATION
 
   { Read from a PCA9534 register }
 
-  FUNCTION Device.ReadRegister
+  FUNCTION Device.Read
    (reg  : RegisterAddress) : Byte;
 
   VAR
@@ -99,12 +99,12 @@ IMPLEMENTATION
   BEGIN
     cmd[0] := reg;
     Self.mybus.Transaction(Self.myaddr, cmd, Length(cmd), resp, Length(resp));
-    ReadRegister := resp[0];
+    Read := resp[0];
   END;
 
   { Write to a PCA9534 register }
 
-  PROCEDURE Device.WriteRegister
+  PROCEDURE Device.Write
    (reg  : RegisterAddress;
     data : Byte);
 
@@ -128,7 +128,7 @@ IMPLEMENTATION
   FUNCTION Device.Read : Byte;
 
   BEGIN
-    Read := Self.ReadRegister(InputPortReg);
+    Read := Self.Read(InputPortReg);
   END;
 
   { Write to PCA9534 output register }
@@ -136,7 +136,7 @@ IMPLEMENTATION
   PROCEDURE Device.Write(data : Byte);
 
   BEGIN
-    Self.WriteRegister(OutputPortReg, data);
+    Self.Write(OutputPortReg, data);
   END;
 
   { Fetch last written value }
