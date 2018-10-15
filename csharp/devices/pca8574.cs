@@ -39,10 +39,11 @@ namespace IO.Devices.PCA8574
         /// </summary>
         /// <param name="bus">I<sup>2</sup>C bus controller.</param>
         /// <param name="addr">I<sup>2</sup>C slave address.</param>
-        public Device(IO.Interfaces.I2C.Bus bus, int addr)
+        /// <param name="states">Initial output states.</param>
+        public Device(IO.Interfaces.I2C.Bus bus, int addr, byte states = 0xFF)
         {
             this.dev = new IO.Interfaces.I2C.Device(bus, addr);
-            this.Write(0xFF);
+            this.Write(states);
         }
 
         /// <summary>
