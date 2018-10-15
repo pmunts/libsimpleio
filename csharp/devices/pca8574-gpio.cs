@@ -18,8 +18,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
-
 namespace IO.Devices.PCA8574.GPIO
 {
     /// <summary>
@@ -48,7 +46,7 @@ namespace IO.Devices.PCA8574.GPIO
 
             if ((num < 0) || (num >= PCA8574.Device.MAX_PINS))
             {
-                throw new Exception("Invalid GPIO pin number parameter");
+                throw new System.Exception("Invalid GPIO pin number parameter");
             }
 
             this.dev = dev;
@@ -77,7 +75,7 @@ namespace IO.Devices.PCA8574.GPIO
             set
             {
                 if (this.dir == IO.Interfaces.GPIO.Direction.Input)
-                    throw new Exception("Cannot write to input pin");
+                    throw new System.Exception("Cannot write to input pin");
                 else if (value)
                     this.dev.Write((byte)(this.dev.Latch | this.mask));
                 else
