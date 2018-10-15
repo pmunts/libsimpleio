@@ -67,11 +67,7 @@ IMPLEMENTATION
     ELSE
       BEGIN
         Self.mydev.Write(ConfigurationReg, Self.mydev.Config AND NOT Self.mymask);
-
-        IF state THEN
-          Self.mydev.Write(Self.mydev.Latch OR Self.mymask)
-        ELSE
-          Self.mydev.Write(Self.mydev.Latch AND NOT Self.mymask);
+        Self.state := state;
       END;
   END;
 
