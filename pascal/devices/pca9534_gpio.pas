@@ -61,7 +61,18 @@ IMPLEMENTATION
     Self.mydev  := dev;
     Self.mydir  := dir;
     Self.mymask := 1 SHL pin;
-    Self.WriteState(state);
+
+    IF dir = GPIO.Input THEN
+      Self.mydev.Write(ConfigurationReg, Self.mydev.Config OR Self.mymask)
+    ELSE
+      BEGIN
+        Self.mydev.Write(ConfigurationReg, Self.mydev.Config AND NOT Self.mymask);
+
+        IF state THEN
+          Self.mydev.Write(Self.mydev.Latch OR Self.mymask)
+        ELSE
+          Self.mydev.Write(Self.mydev.Latch AND NOT Self.mymask);
+      END;
   END;
 
   { GPIO read method }

@@ -34,7 +34,11 @@ INTERFACE
     RegisterAddress = 0 .. 3;
 
     Device = CLASS
-      CONSTRUCTOR Create(bus : I2C.Bus; addr : I2C.Address);
+      CONSTRUCTOR Create
+       (bus    : I2C.Bus;
+        adr    : I2C.Address;
+        config : Byte = $FF;
+        state  : Byte = $00);
 
       { Read from a PCA9534 register }
 
@@ -56,20 +60,25 @@ INTERFACE
       PROCEDURE Write
        (data : Byte);
 
-      { Fetch last written value }
+      { Fetch last value written to the configuration register }
+
+      FUNCTION Config : Byte;
+
+      { Fetch last value written to the output port register }
 
       FUNCTION Latch : Byte;
 
     PRIVATE
-      mybus   : I2C.Bus;
-      myaddr  : I2C.Address;
-      mylatch : Byte;
+      mybus : I2C.Bus;
+      myadr : I2C.Address;
+      mycfg : Byte;
+      mylat : Byte;
     END;
 
   CONST
     InputPortReg     : RegisterAddress = 0;
     OutputPortReg    : RegisterAddress = 1;
-    PolarityReg      : RegisterAddress = 2;
+    InputPolarityReg : RegisterAddress = 2;
     ConfigurationReg : RegisterAddress = 3;
 
     AllInputs        : Byte = $FF;
@@ -79,12 +88,20 @@ INTERFACE
 
 IMPLEMENTATION
 
-  CONSTRUCTOR Device.Create(bus : I2C.Bus; addr : I2C.Address);
+  CONSTRUCTOR Device.Create
+   (bus    : I2C.Bus;
+    adr    : I2C.Address;
+    config : Byte;
+    state  : Byte);
 
   BEGIN
-    Self.mybus  := bus;
-    Self.myaddr := addr;
-    Self.Write($FF);
+    Self.mybus := bus;
+    Self.myadr := adr;
+    Self.Write(ConfigurationReg, config);
+    Self.Write(InputPolarityReg, AllNormal);
+    Self.Write(OutputPortReg, state);
+    Self.mycfg := config;
+    Self.mylat := state;
   END;
 
   { Read from a PCA9534 register }
@@ -98,7 +115,7 @@ IMPLEMENTATION
 
   BEGIN
     cmd[0] := reg;
-    Self.mybus.Transaction(Self.myaddr, cmd, Length(cmd), resp, Length(resp));
+    Self.mybus.Transaction(Self.myadr, cmd, Length(cmd), resp, Length(resp));
     Read := resp[0];
   END;
 
@@ -117,10 +134,12 @@ IMPLEMENTATION
 
     cmd[0] := reg;
     cmd[1] := data;
-    Self.mybus.Write(Self.myaddr, cmd, Length(cmd));
+    Self.mybus.Write(Self.myadr, cmd, Length(cmd));
 
-    IF reg = OutputPortReg THEN
-      Self.mylatch := data;
+    IF reg = ConfigurationReg THEN
+      Self.mycfg := data
+    ELSE IF reg = OutputPortReg THEN
+      Self.mylat := data;
   END;
 
   { Read from PCA9534 input register }
@@ -139,12 +158,21 @@ IMPLEMENTATION
     Self.Write(OutputPortReg, data);
   END;
 
-  { Fetch last written value }
+  { Fetch last value written to the configuration register }
+
+
+  FUNCTION Device.Config : Byte;
+
+  BEGIN
+    Config := Self.mycfg;
+  END;
+
+  { Fetch last value written to the output port register }
 
   FUNCTION Device.Latch : Byte;
 
   BEGIN
-    Latch := Self.mylatch;
+    Latch := Self.mylat;
   END;
 
 END.
