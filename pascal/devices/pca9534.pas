@@ -38,7 +38,7 @@ INTERFACE
        (bus    : I2C.Bus;
         adr    : I2C.Address;
         config : Byte = $FF;
-        state  : Byte = $00);
+        states : Byte = $00);
 
       { Read from a PCA9534 register }
 
@@ -92,16 +92,14 @@ IMPLEMENTATION
    (bus    : I2C.Bus;
     adr    : I2C.Address;
     config : Byte;
-    state  : Byte);
+    states : Byte);
 
   BEGIN
     Self.mybus := bus;
     Self.myadr := adr;
     Self.Write(ConfigurationReg, config);
     Self.Write(InputPolarityReg, AllNormal);
-    Self.Write(OutputPortReg, state);
-    Self.mycfg := config;
-    Self.mylat := state;
+    Self.Write(OutputPortReg, states);
   END;
 
   { Read from a PCA9534 register }
@@ -130,7 +128,7 @@ IMPLEMENTATION
 
   BEGIN
     IF reg = InputPortReg THEN
-      RAISE Error.Create('ERROR: Cannot write to input register');
+      RAISE Error.Create('ERROR: Cannot write to input port register');
 
     cmd[0] := reg;
     cmd[1] := data;
