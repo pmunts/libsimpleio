@@ -35,10 +35,10 @@ PACKAGE PCA9534 IS
 
   -- PCA9534 register addresses
 
-  InputPortReg           : CONSTANT RegisterAddress := 0;
-  OutputPortReg          : CONSTANT RegisterAddress := 1;
-  PolarityInversionReg   : CONSTANT RegisterAddress := 2;
-  ConfigurationReg       : CONSTANT RegisterAddress := 3;
+  InputPortReg     : CONSTANT RegisterAddress := 0;
+  OutputPortReg    : CONSTANT RegisterAddress := 1;
+  InputPolarityReg : CONSTANT RegisterAddress := 2;
+  ConfigurationReg : CONSTANT RegisterAddress := 3;
 
   -- PCA9534 register data constants
 

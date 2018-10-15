@@ -36,7 +36,7 @@ PACKAGE BODY PCA9534 IS
     dev := NEW DeviceClass'(bus, addr, AllInputs, AllOff);
 
     dev.Put(ConfigurationReg, config);
-    dev.Put(PolarityInversionReg, AllNormal);
+    dev.Put(InputPolarityReg, AllNormal);
     dev.Put(OutputPortReg, state);
 
     RETURN dev;
