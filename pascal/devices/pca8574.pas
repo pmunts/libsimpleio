@@ -29,7 +29,7 @@ INTERFACE
 
   TYPE
     Device = CLASS
-      CONSTRUCTOR Create(bus : I2C.Bus; addr : I2C.Address);
+      CONSTRUCTOR Create(bus : I2C.Bus; addr : I2C.Address; states : byte = $FF);
 
       FUNCTION Read : Byte;
 
@@ -45,12 +45,12 @@ INTERFACE
 
 IMPLEMENTATION
 
-  CONSTRUCTOR Device.Create(bus : I2C.Bus; addr : I2C.Address);
+  CONSTRUCTOR Device.Create(bus : I2C.Bus; addr : I2C.Address; states : byte);
 
   BEGIN
     Self.mybus  := bus;
     Self.myaddr := addr;
-    Self.Write($FF);
+    Self.Write(states);
   END;
 
   { Read from PCA8574 }
