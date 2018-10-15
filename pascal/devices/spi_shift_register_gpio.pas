@@ -35,11 +35,11 @@ INTERFACE
         num   : Cardinal;
         state : Boolean = False);
 
-      FUNCTION ReadState : Boolean;
+      FUNCTION Read : Boolean;
 
-      PROCEDURE WriteState(state : Boolean);
+      PROCEDURE Write(state : Boolean);
 
-      PROPERTY state : Boolean READ ReadState WRITE WriteState;
+      PROPERTY state : Boolean READ Read WRITE Write;
     PRIVATE
       mydev  : SPI_Shift_Register.Device;
       mybyte : Cardinal;
@@ -60,17 +60,17 @@ IMPLEMENTATION
         Self.mymask := 1 SHL (num MOD 8);
         SetLength(Self.mybuf, dev.Bytes);
 
-        Self.WriteState(state);
+        Self.Write(state);
       END;
 
-      FUNCTION PinSubclass.ReadState : Boolean;
+      FUNCTION PinSubclass.Read : Boolean;
 
       BEGIN
         Self.mydev.Read(Self.mybuf);
-        ReadState := (Self.mybuf[Self.mybyte] AND Self.mymask) <> 0;
+        Read := (Self.mybuf[Self.mybyte] AND Self.mymask) <> 0;
       END;
 
-      PROCEDURE PinSubclass.WriteState(state : Boolean);
+      PROCEDURE PinSubclass.Write(state : Boolean);
 
       BEGIN
         Self.mydev.Read(Self.mybuf);

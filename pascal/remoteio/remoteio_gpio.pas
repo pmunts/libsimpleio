@@ -36,11 +36,11 @@ INTERFACE
         dir   : GPIO.Direction;
         state : Boolean = False);
 
-      FUNCTION ReadState : Boolean;
+      FUNCTION Read : Boolean;
 
-      PROCEDURE WriteState(state : Boolean);
+      PROCEDURE Write(state : Boolean);
 
-      PROPERTY state : Boolean READ ReadState WRITE WriteState;
+      PROPERTY state : Boolean READ Read WRITE Write;
     PRIVATE
       mydev   : RemoteIO.Device;
       mydir   : GPIO.Direction;
@@ -71,7 +71,7 @@ IMPLEMENTATION
     Self.Configure;
 
     IF dir = GPIO.Output THEN
-      Self.WriteState(state);
+      Self.Write(state);
   END;
 
   { GPIO configure method }
@@ -100,7 +100,7 @@ IMPLEMENTATION
 
   { GPIO read method }
 
-  FUNCTION PinSubclass.ReadState : Boolean;
+  FUNCTION PinSubclass.Read : Boolean;
 
   VAR
     cmd  : Message64.Message;
@@ -118,12 +118,12 @@ IMPLEMENTATION
       RAISE RemoteIO.Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
 
-    ReadState := (resp[3 + Self.myindex] AND Self.mymask) <> 0;
+    Read := (resp[3 + Self.myindex] AND Self.mymask) <> 0;
   END;
 
   { GPIO write method }
 
-  PROCEDURE PinSubclass.WriteState(state : Boolean);
+  PROCEDURE PinSubclass.Write(state : Boolean);
 
   VAR
     cmd  : Message64.Message;

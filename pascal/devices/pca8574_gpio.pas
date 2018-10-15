@@ -38,11 +38,11 @@ INTERFACE
         dir   : GPIO.Direction;
         state : Boolean = False);
 
-      FUNCTION ReadState : Boolean;
+      FUNCTION Read : Boolean;
 
-      PROCEDURE WriteState(state : Boolean);
+      PROCEDURE Write(state : Boolean);
 
-      PROPERTY state : Boolean READ ReadState WRITE WriteState;
+      PROPERTY state : Boolean READ Read WRITE Write;
     PRIVATE
       mydev  : PCA8574.Device;
       mydir  : GPIO.Direction;
@@ -61,12 +61,12 @@ IMPLEMENTATION
     Self.mydev  := dev;
     Self.mydir  := dir;
     Self.mymask := 1 SHL pin;
-    Self.WriteState(state);
+    Self.Write(state);
   END;
 
   { GPIO read method }
 
-  FUNCTION PinSubclass.ReadState : Boolean;
+  FUNCTION PinSubclass.Read : Boolean;
 
   VAR
     b : Byte;
@@ -78,14 +78,14 @@ IMPLEMENTATION
       b := Self.mydev.Latch;
 
     IF (b AND Self.mymask) <> 0 THEN
-      ReadState := True
+      Read := True
     ELSE
-      ReadState := False;
+      Read := False;
   END;
 
   { GPIO write method }
 
-  PROCEDURE PinSubclass.WriteState(state : Boolean);
+  PROCEDURE PinSubclass.Write(state : Boolean);
 
   BEGIN
     IF self.mydir = GPIO.Input THEN

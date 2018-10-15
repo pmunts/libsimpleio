@@ -33,11 +33,11 @@ INTERFACE
     Direction = (Input, Output);
 
     Pin = INTERFACE
-      FUNCTION ReadState : Boolean;
+      FUNCTION Read : Boolean;
 
-      PROCEDURE WriteState(state : Boolean);
+      PROCEDURE Write(state : Boolean);
 
-      PROPERTY state : Boolean READ ReadState WRITE WriteState;
+      PROPERTY state : Boolean READ Read WRITE Write;
     END;
 
 IMPLEMENTATION
