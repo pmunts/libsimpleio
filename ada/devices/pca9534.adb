@@ -28,7 +28,7 @@ PACKAGE BODY PCA9534 IS
    (bus      : I2C.Bus;
     addr     : I2C.Address;
     config   : Byte := AllInputs;
-    state    : Byte := AllOff) RETURN Device IS
+    states   : Byte := AllOff) RETURN Device IS
 
     dev : Device;
 
@@ -37,7 +37,7 @@ PACKAGE BODY PCA9534 IS
 
     dev.Put(ConfigurationReg, config);
     dev.Put(InputPolarityReg, AllNormal);
-    dev.Put(OutputPortReg, state);
+    dev.Put(OutputPortReg, states);
 
     RETURN dev;
   END Create;

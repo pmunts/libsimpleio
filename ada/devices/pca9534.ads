@@ -53,7 +53,7 @@ PACKAGE PCA9534 IS
    (bus      : I2C.Bus;
     addr     : I2C.Address;
     config   : Byte := AllInputs;
-    state    : Byte := AllOff) RETURN Device;
+    states   : Byte := AllOff) RETURN Device;
 
   -- Read from a PCA9534 register
 
