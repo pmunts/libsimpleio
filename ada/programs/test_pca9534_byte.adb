@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH I2C;
@@ -36,13 +37,20 @@ BEGIN
   Put_Line("PCA9534 Byte I/O Test");
   New_Line;
 
+  IF Ada.Command_Line.Argument_Count /= 2 THEN
+    Put_Line("Usage: test_pca9534_byte <bus> <addr>");
+    New_Line;
+    RETURN;
+  END IF;
+
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create("/dev/i2c-2");
+  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
 
   -- Create PCA9534 device object
 
-  dev := PCA9534.Create(bus, 16#38#, PCA9534.AllOutputs);
+  dev := PCA9534.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)),
+    PCA9534.AllOutputs);
 
   -- Write increasing values to the PCA9534
 
