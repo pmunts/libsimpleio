@@ -31,8 +31,14 @@ namespace test_grove_i2c_adc
     {
       Console.WriteLine("\nGrove I2C A/D Converter Test\n");
 
+      if (args.Length != 1)
+      {
+        Console.WriteLine("Usage: test_grove_i2c_adc <bus>\n");
+        Environment.Exit(1);
+      }
+
       IO.Interfaces.I2C.Bus bus =
-        new IO.Objects.libsimpleio.I2C.Bus("/dev/i2c-2");
+        new IO.Objects.libsimpleio.I2C.Bus(args[0]);
 
       IO.Interfaces.ADC.Sample adc =
         new IO.Devices.ADC121C021.Sample(bus, 0x50);

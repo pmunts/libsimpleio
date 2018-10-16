@@ -30,13 +30,19 @@ namespace test_pca9685_gpio
     {
       Console.WriteLine("\nPCA9685 GPIO Output Test\n");
 
+      if (args.Length != 2)
+      {
+        Console.WriteLine("Usage: test_pca9685_gpio <bus> <addr>\n");
+        Environment.Exit(1);
+      }
+
       // Create GPIO pin object
 
       IO.Interfaces.I2C.Bus bus =
-        new IO.Objects.libsimpleio.I2C.Bus("/dev/i2c-1");
+        new IO.Objects.libsimpleio.I2C.Bus(args[0]);
 
       IO.Devices.PCA9685.Device dev =
-        new IO.Devices.PCA9685.Device(bus, 0x40, 5000);
+        new IO.Devices.PCA9685.Device(bus, int.Parse(args[1]), 5000);
 
       IO.Interfaces.GPIO.Pin GPIO0 =
         new IO.Devices.PCA9685.GPIO.Pin(dev, 0, false);

@@ -30,13 +30,19 @@ namespace test_pca9685_servo
     {
       Console.WriteLine("\nPCA9685 Servo Output Test\n");
 
+      if (args.Length != 2)
+      {
+        Console.WriteLine("Usage: test_pca9685_pwm <bus> <addr>\n");
+        Environment.Exit(1);
+      }
+
       // Create servo output object
 
       IO.Interfaces.I2C.Bus bus =
-        new IO.Objects.libsimpleio.I2C.Bus("/dev/i2c-1");
+        new IO.Objects.libsimpleio.I2C.Bus(args[0]);
 
       IO.Devices.PCA9685.Device dev =
-        new IO.Devices.PCA9685.Device(bus, 0x40, 50);
+        new IO.Devices.PCA9685.Device(bus, int.Parse(args[1]), 50);
 
       IO.Interfaces.Servo.Output Servo0 =
         new IO.Devices.PCA9685.Servo.Output(dev, 0);
