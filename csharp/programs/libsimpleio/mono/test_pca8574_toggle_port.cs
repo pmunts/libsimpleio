@@ -30,10 +30,17 @@ namespace test_pca8574_toggle_port
     {
       Console.WriteLine("\nPCA8574 GPIO Port Toggle Test\n");
 
-      IO.Interfaces.I2C.Bus bus =
-        new IO.Objects.libsimpleio.I2C.Bus("/dev/i2c-2");
+      if (args.Length != 2)
+      {
+        Console.WriteLine("Usage: test_pca8574_toggle_port <bus> <addr>\n");
+        Environment.Exit(1);
+      }
 
-      IO.Devices.PCA8574.Device dev = new IO.Devices.PCA8574.Device(bus, 0x38);
+      IO.Interfaces.I2C.Bus bus =
+        new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+
+      IO.Devices.PCA8574.Device dev =
+        new IO.Devices.PCA8574.Device(bus, int.Parse(args[1]));
 
       for (;;)
       {
