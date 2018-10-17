@@ -34,6 +34,10 @@ include $(CSHARPSRC)/include/coreapp.mk
 
 default: coreapp_mk_build
 
+# Build a Debian package file
+
+deb: coreapp_mk_deb
+
 # Remove working files
 
 clean: coreapp_mk_clean
