@@ -13,7 +13,6 @@
     <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
     <PackageTags>Linux; I/O; ADC; GPIO; I2C; Serial; SPI; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
-Added support for the PCA9534 and similar I2C GPIO expander devices.
     </PackageReleaseNotes>
   </PropertyGroup>
 
