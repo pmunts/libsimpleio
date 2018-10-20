@@ -14,6 +14,7 @@
     <tags>Linux; USB HID; Remote I/O; ADC; GPIO; I2C; SPI;</tags>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes>
+Added support for the PCA9534 and similar I2C GPIO expander devices.
     </releaseNotes>
   </metadata>
   <files>

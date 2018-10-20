@@ -161,9 +161,6 @@
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
             </summary>
-            <remarks>This class supports the following I<sup>2</sup>C GPIO
-            expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
-            PCA9674, and PCF8574.</remarks>
         </member>
         <member name="M:IO.Devices.PCA8574.GPIO.Pin.#ctor(IO.Devices.PCA8574.Device,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
             <summary>
@@ -183,21 +180,19 @@
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expanders.
             </summary>
-            <remarks>This class supports the following I<sup>2</sup>C GPIO
-            expander devices:  MAX7328, MAX7329, PCA8574, PCA9670, PCA9672,
-            PCA9674, and PCF8574.</remarks>
         </member>
         <member name="F:IO.Devices.PCA8574.Device.MAX_PINS">
             <summary>
             The number of available GPIO pins per chip.
             </summary>
         </member>
-        <member name="M:IO.Devices.PCA8574.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32)">
+        <member name="M:IO.Devices.PCA8574.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32,System.Byte)">
             <summary>
             Constructor for a PCA8574 (or similar) GPIO Expander.
             </summary>
             <param name="bus">I<sup>2</sup>C bus controller.</param>
             <param name="addr">I<sup>2</sup>C slave address.</param>
+            <param name="states">Initial output states.</param>
         </member>
         <member name="M:IO.Devices.PCA8574.Device.Read">
             <summary>
@@ -215,6 +210,122 @@
             <summary>
             This read-only property returns the last value written to the
             output latch.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.PCA9534.GPIO.Pin">
+            <summary>
+            Encapsulates PCA9534 (and similar) I<sup>2</sup>C GPIO Expander pins.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.PCA9534.GPIO.Pin.#ctor(IO.Devices.PCA9534.Device,System.Int32,IO.Interfaces.GPIO.Direction,System.Boolean)">
+            <summary>
+            Constructor for a single GPIO pin.
+            </summary>
+            <param name="dev">PCA9534 (or similar) device.</param>
+            <param name="num">GPIO pin number.</param>
+            <param name="dir">Data direction.</param>
+            <param name="state">Initial output state.</param>
+        </member>
+        <member name="P:IO.Devices.PCA9534.GPIO.Pin.state">
+            <summary>
+            Read/Write GPIO state property.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.PCA9534.Device">
+            <summary>
+            Encapsulates PCA9534 (and similar) I<sup>2</sup>C GPIO Expanders.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9534.Device.MAX_PINS">
+            <summary>
+            The number of available GPIO pins per chip.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9534.Device.InputPortReg">
+            <summary>
+            Input Port Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9534.Device.OutputPortReg">
+            <summary>
+            Output Port Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9534.Device.InputPolarityReg">
+            <summary>
+            Input Port Polarity Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9534.Device.ConfigurationReg">
+            <summary>
+            Configuration Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9534.Device.AllInputs">
+            <summary>
+            Configure all pins as inputs.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9534.Device.AllOutputs">
+            <summary>
+            Configure all pins as outputs.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9534.Device.AllNormal">
+            <summary>
+            Configure all inputs as normal polarity.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.PCA9534.Device.AllOff">
+            <summary>
+            Turn all outputs off.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.PCA9534.Device.#ctor(IO.Interfaces.I2C.Bus,System.Int32,System.Byte,System.Byte)">
+            <summary>
+            Constructor for a PCA9534 (or similar) GPIO Expander.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller.</param>
+            <param name="addr">I<sup>2</sup>C slave address.</param>
+            <param name="config">GPIO pin configuration.</param>
+            <param name="states">Initial output states.</param>
+        </member>
+        <member name="M:IO.Devices.PCA9534.Device.Read(System.Byte)">
+            <summary>
+            Read from the specified PCA9534 device register.
+            </summary>
+            <param name="addr">Register address.</param>
+            <returns>Register contents.</returns>
+        </member>
+        <member name="M:IO.Devices.PCA9534.Device.Write(System.Byte,System.Byte)">
+            <summary>
+            Write to the specified PCA9534 device register.
+            </summary>
+            <param name="addr">Register address.</param>
+            <param name="data">Data to written.</param>
+        </member>
+        <member name="M:IO.Devices.PCA9534.Device.Read">
+            <summary>
+            Return actual state of the GPIO pins.
+            </summary>
+            <returns>Pin states (MSB = GPIO7).</returns>
+        </member>
+        <member name="M:IO.Devices.PCA9534.Device.Write(System.Byte)">
+            <summary>
+            Write all GPIO pins.
+            </summary>
+            <param name="data">Data to write to pins (MSB = GPIO7).</param>
+        </member>
+        <member name="P:IO.Devices.PCA9534.Device.Config">
+            <summary>
+            This read-only property returns the last value written to the
+            configuration register.
+            </summary>
+        </member>
+        <member name="P:IO.Devices.PCA9534.Device.Latch">
+            <summary>
+            This read-only property returns the last value written to the
+            output port register.
             </summary>
         </member>
         <member name="T:IO.Devices.PCA9685.GPIO.Pin">
