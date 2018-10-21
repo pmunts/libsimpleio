@@ -16,7 +16,4 @@
     <releaseNotes>
     </releaseNotes>
   </metadata>
-  <files>
-    <file src="libsimpleio.chm" target="content/libsimpleio" />
-  </files>
 </package>
