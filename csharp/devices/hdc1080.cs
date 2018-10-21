@@ -37,7 +37,7 @@ namespace IO.Devices.HDC1080
         /// <summary>
         /// Humidity Register address.
         /// </summary>
-        public const byte RegHumdity = 0x01;
+        public const byte RegHumidity = 0x01;
 
         /// <summary>
         /// Configuration Register address.
@@ -76,6 +76,7 @@ namespace IO.Devices.HDC1080
         public Device(IO.Interfaces.I2C.Bus bus)
         {
             this.dev = new IO.Interfaces.I2C.Device(bus, 0x40);
+            this.Write(RegConfiguration, 0xA000);
         }
 
         /// <summary>
@@ -85,11 +86,18 @@ namespace IO.Devices.HDC1080
         /// <returns>16-bit register data</returns>
         public ushort Read(byte reg)
         {
+            int delayus = 0;
+
             if ((reg > RegConfiguration) && (reg < RegSerialNumberFirst))
                 throw new System.Exception("Invalid register address");
 
+            if ((reg == RegTemperature) || (reg == RegHumidity))
+                delayus = 65535;
+            else
+                delayus = 0;
+
             this.cmd[0] = reg;
-            this.dev.Transaction(cmd, 1, resp, 2);
+            this.dev.Transaction(cmd, 1, resp, 2, delayus);
             return (ushort)((resp[0] << 8) + resp[1]);
         }
 
@@ -107,6 +115,52 @@ namespace IO.Devices.HDC1080
             this.cmd[1] = (byte)(data / 256);
             this.cmd[2] = (byte)(data % 256);
             this.dev.Write(this.cmd, 3);
+        }
+
+        /// <summary>
+        /// This read-only property reads the temperature,
+        /// in degrees Celsius.
+        /// </summary>
+        public double Temperature
+        {
+            get
+            {
+                return ((double)(Read(RegTemperature))) / 65536.0 * 165.0 - 40.0;
+            }
+        }
+
+        /// <summary>
+        /// This read-only property reads the humidity,
+        /// in percent relative humidity.
+        /// </summary>
+        public double Humidity
+        {
+            get
+            {
+                return ((double)(Read(RegHumidity)))/65536.0*100.0;
+            }
+        }
+
+        /// <summary>
+        /// This read-only property returns the manufacturer ID.
+        /// </summary>
+        public ushort ManufacturerID
+        {
+            get
+            {
+                return Read(RegManufacturerID);
+            }
+        }
+
+        /// <summary>
+        /// This read-only property returns the device ID.
+        /// </summary>
+        public ushort DeviceID
+        {
+            get
+            {
+                return Read(RegDeviceID);
+            }
         }
     }
 }
