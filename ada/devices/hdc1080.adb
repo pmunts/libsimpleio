@@ -100,7 +100,7 @@ PACKAGE BODY HDC1080 IS
   FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
   BEGIN
-    RETURN Temperature.Celsius(Self.Get(RegTemperature))/65536.0*165.0 -40.0;
+    RETURN Temperature.Celsius(Float(Self.Get(RegTemperature))/65536.0*165.0 - 40.0);
   END Get;
 
   -- Get relative humidity
@@ -108,7 +108,7 @@ PACKAGE BODY HDC1080 IS
   FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Humidity.Relative IS
 
   BEGIN
-    RETURN Humidity.Relative(Self.Get(RegHumidity))/65536.0*100.0;
+    RETURN Humidity.Relative(Float(Self.Get(RegHumidity))/65536.0*100.0);
   END Get;
 
   -- Get manufacturer ID
