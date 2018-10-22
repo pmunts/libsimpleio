@@ -51,11 +51,13 @@ BEGIN
 
   Put("Manufacturer ID: ");
   RegisterData_IO.Put(dev.ManufacturerID, 8, 16);
+  New_Line;
+
   Put("Device ID:       ");
   RegisterData_IO.Put(dev.DeviceID, 8, 16);
   New_Line;
-  New_Line;
 
+  New_Line;
   Put_Line("Press CONTROL-C to exit...");
   New_Line;
 
