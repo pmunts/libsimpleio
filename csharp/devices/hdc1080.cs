@@ -76,7 +76,15 @@ namespace IO.Devices.HDC1080
         public Device(IO.Interfaces.I2C.Bus bus)
         {
             this.dev = new IO.Interfaces.I2C.Device(bus, 0x40);
-            this.Write(RegConfiguration, 0xA000);
+
+            // Issue software reset
+
+            this.Write(RegConfiguration, 0x8000);
+            System.Threading.Thread.Sleep(100);
+
+            // Heater on, acquire temp or humidity, 14 bit resolutions
+
+            this.Write(RegConfiguration, 0x2000);
         }
 
         /// <summary>
