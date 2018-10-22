@@ -33,7 +33,8 @@ PACKAGE HTU21D IS
 
   -- Object constructor
 
-  FUNCTION Create(bus : I2C.Bus; addr : I2C.Address) RETURN Device;
+  FUNCTION Create(bus : I2C.Bus; addr : I2C.Address;
+    clockstretch : Boolean := False) RETURN Device;
 
   -- Get Celsius temperature
 
@@ -49,6 +50,8 @@ PRIVATE
     Humidity.Interfaces.InputInterface WITH RECORD
     bus     : I2C.Bus;
     address : I2C.Address;
+    tdelay  : I2C.Microseconds;
+    hdelay  : I2C.Microseconds;
   END RECORD;
 
 END HTU21D;

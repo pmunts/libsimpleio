@@ -28,6 +28,12 @@ USE TYPE Temperature.Celsius;
 
 PACKAGE BODY HTU21D IS
 
+  -- Per datasheet, maximum conversion time is 50 ms
+  TemperatureConversionTime : CONSTANT I2C.Microseconds := 54000;
+
+  -- Per datasheet, maximum conversion time is 16 ms
+  HumidityConversionTime    : CONSTANT I2C.Microseconds := 20000;
+
   TYPE SensorData IS MOD 65536;
 
   -- Command definitions
@@ -40,10 +46,16 @@ PACKAGE BODY HTU21D IS
 
   -- Object constructor
 
-  FUNCTION Create(bus : I2C.Bus; addr : I2C.Address) RETURN Device IS
+  FUNCTION Create(bus : I2C.Bus; addr : I2C.Address;
+    clockstretch : Boolean := False) RETURN Device IS
 
   BEGIN
-    RETURN NEW DeviceSubclass'(bus, addr);
+    IF clockstretch THEN
+      RETURN NEW DeviceSubclass'(bus, addr, 0, 0);
+    ELSE
+      RETURN NEW DeviceSubclass'(bus, addr, TemperatureConversionTime,
+        HumidityConversionTime);
+    END IF;
   END Create;
 
   -- Get Celsius temperature
@@ -56,7 +68,7 @@ PACKAGE BODY HTU21D IS
 
   BEGIN
     cmd(0) := CMD_GET_TEMPERATURE;
-    Self.bus.Transaction(Self.address, cmd, 1, resp, 3);
+    Self.bus.Transaction(Self.address, cmd, 1, resp, 3, Self.tdelay);
     rawvalue := (SensorData(resp(0))*256 + SensorData(resp(1))) AND 16#FFFC#;
 
     RETURN Temperature.Celsius(175.72*Float(rawvalue)/65536.0 - 46.85);
@@ -72,7 +84,7 @@ PACKAGE BODY HTU21D IS
 
   BEGIN
     cmd(0) := CMD_GET_HUMIDITY;
-    Self.bus.Transaction(Self.address, cmd, 1, resp, 3);
+    Self.bus.Transaction(Self.address, cmd, 1, resp, 3, Self.hdelay);
     rawvalue := (SensorData(resp(0))*256 + SensorData(resp(1))) AND 16#FFF0#;
 
     IF rawvalue > 55574 THEN -- Clip high value to 100%
