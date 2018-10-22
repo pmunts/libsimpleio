@@ -42,9 +42,9 @@ PACKAGE BODY HDC1080 IS
     dev.Put(RegConfiguration, 16#8000#);
     DELAY 0.1;
 
-    -- Heater on, acquire temp or humidity, 14 bit resolutions
+    -- Heater off, acquire temp or humidity, 14 bit resolutions
 
-    dev.Put(RegConfiguration, 16#2000#);
+    dev.Put(RegConfiguration, 16#0000#);
 
     RETURN dev;
   END Create;
