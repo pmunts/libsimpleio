@@ -20,7 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH I2C;
 WITH Humidity;
 WITH Temperature;
 
@@ -28,6 +27,19 @@ USE TYPE Humidity.Relative;
 USE TYPE Temperature.Celsius;
 
 PACKAGE BODY HDC1080 IS
+
+  -- Object constructor
+
+  FUNCTION Create(bus : I2C.Bus) RETURN Device IS
+
+    dev : Device;
+
+  BEGIN
+    dev := NEW DeviceSubclass'(bus, 16#40#);
+    dev.Put(RegConfiguration, 16#A000#);
+
+    RETURN dev;
+  END Create;
 
   -- Read from an HDC1080 device register
 
@@ -74,19 +86,6 @@ PACKAGE BODY HDC1080 IS
 
     Self.bus.Write(Self.address, cmd, cmd'Length);    
   END Put;
-
-  -- Object constructor
-
-  FUNCTION Create(bus : I2C.Bus) RETURN Device IS
-
-    dev : Device;
-
-  BEGIN
-    dev := NEW DeviceSubclass'(bus, 16#27#);
-    dev.Put(RegConfiguration, 16#A000#);
-
-    RETURN dev;
-  END Create;
 
   -- Get Celsius temperature
 
