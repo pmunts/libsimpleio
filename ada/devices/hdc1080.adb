@@ -36,7 +36,15 @@ PACKAGE BODY HDC1080 IS
 
   BEGIN
     dev := NEW DeviceSubclass'(bus, 16#40#);
-    dev.Put(RegConfiguration, 16#A000#);
+
+    -- Issue software reset
+
+    dev.Put(RegConfiguration, 16#8000#);
+    DELAY 0.1;
+
+    -- Heater on, Acquire temp or humidity, 14 bit resolutions
+
+    dev.Put(RegConfiguration, 16#2000#);
 
     RETURN dev;
   END Create;
