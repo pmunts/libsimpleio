@@ -157,6 +157,93 @@
             Return the number of bits of A/D resolution.
             </summary>
         </member>
+        <member name="T:IO.Devices.HDC1080.Device">
+            <summary>
+            Encapsulates the HDC1080 temperature and humidity sensor.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.HDC1080.Device.RegTemperature">
+            <summary>
+            Temperature Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.HDC1080.Device.RegHumidity">
+            <summary>
+            Humidity Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.HDC1080.Device.RegConfiguration">
+            <summary>
+            Configuration Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.HDC1080.Device.RegSerialNumberFirst">
+            <summary>
+            Serial Number First Bits Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.HDC1080.Device.RegSerialNumberMid">
+            <summary>
+            Serial Number Middle Bits Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.HDC1080.Device.RegSerialNumberLast">
+            <summary>
+            Serial Number Last Bits Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.HDC1080.Device.RegManufacturerID">
+            <summary>
+            Manufacturer ID Register address.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.HDC1080.Device.RegDeviceID">
+            <summary>
+            Device ID Register address.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.HDC1080.Device.#ctor(IO.Interfaces.I2C.Bus)">
+            <summary>
+            Constructor for an HDC1080 temperature and humidity sensor object.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller.</param>
+        </member>
+        <member name="M:IO.Devices.HDC1080.Device.Read(System.Byte)">
+            <summary>
+            Read from an HDC1080 device register.
+            </summary>
+            <param name="reg">8-bit register address.</param>
+            <returns>16-bit register data</returns>
+        </member>
+        <member name="M:IO.Devices.HDC1080.Device.Write(System.Byte,System.UInt16)">
+            <summary>
+            Write to an HDC1080 device register.
+            </summary>
+            <param name="reg">8-bit register address.</param>
+            <param name="data">16-bit register data.</param>
+        </member>
+        <member name="P:IO.Devices.HDC1080.Device.Temperature">
+            <summary>
+            This read-only property reads the temperature,
+            in degrees Celsius.
+            </summary>
+        </member>
+        <member name="P:IO.Devices.HDC1080.Device.Humidity">
+            <summary>
+            This read-only property reads the humidity,
+            in percent relative humidity.
+            </summary>
+        </member>
+        <member name="P:IO.Devices.HDC1080.Device.ManufacturerID">
+            <summary>
+            This read-only property returns the manufacturer ID.
+            </summary>
+        </member>
+        <member name="P:IO.Devices.HDC1080.Device.DeviceID">
+            <summary>
+            This read-only property returns the device ID.
+            </summary>
+        </member>
         <member name="T:IO.Devices.PCA8574.GPIO.Pin">
             <summary>
             Encapsulates PCA8574 (and similar) I<sup>2</sup>C GPIO Expander pins.
