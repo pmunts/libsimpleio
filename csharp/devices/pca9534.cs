@@ -100,7 +100,7 @@ namespace IO.Devices.PCA9534
         public byte Read(byte addr)
         {
             if (addr > ConfigurationReg)
-                throw new System.Exception("Invalid register address"); 
+                throw new System.Exception("Invalid register address");
 
             this.cmd[0] = addr;
             this.dev.Transaction(this.cmd, 1, this.resp, 1);
@@ -115,7 +115,7 @@ namespace IO.Devices.PCA9534
         public void Write(byte addr, byte data)
         {
             if (addr > ConfigurationReg)
-                throw new System.Exception("Invalid register address"); 
+                throw new System.Exception("Invalid register address");
 
             if (addr == InputPortReg)
                 throw new System.Exception("Cannot write to input port register");

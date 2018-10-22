@@ -29,7 +29,7 @@ PACKAGE MCP4822 IS
 
   Resolution : CONSTANT Positive := 12;
 
-  
+
   TYPE Channel IS NEW Natural RANGE 0 .. 1; -- 0=DAC-A, 1=DAC-B
 
   TYPE OutputGains IS NEW Natural RANGE 1 .. 2;

@@ -76,7 +76,7 @@ PACKAGE BODY MCP4822 IS
     cmd(0) := Self.cmd OR SPI.Byte(value / 256);
     cmd(1) := SPI.Byte(value MOD 256);
 
-    Self.spidev.Write(cmd, cmd'Length); 
+    Self.spidev.Write(cmd, cmd'Length);
   END Put;
 
 END MCP4822;
