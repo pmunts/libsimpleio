@@ -63,11 +63,9 @@ BEGIN
 
   LOOP
     Put("Temperature: ");
-    Temperature.Celsius_IO.Put(dev.Get, 4, 1, 0);
-    Put("  ");
-    Put("Humidity: ");
-    Humidity.Relative_IO.Put(dev.Get, 4, 1, 0);
-    New_Line;
+    Temperature.Celsius_IO.Put(dev.Get, 0, 1, 0);
+    Put("  Humidity: ");
+    Humidity.Relative_IO.Put(dev.Get, 0, 1, 0);
     New_Line;
 
     DELAY 1.0;
