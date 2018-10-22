@@ -82,9 +82,9 @@ namespace IO.Devices.HDC1080
             this.Write(RegConfiguration, 0x8000);
             System.Threading.Thread.Sleep(100);
 
-            // Heater on, acquire temp or humidity, 14 bit resolutions
+            // Heater off, acquire temp or humidity, 14 bit resolutions
 
-            this.Write(RegConfiguration, 0x2000);
+            this.Write(RegConfiguration, 0x0000);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace IO.Devices.HDC1080
                 throw new System.Exception("Invalid register address");
 
             if ((reg == RegTemperature) || (reg == RegHumidity))
-                delayus = 65535;
+                delayus = 10000;
             else
                 delayus = 0;
 
