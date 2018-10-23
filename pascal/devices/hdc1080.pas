@@ -30,7 +30,7 @@ INTERFACE
 
   TYPE
     Error = CLASS(Exception);
- 
+
     Device = CLASS
       CONSTRUCTOR Create(bus : I2C.Bus);
 
@@ -61,7 +61,7 @@ IMPLEMENTATION
     RegSerialNumberLast   = $FD;
     RegManufacturerID     = $FE;
     RegDeviceID           = $FF;
-    
+
   CONSTRUCTOR Device.Create(bus : I2C.Bus);
 
   BEGIN
@@ -72,7 +72,7 @@ IMPLEMENTATION
 
     Self.Write(RegConfiguration, $8000);
     Sleep(100);
-    
+
     { Heater off, acquire temp or humidity, 14 bit resolutions }
 
     Self.Write(RegConfiguration, $0000);

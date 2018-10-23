@@ -92,7 +92,7 @@ PACKAGE BODY HDC1080 IS
     cmd(1) := I2C.Byte(data / 256);
     cmd(2) := I2C.Byte(data MOD 256);
 
-    Self.bus.Write(Self.address, cmd, cmd'Length);    
+    Self.bus.Write(Self.address, cmd, cmd'Length);
   END Put;
 
   -- Get Celsius temperature
