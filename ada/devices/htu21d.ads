@@ -50,8 +50,7 @@ PRIVATE
     Humidity.Interfaces.InputInterface WITH RECORD
     bus     : I2C.Bus;
     address : I2C.Address;
-    tdelay  : I2C.Microseconds;
-    hdelay  : I2C.Microseconds;
+    stretch : Boolean;      -- Hold I2C bus during conversion
   END RECORD;
 
 END HTU21D;

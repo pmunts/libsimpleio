@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Text_IO; USE Ada.Text_IO;
+
 WITH Humidity;
 WITH Temperature;
 
@@ -27,6 +29,9 @@ USE TYPE Humidity.Relative;
 USE TYPE Temperature.Celsius;
 
 PACKAGE BODY HTU21D IS
+
+  -- Per datasheet, maximum reset time is 15 ms
+  ResetTime : CONSTANT Duration := 20.0/1000.0;
 
   -- Per datasheet, maximum conversion time is 50 ms
   TemperatureConversionTime : CONSTANT I2C.Microseconds := 54000;
@@ -38,24 +43,38 @@ PACKAGE BODY HTU21D IS
 
   -- Command definitions
 
-  CMD_GET_TEMPERATURE : CONSTANT := 16#E3#;
-  CMD_GET_HUMIDITY    : CONSTANT := 16#E5#;
-  CMD_GET_CONFIG      : CONSTANT := 16#E7#;
-  CMD_PUT_CONFIG      : CONSTANT := 16#E6#;
-  CMD_SOFT_RESET      : CONSTANT := 16#FE#;
+  CMD_GET_CONFIG           : CONSTANT := 16#E7#;
+  CMD_GET_TEMPERATURE_HOLD : CONSTANT := 16#E3#;
+  CMD_GET_HUMIDITY_HOLD    : CONSTANT := 16#E5#;
+  CMD_GET_TEMPERATURE_WAIT : CONSTANT := 16#F3#;
+  CMD_GET_HUMIDITY_WAIT    : CONSTANT := 16#F5#;
+  CMD_PUT_CONFIG           : CONSTANT := 16#E6#;
+  CMD_PUT_RESET            : CONSTANT := 16#FE#;
 
   -- Object constructor
 
   FUNCTION Create(bus : I2C.Bus; addr : I2C.Address;
     clockstretch : Boolean := False) RETURN Device IS
 
+    Self : Device;
+    cmd  : I2C.Command(0 .. 1);
+
   BEGIN
-    IF clockstretch THEN
-      RETURN NEW DeviceSubclass'(bus, addr, 0, 0);
-    ELSE
-      RETURN NEW DeviceSubclass'(bus, addr, TemperatureConversionTime,
-        HumidityConversionTime);
-    END IF;
+    Self := NEW DeviceSubclass'(bus, addr, clockstretch);
+
+    -- Issue reset command
+
+    cmd(0) := CMD_PUT_RESET;
+    Self.bus.Write(Self.address, cmd, 1);
+    DELAY ResetTime;
+
+    -- Configure resolutions
+
+    cmd(0) := CMD_PUT_CONFIG;
+    cmd(1) := 16#00#; -- 12 bits humidity, 14 bits temperature
+    Self.bus.Write(Self.address, cmd, 2);
+
+    RETURN Self;
   END Create;
 
   -- Get Celsius temperature
@@ -63,12 +82,19 @@ PACKAGE BODY HTU21D IS
   FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius IS
 
     cmd      : I2C.Command(0 .. 0);
-    resp     : I2C.Response(0 .. 2);
+    resp     : I2C.Response(0 .. 1);
     rawvalue : SensorData;
 
   BEGIN
-    cmd(0) := CMD_GET_TEMPERATURE;
-    Self.bus.Transaction(Self.address, cmd, 1, resp, 3, Self.tdelay);
+    IF Self.stretch THEN
+      cmd(0) := CMD_GET_TEMPERATURE_HOLD;
+      Self.bus.Transaction(Self.address, cmd, 1, resp, 2);
+    ELSE
+      cmd(0) := CMD_GET_TEMPERATURE_WAIT;
+      Self.bus.Transaction(Self.address, cmd, 1, resp, 2,
+        TemperatureConversionTime);
+    END IF;
+
     rawvalue := (SensorData(resp(0))*256 + SensorData(resp(1))) AND 16#FFFC#;
 
     RETURN Temperature.Celsius(175.72*Float(rawvalue)/65536.0 - 46.85);
@@ -79,12 +105,19 @@ PACKAGE BODY HTU21D IS
   FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Humidity.Relative IS
 
     cmd      : I2C.Command(0 .. 0);
-    resp     : I2C.Response(0 .. 2);
+    resp     : I2C.Response(0 .. 1);
     rawvalue : SensorData;
 
   BEGIN
-    cmd(0) := CMD_GET_HUMIDITY;
-    Self.bus.Transaction(Self.address, cmd, 1, resp, 3, Self.hdelay);
+    IF Self.stretch THEN
+      cmd(0) := CMD_GET_HUMIDITY_HOLD;
+      Self.bus.Transaction(Self.address, cmd, 1, resp, 2);
+    ELSE
+      cmd(0) := CMD_GET_HUMIDITY_WAIT;
+      Self.bus.Transaction(Self.address, cmd, 1, resp, 2,
+        HumidityConversionTime);
+    END IF;
+
     rawvalue := (SensorData(resp(0))*256 + SensorData(resp(1))) AND 16#FFF0#;
 
     IF rawvalue > 55574 THEN -- Clip high value to 100%
