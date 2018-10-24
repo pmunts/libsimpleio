@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
 #include <cstring>
 
+#include <exception-libsimpleio.h>
 #include <pca9685.h>
 
 // PCA9685 Register addresses -- Only a few are defined here: Those that we
@@ -40,9 +40,14 @@ PCA9685::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr,
 {
   // Validate parameters
 
-  if (bus == nullptr) throw EINVAL;
-  if (addr > 127) throw EINVAL;
-  if (clock > 50000000) throw EINVAL;
+  if (bus == nullptr)
+    THROW_MSG("The bus parameter is NULL");
+
+  if (addr > 127)
+    THROW_MSG("The addr parameter is out of range");
+
+  if (clock > 50000000)
+    THROW_MSG("The clock parameter is out of range");
 
   // Save some parameters
 
@@ -84,7 +89,8 @@ void PCA9685::Device_Class::ReadChannel(unsigned channel, uint8_t *regdata)
 {
   // Validate parameters
 
-  if (channel >= MaxChannels) throw EINVAL;
+  if (channel >= MaxChannels)
+    THROW_MSG("The channel parameter is out of range");
 
   uint8_t cmd[1];
 
@@ -98,7 +104,8 @@ void PCA9685::Device_Class::WriteChannel(unsigned channel,
 {
   // Validate parameters
 
-  if (channel >= MaxChannels) throw EINVAL;
+  if (channel >= MaxChannels)
+    THROW_MSG("The channel parameter is out of range");
 
   uint8_t cmd[5];
 
@@ -130,8 +137,11 @@ PCA9685::GPIO_Output_Class::GPIO_Output_Class(Device dev, unsigned channel,
 {
   // Validate parameters
 
-  if (dev == nullptr) throw EINVAL;
-  if (channel >= MaxChannels) throw EINVAL;
+  if (dev == nullptr)
+    THROW_MSG("The dev parameter is NULL");
+
+  if (channel >= MaxChannels)
+    THROW_MSG("The channel parameter is out of range");
 
   // Write the channel settings
 
@@ -167,10 +177,17 @@ PCA9685::PWM_Output_Class::PWM_Output_Class(Device dev, unsigned channel,
 {
   // Validate parameters
 
-  if (dev == nullptr) throw EINVAL;
-  if (channel >= MaxChannels) throw EINVAL;
-  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw EINVAL;
-  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw EINVAL;
+  if (dev == nullptr)
+    THROW_MSG("The dev parameter is NULL");
+
+  if (channel >= MaxChannels)
+    THROW_MSG("The channel parameter is out of range");
+
+  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN)
+    THROW_MSG("The dutycycle parameter is out of range");
+
+  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX)
+    THROW_MSG("The dutycycle parameter is out of range");
 
   // Calculate the channel settings for the desired duty cycle
 
@@ -191,8 +208,11 @@ void PCA9685::PWM_Output_Class::write(const double dutycycle)
 {
   // Validate parameters
 
-  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN) throw EINVAL;
-  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX) throw EINVAL;
+  if (dutycycle < Interfaces::PWM::DUTYCYCLE_MIN)
+    THROW_MSG("The dutycycle parameter is out of range");
+
+  if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX)
+    THROW_MSG("The dutycycle parameter is out of range");
 
   // Calculate the channel settings for the desired duty cycle
 
@@ -213,10 +233,17 @@ PCA9685::Servo_Output_Class::Servo_Output_Class(Device dev, unsigned channel,
 {
   // Validate parameters
 
-  if (dev == nullptr) throw EINVAL;
-  if (channel >= MaxChannels) throw EINVAL;
-  if (position < Interfaces::Servo::POSITION_MIN) throw EINVAL;
-  if (position > Interfaces::Servo::POSITION_MAX) throw EINVAL;
+  if (dev == nullptr)
+    THROW_MSG("The dev parameter is NULL");
+
+  if (channel >= MaxChannels)
+    THROW_MSG("The channel parameter is out of range");
+
+  if (position < Interfaces::Servo::POSITION_MIN)
+    THROW_MSG("The position parameter is out of range");
+
+  if (position > Interfaces::Servo::POSITION_MAX)
+    THROW_MSG("The position parameter is out of range");
 
   // Calculate the channel settings for the desired position
 
@@ -238,8 +265,11 @@ void PCA9685::Servo_Output_Class::write(const double position)
 {
   // Validate parameters
 
-  if (position < Interfaces::Servo::POSITION_MIN) throw EINVAL;
-  if (position > Interfaces::Servo::POSITION_MAX) throw EINVAL;
+  if (position < Interfaces::Servo::POSITION_MIN)
+    THROW_MSG("The position parameter is out of range");
+
+  if (position > Interfaces::Servo::POSITION_MAX)
+    THROW_MSG("The position parameter is out of range");
 
   // Calculate the channel settings for the desired position
 

@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <mcp4822.h>
 
 // Device class constructor
@@ -30,7 +29,8 @@ MCP4822::Device_Class::Device_Class(Interfaces::SPI::Device dev)
 {
   // Validate parameters
 
-  if (dev == nullptr) throw EINVAL;
+  if (dev == nullptr)
+    THROW_MSG("The dev parameter is NULL");
 
   this->dev = dev;
 }
@@ -41,8 +41,11 @@ void MCP4822::Device_Class::write(unsigned channel, int sample)
 {
   // Validate parameters
 
-  if (channel >= MaxChannels) throw EINVAL;
-  if ((sample < 0) || (sample >= int(Steps))) throw EINVAL;
+  if (channel >= MaxChannels)
+    THROW_MSG("The channel parameter is out of range");
+
+  if ((sample < 0) || (sample >= int(Steps)))
+    THROW_MSG("The sample parameter is out of range");
 
   uint8_t cmd[2];
 
@@ -58,8 +61,11 @@ MCP4822::Sample_Subclass::Sample_Subclass(Device dev, unsigned channel)
 {
   // Validate parameters
 
-  if (dev == nullptr) throw EINVAL;
-  if (channel >= MaxChannels) throw EINVAL;
+  if (dev == nullptr)
+    THROW_MSG("The dev parameter is NULL");
+
+  if (channel >= MaxChannels)
+    THROW_MSG("The channel parameter is out of range");
 
   this->dev = dev;
   this->channel = channel;
@@ -71,7 +77,8 @@ void MCP4822::Sample_Subclass::write(const int sample)
 {
   // Validate parameters
 
-  if ((sample < 0) || (sample >= int(Steps))) throw EINVAL;
+  if ((sample < 0) || (sample >= int(Steps)))
+    THROW_MSG("The sample parameter is out of range");
 
   this->dev->write(this->channel, sample);
 }

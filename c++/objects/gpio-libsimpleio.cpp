@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <gpio-libsimpleio.h>
 #include <libsimpleio/libgpio.h>
 
@@ -65,12 +64,23 @@ libsimpleio::GPIO::Pin_Class::Pin_Class(libsimpleio::GPIO::Designator pin,
 
   // Validate parameters
 
-  if (pin.chip == libsimpleio::GPIO::Unavailable.chip) throw EINVAL;
-  if (pin.line == libsimpleio::GPIO::Unavailable.line) throw EINVAL;
-  if (direction > GPIO_DIRECTION_OUTPUT) throw EINVAL;
-  if (driver > GPIO_DRIVER_OPEN_SOURCE) throw EINVAL;
-  if (polarity > GPIO_POLARITY_ACTIVEHIGH) throw EINVAL;
-  if (edge > GPIO_EDGE_BOTH) throw EINVAL;
+  if (pin.chip == libsimpleio::GPIO::Unavailable.chip)
+    THROW_MSG("The GPIO pin is unavailable");
+
+  if (pin.line == libsimpleio::GPIO::Unavailable.line)
+    THROW_MSG("The GPIO pin is unavailable");
+
+  if (direction > GPIO_DIRECTION_OUTPUT)
+    THROW_MSG("The direction parameter is out of range");
+
+  if (driver > GPIO_DRIVER_OPEN_SOURCE)
+    THROW_MSG("The driver parameter is out of range");
+
+  if (polarity > GPIO_POLARITY_ACTIVEHIGH)
+    THROW_MSG("The polarity parameter is out of range");
+
+  if (edge > GPIO_EDGE_BOTH)
+    THROW_MSG("The edge parameter is out of range");
 
   // Compute the request flags
 
@@ -80,7 +90,7 @@ libsimpleio::GPIO::Pin_Class::Pin_Class(libsimpleio::GPIO::Designator pin,
   // Open the GPIO line
 
   GPIO_line_open(pin.chip, pin.line, flags, events, state, &fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("GPIO_line_open() failed", error);
 
   this->fd = fd;
   this->interrupt = (edge != GPIO_EDGE_NONE);
@@ -97,10 +107,23 @@ libsimpleio::GPIO::Pin_Class::Pin_Class(unsigned chip, unsigned line,
 
   // Validate parameters
 
-  if (direction > GPIO_DIRECTION_OUTPUT) throw EINVAL;
-  if (driver > GPIO_DRIVER_OPEN_SOURCE) throw EINVAL;
-  if (polarity > GPIO_POLARITY_ACTIVEHIGH) throw EINVAL;
-  if (edge > GPIO_EDGE_BOTH) throw EINVAL;
+  if (chip == libsimpleio::GPIO::Unavailable.chip)
+    THROW_MSG("The GPIO pin is unavailable");
+
+  if (line == libsimpleio::GPIO::Unavailable.line)
+    THROW_MSG("The GPIO pin is unavailable");
+
+  if (direction > GPIO_DIRECTION_OUTPUT)
+    THROW_MSG("The direction parameter is out of range");
+
+  if (driver > GPIO_DRIVER_OPEN_SOURCE)
+    THROW_MSG("The driver parameter is out of range");
+
+  if (polarity > GPIO_POLARITY_ACTIVEHIGH)
+    THROW_MSG("The polarity parameter is out of range");
+
+  if (edge > GPIO_EDGE_BOTH)
+    THROW_MSG("The edge parameter is out of range");
 
   // Compute the request flags
 
@@ -110,7 +133,7 @@ libsimpleio::GPIO::Pin_Class::Pin_Class(unsigned chip, unsigned line,
   // Open the GPIO line
 
   GPIO_line_open(chip, line, flags, events, state, &fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("GPIO_line_open() failed", error);
 
   this->fd = fd;
   this->interrupt = (edge != GPIO_EDGE_NONE);
@@ -124,11 +147,16 @@ bool libsimpleio::GPIO::Pin_Class::read(void)
   int32_t error;
 
   if (this->interrupt)
+  {
     GPIO_line_event(this->fd, &state, &error);
+    if (error) THROW_MSG_ERR("GPIO_line_event() failed", error);
+  }
   else
+  {
     GPIO_line_read(this->fd, &state, &error);
+    if (error) THROW_MSG_ERR("GPIO_line_read() failed", error);
+  }
 
-  if (error) throw error;
 
   return state;
 }
@@ -137,8 +165,8 @@ void libsimpleio::GPIO::Pin_Class::write(const bool state)
 {
   int32_t error;
 
-  if (this->interrupt) throw EIO;
+  if (this->interrupt) THROW_MSG("Cannot write to interrupt pin");
 
   GPIO_line_write(this->fd, state, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("GPIO_line_write() failed", error);
 }

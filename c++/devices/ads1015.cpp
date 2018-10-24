@@ -20,9 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
 #include <ads1015.h>
+#include <exception-libsimpleio.h>
 
 // Map full scale range enum to double
 
@@ -34,8 +33,8 @@ ADS1015::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
 {
   // Validate parameters
 
-  if (bus == nullptr) throw EINVAL;
-  if (addr > 127) throw EINVAL;
+  if (bus == nullptr) THROW_MSG("The bus parameter is NULL");
+  if (addr > 127)     THROW_MSG("The addr parameter is out of range");
 
   this->bus = bus;
   this->addr = addr;
@@ -47,7 +46,7 @@ uint16_t ADS1015::Device_Class::ReadRegister(unsigned reg)
 {
   // Validate parameters
 
-  if (reg > HIGH_THRESHOLD) throw EINVAL;
+  if (reg > HIGH_THRESHOLD) THROW_MSG("The reg parameter is out of range");
 
   uint8_t cmd[1];
   uint8_t resp[2];
@@ -65,7 +64,7 @@ void ADS1015::Device_Class::WriteRegister(unsigned reg, uint16_t value)
 {
   // Validate parameters
 
-  if (reg > HIGH_THRESHOLD) throw EINVAL;
+  if (reg > HIGH_THRESHOLD) THROW_MSG("The reg parameter is out of range");
 
   uint8_t cmd[3];
 
@@ -88,9 +87,9 @@ ADS1015::Input_Class::Input_Class(Device dev, unsigned channel, unsigned range,
   // Validate parameters
 
 
-  if (dev == nullptr) throw EINVAL;
-  if (channel > Diff23) throw EINVAL;
-  if (range > FSR256) throw EINVAL;
+  if (dev == nullptr)   THROW_MSG("The dev parameter is NULL");
+  if (channel > Diff23) THROW_MSG("The channel parameter is out of range");
+  if (range > FSR256)   THROW_MSG("The range parameter is out of range");
 
   this->dev = dev;
   this->channel = PermuteChannels[channel];

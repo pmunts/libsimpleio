@@ -1,4 +1,4 @@
-// Abstract interface for ADC (Analog to Digital Converter) inputs
+// Exception Wrappers
 
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,35 +20,21 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <adc-interface.h>
-#include <exception-libsimpleio.h>
+#ifndef _EXCEPTION_H_
+#define _EXCEPTION_H_
 
-Interfaces::ADC::Sample_Interface::operator int(void)
-{
-  return this->sample();
-}
+#include <stdexcept>
 
-Interfaces::ADC::Voltage_Interface::operator double(void)
-{
-  return this->voltage();
-}
+// These macros allow capturing exception locality information
 
-Interfaces::ADC::Input_Class::Input_Class(Sample input, double reference,
-  double gain)
-{
-  // Validate parameters
+#define THROW()				_Throw(__FUNCTION__, __FILE__, __LINE__)
+#define THROW_ERR(error)		_Throw_Error(__FUNCTION__, __FILE__, __LINE__, error)
+#define THROW_MSG(msg)			_Throw_Message(__FUNCTION__, __FILE__, __LINE__, msg)
+#define THROW_MSG_ERR(msg, error)	_Throw_Message_Error(__FUNCTION__, __FILE__, __LINE__, msg, error)
 
-  if (reference == 0.0)
-    THROW_MSG("The reference parameter cannot be zero");
+void _Throw(const char *func, const char *file, int line);
+void _Throw_Error(const char *func, const char *file, int line, int error);
+void _Throw_Message(const char *func, const char *file, int line, const char *msg);
+void _Throw_Message_Error(const char *func, const char *file, int line, const char *msg, int error);
 
-  if (gain == 0.0)
-    THROW_MSG("The gain parameter cannot be zero");
-
-  this->input = input;
-  this->stepsize = reference/(1 << input->resolution())/gain;
-}
-
-double Interfaces::ADC::Input_Class::voltage(void)
-{
-  return this->input->sample()*this->stepsize;
-}
+#endif

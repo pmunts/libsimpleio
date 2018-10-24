@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
 #include <cstdint>
 
+#include <exception-libsimpleio.h>
 #include <hid-libsimpleio.h>
 #include <libsimpleio/libhidraw.h>
 #include <libsimpleio/liblinux.h>
@@ -36,7 +36,7 @@ libsimpleio::HID::Messenger_Class::Messenger_Class(const char *name,
   int32_t error;
 
   HIDRAW_open(name, &fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("HIDRAW_open() failed", error);
 
   this->fd = fd;
   this->timeout = timeoutms;
@@ -49,7 +49,7 @@ libsimpleio::HID::Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID,
   int32_t error;
 
   HIDRAW_open_id(VID, PID, &fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("HIDRAW_open_id() failed", error);
 
   this->fd = fd;
   this->timeout = timeoutms;
@@ -66,8 +66,11 @@ void libsimpleio::HID::Messenger_Class::Send(
   HIDRAW_send(this->fd, cmd->payload, Interfaces::Message64::Size, &count,
     &error);
 
-  if (error) throw error;
-  if (count != Interfaces::Message64::Size) throw EIO;
+  if (error)
+    THROW_MSG_ERR("HIDRAW_send() failed", error);
+
+  if (count != Interfaces::Message64::Size)
+    THROW_MSG("Returned byte count is invalid");
 }
 
 void libsimpleio::HID::Messenger_Class::Receive(
@@ -83,14 +86,17 @@ void libsimpleio::HID::Messenger_Class::Receive(
     int32_t results[1] = { 0 };
 
     LINUX_poll(1, files, events, results, this->timeout, &error);
-    if (error) throw error;
+    if (error) THROW_MSG_ERR("LINUX_poll() failed", error);
   }
 
   HIDRAW_receive(this->fd, cmd->payload, Interfaces::Message64::Size, &count,
     &error);
 
-  if (error) throw error;
-  if (count != Interfaces::Message64::Size) throw EIO;
+  if (error)
+    THROW_MSG_ERR("HIDRAW_receive() failed", error);
+
+  if (count != Interfaces::Message64::Size)
+    THROW_MSG("Returned byte count is invalid");
 }
 
 void libsimpleio::HID::Messenger_Class::Transaction(

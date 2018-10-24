@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <mcp3202.h>
 
 // Device class constructor
@@ -30,7 +29,7 @@ MCP3202::Device_Class::Device_Class(Interfaces::SPI::Device dev)
 {
   // Validate parameters
 
-  if (dev == nullptr) throw EINVAL;
+  if (dev == nullptr) THROW_MSG("The dev parameter is NULL");
 
   this->dev = dev;
 }
@@ -42,8 +41,8 @@ MCP3202::Sample_Subclass::Sample_Subclass(Device dev, unsigned channel,
 {
   // Validate parameters
 
-  if (dev == nullptr) throw EINVAL;
-  if (channel >= MaxChannels) throw EINVAL;
+  if (dev == nullptr)         THROW_MSG("The dev parameter is NULL");
+  if (channel >= MaxChannels) THROW_MSG("The channel parameter is out of range");
 
   this->dev = dev;
   this->channel = channel;

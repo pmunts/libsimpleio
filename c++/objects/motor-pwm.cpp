@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <motor-pwm.h>
 
 // Type 1 motor control systems:
@@ -34,10 +33,17 @@ Motor::PWM::Output_Class::Output_Class(Interfaces::PWM::Output speed,
 {
   // Validate parameters
 
-  if (speed == nullptr) throw EINVAL;
-  if (dir == nullptr) throw EINVAL;
-  if (velocity < Interfaces::Motor::VELOCITY_MIN) throw EINVAL;
-  if (velocity > Interfaces::Motor::VELOCITY_MAX) throw EINVAL;
+  if (speed == nullptr)
+    THROW_MSG("The speed parameter is NULL");
+
+  if (dir == nullptr)
+    THROW_MSG("The dir parameter is NULL");
+
+  if (velocity < Interfaces::Motor::VELOCITY_MIN)
+    THROW_MSG("The velocity parameter is out of range");
+
+  if (velocity > Interfaces::Motor::VELOCITY_MAX)
+    THROW_MSG("The velocity parameter is out of range");
 
   this->dir = dir;
   this->pwm1 = speed;
@@ -56,10 +62,17 @@ Motor::PWM::Output_Class::Output_Class(Interfaces::PWM::Output cw,
 {
   // Validate parameters
 
-  if (cw == nullptr) throw EINVAL;
-  if (ccw == nullptr) throw EINVAL;
-  if (velocity < Interfaces::Motor::VELOCITY_MIN) throw EINVAL;
-  if (velocity > Interfaces::Motor::VELOCITY_MAX) throw EINVAL;
+  if (cw == nullptr)
+    THROW_MSG("The cw parameter is NULL");
+
+  if (ccw == nullptr)
+    THROW_MSG("The ccw parameter is NULL");
+
+  if (velocity < Interfaces::Motor::VELOCITY_MIN)
+    THROW_MSG("The velocity parameter is out of range");
+
+  if (velocity > Interfaces::Motor::VELOCITY_MAX)
+    THROW_MSG("The velocity parameter is out of range");
 
   this->dir = nullptr;
   this->pwm1 = cw;
@@ -74,8 +87,11 @@ void Motor::PWM::Output_Class::write(const double velocity)
 {
   // Validate parameters
 
-  if (velocity < Interfaces::Motor::VELOCITY_MIN) throw EINVAL;
-  if (velocity > Interfaces::Motor::VELOCITY_MAX) throw EINVAL;
+  if (velocity < Interfaces::Motor::VELOCITY_MIN)
+    THROW_MSG("The velocity parameter is out of range");
+
+  if (velocity > Interfaces::Motor::VELOCITY_MAX)
+    THROW_MSG("The velocity parameter is out of range");
 
   if (velocity >= Interfaces::Motor::VELOCITY_STOP)
   {

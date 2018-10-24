@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <spi-libsimpleio.h>
 #include <libsimpleio/libspi.h>
 
@@ -32,8 +31,8 @@ libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
 {
   // Validate parameters
 
-  if (name == nullptr) throw EINVAL;
-  if (mode > 3) throw EINVAL;
+  if (name == nullptr) THROW_MSG("The name parameter is NULL");
+  if (mode > 3)        THROW_MSG("The mode parameter is out of range");
 
   // Open SPI slave device
 
@@ -41,7 +40,7 @@ libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
   int32_t error;
 
   SPI_open(name, mode, wordsize, speed, &fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("SPI_open() failed", error);
 
   this->fd = fd;
 
@@ -54,7 +53,7 @@ libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
   {
     GPIO_line_open(cspin.chip, cspin.line, GPIOHANDLE_REQUEST_OUTPUT, 0, true,
       &this->csfd, &error);
-    if (error) throw error;
+    if (error) THROW_MSG_ERR("GPIO_line_open() failed", error);
   }
 }
 
@@ -65,15 +64,24 @@ void libsimpleio::SPI::Device_Class::Transaction(void *cmd, unsigned cmdlen,
 {
   // Validate parameters
 
-  if ((cmd == nullptr) && (resp == nullptr)) throw EINVAL;
-  if ((cmd == nullptr) && (cmdlen != 0)) throw EINVAL;
-  if ((cmd != nullptr) && (cmdlen == 0)) throw EINVAL;
-  if ((resp == nullptr) && (resplen != 0)) throw EINVAL;
-  if ((resp != nullptr) && (resplen == 0)) throw EINVAL;
+  if ((cmd == nullptr) && (resp == nullptr))
+    THROW_MSG("cmd and resp cannot both be NULL");
+
+  if ((cmd == nullptr) && (cmdlen != 0))
+    THROW_MSG("cmd is NULL and cmdlen is nonzero");
+
+  if ((cmd != nullptr) && (cmdlen == 0))
+    THROW_MSG("cmd is not NULL and cmdlen is zero");
+
+  if ((resp == nullptr) && (resplen != 0))
+    THROW_MSG("resp is NULL and resplen is nonzero");
+
+  if ((resp != nullptr) && (resplen == 0))
+    THROW_MSG("resp is not NULL and resplen is zero");
 
   int error;
 
   SPI_transaction(this->fd, this->csfd, cmd, cmdlen, delayus, resp, resplen,
     &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("SPI_transaction() failed",  error);
 }

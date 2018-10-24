@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <watchdog-libsimpleio.h>
 #include <libsimpleio/libwatchdog.h>
 
@@ -35,12 +34,13 @@ libsimpleio::Watchdog::Timer_Class::Timer_Class(const char *devname,
 
   // Validate parameters
 
-  if (devname == nullptr) throw EINVAL;
+  if (devname == nullptr)
+    THROW_MSG("The devname parameter is NULL");
 
   // Open the watchdog timer device
 
   WATCHDOG_open(devname, &fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("WATCHDOG_open() failed", error);
 
   // Change the watchdog timeout period, if requested
 
@@ -49,7 +49,7 @@ libsimpleio::Watchdog::Timer_Class::Timer_Class(const char *devname,
     int32_t newtimeout;
 
     WATCHDOG_set_timeout(fd, timeout, &newtimeout, &error);
-    if (error) throw error;
+    if (error) THROW_MSG_ERR("WATCHDOG_set_timeout() failed", error);
   }
 
   this->fd = fd;
@@ -63,7 +63,7 @@ unsigned libsimpleio::Watchdog::Timer_Class::GetTimeout(void)
   int32_t error;
 
   WATCHDOG_get_timeout(this->fd, &timeout, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("WATCHDOG_get_timeout() failed", error);
 
   return timeout;
 }
@@ -74,7 +74,7 @@ unsigned libsimpleio::Watchdog::Timer_Class::SetTimeout(unsigned timeout)
   int32_t error;
 
   WATCHDOG_set_timeout(this->fd, timeout, &newtimeout, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("WATCHDOG_set_timeout() failed", error);
 
   return timeout;
 }
@@ -84,5 +84,5 @@ void libsimpleio::Watchdog::Timer_Class::Kick(void)
   int32_t error;
 
   WATCHDOG_kick(this->fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("WATCHDOG_kick() failed", error);
 }

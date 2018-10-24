@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <servo-libsimpleio.h>
 #include <libsimpleio/libpwm.h>
 
@@ -32,10 +31,17 @@ libsimpleio::Servo::Output_Class::Output_Class(unsigned chip, unsigned channel,
 {
   // Validate parameters
 
-  if (frequency < 1) throw EINVAL;
-  if (frequency > 400) throw EINVAL;
-  if (position < Interfaces::Servo::POSITION_MIN) throw EINVAL;
-  if (position > Interfaces::Servo::POSITION_MAX) throw EINVAL;
+  if (frequency < 1)
+    THROW_MSG("The frequency parameter is out of range");
+
+  if (frequency > 400)
+    THROW_MSG("The frequency parameter is out of range");
+
+  if (position < Interfaces::Servo::POSITION_MIN)
+    THROW_MSG("The position parameter is out of range");
+
+  if (position > Interfaces::Servo::POSITION_MAX)
+    THROW_MSG("The position parameter is out of range");
 
   // Calculate the PWM pulse frequency and initial pulse width in nanoseconds
 
@@ -48,10 +54,10 @@ libsimpleio::Servo::Output_Class::Output_Class(unsigned chip, unsigned channel,
   int error;
 
   PWM_configure(chip, channel, period, ontime, PWM_POLARITY_ACTIVEHIGH, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("PWM_configure() failed", error);
 
   PWM_open(chip, channel, &fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("PWM_open() failed", error);
 
   this->fd = fd;
 }
@@ -62,8 +68,11 @@ void libsimpleio::Servo::Output_Class::write(const double position)
 {
   // Validate parameters
 
-  if (position < Interfaces::Servo::POSITION_MIN) throw EINVAL;
-  if (position > Interfaces::Servo::POSITION_MAX) throw EINVAL;
+  if (position < Interfaces::Servo::POSITION_MIN)
+    THROW_MSG("The position parameter is out of range");
+
+  if (position > Interfaces::Servo::POSITION_MAX)
+    THROW_MSG("The position parameter is out of range");
 
   // Calculate the required PWM pulse width in nanoseconds
 
@@ -74,5 +83,5 @@ void libsimpleio::Servo::Output_Class::write(const double position)
   int error;
 
   PWM_write(this->fd, ontime, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("PWM_write() failed", error);
 }

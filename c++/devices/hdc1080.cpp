@@ -20,10 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-#include <cstring>
 #include <unistd.h>
 
+#include <exception-libsimpleio.h>
 #include <hdc1080.h>
 
 // HDC1080 register addresses
@@ -43,7 +42,7 @@ HDC1080::Device_Class::Device_Class(Interfaces::I2C::Bus bus)
 {
   // Validate parameters
 
-  if (bus == nullptr) throw EINVAL;
+  if (bus == nullptr) THROW_MSG("The bus parameter is NULL");
 
   // Save some parameters
 
@@ -69,7 +68,8 @@ uint16_t HDC1080::Device_Class::ReadRegister(uint8_t reg)
 
   // Validate parameters
 
-  if ((reg > RegConfiguration) && (reg < RegSerialNumberFirst)) throw EINVAL;
+  if ((reg > RegConfiguration) && (reg < RegSerialNumberFirst))
+    THROW_MSG("The reg parameter is out of range");
 
   // Build the command
 
@@ -93,7 +93,8 @@ void HDC1080::Device_Class::WriteRegister(uint8_t reg, uint16_t data)
 
   // Validate parameters
 
-  if ((reg > RegConfiguration) && (reg < RegSerialNumberFirst)) throw EINVAL;
+  if ((reg > RegConfiguration) && (reg < RegSerialNumberFirst))
+    THROW_MSG("The reg parameter is out of range");
 
   // Build the command
 

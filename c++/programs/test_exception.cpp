@@ -1,4 +1,4 @@
-// Abstract interface for ADC (Analog to Digital Converter) inputs
+// libsimpleio Exception Wrapper Test
 
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
@@ -20,35 +20,24 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <adc-interface.h>
+#include <cerrno>
+#include <cstdio>
+
 #include <exception-libsimpleio.h>
 
-Interfaces::ADC::Sample_Interface::operator int(void)
+int main(void)
 {
-  return this->sample();
-}
+  puts("\nlibsimpleio Exception Wrapper Test");
 
-Interfaces::ADC::Voltage_Interface::operator double(void)
-{
-  return this->voltage();
-}
+  try { THROW(); }
+  catch(std::runtime_error *e) { fprintf(stderr, "%s", e->what()); }
 
-Interfaces::ADC::Input_Class::Input_Class(Sample input, double reference,
-  double gain)
-{
-  // Validate parameters
+  try { THROW_ERR(EPERM); }
+  catch(std::runtime_error *e) { fprintf(stderr, "%s", e->what()); }
 
-  if (reference == 0.0)
-    THROW_MSG("The reference parameter cannot be zero");
+  try { THROW_MSG("Invalid operation"); }
+  catch(std::runtime_error *e) { fprintf(stderr, "%s", e->what()); }
 
-  if (gain == 0.0)
-    THROW_MSG("The gain parameter cannot be zero");
-
-  this->input = input;
-  this->stepsize = reference/(1 << input->resolution())/gain;
-}
-
-double Interfaces::ADC::Input_Class::voltage(void)
-{
-  return this->input->sample()*this->stepsize;
+  try { THROW_MSG_ERR("Invalid operation", EIO); }
+  catch(std::runtime_error *e) { fprintf(stderr, "%s", e->what()); }
 }

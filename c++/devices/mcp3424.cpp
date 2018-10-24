@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <mcp3424.h>
 
 // Define some sign extending functions
@@ -60,8 +59,8 @@ MCP3424::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
 {
   // Validate parameters
 
-  if (bus == nullptr) throw EINVAL;
-  if (addr > 127) throw EINVAL;
+  if (bus == nullptr) THROW_MSG("The bus parameter is NULL");
+  if (addr > 127)     THROW_MSG("The addr parameter is out of range");
 
   this->bus = bus;
   this->addr = addr;
@@ -74,9 +73,9 @@ int MCP3424::Device_Class::sample(unsigned channel, unsigned resolution,
 {
   // Validate parameters
 
-  if (channel >= MaxChannels) throw EINVAL;
-  if (resolution > RES18) throw EINVAL;
-  if (range > PGA8) throw EINVAL;
+  if (channel >= MaxChannels) THROW_MSG("The channel parameter is out of range");
+  if (resolution > RES18)     THROW_MSG("The resolution parameter is out of range");
+  if (range > PGA8)           THROW_MSG("The range parameter is out of range");
 
   // Issue command to begin a conversion
 

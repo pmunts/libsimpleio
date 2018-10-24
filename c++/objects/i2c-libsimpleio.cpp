@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <i2c-libsimpleio.h>
 #include <libsimpleio/libi2c.h>
 #include <libsimpleio/liblinux.h>
@@ -32,13 +31,14 @@ libsimpleio::I2C::Bus_Class::Bus_Class(const char *name)
 {
   // Validate parameters
 
-  if (name == nullptr) throw EINVAL;
+  if (name == nullptr)
+    THROW_MSG("The name parameter is NULL");
 
   int32_t fd;
   int32_t error;
 
   I2C_open(name, &fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("I2C_open() failed", error);
 
   this->fd = fd;
 }
@@ -50,30 +50,43 @@ void libsimpleio::I2C::Bus_Class::Transaction(unsigned slaveaddr, void *cmd,
 {
   // Validate parameters
 
-  if (slaveaddr > 127) throw EINVAL;
-  if ((cmd == nullptr) && (resp == nullptr)) throw EINVAL;
-  if ((cmd == nullptr) && (cmdlen != 0)) throw EINVAL;
-  if ((cmd != nullptr) && (cmdlen == 0)) throw EINVAL;
-  if ((resp == nullptr) && (resplen != 0)) throw EINVAL;
-  if ((resp != nullptr) && (resplen == 0)) throw EINVAL;
-  if (delayus > 65535) throw EINVAL;
+  if (slaveaddr > 127)
+    THROW_MSG("The slaveaddr parameter is out of range");
+
+  if ((cmd == nullptr) && (resp == nullptr))
+    THROW_MSG("cmd and resp cannot both be NULL");
+
+  if ((cmd == nullptr) && (cmdlen != 0))
+    THROW_MSG("cmd is NULL and cmd is nonzero");
+
+  if ((cmd != nullptr) && (cmdlen == 0))
+    THROW_MSG("cmd is not NULL and cmdlen is zero");
+
+  if ((resp == nullptr) && (resplen != 0))
+    THROW_MSG("resp is NULL and resplen is nonzero");
+
+  if ((resp != nullptr) && (resplen == 0))
+    THROW_MSG("resp is not NULL and resplen is zero");
+
+  if (delayus > 65535)
+    THROW_MSG("The delayus parameter is out of range");
 
   int32_t error;
 
   if (delayus)
   {
     I2C_transaction(this->fd, slaveaddr, cmd, cmdlen, nullptr, 0, &error);
-    if (error) throw error;
+    if (error) THROW_MSG_ERR("I2C_transaction() failed", error);
 
     LINUX_usleep(delayus, &error);
-    if (error) throw error;
+    if (error) THROW_MSG_ERR("LINUX_usleep() failed", error);
 
     I2C_transaction(this->fd, slaveaddr, nullptr, 0, resp, resplen, &error);
-    if (error) throw error;
+    if (error) THROW_MSG_ERR("I2C_transaction() failed", error);
   }
   else
   {
     I2C_transaction(this->fd, slaveaddr, cmd, cmdlen, resp, resplen, &error);
-    if (error) throw error;
+    if (error) THROW_MSG_ERR("I2C_transaction() failed", error);
   }
 }

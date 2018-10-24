@@ -20,9 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
 #include <dac-interface.h>
+#include <exception-libsimpleio.h>
 
 void Interfaces::DAC::Sample_Interface::operator =(const int sample)
 {
@@ -39,8 +38,11 @@ Interfaces::DAC::Output_Class::Output_Class(Interfaces::DAC::Sample output,
 {
   // Validate parameters
 
-  if (reference == 0.0) throw EINVAL;
-  if (gain == 0.0) throw EINVAL;
+  if (reference == 0.0)
+    THROW_MSG("The reference parameter cannot be zero");
+
+  if (gain == 0.0)
+    THROW_MSG("The gain parameter cannot be zero");
 
   this->output = output;
   this->stepsize = reference/(1 << output->resolution())/gain;

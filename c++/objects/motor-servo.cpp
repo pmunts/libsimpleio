@@ -20,8 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
-
+#include <exception-libsimpleio.h>
 #include <motor-servo.h>
 
 // Motor output constructor
@@ -29,6 +28,17 @@
 Motor::Servo::Output_Class::Output_Class(Interfaces::Servo::Output servo,
   const double velocity)
 {
+  // Validate parameters
+
+  if (servo == nullptr)
+    THROW_MSG("The servo parameter is NULL");
+
+  if (velocity < Interfaces::Motor::VELOCITY_MIN)
+    THROW_MSG("The velocity parameter is out of range");
+
+  if (velocity > Interfaces::Motor::VELOCITY_MAX)
+    THROW_MSG("The velocity parameter is out of range");
+
   this->servo = servo;
   this->servo->write(velocity);
 }
@@ -37,5 +47,13 @@ Motor::Servo::Output_Class::Output_Class(Interfaces::Servo::Output servo,
 
 void Motor::Servo::Output_Class::write(const double velocity)
 {
+  // Validate parameters
+
+  if (velocity < Interfaces::Motor::VELOCITY_MIN)
+    THROW_MSG("The velocity parameter is out of range");
+
+  if (velocity > Interfaces::Motor::VELOCITY_MAX)
+    THROW_MSG("The velocity parameter is out of range");
+
   this->servo->write(velocity);
 }

@@ -20,10 +20,10 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cerrno>
 #include <cstdint>
 
 #include <adc-libsimpleio.h>
+#include <exception-libsimpleio.h>
 #include <libsimpleio/libadc.h>
 
 // Constructors
@@ -34,7 +34,7 @@ libsimpleio::ADC::Sample_Subclass::Sample_Subclass(unsigned chip,
   int error;
 
   ADC_open(chip, channel, &this->fd, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("ADC_open() failed", error);
 
   this->numbits = resolution;
 }
@@ -47,7 +47,7 @@ int libsimpleio::ADC::Sample_Subclass::sample(void)
   int32_t error;
 
   ADC_read(this->fd, &sample, &error);
-  if (error) throw error;
+  if (error) THROW_MSG_ERR("ADC_read() failed", error);
 
   return sample;
 }
