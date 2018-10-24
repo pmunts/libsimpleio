@@ -116,6 +116,11 @@ I<sup>2</sup>C transaction request message.</li>
 optional USB serial device serial number parameter to the constructor for the
 libremoteio <tt>Messenger</tt> class. Added more C# test programs.</li>
 <li>3 October 2018 -- More progress on the Free Pascal units and programs.</li>
+<li>24 October 2018 -- Reworked the C++ library functions to throw
+<tt>std::runtime_error</tt> via wrapper macros that capture locality
+information instead of just an integer. Added many more device drivers. Ada
+still has the most comprehensive set of device drivers, but C++, C#, and Free
+Pascal all have new ones, too.</li>
 </ul>
 <h2>Documentation</h2>
 <p><img src="/icons/new.gif" alt="New">The user manual for <b>libsimpleio</b>

@@ -104,6 +104,11 @@ News
        programs.
      * 3 October 2018 -- More progress on the Free Pascal units and
        programs.
+     * 24 October 2018 -- Reworked the C++ library functions to throw
+       std::runtime_error via wrapper macros that capture locality
+       information instead of just an integer. Added many more device
+       drivers. Ada still has the most comprehensive set of device
+       drivers, but C++, C#, and Free Pascal all have new ones, too.
 
 Documentation
 
