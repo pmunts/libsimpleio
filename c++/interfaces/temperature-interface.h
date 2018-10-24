@@ -1,5 +1,3 @@
-// HDC1080 Temperature/Humidity Sensor services
-
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -20,43 +18,35 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _HDC1080_H
-#define _HDC1080_H
+#ifndef _TEMPERATURE_INTERFACE_H
+#define _TEMPERATURE_INTERFACE_H
 
-#include <cstdint>
-
-#include <humidity-interface.h>
-#include <i2c-interface.h>
-#include <temperature-interface.h>
-
-namespace HDC1080
+namespace Interfaces::Temperature
 {
-  struct Device_Class:
-    Interfaces::Temperature::Sensor_Interface,
-    Interfaces::Humidity::Sensor_Interface
+  // Abstract interface for temperature (Celsius) sensors
+
+  struct Sensor_Interface
   {
-    Device_Class(Interfaces::I2C::Bus bus);
-
-    double temperature(void);
-
-    double humidity(void);
-
-    uint16_t manufacturerID(void);
-
-    uint16_t deviceID(void);
-
-  private:
-
-    Interfaces::I2C::Bus bus;
-    unsigned addr;
-
-    uint16_t ReadRegister(uint8_t reg);
-
-    void WriteRegister(uint8_t reg, uint16_t data);
+    // Read temperature in degrees Celsius
+    virtual double temperature(void) = 0;
   };
 
-  typedef Device_Class *Device;
+  typedef Sensor_Interface *Sensor;
 
+  // Temperature constants (Celsius)
+
+  extern const double AbsoluteZero;
+  extern const double FreezingPoint;
+  extern const double BoilingPoint;
+
+  // Temperature conversion routines
+
+  double C_to_F(double T);  // Celsius to Fahrenheit
+  double C_to_K(double T);  // Celsius to Kelvins
+  double F_to_C(double T);  // Fahrenheit to Celsius
+  double F_to_K(double T);  // Fahrenheit to Kelvins
+  double K_to_C(double T);  // Kelvins to Celsius
+  double K_to_F(double T);  // Kelvins to Fahrenheit
 }
 
 #endif

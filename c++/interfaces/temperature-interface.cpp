@@ -1,5 +1,3 @@
-// HDC1080 Temperature/Humidity Sensor services
-
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -20,43 +18,41 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _HDC1080_H
-#define _HDC1080_H
-
-#include <cstdint>
-
-#include <humidity-interface.h>
-#include <i2c-interface.h>
-#include <temperature-interface.h>
-
-namespace HDC1080
+namespace Interfaces::Temperature
 {
-  struct Device_Class:
-    Interfaces::Temperature::Sensor_Interface,
-    Interfaces::Humidity::Sensor_Interface
+  const double AbsoluteZero  = -273.15;
+  const double FreezingPoint = 0.0;
+  const double BoilingPoint  = 100.0;
+
+  // Temperature conversion routines
+
+  double C_to_F(double T)  // Celsius to Fahrenheit
   {
-    Device_Class(Interfaces::I2C::Bus bus);
+    return T*9.0/5.0 + 32.0;
+  }
 
-    double temperature(void);
+  double C_to_K(double T)  // Celsius to Kelvins
+  {
+    return T - AbsoluteZero;
+  }
 
-    double humidity(void);
+  double F_to_C(double T)  // Fahrenheit to Celsius
+  {
+    return (T - 32.0)*5.0/9.0;
+  }
 
-    uint16_t manufacturerID(void);
+  double F_to_K(double T)  // Fahrenheit to Kelvins
+  {
+    return (T + 459.67)*5.0/9.0;
+  }
 
-    uint16_t deviceID(void);
+  double K_to_C(double T)  // Kelvins to Celsius
+  {
+    return T + AbsoluteZero;
+  }
 
-  private:
-
-    Interfaces::I2C::Bus bus;
-    unsigned addr;
-
-    uint16_t ReadRegister(uint8_t reg);
-
-    void WriteRegister(uint8_t reg, uint16_t data);
-  };
-
-  typedef Device_Class *Device;
-
+  double K_to_F(double T)  // Kelvins to Fahrenheit
+  {
+    return T*9.0/5.0 - 459.67;
+  }
 }
-
-#endif

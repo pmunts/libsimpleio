@@ -109,28 +109,28 @@ void HDC1080::Device_Class::WriteRegister(uint8_t reg, uint16_t data)
 
 // Aquire a temperature sample
 
-double HDC1080::Device_Class::Temperature(void)
+double HDC1080::Device_Class::temperature(void)
 {
   return this->ReadRegister(RegTemperature)/65536.0*165.0 - 40.0;
 }
 
 // Acquire a humidity sample
 
-double HDC1080::Device_Class::Humidity(void)
+double HDC1080::Device_Class::humidity(void)
 {
   return this->ReadRegister(RegHumidity)/65536.0*100.0;
 }
 
 // Fetch the manufacturer ID
 
-uint16_t HDC1080::Device_Class::ManufacturerID(void)
+uint16_t HDC1080::Device_Class::manufacturerID(void)
 {
   return this->ReadRegister(RegManufacturerID);
 }
 
 // Fetch the device ID
 
-uint16_t HDC1080::Device_Class::DeviceID(void)
+uint16_t HDC1080::Device_Class::deviceID(void)
 {
   return this->ReadRegister(RegDeviceID);
 }

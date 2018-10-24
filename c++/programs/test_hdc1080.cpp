@@ -45,15 +45,15 @@ int main(int argc, char *argv[])
 
   // Display device identification
 
-  printf("Manufacturer ID: 0x%04X\n", sensor->ManufacturerID());
-  printf("Device ID:       0x%04X\n\n", sensor->DeviceID());
+  printf("Manufacturer ID: 0x%04X\n", sensor->manufacturerID());
+  printf("Device ID:       0x%04X\n\n", sensor->deviceID());
 
   // Display temperature and humidity
 
   for (;;)
   {
     printf("Temperature: %1.1fC  Humidity: %1.1f%%\n",
-      sensor->Temperature(), sensor->Humidity());
+      sensor->temperature(), sensor->humidity());
     sleep(1);
   }
 }

@@ -1,5 +1,3 @@
-// HDC1080 Temperature/Humidity Sensor services
-
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -20,43 +18,20 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _HDC1080_H
-#define _HDC1080_H
+#ifndef _HUMIDITY_INTERFACE_H
+#define _HUMIDITY_INTERFACE_H
 
-#include <cstdint>
-
-#include <humidity-interface.h>
-#include <i2c-interface.h>
-#include <temperature-interface.h>
-
-namespace HDC1080
+namespace Interfaces::Humidity
 {
-  struct Device_Class:
-    Interfaces::Temperature::Sensor_Interface,
-    Interfaces::Humidity::Sensor_Interface
+  // Abstract interface for humidity (% RH) sensors
+
+  struct Sensor_Interface
   {
-    Device_Class(Interfaces::I2C::Bus bus);
-
-    double temperature(void);
-
-    double humidity(void);
-
-    uint16_t manufacturerID(void);
-
-    uint16_t deviceID(void);
-
-  private:
-
-    Interfaces::I2C::Bus bus;
-    unsigned addr;
-
-    uint16_t ReadRegister(uint8_t reg);
-
-    void WriteRegister(uint8_t reg, uint16_t data);
+    // Read relative humidity in percent
+    virtual double humidity(void) = 0;
   };
 
-  typedef Device_Class *Device;
-
+  typedef Sensor_Interface *Sensor;
 }
 
 #endif
