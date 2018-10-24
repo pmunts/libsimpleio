@@ -28,7 +28,7 @@ namespace Interfaces::Pressure
   struct Sensor_Interface
   {
     // Read pressure in Pascals
-    virtual double  pressure(void) = 0;
+    virtual double pressure(void) = 0;
   };
 
   typedef Sensor_Interface *Sensor;
