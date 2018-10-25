@@ -25,18 +25,18 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH HID.Munts;
 WITH I2C.RemoteIO;
 WITH MCP23017;
-WITH MCP23017.BytePorts;
+WITH MCP23017.Byte;
 WITH RemoteIO;
 
 PROCEDURE test_mcp23017_device IS
 
-  PACKAGE Byte_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.BytePorts.Byte);
+  PACKAGE Byte_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.Byte.Byte);
   USE Byte_IO;
 
   bus   : I2C.Bus;
   dev   : MCP23017.Device;
-  PortA : MCP23017.BytePorts.Port;
-  PortB : MCP23017.BytePorts.Port;
+  PortA : MCP23017.Byte.Port;
+  PortB : MCP23017.Byte.Port;
 
 BEGIN
   Put_Line("MCP23017 Byte I/O Test");
@@ -53,8 +53,8 @@ BEGIN
 
   -- Create 8-bit port objects
 
-  PortA := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPA);
-  PortB := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPB);
+  PortA := MCP23017.Byte.Create(dev, MCP23017.Byte.GPA);
+  PortB := MCP23017.Byte.Create(dev, MCP23017.Byte.GPB);
 
   -- Configure all port A pins as outputs
 
@@ -69,7 +69,7 @@ BEGIN
   -- Toggle port A outputs and read port B inputs
 
   LOOP
-    FOR n IN MCP23017.BytePorts.Byte LOOP
+    FOR n IN MCP23017.Byte.Byte LOOP
       PortA.Put(n);
       Put("PortB => ");
       Put(PortB.Get, 0, 16);

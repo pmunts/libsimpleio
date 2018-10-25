@@ -25,19 +25,19 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH HID.Munts;
 WITH I2C.RemoteIO;
 WITH MCP23017;
-WITH MCP23017.WordPort;
+WITH MCP23017.Word;
 WITH RemoteIO;
 
-USE TYPE MCP23017.WordPort.Word;
+USE TYPE MCP23017.Word.Word;
 
 PROCEDURE test_mcp23017_word IS
 
-  PACKAGE Word_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.WordPort.Word);
+  PACKAGE Word_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.Word.Word);
   USE Word_IO;
 
   bus   : I2C.Bus;
   dev   : MCP23017.Device;
-  port  : MCP23017.WordPort.Port;
+  port  : MCP23017.Word.Port;
 
 BEGIN
   Put_Line("MCP23017 Word I/O Test");
@@ -54,7 +54,7 @@ BEGIN
 
   -- Create 16-bit port object
 
-  port := MCP23017.WordPort.Create(dev);
+  port := MCP23017.Word.Create(dev);
 
   -- Configure port pins, alternating inputs and outputs
 
@@ -64,7 +64,7 @@ BEGIN
   -- Toggle outputs and read inputs
 
   LOOP
-    FOR n IN MCP23017.WordPort.Word LOOP
+    FOR n IN MCP23017.Word.Word LOOP
       port.Put(n);
       Put(port.Get AND 16#5555#, 0, 16);
       Put(ASCII.CR);
