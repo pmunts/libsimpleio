@@ -53,15 +53,15 @@ PRIVATE
 
   USE TYPE Humidity.Relative;
 
-  TYPE RegisterAddress IS MOD 2**8;
-  TYPE RegisterData IS MOD 2**8;
-  TYPE RawData IS MOD 2**16;
-
   TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface AND
     Humidity.Interfaces.InputInterface WITH RECORD
     bus     : I2C.Bus;
     address : I2C.Address;
   END RECORD;
+
+  TYPE RegisterAddress IS MOD 2**8;
+  TYPE RegisterData    IS MOD 2**8;
+  TYPE RawData         IS MOD 2**16;
 
   -- TH02 register addresses
 
