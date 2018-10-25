@@ -31,5 +31,26 @@ run: $(PROGRAMS)
 test_parameter_checks: test_parameter_checks.c
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
+test_compile:
+	@$(MAKE) test_compile_boards >test_compile.log 2>&1
+	grep -i error test_compile.log | cat
+	grep -i warn test_compile.log | grep -v 'did you forget' | cat
+
+test_compile_boards:
+	$(MAKE) test_compile_programs BOARDNAME=
+	$(MAKE) test_compile_programs BOARDNAME=BeagleBone
+	$(MAKE) test_compile_programs BOARDNAME=RaspberryPi
+	$(MAKE) test_compile_programs BOARDNAME=RaspberryPi2
+
+test_compile_programs:
+	$(MAKE) -C ../ada/programs default clean
+	$(MAKE) -C ../ada/programs/remoteio default clean
+	$(MAKE) -C ../c++/programs default clean
+	$(MAKE) -C ../csharp/programs/libremoteio/mono default clean
+	$(MAKE) -C ../csharp/programs/libsimpleio/mono default clean
+	$(MAKE) -C ../csharp/programs/libsimpleio-remoteio/mono default clean
+	$(MAKE) -C ../pascal/programs default clean
+	$(MAKE) -C ../pascal/programs/remoteio default clean
+
 clean:
-	rm -rf $(PROGRAMS)
+	rm -rf $(PROGRAMS) *.log
