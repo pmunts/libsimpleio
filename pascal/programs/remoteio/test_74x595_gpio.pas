@@ -1,3 +1,5 @@
+{ HID Remote I/O 74HC595 Shift Register GPIO Pin Test }
+
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
@@ -18,32 +20,40 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_remoteio_hid_led;
+PROGRAM test_74x595_gpio;
 
 USES
   GPIO,
   RemoteIO,
-  RemoteIO_GPIO,
-  SysUtils;
+  RemoteIO_SPI,
+  SPI,
+  SPI_Shift_Register,
+  SPI_Shift_Register_74HC595,
+  SPI_Shift_Register_GPIO;
 
 VAR
   remdev : RemoteIO.Device;
-  LED    : GPIO.Pin;
+  spidev : SPI.Device;
+  regdev : SPI_Shift_Register.Device;
+  pin    : GPIO.Pin;
 
 BEGIN
   Writeln;
-  Writeln('HID Remote I/O LED Test');
+  Writeln('HID Remote I/O 74HC595 Shift Register GPIO Pin Test');
   Writeln;
 
   { Create objects }
 
   remdev := RemoteIO.Device.Create;
-  LED    := RemoteIO_GPIO.PinSubclass.Create(remdev, 0, GPIO.Output);
+  spidev := RemoteIO_SPI.DeviceSubclass.Create(remdev, 0,
+    SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
+    SPI_Shift_Register_74HC595.SPI_Clock_Max);
+  regdev := SPI_Shift_Register.Device.Create(spidev);
+  pin    := SPI_Shift_Register_GPIO.PinSubclass.Create(regdev, 0);
 
-  { Flash LED }
+  { Toggle pin }
 
   REPEAT
-    LED.state := NOT LED.state;
-    Sleep(500);
+    pin.State := NOT pin.State;
   UNTIL False;
 END.

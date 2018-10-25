@@ -1,4 +1,4 @@
-{ HID Remote I/O 74HC595 Shift Register GPIO Pin Test }
+{ HID Remote I/O GPIO Button and LED }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -20,40 +20,48 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_remoteio_hid_74x595_gpio;
+PROGRAM test_gpio_button_led;
 
 USES
   GPIO,
   RemoteIO,
-  RemoteIO_SPI,
-  SPI,
-  SPI_Shift_Register,
-  SPI_Shift_Register_74HC595,
-  SPI_Shift_Register_GPIO;
+  RemoteIO_GPIO;
 
 VAR
-  remdev : RemoteIO.Device;
-  spidev : SPI.Device;
-  regdev : SPI_Shift_Register.Device;
-  pin    : GPIO.Pin;
+  remdev   : RemoteIO.Device;
+  button   : GPIO.Pin;
+  LED      : GPIO.Pin;
+  oldstate : Boolean;
+  newstate : Boolean;
 
 BEGIN
-  Writeln;
-  Writeln('HID Remote I/O 74HC595 Shift Register GPIO Pin Test');
+  Writeln('HID Remote I/O GPIO Button and LED');
   Writeln;
 
-  { Create objects }
+  { Configure the button input and LED output }
 
   remdev := RemoteIO.Device.Create;
-  spidev := RemoteIO_SPI.DeviceSubclass.Create(remdev, 0,
-    SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
-    SPI_Shift_Register_74HC595.SPI_Clock_Max);
-  regdev := SPI_Shift_Register.Device.Create(spidev);
-  pin    := SPI_Shift_Register_GPIO.PinSubclass.Create(regdev, 0);
+  button := RemoteIO_GPIO.PinSubclass.Create(remdev, 1, GPIO.Input);
+  LED    := RemoteIO_GPIO.PinSubclass.Create(remdev, 0, GPIO.Output);
 
-  { Toggle pin }
+  { Force initial state detection }
+
+  oldstate := NOT button.state;
+
+  { Process state transitions }
 
   REPEAT
-    pin.State := NOT pin.State;
+    newstate := button.state;
+
+    IF newstate <> oldstate THEN
+      BEGIN
+        CASE newstate OF
+          True  : Writeln('PRESSED');
+          False : Writeln('RELEASED');
+        END;
+
+        LED.state := newstate;
+        oldstate := newstate;
+      END;
   UNTIL False;
 END.

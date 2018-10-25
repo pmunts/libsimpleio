@@ -1,5 +1,3 @@
-{ HID Remote I/O 74HC595 Shift Register Device Test }
-
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
@@ -20,38 +18,32 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_remoteio_hid_74x595_device;
+PROGRAM test_led;
 
 USES
+  GPIO,
   RemoteIO,
-  RemoteIO_SPI,
-  SPI,
-  SPI_Shift_Register,
-  SPI_Shift_Register_74HC595;
+  RemoteIO_GPIO,
+  SysUtils;
 
 VAR
   remdev : RemoteIO.Device;
-  spidev : SPI.Device;
-  regdev : SPI_Shift_Register.Device;
+  LED    : GPIO.Pin;
 
 BEGIN
   Writeln;
-  Writeln('HID Remote I/O 74HC595 Shift Register Device Test');
+  Writeln('HID Remote I/O LED Test');
   Writeln;
 
   { Create objects }
 
   remdev := RemoteIO.Device.Create;
-  spidev := RemoteIO_SPI.DeviceSubclass.Create(remdev, 0,
-    SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
-    SPI_Shift_Register_74HC595.SPI_Clock_Max);
-  regdev := SPI_Shift_Register.Device.Create(spidev);
+  LED    := RemoteIO_GPIO.PinSubclass.Create(remdev, 0, GPIO.Output);
 
-  { Toggle outputs }
-
-  regdev.Write($00);
+  { Flash LED }
 
   REPEAT
-    regdev.Write(NOT regdev.Read);
+    LED.state := NOT LED.state;
+    Sleep(500);
   UNTIL False;
 END.

@@ -1,4 +1,4 @@
-{ PCA8574 I2C GPIO Expander Device Toggle Test }
+{ HID Remote I/O 74HC595 Shift Register Device Test }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -20,34 +20,38 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_remoteio_hid_pca8574_device;
+PROGRAM test_74x595_device;
 
 USES
-  I2C,
-  PCA8574,
   RemoteIO,
-  RemoteIO_I2C,
-  SysUtils;
+  RemoteIO_SPI,
+  SPI,
+  SPI_Shift_Register,
+  SPI_Shift_Register_74HC595;
 
 VAR
   remdev : RemoteIO.Device;
-  bus    : I2C.Bus;
-  dev    : PCA8574.Device;
+  spidev : SPI.Device;
+  regdev : SPI_Shift_Register.Device;
 
 BEGIN
   Writeln;
-  Writeln('PCA8574 I2C GPIO Expander Device Toggle Test');
+  Writeln('HID Remote I/O 74HC595 Shift Register Device Test');
   Writeln;
 
   { Create objects }
 
   remdev := RemoteIO.Device.Create;
-  bus    := RemoteIO_I2C.BusSubclass.Create(remdev, 0);
-  dev    := PCA8574.Device.Create(bus, $38);
+  spidev := RemoteIO_SPI.DeviceSubclass.Create(remdev, 0,
+    SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
+    SPI_Shift_Register_74HC595.SPI_Clock_Max);
+  regdev := SPI_Shift_Register.Device.Create(spidev);
 
-  { Toggle pins }
+  { Toggle outputs }
+
+  regdev.Write($00);
 
   REPEAT
-    dev.Write(NOT dev.Read);
+    regdev.Write(NOT regdev.Read);
   UNTIL False;
 END.

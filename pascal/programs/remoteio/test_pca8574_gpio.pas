@@ -1,3 +1,5 @@
+{ PCA8574 I2C GPIO Expander GPIO Pin Toggle Test }
+
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
@@ -18,50 +20,38 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_remoteio_hid_adc;
+PROGRAM test_pca8574_gpio;
 
 USES
-  ADC,
-  HID_libsimpleio,
-  Message64,
+  GPIO,
+  I2C,
+  PCA8574,
+  PCA8574_GPIO,
   RemoteIO,
-  RemoteIO_ADC,
+  RemoteIO_I2C,
   SysUtils;
 
 VAR
-  hidmsg   : Message64.Messenger;
-  remdev   : RemoteIO.Device;
-  chanlist : RemoteIO.ChannelArray;
-  numchans : Cardinal;
-  samplers : ARRAY OF ADC.Sample;
-  chan     : Cardinal;
+  remdev : RemoteIO.Device;
+  bus    : I2C.Bus;
+  dev    : PCA8574.Device;
+  pin    : GPIO.Pin;
 
 BEGIN
   Writeln;
-  Writeln('HID Remote Analog Input Test');
+  Writeln('PCA8574 I2C GPIO Expander GPIO Pin Toggle Test');
   Writeln;
 
   { Create objects }
 
-  hidmsg   := HID_libsimpleio.MessengerSubclass.Create;
-  remdev   := RemoteIO.Device.Create(hidmsg);
+  remdev := RemoteIO.Device.Create;
+  bus    := RemoteIO_I2C.BusSubclass.Create(remdev, 0);
+  dev    := PCA8574.Device.Create(bus, $38);
+  pin    := PCA8574_GPIO.PinSubclass.Create(dev, 0, GPIO.Output);
 
-  { Configure analog inputs }
-
-  chanlist := remdev.ADC_Inputs;
-  numchans := Length(chanlist);
-
-  SetLength(samplers, numchans);
-
-  FOR chan := 0 TO numchans - 1 DO
-    samplers[chan] := RemoteIO_ADC.SampleSubclass.Create(remdev, chan);
+  { Toggle pin }
 
   REPEAT
-    FOR chan := 0 TO numchans - 1 DO
-      Write(samplers[chan].sample : 5, ' ');
-
-    Writeln;
-
-    sleep(1000);
+    pin.State := NOT pin.State;
   UNTIL False;
 END.

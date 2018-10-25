@@ -1,5 +1,3 @@
-{ HID Remote I/O GPIO Button and LED }
-
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
@@ -20,48 +18,50 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_remoteio_hid_gpio_button_led;
+PROGRAM test_adc;
 
 USES
-  GPIO,
+  ADC,
+  HID_libsimpleio,
+  Message64,
   RemoteIO,
-  RemoteIO_GPIO;
+  RemoteIO_ADC,
+  SysUtils;
 
 VAR
+  hidmsg   : Message64.Messenger;
   remdev   : RemoteIO.Device;
-  button   : GPIO.Pin;
-  LED      : GPIO.Pin;
-  oldstate : Boolean;
-  newstate : Boolean;
+  chanlist : RemoteIO.ChannelArray;
+  numchans : Cardinal;
+  samplers : ARRAY OF ADC.Sample;
+  chan     : Cardinal;
 
 BEGIN
-  Writeln('HID Remote I/O GPIO Button and LED');
+  Writeln;
+  Writeln('HID Remote Analog Input Test');
   Writeln;
 
-  { Configure the button input and LED output }
+  { Create objects }
 
-  remdev := RemoteIO.Device.Create;
-  button := RemoteIO_GPIO.PinSubclass.Create(remdev, 1, GPIO.Input);
-  LED    := RemoteIO_GPIO.PinSubclass.Create(remdev, 0, GPIO.Output);
+  hidmsg   := HID_libsimpleio.MessengerSubclass.Create;
+  remdev   := RemoteIO.Device.Create(hidmsg);
 
-  { Force initial state detection }
+  { Configure analog inputs }
 
-  oldstate := NOT button.state;
+  chanlist := remdev.ADC_Inputs;
+  numchans := Length(chanlist);
 
-  { Process state transitions }
+  SetLength(samplers, numchans);
+
+  FOR chan := 0 TO numchans - 1 DO
+    samplers[chan] := RemoteIO_ADC.SampleSubclass.Create(remdev, chan);
 
   REPEAT
-    newstate := button.state;
+    FOR chan := 0 TO numchans - 1 DO
+      Write(samplers[chan].sample : 5, ' ');
 
-    IF newstate <> oldstate THEN
-      BEGIN
-        CASE newstate OF
-          True  : Writeln('PRESSED');
-          False : Writeln('RELEASED');
-        END;
+    Writeln;
 
-        LED.state := newstate;
-        oldstate := newstate;
-      END;
+    sleep(1000);
   UNTIL False;
 END.

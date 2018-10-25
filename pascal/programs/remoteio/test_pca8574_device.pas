@@ -1,4 +1,4 @@
-{ PCA8574 I2C GPIO Expander GPIO Pin Toggle Test }
+{ PCA8574 I2C GPIO Expander Device Toggle Test }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -20,13 +20,11 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_remoteio_hid_pca8574_gpio;
+PROGRAM test_pca8574_device;
 
 USES
-  GPIO,
   I2C,
   PCA8574,
-  PCA8574_GPIO,
   RemoteIO,
   RemoteIO_I2C,
   SysUtils;
@@ -35,11 +33,10 @@ VAR
   remdev : RemoteIO.Device;
   bus    : I2C.Bus;
   dev    : PCA8574.Device;
-  pin    : GPIO.Pin;
 
 BEGIN
   Writeln;
-  Writeln('PCA8574 I2C GPIO Expander GPIO Pin Toggle Test');
+  Writeln('PCA8574 I2C GPIO Expander Device Toggle Test');
   Writeln;
 
   { Create objects }
@@ -47,11 +44,10 @@ BEGIN
   remdev := RemoteIO.Device.Create;
   bus    := RemoteIO_I2C.BusSubclass.Create(remdev, 0);
   dev    := PCA8574.Device.Create(bus, $38);
-  pin    := PCA8574_GPIO.PinSubclass.Create(dev, 0, GPIO.Output);
 
-  { Toggle pin }
+  { Toggle pins }
 
   REPEAT
-    pin.State := NOT pin.State;
+    dev.Write(NOT dev.Read);
   UNTIL False;
 END.
