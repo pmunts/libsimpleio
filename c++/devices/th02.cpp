@@ -163,7 +163,7 @@ double TH02::Device_Class::humidity(void)
 {
   // Get humidity sample
 
-  double RHvalue = (ReadData(cmdHumid) >> 4)/16.0 - 24;
+  double RHvalue = (ReadData(cmdHumid) >> 4)/16.0 - 24.0;
 
   // Perform linearization
 
@@ -171,7 +171,7 @@ double TH02::Device_Class::humidity(void)
 
   // Perform temperature compensation
 
-  return RHlinear + (this->temperature() - 30)*(RHlinear*Q1 + Q0);
+  return RHlinear + (this->temperature() - 30.0)*(RHlinear*Q1 + Q0);
 }
 
 // Fetch the device ID
