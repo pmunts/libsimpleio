@@ -1,4 +1,4 @@
--- Test an MCP23017 as 16 individual GPIO pins
+-- Test an PCA8574 I2C GPIO expander as an 8-bit parallel port
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,47 +22,38 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH GPIO;
 WITH HID.Munts;
-WITH I2C;
 WITH I2C.RemoteIO;
-WITH MCP23017;
-WITH MCP23017.GPIO;
+WITH PCA8574;
 WITH RemoteIO;
 
-PROCEDURE test_remoteio_hid_mcp23017_gpio IS
+PROCEDURE test_pca8574_device IS
 
-  bus   : I2C.Bus;
-  dev   : MCP23017.Device;
-  pins  : ARRAY (MCP23017.GPIO.PinNumber) OF GPIO.Pin;
+  bus    : I2C.Bus;
+  dev    : PCA8574.Device;
 
 BEGIN
   New_Line;
-  Put_Line("MCP23017 GPIO Toggle Test");
+  Put_Line("PCA8574 Byte I/O Test");
   New_Line;
 
   -- Create I2C bus object
 
   bus := I2C.RemoteIO.Create(RemoteIO.Create(HID.Munts.Create), 0,
-    I2C.SpeedFast);
+    I2C.SpeedStandard);
 
-  -- Create MCP23017 device object
+  -- Create PCA8574 device object
 
-  dev   := MCP23017.Create(bus, 16#20#);
+  dev := PCA8574.Create(bus, 16#38#);
 
-  -- Configure GPIO pins
+  -- Write increasing values to the PCA8574
 
-  FOR n IN pins'Range LOOP
-    pins(n) := MCP23017.GPIO.Create(dev, n, GPIO.Output);
-  END LOOP;
-
-  -- Toggle GPIO pins
-
-  Put_Line("Toggling pins...");
+  Put_Line("Press CONTROL-C to exit.");
+  New_Line;
 
   LOOP
-    FOR p OF pins LOOP
-      p.Put(NOT p.Get);
+    FOR b IN PCA8574.Byte'Range LOOP
+      dev.Put(b);
     END LOOP;
   END LOOP;
-END test_remoteio_hid_mcp23017_gpio;
+END test_pca8574_device;

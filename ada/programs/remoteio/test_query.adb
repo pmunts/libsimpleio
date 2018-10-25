@@ -30,7 +30,7 @@ WITH I2C.RemoteIO;
 WITH RemoteIO;
 WITH SPI.RemoteIO;
 
-PROCEDURE test_remoteio_hid_query IS
+PROCEDURE test_query IS
 
   remdev   : RemoteIO.Device;
   channels : RemoteIO.ChannelSets.Set;
@@ -121,4 +121,4 @@ BEGIN
   END IF;
 
   New_Line;
-END test_remoteio_hid_query;
+END test_query;

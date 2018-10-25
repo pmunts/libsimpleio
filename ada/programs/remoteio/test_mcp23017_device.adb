@@ -1,4 +1,4 @@
--- Test an MCP23017 as 1 16-bit parallel port
+-- Test an MCP23017 as 2 8-bit parallel ports
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -23,25 +23,23 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.Munts;
-WITH I2C;
 WITH I2C.RemoteIO;
 WITH MCP23017;
-WITH MCP23017.WordPort;
+WITH MCP23017.BytePorts;
 WITH RemoteIO;
 
-USE TYPE MCP23017.WordPort.Word;
+PROCEDURE test_mcp23017_device IS
 
-PROCEDURE test_remoteio_hid_mcp23017_word IS
-
-  PACKAGE Word_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.WordPort.Word);
-  USE Word_IO;
+  PACKAGE Byte_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.BytePorts.Byte);
+  USE Byte_IO;
 
   bus   : I2C.Bus;
   dev   : MCP23017.Device;
-  port  : MCP23017.WordPort.Port;
+  PortA : MCP23017.BytePorts.Port;
+  PortB : MCP23017.BytePorts.Port;
 
 BEGIN
-  Put_Line("MCP23017 Word I/O Test");
+  Put_Line("MCP23017 Byte I/O Test");
   New_Line;
 
   -- Create I2C bus object
@@ -53,23 +51,30 @@ BEGIN
 
   dev   := MCP23017.Create(bus, 16#20#);
 
-  -- Create 16-bit port object
+  -- Create 8-bit port objects
 
-  port := MCP23017.WordPort.Create(dev);
+  PortA := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPA);
+  PortB := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPB);
 
-  -- Configure port pins, alternating inputs and outputs
+  -- Configure all port A pins as outputs
 
-  port.SetDirections(16#AAAA#);
-  port.SetPullups(16#5555#);
+  PortA.SetDirections(16#FF#);
+  PortB.SetPullups(16#00#);
 
-  -- Toggle outputs and read inputs
+  -- Configure all port B pins as inputs with pullups
+
+  PortB.SetDirections(16#00#);
+  PortB.SetPullups(16#FF#);
+
+  -- Toggle port A outputs and read port B inputs
 
   LOOP
-    FOR n IN MCP23017.WordPort.Word LOOP
-      port.Put(n);
-      Put(port.Get AND 16#5555#, 0, 16);
+    FOR n IN MCP23017.BytePorts.Byte LOOP
+      PortA.Put(n);
+      Put("PortB => ");
+      Put(PortB.Get, 0, 16);
       Put(ASCII.CR);
     END LOOP;
   END LOOP;
 
-END test_remoteio_hid_mcp23017_word;
+END test_mcp23017_device;

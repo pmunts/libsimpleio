@@ -28,7 +28,7 @@ WITH HID.Munts;
 WITH RemoteIO;
 WITH SPI.RemoteIO;
 
-PROCEDURE test_remoteio_hid_spi IS
+PROCEDURE test_spi IS
 
   remdev   : RemoteIO.Device;
   channels : RemoteIO.ChannelSets.Set;
@@ -48,7 +48,7 @@ BEGIN
 
   IF Ada.Command_Line.Argument_Count /= 4 THEN
     New_Line;
-    Put_Line("Usage: test_remoteio_hid_spi <slave> <mode> <wordsize> <speed>");
+    Put_Line("Usage: test_spi <slave> <mode> <wordsize> <speed>");
     New_Line;
     RETURN;
   END IF;
@@ -91,4 +91,4 @@ BEGIN
   LOOP
     slave.Write(outbuf, outbuf'Length);
   END LOOP;
-END test_remoteio_hid_spi;
+END test_spi;

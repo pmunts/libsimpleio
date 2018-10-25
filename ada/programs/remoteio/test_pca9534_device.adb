@@ -1,6 +1,6 @@
--- Test an MCP23017 as 2 8-bit parallel ports
+-- Test an PCA9534 I2C GPIO expander as an 8-bit parallel port
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,59 +23,37 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.Munts;
-WITH I2C;
 WITH I2C.RemoteIO;
-WITH MCP23017;
-WITH MCP23017.BytePorts;
+WITH PCA9534;
 WITH RemoteIO;
 
-PROCEDURE test_remoteio_hid_mcp23017_device IS
+PROCEDURE test_pca9534_device IS
 
-  PACKAGE Byte_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.BytePorts.Byte);
-  USE Byte_IO;
-
-  bus   : I2C.Bus;
-  dev   : MCP23017.Device;
-  PortA : MCP23017.BytePorts.Port;
-  PortB : MCP23017.BytePorts.Port;
+  bus    : I2C.Bus;
+  dev    : PCA9534.Device;
 
 BEGIN
-  Put_Line("MCP23017 Byte I/O Test");
+  New_Line;
+  Put_Line("PCA9534 Byte I/O Test");
   New_Line;
 
   -- Create I2C bus object
 
   bus := I2C.RemoteIO.Create(RemoteIO.Create(HID.Munts.Create), 0,
-    I2C.SpeedFast);
+    I2C.SpeedStandard);
 
-  -- Create MCP23017 device object
+  -- Create PCA9534 device object
 
-  dev   := MCP23017.Create(bus, 16#20#);
+  dev := PCA9534.Create(bus, 16#27#, PCA9534.AllOutputs, PCA9534.AllOff);
 
-  -- Create 8-bit port objects
+  -- Write increasing values to the PCA9534
 
-  PortA := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPA);
-  PortB := MCP23017.BytePorts.Create(dev, MCP23017.BytePorts.GPB);
-
-  -- Configure all port A pins as outputs
-
-  PortA.SetDirections(16#FF#);
-  PortB.SetPullups(16#00#);
-
-  -- Configure all port B pins as inputs with pullups
-
-  PortB.SetDirections(16#00#);
-  PortB.SetPullups(16#FF#);
-
-  -- Toggle port A outputs and read port B inputs
+  Put_Line("Press CONTROL-C to exit.");
+  New_Line;
 
   LOOP
-    FOR n IN MCP23017.BytePorts.Byte LOOP
-      PortA.Put(n);
-      Put("PortB => ");
-      Put(PortB.Get, 0, 16);
-      Put(ASCII.CR);
+    FOR b IN PCA9534.Byte'Range LOOP
+      dev.Put(b);
     END LOOP;
   END LOOP;
-
-END test_remoteio_hid_mcp23017_device;
+END test_pca9534_device;

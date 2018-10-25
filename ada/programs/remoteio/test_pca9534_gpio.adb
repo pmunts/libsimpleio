@@ -1,4 +1,4 @@
--- Test a PCA8574 as 8 individual GPIO pins
+-- Test a PCA9534 as 8 individual GPIO pins
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -24,21 +24,20 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO;
 WITH HID.Munts;
-WITH I2C;
 WITH I2C.RemoteIO;
-WITH PCA8574;
-WITH PCA8574.GPIO;
+WITH PCA9534;
+WITH PCA9534.GPIO;
 WITH RemoteIO;
 
-PROCEDURE test_remoteio_hid_pca8574_gpio IS
+PROCEDURE test_pca9534_gpio IS
 
   bus   : I2C.Bus;
-  dev   : PCA8574.Device;
-  pins  : ARRAY (PCA8574.GPIO.PinNumber) OF GPIO.Pin;
+  dev   : PCA9534.Device;
+  pins  : ARRAY (PCA9534.GPIO.PinNumber) OF GPIO.Pin;
 
 BEGIN
   New_Line;
-  Put_Line("PCA8574 GPIO Toggle Test");
+  Put_Line("PCA9534 GPIO Toggle Test");
   New_Line;
 
   -- Create I2C bus object
@@ -46,14 +45,14 @@ BEGIN
   bus := I2C.RemoteIO.Create(RemoteIO.Create(HID.Munts.Create), 0,
     I2C.SpeedStandard);
 
-  -- Create PCA8574 device object
+  -- Create PCA9534 device object
 
-  dev   := PCA8574.Create(bus, 16#38#);
+  dev := PCA9534.Create(bus, 16#27#, PCA9534.AllOutputs, PCA9534.AllOff);
 
   -- Configure GPIO pins
 
   FOR n IN pins'Range LOOP
-    pins(n) := PCA8574.GPIO.Create(dev, n, GPIO.Output);
+    pins(n) := PCA9534.GPIO.Create(dev, n, GPIO.Output);
   END LOOP;
 
   -- Toggle GPIO pins
@@ -65,4 +64,4 @@ BEGIN
       p.Put(NOT p.Get);
     END LOOP;
   END LOOP;
-END test_remoteio_hid_pca8574_gpio;
+END test_pca9534_gpio;

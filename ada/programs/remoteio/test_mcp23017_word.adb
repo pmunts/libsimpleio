@@ -1,4 +1,4 @@
--- Test an PCA8574 I2C GPIO expander as an 8-bit parallel port
+-- Test an MCP23017 as 1 16-bit parallel port
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -23,38 +23,52 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.Munts;
-WITH I2C;
 WITH I2C.RemoteIO;
-WITH PCA8574;
+WITH MCP23017;
+WITH MCP23017.WordPort;
 WITH RemoteIO;
 
-PROCEDURE test_remoteio_hid_pca8574_device IS
+USE TYPE MCP23017.WordPort.Word;
 
-  bus    : I2C.Bus;
-  dev    : PCA8574.Device;
+PROCEDURE test_mcp23017_word IS
+
+  PACKAGE Word_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.WordPort.Word);
+  USE Word_IO;
+
+  bus   : I2C.Bus;
+  dev   : MCP23017.Device;
+  port  : MCP23017.WordPort.Port;
 
 BEGIN
-  New_Line;
-  Put_Line("PCA8574 Byte I/O Test");
+  Put_Line("MCP23017 Word I/O Test");
   New_Line;
 
   -- Create I2C bus object
 
   bus := I2C.RemoteIO.Create(RemoteIO.Create(HID.Munts.Create), 0,
-    I2C.SpeedStandard);
+    I2C.SpeedFast);
 
-  -- Create PCA8574 device object
+  -- Create MCP23017 device object
 
-  dev   := PCA8574.Create(bus, 16#38#);
+  dev   := MCP23017.Create(bus, 16#20#);
 
-  -- Write increasing values to the PCA8574
+  -- Create 16-bit port object
 
-  Put_Line("Press CONTROL-C to exit.");
-  New_Line;
+  port := MCP23017.WordPort.Create(dev);
+
+  -- Configure port pins, alternating inputs and outputs
+
+  port.SetDirections(16#AAAA#);
+  port.SetPullups(16#5555#);
+
+  -- Toggle outputs and read inputs
 
   LOOP
-    FOR b IN PCA8574.Byte'Range LOOP
-      dev.Put(b);
+    FOR n IN MCP23017.WordPort.Word LOOP
+      port.Put(n);
+      Put(port.Get AND 16#5555#, 0, 16);
+      Put(ASCII.CR);
     END LOOP;
   END LOOP;
-END test_remoteio_hid_pca8574_device;
+
+END test_mcp23017_word;

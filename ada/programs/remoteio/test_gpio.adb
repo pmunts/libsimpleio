@@ -22,12 +22,11 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH GPIO;
 WITH GPIO.RemoteIO;
 WITH HID.Munts;
 WITH RemoteIO;
 
-PROCEDURE test_remoteio_hid_gpio IS
+PROCEDURE test_gpio IS
 
   device : RemoteIO.Device;
   pinset : RemoteIO.ChannelSets.Set;
@@ -95,4 +94,4 @@ BEGIN
       END LOOP;
     END LOOP;
   END;
-END test_remoteio_hid_gpio;
+END test_gpio;
