@@ -28,14 +28,41 @@ PACKAGE HDC1080 IS
 
   HDC1080_Error : EXCEPTION;
 
-  TYPE RegisterAddress IS MOD 2**8;
-
-  TYPE RegisterData IS MOD 2**16;
-
   TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface AND
     Humidity.Interfaces.InputInterface WITH PRIVATE;
 
   TYPE Device IS ACCESS DeviceSubclass;
+
+  -- Object constructor
+
+  FUNCTION Create(bus : I2C.Bus) RETURN Device;
+
+  -- Get Celsius temperature
+
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
+
+  -- Get relative humidity
+
+  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Humidity.Relative;
+
+  -- Get manufacturer ID
+
+  FUNCTION ManufacturerID(Self : IN OUT DeviceSubclass) RETURN Natural;
+
+  -- Get device ID
+
+  FUNCTION DeviceID(Self : IN OUT DeviceSubclass) RETURN Natural;
+
+PRIVATE
+
+  TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface AND
+    Humidity.Interfaces.InputInterface WITH RECORD
+    bus     : I2C.Bus;
+    address : I2C.Address;
+  END RECORD;
+
+  TYPE RegisterAddress IS MOD 2**8;
+  TYPE RegisterData    IS MOD 2**16;
 
   -- Register address constants
 
@@ -47,10 +74,6 @@ PACKAGE HDC1080 IS
   RegSerialNumberLast   : CONSTANT RegisterAddress := 16#FD#;
   RegManufacturerID     : CONSTANT RegisterAddress := 16#FE#;
   RegDeviceID           : CONSTANT RegisterAddress := 16#FF#;
-
-  -- Object constructor
-
-  FUNCTION Create(bus : I2C.Bus) RETURN Device;
 
   -- Read from an HDC1080 device register
 
@@ -64,29 +87,5 @@ PACKAGE HDC1080 IS
    (Self : DeviceSubclass;
     addr : RegisterAddress;
     data : RegisterData);
-
-  -- Get Celsius temperature
-
-  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
-
-  -- Get relative humidity
-
-  FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Humidity.Relative;
-
-  -- Get manufacturer ID
-
-  FUNCTION ManufacturerID(Self : IN OUT DeviceSubclass) RETURN RegisterData;
-
-  -- Get device ID
-
-  FUNCTION DeviceID(Self : IN OUT DeviceSubclass) RETURN RegisterData;
-
-PRIVATE
-
-  TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface AND
-    Humidity.Interfaces.InputInterface WITH RECORD
-    bus     : I2C.Bus;
-    address : I2C.Address;
-  END RECORD;
 
 END HDC1080;

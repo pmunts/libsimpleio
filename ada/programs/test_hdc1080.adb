@@ -22,6 +22,7 @@
 
 WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH I2C.libsimpleio;
 WITH HDC1080;
@@ -32,8 +33,6 @@ PROCEDURE test_hdc1080 IS
 
   bus : I2C.Bus;
   dev : HDC1080.Device;
-
-  PACKAGE RegisterData_IO IS NEW Ada.Text_IO.Modular_IO(HDC1080.RegisterData);
 
 BEGIN
   New_Line;
@@ -50,11 +49,11 @@ BEGIN
   dev := HDC1080.Create(bus);
 
   Put("Manufacturer ID: ");
-  RegisterData_IO.Put(dev.ManufacturerID, 8, 16);
+  Put(dev.ManufacturerID, 8, 16);
   New_Line;
 
   Put("Device ID:       ");
-  RegisterData_IO.Put(dev.DeviceID, 8, 16);
+  Put(dev.DeviceID, 8, 16);
   New_Line;
 
   New_Line;

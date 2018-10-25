@@ -113,18 +113,18 @@ PACKAGE BODY HDC1080 IS
 
   -- Get manufacturer ID
 
-  FUNCTION ManufacturerID(Self : IN OUT DeviceSubclass) RETURN RegisterData IS
+  FUNCTION ManufacturerID(Self : IN OUT DeviceSubclass) RETURN Natural IS
 
   BEGIN
-    RETURN Self.Get(RegManufacturerID);
+    RETURN Natural(Self.Get(RegManufacturerID));
   END ManufacturerID;
 
   -- Get device ID
 
-  FUNCTION DeviceID(Self : IN OUT DeviceSubclass) RETURN RegisterData IS
+  FUNCTION DeviceID(Self : IN OUT DeviceSubclass) RETURN Natural IS
 
   BEGIN
-    RETURN Self.Get(RegDeviceID);
+    RETURN Natural(Self.Get(RegDeviceID));
   END DeviceID;
 
 END HDC1080;
