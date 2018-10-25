@@ -23,7 +23,6 @@
 WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH I2C;
 WITH I2C.libsimpleio;
 WITH PCA8574;
 

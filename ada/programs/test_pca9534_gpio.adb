@@ -24,9 +24,7 @@ WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO;
-WITH I2C;
 WITH I2C.libsimpleio;
-WITH PCA9534;
 WITH PCA9534.GPIO;
 
 PROCEDURE test_pca9534_gpio IS
