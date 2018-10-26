@@ -2548,6 +2548,34 @@
             Read-only property returning the configured PWM pulse frequency.
             </summary>
         </member>
+        <member name="T:IO.Devices.TH02.Device">
+            <summary>
+            Encapsulates the TH02 temperature and humidity sensor.
+            </summary>
+        </member>
+        <member name="M:IO.Devices.TH02.Device.#ctor(IO.Interfaces.I2C.Bus)">
+            <summary>
+            Constructor for an TH02 temperature and humidity sensor object.
+            </summary>
+            <param name="bus">I<sup>2</sup>C bus controller.</param>
+        </member>
+        <member name="P:IO.Devices.TH02.Device.Temperature">
+            <summary>
+            This read-only property reads the temperature,
+            in degrees Celsius.
+            </summary>
+        </member>
+        <member name="P:IO.Devices.TH02.Device.Humidity">
+            <summary>
+            This read-only property reads the humidity,
+            in percent relative humidity.
+            </summary>
+        </member>
+        <member name="P:IO.Devices.TH02.Device.DeviceID">
+            <summary>
+            This read-only property returns the device ID.
+            </summary>
+        </member>
         <member name="T:IO.Interfaces.ADC.Sample">
             <summary>
             Abstract interface for ADC inputs returning an integer sample value.
