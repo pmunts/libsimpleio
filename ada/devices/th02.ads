@@ -66,8 +66,9 @@ PRIVATE
   -- TH02 register addresses
 
   RegStatus : CONSTANT RegisterAddress := 16#00#;
-  RegData   : CONSTANT RegisterAddress := 16#01#;
-  RegConfig : CONSTANT RegisterAddress := 16#02#;
+  RegDataH  : CONSTANT RegisterAddress := 16#01#;
+  RegDataL  : CONSTANT RegisterAddress := 16#02#;
+  RegConfig : CONSTANT RegisterAddress := 16#03#;
   RegID     : CONSTANT RegisterAddress := 16#11#;
 
   -- TH02 commands

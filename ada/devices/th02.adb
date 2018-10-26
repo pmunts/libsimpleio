@@ -112,7 +112,7 @@ PACKAGE BODY TH02 IS
 
     -- Fetch result
 
-    cmd(0) := I2C.Byte(regData);
+    cmd(0) := I2C.Byte(RegDataH);
     Self.bus.Transaction(Self.address, cmd, cmd'Length, resp, resp'Length);
 
     -- Return result
@@ -166,7 +166,7 @@ PACKAGE BODY TH02 IS
   FUNCTION DeviceID(Self : IN OUT DeviceSubclass) RETURN Natural IS
 
   BEGIN
-    RETURN Natural(RegID);
+    RETURN Natural(Self.Get(RegID));
   END DeviceID;
 
 END TH02;
