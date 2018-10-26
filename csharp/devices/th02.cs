@@ -146,11 +146,18 @@ namespace IO.Devices.TH02
         {
             get
             {
-                // Get unlinearized uncompensated humidity sample
+                // Get humidity sample
 
                 double RHvalue = (Sample(cmdHumid) >> 4)/16.0 - 24.0;
 
-                return RHvalue;
+                // Perform linearization
+
+                double RHlinear = RHvalue -
+                  (RHvalue*RHvalue*A2 + RHvalue*A1 + A0);
+
+                // Perform temperature compensation
+
+                return RHlinear + (Temperature - 30.0)*(RHlinear*Q1 + Q0);
             }
         }
 
