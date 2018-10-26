@@ -39,7 +39,7 @@ namespace test_th02
 
       IO.Devices.TH02.Device dev = new IO.Devices.TH02.Device(bus);
 
-      Console.WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X4"));
+      Console.WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X2"));
       Console.WriteLine();
 
       for (;;)
