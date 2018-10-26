@@ -107,7 +107,7 @@ PACKAGE BODY TH02 IS
     -- Wait until conversion is complete
 
     LOOP
-      EXIT WHEN (Self.Get(RegStatus) AND statBusy) = 0;
+      EXIT WHEN (Self.Get(RegStatus) AND mskBusy) = 0;
     END LOOP;
 
     -- Fetch result

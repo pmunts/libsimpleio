@@ -41,7 +41,7 @@
 
 // TH02 status masks
 
-#define Busy		0x01  // Zero when conversion complete
+#define mskBusy		0x01  // Zero when conversion complete
 
 // Device_Class constructor
 
@@ -127,7 +127,7 @@ uint16_t TH02::Device_Class::ReadData(uint8_t which)
 
   // Wait for completion
 
-  while (this->ReadRegister(RegStatus) & Busy);
+  while (this->ReadRegister(RegStatus) & mskBusy);
 
   // Fetch result
 

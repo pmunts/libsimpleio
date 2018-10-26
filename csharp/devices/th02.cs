@@ -45,9 +45,9 @@ namespace IO.Devices.TH02
 
         // TH02 status masks
 
-        private const byte stsBusy = 0x01;  // Nonzero during conversion
+        private const byte mskBusy = 0x01;  // Nonzero during conversion
 
-        // Linearization cofficients (from the TH02 datasheet)
+        // TH02 humidity correction coefficients (from the TH02 datasheet)
 
         private const double A0 = -4.7844;
         private const double A1 = 0.4008;
@@ -114,7 +114,7 @@ namespace IO.Devices.TH02
 
           // Wait for completion
 
-          while ((Read(regStatus) & stsBusy) != 0);
+          while ((Read(regStatus) & mskBusy) != 0);
 
           // Fetch result
 
@@ -134,7 +134,7 @@ namespace IO.Devices.TH02
         {
             get
             {
-                return (Sample(cmdTemp) >> 2)/32.0 -50.0;
+                return (Sample(cmdTemp) >> 2)/32.0 - 50.0;
             }
         }
 

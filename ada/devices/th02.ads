@@ -79,7 +79,7 @@ PRIVATE
 
   -- TH02 status masks
 
-  statBusy  : CONSTANT RegisterData := 16#01#;  -- Zero when conversion complete
+  mskBusy   : CONSTANT RegisterData := 16#01#;  -- Zero when conversion complete
 
   -- Linearization cofficients (from the TH02 datasheet)
 
