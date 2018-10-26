@@ -52,7 +52,7 @@ namespace TH02
 
     void WriteRegister(uint8_t reg, uint8_t data);
 
-    uint16_t ReadData(uint8_t which);
+    uint16_t ReadData(uint8_t what);
   };
 
   typedef Device_Class *Device;

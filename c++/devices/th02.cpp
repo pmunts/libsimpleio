@@ -28,7 +28,8 @@
 // TH02 register addresses
 
 #define RegStatus	0x00
-#define RegData		0x01
+#define RegDataH	0x01
+#define RegDataL	0x02
 #define RegConfig	0x03
 #define RegID		0x11
 
@@ -70,9 +71,6 @@ uint8_t TH02::Device_Class::ReadRegister(uint8_t reg)
   // Validate parameters
 
   if (reg > RegID)
-    THROW_MSG("The reg parameter is out of range");
-
-  if ((reg > RegConfig) && (reg < RegID))
     THROW_MSG("The reg parameter is out of range");
 
   if ((reg > RegConfig) && (reg < RegID))
@@ -133,7 +131,7 @@ uint16_t TH02::Device_Class::ReadData(uint8_t which)
 
   // Fetch result
 
-  cmd[0] = RegData;
+  cmd[0] = RegDataH;
   this->bus->Transaction(this->addr, cmd, sizeof(cmd), resp, sizeof(resp));
 
   // Return result
