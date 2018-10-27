@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Containers.Ordered_Sets;
-WITH Message64;
 
 PACKAGE RemoteIO IS
 
@@ -70,44 +69,5 @@ PACKAGE RemoteIO IS
   SUBTYPE ChannelNumber IS Natural RANGE 0 .. 127;
 
   PACKAGE ChannelSets IS NEW Ada.Containers.Ordered_Sets(ChannelNumber);
-
-  -- Define a tagged type for remote I/O devices
-
-  TYPE DeviceRecord IS TAGGED PRIVATE;
-
-  -- Define an access type compatible with any subclass implementing
-  -- DeviceRecord
-
-  TYPE Device IS ACCESS ALL DeviceRecord'Class;
-
-  -- Constructors
-
-  FUNCTION Create(msg : Message64.Messenger) RETURN Device;
-
-  PROCEDURE Transaction
-   (Self : IN OUT DeviceRecord;
-    cmd  : IN OUT Message64.Message;
-    resp : OUT Message64.Message);
-
-  -- Get the remote device version string
-
-  FUNCTION GetVersion(Self : IN OUT DeviceRecord) RETURN String;
-
-  -- Get the remote device capability string
-
-  FUNCTION GetCapability(Self : IN OUT DeviceRecord) RETURN String;
-
-  -- Get the available channels for a given service type
-
-  FUNCTION GetAvailableChannels
-   (Self    : IN OUT DeviceRecord;
-    service : ChannelTypes) RETURN ChannelSets.Set;
-
-PRIVATE
-
-  TYPE DeviceRecord IS TAGGED RECORD
-    msg : Message64.Messenger;
-    num : Message64.Byte;
-  END RECORD;
 
 END RemoteIO;

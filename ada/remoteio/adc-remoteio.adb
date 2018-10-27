@@ -25,7 +25,7 @@ WITH Interfaces;
 WITH errno;
 WITH Messaging;
 WITH Message64;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 
 USE TYPE Interfaces.Unsigned_32;
 USE TYPE Message64.Byte;
@@ -35,7 +35,7 @@ PACKAGE BODY ADC.RemoteIO IS
   -- A/D input pin object constructor
 
   FUNCTION Create
-   (dev  : Standard.RemoteIO.Device;
+   (dev  : Standard.RemoteIO.Client.Device;
     num  : Standard.RemoteIO.ChannelNumber) RETURN Analog.Input IS
 
     cmd  : Message64.Message;

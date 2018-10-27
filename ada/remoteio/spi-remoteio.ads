@@ -21,7 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.i2c-remoteio.ads
 
 WITH SPI;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 
 PACKAGE SPI.RemoteIO IS
 
@@ -30,7 +30,7 @@ PACKAGE SPI.RemoteIO IS
   -- SPI device object constructor
 
   FUNCTION Create
-   (dev      : Standard.RemoteIO.Device;
+   (dev      : Standard.RemoteIO.Client.Device;
     num      : Standard.RemoteIO.ChannelNumber;
     mode     : Natural;
     wordsize : Natural;
@@ -63,7 +63,7 @@ PACKAGE SPI.RemoteIO IS
 PRIVATE
 
   TYPE DeviceSubclass IS NEW SPI.DeviceInterface WITH RECORD
-    dev : Standard.RemoteIO.Device;
+    dev : Standard.RemoteIO.Client.Device;
     num : Standard.RemoteIO.ChannelNumber;
   END RECORD;
 

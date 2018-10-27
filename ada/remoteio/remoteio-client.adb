@@ -1,4 +1,4 @@
--- Remote I/O Services using Message64 transport (e.g. raw HID)
+-- Remote I/O Client Services using Message64 transport (e.g. raw HID)
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -29,7 +29,7 @@ WITH Messaging;
 
 USE TYPE Message64.Byte;
 
-PACKAGE BODY RemoteIO IS
+PACKAGE BODY RemoteIO.Client IS
 
   -- Constructors
 
@@ -173,4 +173,4 @@ PACKAGE BODY RemoteIO IS
     RETURN chanset;
   END GetAvailableChannels;
 
-END RemoteIO;
+END RemoteIO.Client;

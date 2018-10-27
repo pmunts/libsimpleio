@@ -25,7 +25,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH HID.Munts;
 WITH I2C.RemoteIO;
 WITH PCA8574;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 
 PROCEDURE test_pca8574_device IS
 
@@ -39,7 +39,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Create(HID.Munts.Create), 0,
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.Munts.Create), 0,
     I2C.SpeedStandard);
 
   -- Create PCA8574 device object

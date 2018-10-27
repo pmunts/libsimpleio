@@ -25,12 +25,12 @@ WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.Munts;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
 
 PROCEDURE test_spi IS
 
-  remdev   : RemoteIO.Device;
+  remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
   devnum   : RemoteIO.ChannelNumber;
   mode     : Natural;
@@ -62,7 +62,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Create(HID.Munts.Create);
+  remdev := RemoteIO.Client.Create(HID.Munts.Create);
 
   -- Query the firmware version
 

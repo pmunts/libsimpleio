@@ -23,14 +23,14 @@
 WITH errno;
 WITH Message64;
 WITH Messaging;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 
 PACKAGE BODY I2C.RemoteIO IS
 
   -- I2C bus object constructor
 
   FUNCTION Create
-   (dev   : Standard.RemoteIO.Device;
+   (dev   : Standard.RemoteIO.Client.Device;
     num   : Standard.RemoteIO.ChannelNumber;
     speed : Positive := I2C.SpeedStandard) RETURN I2C.Bus IS
 

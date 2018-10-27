@@ -24,11 +24,11 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO.RemoteIO;
 WITH HID.Munts;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 
 PROCEDURE test_gpio IS
 
-  device : RemoteIO.Device;
+  device : RemoteIO.Client.Device;
   pinset : RemoteIO.ChannelSets.Set;
 
 BEGIN
@@ -38,7 +38,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  device := RemoteIO.Create(HID.Munts.Create);
+  device := RemoteIO.Client.Create(HID.Munts.Create);
 
   -- Query the firmware version
 

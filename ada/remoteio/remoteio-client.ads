@@ -1,4 +1,4 @@
--- I2C bus controller services using the Remote I/O Protocol
+-- Remote I/O Client Services using Message64 transport (e.g. raw HID)
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -18,54 +18,50 @@
 -- INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 -- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
--- POSSIBILITY OF SUCH DAMAGE.i2c-remoteio.ads
+-- POSSIBILITY OF SUCH DAMAGE.
 
-WITH I2C;
-WITH RemoteIO.Client;
+WITH Ada.Containers.Ordered_Sets;
+WITH Message64;
 
-PACKAGE I2C.RemoteIO IS
+PACKAGE RemoteIO.Client IS
 
-  TYPE BusSubclass IS NEW I2C.BusInterface WITH PRIVATE;
+  -- Define a tagged type for remote I/O server devices
 
-  -- I2C bus object constructor
+  TYPE DeviceRecord IS TAGGED PRIVATE;
 
-  FUNCTION Create
-   (dev   : Standard.RemoteIO.Client.Device;
-    num   : Standard.RemoteIO.ChannelNumber;
-    speed : Positive := I2C.SpeedStandard) RETURN I2C.Bus;
+  -- Define an access type compatible with any subclass implementing
+  -- DeviceRecord
 
-  -- Read only I2C bus cycle method
+  TYPE Device IS ACCESS ALL DeviceRecord'Class;
 
-  PROCEDURE Read
-   (Self    : BusSubclass;
-    addr    : Address;
-    resp    : OUT Response;
-    resplen : Natural);
+  -- Constructors
 
-  -- Write only I2C bus cycle method
-
-  PROCEDURE Write
-   (Self   : BusSubclass;
-    addr   : Address;
-    cmd    : Command;
-    cmdlen : Natural);
-
-  -- Combined Write/Read I2C bus cycle method
+  FUNCTION Create(msg : Message64.Messenger) RETURN Device;
 
   PROCEDURE Transaction
-   (Self    : BusSubclass;
-    addr    : Address;
-    cmd     : Command;
-    cmdlen  : Natural;
-    resp    : OUT Response;
-    resplen : Natural;
-    delayus : MicroSeconds := 0);
+   (Self : IN OUT DeviceRecord;
+    cmd  : IN OUT Message64.Message;
+    resp : OUT Message64.Message);
+
+  -- Get the remote device version string
+
+  FUNCTION GetVersion(Self : IN OUT DeviceRecord) RETURN String;
+
+  -- Get the remote device capability string
+
+  FUNCTION GetCapability(Self : IN OUT DeviceRecord) RETURN String;
+
+  -- Get the available channels for a given service type
+
+  FUNCTION GetAvailableChannels
+   (Self    : IN OUT DeviceRecord;
+    service : ChannelTypes) RETURN ChannelSets.Set;
 
 PRIVATE
 
-  TYPE BusSubclass IS NEW I2C.BusInterface WITH RECORD
-    dev : Standard.RemoteIO.Client.Device;
-    num : Standard.RemoteIO.ChannelNumber;
+  TYPE DeviceRecord IS TAGGED RECORD
+    msg : Message64.Messenger;
+    num : Message64.Byte;
   END RECORD;
 
-END I2C.RemoteIO;
+END RemoteIO.Client;

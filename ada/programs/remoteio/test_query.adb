@@ -27,12 +27,12 @@ WITH ADC.RemoteIO;
 WITH GPIO.RemoteIO;
 WITH HID.Munts;
 WITH I2C.RemoteIO;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
 
 PROCEDURE test_query IS
 
-  remdev   : RemoteIO.Device;
+  remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
 
 BEGIN
@@ -42,7 +42,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Create(HID.Munts.Create);
+  remdev := RemoteIO.Client.Create(HID.Munts.Create);
 
   -- Query the firmware version
 

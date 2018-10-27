@@ -23,7 +23,7 @@
 WITH errno;
 WITH Messaging;
 WITH Message64;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 
 USE TYPE Message64.Byte;
 
@@ -32,7 +32,7 @@ PACKAGE BODY GPIO.RemoteIO IS
   -- GPIO pin object constructor
 
   FUNCTION Create
-   (dev   : Standard.RemoteIO.Device;
+   (dev   : Standard.RemoteIO.Client.Device;
     num   : Standard.RemoteIO.ChannelNumber;
     dir   : Direction;
     state : Boolean := False) RETURN Pin IS

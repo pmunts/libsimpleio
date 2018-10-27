@@ -26,7 +26,7 @@ WITH HID.Munts;
 WITH I2C.RemoteIO;
 WITH MCP23017;
 WITH MCP23017.Byte;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 
 PROCEDURE test_mcp23017_device IS
 
@@ -44,7 +44,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Create(HID.Munts.Create), 0,
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.Munts.Create), 0,
     I2C.SpeedFast);
 
   -- Create MCP23017 device object

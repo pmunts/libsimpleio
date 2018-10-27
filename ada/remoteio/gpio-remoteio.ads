@@ -22,7 +22,7 @@
 
 WITH Ada.Containers.Ordered_Sets;
 
-WITH RemoteIO;
+WITH RemoteIO.Client;
 
 PACKAGE GPIO.RemoteIO IS
 
@@ -31,7 +31,7 @@ PACKAGE GPIO.RemoteIO IS
   -- GPIO pin object constructor
 
   FUNCTION Create
-   (dev   : Standard.RemoteIO.Device;
+   (dev   : Standard.RemoteIO.Client.Device;
     num   : Standard.RemoteIO.ChannelNumber;
     dir   : Direction;
     state : Boolean := False) RETURN Pin;
@@ -47,7 +47,7 @@ PACKAGE GPIO.RemoteIO IS
 PRIVATE
 
   TYPE PinSubclass IS NEW PinInterface WITH RECORD
-    dev : Standard.RemoteIO.Device;
+    dev : Standard.RemoteIO.Client.Device;
     num : Standard.RemoteIO.ChannelNumber;
   END RECORD;
 

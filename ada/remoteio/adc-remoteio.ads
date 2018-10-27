@@ -21,7 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Analog;
-WITH RemoteIO;
+WITH RemoteIO.Client;
 
 PACKAGE ADC.RemoteIO IS
 
@@ -30,7 +30,7 @@ PACKAGE ADC.RemoteIO IS
   -- A/D input pin object constructor
 
   FUNCTION Create
-   (dev : Standard.RemoteIO.Device;
+   (dev : Standard.RemoteIO.Client.Device;
     num : Standard.RemoteIO.ChannelNumber) RETURN Analog.Input;
 
   -- Read A/D input pin
@@ -44,7 +44,7 @@ PACKAGE ADC.RemoteIO IS
 PRIVATE
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
-    dev        : Standard.RemoteIO.Device;
+    dev        : Standard.RemoteIO.Client.Device;
     num        : Standard.RemoteIO.ChannelNumber;
     resolution : Positive;
   END RECORD;
