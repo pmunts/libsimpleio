@@ -27,39 +27,41 @@ PACKAGE RemoteIO.Client IS
 
   -- Define a tagged type for remote I/O server devices
 
-  TYPE DeviceRecord IS TAGGED PRIVATE;
+  TYPE DeviceClass IS TAGGED PRIVATE;
 
   -- Define an access type compatible with any subclass implementing
-  -- DeviceRecord
+  -- DeviceClass
 
-  TYPE Device IS ACCESS ALL DeviceRecord'Class;
+  TYPE Device IS ACCESS ALL DeviceClass'Class;
 
   -- Constructors
 
   FUNCTION Create(msg : Message64.Messenger) RETURN Device;
 
+  -- Perform a Remote I/O operation
+
   PROCEDURE Transaction
-   (Self : IN OUT DeviceRecord;
+   (Self : IN OUT DeviceClass;
     cmd  : IN OUT Message64.Message;
     resp : OUT Message64.Message);
 
   -- Get the remote device version string
 
-  FUNCTION GetVersion(Self : IN OUT DeviceRecord) RETURN String;
+  FUNCTION GetVersion(Self : IN OUT DeviceClass) RETURN String;
 
   -- Get the remote device capability string
 
-  FUNCTION GetCapability(Self : IN OUT DeviceRecord) RETURN String;
+  FUNCTION GetCapability(Self : IN OUT DeviceClass) RETURN String;
 
   -- Get the available channels for a given service type
 
   FUNCTION GetAvailableChannels
-   (Self    : IN OUT DeviceRecord;
+   (Self    : IN OUT DeviceClass;
     service : ChannelTypes) RETURN ChannelSets.Set;
 
 PRIVATE
 
-  TYPE DeviceRecord IS TAGGED RECORD
+  TYPE DeviceClass IS TAGGED RECORD
     msg : Message64.Messenger;
     num : Message64.Byte;
   END RECORD;
