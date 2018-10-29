@@ -37,7 +37,7 @@ PROCEDURE test_server IS
   caps  : RemoteIO.Server.ResponseString;
   msg   : Message64.Messenger;
   exec  : RemoteIO.Executive.Executor;
-  comm  : RemoteIO.Dispatch.Dispatcher;
+  comm  : RemoteIO.Common.DispatcherSubclass;
   serv  : RemoteIO.Server.Device;
 
 BEGIN

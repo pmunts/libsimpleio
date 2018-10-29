@@ -33,7 +33,7 @@ PACKAGE RemoteIO.Common IS
    (executor     : IN OUT RemoteIO.Executive.Executor;
     version      : RemoteIO.Server.ResponseString;
     capabilities : RemoteIO.Server.ResponseString)
-    RETURN RemoteIO.Dispatch.Dispatcher;
+    RETURN DispatcherSubclass;
 
   PROCEDURE Dispatch
    (Self : DispatcherSubclass;

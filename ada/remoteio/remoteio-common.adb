@@ -32,9 +32,9 @@ PACKAGE BODY RemoteIO.Common IS
    (executor     : IN OUT RemoteIO.Executive.Executor;
     version      : RemoteIO.Server.ResponseString;
     capabilities : RemoteIO.Server.ResponseString)
-    RETURN RemoteIO.Dispatch.Dispatcher IS
+    RETURN DispatcherSubclass IS
 
-    Self : RemoteIO.Dispatch.Dispatcher;
+    Self : ACCESS DispatcherSubclass;
 
   BEGIN
     Self := NEW DispatcherSubclass'(version, capabilities);
@@ -43,7 +43,7 @@ PACKAGE BODY RemoteIO.Common IS
     executor.Register(VERSION_REQUEST, Self);
     executor.Register(CAPABILITY_REQUEST, Self);
 
-    RETURN Self;
+    RETURN Self.ALL;
   END Create;
 
   PROCEDURE Dispatch
