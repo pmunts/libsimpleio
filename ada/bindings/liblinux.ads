@@ -21,6 +21,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH System;
+
 PACKAGE libLinux IS
   PRAGMA Link_With("-lsimpleio");
 
@@ -121,5 +123,50 @@ PACKAGE libLinux IS
    (usecs : Integer;
     error : OUT Integer);
   PRAGMA Import(C, USleep, "LINUX_usleep");
+
+  PROCEDURE Open
+   (devname : String;
+    fd      : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Open, "LINUX_open_write");
+
+  PROCEDURE OpenRead
+   (devname : String;
+    fd      : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, OpenRead, "LINUX_open_read");
+
+  PROCEDURE OpenWrite
+   (devname : String;
+    fd      : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, OpenWrite, "LINUX_open_write");
+
+  PROCEDURE OpenReadWrite
+   (devname : String;
+    fd      : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, OpenReadWrite, "LINUX_open_readwrite");
+
+  PROCEDURE Read
+   (fd      : Integer;
+    buf     : System.Address;
+    bufsize : Integer;
+    count   : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Read, "LINUX_read");
+
+  PROCEDURE Write
+   (fd      : Integer;
+    buf     : System.Address;
+    bufsize : Integer;
+    count   : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Write, "LINUX_write");
+
+  PROCEDURE Close
+   (fd      : Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Close, "LINUX_close");
 
 END libLinux;
