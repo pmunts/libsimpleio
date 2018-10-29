@@ -20,12 +20,49 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH errno;
+WITH Message64;
+WITH RemoteIO.Dispatch;
+WITH RemoteIO.Common;
+
+USE TYPE Message64.Byte;
+USE TYPE RemoteIO.Dispatch.Dispatcher;
+
 PACKAGE BODY RemoteIO.Executive IS
+
+  -- Constructor
 
   FUNCTION Create RETURN Executor IS
 
+    DefaultHandler : CONSTANT RemoteIO.Dispatch.Dispatcher := 
+      RemoteIO.Common.Create;
+
   BEGIN
-    RETURN Executor'(NULL RECORD);
+    RETURN Executor'(handlers => HandlerArray'(OTHERS => DefaultHandler));
   END Create;
+
+  -- Register a command handler
+
+  PROCEDURE Register
+   (Self    : IN OUT Executor;
+    msgtype : MessageTypes;
+    handler : RemoteIO.Dispatch.Dispatcher) IS
+
+  BEGIN
+    Self.handlers(msgtype) := handler;
+  END Register;
+  
+  -- Execute a command
+
+  PROCEDURE Execute
+   (Self    : IN OUT Executor;
+    cmd     : Message64.Message;
+    resp    : OUT Message64.Message) IS
+
+    msgtype : CONSTANT MessageTypes := MessageTypes'Val(cmd(0));
+
+  BEGIN
+    Self.handlers(msgtype).Dispatch(cmd, resp);
+  END Execute;
 
 END RemoteIO.Executive;

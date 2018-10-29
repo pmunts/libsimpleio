@@ -67,36 +67,7 @@ PACKAGE BODY RemoteIO.Server IS
     LOOP
       BEGIN
         messenger.Receive(cmd);
-
-        CASE MessageTypes'Val(cmd(0)) IS
-          WHEN LOOPBACK_REQUEST =>
-            resp(0) := cmd(0) + 1;
-            resp(1) := cmd(1);
-            resp(2) := 0;
-            resp(3 .. 63) := cmd(2 .. 62);
-
-          WHEN VERSION_REQUEST =>
-            resp(0) := cmd(0) + 1;
-            resp(1) := cmd(1);
-            resp(2) := 0;
-
-            FOR i IN ResponseString'Range LOOP
-              resp(i + 2) := Character'Pos(version(i));
-            END LOOP;
-
-          WHEN CAPABILITY_REQUEST =>
-            resp(0) := cmd(0) + 1;
-            resp(1) := cmd(1);
-            resp(2) := 0;
-
-            FOR i IN ResponseString'Range LOOP
-              resp(i + 2) := Character'Pos(capabilities(i));
-            END LOOP;
-
-          WHEN OTHERS =>
-            NULL;
-        END CASE;
-
+        executor.Execute(cmd, resp);
         messenger.Send(resp);
 
       EXCEPTION

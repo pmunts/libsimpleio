@@ -1,4 +1,4 @@
--- Remote I/O Server Command Executive Services
+-- Remote I/O Server Command Dispatcher Interface
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -21,36 +21,16 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Message64;
-WITH RemoteIO.Dispatch;
 
-PACKAGE RemoteIO.Executive IS
+PACKAGE RemoteIO.Dispatch IS
 
-  TYPE Executor IS TAGGED PRIVATE;
+  TYPE DispatcherInterface IS INTERFACE;
 
-  -- Constructor
+  TYPE Dispatcher IS ACCESS ALL DispatcherInterface'Class;
 
-  FUNCTION Create RETURN Executor;
+  PROCEDURE Dispatch
+   (Self : DispatcherInterface;
+    cmd  : Message64.Message;
+    resp : OUT Message64.Message) IS ABSTRACT;
 
-  -- Register a command handler
-
-  PROCEDURE Register
-   (Self    : IN OUT Executor;
-    msgtype : MessageTypes;
-    handler : RemoteIO.Dispatch.Dispatcher);
-
-  -- Execute a command
-
-  PROCEDURE Execute
-   (Self    : IN OUT Executor;
-    cmd     : Message64.Message;
-    resp    : OUT Message64.Message);
-
-PRIVATE
-
-  TYPE HandlerArray IS ARRAY (MessageTypes) OF RemoteIO.Dispatch.Dispatcher;
-
-  TYPE Executor IS TAGGED RECORD
-    handlers : HandlerArray;
-  END RECORD;
-
-END RemoteIO.Executive;
+END RemoteIO.Dispatch;

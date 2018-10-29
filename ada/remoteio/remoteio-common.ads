@@ -1,4 +1,4 @@
--- Remote I/O Server Command Executive Services
+-- Remote I/O Server Dispatcher for common commands
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,35 +22,27 @@
 
 WITH Message64;
 WITH RemoteIO.Dispatch;
+WITH RemoteIO.Server;
 
-PACKAGE RemoteIO.Executive IS
+PACKAGE RemoteIO.Common IS
 
-  TYPE Executor IS TAGGED PRIVATE;
+  TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
 
-  -- Constructor
+  FUNCTION Create
+   (version      : RemoteIO.Server.ResponseString;
+    capabilities : RemoteIO.Server.ResponseString)
+    RETURN RemoteIO.Dispatch.Dispatcher;
 
-  FUNCTION Create RETURN Executor;
-
-  -- Register a command handler
-
-  PROCEDURE Register
-   (Self    : IN OUT Executor;
-    msgtype : MessageTypes;
-    handler : RemoteIO.Dispatch.Dispatcher);
-
-  -- Execute a command
-
-  PROCEDURE Execute
-   (Self    : IN OUT Executor;
-    cmd     : Message64.Message;
-    resp    : OUT Message64.Message);
+  PROCEDURE Dispatch
+   (Self : DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.Message);
 
 PRIVATE
 
-  TYPE HandlerArray IS ARRAY (MessageTypes) OF RemoteIO.Dispatch.Dispatcher;
-
-  TYPE Executor IS TAGGED RECORD
-    handlers : HandlerArray;
+  TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
+    version      : RemoteIO.Server.ResponseString;
+    capabilities : RemoteIO.Server.ResponseString;
   END RECORD;
 
-END RemoteIO.Executive;
+END RemoteIO.Common;
