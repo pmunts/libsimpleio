@@ -22,4 +22,7 @@
 
 PACKAGE Messaging IS
 
+  Message_Error : EXCEPTION;
+  Timeout_Error : EXCEPTION;
+
 END Messaging;

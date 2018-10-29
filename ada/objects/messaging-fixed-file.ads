@@ -25,9 +25,6 @@ GENERIC
 
 PACKAGE Messaging.Fixed.File IS
 
-  Message_Error : EXCEPTION;
-  Timeout_Error : EXCEPTION;
-
   -- Type definitions
 
   TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
