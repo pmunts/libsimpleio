@@ -90,6 +90,10 @@ PACKAGE BODY Messaging.Fixed.File IS
       BEGIN
         libLinux.Poll(1, files, events, results, Self.timeout, error);
 
+        IF error = errno.EAGAIN THEN
+          RAISE Timeout_Error WITH "libLinux.Poll() timed out";
+        END IF;
+
         IF error /= 0 THEN
           RAISE Message_Error WITH "libLinux.Poll() failed, " &
             errno.strerror(error);

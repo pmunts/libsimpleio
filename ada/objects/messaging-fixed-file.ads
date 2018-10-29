@@ -26,6 +26,7 @@ GENERIC
 PACKAGE Messaging.Fixed.File IS
 
   Message_Error : EXCEPTION;
+  Timeout_Error : EXCEPTION;
 
   -- Type definitions
 
