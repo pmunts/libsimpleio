@@ -107,6 +107,12 @@ PACKAGE BODY Messaging.Fixed.File IS
       RAISE Message_Error WITH "libLinux.Read() failed, " &
         errno.strerror(error);
     END IF;
+
+    IF count /= msg'Length THEN
+      RAISE Message_Error WITH "libLinux.Read() failed, " &
+        "expected" & Integer'Image(msg'Length) & " bytes " &
+        "but read" & Integer'Image(count) & " bytes";
+    END IF;
   END Receive;
 
   -- Perform a command/response transaction (similar to an RPC call)
