@@ -35,16 +35,12 @@ PACKAGE RemoteIO.Server IS
 
   FUNCTION Create
    (messenger    : Message64.Messenger;
-    version      : ResponseString;
-    capabilities : ResponseString;
     executor     : RemoteIO.Executive.Executor) RETURN Device;
 
 PRIVATE
 
   TASK TYPE MessageHandlerTask IS
     ENTRY SetMessenger(msg : Message64.Messenger);
-    ENTRY SetVersion(vers : ResponseString);
-    ENTRY SetCapabilities(caps : ResponseSTring);
     ENTRY SetExecutor(exec : RemoteIO.Executive.Executor);
   END MessageHandlerTask;
 

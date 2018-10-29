@@ -22,6 +22,7 @@
 
 WITH Message64;
 WITH RemoteIO.Dispatch;
+WITH RemoteIO.Executive;
 WITH RemoteIO.Server;
 
 PACKAGE RemoteIO.Common IS
@@ -29,7 +30,8 @@ PACKAGE RemoteIO.Common IS
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
 
   FUNCTION Create
-   (version      : RemoteIO.Server.ResponseString;
+   (executor     : IN OUT RemoteIO.Executive.Executor;
+    version      : RemoteIO.Server.ResponseString;
     capabilities : RemoteIO.Server.ResponseString)
     RETURN RemoteIO.Dispatch.Dispatcher;
 

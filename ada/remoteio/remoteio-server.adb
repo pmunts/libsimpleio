@@ -36,8 +36,6 @@ PACKAGE BODY RemoteIO.Server IS
     -- State variables
 
     messenger    : Message64.Messenger;
-    version      : ResponseString;
-    capabilities : ResponseString;
     executor     : RemoteIO.Executive.Executor;
 
     -- Temporary variables
@@ -49,14 +47,6 @@ PACKAGE BODY RemoteIO.Server IS
     ACCEPT SetMessenger(msg : Message64.Messenger) DO
       messenger := msg;
     END SetMessenger;
-
-    ACCEPT SetVersion(vers : ResponseString) DO
-      version := vers;
-    END SetVersion;
-
-    ACCEPT SetCapabilities(caps : ResponseString) DO
-      capabilities := caps;
-    END SetCapabilities;
 
     ACCEPT SetExecutor(exec : RemoteIO.Executive.Executor) DO
       executor := exec;
@@ -84,8 +74,6 @@ PACKAGE BODY RemoteIO.Server IS
 
   FUNCTION Create
    (messenger    : Message64.Messenger;
-    version      : ResponseString;
-    capabilities : ResponseString;
     executor     : RemoteIO.Executive.Executor) RETURN Device IS
 
     dev : Device;
@@ -93,8 +81,6 @@ PACKAGE BODY RemoteIO.Server IS
   BEGIN
     dev := Device'(MessageHandler => NEW MessageHandlerTask);
     dev.MessageHandler.SetMessenger(messenger);
-    dev.MessageHandler.SetVersion(version);
-    dev.MessageHandler.SetCapabilities(capabilities);
     dev.MessageHandler.SetExecutor(executor);
 
     RETURN dev;

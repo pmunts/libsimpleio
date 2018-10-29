@@ -29,12 +29,21 @@ USE TYPE Message64.Byte;
 PACKAGE BODY RemoteIO.Common IS
 
   FUNCTION Create
-   (version      : RemoteIO.Server.ResponseString;
+   (executor     : IN OUT RemoteIO.Executive.Executor;
+    version      : RemoteIO.Server.ResponseString;
     capabilities : RemoteIO.Server.ResponseString)
     RETURN RemoteIO.Dispatch.Dispatcher IS
 
+    Self : RemoteIO.Dispatch.Dispatcher;
+
   BEGIN
-    RETURN NEW DispatcherSubclass'(version, capabilities);
+    Self := NEW DispatcherSubclass'(version, capabilities);
+
+    executor.Register(LOOPBACK_REQUEST, Self);
+    executor.Register(VERSION_REQUEST, Self);
+    executor.Register(CAPABILITY_REQUEST, Self);
+
+    RETURN Self;
   END Create;
 
   PROCEDURE Dispatch
@@ -56,7 +65,7 @@ PACKAGE BODY RemoteIO.Common IS
         resp(2) := 0;
 
         FOR i IN RemoteIO.Server.ResponseString'Range LOOP
-          resp(i + 2) := Character'Pos(version(i));
+          resp(i + 2) := Character'Pos(Self.version(i));
         END LOOP;
 
       WHEN CAPABILITY_REQUEST =>
@@ -65,13 +74,11 @@ PACKAGE BODY RemoteIO.Common IS
         resp(2) := 0;
 
         FOR i IN RemoteIO.Server.ResponseString'Range LOOP
-          resp(i + 2) := Character'Pos(capabilities(i));
+          resp(i + 2) := Character'Pos(Self.capabilities(i));
         END LOOP;
 
       WHEN OTHERS =>
-        resp(0) := cmd(0) + 1;
-        resp(1) := cmd(1);
-        resp(2) := errno.EINVAL;
+        NULL;
     END CASE;
   END Dispatch;
 

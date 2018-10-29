@@ -23,7 +23,6 @@
 WITH errno;
 WITH Message64;
 WITH RemoteIO.Dispatch;
-WITH RemoteIO.Common;
 
 USE TYPE Message64.Byte;
 USE TYPE RemoteIO.Dispatch.Dispatcher;
@@ -34,11 +33,8 @@ PACKAGE BODY RemoteIO.Executive IS
 
   FUNCTION Create RETURN Executor IS
 
-    DefaultHandler : CONSTANT RemoteIO.Dispatch.Dispatcher := 
-      RemoteIO.Common.Create;
-
   BEGIN
-    RETURN Executor'(handlers => HandlerArray'(OTHERS => DefaultHandler));
+    RETURN Executor'(handlers => HandlerArray'(OTHERS => NULL));
   END Create;
 
   -- Register a command handler
@@ -59,9 +55,29 @@ PACKAGE BODY RemoteIO.Executive IS
     cmd     : Message64.Message;
     resp    : OUT Message64.Message) IS
 
-    msgtype : CONSTANT MessageTypes := MessageTypes'Val(cmd(0));
+    msgtype : MessageTypes;
 
   BEGIN
+    -- Check for compeletely out of range message type
+
+    IF cmd(0) > MessageTypes'Pos(MessageTypes'Last) THEN
+      resp := (cmd(0), cmd(1) + 1, errno.EINVAL, OTHERS => 0);
+      RETURN;
+    END IF;
+
+    -- Extract message type from the command message
+
+    msgtype := MessageTypes'Val(cmd(0));
+
+    -- Check for unimplemented message type
+
+    IF Self.handlers(msgtype) = NULL THEN
+      resp := (cmd(0), cmd(1) + 1, errno.EINVAL, OTHERS => 0);
+      RETURN;
+    END IF;
+
+    -- Dispatch the command message to the proper handler
+
     Self.handlers(msgtype).Dispatch(cmd, resp);
   END Execute;
 

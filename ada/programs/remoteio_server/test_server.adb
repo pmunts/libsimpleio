@@ -24,6 +24,8 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Strings.Fixed;
 
 WITH Message64.libsimpleio;
+WITH RemoteIO.Common;
+WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Server;
 
@@ -35,6 +37,7 @@ PROCEDURE test_server IS
   caps  : RemoteIO.Server.ResponseString;
   msg   : Message64.Messenger;
   exec  : RemoteIO.Executive.Executor;
+  comm  : RemoteIO.Dispatch.Dispatcher;
   serv  : RemoteIO.Server.Device;
 
 BEGIN
@@ -42,10 +45,24 @@ BEGIN
   Put_Line(title);
   New_Line;
 
+  -- Pad response strings
+
   Ada.Strings.Fixed.Move(title, vers, Pad => ASCII.NUL);
   Ada.Strings.Fixed.Move("NONE", caps, Pad => ASCII.NUL);
 
+  -- Create a Messenger instance
+
   msg  := Message64.libsimpleio.Create("/dev/hidg0", 0);
+
+  -- Create an Executor instance
+
   exec := RemoteIO.Executive.Create;
-  serv := RemoteIO.Server.Create(msg, vers, caps, exec);
+
+  -- Register command handlers
+
+  comm := RemoteIO.Common.Create(exec, vers, caps);
+
+  -- Start the server
+
+  serv := RemoteIO.Server.Create(msg, exec);
 END test_server;
