@@ -128,7 +128,7 @@ PACKAGE libLinux IS
    (devname : String;
     fd      : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Open, "LINUX_open_write");
+  PRAGMA Import(C, Open, "LINUX_open_readwrite");
 
   PROCEDURE OpenRead
    (devname : String;
