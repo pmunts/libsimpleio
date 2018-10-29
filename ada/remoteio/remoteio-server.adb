@@ -120,7 +120,7 @@ PACKAGE BODY RemoteIO.Server IS
     dev : Device;
 
   BEGIN
-    dev := NEW DeviceClass'(MessageHandler => NEW MessageHandlerTask);
+    dev := Device'(MessageHandler => NEW MessageHandlerTask);
     dev.MessageHandler.SetMessenger(messenger);
     dev.MessageHandler.SetVersion(version);
     dev.MessageHandler.SetCapabilities(capabilities);

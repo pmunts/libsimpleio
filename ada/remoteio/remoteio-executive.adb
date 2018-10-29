@@ -25,7 +25,7 @@ PACKAGE BODY RemoteIO.Executive IS
   FUNCTION Create RETURN Executor IS
 
   BEGIN
-    RETURN NEW ExecutorClass'(NULL RECORD);
+    RETURN Executor'(NULL RECORD);
   END Create;
 
 END RemoteIO.Executive;

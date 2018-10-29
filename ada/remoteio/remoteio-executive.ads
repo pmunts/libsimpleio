@@ -22,14 +22,12 @@
 
 PACKAGE RemoteIO.Executive IS
 
-  TYPE ExecutorClass IS TAGGED PRIVATE;
-
-  TYPE Executor IS ACCESS ExecutorClass;
+  TYPE Executor IS TAGGED PRIVATE;
 
   FUNCTION Create RETURN Executor;
 
 PRIVATE
 
-  TYPE ExecutorClass IS TAGGED NULL RECORD;
+  TYPE Executor IS TAGGED NULL RECORD;
 
 END RemoteIO.Executive;

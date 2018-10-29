@@ -29,9 +29,7 @@ PACKAGE RemoteIO.Server IS
 
   -- Define a tagged type for remote I/O server devices
 
-  TYPE DeviceClass IS TAGGED PRIVATE;
-
-  TYPE Device IS ACCESS DeviceClass;
+  TYPE Device IS TAGGED PRIVATE;
 
   -- Constructors
 
@@ -52,7 +50,7 @@ PRIVATE
 
   TYPE MessageHandlerAccess IS ACCESS MessageHandlerTask;
 
-  TYPE DeviceClass IS TAGGED RECORD
+  TYPE Device IS TAGGED RECORD
     MessageHandler : MessageHandlerAccess;
   END RECORD;
 
