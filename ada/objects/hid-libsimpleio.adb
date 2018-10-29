@@ -20,13 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Strings;
-WITH Ada.Strings.Fixed;
-
 WITH errno;
 WITH libHIDRaw;
-WITH libLinux;
-WITH Message64;
+WITH Message64.libsimpleio;
 
 PACKAGE BODY HID.libsimpleio IS
 
@@ -47,7 +43,7 @@ PACKAGE BODY HID.libsimpleio IS
         errno.strerror(error);
     END IF;
 
-    RETURN NEW MessengerSubclass'(fd, timeoutms);
+    RETURN Message64.libsimpleio.Create(fd, timeoutms);
   END Create;
 
   -- Constructor using HID vendor and product ID's
@@ -68,76 +64,7 @@ PACKAGE BODY HID.libsimpleio IS
         errno.strerror(error);
     END IF;
 
-    RETURN NEW MessengerSubclass'(fd, timeoutms);
+    RETURN Message64.libsimpleio.Create(fd, timeoutms);
   END;
-
-  -- Send a message to a HID device
-
-  PROCEDURE Send(Self : MessengerSubclass; msg : Message64.Message) IS
-
-    error : Integer;
-    count : Integer;
-
-  BEGIN
-    libHIDRaw.Send(Self.fd, msg'Address, msg'Length, count, error);
-
-    IF error /= 0 THEN
-      RAISE Standard.HID.HID_Error WITH "libHIDRaw.Send() failed, " &
-        errno.strerror(error);
-    END IF;
-  END Send;
-
-  -- Receive a message from a HID device
-
-  PROCEDURE Receive(Self : MessengerSubclass; msg : OUT Message64.Message) IS
-
-    error : Integer;
-    count : Integer;
-
-  BEGIN
-    IF Self.timeout > 0 THEN
-      DECLARE
-
-        files   : libLinux.FilesType(0 .. 0)   := (OTHERS => Self.fd);
-        events  : libLinux.EventsType(0 .. 0)  := (OTHERS => libLinux.POLLIN);
-        results : libLinux.ResultsType(0 .. 0) := (OTHERS =>0);
-
-      BEGIN
-        libLinux.Poll(1, files, events, results, Self.timeout, error);
-
-        IF error /= 0 THEN
-          RAISE Standard.HID.HID_Error WITH "libLinux.Poll() failed, " &
-            errno.strerror(error);
-        END IF;
-      END;
-    END IF;
-
-    libHIDRaw.Receive(Self.fd, msg'Address, msg'Length, count, error);
-
-    IF error /= 0 THEN
-      RAISE Standard.HID.HID_Error WITH "libHIDRaw.Receive() failed, " &
-        errno.strerror(error);
-    END IF;
-  END Receive;
-
-  -- Perform a command/response transaction (similar to an RPC call)
-
-  PROCEDURE Transaction
-   (Self      : MessengerSubclass;
-    cmd       : IN Message64.Message;
-    resp      : OUT Message64.Message) IS
-
-  BEGIN
-    Self.Send(cmd);
-    Self.Receive(resp);
-  END Transaction;
-
- -- Retrieve the underlying Linux file descriptor
-
-  FUNCTION fd(Self : MessengerSubclass) RETURN Integer IS
-
-  BEGIN
-    RETURN Self.fd;
-  END fd;
 
 END HID.libsimpleio;

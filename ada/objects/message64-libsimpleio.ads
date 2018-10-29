@@ -1,6 +1,6 @@
--- 64-byte message services using the raw HID services in libsimpleio
+-- Instantiate Messaging.Fixed.libsimpleio for 64-byte messages
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,21 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Message64;
+WITH Messaging.Fixed.File;
 
-PACKAGE HID.libsimpleio IS
-
-  -- Constructor using raw HID device node name
-
-  FUNCTION Create
-   (name      : String;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger;
-
-  -- Constructor using HID vendor and product ID's
-
-  FUNCTION Create
-   (vid       : Standard.HID.Vendor;
-    pid       : Standard.HID.Product;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger;
-
-END HID.libsimpleio;
+PACKAGE Message64.libsimpleio IS NEW Message64.File;
