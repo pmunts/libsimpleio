@@ -25,7 +25,7 @@ WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Server;
 
-PACKAGE RemoteIO.Common IS
+PACKAGE RemoteIO.Handler.Common IS
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
 
@@ -47,4 +47,4 @@ PRIVATE
     capabilities : RemoteIO.Server.ResponseString;
   END RECORD;
 
-END RemoteIO.Common;
+END RemoteIO.Handler.Common;

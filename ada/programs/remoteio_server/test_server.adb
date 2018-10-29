@@ -24,9 +24,9 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Strings.Fixed;
 
 WITH Message64.libsimpleio;
-WITH RemoteIO.Common;
-WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
+WITH RemoteIO.Handler.Common;
+WITH RemoteIO.Handler.GPIO;
 WITH RemoteIO.Server;
 
 PROCEDURE test_server IS
@@ -37,7 +37,8 @@ PROCEDURE test_server IS
   caps  : RemoteIO.Server.ResponseString;
   msg   : Message64.Messenger;
   exec  : RemoteIO.Executive.Executor;
-  comm  : RemoteIO.Common.DispatcherSubclass;
+  comm  : RemoteIO.Handler.Common.DispatcherSubclass;
+  gpio  : RemoteIO.Handler.GPIO.DispatcherSubclass;
   serv  : RemoteIO.Server.Device;
 
 BEGIN
@@ -60,7 +61,8 @@ BEGIN
 
   -- Register command handlers
 
-  comm := RemoteIO.Common.Create(exec, vers, caps);
+  comm := RemoteIO.Handler.Common.Create(exec, vers, caps);
+  gpio := RemoteIO.Handler.GPIO.Create(exec);
 
   -- Start the server
 
