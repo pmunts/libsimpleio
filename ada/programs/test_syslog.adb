@@ -23,15 +23,14 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH errno;
-WITH libLinux;
-WITH Logging.Syslog;
+WITH Logging.libsimpleio;
 
 PROCEDURE test_syslog IS
 
   log : Logging.Logger;
 
 BEGIN
-  log := Logging.Syslog.Create;
+  log := Logging.libsimpleio.Create;
 
   log.Note("Test1");
   log.Warning("Test2");
