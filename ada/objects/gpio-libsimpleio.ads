@@ -76,7 +76,7 @@ PACKAGE GPIO.libsimpleio IS
 
 PRIVATE
 
-  TYPE Kinds IS (input, output, interrupt);
+  TYPE Kinds IS (input, output, interrupt, destroyed);
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
     kind : Kinds;
