@@ -1,6 +1,6 @@
--- GPIO pin services using libsimpleio
+-- GPIO pin services using libsimpleio without heap
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,30 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH GPIO;
-
-PACKAGE GPIO.libsimpleio IS
-
-  -- Type definitions
-
-  TYPE Designator IS RECORD
-    chip : Natural;
-    line : Natural;
-  END RECORD;
-
-  TYPE Driver IS (PushPull, OpenDrain, OpenSource);
-
-  TYPE Edge IS (None, Rising, Falling, Both);
-
-  TYPE Polarity IS (ActiveLow, ActiveHigh);
-
-  TYPE PinSubclass IS NEW GPIO.PinInterface WITH PRIVATE;
-
-  -- Constant definitions
-
-  Unavailable : CONSTANT Designator := (Natural'Last, Natural'Last);
-
-  -- Constructors returning GPIO.Pin
+PACKAGE GPIO.libsimpleio.Static IS
 
   FUNCTION Create
    (chip     : Natural;
@@ -52,7 +29,7 @@ PACKAGE GPIO.libsimpleio IS
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
     edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN PinSubclass;
 
   FUNCTION Create
    (desg     : Designator;
@@ -60,27 +37,9 @@ PACKAGE GPIO.libsimpleio IS
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
     edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN PinSubclass;
 
-  -- Read GPIO pin state
+  PROCEDURE Destroy
+   (pin      : IN OUT PinSubclass);
 
-  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
-
-  -- Write GPIO pin state
-
-  PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean);
-
-  -- Retrieve the underlying Linux file descriptor
-
-  FUNCTION fd(Self : PinSubclass) RETURN Integer;
-
-PRIVATE
-
-  TYPE Kinds IS (input, output, interrupt);
-
-  TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
-    kind : Kinds;
-    fd   : Integer;
-  END RECORD;
-
-END GPIO.libsimpleio;
+END GPIO.libsimpleio.Static;
