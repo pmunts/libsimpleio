@@ -36,7 +36,7 @@ PACKAGE RemoteIO.Handler.Common IS
     RETURN DispatcherSubclass;
 
   PROCEDURE Dispatch
-   (Self : DispatcherSubclass;
+   (Self : IN OUT DispatcherSubclass;
     cmd  : Message64.Message;
     resp : OUT Message64.Message);
 

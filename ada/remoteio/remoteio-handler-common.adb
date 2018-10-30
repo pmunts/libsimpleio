@@ -47,7 +47,7 @@ PACKAGE BODY RemoteIO.Handler.Common IS
   END Create;
 
   PROCEDURE Dispatch
-   (Self : DispatcherSubclass;
+   (Self : IN OUT DispatcherSubclass;
     cmd  : Message64.Message;
     resp : OUT Message64.Message) IS
 

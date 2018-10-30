@@ -29,7 +29,7 @@ PACKAGE RemoteIO.Dispatch IS
   TYPE Dispatcher IS ACCESS ALL DispatcherInterface'Class;
 
   PROCEDURE Dispatch
-   (Self : DispatcherInterface;
+   (Self : IN OUT DispatcherInterface;
     cmd  : Message64.Message;
     resp : OUT Message64.Message) IS ABSTRACT;
 
