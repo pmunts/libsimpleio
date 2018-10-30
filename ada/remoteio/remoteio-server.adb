@@ -21,7 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Exceptions;
-WITH Logging.Syslog;
+WITH Logging.libsimpleio;
 WITH Message64;
 WITH Messaging;
 
@@ -31,7 +31,7 @@ PACKAGE BODY RemoteIO.Server IS
 
   TASK BODY MessageHandlerTask IS
 
-    logger : CONSTANT Logging.Logger := Logging.Syslog.Create;
+    logger : CONSTANT Logging.Logger := Logging.libsimpleio.Create;
 
     -- State variables
 
