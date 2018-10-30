@@ -27,6 +27,8 @@ PACKAGE Watchdog.libsimpleio IS
 
   TYPE TimerSubclass IS NEW Watchdog.TimerInterface WITH PRIVATE;
 
+  Destroyed : CONSTANT TimerSubclass;
+
   -- Watchdog device object constructor
 
   FUNCTION Create
@@ -54,5 +56,7 @@ PRIVATE
   TYPE TimerSubclass IS NEW Watchdog.TimerInterface WITH RECORD
     fd : Integer;
   END RECORD;
+
+  Destroyed : CONSTANT TimerSubclass := TimerSubclass'(fd => -1);
 
 END Watchdog.libsimpleio;

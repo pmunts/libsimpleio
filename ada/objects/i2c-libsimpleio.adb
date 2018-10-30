@@ -56,6 +56,10 @@ PACKAGE BODY I2C.libsimpleio IS
     error   : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE I2C_Error WITH "I2C bus has been destroyed";
+    END IF;
+
     libI2C.Transaction(Self.fd, Integer(addr), System.Null_Address, 0, resp'Address, resplen, error);
 
     IF error /= 0 THEN
@@ -74,6 +78,10 @@ PACKAGE BODY I2C.libsimpleio IS
     error   : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE I2C_Error WITH "I2C bus has been destroyed";
+    END IF;
+
     libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen, System.Null_Address, 0, error);
 
     IF error /= 0 THEN
@@ -95,6 +103,10 @@ PACKAGE BODY I2C.libsimpleio IS
     error   : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE I2C_Error WITH "I2C bus has been destroyed";
+    END IF;
+
     IF delayus = 0 THEN
       libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen, resp'Address, resplen, error);
 
@@ -127,6 +139,10 @@ PACKAGE BODY I2C.libsimpleio IS
   FUNCTION fd(Self : BusSubclass) RETURN Integer IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE I2C_Error WITH "I2C bus has been destroyed";
+    END IF;
+
     RETURN Self.fd;
   END fd;
 

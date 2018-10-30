@@ -27,6 +27,6 @@ PACKAGE ADC.libsimpleio.Static IS
     channel    : Natural;
     resolution : Positive) RETURN InputSubclass;
 
-  PROCEDURE Destroy(inp : IN OUT InputSubclass);
+  PROCEDURE Destroy(Self : IN OUT InputSubclass);
 
 END ADC.libsimpleio.Static;

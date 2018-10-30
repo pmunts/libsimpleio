@@ -35,6 +35,10 @@ PACKAGE PWM.libsimpleio IS
 
   TYPE OutputSubclass IS NEW PWM.Interfaces.OutputInterface WITH PRIVATE;
 
+  -- Constant definitions
+
+  Destroyed : CONSTANT OutputSubclass;
+
   -- PWM output object constructor
 
   FUNCTION Create
@@ -60,5 +64,7 @@ PRIVATE
     fd     : Integer;
     period : Integer;
   END RECORD;
+
+  Destroyed : CONSTANT OutputSubclass := OutputSubclass'(-1, -1);
 
 END PWM.libsimpleio;

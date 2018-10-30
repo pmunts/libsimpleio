@@ -29,6 +29,8 @@ PACKAGE SPI.libsimpleio IS
 
   TYPE DeviceSubclass IS NEW SPI.DeviceInterface WITH PRIVATE;
 
+  Destroyed : CONSTANT DeviceSubclass;
+
   -- SPI device object constructor
 
   FUNCTION Create
@@ -72,5 +74,7 @@ PRIVATE
     fd   : Integer;  -- SPI channel device file descriptor
     fdcs : Integer;  -- GPIO chip select pin device file descriptor
   END RECORD;
+
+  Destroyed : CONSTANT DeviceSubclass := DeviceSubclass'(-1, -1);
 
 END SPI.libsimpleio;

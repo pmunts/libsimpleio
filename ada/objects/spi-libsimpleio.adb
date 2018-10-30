@@ -78,6 +78,10 @@ PACKAGE BODY SPI.libsimpleio IS
     error  : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE SPI_Error WITH "SPI device has been destroyed";
+    END IF;
+
     libSPI.Transaction(Self.fd, Self.fdcs, cmd'Address, cmdlen, 0,
       System.Null_Address, 0, error);
 
@@ -97,6 +101,10 @@ PACKAGE BODY SPI.libsimpleio IS
     error   : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE SPI_Error WITH "SPI device has been destroyed";
+    END IF;
+
     libSPI.Transaction(Self.fd, Self.fdcs, System.Null_Address, 0, 0,
       resp'Address, resplen, error);
 
@@ -119,6 +127,10 @@ PACKAGE BODY SPI.libsimpleio IS
     error   : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE SPI_Error WITH "SPI device has been destroyed";
+    END IF;
+
     IF delayus > 65535 THEN
       RAISE SPI_Error WITH "Invalid delay value";
     END IF;
@@ -137,6 +149,10 @@ PACKAGE BODY SPI.libsimpleio IS
   FUNCTION fd(Self : DeviceSubclass) RETURN Integer IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE SPI_Error WITH "SPI device has been destroyed";
+    END IF;
+
     RETURN Self.fd;
   END fd;
 

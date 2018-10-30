@@ -36,6 +36,6 @@ PACKAGE PWM.libsimpleio.Static IS
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) RETURN OutputSubclass;
 
-  PROCEDURE Destroy(outp : IN OUT OutputSubclass);
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass);
 
 END PWM.libsimpleio.Static;

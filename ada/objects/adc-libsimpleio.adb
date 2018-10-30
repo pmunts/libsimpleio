@@ -54,6 +54,10 @@ PACKAGE BODY ADC.libsimpleio IS
     error  : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE ADC_Error WITH "Analog input has been destroyed";
+    END IF;
+
     libADC.Read(Self.fd, sample, error);
 
     IF error /= 0 THEN
@@ -68,6 +72,10 @@ PACKAGE BODY ADC.libsimpleio IS
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE ADC_Error WITH "Analog input has been destroyed";
+    END IF;
+
     RETURN Self.resolution;
   END GetResolution;
 
@@ -76,6 +84,10 @@ PACKAGE BODY ADC.libsimpleio IS
   FUNCTION fd(Self : InputSubclass) RETURN Integer IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE ADC_Error WITH "Analog input has been destroyed";
+    END IF;
+
     RETURN Self.fd;
   END fd;
 

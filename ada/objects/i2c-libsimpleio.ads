@@ -26,6 +26,10 @@ PACKAGE I2C.libsimpleio IS
 
   TYPE BusSubclass IS NEW I2C.BusInterface WITH PRIVATE;
 
+  -- Constants
+
+  Destroyed : CONSTANT BusSubclass;
+
   -- I2C bus controller object constructor
 
   FUNCTION Create(name : String) RETURN I2C.Bus;
@@ -66,5 +70,7 @@ PRIVATE
   TYPE BusSubclass IS NEW I2C.BusInterface WITH RECORD
     fd : Integer;
   END RECORD;
+
+  Destroyed : CONSTANT BusSubclass := BusSubclass'(fd => -1);
 
 END I2C.libsimpleio;

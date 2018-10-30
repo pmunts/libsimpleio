@@ -40,14 +40,18 @@ PACKAGE BODY I2C.libsimpleio.Static IS
     RETURN I2C.libsimpleio.BusSubclass'(fd => fd);
   END Create;
 
-  PROCEDURE Destroy(bus : IN OUT BusSubclass) IS
+  PROCEDURE Destroy(Self : IN OUT BusSubclass) IS
 
     error : Integer;
 
   BEGIN
-    libI2C.Close(bus.fd, error);
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
 
-    bus := BusSubclass'(fd => -1);
+    libI2C.Close(Self.fd, error);
+
+    Self := Destroyed;
 
     IF error /= 0 THEN
       RAISE I2C_Error WITH "libI2C.Close() failed, " & errno.strerror(error);

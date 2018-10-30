@@ -32,6 +32,6 @@ PACKAGE SPI.libsimpleio.Static IS
     cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT)
   RETURN DeviceSubclass;
 
-  PROCEDURE Destroy(dev : IN OUT DeviceSubclass);
+  PROCEDURE Destroy(Self : IN OUT DeviceSubclass);
 
 END SPI.libsimpleio.Static;

@@ -28,6 +28,10 @@ PACKAGE ADC.libsimpleio IS
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
 
+  -- Constant definitions
+
+  Destroyed : CONSTANT InputSubclass;
+
   -- ADC input object constructor
 
   FUNCTION Create
@@ -53,5 +57,7 @@ PRIVATE
     fd         : Integer;
     resolution : Positive;
   END RECORD;
+
+  Destroyed : CONSTANT InputSubclass := InputSubClass'(-1, 1);
 
 END ADC.libsimpleio;

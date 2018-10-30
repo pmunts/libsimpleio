@@ -71,6 +71,10 @@ PACKAGE BODY PWM.libsimpleio IS
     error  : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE PWM_Error WITH "PWM output has been destroyed";
+    END IF;
+
     ontime := Integer(Float(dutycycle/PWM.MaximumDutyCycle)*Float(Self.period));
 
     libPWM.Write(Self.fd, ontime, error);
@@ -85,6 +89,10 @@ PACKAGE BODY PWM.libsimpleio IS
   FUNCTION fd(Self : OutputSubclass) RETURN Integer IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE PWM_Error WITH "PWM output has been destroyed";
+    END IF;
+
     RETURN Self.fd;
   END fd;
 

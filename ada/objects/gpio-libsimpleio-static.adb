@@ -97,19 +97,18 @@ PACKAGE BODY GPIO.libsimpleio.Static IS
     RETURN Create(desg.chip, desg.line, dir, state, driver, edge, polarity);
   END Create;
 
-  PROCEDURE Destroy
-   (pin      : IN OUT PinSubclass) IS
+  PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
 
     error : Integer;
 
   BEGIN
-    IF pin = Destroyed THEN
+    IF Self = Destroyed THEN
       RETURN;
-    END;
+    END IF;
 
-    libGPIO.LineClose(pin.fd, error);
+    libGPIO.LineClose(Self.fd, error);
 
-    pin := Destroyed;
+    Self := Destroyed;
 
     IF error /= 0 THEN
       RAISE GPIO_Error WITH "libGPIO.LineClose() failed, " & errno.strerror(error);

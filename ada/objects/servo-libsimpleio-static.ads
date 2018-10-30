@@ -33,6 +33,6 @@ PACKAGE Servo.libsimpleio.Static IS
     frequency : Positive := 50;
     position  : Servo.Position := Servo.NeutralPosition) RETURN OutputSubclass;
 
-  PROCEDURE Destroy(outp : IN OUT OutputSubclass);
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass);
 
 END Servo.libsimpleio.Static;

@@ -70,6 +70,10 @@ PACKAGE BODY Watchdog.libsimpleio IS
     error   : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Watchdog_Error WITH "Watchdog timer has been destroyed";
+    END IF;
+
     libWatchdog.GetTimeout(Self.fd, timeout, error);
 
     IF error /= 0 THEN
@@ -88,6 +92,10 @@ PACKAGE BODY Watchdog.libsimpleio IS
     actualtimeout : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Watchdog_Error WITH "Watchdog timer has been destroyed";
+    END IF;
+
     libWatchdog.SetTimeout(Self.fd, Integer(timeout), actualtimeout, error);
 
     IF error /= 0 THEN
@@ -103,6 +111,10 @@ PACKAGE BODY Watchdog.libsimpleio IS
     error : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Watchdog_Error WITH "Watchdog timer has been destroyed";
+    END IF;
+
     libWatchdog.Kick(Self.fd, error);
 
     IF error /= 0 THEN
@@ -116,6 +128,10 @@ PACKAGE BODY Watchdog.libsimpleio IS
   FUNCTION fd(Self : TimerSubclass) RETURN Integer IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Watchdog_Error WITH "Watchdog timer has been destroyed";
+    END IF;
+
     RETURN Self.fd;
   END fd;
 

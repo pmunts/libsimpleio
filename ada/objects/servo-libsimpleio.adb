@@ -74,6 +74,10 @@ PACKAGE BODY Servo.libsimpleio IS
     error  : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Servo_Error WITH "Servo output has been destroyed";
+    END IF;
+
     ontime := 1500000 + Integer(500000.0*position);
 
     libPWM.Write(Self.fd, ontime, error);
@@ -88,6 +92,10 @@ PACKAGE BODY Servo.libsimpleio IS
   FUNCTION fd(Self : OutputSubclass) RETURN Integer IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Servo_Error WITH "Servo output has been destroyed";
+    END IF;
+
     RETURN Self.fd;
   END fd;
 

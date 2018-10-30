@@ -26,6 +26,6 @@ PACKAGE Watchdog.libsimpleio.Static IS
    (devname : String   := DefaultDevice;
     timeout : Duration := DefaultTimeout) RETURN TimerSubclass;
 
-  PROCEDURE Destroy(wd : IN OUT TimerSubclass);
+  PROCEDURE Destroy(Self : IN OUT TimerSubclass);
 
 END Watchdog.libsimpleio.Static;

@@ -39,7 +39,6 @@ PACKAGE GPIO.libsimpleio.Static IS
     edge     : GPIO.libsimpleio.Edge := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN PinSubclass;
 
-  PROCEDURE Destroy
-   (pin      : IN OUT PinSubclass);
+  PROCEDURE Destroy(Self : IN OUT PinSubclass);
 
 END GPIO.libsimpleio.Static;

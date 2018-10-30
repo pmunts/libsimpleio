@@ -59,14 +59,18 @@ PACKAGE BODY PWM.libsimpleio.Static IS
     RETURN OutputSubclass'(fd, period);
   END Create;
 
-  PROCEDURE Destroy(outp : IN OUT OutputSubclass) IS
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass) IS
 
     error : Integer;
 
   BEGIN
-    libPWM.Close(outp.fd, error);
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
 
-    outp := OutputSubclass'(-1, -1);
+    libPWM.Close(Self.fd, error);
+
+    Self := Destroyed;
 
     IF error /= 0 THEN
       RAISE PWM_Error WITH "libPWM.Close() failed, " & errno.strerror(error);

@@ -31,6 +31,10 @@ PACKAGE Servo.libsimpleio IS
 
   TYPE OutputSubclass IS NEW Servo.Interfaces.OutputInterface WITH PRIVATE;
 
+  -- Constant defintions
+
+  Destroyed : CONSTANT OutputSubclass;
+
   -- Servo output object constructor
 
   FUNCTION Create
@@ -53,7 +57,9 @@ PACKAGE Servo.libsimpleio IS
 PRIVATE
 
   TYPE OutputSubclass IS NEW Standard.Servo.Interfaces.OutputInterface WITH RECORD
-    fd     : Integer;
+    fd : Integer;
   END RECORD;
+
+  Destroyed : CONSTANT OutputSubclass := OutputSubclass'(fd => -1);
 
 END Servo.libsimpleio;

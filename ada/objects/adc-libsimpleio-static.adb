@@ -43,14 +43,18 @@ PACKAGE BODY ADC.libsimpleio.Static IS
     RETURN InputSubclass'(fd, resolution);
   END Create;
 
-  PROCEDURE Destroy(inp : IN OUT InputSubclass) IS
+  PROCEDURE Destroy(Self : IN OUT InputSubclass) IS
 
     error : Integer;
 
   BEGIN
-    libADC.Close(inp.fd, error);
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
 
-    inp := InputSubclass'(-1, 1);
+    libADC.Close(Self.fd, error);
+
+    Self := Destroyed;
 
     IF error /= 0 THEN
       RAISE ADC_Error WITH "libADC.Close() failed, " & errno.strerror(error);

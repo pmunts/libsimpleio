@@ -67,18 +67,22 @@ PACKAGE BODY SPI.libsimpleio.Static IS
     RETURN DeviceSubclass'(fd => fd, fdcs => fdcs);
   END Create;
 
-  PROCEDURE Destroy(dev : IN OUT DeviceSubclass) IS
+  PROCEDURE Destroy(Self : IN OUT DeviceSubclass) IS
 
     error : Integer;
 
   BEGIN
-    IF dev.fdcs /= libSPI.SPI_AUTO_CS THEN
-      libGPIO.Close(dev.fdcs, error);
+    IF Self = Destroyed THEN
+      RETURN;
     END IF;
 
-    libSPI.Close(dev.fd, error);
+    IF Self.fdcs /= libSPI.SPI_AUTO_CS THEN
+      libGPIO.Close(Self.fdcs, error);
+    END IF;
 
-    dev := DeviceSubclass'(-1, -1);
+    libSPI.Close(Self.fd, error);
+
+    Self := Destroyed;
 
     IF error /= 0 THEN
       RAISE SPI_Error WITH "libSPI.Close() failed, " & errno.strerror(error);

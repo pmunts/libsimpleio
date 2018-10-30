@@ -60,14 +60,18 @@ PACKAGE BODY Watchdog.libsimpleio.Static IS
     RETURN TimerSubclass'(fd => fd);
   END Create;
 
-  PROCEDURE Destroy(wd : IN OUT TimerSubclass) IS
+  PROCEDURE Destroy(Self : IN OUT TimerSubclass) IS
 
     error : Integer;
 
   BEGIN
-    libWatchdog.Close(wd.fd, error);
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
 
-    wd := TimerSubclass'(fd => -1);
+    libWatchdog.Close(Self.fd, error);
+
+    Self := Destroyed;
 
     IF error /= 0 THEN
       RAISE Watchdog_Error WITH "libWatchdog.Close() failed, " &
