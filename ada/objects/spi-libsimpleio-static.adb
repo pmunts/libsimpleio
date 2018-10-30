@@ -72,6 +72,10 @@ PACKAGE BODY SPI.libsimpleio.Static IS
     error : Integer;
 
   BEGIN
+    IF dev.fdcs /= libSPI.SPI_AUTO_CS THEN
+      libGPIO.Close(dev.fdcs, error);
+    END IF;
+
     libSPI.Close(dev.fd, error);
 
     dev := DeviceSubclass'(-1, -1);
