@@ -35,10 +35,4 @@ PACKAGE BODY Logging.libsimpleio.Static IS
     RETURN LoggerSubclass'(NULL RECORD);
   END Create;
 
-  PROCEDURE Destroy(logger : IN OUT LoggerSubclass) IS
-
-  BEGIN
-    NULL;
-  END Destroy;
-
 END Logging.libsimpleio.Static;

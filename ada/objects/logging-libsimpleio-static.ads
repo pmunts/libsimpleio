@@ -30,6 +30,4 @@ PACKAGE Logging.libsimpleio.Static IS
       libLinux.LOG_PERROR;
     facility : Integer := libLinux.LOG_SYSLOG) RETURN LoggerSubclass;
 
-  PROCEDURE Destroy(logger : IN OUT LoggerSubclass);
-
 END Logging.libsimpleio.Static;
