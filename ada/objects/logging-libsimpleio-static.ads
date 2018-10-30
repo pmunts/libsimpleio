@@ -1,4 +1,4 @@
--- Log messages using syslog
+-- Log messages using syslog with libsimpleio without heap
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,34 +22,14 @@
 
 WITH libLinux;
 
-PACKAGE Logging.Syslog IS
-
-  TYPE LoggerSubclass IS NEW Logging.LoggerInterface WITH PRIVATE;
+PACKAGE Logging.libsimpleio.Static IS
 
   FUNCTION Create
    (sender   : String := libLinux.LOG_PROGNAME;
     options  : Integer := libLinux.LOG_NDELAY + libLinux.LOG_PID +
       libLinux.LOG_PERROR;
-    facility : Integer := libLinux.LOG_SYSLOG) RETURN Logger;
+    facility : Integer := libLinux.LOG_SYSLOG) RETURN LoggerSubclass;
 
-  -- Log an error event
+  PROCEDURE Destroy(logger : IN OUT LoggerSubclass);
 
-  PROCEDURE Error(Self : LoggerSubclass; message : String);
-
-  -- Log an error event, with errno value
-
-  PROCEDURE Error(Self : LoggerSubclass; message : String; errnum : Integer);
-
-  -- Log a warning event
-
-  PROCEDURE Warning(Self : LoggerSubclass; message : String);
-
-  -- Log a notification event
-
-  PROCEDURE Note(Self : LoggerSubclass; message : String);
-
-PRIVATE
-
-  TYPE LoggerSubclass IS NEW Logging.LoggerInterface WITH NULL RECORD;
-
-END Logging.Syslog;
+END Logging.libsimpleio.Static;

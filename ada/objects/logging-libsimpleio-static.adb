@@ -23,7 +23,7 @@
 WITH errno;
 WITH libLinux;
 
-PACKAGE BODY Logging.Syslog.Static IS
+PACKAGE BODY Logging.libsimpleio.Static IS
 
   FUNCTION Create
    (sender   : String := libLinux.LOG_PROGNAME;
@@ -41,4 +41,4 @@ PACKAGE BODY Logging.Syslog.Static IS
     NULL;
   END Destroy;
 
-END Logging.Syslog.Static;
+END Logging.libsimpleio.Static;

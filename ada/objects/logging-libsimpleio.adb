@@ -1,4 +1,4 @@
--- Log messages using syslog
+-- Log messages with syslog using libsimpleio
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -23,7 +23,7 @@
 WITH errno;
 WITH libLinux;
 
-PACKAGE BODY Logging.Syslog IS
+PACKAGE BODY Logging.libsimpleio IS
 
   FUNCTION Create
    (sender   : String := libLinux.LOG_PROGNAME;
@@ -77,4 +77,4 @@ PACKAGE BODY Logging.Syslog IS
     libLinux.Syslog(libLinux.LOG_INFO, "NOTE: " & message & ASCII.NUL, err);
   END Note;
 
-END Logging.Syslog;
+END Logging.libsimpleio;
