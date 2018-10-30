@@ -103,9 +103,13 @@ PACKAGE BODY GPIO.libsimpleio.Static IS
     error : Integer;
 
   BEGIN
+    IF pin = Destroyed THEN
+      RETURN;
+    END;
+
     libGPIO.LineClose(pin.fd, error);
 
-    pin := PinSubclass'(destroyed, -1);
+    pin := Destroyed;
 
     IF error /= 0 THEN
       RAISE GPIO_Error WITH "libGPIO.LineClose() failed, " & errno.strerror(error);

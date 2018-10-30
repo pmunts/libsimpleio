@@ -43,6 +43,8 @@ PACKAGE GPIO.libsimpleio IS
 
   Unavailable : CONSTANT Designator := (Natural'Last, Natural'Last);
 
+  Destroyed : CONSTANT PinSubclass;
+
   -- Constructors returning GPIO.Pin
 
   FUNCTION Create
@@ -76,11 +78,13 @@ PACKAGE GPIO.libsimpleio IS
 
 PRIVATE
 
-  TYPE Kinds IS (input, output, interrupt, destroyed);
+  TYPE Kinds IS (input, output, interrupt);
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
     kind : Kinds;
     fd   : Integer;
   END RECORD;
+
+  Destroyed : CONSTANT PinSubclass := PinSubclass'(input, -1);
 
 END GPIO.libsimpleio;

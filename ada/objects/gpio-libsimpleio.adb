@@ -110,6 +110,10 @@ PACKAGE BODY GPIO.libsimpleio IS
     error : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE GPIO_Error WITH "GPIO pin has been destroyed";
+    END IF;
+
     CASE Self.kind IS
       WHEN input|output =>
         libGPIO.LineRead(Self.fd, state, error);
@@ -126,9 +130,6 @@ PACKAGE BODY GPIO.libsimpleio IS
           RAISE GPIO_Error WITH "libGPIO.LineEvent() failed, " &
             errno.strerror(error);
         END IF;
-
-      WHEN destroyed =>
-        RAISE GPIO_Error WITH "Pin has been destroyed";
     END CASE;
 
     RETURN Boolean'Val(state);
@@ -141,6 +142,10 @@ PACKAGE BODY GPIO.libsimpleio IS
     error : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE GPIO_Error WITH "GPIO pin has been destroyed";
+    END IF;
+
     CASE Self.kind IS
       WHEN output =>
         libGPIO.LineWrite(Self.fd, Boolean'Pos(state), error);
@@ -151,9 +156,6 @@ PACKAGE BODY GPIO.libsimpleio IS
 
       WHEN input|interrupt =>
         RAISE GPIO_Error WITH "Cannot write to a GPIO input";
-
-      WHEN destroyed =>
-        RAISE GPIO_Error WITH "Pin has been destroyed";
     END CASE;
   END Put;
 
@@ -162,6 +164,10 @@ PACKAGE BODY GPIO.libsimpleio IS
   FUNCTION fd(Self : PinSubclass) RETURN Integer IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE GPIO_Error WITH "GPIO pin has been destroyed";
+    END IF;
+
     RETURN Self.fd;
   END fd;
 
