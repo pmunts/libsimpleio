@@ -80,7 +80,7 @@ PACKAGE BODY Messaging.Fixed.libsimpleio_file IS
     count : Integer;
 
   BEGIN
-    IF Self.timeout > 0 THEN
+    IF Self.timeoutms > 0 THEN
       DECLARE
 
         files   : libLinux.FilesType(0 .. 0)   := (OTHERS => Self.fd);
@@ -88,7 +88,7 @@ PACKAGE BODY Messaging.Fixed.libsimpleio_file IS
         results : libLinux.ResultsType(0 .. 0) := (OTHERS =>0);
 
       BEGIN
-        libLinux.Poll(1, files, events, results, Self.timeout, error);
+        libLinux.Poll(1, files, events, results, Self.timeoutms, error);
 
         IF error = errno.EAGAIN THEN
           RAISE Timeout_Error WITH "libLinux.Poll() timed out";

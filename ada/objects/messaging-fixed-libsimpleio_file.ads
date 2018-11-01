@@ -68,8 +68,8 @@ PACKAGE Messaging.Fixed.libsimpleio_file IS
 PRIVATE
 
   TYPE MessengerSubclass IS NEW MessengerInterface WITH RECORD
-    fd      : Integer;
-    timeout : Integer;
+    fd        : Integer;
+    timeoutms : Integer;
   END RECORD;
 
 END Messaging.Fixed.libsimpleio_file;
