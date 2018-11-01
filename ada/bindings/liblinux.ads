@@ -111,12 +111,12 @@ PACKAGE libLinux IS
   POLLNVAL : CONSTANT Integer := 16#0020#;
 
   PROCEDURE Poll
-   (numfiles : Integer;
-    files    : IN OUT FilesType;
-    events   : IN OUT EventsType;
-    results  : IN OUT ResultsType;
-    timeout  : Integer;
-    error    : OUT Integer);
+   (numfiles  : Integer;
+    files     : IN OUT FilesType;
+    events    : IN OUT EventsType;
+    results   : IN OUT ResultsType;
+    timeoutms : Integer;
+    error     : OUT Integer);
   PRAGMA Import(C, Poll, "LINUX_poll");
 
   PROCEDURE USleep
