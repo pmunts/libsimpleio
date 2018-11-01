@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Logging;
 WITH Message64;
 WITH RemoteIO.Executive;
 
@@ -34,12 +35,14 @@ PACKAGE RemoteIO.Server IS
   -- Constructors
 
   FUNCTION Create
-   (messenger    : Message64.Messenger;
-    executor     : RemoteIO.Executive.Executor) RETURN Device;
+   (logger    : Logging.Logger;
+    messenger : Message64.Messenger;
+    executor  : RemoteIO.Executive.Executor) RETURN Device;
 
 PRIVATE
 
   TASK TYPE MessageHandlerTask IS
+    ENTRY SetLogger(log : Logging.Logger);
     ENTRY SetMessenger(msg : Message64.Messenger);
     ENTRY SetExecutor(exec : RemoteIO.Executive.Executor);
   END MessageHandlerTask;

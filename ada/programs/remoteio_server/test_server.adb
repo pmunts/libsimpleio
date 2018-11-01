@@ -23,21 +23,24 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Strings.Fixed;
 
+WITH Logging.libsimpleio;
 WITH Message64.file_libsimpleio;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Common;
+WITH RemoteIO.GPIO_libsimpleio;
 WITH RemoteIO.Server;
 
 PROCEDURE test_server IS
 
-  title : CONSTANT String := "Minimal Remote I/O Device Server";
-
-  vers  : RemoteIO.Server.ResponseString;
-  caps  : RemoteIO.Server.ResponseString;
-  msg   : Message64.Messenger;
-  exec  : RemoteIO.Executive.Executor;
-  comm  : RemoteIO.Common.DispatcherSubclass;
-  serv  : RemoteIO.Server.Device;
+  logger : CONSTANT Logging.Logger := Logging.libsimpleio.Create;
+  title  : CONSTANT String := "Minimal Remote I/O Device Server";
+  vers   : RemoteIO.Server.ResponseString;
+  caps   : RemoteIO.Server.ResponseString;
+  msg    : Message64.Messenger;
+  exec   : RemoteIO.Executive.Executor;
+  comm   : RemoteIO.Common.DispatcherSubclass;
+  gpio   : RemoteIO.GPIO_libsimpleio.DispatcherSubclass;
+  serv   : RemoteIO.Server.Device;
 
 BEGIN
   New_Line;
@@ -47,7 +50,7 @@ BEGIN
   -- Pad response strings
 
   Ada.Strings.Fixed.Move(title, vers, Pad => ASCII.NUL);
-  Ada.Strings.Fixed.Move("NONE", caps, Pad => ASCII.NUL);
+  Ada.Strings.Fixed.Move("GPIO", caps, Pad => ASCII.NUL);
 
   -- Create a Messenger instance
 
@@ -59,9 +62,10 @@ BEGIN
 
   -- Register command handlers
 
-  comm := RemoteIO.Common.Create(exec, vers, caps);
+  comm := RemoteIO.Common.Create(logger, exec, vers, caps);
+  gpio := RemoteIO.GPIO_libsimpleio.Create(logger, exec);
 
   -- Start the server
 
-  serv := RemoteIO.Server.Create(msg, exec);
+  serv := RemoteIO.Server.Create(logger, msg, exec);
 END test_server;

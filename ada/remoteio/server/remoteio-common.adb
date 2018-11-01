@@ -29,7 +29,8 @@ USE TYPE Message64.Byte;
 PACKAGE BODY RemoteIO.Common IS
 
   FUNCTION Create
-   (executor     : IN OUT RemoteIO.Executive.Executor;
+   (logger       : Logging.Logger;
+    executor     : IN OUT RemoteIO.Executive.Executor;
     version      : RemoteIO.Server.ResponseString;
     capabilities : RemoteIO.Server.ResponseString)
     RETURN DispatcherSubclass IS
@@ -37,7 +38,7 @@ PACKAGE BODY RemoteIO.Common IS
     Self : ACCESS DispatcherSubclass;
 
   BEGIN
-    Self := NEW DispatcherSubclass'(version, capabilities);
+    Self := NEW DispatcherSubclass'(logger, version, capabilities);
 
     executor.Register(LOOPBACK_REQUEST, Self);
     executor.Register(VERSION_REQUEST, Self);
@@ -51,8 +52,12 @@ PACKAGE BODY RemoteIO.Common IS
     cmd  : Message64.Message;
     resp : OUT Message64.Message) IS
 
+    msgtype : MessageTypes;
+
   BEGIN
-    CASE MessageTypes'Val(cmd(0)) IS
+    msgtype := MessageTypes'Val(cmd(0));
+
+    CASE msgtype IS
       WHEN LOOPBACK_REQUEST =>
         resp(0) := cmd(0) + 1;
         resp(1) := cmd(1);
@@ -78,7 +83,8 @@ PACKAGE BODY RemoteIO.Common IS
         END LOOP;
 
       WHEN OTHERS =>
-        NULL;
+        Self.logger.Error("Unexpected message type: " &
+          MessageTypes'Image(msgtype));
     END CASE;
   END Dispatch;
 

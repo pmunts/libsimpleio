@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Exceptions;
-WITH Logging.libsimpleio;
 WITH Message64;
 WITH Messaging;
 
@@ -31,19 +30,20 @@ PACKAGE BODY RemoteIO.Server IS
 
   TASK BODY MessageHandlerTask IS
 
-    logger : CONSTANT Logging.Logger := Logging.libsimpleio.Create;
-
-    -- State variables
-
-    messenger    : Message64.Messenger;
-    executor     : RemoteIO.Executive.Executor;
-
-    -- Temporary variables
-
-    cmd          : Message64.Message;
-    resp         : Message64.Message;
+    logger    : Logging.Logger;
+    messenger : Message64.Messenger;
+    executor  : RemoteIO.Executive.Executor;
+    cmd       : Message64.Message;
+    resp      : Message64.Message;
 
   BEGIN
+
+    -- Get objects from the constructor
+
+    ACCEPT SetLogger(log : Logging.Logger) DO
+      logger := log;
+    END SetLogger;
+
     ACCEPT SetMessenger(msg : Message64.Messenger) DO
       messenger := msg;
     END SetMessenger;
@@ -51,6 +51,8 @@ PACKAGE BODY RemoteIO.Server IS
     ACCEPT SetExecutor(exec : RemoteIO.Executive.Executor) DO
       executor := exec;
     END SetExecutor;
+
+    -- Message loop follows
 
     logger.Note("Ready for commands");
 
@@ -73,13 +75,20 @@ PACKAGE BODY RemoteIO.Server IS
   END MessageHandlerTask;
 
   FUNCTION Create
-   (messenger    : Message64.Messenger;
-    executor     : RemoteIO.Executive.Executor) RETURN Device IS
+   (logger    : Logging.Logger;
+    messenger : Message64.Messenger;
+    executor  : RemoteIO.Executive.Executor) RETURN Device IS
 
     dev : Device;
 
   BEGIN
+    -- Create the message handler task
+
     dev := Device'(MessageHandler => NEW MessageHandlerTask);
+
+    -- Pass objects to the message handler task
+
+    dev.MessageHandler.SetLogger(logger);
     dev.MessageHandler.SetMessenger(messenger);
     dev.MessageHandler.SetExecutor(executor);
 

@@ -1,4 +1,4 @@
--- Remote I/O Server Dispatcher for common commands
+-- Remote I/O Server Dispatcher for GPIO commands
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,34 +20,53 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH GPIO.libsimpleio;
 WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Server;
 
-PACKAGE RemoteIO.Common IS
+PACKAGE RemoteIO.GPIO_libsimpleio IS
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
 
   FUNCTION Create
-   (logger       : Logging.Logger;
-    executor     : IN OUT RemoteIO.Executive.Executor;
-    version      : RemoteIO.Server.ResponseString;
-    capabilities : RemoteIO.Server.ResponseString)
-    RETURN DispatcherSubclass;
+   (logger   : Logging.Logger;
+    executor : IN OUT RemoteIO.Executive.Executor) RETURN DispatcherSubclass;
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;
     cmd  : Message64.Message;
     resp : OUT Message64.Message);
 
+  PROCEDURE Register
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    desg : Standard.GPIO.libsimpleio.Designator);
+
+  PROCEDURE Register
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    chip : Natural;
+    line : Natural);
+
 PRIVATE
 
-  TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
-    logger       : Logging.Logger;
-    version      : RemoteIO.Server.ResponseString;
-    capabilities : RemoteIO.Server.ResponseString;
+  TYPE PinRec IS RECORD
+    pin : Standard.GPIO.libsimpleio.Designator;
+    obj : Standard.GPIO.libsimpleio.PinSubclass;
   END RECORD;
 
-END RemoteIO.Common;
+  TYPE PinArray IS ARRAY (ChannelNumber) OF PinRec;
+
+  TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
+    logger : Logging.Logger;
+    pins   : PinArray;
+  END RECORD;
+
+  Unregistered : CONSTANT PinRec :=
+    PinRec'(Standard.GPIO.libsimpleio.Unavailable,
+      Standard.GPIO.libsimpleio.Destroyed);
+
+END RemoteIO.GPIO_libsimpleio;
