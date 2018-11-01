@@ -29,9 +29,12 @@ PACKAGE Messaging.Fixed.GNAT_UDP IS
 
   TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
 
+  -- UDP client
+
   FUNCTION Create
-   (hostname : String;
-    port     : Positive) RETURN Messenger;
+   (hostname  : String;
+    port      : Positive;
+    timeoutms : Integer := 1000) RETURN Messenger;
 
   PROCEDURE Send
    (self     : MessengerSubclass;

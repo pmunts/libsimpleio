@@ -29,23 +29,34 @@ USE TYPE GNAT.Sockets.Sock_Addr_Type;
 
 PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
 
-  FUNCTION Create(hostname : String; port : Positive) RETURN Messenger IS
+  -- UDP client
 
-    socket : GNAT.Sockets.Socket_Type;
-    peer   : GNAT.Sockets.Sock_Addr_Type;
+  FUNCTION Create
+   (hostname  : String;
+    port      : Positive;
+    timeoutms : Integer := 1000) RETURN Messenger IS
+
+    socket  : GNAT.Sockets.Socket_Type;
+    peer    : GNAT.Sockets.Sock_Addr_Type;
 
   BEGIN
-    GNAT.Sockets.Create_Socket(socket, GNAT.Sockets.Family_Inet,
-      GNAT.Sockets.Socket_Datagram);
-
     BEGIN
       peer.Addr := GNAT.Sockets.Inet_Addr(hostname);
     EXCEPTION
-      WHEN OTHERS => peer.Addr :=
-        GNAT.Sockets.Addresses(GNAT.Sockets.Get_Host_By_Name(hostname));
+      WHEN GNAT.Sockets.Socket_Error =>
+        peer.Addr :=
+          GNAT.Sockets.Addresses(GNAT.Sockets.Get_Host_By_Name(hostname));
     END;
 
     peer.Port := GNAT.Sockets.Port_Type(port);
+
+    GNAT.Sockets.Create_Socket(socket, GNAT.Sockets.Family_Inet,
+      GNAT.Sockets.Socket_Datagram);
+
+    IF timeoutms > 0 THEN
+      GNAT.Sockets.Set_Socket_Option(socket, GNAT.Sockets.Socket_Level,
+        (GNAT.Sockets.Receive_Timeout, Timeout => Duration(timeoutms)/1000.0));
+    END IF;
 
     RETURN NEW MessengerSubclass'(socket, peer);
   END Create;
