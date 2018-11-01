@@ -20,6 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Messaging.Fixed.File;
+WITH Messaging.Fixed.libsimpleio_file;
 
-PACKAGE Message64.libsimpleio IS NEW Message64.File;
+PACKAGE Message64.libsimpleio IS NEW Message64.libsimpleio_file;

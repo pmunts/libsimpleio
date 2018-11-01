@@ -24,7 +24,7 @@
 WITH errno;
 WITH libLinux;
 
-PACKAGE BODY Messaging.Fixed.File IS
+PACKAGE BODY Messaging.Fixed.libsimpleio_file IS
 
   -- Constructor using device or file name
 
@@ -135,4 +135,4 @@ PACKAGE BODY Messaging.Fixed.File IS
     RETURN Self.fd;
   END fd;
 
-END Messaging.Fixed.File;
+END Messaging.Fixed.libsimpleio_file;

@@ -23,7 +23,7 @@
 
 GENERIC
 
-PACKAGE Messaging.Fixed.File IS
+PACKAGE Messaging.Fixed.libsimpleio_file IS
 
   -- Type definitions
 
@@ -72,4 +72,4 @@ PRIVATE
     timeout : Integer;
   END RECORD;
 
-END Messaging.Fixed.File;
+END Messaging.Fixed.libsimpleio_file;
