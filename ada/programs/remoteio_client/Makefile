@@ -34,6 +34,7 @@ include $(ADA_SRC)/include/ada.mk
 endif
 
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
+include $(LIBSIMPLEIO)/ada/include/remoteio.mk
 
 # Compile the test programs
 

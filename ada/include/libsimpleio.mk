@@ -24,5 +24,4 @@ ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/bindings
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/devices
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/interfaces
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects
-ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/packages
