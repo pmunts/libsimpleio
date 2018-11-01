@@ -109,6 +109,7 @@ News
        information instead of just an integer. Added many more device
        drivers. Ada still has the most comprehensive set of device
        drivers, but C++, C#, and Free Pascal all have new ones, too.
+     * 1 November 2018 -- Extensively refactored the Ada code tree.
 
 Documentation
 
