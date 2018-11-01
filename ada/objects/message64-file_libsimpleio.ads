@@ -22,4 +22,4 @@
 
 WITH Messaging.Fixed.libsimpleio_file;
 
-PACKAGE Message64.libsimpleio IS NEW Message64.libsimpleio_file;
+PACKAGE Message64.file_libsimpleio IS NEW Message64.libsimpleio_file;

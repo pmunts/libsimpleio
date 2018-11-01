@@ -22,7 +22,7 @@
 
 WITH errno;
 WITH libHIDRaw;
-WITH Message64.libsimpleio;
+WITH Message64.file_libsimpleio;
 
 PACKAGE BODY HID.libsimpleio IS
 
@@ -43,7 +43,7 @@ PACKAGE BODY HID.libsimpleio IS
         errno.strerror(error);
     END IF;
 
-    RETURN Message64.libsimpleio.Create(fd, timeoutms);
+    RETURN Message64.file_libsimpleio.Create(fd, timeoutms);
   END Create;
 
   -- Constructor using HID vendor and product ID's
@@ -64,7 +64,7 @@ PACKAGE BODY HID.libsimpleio IS
         errno.strerror(error);
     END IF;
 
-    RETURN Message64.libsimpleio.Create(fd, timeoutms);
+    RETURN Message64.file_libsimpleio.Create(fd, timeoutms);
   END;
 
 END HID.libsimpleio;
