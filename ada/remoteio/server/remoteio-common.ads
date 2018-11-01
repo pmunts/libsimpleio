@@ -1,4 +1,4 @@
--- Parent package for all subsystem command handlers
+-- Remote I/O Server Dispatcher for common commands
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,6 +20,31 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE RemoteIO.Handler IS
+WITH Message64;
+WITH RemoteIO.Dispatch;
+WITH RemoteIO.Executive;
+WITH RemoteIO.Server;
 
-END RemoteIO.Handler;
+PACKAGE RemoteIO.Common IS
+
+  TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
+
+  FUNCTION Create
+   (executor     : IN OUT RemoteIO.Executive.Executor;
+    version      : RemoteIO.Server.ResponseString;
+    capabilities : RemoteIO.Server.ResponseString)
+    RETURN DispatcherSubclass;
+
+  PROCEDURE Dispatch
+   (Self : IN OUT DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.Message);
+
+PRIVATE
+
+  TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
+    version      : RemoteIO.Server.ResponseString;
+    capabilities : RemoteIO.Server.ResponseString;
+  END RECORD;
+
+END RemoteIO.Common;

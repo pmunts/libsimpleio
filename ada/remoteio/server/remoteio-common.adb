@@ -26,7 +26,7 @@ WITH RemoteIO.Server;
 
 USE TYPE Message64.Byte;
 
-PACKAGE BODY RemoteIO.Handler.Common IS
+PACKAGE BODY RemoteIO.Common IS
 
   FUNCTION Create
    (executor     : IN OUT RemoteIO.Executive.Executor;
@@ -82,4 +82,4 @@ PACKAGE BODY RemoteIO.Handler.Common IS
     END CASE;
   END Dispatch;
 
-END RemoteIO.Handler.Common;
+END RemoteIO.Common;
