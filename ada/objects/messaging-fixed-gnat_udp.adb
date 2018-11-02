@@ -61,7 +61,7 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     RETURN NEW MessengerSubclass'(socket, peer);
   END Create;
 
-  PROCEDURE Send(self : MessengerSubclass; msg : Message) IS
+  PROCEDURE Send(Self : MessengerSubclass; msg : Message) IS
 
     Data : Ada.Streams.Stream_Element_Array(0 .. Message'Length - 1);
     Last : Ada.Streams.Stream_Element_Offset;
@@ -71,19 +71,19 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
       Data(i) := Ada.Streams.Stream_Element(msg(Integer(i)));
     END LOOP;
 
-    GNAT.Sockets.Send_Socket(self.socket, Data, Last, self.peer);
+    GNAT.Sockets.Send_Socket(Self.socket, Data, Last, Self.peer);
   END Send;
 
-  PROCEDURE Receive(self : MessengerSubclass; msg : OUT Message) IS
+  PROCEDURE Receive(Self : MessengerSubclass; msg : OUT Message) IS
 
     Data : Ada.Streams.Stream_Element_Array(0 .. Message'Length - 1);
     Last : Ada.Streams.Stream_Element_Offset;
     From : GNAT.Sockets.Sock_Addr_Type;
 
   BEGIN
-    GNAT.Sockets.Receive_Socket(self.socket, Data, Last, From);
+    GNAT.Sockets.Receive_Socket(Self.socket, Data, Last, From);
 
-    IF From /= self.peer THEN
+    IF From /= Self.peer THEN
       RAISE GNAT.Sockets.Socket_Error WITH "Message not from peer node";
     END IF;
 
@@ -92,10 +92,10 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     END LOOP;
   END Receive;
 
-  FUNCTION fd(self : MessengerSubclass) RETURN Integer IS
+  FUNCTION fd(Self : MessengerSubclass) RETURN Integer IS
 
   BEGIN
-    RETURN GNAT.Sockets.To_C(self.socket);
+    RETURN GNAT.Sockets.To_C(Self.socket);
   END fd;
 
 BEGIN

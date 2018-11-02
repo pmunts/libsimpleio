@@ -37,15 +37,15 @@ PACKAGE Messaging.Fixed.GNAT_UDP IS
     timeoutms : Integer := 1000) RETURN Messenger;
 
   PROCEDURE Send
-   (self     : MessengerSubclass;
+   (Self     : MessengerSubclass;
     msg      : Message);
 
   PROCEDURE Receive
-   (self     : MessengerSubclass;
+   (Self     : MessengerSubclass;
     msg      : OUT Message);
 
   FUNCTION fd
-   (self     : MessengerSubclass) RETURN Integer;
+   (Self     : MessengerSubclass) RETURN Integer;
 
 PRIVATE
 
