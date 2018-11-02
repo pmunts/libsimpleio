@@ -21,34 +21,35 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-GENERIC
+WITH Ada.Strings.Fixed;
+WITH Ada.Text_IO; USE Ada.Text_IO;
 
-  MessageSize : Natural;
+PACKAGE BODY Messaging.Fixed IS
 
-PACKAGE Messaging.Fixed IS
-
-  TYPE MessengerInterface IS INTERFACE;
-
-  TYPE Messenger IS ACCESS ALL MessengerInterface'Class;
-
-  TYPE Byte IS MOD 256;
-
-  TYPE Message IS ARRAY (Natural RANGE 0 .. MessageSize -1) OF Byte;
-
-  -- Send a message
-
-  PROCEDURE Send
-   (Self      : MessengerInterface;
-    msg       : IN Message) IS ABSTRACT;
-
-  -- Receive a message
-
-  PROCEDURE Receive
-   (Self      : MessengerInterface;
-    msg       : OUT Message) IS ABSTRACT;
+  PACKAGE ByteIO IS NEW Ada.Text_IO.Modular_IO(Byte);
 
   -- Dump a message in hexadecimal format
 
-  PROCEDURE Dump(msg : Message);
+  PROCEDURE Dump(msg : Message) IS
+
+    buf : String(1 .. 6);
+
+  BEGIN
+    FOR b OF msg LOOP
+      ByteIO.Put(buf, b, 16);
+
+      IF buf(1) = ' ' THEN
+        Ada.Strings.Fixed.Insert(buf, 5, "0", Ada.Strings.Left);
+      END IF;
+
+      Ada.Strings.Fixed.Replace_Slice(buf, 6, 6, " ");
+      Ada.Strings.Fixed.Replace_Slice(buf, 1, 3, " ");
+
+      Put(Ada.Strings.Fixed.Trim(buf, Ada.Strings.Both));
+      Put(" ");
+    END LOOP;
+
+    New_Line;
+  END Dump;
 
 END Messaging.Fixed;
