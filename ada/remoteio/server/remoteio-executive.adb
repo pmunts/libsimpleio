@@ -47,7 +47,7 @@ PACKAGE BODY RemoteIO.Executive IS
   BEGIN
     Self.handlers(msgtype) := handler;
   END Register;
-  
+
   -- Execute a command
 
   PROCEDURE Execute
