@@ -53,13 +53,6 @@ PACKAGE Messaging.Fixed.libsimpleio_file IS
    (Self : MessengerSubclass;
     msg  : OUT Message);
 
-  -- Perform a command/response transaction (similar to an RPC call)
-
-  PROCEDURE Transaction
-   (Self      : MessengerSubclass;
-    cmd       : IN Message;
-    resp      : OUT Message);
-
   -- Retrieve the underlying Linux file descriptor
 
   FUNCTION fd

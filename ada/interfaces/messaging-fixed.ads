@@ -47,11 +47,4 @@ PACKAGE Messaging.Fixed IS
    (Self      : MessengerInterface;
     msg       : OUT Message) IS ABSTRACT;
 
-  -- Perform a command/response transaction (similar to an RPC call)
-
-  PROCEDURE Transaction
-   (Self      : MessengerInterface;
-    cmd       : IN Message;
-    resp      : OUT Message) IS ABSTRACT;
-
 END Messaging.Fixed;

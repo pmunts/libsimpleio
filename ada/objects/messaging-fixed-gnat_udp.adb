@@ -92,16 +92,6 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     END LOOP;
   END Receive;
 
-  PROCEDURE Transaction
-   (self     : MessengerSubclass;
-    cmd      : IN Message;
-    resp     : OUT Message) IS
-
-  BEGIN
-    self.Send(cmd);
-    self.Receive(resp);
-  END Transaction;
-
   FUNCTION fd(self : MessengerSubclass) RETURN Integer IS
 
   BEGIN

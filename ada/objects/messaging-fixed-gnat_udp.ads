@@ -44,11 +44,6 @@ PACKAGE Messaging.Fixed.GNAT_UDP IS
    (self     : MessengerSubclass;
     msg      : OUT Message);
 
-  PROCEDURE Transaction
-   (self     : MessengerSubclass;
-    cmd      : IN Message;
-    resp     : OUT Message);
-
   FUNCTION fd
    (self     : MessengerSubclass) RETURN Integer;
 

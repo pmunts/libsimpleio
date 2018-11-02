@@ -115,18 +115,6 @@ PACKAGE BODY Messaging.Fixed.libsimpleio_file IS
     END IF;
   END Receive;
 
-  -- Perform a command/response transaction (similar to an RPC call)
-
-  PROCEDURE Transaction
-   (Self      : MessengerSubclass;
-    cmd       : IN Message;
-    resp      : OUT Message) IS
-
-  BEGIN
-    Self.Send(cmd);
-    Self.Receive(resp);
-  END Transaction;
-
  -- Retrieve the underlying Linux file descriptor
 
   FUNCTION fd(Self : MessengerSubclass) RETURN Integer IS
