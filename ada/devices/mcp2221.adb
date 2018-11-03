@@ -1,4 +1,4 @@
--- MCP2221 USB to I2C Device Services
+-- MCP2221 Device Services
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --

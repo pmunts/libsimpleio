@@ -1,4 +1,4 @@
--- MCP2221 USB to I2C GPIO Pin Services
+-- MCP2221 GPIO Pin Services
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --

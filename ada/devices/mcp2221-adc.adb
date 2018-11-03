@@ -1,4 +1,4 @@
--- MCP2221 USB to I2C A/D Converter Input Services
+-- MCP2221 A/D Converter Input Services
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
