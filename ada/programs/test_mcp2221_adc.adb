@@ -38,6 +38,8 @@ BEGIN
 
   dev := MCP2221.Create;
 
+  dev.SetPinModes((0 => MCP2221.MODE_GPIO, OTHERS => MCP2221.MODE_ADC));
+
   FOR c IN MCP2221.ADC.Channel LOOP
     inputs(c) := MCP2221.ADC.Create(dev, c);
   END LOOP;
