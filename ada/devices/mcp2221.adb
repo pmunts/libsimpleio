@@ -102,12 +102,12 @@ PACKAGE BODY MCP2221 IS
    (Self  : DeviceClass;
     Modes : PinModeArray := AllGPIO) IS
 
-    cmd  : Message64.Message := (0 => CMD_SET_SRAM, 7 => 255, OTHERS => 0);
+    cmd  : Message64.Message := (0 => CMD_SET_SRAM, 5 => 128, 7 => 255, OTHERS => 0);
     resp : Message64.Message;
 
   BEGIN
     FOR p IN PinNumber LOOP
-      IF Modes(p) = 0 THEN
+      IF Modes(p) = MODE_GPIO THEN
         -- Configure pin as GPIO (and input, for now, to prevent output glitch)
         cmd(8 + Natural(p)) := 16#08#;
       ELSE
