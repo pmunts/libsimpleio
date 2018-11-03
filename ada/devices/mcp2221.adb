@@ -34,7 +34,7 @@ PACKAGE BODY MCP2221 IS
     dev : DeviceClass := DeviceClass'(msg => msg);
 
   BEGIN
-    dev.SetPinMode(pinmodes);
+    dev.SetPinModes(pinmodes);
 
     RETURN NEW DeviceClass'(dev);
   END Create;
@@ -49,7 +49,7 @@ PACKAGE BODY MCP2221 IS
       DeviceClass'(msg => HID.libsimpleio.Create(vid, pid, timeoutms));
 
   BEGIN
-    dev.SetPinMode(pinmodes);
+    dev.SetPinModes(pinmodes);
 
     RETURN NEW DeviceClass'(dev);
   END Create;
@@ -98,7 +98,7 @@ PACKAGE BODY MCP2221 IS
 
   -- Configure MCP2221 GPIO pin mux
 
-  PROCEDURE SetPinMode
+  PROCEDURE SetPinModes
    (Self  : DeviceClass;
     Modes : PinModeArray := AllGPIO) IS
 
@@ -117,6 +117,6 @@ PACKAGE BODY MCP2221 IS
     END LOOP;
 
     Self.Command(cmd, resp);
-  END SetPinMode;
+  END SetPinModes;
 
 END MCP2221;

@@ -65,7 +65,7 @@ PACKAGE MCP2221 IS
 
   -- Configure MCP2221 GPIO pin mux
 
-  PROCEDURE SetPinMode
+  PROCEDURE SetPinModes
    (Self  : DeviceClass;
     Modes : PinModeArray := AllGPIO);
 
