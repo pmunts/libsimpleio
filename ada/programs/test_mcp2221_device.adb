@@ -28,11 +28,6 @@ PROCEDURE test_mcp2221_device IS
 
   dev : MCP2221.Device;
 
-  HardwareMajor : Character;
-  HardwareMinor : Character;
-  FirmwareMajor : Character;
-  FirmwareMinor : Character;
-
 BEGIN
   New_Line;
   Put_Line("MCP2221 Device Test");
@@ -40,10 +35,6 @@ BEGIN
 
   dev := MCP2221.Create;
 
-  dev.GetRevisions(HardwareMajor, HardwareMinor, FirmwareMajor, FirmwareMinor);
-
-  Put_Line("Revisions => " & HardwareMajor & " " & HardwareMinor & " " &
-    FirmWareMajor & " " & FirmwareMinor);
-
+  Put_Line("Revision => " & dev.Revision);
   New_Line;
 END test_mcp2221_device;

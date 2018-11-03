@@ -54,20 +54,15 @@ PACKAGE MCP2221 IS
     timeoutms : Integer      := 1000;
     pinmodes  : PinModeArray := AllGPIO) RETURN Device;
 
-  -- Get MCP2221 revision information
-
-  PROCEDURE GetRevisions
-   (Self          : DeviceClass;
-    HardwareMajor : OUT Character;
-    HardwareMinor : OUT Character;
-    FirmwareMajor : OUT Character;
-    FirmwareMinor : OUT Character);
-
   -- Configure MCP2221 GPIO pin mux
 
   PROCEDURE SetPinModes
    (Self  : DeviceClass;
     Modes : PinModeArray := AllGPIO);
+
+  -- Get MCP2221 revision information
+
+  FUNCTION Revision(Self : DeviceClass) RETURN String;
 
 PRIVATE
 

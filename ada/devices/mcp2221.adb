@@ -75,27 +75,6 @@ PACKAGE BODY MCP2221 IS
     END IF;
   END Command;
 
-  -- Get MCP2221 revision information
-
-  PROCEDURE GetRevisions
-   (Self          : DeviceClass;
-    HardwareMajor : OUT Character;
-    HardwareMinor : OUT Character;
-    FirmwareMajor : OUT Character;
-    FirmwareMinor : OUT Character) IS
-
-    cmd  : Message64.Message := (0 => CMD_SET_PARM, OTHERS => 0);
-    resp : Message64.Message;
-
-  BEGIN
-    Self.Command(cmd, resp);
-
-    HardwareMajor := Character'Val(resp(46));
-    HardwareMinor := Character'Val(resp(47));
-    FirmwareMajor := Character'Val(resp(48));
-    FirmwareMinor := Character'Val(resp(49));
-  END GetRevisions;
-
   -- Configure MCP2221 GPIO pin mux
 
   PROCEDURE SetPinModes
@@ -118,5 +97,19 @@ PACKAGE BODY MCP2221 IS
 
     Self.Command(cmd, resp);
   END SetPinModes;
+
+  -- Get MCP2221 revision information
+
+  FUNCTION Revision(Self : DeviceClass) RETURN String IS
+
+    cmd  : Message64.Message := (0 => CMD_SET_PARM, OTHERS => 0);
+    resp : Message64.Message;
+    
+  BEGIN
+    Self.Command(cmd, resp);
+
+    RETURN Character'Val(resp(46)) & " " & Character'Val(resp(47)) & " " &
+     Character'Val(resp(48)) & " " & Character'Val(resp(49));
+  END Revision;
 
 END MCP2221;
