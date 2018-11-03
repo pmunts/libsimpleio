@@ -25,10 +25,6 @@ WITH SPI;
 
 PACKAGE MCP3202 IS
 
-  -- Configuration constants
-
-  Resolution : CONSTANT Positive := 12;
-
   -- Define a subclass of Analog.InputInterface
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
@@ -56,6 +52,8 @@ PACKAGE MCP3202 IS
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
 
 PRIVATE
+
+  Resolution : CONSTANT Positive := 12;
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
     spidev : SPI.Device;

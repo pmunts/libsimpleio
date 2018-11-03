@@ -35,10 +35,6 @@ WITH Voltage;
 
 PACKAGE ADS1015 IS
 
-  -- Configuration constants
-
-  Resolution : CONSTANT Positive := 12;
-
   -- Define a subclass of Analog.InputInterface
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
@@ -69,6 +65,8 @@ PACKAGE ADS1015 IS
   FUNCTION GetGain(Self : IN OUT InputSubclass) RETURN Voltage.Volts;
 
 PRIVATE
+
+  Resolution : CONSTANT Positive := 12;
 
   TYPE RegData IS MOD 2**16;
 

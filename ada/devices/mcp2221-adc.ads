@@ -42,13 +42,11 @@ PACKAGE MCP2221.ADC IS
 
 PRIVATE
 
+  Resolution : CONSTANT Positive := 10;
+
   TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
     dev : DeviceClass;
     num : Channel;
   END RECORD;
-
-  -- Configuration constants
-
-  Resolution : CONSTANT Positive := 10;
 
 END MCP2221.ADC;
