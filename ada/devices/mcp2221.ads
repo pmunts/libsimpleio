@@ -38,7 +38,11 @@ PACKAGE MCP2221 IS
   TYPE PinMode      IS RANGE 0 .. 7;
   TYPE PinModeArray IS ARRAY (PinNumber) OF PinMode;
 
-  AllGPIO : CONSTANT PinModeArray := (0, 0, 0, 0);
+  MODE_GPIO : CONSTANT PinMode := 2#00000000#;  -- GP0, GP1, GP2, GP3
+  MODE_ADC  : CONSTANT PinMode := 2#00000010#;  -- GP1, GP2, GP3 only
+  MODE_DAC  : CONSTANT PinMode := 2#00000011#;  -- GP2, GP3 only
+
+  AllGPIO : CONSTANT PinModeArray := (OTHERS => MODE_GPIO);
 
   FUNCTION Create
    (msg       : Message64.Messenger;
