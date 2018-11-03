@@ -60,9 +60,21 @@ PACKAGE MCP2221 IS
    (Self  : DeviceClass;
     Modes : PinModeArray := AllGPIO);
 
-  -- Get MCP2221 revision information
+  -- Get MCP2221 revision information string
 
   FUNCTION Revision(Self : DeviceClass) RETURN String;
+
+  -- Get MCP2221 USB manufacturer string
+
+  FUNCTION Manufacturer(Self : DeviceClass) RETURN String;
+
+  -- Get MCP2221 USB product string
+
+  FUNCTION Product(Self : DeviceClass) RETURN String;
+
+  -- Get MCP2221 USB serial number string
+
+  FUNCTION SerialNumber(Self : DeviceClass) RETURN String;
 
 PRIVATE
 

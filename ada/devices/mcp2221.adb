@@ -20,6 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Characters.Conversions;
+WITH Ada.Strings.Fixed;
+
 WITH HID.libsimpleio;
 WITH Message64;
 
@@ -98,18 +101,102 @@ PACKAGE BODY MCP2221 IS
     Self.Command(cmd, resp);
   END SetPinModes;
 
-  -- Get MCP2221 revision information
+  -- Get MCP2221 revision information string
 
   FUNCTION Revision(Self : DeviceClass) RETURN String IS
 
     cmd  : Message64.Message := (0 => CMD_SET_PARM, OTHERS => 0);
     resp : Message64.Message;
-    
+
   BEGIN
     Self.Command(cmd, resp);
 
     RETURN Character'Val(resp(46)) & " " & Character'Val(resp(47)) & " " &
      Character'Val(resp(48)) & " " & Character'Val(resp(49));
   END Revision;
+
+  -- Get MCP2221 USB manufacturer string
+
+  FUNCTION Manufacturer(Self : DeviceClass) RETURN String IS
+
+    cmd    : Message64.Message := (0 => CMD_READ_FLASH, 1 => 2, OTHERS => 0);
+    resp   : Message64.Message;
+    len    : Natural;
+    code   : Natural;
+    result : Wide_Wide_String(1 .. 30) := (OTHERS => ' ');
+
+  BEGIN
+    Self.Command(cmd, resp);
+
+    -- Extract the Unicode USB manufacturer string from the response
+
+    len := Natural(resp(2) - 2)/2;
+
+    FOR i IN 1 .. len LOOP
+      code := Natural(resp(i*2 + 2)) + Natural(resp(i*2 + 3));
+      result(i) := Wide_Wide_Character'Val(code);
+    END LOOP;
+
+    -- Convert the Unicode string to plain ASCII
+
+    RETURN Ada.Strings.Fixed.Trim(Ada.Characters.Conversions.To_String(result),
+      Ada.Strings.Both);
+  END Manufacturer;
+
+  -- Get MCP2221 USB product string
+
+  FUNCTION Product(Self : DeviceClass) RETURN String IS
+
+    cmd    : Message64.Message := (0 => CMD_READ_FLASH, 1 => 3, OTHERS => 0);
+    resp   : Message64.Message;
+    len    : Natural;
+    code   : Natural;
+    result : Wide_Wide_String(1 .. 30) := (OTHERS => ' ');
+
+  BEGIN
+    Self.Command(cmd, resp);
+
+    -- Extract the Unicode USB product string from the response
+
+    len := Natural(resp(2) - 2)/2;
+
+    FOR i IN 1 .. len LOOP
+      code := Natural(resp(i*2 + 2)) + Natural(resp(i*2 + 3));
+      result(i) := Wide_Wide_Character'Val(code);
+    END LOOP;
+
+    -- Convert the Unicode string to plain ASCII
+
+    RETURN Ada.Strings.Fixed.Trim(Ada.Characters.Conversions.To_String(result),
+      Ada.Strings.Both);
+  END Product;
+
+  -- Get MCP2221 USB serial number string
+
+  FUNCTION SerialNumber(Self : DeviceClass) RETURN String IS
+
+    cmd    : Message64.Message := (0 => CMD_READ_FLASH, 1 => 4, OTHERS => 0);
+    resp   : Message64.Message;
+    len    : Natural;
+    code   : Natural;
+    result : Wide_Wide_String(1 .. 30) := (OTHERS => ' ');
+
+  BEGIN
+    Self.Command(cmd, resp);
+
+    -- Extract the Unicode USB serial number string from the response
+
+    len := Natural(resp(2) - 2)/2;
+
+    FOR i IN 1 .. len LOOP
+      code := Natural(resp(i*2 + 2)) + Natural(resp(i*2 + 3));
+      result(i) := Wide_Wide_Character'Val(code);
+    END LOOP;
+
+    -- Convert the Unicode string to plain ASCII
+
+    RETURN Ada.Strings.Fixed.Trim(Ada.Characters.Conversions.To_String(result),
+      Ada.Strings.Both);
+  END SerialNumber;
 
 END MCP2221;

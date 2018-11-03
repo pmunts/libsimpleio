@@ -35,6 +35,9 @@ BEGIN
 
   dev := MCP2221.Create;
 
-  Put_Line("Revision => " & dev.Revision);
+  Put_Line("Revision      => " & dev.Revision);
+  Put_Line("Manufacturer  => " & dev.Manufacturer);
+  Put_Line("Product       => " & dev.Product);
+  Put_Line("Serial Number => " & dev.SerialNumber);
   New_Line;
 END test_mcp2221_device;
