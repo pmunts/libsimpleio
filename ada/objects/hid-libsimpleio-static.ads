@@ -1,5 +1,5 @@
--- Fixed length message services using libsimpleio file I/O
--- Must be instantiated for each message size.
+-- 64-byte message services using the raw HID services in libsimpleio
+-- without heap
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -21,48 +21,29 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-GENERIC
+PACKAGE HID.libsimpleio.Static IS
 
-PACKAGE Messaging.Fixed.libsimpleio_file IS
-
-  -- Type definitions
-
-  TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
-
-  -- Constructor using device or file name
+  -- Constructor using raw HID device node name
 
   FUNCTION Create
-   (filename  : String;
-    timeoutms : Integer := 1000) RETURN Messenger;
+   (name      : String;
+    timeoutms : Integer := 1000) RETURN MessengerSubclass;
 
-  -- Constructor using an already open file descriptor
+  -- Constructor using HID vendor and product ID's
+
+  FUNCTION Create
+   (vid       : HID.Vendor;
+    pid       : HID.Product;
+    timeoutms : Integer := 1000) RETURN MessengerSubclass;
+
+  -- Constructor using open file descriptor
 
   FUNCTION Create
    (fd        : Integer;
-    timeoutms : Integer := 1000) RETURN Messenger;
+    timeoutms : Integer := 1000) RETURN MessengerSubclass;
 
-  -- Send a message
+  -- Destructor
 
-  PROCEDURE Send
-   (Self : MessengerSubclass;
-    msg  : Message);
+  PROCEDURE Destroy(Self : IN OUT MessengerSubclass);
 
-  -- Receive a message
-
-  PROCEDURE Receive
-   (Self : MessengerSubclass;
-    msg  : OUT Message);
-
-  -- Retrieve the underlying Linux file descriptor
-
-  FUNCTION fd
-   (Self : MessengerSubclass) RETURN Integer;
-
-PRIVATE
-
-  TYPE MessengerSubclass IS NEW MessengerInterface WITH RECORD
-    fd        : Integer;
-    timeoutms : Integer;
-  END RECORD;
-
-END Messaging.Fixed.libsimpleio_file;
+END HID.libsimpleio.Static;

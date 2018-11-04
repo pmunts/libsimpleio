@@ -24,6 +24,12 @@ WITH Message64;
 
 PACKAGE HID.libsimpleio IS
 
+  TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH PRIVATE;
+
+  TYPE Messenger IS ACCESS MessengerSubclass;
+
+  Destroyed : CONSTANT MessengerSubclass;
+
   -- Constructor using raw HID device node name
 
   FUNCTION Create
@@ -33,8 +39,51 @@ PACKAGE HID.libsimpleio IS
   -- Constructor using HID vendor and product ID's
 
   FUNCTION Create
-   (vid       : Standard.HID.Vendor;
-    pid       : Standard.HID.Product;
+   (vid       : HID.Vendor;
+    pid       : HID.Product;
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
+
+  -- Constructor using open file descriptor
+
+  FUNCTION Create
+   (fd        : Integer;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger;
+
+  -- Send a message
+
+  PROCEDURE Send
+   (Self      : MessengerSubclass;
+    msg       : IN Message64.Message);
+
+  -- Receive a message
+
+  PROCEDURE Receive
+   (Self      : MessengerSubclass;
+    msg       : OUT Message64.Message);
+
+  -- Get HID device name string
+
+  FUNCTION Name(Self : MessengerSubclass) RETURN String;
+
+  -- Get HID device bus type
+
+  FUNCTION BusType(Self : MessengerSubclass) RETURN Natural;
+
+  -- Get HID device vendor ID
+
+  FUNCTION Vendor(Self : MessengerSubclass) RETURN HID.Vendor;
+
+  -- Get HID device product ID
+
+  FUNCTION Product(Self : MessengerSubclass) RETURN HID.Product;
+
+PRIVATE
+
+  TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
+    fd        : Integer;
+    timeoutms : Integer;
+  END RECORD;
+
+  Destroyed : CONSTANT MessengerSubclass := MessengerSubclass'(-1, -1);
 
 END HID.libsimpleio;

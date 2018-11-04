@@ -25,6 +25,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ADC.RemoteIO;
 WITH GPIO.RemoteIO;
+WITH HID.libsimpleio.static;
 WITH HID.Munts;
 WITH I2C.RemoteIO;
 WITH RemoteIO.Client;
@@ -32,6 +33,10 @@ WITH SPI.RemoteIO;
 
 PROCEDURE test_query IS
 
+  PACKAGE VendorIO  IS NEW Integer_IO(HID.Vendor);
+  PACKAGE ProductIO IS NEW Integer_IO(HID.Product);
+
+  hiddev   : ALIASED HID.libsimpleio.MessengerSubclass;
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
 
@@ -40,9 +45,20 @@ BEGIN
   Put_Line("HID Remote I/O Device Information Query");
   New_Line;
 
-  -- Open the remote I/O device
+  -- Create the HID device
 
-  remdev := RemoteIO.Client.Create(HID.Munts.Create);
+  hiddev := HID.libsimpleio.Static.Create(HID.Munts.VID, HID.Munts.PID);
+
+  -- Create the remote I/O device
+
+  remdev := RemoteIO.Client.Create(hiddev'Unchecked_Access);
+
+  -- Query the HID device information
+
+  Put_Line("HID device name:   " & hiddev.Name);
+  Put_Line("HID bus type:     " & Natural'Image(hiddev.BusType));
+  Put("HID vendor ID:     "); VendorIO.Put(hiddev.Vendor, 1, 16);   New_Line;
+  Put("HID product ID:    "); ProductIO.Put(hiddev.Product, 1, 16); New_Line;
 
   -- Query the firmware version
 

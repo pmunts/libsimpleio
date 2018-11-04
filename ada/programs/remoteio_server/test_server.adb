@@ -23,8 +23,9 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Strings.Fixed;
 
+WITH HID.libsimpleio;
 WITH Logging.libsimpleio;
-WITH Message64.file_libsimpleio;
+WITH Message64;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Common;
 WITH RemoteIO.GPIO_libsimpleio;
@@ -54,7 +55,7 @@ BEGIN
 
   -- Create a Messenger instance
 
-  msg  := Message64.file_libsimpleio.Create("/dev/hidg0", 0);
+  msg  := HID.libsimpleio.Create("/dev/hidg0", 0);
 
   -- Create an Executor instance
 
