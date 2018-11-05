@@ -23,7 +23,7 @@
 
 GENERIC
 
-PACKAGE Messaging.Fixed.datagram_fd IS
+PACKAGE Messaging.Fixed.Datagram_fd IS
 
   -- Type definitions
 
@@ -59,4 +59,4 @@ PRIVATE
     timeoutms : Integer;
   END RECORD;
 
-END Messaging.Fixed.datagram_fd;
+END Messaging.Fixed.Datagram_fd;
