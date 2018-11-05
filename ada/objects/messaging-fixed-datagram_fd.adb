@@ -24,29 +24,9 @@
 WITH errno;
 WITH libLinux;
 
-PACKAGE BODY Messaging.Fixed.libsimpleio_file IS
+PACKAGE BODY Messaging.Fixed.datagram_fd IS
 
-  -- Constructor using device or file name
-
-  FUNCTION Create
-   (filename  : String;
-    timeoutms : Integer := 1000) RETURN Messenger IS
-
-    fd    : Integer;
-    error : Integer;
-
-  BEGIN
-    libLinux.Open(filename & ASCII.NUL, fd, error);
-
-    IF error /= 0 THEN
-      RAISE Message_Error WITH "libLinux.Open() failed, " &
-        errno.strerror(error);
-    END IF;
-
-    RETURN NEW MessengerSubclass'(fd, timeoutms);
-  END Create;
-
-  -- Constructor using an already open file descriptor
+  -- Constructor
 
   FUNCTION Create
    (fd        : Integer;
@@ -123,4 +103,4 @@ PACKAGE BODY Messaging.Fixed.libsimpleio_file IS
     RETURN Self.fd;
   END fd;
 
-END Messaging.Fixed.libsimpleio_file;
+END Messaging.Fixed.datagram_fd;

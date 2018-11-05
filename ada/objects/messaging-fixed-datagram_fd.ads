@@ -1,4 +1,5 @@
--- Instantiate Messaging.Fixed.libsimpleio_file for 64-byte messages
+-- Fixed length message services using libsimpleio file I/O
+-- Must be instantiated for each message size.
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,6 +21,42 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Messaging.Fixed.libsimpleio_file;
+GENERIC
 
-PACKAGE Message64.file_libsimpleio IS NEW Message64.libsimpleio_file;
+PACKAGE Messaging.Fixed.datagram_fd IS
+
+  -- Type definitions
+
+  TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
+
+  -- Constructor
+
+  FUNCTION Create
+   (fd        : Integer;
+    timeoutms : Integer := 1000) RETURN Messenger;
+
+  -- Send a message
+
+  PROCEDURE Send
+   (Self : MessengerSubclass;
+    msg  : Message);
+
+  -- Receive a message
+
+  PROCEDURE Receive
+   (Self : MessengerSubclass;
+    msg  : OUT Message);
+
+  -- Retrieve the underlying Linux file descriptor
+
+  FUNCTION fd
+   (Self : MessengerSubclass) RETURN Integer;
+
+PRIVATE
+
+  TYPE MessengerSubclass IS NEW MessengerInterface WITH RECORD
+    fd        : Integer;
+    timeoutms : Integer;
+  END RECORD;
+
+END Messaging.Fixed.datagram_fd;
