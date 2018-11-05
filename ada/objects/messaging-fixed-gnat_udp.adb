@@ -29,8 +29,6 @@ USE TYPE GNAT.Sockets.Sock_Addr_Type;
 
 PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
 
-  -- UDP client
-
   FUNCTION Create
    (hostname  : String;
     port      : Positive;
