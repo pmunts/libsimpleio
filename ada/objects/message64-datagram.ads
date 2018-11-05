@@ -1,4 +1,4 @@
--- Instantiate Messaging.Fixed.datagram_fd for 64-byte messages
+-- Instantiate Messaging.Fixed.libsimpleio_datagram for 64-byte messages
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,4 +22,4 @@
 
 WITH Messaging.Fixed.libsimpleio_datagram;
 
-PACKAGE Message64.datagram IS NEW Message64.libsimpleio_datagram;
+PACKAGE Message64.Datagram IS NEW Message64.libsimpleio_datagram;
