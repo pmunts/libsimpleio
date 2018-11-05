@@ -29,23 +29,48 @@ PACKAGE Messaging.Fixed.GNAT_UDP IS
 
   TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
 
-  FUNCTION Create
-   (hostname  : String;
+  -- UDP client (initiator) services
+
+  FUNCTION Create_Client
+   (server    : String;
     port      : Positive;
     timeoutms : Integer := 1000) RETURN Messenger;
 
   PROCEDURE Send
-   (Self     : MessengerSubclass;
-    msg      : Message);
+   (Self : MessengerSubclass;
+    msg  : Message);
 
   PROCEDURE Receive
-   (Self     : MessengerSubclass;
-    msg      : OUT Message);
+   (Self : MessengerSubclass;
+    msg  : OUT Message);
+
+  -- UDP server (responder) services
+
+  TYPE PeerIdentifier IS PRIVATE;
+
+  FUNCTION Create_Server
+   (netiface  : String := "0.0.0.0"; -- Bind to all available network interfaces
+    port      : Positive;
+    timeoutms : Integer := 1000) RETURN Messenger;
+
+  PROCEDURE Send
+   (Self : MessengerSubclass;
+    dst  : PeerIdentifier;
+    msg  : Message);
+
+  PROCEDURE Receive
+   (Self : MessengerSubclass;
+    src  : OUT PeerIdentifier;
+    msg  : OUT Message);
+
+  -- Retrieve the underlying Linux file descriptor
 
   FUNCTION fd
-   (Self     : MessengerSubclass) RETURN Integer;
+   (Self : MessengerSubclass) RETURN Integer;
 
 PRIVATE
+
+  TYPE PeerIdentifier IS NEW GNAT.Sockets.Sock_Addr_type;
 
   TYPE MessengerSubclass IS NEW MessengerInterface WITH RECORD
     socket : GNAT.Sockets.Socket_Type;

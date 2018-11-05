@@ -29,8 +29,10 @@ USE TYPE GNAT.Sockets.Sock_Addr_Type;
 
 PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
 
-  FUNCTION Create
-   (hostname  : String;
+  -- UDP client (initiator) constructor
+
+  FUNCTION Create_Client
+   (server    : String;
     port      : Positive;
     timeoutms : Integer := 1000) RETURN Messenger IS
 
@@ -39,11 +41,11 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
 
   BEGIN
     BEGIN
-      peer.Addr := GNAT.Sockets.Inet_Addr(hostname);
+      peer.Addr := GNAT.Sockets.Inet_Addr(server);
     EXCEPTION
       WHEN GNAT.Sockets.Socket_Error =>
         peer.Addr :=
-          GNAT.Sockets.Addresses(GNAT.Sockets.Get_Host_By_Name(hostname));
+          GNAT.Sockets.Addresses(GNAT.Sockets.Get_Host_By_Name(server));
     END;
 
     peer.Port := GNAT.Sockets.Port_Type(port);
@@ -57,7 +59,9 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     END IF;
 
     RETURN NEW MessengerSubclass'(socket, peer);
-  END Create;
+  END Create_Client;
+
+  -- UDP client (initiator) transmit service
 
   PROCEDURE Send(Self : MessengerSubclass; msg : Message) IS
 
@@ -65,12 +69,18 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     Last : Ada.Streams.Stream_Element_Offset;
 
   BEGIN
+    IF Self.peer = GNAT.Sockets.No_Sock_Addr THEN
+      RAISE GNAT.Sockets.Socket_Error WITH "Cannot call this method from server";
+    END IF;
+
     FOR i IN Data'Range LOOP
       Data(i) := Ada.Streams.Stream_Element(msg(Integer(i)));
     END LOOP;
 
     GNAT.Sockets.Send_Socket(Self.socket, Data, Last, Self.peer);
   END Send;
+
+  -- UDP client (initiator) receive service
 
   PROCEDURE Receive(Self : MessengerSubclass; msg : OUT Message) IS
 
@@ -79,16 +89,95 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     From : GNAT.Sockets.Sock_Addr_Type;
 
   BEGIN
+    IF Self.peer = GNAT.Sockets.No_Sock_Addr THEN
+      RAISE GNAT.Sockets.Socket_Error WITH "Cannot call this method from server";
+    END IF;
+
     GNAT.Sockets.Receive_Socket(Self.socket, Data, Last, From);
 
     IF From /= Self.peer THEN
-      RAISE GNAT.Sockets.Socket_Error WITH "Message not from peer node";
+      RAISE GNAT.Sockets.Socket_Error WITH "Message not from server node";
     END IF;
 
     FOR i IN Data'Range LOOP
       msg(Integer(i)) := Byte(Data(i));
     END LOOP;
   END Receive;
+
+  -- UDP server (responder) constructor
+
+  FUNCTION Create_Server
+   (netiface  : String  := "0.0.0.0"; -- Bind to available network interfaces
+    port      : Positive;
+    timeoutms : Integer := 1000) RETURN Messenger IS
+
+    iface  : GNAT.Sockets.Sock_Addr_Type;
+    socket : GNAT.Sockets.Socket_Type;
+
+  BEGIN
+    iface.Addr := GNAT.Sockets.Inet_Addr(netiface);
+    iface.Port := GNAT.Sockets.Port_Type(port);
+
+    GNAT.Sockets.Create_Socket(socket, GNAT.Sockets.Family_Inet,
+      GNAT.Sockets.Socket_Datagram);
+
+    -- Bind the server socket to network interface(s)
+
+    GNAT.Sockets.Bind_Socket(socket, iface);
+
+    -- Set receive timeout, if requested
+
+    IF timeoutms > 0 THEN
+      GNAT.Sockets.Set_Socket_Option(socket, GNAT.Sockets.Socket_Level,
+        (GNAT.Sockets.Receive_Timeout, Timeout => Duration(timeoutms)/1000.0));
+    END IF;
+
+    RETURN NEW MessengerSubclass'(socket, GNAT.Sockets.No_Sock_Addr);
+  END Create_Server;
+
+  -- UDP server (responder) transmit service
+
+  PROCEDURE Send
+   (Self : MessengerSubclass;
+    dst  : PeerIdentifier;
+    msg  : Message) IS
+
+    Data : Ada.Streams.Stream_Element_Array(0 .. Message'Length - 1);
+    Last : Ada.Streams.Stream_Element_Offset;
+    To   : GNAT.Sockets.Sock_Addr_Type;
+
+  BEGIN
+    To := GNAT.Sockets.Sock_Addr_type(dst);
+
+    FOR i IN Data'Range LOOP
+      Data(i) := Ada.Streams.Stream_Element(msg(Integer(i)));
+    END LOOP;
+
+    GNAT.Sockets.Send_Socket(Self.socket, Data, Last, To);
+  END Send;
+
+  -- UDP server (responder) receive service
+
+  PROCEDURE Receive
+   (Self : MessengerSubclass;
+    src  : OUT PeerIdentifier;
+    msg  : OUT Message) IS
+
+    Data : Ada.Streams.Stream_Element_Array(0 .. Message'Length - 1);
+    Last : Ada.Streams.Stream_Element_Offset;
+    From : GNAT.Sockets.Sock_Addr_Type;
+
+  BEGIN
+    GNAT.Sockets.Receive_Socket(Self.socket, Data, Last, From);
+
+    FOR i IN Data'Range LOOP
+      msg(Integer(i)) := Byte(Data(i));
+    END LOOP;
+
+    src := PeerIdentifier(From);
+  END Receive;
+
+  -- Retrieve the underlying Linux file descriptor
 
   FUNCTION fd(Self : MessengerSubclass) RETURN Integer IS
 
