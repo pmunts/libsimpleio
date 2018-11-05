@@ -1,6 +1,7 @@
--- Instantiate Messaging.Fixed.GNAT_UDP for 64-byte messages
+-- Fixed length message services using libsimpleio file I/O
+-- Must be instantiated for each message size.
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,6 +21,42 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Messaging.Fixed.GNAT_UDP;
+GENERIC
 
-PACKAGE Message64.UDP_GNAT IS NEW Message64.GNAT_UDP;
+PACKAGE Messaging.Fixed.libsimpleio_datagram IS
+
+  -- Type definitions
+
+  TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
+
+  -- Constructor
+
+  FUNCTION Create
+   (fd        : Integer;
+    timeoutms : Integer := 1000) RETURN Messenger;
+
+  -- Send a message
+
+  PROCEDURE Send
+   (Self : MessengerSubclass;
+    msg  : Message);
+
+  -- Receive a message
+
+  PROCEDURE Receive
+   (Self : MessengerSubclass;
+    msg  : OUT Message);
+
+  -- Retrieve the underlying Linux file descriptor
+
+  FUNCTION fd
+   (Self : MessengerSubclass) RETURN Integer;
+
+PRIVATE
+
+  TYPE MessengerSubclass IS NEW MessengerInterface WITH RECORD
+    fd        : Integer;
+    timeoutms : Integer;
+  END RECORD;
+
+END Messaging.Fixed.libsimpleio_datagram;

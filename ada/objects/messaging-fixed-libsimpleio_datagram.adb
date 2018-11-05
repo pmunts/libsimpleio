@@ -24,7 +24,7 @@
 WITH errno;
 WITH libLinux;
 
-PACKAGE BODY Messaging.Fixed.Datagram_fd IS
+PACKAGE BODY Messaging.Fixed.libsimpleio_datagram IS
 
   -- Constructor
 
@@ -103,4 +103,4 @@ PACKAGE BODY Messaging.Fixed.Datagram_fd IS
     RETURN Self.fd;
   END fd;
 
-END Messaging.Fixed.Datagram_fd;
+END Messaging.Fixed.libsimpleio_datagram;

@@ -1,6 +1,6 @@
--- Instantiate Messaging.Fixed.datagram_fd for 64-byte messages
+-- Instantiate Messaging.Fixed.GNAT_UDP for 64-byte messages
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,6 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Messaging.Fixed.datagram_fd;
+WITH Messaging.Fixed.GNAT_UDP;
 
-PACKAGE Message64.fd_datagram IS NEW Message64.datagram_fd;
+PACKAGE Message64.UDP IS NEW Message64.GNAT_UDP;
