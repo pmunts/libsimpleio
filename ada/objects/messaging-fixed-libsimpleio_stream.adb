@@ -35,23 +35,36 @@ PACKAGE BODY Messaging.Fixed.libsimpleio_stream IS
 
   FUNCTION Create
    (fd        : Integer;
-    timeoutms : Integer := 1000) RETURN Messenger IS
+    timeoutms : Integer := 1000;
+    trimzeros : Boolean := True) RETURN Messenger IS
 
   BEGIN
-    RETURN NEW MessengerSubclass'(fd, timeoutms);
+    RETURN NEW MessengerSubclass'(fd, timeoutms, trimzeros);
   END Create;
 
   -- Send a message
 
   PROCEDURE Send(Self : MessengerSubclass; msg : Message) IS
 
+    msgsize   : Natural;
     frame     : FrameBuffer;
-    framesize : Integer;
+    framesize : Natural;
     error     : Integer;
-    count     : Integer;
+    count     : Natural;
 
   BEGIN
-    libStream.Encode(msg'Address, msg'Length, frame'Address, Frame'Length,
+    msgsize := msg'Length;
+
+    -- Optimize bandwidth by not sending trailing zeros.  For short
+    -- messages, this will greatly reduce channel bandwidth
+
+    IF Self.trim THEN
+      WHILE (msgsize > 0) AND (msg(msgsize - 1) = 0) LOOP
+        msgsize := msgsize - 1;
+      END LOOP;
+    END IF;
+
+    libStream.Encode(msg'Address, msgsize, frame'Address, Frame'Length,
       framesize, error);
 
     IF error /= 0 THEN
@@ -71,42 +84,34 @@ PACKAGE BODY Messaging.Fixed.libsimpleio_stream IS
 
   PROCEDURE Receive(Self : MessengerSubclass; msg : OUT Message) IS
 
-    error : Integer;
-    count : Integer;
+    frame     : FrameBuffer;
+    framesize : Natural := 0;
+    error     : Integer;
+    msgsize   : Natural;
 
   BEGIN
-    IF Self.timeoutms > 0 THEN
-      DECLARE
+    msg := (OTHERS => 0);
 
-        files   : libLinux.FilesType(0 .. 0)   := (OTHERS => Self.fd);
-        events  : libLinux.EventsType(0 .. 0)  := (OTHERS => libLinux.POLLIN);
-        results : libLinux.ResultsType(0 .. 0) := (OTHERS =>0);
+    -- Receive a frame
 
-      BEGIN
-        libLinux.Poll(1, files, events, results, Self.timeoutms, error);
+    LOOP
+      libStream.Receive(Self.fd, frame'Address, frame'Length, framesize, error);
+      EXIT WHEN error = 0;
 
-        IF error = errno.EAGAIN THEN
-          RAISE Timeout_Error WITH "libLinux.Poll() timed out";
-        END IF;
+      IF error /= errno.EAGAIN THEN
+        RAISE Message_Error WITH "libStream.Receive() failed, " &
+          errno.strerror(error);
+      END IF;
+    END LOOP;
 
-        IF error /= 0 THEN
-          RAISE Message_Error WITH "libLinux.Poll() failed, " &
-            errno.strerror(error);
-        END IF;
-      END;
-    END IF;
+    -- Decode the received frame
 
-    libLinux.Read(Self.fd, msg'Address, msg'Length, count, error);
+    libStream.Decode(frame'Address, framesize, msg'Address, msg'Length,
+      msgsize, error);
 
     IF error /= 0 THEN
-      RAISE Message_Error WITH "libLinux.Read() failed, " &
+      RAISE Message_Error WITH "libStream.Decode() failed, " &
         errno.strerror(error);
-    END IF;
-
-    IF count /= msg'Length THEN
-      RAISE Message_Error WITH "libLinux.Read() failed, " &
-        "expected" & Integer'Image(msg'Length) & " bytes " &
-        "but read" & Integer'Image(count) & " bytes";
     END IF;
   END Receive;
 

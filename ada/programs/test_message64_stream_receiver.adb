@@ -1,5 +1,4 @@
--- Fixed length message services using the libsimpleio Stream Framing Protocol
--- library.  Must be instantiated for each message size.
+-- Message64.Stream Receive Test
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -21,44 +20,42 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-GENERIC
+WITH Ada.Text_IO; USE Ada.Text_IO;
 
-PACKAGE Messaging.Fixed.libsimpleio_stream IS
+WITH errno;
+WITH libIPV4;
+WITH Message64.Stream;
 
-  -- Type definitions
+PROCEDURE test_message64_stream_receiver IS
 
-  TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
+  fd    : Integer;
+  error : Integer;
+  msg   : Message64.Messenger;
+  buf   : Message64.Message;
 
-  -- Constructor
+BEGIN
+  New_Line;
+  Put_Line("Message64.Stream Receive Test");
+  New_Line;
 
-  FUNCTION Create
-   (fd        : Integer;
-    timeoutms : Integer := 1000;
-    trimzeros : Boolean := True) RETURN Messenger;
+  -- Start TCP server, fork on incoming connection
 
-  -- Send a message
+  libIPV4.TCP_Server(libIPV4.INADDR_ANY, 12345, fd, error);
+  IF error /= 0 THEN
+    Put_Line("ERROR: TCP_Server() failed, " & errno.strerror(error));
+    RETURN;
+  END IF;
 
-  PROCEDURE Send
-   (Self : MessengerSubclass;
-    msg  : Message);
+  Put_Line("INFO: Sender has connected.");
 
-  -- Receive a message
+  -- Create Message64.Messenger object
 
-  PROCEDURE Receive
-   (Self : MessengerSubclass;
-    msg  : OUT Message);
+  msg := Message64.Stream.Create(fd);
 
-  -- Retrieve the underlying Linux file descriptor
+  -- Receive messages from the sender
 
-  FUNCTION fd
-   (Self : MessengerSubclass) RETURN Integer;
-
-PRIVATE
-
-  TYPE MessengerSubclass IS NEW MessengerInterface WITH RECORD
-    fd        : Integer;
-    timeoutms : Integer;
-    trim      : Boolean;
-  END RECORD;
-
-END Messaging.Fixed.libsimpleio_stream;
+  LOOP
+    msg.Receive(buf);
+    Message64.Dump(buf);
+  END LOOP;
+END test_message64_stream_receiver;
