@@ -75,6 +75,10 @@ PACKAGE HID.libsimpleio IS
 
   FUNCTION Product(Self : MessengerSubclass) RETURN HID.Product;
 
+  -- Retrieve the underlying Linux file descriptor
+
+  FUNCTION fd(Self : MessengerSubclass) RETURN Integer;
+
 PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD

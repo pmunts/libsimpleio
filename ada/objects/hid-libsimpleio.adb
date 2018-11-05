@@ -240,4 +240,16 @@ PACKAGE BODY HID.libsimpleio IS
     RETURN HID.Product(pid);
   END Product;
 
+  -- Retrieve the underlying Linux file descriptor
+
+  FUNCTION fd(Self : MessengerSubclass) RETURN Integer IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
+    RETURN Self.fd;
+  END fd;
+
  END HID.libsimpleio;
