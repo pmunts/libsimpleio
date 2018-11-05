@@ -26,8 +26,6 @@ PACKAGE HID.libsimpleio IS
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH PRIVATE;
 
-  TYPE Messenger IS ACCESS MessengerSubclass;
-
   Destroyed : CONSTANT MessengerSubclass;
 
   -- Constructor using raw HID device node name
