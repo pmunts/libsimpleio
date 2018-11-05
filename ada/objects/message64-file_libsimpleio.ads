@@ -1,4 +1,4 @@
--- Instantiate Messaging.Fixed.libsimpleio for 64-byte messages
+-- Instantiate Messaging.Fixed.libsimpleio_file for 64-byte messages
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --

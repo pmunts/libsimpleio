@@ -1,4 +1,4 @@
--- Instantiate Messaging.Fixed.UDP_GNAT for 64-byte messages over UDP
+-- Instantiate Messaging.Fixed.GNAT_UDP for 64-byte messages
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
