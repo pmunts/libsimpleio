@@ -33,10 +33,10 @@ PACKAGE Messaging.Fixed.GNAT_UDP IS
 
   -- UDP client (initiator) services
 
-  FUNCTION Create_Client
+  FUNCTION Create
    (server    : String;
     port      : Positive;
-    timeoutms : Integer := 1000) RETURN Messenger;
+    timeoutms : Integer := 1000) RETURN Messaging.Fixed.Messenger;
 
   PROCEDURE Send
    (Self : MessengerSubclass;
@@ -53,7 +53,7 @@ PACKAGE Messaging.Fixed.GNAT_UDP IS
   FUNCTION Create_Server
    (netiface  : String := "0.0.0.0"; -- Bind to all available network interfaces
     port      : Positive;
-    timeoutms : Integer := 1000) RETURN Messenger;
+    timeoutms : Integer := 1000) RETURN Messaging.Fixed.GNAT_UDP.Messenger;
 
   PROCEDURE Send
    (Self : MessengerSubclass;

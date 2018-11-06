@@ -31,10 +31,10 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
 
   -- UDP client (initiator) constructor
 
-  FUNCTION Create_Client
+  FUNCTION Create
    (server    : String;
     port      : Positive;
-    timeoutms : Integer := 1000) RETURN Messenger IS
+    timeoutms : Integer := 1000) RETURN Messaging.Fixed.Messenger IS
 
     socket  : GNAT.Sockets.Socket_Type;
     peer    : GNAT.Sockets.Sock_Addr_Type;
@@ -59,7 +59,7 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     END IF;
 
     RETURN NEW MessengerSubclass'(socket, peer);
-  END Create_Client;
+  END Create;
 
   -- UDP client (initiator) transmit service
 
