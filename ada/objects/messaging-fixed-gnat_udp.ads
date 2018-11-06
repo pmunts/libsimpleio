@@ -29,6 +29,8 @@ PACKAGE Messaging.Fixed.GNAT_UDP IS
 
   TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
 
+  TYPE Messenger IS ACCESS MessengerSubclass;
+
   -- UDP client (initiator) services
 
   FUNCTION Create_Client
