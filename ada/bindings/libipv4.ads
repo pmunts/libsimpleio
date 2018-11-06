@@ -30,7 +30,7 @@ PACKAGE libIPV4 IS
   INADDR_LOOPBACK  : CONSTANT Integer := 16#7F000001#;	-- aka localhost
   INADDR_BROADCAST : CONSTANT Integer := -1;
 
-  -- Flags for UDP4_Send() and UDP4_Receive()
+  -- Flags for UDP_Send() and UDP_Receive()
 
   MSG_DONTROUTE : CONSTANT Integer := 16#0004#;
   MSG_DONTWAIT  : CONSTANT Integer := 16#0040#;
@@ -109,23 +109,23 @@ PACKAGE libIPV4 IS
 
   -- Open a UDP socket
 
-  PROCEDURE UDP4_Open
+  PROCEDURE UDP_Open
    (host     : Integer;
     port     : Integer;
     fd       : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, UDP4_Open, "UDP4_open");
+  PRAGMA Import(C, UDP_Open, "UDP4_open");
 
   -- Close a UDP socket
 
-  PROCEDURE UDP4_Close
+  PROCEDURE UDP_Close
    (fd       : Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, UDP4_Close, "UDP4_close");
+  PRAGMA Import(C, UDP_Close, "UDP4_close");
 
   -- Send a UDP datagram
 
-  PROCEDURE UDP4_Send
+  PROCEDURE UDP_Send
    (fd       : Integer;
     host     : Integer;
     port     : Integer;
@@ -134,11 +134,11 @@ PACKAGE libIPV4 IS
     flags    : Integer;
     count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, UDP4_Send, "UDP4_send");
+  PRAGMA Import(C, UDP_Send, "UDP4_send");
 
   -- Receive a UDP datagram
 
-  PROCEDURE UDP4_Receive
+  PROCEDURE UDP_Receive
    (fd       : Integer;
     host     : OUT Integer;
     port     : OUT Integer;
@@ -147,6 +147,6 @@ PACKAGE libIPV4 IS
     flags    : Integer;
     count    : OUT Integer;
     error    : OUT Integer);
-  PRAGMA Import(C, UDP4_Receive, "UDP4_receive");
+  PRAGMA Import(C, UDP_Receive, "UDP4_receive");
 
 END libIPV4;
