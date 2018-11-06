@@ -31,7 +31,7 @@ WITH I2C.RemoteIO;
 WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
 
-PROCEDURE test_query IS
+PROCEDURE test_query_hid IS
 
   PACKAGE VendorIO  IS NEW Integer_IO(HID.Vendor);
   PACKAGE ProductIO IS NEW Integer_IO(HID.Product);
@@ -137,4 +137,4 @@ BEGIN
   END IF;
 
   New_Line;
-END test_query;
+END test_query_hid;
