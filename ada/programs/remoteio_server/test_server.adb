@@ -20,53 +20,88 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH Ada.Directories;
 WITH Ada.Strings.Fixed;
 
-WITH HID.libsimpleio;
+WITH errno;
+WITH libLinux;
 WITH Logging.libsimpleio;
-WITH Message64;
+WITH Message64.Datagram;
+WITH Message64.Stream;
+WITH Message64.UDP;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Common;
 WITH RemoteIO.GPIO_libsimpleio;
-WITH RemoteIO.Server;
+WITH RemoteIO.Server.UDP;
 
 PROCEDURE test_server IS
+
+  Gadget_Device_HID    : CONSTANT String := "/dev/hidg0";
+  Gadget_Device_Serial : CONSTANT String := "/dev/ttyGS0";
 
   logger : CONSTANT Logging.Logger := Logging.libsimpleio.Create;
   title  : CONSTANT String := "Minimal Remote I/O Device Server";
   vers   : RemoteIO.Server.ResponseString;
   caps   : RemoteIO.Server.ResponseString;
-  msg    : Message64.Messenger;
   exec   : RemoteIO.Executive.Executor;
   comm   : RemoteIO.Common.DispatcherSubclass;
   gpio   : RemoteIO.GPIO_libsimpleio.DispatcherSubclass;
-  serv   : RemoteIO.Server.Device;
+  fd1    : Integer;
+  error  : Integer;
+  msg1   : Message64.Messenger;
+  serv1  : RemoteIO.Server.Device;
+  msg2   : Message64.UDP.Messenger;
+  serv2  : RemoteIO.Server.UDP.Device;
 
 BEGIN
-  New_Line;
-  Put_Line(title);
-  New_Line;
+  logger.Note(title);
 
   -- Pad response strings
 
   Ada.Strings.Fixed.Move(title, vers, Pad => ASCII.NUL);
   Ada.Strings.Fixed.Move("GPIO", caps, Pad => ASCII.NUL);
 
-  -- Create a Messenger instance
-
-  msg  := HID.libsimpleio.Create("/dev/hidg0", 0);
-
   -- Create an Executor instance
 
   exec := RemoteIO.Executive.Create;
 
-  -- Register command handlers
+  -- Register command handlers with the executive
 
   comm := RemoteIO.Common.Create(logger, exec, vers, caps);
   gpio := RemoteIO.GPIO_libsimpleio.Create(logger, exec);
 
-  -- Start the server
+  -- Try to create a Message64.Messenger instance
 
-  serv := RemoteIO.Server.Create(logger, msg, exec);
+  IF Ada.Directories.Exists(Gadget_Device_HID) THEN
+    -- Open USB raw HID gadget device
+
+    libLinux.Open(Gadget_Device_HID, fd1, error);
+
+    IF error /= 0 THEN
+      logger.Error("libLinux.Open() for " & Gadget_Device_HID & " failed",
+        error);
+      RETURN;
+    END IF;
+
+    msg1  := Message64.Datagram.Create(fd1);
+    serv1 := RemoteIO.Server.Create("USB Raw HID Gadget", msg1, exec, logger);
+  ELSIF Ada.Directories.Exists(Gadget_Device_Serial) THEN
+    -- Open USB serial gadget device
+
+    libLinux.Open(Gadget_Device_Serial, fd1, error);
+
+    IF error /= 0 THEN
+      logger.Error("libLinux.Open() for " & Gadget_Device_Serial & " failed",
+        error);
+      RETURN;
+    END IF;
+
+    msg1  := Message64.Stream.Create(fd1);
+    serv1 := RemoteIO.Server.Create("USB Serial Port Gadget", msg1, exec, logger);
+  END IF;
+
+  -- Start UDP server
+
+  msg2  := Message64.UDP.Create_Server(port => 8087, timeoutms => 0);
+  serv2 := RemoteIO.Server.UDP.Create("UDP", msg2, exec, logger);
 END test_server;
