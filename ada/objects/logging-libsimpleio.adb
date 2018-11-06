@@ -31,7 +31,16 @@ PACKAGE BODY Logging.libsimpleio IS
       libLinux.LOG_PERROR;
     facility : Integer := libLinux.LOG_SYSLOG) RETURN Logger IS
 
+    error : Integer;
+
   BEGIN
+    libLinux.OpenLog(sender, options, facility, error);
+
+    IF error /= 0 THEN
+      RAISE Logging_Error WITH "libLinux.OpenLog() failed, " &
+        errno.strerror(error);
+    END IF;
+
     RETURN NEW LoggerSubclass'(NULL RECORD);
   END Create;
 
