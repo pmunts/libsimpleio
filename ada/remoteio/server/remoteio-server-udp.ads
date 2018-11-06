@@ -31,17 +31,20 @@ PACKAGE RemoteIO.Server.UDP IS
   -- Constructors
 
   FUNCTION Create
-   (logger    : Logging.Logger;
+   (name      : String;
     messenger : Message64.UDP.Messenger;
-    executor  : RemoteIO.Executive.Executor) RETURN Device;
+    executor  : RemoteIO.Executive.Executor;
+    logger    : Logging.Logger) RETURN Device;
 
 PRIVATE
 
   TASK TYPE MessageHandlerTask IS
-    ENTRY SetLogger(log : Logging.Logger);
+    ENTRY SetName(name : String);
     ENTRY SetMessenger(msg : Message64.UDP.Messenger);
     ENTRY SetExecutor(exec : RemoteIO.Executive.Executor);
+    ENTRY SetLogger(log : Logging.Logger);
   END MessageHandlerTask;
+
 
   TYPE MessageHandlerAccess IS ACCESS MessageHandlerTask;
 

@@ -21,6 +21,8 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Exceptions;
+WITH Ada.Strings.Fixed;
+
 WITH Message64.UDP;
 WITH Messaging;
 
@@ -30,9 +32,10 @@ PACKAGE BODY RemoteIO.Server.UDP IS
 
   TASK BODY MessageHandlerTask IS
 
-    logger    : Logging.Logger;
+    myname    : String(1 .. 80);
     messenger : Message64.UDP.Messenger;
     executor  : RemoteIO.Executive.Executor;
+    logger    : Logging.Logger;
     client    : Message64.UDP.PeerIdentifier;
     cmd       : Message64.Message;
     resp      : Message64.Message;
@@ -41,9 +44,9 @@ PACKAGE BODY RemoteIO.Server.UDP IS
 
     -- Get objects from the constructor
 
-    ACCEPT SetLogger(log : Logging.Logger) DO
-      logger := log;
-    END SetLogger;
+    ACCEPT SetName(name : String) DO
+      Ada.Strings.Fixed.Move(name, myname, Ada.Strings.Right);
+    END SetName;
 
     ACCEPT SetMessenger(msg : Message64.UDP.Messenger) DO
       messenger := msg;
@@ -53,9 +56,14 @@ PACKAGE BODY RemoteIO.Server.UDP IS
       executor := exec;
     END SetExecutor;
 
+    ACCEPT SetLogger(log : Logging.Logger) DO
+      logger := log;
+    END SetLogger;
+
     -- Message loop follows
 
-    logger.Note("Ready for commands");
+    logger.Note(Ada.Strings.Fixed.Trim(myname, Ada.Strings.Right) &
+      " Server ready");
 
     LOOP
       BEGIN
@@ -76,9 +84,10 @@ PACKAGE BODY RemoteIO.Server.UDP IS
   END MessageHandlerTask;
 
   FUNCTION Create
-   (logger    : Logging.Logger;
+   (name      : String;
     messenger : Message64.UDP.Messenger;
-    executor  : RemoteIO.Executive.Executor) RETURN Device IS
+    executor  : RemoteIO.Executive.Executor;
+    logger    : Logging.Logger) RETURN Device IS
 
     dev : Device;
 
@@ -89,9 +98,10 @@ PACKAGE BODY RemoteIO.Server.UDP IS
 
     -- Pass objects to the message handler task
 
-    dev.MessageHandler.SetLogger(logger);
+    dev.MessageHandler.SetName(name);
     dev.MessageHandler.SetMessenger(messenger);
     dev.MessageHandler.SetExecutor(executor);
+    dev.MessageHandler.SetLogger(logger);
 
     RETURN dev;
   END Create;
