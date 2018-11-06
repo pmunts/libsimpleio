@@ -51,7 +51,6 @@ BEGIN
   -- Check command line parameters
 
   IF Ada.Command_Line.Argument_Count /= 1 THEN
-    New_Line;
     Put_Line("Usage: test_query_hidraw <device name>");
     New_Line;
     RETURN;

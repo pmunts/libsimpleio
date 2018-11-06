@@ -47,7 +47,6 @@ BEGIN
   -- Check command line parameters
 
   IF Ada.Command_Line.Argument_Count /= 4 THEN
-    New_Line;
     Put_Line("Usage: test_spi <slave> <mode> <wordsize> <speed>");
     New_Line;
     RETURN;
