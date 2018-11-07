@@ -309,7 +309,7 @@ void LINUX_command(const char *cmd, int32_t *status, int32_t *error)
   }
 
   *error = 0;
-  *status = WEXITSTATUS(ret);    
+  *status = WEXITSTATUS(ret);
 }
 
 // Open a file descriptor
