@@ -28,7 +28,7 @@ WITH errno;
 WITH ADC.RemoteIO;
 WITH GPIO.RemoteIO;
 WITH I2C.RemoteIO;
-WITH libLinux;
+WITH libSerial;
 WITH Message64.Stream;
 WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
@@ -58,7 +58,8 @@ BEGIN
 
   -- Open serial device
 
-  libLinux.Open(Ada.Command_Line.Argument(1) & ASCII.NUL, fd, error);
+  libSerial.Open(Ada.Command_Line.Argument(1) & ASCII.NUL, 115200, 0, 8, 1,
+    fd, error);
 
   IF error /= 0 THEN
     RAISE File_Error WITH "Cannot open serial port device, " &

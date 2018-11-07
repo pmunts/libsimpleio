@@ -25,6 +25,7 @@ WITH Ada.Strings.Fixed;
 
 WITH errno;
 WITH libLinux;
+WITH libSerial;
 WITH Logging.libsimpleio;
 WITH Message64.Datagram;
 WITH Message64.Stream;
@@ -88,10 +89,10 @@ BEGIN
   ELSIF Ada.Directories.Exists(Gadget_Device_Serial) THEN
     -- Open USB serial gadget device
 
-    libLinux.Open(Gadget_Device_Serial, fd1, error);
+    libSerial.Open(Gadget_Device_Serial, 115200, 0, 8, 1, fd1, error);
 
     IF error /= 0 THEN
-      logger.Error("libLinux.Open() for " & Gadget_Device_Serial & " failed",
+      logger.Error("libSerial.Open() for " & Gadget_Device_Serial & " failed",
         error);
       RETURN;
     END IF;
