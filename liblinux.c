@@ -283,19 +283,18 @@ void LINUX_command(const char *cmd, int32_t *status, int32_t *error)
 
   // Validate parameters
 
+  if (status == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("status argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
   if (cmd == NULL)
   {
     *error = EINVAL;
     *status = 0;
     ERRORMSG("cmd argument is NULL", *error, __LINE__ - 4);
-    return;
-  }
-
-  if (status == NULL)
-  {
-    *error = EINVAL;
-    *status = 0;
-    ERRORMSG("status argument is NULL", *error, __LINE__ - 4);
     return;
   }
 
