@@ -37,8 +37,8 @@ WITH RemoteIO.Server.UDP;
 
 PROCEDURE test_server IS
 
-  Gadget_Device_HID    : CONSTANT String := "/dev/hidg0" & ASCII.NUL;
-  Gadget_Device_Serial : CONSTANT String := "/dev/ttyGS0" & ASCII.NUL;
+  Gadget_Device_HID    : CONSTANT String := "/dev/hidg0";
+  Gadget_Device_Serial : CONSTANT String := "/dev/ttyGS0";
 
   logger : CONSTANT Logging.Logger := Logging.libsimpleio.Create;
   title  : CONSTANT String := "Minimal Remote I/O Device Server";
@@ -76,7 +76,7 @@ BEGIN
   IF Ada.Directories.Exists(Gadget_Device_HID) THEN
     -- Open USB raw HID gadget device
 
-    libLinux.Open(Gadget_Device_HID, fd1, error);
+    libLinux.Open(Gadget_Device_HID & ASCII.NUL, fd1, error);
 
     IF error /= 0 THEN
       logger.Error("libLinux.Open() for " & Gadget_Device_HID & " failed",
@@ -89,7 +89,7 @@ BEGIN
   ELSIF Ada.Directories.Exists(Gadget_Device_Serial) THEN
     -- Open USB serial gadget device
 
-    libSerial.Open(Gadget_Device_Serial, 115200, 0, 8, 1, fd1, error);
+    libSerial.Open(Gadget_Device_Serial & ASCII.NUL, 115200, 0, 8, 1, fd1, error);
 
     IF error /= 0 THEN
       logger.Error("libSerial.Open() for " & Gadget_Device_Serial & " failed",
