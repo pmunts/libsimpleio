@@ -37,8 +37,8 @@ WITH RemoteIO.Server.UDP;
 
 PROCEDURE test_server IS
 
-  Gadget_Device_HID    : CONSTANT String := "/dev/hidg0";
-  Gadget_Device_Serial : CONSTANT String := "/dev/ttyGS0";
+  Gadget_Device_HID    : CONSTANT String := "/dev/hidg0" & ASCII.NUL;
+  Gadget_Device_Serial : CONSTANT String := "/dev/ttyGS0" & ASCII.NUL;
 
   logger : CONSTANT Logging.Logger := Logging.libsimpleio.Create;
   title  : CONSTANT String := "Minimal Remote I/O Device Server";
