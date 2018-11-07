@@ -829,6 +829,7 @@ START_TEST(test_liblinux)
 {
   int32_t error;
   char buf[256];
+  int32_t status;
   int32_t fd;
   int32_t count;
 
@@ -906,6 +907,25 @@ START_TEST(test_liblinux)
   LINUX_poll(1, files, events, results, 100, &error);
   ck_assert(error == EAGAIN);
   ck_assert(results[0] == 0);
+
+  LINUX_usleep(1000, &error);
+  ck_assert(error == 0);
+
+  LINUX_command(NULL, &status, &error);
+  ck_assert(status == 0);
+  ck_assert(error == EINVAL);
+
+  LINUX_command("true", NULL, &error);
+  ck_assert(status == 0);
+  ck_assert(error == EINVAL);
+
+  LINUX_command("true", &status, &error);
+  ck_assert(status == 0);
+  ck_assert(error == 0);
+
+  LINUX_command("false", &status, &error);
+  ck_assert(status == 1);
+  ck_assert(error == 0);
 
   fd = -888;
   LINUX_open(NULL, O_RDWR, 0644, &fd, &error);
