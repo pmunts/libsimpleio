@@ -110,6 +110,9 @@ News
        drivers. Ada still has the most comprehensive set of device
        drivers, but C++, C#, and Free Pascal all have new ones, too.
      * 1 November 2018 -- Extensively refactored the Ada code tree.
+     * 7 November 2018 -- Added LINUX_command(), which passes a command
+       string to system() for execution. Continued working on the Ada
+       Remote I/O code.
 
 Documentation
 
