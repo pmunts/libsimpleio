@@ -124,6 +124,12 @@ PACKAGE libLinux IS
     error : OUT Integer);
   PRAGMA Import(C, USleep, "LINUX_usleep");
 
+  PROCEDURE Command
+   (cmd    : string;
+    status : OUT Integer;
+    error  : OUT Integer);
+  PRAGMA Import(C, Command, "LINUX_command");
+
   PROCEDURE Open
    (devname : String;
     fd      : OUT Integer;

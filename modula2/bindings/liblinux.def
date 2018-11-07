@@ -113,6 +113,11 @@ DEFINITION MODULE FOR "C" liblinux;
    (microsecs    : CARDINAL;
     VAR error    : CARDINAL);
 
+  PROCEDURE LINUX_command
+   (cmd          : ARRAY OF CHAR;
+    VAR status   : CARDINAL;
+    VAR error    : CARDINAL);
+
   (* Define some useful procedure synonyms *)
 
   CONST
@@ -121,5 +126,6 @@ DEFINITION MODULE FOR "C" liblinux;
     strerror     = LINUX_strerror;
     poll         = LINUX_poll;
     usleep       = LINUX_usleep;
+    command      = LINUX_command;
 
 END liblinux.

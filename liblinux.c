@@ -275,6 +275,44 @@ void LINUX_usleep(int32_t microseconds, int32_t *error)
     *error = 0;
 }
 
+// Execute a shell command string
+
+void LINUX_command(const char *cmd, int32_t *status, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (cmd == NULL)
+  {
+    *error = EINVAL;
+    *status = 0;
+    ERRORMSG("cmd argument is NULL", *error, __LINE__ - 4);
+    return;
+  }
+
+  if (status == NULL)
+  {
+    *error = EINVAL;
+    *status = 0;
+    ERRORMSG("status argument is NULL", *error, __LINE__ - 4);
+    return;
+  }
+
+  int ret = system(cmd);
+
+  if (ret < 0)
+  {
+    *error = errno;
+    *status = 0;
+    ERRORMSG("system() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  *error = 0;
+  *status = WEXITSTATUS(ret);    
+}
+
 // Open a file descriptor
 
 void LINUX_open(const char *name, int32_t flags, int32_t mode, int32_t *fd,

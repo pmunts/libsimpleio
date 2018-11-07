@@ -128,6 +128,11 @@ INTERFACE
    (microsecs : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_usleep';
 
+  PROCEDURE Command
+   (cmd        : PChar;
+    VAR status : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'LINUX_command';
+
 IMPLEMENTATION
 
   USES

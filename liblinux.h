@@ -63,6 +63,10 @@ extern void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
 
 extern void LINUX_usleep(int32_t microseconds, int32_t *error);
 
+// Execute a shell command string
+
+extern void LINUX_command(const char *cmd, int32_t *ret, int32_t *error);
+
 /****************************************************************************/
 /*   The following helper functions should not be called directly.  They    */
 /*   will be wrapped for each type of I/O device and language binding.      */

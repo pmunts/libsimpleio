@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH liblinux 2 "26 February 2018" "version 1" "Linux Simple I/O Library"
+.TH liblinux 2 "7 November 2018" "version 1" "Linux Simple I/O Library"
 .SH NAME
 .B liblinux
 \-\- Linux Simple I/O Library: Linux System Call Wrapper Module
@@ -43,6 +43,8 @@
 .BI "  int32_t *" results ", int32_t " timeout ", int32_t *" error ");"
 
 .BI "void LINUX_usleep(int32_t " microseconds ", int32_t *" error ");"
+
+.BI "void LINUX_command(const char *" cmd ", int32_t *" status ", int32_t *" error ");"
 
 .fi
 Link with
@@ -133,6 +135,15 @@ causes the calling program to sleep for the period indicated by
 .IR microseconds ", by calling the"
 .B usleep()
 system library function.
+.PP
+.B LINUX_command()
+passes the shell command string specified by the
+.I cmd
+parameter to the
+.B system()
+system library function for execution.  The return value from the
+shell command will be returned in
+.IR status "."
 .SH SEE ALSO
 .BR libsimpleio "(2), " libadc "(2), " libevent "(2), " libgpio "(2), " libhidraw "(2),"
 .br
