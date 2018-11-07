@@ -47,10 +47,10 @@ PROCEDURE test_server IS
   exec   : RemoteIO.Executive.Executor;
   comm   : RemoteIO.Common.DispatcherSubclass;
   gpio   : RemoteIO.GPIO_libsimpleio.DispatcherSubclass;
-  fd1    : Integer;
+  fd     : Integer;
   error  : Integer;
-  msg1   : Message64.Messenger;
-  serv1  : RemoteIO.Server.Device;
+  msg    : Message64.Messenger;
+  serv   : RemoteIO.Server.Device;
   msg2   : Message64.UDP.Messenger;
   serv2  : RemoteIO.Server.UDP.Device;
 
@@ -76,7 +76,7 @@ BEGIN
   IF Ada.Directories.Exists(Gadget_Device_HID) THEN
     -- Open USB raw HID gadget device
 
-    libLinux.Open(Gadget_Device_HID & ASCII.NUL, fd1, error);
+    libLinux.Open(Gadget_Device_HID & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
       logger.Error("libLinux.Open() for " & Gadget_Device_HID & " failed",
@@ -84,12 +84,12 @@ BEGIN
       RETURN;
     END IF;
 
-    msg1  := Message64.Datagram.Create(fd1);
-    serv1 := RemoteIO.Server.Create("USB Raw HID Gadget", msg1, exec, logger);
+    msg  := Message64.Datagram.Create(fd);
+    serv := RemoteIO.Server.Create("USB Raw HID Gadget", msg, exec, logger);
   ELSIF Ada.Directories.Exists(Gadget_Device_Serial) THEN
     -- Open USB serial gadget device
 
-    libSerial.Open(Gadget_Device_Serial & ASCII.NUL, 115200, 0, 8, 1, fd1, error);
+    libSerial.Open(Gadget_Device_Serial & ASCII.NUL, 115200, 0, 8, 1, fd, error);
 
     IF error /= 0 THEN
       logger.Error("libSerial.Open() for " & Gadget_Device_Serial & " failed",
@@ -97,8 +97,8 @@ BEGIN
       RETURN;
     END IF;
 
-    msg1  := Message64.Stream.Create(fd1);
-    serv1 := RemoteIO.Server.Create("USB Serial Port Gadget", msg1, exec, logger);
+    msg  := Message64.Stream.Create(fd);
+    serv := RemoteIO.Server.Create("USB Serial Port Gadget", msg, exec, logger);
   END IF;
 
   -- Start UDP server
