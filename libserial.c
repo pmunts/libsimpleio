@@ -109,7 +109,7 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
 
   // Open serial port device
 
-  *fd = open(name, O_RDWR);
+  *fd = open(name, O_RDWR|O_NOCTTY);
   if (*fd < 0)
   {
     *fd = -1;
