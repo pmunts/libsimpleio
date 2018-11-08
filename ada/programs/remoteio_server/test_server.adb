@@ -32,7 +32,7 @@ WITH Message64.Stream;
 WITH Message64.UDP;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Common;
-WITH RemoteIO.GPIO_libsimpleio;
+WITH RemoteIO.GPIO;
 WITH RemoteIO.Server.UDP;
 
 PROCEDURE test_server IS
@@ -46,7 +46,7 @@ PROCEDURE test_server IS
   caps   : RemoteIO.Server.ResponseString;
   exec   : RemoteIO.Executive.Executor;
   comm   : RemoteIO.Common.Dispatcher;
-  gpio   : RemoteIO.GPIO_libsimpleio.Dispatcher;
+  gpio   : RemoteIO.GPIO.Dispatcher;
   fd     : Integer;
   error  : Integer;
   msg    : Message64.Messenger;
@@ -69,7 +69,7 @@ BEGIN
   -- Register command handlers with the executive
 
   comm := RemoteIO.Common.Create(logger, exec, vers, caps);
-  gpio := RemoteIO.GPIO_libsimpleio.Create(logger, exec);
+  gpio := RemoteIO.GPIO.Create(logger, exec);
 
   -- Try to create a Message64.Messenger instance
 
