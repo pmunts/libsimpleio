@@ -30,12 +30,14 @@ PACKAGE RemoteIO.Common IS
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
 
+  TYPE Dispatcher IS ACCESS DispatcherSubclass;
+
   FUNCTION Create
    (logger       : Logging.Logger;
     executor     : IN OUT RemoteIO.Executive.Executor;
     version      : RemoteIO.Server.ResponseString;
     capabilities : RemoteIO.Server.ResponseString)
-    RETURN DispatcherSubclass;
+    RETURN Dispatcher;
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;

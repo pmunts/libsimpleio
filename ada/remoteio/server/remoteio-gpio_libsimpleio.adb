@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Text_IO; USE Ada.Text_IO;
+
 WITH errno;
 WITH GPIO.libsimpleio.Static;
 WITH Message64;
@@ -32,19 +34,19 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
 
   FUNCTION Create
    (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN DispatcherSubclass IS
+    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
 
-    Self : ACCESS DispatcherSubclass;
+    Self : Dispatcher;
 
   BEGIN
-    Self := NEW DispatcherSubclass'(logger, (OTHERS => Unregistered));
+    Self := NEW DispatcherSubclass'(logger, (OTHERS => Unused));
 
-    executor.Register(GPIO_PRESENT_REQUEST, Self);
-    executor.Register(GPIO_CONFIGURE_REQUEST, Self);
-    executor.Register(GPIO_READ_REQUEST, Self);
-    executor.Register(GPIO_WRITE_REQUEST, Self);
+    executor.Register(GPIO_PRESENT_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
+    executor.Register(GPIO_CONFIGURE_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
+    executor.Register(GPIO_READ_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
+    executor.Register(GPIO_WRITE_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
 
-    RETURN Self.ALL;
+    RETURN Self;
   END Create;
 
   PROCEDURE Present
@@ -64,8 +66,8 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
 
     FOR c IN ChannelNumber LOOP
       byteindex  := c/8;
-      bitmask    := 2**(c MOD 8);
-      registered := (Self.pins(c) /= Unregistered);
+      bitmask    := 2**(7 - (c MOD 8));
+      registered := (Self.pins(c).kind /= Unregistered);
 
       IF registered THEN
         resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
@@ -93,9 +95,9 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
 
     FOR c IN ChannelNumber LOOP
       byteindex  := c/8;
-      bitmask    := 2**(c MOD 8);
+      bitmask    := 2**(7 - (c MOD 8));
       selected   := ((cmd(2 + byteindex) AND bitmask) /= 0);
-      registered := (Self.pins(c) /= Unregistered);
+      registered := (Self.pins(c).kind /= Unregistered);
       created    := (Self.pins(c).obj /= Standard.GPIO.libsimpleio.Destroyed);
       output     := ((cmd(18 + byteindex) AND bitmask) /= 0);
 
@@ -153,9 +155,9 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
 
     FOR c IN ChannelNumber LOOP
       byteindex  := c/8;
-      bitmask    := 2**(c MOD 8);
+      bitmask    := 2**(7 - (c MOD 8));
       selected   := ((cmd(2 + byteindex) AND bitmask) /= 0);
-      registered := (Self.pins(c) /= Unregistered);
+      registered := (Self.pins(c).kind /= Unregistered);
       created    := (Self.pins(c).obj /= Standard.GPIO.libsimpleio.Destroyed);
 
       IF selected AND registered AND created THEN
@@ -191,9 +193,9 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
 
     FOR c IN ChannelNumber LOOP
       byteindex  := c/8;
-      bitmask    := 2**(c MOD 8);
+      bitmask    := 2**(7 - (c MOD 8));
       selected   := ((cmd(2 + byteindex) AND bitmask) /= 0);
-      registered := (Self.pins(c) /= Unregistered);
+      registered := (Self.pins(c).kind /= Unregistered);
       created    := (Self.pins(c).obj /= Standard.GPIO.libsimpleio.Destroyed);
       state      := ((cmd(18 + byteindex) AND bitmask) /= 0);
 
@@ -257,7 +259,13 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
   BEGIN
     Self.pins(num).pin.chip := chip;
     Self.pins(num).pin.line := line;
+    Self.pins(num).kind := kind;
     Self.pins(num).obj := Standard.GPIO.libsimpleio.Destroyed;
+Put_Line("DEBUG: Registered pin =>" &
+  ChannelNumber'Image(num) &
+  Natural'Image(Self.pins(num).pin.chip) &
+  Natural'Image(Self.pins(num).pin.line) & " " &
+  Kinds'Image(Self.pins(num).kind));
   END Register;
 
 END RemoteIO.GPIO_libsimpleio;

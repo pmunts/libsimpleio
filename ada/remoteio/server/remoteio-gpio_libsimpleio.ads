@@ -31,11 +31,13 @@ PACKAGE RemoteIO.GPIO_libsimpleio IS
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
 
-  TYPE Kinds IS (InputOnly, OutputOnly, InputOutput);
+  TYPE Dispatcher IS ACCESS DispatcherSubclass;
+
+  TYPE Kinds IS (Unregistered, InputOnly, OutputOnly, InputOutput);
  
   FUNCTION Create
    (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN DispatcherSubclass;
+    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;
@@ -70,8 +72,8 @@ PRIVATE
     pins   : PinArray;
   END RECORD;
 
-  Unregistered : CONSTANT PinRec :=
-    PinRec'(Standard.GPIO.libsimpleio.Unavailable, InputOutput,
+  Unused : CONSTANT PinRec :=
+    PinRec'(Standard.GPIO.libsimpleio.Unavailable, Unregistered,
       Standard.GPIO.libsimpleio.Destroyed);
 
 END RemoteIO.GPIO_libsimpleio;
