@@ -109,7 +109,15 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
 
           -- (Re)Create the GPIO pin
 
-          IF output THEN
+          IF Self.pins(c).kind = InputOnly THEN
+            Self.pins(c).obj :=
+              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).pin,
+              Standard.GPIO.Input);
+          ELSIF Self.pins(c).kind = OutputOnly THEN
+            Self.pins(c).obj :=
+              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).pin,
+              Standard.GPIO.Output);
+          ELSIF output THEN
             Self.pins(c).obj :=
               Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).pin,
               Standard.GPIO.Output);
@@ -232,17 +240,19 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    desg : Standard.GPIO.libsimpleio.Designator) IS
+    desg : Standard.GPIO.libsimpleio.Designator;
+    kind : Kinds := InputOutput) IS
 
   BEGIN
-    Register(Self, num, desg.chip, desg.line);
+    Register(Self, num, desg.chip, desg.line, kind);
   END Register;
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
     chip : Natural;
-    line : Natural) IS
+    line : Natural;
+    kind : Kinds := InputOutput) IS
 
   BEGIN
     Self.pins(num).pin.chip := chip;
