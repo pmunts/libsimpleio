@@ -27,10 +27,11 @@ WITH GPIO.libsimpleio.Static;
 WITH Message64;
 WITH RemoteIO.Server;
 
+USE TYPE GPIO.libsimpleio.Designator;
 USE TYPE GPIO.libsimpleio.PinSubclass;
 USE TYPE Message64.Byte;
 
-PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
+PACKAGE BODY RemoteIO.GPIO IS
 
   FUNCTION Create
    (logger   : Logging.Logger;
@@ -56,7 +57,6 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
 
     byteindex  : Natural;
     bitmask    : Message64.Byte;
-    registered : Boolean;
 
   BEGIN
     resp(0) := MessageTypes'Pos(GPIO_PRESENT_RESPONSE);
@@ -67,9 +67,8 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
     FOR c IN ChannelNumber LOOP
       byteindex  := c/8;
       bitmask    := 2**(7 - (c MOD 8));
-      registered := (Self.pins(c).kind /= Unregistered);
 
-      IF registered THEN
+      IF Self.pins(c).registered THEN
         resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
       END IF;
     END LOOP;
@@ -83,9 +82,9 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
     byteindex  : Natural;
     bitmask    : Message64.Byte;
     selected   : Boolean;
-    registered : Boolean;
-    created    : Boolean;
     output     : Boolean;
+    registered : Boolean;
+    configable : Boolean;
 
   BEGIN
     resp(0) := MessageTypes'Pos(GPIO_CONFIGURE_RESPONSE);
@@ -97,15 +96,15 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
       byteindex  := c/8;
       bitmask    := 2**(7 - (c MOD 8));
       selected   := ((cmd(2 + byteindex) AND bitmask) /= 0);
-      registered := (Self.pins(c).kind /= Unregistered);
-      created    := (Self.pins(c).obj /= Standard.GPIO.libsimpleio.Destroyed);
       output     := ((cmd(18 + byteindex) AND bitmask) /= 0);
+      registered := Self.pins(c).registered;
+      configable := Self.Pins(c).desg /= Standard.GPIO.libsimpleio.Unavailable;
 
-      IF selected AND registered THEN
+      IF selected AND registered AND configable THEN
         BEGIN
           -- Destroy the GPIO pin if it has been previously configured
 
-          IF created THEN
+          IF Self.pins(c).configured THEN
             Standard.GPIO.libsimpleio.Static.Destroy(Self.pins(c).obj);
           END IF;
 
@@ -113,19 +112,19 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
 
           IF Self.pins(c).kind = InputOnly THEN
             Self.pins(c).obj :=
-              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).pin,
+              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).desg,
               Standard.GPIO.Input);
           ELSIF Self.pins(c).kind = OutputOnly THEN
             Self.pins(c).obj :=
-              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).pin,
+              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).desg,
               Standard.GPIO.Output);
           ELSIF output THEN
             Self.pins(c).obj :=
-              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).pin,
+              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).desg,
               Standard.GPIO.Output);
           ELSE
             Self.pins(c).obj :=
-              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).pin,
+              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).desg,
               Standard.GPIO.Input);
           END IF;
         EXCEPTION
@@ -144,8 +143,8 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
     byteindex  : Natural;
     bitmask    : Message64.Byte;
     selected   : Boolean;
-    registered : Boolean;
-    created    : Boolean;
+    configured : Boolean;
+    state      : Boolean;
 
   BEGIN
     resp(0) := MessageTypes'Pos(GPIO_READ_RESPONSE);
@@ -157,12 +156,17 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
       byteindex  := c/8;
       bitmask    := 2**(7 - (c MOD 8));
       selected   := ((cmd(2 + byteindex) AND bitmask) /= 0);
-      registered := (Self.pins(c).kind /= Unregistered);
-      created    := (Self.pins(c).obj /= Standard.GPIO.libsimpleio.Destroyed);
+      configured := Self.pins(c).registered AND Self.pins(c).configured;
 
-      IF selected AND registered AND created THEN
+      IF selected AND configured THEN
         BEGIN
-          IF Self.pins(c).obj.Get THEN
+          IF Self.pins(c).desg = Standard.GPIO.libsimpleio.Unavailable THEN
+            state := Self.pins(c).pin.Get;
+          ELSE
+            state := Self.pins(c).obj.Get;
+          END IF;
+
+          IF state THEN
             resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
           END IF;
         EXCEPTION
@@ -181,9 +185,9 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
     byteindex  : Natural;
     bitmask    : Message64.Byte;
     selected   : Boolean;
-    registered : Boolean;
-    created    : Boolean;
     state      : Boolean;
+    configured : Boolean;
+    writable   : Boolean;
 
   BEGIN
     resp(0) := MessageTypes'Pos(GPIO_WRITE_RESPONSE);
@@ -195,13 +199,17 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
       byteindex  := c/8;
       bitmask    := 2**(7 - (c MOD 8));
       selected   := ((cmd(2 + byteindex) AND bitmask) /= 0);
-      registered := (Self.pins(c).kind /= Unregistered);
-      created    := (Self.pins(c).obj /= Standard.GPIO.libsimpleio.Destroyed);
       state      := ((cmd(18 + byteindex) AND bitmask) /= 0);
+      configured := Self.pins(c).registered AND Self.pins(c).configured;
+      writable   := Self.pins(c).kind /= InputOnly;
 
-      IF selected AND registered AND created THEN
+      IF selected AND configured AND writable THEN
         BEGIN
-          Self.pins(c).obj.Put(state);
+          IF Self.pins(c).desg = Standard.GPIO.libsimpleio.Unavailable THEN
+            Self.pins(c).pin.Put(state);
+          ELSE
+            Self.pins(c).obj.Put(state);
+          END IF;
         EXCEPTION
           WHEN OTHERS =>
             Self.logger.Error("Caught exception");
@@ -239,6 +247,8 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
     END CASE;
   END Dispatch;
 
+  -- Register libsimpleio GPIO pin by specified designator
+
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
@@ -249,6 +259,8 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
     Register(Self, num, desg.chip, desg.line, kind);
   END Register;
 
+  -- Register libsimpleio GPIO pin by specified chip and line
+
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
@@ -257,15 +269,30 @@ PACKAGE BODY RemoteIO.GPIO_libsimpleio IS
     kind : Kinds := InputOutput) IS
 
   BEGIN
-    Self.pins(num).pin.chip := chip;
-    Self.pins(num).pin.line := line;
+    Self.pins(num).registered := True;
+    Self.pins(num).configured := False;
     Self.pins(num).kind := kind;
+    Self.pins(num).desg.chip := chip;
+    Self.pins(num).desg.line := line;
     Self.pins(num).obj := Standard.GPIO.libsimpleio.Destroyed;
-Put_Line("DEBUG: Registered pin =>" &
-  ChannelNumber'Image(num) &
-  Natural'Image(Self.pins(num).pin.chip) &
-  Natural'Image(Self.pins(num).pin.line) & " " &
-  Kinds'Image(Self.pins(num).kind));
+    Self.pins(num).pin := NULL;
   END Register;
 
-END RemoteIO.GPIO_libsimpleio;
+  -- Register an arbitrary preconfigured GPIO pin
+
+  PROCEDURE Register
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    pin  : Standard.GPIO.Pin;
+    kind : Kinds := InputOutput) IS
+
+  BEGIN
+    Self.pins(num).registered := True;
+    Self.pins(num).configured := True;
+    Self.pins(num).kind := kind;
+    Self.pins(num).desg := Standard.GPIO.libsimpleio.Unavailable;
+    Self.pins(num).obj := Standard.GPIO.libsimpleio.Destroyed;
+    Self.pins(num).pin := pin;
+  END Register;
+
+END RemoteIO.GPIO;

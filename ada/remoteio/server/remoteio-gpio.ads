@@ -27,14 +27,14 @@ WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Server;
 
-PACKAGE RemoteIO.GPIO_libsimpleio IS
+PACKAGE RemoteIO.GPIO IS
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
 
   TYPE Dispatcher IS ACCESS DispatcherSubclass;
 
-  TYPE Kinds IS (Unregistered, InputOnly, OutputOnly, InputOutput);
- 
+  TYPE Kinds IS (InputOnly, OutputOnly, InputOutput);
+
   FUNCTION Create
    (logger   : Logging.Logger;
     executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
@@ -44,11 +44,15 @@ PACKAGE RemoteIO.GPIO_libsimpleio IS
     cmd  : Message64.Message;
     resp : OUT Message64.Message);
 
+  -- Register libsimpleio GPIO pin by specified designator
+
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
     desg : Standard.GPIO.libsimpleio.Designator;
     kind : Kinds := InputOutput);
+
+  -- Register libsimpleio GPIO pin by specified chip and line
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
@@ -57,12 +61,23 @@ PACKAGE RemoteIO.GPIO_libsimpleio IS
     line : Natural;
     kind : Kinds := InputOutput);
 
+  -- Register an arbitrary preconfigured GPIO pin
+
+  PROCEDURE Register
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    pin  : Standard.GPIO.Pin;
+    kind : Kinds := InputOutput);
+
 PRIVATE
 
   TYPE PinRec IS RECORD
-    pin  : Standard.GPIO.libsimpleio.Designator;
-    kind : Kinds;
-    obj  : Standard.GPIO.libsimpleio.PinSubclass;
+    registered : Boolean;
+    configured : Boolean;
+    kind       : Kinds;
+    desg       : Standard.GPIO.libsimpleio.Designator;
+    obj        : Standard.GPIO.libsimpleio.PinSubclass;
+    pin        : Standard.GPIO.Pin;
   END RECORD;
 
   TYPE PinArray IS ARRAY (ChannelNumber) OF PinRec;
@@ -73,7 +88,7 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT PinRec :=
-    PinRec'(Standard.GPIO.libsimpleio.Unavailable, Unregistered,
-      Standard.GPIO.libsimpleio.Destroyed);
+    PinRec'(False, False, InputOutput, Standard.GPIO.libsimpleio.Unavailable,
+      Standard.GPIO.libsimpleio.Destroyed, NULL);
 
-END RemoteIO.GPIO_libsimpleio;
+END RemoteIO.GPIO;
