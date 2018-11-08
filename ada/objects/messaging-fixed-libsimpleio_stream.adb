@@ -95,6 +95,27 @@ PACKAGE BODY Messaging.Fixed.libsimpleio_stream IS
     -- Receive a frame
 
     LOOP
+      IF Self.timeoutms > 0 THEN
+        DECLARE
+
+          files   : libLinux.FilesType(0 .. 0)   := (OTHERS => Self.fd);
+          events  : libLinux.EventsType(0 .. 0)  := (OTHERS => libLinux.POLLIN);
+          results : libLinux.ResultsType(0 .. 0) := (OTHERS =>0);
+
+        BEGIN
+          libLinux.Poll(1, files, events, results, Self.timeoutms, error);
+
+          IF error = errno.EAGAIN THEN
+            RAISE Timeout_Error WITH "libLinux.Poll() timed out";
+          END IF;
+
+          IF error /= 0 THEN
+            RAISE Message_Error WITH "libLinux.Poll() failed, " &
+              errno.strerror(error);
+          END IF;
+        END;
+      END IF;
+
       libStream.Receive(Self.fd, frame'Address, frame'Length, framesize, error);
       EXIT WHEN error = 0;
 
