@@ -45,8 +45,8 @@ PROCEDURE test_server IS
   vers   : RemoteIO.Server.ResponseString;
   caps   : RemoteIO.Server.ResponseString;
   exec   : RemoteIO.Executive.Executor;
-  comm   : RemoteIO.Common.DispatcherSubclass;
-  gpio   : RemoteIO.GPIO_libsimpleio.DispatcherSubclass;
+  comm   : RemoteIO.Common.Dispatcher;
+  gpio   : RemoteIO.GPIO_libsimpleio.Dispatcher;
   fd     : Integer;
   error  : Integer;
   msg    : Message64.Messenger;
