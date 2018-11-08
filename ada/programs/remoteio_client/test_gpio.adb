@@ -50,7 +50,7 @@ BEGIN
 
   -- Query the available GPIO pins
 
-  pinset := device.GetAvailableChannels(RemoteIO.GPIO);
+  pinset := device.GetAvailableChannels(RemoteIO.Channel_GPIO);
 
   -- Check for empty set
 

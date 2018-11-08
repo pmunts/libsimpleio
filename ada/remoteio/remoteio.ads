@@ -27,10 +27,10 @@ PACKAGE RemoteIO IS
   RemoteIO_Error : EXCEPTION;
 
   TYPE ChannelTypes IS
-   (ADC,
-    GPIO,
-    I2C,
-    SPI);
+   (Channel_ADC,
+    Channel_GPIO,
+    Channel_I2C,
+    Channel_SPI);
 
   TYPE MessageTypes IS
    (LOOPBACK_REQUEST,

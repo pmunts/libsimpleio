@@ -73,7 +73,7 @@ BEGIN
 
   -- Query the available SPI devices
 
-  channels := remdev.GetAvailableChannels(RemoteIO.SPI);
+  channels := remdev.GetAvailableChannels(RemoteIO.Channel_SPI);
 
   IF NOT channels.Is_Empty THEN
     Put("Found SPI devices:");
