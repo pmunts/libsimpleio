@@ -1,4 +1,4 @@
---  GPIO Button and LED Test using libsimpleio
+-- GPIO Button and LED Test using libsimpleio
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -35,7 +35,8 @@ PROCEDURE test_gpio_button_led IS
   oldstate : Boolean;
 
 BEGIN
-  Put_Line(" GPIO Button and LED Test using libsimpleio");
+  New_Line;
+  Put_Line("GPIO Button and LED Test using libsimpleio");
   New_Line;
 
   -- Configure button and LED GPIO's

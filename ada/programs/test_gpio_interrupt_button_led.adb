@@ -1,4 +1,4 @@
---  GPIO Interrupt Button and LED Test using libsimpleio
+-- GPIO Interrupt Button and LED Test using libsimpleio
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -33,7 +33,8 @@ PROCEDURE test_gpio_interrupt_button_led IS
   LED      : GPIO.Pin;
 
 BEGIN
-  Put_Line(" GPIO Interrupt Button and LED Test using libsimpleio");
+  New_Line;
+  Put_Line("GPIO Interrupt Button and LED Test using libsimpleio");
   New_Line;
 
   -- Configure button and LED GPIO's
