@@ -74,9 +74,10 @@ PRIVATE
   TYPE PinRec IS RECORD
     registered : Boolean;
     configured : Boolean;
+    preconfig  : Boolean;
     kind       : Kinds;
     desg       : Standard.GPIO.libsimpleio.Designator;
-    obj        : Standard.GPIO.libsimpleio.PinSubclass;
+    obj        : Standard.GPIO.libsimpleio.Pin;
     pin        : Standard.GPIO.Pin;
   END RECORD;
 
@@ -88,7 +89,7 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT PinRec :=
-    PinRec'(False, False, InputOutput, Standard.GPIO.libsimpleio.Unavailable,
-      Standard.GPIO.libsimpleio.Destroyed, NULL);
+    PinRec'(False, False, False, InputOutput,
+      Standard.GPIO.libsimpleio.Unavailable, NULL, NULL);
 
 END RemoteIO.GPIO;
