@@ -39,6 +39,8 @@ PACKAGE GPIO.libsimpleio IS
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH PRIVATE;
 
+  TYPE Pin IS ACCESS PinSubclass;
+
   -- Constant definitions
 
   Unavailable : CONSTANT Designator := (Natural'Last, Natural'Last);
