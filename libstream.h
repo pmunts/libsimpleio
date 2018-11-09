@@ -23,10 +23,14 @@
 #ifndef _LIBSTREAM_H
 #define _LIBSTREAM_H
 
-#include <unistd.h>
 #ifndef _BEGIN_STD_C
+#ifdef __linux__
 #include <libsimpleio/cplusplus.h>
+#else
+#include <cplusplus.h>
 #endif
+#endif
+
 #include <stdint.h>
 
 _BEGIN_STD_C
