@@ -23,7 +23,6 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH errno;
 WITH ADC.RemoteIO;
 WITH GPIO.RemoteIO;
 WITH HID.HIDAPI;
@@ -34,8 +33,6 @@ WITH SPI.RemoteIO;
 
 PROCEDURE test_query_hidapi IS
 
-  File_Error : EXCEPTION;
-
   msg      : Message64.Messenger;
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
@@ -45,7 +42,9 @@ BEGIN
   Put_Line("Remote I/O Device Information Query");
   New_Line;
 
-  msg := HID.HIDAPI.Create(16#16D0#, 16#0AFA#);
+  -- Create the raw HID messenger
+
+  msg := HID.HIDAPI.Create;
 
   -- Create the remote I/O device
 
