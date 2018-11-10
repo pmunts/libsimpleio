@@ -1,4 +1,4 @@
--- 64-byte message services using the raw HID services in libhidapi
+-- 64-byte message services using the raw HID services from libhidapi
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,7 +22,8 @@
 
 WITH Message64;
 
-PRIVATE WITH Interfaces.C.Strings;
+PRIVATE WITH Interfaces.C;
+PRIVATE WITH System;
 
 PACKAGE HID.hidapi IS
 
@@ -30,11 +31,18 @@ PACKAGE HID.hidapi IS
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH PRIVATE;
 
-  -- Constructor using HID vendor and product ID's
+  -- Constructor
+
+  -- Allowed values for the timeout parameter:
+  --
+  -- -1 => Receive operation blocks forever, until a report is received
+  --  0 => Receive operation never blocks at all
+  -- >0 => Receive operation blocks for the indicated number of milliseconds
 
   FUNCTION Create
-   (vid       : Standard.HID.Vendor;
-    pid       : Standard.HID.Product;
+   (vid       : Standard.HID.Vendor  := 16#16D0#; -- Munts Technologies USB raw HID
+    pid       : Standard.HID.Product := 16#0AFA#; -- Munts Technologies USB raw HID
+    serial    : String  := "";
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
   -- Send a message
@@ -52,7 +60,42 @@ PACKAGE HID.hidapi IS
 PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
-    handle : Interfaces.C.Strings.chars_ptr;
+    handle  : System.Address;
+    timeout : Integer;
   END RECORD;
+
+  -- Minimal Ada thin binding to hidapi
+
+  FUNCTION hid_init RETURN Integer;
+
+  FUNCTION hid_open
+   (vid     : Interfaces.C.unsigned_short;
+    pid     : Interfaces.C.unsigned_short;
+    serial  : System.Address) RETURN System.Address;
+
+  PROCEDURE hid_close
+   (handle  : System.Address);
+
+  FUNCTION hid_read_timeout
+   (handle  : System.Address;
+    buf     : System.Address;
+    len     : Interfaces.C.size_t;
+    timeout : Integer) RETURN Integer;
+
+  FUNCTION hid_write
+   (handle  : System.Address;
+    buf     : System.Address;
+    len     : Interfaces.C.size_t) RETURN Integer;
+
+  PRAGMA Import(C, hid_init);
+  PRAGMA Import(C, hid_open);
+  PRAGMA Import(C, hid_close);
+  PRAGMA Import(C, hid_read_timeout);
+  PRAGMA Import(C, hid_write);
+
+  PRAGMA Link_With("-lhidapi");
+
+  -- NOTE: On Linux, you will need to symlink libhidapi.so to
+  -- libhidapi-hidraw.so
 
 END HID.hidapi;

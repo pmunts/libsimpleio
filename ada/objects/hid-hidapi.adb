@@ -1,4 +1,4 @@
--- 64-byte message services using the raw HID services in libhidapi
+-- 64-byte message services using the raw HID services from libhidapi
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,59 +20,60 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Characters.Handling;
+WITH Interfaces.C;
 WITH System;
-WITH Interfaces.C.Strings;
 
-USE TYPE Interfaces.C.Strings.chars_ptr;
+WITH Messaging;
+
+USE TYPE System.Address;
 
 PACKAGE BODY HID.hidapi IS
-  PRAGMA Link_With("-lhidapi");
 
-  FUNCTION hid_init RETURN Integer;
-    PRAGMA Import(C, hid_init);
-
-  FUNCTION hid_open
-   (vid : Integer;
-    pid : Integer;
-    ser : Interfaces.C.Strings.chars_ptr) RETURN Interfaces.C.Strings.chars_ptr;
-    PRAGMA Import(C, hid_open);
-
-  FUNCTION hid_write
-   (handle : Interfaces.C.Strings.chars_ptr;
-    buf    : System.Address;
-    len    : Integer) RETURN Integer;
-    PRAGMA Import(C, hid_write);
-
-  FUNCTION hid_read
-   (handle : Interfaces.C.Strings.chars_ptr;
-    buf    : System.Address;
-    len    : Integer) RETURN Integer;
-    PRAGMA Import(C, hid_read);
-
-  -- Constructor using HID vendor and product ID's
+  -- Constructor
 
   FUNCTION Create
-   (vid       : Standard.HID.Vendor;
-    pid       : Standard.HID.Product;
+   (vid       : Standard.HID.Vendor  := 16#16D0#; -- Munts Technologies USB raw HID
+    pid       : Standard.HID.Product := 16#0AFA#; -- Munts Technologies USB raw HID
+    serial    : String  := "";
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
-    status : Integer;
-    handle : Interfaces.C.Strings.chars_ptr;
+    status  : Integer;
+    handle  : System.Address;
+
+    -- Convert the serial number from string to wchar_t, as needed for hidapi
+
+    wserial : Interfaces.C.wchar_array(0 .. serial'Length) :=
+      Interfaces.C.To_C(Ada.Characters.Handling.To_Wide_String(serial));
 
   BEGIN
+
+    -- Validate parameters
+
+    IF timeoutms < -1 THEN
+      RAISE HID_Error WITH "timeoutms parameter is out of range";
+    END IF;
+
     status := hid_init;
 
     IF status /= 0 THEN
       RAISE HID_Error WITH "hid_init() failed";
     END IF;
 
-    handle := hid_open(Integer(vid), Integer(pid), Interfaces.C.Strings.Null_Ptr);
+    IF serial = "" THEN
+      -- hid_open() wants a null pointer rather than an empty string
+      handle := hid_open(Interfaces.C.unsigned_short(vid),
+        Interfaces.C.unsigned_short(pid), System.Null_Address);
+    ELSE
+      handle := hid_open(Interfaces.C.unsigned_short(vid),
+        Interfaces.C.unsigned_short(pid), wserial'Address);
+    END IF;
 
-    IF handle = Interfaces.C.Strings.Null_Ptr THEN
+    IF handle = System.Null_Address THEN
       RAISE HID_Error WITH "hid_open() failed";
     END IF;
 
-    RETURN NEW MessengerSubclass'(handle => handle);
+    RETURN NEW MessengerSubclass'(handle, timeoutms);
   END Create;
 
   -- Send a message
@@ -81,13 +82,25 @@ PACKAGE BODY HID.hidapi IS
    (Self : MessengerSubclass;
     msg  : Message64.Message) IS
 
+    outbuf : ARRAY (0 .. msg'Length) OF Message64.Byte;
     status : Integer;
 
   BEGIN
-    status := hid_write(Self.handle, msg'Address, msg'Length);
+    -- Prepend the report ID byte
 
-    IF status /= msg'Length THEN
-      RAISE HID_Error WITH "hid_write() failed, status =" & Integer'Image(status);
+    outbuf(0) := 0;
+
+    FOR i IN msg'Range LOOP
+      outbuf(i + 1) := msg(i);
+    END LOOP;
+
+    -- Send the report
+
+    status := hid_write(Self.handle, outbuf'Address, outbuf'Length);
+
+    IF status /= outbuf'Length THEN
+      RAISE HID_Error WITH "hid_write() failed, status =" &
+        Integer'Image(status);
     END IF;
   END Send;
 
@@ -98,13 +111,31 @@ PACKAGE BODY HID.hidapi IS
     msg  : OUT Message64.Message) IS
 
     status : Integer;
+    inbuf  : ARRAY (0 .. msg'Length) OF Message64.Byte;
+    offset : Natural;
 
   BEGIN
-    status := hid_read(Self.handle, msg'Address, msg'Length);
+    status := hid_read_timeout(Self.handle, inbuf'Address, inbuf'Length,
+      Self.timeout);
 
-    IF status /= msg'Length THEN
-      RAISE HID_Error WITH "hid_read() failed, status =" & Integer'Image(status);
+    -- Handle the various outcomes
+
+    IF status = inbuf'Length THEN
+      offset := 1;  -- Strip report ID byte
+    ELSIF status = msg'Length THEN
+      offset := 0;  -- No report ID byte
+    ELSIF status = 0 THEN
+      RAISE Messaging.Timeout_Error WITH "hid_read() timed out";
+    ELSE
+      RAISE HID_Error WITH "hid_read() failed, status =" &
+        Integer'Image(status);
     END IF;
+
+    -- Copy bytes from the input buffer to the message array
+
+    FOR i IN msg'Range LOOP
+      msg(i) := inbuf(i + offset);
+    END LOOP;
   END Receive;
 
 END HID.hidapi;
