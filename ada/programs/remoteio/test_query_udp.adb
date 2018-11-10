@@ -28,7 +28,6 @@ WITH errno;
 WITH ADC.RemoteIO;
 WITH GPIO.RemoteIO;
 WITH I2C.RemoteIO;
-WITH Message64.Datagram;
 WITH Message64.UDP;
 WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
