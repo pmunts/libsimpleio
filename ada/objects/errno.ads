@@ -59,6 +59,6 @@ PACKAGE errno IS
 
   ECONNRESET : CONSTANT := 104; -- Connection reset by peer
 
-  FUNCTION strerror(errno : Integer) RETURN String;
+  FUNCTION strerror(error : Integer) RETURN String;
 
 END errno;

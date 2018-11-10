@@ -20,24 +20,50 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Strings;
-WITH Ada.Strings.Fixed;
-WITH Ada.Strings.Maps;
-
-WITH libLinux;
-
 PACKAGE BODY errno IS
 
-  TrimChars : CONSTANT Ada.Strings.Maps.Character_Set :=
-    Ada.Strings.Maps.To_Set(ASCII.NUL);
-
-  FUNCTION strerror(errno : Integer) RETURN String IS
-
-    msg : String(1 .. 255);
+  FUNCTION strerror(error : Integer) RETURN String IS
 
   BEGIN
-    libLinux.StrError(errno, msg, msg'Length);
-    RETURN Ada.Strings.Fixed.Trim(msg, Ada.Strings.Maps.Null_Set, TrimChars);
+    CASE error IS
+      WHEN EOK        => RETURN "Success";
+      WHEN EPERM      => RETURN "Operation not permitted";
+      WHEN ENOENT     => RETURN "No such file or directory";
+      WHEN ESRCH      => RETURN "No such process";
+      WHEN EINTR      => RETURN "Interrupted system call";
+      WHEN EIO        => RETURN "Input/output error";
+      WHEN ENXIO      => RETURN "Device not configured";
+      WHEN E2BIG      => RETURN "Argument list too long";
+      WHEN ENOEXEC    => RETURN "Exec format error";
+      WHEN EBADF      => RETURN "Bad file descriptor";
+      WHEN ECHILD     => RETURN "No child processes";
+      WHEN EAGAIN     => RETURN "Resource deadlock avoided";
+      WHEN ENOMEM     => RETURN "Cannot allocate memory";
+      WHEN EACCES     => RETURN "Permission denied";
+      WHEN EFAULT     => RETURN "Bad address";
+      WHEN ENOTBLK    => RETURN "Block device required";
+      WHEN EBUSY      => RETURN "Resource busy";
+      WHEN EEXIST     => RETURN "File exists";
+      WHEN EXDEV      => RETURN "Cross-device link";
+      WHEN ENODEV     => RETURN "No such device";
+      WHEN ENOTDIR    => RETURN "Not a directory";
+      WHEN EISDIR     => RETURN "Is a directory";
+      WHEN EINVAL     => RETURN "Invalid argument";
+      WHEN ENFILE     => RETURN "Too many open files in system";
+      WHEN EMFILE     => RETURN "Too many open files";
+      WHEN ENOTTY     => RETURN "Inappropriate ioctl for device";
+      WHEN ETXTBSY    => RETURN "Text file busy";
+      WHEN EFBIG      => RETURN "File too large";
+      WHEN ENOSPC     => RETURN "No space left on device";
+      WHEN ESPIPE     => RETURN "Illegal seek";
+      WHEN EROFS      => RETURN "Read-only file system";
+      WHEN EMLINK     => RETURN "Too many links";
+      WHEN EPIPE      => RETURN "Broken pipe";
+      WHEN EDOM       => RETURN "Numerical argument out of domain";
+      WHEN ERANGE     => RETURN "Result too large";
+      WHEN ECONNRESET => RETURN "Connection reset by peer";
+      WHEN OTHERS     => RETURN "Error number" & Integer'Image(error);
+    END CASE;
   END strerror;
 
 END errno;
