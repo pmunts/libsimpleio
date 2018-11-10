@@ -1,4 +1,4 @@
--- HID Remote I/O Device Information Query
+-- Remote I/O Device Information Query
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -42,7 +42,7 @@ PROCEDURE test_query_hid IS
 
 BEGIN
   New_Line;
-  Put_Line("HID Remote I/O Device Information Query");
+  Put_Line("Remote I/O Device Information Query");
   New_Line;
 
   -- Create the HID device
