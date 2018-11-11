@@ -55,6 +55,13 @@ PACKAGE BODY HID.libusb IS
       RAISE HID_Error WITH "hid_open() failed";
     END IF;
 
+    error := libusb_set_auto_detach_kernel_driver(handle, 1);
+
+    IF error /= LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_set_auto_detach_kernel() failed, error " &
+        Integer'Image(error);
+    END IF;
+
     error := libusb_claim_interface(handle, 0);
 
     IF error /= LIBUSB_SUCCESS THEN

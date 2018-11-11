@@ -82,6 +82,10 @@ PRIVATE
     vid      : Interfaces.C.unsigned_short;
     pid      : Interfaces.C.unsigned_short) RETURN System.Address;
 
+  FUNCTION libusb_set_auto_detach_kernel_driver
+   (handle   : System.Address;
+    enable   : Integer) RETURN Integer;
+
   FUNCTION libusb_claim_interface
    (handle   : System.Address;
     num      : Integer) RETURN Integer;
@@ -96,6 +100,7 @@ PRIVATE
 
   PRAGMA Import(C, libusb_init);
   PRAGMA Import(C, libusb_open_device_with_vid_pid);
+  PRAGMA Import(C, libusb_set_auto_detach_kernel_driver);
   PRAGMA Import(C, libusb_claim_interface);
   PRAGMA Import(C, libusb_interrupt_transfer);
 
