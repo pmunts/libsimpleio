@@ -36,10 +36,25 @@ endif
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 include $(LIBSIMPLEIO)/ada/include/remoteio.mk
 
+ifneq ($(LIBUSB),)
+GNATMAKELDFLAGS	+= -L$(LIBUSB)
+endif
+
 # Compile the test programs
 
 default:
 	for F in *.adb ; do $(MAKE) `basename $$F .adb` ; done
+
+ifeq ($(OS), Windows_NT)
+# Copy Windows DLL files, if any
+
+ifneq ($(LIBUSB),)
+libusb-1.0.dll:
+	cp $(LIBUSB)/libusb-1.0.dll $@
+endif
+
+dll: libusb-1.0.dll
+endif
 
 # Remove working files
 
@@ -47,5 +62,6 @@ clean: ada_mk_clean
 	for F in *.adb ; do rm -f `basename $$F .adb` ; done
 
 reallyclean: clean ada_mk_reallyclean
+	rm -rf *.dll
 
 distclean: reallyclean ada_mk_distclean
