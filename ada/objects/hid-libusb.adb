@@ -57,7 +57,7 @@ PACKAGE BODY HID.libusb IS
 
     error := libusb_set_auto_detach_kernel_driver(handle, 1);
 
-    IF error /= LIBUSB_SUCCESS THEN
+    IF (error /= LIBUSB_SUCCESS) AND (error /= LIBUSB_ERROR_NOT_SUPPORTED) THEN
       RAISE HID_Error WITH "libusb_set_auto_detach_kernel() failed, error " &
         Integer'Image(error);
     END IF;
