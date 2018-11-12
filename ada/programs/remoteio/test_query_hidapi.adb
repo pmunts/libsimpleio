@@ -25,7 +25,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ADC.RemoteIO;
 WITH GPIO.RemoteIO;
-WITH HID.HIDAPI;
+WITH HID.hidapi;
 WITH I2C.RemoteIO;
 WITH Message64;
 WITH RemoteIO.Client;
@@ -44,7 +44,7 @@ BEGIN
 
   -- Create the raw HID messenger
 
-  msg := HID.HIDAPI.Create;
+  msg := HID.hidapi.Create;
 
   -- Create the remote I/O device
 
