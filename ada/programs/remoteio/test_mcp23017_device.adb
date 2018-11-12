@@ -22,7 +22,7 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.libsimpleio;
+WITH HID.hidapi;
 WITH I2C.RemoteIO;
 WITH MCP23017;
 WITH MCP23017.Byte;
@@ -44,7 +44,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.libsimpleio.Create), 0,
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
     I2C.SpeedFast);
 
   -- Create MCP23017 device object

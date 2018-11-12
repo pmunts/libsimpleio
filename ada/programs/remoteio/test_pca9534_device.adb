@@ -22,7 +22,7 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.libsimpleio;
+WITH HID.hidapi;
 WITH I2C.RemoteIO;
 WITH PCA9534;
 WITH RemoteIO.Client;
@@ -39,7 +39,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.libsimpleio.Create), 0,
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
     I2C.SpeedStandard);
 
   -- Create PCA9534 device object
