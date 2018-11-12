@@ -28,7 +28,7 @@ WITH RemoteIO.Client;
 
 PROCEDURE test_gpio IS
 
-  device : RemoteIO.Client.Device;
+  remdev : RemoteIO.Client.Device;
   pinset : RemoteIO.ChannelSets.Set;
 
 BEGIN
@@ -38,19 +38,19 @@ BEGIN
 
   -- Open the remote I/O device
 
-  device := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
 
   -- Query the firmware version
 
-  Put_Line("Firmware:     " & device.GetVersion);
+  Put_Line("Firmware:     " & remdev.GetVersion);
 
   -- Query the capability string
 
-  Put_Line("Capabilities: " & device.GetCapability);
+  Put_Line("Capabilities: " & remdev.GetCapability);
 
   -- Query the available GPIO pins
 
-  pinset := device.GetAvailableChannels(RemoteIO.Channel_GPIO);
+  pinset := remdev.GetAvailableChannels(RemoteIO.Channel_GPIO);
 
   -- Check for empty set
 
@@ -82,7 +82,7 @@ BEGIN
 
     FOR pin OF pinset LOOP
       count := count + 1;
-      pins(count) := GPIO.RemoteIO.Create(device, pin, Standard.GPIO.Output,
+      pins(count) := GPIO.RemoteIO.Create(remdev, pin, Standard.GPIO.Output,
         False);
     END LOOP;
 
