@@ -20,9 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH HID.libsimpleio;
-WITH Message64;
-
 PACKAGE HID.Munts IS
 
   -- The following USB vendor/product ID pair (purchased from MCS Electronics
@@ -31,13 +28,5 @@ PACKAGE HID.Munts IS
 
   VID : CONSTANT Vendor  := 16#16D0#;
   PID : CONSTANT Product := 16#0AFA#;
-
-  -- The following constructor can be used instead of Message64.HID.Create()
-
-  FUNCTION Create
-   (vid       : Vendor  := HID.Munts.VID;
-    pid       : Product := HID.Munts.PID;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger
-  RENAMES HID.libsimpleio.Create;
 
 END HID.Munts;

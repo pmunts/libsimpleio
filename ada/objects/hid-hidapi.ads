@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH HID.Munts;
 WITH Message64;
 
 PRIVATE WITH Interfaces.C;
@@ -40,8 +41,8 @@ PACKAGE HID.hidapi IS
   -- >0 => Receive operation blocks for the indicated number of milliseconds
 
   FUNCTION Create
-   (vid       : Standard.HID.Vendor  := 16#16D0#; -- Munts Technologies USB raw HID
-    pid       : Standard.HID.Product := 16#0AFA#; -- Munts Technologies USB raw HID
+   (vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
     serial    : String  := "";
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
 

@@ -33,8 +33,8 @@ PACKAGE BODY HID.hidapi IS
   -- Constructor
 
   FUNCTION Create
-   (vid       : Standard.HID.Vendor  := 16#16D0#; -- Munts Technologies USB raw HID
-    pid       : Standard.HID.Product := 16#0AFA#; -- Munts Technologies USB raw HID
+   (vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
     serial    : String  := "";
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 

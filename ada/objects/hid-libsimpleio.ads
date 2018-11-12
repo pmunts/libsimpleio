@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH HID.Munts;
 WITH Message64;
 
 PACKAGE HID.libsimpleio IS
@@ -37,8 +38,8 @@ PACKAGE HID.libsimpleio IS
   -- Constructor using HID vendor and product ID's
 
   FUNCTION Create
-   (vid       : HID.Vendor;
-    pid       : HID.Product;
+   (vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
   -- Constructor using open file descriptor

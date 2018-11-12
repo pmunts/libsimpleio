@@ -23,7 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO.RemoteIO;
-WITH HID.Munts;
+WITH HID.libsimpleio;
 WITH RemoteIO.Client;
 
 PROCEDURE test_gpio IS
@@ -38,7 +38,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  device := RemoteIO.Client.Create(HID.Munts.Create);
+  device := RemoteIO.Client.Create(HID.libsimpleio.Create);
 
   -- Query the firmware version
 

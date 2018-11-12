@@ -23,7 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO.RemoteIO;
-WITH HID.Munts;
+WITH HID.libsimpleio;
 WITH RemoteIO.Client;
 
 WITH Message64.UDP;
@@ -40,7 +40,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Client.Create(HID.Munts.Create);
+  remdev := RemoteIO.Client.Create(HID.libsimpleio.Create);
 
   -- Create GPIO pin object
 

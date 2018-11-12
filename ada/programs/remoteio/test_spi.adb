@@ -24,7 +24,7 @@ WITH Ada.Command_Line;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.Munts;
+WITH HID.libsimpleio;
 WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
 
@@ -61,7 +61,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Client.Create(HID.Munts.Create);
+  remdev := RemoteIO.Client.Create(HID.libsimpleio.Create);
 
   -- Query the firmware version
 

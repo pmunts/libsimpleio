@@ -26,7 +26,6 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH ADC.RemoteIO;
 WITH GPIO.RemoteIO;
 WITH HID.libsimpleio.static;
-WITH HID.Munts;
 WITH I2C.RemoteIO;
 WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
@@ -47,7 +46,7 @@ BEGIN
 
   -- Create the HID device
 
-  hiddev := HID.libsimpleio.Static.Create(HID.Munts.VID, HID.Munts.PID);
+  hiddev := HID.libsimpleio.Static.Create;
 
   -- Create the remote I/O device
 

@@ -50,8 +50,8 @@ PACKAGE BODY HID.libsimpleio.Static IS
   -- Constructor using HID vendor and product ID's
 
   FUNCTION Create
-   (vid       : HID.Vendor;
-    pid       : HID.Product;
+   (vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
     timeoutms : Integer := 1000) RETURN MessengerSubclass IS
 
     fd    : Integer;

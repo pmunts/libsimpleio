@@ -23,7 +23,6 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH System;
 
-WITH HID.Munts;
 WITH HID.libsimpleio;
 WITH Message64;
 
@@ -40,7 +39,7 @@ BEGIN
 
   -- Open the raw HID device
 
-  dev := HID.Munts.Create(timeoutms => -1);
+  dev := HID.libsimpleio.Create(timeoutms => -1);
 
   -- Event loop
 
