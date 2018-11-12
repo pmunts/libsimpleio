@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Command_Line;
-WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.hidapi;
@@ -31,7 +30,6 @@ WITH SPI.RemoteIO;
 PROCEDURE test_spi IS
 
   remdev   : RemoteIO.Client.Device;
-  channels : RemoteIO.ChannelSets.Set;
   devnum   : RemoteIO.ChannelNumber;
   mode     : Natural;
   wordsize : Natural;
@@ -62,16 +60,6 @@ BEGIN
   -- Open the remote I/O device
 
   remdev := RemoteIO.Client.Create(HID.hidapi.Create);
-
-  -- Query the available SPI slave devices
-
-  channels := remdev.GetAvailableChannels(RemoteIO.Channel_SPI);
-
-  IF NOT Channels.Contains(devnum) THEN
-    Put_Line("Slave device is not available");
-    New_Line;
-    RETURN;
-  END IF;
 
   -- Create the SPI slave device
 
