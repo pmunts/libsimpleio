@@ -36,28 +36,27 @@ endif
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 include $(LIBSIMPLEIO)/ada/include/remoteio.mk
 
-ifneq ($(DLL),)
-GNATMAKELDFLAGS	+= -L$(DLL)
+ifeq ($(OS), Windows_NT)
+ifneq ($(WINDLL),)
+# Link with Windows DLL files in $(WINDLL)
+# e.g. make WINDLL=../../../win/win64
+
+GNATMAKELDFLAGS	+= -L$(WINDLL)
+
+# Copy Windows DLL files from $(WINDLL)
+
+hidapi.dll:
+	cp $(WINDLL)/hidapi.dll .
+
+libusb-1.0.dll:
+	cp $(WINDLL)/libusb-1.0.dll .
+endif
 endif
 
 # Compile the test programs
 
 default:
 	for F in *.adb ; do $(MAKE) `basename $$F .adb` ; done
-
-ifeq ($(OS), Windows_NT)
-ifneq ($(DLL),)
-# Copy Windows DLL files, if any
-
-hidapi.dll:
-	cp $(DLL)/hidapi.dll $@
-
-libusb-1.0.dll:
-	cp $(DLL)/libusb-1.0.dll $@
-
-dll: hidapi.dll libusb-1.0.dll
-endif
-endif
 
 # Remove working files
 
