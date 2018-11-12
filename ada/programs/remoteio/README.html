@@ -1,0 +1,17 @@
+<h1>Ada Remote I/O Client Programs</h1>
+<p>The query programs illustrate six different methods of communicating with a
+<a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
+Protocol</a> server: Four variations of raw HID (Human Interface Device) plus
+serial port and UDP (User Datagram Protocol).</p>
+<p>The device test programs all use raw HID via the <a href=
+"https://github.com/signal11/hidapi">HIDAPI</a> library, the most portable of
+the four raw HID variations. They will compile and run on Linux, MacOS, and
+Windows client computers. Unfortunately, they will not work on a <a href=
+"http://git.munts.com/arm-linux-mcu">MuntsOS</a> <b>client</b> computer, as
+MuntsOS does not currently support <tt>libhidapi</tt>. Use <tt>libsimpleio</tt>
+instead, as illustrated in <tt>test_query_hid.adb</tt>.</p>
+<hr>
+Questions or comments to Philip Munts <a href=
+"mailto:phil@munts.net">phil@munts.net</a>
+<p>I am available for custom system development (hardware and software) of
+products using ARM Linux or other microcomputers.</p>
