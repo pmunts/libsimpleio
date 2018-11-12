@@ -55,37 +55,29 @@ BEGIN
   -- Convert command line parameters
 
   devnum   := RemoteIO.ChannelNumber'Value(Ada.Command_Line.Argument(1));
-  mode     := RemoteIO.ChannelNumber'Value(Ada.Command_Line.Argument(2));
-  wordsize := RemoteIO.ChannelNumber'Value(Ada.Command_Line.Argument(3));
-  speed    := RemoteIO.ChannelNumber'Value(Ada.Command_Line.Argument(4));
+  mode     := Natural'Value(Ada.Command_Line.Argument(2));
+  wordsize := Natural'Value(Ada.Command_Line.Argument(3));
+  speed    := Natural'Value(Ada.Command_Line.Argument(4));
 
   -- Open the remote I/O device
 
   remdev := RemoteIO.Client.Create(HID.hidapi.Create);
 
-  -- Query the firmware version
-
-  Put_Line("Firmware version:  " & remdev.GetVersion);
-
-  -- Query the capability string
-
-  Put_Line("Capabilities:      " & remdev.GetCapability);
-
-  -- Query the available SPI devices
+  -- Query the available SPI slave devices
 
   channels := remdev.GetAvailableChannels(RemoteIO.Channel_SPI);
 
-  IF NOT channels.Is_Empty THEN
-    Put("Found SPI devices:");
-
-    FOR dev OF channels LOOP
-      Put(Integer'Image(dev));
-    END LOOP;
+  IF NOT Channels.Contains(devnum) THEN
+    Put_Line("Slave device is not available");
+    New_Line;
+    RETURN;
   END IF;
 
-  New_Line;
+  -- Create the SPI slave device
 
   slave := SPI.RemoteIO.Create(remdev, devnum, mode, wordsize, speed);
+
+  -- Write to the SPI slave device
 
   LOOP
     slave.Write(outbuf, outbuf'Length);
