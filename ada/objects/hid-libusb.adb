@@ -52,7 +52,7 @@ PACKAGE BODY HID.libusb IS
       Interfaces.C.unsigned_short(vid), Interfaces.C.unsigned_short(pid));
 
     IF handle = System.Null_Address THEN
-      RAISE HID_Error WITH "hid_open() failed";
+      RAISE HID_Error WITH "libusb_open_device_with_vid_pid() failed";
     END IF;
 
     error := libusb_set_auto_detach_kernel_driver(handle, 1);
@@ -117,9 +117,7 @@ PACKAGE BODY HID.libusb IS
     ELSIF error /= LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
         Integer'Image(error);
-    END IF;
-
-    IF count /= msg'Length THEN
+    ELSIF count /= msg'Length THEN
       RAISE HID_Error WITH "Incorrect receive byte count," &
         Integer'Image(count);
     END IF;
