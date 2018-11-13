@@ -32,6 +32,15 @@ GNATENV		+= PATH=$(GNAT_ADACORE)/bin:$(PATH)
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 ADA_SRC		?= $(LIBSIMPLEIO)/ada
 include $(ADA_SRC)/include/ada.mk
+ifeq ($(OS), Windows_NT)
+# Windows needs some help
+GNATMAKE	:= env $(GNATENV) $(GNAT_ADACORE)/bin/gnatmake
+GNATSTRIP	:= env $(GNATENV) $(GNAT_ADACORE)/bin/strip
+GPRBUILD	:= env $(GNATENV) $(GNAT_ADACORE)/bin/gprbuild
+# Link requires some Windows DLL files
+WINARCH		?= win64
+GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
+endif
 else
 # Debian native GNAT toolchain
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
@@ -42,20 +51,15 @@ endif
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 include $(LIBSIMPLEIO)/ada/include/remoteio.mk
 
+# Copy Windows DLL files, if appropriate
+
+ifneq ($(GNAT_ADACORE),)
 ifeq ($(OS), Windows_NT)
-ifneq ($(WINDLL),)
-# Link with Windows DLL files in $(WINDLL)
-# e.g. make WINDLL=../../../win/win64
-
-GNATMAKELDFLAGS	+= -L$(WINDLL)
-
-# Copy Windows DLL files from $(WINDLL)
-
 hidapi.dll:
-	cp $(WINDLL)/hidapi.dll .
+	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
 
 libusb-1.0.dll:
-	cp $(WINDLL)/libusb-1.0.dll .
+	cp $(LIBSIMPLEIO)/win/$(WINARCH)/libusb-1.0.dll .
 endif
 endif
 
