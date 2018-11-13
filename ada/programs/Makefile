@@ -24,17 +24,16 @@ ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
 EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
-ADA_SRC		?= $(EMBLINUXBASE)/examples/ada
 else ifneq ($(GNAT_ADACORE),)
 # AdaCore native GNAT toolchain
 GNATENV		+= PATH=$(GNAT_ADACORE)/bin:$(PATH)
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-ADA_SRC		?= $(LIBSIMPLEIO)/ada
 else
 # Debian native GNAT toolchain
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-ADA_SRC		?= $(LIBSIMPLEIO)/ada
 endif
+
+ADA_SRC		?= $(LIBSIMPLEIO)/ada
 
 include $(ADA_SRC)/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
