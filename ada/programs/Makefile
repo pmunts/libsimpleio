@@ -26,8 +26,14 @@ EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 ADA_SRC		?= $(EMBLINUXBASE)/examples/ada
 include $(ADA_SRC)/include/ada.mk
 LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
+else ifneq ($(GNAT_ADACORE),)
+# AdaCore native GNAT toolchain
+GNATENV		+= PATH=$(GNAT_ADACORE)/bin:$(PATH)
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+ADA_SRC		?= $(LIBSIMPLEIO)/ada
+include $(ADA_SRC)/include/ada.mk
 else
-# Native compile for Linux
+# Debian native GNAT toolchain
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 ADA_SRC		?= $(LIBSIMPLEIO)/ada
 include $(ADA_SRC)/include/ada.mk
