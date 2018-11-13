@@ -46,17 +46,17 @@ endif
 
 # Definitions for gnatmake
 
-GNATMAKE	= env $(GNATENV) $(GNATPREFIX)gnatmake
+GNATMAKE	?= env $(GNATENV) $(GNATPREFIX)gnatmake
 GNATMAKECFLAGS	+= -gnat2012 $(ADA_CFLAGS) $(ADA_INCLUDES) -D $(ADA_OBJ)
 GNATMAKELDFLAGS	= -largs $(ADA_LDFLAGS)
 
 # Definitions for strip
 
-GNATSTRIP	= env $(GNATENV) $(GNATPREFIX)strip
+GNATSTRIP	?= env $(GNATENV) $(GNATPREFIX)strip
 
 # Definitions for gprbuild
 
-GPRBUILD	= env $(GNATENV) gprbuild
+GPRBUILD	?= env $(GNATENV) gprbuild
 GPRBUILDFLAGS	= -aP $(ADA_SRC)/include -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
 GPRBUILDCFLAGS	= -cargs -gnat2012 $(ADA_CFLAGS)
 GPRBUILDLDFLAGS	= -largs $(ADA_LDFLAGS)
