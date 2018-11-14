@@ -25,14 +25,36 @@ WITH libLinux;
 
 PACKAGE BODY Logging.libsimpleio.Static IS
 
-  FUNCTION Create
-   (sender   : String := libLinux.LOG_PROGNAME;
+  PROCEDURE Initialize
+   (Self     : IN OUT LoggerSubclass;
+    sender   : String  := libLinux.LOG_PROGNAME;
     options  : Integer := libLinux.LOG_NDELAY + libLinux.LOG_PID +
       libLinux.LOG_PERROR;
-    facility : Integer := libLinux.LOG_SYSLOG) RETURN LoggerSubclass IS
+    facility : Integer := libLinux.LOG_SYSLOG) IS
+
+    error : Integer;
 
   BEGIN
-    RETURN LoggerSubclass'(NULL RECORD);
-  END Create;
+    Destroy(Self);
+
+    libLinux.OpenLog(sender, options, facility, error);
+
+    IF error /= 0 THEN
+      RAISE Logging_Error WITH "libLinux.OpenLog() failed, " &
+        errno.strerror(error);
+    END IF;
+
+    Self := LoggerSubclass'(NULL RECORD);
+  END Initialize;
+
+  PROCEDURE Destroy(Self : IN OUT LoggerSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    Self := Destroyed;
+  END Destroy;
 
 END Logging.libsimpleio.Static;

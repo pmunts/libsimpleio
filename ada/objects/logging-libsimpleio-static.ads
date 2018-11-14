@@ -24,10 +24,13 @@ WITH libLinux;
 
 PACKAGE Logging.libsimpleio.Static IS
 
-  FUNCTION Create
-   (sender   : String := libLinux.LOG_PROGNAME;
+  PROCEDURE Initialize
+   (Self     : IN OUT LoggerSubclass;
+    sender   : String  := libLinux.LOG_PROGNAME;
     options  : Integer := libLinux.LOG_NDELAY + libLinux.LOG_PID +
       libLinux.LOG_PERROR;
-    facility : Integer := libLinux.LOG_SYSLOG) RETURN LoggerSubclass;
+    facility : Integer := libLinux.LOG_SYSLOG);
+
+  PROCEDURE Destroy(Self : IN OUT LoggerSubclass);
 
 END Logging.libsimpleio.Static;

@@ -25,22 +25,24 @@ WITH libPWM;
 
 PACKAGE BODY PWM.libsimpleio.Static IS
 
-  FUNCTION Create
-   (desg      : Designator;
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    desg      : Designator;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN OutputSubclass IS
+    polarity  : Polarities := ActiveHigh) IS
 
   BEGIN
-    RETURN Create(desg.chip, desg.chan, frequency, dutycycle, polarity);
-  END Create;
+    Initialize(Self, desg.chip, desg.chan, frequency, dutycycle, polarity);
+  END Initialize;
 
-  FUNCTION Create
-   (chip      : Natural;
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    chip      : Natural;
     channel   : Natural;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN OutputSubclass IS
+    polarity  : Polarities := ActiveHigh) IS
 
     fd     : Integer;
     period : Integer;
@@ -48,6 +50,7 @@ PACKAGE BODY PWM.libsimpleio.Static IS
     error  : Integer;
 
   BEGIN
+    Destroy(Self);
 
     -- The Linux kernel expects period and on-time values in nanoseconds
 
@@ -66,8 +69,8 @@ PACKAGE BODY PWM.libsimpleio.Static IS
       RAISE PWM_Error WITH "libPWM.Open() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN OutputSubclass'(fd, period);
-  END Create;
+    Self := OutputSubclass'(fd, period);
+  END Initialize;
 
   PROCEDURE Destroy(Self : IN OUT OutputSubclass) IS
 

@@ -22,22 +22,24 @@
 
 PACKAGE GPIO.libsimpleio.Static IS
 
-  FUNCTION Create
-   (chip     : Natural;
+  PROCEDURE Initialize
+   (Self     : IN OUT PinSubclass;
+    desg     : Designator;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh);
+
+  PROCEDURE Initialize
+   (self     : IN OUT PinSubclass;
+    chip     : Natural;
     line     : Natural;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
     edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN PinSubclass;
-
-  FUNCTION Create
-   (desg     : Designator;
-    dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN PinSubclass;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh);
 
   PROCEDURE Destroy(Self : IN OUT PinSubclass);
 

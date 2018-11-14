@@ -26,6 +26,8 @@ PACKAGE Logging.libsimpleio IS
 
   TYPE LoggerSubclass IS NEW Logging.LoggerInterface WITH PRIVATE;
 
+  Destroyed : CONSTANT LoggerSubclass;
+
   FUNCTION Create
    (sender   : String := libLinux.LOG_PROGNAME;
     options  : Integer := libLinux.LOG_NDELAY + libLinux.LOG_PID +
@@ -51,5 +53,7 @@ PACKAGE Logging.libsimpleio IS
 PRIVATE
 
   TYPE LoggerSubclass IS NEW Logging.LoggerInterface WITH NULL RECORD;
+
+  Destroyed : CONSTANT LoggerSubclass := (NULL RECORD);
 
 END Logging.libsimpleio;

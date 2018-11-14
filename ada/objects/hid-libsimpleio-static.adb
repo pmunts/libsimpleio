@@ -29,14 +29,17 @@ PACKAGE BODY HID.libsimpleio.Static IS
 
   -- Constructor using raw HID device node name
 
-  FUNCTION Create
-   (name      : String;
-    timeoutms : Integer := 1000) RETURN MessengerSubclass IS
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    name      : String;
+    timeoutms : Integer := 1000) IS
 
     fd    : Integer;
     error : Integer;
 
   BEGIN
+    Destroy(Self);
+
     libHIDRaw.Open(name & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
@@ -44,20 +47,23 @@ PACKAGE BODY HID.libsimpleio.Static IS
         errno.strerror(error);
     END IF;
 
-    RETURN MessengerSubclass'(fd, timeoutms);
-  END Create;
+    Self := MessengerSubclass'(fd, timeoutms);
+  END Initialize;
 
   -- Constructor using HID vendor and product ID's
 
-  FUNCTION Create
-   (vid       : HID.Vendor  := HID.Munts.VID;
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    vid       : HID.Vendor  := HID.Munts.VID;
     pid       : HID.Product := HID.Munts.PID;
-    timeoutms : Integer := 1000) RETURN MessengerSubclass IS
+    timeoutms : Integer := 1000) IS
 
     fd    : Integer;
     error : Integer;
 
   BEGIN
+    Destroy(Self);
+
     libHIDRaw.OpenID(Integer(vid), Integer(pid), fd, error);
 
     IF error /= 0 THEN
@@ -65,17 +71,21 @@ PACKAGE BODY HID.libsimpleio.Static IS
         errno.strerror(error);
     END IF;
 
-    RETURN MessengerSubclass'(fd, timeoutms);  END Create;
+    Self := MessengerSubclass'(fd, timeoutms);
+  END Initialize;
 
   -- Constructor using open file descriptor
 
-  FUNCTION Create
-   (fd        : Integer;
-    timeoutms : Integer := 1000) RETURN MessengerSubclass IS
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    fd        : Integer;
+    timeoutms : Integer := 1000) IS
 
   BEGIN
-    RETURN MessengerSubclass'(fd, timeoutms);
-  END Create;
+    Destroy(Self);
+
+    Self := MessengerSubclass'(fd, timeoutms);
+  END Initialize;
 
   -- Destructor
 

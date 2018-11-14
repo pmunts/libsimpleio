@@ -25,31 +25,35 @@ WITH libADC;
 
 PACKAGE BODY ADC.libsimpleio.Static IS
 
-  FUNCTION Create
-   (desg       : Designator;
-    resolution : Positive) RETURN InputSubclass IS
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclass;
+    desg       : Designator;
+    resolution : Positive) IS
 
   BEGIN
-    RETURN Create(desg.chip, desg.chan, resolution);
-  END Create;
+    Initialize(Self, desg.chip, desg.chan, resolution);
+  END Initialize;
 
-  FUNCTION Create
-   (chip       : Natural;
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclass;
+    chip       : Natural;
     channel    : Natural;
-    resolution : Positive) RETURN InputSubclass IS
+    resolution : Positive) IS
 
     fd    : Integer;
     error : Integer;
 
   BEGIN
+    Destroy(Self);
+
     libADC.Open(chip, channel, fd, error);
 
     IF error /= 0 THEN
       RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN InputSubclass'(fd, resolution);
-  END Create;
+    Self := InputSubclass'(fd, resolution);
+  END Initialize;
 
   PROCEDURE Destroy(Self : IN OUT InputSubclass) IS
 

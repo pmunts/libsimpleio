@@ -22,7 +22,7 @@
 
 PACKAGE I2C.libsimpleio.Static IS
 
-  FUNCTION Create(name : String) RETURN BusSubclass;
+  PROCEDURE Initialize(Self : IN OUT BusSubclass; name : String);
 
   PROCEDURE Destroy(Self : IN OUT BusSubclass);
 

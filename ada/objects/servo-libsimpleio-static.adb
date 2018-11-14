@@ -25,20 +25,22 @@ WITH libPWM;
 
 PACKAGE BODY Servo.libsimpleio.Static IS
 
-  FUNCTION Create
-   (desg      : Designator;
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    desg      : Designator;
     frequency : Positive := 50;
-    position  : Servo.Position := Servo.NeutralPosition) RETURN OutputSubclass IS
+    position  : Servo.Position := Servo.NeutralPosition) IS
 
   BEGIN
-    RETURN Create(desg.chip, desg.chan, frequency, position);
-  END Create;
+    Initialize(Self, desg.chip, desg.chan, frequency, position);
+  END Initialize;
 
-  FUNCTION Create
-   (chip      : Natural;
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    chip      : Natural;
     channel   : Natural;
     frequency : Positive := 50;
-    position  : Servo.Position := Servo.NeutralPosition) RETURN OutputSubclass IS
+    position  : Servo.Position := Servo.NeutralPosition) IS
 
     period : Integer;
     ontime : Integer;
@@ -46,6 +48,8 @@ PACKAGE BODY Servo.libsimpleio.Static IS
     fd     : Integer;
 
   BEGIN
+    Destroy(Self);
+
     IF frequency > 400 THEN
       RAISE Servo_Error WITH "Frequency parameter is out of range";
     END IF;
@@ -67,8 +71,8 @@ PACKAGE BODY Servo.libsimpleio.Static IS
       RAISE Servo_Error WITH "libPWM.Open() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN OutputSubclass'(fd => fd);
-  END Create;
+    Self := OutputSubclass'(fd => fd);
+  END Initialize;
 
   PROCEDURE Destroy(Self : IN OUT OutputSubclass) IS
 

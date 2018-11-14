@@ -25,15 +25,17 @@ WITH libWatchdog;
 
 PACKAGE BODY Watchdog.libsimpleio.Static IS
 
-  FUNCTION Create
-   (devname : String   := DefaultDevice;
-    timeout : Duration := DefaultTimeout) RETURN TimerSubclass IS
+  PROCEDURE Initialize
+   (Self    : IN OUT TimerSubclass;
+    devname : String   := DefaultDevice;
+    timeout : Duration := DefaultTimeout) IS
 
     fd            : Integer;
     error         : Integer;
     actualtimeout : Integer;
 
   BEGIN
+    Destroy(Self);
 
     -- Open the watchdog device
 
@@ -57,8 +59,8 @@ PACKAGE BODY Watchdog.libsimpleio.Static IS
 
     -- Return the new watchdog device object instance
 
-    RETURN TimerSubclass'(fd => fd);
-  END Create;
+    Self := TimerSubclass'(fd => fd);
+  END Initialize;
 
   PROCEDURE Destroy(Self : IN OUT TimerSubclass) IS
 

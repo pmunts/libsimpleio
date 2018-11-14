@@ -22,14 +22,16 @@
 
 PACKAGE ADC.libsimpleio.Static IS
 
-  FUNCTION Create
-   (desg       : Designator;
-    resolution : Positive) RETURN InputSubclass;
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclass;
+    desg       : Designator;
+    resolution : Positive);
 
-  FUNCTION Create
-   (chip       : Natural;
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclass;
+    chip       : Natural;
     channel    : Natural;
-    resolution : Positive) RETURN InputSubclass;
+    resolution : Positive);
 
   PROCEDURE Destroy(Self : IN OUT InputSubclass);
 

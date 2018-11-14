@@ -22,9 +22,10 @@
 
 PACKAGE Watchdog.libsimpleio.Static IS
 
-  FUNCTION Create
-   (devname : String   := DefaultDevice;
-    timeout : Duration := DefaultTimeout) RETURN TimerSubclass;
+  PROCEDURE Initialize
+   (Self    : IN OUT TimerSubclass;
+    devname : String   := DefaultDevice;
+    timeout : Duration := DefaultTimeout);
 
   PROCEDURE Destroy(Self : IN OUT TimerSubclass);
 

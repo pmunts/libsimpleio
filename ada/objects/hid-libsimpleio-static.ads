@@ -27,22 +27,25 @@ PACKAGE HID.libsimpleio.Static IS
 
   -- Constructor using raw HID device node name
 
-  FUNCTION Create
-   (name      : String;
-    timeoutms : Integer := 1000) RETURN MessengerSubclass;
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    name      : String;
+    timeoutms : Integer := 1000);
 
   -- Constructor using HID vendor and product ID's
 
-  FUNCTION Create
-   (vid       : HID.Vendor  := HID.Munts.VID;
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    vid       : HID.Vendor  := HID.Munts.VID;
     pid       : HID.Product := HID.Munts.PID;
-    timeoutms : Integer := 1000) RETURN MessengerSubclass;
+    timeoutms : Integer := 1000);
 
   -- Constructor using open file descriptor
 
-  FUNCTION Create
-   (fd        : Integer;
-    timeoutms : Integer := 1000) RETURN MessengerSubclass;
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    fd        : Integer;
+    timeoutms : Integer := 1000);
 
   -- Destructor
 

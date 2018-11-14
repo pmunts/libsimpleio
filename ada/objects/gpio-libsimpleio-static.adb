@@ -25,14 +25,28 @@ WITH libGPIO;
 
 PACKAGE BODY GPIO.libsimpleio.Static IS
 
-  FUNCTION Create
-   (chip     : Natural;
+  PROCEDURE Initialize
+   (Self     : IN OUT PinSubclass;
+    desg     : Designator;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) IS
+
+  BEGIN
+    Initialize(Self, desg.chip, desg.chan, dir, state, driver, edge, polarity);
+  END Initialize;
+
+  PROCEDURE Initialize
+   (Self     : IN OUT PinSubclass;
+    chip     : Natural;
     line     : Natural;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
     edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN PinSubclass IS
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) IS
 
     flags  : Integer;
     events : Integer;
@@ -41,6 +55,8 @@ PACKAGE BODY GPIO.libsimpleio.Static IS
     error  : Integer;
 
   BEGIN
+    Destroy(Self);
+
     IF (chip = Unavailable.chip) OR (line = Unavailable.chan) THEN
       RAISE GPIO_Error WITH "Invalid GPIO designator";
     END IF;
@@ -82,20 +98,9 @@ PACKAGE BODY GPIO.libsimpleio.Static IS
       kind := interrupt;
     END IF;
 
-    RETURN PinSubclass'(kind, fd);
-  END Create;
-
-  FUNCTION Create
-   (desg     : Designator;
-    dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN PinSubclass IS
-
-  BEGIN
-    RETURN Create(desg.chip, desg.chan, dir, state, driver, edge, polarity);
-  END Create;
+    Self.kind := kind;
+    Self.fd   := fd;
+  END Initialize;
 
   PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
 

@@ -27,16 +27,18 @@
 
 PACKAGE Servo.libsimpleio.Static IS
 
-  FUNCTION Create
-   (desg      : Designator;
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    desg      : Designator;
     frequency : Positive := 50;
-    position  : Servo.Position := Servo.NeutralPosition) RETURN OutputSubclass;
+    position  : Servo.Position := Servo.NeutralPosition);
 
-  FUNCTION Create
-   (chip      : Natural;
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    chip      : Natural;
     channel   : Natural;
     frequency : Positive := 50;
-    position  : Servo.Position := Servo.NeutralPosition) RETURN OutputSubclass;
+    position  : Servo.Position := Servo.NeutralPosition);
 
   PROCEDURE Destroy(Self : IN OUT OutputSubclass);
 

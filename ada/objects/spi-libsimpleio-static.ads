@@ -24,13 +24,13 @@ WITH GPIO.libsimpleio;
 
 PACKAGE SPI.libsimpleio.Static IS
 
-  FUNCTION Create
-   (name     : String;
+  PROCEDURE Initialize
+   (Self     : IN OUT DeviceSubclass;
+    name     : String;
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;
-    cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT)
-  RETURN DeviceSubclass;
+    cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT);
 
   PROCEDURE Destroy(Self : IN OUT DeviceSubclass);
 

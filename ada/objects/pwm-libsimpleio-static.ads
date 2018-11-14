@@ -27,18 +27,20 @@
 
 PACKAGE PWM.libsimpleio.Static IS
 
-  FUNCTION Create
-   (desg      : Designator;
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    desg      : Designator;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN OutputSubclass;
+    polarity  : Polarities := ActiveHigh);
 
-  FUNCTION Create
-   (chip      : Natural;
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    chip      : Natural;
     channel   : Natural;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN OutputSubclass;
+    polarity  : Polarities := ActiveHigh);
 
   PROCEDURE Destroy(Self : IN OUT OutputSubclass);
 

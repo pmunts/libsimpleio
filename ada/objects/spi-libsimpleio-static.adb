@@ -31,19 +31,21 @@ PACKAGE BODY SPI.libsimpleio.Static IS
 
   -- SPI device object constructor
 
-  FUNCTION Create
-   (name     : String;
+  PROCEDURE Initialize
+   (Self     : IN OUT DeviceSubclass;
+    name     : String;
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;
-    cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT)
-    RETURN DeviceSubclass IS
+    cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT) IS
 
     fd       : Integer;
     fdcs     : Integer;
     error    : Integer;
 
   BEGIN
+    Destroy(Self);
+
     libSPI.Open(name & ASCII.NUL, mode, wordsize, speed, fd, error);
 
     IF error /= 0 THEN
@@ -64,8 +66,8 @@ PACKAGE BODY SPI.libsimpleio.Static IS
       END IF;
     END IF;
 
-    RETURN DeviceSubclass'(fd => fd, fdcs => fdcs);
-  END Create;
+    Self := DeviceSubclass'(fd => fd, fdcs => fdcs);
+  END Initialize;
 
   PROCEDURE Destroy(Self : IN OUT DeviceSubclass) IS
 

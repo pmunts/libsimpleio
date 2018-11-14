@@ -25,20 +25,22 @@ WITH libI2C;
 
 PACKAGE BODY I2C.libsimpleio.Static IS
 
-  FUNCTION Create(name : String) RETURN BusSubclass IS
+  PROCEDURE Initialize(Self : IN OUT BusSubclass; name : String) IS
 
     fd    : Integer;
     error : Integer;
 
   BEGIN
+    Destroy(Self);
+
     libI2C.Open(name & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
       RAISE I2C_Error WITH "libI2C.Open() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN I2C.libsimpleio.BusSubclass'(fd => fd);
-  END Create;
+    Self := I2C.libsimpleio.BusSubclass'(fd => fd);
+  END Initialize;
 
   PROCEDURE Destroy(Self : IN OUT BusSubclass) IS
 
