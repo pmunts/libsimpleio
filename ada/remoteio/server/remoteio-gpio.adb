@@ -111,13 +111,11 @@ PACKAGE BODY RemoteIO.GPIO IS
           -- Configure the GPIO pin
 
           IF output THEN
-            Self.pins(c).obj.ALL :=
-              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).desg,
-              Standard.GPIO.Output);
+            Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(c).obj.ALL,
+              Self.pins(c).desg, Standard.GPIO.Output);
           ELSE
-            Self.pins(c).obj.ALL :=
-              Standard.GPIO.libsimpleio.Static.Create(Self.pins(c).desg,
-              Standard.GPIO.Input);
+            Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(c).obj.ALL,
+              Self.pins(c).desg, Standard.GPIO.Input);
           END IF;
         EXCEPTION
           WHEN OTHERS =>
@@ -258,30 +256,25 @@ PACKAGE BODY RemoteIO.GPIO IS
     Self.pins(num).kind       := kind;
     Self.pins(num).desg.chip  := chip;
     Self.pins(num).desg.chan  := line;
+    Self.pins(num).obj        :=
+      NEW Standard.GPIO.libsimpleio.PinSubclass'(Standard.GPIO.libsimpleio.Destroyed);
 
     CASE kind IS
       WHEN InputOnly =>
         Self.pins(num).configured := True;
         Self.pins(num).preconfig  := True;
-        Self.pins(num).obj :=
-          NEW Standard.GPIO.libsimpleio.PinSubclass'
-           (Standard.GPIO.libsimpleio.Static.Create(Self.pins(num).desg,
-            Standard.GPIO.Input));
+        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj.ALL,
+          Self.pins(num).desg, Standard.GPIO.Input);
 
       WHEN OutputOnly =>
         Self.pins(num).configured := True;
         Self.pins(num).preconfig  := True;
-        Self.pins(num).obj :=
-          NEW Standard.GPIO.libsimpleio.PinSubclass'
-           (Standard.GPIO.libsimpleio.Static.Create(Self.pins(num).desg,
-            Standard.GPIO.Output));
+        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj.ALL,
+          Self.pins(num).desg, Standard.GPIO.Output);
 
       WHEN InputOutput =>
         Self.pins(num).configured := False;
         Self.pins(num).preconfig  := False;
-        Self.pins(num).obj :=
-          NEW Standard.GPIO.libsimpleio.PinSubclass'
-           (Standard.GPIO.libsimpleio.Destroyed);
     END CASE;
 
     Self.pins(num).pin := Standard.GPIO.Pin(Self.pins(num).obj);
