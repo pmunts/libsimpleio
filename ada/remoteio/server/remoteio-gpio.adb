@@ -237,7 +237,7 @@ PACKAGE BODY RemoteIO.GPIO IS
     kind : Kinds := InputOutput) IS
 
   BEGIN
-    Register(Self, num, desg.chip, desg.line, kind);
+    Register(Self, num, desg.chip, desg.chan, kind);
   END Register;
 
   -- Register libsimpleio GPIO pin by specified chip and line
@@ -257,7 +257,7 @@ PACKAGE BODY RemoteIO.GPIO IS
     Self.pins(num).registered := True;
     Self.pins(num).kind       := kind;
     Self.pins(num).desg.chip  := chip;
-    Self.pins(num).desg.line  := line;
+    Self.pins(num).desg.chan  := line;
 
     CASE kind IS
       WHEN InputOnly =>
