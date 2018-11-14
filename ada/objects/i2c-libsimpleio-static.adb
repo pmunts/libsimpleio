@@ -31,7 +31,7 @@ PACKAGE BODY I2C.libsimpleio.Static IS
     error : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     libI2C.Open(name & ASCII.NUL, fd, error);
 

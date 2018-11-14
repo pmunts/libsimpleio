@@ -50,7 +50,7 @@ PACKAGE BODY PWM.libsimpleio.Static IS
     error  : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     -- The Linux kernel expects period and on-time values in nanoseconds
 

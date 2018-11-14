@@ -35,7 +35,7 @@ PACKAGE BODY Watchdog.libsimpleio.Static IS
     actualtimeout : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     -- Open the watchdog device
 

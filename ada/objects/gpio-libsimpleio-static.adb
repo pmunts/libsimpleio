@@ -55,7 +55,7 @@ PACKAGE BODY GPIO.libsimpleio.Static IS
     error  : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     IF (chip = Unavailable.chip) OR (line = Unavailable.chan) THEN
       RAISE GPIO_Error WITH "Invalid GPIO designator";

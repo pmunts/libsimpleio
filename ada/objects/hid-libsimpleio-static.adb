@@ -38,7 +38,7 @@ PACKAGE BODY HID.libsimpleio.Static IS
     error : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     libHIDRaw.Open(name & ASCII.NUL, fd, error);
 
@@ -62,7 +62,7 @@ PACKAGE BODY HID.libsimpleio.Static IS
     error : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     libHIDRaw.OpenID(Integer(vid), Integer(pid), fd, error);
 
@@ -82,7 +82,7 @@ PACKAGE BODY HID.libsimpleio.Static IS
     timeoutms : Integer := 1000) IS
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     Self := MessengerSubclass'(fd, timeoutms);
   END Initialize;

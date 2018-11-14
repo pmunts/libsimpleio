@@ -48,7 +48,7 @@ PACKAGE BODY Servo.libsimpleio.Static IS
     fd     : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     IF frequency > 400 THEN
       RAISE Servo_Error WITH "Frequency parameter is out of range";

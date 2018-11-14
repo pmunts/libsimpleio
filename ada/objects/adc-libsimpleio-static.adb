@@ -44,7 +44,7 @@ PACKAGE BODY ADC.libsimpleio.Static IS
     error : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     libADC.Open(chip, channel, fd, error);
 

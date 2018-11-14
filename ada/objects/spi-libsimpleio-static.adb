@@ -44,7 +44,7 @@ PACKAGE BODY SPI.libsimpleio.Static IS
     error    : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     libSPI.Open(name & ASCII.NUL, mode, wordsize, speed, fd, error);
 

@@ -35,7 +35,7 @@ PACKAGE BODY Logging.libsimpleio.Static IS
     error : Integer;
 
   BEGIN
-    Destroy(Self);
+    Self := Destroyed;
 
     libLinux.OpenLog(sender, options, facility, error);
 
