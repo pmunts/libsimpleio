@@ -20,38 +20,22 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifneq ($(BOARDNAME),)
-# Cross compile for MuntsOS
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
-LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
-else ifneq ($(GNAT_ADACORE),)
-# AdaCore native GNAT toolchain
-GNATENV		+= PATH=$(GNAT_ADACORE)/bin:$(PATH)
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-ifeq ($(OS), Windows_NT)
-# Windows needs some help
-GNATMAKE	:= env $(GNATENV) $(GNAT_ADACORE)/bin/gnatmake
-GNATSTRIP	:= env $(GNATENV) $(GNAT_ADACORE)/bin/strip
-GPRBUILD	:= env $(GNATENV) $(GNAT_ADACORE)/bin/gprbuild
-# Link requires some Windows DLL files
-WINARCH		?= win64
-GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
-endif
-else
-# Debian native GNAT toolchain
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-endif
+# Modify the following macro to build out of tree
 
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 ADA_SRC		?= $(LIBSIMPLEIO)/ada
 
-include $(ADA_SRC)/include/ada.mk
+include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 include $(LIBSIMPLEIO)/ada/include/remoteio.mk
 
-# Copy Windows DLL files, if appropriate
+# Special goop for AdaCore GNAT for Windows
 
 ifneq ($(GNAT_ADACORE),)
 ifeq ($(OS), Windows_NT)
+WINARCH		?= win64
+GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
+
 hidapi.dll:
 	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
 
