@@ -1,4 +1,4 @@
--- A/D (Analog to Digital) input services using libsimpleio without heap
+-- Generic device definitions
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,53 +20,15 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH errno;
-WITH libADC;
+PACKAGE Device IS
 
-PACKAGE BODY ADC.libsimpleio.Static IS
+  -- Many kernel device subsystems are organized by chip and channel
 
-  FUNCTION Create
-   (desg       : Designator;
-    resolution : Positive) RETURN InputSubclass IS
+  TYPE Designator IS RECORD
+    chip : Natural;
+    chan : Natural;
+  END RECORD;
 
-  BEGIN
-    RETURN Create(desg.chip, desg.chan, resolution);
-  END Create;
+  Unavailable : CONSTANT Designator := (Natural'Last, Natural'Last);
 
-  FUNCTION Create
-   (chip       : Natural;
-    channel    : Natural;
-    resolution : Positive) RETURN InputSubclass IS
-
-    fd    : Integer;
-    error : Integer;
-
-  BEGIN
-    libADC.Open(chip, channel, fd, error);
-
-    IF error /= 0 THEN
-      RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
-    END IF;
-
-    RETURN InputSubclass'(fd, resolution);
-  END Create;
-
-  PROCEDURE Destroy(Self : IN OUT InputSubclass) IS
-
-    error : Integer;
-
-  BEGIN
-    IF Self = Destroyed THEN
-      RETURN;
-    END IF;
-
-    libADC.Close(Self.fd, error);
-
-    Self := Destroyed;
-
-    IF error /= 0 THEN
-      RAISE ADC_Error WITH "libADC.Close() failed, " & errno.strerror(error);
-    END IF;
-  END Destroy;
-
-END ADC.libsimpleio.Static;
+END Device;

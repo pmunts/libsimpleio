@@ -28,6 +28,11 @@
 PACKAGE Servo.libsimpleio.Static IS
 
   FUNCTION Create
+   (desg      : Designator;
+    frequency : Positive := 50;
+    position  : Servo.Position := Servo.NeutralPosition) RETURN OutputSubclass;
+
+  FUNCTION Create
    (chip      : Natural;
     channel   : Natural;
     frequency : Positive := 50;

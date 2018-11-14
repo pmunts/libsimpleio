@@ -25,9 +25,13 @@
 -- same PWM controller to different frequencies, you may not get correct
 -- output pulse trains.
 
-WITH PWM;
-
 PACKAGE PWM.libsimpleio.Static IS
+
+  FUNCTION Create
+   (desg      : Designator;
+    frequency : Positive;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
+    polarity  : Polarities := ActiveHigh) RETURN OutputSubclass;
 
   FUNCTION Create
    (chip      : Natural;

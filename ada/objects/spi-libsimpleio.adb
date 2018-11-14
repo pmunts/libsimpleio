@@ -55,7 +55,7 @@ PACKAGE BODY SPI.libsimpleio IS
     IF cspin = AUTOCHIPSELECT THEN
       fdcs := libSPI.SPI_AUTO_CS;
     ELSE
-      libGPIO.LineOpen(cspin.chip, cspin.line, libGPIO.LINE_REQUEST_OUTPUT +
+      libGPIO.LineOpen(cspin.chip, cspin.chan, libGPIO.LINE_REQUEST_OUTPUT +
         libGPIO.LINE_REQUEST_ACTIVE_HIGH + libGPIO.LINE_REQUEST_PUSH_PULL,
         libGPIO.EVENT_REQUEST_NONE, 1, fdcs, error);
 

@@ -25,11 +25,15 @@
 -- same PWM controller to different frequencies, you may not get correct
 -- output pulse trains.
 
-WITH PWM;
+WITH Device;
 
 PACKAGE PWM.libsimpleio IS
 
   -- Type definitions
+
+  TYPE Designator IS NEW Device.Designator;
+
+  Unavailable : CONSTANT Designator := Designator(Device.Unavailable);
 
   TYPE Polarities IS (ActiveLow, ActiveHigh);
 
@@ -39,7 +43,13 @@ PACKAGE PWM.libsimpleio IS
 
   Destroyed : CONSTANT OutputSubclass;
 
-  -- PWM output object constructor
+  -- PWM output object constructors
+
+  FUNCTION Create
+   (desg      : Designator;
+    frequency : Positive;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
+    polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output;
 
   FUNCTION Create
    (chip      : Natural;

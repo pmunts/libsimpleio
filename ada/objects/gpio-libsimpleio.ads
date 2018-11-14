@@ -20,16 +20,15 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH GPIO;
+WITH Device;
 
 PACKAGE GPIO.libsimpleio IS
 
   -- Type definitions
 
-  TYPE Designator IS RECORD
-    chip : Natural;
-    line : Natural;
-  END RECORD;
+  TYPE Designator IS NEW Device.Designator;
+
+  Unavailable : CONSTANT Designator := Designator(Device.Unavailable);
 
   TYPE Driver IS (PushPull, OpenDrain, OpenSource);
 
@@ -40,10 +39,6 @@ PACKAGE GPIO.libsimpleio IS
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH PRIVATE;
 
   TYPE Pin IS ACCESS PinSubclass;
-
-  -- Constant definitions
-
-  Unavailable : CONSTANT Designator := (Natural'Last, Natural'Last);
 
   Destroyed : CONSTANT PinSubclass;
 

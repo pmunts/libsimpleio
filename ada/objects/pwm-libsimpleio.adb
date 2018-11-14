@@ -25,7 +25,17 @@ WITH libPWM;
 
 PACKAGE BODY PWM.libsimpleio IS
 
-  -- PWM output object constructor
+  -- PWM output object constructors
+
+  FUNCTION Create
+   (desg      : Designator;
+    frequency : Positive;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
+    polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output IS
+
+  BEGIN
+    RETURN Create(desg.chip, desg.chan, frequency, dutycycle, polarity);
+  END Create;
 
   FUNCTION Create
    (chip      : Natural;

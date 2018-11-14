@@ -41,7 +41,7 @@ PACKAGE BODY GPIO.libsimpleio.Static IS
     error  : Integer;
 
   BEGIN
-    IF (chip = Unavailable.chip) OR (line = Unavailable.line) THEN
+    IF (chip = Unavailable.chip) OR (line = Unavailable.chan) THEN
       RAISE GPIO_Error WITH "Invalid GPIO designator";
     END IF;
 
@@ -94,7 +94,7 @@ PACKAGE BODY GPIO.libsimpleio.Static IS
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN PinSubclass IS
 
   BEGIN
-    RETURN Create(desg.chip, desg.line, dir, state, driver, edge, polarity);
+    RETURN Create(desg.chip, desg.chan, dir, state, driver, edge, polarity);
   END Create;
 
   PROCEDURE Destroy(Self : IN OUT PinSubclass) IS

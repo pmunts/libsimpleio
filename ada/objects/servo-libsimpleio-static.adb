@@ -26,6 +26,15 @@ WITH libPWM;
 PACKAGE BODY Servo.libsimpleio.Static IS
 
   FUNCTION Create
+   (desg      : Designator;
+    frequency : Positive := 50;
+    position  : Servo.Position := Servo.NeutralPosition) RETURN OutputSubclass IS
+
+  BEGIN
+    RETURN Create(desg.chip, desg.chan, frequency, position);
+  END Create;
+
+  FUNCTION Create
    (chip      : Natural;
     channel   : Natural;
     frequency : Positive := 50;

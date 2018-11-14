@@ -23,6 +23,10 @@
 PACKAGE ADC.libsimpleio.Static IS
 
   FUNCTION Create
+   (desg       : Designator;
+    resolution : Positive) RETURN InputSubclass;
+
+  FUNCTION Create
    (chip       : Natural;
     channel    : Natural;
     resolution : Positive) RETURN InputSubclass;

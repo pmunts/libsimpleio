@@ -26,6 +26,16 @@ WITH libPWM;
 PACKAGE BODY PWM.libsimpleio.Static IS
 
   FUNCTION Create
+   (desg      : Designator;
+    frequency : Positive;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
+    polarity  : Polarities := ActiveHigh) RETURN OutputSubclass IS
+
+  BEGIN
+    RETURN Create(desg.chip, desg.chan, frequency, dutycycle, polarity);
+  END Create;
+
+  FUNCTION Create
    (chip      : Natural;
     channel   : Natural;
     frequency : Positive;

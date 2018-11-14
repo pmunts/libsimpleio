@@ -25,7 +25,15 @@ WITH libADC;
 
 PACKAGE BODY ADC.libsimpleio IS
 
-  -- ADC input object constructor
+  -- ADC input object constructors
+
+  FUNCTION Create
+   (desg       : Designator;
+    resolution : Positive) RETURN Analog.Input IS
+
+  BEGIN
+    RETURN Create(desg.chip, desg.chan, resolution);
+  END Create;
 
   FUNCTION Create
    (chip       : Natural;

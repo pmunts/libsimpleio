@@ -25,9 +25,15 @@
 -- same PWM controller to different frequencies, you may not get correct
 -- output pulse trains.
 
+WITH Device;
+
 PACKAGE Servo.libsimpleio IS
 
   -- Type definitions
+
+  TYPE Designator IS NEW Device.Designator;
+
+  Unavailable : CONSTANT Designator := Designator(Device.Unavailable);
 
   TYPE OutputSubclass IS NEW Servo.Interfaces.OutputInterface WITH PRIVATE;
 
@@ -35,7 +41,13 @@ PACKAGE Servo.libsimpleio IS
 
   Destroyed : CONSTANT OutputSubclass;
 
-  -- Servo output object constructor
+  -- Servo output object constructors
+
+  FUNCTION Create
+   (desg      : Designator;
+    frequency : Positive := 50;
+    position  : Servo.Position := Servo.NeutralPosition)
+    RETURN Servo.Interfaces.Output;
 
   FUNCTION Create
    (chip      : Natural;

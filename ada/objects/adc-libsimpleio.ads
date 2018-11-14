@@ -21,10 +21,15 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Analog;
+WITH Device;
 
 PACKAGE ADC.libsimpleio IS
 
   -- Type definitions
+
+  TYPE Designator IS NEW Device.Designator;
+
+  Unavailable : CONSTANT Designator := Designator(Device.Unavailable);
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
 
@@ -32,7 +37,11 @@ PACKAGE ADC.libsimpleio IS
 
   Destroyed : CONSTANT InputSubclass;
 
-  -- ADC input object constructor
+  -- ADC input object constructors
+
+  FUNCTION Create
+   (desg       : Designator;
+    resolution : Positive) RETURN Analog.Input;
 
   FUNCTION Create
    (chip       : Natural;
