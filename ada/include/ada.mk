@@ -33,9 +33,13 @@ GNATENV		+= ADA_SRC=$(ADA_SRC) ADA_OBJ=$(ADA_OBJ)
 # Definitions for MuntsOS
 
 ifneq ($(BOARDNAME),)
-# Cross-compiler (e.g. GNAT GPL for Raspberry Pi 2)
+# Cross-compiler for MuntsOS
 EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
+else
+# Native compile
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 endif
 
 # Definitions for Microsoft Windows
@@ -61,6 +65,18 @@ GPRBUILD	?= env $(GNATENV) gprbuild
 GPRBUILDFLAGS	= -aP $(ADA_SRC)/include -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
 GPRBUILDCFLAGS	+= -gnat2012 $(ADA_CFLAGS)
 GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
+
+# Definitions for AdaCore GNAT native toolchains
+
+ifneq ($(GNAT_ADACORE),)
+GNATENV		+= PATH=$(GNAT_ADACORE)/bin:$(PATH)
+ifeq ($(OS), Windows_NT)
+# Windows needs even more help with the path
+GNATMAKE	?= env $(GNATENV) $(GNAT_ADACORE)/bin/gnatmake
+GNATSTRIP	?= env $(GNATENV) $(GNAT_ADACORE)/bin/strip
+GPRBUILD	?= env $(GNATENV) $(GNAT_ADACORE)/bin/gprbuild
+endif
+endif
 
 # Define pattern rules for building Ada programs
 

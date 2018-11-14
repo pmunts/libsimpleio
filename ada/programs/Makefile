@@ -20,22 +20,11 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifneq ($(BOARDNAME),)
-# Cross compile for MuntsOS
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
-LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
-else ifneq ($(GNAT_ADACORE),)
-# AdaCore native GNAT toolchain
-GNATENV		+= PATH=$(GNAT_ADACORE)/bin:$(PATH)
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-else
-# Debian native GNAT toolchain
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-endif
+# Modify the following macro to build out of tree
 
 ADA_SRC		?= $(LIBSIMPLEIO)/ada
 
-include $(ADA_SRC)/include/ada.mk
+include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 
 # Compile the test programs
