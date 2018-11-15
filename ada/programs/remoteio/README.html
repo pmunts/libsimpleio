@@ -10,6 +10,13 @@ Windows client computers. Unfortunately, they will not work on a <a href=
 "http://git.munts.com/arm-linux-mcu">MuntsOS</a> <b>client</b> computer, as
 MuntsOS does not currently support <tt>libhidapi</tt>. Use <tt>libsimpleio</tt>
 instead, as illustrated in <tt>test_query_hid.adb</tt>.</p>
+<p>On all Posix systems, use <tt>make</tt> to compile the test programs. I use
+<a href="https://www.cygwin.com">Cygwin</a> <tt>make</tt> on Windows as well,
+but if you don't have and don't want Cygwin on your Windows system, you can use
+the script command files <tt>compile.cmd</tt> and <tt>clean.cmd</tt>
+instead.</p>
+<p>(These test programs can actually be compiled with the Cygwin native GNAT
+toolchain, but suffer a number of run time issues.)</p>
 <hr>
 Questions or comments to Philip Munts <a href=
 "mailto:phil@munts.net">phil@munts.net</a>

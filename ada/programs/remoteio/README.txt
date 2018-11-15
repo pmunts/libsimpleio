@@ -10,9 +10,17 @@
    not work on a [3]MuntsOS client computer, as MuntsOS does not currently
    support libhidapi. Use libsimpleio instead, as illustrated in
    test_query_hid.adb.
+
+   On all Posix systems, use make to compile the test programs. I use
+   [4]Cygwin make on Windows as well, but if you don't have and don't want
+   Cygwin on your Windows system, you can use the script command files
+   compile.cmd and clean.cmd instead.
+
+   (These test programs can actually be compiled with the Cygwin native
+   GNAT toolchain, but suffer a number of run time issues.)
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [4]phil@munts.net
+   Questions or comments to Philip Munts [5]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -22,4 +30,5 @@ References
    1. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
    2. https://github.com/signal11/hidapi
    3. http://git.munts.com/arm-linux-mcu
-   4. mailto:phil@munts.net
+   4. https://www.cygwin.com/
+   5. mailto:phil@munts.net
