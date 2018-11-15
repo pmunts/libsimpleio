@@ -46,7 +46,7 @@ BEGIN
 
   -- Create the HID device
 
-  hiddev := HID.libsimpleio.Static.Create;
+  HID.libsimpleio.Static.Initialize(hiddev);
 
   -- Create the remote I/O device
 
