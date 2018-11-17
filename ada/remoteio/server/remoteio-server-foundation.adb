@@ -42,21 +42,30 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
   Gadget_Device_HID    : CONSTANT String := "/dev/hidg0";
   Gadget_Device_Serial : CONSTANT String := "/dev/ttyGS0";
 
+  -- Persistent variables
+
   log   : CONSTANT Logging.Logger := Logging.libsimpleio.Create;
-  vers  : RemoteIO.Server.ResponseString;
-  caps  : RemoteIO.Server.ResponseString;
   exec  : RemoteIO.Executive.Executor;
   comm  : RemoteIO.Common.Dispatcher;
-  fd    : Integer;
-  error : Integer;
-  msg1  : Message64.Messenger;
-  serv1 : RemoteIO.Server.Device;
-  msg2  : Message64.UDP.Messenger;
-  serv2 : RemoteIO.Server.UDP.Device;
+  msgH  : Message64.Messenger;
+  msgS  : Message64.Messenger;
+  msgU  : Message64.UDP.Messenger;
+  servH : RemoteIO.Server.Device;
+  servS : RemoteIO.Server.Device;
+  servU : RemoteIO.Server.UDP.Device;
 
   PROCEDURE Start
    (title        : String;
-    capabilities : String) IS
+    capabilities : String;
+    EnableHID    : Boolean := True;
+    EnableSerial : Boolean := True;
+    EnableUDP    : Boolean := True) IS
+
+    error  : Integer;
+    vers   : RemoteIO.Server.ResponseString;
+    caps   : RemoteIO.Server.ResponseString;
+    fd     : Integer;
+    status : Integer;
 
   BEGIN
     logger.Note(title);
@@ -83,11 +92,9 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
 
     comm := RemoteIO.Common.Create(logger, exec, vers, caps);
 
-    -- Try to create a Message64.Messenger instance
+    -- USB Raw HID Gadget Server
 
-    IF Ada.Directories.Exists(Gadget_Device_HID) THEN
-      -- Open USB raw HID gadget device
-
+    IF EnableHID AND Ada.Directories.Exists(Gadget_Device_HID) THEN
       libLinux.Open(Gadget_Device_HID & ASCII.NUL, fd, error);
 
       IF error /= 0 THEN
@@ -96,11 +103,13 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
         RETURN;
       END IF;
 
-      msg1  := Message64.Datagram.Create(fd);
-      serv1 := RemoteIO.Server.Create("USB Raw HID Gadget", msg1, exec, logger);
-    ELSIF Ada.Directories.Exists(Gadget_Device_Serial) THEN
-      -- Open USB serial gadget device
+      msgH  := Message64.Datagram.Create(fd);
+      servH := RemoteIO.Server.Create("USB Raw HID Gadget", msgH, exec, logger);
+    END IF;
 
+    -- USB Serial Port Gadget Server, using Stream Framing Protocol
+
+    IF EnableSerial AND Ada.Directories.Exists(Gadget_Device_Serial) THEN
       libSerial.Open(Gadget_Device_Serial & ASCII.NUL, 115200, 0, 8, 1, fd, error);
 
       IF error /= 0 THEN
@@ -109,14 +118,19 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
         RETURN;
       END IF;
 
-      msg1  := Message64.Stream.Create(fd);
-      serv1 := RemoteIO.Server.Create("USB Serial Port Gadget", msg1, exec, logger);
+      msgS  := Message64.Stream.Create(fd);
+      servS := RemoteIO.Server.Create("USB Serial Port Gadget", msgS, exec, logger);
     END IF;
 
-    -- Start UDP server
+    -- UDP Server
 
-    msg2  := Message64.UDP.Create_Server(port => 8087, timeoutms => 0);
-    serv2 := RemoteIO.Server.UDP.Create("UDP", msg2, exec, logger);
+    IF EnableUDP THEN
+      msgU  := Message64.UDP.Create_Server(port => 8087, timeoutms => 0);
+      servU := RemoteIO.Server.UDP.Create("UDP", msgU, exec, logger);
+
+      libLinux.Command("iptables -A INPUT -p udp -m conntrack --ctstate NEW --dport 8087 -j ACCEPT",
+        status, error);
+    END IF;
   END Start;
 
   FUNCTION Logger RETURN Logging.Logger IS

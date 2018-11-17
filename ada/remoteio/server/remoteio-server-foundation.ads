@@ -25,7 +25,12 @@ WITH RemoteIO.Executive;
 
 PACKAGE RemoteIO.Server.Foundation IS
 
-  PROCEDURE Start(title : String; capabilities : String);
+  PROCEDURE Start
+   (title        : String;
+    capabilities : String;
+    EnableHID    : Boolean := True;
+    EnableSerial : Boolean := True;
+    EnableUDP    : Boolean := True);
 
   FUNCTION Logger RETURN Logging.Logger;
 
