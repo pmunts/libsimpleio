@@ -34,13 +34,13 @@ PACKAGE BODY RemoteIO.Executive IS
   FUNCTION Create RETURN Executor IS
 
   BEGIN
-    RETURN Executor'(handlers => HandlerArray'(OTHERS => NULL));
+    RETURN NEW ExecutorClass'(handlers => HandlerArray'(OTHERS => NULL));
   END Create;
 
   -- Register a command handler
 
   PROCEDURE Register
-   (Self    : IN OUT Executor;
+   (Self    : IN OUT ExecutorClass;
     msgtype : MessageTypes;
     handler : RemoteIO.Dispatch.Dispatcher) IS
 
@@ -51,7 +51,7 @@ PACKAGE BODY RemoteIO.Executive IS
   -- Execute a command
 
   PROCEDURE Execute
-   (Self    : IN OUT Executor;
+   (Self    : IN OUT ExecutorClass;
     cmd     : Message64.Message;
     resp    : OUT Message64.Message) IS
 

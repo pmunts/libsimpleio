@@ -25,7 +25,9 @@ WITH RemoteIO.Dispatch;
 
 PACKAGE RemoteIO.Executive IS
 
-  TYPE Executor IS TAGGED PRIVATE;
+  TYPE ExecutorClass IS TAGGED PRIVATE;
+
+  TYPE Executor IS ACCESS ExecutorClass;
 
   -- Constructor
 
@@ -34,14 +36,14 @@ PACKAGE RemoteIO.Executive IS
   -- Register a command handler
 
   PROCEDURE Register
-   (Self    : IN OUT Executor;
+   (Self    : IN OUT ExecutorClass;
     msgtype : MessageTypes;
     handler : RemoteIO.Dispatch.Dispatcher);
 
   -- Execute a command
 
   PROCEDURE Execute
-   (Self    : IN OUT Executor;
+   (Self    : IN OUT ExecutorClass;
     cmd     : Message64.Message;
     resp    : OUT Message64.Message);
 
@@ -49,7 +51,7 @@ PRIVATE
 
   TYPE HandlerArray IS ARRAY (MessageTypes) OF RemoteIO.Dispatch.Dispatcher;
 
-  TYPE Executor IS TAGGED RECORD
+  TYPE ExecutorClass IS TAGGED RECORD
     handlers : HandlerArray;
   END RECORD;
 
