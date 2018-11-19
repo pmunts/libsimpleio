@@ -29,6 +29,9 @@
     <Compile Include="..\interfaces\*.cs">
       <Link>IO.Interfaces\%(FileName)</Link>
     </Compile>
+    <Compile Include="..\objects\message64-udp.cs">
+      <Link>%(FileName)</Link>
+    </Compile>
     <Compile Include="..\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>
     </Compile>
