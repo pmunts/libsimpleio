@@ -1,4 +1,4 @@
-// USB HID Remote I/O Button and LED Test
+// GPIO Button and LED Test
 
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_gpio_button_led
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nUSB HID Remote I/O Button and LED Test\n");
+            Console.WriteLine("\nGPIO Button and LED Test\n");
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
             IO.Remote.Device d = new IO.Remote.Device(m);

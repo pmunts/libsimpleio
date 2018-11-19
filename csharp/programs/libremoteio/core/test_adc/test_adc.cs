@@ -1,3 +1,5 @@
+// Analog Input Test
+
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -28,7 +30,7 @@ namespace test_adc
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nUSB HID Remote I/O Analog Input Test\n");
+            Console.WriteLine("\nAnalog Input Test\n");
 
             IO.Remote.Device dev =
                 new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());

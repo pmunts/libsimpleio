@@ -28,7 +28,7 @@ namespace test_pca8574_gpio
   {
     static void Main(string[] args)
     {
-      Console.WriteLine("\nUSB HID Remote I/O PCA8574 GPIO Pin Toggle Test\n");
+      Console.WriteLine("\nPCA8574 GPIO Pin Toggle Test\n");
 
       IO.Remote.Device remdev =
         new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());

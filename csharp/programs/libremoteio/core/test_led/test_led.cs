@@ -1,3 +1,5 @@
+// LED Toggle Test
+
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,7 +29,7 @@ namespace test_led
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nUSB HID Remote I/O Device LED Test\n");
+            Console.WriteLine("\nLED Toggle Test\n");
 
             IO.Remote.Device dev = new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 

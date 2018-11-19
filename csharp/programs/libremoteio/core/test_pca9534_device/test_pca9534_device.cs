@@ -28,7 +28,7 @@ namespace test_pca9534_device
   {
     static void Main(string[] args)
     {
-      Console.WriteLine("\nUSB HID Remote I/O PCA9534 GPIO Port Toggle Test\n");
+      Console.WriteLine("\nPCA9534 GPIO Port Toggle Test\n");
 
       IO.Remote.Device remdev =
         new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
