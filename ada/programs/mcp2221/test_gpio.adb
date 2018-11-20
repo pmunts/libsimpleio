@@ -23,8 +23,8 @@
 WITH Ada.Text_IO ; USE Ada.Text_IO;
 
 WITH GPIO;
-WITH MCP2221;
 WITH MCP2221.GPIO;
+WITH MCP2221.hidapi;
 WITH Message64;
 
 USE TYPE Message64.Byte;
@@ -41,7 +41,7 @@ BEGIN
 
   -- Create MCP2221 device object
 
-  dev := MCP2221.Create;
+  dev := MCP2221.hidapi.Create;
 
   -- Configure GPIO pins
 
