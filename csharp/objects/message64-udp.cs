@@ -58,7 +58,7 @@ namespace IO.Objects.Message64.UDP
                 ProtocolType.Udp);
 
             s.ReceiveTimeout = timeoutms;
-        
+
             server = new IPEndPoint(hostaddr, port);
         }
 
