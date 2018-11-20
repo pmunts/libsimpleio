@@ -23,33 +23,19 @@
 WITH Ada.Characters.Conversions;
 WITH Ada.Strings.Fixed;
 
-WITH HID.libsimpleio;
 WITH Message64;
 
 USE TYPE Message64.Byte;
 
 PACKAGE BODY MCP2221 IS
 
+  -- Create an MCP2221 device object instance
+
   FUNCTION Create
    (msg       : Message64.Messenger;
     pinmodes  : PinModeArray := AllGPIO) RETURN Device IS
 
     dev : DeviceClass := DeviceClass'(msg => msg);
-
-  BEGIN
-    dev.SetPinModes(pinmodes);
-
-    RETURN NEW DeviceClass'(dev);
-  END Create;
-
-  FUNCTION Create
-   (vid       : HID.Vendor   := VendorID;
-    pid       : HID.Product  := ProductID;
-    timeoutms : Integer      := 1000;
-    pinmodes  : PinModeArray := AllGPIO) RETURN Device IS
-
-    dev : DeviceClass :=
-      DeviceClass'(msg => HID.libsimpleio.Create(vid, pid, timeoutms));
 
   BEGIN
     dev.SetPinModes(pinmodes);

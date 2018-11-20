@@ -44,14 +44,10 @@ PACKAGE MCP2221 IS
 
   AllGPIO : CONSTANT PinModeArray := (OTHERS => MODE_GPIO);
 
-  FUNCTION Create
-   (msg       : Message64.Messenger;
-    pinmodes  : PinModeArray := AllGPIO) RETURN Device;
+  -- Create an MCP2221 device object instance
 
   FUNCTION Create
-   (vid       : HID.Vendor   := VendorID;
-    pid       : HID.Product  := ProductID;
-    timeoutms : Integer      := 1000;
+   (msg       : Message64.Messenger;
     pinmodes  : PinModeArray := AllGPIO) RETURN Device;
 
   -- Configure MCP2221 GPIO pin mux
