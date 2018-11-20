@@ -1,4 +1,4 @@
--- MCP2221 Device Query Test using libsimpleio
+-- MCP2221 Device Query Test using HID.libsimpleio
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
