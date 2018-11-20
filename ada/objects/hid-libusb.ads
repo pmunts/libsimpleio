@@ -37,6 +37,7 @@ PACKAGE HID.libusb IS
   FUNCTION Create
    (vid       : HID.Vendor  := HID.Munts.VID;
     pid       : HID.Product := HID.Munts.PID;
+    iface     : Natural := 0;
     timeoutms : Natural := 1000) RETURN Message64.Messenger;
 
   -- Send a message

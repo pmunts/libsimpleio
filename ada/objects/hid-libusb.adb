@@ -34,6 +34,7 @@ PACKAGE BODY HID.libusb IS
   FUNCTION Create
    (vid       : HID.Vendor  := HID.Munts.VID;
     pid       : HID.Product := HID.Munts.PID;
+    iface     : Natural := 0;
     timeoutms : Natural := 1000) RETURN Message64.Messenger IS
 
     error   : Integer;
@@ -62,7 +63,7 @@ PACKAGE BODY HID.libusb IS
         Integer'Image(error);
     END IF;
 
-    error := libusb_claim_interface(handle, 0);
+    error := libusb_claim_interface(handle, iface);
 
     IF error /= LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_claim_interface() failed, error " &
