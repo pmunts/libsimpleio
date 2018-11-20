@@ -42,7 +42,7 @@ BEGIN
 
   -- Create GPIO pin object
 
-  LED := MCP2221.GPIO.Create(dev, 0, GPIO.Output, False);
+  LED := MCP2221.GPIO.Create(dev, MCP2221.GP0, GPIO.Output, False);
 
   -- Toggle the LED
 

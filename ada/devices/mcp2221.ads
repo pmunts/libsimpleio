@@ -38,6 +38,11 @@ PACKAGE MCP2221 IS
   TYPE PinMode      IS RANGE 0 .. 7;
   TYPE PinModeArray IS ARRAY (PinNumber) OF PinMode;
 
+  GP0 : CONSTANT PinNumber := 0;
+  GP1 : CONSTANT PinNumber := 1;
+  GP2 : CONSTANT PinNumber := 2;
+  GP3 : CONSTANT PinNumber := 3;
+
   MODE_GPIO : CONSTANT PinMode := 2#00000000#;  -- GP0, GP1, GP2, GP3
   MODE_ADC  : CONSTANT PinMode := 2#00000010#;  -- GP1, GP2, GP3 only
   MODE_DAC  : CONSTANT PinMode := 2#00000011#;  -- GP2, GP3 only
