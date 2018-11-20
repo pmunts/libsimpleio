@@ -29,7 +29,7 @@ WITH Message64;
 
 USE TYPE Message64.Byte;
 
-PROCEDURE test_mcp2221_gpio IS
+PROCEDURE test_gpio IS
 
   dev  : MCP2221.Device;
   pins : ARRAY (MCP2221.PinNumber) OF GPIO.Pin;
@@ -57,4 +57,4 @@ BEGIN
       p.Put(NOT p.Get);
     END LOOP;
   END LOOP;
-END test_mcp2221_gpio;
+END test_gpio;

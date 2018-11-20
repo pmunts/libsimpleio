@@ -1,4 +1,4 @@
--- MCP2221 A/D Converter Test
+-- MCP2221 Device Query Test
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,42 +20,24 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Command_Line;
-WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH Ada.Text_IO ; USE Ada.Text_IO;
 
-WITH Analog;
-WITH MCP2221.ADC;
+WITH MCP2221;
 
-PROCEDURE test_mcp2221_adc IS
+PROCEDURE test_query IS
 
-  dev    : MCP2221.Device;
-  inputs : ARRAY (MCP2221.ADC.Channel) OF Analog.Input;
+  dev : MCP2221.Device;
 
 BEGIN
   New_Line;
-  Put_Line("MCP2221 A/D Converter Test");
+  Put_Line("MCP2221 Device Query Test");
   New_Line;
 
   dev := MCP2221.Create;
 
-  dev.SetPinModes((0 => MCP2221.MODE_GPIO, OTHERS => MCP2221.MODE_ADC));
-
-  FOR c IN MCP2221.ADC.Channel LOOP
-    inputs(c) := MCP2221.ADC.Create(dev, c);
-  END LOOP;
-
-  Put_Line("Press CONTROL-C to exit...");
+  Put_Line("Revision      => " & dev.Revision);
+  Put_Line("Manufacturer  => " & dev.Manufacturer);
+  Put_Line("Product       => " & dev.Product);
+  Put_Line("Serial Number => " & dev.SerialNumber);
   New_Line;
-
-  LOOP
-    Put("Samples:");
-
-    FOR i OF inputs LOOP
-      Analog.Sample_IO.Put(i.Get, 5);
-    END LOOP;
-
-    New_Line;
-
-    DELAY 2.0;
-  END LOOP;
-END test_mcp2221_adc;
+END test_query;
