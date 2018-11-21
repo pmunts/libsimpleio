@@ -26,8 +26,6 @@ WITH GPIO.RemoteIO;
 WITH HID.hidapi;
 WITH RemoteIO.Client;
 
-WITH Message64.UDP;
-
 PROCEDURE test_led IS
 
   remdev : RemoteIO.Client.Device;
