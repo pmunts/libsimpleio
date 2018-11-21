@@ -9,7 +9,7 @@
    on Linux, MacOS, and Windows client computers. Unfortunately, they will
    not work on a [3]MuntsOS client computer, as MuntsOS does not currently
    support libhidapi. Use libsimpleio instead, as illustrated in
-   test_query_hid.adb.
+   test_query_libsimpleio.adb.
 
    On all Posix systems, use make to compile the test programs. I use
    [4]Cygwin make on Windows as well, but if you don't have and don't want
