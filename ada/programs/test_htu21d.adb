@@ -30,7 +30,8 @@ WITH Temperature;
 
 PROCEDURE test_htu21d IS
 
-  dev : HTU21D.Device;
+  bus    : I2C.Bus;
+  sensor : HTU21D.Device;
 
 BEGIN
   New_Line;
@@ -43,8 +44,9 @@ BEGIN
     RETURN;
   END IF;
 
-  dev := HTU21D.Create(I2C.libsimpleio.Create(Ada.Command_Line.Argument(1)),
-    I2C.Address'Value(Ada.Command_Line.Argument(2)),
+  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+
+  sensor := HTU21D.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)),
     Boolean'Value(Ada.Command_Line.Argument(3)));
 
   Put_Line("Press CONTROL-C to exit...");
@@ -52,9 +54,9 @@ BEGIN
 
   LOOP
     Put("Temperature: ");
-    Temperature.Celsius_IO.Put(dev.Get, 0, 1, 0);
+    Temperature.Celsius_IO.Put(sensor.Get, 0, 1, 0);
     Put("  Humidity: ");
-    Humidity.Relative_IO.Put(dev.Get, 0, 1, 0);
+    Humidity.Relative_IO.Put(sensor.Get, 0, 1, 0);
     New_Line;
 
     DELAY 1.0;

@@ -32,21 +32,19 @@ WITH TH02;
 
 PROCEDURE test_th02 IS
 
-  bus : I2C.Bus;
-  dev : TH02.Device;
+  bus    : I2C.Bus;
+  sensor : TH02.Device;
 
 BEGIN
   New_Line;
   Put_Line("TH02 Temperature/Humidity Sensor Test");
   New_Line;
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
-    I2C.SpeedStandard);
-
-  dev := TH02.Create(bus);
+  bus    := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0);
+  sensor := TH02.Create(bus);
 
   Put("Device ID: ");
-  Put(dev.DeviceID, 5, 16);
+  Put(sensor.DeviceID, 5, 16);
   New_Line;
 
   New_Line;
@@ -55,9 +53,9 @@ BEGIN
 
   LOOP
     Put("Temperature: ");
-    Temperature.Celsius_IO.Put(dev.Get, 0, 1, 0);
+    Temperature.Celsius_IO.Put(sensor.Get, 0, 1, 0);
     Put("  Humidity: ");
-    Humidity.Relative_IO.Put(dev.Get, 0, 1, 0);
+    Humidity.Relative_IO.Put(sensor.Get, 0, 1, 0);
     New_Line;
 
     DELAY 1.0;

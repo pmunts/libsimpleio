@@ -31,8 +31,8 @@ WITH Temperature;
 
 PROCEDURE test_hdc1080 IS
 
-  bus : I2C.Bus;
-  dev : HDC1080.Device;
+  bus    : I2C.Bus;
+  sensor : HDC1080.Device;
 
 BEGIN
   New_Line;
@@ -45,15 +45,15 @@ BEGIN
     RETURN;
   END IF;
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
-  dev := HDC1080.Create(bus);
+  bus    := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  sensor := HDC1080.Create(bus);
 
   Put("Manufacturer ID: ");
-  Put(dev.ManufacturerID, 8, 16);
+  Put(sensor.ManufacturerID, 8, 16);
   New_Line;
 
   Put("Device ID:       ");
-  Put(dev.DeviceID, 8, 16);
+  Put(sensor.DeviceID, 8, 16);
   New_Line;
 
   New_Line;
@@ -62,9 +62,9 @@ BEGIN
 
   LOOP
     Put("Temperature: ");
-    Temperature.Celsius_IO.Put(dev.Get, 0, 1, 0);
+    Temperature.Celsius_IO.Put(sensor.Get, 0, 1, 0);
     Put("  Humidity: ");
-    Humidity.Relative_IO.Put(dev.Get, 0, 1, 0);
+    Humidity.Relative_IO.Put(sensor.Get, 0, 1, 0);
     New_Line;
 
     DELAY 1.0;
