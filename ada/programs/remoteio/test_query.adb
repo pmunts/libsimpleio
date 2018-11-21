@@ -31,7 +31,7 @@ WITH Message64;
 WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
 
-PROCEDURE test_query_hidapi IS
+PROCEDURE test_query IS
 
   msg      : Message64.Messenger;
   remdev   : RemoteIO.Client.Device;
@@ -128,4 +128,4 @@ BEGIN
   END IF;
 
   New_Line;
-END test_query_hidapi;
+END test_query;
