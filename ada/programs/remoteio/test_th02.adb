@@ -40,7 +40,9 @@ BEGIN
   Put_Line("TH02 Temperature/Humidity Sensor Test");
   New_Line;
 
-  bus    := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0);
+  bus    := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
+    I2C.SpeedFast);
+
   sensor := TH02.Create(bus);
 
   Put("Device ID: ");
