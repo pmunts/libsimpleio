@@ -28,8 +28,8 @@ WITH PCA9534;
 
 PROCEDURE test_pca9534_device IS
 
-  bus    : I2C.Bus;
-  dev    : PCA9534.Device;
+  bus : I2C.Bus;
+  dev : PCA9534.Device;
 
 BEGIN
   New_Line;

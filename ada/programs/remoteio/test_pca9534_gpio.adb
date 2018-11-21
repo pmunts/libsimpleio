@@ -1,6 +1,6 @@
 -- Test a PCA9534 as 8 individual GPIO pins
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -42,8 +42,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
-    I2C.SpeedStandard);
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0);
 
   -- Create PCA9534 device object
 
