@@ -45,8 +45,6 @@ SET CFLAGS=%CFLAGS% -I"%SRC%"/bindings
 SET CFLAGS=%CFLAGS% -I"%SRC%"/devices
 SET CFLAGS=%CFLAGS% -I"%SRC%"/interfaces
 SET CFLAGS=%CFLAGS% -I"%SRC%"/objects
-SET CFLAGS=%CFLAGS% -I"%SRC%"/remoteio
-SET CFLAGS=%CFLAGS% -I"%SRC%"/remoteio/client
 
 SET LDFLAGS=-L.
 
