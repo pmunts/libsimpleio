@@ -40,7 +40,7 @@ BEGIN
   New_Line;
 
   IF Ada.Command_Line.Argument_Count /= 1 THEN
-    Put_Line("Usage: test_hdc1080 <device>");
+    Put_Line("Usage: test_hdc1080 <bus>");
     New_Line;
     RETURN;
   END IF;
