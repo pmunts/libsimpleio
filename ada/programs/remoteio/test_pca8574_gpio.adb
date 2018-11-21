@@ -42,8 +42,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
-    I2C.SpeedStandard);
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0);
 
   -- Create PCA8574 device object
 
