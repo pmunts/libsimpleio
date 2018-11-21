@@ -88,10 +88,11 @@ PRIVATE
   CMD_SET_PARM             : CONSTANT Message64.Byte := 16#10#;
   CMD_READ_FLASH           : CONSTANT Message64.Byte := 16#B0#;
   CMD_WRITE_FLASH          : CONSTANT Message64.Byte := 16#B1#;
-  CMD_I2C_WRITE            : CONSTANT Message64.Byte := 16#90#;
   CMD_I2C_READ             : CONSTANT Message64.Byte := 16#91#;
-  CMD_I2C_WRITE_REPEAT     : CONSTANT Message64.Byte := 16#92#;
   CMD_I2C_READ_REPEAT      : CONSTANT Message64.Byte := 16#93#;
+  CMD_I2C_GET_DATA         : CONSTANT Message64.Byte := 16#40#;
+  CMD_I2C_WRITE            : CONSTANT Message64.Byte := 16#90#;
+  CMD_I2C_WRITE_REPEAT     : CONSTANT Message64.Byte := 16#92#;
   CMD_I2C_WRITE_NOSTOP     : CONSTANT Message64.Byte := 16#94#;
   CMD_SET_GPIO             : CONSTANT Message64.Byte := 16#50#;
   CMD_GET_GPIO             : CONSTANT Message64.Byte := 16#51#;
