@@ -29,7 +29,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH I2C.libsimpleio;
 WITH PCA9534;
 
-PROCEDURE test_pca9534_device IS
+PROCEDURE test_pca9534_byte IS
 
   bus : I2C.Bus;
   dev : PCA9534.Device;
@@ -40,7 +40,7 @@ BEGIN
   New_Line;
 
   IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_pca9534_device <bus> <addr>");
+    Put_Line("Usage: test_pca9534_byte <bus> <addr>");
     New_Line;
     RETURN;
   END IF;
@@ -64,4 +64,4 @@ BEGIN
       dev.Put(b);
     END LOOP;
   END LOOP;
-END test_pca9534_device;
+END test_pca9534_byte;

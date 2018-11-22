@@ -20,13 +20,14 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH I2C.libsimpleio;
+WITH HID.hidapi;
+WITH I2C.RemoteIO;
 WITH PCA8574;
+WITH RemoteIO.Client;
 
-PROCEDURE test_pca8574_device IS
+PROCEDURE test_pca8574_byte IS
 
   bus    : I2C.Bus;
   dev    : PCA8574.Device;
@@ -36,19 +37,13 @@ BEGIN
   Put_Line("PCA8574 Byte I/O Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_pca8574_device <bus> <addr>");
-    New_Line;
-    RETURN;
-  END IF;
-
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0);
 
   -- Create PCA8574 device object
 
-  dev := PCA8574.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
+  dev := PCA8574.Create(bus, 16#38#);
 
   -- Write increasing values to the PCA8574
 
@@ -60,4 +55,4 @@ BEGIN
       dev.Put(b);
     END LOOP;
   END LOOP;
-END test_pca8574_device;
+END test_pca8574_byte;
