@@ -33,7 +33,7 @@ PACKAGE HTU21D IS
 
   -- Object constructor
 
-  FUNCTION Create(bus : I2C.Bus; addr : I2C.Address;
+  FUNCTION Create(bus : I2C.Bus;
     clockstretch : Boolean := False) RETURN Device;
 
   -- Get Celsius temperature

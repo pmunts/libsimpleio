@@ -44,7 +44,7 @@ BEGIN
   bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
     I2C.SpeedFast);
 
-  sensor := HTU21D.Create(bus, 16#40#);
+  sensor := HTU21D.Create(bus);
 
   Put_Line("Press CONTROL-C to exit...");
   New_Line;

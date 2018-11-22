@@ -40,16 +40,14 @@ BEGIN
   Put_Line("HTU21D Temperature/Humidity Sensor Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 3 THEN
-    Put_Line("Usage: test_htu21d <bus> <addr> <true|false>");
+  IF Ada.Command_Line.Argument_Count /= 2 THEN
+    Put_Line("Usage: test_htu21d <bus> <true|false>");
     New_Line;
     RETURN;
   END IF;
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
-
-  sensor := HTU21D.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)),
-    Boolean'Value(Ada.Command_Line.Argument(3)));
+  bus    := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  sensor := HTU21D.Create(bus, Boolean'Value(Ada.Command_Line.Argument(2)));
 
   Put_Line("Press CONTROL-C to exit...");
   New_Line;

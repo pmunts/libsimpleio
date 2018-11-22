@@ -39,6 +39,9 @@ PACKAGE BODY HTU21D IS
   -- Per datasheet, maximum conversion time is 16 ms
   HumidityConversionTime    : CONSTANT I2C.Microseconds := 20000;
 
+  -- Per datasheet
+  DefaultAddress : CONSTANT I2C.Address := 16#40#;
+
   TYPE SensorData IS MOD 65536;
 
   -- Command definitions
@@ -53,14 +56,14 @@ PACKAGE BODY HTU21D IS
 
   -- Object constructor
 
-  FUNCTION Create(bus : I2C.Bus; addr : I2C.Address;
+  FUNCTION Create(bus : I2C.Bus;
     clockstretch : Boolean := False) RETURN Device IS
 
     Self : Device;
     cmd  : I2C.Command(0 .. 1);
 
   BEGIN
-    Self := NEW DeviceSubclass'(bus, addr, clockstretch);
+    Self := NEW DeviceSubclass'(bus, DefaultAddress, clockstretch);
 
     -- Issue reset command
 
