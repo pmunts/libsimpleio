@@ -24,7 +24,7 @@ PACKAGE GPIO.libsimpleio.Static IS
 
   PROCEDURE Initialize
    (Self     : IN OUT PinSubclass;
-    desg     : Designator;
+    desg     : Device.Designator;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;

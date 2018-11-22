@@ -28,7 +28,7 @@ PACKAGE BODY Servo.libsimpleio IS
   -- Servo output object constructors
 
   FUNCTION Create
-   (desg      : Designator;
+   (desg      : Device.Designator;
     frequency : Positive := 50;
     position  : Servo.Position := Servo.NeutralPosition)
     RETURN Servo.Interfaces.Output IS

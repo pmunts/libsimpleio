@@ -22,12 +22,13 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Device;
 WITH errno;
 WITH GPIO.libsimpleio.Static;
 WITH Message64;
 WITH RemoteIO.Server;
 
-USE TYPE GPIO.libsimpleio.Designator;
+USE TYPE Device.Designator;
 USE TYPE GPIO.libsimpleio.PinSubclass;
 USE TYPE Message64.Byte;
 
@@ -231,7 +232,7 @@ PACKAGE BODY RemoteIO.GPIO IS
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    desg : Standard.GPIO.libsimpleio.Designator;
+    desg : Device.Designator;
     kind : Kinds := InputOutput) IS
 
   BEGIN

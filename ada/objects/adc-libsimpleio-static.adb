@@ -27,7 +27,7 @@ PACKAGE BODY ADC.libsimpleio.Static IS
 
   PROCEDURE Initialize
    (Self       : IN OUT InputSubclass;
-    desg       : Designator;
+    desg       : Device.Designator;
     resolution : Positive) IS
 
   BEGIN

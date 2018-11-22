@@ -27,7 +27,7 @@ PACKAGE BODY PWM.libsimpleio.Static IS
 
   PROCEDURE Initialize
    (Self      : IN OUT OutputSubclass;
-    desg      : Designator;
+    desg      : Device.Designator;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) IS

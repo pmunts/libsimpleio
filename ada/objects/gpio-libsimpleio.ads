@@ -26,10 +26,6 @@ PACKAGE GPIO.libsimpleio IS
 
   -- Type definitions
 
-  TYPE Designator IS NEW Device.Designator;
-
-  Unavailable : CONSTANT Designator := Designator(Device.Unavailable);
-
   TYPE Driver IS (PushPull, OpenDrain, OpenSource);
 
   TYPE Edge IS (None, Rising, Falling, Both);
@@ -54,7 +50,7 @@ PACKAGE GPIO.libsimpleio IS
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
 
   FUNCTION Create
-   (desg     : Designator;
+   (desg     : Device.Designator;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;

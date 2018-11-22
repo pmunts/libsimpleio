@@ -22,12 +22,12 @@
 
 WITH System;
 
+WITH Device;
 WITH errno;
-WITH GPIO.libsimpleio;
 WITH libGPIO;
 WITH libSPI;
 
-USE TYPE GPIO.libsimpleio.Designator;
+USE TYPE Device.Designator;
 
 PACKAGE BODY SPI.libsimpleio IS
 
@@ -38,7 +38,7 @@ PACKAGE BODY SPI.libsimpleio IS
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;
-    cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT) RETURN SPI.Device IS
+    cspin    : Standard.Device.Designator := AUTOCHIPSELECT) RETURN SPI.Device IS
 
     fd       : Integer;
     fdcs     : Integer;

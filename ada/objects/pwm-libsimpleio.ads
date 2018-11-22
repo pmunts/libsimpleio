@@ -31,10 +31,6 @@ PACKAGE PWM.libsimpleio IS
 
   -- Type definitions
 
-  TYPE Designator IS NEW Device.Designator;
-
-  Unavailable : CONSTANT Designator := Designator(Device.Unavailable);
-
   TYPE Polarities IS (ActiveLow, ActiveHigh);
 
   TYPE OutputSubclass IS NEW PWM.Interfaces.OutputInterface WITH PRIVATE;
@@ -46,7 +42,7 @@ PACKAGE PWM.libsimpleio IS
   -- PWM output object constructors
 
   FUNCTION Create
-   (desg      : Designator;
+   (desg      : Device.Designator;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output;

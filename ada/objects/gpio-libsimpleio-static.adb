@@ -27,7 +27,7 @@ PACKAGE BODY GPIO.libsimpleio.Static IS
 
   PROCEDURE Initialize
    (Self     : IN OUT PinSubclass;
-    desg     : Designator;
+    desg     : Device.Designator;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
@@ -57,7 +57,7 @@ PACKAGE BODY GPIO.libsimpleio.Static IS
   BEGIN
     Self := Destroyed;
 
-    IF (chip = Unavailable.chip) OR (line = Unavailable.chan) THEN
+    IF (chip = Device.Unavailable.chip) OR (line = Device.Unavailable.chan) THEN
       RAISE GPIO_Error WITH "Invalid GPIO designator";
     END IF;
 

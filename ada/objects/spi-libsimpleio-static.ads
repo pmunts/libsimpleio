@@ -20,7 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH GPIO.libsimpleio;
+WITH Device;
 
 PACKAGE SPI.libsimpleio.Static IS
 
@@ -30,7 +30,7 @@ PACKAGE SPI.libsimpleio.Static IS
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;
-    cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT);
+    cspin    : Standard.Device.Designator := AUTOCHIPSELECT);
 
   PROCEDURE Destroy(Self : IN OUT DeviceSubclass);
 

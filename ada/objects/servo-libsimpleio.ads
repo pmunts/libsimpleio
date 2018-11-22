@@ -31,10 +31,6 @@ PACKAGE Servo.libsimpleio IS
 
   -- Type definitions
 
-  TYPE Designator IS NEW Device.Designator;
-
-  Unavailable : CONSTANT Designator := Designator(Device.Unavailable);
-
   TYPE OutputSubclass IS NEW Servo.Interfaces.OutputInterface WITH PRIVATE;
 
   -- Constant defintions
@@ -44,7 +40,7 @@ PACKAGE Servo.libsimpleio IS
   -- Servo output object constructors
 
   FUNCTION Create
-   (desg      : Designator;
+   (desg      : Device.Designator;
     frequency : Positive := 50;
     position  : Servo.Position := Servo.NeutralPosition)
     RETURN Servo.Interfaces.Output;

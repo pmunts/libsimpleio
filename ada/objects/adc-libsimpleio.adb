@@ -28,7 +28,7 @@ PACKAGE BODY ADC.libsimpleio IS
   -- ADC input object constructors
 
   FUNCTION Create
-   (desg       : Designator;
+   (desg       : Device.Designator;
     resolution : Positive) RETURN Analog.Input IS
 
   BEGIN

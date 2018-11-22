@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Device;
 WITH GPIO.libsimpleio;
 WITH Logging;
 WITH Message64;
@@ -49,7 +50,7 @@ PACKAGE RemoteIO.GPIO IS
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    desg : Standard.GPIO.libsimpleio.Designator;
+    desg : Device.Designator;
     kind : Kinds := InputOutput);
 
   -- Register libsimpleio GPIO pin by specified chip and line
@@ -76,7 +77,7 @@ PRIVATE
     configured : Boolean;
     preconfig  : Boolean;
     kind       : Kinds;
-    desg       : Standard.GPIO.libsimpleio.Designator;
+    desg       : Device.Designator;
     obj        : Standard.GPIO.libsimpleio.Pin;
     pin        : Standard.GPIO.Pin;
   END RECORD;
@@ -89,7 +90,6 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT PinRec :=
-    PinRec'(False, False, False, InputOutput,
-      Standard.GPIO.libsimpleio.Unavailable, NULL, NULL);
+    PinRec'(False, False, False, InputOutput, Device.Unavailable, NULL, NULL);
 
 END RemoteIO.GPIO;

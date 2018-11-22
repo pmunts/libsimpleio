@@ -27,10 +27,6 @@ PACKAGE ADC.libsimpleio IS
 
   -- Type definitions
 
-  TYPE Designator IS NEW Device.Designator;
-
-  Unavailable : CONSTANT Designator := Designator(Device.Unavailable);
-
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
 
   -- Constant definitions
@@ -40,7 +36,7 @@ PACKAGE ADC.libsimpleio IS
   -- ADC input object constructors
 
   FUNCTION Create
-   (desg       : Designator;
+   (desg       : Device.Designator;
     resolution : Positive) RETURN Analog.Input;
 
   FUNCTION Create

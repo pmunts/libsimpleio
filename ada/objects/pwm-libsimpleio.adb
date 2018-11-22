@@ -28,7 +28,7 @@ PACKAGE BODY PWM.libsimpleio IS
   -- PWM output object constructors
 
   FUNCTION Create
-   (desg      : Designator;
+   (desg      : Device.Designator;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output IS

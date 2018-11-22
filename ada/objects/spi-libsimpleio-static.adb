@@ -20,12 +20,12 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Device;
 WITH errno;
-WITH GPIO.libsimpleio;
 WITH libGPIO;
 WITH libSPI;
 
-USE TYPE GPIO.libsimpleio.Designator;
+USE TYPE Device.Designator;
 
 PACKAGE BODY SPI.libsimpleio.Static IS
 
@@ -37,7 +37,7 @@ PACKAGE BODY SPI.libsimpleio.Static IS
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;
-    cspin    : GPIO.libsimpleio.Designator := AUTOCHIPSELECT) IS
+    cspin    : Standard.Device.Designator := AUTOCHIPSELECT) IS
 
     fd       : Integer;
     fdcs     : Integer;

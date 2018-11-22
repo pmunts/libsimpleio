@@ -29,7 +29,7 @@ PACKAGE Servo.libsimpleio.Static IS
 
   PROCEDURE Initialize
    (Self      : IN OUT OutputSubclass;
-    desg      : Designator;
+    desg      : Device.Designator;
     frequency : Positive := 50;
     position  : Servo.Position := Servo.NeutralPosition);
 

@@ -46,7 +46,7 @@ PACKAGE BODY GPIO.libsimpleio IS
     error  : Integer;
 
   BEGIN
-    IF (chip = Unavailable.chip) OR (line = Unavailable.chan) THEN
+    IF (chip = Device.Unavailable.chip) OR (line = Device.Unavailable.chan) THEN
       RAISE GPIO_Error WITH "Invalid GPIO designator";
     END IF;
 
@@ -91,7 +91,7 @@ PACKAGE BODY GPIO.libsimpleio IS
   END Create;
 
   FUNCTION Create
-   (desg     : Designator;
+   (desg     : Device.Designator;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
