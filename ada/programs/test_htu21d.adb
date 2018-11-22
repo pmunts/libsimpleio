@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Test with Mikroelektronika HTU21D Click: https://www.mikroe.com/htu21d-click
+
 WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 

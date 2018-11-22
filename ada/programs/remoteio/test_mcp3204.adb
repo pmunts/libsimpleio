@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Test with Mikroelektronika ADC Click: https://www.mikroe.com/adc-click
+
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Analog;

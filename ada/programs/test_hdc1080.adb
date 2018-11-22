@@ -20,6 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Test with Digilent pMod HYGRO:
+-- https://store.digilentinc.com/pmod-hygro-digital-humidity-and-temperature-sensor
+
 WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;

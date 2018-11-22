@@ -20,6 +20,12 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Test with Grove I2C ADC module -- http://wiki.seeedstudio.com/Grove-I2C_ADC
+
+-- NOTE: The documentation is inconsistent about which I2C slave address to
+-- use:  Some places state 0x50 and others state 0x55.  The module used for
+-- development of this program uses 0x50.
+
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ADC121C021;

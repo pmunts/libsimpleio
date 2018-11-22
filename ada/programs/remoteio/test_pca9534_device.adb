@@ -20,6 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Test with Sparkfun Qwiic GPIO: https://www.sparkfun.com/products/14716
+-- Default I2C slave address is 0x27
+
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.hidapi;
