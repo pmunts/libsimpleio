@@ -15,9 +15,6 @@
    [4]Cygwin make on Windows as well, but if you don't have and don't want
    Cygwin on your Windows system, you can use the script command files
    compile.cmd and clean.cmd instead.
-
-   (These test programs can actually be compiled with the Cygwin native
-   GNAT toolchain, but suffer a number of run time issues.)
    _______________________________________________________________________
 
    Questions or comments to Philip Munts [5]phil@munts.net
