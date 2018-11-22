@@ -20,6 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Test with Mikroelektronika Expand 2 Click: https://www.mikroe.com/expand-2-click
+-- Default I2C address is 0x20
+
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.hidapi;
