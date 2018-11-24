@@ -37,9 +37,6 @@ GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
 
 hidapi.dll:
 	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
-
-libusb-1.0.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/libusb-1.0.dll .
 endif
 endif
 
