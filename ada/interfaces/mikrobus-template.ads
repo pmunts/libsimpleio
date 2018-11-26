@@ -1,4 +1,4 @@
--- Mikroelektronika Click mikroBUS socket services
+-- Mikroelektronika mikroBUS socket services interface template
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
