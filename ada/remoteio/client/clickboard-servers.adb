@@ -29,7 +29,8 @@ PACKAGE BODY ClickBoard.Servers IS
   BEGIN
     RETURN Kind'Value(Ada.Environment_Variables.Value("SERVERKIND"));
   EXCEPTION
-    RETURN Unknown;
+    WHEN OTHERS =>
+      RETURN Unknown;
   END Detect;
 
 END ClickBoard.Servers;
