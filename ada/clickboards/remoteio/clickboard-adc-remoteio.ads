@@ -23,20 +23,26 @@
 WITH ClickBoard.Remoteio;
 WITH MCP3204;
 WITH RemoteIO.Client;
+WITH SPI.RemoteIO;
 WITH Voltage;
 
-PACKAGE ClickBoard.ADC IS
-
-  TYPE Inputs IS ARRAY (MCP3204.Channel) OF Voltage.Interfaces.Input;
+PACKAGE ClickBoard.ADC.RemoteIO IS
 
   -- Create an array of analog voltage inputs from Socket object
 
   FUNCTION Create
-   (socket: ClickBoard.libsimpleio.Socket) RETURN Inputs;
+   (remdev    : Standard.RemoteIO.Client.Device;
+    socket    : ClickBoard.RemoteIO.Socket;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
+   (Create(SPI.RemoteIO.Create(remdev, socket.SPI, MCP3204.SPI_Mode,
+      MCP3204.SPI_WordSize, MCP3204.SPI_Frequency), reference));
 
   -- Create an array of analog voltage inputs from socket number
 
   FUNCTION Create
-   (socknum : Positive) RETURN Inputs;
+   (remdev    : Standard.RemoteIO.Client.Device;
+    socknum   : Positive;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
+   (Create(remdev, ClickBoard.RemoteIO.Create(socknum), reference));
 
-END ClickBoard.ADC;
+END ClickBoard.ADC.RemoteIO;
