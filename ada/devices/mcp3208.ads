@@ -25,6 +25,10 @@ WITH SPI;
 
 PACKAGE MCP3208 IS
 
+  SPI_Mode      : CONSTANT Natural := 0;
+  SPI_WordSize  : CONSTANT Natural := 8;
+  SPI_Frequency : CONSTANT Natural := 1_000_000; -- 1 MHz at 2.7V, 2 MHz at 5V
+
   -- Define a subclass of Analog.InputInterface
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;

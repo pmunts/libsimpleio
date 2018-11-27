@@ -25,6 +25,10 @@ WITH SPI;
 
 PACKAGE MCP3202 IS
 
+  SPI_Mode      : CONSTANT Natural := 0;
+  SPI_WordSize  : CONSTANT Natural := 8;
+  SPI_Frequency : CONSTANT Natural := 1_000_000; -- 0.9 MHz at 2.7V, 1.8 MHz at 5V
+
   -- Define a subclass of Analog.InputInterface
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
