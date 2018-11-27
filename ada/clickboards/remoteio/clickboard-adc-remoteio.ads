@@ -1,4 +1,4 @@
--- Mikroelecktronika ADC Click services
+-- Mikroelecktronika ADC Click services using Remote I/O
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,8 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
+WITH ClickBoard.Remoteio;
 WITH MCP3204;
+WITH RemoteIO.Client;
 WITH Voltage;
 
 PACKAGE ClickBoard.ADC IS
