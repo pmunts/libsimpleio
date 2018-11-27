@@ -22,7 +22,9 @@
 
 WITH ClickBoard.Servers;
 WITH ClickBoard.RemoteIO;
+
 WITH RemoteIO.Arduino;
+WITH RemoteIO.Clicker;
 
 USE TYPE ClickBoard.Servers.Kind;
 
@@ -84,6 +86,26 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       AIN           => Standard.RemoteIO.Arduino.AIN1,
       I2C           => Standard.RemoteIO.Arduino.I2C0,
       SPI           => Standard.RemoteIO.Arduino.SPI1,
+      OTHERS        => Unavailable),
+
+    -- Mikroelektronika Clicker board with 1 socket
+
+    SocketRec'(ClickBoard.Servers.Clicker, 1,
+     (ClickBoard.AN   => Standard.RemoteIO.Clicker.AN,
+      ClickBoard.RST  => Standard.RemoteIO.Clicker.RST,
+      ClickBoard.CS   => Standard.RemoteIO.Clicker.CS,
+      ClickBoard.SCK  => Standard.RemoteIO.Clicker.SCK,
+      ClickBoard.MISO => Standard.RemoteIO.Clicker.MISO,
+      ClickBoard.MOSI => Standard.RemoteIO.Clicker.MOSI,
+      ClickBoard.PWM  => Standard.RemoteIO.Clicker.PWM,
+      ClickBoard.INT  => Standard.RemoteIO.Clicker.INT,
+      ClickBoard.RX   => Standard.RemoteIO.Clicker.RX,
+      ClickBoard.TX   => Standard.RemoteIO.Clicker.TX,
+      ClickBoard.SCL  => Standard.RemoteIO.Clicker.SCL,
+      ClickBoard.SDA  => Standard.RemoteIO.Clicker.SDA),
+      AIN           => Standard.RemoteIO.Clicker.AIN0,
+      I2C           => Standard.RemoteIO.Clicker.I2C0,
+      SPI           => Standard.RemoteIO.Clicker.SPI0,
       OTHERS        => Unavailable)
    );
 
