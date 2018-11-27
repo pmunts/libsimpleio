@@ -1,4 +1,4 @@
--- Mikroelektronika Click Board shield services
+-- Mikroelektronika Click Board shield services, using libsimpleio
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --

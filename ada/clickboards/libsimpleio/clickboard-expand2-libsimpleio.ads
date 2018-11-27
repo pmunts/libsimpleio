@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Altitude Click, using libsimpleio
+-- Services for the Mikroelektronika Expand2 Click, using libsimpleio
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,30 +22,30 @@
 
 WITH ClickBoard.libsimpleio;
 WITH I2C.libsimpleio;
-WITH MPL3115A2;
+WITH MCP23017;
 
-PACKAGE ClickBoard.Altitude.libsimpleio IS
+PACKAGE ClickBoard.Expand2.libsimpleio IS
 
-  -- Create MPL3115A2 sensor object from a socket number
+  -- Create MCP23017 I/O expander object from a socket number
 
   FUNCTION Create
    (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+    (MCP23017.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
 
-  -- Create MPL3115A2 sensor object from a socket object
+  -- Create MCP23017 I/O expander object from a socket object
 
   FUNCTION Create
    (socket : ClickBoard.libsimpleio.Socket;
-    addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(socket.I2C), addr));
+    addr   : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+    (MCP23017.Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
-  -- Create MPL3115A2 sensor object from I2C bus controller (if the I2C bus
-  -- is shared with another device)
+  -- Create MCP23017 I/O expander object from I2C bus controller (if the I2C
+  -- bus is shared with another device)
 
   FUNCTION Create
    (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(bus, addr));
+    addr : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+    (MCP23017.Create(bus, addr));
 
-END ClickBoard.Altitude.libsimpleio;
+END ClickBoard.Expand2.libsimpleio;

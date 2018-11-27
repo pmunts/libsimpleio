@@ -1,4 +1,4 @@
--- Mikroelektronika Click Board socket services
+-- Mikroelektronika Click Board socket services, using libsimpleio
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,13 +22,13 @@
 
 WITH ClickBoard.Shields;
 WITH Device;
-with mikroBUS.libsimpleio;
+with ClickBoard.Sockets_libsimpleio;
 
 PACKAGE ClickBoard.libsimpleio IS
 
   -- Define an object class for Click Board shield sockets
 
-  TYPE Socket IS NEW mikroBUS.libsimpleio.SocketInterface WITH PRIVATE;
+  TYPE Socket IS NEW ClickBoard.Sockets_libsimpleio.SocketInterface WITH PRIVATE;
 
   -- Socket object constructor with implicit (detected) shield selection
 
@@ -53,7 +53,7 @@ PACKAGE ClickBoard.libsimpleio IS
 
   -- Map Click Board socket GPIO pin to Linux GPIO pin designator
 
-  FUNCTION GPIO(self : socket; pin : mikroBUS.Pins) RETURN Device.Designator;
+  FUNCTION GPIO(self : socket; pin : ClickBoard.Pins) RETURN Device.Designator;
 
   -- Map Click Board socket to I2C bus controller device name
 
@@ -77,7 +77,7 @@ PACKAGE ClickBoard.libsimpleio IS
 
 PRIVATE
 
-  TYPE Socket IS NEW mikroBUS.libsimpleio.SocketInterface WITH RECORD
+  TYPE Socket IS NEW ClickBoard.Sockets_libsimpleio.SocketInterface WITH RECORD
     index : Positive;
   END RECORD;
 

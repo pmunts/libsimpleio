@@ -21,14 +21,14 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.Servers;
-WITH mikroBUS.RemoteIO;
+WITH ClickBoard.Sockets_RemoteIO;
 WITH RemoteIO;
 
 PACKAGE ClickBoard.RemoteIO IS
 
   -- Define an object class for Click Board shield sockets
 
-  TYPE Socket IS NEW mikroBUS.RemoteIO.SocketInterface WITH PRIVATE;
+  TYPE Socket IS NEW ClickBoard.Sockets_RemoteIO.SocketInterface WITH PRIVATE;
 
   -- Socket object constructor
 
@@ -51,7 +51,7 @@ PACKAGE ClickBoard.RemoteIO IS
 
   -- Map Click Board socket GPIO pin to Linux GPIO pin designator
 
-  FUNCTION GPIO(self : socket; pin : mikroBUS.Pins)
+  FUNCTION GPIO(self : socket; pin : ClickBoard.Pins)
     RETURN Standard.RemoteIO.ChannelNumber;
 
   -- Map Click Board socket to I2C bus controller device name
@@ -72,7 +72,7 @@ PACKAGE ClickBoard.RemoteIO IS
 
 PRIVATE
 
-  TYPE Socket IS NEW mikroBUS.RemoteIO.SocketInterface WITH RECORD
+  TYPE Socket IS NEW ClickBoard.Sockets_RemoteIO.SocketInterface WITH RECORD
     index : Positive;
   END RECORD;
 

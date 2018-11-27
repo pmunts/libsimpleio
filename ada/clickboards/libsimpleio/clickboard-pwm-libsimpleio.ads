@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika Altitude Click, using libsimpleio
+-- Services for the Mikroelektronika PWM Click, using libsimpleio
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,30 +22,35 @@
 
 WITH ClickBoard.libsimpleio;
 WITH I2C.libsimpleio;
-WITH MPL3115A2;
+WITH PCA9685;
 
-PACKAGE ClickBoard.Altitude.libsimpleio IS
+PACKAGE ClickBoard.PWM.libsimpleio IS
 
-  -- Create MPL3115A2 sensor object from a socket number
-
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
-
-  -- Create MPL3115A2 sensor object from a socket object
+  -- Create PCA9685 device object from socket number, I2C address, and PWM
+  -- frequency
 
   FUNCTION Create
-   (socket : ClickBoard.libsimpleio.Socket;
-    addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(socket.I2C), addr));
+   (socknum   : Positive;
+    addr      : I2C.Address := DefaultAddress;
+    frequency : Positive := 50) RETURN PCA9685.Device IS
+     (PCA9685.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C),
+       addr, frequency));
 
-  -- Create MPL3115A2 sensor object from I2C bus controller (if the I2C bus
-  -- is shared with another device)
+  -- Create PCA9685 device object from socket, I2C address, and PWM frequency
 
   FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(bus, addr));
+   (socket    : ClickBoard.libsimpleio.Socket;
+    addr      : I2C.Address := DefaultAddress;
+    frequency : Positive := 50) RETURN PCA9685.Device IS
+     (PCA9685.Create(I2C.libsimpleio.Create(socket.I2C), addr, frequency));
 
-END ClickBoard.Altitude.libsimpleio;
+  -- Create PCA9685 device object from I2C bus controller (if the I2C bus is
+  -- shared with another device)
+
+  FUNCTION Create
+   (bus       : I2C.Bus;
+    addr      : I2C.Address := DefaultAddress;
+    frequency : Positive := 50) RETURN PCA9685.Device IS
+     (PCA9685.Create(bus, addr, frequency));
+
+END ClickBoard.PWM.libsimpleio;

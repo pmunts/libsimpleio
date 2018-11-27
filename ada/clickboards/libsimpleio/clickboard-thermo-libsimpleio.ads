@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika Altitude Click, using libsimpleio
+-- Services for the Mikroelektronika Thermo Click, using libsimpleio
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -21,31 +21,26 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.libsimpleio;
-WITH I2C.libsimpleio;
-WITH MPL3115A2;
+WITH MAX31855;
+WITH ClickBoard;
+WITH SPI.libsimpleio;
 
-PACKAGE ClickBoard.Altitude.libsimpleio IS
+PACKAGE ClickBoard.Thermo.libsimpleio IS
 
-  -- Create MPL3115A2 sensor object from a socket number
+  -- Create MAX31855 sensor object from SPI device object
 
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
+  FUNCTION Create(spidev : SPI.Device) RETURN MAX31855.Device IS
+   (MAX31855.Create(spidev));
 
-  -- Create MPL3115A2 sensor object from a socket object
+  -- Create MAX31855 sensor object from socket object
 
-  FUNCTION Create
-   (socket : ClickBoard.libsimpleio.Socket;
-    addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(socket.I2C), addr));
+  FUNCTION Create(socket : ClickBoard.libsimpleio.Socket) RETURN MAX31855.Device IS
+   (Create(SPI.libsimpleio.Create(socket.SPI, 0, 8, 5_000_000,
+    socket.GPIO(ClickBoard.CS))));
 
-  -- Create MPL3115A2 sensor object from I2C bus controller (if the I2C bus
-  -- is shared with another device)
+  -- Create MAX31855 sensor object from socket number
 
-  FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(bus, addr));
+  FUNCTION Create(socknum : Positive) RETURN MAX31855.Device IS
+   (Create(ClickBoard.libsimpleio.Create(socknum)));
 
-END ClickBoard.Altitude.libsimpleio;
+END ClickBoard.Thermo.libsimpleio;

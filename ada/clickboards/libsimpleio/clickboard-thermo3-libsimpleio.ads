@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika Altitude Click, using libsimpleio
+-- Services for the Mikroelektronika Thermo3 Click, using libsimpleio
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,30 +22,30 @@
 
 WITH ClickBoard.libsimpleio;
 WITH I2C.libsimpleio;
-WITH MPL3115A2;
+WITH TMP102;
 
-PACKAGE ClickBoard.Altitude.libsimpleio IS
+PACKAGE ClickBoard.Thermo3.libsimpleio IS
 
-  -- Create MPL3115A2 sensor object from a socket number
+  -- Create TMP102 sensor object from socket number
 
   FUNCTION Create
    (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
+    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
+    (TMP102.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
 
-  -- Create MPL3115A2 sensor object from a socket object
+  -- Create TMP102 sensor object from socket
 
   FUNCTION Create
    (socket : ClickBoard.libsimpleio.Socket;
-    addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(socket.I2C), addr));
+    addr   : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
+    (TMP102.Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
-  -- Create MPL3115A2 sensor object from I2C bus controller (if the I2C bus
-  -- is shared with another device)
+  -- Create TMP102 sensor object from I2C bus controller (if the I2C bus is
+  -- shared with another device)
 
   FUNCTION Create
    (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(bus, addr));
+    addr : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
+    (TMP102.Create(bus, addr));
 
-END ClickBoard.Altitude.libsimpleio;
+END ClickBoard.Thermo3.libsimpleio;

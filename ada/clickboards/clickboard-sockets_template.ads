@@ -1,4 +1,4 @@
--- Mikroelektronika mikroBUS socket services interface template
+-- Mikroelektronika Click Board socket services interface template
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -29,9 +29,9 @@ GENERIC
   TYPE SPI_Designator(<>)    IS PRIVATE;
   TYPE UART_Designator(<>)   IS PRIVATE;
 
-PACKAGE mikroBUS.template IS
+PACKAGE ClickBoard.Sockets_Template IS
 
-  -- Define an abstract interface for mikroBUS sockets
+  -- Define an abstract interface for Click Board sockets
 
   TYPE SocketInterface IS INTERFACE;
 
@@ -40,7 +40,7 @@ PACKAGE mikroBUS.template IS
 
   TYPE Socket IS ACCESS ALL SocketInterface'Class;
 
-  -- Methods for mikroBUS sockets
+  -- Click Board socket services
 
   FUNCTION Number
    (Self : SocketInterface) RETURN Positive IS ABSTRACT;
@@ -64,4 +64,4 @@ PACKAGE mikroBUS.template IS
   FUNCTION UART
    (Self : SocketInterface) RETURN UART_Designator IS ABSTRACT;
 
-END mikroBUS.template;
+END ClickBoard.Sockets_Template;

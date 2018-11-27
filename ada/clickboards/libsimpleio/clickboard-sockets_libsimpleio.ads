@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Altitude Click, using libsimpleio
+-- Instantiate Click Board socket services interface, using libsimpleio
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,32 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
-WITH I2C.libsimpleio;
-WITH MPL3115A2;
+WITH Device;
+WITH ClickBoard.Sockets_Template;
 
-PACKAGE ClickBoard.Altitude.libsimpleio IS
-
-  -- Create MPL3115A2 sensor object from a socket number
-
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
-
-  -- Create MPL3115A2 sensor object from a socket object
-
-  FUNCTION Create
-   (socket : ClickBoard.libsimpleio.Socket;
-    addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(socket.I2C), addr));
-
-  -- Create MPL3115A2 sensor object from I2C bus controller (if the I2C bus
-  -- is shared with another device)
-
-  FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(bus, addr));
-
-END ClickBoard.Altitude.libsimpleio;
+PACKAGE ClickBoard.Sockets_libsimpleio IS NEW ClickBoard.Sockets_Template
+ (Device.Designator, Device.Designator, String, Device.Designator,
+  String, String);
