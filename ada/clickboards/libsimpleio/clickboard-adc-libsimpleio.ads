@@ -32,7 +32,9 @@ PACKAGE ClickBoard.ADC.libsimpleio IS
   FUNCTION Create
    (socket: ClickBoard.libsimpleio.Socket;
     reference : Voltage.Volts := 3.3) RETURN Inputs IS
-   (Create(SPI.libsimpleio.Create(socket.SPI, 0, 8 , 5_000_000, socket.GPIO(ClickBoard.CS))));
+   (Create(SPI.libsimpleio.Create(socket.SPI, MCP3204.SPI_Mode,
+      MCP3204.SPI_WordSize, MCP3204.SPI_Frequency,
+      socket.GPIO(ClickBoard.CS))));
 
   -- Create an array of analog voltage inputs from socket number
 
