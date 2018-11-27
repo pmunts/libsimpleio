@@ -94,8 +94,6 @@ PACKAGE BODY ClickBoard.RemoteIO IS
     kind    : ClickBoard.Servers.kind := ClickBoard.Servers.Detect)
    RETURN Socket IS
 
-    i : Natural;
-
   BEGIN
     FOR i IN SocketTable'Range LOOP
       IF (socknum = SocketTable(i).num) AND (kind = SocketTable(i).Kind) THEN

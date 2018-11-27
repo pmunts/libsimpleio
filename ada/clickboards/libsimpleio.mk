@@ -1,4 +1,4 @@
-# Makefile for building Ada example programs
+# Make definitions for using Click Boards via libsimpleio
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
@@ -20,42 +20,5 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Modify the following macro to build out of tree
-
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-ADA_SRC		?= $(LIBSIMPLEIO)/ada
-
-include $(LIBSIMPLEIO)/ada/include/ada.mk
-include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
-include $(LIBSIMPLEIO)/ada/remoteio/remoteio.mk
-include $(LIBSIMPLEIO)/ada/clickboards/remoteio.mk
-
-# Special goop for AdaCore GNAT for Windows
-
-ifneq ($(GNAT_ADACORE),)
-ifeq ($(OS), Windows_NT)
-WINARCH		?= win64
-GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
-
-hidapi.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
-
-libusb-1.0.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/libusb-1.0.dll .
-endif
-endif
-
-# Compile the test programs
-
-default:
-	for F in *.adb ; do $(MAKE) `basename $$F .adb` ; done
-
-# Remove working files
-
-clean: ada_mk_clean
-	for F in *.adb ; do rm -f `basename $$F .adb` ; done
-
-reallyclean: clean ada_mk_reallyclean
-	rm -rf *.dll
-
-distclean: reallyclean ada_mk_distclean
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards/libsimpleio
