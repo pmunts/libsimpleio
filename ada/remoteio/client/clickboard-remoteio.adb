@@ -22,7 +22,9 @@
 
 WITH ClickBoard.Servers;
 WITH mikroBUS.RemoteIO;
-WITH RemoteIO;
+WITH RemoteIO.Arduino;
+
+USE TYPE ClickBoard.Servers.Kind;
 
 PACKAGE BODY ClickBoard.RemoteIO IS
 
@@ -45,13 +47,45 @@ PACKAGE BODY ClickBoard.RemoteIO IS
   END RECORD;
 
   SocketTable : CONSTANT ARRAY (Natural RANGE <>) OF SocketRec :=
-   (SocketRec'(ClickBoard.Servers.Arduino, 1,
-     (mikroBUS.AN  => Unavailable,
-      mikroBUS.RST => Unavailable,
-      mikroBUS.INT => Unavailable,
-      mikroBUS.PWM => Unavailable,
-      OTHERS       => Unavailable),
-      OTHERS       => Unavailable));
+   (
+    -- Any server with an Arduino Click Shield
+    SocketRec'(ClickBoard.Servers.Arduino, 1,
+     (mikroBUS.AN   => Standard.RemoteIO.Arduino.A0,
+      mikroBUS.RST  => Standard.RemoteIO.Arduino.A3,
+      mikroBUS.CS   => Standard.RemoteIO.Arduino.D10,
+      mikroBUS.SCK  => Standard.RemoteIO.Arduino.D13,
+      mikroBUS.MISO => Standard.RemoteIO.Arduino.D12,
+      mikroBUS.MOSI => Standard.RemoteIO.Arduino.D11,
+      mikroBUS.PWM  => Standard.RemoteIO.Arduino.D6,
+      mikroBUS.INT  => Standard.RemoteIO.Arduino.D2,
+      mikroBUS.RX   => Standard.RemoteIO.Arduino.D0,
+      mikroBUS.TX   => Standard.RemoteIO.Arduino.D1,
+      mikroBUS.SCL  => Standard.RemoteIO.Arduino.A5,
+      mikroBUS.SDA  => Standard.RemoteIO.Arduino.A4),
+      AIN           => Standard.RemoteIO.Arduino.AIN0,
+      I2C           => Standard.RemoteIO.Arduino.I2C0,
+      SPI           => Standard.RemoteIO.Arduino.SPI0,
+      OTHERS        => Unavailable),
+
+    -- Any server with an Arduino Click Shield
+    SocketRec'(ClickBoard.Servers.Arduino, 2,
+     (mikroBUS.AN   => Standard.RemoteIO.Arduino.A1,
+      mikroBUS.RST  => Standard.RemoteIO.Arduino.A2,
+      mikroBUS.CS   => Standard.RemoteIO.Arduino.D9,
+      mikroBUS.SCK  => Standard.RemoteIO.Arduino.D13,
+      mikroBUS.MISO => Standard.RemoteIO.Arduino.D12,
+      mikroBUS.MOSI => Standard.RemoteIO.Arduino.D11,
+      mikroBUS.PWM  => Standard.RemoteIO.Arduino.D5,
+      mikroBUS.INT  => Standard.RemoteIO.Arduino.D3,
+      mikroBUS.RX   => Standard.RemoteIO.Arduino.D0,
+      mikroBUS.TX   => Standard.RemoteIO.Arduino.D1,
+      mikroBUS.SCL  => Standard.RemoteIO.Arduino.A5,
+      mikroBUS.SDA  => Standard.RemoteIO.Arduino.A4),
+      AIN           => Standard.RemoteIO.Arduino.AIN1,
+      I2C           => Standard.RemoteIO.Arduino.I2C0,
+      SPI           => Standard.RemoteIO.Arduino.SPI1,
+      OTHERS        => Unavailable)
+   );
 
   -- Socket object constructor
 
@@ -60,73 +94,106 @@ PACKAGE BODY ClickBoard.RemoteIO IS
     kind    : ClickBoard.Servers.kind := ClickBoard.Servers.Detect)
    RETURN Socket IS
 
+    i : Natural;
+
   BEGIN
-    RETURN Socket'(index => 1);
+    FOR i IN SocketTable'Range LOOP
+      IF (socknum = SocketTable(i).num) AND (kind = SocketTable(i).Kind) THEN
+        RETURN Socket'(index => i);
+      END IF;
+    END LOOP;
+
+    RAISE mikroBUS.SocketError WITH "Unable to find matching server and socket";
   END Create;
 
   -- Retrieve the type of Remote I/O server
 
-  FUNCTION ServerKind(self : socket) RETURN ClickBoard.Servers.Kind IS
+  FUNCTION ServerKind(Self : socket) RETURN ClickBoard.Servers.Kind IS
 
   BEGIN
-    RETURN ClickBoard.Servers.Unknown;
+    RETURN SocketTable(Self.index).Kind;
   END ServerKind;
 
   -- Retrieve the socket number
 
-  FUNCTION Number(self : socket) RETURN Positive IS
+  FUNCTION Number(Self : socket) RETURN Positive IS
 
   BEGIN
-    RETURN 1;
+    RETURN SocketTable(Self.index).num;
   END Number;
 
   -- Map Click Board socket to A/D input designator
 
-  FUNCTION AIN(self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION AIN(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
-    RETURN 0;
+    IF SocketTable(Self.index).AIN = Unavailable THEN
+      RAISE mikroBUS.SocketError WITH "AIN is not available for this socket";
+    END IF;
+
+    RETURN SocketTable(Self.index).AIN;
   END AIN;
 
   -- Map Click Board socket GPIO pin to Linux GPIO pin designator
 
-  FUNCTION GPIO(self : socket; pin : mikroBUS.Pins)
+  FUNCTION GPIO(Self : socket; pin : mikroBUS.Pins)
     RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
-    RETURN 0;
+    IF SocketTable(Self.index).AIN = Unavailable THEN
+      RAISE mikroBUS.SocketError WITH "GPIO pin " & mikroBUS.Pins'Image(pin) &
+        " is not available for this socket";
+    END IF;
+
+    RETURN SocketTable(Self.index).GPIO(pin);
   END GPIO;
 
   -- Map Click Board socket to I2C bus controller device
 
-  FUNCTION I2C(self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION I2C(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
-    RETURN 0;
+    IF SocketTable(Self.index).AIN = Unavailable THEN
+      RAISE mikroBUS.SocketError WITH "I2C is not available for this socket";
+    END IF;
+
+    RETURN SocketTable(Self.index).I2C;
   END I2C;
 
   -- Map Click Board socket to PWM output device
 
-  FUNCTION PWM(self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION PWM(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
-    RETURN 0;
+    IF SocketTable(Self.index).AIN = Unavailable THEN
+      RAISE mikroBUS.SocketError WITH "PWM is not available for this socket";
+    END IF;
+
+    RETURN SocketTable(Self.index).PWM;
   END PWM;
 
   -- Map Click Board socket to SPI device
 
-  FUNCTION SPI(self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION SPI(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
-    RETURN 0;
+    IF SocketTable(Self.index).AIN = Unavailable THEN
+      RAISE mikroBUS.SocketError WITH "SPI is not available for this socket";
+    END IF;
+
+    RETURN SocketTable(Self.index).SPI;
   END SPI;
 
   -- Map Click Board socket to serial port device
 
-  FUNCTION UART(self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION UART(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
-    RETURN 0;
+    IF SocketTable(Self.index).AIN = Unavailable THEN
+      RAISE mikroBUS.SocketError WITH "UART is not available for this socket";
+    END IF;
+
+    RETURN SocketTable(Self.index).UART;
   END UART;
 
 END ClickBoard.RemoteIO;
