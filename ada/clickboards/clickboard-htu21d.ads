@@ -20,5 +20,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH HTU21D;
+WITH I2C;
+
 PACKAGE ClickBoard.HTU21D IS
+
+  -- Create HTU21D sensor object from I2C bus controller object
+  -- (e.g. if the I2C bus is shared with another device)
+
+  FUNCTION Create
+   (bus     : I2C.Bus;
+    stretch : Boolean := False) RETURN Standard.HTU21D.Device IS
+   (Standard.HTU21D.Create(bus, stretch));
+
 END ClickBoard.HTU21D;

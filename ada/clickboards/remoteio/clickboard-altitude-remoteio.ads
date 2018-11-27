@@ -27,14 +27,6 @@ WITH RemoteIO.Client;
 
 PACKAGE ClickBoard.Altitude.RemoteIO IS
 
-  -- Create MPL3115A2 sensor object from a socket number
-
-  FUNCTION Create
-   (remdev  : Standard.RemoteIO.Client.Device;
-    socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.RemoteIO.Create(remdev, ClickBoard.RemoteIO.Create(socknum).I2C), addr));
-
   -- Create MPL3115A2 sensor object from a socket object
 
   FUNCTION Create
@@ -43,12 +35,12 @@ PACKAGE ClickBoard.Altitude.RemoteIO IS
     addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
      (MPL3115A2.Create(I2C.RemoteIO.Create(remdev, socket.I2C), addr));
 
-  -- Create MPL3115A2 sensor object from I2C bus controller (if the I2C bus
-  -- is shared with another device)
+  -- Create MPL3115A2 sensor object from a socket number
 
   FUNCTION Create
-   (bus     : I2C.Bus;
+   (remdev  : Standard.RemoteIO.Client.Device;
+    socknum : Positive;
     addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(bus, addr));
+     (Create(remdev, ClickBoard.RemoteIO.Create(socknum), addr));
 
 END ClickBoard.Altitude.RemoteIO;

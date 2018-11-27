@@ -26,17 +26,8 @@ WITH PCA9685;
 
 PACKAGE ClickBoard.PWM.libsimpleio IS
 
-  -- Create PCA9685 device object from socket number, I2C address, and PWM
-  -- frequency
-
-  FUNCTION Create
-   (socknum   : Positive;
-    addr      : I2C.Address := DefaultAddress;
-    frequency : Positive := 50) RETURN PCA9685.Device IS
-     (PCA9685.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C),
-       addr, frequency));
-
-  -- Create PCA9685 device object from socket, I2C address, and PWM frequency
+  -- Create PCA9685 device object from socket, I2C address,
+  -- and PWM frequency
 
   FUNCTION Create
    (socket    : ClickBoard.libsimpleio.Socket;
@@ -44,13 +35,13 @@ PACKAGE ClickBoard.PWM.libsimpleio IS
     frequency : Positive := 50) RETURN PCA9685.Device IS
      (PCA9685.Create(I2C.libsimpleio.Create(socket.I2C), addr, frequency));
 
-  -- Create PCA9685 device object from I2C bus controller (if the I2C bus is
-  -- shared with another device)
+  -- Create PCA9685 device object from socket number, I2C address,
+  -- and PWM frequency
 
   FUNCTION Create
-   (bus       : I2C.Bus;
+   (socknum   : Positive;
     addr      : I2C.Address := DefaultAddress;
     frequency : Positive := 50) RETURN PCA9685.Device IS
-     (PCA9685.Create(bus, addr, frequency));
+     (Create(ClickBoard.libsimpleio.Create(socknum), addr, frequency));
 
 END ClickBoard.PWM.libsimpleio;

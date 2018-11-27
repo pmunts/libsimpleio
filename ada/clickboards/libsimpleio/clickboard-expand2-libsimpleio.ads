@@ -26,13 +26,6 @@ WITH MCP23017;
 
 PACKAGE ClickBoard.Expand2.libsimpleio IS
 
-  -- Create MCP23017 I/O expander object from a socket number
-
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
-    (MCP23017.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
-
   -- Create MCP23017 I/O expander object from a socket object
 
   FUNCTION Create
@@ -40,12 +33,11 @@ PACKAGE ClickBoard.Expand2.libsimpleio IS
     addr   : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
     (MCP23017.Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
-  -- Create MCP23017 I/O expander object from I2C bus controller (if the I2C
-  -- bus is shared with another device)
+  -- Create MCP23017 I/O expander object from a socket number
 
   FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
-    (MCP23017.Create(bus, addr));
+   (socknum : Positive;
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+    (Create(ClickBoard.libsimpleio.Create(socknum), addr));
 
 END ClickBoard.Expand2.libsimpleio;

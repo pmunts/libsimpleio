@@ -21,9 +21,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH I2C;
+WITH MPL3115A2;
 
 PACKAGE ClickBoard.Altitude IS
 
   DefaultAddress : CONSTANT I2C.Address := 16#60#;
+
+  -- Create MPL3115A2 sensor object from I2C bus controller object
+  -- (e.g. if the I2C bus is shared with another device)
+
+  FUNCTION Create
+   (bus  : I2C.Bus;
+    addr : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
+     (MPL3115A2.Create(bus, addr));
 
 END ClickBoard.Altitude;

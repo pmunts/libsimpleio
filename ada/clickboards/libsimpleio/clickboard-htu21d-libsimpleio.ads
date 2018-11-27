@@ -26,14 +26,6 @@ WITH I2C.libsimpleio;
 
 PACKAGE ClickBoard.HTU21D.libsimpleio IS
 
-  -- Create HTU21D sensor object from I2C bus controller (if the I2C bus is
-  -- shared with another device)
-
-  FUNCTION Create
-   (bus     : I2C.Bus;
-    stretch : Boolean := False) RETURN Standard.HTU21D.Device IS
-   (Standard.HTU21D.Create(bus, stretch));
-
   -- Create HTU21D sensor object from a socket object
 
   FUNCTION Create

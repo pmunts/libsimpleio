@@ -20,5 +20,14 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH MAX31855;
+WITH SPI;
+
 PACKAGE ClickBoard.Thermo IS
+
+  -- Create MAX31855 sensor object from SPI device object
+
+  FUNCTION Create(spidev : SPI.Device) RETURN MAX31855.Device IS
+   (MAX31855.Create(spidev));
+
 END ClickBoard.Thermo;

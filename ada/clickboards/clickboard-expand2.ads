@@ -21,9 +21,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH I2C;
+WITH MCP23017;
 
 PACKAGE ClickBoard.Expand2 IS
 
   DefaultAddress : CONSTANT I2C.Address := 16#20#;
+
+  -- Create MCP23017 I/O expander object from I2C bus controller object
+  -- (e.g. if the I2C bus is shared with another device)
+
+  FUNCTION Create
+   (bus  : I2C.Bus;
+    addr : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+    (MCP23017.Create(bus, addr));
 
 END ClickBoard.Expand2;

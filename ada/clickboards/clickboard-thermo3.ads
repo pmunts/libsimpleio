@@ -21,9 +21,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH I2C;
+WITH TMP102;
 
 PACKAGE ClickBoard.Thermo3 IS
 
   DefaultAddress : CONSTANT I2C.Address := 16#48#;
+
+  -- Create TMP102 sensor object from I2C bus controller object
+  -- (e.g. if the I2C bus is shared with another device)
+
+  FUNCTION Create
+   (bus  : I2C.Bus;
+    addr : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
+    (TMP102.Create(bus, addr));
 
 END ClickBoard.Thermo3;

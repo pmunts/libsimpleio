@@ -21,9 +21,19 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH I2C;
+WITH PCA9685;
 
 PACKAGE ClickBoard.PWM IS
 
   DefaultAddress : CONSTANT I2C.Address := 16#40#;
+
+  -- Create PCA9685 device object from I2C bus controller object
+  -- (e.g. if the I2C bus is shared with another device)
+
+  FUNCTION Create
+   (bus       : I2C.Bus;
+    addr      : I2C.Address := DefaultAddress;
+    frequency : Positive := 50) RETURN PCA9685.Device IS
+     (PCA9685.Create(bus, addr, frequency));
 
 END ClickBoard.PWM;

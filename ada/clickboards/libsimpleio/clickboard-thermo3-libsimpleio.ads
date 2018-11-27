@@ -26,13 +26,6 @@ WITH TMP102;
 
 PACKAGE ClickBoard.Thermo3.libsimpleio IS
 
-  -- Create TMP102 sensor object from socket number
-
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
-    (TMP102.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
-
   -- Create TMP102 sensor object from socket
 
   FUNCTION Create
@@ -40,12 +33,11 @@ PACKAGE ClickBoard.Thermo3.libsimpleio IS
     addr   : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
     (TMP102.Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
-  -- Create TMP102 sensor object from I2C bus controller (if the I2C bus is
-  -- shared with another device)
+  -- Create TMP102 sensor object from socket number
 
   FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
-    (TMP102.Create(bus, addr));
+   (socknum : Positive;
+    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
+    (Create(ClickBoard.libsimpleio.Create(socknum), addr));
 
 END ClickBoard.Thermo3.libsimpleio;

@@ -26,13 +26,6 @@ WITH MPL3115A2;
 
 PACKAGE ClickBoard.Altitude.libsimpleio IS
 
-  -- Create MPL3115A2 sensor object from a socket number
-
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(ClickBoard.libsimpleio.Create(socknum).I2C), addr));
-
   -- Create MPL3115A2 sensor object from a socket object
 
   FUNCTION Create
@@ -40,12 +33,11 @@ PACKAGE ClickBoard.Altitude.libsimpleio IS
     addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
      (MPL3115A2.Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
-  -- Create MPL3115A2 sensor object from I2C bus controller (if the I2C bus
-  -- is shared with another device)
+  -- Create MPL3115A2 sensor object from a socket number
 
   FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(bus, addr));
+   (socknum : Positive;
+    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
+     (Create(ClickBoard.libsimpleio.Create(socknum), addr));
 
 END ClickBoard.Altitude.libsimpleio;
