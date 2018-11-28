@@ -25,6 +25,12 @@ WITH SPI;
 
 PACKAGE MCP4822 IS
 
+  -- SPI transfer characteristics
+
+  SPI_Mode      : CONSTANT Natural := 0;
+  SPI_WordSize  : CONSTANT Natural := 8;
+  SPI_Frequency : CONSTANT Natural := 20_000_000;
+
   TYPE Channel IS NEW Natural RANGE 0 .. 1; -- 0=DAC-A, 1=DAC-B
 
   TYPE OutputGains IS NEW Natural RANGE 1 .. 2;

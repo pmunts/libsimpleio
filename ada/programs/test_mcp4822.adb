@@ -45,8 +45,8 @@ BEGIN
     RETURN;
   END IF;
 
-  spidev := SPI.libsimpleio.Create(Ada.Command_Line.Argument(1), 0, 8,
-    1_000_000);
+  spidev := SPI.libsimpleio.Create(Ada.Command_Line.Argument(1),
+    MCP4822.SPI_Mode, MCP4822.SPI_WordSize, MCP4822.SPI_Frequency);
 
   FOR c IN MCP4822.Channel LOOP
     outputs(c) := MCP4822.Create(spidev, c);
