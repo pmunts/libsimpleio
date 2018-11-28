@@ -31,7 +31,7 @@ PACKAGE ClickBoard.Altitude.libsimpleio IS
   FUNCTION Create
    (socket : ClickBoard.libsimpleio.Socket;
     addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (MPL3115A2.Create(I2C.libsimpleio.Create(socket.I2C), addr));
+     (Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
   -- Create MPL3115A2 sensor object from a socket number
 

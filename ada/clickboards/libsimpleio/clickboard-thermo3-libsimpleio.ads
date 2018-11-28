@@ -31,7 +31,7 @@ PACKAGE ClickBoard.Thermo3.libsimpleio IS
   FUNCTION Create
    (socket : ClickBoard.libsimpleio.Socket;
     addr   : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
-    (TMP102.Create(I2C.libsimpleio.Create(socket.I2C), addr));
+    (Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
   -- Create TMP102 sensor object from socket number
 

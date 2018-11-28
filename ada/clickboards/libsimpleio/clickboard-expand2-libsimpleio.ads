@@ -31,7 +31,7 @@ PACKAGE ClickBoard.Expand2.libsimpleio IS
   FUNCTION Create
    (socket : ClickBoard.libsimpleio.Socket;
     addr   : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
-    (MCP23017.Create(I2C.libsimpleio.Create(socket.I2C), addr));
+    (Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
   -- Create MCP23017 I/O expander object from a socket number
 
