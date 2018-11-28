@@ -43,7 +43,8 @@ BEGIN
 
   remdev := RemoteIO.Client.Create(HID.hidapi.Create);
 
-  spidev := SPI.RemoteIO.Create(remdev, 0, 0, 8, 1_000_000);
+  spidev := SPI.RemoteIO.Create(remdev, 0, MCP3204.SPI_Mode,
+    MCP3204.SPI_WordSize, MCP3204.SPI_Frequency);
 
   FOR c IN MCP3204.Channel LOOP
     inputs(c) := MCP3204.Create(spidev, c);
