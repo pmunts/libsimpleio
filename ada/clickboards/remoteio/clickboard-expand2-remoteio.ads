@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Altitude Click
+-- Services for the Mikroelektronika Expand2 Click, using remoteio
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,29 +20,29 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.RemoteIO;
-WITH I2C.RemoteIO;
-WITH MPL3115A2;
+WITH ClickBoard.remoteio;
+WITH I2C.remoteio;
+WITH MCP23017;
 WITH RemoteIO.Client;
 
-PACKAGE ClickBoard.Altitude.RemoteIO IS
+PACKAGE ClickBoard.Expand2.RemoteIO IS
 
-  -- Create MPL3115A2 sensor object from a socket object
+  -- Create MCP23017 I/O expander object from a socket object
 
   FUNCTION Create
-   (remdev  : Standard.RemoteIO.Client.Device;
-    socket  : ClickBoard.RemoteIO.Socket;
-    addr    : I2C.Address := DefaultAddress;
-    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device IS
-     (Create(I2C.RemoteIO.Create(remdev, socket.I2C, speed), addr));
+   (remdev : Standard.RemoteIO.Client.Device;
+    socket : ClickBoard.remoteio.Socket;
+    addr   : I2C.Address := DefaultAddress;
+    speed  : Positive := MCP23017.MaxSpeed) RETURN MCP23017.Device IS
+    (Create(I2C.remoteio.Create(remdev, socket.I2C, speed), addr));
 
-  -- Create MPL3115A2 sensor object from a socket number
+  -- Create MCP23017 I/O expander object from a socket number
 
   FUNCTION Create
    (remdev  : Standard.RemoteIO.Client.Device;
     socknum : Positive;
     addr    : I2C.Address := DefaultAddress;
-    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device IS
-     (Create(remdev, ClickBoard.RemoteIO.Create(socknum), addr, speed));
+    speed   : Positive := MCP23017.MaxSpeed) RETURN MCP23017.Device IS
+    (Create(remdev, ClickBoard.remoteio.Create(socknum), addr, speed));
 
-END ClickBoard.Altitude.RemoteIO;
+END ClickBoard.Expand2.remoteio;

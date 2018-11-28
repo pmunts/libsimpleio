@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Altitude Click
+-- Services for the Mikroelektronika 7seg Click
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,29 +20,28 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.RemoteIO;
-WITH I2C.RemoteIO;
-WITH MPL3115A2;
+WITH ClickBoard.remoteio;
+WITH GPIO.remoteio;
 WITH RemoteIO.Client;
+WITH SPI.remoteio;
 
-PACKAGE ClickBoard.Altitude.RemoteIO IS
+PACKAGE ClickBoard.SevenSegment.remoteio IS
 
-  -- Create MPL3115A2 sensor object from a socket object
-
-  FUNCTION Create
-   (remdev  : Standard.RemoteIO.Client.Device;
-    socket  : ClickBoard.RemoteIO.Socket;
-    addr    : I2C.Address := DefaultAddress;
-    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device IS
-     (Create(I2C.RemoteIO.Create(remdev, socket.I2C, speed), addr));
-
-  -- Create MPL3115A2 sensor object from a socket number
+  -- Create display object from socket object
 
   FUNCTION Create
    (remdev  : Standard.RemoteIO.Client.Device;
-    socknum : Positive;
-    addr    : I2C.Address := DefaultAddress;
-    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device IS
-     (Create(remdev, ClickBoard.RemoteIO.Create(socknum), addr, speed));
+    socket  : ClickBoard.remoteio.Socket) RETURN Display IS
+   (Create(SPI.remoteio.Create(remdev, socket.SPI, SPI_Mode, SPI_WordSize,
+     SPI_Frequency),
+     GPIO.remoteio.Create(remdev, socket.GPIO(ClickBoard.PWM), GPIO.Output, True),
+     GPIO.remoteio.Create(remdev, socket.GPIO(ClickBoard.RST), GPIO.Output, True)));
 
-END ClickBoard.Altitude.RemoteIO;
+  -- Create display object from socket number
+
+  FUNCTION Create
+   (remdev  : Standard.RemoteIO.Client.Device;
+    socknum : Positive) RETURN Display IS
+   (Create(remdev, ClickBoard.remoteio.Create(socknum)));
+
+END ClickBoard.SevenSegment.remoteio;
