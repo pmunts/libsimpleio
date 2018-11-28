@@ -20,11 +20,27 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Characters.Handling;
+WITH Ada.Environment_Variables;
 WITH Ada.Strings.Fixed;
 
-WITH SystemInfo;
-
 PACKAGE BODY ClickBoard.Shields IS
+
+  FUNCTION getenv(name : String) RETURN String IS
+
+  BEGIN
+    IF Ada.Environment_Variables.Exists(name) THEN
+      RETURN Ada.Characters.Handling.To_Lower(Ada.Environment_Variables.Value(name));
+    ELSE
+      RETURN "";
+    END IF;
+  END getenv;
+
+  FUNCTION matchenv(name: String; target : String) RETURN Boolean IS
+
+  BEGIN
+    RETURN Ada.Strings.Fixed.Index(getenv(name), target) = 1;
+  END matchenv;
 
   FUNCTION Detect RETURN Kind IS
 
@@ -33,21 +49,15 @@ PACKAGE BODY ClickBoard.Shields IS
     -- First, try to get the shield from the SHIELDNAME environment variable:
 
     BEGIN
-      RETURN ClickBoard.Shields.Kind'Value(SystemInfo.ShieldName);
+      RETURN ClickBoard.Shields.Kind'Value(getenv("SHIELDNAME"));
     EXCEPTION
       WHEN OTHERS => NULL;
     END;
 
-    -- In the absence of SHIELDNAME, assume the Pi 2 Click Shield
-    -- (MIKROE-1512/1513) for all Raspberry Pi boards
+    -- The nifty PocketBeagle doesn't need a shield!
 
-    -- TODO: There is now a Pi 3 Click Shield which includes on an on-board
-    -- A/D converter.  At some point we may want to change the default shield
-    -- from PiClick2 to PiClick3.
-
-    IF Ada.Strings.Fixed.Index(SystemInfo.BoardName, "raspberrypi") = 1 THEN
-      -- Raspberry Pi running MuntsOS
-      RETURN ClickBoard.Shields.PiClick2;
+    IF matchenv("BOARDNAME", "pocketbeagle") THEN
+      RETURN ClickBoard.Shields.PocketBeagle;
     END IF;
 
     -- In the absence of SHIELDNAME, assume the Beagle Bone Click Shield
@@ -57,16 +67,19 @@ PACKAGE BODY ClickBoard.Shields IS
     -- by the Mikrobus Cape (MIKROE-1857).  At some point we may want to
     -- change the default shield from BeagleBoneClick2 to BeagleBoneClick4.
 
-    IF Ada.Strings.Fixed.Index(SystemInfo.BoardName, "beaglebone") = 1 THEN
-      -- BeagleBone running MuntsOS
+    IF matchenv("BOARDNAME", "beaglebone") OR matchenv("OSNAME", "beagle") THEN
       RETURN ClickBoard.Shields.BeagleBoneClick2;
     END IF;
 
-    -- The nifty PocketBeagle doesn't need a shield!
+    -- In the absence of SHIELDNAME, assume the Pi 2 Click Shield
+    -- (MIKROE-1512/1513) for all Raspberry Pi boards
 
-    IF Ada.Strings.Fixed.Index(SystemInfo.BoardName, "pocketbeagle") = 1 THEN
-      -- PocketBeagle running MuntsOS
-      RETURN ClickBoard.Shields.PocketBeagle;
+    -- TODO: There is now a Pi 3 Click Shield which includes on an on-board
+    -- A/D converter.  At some point we may want to change the default shield
+    -- from PiClick2 to PiClick3.
+
+    IF matchenv("BOARDNAME", "raspberrypi") OR matchenv("OSNAME", "raspbian") THEN
+      RETURN ClickBoard.Shields.PiClick2;
     END IF;
 
     RAISE ShieldError WITH "Cannot identify the ClickBoard shield";

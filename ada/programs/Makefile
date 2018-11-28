@@ -27,6 +27,7 @@ ADA_SRC		?= $(LIBSIMPLEIO)/ada
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
+include $(LIBSIMPLEIO)/ada/clickboards/libsimpleio.mk
 
 # Compile the test programs
 
