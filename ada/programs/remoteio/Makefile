@@ -28,7 +28,6 @@ ADA_SRC		?= $(LIBSIMPLEIO)/ada
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 include $(LIBSIMPLEIO)/ada/remoteio/remoteio.mk
-include $(LIBSIMPLEIO)/ada/clickboards/remoteio.mk
 
 # Special goop for AdaCore GNAT for Windows
 

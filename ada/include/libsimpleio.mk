@@ -21,8 +21,11 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/bindings
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards/libsimpleio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/devices
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/interfaces
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/platforms
 
 GNATENV		+= LIBSIMPLEIO=$(LIBSIMPLEIO)
