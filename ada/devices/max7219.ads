@@ -24,6 +24,12 @@ WITH SPI;
 
 PACKAGE MAX7219 IS
 
+  -- SPI transfer characteristics
+
+  SPI_Mode      : CONSTANT Natural := 0;
+  SPI_WordSize  : CONSTANT Natural := 8;
+  SPI_Frequency : CONSTANT Natural := 10_000_000;
+
   -- Device object type
 
   TYPE DeviceClass IS TAGGED PRIVATE;
