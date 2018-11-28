@@ -35,6 +35,8 @@ PACKAGE MPL3115A2 IS
 
   TYPE RegisterData IS MOD 256;
 
+  MaxSpeed : CONSTANT := I2C.SpeedFast;
+
   -- Register addresses
 
   STATUS        : CONSTANT RegisterAddr := 16#00#;

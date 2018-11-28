@@ -30,6 +30,8 @@ PACKAGE MCP23017 IS
 
   TYPE Device IS ACCESS DeviceClass;
 
+  MaxSpeed : CONSTANT := I2C.SpeedFastPlus;
+
   -- MCP23017 device object constructor
 
   FUNCTION Create

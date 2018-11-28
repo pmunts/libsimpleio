@@ -33,6 +33,8 @@ PACKAGE TMP102 IS
 
   TYPE RegisterData IS MOD 65536;
 
+  MaxSpeed : CONSTANT := I2C.SpeedFastPlus;
+
   -- Configuration register terms (can be OR'ed together)
 
   CONFIG_EM       : CONSTANT RegisterData := 2#0000_0000_0001_0000#;

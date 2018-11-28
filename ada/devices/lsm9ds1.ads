@@ -35,6 +35,8 @@ PACKAGE LSM9DS1 IS
 
   TYPE Device IS ACCESS DeviceSubclass;
 
+  MaxSpeed : CONSTANT := I2C.SpeedFast;
+
   -- Object constructor
 
   FUNCTION Create

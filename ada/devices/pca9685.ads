@@ -38,6 +38,8 @@ PACKAGE PCA9685 IS
 
   TYPE ChannelNumber IS NEW Natural RANGE 0 .. 15;
 
+  MaxSpeed : CONSTANT := I2C.SpeedFastPlus;
+
   -- PCA9685 device object constructor
 
   FUNCTION Create

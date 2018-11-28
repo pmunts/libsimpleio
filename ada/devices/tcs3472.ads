@@ -35,6 +35,8 @@ PACKAGE TCS3472 IS
 
   TYPE Sample IS ARRAY (Channels) OF Brightness;
 
+  MaxSpeed : CONSTANT := I2C.SpeedFast;
+
   -- Instantiate text I/O package for Brightness
 
   PACKAGE Brightness_IO IS NEW Ada.Text_IO.Modular_IO(Brightness);

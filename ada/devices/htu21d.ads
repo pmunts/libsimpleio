@@ -31,6 +31,8 @@ PACKAGE HTU21D IS
 
   TYPE Device IS ACCESS DeviceSubclass;
 
+  MaxSpeed : CONSTANT := I2C.SpeedFast;
+
   -- Object constructor
 
   FUNCTION Create(bus : I2C.Bus;

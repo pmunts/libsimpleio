@@ -32,6 +32,8 @@ PACKAGE PCA8574 IS
 
   TYPE Device IS ACCESS DeviceClass;
 
+  MaxSpeed : CONSTANT := I2C.SpeedStandard; -- Limit for older PCF8574
+
   -- PCA8574 device object constructor
 
   FUNCTION Create

@@ -33,6 +33,8 @@ PACKAGE PCA9534 IS
 
   TYPE Device IS ACCESS DeviceClass;
 
+  MaxSpeed : CONSTANT I2C.SpeedFast;
+
   -- PCA9534 register addresses
 
   InputPortReg     : CONSTANT RegisterAddress := 0;

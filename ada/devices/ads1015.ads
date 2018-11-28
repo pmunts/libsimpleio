@@ -47,6 +47,8 @@ PACKAGE ADS1015 IS
 
   TYPE Channel IS (AIN0, AIN1, AIN2, AIN3,  DIFF01, DIFF03, DIFF13, DIFF23);
 
+  MaxSpeed : CONSTANT := I2C.SpeedFastPlus;
+
   -- Analog input constructor
 
   FUNCTION Create(bus : I2C.Bus; addr : I2C.Address; chan : Channel;
