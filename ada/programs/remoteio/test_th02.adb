@@ -44,7 +44,7 @@ BEGIN
   New_Line;
 
   bus    := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
-    I2C.SpeedFast);
+    TH02.MaxSpeed);
 
   sensor := TH02.Create(bus);
 

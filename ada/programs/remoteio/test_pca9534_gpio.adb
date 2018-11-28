@@ -46,7 +46,7 @@ BEGIN
   -- Create I2C bus object
 
   bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
-    I2C.SpeedFast);
+    PCA9534.MaxSpeed);
 
   -- Create PCA9534 device object
 
