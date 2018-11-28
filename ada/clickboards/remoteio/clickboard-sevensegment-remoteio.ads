@@ -20,28 +20,28 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.remoteio;
-WITH GPIO.remoteio;
+WITH ClickBoard.RemoteIO;
+WITH GPIO.RemoteIO;
 WITH RemoteIO.Client;
-WITH SPI.remoteio;
+WITH SPI.RemoteIO;
 
-PACKAGE ClickBoard.SevenSegment.remoteio IS
+PACKAGE ClickBoard.SevenSegment.RemoteIO IS
 
   -- Create display object from socket object
 
   FUNCTION Create
    (remdev  : Standard.RemoteIO.Client.Device;
-    socket  : ClickBoard.remoteio.Socket) RETURN Display IS
-   (Create(SPI.remoteio.Create(remdev, socket.SPI, SPI_Mode, SPI_WordSize,
+    socket  : ClickBoard.RemoteIO.Socket) RETURN Display IS
+   (Create(SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode, SPI_WordSize,
      SPI_Frequency),
-     GPIO.remoteio.Create(remdev, socket.GPIO(ClickBoard.PWM), GPIO.Output, True),
-     GPIO.remoteio.Create(remdev, socket.GPIO(ClickBoard.RST), GPIO.Output, True)));
+     GPIO.RemoteIO.Create(remdev, socket.GPIO(ClickBoard.PWM), GPIO.Output, True),
+     GPIO.RemoteIO.Create(remdev, socket.GPIO(ClickBoard.RST), GPIO.Output, True)));
 
   -- Create display object from socket number
 
   FUNCTION Create
    (remdev  : Standard.RemoteIO.Client.Device;
     socknum : Positive) RETURN Display IS
-   (Create(remdev, ClickBoard.remoteio.Create(socknum)));
+   (Create(remdev, ClickBoard.RemoteIO.Create(socknum)));
 
-END ClickBoard.SevenSegment.remoteio;
+END ClickBoard.SevenSegment.RemoteIO;

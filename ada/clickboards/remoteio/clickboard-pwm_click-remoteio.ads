@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika PWM Click, using remoteio
+-- Services for the Mikroelektronika PWM Click, using RemoteIO
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,22 +20,22 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.remoteio;
-WITH I2C.remoteio;
+WITH ClickBoard.RemoteIO;
+WITH I2C.RemoteIO;
 WITH PCA9685;
 WITH RemoteIO.Client;
 
-PACKAGE ClickBoard.PWM_Click.remoteio IS
+PACKAGE ClickBoard.PWM_Click.RemoteIO IS
 
   -- Create PCA9685 device object from socket
 
   FUNCTION Create
    (remdev    : Standard.RemoteIO.Client.Device;
-    socket    : ClickBoard.remoteio.Socket;
+    socket    : ClickBoard.RemoteIO.Socket;
     addr      : I2C.Address := DefaultAddress;
     speed     : Positive := PCA9685.MaxSpeed;
     frequency : Positive := 50) RETURN PCA9685.Device IS
-     (Create(I2C.remoteio.Create(remdev, socket.I2C, speed), addr, frequency));
+     (Create(I2C.RemoteIO.Create(remdev, socket.I2C, speed), addr, frequency));
 
   -- Create PCA9685 device object from socket number
 
@@ -45,7 +45,7 @@ PACKAGE ClickBoard.PWM_Click.remoteio IS
     addr      : I2C.Address := DefaultAddress;
     speed     : Positive := PCA9685.MaxSpeed;
     frequency : Positive := 50) RETURN PCA9685.Device IS
-     (Create(remdev, ClickBoard.remoteio.Create(socknum), addr, speed,
+     (Create(remdev, ClickBoard.RemoteIO.Create(socknum), addr, speed,
         frequency));
 
-END ClickBoard.PWM_Click.remoteio;
+END ClickBoard.PWM_Click.RemoteIO;

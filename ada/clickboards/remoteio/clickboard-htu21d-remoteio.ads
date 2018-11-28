@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika HTU21D Click, using remoteio
+-- Services for the Mikroelektronika HTU21D Click, using RemoteIO
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,20 +20,20 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.remoteio;
+WITH ClickBoard.RemoteIO;
 WITH HTU21D;
-WITH I2C.remoteio;
+WITH I2C.RemoteIO;
 WITH RemoteIO.Client;
 
-PACKAGE ClickBoard.HTU21D.remoteio IS
+PACKAGE ClickBoard.HTU21D.RemoteIO IS
 
   -- Create HTU21D sensor object from a socket object
 
   FUNCTION Create
    (remdev  : Standard.RemoteIO.Client.Device;
-    socket  : ClickBoard.remoteio.Socket;
+    socket  : ClickBoard.RemoteIO.Socket;
     speed   : Positive := Standard.HTU21D.MaxSpeed) RETURN Standard.HTU21D.Device IS
-   (Create(I2C.remoteio.Create(remdev, socket.I2C, speed)));
+   (Create(I2C.RemoteIO.Create(remdev, socket.I2C, speed)));
 
   -- Create HTU21D sensor object from a socket number
 
@@ -41,6 +41,6 @@ PACKAGE ClickBoard.HTU21D.remoteio IS
    (remdev  : Standard.RemoteIO.Client.Device;
     socknum : Positive;
     speed   : Positive := Standard.HTU21D.MaxSpeed) RETURN Standard.HTU21D.Device IS
-   (Create(remdev, ClickBoard.remoteio.Create(socknum), speed));
+   (Create(remdev, ClickBoard.RemoteIO.Create(socknum), speed));
 
-END ClickBoard.HTU21D.remoteio;
+END ClickBoard.HTU21D.RemoteIO;

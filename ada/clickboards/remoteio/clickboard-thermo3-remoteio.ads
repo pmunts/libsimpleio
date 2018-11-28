@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika Thermo3 Click, using remoteio
+-- Services for the Mikroelektronika Thermo3 Click, using RemoteIO
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,21 +20,21 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.remoteio;
-WITH I2C.remoteio;
+WITH ClickBoard.RemoteIO;
+WITH I2C.RemoteIO;
 WITH RemoteIO.Client;
 WITH TMP102;
 
-PACKAGE ClickBoard.Thermo3.remoteio IS
+PACKAGE ClickBoard.Thermo3.RemoteIO IS
 
   -- Create TMP102 sensor object from socket
 
   FUNCTION Create
    (remdev  : Standard.RemoteIO.Client.Device;
-    socket  : ClickBoard.remoteio.Socket;
+    socket  : ClickBoard.RemoteIO.Socket;
     addr    : I2C.Address := DefaultAddress;
     speed   : Positive := TMP102.MaxSpeed) RETURN TMP102.Device IS
-    (Create(I2C.remoteio.Create(remdev, socket.I2C, speed), addr));
+    (Create(I2C.RemoteIO.Create(remdev, socket.I2C, speed), addr));
 
   -- Create TMP102 sensor object from socket number
 
@@ -43,6 +43,6 @@ PACKAGE ClickBoard.Thermo3.remoteio IS
     socknum : Positive;
     addr    : I2C.Address := DefaultAddress;
     speed   : Positive := TMP102.MaxSpeed) RETURN TMP102.Device IS
-    (Create(remdev, ClickBoard.remoteio.Create(socknum), addr));
+    (Create(remdev, ClickBoard.RemoteIO.Create(socknum), addr));
 
-END ClickBoard.Thermo3.remoteio;
+END ClickBoard.Thermo3.RemoteIO;

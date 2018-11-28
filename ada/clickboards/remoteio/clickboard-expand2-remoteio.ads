@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika Expand2 Click, using remoteio
+-- Services for the Mikroelektronika Expand2 Click, using RemoteIO
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,8 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.remoteio;
-WITH I2C.remoteio;
+WITH ClickBoard.RemoteIO;
+WITH I2C.RemoteIO;
 WITH MCP23017;
 WITH RemoteIO.Client;
 
@@ -31,10 +31,10 @@ PACKAGE ClickBoard.Expand2.RemoteIO IS
 
   FUNCTION Create
    (remdev : Standard.RemoteIO.Client.Device;
-    socket : ClickBoard.remoteio.Socket;
+    socket : ClickBoard.RemoteIO.Socket;
     addr   : I2C.Address := DefaultAddress;
     speed  : Positive := MCP23017.MaxSpeed) RETURN MCP23017.Device IS
-    (Create(I2C.remoteio.Create(remdev, socket.I2C, speed), addr));
+    (Create(I2C.RemoteIO.Create(remdev, socket.I2C, speed), addr));
 
   -- Create MCP23017 I/O expander object from a socket number
 
@@ -43,6 +43,6 @@ PACKAGE ClickBoard.Expand2.RemoteIO IS
     socknum : Positive;
     addr    : I2C.Address := DefaultAddress;
     speed   : Positive := MCP23017.MaxSpeed) RETURN MCP23017.Device IS
-    (Create(remdev, ClickBoard.remoteio.Create(socknum), addr, speed));
+    (Create(remdev, ClickBoard.RemoteIO.Create(socknum), addr, speed));
 
-END ClickBoard.Expand2.remoteio;
+END ClickBoard.Expand2.RemoteIO;
