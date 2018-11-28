@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.Remoteio;
-WITH MCP3204;
 WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
 WITH Voltage;
@@ -34,8 +33,8 @@ PACKAGE ClickBoard.ADC.RemoteIO IS
    (remdev    : Standard.RemoteIO.Client.Device;
     socket    : ClickBoard.RemoteIO.Socket;
     reference : Voltage.Volts := 3.3) RETURN Inputs IS
-   (Create(SPI.RemoteIO.Create(remdev, socket.SPI, MCP3204.SPI_Mode,
-      MCP3204.SPI_WordSize, MCP3204.SPI_Frequency), reference));
+   (Create(SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode,
+      SPI_WordSize, SPI_Frequency), reference));
 
   -- Create an array of analog voltage inputs from socket number
 

@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.libsimpleio;
-WITH MCP3204;
 WITH SPI.libsimpleio;
 WITH Voltage;
 
@@ -32,9 +31,8 @@ PACKAGE ClickBoard.ADC.libsimpleio IS
   FUNCTION Create
    (socket: ClickBoard.libsimpleio.Socket;
     reference : Voltage.Volts := 3.3) RETURN Inputs IS
-   (Create(SPI.libsimpleio.Create(socket.SPI, MCP3204.SPI_Mode,
-      MCP3204.SPI_WordSize, MCP3204.SPI_Frequency,
-      socket.GPIO(ClickBoard.CS)), reference));
+   (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+      SPI_Frequency, socket.GPIO(ClickBoard.CS)), reference));
 
   -- Create an array of analog voltage inputs from socket number
 

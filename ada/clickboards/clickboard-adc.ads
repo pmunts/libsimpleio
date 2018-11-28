@@ -26,6 +26,14 @@ WITH Voltage;
 
 PACKAGE ClickBoard.ADC IS
 
+  -- SPI transfer characteristics
+
+  SPI_Mode      : Natural RENAMES MCP3204.SPI_Mode;
+  SPI_WordSize  : Natural RENAMES MCP3204.SPI_WordSize;
+  SPI_Frequency : Natural RENAMES MCP3204.SPI_Frequency;
+
+  -- Define an array of MCP3204 analog voltage inputs
+
   TYPE Inputs IS ARRAY (MCP3204.Channel) OF Voltage.Interfaces.Input;
 
   -- Create an array of MCP3204 analog voltage inputs
