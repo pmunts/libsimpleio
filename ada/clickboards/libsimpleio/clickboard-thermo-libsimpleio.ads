@@ -29,8 +29,8 @@ PACKAGE ClickBoard.Thermo.libsimpleio IS
   -- Create MAX31855 sensor object from socket object
 
   FUNCTION Create(socket : ClickBoard.libsimpleio.Socket) RETURN MAX31855.Device IS
-   (MAX31855.Create(SPI.libsimpleio.Create(socket.SPI, 0, 8, 5_000_000,
-    socket.GPIO(ClickBoard.CS))));
+   (MAX31855.Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+    SPI_Frequency, socket.GPIO(ClickBoard.CS))));
 
   -- Create MAX31855 sensor object from socket number
 

@@ -25,6 +25,12 @@ WITH SPI;
 
 PACKAGE ClickBoard.Thermo IS
 
+  -- SPI transfer characteristics
+
+  SPI_Mode      : Natural RENAMES MAX31855.SPI_Mode;
+  SPI_WordSize  : Natural RENAMES MAX31855.SPI_WordSize;
+  SPI_Frequency : Natural RENAMES MAX31855.SPI_Frequency;
+
   -- Create MAX31855 sensor object from SPI device object
 
   FUNCTION Create(spidev : SPI.Device) RETURN MAX31855.Device IS
