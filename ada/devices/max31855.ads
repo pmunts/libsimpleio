@@ -33,6 +33,12 @@ PACKAGE MAX31855 IS
 
   TYPE SensorFaults IS (OK, ShortVCC, ShortGND, Open);
 
+  -- SPI transfer characteristics
+
+  SPI_Mode      : CONSTANT Natural := 0;
+  SPI_WordSize  : CONSTANT Natural := 8;
+  SPI_Frequency : CONSTANT Natural := 5_000_000;
+
   -- Object constructor
 
   FUNCTION Create(dev : SPI.Device) RETURN Device;
