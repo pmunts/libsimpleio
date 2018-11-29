@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika Thermo Click, using libsimpleio
+-- Services for the Mikroelektronika 8x8 LED Click
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,21 +20,24 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
-WITH MAX31855;
+-- 8 by 8 LED Display layout:
+
+-- Top left LED     is row 0 column 0
+-- Bottom right LED is row 7 column 7
+
+WITH ClickBoard.SimpleIO;
 WITH SPI.libsimpleio;
 
-PACKAGE ClickBoard.Thermo.libsimpleio IS
+PACKAGE ClickBoard.LEDs_8x8.SimpleIO IS
 
-  -- Create MAX31855 sensor object from socket object
+  -- Create display object from socket object
 
-  FUNCTION Create(socket : ClickBoard.libsimpleio.Socket) RETURN MAX31855.Device IS
+  FUNCTION Create(socket : ClickBoard.SimpleIO.Socket) RETURN TrueColor.Display IS
    (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
       SPI_Frequency, socket.GPIO(ClickBoard.CS))));
 
-  -- Create MAX31855 sensor object from socket number
+  -- Create display object from socket number
 
-  FUNCTION Create(socknum : Positive) RETURN MAX31855.Device IS
-   (Create(ClickBoard.libsimpleio.Create(socknum)));
-
-END ClickBoard.Thermo.libsimpleio;
+  FUNCTION Create(socknum : Positive) RETURN TrueColor.Display IS
+   (Create(ClickBoard.SimpleIO.Create(socknum)));
+END ClickBoard.LEDs_8x8.SimpleIO;

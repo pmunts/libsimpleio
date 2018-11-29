@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika 7seg Click
+-- Mikroelecktronika ADC Click services
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,23 +20,25 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
-WITH GPIO.libsimpleio;
+WITH ClickBoard.SimpleIO;
 WITH SPI.libsimpleio;
+WITH Voltage;
 
-PACKAGE ClickBoard.SevenSegment.libsimpleio IS
+PACKAGE ClickBoard.ADC.SimpleIO IS
 
-  -- Create display object from socket object
+  -- Create an array of analog voltage inputs from Socket object
 
-  FUNCTION Create(socket : ClickBoard.libsimpleio.Socket) RETURN Display IS
-  (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-     SPI_Frequency, socket.GPIO(ClickBoard.CS)),
-     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.PWM), GPIO.Output, True),
-     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST), GPIO.Output, True)));
+  FUNCTION Create
+   (socket: ClickBoard.SimpleIO.Socket;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
+   (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+      SPI_Frequency, socket.GPIO(ClickBoard.CS)), reference));
 
-  -- Create display object from socket number
+  -- Create an array of analog voltage inputs from socket number
 
-  FUNCTION Create(socknum : Positive) RETURN Display IS
-   (Create(ClickBoard.libsimpleio.Create(socknum)));
+  FUNCTION Create
+   (socknum   : Positive;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
+   (Create(ClickBoard.SimpleIO.Create(socknum), reference));
 
-END ClickBoard.SevenSegment.libsimpleio;
+END ClickBoard.ADC.SimpleIO;

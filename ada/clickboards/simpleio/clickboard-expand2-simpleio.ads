@@ -1,4 +1,4 @@
--- Mikroelecktronika ADC Click services
+-- Services for the Mikroelektronika Expand2 Click, using libsimpleio
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,25 +20,24 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
-WITH SPI.libsimpleio;
-WITH Voltage;
+WITH ClickBoard.SimpleIO;
+WITH I2C.libsimpleio;
+WITH MCP23017;
 
-PACKAGE ClickBoard.ADC.libsimpleio IS
+PACKAGE ClickBoard.Expand2.SimpleIO IS
 
-  -- Create an array of analog voltage inputs from Socket object
-
-  FUNCTION Create
-   (socket: ClickBoard.libsimpleio.Socket;
-    reference : Voltage.Volts := 3.3) RETURN Inputs IS
-   (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.GPIO(ClickBoard.CS)), reference));
-
-  -- Create an array of analog voltage inputs from socket number
+  -- Create MCP23017 I/O expander object from a socket object
 
   FUNCTION Create
-   (socknum   : Positive;
-    reference : Voltage.Volts := 3.3) RETURN Inputs IS
-   (Create(ClickBoard.libsimpleio.Create(socknum), reference));
+   (socket : ClickBoard.SimpleIO.Socket;
+    addr   : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+    (Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
-END ClickBoard.ADC.libsimpleio;
+  -- Create MCP23017 I/O expander object from a socket number
+
+  FUNCTION Create
+   (socknum : Positive;
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+    (Create(ClickBoard.SimpleIO.Create(socknum), addr));
+
+END ClickBoard.Expand2.SimpleIO;

@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika PWM Click, using libsimpleio
+-- Services for the Mikroelektronika 7seg Click
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,28 +20,23 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
-WITH I2C.libsimpleio;
-WITH PCA9685;
+WITH ClickBoard.SimpleIO;
+WITH GPIO.libsimpleio;
+WITH SPI.libsimpleio;
 
-PACKAGE ClickBoard.PWM_Click.libsimpleio IS
+PACKAGE ClickBoard.SevenSegment.SimpleIO IS
 
-  -- Create PCA9685 device object from socket, I2C address,
-  -- and PWM frequency
+  -- Create display object from socket object
 
-  FUNCTION Create
-   (socket    : ClickBoard.libsimpleio.Socket;
-    addr      : I2C.Address := DefaultAddress;
-    frequency : Positive := 50) RETURN PCA9685.Device IS
-     (Create(I2C.libsimpleio.Create(socket.I2C), addr, frequency));
+  FUNCTION Create(socket : ClickBoard.SimpleIO.Socket) RETURN Display IS
+  (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+     SPI_Frequency, socket.GPIO(ClickBoard.CS)),
+     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.PWM), GPIO.Output, True),
+     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST), GPIO.Output, True)));
 
-  -- Create PCA9685 device object from socket number, I2C address,
-  -- and PWM frequency
+  -- Create display object from socket number
 
-  FUNCTION Create
-   (socknum   : Positive;
-    addr      : I2C.Address := DefaultAddress;
-    frequency : Positive := 50) RETURN PCA9685.Device IS
-     (Create(ClickBoard.libsimpleio.Create(socknum), addr, frequency));
+  FUNCTION Create(socknum : Positive) RETURN Display IS
+   (Create(ClickBoard.SimpleIO.Create(socknum)));
 
-END ClickBoard.PWM_Click.libsimpleio;
+END ClickBoard.SevenSegment.SimpleIO;

@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika Altitude Click, using libsimpleio
+-- Services for the Mikroelektronika Thermo Click, using libsimpleio
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,24 +20,21 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
-WITH I2C.libsimpleio;
-WITH MPL3115A2;
+WITH ClickBoard.SimpleIO;
+WITH MAX31855;
+WITH SPI.libsimpleio;
 
-PACKAGE ClickBoard.Altitude.libsimpleio IS
+PACKAGE ClickBoard.Thermo.SimpleIO IS
 
-  -- Create MPL3115A2 sensor object from a socket object
+  -- Create MAX31855 sensor object from socket object
 
-  FUNCTION Create
-   (socket : ClickBoard.libsimpleio.Socket;
-    addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (Create(I2C.libsimpleio.Create(socket.I2C), addr));
+  FUNCTION Create(socket : ClickBoard.SimpleIO.Socket) RETURN MAX31855.Device IS
+   (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+      SPI_Frequency, socket.GPIO(ClickBoard.CS))));
 
-  -- Create MPL3115A2 sensor object from a socket number
+  -- Create MAX31855 sensor object from socket number
 
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
-     (Create(ClickBoard.libsimpleio.Create(socknum), addr));
+  FUNCTION Create(socknum : Positive) RETURN MAX31855.Device IS
+   (Create(ClickBoard.SimpleIO.Create(socknum)));
 
-END ClickBoard.Altitude.libsimpleio;
+END ClickBoard.Thermo.SimpleIO;

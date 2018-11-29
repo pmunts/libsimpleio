@@ -22,7 +22,7 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH ClickBoard.SevenSegment.libsimpleio;
+WITH ClickBoard.SevenSegment.SimpleIO;
 
 USE TYPE ClickBoard.SevenSegment.Features;
 
@@ -35,7 +35,7 @@ BEGIN
   Put_Line("Mikroelektronika 7seg Click Test");
   New_Line;
 
-  display := ClickBoard.SevenSegment.libsimpleio.Create(socknum => 2);
+  display := ClickBoard.SevenSegment.SimpleIO.Create(socknum => 2);
 
   -- Count up
 

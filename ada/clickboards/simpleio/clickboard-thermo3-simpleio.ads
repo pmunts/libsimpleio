@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika 8x8 LED Click
+-- Services for the Mikroelektronika Thermo3 Click, using libsimpleio
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,24 +20,24 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- 8 by 8 LED Display layout:
+WITH ClickBoard.SimpleIO;
+WITH I2C.libsimpleio;
+WITH TMP102;
 
--- Top left LED     is row 0 column 0
--- Bottom right LED is row 7 column 7
+PACKAGE ClickBoard.Thermo3.SimpleIO IS
 
-WITH ClickBoard.libsimpleio;
-WITH SPI.libsimpleio;
+  -- Create TMP102 sensor object from socket
 
-PACKAGE ClickBoard.LEDs_8x8.libsimpleio IS
+  FUNCTION Create
+   (socket : ClickBoard.SimpleIO.Socket;
+    addr   : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
+    (Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
-  -- Create display object from socket object
+  -- Create TMP102 sensor object from socket number
 
-  FUNCTION Create(socket : ClickBoard.libsimpleio.Socket) RETURN TrueColor.Display IS
-   (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.GPIO(ClickBoard.CS))));
+  FUNCTION Create
+   (socknum : Positive;
+    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
+    (Create(ClickBoard.SimpleIO.Create(socknum), addr));
 
-  -- Create display object from socket number
-
-  FUNCTION Create(socknum : Positive) RETURN TrueColor.Display IS
-   (Create(ClickBoard.libsimpleio.Create(socknum)));
-END ClickBoard.LEDs_8x8.libsimpleio;
+END ClickBoard.Thermo3.SimpleIO;

@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Expand2 Click, using libsimpleio
+-- Instantiate Click Board socket services interface, using libsimpleio
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,24 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
-WITH I2C.libsimpleio;
-WITH MCP23017;
+WITH ClickBoard.Shields;
+WITH ClickBoard.Interface_Template;
+WITH Device;
 
-PACKAGE ClickBoard.Expand2.libsimpleio IS
-
-  -- Create MCP23017 I/O expander object from a socket object
-
-  FUNCTION Create
-   (socket : ClickBoard.libsimpleio.Socket;
-    addr   : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
-    (Create(I2C.libsimpleio.Create(socket.I2C), addr));
-
-  -- Create MCP23017 I/O expander object from a socket number
-
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
-    (Create(ClickBoard.libsimpleio.Create(socknum), addr));
-
-END ClickBoard.Expand2.libsimpleio;
+PACKAGE ClickBoard.Interface_SimpleIO IS NEW ClickBoard.Interface_Template
+ (ClickBoard.Shields.Kind, Device.Designator, Device.Designator, String,
+  Device.Designator, String, String);

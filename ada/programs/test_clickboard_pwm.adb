@@ -22,7 +22,7 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH ClickBoard.PWM_Click.libsimpleio;
+WITH ClickBoard.PWM_Click.SimpleIO;
 WITH GPIO;
 WITH PCA9685;
 WITH PCA9685.GPIO;
@@ -44,7 +44,7 @@ BEGIN
 
   -- Create PCA9685 device object
 
-  device := ClickBoard.PWM_Click.libsimpleio.Create(socknum => 1,
+  device := ClickBoard.PWM_Click.SimpleIO.Create(socknum => 1,
     frequency => 50);
 
   -- Create some outputs

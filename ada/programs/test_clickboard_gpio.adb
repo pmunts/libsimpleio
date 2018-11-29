@@ -23,13 +23,13 @@
 WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH ClickBoard.libsimpleio;
+WITH ClickBoard.SimpleIO;
 WITH GPIO.libsimpleio;
 
 PROCEDURE test_clickboard_gpio IS
 
   socknum : Positive;
-  socket  : ClickBoard.libsimpleio.Socket;
+  socket  : ClickBoard.SimpleIO.Socket;
   pin     : ClickBoard.Pins;
   output  : GPIO.Pin;
 
@@ -49,7 +49,7 @@ BEGIN
   -- Configure the selected GPIO output
 
   socknum := Positive'Value(Ada.Command_Line.Argument(1));
-  socket  := ClickBoard.libsimpleio.Create(socknum);
+  socket  := ClickBoard.SimpleIO.Create(socknum);
   pin     := ClickBoard.Pins'Value(Ada.Command_Line.Argument(2));
   output  := GPIO.libsimpleio.Create(socket.GPIO(pin), GPIO.Output, False);
 

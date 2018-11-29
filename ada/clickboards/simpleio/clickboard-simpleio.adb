@@ -34,7 +34,7 @@ WITH BeagleBone;
 WITH PocketBeagle;
 WITH RaspberryPi;
 
-PACKAGE BODY ClickBoard.libsimpleio IS
+PACKAGE BODY ClickBoard.SimpleIO IS
 
   SUBTYPE DeviceString IS String(1 .. 12);
 
@@ -390,4 +390,4 @@ PACKAGE BODY ClickBoard.libsimpleio IS
     RETURN False;
   END I2C_Clock_Stretch;
 
-END ClickBoard.libsimpleio;
+END ClickBoard.SimpleIO;

@@ -22,7 +22,7 @@
 
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/bindings
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards
-ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards/libsimpleio
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards/simpleio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/devices
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/interfaces
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects

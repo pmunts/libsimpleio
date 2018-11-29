@@ -21,14 +21,14 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.Shields;
-WITH ClickBoard.Interface_libsimpleio;
+WITH ClickBoard.Interface_SimpleIO;
 WITH Device;
 
-PACKAGE ClickBoard.libsimpleio IS
+PACKAGE ClickBoard.SimpleIO IS
 
   -- Define an object class for Click Board shield sockets
 
-  TYPE Socket IS NEW ClickBoard.Interface_libsimpleio.SocketInterface WITH PRIVATE;
+  TYPE Socket IS NEW ClickBoard.Interface_SimpleIO.SocketInterface WITH PRIVATE;
 
   -- Socket object constructor
 
@@ -75,8 +75,8 @@ PACKAGE ClickBoard.libsimpleio IS
 
 PRIVATE
 
-  TYPE Socket IS NEW ClickBoard.Interface_libsimpleio.SocketInterface WITH RECORD
+  TYPE Socket IS NEW ClickBoard.Interface_SimpleIO.SocketInterface WITH RECORD
     index : Positive;
   END RECORD;
 
-END ClickBoard.libsimpleio;
+END ClickBoard.SimpleIO;

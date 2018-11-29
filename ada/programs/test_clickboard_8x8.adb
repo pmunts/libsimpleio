@@ -22,7 +22,7 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH ClickBoard.LEDs_8x8.libsimpleio;
+WITH ClickBoard.LEDs_8x8.SimpleIO;
 WITH TrueColor;
 
 PROCEDURE test_clickboard_8x8 IS
@@ -35,7 +35,7 @@ BEGIN
   Put_Line("Mikroelektronika 8x8 LED Click Test");
   New_Line;
 
-  display := ClickBoard.LEDs_8x8.libsimpleio.Create(socknum => 1);
+  display := ClickBoard.LEDs_8x8.SimpleIO.Create(socknum => 1);
   display.Clear;
 
   -- Try pixel writes...

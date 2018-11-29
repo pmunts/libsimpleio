@@ -22,12 +22,12 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH ClickBoard.ADC.libsimpleio;
+WITH ClickBoard.ADC.SimpleIO;
 WITH Voltage;
 
 PROCEDURE test_clickboard_adc IS
 
-  inputs : Clickboard.ADC.Inputs := ClickBoard.ADC.libsimpleio.Create(1);
+  inputs : Clickboard.ADC.Inputs := ClickBoard.ADC.SimpleIO.Create(1);
 
 BEGIN
   New_Line;

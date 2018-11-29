@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika HTU21D Click, using libsimpleio
+-- Services for the Mikroelektronika Altitude Click, using libsimpleio
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,21 +20,24 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
-WITH HTU21D;
+WITH ClickBoard.SimpleIO;
 WITH I2C.libsimpleio;
+WITH MPL3115A2;
 
-PACKAGE ClickBoard.HTU21D.libsimpleio IS
+PACKAGE ClickBoard.Altitude.SimpleIO IS
 
-  -- Create HTU21D sensor object from a socket object
+  -- Create MPL3115A2 sensor object from a socket object
 
   FUNCTION Create
-   (socket : ClickBoard.libsimpleio.Socket) RETURN Standard.HTU21D.Device IS
-   (Create(I2C.libsimpleio.Create(socket.I2C), socket.I2C_Clock_Stretch));
+   (socket : ClickBoard.SimpleIO.Socket;
+    addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
+     (Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
-  -- Create HTU21D sensor object from a socket number
+  -- Create MPL3115A2 sensor object from a socket number
 
-  FUNCTION Create(socknum : Positive) RETURN Standard.HTU21D.Device IS
-   (Create(ClickBoard.libsimpleio.Create(socknum)));
+  FUNCTION Create
+   (socknum : Positive;
+    addr    : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
+     (Create(ClickBoard.SimpleIO.Create(socknum), addr));
 
-END ClickBoard.HTU21D.libsimpleio;
+END ClickBoard.Altitude.SimpleIO;

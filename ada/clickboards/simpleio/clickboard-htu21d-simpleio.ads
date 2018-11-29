@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika Thermo3 Click, using libsimpleio
+-- Services for the Mikroelektronika HTU21D Click, using libsimpleio
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,24 +20,21 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.libsimpleio;
+WITH ClickBoard.SimpleIO;
+WITH HTU21D;
 WITH I2C.libsimpleio;
-WITH TMP102;
 
-PACKAGE ClickBoard.Thermo3.libsimpleio IS
+PACKAGE ClickBoard.HTU21D.SimpleIO IS
 
-  -- Create TMP102 sensor object from socket
-
-  FUNCTION Create
-   (socket : ClickBoard.libsimpleio.Socket;
-    addr   : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
-    (Create(I2C.libsimpleio.Create(socket.I2C), addr));
-
-  -- Create TMP102 sensor object from socket number
+  -- Create HTU21D sensor object from a socket object
 
   FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
-    (Create(ClickBoard.libsimpleio.Create(socknum), addr));
+   (socket : ClickBoard.SimpleIO.Socket) RETURN Standard.HTU21D.Device IS
+   (Create(I2C.libsimpleio.Create(socket.I2C), socket.I2C_Clock_Stretch));
 
-END ClickBoard.Thermo3.libsimpleio;
+  -- Create HTU21D sensor object from a socket number
+
+  FUNCTION Create(socknum : Positive) RETURN Standard.HTU21D.Device IS
+   (Create(ClickBoard.SimpleIO.Create(socknum)));
+
+END ClickBoard.HTU21D.SimpleIO;
