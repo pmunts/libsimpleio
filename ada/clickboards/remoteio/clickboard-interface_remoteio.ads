@@ -21,9 +21,11 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH RemoteIO;
-WITH ClickBoard.Sockets_template;
+WITH ClickBoard.Interface_Template;
+WITH ClickBoard.Servers;
 
-PACKAGE ClickBoard.Sockets_RemoteIO IS NEW ClickBoard.Sockets_template
- (Standard.RemoteIO.ChannelNumber, Standard.RemoteIO.ChannelNumber,
+PACKAGE ClickBoard.Interface_RemoteIO IS NEW ClickBoard.Interface_Template
+ (ClickBoard.Servers.Kind, Standard.RemoteIO.ChannelNumber,
   Standard.RemoteIO.ChannelNumber, Standard.RemoteIO.ChannelNumber,
-  Standard.RemoteIO.ChannelNumber, Standard.RemoteIO.ChannelNumber);
+  Standard.RemoteIO.ChannelNumber, Standard.RemoteIO.ChannelNumber,
+  Standard.RemoteIO.ChannelNumber);

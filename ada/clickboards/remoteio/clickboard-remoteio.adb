@@ -38,7 +38,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
   -- socket
 
   TYPE SocketRec IS RECORD
-    Kind : ClickBoard.Servers.Kind;
+    kind : ClickBoard.Servers.Kind;
     num  : Positive;
     GPIO : PinArray;
     AIN  : Integer;
@@ -128,11 +128,11 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Retrieve the type of Remote I/O server
 
-  FUNCTION ServerKind(Self : socket) RETURN ClickBoard.Servers.Kind IS
+  FUNCTION Kind(Self : socket) RETURN ClickBoard.Servers.Kind IS
 
   BEGIN
-    RETURN SocketTable(Self.index).Kind;
-  END ServerKind;
+    RETURN SocketTable(Self.index).kind;
+  END Kind;
 
   -- Retrieve the socket number
 

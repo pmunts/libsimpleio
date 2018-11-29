@@ -20,15 +20,15 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH ClickBoard.Interface_RemoteIO;
 WITH ClickBoard.Servers;
-WITH ClickBoard.Sockets_RemoteIO;
 WITH RemoteIO;
 
 PACKAGE ClickBoard.RemoteIO IS
 
   -- Define an object class for Click Board shield sockets
 
-  TYPE Socket IS NEW ClickBoard.Sockets_RemoteIO.SocketInterface WITH PRIVATE;
+  TYPE Socket IS NEW ClickBoard.Interface_RemoteIO.SocketInterface WITH PRIVATE;
 
   -- Socket object constructor
 
@@ -39,7 +39,7 @@ PACKAGE ClickBoard.RemoteIO IS
 
   -- Retrieve the type of Remote I/O server
 
-  FUNCTION ServerKind(self : socket) RETURN ClickBoard.Servers.Kind;
+  FUNCTION Kind(self : socket) RETURN ClickBoard.Servers.Kind;
 
   -- Retrieve the socket number
 
@@ -72,7 +72,7 @@ PACKAGE ClickBoard.RemoteIO IS
 
 PRIVATE
 
-  TYPE Socket IS NEW ClickBoard.Sockets_RemoteIO.SocketInterface WITH RECORD
+  TYPE Socket IS NEW ClickBoard.Interface_RemoteIO.SocketInterface WITH RECORD
     index : Positive;
   END RECORD;
 
