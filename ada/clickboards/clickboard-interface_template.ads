@@ -22,8 +22,7 @@
 
 GENERIC
 
-  TYPE Kind_Designator       IS (<>);
-
+  TYPE Kind_Designator(<>)   IS PRIVATE;
   TYPE Analog_Designator(<>) IS PRIVATE;
   TYPE GPIO_Designator(<>)   IS PRIVATE;
   TYPE I2C_Designator(<>)    IS PRIVATE;
