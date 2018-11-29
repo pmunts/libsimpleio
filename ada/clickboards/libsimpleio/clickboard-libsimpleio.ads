@@ -21,27 +21,25 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.Shields;
+WITH ClickBoard.Interface_libsimpleio;
 WITH Device;
-with ClickBoard.Sockets_libsimpleio;
 
 PACKAGE ClickBoard.libsimpleio IS
 
   -- Define an object class for Click Board shield sockets
 
-  TYPE Socket IS NEW ClickBoard.Sockets_libsimpleio.SocketInterface WITH PRIVATE;
+  TYPE Socket IS NEW ClickBoard.Interface_libsimpleio.SocketInterface WITH PRIVATE;
 
-  -- Socket object constructor with implicit (detected) shield selection
+  -- Socket object constructor
 
-  FUNCTION Create(socknum : Positive) RETURN Socket;
-
-  -- Socket object constructor with explicit shield selection
-
-  FUNCTION Create(shield : ClickBoard.Shields.Kind;
-    socknum : Positive) RETURN Socket;
+  FUNCTION Create
+   (socknum : Positive;
+    kind    : ClickBoard.Shields.Kind :=
+      ClickBoard.Shields.Detect) RETURN Socket;
 
   -- Retrieve the type of shield
 
-  FUNCTION Shield(self : socket) RETURN ClickBoard.Shields.Kind;
+  FUNCTION Kind(self : socket) RETURN ClickBoard.Shields.Kind;
 
   -- Retrieve the socket number
 
@@ -77,7 +75,7 @@ PACKAGE ClickBoard.libsimpleio IS
 
 PRIVATE
 
-  TYPE Socket IS NEW ClickBoard.Sockets_libsimpleio.SocketInterface WITH RECORD
+  TYPE Socket IS NEW ClickBoard.Interface_libsimpleio.SocketInterface WITH RECORD
     index : Positive;
   END RECORD;
 

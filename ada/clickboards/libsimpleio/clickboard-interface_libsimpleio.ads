@@ -20,9 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH ClickBoard.Shields;
+WITH ClickBoard.Interface_Template;
 WITH Device;
-WITH ClickBoard.Sockets_Template;
 
-PACKAGE ClickBoard.Sockets_libsimpleio IS NEW ClickBoard.Sockets_Template
- (Device.Designator, Device.Designator, String, Device.Designator,
-  String, String);
+PACKAGE ClickBoard.Interface_libsimpleio IS NEW ClickBoard.Interface_Template
+ (ClickBoard.Shields.Kind, Device.Designator, Device.Designator, String,
+  Device.Designator, String, String);

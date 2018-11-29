@@ -22,6 +22,8 @@
 
 GENERIC
 
+  TYPE Kind_Designator       IS (<>);
+
   TYPE Analog_Designator(<>) IS PRIVATE;
   TYPE GPIO_Designator(<>)   IS PRIVATE;
   TYPE I2C_Designator(<>)    IS PRIVATE;
@@ -29,7 +31,7 @@ GENERIC
   TYPE SPI_Designator(<>)    IS PRIVATE;
   TYPE UART_Designator(<>)   IS PRIVATE;
 
-PACKAGE ClickBoard.Sockets_Template IS
+PACKAGE ClickBoard.Interface_Template IS
 
   -- Define an abstract interface for Click Board sockets
 
@@ -41,6 +43,9 @@ PACKAGE ClickBoard.Sockets_Template IS
   TYPE Socket IS ACCESS ALL SocketInterface'Class;
 
   -- Click Board socket services
+
+  FUNCTION Kind
+   (Self : SocketInterface) RETURN Kind_Designator IS ABSTRACT;
 
   FUNCTION Number
    (Self : SocketInterface) RETURN Positive IS ABSTRACT;
@@ -64,4 +69,4 @@ PACKAGE ClickBoard.Sockets_Template IS
   FUNCTION UART
    (Self : SocketInterface) RETURN UART_Designator IS ABSTRACT;
 
-END ClickBoard.Sockets_Template;
+END ClickBoard.Interface_Template;

@@ -66,7 +66,7 @@ PACKAGE BODY ClickBoard.libsimpleio IS
   -- socket
 
   TYPE SocketRec IS RECORD
-    Shield  : ClickBoard.Shields.Kind;
+    Kind  : ClickBoard.Shields.Kind;
     SockNum : Positive;
     PinList : PinArray;
     AINdev  : Device.Designator;
@@ -276,18 +276,12 @@ PACKAGE BODY ClickBoard.libsimpleio IS
       UARTdev => To_DeviceString("ttyS0"),
       Stretch => True));
 
-  -- Socket object constructor with implicit (detected) shield selection
+  -- Socket object constructor
 
-  FUNCTION Create(socknum : Positive) RETURN Socket IS
-
-  BEGIN
-    RETURN Create(ClickBoard.Shields.Detect, socknum);
-  END Create;
-
-  -- Socket object constructor with explicit shield selection
-
-  FUNCTION Create(shield : ClickBoard.Shields.Kind;
-    socknum : Positive) RETURN Socket IS
+  FUNCTION Create
+   (socknum : Positive;
+    kind    : ClickBoard.Shields.Kind :=
+      ClickBoard.Shields.Detect) RETURN Socket IS
 
   BEGIN
 
@@ -295,7 +289,7 @@ PACKAGE BODY ClickBoard.libsimpleio IS
     -- and socket number
 
     FOR i IN SocketTable'Range LOOP
-      IF shield = SocketTable(i).shield AND
+      IF kind = SocketTable(i).kind AND
         socknum = SocketTable(i).socknum THEN
         RETURN Socket'(index => i);
       END IF;
@@ -306,11 +300,11 @@ PACKAGE BODY ClickBoard.libsimpleio IS
 
   -- Retrieve the type of shield
 
-  FUNCTION Shield(self : socket) RETURN ClickBoard.Shields.Kind IS
+  FUNCTION Kind(self : socket) RETURN ClickBoard.Shields.Kind IS
 
   BEGIN
-    RETURN SocketTable(self.index).Shield;
-  END Shield;
+    RETURN SocketTable(self.index).Kind;
+  END Kind;
 
   -- Retrieve the socket number
 
