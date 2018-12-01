@@ -73,7 +73,7 @@ PACKAGE ClickBoard.RemoteIO IS
 PRIVATE
 
   TYPE Socket IS NEW ClickBoard.Interface_RemoteIO.SocketInterface WITH RECORD
-    index : Positive;
+    index : Natural;
   END RECORD;
 
 END ClickBoard.RemoteIO;
