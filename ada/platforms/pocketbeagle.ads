@@ -69,4 +69,7 @@ PACKAGE PocketBeagle IS
   GPIO116 : CONSTANT Device.Designator := (3, 20);  -- P2.28
   GPIO117 : CONSTANT Device.Designator := (3, 21);  -- P1.29
 
+  I2C1 : CONSTANT String := "/dev/i2c-1"; -- P1.26 and P1.28
+  I2C2 : CONSTANT String := "/dev/i2c-2"; -- P2.9  and P2.11
+
 END PocketBeagle;
