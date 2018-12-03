@@ -26,8 +26,7 @@ PACKAGE ClickBoard.Servers IS
    (Unknown,
     Arduino,
     Clicker,
-    PocketBeagle,
-    RaspberryPi);
+    PocketBeagle);
 
   FUNCTION Detect RETURN Kind;
 
