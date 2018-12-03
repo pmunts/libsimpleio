@@ -25,6 +25,7 @@ WITH ClickBoard.RemoteIO;
 
 WITH RemoteIO.Arduino;
 WITH RemoteIO.Clicker;
+WITH RemoteIO.PocketBeagle;
 
 USE TYPE ClickBoard.Servers.Kind;
 
@@ -64,10 +65,10 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       ClickBoard.TX   => Standard.RemoteIO.Arduino.D1,
       ClickBoard.SCL  => Standard.RemoteIO.Arduino.A5,
       ClickBoard.SDA  => Standard.RemoteIO.Arduino.A4),
-      AIN           => Standard.RemoteIO.Arduino.AIN0,
-      I2C           => Standard.RemoteIO.Arduino.I2C0,
-      SPI           => Standard.RemoteIO.Arduino.SPI0,
-      OTHERS        => Unavailable),
+      AIN    => Standard.RemoteIO.Arduino.AIN0,
+      I2C    => Standard.RemoteIO.Arduino.I2C0,
+      SPI    => Standard.RemoteIO.Arduino.SPI0,
+      OTHERS => Unavailable),
 
     -- Any server with an Arduino Click Shield
     SocketRec'(ClickBoard.Servers.Arduino, 2,
@@ -83,10 +84,10 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       ClickBoard.TX   => Standard.RemoteIO.Arduino.D1,
       ClickBoard.SCL  => Standard.RemoteIO.Arduino.A5,
       ClickBoard.SDA  => Standard.RemoteIO.Arduino.A4),
-      AIN           => Standard.RemoteIO.Arduino.AIN1,
-      I2C           => Standard.RemoteIO.Arduino.I2C0,
-      SPI           => Standard.RemoteIO.Arduino.SPI1,
-      OTHERS        => Unavailable),
+      AIN    => Standard.RemoteIO.Arduino.AIN1,
+      I2C    => Standard.RemoteIO.Arduino.I2C0,
+      SPI    => Standard.RemoteIO.Arduino.SPI1,
+      OTHERS => Unavailable),
 
     -- Mikroelektronika Clicker board with 1 socket
 
@@ -103,10 +104,50 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       ClickBoard.TX   => Standard.RemoteIO.Clicker.TX,
       ClickBoard.SCL  => Standard.RemoteIO.Clicker.SCL,
       ClickBoard.SDA  => Standard.RemoteIO.Clicker.SDA),
-      AIN           => Standard.RemoteIO.Clicker.AIN0,
-      I2C           => Standard.RemoteIO.Clicker.I2C0,
-      SPI           => Standard.RemoteIO.Clicker.SPI0,
-      OTHERS        => Unavailable)
+      AIN    => Standard.RemoteIO.Clicker.AIN0,
+      I2C    => Standard.RemoteIO.Clicker.I2C0,
+      SPI    => Standard.RemoteIO.Clicker.SPI0,
+      OTHERS => Unavailable),
+
+    -- Socket 1 is over the micro USB connector (left)
+
+    SocketRec'(ClickBoard.Servers.PocketBeagle, 1,
+     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.AN1,
+      ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.RST1,
+      ClickBoard.CS   => Standard.RemoteIO.PocketBeagle.CS1,
+      ClickBoard.SCK  => Standard.RemoteIO.PocketBeagle.SCK1,
+      ClickBoard.MISO => Standard.RemoteIO.PocketBeagle.MISO1,
+      ClickBoard.MOSI => Standard.RemoteIO.PocketBeagle.MOSI1,
+      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.PWM1,
+      ClickBoard.INT  => Standard.RemoteIO.PocketBeagle.INT1,
+      ClickBoard.RX   => Standard.RemoteIO.PocketBeagle.RX1,
+      ClickBoard.TX   => Standard.RemoteIO.PocketBeagle.TX1,
+      ClickBoard.SCL  => Standard.RemoteIO.PocketBeagle.SCL1,
+      ClickBoard.SDA  => Standard.RemoteIO.PocketBeagle.SDA1),
+      AIN    => Standard.RemoteIO.PocketBeagle.AIN6,
+      I2C    => Standard.RemoteIO.PocketBeagle.I2C0, -- I2C1
+      SPI    => Standard.RemoteIO.PocketBeagle.SPI0, -- SPI1 CS0
+      OTHERS => Unavailable),
+
+    -- Socket 2 is over the micro-SDHC card socket (right)
+
+    SocketRec'(ClickBoard.Servers.PocketBeagle, 2,
+     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.AN2,
+      ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.RST2,
+      ClickBoard.CS   => Standard.RemoteIO.PocketBeagle.CS2,
+      ClickBoard.SCK  => Standard.RemoteIO.PocketBeagle.SCK2,
+      ClickBoard.MISO => Standard.RemoteIO.PocketBeagle.MISO2,
+      ClickBoard.MOSI => Standard.RemoteIO.PocketBeagle.MOSI2,
+      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.PWM2,
+      ClickBoard.INT  => Standard.RemoteIO.PocketBeagle.INT2,
+      ClickBoard.RX   => Standard.RemoteIO.PocketBeagle.RX2,
+      ClickBoard.TX   => Standard.RemoteIO.PocketBeagle.TX2,
+      ClickBoard.SCL  => Standard.RemoteIO.PocketBeagle.SCL2,
+      ClickBoard.SDA  => Standard.RemoteIO.PocketBeagle.SDA2),
+      AIN    => Standard.RemoteIO.PocketBeagle.AIN5,
+      I2C    => Standard.RemoteIO.PocketBeagle.I2C1, -- I2C2
+      SPI    => Standard.RemoteIO.PocketBeagle.SPI1, -- SPI2 CS1
+      OTHERS => Unavailable)
    );
 
   -- Socket object constructor
