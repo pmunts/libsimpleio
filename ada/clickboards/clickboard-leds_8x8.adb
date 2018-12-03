@@ -23,7 +23,7 @@
 WITH ClickBoard.Shields;
 WITH MAX7219;
 WITH ClickBoard;
-WITH SPI.libsimpleio;
+WITH SPI;
 WITH TrueColor;
 
 USE TYPE MAX7219.Data;
