@@ -24,14 +24,12 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.SevenSegment.RemoteIO;
 WITH HID.hidapi;
-WITH Message64;
 WITH RemoteIO.Client;
 
 USE TYPE ClickBoard.SevenSegment.Features;
 
 PROCEDURE test_clickboard_7seg IS
 
-  msg     : Message64.Messenger;
   remdev  : RemoteIO.Client.Device;
   display : ClickBoard.SevenSegment.Display;
 
@@ -40,8 +38,7 @@ BEGIN
   Put_Line("Mikroelektronika 7seg Click Test");
   New_Line;
 
-  msg     := HID.hidapi.Create;
-  remdev  := RemoteIO.Client.Create(msg);
+  remdev  := RemoteIO.Client.Create(HID.hidapi.Create);
   display := ClickBoard.SevenSegment.RemoteIO.Create(remdev, 1);
 
   -- Count up
