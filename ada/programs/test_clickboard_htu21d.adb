@@ -27,7 +27,7 @@ WITH HTU21D;
 WITH Humidity;
 WITH Temperature;
 
-PROCEDURE test_htu21d IS
+PROCEDURE test_clickboard_htu21d IS
 
   sensor : HTU21D.Device;
 
@@ -50,4 +50,4 @@ BEGIN
 
     DELAY 1.0;
   END LOOP;
-END test_htu21d;
+END test_clickboard_htu21d;
