@@ -31,10 +31,19 @@ PACKAGE SPI.libsimpleio IS
 
   Destroyed : CONSTANT DeviceSubclass;
 
-  -- SPI device object constructor
+  -- SPI device object constructor accepting device node name
 
   FUNCTION Create
    (name     : String;
+    mode     : Natural;
+    wordsize : Natural;
+    speed    : Natural;
+    cspin    : Standard.Device.Designator := AUTOCHIPSELECT) RETURN SPI.Device;
+
+  -- SPI device object constructor accepting device designator
+
+  FUNCTION Create
+   (desg     : Standard.Device.Designator;
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;

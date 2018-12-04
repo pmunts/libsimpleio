@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Strings.Fixed;
 WITH System;
 
 WITH Device;
@@ -31,7 +32,12 @@ USE TYPE Device.Designator;
 
 PACKAGE BODY SPI.libsimpleio IS
 
-  -- SPI device object constructor
+  FUNCTION Trim
+   (Source : IN String;
+    Side   : IN Ada.Strings.Trim_End :=
+      Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
+
+  -- SPI device object constructor accepting device node name
 
   FUNCTION Create
    (name     : String;
@@ -66,6 +72,20 @@ PACKAGE BODY SPI.libsimpleio IS
     END IF;
 
     RETURN NEW DeviceSubclass'(fd => fd, fdcs => fdcs);
+  END Create;
+
+  -- SPI device object constructor accepting device designator
+
+  FUNCTION Create
+   (desg     : Standard.Device.Designator;
+    mode     : Natural;
+    wordsize : Natural;
+    speed    : Natural;
+    cspin    : Standard.Device.Designator := AUTOCHIPSELECT) RETURN SPI.Device IS
+
+  BEGIN
+    RETURN Create("/dev/spidev" & Trim(Natural'Image(desg.chip)) & "." &
+      Trim(Natural'Image(desg.chan)), mode, wordsize, speed, cspin);
   END Create;
 
   -- Write only SPI bus cycle method
