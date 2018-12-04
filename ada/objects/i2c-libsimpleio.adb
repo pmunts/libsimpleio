@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Strings.Fixed;
 WITH System;
 
 WITH errno;
@@ -27,6 +28,11 @@ WITH libI2C;
 WITH libLinux;
 
 PACKAGE BODY I2C.libsimpleio IS
+
+  FUNCTION Trim
+   (Source : IN String;
+    Side   : IN Ada.Strings.Trim_End :=
+      Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
   -- I2C bus controller object constructor
 
@@ -43,6 +49,16 @@ PACKAGE BODY I2C.libsimpleio IS
     END IF;
 
     RETURN NEW I2C.libsimpleio.BusSubclass'(fd => fd);
+  END Create;
+
+  FUNCTION Create(desg : Device.Designator) RETURN I2C.Bus IS
+
+  BEGIN
+    IF desg.chip /= 0 THEN
+      RAISE I2C_Error WITH "Invalid designator for I2C bus controller";
+    END IF;
+
+    RETURN Create("/dev/i2c-" & Trim(Natural'Image(desg.chan)));
   END Create;
 
   -- Read only I2C bus cycle method

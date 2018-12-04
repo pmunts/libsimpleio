@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Device;
+
 PACKAGE I2C.libsimpleio IS
 
   -- Type definitions
@@ -30,9 +32,11 @@ PACKAGE I2C.libsimpleio IS
 
   Destroyed : CONSTANT BusSubclass;
 
-  -- I2C bus controller object constructor
+  -- I2C bus controller object constructors
 
   FUNCTION Create(name : String) RETURN I2C.Bus;
+
+  FUNCTION Create(desg : Device.Designator) RETURN I2C.Bus;
 
   -- Read only I2C bus cycle method
 
