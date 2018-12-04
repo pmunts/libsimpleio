@@ -69,11 +69,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
     Kind  : ClickBoard.Shields.Kind;
     SockNum : Positive;
     PinList : PinArray;
-    AINdev  : Device.Designator;
-    I2Cdev  : Device.Designator;
-    PWMdev  : Device.Designator;
-    SPIdev  : DeviceString;
-    UARTdev : DeviceString;
+    AIN     : Device.Designator;
+    I2C     : Device.Designator;
+    PWM     : Device.Designator;
+    SPI     : Device.Designator;
+    UART    : DeviceString;
     Stretch : Boolean;
   END RECORD;
 
@@ -84,11 +84,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => RaspberryPi.GPIO17,
       ClickBoard.PWM => RaspberryPi.GPIO18,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => RaspberryPi.I2C1,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev0.0"),
-      UARTdev => To_DeviceString("ttyAMA0"),
+      AIN     => Device.Unavailable,
+      I2C     => RaspberryPi.I2C1,
+      PWM     => Device.Unavailable,
+      SPI     => RaspberryPi.SPI0_0,
+      UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.PiClick2, 1,
@@ -97,11 +97,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => RaspberryPi.GPIO6,
       ClickBoard.PWM => RaspberryPi.GPIO18,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => RaspberryPi.I2C1,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev0.0"),
-      UARTdev => To_DeviceString("ttyAMA0"),
+      AIN     => Device.Unavailable,
+      I2C     => RaspberryPi.I2C1,
+      PWM     => Device.Unavailable,
+      SPI     => RaspberryPi.SPI0_0,
+      UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.PiClick2, 2,
@@ -110,11 +110,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => RaspberryPi.GPIO26,
       ClickBoard.PWM => RaspberryPi.GPIO17,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => RaspberryPi.I2C1,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev0.1"),
-      UARTdev => To_DeviceString("ttyAMA0"),
+      AIN     => Device.Unavailable,
+      I2C     => RaspberryPi.I2C1,
+      PWM     => Device.Unavailable,
+      SPI     => RaspberryPi.SPI0_1,
+      UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.PiClick3, 1,
@@ -123,11 +123,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => RaspberryPi.GPIO6,
       ClickBoard.PWM => RaspberryPi.GPIO18,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => RaspberryPi.I2C1,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev0.0"),
-      UARTdev => To_DeviceString("ttyAMA0"),
+      AIN     => Device.Unavailable,
+      I2C     => RaspberryPi.I2C1,
+      PWM     => Device.Unavailable,
+      SPI     => RaspberryPi.SPI0_0,
+      UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.PiClick3, 2,
@@ -136,11 +136,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => RaspberryPi.GPIO26,
       ClickBoard.PWM => RaspberryPi.GPIO17,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => RaspberryPi.I2C1,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev0.1"),
-      UARTdev => To_DeviceString("ttyAMA0"),
+      AIN     => Device.Unavailable,
+      I2C     => RaspberryPi.I2C1,
+      PWM     => Device.Unavailable,
+      SPI     => RaspberryPi.SPI0_1,
+      UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.PiArduinoClick, 1,
@@ -149,11 +149,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => RaspberryPi.GPIO17,
       ClickBoard.PWM => RaspberryPi.GPIO22,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => RaspberryPi.I2C1,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev0.0"),
-      UARTdev => To_DeviceString("ttyAMA0"),
+      AIN     => Device.Unavailable,
+      I2C     => RaspberryPi.I2C1,
+      PWM     => Device.Unavailable,
+      SPI     => RaspberryPi.SPI0_0,
+      UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.PiArduinoClick, 2,
@@ -163,11 +163,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => RaspberryPi.GPIO18,
       ClickBoard.PWM => RaspberryPi.GPIO27,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => RaspberryPi.I2C1,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev0.1"),
-      UARTdev => To_DeviceString("ttyAMA0"),
+      AIN     => Device.Unavailable,
+      I2C     => RaspberryPi.I2C1,
+      PWM     => Device.Unavailable,
+      SPI     => RaspberryPi.SPI0_1,
+      UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.BeagleBoneClick2, 1,
@@ -176,11 +176,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => BeagleBone.GPIO27,
       ClickBoard.PWM => BeagleBone.GPIO50,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => BeagleBone.I2C2,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev2.0"),
-      UARTdev => To_DeviceString("ttyS1"),
+      AIN     => Device.Unavailable,
+      I2C     => BeagleBone.I2C2,
+      PWM     => Device.Unavailable,
+      SPI     => BeagleBone.SPI2_0,
+      UART    => To_DeviceString("ttyS1"),
       Stretch => True),
 
     SocketRec'(ClickBoard.Shields.BeagleBoneClick2, 2,
@@ -189,11 +189,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => BeagleBone.GPIO65,
       ClickBoard.PWM => BeagleBone.GPIO22,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => BeagleBone.I2C2,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev2.1"),
-      UARTdev => To_DeviceString("ttyS2"),
+      AIN     => Device.Unavailable,
+      I2C     => BeagleBone.I2C2,
+      PWM     => Device.Unavailable,
+      SPI     => BeagleBone.SPI2_1,
+      UART    => To_DeviceString("ttyS2"),
       Stretch => True),
 
     SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 1,
@@ -201,11 +201,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => BeagleBone.GPIO48,
       ClickBoard.PWM => BeagleBone.GPIO50,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => BeagleBone.I2C2,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev2.0"),
-      UARTdev => To_DeviceString("ttyS2"),
+      AIN     => Device.Unavailable,
+      I2C     => BeagleBone.I2C2,
+      PWM     => Device.Unavailable,
+      SPI     => BeagleBone.SPI2_0,
+      UART    => To_DeviceString("ttyS2"),
       Stretch => True),
 
     SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 2,
@@ -213,11 +213,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => BeagleBone.GPIO20,
       ClickBoard.PWM => BeagleBone.GPIO51,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => BeagleBone.I2C2,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev2.1"),
-      UARTdev => To_DeviceString("ttyS1"),
+      AIN     => Device.Unavailable,
+      I2C     => BeagleBone.I2C2,
+      PWM     => Device.Unavailable,
+      SPI     => BeagleBOne.SPI2_1,
+      UART    => To_DeviceString("ttyS1"),
       Stretch => True),
 
     SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 3,
@@ -226,11 +226,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => BeagleBone.GPIO65,
       ClickBoard.PWM => BeagleBone.GPIO22,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => BeagleBone.I2C2,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => DeviceUnavailable,
-      UARTdev => To_DeviceString("ttyS1"),
+      AIN     => Device.Unavailable,
+      I2C     => BeagleBone.I2C2,
+      PWM     => Device.Unavailable,
+      SPI     => Device.Unavailable,
+      UART    => To_DeviceString("ttyS1"),
       Stretch => True),
 
     SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 4,
@@ -239,11 +239,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => BeagleBone.GPIO27,
       ClickBoard.PWM => BeagleBone.GPIO23,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => BeagleBone.I2C2,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => DeviceUnavailable,
-      UARTdev => To_DeviceString("ttyS4"),
+      AIN     => Device.Unavailable,
+      I2C     => BeagleBone.I2C2,
+      PWM     => Device.Unavailable,
+      SPI     => Device.Unavailable,
+      UART    => To_DeviceString("ttyS4"),
       Stretch => True),
 
     -- Socket 1 is over the micro USB connector (left)
@@ -254,11 +254,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => PocketBeagle.GPIO23,
       ClickBoard.PWM => PocketBeagle.GPIO50,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => PocketBeagle.I2C1,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev1.0"),
-      UARTdev => To_DeviceString("ttyS4"),
+      AIN     => Device.Unavailable,
+      I2C     => PocketBeagle.I2C1,
+      PWM     => Device.Unavailable,
+      SPI     => PocketBeagle.SPI1_0,
+      UART    => To_DeviceString("ttyS4"),
       Stretch => True),
 
     -- Socket 2 is over the micro-SDHC card socket (right)
@@ -269,11 +269,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => PocketBeagle.GPIO26,
       ClickBoard.PWM => PocketBeagle.GPIO110,
       OTHERS         => Device.Unavailable),
-      AINdev  => Device.Unavailable,
-      I2Cdev  => PocketBeagle.I2C2,
-      PWMdev  => Device.Unavailable,
-      SPIdev  => To_DeviceString("spidev2.1"),
-      UARTdev => To_DeviceString("ttyS0"),
+      AIN     => Device.Unavailable,
+      I2C     => PocketBeagle.I2C2,
+      PWM     => Device.Unavailable,
+      SPI     => PocketBeagle.SPI2_1,
+      UART    => To_DeviceString("ttyS0"),
       Stretch => True));
 
   -- Socket object constructor
@@ -319,11 +319,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
   FUNCTION AIN(self : socket) RETURN Device.Designator IS
 
   BEGIN
-    IF SocketTable(self.index).AINDev = Device.Unavailable THEN
+    IF SocketTable(self.index).AIN = Device.Unavailable THEN
       RAISE ClickBoard.SocketError WITH "AIN is unavailable for this socket";
     END IF;
 
-    RETURN SocketTable(self.index).AINDev;
+    RETURN SocketTable(self.index).AIN;
   END AIN;
 
   -- Map Click Board socket GPIO pin to Linux GPIO pin designator
@@ -339,11 +339,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
   FUNCTION I2C(self : socket) RETURN Device.Designator IS
 
   BEGIN
-    IF SocketTable(self.index).I2CDev = Device.Unavailable THEN
+    IF SocketTable(self.index).I2C = Device.Unavailable THEN
       RAISE ClickBoard.SocketError WITH "I2C is unavailable for this socket";
     END IF;
 
-    RETURN SocketTable(self.index).I2CDev;
+    RETURN SocketTable(self.index).I2C;
   END I2C;
 
   -- Map Click Board socket to PWM output device name
@@ -351,23 +351,23 @@ PACKAGE BODY ClickBoard.SimpleIO IS
   FUNCTION PWM(self : socket) RETURN Device.Designator IS
 
   BEGIN
-    IF SocketTable(self.index).PWMDev = Device.Unavailable THEN
+    IF SocketTable(self.index).PWM = Device.Unavailable THEN
       RAISE ClickBoard.SocketError WITH "PWM is unavailable for this socket";
     END IF;
 
-    RETURN SocketTable(self.index).PWMDev;
+    RETURN SocketTable(self.index).PWM;
   END PWM;
 
   -- Map Click Board socket to SPI device name
 
-  FUNCTION SPI(self : socket) RETURN String IS
+  FUNCTION SPI(self : socket) RETURN Device.Designator IS
 
   BEGIN
-    IF SocketTable(self.index).SPIDev = DeviceUnavailable THEN
+    IF SocketTable(self.index).SPI = Device.Unavailable THEN
       RAISE ClickBoard.SocketError WITH "SPI is unavailable for this socket";
     END IF;
 
-    RETURN To_DeviceName(SocketTable(self.index).SPIDev);
+    RETURN SocketTable(self.index).SPI;
   END SPI;
 
   -- Map Click Board socket to serial port device name
@@ -375,11 +375,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
   FUNCTION UART(self : socket) RETURN String IS
 
   BEGIN
-    IF SocketTable(self.index).UARTDev = DeviceUnavailable THEN
+    IF SocketTable(self.index).UART = DeviceUnavailable THEN
       RAISE ClickBoard.SocketError WITH "UART is unavailable for this socket";
     END IF;
 
-    RETURN To_DeviceName(SocketTable(self.index).UARTDev);
+    RETURN To_DeviceName(SocketTable(self.index).UART);
   END UART;
 
   -- Does platform support I2C clock stretching?

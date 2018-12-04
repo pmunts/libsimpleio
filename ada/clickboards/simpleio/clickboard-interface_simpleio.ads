@@ -30,5 +30,5 @@ PACKAGE ClickBoard.Interface_SimpleIO IS NEW ClickBoard.Interface_Template
   GPIO_Designator   => Device.Designator,
   I2C_Designator    => Device.Designator,
   PWM_Designator    => Device.Designator,
-  SPI_Designator    => String,
+  SPI_Designator    => Device.Designator,
   UART_Designator   => String);

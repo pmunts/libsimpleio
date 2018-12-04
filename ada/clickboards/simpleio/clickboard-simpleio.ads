@@ -63,7 +63,7 @@ PACKAGE ClickBoard.SimpleIO IS
 
   -- Map Click Board socket to SPI device name
 
-  FUNCTION SPI(self : socket) RETURN String;
+  FUNCTION SPI(self : socket) RETURN Device.Designator;
 
   -- Map Click Board socket to serial port device name
 
