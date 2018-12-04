@@ -1,4 +1,4 @@
--- Test program for the Mikroelektronika PWM Click
+-- Mikroelektronika PWM Click Test
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
