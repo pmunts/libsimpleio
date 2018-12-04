@@ -54,7 +54,7 @@ BEGIN
     Put("Temperature: ");
     Temperature.Celsius_IO.Put(sensor.Get, 0, 1, 0);
     Put("  Pressure: ");
-    Pressure.Pascals_IO.Put(sensor.Get*100.0, 0, 1, 0);
+    Pressure.Pascals_IO.Put(sensor.Get/100.0, 0, 1, 0);
     Put(" hPa");
     New_Line;
 
