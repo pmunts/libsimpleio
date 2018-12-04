@@ -26,6 +26,14 @@ WITH Device;
 
 PACKAGE BeagleBone IS
 
+  AIN0    : CONSTANT Device.Designator := (0,  0);  -- P9.39 1.8V
+  AIN1    : CONSTANT Device.Designator := (0,  1);  -- P9.40 1.8V
+  AIN2    : CONSTANT Device.Designator := (0,  2);  -- P9.37 1.8V
+  AIN3    : CONSTANT Device.Designator := (0,  3);  -- P9.38 1.8V
+  AIN4    : CONSTANT Device.Designator := (0,  4);  -- P9.33 1.8V
+  AIN5    : CONSTANT Device.Designator := (0,  5);  -- P9.36 1.8V
+  AIN6    : CONSTANT Device.Designator := (0,  6);  -- P9.35 1.8V
+
   GPIO2   : CONSTANT Device.Designator := (0,  2);  -- P9.22  UART2 RXD
   GPIO3   : CONSTANT Device.Designator := (0,  3);  -- P9.21  UART2 TXD
   GPIO4   : CONSTANT Device.Designator := (0,  4);  -- P9.18

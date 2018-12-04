@@ -24,6 +24,15 @@ WITH Device;
 
 PACKAGE PocketBeagle IS
 
+  AIN0    : CONSTANT Device.Designator := (0,  0);  -- P1.19 1.8V
+  AIN1    : CONSTANT Device.Designator := (0,  1);  -- P1.21 1.8V
+  AIN2    : CONSTANT Device.Designator := (0,  2);  -- P1.23 1.8V
+  AIN3    : CONSTANT Device.Designator := (0,  3);  -- P1.25 1.8V
+  AIN4    : CONSTANT Device.Designator := (0,  4);  -- P1.27 1.8V
+  AIN5    : CONSTANT Device.Designator := (0,  5);  -- P2.35 1.8V
+  AIN6    : CONSTANT Device.Designator := (0,  6);  -- P1.2  1.8V
+  AIN7    : CONSTANT Device.Designator := (0,  7);  -- P2.36 1.8V
+
   GPIO2   : CONSTANT Device.Designator := (0,  2);  -- P1.8   SPI0 SCLK
   GPIO3   : CONSTANT Device.Designator := (0,  3);  -- P1.10  SPI0 MISO
   GPIO4   : CONSTANT Device.Designator := (0,  4);  -- P1.12  SPI0 MOSI
