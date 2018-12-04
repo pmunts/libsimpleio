@@ -59,6 +59,6 @@ PACKAGE RaspberryPi IS
   GPIO21 : CONSTANT Device.Designator := (0, 21);  -- SPI1 SCLK
   GPIO26 : CONSTANT Device.Designator := (0, 26);
 
-  I2C1 : CONSTANT String := "/dev/i2c-1";
+  I2C1   : CONSTANT Device.Designator := (0,  1);
 
 END RaspberryPi;

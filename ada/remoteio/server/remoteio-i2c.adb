@@ -63,15 +63,26 @@ PACKAGE BODY RemoteIO.I2C IS
     cmd  : Message64.Message;
     resp : OUT Message64.message) IS
 
+    num      : RemoteIO.ChannelNumber;
+
   BEGIN
     resp(0) := MessageTypes'Pos(I2C_CONFIGURE_RESPONSE);
     resp(1) := cmd(1);
     resp(2) := 0;
     resp(3 .. 63) := (OTHERS => 0);
 
-    IF NOT Self.buses(Natural(cmd(2))).registered THEN
+    num := RemoteIO.ChannelNumber(cmd(2));
+
+    IF NOT Self.buses(num).registered THEN
       resp(2) := errno.ENODEV;
     END IF;
+
+    IF Self.buses(num).configured THEN
+      RETURN;
+    END IF;
+
+    Self.buses(num).bus := Standard.I2C.libsimpleio.Create(Self.buses(num).desg);
+    Self.buses(num).configured := True;
   END;
 
   PROCEDURE Transaction
@@ -183,23 +194,22 @@ PACKAGE BODY RemoteIO.I2C IS
     END CASE;
   END Dispatch;
 
-  -- Register I2C bus by device node name
+  -- Register I2C bus by device designator (and defer configuration)
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    name : String) IS
+    desg : Device.Designator) IS
 
   BEGIN
     IF Self.buses(num).registered THEN
       RETURN;
     END IF;
 
-    Self.buses(num).bus := Standard.I2C.libsimpleio.Create(name);
-    Self.buses(num).registered := True;
+    Self.buses(num) := BusRec'(desg, NULL, True, False);
   END Register;
 
-  -- Register I2C bus by object access
+  -- Register I2C bus by preconfigured object access
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
@@ -211,8 +221,7 @@ PACKAGE BODY RemoteIO.I2C IS
       RETURN;
     END IF;
 
-    Self.buses(num).bus := bus;
-    Self.buses(num).registered := True;
+    Self.buses(num) := BusRec'(Device.Unavailable, bus, True, True);
   END Register;
 
 END RemoteIO.I2C;

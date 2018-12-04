@@ -43,14 +43,14 @@ PACKAGE RemoteIO.I2C IS
     cmd  : Message64.Message;
     resp : OUT Message64.Message);
 
-  -- Register I2C bus by device node name
+  -- Register I2C bus by device designator (and defer configuration)
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    name : String);
+    desg : Device.Designator);
 
-  -- Register I2C bus by object access
+  -- Register I2C bus by preconfigured object access
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
@@ -60,18 +60,19 @@ PACKAGE RemoteIO.I2C IS
 PRIVATE
 
   TYPE BusRec IS RECORD
+    desg       : Device.Designator;
     bus        : Standard.I2C.Bus;
     registered : Boolean;
+    configured : Boolean;
   END RECORD;
 
-  TYPE BusArray IS ARRAY (ChannelNumber) OF BusRec;
+  TYPE BusTable IS ARRAY (ChannelNumber) OF BusRec;
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
     logger : Logging.Logger;
-    buses  : BusArray;
+    buses  : BusTable;
   END RECORD;
 
-  Unused : CONSTANT BusRec :=
-    BusRec'(NULL, False);
+  Unused : CONSTANT BusRec := BusRec'(Device.Unavailable, NULL, False, False);
 
 END RemoteIO.I2C;

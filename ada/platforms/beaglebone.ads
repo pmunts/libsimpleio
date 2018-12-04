@@ -94,6 +94,6 @@ PACKAGE BeagleBone IS
   GPIO115 : CONSTANT Device.Designator := (3, 19);  -- P9.27
   GPIO117 : CONSTANT Device.Designator := (3, 21);  -- P9.25
 
-  I2C2 : CONSTANT String := "/dev/i2c-2";
+  I2C2    : CONSTANT Device.Designator := (0,  2);  -- P9.19 and P9.20;
 
 END BeagleBone;

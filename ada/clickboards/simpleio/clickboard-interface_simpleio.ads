@@ -25,5 +25,10 @@ WITH ClickBoard.Interface_Template;
 WITH Device;
 
 PACKAGE ClickBoard.Interface_SimpleIO IS NEW ClickBoard.Interface_Template
- (ClickBoard.Shields.Kind, Device.Designator, Device.Designator, String,
-  Device.Designator, String, String);
+ (Kind_Designator   => ClickBoard.Shields.Kind,
+  Analog_Designator => Device.Designator,
+  GPIO_Designator   => Device.Designator,
+  I2C_Designator    => Device.Designator,
+  PWM_Designator    => Device.Designator,
+  SPI_Designator    => String,
+  UART_Designator   => String);

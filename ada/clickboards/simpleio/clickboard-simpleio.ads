@@ -55,7 +55,7 @@ PACKAGE ClickBoard.SimpleIO IS
 
   -- Map Click Board socket to I2C bus controller device name
 
-  FUNCTION I2C(self : socket) RETURN String;
+  FUNCTION I2C(self : socket) RETURN Device.Designator;
 
   -- Map Click Board socket to PWM output device name
 
