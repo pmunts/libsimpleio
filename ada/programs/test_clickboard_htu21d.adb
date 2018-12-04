@@ -20,20 +20,15 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- Test with Mikroelektronika HTU21D Click: https://www.mikroe.com/htu21d-click
-
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.hidapi;
+WITH ClickBoard.HTU21D.SimpleIO;
 WITH HTU21D;
-WITH I2C.RemoteIO;
 WITH Humidity;
-WITH RemoteIO.Client;
 WITH Temperature;
 
 PROCEDURE test_htu21d IS
 
-  bus    : I2C.Bus;
   sensor : HTU21D.Device;
 
 BEGIN
@@ -41,10 +36,7 @@ BEGIN
   Put_Line("HTU21D Temperature/Humidity Sensor Test");
   New_Line;
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
-    HTU21D.MaxSpeed);
-
-  sensor := HTU21D.Create(bus);
+  sensor := ClickBoard.HTU21D.SimpleIO.Create(socknum => 1);
 
   Put_Line("Press CONTROL-C to exit...");
   New_Line;
