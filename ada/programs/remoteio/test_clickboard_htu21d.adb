@@ -1,4 +1,4 @@
--- HTU21D Temperature/Humidity Sensor Test
+-- Mikroelektronika HTU21D Click Temperature/Humidity Sensor Test
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -36,7 +36,7 @@ PROCEDURE test_htu21d IS
 
 BEGIN
   New_Line;
-  Put_Line("HTU21D Temperature/Humidity Sensor Test");
+  Put_Line("Mikroelektronika HTU21D Click Temperature/Humidity Sensor Test");
   New_Line;
 
   remdev := RemoteIO.Client.Create(HID.hidapi.Create);
