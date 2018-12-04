@@ -1,6 +1,6 @@
--- Click Board GPIO Toggle Test
+-- Mikroelektronika mikroBUS GPIO Toggle Test
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,7 +26,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH ClickBoard.SimpleIO;
 WITH GPIO.libsimpleio;
 
-PROCEDURE test_clickboard_gpio IS
+PROCEDURE test_mikrobus_gpio IS
 
   socknum : Positive;
   socket  : ClickBoard.SimpleIO.Socket;
@@ -35,13 +35,13 @@ PROCEDURE test_clickboard_gpio IS
 
 BEGIN
   New_Line;
-  Put_Line("Click Board GPIO Toggle Test");
+  Put_Line("Mikroelektronika mikroBUS GPIO Toggle Test");
   New_Line;
 
   -- Check command line parameters
 
   IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_clickboard_gpio <sock num> <pin name>");
+    Put_Line("Usage: test_mikrobus_gpio <sock num> <pin name>");
     New_Line;
     RETURN;
   END IF;
@@ -62,4 +62,4 @@ BEGIN
     output.Put(True);
     output.Put(False);
   END LOOP;
-END test_clickboard_gpio;
+END test_mikrobus_gpio;
