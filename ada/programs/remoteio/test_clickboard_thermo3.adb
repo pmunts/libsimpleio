@@ -1,4 +1,4 @@
--- Mikroelektronika Thermo3 Click Temperature/Humidity Sensor Test
+-- Mikroelektronika Thermo3 Click Temperature Sensor Test
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,20 +22,24 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH ClickBoard.Thermo3.SimpleIO;
+WITH ClickBoard.Thermo3.RemoteIO;
+WITH HID.hidapi;
+WITH RemoteIO.Client;
 WITH TMP102;
 WITH Temperature;
 
 PROCEDURE test_clickboard_thermo3 IS
 
+  remdev : RemoteIO.Client.Device;
   sensor : TMP102.Device;
 
 BEGIN
   New_Line;
-  Put_Line("Mikroelektronika Thermo3 Click Temperature/Humidity Sensor Test");
+  Put_Line("Mikroelektronika Thermo3 Click Temperature Sensor Test");
   New_Line;
 
-  sensor := ClickBoard.Thermo3.SimpleIO.Create(socknum => 1);
+  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
+  sensor := ClickBoard.Thermo3.RemoteIO.Create(remdev, socknum => 1);
 
   Put_Line("Press CONTROL-C to exit...");
   New_Line;
