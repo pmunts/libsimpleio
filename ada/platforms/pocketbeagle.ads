@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Refer to http://git.munts.com/arm-linux-mcu/doc/PocketBeaglePinout.pdf
+
 WITH Device;
 
 PACKAGE PocketBeagle IS
@@ -80,5 +82,8 @@ PACKAGE PocketBeagle IS
 
   I2C1    : CONSTANT Device.Designator := (0,  1);  -- P1.26 and P1.28
   I2C2    : CONSTANT Device.Designator := (0,  2);  -- P2.9  and P2.11
+
+  SPI1_0  : CONSTANT Device.Designator := (1,  0);  -- P1.6
+  SPI2_1  : CONSTANT Device.Designator := (2,  1);  -- P2.31
 
 END PocketBeagle;

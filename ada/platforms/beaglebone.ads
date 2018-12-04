@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Refer to http://git.munts.com/arm-linux-mcu/doc/BeagleBonePinout.pdf
+
 WITH Ada.Strings.Fixed; USE Ada.Strings.Fixed;
 
 WITH Device;
@@ -38,7 +40,7 @@ PACKAGE BeagleBone IS
   GPIO3   : CONSTANT Device.Designator := (0,  3);  -- P9.21  UART2 TXD
   GPIO4   : CONSTANT Device.Designator := (0,  4);  -- P9.18
   GPIO5   : CONSTANT Device.Designator := (0,  5);  -- P9.17
-  GPIO7   : CONSTANT Device.Designator := (0,  7);  -- P9.42  SPI1 SS1
+  GPIO7   : CONSTANT Device.Designator := (0,  7);  -- P9.42  SPI2 SS1
   GPIO8   : CONSTANT Device.Designator := (0,  8);  -- P8.35
   GPIO9   : CONSTANT Device.Designator := (0,  9);  -- P8.33
   GPIO10  : CONSTANT Device.Designator := (0, 10);  -- P8.31
@@ -95,13 +97,15 @@ PACKAGE BeagleBone IS
   GPIO87  : CONSTANT Device.Designator := (2, 23);  -- P8.29
   GPIO88  : CONSTANT Device.Designator := (2, 24);  -- P8.28
   GPIO89  : CONSTANT Device.Designator := (2, 25);  -- P8.30
-  GPIO110 : CONSTANT Device.Designator := (3, 14);  -- P9.31  SPI1 SCLK
-  GPIO111 : CONSTANT Device.Designator := (3, 15);  -- P9.29  SPI1 MISO
-  GPIO112 : CONSTANT Device.Designator := (3, 16);  -- P9.30  SPI1 MOSI
-  GPIO113 : CONSTANT Device.Designator := (3, 17);  -- P9.28  SPI1 SS0
+  GPIO110 : CONSTANT Device.Designator := (3, 14);  -- P9.31  SPI2 SCLK
+  GPIO111 : CONSTANT Device.Designator := (3, 15);  -- P9.29  SPI2 MISO
+  GPIO112 : CONSTANT Device.Designator := (3, 16);  -- P9.30  SPI2 MOSI
+  GPIO113 : CONSTANT Device.Designator := (3, 17);  -- P9.28  SPI2 SS0
   GPIO115 : CONSTANT Device.Designator := (3, 19);  -- P9.27
   GPIO117 : CONSTANT Device.Designator := (3, 21);  -- P9.25
 
   I2C2    : CONSTANT Device.Designator := (0,  2);  -- P9.19 and P9.20;
 
+  SPI2_0  : CONSTANT Device.Designator := (2,  0);  -- P9.28
+  SPI2_1  : CONSTANT Device.Designator := (2,  1);  -- P9.42
 END BeagleBone;

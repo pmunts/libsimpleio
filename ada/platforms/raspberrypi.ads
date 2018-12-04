@@ -61,4 +61,8 @@ PACKAGE RaspberryPi IS
 
   I2C1   : CONSTANT Device.Designator := (0,  1);
 
+  SPI0_0 : CONSTANT Device.Designator := (0,  1);  -- GPIO8
+  SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO7
+  SPI1_0 : CONSTANT Device.Designator := (1,  0);  -- GPIO16
+
 END RaspberryPi;
