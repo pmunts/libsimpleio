@@ -44,8 +44,7 @@ BEGIN
 
   -- Create PCA9685 device object
 
-  device := ClickBoard.PWM_Click.SimpleIO.Create(socknum => 1,
-    frequency => 50);
+  device := ClickBoard.PWM_Click.SimpleIO.Create(socknum => 1, frequency => 50);
 
   -- Create some outputs
 
