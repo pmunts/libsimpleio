@@ -105,20 +105,19 @@ PACKAGE BODY RemoteIO.I2C IS
     resp(2) := 0;
     resp(3 .. 63) := (OTHERS => 0);
 
-    num      := RemoteIO.ChannelNumber(cmd(2));
+    num := RemoteIO.ChannelNumber(cmd(2));
+
+    IF NOT Self.buses(num).registered THEN
+      resp(2) := errno.ENODEV;
+      RETURN;
+    END IF;
+
     bus      := Self.buses(num).bus;
     addr     := Standard.I2C.Address(cmd(3));
     icmdlen  := Natural(cmd(4));
     iresplen := Natural(cmd(5));
     delayus  := Standard.I2C.Microseconds(cmd(6))*256 +
       Standard.I2C.Microseconds(cmd(7));
-
-    -- Make sure the bus is available
-
-    IF NOT Self.buses(num).registered THEN
-      resp(2) := errno.ENODEV;
-      RETURN;
-    END IF;
 
     -- Copy bytes from command message to I2C command buffer
 
@@ -194,7 +193,7 @@ PACKAGE BODY RemoteIO.I2C IS
     END CASE;
   END Dispatch;
 
-  -- Register I2C bus by device designator (and defer configuration)
+  -- Register I2C bus by device designator
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;

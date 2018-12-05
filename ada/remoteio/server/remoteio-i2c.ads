@@ -43,7 +43,7 @@ PACKAGE RemoteIO.I2C IS
     cmd  : Message64.Message;
     resp : OUT Message64.Message);
 
-  -- Register I2C bus by device designator (and defer configuration)
+  -- Register I2C bus by device designator
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
