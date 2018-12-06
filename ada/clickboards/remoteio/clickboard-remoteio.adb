@@ -178,7 +178,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       OTHERS          => Unavailable),
       I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
       SPI    => Standard.RemoteIO.RaspberryPi.SPI1, -- SPI1 SS1
-      OTHERS => Unavailable)
+      OTHERS => Unavailable),
 
     SocketRec'(ClickBoard.Servers.PiClick3, 1,
      (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO4,
