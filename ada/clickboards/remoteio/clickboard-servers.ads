@@ -26,7 +26,10 @@ PACKAGE ClickBoard.Servers IS
    (Unknown,
     Arduino,
     Clicker,
-    PocketBeagle);
+    PocketBeagle,
+    PiClick1,
+    PiClick2,
+    PiClick3);
 
   FUNCTION Detect RETURN Kind;
 
