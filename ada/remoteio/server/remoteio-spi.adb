@@ -67,7 +67,7 @@ PACKAGE BODY RemoteIO.SPI IS
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;
-   
+
   BEGIN
     resp(0) := MessageTypes'Pos(SPI_CONFIGURE_RESPONSE);
     resp(1) := cmd(1);
