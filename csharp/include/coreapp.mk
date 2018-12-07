@@ -41,6 +41,8 @@ TARFLAGS	?= --owner=root --group=root --mode=ugo-w
 
 coreapp_mk_build:
 	dotnet publish $(COREAPPPROJ) -c $(CONFIGURATION)
+	cp $(COREAPPPUB)/*.dll  .
+	cp $(COREAPPPUB)/*.json .
 
 # Pack the application into a Debian package file
 
@@ -80,4 +82,4 @@ coreapp_mk_tarball: coreapp_mk_build
 # Remove working files
 
 coreapp_mk_clean: csharp_mk_clean
-	rm -rf $(PKGDIR) $(TARROOT) *.tgz *.deb
+	rm -rf $(PKGDIR) $(TARROOT) *.tgz *.deb *.json
