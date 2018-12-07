@@ -75,41 +75,6 @@
             Product ID for Munts Technologies USB serial port devices.
             </summary>
         </member>
-        <member name="T:IO.Objects.Message64.UDP.Messenger">
-            <summary>
-            64-Byte Message Transport Client Services using UDP
-            (User Datagram Protocol).
-            </summary>
-        </member>
-        <member name="M:IO.Objects.Message64.UDP.Messenger.#ctor(System.String,System.Int32,System.Int32)">
-            <summary>
-            Constructor for a 64-byte Messenger instance using UDP.
-            </summary>
-            <param name="host">UDP server domain name or IP address.</param>
-            <param name="port">UDP server port number.</param>
-            <param name="timeoutms">Receive timeout in milliseconds.  Zero
-            indicates wait forever.</param>
-        </member>
-        <member name="M:IO.Objects.Message64.UDP.Messenger.Send(IO.Interfaces.Message64.Message)">
-            <summary>
-            Send a 64-byte command message to a raw HID device.
-            </summary>
-            <param name="cmd">64-byte command message.</param>
-        </member>
-        <member name="M:IO.Objects.Message64.UDP.Messenger.Receive(IO.Interfaces.Message64.Message)">
-            <summary>
-            Receive a 64-byte response message from a raw HID device.
-            </summary>
-            <param name="resp">64-byte response message.</param>
-        </member>
-        <member name="M:IO.Objects.Message64.UDP.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
-            <summary>
-            Send a 64-byte command message and receive a 64-byte response
-            message.
-            </summary>
-            <param name="cmd">64-byte command message.</param>
-            <param name="resp">64-byte response message.</param>
-        </member>
         <member name="T:IO.Objects.Motor.PWM.Output">
             <summary>
             Encapsulates motors controlled by PWM and GPIO outputs.
@@ -169,6 +134,41 @@
             Allowed values are -1.0 (full speed reverse) to +1.0
             (full speed forward.
             </summary>
+        </member>
+        <member name="T:IO.Objects.Message64.UDP.Messenger">
+            <summary>
+            64-Byte Message Transport Client Services using UDP
+            (User Datagram Protocol).
+            </summary>
+        </member>
+        <member name="M:IO.Objects.Message64.UDP.Messenger.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Constructor for a 64-byte Messenger instance using UDP.
+            </summary>
+            <param name="host">UDP server domain name or IP address.</param>
+            <param name="port">UDP server port number.</param>
+            <param name="timeoutms">Receive timeout in milliseconds.  Zero
+            indicates wait forever.</param>
+        </member>
+        <member name="M:IO.Objects.Message64.UDP.Messenger.Send(IO.Interfaces.Message64.Message)">
+            <summary>
+            Send a 64-byte command message to a raw HID device.
+            </summary>
+            <param name="cmd">64-byte command message.</param>
+        </member>
+        <member name="M:IO.Objects.Message64.UDP.Messenger.Receive(IO.Interfaces.Message64.Message)">
+            <summary>
+            Receive a 64-byte response message from a raw HID device.
+            </summary>
+            <param name="resp">64-byte response message.</param>
+        </member>
+        <member name="M:IO.Objects.Message64.UDP.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
+            <summary>
+            Send a 64-byte command message and receive a 64-byte response
+            message.
+            </summary>
+            <param name="cmd">64-byte command message.</param>
+            <param name="resp">64-byte response message.</param>
         </member>
         <member name="T:IO.Devices.ADC121C021.Sample">
             <summary>
