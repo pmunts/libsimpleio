@@ -123,7 +123,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => RaspberryPi.GPIO6,
       ClickBoard.PWM => RaspberryPi.GPIO18,
       OTHERS         => Device.Unavailable),
-      AIN     => Device.Unavailable,
+      AIN     => RaspberryPi.AIN0,          -- Switch AN1 must be in LEFT position
       I2C     => RaspberryPi.I2C1,
       PWM     => Device.Unavailable,
       SPI     => RaspberryPi.SPI0_0,
@@ -136,7 +136,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => RaspberryPi.GPIO26,
       ClickBoard.PWM => RaspberryPi.GPIO17,
       OTHERS         => Device.Unavailable),
-      AIN     => Device.Unavailable,
+      AIN     => RaspberryPi.AIN1,          -- Switch AN2 must  be in LEFT position
       I2C     => RaspberryPi.I2C1,
       PWM     => Device.Unavailable,
       SPI     => RaspberryPi.SPI0_1,

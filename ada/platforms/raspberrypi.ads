@@ -26,6 +26,12 @@ WITH Device;
 
 PACKAGE RaspberryPi IS
 
+  -- The following analog inputs are only available if the Mikroelektronika
+  -- Pi 3 Click Shield () is installed
+
+  AIN0   : CONSTANT Device.Designator := (0,  0);
+  AIN1   : CONSTANT Device.Designator := (0,  1);
+
   -- The following GPIO pins are available on all Raspberry Pi Models
 
   GPIO2  : CONSTANT Device.Designator := (0,  2);  -- I2C1 SDA
