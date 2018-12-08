@@ -20,8 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO; USE Ada.Text_IO;
-
 WITH Device;
 WITH errno;
 WITH GPIO.libsimpleio.Static;
@@ -118,6 +116,8 @@ PACKAGE BODY RemoteIO.GPIO IS
             Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(c).obj.ALL,
               Self.pins(c).desg, Standard.GPIO.Input);
           END IF;
+
+          Self.pins(c).configured := True;
         EXCEPTION
           WHEN OTHERS =>
             Self.logger.Error("Caught exception");
