@@ -28,10 +28,10 @@ PACKAGE ClickBoard.Shields IS
 
   TYPE Kind IS
   (None,              -- No shield installed
+   ArduinoClick,      -- RPi Arduino Shield Add-On plus Arduino Uno Click Shield
    PiClick1,          -- Raspberry Pi with MIKROE-1513/1512, with 1 socket
    PiClick2,          -- Raspberry Pi with MIKROE-1879, with 2 sockets
    PiClick3,          -- Raspberry Pi with MIKROE-2756, with 2 sockets
-   PiArduinoClick,    -- RPi Arduino Shield Add-On plus Arduino Uno Click Shield
    BeagleBoneClick2,  -- BeagleBone with MIKROE-1596, with 2 sockets
    BeagleBoneClick4,  -- BeagleBone with MIKROE-1857, with 4 sockets
    PocketBeagle);     -- PocketBeagle with 2 sockets
