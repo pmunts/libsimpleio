@@ -1,4 +1,4 @@
--- Mikroelektronika mikroBUS GPIO Toggle Test
+-- Mikroelektronika mikroBUS Analog Input Test
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
