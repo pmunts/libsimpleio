@@ -246,7 +246,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       UART    => To_DeviceString("ttyS4"),
       Stretch => True),
 
-    -- Socket 1 is over the micro USB connector (left)
+    -- Socket 1 is over the micro USB connector (up or left)
 
     SocketRec'(ClickBoard.Shields.PocketBeagle, 1,
      (ClickBoard.AN  => PocketBeagle.GPIO87,
@@ -254,14 +254,14 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => PocketBeagle.GPIO23,
       ClickBoard.PWM => PocketBeagle.GPIO50,
       OTHERS         => Device.Unavailable),
-      AIN     => Device.Unavailable,
+      AIN     => PocketBeagle.AIN6,
       I2C     => PocketBeagle.I2C1,
-      PWM     => Device.Unavailable,
+      PWM     => PocketBeagle.PWM2_0,
       SPI     => PocketBeagle.SPI1_0,
       UART    => To_DeviceString("ttyS4"),
       Stretch => True),
 
-    -- Socket 2 is over the micro-SDHC card socket (right)
+    -- Socket 2 is over the micro-SDHC card socket (down or right)
 
     SocketRec'(ClickBoard.Shields.PocketBeagle, 2,
      (ClickBoard.AN  => PocketBeagle.GPIO86,
@@ -269,9 +269,9 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT => PocketBeagle.GPIO26,
       ClickBoard.PWM => PocketBeagle.GPIO110,
       OTHERS         => Device.Unavailable),
-      AIN     => Device.Unavailable,
+      AIN     => PocketBeagle.AIN5,
       I2C     => PocketBeagle.I2C2,
-      PWM     => Device.Unavailable,
+      PWM     => PocketBeagle.PWM0_0,
       SPI     => PocketBeagle.SPI2_1,
       UART    => To_DeviceString("ttyS0"),
       Stretch => True));
