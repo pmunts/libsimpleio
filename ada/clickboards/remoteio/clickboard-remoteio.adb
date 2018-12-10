@@ -146,6 +146,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18,
       ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO6,
       OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.RaspberryPi.AIN0,
       I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
       SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
       OTHERS => Unavailable),
@@ -156,6 +157,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO17,
       ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO26,
       OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.RaspberryPi.AIN1,
       I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
       SPI    => Standard.RemoteIO.RaspberryPi.SPI1, -- SPI0 SS1
       OTHERS => Unavailable),
@@ -163,18 +165,11 @@ PACKAGE BODY ClickBoard.RemoteIO IS
     -- Socket 1 is over the micro USB connector (left)
 
     SocketRec'(ClickBoard.Servers.PocketBeagle, 1,
-     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.AN1,
-      ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.RST1,
-      ClickBoard.CS   => Standard.RemoteIO.PocketBeagle.CS1,
-      ClickBoard.SCK  => Standard.RemoteIO.PocketBeagle.SCK1,
-      ClickBoard.MISO => Standard.RemoteIO.PocketBeagle.MISO1,
-      ClickBoard.MOSI => Standard.RemoteIO.PocketBeagle.MOSI1,
-      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.PWM1,
-      ClickBoard.INT  => Standard.RemoteIO.PocketBeagle.INT1,
-      ClickBoard.RX   => Standard.RemoteIO.PocketBeagle.RX1,
-      ClickBoard.TX   => Standard.RemoteIO.PocketBeagle.TX1,
-      ClickBoard.SCL  => Standard.RemoteIO.PocketBeagle.SCL1,
-      ClickBoard.SDA  => Standard.RemoteIO.PocketBeagle.SDA1),
+     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.GPIO87,
+      ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.GPIO89,
+      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO50,
+      ClickBoard.INT  => Standard.RemoteIO.PocketBeagle.GPIO23,
+      OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN6,
       I2C    => Standard.RemoteIO.PocketBeagle.I2C0, -- I2C1
       SPI    => Standard.RemoteIO.PocketBeagle.SPI0, -- SPI0 CS0
@@ -183,18 +178,11 @@ PACKAGE BODY ClickBoard.RemoteIO IS
     -- Socket 2 is over the micro-SDHC card socket (right)
 
     SocketRec'(ClickBoard.Servers.PocketBeagle, 2,
-     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.AN2,
-      ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.RST2,
-      ClickBoard.CS   => Standard.RemoteIO.PocketBeagle.CS2,
-      ClickBoard.SCK  => Standard.RemoteIO.PocketBeagle.SCK2,
-      ClickBoard.MISO => Standard.RemoteIO.PocketBeagle.MISO2,
-      ClickBoard.MOSI => Standard.RemoteIO.PocketBeagle.MOSI2,
-      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.PWM2,
-      ClickBoard.INT  => Standard.RemoteIO.PocketBeagle.INT2,
-      ClickBoard.RX   => Standard.RemoteIO.PocketBeagle.RX2,
-      ClickBoard.TX   => Standard.RemoteIO.PocketBeagle.TX2,
-      ClickBoard.SCL  => Standard.RemoteIO.PocketBeagle.SCL2,
-      ClickBoard.SDA  => Standard.RemoteIO.PocketBeagle.SDA2),
+     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.GPIO86,
+      ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.GPIO45,
+      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO110,
+      ClickBoard.INT  => Standard.RemoteIO.PocketBeagle.GPIO26,
+      OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN5,
       I2C    => Standard.RemoteIO.PocketBeagle.I2C1, -- I2C2
       SPI    => Standard.RemoteIO.PocketBeagle.SPI1, -- SPI2 CS1
