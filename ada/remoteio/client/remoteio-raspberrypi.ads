@@ -22,6 +22,13 @@
 
 PACKAGE RemoteIO.RaspberryPi IS
 
+  -- The following analog inputs are only available if a Mikroelektronika
+  -- Pi 3 Click Shield (MIKROE-2756) *and* its device tree overlay are
+  -- installed
+
+  AIN0    : CONSTANT RemoteIO.ChannelNumber :=  0;
+  AIN1    : CONSTANT RemoteIO.ChannelNumber :=  1;
+
   -- The following GPIO pins are available on all Raspberry Pi Models
 
   USERLED : CONSTANT RemoteIO.ChannelNumber :=  0;  -- aka /dev/userled
