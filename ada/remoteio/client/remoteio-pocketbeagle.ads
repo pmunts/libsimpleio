@@ -92,32 +92,4 @@ PACKAGE RemoteIO.PocketBeagle IS
   SPI0    : CONSTANT RemoteIO.ChannelNumber :=   0;  -- SPI1 CS0 P1.6,8,10,12
   SPI1    : CONSTANT RemoteIO.ChannelNumber :=   1;  -- SPI2 CS1 P2.25,27,29,31
 
-  -- mikroBUS sockets
-
-  AN1     : CONSTANT RemoteIO.ChannelNumber := GPIO87;
-  RST1    : CONSTANT RemoteIO.ChannelNumber := GPIO89;
-  CS1     : CONSTANT RemoteIO.ChannelNumber := GPIO5;
-  SCK1    : CONSTANT RemoteIO.ChannelNumber := GPIO2;
-  MISO1   : CONSTANT RemoteIO.ChannelNumber := GPIO3;
-  MOSI1   : CONSTANT RemoteIO.ChannelNumber := GPIO4;
-  PWM1    : CONSTANT RemoteIO.ChannelNumber := GPIO50;
-  INT1    : CONSTANT RemoteIO.ChannelNumber := GPIO23;
-  RX1     : CONSTANT RemoteIO.ChannelNumber := GPIO30;
-  TX1     : CONSTANT RemoteIO.ChannelNumber := GPIO31;
-  SCL1    : CONSTANT RemoteIO.ChannelNumber := GPIO15;
-  SDA1    : CONSTANT RemoteIO.ChannelNumber := GPIO14;
-
-  AN2     : CONSTANT RemoteIO.ChannelNumber := GPIO86;
-  RST2    : CONSTANT RemoteIO.ChannelNumber := GPIO45;
-  CS2     : CONSTANT RemoteIO.ChannelNumber := GPIO19;
-  SCK2    : CONSTANT RemoteIO.ChannelNumber := GPIO7;
-  MISO2   : CONSTANT RemoteIO.ChannelNumber := GPIO40;
-  MOSI2   : CONSTANT RemoteIO.ChannelNumber := GPIO41;
-  PWM2    : CONSTANT RemoteIO.ChannelNumber := GPIO110;
-  INT2    : CONSTANT RemoteIO.ChannelNumber := GPIO26;
-  RX2     : CONSTANT RemoteIO.ChannelNumber := GPIO42;
-  TX2     : CONSTANT RemoteIO.ChannelNumber := GPIO43;
-  SCL2    : CONSTANT RemoteIO.ChannelNumber := GPIO13;
-  SDA2    : CONSTANT RemoteIO.ChannelNumber := GPIO12;
-
 END RemoteIO.PocketBeagle;
