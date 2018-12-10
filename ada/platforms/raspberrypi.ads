@@ -27,7 +27,7 @@ WITH Device;
 PACKAGE RaspberryPi IS
 
   -- The following analog inputs are only available if the Mikroelektronika
-  -- Pi 3 Click Shield () is installed
+  -- Pi 3 Click Shield (MIKROE-2756) and its device tree overlay are installed
 
   AIN0   : CONSTANT Device.Designator := (0,  0);
   AIN1   : CONSTANT Device.Designator := (0,  1);
