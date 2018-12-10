@@ -22,7 +22,7 @@
 
 COREAPPNAME	?= $(shell basename *.csproj .csproj)
 COREAPPPROJ	?= $(COREAPPNAME).csproj
-COREAPPPUB	?= bin/$(CONFIGURATION)/netcoreapp2.1/publish
+COREAPPPUB	?= bin/$(CONFIGURATION)/netcoreapp2.2/publish
 COREAPPDEST	?= /usr/local
 COREAPPLIB	?= $(COREAPPDEST)/lib/$(COREAPPNAME)
 COREAPPBIN	?= $(COREAPPDEST)/bin
@@ -41,7 +41,7 @@ TARFLAGS	?= --owner=root --group=root --mode=ugo-w
 
 coreapp_mk_build:
 	dotnet publish $(COREAPPPROJ) -c $(CONFIGURATION)
-	cp $(COREAPPPUB)/*.dll  .
+	cp $(COREAPPPUB)/*.dll .
 	cp $(COREAPPPUB)/*.json .
 
 # Pack the application into a Debian package file
