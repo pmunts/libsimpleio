@@ -91,6 +91,7 @@ install: libsimpleio.a libsimpleio.so
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
+	cp -R -P -p basic			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
