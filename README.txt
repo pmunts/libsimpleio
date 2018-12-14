@@ -113,20 +113,22 @@ News
      * 7 November 2018 -- Added LINUX_command(), which passes a command
        string to system() for execution. Continued working on the Ada
        Remote I/O code.
+     * 14 December 2018 -- Added initial bindings and test programs for
+       the [18]MY-BASIC Basic interpreter.
 
 Documentation
 
    New The user manual for libsimpleio is available at:
 
-   [18]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [19]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
 
-   [19]libsimpleio.html
+   [20]libsimpleio.html
 
 Git Repository
 
-   The source code is available at: [20]http://git.munts.com
+   The source code is available at: [21]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -160,7 +162,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [21]phil@munts.net
+   Questions or comments to Philip Munts [22]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -184,7 +186,8 @@ References
   15. http://wiki.seeedstudio.com/Grove-I2C_ADC
   16. http://git.munts.com/rpi-mcu/expansion/LPC1114
   17. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
-  18. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  19. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  20. http://git.munts.com/
-  21. mailto:phil@munts.net
+  18. https://github.com/paladin-t/my_basic
+  19. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  20. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  21. http://git.munts.com/
+  22. mailto:phil@munts.net
