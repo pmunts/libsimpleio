@@ -29,7 +29,8 @@ class PWM_Output
 
   def Open(chip, channel, freq, duty)
     myperiod = 1000000000/freq
-    myfd = libsimpleio.pwm_open(chip, channel, myperiod, round(duty/100.0*myperiod + 0.5))
+    ontime = round(duty/100.0*myperiod)
+    myfd = libsimpleio.pwm_open(chip, channel, myperiod, ontime)
   enddef
 
   def Close()
@@ -41,6 +42,7 @@ class PWM_Output
   ' duty : PWM output duty cycle in percent
 
   def Write(duty)
-    libsimpleio.pwm_write(myfd, round(duty/100.0*myperiod + 0.5))
+    ontime = round(duty/100.0*myperiod)
+    libsimpleio.pwm_write(myfd, ontime)
   enddef
 endclass
