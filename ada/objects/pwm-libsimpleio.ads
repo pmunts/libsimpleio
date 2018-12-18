@@ -84,9 +84,4 @@ PRIVATE
 
   Destroyed : CONSTANT OutputSubclass := OutputSubclass'(-1, -1);
 
-  -- Analog output characteristics
-
-  Resolution  : CONSTANT Positive      := Analog.Sample'Size;
-  Denominator : CONSTANT PWM.DutyCycle := Analog.Sample'Last;
-
 END PWM.libsimpleio;
