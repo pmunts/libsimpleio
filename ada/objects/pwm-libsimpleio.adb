@@ -106,4 +106,20 @@ PACKAGE BODY PWM.libsimpleio IS
     RETURN Self.fd;
   END fd;
 
+  -- Analog output write method
+
+  PROCEDURE Put(Self : IN OUT OutputSubclass; item : Analog.Sample) IS
+
+  BEGIN
+    Self.Put(PWM.DutyCycle(duty)/Denominator);
+  END Put;
+
+  -- Analog output resolution method
+
+  FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive IS
+
+  BEGIN
+    RETURN Resolution;
+  END GetResolution;
+
 END PWM.libsimpleio;
