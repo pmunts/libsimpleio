@@ -37,7 +37,7 @@ PACKAGE ADC.RemoteIO IS
 
   FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample;
 
-  -- Retrieve A/D converter resolution
+  -- Retrieve A/D input resolution
 
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
 

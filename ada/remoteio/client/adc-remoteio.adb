@@ -77,7 +77,7 @@ PACKAGE BODY ADC.RemoteIO IS
       Standard.Interfaces.Unsigned_32(resp(6)));
   END Get;
 
-  -- Retrieve the A/D converter resolution
+  -- Retrieve the A/D input resolution
 
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
