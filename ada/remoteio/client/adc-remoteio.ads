@@ -1,4 +1,4 @@
--- A/D intput services using the Remote I/O Protocol
+-- A/D input services using the Remote I/O Protocol
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
