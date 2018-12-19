@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Text_IO; USE Ada.Text_IO;
+
 WITH errno;
 WITH Messaging;
 WITH Message64;
@@ -40,6 +42,8 @@ PACKAGE BODY PWM.RemoteIO IS
 
     cmd         : Message64.Message;
     resp        : Message64.Message;
+    resolution  : Positive;
+    scalefactor : Float;
 
   BEGIN
 
@@ -57,8 +61,10 @@ PACKAGE BODY PWM.RemoteIO IS
 
     dev.Transaction(cmd, resp);
 
-    RETURN NEW OutputSubclass'(dev, num, Positive(resp(3)),
-      100.0/(2.0**Positive(resp(3)) - 1.0));
+    resolution  := Positive(resp(3));
+    scalefactor := (2.0**resolution - 1.0)/100.0;
+
+    RETURN NEW OutputSubclass'(dev, num, resolution, scalefactor);
   END Create;
 
   -- Write PWM output pin
@@ -78,7 +84,7 @@ PACKAGE BODY PWM.RemoteIO IS
       Standard.RemoteIO.PWM_WRITE_REQUEST));
     cmd(2) := Message64.Byte(Self.num);
 
-    data := Unsigned32(duty/Self.scalefactor);
+    data := Unsigned32(Float(duty)/100.0*Float(2**Self.resolution));
     
     cmd(3) := Message64.Byte(data/16777216);
     cmd(4) := Message64.Byte(data/65536 MOD 256);
