@@ -83,10 +83,10 @@ PACKAGE BODY RemoteIO.PWM IS
     END IF;
 
     freq :=
-      Positive(cmd(3))*16777216 +
-      Positive(cmd(4))*65536 +
-      Positive(cmd(5))*256 +
-      Positive(cmd(6));
+      Natural(cmd(3))*16777216 +
+      Natural(cmd(4))*65536 +
+      Natural(cmd(5))*256 +
+      Natural(cmd(6));
 
     Self.outputs(num).output :=
       Standard.PWM.libsimpleio.Create(Self.outputs(num).desg, freq);

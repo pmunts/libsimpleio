@@ -30,8 +30,9 @@ PACKAGE PWM.RemoteIO IS
   -- PWM output pin object constructor
 
   FUNCTION Create
-   (dev : Standard.RemoteIO.Client.Device;
-    num : Standard.RemoteIO.ChannelNumber) RETURN PWM.Interfaces.Output;
+   (dev  : Standard.RemoteIO.Client.Device;
+    num  : Standard.RemoteIO.ChannelNumber;
+    freq : Positive := 50) RETURN PWM.Interfaces.Output;
 
   -- Write PWM output pin
 

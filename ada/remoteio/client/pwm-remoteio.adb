@@ -35,12 +35,11 @@ PACKAGE BODY PWM.RemoteIO IS
 
   FUNCTION Create
    (dev  : Standard.RemoteIO.Client.Device;
-    num  : Standard.RemoteIO.ChannelNumber) RETURN PWM.Interfaces.Output IS
+    num  : Standard.RemoteIO.ChannelNumber;
+    freq : Positive := 50) RETURN PWM.Interfaces.Output IS
 
     cmd         : Message64.Message;
     resp        : Message64.Message;
-    resolution  : Positive;
-    scalefactor : PWM.DutyCycle;
 
   BEGIN
 
@@ -51,12 +50,15 @@ PACKAGE BODY PWM.RemoteIO IS
       Standard.RemoteIO.PWM_CONFIGURE_REQUEST));
     cmd(2) := Message64.Byte(num);
 
+    cmd(3) := Message64.Byte(freq/16777216);
+    cmd(4) := Message64.Byte(freq/65536 MOD 256);
+    cmd(5) := Message64.Byte(freq/256 MOD 256);
+    cmd(6) := Message64.Byte(freq MOD 256);
+
     dev.Transaction(cmd, resp);
 
-    resolution  := Positive(resp(3));
-    scalefactor := (2.0**resolution - 1.0)/100.0;
-
-    RETURN NEW OutputSubclass'(dev, num, resolution, scalefactor);
+    RETURN NEW OutputSubclass'(dev, num, Positive(resp(3)),
+      100.0/(2.0**Positive(resp(3)) - 1.0));
   END Create;
 
   -- Write PWM output pin
@@ -76,12 +78,12 @@ PACKAGE BODY PWM.RemoteIO IS
       Standard.RemoteIO.PWM_WRITE_REQUEST));
     cmd(2) := Message64.Byte(Self.num);
 
-    data := Unsigned32(duty*Self.scalefactor);
+    data := Unsigned32(duty/Self.scalefactor);
     
-    cmd(3) := Message64.Byte(data / 2**24);
-    cmd(4) := Message64.Byte(data / 2**16 MOD 2**8);
-    cmd(5) := Message64.Byte(data / 2**8 MOD 2**8);
-    cmd(6) := Message64.Byte(data MOD 2**8);
+    cmd(3) := Message64.Byte(data/16777216);
+    cmd(4) := Message64.Byte(data/65536 MOD 256);
+    cmd(5) := Message64.Byte(data/256 MOD 256);
+    cmd(6) := Message64.Byte(data MOD 256);
 
     Self.dev.Transaction(cmd, resp);
   END Put;
