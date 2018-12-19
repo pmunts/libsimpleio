@@ -78,7 +78,7 @@ PACKAGE BODY RemoteIO.PWM IS
     END IF;
 
     IF Self.outputs(num).configured THEN
-      resp(3) := Message64.Byte(Self.outputs(num).resolution);
+      resp(3) := 32;
       RETURN;
     END IF;
 
@@ -93,7 +93,7 @@ PACKAGE BODY RemoteIO.PWM IS
 
     Self.outputs(num).configured := True;
 
-    resp(3) := Message64.Byte(Self.outputs(num).resolution);
+    resp(3) := 32;
   END;
 
   PROCEDURE Write
@@ -184,16 +184,15 @@ PACKAGE BODY RemoteIO.PWM IS
   PROCEDURE Register
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
-    desg       : Device.Designator;
-    resolution : Natural := 32) IS
+    desg       : Device.Designator) IS
 
   BEGIN
     IF Self.outputs(num).registered THEN
       RETURN;
     END IF;
 
-    Self.outputs(num) := OutputRec'(desg, resolution,
-      100.0/(2.0**resolution - 1.0), NULL, True, False);
+    Self.outputs(num) :=
+      OutputRec'(desg, 100.0/(2.0**32 - 1.0), NULL, True, False);
   END Register;
 
   -- Register PWM output by preconfigured object access
@@ -201,16 +200,15 @@ PACKAGE BODY RemoteIO.PWM IS
   PROCEDURE Register
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
-    output     : Standard.PWM.Interfaces.Output;
-    resolution : Natural := 32) IS
+    output     : Standard.PWM.Interfaces.Output) IS
 
   BEGIN
     IF Self.outputs(num).registered THEN
       RETURN;
     END IF;
 
-    Self.outputs(num) := OutputRec'(Device.Unavailable, resolution,
-      100.0/(2.0**resolution - 1.0), output, True, True);
+    Self.outputs(num) := OutputRec'(Device.Unavailable, 
+      100.0/(2.0**32 - 1.0), output, True, True);
   END Register;
 
 END RemoteIO.PWM;

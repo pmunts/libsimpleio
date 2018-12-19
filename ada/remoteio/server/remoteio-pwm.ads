@@ -49,22 +49,19 @@ PACKAGE RemoteIO.PWM IS
   PROCEDURE Register
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
-    desg       : Device.Designator;
-    resolution : Natural := 32);
+    desg       : Device.Designator);
 
   -- Register PWM output by preconfigured object access
 
   PROCEDURE Register
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
-    output     : Standard.PWM.Interfaces.Output;
-    resolution : Natural := 32);
+    output     : Standard.PWM.Interfaces.Output);
 
 PRIVATE
 
   TYPE OutputRec IS RECORD
     desg        : Device.Designator;
-    resolution  : Natural;
     scalefactor : Float;
     output      : Standard.PWM.Interfaces.Output;
     registered  : Boolean;
@@ -79,6 +76,6 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT OutputRec :=
-    OutputRec'(Device.Unavailable, 0, 0.0, NULL, False, False);
+    OutputRec'(Device.Unavailable, 0.0, NULL, False, False);
 
 END RemoteIO.PWM;
