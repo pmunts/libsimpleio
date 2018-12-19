@@ -25,7 +25,6 @@
 -- same PWM controller to different frequencies, you may not get correct
 -- output pulse trains.
 
-WITH Analog;
 WITH Device;
 
 PACKAGE PWM.libsimpleio IS
@@ -34,8 +33,7 @@ PACKAGE PWM.libsimpleio IS
 
   TYPE Polarities IS (ActiveLow, ActiveHigh);
 
-  TYPE OutputSubclass IS NEW PWM.Interfaces.OutputInterface AND
-    Analog.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass IS NEW PWM.Interfaces.OutputInterface WITH PRIVATE;
 
   -- Constant definitions
 
@@ -66,18 +64,9 @@ PACKAGE PWM.libsimpleio IS
 
   FUNCTION fd(Self : OutputSubclass) RETURN Integer;
 
-  -- Analog output write method
-
-  PROCEDURE Put(Self : IN OUT OutputSubclass; item : Analog.Sample);
-
-  -- Analog output resolution method
-
-  FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive;
-
 PRIVATE
 
-  TYPE OutputSubclass IS NEW Standard.PWM.Interfaces.OutputInterface AND
-    Analog.OutputInterface WITH RECORD
+  TYPE OutputSubclass IS NEW Standard.PWM.Interfaces.OutputInterface WITH RECORD
     fd     : Integer;
     period : Integer;
   END RECORD;
