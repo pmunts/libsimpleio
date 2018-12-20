@@ -33,6 +33,13 @@ USE TYPE Message64.Byte;
 
 PACKAGE BODY RemoteIO.PWM IS
 
+  TYPE Unsigned32 IS MOD 2**32;
+
+  -- Impute a resolution of 32 bits to all continuously variable
+  -- (i.e. PWM.DutyCycle) PWM outputs
+
+  Resolution : CONSTANT := 32;
+
   PROCEDURE Present
    (Self : IN OUT DispatcherSubclass;
     cmd  : Message64.Message;
@@ -78,7 +85,7 @@ PACKAGE BODY RemoteIO.PWM IS
     END IF;
 
     IF Self.outputs(num).configured THEN
-      resp(3) := 32;
+      resp(3) := Resolution;
       RETURN;
     END IF;
 
@@ -93,7 +100,7 @@ PACKAGE BODY RemoteIO.PWM IS
 
     Self.outputs(num).configured := True;
 
-    resp(3) := 32;
+    resp(3) := Resolution;
   END;
 
   PROCEDURE Write
@@ -102,6 +109,7 @@ PACKAGE BODY RemoteIO.PWM IS
     resp : OUT Message64.message) IS
 
     num  : RemoteIO.ChannelNumber;
+    data : Unsigned32;
     duty : Float;
 
   BEGIN
@@ -122,13 +130,13 @@ PACKAGE BODY RemoteIO.PWM IS
       RETURN;
     END IF;
 
-    duty :=
-      Float(cmd(3))*16777216.0 +
-      Float(cmd(4))*65536.0 +
-      Float(cmd(5))*256.0 +
-      Float(cmd(6));
+    data :=
+      Unsigned32(cmd(3))*16777216 +
+      Unsigned32(cmd(4))*65536 +
+      Unsigned32(cmd(5))*256 +
+      Unsigned32(cmd(6));
 
-    duty := duty*Self.outputs(num).scalefactor;
+    duty := 100.0*Float(data)/(2.0**Resolution - 1);
 
     Self.outputs(num).output.Put(Standard.PWM.DutyCycle(duty));
 
@@ -191,8 +199,7 @@ PACKAGE BODY RemoteIO.PWM IS
       RETURN;
     END IF;
 
-    Self.outputs(num) :=
-      OutputRec'(desg, 100.0/(2.0**32 - 1.0), NULL, True, False);
+    Self.outputs(num) := OutputRec'(desg, NULL, True, False);
   END Register;
 
   -- Register PWM output by preconfigured object access
@@ -207,8 +214,7 @@ PACKAGE BODY RemoteIO.PWM IS
       RETURN;
     END IF;
 
-    Self.outputs(num) := OutputRec'(Device.Unavailable, 
-      100.0/(2.0**32 - 1.0), output, True, True);
+    Self.outputs(num) := OutputRec'(Device.Unavailable, output, True, True);
   END Register;
 
 END RemoteIO.PWM;

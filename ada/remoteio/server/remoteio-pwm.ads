@@ -62,7 +62,6 @@ PRIVATE
 
   TYPE OutputRec IS RECORD
     desg        : Device.Designator;
-    scalefactor : Float;
     output      : Standard.PWM.Interfaces.Output;
     registered  : Boolean;
     configured  : Boolean;
