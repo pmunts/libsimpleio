@@ -75,6 +75,6 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT OutputRec :=
-    OutputRec'(Device.Unavailable, 0.0, NULL, False, False);
+    OutputRec'(Device.Unavailable, NULL, False, False);
 
 END RemoteIO.PWM;

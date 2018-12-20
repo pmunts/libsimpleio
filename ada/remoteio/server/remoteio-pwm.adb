@@ -136,7 +136,7 @@ PACKAGE BODY RemoteIO.PWM IS
       Unsigned32(cmd(5))*256 +
       Unsigned32(cmd(6));
 
-    duty := 100.0*Float(data)/(2.0**Resolution - 1);
+    duty := 100.0*Float(data)/(2.0**Resolution - 1.0);
 
     Self.outputs(num).output.Put(Standard.PWM.DutyCycle(duty));
 
