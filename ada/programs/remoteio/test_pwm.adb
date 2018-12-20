@@ -23,7 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.hidapi;
-WITH Message64.UDP;
+WITH Message64;
 WITH PWM.RemoteIO;
 WITH RemoteIO.Client;
 
@@ -42,8 +42,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  --remdev := RemoteIO.Client.Create(HID.hidapi.Create);
-  remdev := RemoteIO.Client.Create(Message64.UDP.Create("kabzeel.local", 8087));
+  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
 
   -- Query the available PWM outputs
 
@@ -79,7 +78,7 @@ BEGIN
 
     FOR c OF channels LOOP
       count := count + 1;
-      outputs(count) := PWM.RemoteIO.Create(remdev, c, 100);
+      outputs(count) := PWM.RemoteIO.Create(remdev, c, 1000);
     END LOOP;
 
     -- Sweep PWM outputs
