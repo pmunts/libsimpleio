@@ -50,7 +50,6 @@ PRIVATE
     dev         : Standard.RemoteIO.Client.Device;
     num         : Standard.RemoteIO.ChannelNumber;
     resolution  : Positive;
-    scalefactor : Float;
   END RECORD;
 
 END PWM.RemoteIO;
