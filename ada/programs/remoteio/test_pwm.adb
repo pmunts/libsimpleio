@@ -31,7 +31,6 @@ USE TYPE PWM.DutyCycle;
 
 PROCEDURE test_pwm IS
 
-  msg      : Message64.Messenger;
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
 
