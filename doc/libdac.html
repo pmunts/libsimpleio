@@ -10,22 +10,22 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#
 
 <B>libadc</B>
 
--- Linux Simple I/O Library: A/D Input Module
+-- Linux Simple I/O Library: D/A Input Module
 <A NAME="lbAC">&nbsp;</A>
 <H2>SYNOPSIS</H2>
 
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libsimpleio/libadc.h">libsimpleio/libadc.h</A>&gt;</B>
 
-<B>void ADC_get_name(int32_t </B><I>chip</I><B>, char *</B><I>name</I><B>, int32_t </B><I>namesize</I><B>,</B>
+<B>void DAC_get_name(int32_t </B><I>chip</I><B>, char *</B><I>name</I><B>, int32_t </B><I>namesize</I><B>,</B>
 <B>  int32_t *</B><I>error</I><B>);</B>
 
-<B>void ADC_open(int32_t </B><I>chip</I><B>, int32_t </B><I>channel</I><B>, int32_t *</B><I>fd</I><B>,</B>
+<B>void DAC_open(int32_t </B><I>chip</I><B>, int32_t </B><I>channel</I><B>, int32_t *</B><I>fd</I><B>,</B>
 <B>  int32_t *</B><I>error</I><B>);</B>
 
-<B>void ADC_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void DAC_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void ADC_read(int32_t </B><I>fd</I><B>, int32_t *</B><I>sample</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void DAC_write(int32_t </B><I>fd</I><B>, int32_t </B><I>sample</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -47,9 +47,9 @@ value (upon failure) in
 
 <P>
 
-<B>ADC_get_name()</B>
+<B>DAC_get_name()</B>
 
-fetches an information string for an A/D device.
+fetches an information string for a D/A device.
 The chip number must be passed in
 <I>chip</I>.
 
@@ -62,38 +62,38 @@ and the destination buffer size must be passed in
 The minimum size for the destination buffer is 16 bytes.
 <P>
 
-<B>ADC_open()</B>
+<B>DAC_open()</B>
 
-opens an A/D input channel device. The A/D chip number must be passed in the
+opens a D/A output channel device. The D/A chip number must be passed in the
 <I>chip</I>
 
-parameter and the A/D input channel number must be passed in the
+parameter and the D/A output channel number must be passed in the
 <I>channel</I>
 
-parameter.  Upon success, a file descriptor for the A/D input channel device is returned in
+parameter.  Upon success, a file descriptor for the D/A output channel device is returned in
 <I>*fd</I>.
 
 <P>
 
-<B>ADC_close()</B>
+<B>DAC_close()</B>
 
-closes a previously opened A/D input channel device.
+closes a previously opened D/A output channel device.
 <P>
 
-<B>ADC_read()</B>
+<B>DAC_write()</B>
 
-reads a sample from an A/D input channel device.  The file descriptor for an open
-A/D input channel device must be passed in the
+writes a sample to a D/A output channel device.  The file descriptor for an open
+D/A output channel device must be passed in the
 <I>fd</I>
 
-parameter.  The analog sample data will be returned in the
-<I>*sample</I>
+parameter.  The analog sample data must be passed in the
+<I>sample</I>
 
 parameter.
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
-<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libdac.html">libdac</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2),
+<B><A HREF="libsimpleio.html">libsimpleio</A></B>(2), <B><A HREF="libadc.html">libadc</A></B>(2), <B><A HREF="libevent.html">libevent</A></B>(2), <B><A HREF="libgpio.html">libgpio</A></B>(2), <B><A HREF="libhidraw.html">libhidraw</A></B>(2),
 
 <BR>
 
@@ -126,6 +126,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 09:41:20 GMT, December 21, 2018
+Time: 09:45:28 GMT, December 21, 2018
 </BODY>
 </HTML>

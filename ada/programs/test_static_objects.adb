@@ -21,6 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ADC.libsimpleio.Static;
+WITH DAC.libsimpleio.Static;
 WITH GPIO.libsimpleio.Static;
 WITH HID.libsimpleio.Static;
 WITH I2C.libsimpleio.Static;
@@ -33,6 +34,7 @@ WITH Watchdog.libsimpleio.Static;
 PROCEDURE test_static_objects IS
 
   adc0    : ADC.libsimpleio.InputSubclass      := ADC.libsimpleio.Destroyed;
+  dac0    : DAC.libsimpleio.OutputSubclass      := DAC.libsimpleio.Destroyed;
   gpio0   : GPIO.libsimpleio.PinSubclass       := GPIO.libsimpleio.Destroyed;
   hid0    : HID.libsimpleio.MessengerSubclass  := HID.libsimpleio.Destroyed;
   i2c0    : I2C.libsimpleio.BusSubclass        := I2C.libsimpleio.Destroyed;
@@ -44,6 +46,7 @@ PROCEDURE test_static_objects IS
 
 BEGIN
   ADC.libsimpleio.Static.Destroy(adc0);
+  DAC.libsimpleio.Static.Destroy(dac0);
   GPIO.libsimpleio.Static.Destroy(gpio0);
   HID.libsimpleio.Static.Destroy(hid0);
   I2C.libsimpleio.Static.Destroy(i2c0);

@@ -583,6 +583,7 @@ void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
 #define ALIAS(orig) __attribute__((weak, alias(orig)))
 
 void ADC_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
+void DAC_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void EVENT_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void GPIO_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void GPIO_line_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");

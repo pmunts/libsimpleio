@@ -1,4 +1,4 @@
--- D/A (Digital to Analog) output services
+-- D/A (Digital to Analog) output services using libsimpleio without heap
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -26,66 +26,54 @@ WITH libDAC;
 
 USE TYPE Analog.Sample;
 
-PACKAGE BODY DAC.libsimpleio IS
+PACKAGE BODY DAC.libsimpleio.Static IS
 
-  -- DAC output object constructors
-
-  FUNCTION Create
-   (desg       : Device.Designator;
-    resolution : Positive) RETURN Analog.Output IS
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclass;
+    desg       : Device.Designator;
+    resolution : Positive) IS
 
   BEGIN
-    RETURN Create(desg.chip, desg.chan, resolution);
-  END Create;
+    Initialize(Self, desg.chip, desg.chan, resolution);
+  END Initialize;
 
-  FUNCTION Create
-   (chip       : Natural;
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclass;
+    chip       : Natural;
     channel    : Natural;
-    resolution : Positive) RETURN Analog.Output IS
+    resolution : Positive) IS
 
     fd    : Integer;
     error : Integer;
 
   BEGIN
+    Self := Destroyed;
+
     libDAC.Open(chip, channel, fd, error);
 
     IF error /= 0 THEN
       RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    RETURN NEW OutputSubclass'(fd, resolution, 2**resolution - 1);
-  END Create;
+    Self := OutputSubclass'(fd, resolution, 2**resolution - 1);
+  END Initialize;
 
-  -- DAC output write method
-
-  PROCEDURE Put
-   (Self       : IN OUT OutputSubclass;
-    sample     : Analog.Sample) IS
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass) IS
 
     error : Integer;
 
   BEGIN
     IF Self = Destroyed THEN
-      RAISE DAC_Error WITH "DAC output has been destroyed";
+      RETURN;
     END IF;
 
-    IF sample > Self.maxsample THEN
-      RAISE DAC.DAC_Error WITH "Sample parameter is out of range";
-    END IF;
+    libDAC.Close(Self.fd, error);
 
-    libDAC.Write(Self.fd, Integer(Sample), error);
+    Self := Destroyed;
 
     IF error /= 0 THEN
-      RAISE DAC_Error WITH "libDAC.Write() failed, " & errno.strerror(error);
+      RAISE DAC_Error WITH "libDAC.Close() failed, " & errno.strerror(error);
     END IF;
-  END Put;
+  END Destroy;
 
-  -- Retrieve the DAC resolution
-
-  FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive IS
-
-  BEGIN
-    RETURN Self.resolution;
-  END GetResolution;
-
-END DAC.libsimpleio;
+END DAC.libsimpleio.Static;

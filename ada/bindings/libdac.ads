@@ -1,6 +1,7 @@
--- D/A (Digital to Analog) output services
+-- Minimal Ada wrapper for the Linux D/A services
+-- implemented in libsimpleio.so
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,48 +21,31 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Analog;
-WITH Device;
+PACKAGE libDAC IS
+  PRAGMA Link_With("-lsimpleio");
 
-PACKAGE DAC.libsimpleio IS
+  PROCEDURE GetName
+   (chip    : Integer;
+    name    : OUT String;
+    size    : Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, GetName, "DAC_get_name");
 
-  -- Type definitions
+  PROCEDURE Open
+   (chip    : Integer;
+    channel : Integer;
+    fd      : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Open, "DAC_open");
 
-  TYPE OutputSubclass IS NEW Analog.OutputInterface WITH PRIVATE;
+  PROCEDURE Close
+   (fd      : Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Close, "DAC_close");
 
-  -- Constant definitions
-
-  Destroyed : CONSTANT OutputSubclass;
-
-  -- DAC output object constructors
-
-  FUNCTION Create
-   (desg       : Device.Designator;
-    resolution : Positive) RETURN Analog.Output;
-
-  FUNCTION Create
-   (chip       : Natural;
-    channel    : Natural;
-    resolution : Positive) RETURN Analog.Output;
-
-  -- DAC output write method
-
-  PROCEDURE Put
-   (Self       : IN OUT OutputSubclass;
-    sample     : Analog.Sample);
-
-  -- Retrieve the DAC resolution
-
-  FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive;
-
-PRIVATE
-
-  TYPE OutputSubclass IS NEW Analog.OutputInterface WITH RECORD
-    fd         : Integer;
-    resolution : Natural;
-    maxsample  : Analog.Sample;
-  END RECORD;
-
-  Destroyed : CONSTANT OutputSubclass := OutputSubClass'(-1, 0, 0);
-
-END DAC.libsimpleio;
+  PROCEDURE Write
+   (fd      : Integer;
+    sample  : Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Write, "DAC_write");
+END libDAC;

@@ -1,4 +1,4 @@
--- D/A (Digital to Analog) output services
+-- D/A (Digital to Analog) output services using libsimpleio without heap
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,48 +20,19 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Analog;
-WITH Device;
+PACKAGE DAC.libsimpleio.Static IS
 
-PACKAGE DAC.libsimpleio IS
-
-  -- Type definitions
-
-  TYPE OutputSubclass IS NEW Analog.OutputInterface WITH PRIVATE;
-
-  -- Constant definitions
-
-  Destroyed : CONSTANT OutputSubclass;
-
-  -- DAC output object constructors
-
-  FUNCTION Create
-   (desg       : Device.Designator;
-    resolution : Positive) RETURN Analog.Output;
-
-  FUNCTION Create
-   (chip       : Natural;
-    channel    : Natural;
-    resolution : Positive) RETURN Analog.Output;
-
-  -- DAC output write method
-
-  PROCEDURE Put
+  PROCEDURE Initialize
    (Self       : IN OUT OutputSubclass;
-    sample     : Analog.Sample);
+    desg       : Device.Designator;
+    resolution : Positive);
 
-  -- Retrieve the DAC resolution
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclass;
+    chip       : Natural;
+    channel    : Natural;
+    resolution : Positive);
 
-  FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive;
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass);
 
-PRIVATE
-
-  TYPE OutputSubclass IS NEW Analog.OutputInterface WITH RECORD
-    fd         : Integer;
-    resolution : Natural;
-    maxsample  : Analog.Sample;
-  END RECORD;
-
-  Destroyed : CONSTANT OutputSubclass := OutputSubClass'(-1, 0, 0);
-
-END DAC.libsimpleio;
+END DAC.libsimpleio.Static;
