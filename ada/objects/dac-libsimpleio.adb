@@ -20,7 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Analog;
 WITH Logging.libsimpleio;
+
+USE TYPE Analog.Sample;
 
 PACKAGE BODY DAC.libsimpleio IS
 
@@ -40,20 +43,26 @@ PACKAGE BODY DAC.libsimpleio IS
     resolution : Positive) RETURN Analog.Output IS
 
   BEGIN
-    RETURN NEW OutputSubclass'(chip, channel, resolution,
+    RETURN NEW OutputSubclass'(chip, channel, resolution, 2**resolution - 1,
       Logging.libsimpleio.Create);
   END Create;
 
   -- DAC output write method
 
   PROCEDURE Put
-   (Self : IN OUT OutputSubclass;
-    data : Analog.Sample) IS
+   (Self       : IN OUT OutputSubclass;
+    sample     : Analog.Sample) IS
 
   BEGIN
+    -- Validate parameters
+
+    IF sample > Self.maxsample THEN
+      RAISE DAC.DAC_Error WITH "Sample parameter is out of range";
+    END IF;
+
     Self.logger.Note("Writing DAC chip" & Natural'Image(Self.chip) &
       " channel" & Natural'Image(Self.channel) &
-      " value"   & Analog.Sample'Image(data));
+      " value"   & Analog.Sample'Image(sample));
   END Put;
 
   -- Retrieve the DAC resolution

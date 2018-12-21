@@ -48,8 +48,8 @@ PACKAGE DAC.libsimpleio IS
   -- DAC output write method
 
   PROCEDURE Put
-   (Self : IN OUT OutputSubclass;
-    data : Analog.Sample);
+   (Self       : IN OUT OutputSubclass;
+    sample     : Analog.Sample);
 
   -- Retrieve the DAC resolution
 
@@ -60,11 +60,12 @@ PRIVATE
   TYPE OutputSubclass IS NEW Analog.OutputInterface WITH RECORD
     chip       : Natural;
     channel    : Natural;
-    resolution : Positive;
+    resolution : Natural;
+    maxsample  : Analog.Sample;
     logger     : Logging.Logger;
   END RECORD;
 
   Destroyed : CONSTANT OutputSubclass :=
-    OutputSubClass'(Natural'Last, Natural'Last, 1, NULL);
+    OutputSubClass'(Natural'Last, Natural'Last, 0, 0, NULL);
 
 END DAC.libsimpleio;
