@@ -26,6 +26,8 @@ WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 WITH Analog;
 WITH DAC.libsimpleio;
 
+USE TYPE Analog.Sample;
+
 PROCEDURE test_dac IS
 
   chip    : Natural;
@@ -55,7 +57,7 @@ BEGIN
   -- Generate sawtooth wave
 
   LOOP
-    FOR s IN Analog.Sample RANGE 0 .. 2**resolution LOOP
+    FOR s IN Analog.Sample RANGE 0 .. 2**resolution - 1 LOOP
       DAC0.Put(s);
     END LOOP;
   END LOOP;
