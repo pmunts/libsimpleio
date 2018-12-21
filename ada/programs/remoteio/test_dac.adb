@@ -25,7 +25,6 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Analog;
 WITH HID.hidapi;
 WITH Message64;
-WITH Message64.UDP;
 WITH DAC.RemoteIO;
 WITH RemoteIO.Client;
 
@@ -41,8 +40,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  --remdev := RemoteIO.Client.Create(HID.hidapi.Create);
-remdev := RemoteIO.Client.Create(Message64.UDP.Create("kabzeel.local", 8087));
+  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
 
   -- Query the available DAC outputs
 
