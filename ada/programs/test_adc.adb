@@ -28,10 +28,10 @@ WITH ADC.libsimpleio;
 
 PROCEDURE test_adc IS
 
-  chip    : Natural;
-  channel : Natural;
-
-  ADC0 : Analog.Input;
+  chip       : Natural;
+  channel    : Natural;
+  resolution : Positive;
+  ADC0       : Analog.Input;
 
 BEGIN
   Put_Line("ADC Input Test");
@@ -43,9 +43,13 @@ BEGIN
   Put("Enter ADC channel number: ");
   Get(channel);
 
+  Put("Enter ADC resolution:     ");
+  Get(resolution);
+  New_Line;
+
   -- Create ADC input object
 
-  ADC0 := ADC.libsimpleio.Create(chip, channel, 12);
+  ADC0 := ADC.libsimpleio.Create(chip, channel, resolution);
 
   -- Sample the analog input
 
