@@ -1,4 +1,4 @@
--- Test program PWM outputs implemented with kernel and libsimpleio support.
+-- PWM output test using kernel and libsimpleio PWM services
 
 -- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 --
