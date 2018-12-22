@@ -1,4 +1,4 @@
--- DAC Output Test
+-- DAC Output Test using kernel and libsimpleio DAC services
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -30,29 +30,27 @@ USE TYPE Analog.Sample;
 
 PROCEDURE test_dac IS
 
-  chip    : Natural;
-  channel : Natural;
-  freq    : Positive;
-
-  DAC0       : Analog.Output;
+  chip       : Natural;
+  channel    : Natural;
   resolution : Positive;
+  DAC0       : Analog.Output;
 
 BEGIN
   Put_Line("DAC Output Test");
   New_Line;
 
-  Put("Enter DAC chip number:        ");
+  Put("Enter DAC chip number:    ");
   Get(chip);
 
-  Put("Enter DAC channel number:     ");
+  Put("Enter DAC channel number: ");
   Get(channel);
 
-  Put("Enter DAC channel resolution: ");
+  Put("Enter DAC resolution:     ");
   Get(resolution);
 
   -- Create DAC output object
 
-  DAC0       := DAC.libsimpleio.Create(chip, channel, resolution);
+  DAC0 := DAC.libsimpleio.Create(chip, channel, resolution);
 
   -- Generate sawtooth wave
 
