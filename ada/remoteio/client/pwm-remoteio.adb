@@ -80,7 +80,7 @@ PACKAGE BODY PWM.RemoteIO IS
     -- Long_Float required to prevent rounding from causing Unsigned32
     -- overflow
     data := Unsigned32(Long_Float(duty)/100.0*(2.0**Self.resolution - 1.0));
-    
+
     cmd(3) := Message64.Byte(data/16777216);
     cmd(4) := Message64.Byte(data/65536 MOD 256);
     cmd(5) := Message64.Byte(data/256 MOD 256);
