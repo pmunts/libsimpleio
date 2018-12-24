@@ -81,7 +81,7 @@ PACKAGE BODY RemoteIO.ADC IS
       RETURN;
     END IF;
 
-    Self.inputs(num).inp :=
+    Self.inputs(num).input :=
       Standard.ADC.libsimpleio.Create(Self.inputs(num).desg,
         Self.inputs(num).resolution);
 
@@ -111,7 +111,7 @@ PACKAGE BODY RemoteIO.ADC IS
       RETURN;
     END IF;
 
-    sample := Self.inputs(num).inp.Get;
+    sample := Self.inputs(num).input.Get;
 
   EXCEPTION
     WHEN OTHERS =>
@@ -166,7 +166,7 @@ PACKAGE BODY RemoteIO.ADC IS
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
     desg       : Device.Designator;
-    resolution : Natural) IS
+    resolution : Positive := Analog.MaxResolution) IS
 
   BEGIN
     IF Self.inputs(num).registered THEN
@@ -181,8 +181,7 @@ PACKAGE BODY RemoteIO.ADC IS
   PROCEDURE Register
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
-    inp        : Analog.Input;
-    resolution : Natural) IS
+    input      : Analog.Input) IS
 
   BEGIN
     IF Self.inputs(num).registered THEN
@@ -190,7 +189,7 @@ PACKAGE BODY RemoteIO.ADC IS
     END IF;
 
     Self.inputs(num) :=
-      InputRec'(Device.Unavailable, resolution, inp, True, True);
+      InputRec'(Device.Unavailable, input.GetResolution, input, True, True);
   END Register;
 
 END RemoteIO.ADC;

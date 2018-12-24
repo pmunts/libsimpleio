@@ -179,7 +179,7 @@ PACKAGE BODY RemoteIO.DAC IS
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
     desg       : Device.Designator;
-    resolution : Positive) IS
+    resolution : Positive := Analog.MaxResolution) IS
 
   BEGIN
     IF Self.outputs(num).registered THEN

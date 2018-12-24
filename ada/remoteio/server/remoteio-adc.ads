@@ -51,22 +51,21 @@ PACKAGE RemoteIO.ADC IS
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
     desg       : Device.Designator;
-    resolution : Natural);
+    resolution : Positive := Analog.MaxResolution);
 
   -- Register ADC input by preconfigured object access
 
   PROCEDURE Register
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
-    inp        : Analog.Input;
-    resolution : Natural);
+    input      : Analog.Input);
 
 PRIVATE
 
   TYPE InputRec IS RECORD
     desg       : Device.Designator;
     resolution : Natural;
-    inp        : Analog.Input;
+    input      : Analog.Input;
     registered : Boolean;
     configured : Boolean;
   END RECORD;

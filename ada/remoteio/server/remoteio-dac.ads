@@ -52,7 +52,7 @@ PACKAGE RemoteIO.DAC IS
    (Self       : IN OUT DispatcherSubclass;
     num        : ChannelNumber;
     desg       : Device.Designator;
-    resolution : Positive);
+    resolution : Positive := Analog.MaxResolution);
 
   -- Register DAC output by preconfigured object access
 

@@ -26,7 +26,9 @@ PACKAGE Analog IS
 
   -- Define a type for sampled analog data
 
-  TYPE Sample IS MOD 2**32;
+  MaxResolution : CONSTANT := 32; -- Bits
+
+  TYPE Sample IS MOD 2**MaxResolution;
 
   -- Instantiate text I/O package
 
