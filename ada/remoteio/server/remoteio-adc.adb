@@ -20,15 +20,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Analog;
+WITH ADC.libsimpleio;
 WITH Device;
 WITH errno;
-WITH ADC.libsimpleio;
 WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Server;
 
+USE TYPE Analog.Sample;
 USE TYPE Message64.Byte;
 
 PACKAGE BODY RemoteIO.ADC IS
@@ -111,7 +113,16 @@ PACKAGE BODY RemoteIO.ADC IS
       RETURN;
     END IF;
 
+    -- Get analog input sample
+
     sample := Self.inputs(num).input.Get;
+
+    -- Copy analog input sample bytes to response
+
+    resp(3) := Message64.Byte(sample/16777216);
+    resp(4) := Message64.Byte(sample/65536 MOD 256);
+    resp(5) := Message64.Byte(sample/256 MOD 256);
+    resp(6) := Message64.Byte(sample MOD 256);
 
   EXCEPTION
     WHEN OTHERS =>
