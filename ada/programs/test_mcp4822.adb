@@ -33,6 +33,7 @@ PROCEDURE test_mcp4822 IS
 
   spidev  : SPI.Device;
   outputs : ARRAY (MCP4822.Channel) OF Analog.Output;
+  steps   : CONSTANT := 2**MCP4822.Resolution - 1;
 
 BEGIN
   New_Line;
@@ -58,9 +59,9 @@ BEGIN
   -- Generate sawtooth waveforms
 
   LOOP
-    FOR n IN Analog.Sample RANGE 0 .. 4095 LOOP
+    FOR n IN Analog.Sample RANGE 0 .. steps - 1 LOOP
       outputs(0).Put(n);
-      outputs(1).Put(4095 - n);
+      outputs(1).Put(steps - 1 - n);
     END LOOP;
   END LOOP;
 END test_mcp4822;
