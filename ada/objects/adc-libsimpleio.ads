@@ -37,12 +37,12 @@ PACKAGE ADC.libsimpleio IS
 
   FUNCTION Create
    (desg       : Device.Designator;
-    resolution : Positive) RETURN Analog.Input;
+    resolution : Positive := Analog.MaxResolution) RETURN Analog.Input;
 
   FUNCTION Create
    (chip       : Natural;
     channel    : Natural;
-    resolution : Positive) RETURN Analog.Input;
+    resolution : Positive := Analog.MaxResolution) RETURN Analog.Input;
 
   -- ADC input read method
 

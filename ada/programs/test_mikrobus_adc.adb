@@ -40,8 +40,8 @@ BEGIN
 
   -- Check command line parameters
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_mikrobus_adc <sock num> <resolution bits>");
+  IF Ada.Command_Line.Argument_Count /= 1 THEN
+    Put_Line("Usage: test_mikrobus_adc <sock num>");
     New_Line;
     RETURN;
   END IF;
@@ -50,8 +50,7 @@ BEGIN
 
   socknum := Positive'Value(Ada.Command_Line.Argument(1));
   socket  := ClickBoard.SimpleIO.Create(socknum);
-  input   := ADC.libsimpleio.Create(socket.AIN,
-    Positive'Value(Ada.Command_Line.Argument(2)));
+  input   := ADC.libsimpleio.Create(socket.AIN);
 
   -- Display analog samples
 

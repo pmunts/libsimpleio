@@ -37,12 +37,12 @@ PACKAGE DAC.libsimpleio IS
 
   FUNCTION Create
    (desg       : Device.Designator;
-    resolution : Positive) RETURN Analog.Output;
+    resolution : Positive := Analog.MaxResolution) RETURN Analog.Output;
 
   FUNCTION Create
    (chip       : Natural;
     channel    : Natural;
-    resolution : Positive) RETURN Analog.Output;
+    resolution : Positive := Analog.MaxResolution) RETURN Analog.Output;
 
   -- DAC output write method
 

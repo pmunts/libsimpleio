@@ -32,7 +32,7 @@ PACKAGE BODY DAC.libsimpleio IS
 
   FUNCTION Create
    (desg       : Device.Designator;
-    resolution : Positive) RETURN Analog.Output IS
+    resolution : Positive := Analog.MaxResolution) RETURN Analog.Output IS
 
   BEGIN
     RETURN Create(desg.chip, desg.chan, resolution);
@@ -41,7 +41,7 @@ PACKAGE BODY DAC.libsimpleio IS
   FUNCTION Create
    (chip       : Natural;
     channel    : Natural;
-    resolution : Positive) RETURN Analog.Output IS
+    resolution : Positive := Analog.MaxResolution) RETURN Analog.Output IS
 
     fd    : Integer;
     error : Integer;
