@@ -26,8 +26,6 @@ WITH GPIO;
 
 PACKAGE TLC1543 IS
 
-  -- Configuration constants
-
   Resolution : CONSTANT Positive := 10;
 
   -- Define a device class

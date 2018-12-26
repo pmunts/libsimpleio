@@ -25,6 +25,8 @@ WITH I2C;
 
 PACKAGE ADC121C021 IS
 
+  Resolution : CONSTANT Positive := 12;
+
   -- Define a subclass of Analog.InputInterface
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
@@ -44,8 +46,6 @@ PACKAGE ADC121C021 IS
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
 
 PRIVATE
-
-  Resolution : CONSTANT Positive := 12;
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
     bus     : I2C.Bus;

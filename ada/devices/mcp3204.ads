@@ -25,6 +25,10 @@ WITH SPI;
 
 PACKAGE MCP3204 IS
 
+  Resolution : CONSTANT Positive := 12;
+
+  -- SPI interface characteristics
+
   SPI_Mode      : CONSTANT Natural := 0;
   SPI_WordSize  : CONSTANT Natural := 8;
   SPI_Frequency : CONSTANT Natural := 1_000_000; -- 1 MHz at 2.7V, 2 MHz at 5V
@@ -56,8 +60,6 @@ PACKAGE MCP3204 IS
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
 
 PRIVATE
-
-  Resolution : CONSTANT Positive := 12;
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
     spidev : SPI.Device;

@@ -24,6 +24,8 @@ WITH Analog;
 
 PACKAGE MCP2221.ADC IS
 
+  Resolution : CONSTANT Positive := 10;
+
   -- Define a subclass of Analog.InputInterface
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
@@ -41,8 +43,6 @@ PACKAGE MCP2221.ADC IS
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
 
 PRIVATE
-
-  Resolution : CONSTANT Positive := 10;
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
     dev : DeviceClass;
