@@ -25,7 +25,7 @@ WITH SPI;
 
 PACKAGE MCP3208 IS
 
-  Resolution : CONSTANT Positive := 12;
+  Resolution : CONSTANT := 12;
 
   -- SPI interface characteristics
 

@@ -25,6 +25,8 @@ WITH SPI;
 
 PACKAGE MCP4822 IS
 
+  Resolution : CONSTANT := 12;
+
   -- SPI transfer characteristics
 
   SPI_Mode      : CONSTANT Natural := 0;
@@ -53,8 +55,6 @@ PACKAGE MCP4822 IS
   PROCEDURE Put(Self : IN OUT OutputSubclass; value : Analog.Sample);
 
 PRIVATE
-
-  Resolution : CONSTANT Positive := 12;
 
   TYPE OutputSubclass IS NEW Analog.OutputInterface WITH RECORD
     spidev : SPI.Device;

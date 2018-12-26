@@ -24,7 +24,7 @@ WITH Analog;
 
 PACKAGE MCP2221.ADC IS
 
-  Resolution : CONSTANT Positive := 10;
+  Resolution : CONSTANT := 10;
 
   -- Define a subclass of Analog.InputInterface
 

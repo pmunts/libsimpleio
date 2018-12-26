@@ -35,7 +35,7 @@ WITH Voltage;
 
 PACKAGE ADS1015 IS
 
-  Resolution : CONSTANT Positive := 12;
+  Resolution : CONSTANT := 12;
 
   -- Define a subclass of Analog.InputInterface
 

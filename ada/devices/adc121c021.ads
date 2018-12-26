@@ -25,7 +25,7 @@ WITH I2C;
 
 PACKAGE ADC121C021 IS
 
-  Resolution : CONSTANT Positive := 12;
+  Resolution : CONSTANT := 12;
 
   -- Define a subclass of Analog.InputInterface
 
