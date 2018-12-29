@@ -20,7 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH PWM;
 WITH RemoteIO.Client;
 
 PACKAGE PWM.RemoteIO IS
@@ -32,13 +31,14 @@ PACKAGE PWM.RemoteIO IS
   FUNCTION Create
    (dev  : Standard.RemoteIO.Client.Device;
     num  : Standard.RemoteIO.ChannelNumber;
-    freq : Positive := 50) RETURN PWM.Interfaces.Output;
+    freq : Positive := 50;
+    duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Interfaces.Output;
 
   -- Write PWM output pin
 
   PROCEDURE Put
    (Self : IN OUT OutputSubclass;
-    duty : PWM.DutyCycle);
+    duty : DutyCycle);
 
   -- Retrieve PWM output resolution
 

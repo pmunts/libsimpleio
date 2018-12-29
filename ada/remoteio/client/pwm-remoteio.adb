@@ -36,7 +36,8 @@ PACKAGE BODY PWM.RemoteIO IS
   FUNCTION Create
    (dev  : Standard.RemoteIO.Client.Device;
     num  : Standard.RemoteIO.ChannelNumber;
-    freq : Positive := 50) RETURN PWM.Interfaces.Output IS
+    freq : Positive := 50;
+    duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Interfaces.Output IS
 
     cmd         : Message64.Message;
     resp        : Message64.Message;
@@ -64,7 +65,7 @@ PACKAGE BODY PWM.RemoteIO IS
 
   PROCEDURE Put
    (Self : IN OUT OutputSubclass;
-    duty : PWM.DutyCycle) IS
+    duty : DutyCycle) IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
