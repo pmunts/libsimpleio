@@ -37,8 +37,8 @@ PACKAGE BODY GPIO.RemoteIO IS
     dir   : Direction;
     state : Boolean := False) RETURN Pin IS
 
-    cmd   : Message64.Message;
-    resp  : Message64.Message;
+    cmd  : Message64.Message;
+    resp : Message64.Message;
 
   BEGIN
 
