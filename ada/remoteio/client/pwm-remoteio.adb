@@ -39,14 +39,14 @@ PACKAGE BODY PWM.RemoteIO IS
     freq : Positive := 50;
     duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Interfaces.Output IS
 
-    cmd         : Message64.Message;
-    resp        : Message64.Message;
+    cmd  : Message64.Message;
+    resp : Message64.Message;
 
   BEGIN
 
     -- Configure the PWM output channel
 
-    cmd := (OTHERS => 0);
+    cmd    := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.PWM_CONFIGURE_REQUEST));
     cmd(2) := Message64.Byte(num);
@@ -55,6 +55,22 @@ PACKAGE BODY PWM.RemoteIO IS
     cmd(4) := Message64.Byte(freq/65536 MOD 256);
     cmd(5) := Message64.Byte(freq/256 MOD 256);
     cmd(6) := Message64.Byte(freq MOD 256);
+
+    dev.Transaction(cmd, resp);
+
+    cmd    := (OTHERS => 0);
+    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+      Standard.RemoteIO.PWM_WRITE_REQUEST));
+    cmd(2) := Message64.Byte(Self.num);
+
+    -- Long_Float required to prevent rounding from causing Unsigned32
+    -- overflow
+    data := Unsigned32(Long_Float(duty)/100.0*(2.0**Self.resolution - 1.0));
+
+    cmd(3) := Message64.Byte(data/16777216);
+    cmd(4) := Message64.Byte(data/65536 MOD 256);
+    cmd(5) := Message64.Byte(data/256 MOD 256);
+    cmd(6) := Message64.Byte(data MOD 256);
 
     dev.Transaction(cmd, resp);
 
@@ -73,7 +89,7 @@ PACKAGE BODY PWM.RemoteIO IS
     data : Unsigned32;
 
   BEGIN
-    cmd := (OTHERS => 0);
+    cmd    := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.PWM_WRITE_REQUEST));
     cmd(2) := Message64.Byte(Self.num);
