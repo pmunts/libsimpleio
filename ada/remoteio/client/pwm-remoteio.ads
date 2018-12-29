@@ -26,7 +26,7 @@ PACKAGE PWM.RemoteIO IS
 
   TYPE OutputSubclass IS NEW PWM.Interfaces.OutputInterface WITH PRIVATE;
 
-  -- PWM output pin object constructor
+  -- Configure PWM output
 
   FUNCTION Create
    (dev  : Standard.RemoteIO.Client.Device;
@@ -34,7 +34,7 @@ PACKAGE PWM.RemoteIO IS
     freq : Positive := 50;
     duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Interfaces.Output;
 
-  -- Write PWM output pin
+  -- Set PWM output duty cycle
 
   PROCEDURE Put
    (Self : IN OUT OutputSubclass;

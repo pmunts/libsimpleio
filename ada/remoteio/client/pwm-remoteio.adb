@@ -31,7 +31,7 @@ PACKAGE BODY PWM.RemoteIO IS
 
   TYPE Unsigned32 IS MOD 2**32;
 
-  -- PWM output pin object constructor
+  -- Configure PWM output
 
   FUNCTION Create
    (dev  : Standard.RemoteIO.Client.Device;
@@ -41,6 +41,7 @@ PACKAGE BODY PWM.RemoteIO IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
+    self : PWM.Interfaces.Output;
 
   BEGIN
 
@@ -58,26 +59,15 @@ PACKAGE BODY PWM.RemoteIO IS
 
     dev.Transaction(cmd, resp);
 
-    cmd    := (OTHERS => 0);
-    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
-      Standard.RemoteIO.PWM_WRITE_REQUEST));
-    cmd(2) := Message64.Byte(Self.num);
+    -- Set initial PWM output duty cycle
 
-    -- Long_Float required to prevent rounding from causing Unsigned32
-    -- overflow
-    data := Unsigned32(Long_Float(duty)/100.0*(2.0**Self.resolution - 1.0));
+    self := NEW OutputSubclass'(dev, num, Positive(resp(3)));
+    self.Put(duty);
 
-    cmd(3) := Message64.Byte(data/16777216);
-    cmd(4) := Message64.Byte(data/65536 MOD 256);
-    cmd(5) := Message64.Byte(data/256 MOD 256);
-    cmd(6) := Message64.Byte(data MOD 256);
-
-    dev.Transaction(cmd, resp);
-
-    RETURN NEW OutputSubclass'(dev, num, Positive(resp(3)));
+    RETURN self;
   END Create;
 
-  -- Write PWM output pin
+  -- Set PWM output duty cycle
 
   PROCEDURE Put
    (Self : IN OUT OutputSubclass;
@@ -85,7 +75,6 @@ PACKAGE BODY PWM.RemoteIO IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
-
     data : Unsigned32;
 
   BEGIN
