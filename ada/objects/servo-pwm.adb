@@ -49,7 +49,7 @@ PACKAGE BODY Servo.PWM IS
     ontime : Positive; -- nanoseconds
 
   BEGIN
-    ontime := 1500000 + Positive(500000.0*position + 0.5);
+    ontime := 1500000 + Integer(500000.0*position + 0.5);
     Self.output.Put(Standard.PWM.DutyCycle(Float(ontime)/Float(Self.period)*100.0));
   END Put;
 
