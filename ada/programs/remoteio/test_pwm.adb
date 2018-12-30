@@ -27,8 +27,6 @@ WITH Message64;
 WITH PWM.RemoteIO;
 WITH RemoteIO.Client;
 
-USE TYPE PWM.DutyCycle;
-
 PROCEDURE test_pwm IS
 
   remdev   : RemoteIO.Client.Device;
@@ -83,20 +81,16 @@ BEGIN
     -- Sweep PWM outputs
 
     LOOP
-      FOR i IN Natural RANGE 0 .. 1000 LOOP
+      FOR i IN 0 .. 1000 LOOP
         FOR outp OF outputs LOOP
           outp.Put(PWM.DutyCycle(Float(i)/10.0));
         END LOOP;
-
-        DELAY 0.005;
       END LOOP;
 
-      FOR i IN Natural RANGE 0 .. 1000 LOOP
+      FOR i IN REVERSE 0 .. 1000 LOOP
         FOR outp OF outputs LOOP
-          outp.Put(PWM.DutyCycle(Float(1000 - i)/10.0));
+          outp.Put(PWM.DutyCycle(Float(i)/10.0));
         END LOOP;
-
-        DELAY 0.005;
       END LOOP;
     END LOOP;
   END;

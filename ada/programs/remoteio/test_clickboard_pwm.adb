@@ -59,14 +59,14 @@ BEGIN
 
   -- Sweep back and forth
 
-  FOR d IN Integer RANGE 0 .. 100 LOOP
+  FOR d IN 0 .. 100 LOOP
     PWM0.Put(PWM.DutyCycle(d));
     Servo1.Put(Servo.Position(Float(d - 50)/50.0));
     GPIO2.Put(NOT GPIO2.Get);
     DELAY 0.05;
   END LOOP;
 
-  FOR d IN REVERSE Integer RANGE 0 .. 100 LOOP
+  FOR d IN REVERSE 0 .. 100 LOOP
     PWM0.Put(PWM.DutyCycle(d));
     Servo1.Put(Servo.Position(Float(d - 50)/50.0));
     GPIO2.Put(NOT GPIO2.Get);

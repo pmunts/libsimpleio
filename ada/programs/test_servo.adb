@@ -48,12 +48,12 @@ BEGIN
 
   -- Sweep the servo back and forth
 
-  FOR d IN Integer RANGE -100 .. 100 LOOP
+  FOR d IN -100 .. 100 LOOP
     Servo0.Put(Servo.Position(Float(d)/100.0));
     DELAY 0.05;
   END LOOP;
 
-  FOR d IN REVERSE Integer RANGE -100 .. 100 LOOP
+  FOR d IN REVERSE -100 .. 100 LOOP
     Servo0.Put(Servo.Position(Float(d)/100.0));
     DELAY 0.05;
   END LOOP;

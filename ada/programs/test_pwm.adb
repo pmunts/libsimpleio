@@ -52,12 +52,12 @@ BEGIN
 
   -- Sweep the pulse width back and forth
 
-  FOR d IN Integer RANGE 0 .. 100 LOOP
+  FOR d IN 0 .. 100 LOOP
     PWM0.Put(PWM.DutyCycle(d));
     DELAY 0.05;
   END LOOP;
 
-  FOR d IN REVERSE Integer RANGE 0 .. 100 LOOP
+  FOR d IN REVERSE 0 .. 100 LOOP
     PWM0.Put(PWM.DutyCycle(d));
     DELAY 0.05;
   END LOOP;
