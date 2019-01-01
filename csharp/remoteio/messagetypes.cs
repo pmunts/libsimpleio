@@ -153,5 +153,29 @@ namespace IO.Remote
         /// ADC input read response
         /// </summary>
         ADC_READ_RESPONSE,
+        /// <summary>
+        /// DAC outputs available request
+        /// </summary>
+        DAC_PRESENT_REQUEST,
+        /// <summary>
+        /// DAC outputs available response
+        /// </summary>
+        DAC_PRESENT_RESPONSE,
+        /// <summary>
+        /// DAC input configure request
+        /// </summary>
+        DAC_CONFIGURE_REQUEST,
+        /// <summary>
+        /// DAC input configure response
+        /// </summary>
+        DAC_CONFIGURE_RESPONSE,
+        /// <summary>
+        /// DAC output write request
+        /// </summary>
+        DAC_WRITE_REQUEST,
+        /// <summary>
+        /// DAC output write response
+        /// </summary>
+        DAC_WRITE_RESPONSE,
     }
 }

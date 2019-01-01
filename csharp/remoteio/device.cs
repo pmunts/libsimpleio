@@ -30,9 +30,13 @@ namespace IO.Remote
     public enum PeripheralTypes
     {
         /// <summary>
-        /// A/D peripherals
+        /// A/D inputs
         /// </summary>
         ADC,
+        /// <summary>
+        /// D/A outputs
+        /// </summary>
+        DAC,
         /// <summary>
         /// GPIO pins
         /// </summary>
@@ -132,6 +136,7 @@ namespace IO.Remote
         private static readonly string[] CapStrings = new string[]
         {
             "ADC",
+            "DAC",
             "GPIO",
             "I2C",
             "SPI",
@@ -140,6 +145,7 @@ namespace IO.Remote
         private static readonly MessageTypes[] MsgTypes = new MessageTypes[]
         {
             MessageTypes.ADC_PRESENT_REQUEST,
+            MessageTypes.DAC_PRESENT_REQUEST,
             MessageTypes.GPIO_PRESENT_REQUEST,
             MessageTypes.I2C_PRESENT_REQUEST,
             MessageTypes.SPI_PRESENT_REQUEST,
