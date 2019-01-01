@@ -998,6 +998,19 @@
             <param name="num">A/D input number: 0 to 127.</param>
             <returns>A/D input object.</returns>
         </member>
+        <member name="M:IO.Remote.Device.DAC_Available">
+            <summary>
+            Query available D/A outputs.
+            </summary>
+            <returns>List of available D/A output numbers.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.DAC_Create(System.Int32)">
+            <summary>
+            Create a remote D/A output.
+            </summary>
+            <param name="num">D/A output number: 0 to 127.</param>
+            <returns>D/A output object.</returns>
+        </member>
         <member name="F:IO.Remote.Device.MAX_CHANNELS">
             <summary>
             Maximum number of channels each subsystem can support.
@@ -1097,6 +1110,30 @@
             Read-only property returning the number of bits of resolution.
             </summary>
         </member>
+        <member name="T:IO.Remote.DAC">
+            <summary>
+            Encapsulates remote D/A outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.DAC.#ctor(IO.Remote.Device,System.Int32)">
+            <summary>
+            Create a remote D/A output.
+            </summary>
+            <param name="dev">Remote I/O device object.</param>
+            <param name="num">D/A output number: 0 to 127.</param>
+            <remarks>Use <c>Device.DAC_Create()</c> instead of this constructor.</remarks>
+        </member>
+        <member name="P:IO.Remote.DAC.sample">
+            <summary>
+            Write-only property for writing an integer analog sample to a DAC
+            output.
+            </summary>
+        </member>
+        <member name="P:IO.Remote.DAC.resolution">
+            <summary>
+            Read-only property returning the number of bits of resolution.
+            </summary>
+        </member>
         <member name="T:IO.Remote.PeripheralTypes">
             <summary>
             Types of remote peripherals
@@ -1104,7 +1141,12 @@
         </member>
         <member name="F:IO.Remote.PeripheralTypes.ADC">
             <summary>
-            A/D peripherals
+            A/D inputs
+            </summary>
+        </member>
+        <member name="F:IO.Remote.PeripheralTypes.DAC">
+            <summary>
+            D/A outputs
             </summary>
         </member>
         <member name="F:IO.Remote.PeripheralTypes.GPIO">
@@ -1347,6 +1389,36 @@
         <member name="F:IO.Remote.MessageTypes.ADC_READ_RESPONSE">
             <summary>
             ADC input read response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_PRESENT_REQUEST">
+            <summary>
+            DAC outputs available request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_PRESENT_RESPONSE">
+            <summary>
+            DAC outputs available response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_CONFIGURE_REQUEST">
+            <summary>
+            DAC input configure request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_CONFIGURE_RESPONSE">
+            <summary>
+            DAC input configure response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_WRITE_REQUEST">
+            <summary>
+            DAC output write request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_WRITE_RESPONSE">
+            <summary>
+            DAC output write response
             </summary>
         </member>
         <member name="T:IO.Remote.SPI">

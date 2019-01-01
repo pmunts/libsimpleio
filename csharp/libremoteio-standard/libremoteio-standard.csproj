@@ -11,7 +11,7 @@
     <Copyright>Copyright (C)2018 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
-    <PackageTags>Linux; USB HID; Remote I/O; ADC; GPIO; I2C; SPI;</PackageTags>
+    <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; SPI;</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
   </PropertyGroup>

@@ -47,6 +47,49 @@
             <param name="error">Error code.  Zero upon success or an <c>errno</c>
             value upon failure.</param>
         </member>
+        <member name="T:IO.Bindings.libsimpleio.libDAC">
+            <summary>
+            Wrapper for libsimpleio D/A converter services.
+            </summary>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libDAC.DAC_get_name(System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@)">
+            <summary>
+            Get the subsystem name for the specified Linux IIO D/A converter
+            device.
+            </summary>
+            <param name="chip">Linux IIO device number.</param>
+            <param name="name">Destination buffer.</param>
+            <param name="size">Size of destination buffer.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libDAC.DAC_open(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            Open a Linux IIO D/A converter output device.
+            </summary>
+            <param name="chip">Linux IIO device number.</param>
+            <param name="channel">Output channel number.</param>
+            <param name="fd">File descriptor.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libDAC.DAC_close(System.Int32,System.Int32@)">
+            <summary>
+            Close a Linux IIO D/A converter output device.
+            </summary>
+            <param name="fd">File descriptor.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libDAC.DAC_write(System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Write to a Linux IIO D/A converter output device.
+            </summary>
+            <param name="fd">File descriptor.</param>
+            <param name="sample">Analog sample data.</param>
+            <param name="error">Error code.  Zero upon success or an <c>errno</c>
+            value upon failure.</param>
+        </member>
         <member name="T:IO.Bindings.libsimpleio.libEvent">
             <summary>
             Wrapper for libsimpleio epoll services.
@@ -1304,6 +1347,45 @@
             <summary>
             Read-only property returning the Linux file descriptor for the ADC
             input.
+            </summary>
+        </member>
+        <member name="T:IO.Objects.libsimpleio.DAC.Sample">
+            <summary>
+            Encapsulates Linux Industrial I/O Subsystem DAC outputs usingi
+            <c>libsimpleio</c>.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.DAC.Sample.name(System.Int32)">
+            <summary>
+            Retrieve the subsystem name string for a Linux Industrial
+            I/O Subsystem DAC device.
+            </summary>
+            <param name="chip">DAC chip number.</param>
+            <returns>Subsystem name.</returns>
+        </member>
+        <member name="M:IO.Objects.libsimpleio.DAC.Sample.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor for a single DAC output.
+            </summary>
+            <param name="chip">DAC chip number.</param>
+            <param name="channel">DAC channel number.</param>
+            <param name="resolution">Bits of resolution.</param>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.DAC.Sample.sample">
+            <summary>
+            Write-only property for writing an integer analog sample to a DAC
+            output.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.DAC.Sample.resolution">
+            <summary>
+            Read-only property returning the number of bits of resolution.
+            </summary>
+        </member>
+        <member name="P:IO.Objects.libsimpleio.DAC.Sample.fd">
+            <summary>
+            Read-only property returning the Linux file descriptor for the DAC
+            output.
             </summary>
         </member>
         <member name="T:IO.Objects.libsimpleio.Exceptions.Exception">
@@ -3013,6 +3095,19 @@
             <param name="num">A/D input number: 0 to 127.</param>
             <returns>A/D input object.</returns>
         </member>
+        <member name="M:IO.Remote.Device.DAC_Available">
+            <summary>
+            Query available D/A outputs.
+            </summary>
+            <returns>List of available D/A output numbers.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.DAC_Create(System.Int32)">
+            <summary>
+            Create a remote D/A output.
+            </summary>
+            <param name="num">D/A output number: 0 to 127.</param>
+            <returns>D/A output object.</returns>
+        </member>
         <member name="F:IO.Remote.Device.MAX_CHANNELS">
             <summary>
             Maximum number of channels each subsystem can support.
@@ -3112,6 +3207,30 @@
             Read-only property returning the number of bits of resolution.
             </summary>
         </member>
+        <member name="T:IO.Remote.DAC">
+            <summary>
+            Encapsulates remote D/A outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.DAC.#ctor(IO.Remote.Device,System.Int32)">
+            <summary>
+            Create a remote D/A output.
+            </summary>
+            <param name="dev">Remote I/O device object.</param>
+            <param name="num">D/A output number: 0 to 127.</param>
+            <remarks>Use <c>Device.DAC_Create()</c> instead of this constructor.</remarks>
+        </member>
+        <member name="P:IO.Remote.DAC.sample">
+            <summary>
+            Write-only property for writing an integer analog sample to a DAC
+            output.
+            </summary>
+        </member>
+        <member name="P:IO.Remote.DAC.resolution">
+            <summary>
+            Read-only property returning the number of bits of resolution.
+            </summary>
+        </member>
         <member name="T:IO.Remote.PeripheralTypes">
             <summary>
             Types of remote peripherals
@@ -3119,7 +3238,12 @@
         </member>
         <member name="F:IO.Remote.PeripheralTypes.ADC">
             <summary>
-            A/D peripherals
+            A/D inputs
+            </summary>
+        </member>
+        <member name="F:IO.Remote.PeripheralTypes.DAC">
+            <summary>
+            D/A outputs
             </summary>
         </member>
         <member name="F:IO.Remote.PeripheralTypes.GPIO">
@@ -3362,6 +3486,36 @@
         <member name="F:IO.Remote.MessageTypes.ADC_READ_RESPONSE">
             <summary>
             ADC input read response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_PRESENT_REQUEST">
+            <summary>
+            DAC outputs available request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_PRESENT_RESPONSE">
+            <summary>
+            DAC outputs available response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_CONFIGURE_REQUEST">
+            <summary>
+            DAC input configure request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_CONFIGURE_RESPONSE">
+            <summary>
+            DAC input configure response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_WRITE_REQUEST">
+            <summary>
+            DAC output write request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.DAC_WRITE_RESPONSE">
+            <summary>
+            DAC output write response
             </summary>
         </member>
         <member name="T:IO.Remote.SPI">
