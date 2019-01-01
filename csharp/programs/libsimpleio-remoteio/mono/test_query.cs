@@ -28,6 +28,15 @@ namespace test_query
 
             Console.WriteLine();
 
+            // Display the available DAC outputs
+
+            Console.Write("DAC outputs: ");
+
+            foreach (int output in dev.DAC_Available())
+                Console.Write(output.ToString() + " ");
+
+            Console.WriteLine();
+
             // Display the available GPIO pins
 
             Console.Write("GPIO Pins:   ");
