@@ -23,7 +23,8 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
-WITH Servo.libsimpleio;
+WITH PWM.libsimpleio;
+WITH Servo.PWM;
 
 PROCEDURE test_servo IS
 
@@ -44,7 +45,7 @@ BEGIN
 
   -- Create servo output object
 
-  Servo0 := Servo.libsimpleio.Create(chip, channel);
+  Servo0 := Servo.PWM.Create(PWM.libsimpleio.Create(chip, channel, 50), 50);
 
   -- Sweep the servo back and forth
 

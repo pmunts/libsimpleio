@@ -27,7 +27,6 @@ WITH HID.libsimpleio.Static;
 WITH I2C.libsimpleio.Static;
 WITH Logging.libsimpleio.Static;
 WITH PWM.libsimpleio.Static;
-WITH Servo.libsimpleio.Static;
 WITH SPI.libsimpleio.Static;
 WITH Watchdog.libsimpleio.Static;
 
@@ -40,7 +39,6 @@ PROCEDURE test_static_objects IS
   i2c0    : I2C.libsimpleio.BusSubclass        := I2C.libsimpleio.Destroyed;
   log0    : Logging.libsimpleio.LoggerSubclass := Logging.libsimpleio.Destroyed;
   pwm0    : PWM.libsimpleio.OutputSubclass     := PWM.libsimpleio.Destroyed;
-  servo0  : Servo.libsimpleio.OutputSubclass   := Servo.libsimpleio.Destroyed;
   spidev0 : SPI.libsimpleio.DeviceSubclass     := SPI.libsimpleio.Destroyed;
   wd0     : Watchdog.libsimpleio.TimerSubclass := Watchdog.libsimpleio.Destroyed;
 
@@ -52,7 +50,6 @@ BEGIN
   I2C.libsimpleio.Static.Destroy(i2c0);
   Logging.libsimpleio.Static.Destroy(log0);
   PWM.libsimpleio.Static.Destroy(pwm0);
-  Servo.libsimpleio.Static.Destroy(servo0);
   SPI.libsimpleio.Static.Destroy(spidev0);
   Watchdog.libsimpleio.Static.Destroy(wd0);
 END test_static_objects;

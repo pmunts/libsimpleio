@@ -23,14 +23,16 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
+WITH PWM.libsimpleio;
+WITH Servo.PWM;
 WITH Motor.Servo;
-WITH Servo.libsimpleio;
 
 PROCEDURE test_motor_servo IS
 
   chip    : Natural;
   channel : Natural;
 
+  PWM0    : PWM.Interfaces.Output;
   Servo0  : Servo.Interfaces.Output;
   Motor0  : Motor.Interfaces.Output;
 
@@ -44,9 +46,13 @@ BEGIN
   Put("Enter PWM channel number:  ");
   Get(channel);
 
+  -- Create PWM object
+
+  PWM0 := PWM.libsimpleio.Create(chip, channel, 50);
+
   -- Create servo object
 
-  Servo0 := Servo.libsimpleio.Create(chip, channel);
+  Servo0 := Servo.PWM.Create(PWM0, 50);
 
   -- Create motor object
 

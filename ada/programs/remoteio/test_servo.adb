@@ -26,7 +26,7 @@ WITH HID.hidapi;
 WITH Message64;
 WITH PWM.RemoteIO;
 WITH RemoteIO.Client;
-WITH Servo.RemoteIO;
+WITH Servo.PWM;
 
 PROCEDURE test_servo IS
 
@@ -76,7 +76,7 @@ BEGIN
 
     FOR c OF channels LOOP
       count := count + 1;
-      outputs(count) := Servo.RemoteIO.Create(remdev, c, 50);
+      outputs(count) := Servo.PWM.Create(PWM.RemoteIO.Create(remdev, c, 50), 50);
     END LOOP;
 
     -- Sweep servo outputs
