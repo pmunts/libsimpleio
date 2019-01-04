@@ -29,8 +29,6 @@ USE TYPE Message64.Byte;
 
 PACKAGE BODY PWM.RemoteIO IS
 
-  TYPE Unsigned32 IS MOD 2**32;
-
   -- Configure PWM output
 
   FUNCTION Create
@@ -39,9 +37,10 @@ PACKAGE BODY PWM.RemoteIO IS
     freq : Positive := 50;
     duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Interfaces.Output IS
 
-    cmd  : Message64.Message;
-    resp : Message64.Message;
-    self : PWM.Interfaces.Output;
+    period : CONSTANT Positive := 1000000000/freq;
+    cmd    : Message64.Message;
+    resp   : Message64.Message;
+    self   : PWM.Interfaces.Output;
 
   BEGIN
 
@@ -52,16 +51,16 @@ PACKAGE BODY PWM.RemoteIO IS
       Standard.RemoteIO.PWM_CONFIGURE_REQUEST));
     cmd(2) := Message64.Byte(num);
 
-    cmd(3) := Message64.Byte(freq/16777216);
-    cmd(4) := Message64.Byte(freq/65536 MOD 256);
-    cmd(5) := Message64.Byte(freq/256 MOD 256);
-    cmd(6) := Message64.Byte(freq MOD 256);
+    cmd(3) := Message64.Byte(period/16777216);
+    cmd(4) := Message64.Byte(period/65536 MOD 256);
+    cmd(5) := Message64.Byte(period/256 MOD 256);
+    cmd(6) := Message64.Byte(period MOD 256);
 
     dev.Transaction(cmd, resp);
 
     -- Set initial PWM output duty cycle
 
-    self := NEW OutputSubclass'(dev, num, Positive(resp(3)));
+    self := NEW OutputSubclass'(dev, num, period);
     self.Put(duty);
 
     RETURN self;
@@ -73,34 +72,23 @@ PACKAGE BODY PWM.RemoteIO IS
    (Self : IN OUT OutputSubclass;
     duty : DutyCycle) IS
 
-    cmd  : Message64.Message;
-    resp : Message64.Message;
-    data : Unsigned32;
+    cmd    : Message64.Message;
+    resp   : Message64.Message;
+    ontime : Natural;
 
   BEGIN
+    ontime := Natural(Long_Float(duty/100.0)*Long_Float(Self.period));
+
     cmd    := (OTHERS => 0);
     cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.PWM_WRITE_REQUEST));
     cmd(2) := Message64.Byte(Self.num);
-
-    -- Long_Float required to prevent rounding from causing Unsigned32
-    -- overflow
-    data := Unsigned32(Long_Float(duty)/100.0*(2.0**Self.resolution - 1.0));
-
-    cmd(3) := Message64.Byte(data/16777216);
-    cmd(4) := Message64.Byte(data/65536 MOD 256);
-    cmd(5) := Message64.Byte(data/256 MOD 256);
-    cmd(6) := Message64.Byte(data MOD 256);
+    cmd(3) := Message64.Byte(ontime/16777216);
+    cmd(4) := Message64.Byte(ontime/65536 MOD 256);
+    cmd(5) := Message64.Byte(ontime/256 MOD 256);
+    cmd(6) := Message64.Byte(ontime MOD 256);
 
     Self.dev.Transaction(cmd, resp);
   END Put;
-
-  -- Retrieve the PWM output resolution
-
-  FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive IS
-
-  BEGIN
-    RETURN Self.resolution;
-  END GetResolution;
 
 END PWM.RemoteIO;

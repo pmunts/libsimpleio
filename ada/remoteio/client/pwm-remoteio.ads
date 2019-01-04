@@ -40,16 +40,12 @@ PACKAGE PWM.RemoteIO IS
    (Self : IN OUT OutputSubclass;
     duty : DutyCycle);
 
-  -- Retrieve PWM output resolution
-
-  FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive;
-
 PRIVATE
 
   TYPE OutputSubclass IS NEW PWM.Interfaces.OutputInterface WITH RECORD
-    dev         : Standard.RemoteIO.Client.Device;
-    num         : Standard.RemoteIO.ChannelNumber;
-    resolution  : Positive;
+    dev    : Standard.RemoteIO.Client.Device;
+    num    : Standard.RemoteIO.ChannelNumber;
+    period : Positive;
   END RECORD;
 
 END PWM.RemoteIO;

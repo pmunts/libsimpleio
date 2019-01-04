@@ -24,7 +24,7 @@ WITH Device;
 WITH errno;
 WITH Logging;
 WITH Message64;
-WITH PWM.libsimpleio;
+WITH PWM.libsimpleio.Static;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 WITH RemoteIO.Server;
@@ -34,116 +34,6 @@ USE TYPE Message64.Byte;
 PACKAGE BODY RemoteIO.PWM IS
 
   TYPE Unsigned32 IS MOD 2**32;
-
-  -- Impute a resolution of 32 bits to all continuously variable
-  -- (i.e. PWM.DutyCycle) PWM outputs
-
-  Resolution : CONSTANT := 32;
-
-  PROCEDURE Present
-   (Self : IN OUT DispatcherSubclass;
-    cmd  : Message64.Message;
-    resp : OUT Message64.message) IS
-
-    byteindex  : Natural;
-    bitmask    : Message64.Byte;
-
-  BEGIN
-    resp(0) := MessageTypes'Pos(PWM_PRESENT_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
-
-    FOR c IN ChannelNumber LOOP
-      byteindex  := c/8;
-      bitmask    := 2**(7 - (c MOD 8));
-
-      IF Self.outputs(c).registered THEN
-        resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
-      END IF;
-    END LOOP;
-  END Present;
-
-  PROCEDURE Configure
-   (Self : IN OUT DispatcherSubclass;
-    cmd  : Message64.Message;
-    resp : OUT Message64.message) IS
-
-    num  : RemoteIO.ChannelNumber;
-    freq : Positive;
-
-  BEGIN
-    resp(0) := MessageTypes'Pos(PWM_CONFIGURE_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
-
-    num  := RemoteIO.ChannelNumber(cmd(2));
-
-    IF NOT Self.outputs(num).registered THEN
-      resp(2) := errno.ENODEV;
-    END IF;
-
-    IF Self.outputs(num).configured THEN
-      resp(3) := Resolution;
-      RETURN;
-    END IF;
-
-    freq :=
-      Natural(cmd(3))*16777216 +
-      Natural(cmd(4))*65536 +
-      Natural(cmd(5))*256 +
-      Natural(cmd(6));
-
-    Self.outputs(num).output :=
-      Standard.PWM.libsimpleio.Create(Self.outputs(num).desg, freq);
-
-    Self.outputs(num).configured := True;
-
-    resp(3) := Resolution;
-  END;
-
-  PROCEDURE Write
-   (Self : IN OUT DispatcherSubclass;
-    cmd  : Message64.Message;
-    resp : OUT Message64.message) IS
-
-    num  : RemoteIO.ChannelNumber;
-    data : Unsigned32;
-    duty : Float;
-
-  BEGIN
-    resp(0) := cmd(0) + 1;
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
-
-    num  := RemoteIO.ChannelNumber(cmd(2));
-
-    IF NOT Self.outputs(num).registered THEN
-      resp(2) := errno.ENODEV;
-      RETURN;
-    END IF;
-
-    IF NOT Self.outputs(num).configured THEN
-      resp(2) := errno.ENODEV;
-      RETURN;
-    END IF;
-
-    data :=
-      Unsigned32(cmd(3))*16777216 +
-      Unsigned32(cmd(4))*65536 +
-      Unsigned32(cmd(5))*256 +
-      Unsigned32(cmd(6));
-
-    duty := 100.0*Float(data)/(2.0**Resolution - 1.0);
-
-    Self.outputs(num).output.Put(Standard.PWM.DutyCycle(duty));
-
-  EXCEPTION
-    WHEN OTHERS =>
-      resp(2) := errno.EIO;
-  END Write;
 
   FUNCTION Create
    (logger   : Logging.Logger;
@@ -160,6 +50,125 @@ PACKAGE BODY RemoteIO.PWM IS
 
     RETURN Self;
   END Create;
+
+  PROCEDURE Present
+   (Self : IN OUT DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.message) IS
+
+    byteindex  : Natural;
+    bitmask    : Message64.Byte;
+
+  BEGIN
+    resp(0) := MessageTypes'Pos(PWM_PRESENT_RESPONSE);
+    resp(1) := cmd(1);
+    resp(2 .. 63) := (OTHERS => 0);
+
+    FOR c IN ChannelNumber LOOP
+      byteindex  := c/8;
+      bitmask    := 2**(7 - (c MOD 8));
+
+      IF Self.outputs(c).registered THEN
+        resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
+      END IF;
+    END LOOP;
+  END Present;
+
+  PROCEDURE Configure
+   (Self : IN OUT DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.message) IS
+
+    num    : RemoteIO.ChannelNumber;
+    period : Positive;
+    freq   : Positive;
+
+  BEGIN
+    resp(0) := MessageTypes'Pos(PWM_CONFIGURE_RESPONSE);
+    resp(1) := cmd(1);
+    resp(2 .. 63) := (OTHERS => 0);
+
+    num  := RemoteIO.ChannelNumber(cmd(2));
+
+    -- Verify this channel has been registered
+
+    IF NOT Self.outputs(num).registered THEN
+      resp(2) := errno.ENODEV;
+      RETURN;
+    END IF;
+
+    -- Verify this channel can be (re)configured
+
+    IF NOT Self.outputs(num).configable THEN
+      RETURN;
+    END IF;
+
+    -- Destroy the PWM output in case it has been previously configured
+
+    Standard.PWM.libsimpleio.Static.Destroy(Self.outputs(num).obj);
+
+    -- Calculate the PWM pulse period in nanoseconds
+
+    period :=
+      Natural(cmd(3))*16777216 +
+      Natural(cmd(4))*65536 +
+      Natural(cmd(5))*256 +
+      Natural(cmd(6));
+
+    -- Calculate the PWM pulse frequency from the period
+
+    freq := 1000000000/period;
+
+    -- Configure the PWM output
+
+    Standard.PWM.libsimpleio.Static.Initialize(Self.outputs(num).obj,
+      Self.outputs(num).desg, freq);
+
+    Self.outputs(num).configured := True;
+    Self.outputs(num).period     := period;
+  END;
+
+  PROCEDURE Write
+   (Self : IN OUT DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.message) IS
+
+    num    : RemoteIO.ChannelNumber;
+    ontime : Natural;
+    duty   : Standard.PWM.DutyCycle;
+
+  BEGIN
+    resp(0) := cmd(0) + 1;
+    resp(1) := cmd(1);
+    resp(2 .. 63) := (OTHERS => 0);
+
+    num  := RemoteIO.ChannelNumber(cmd(2));
+
+    IF NOT Self.outputs(num).registered THEN
+      resp(2) := errno.ENODEV;
+      RETURN;
+    END IF;
+
+    IF NOT Self.outputs(num).configured THEN
+      resp(2) := errno.ENODEV;
+      RETURN;
+    END IF;
+
+    ontime :=
+      Natural(cmd(3))*16777216 +
+      Natural(cmd(4))*65536 +
+      Natural(cmd(5))*256 +
+      Natural(cmd(6));
+
+    duty :=
+      Standard.PWM.DutyCycle(100.0*Float(ontime)/Float(Self.outputs(num).period));
+
+    Self.outputs(num).output.Put(duty);
+
+  EXCEPTION
+    WHEN OTHERS =>
+      resp(2) := errno.EIO;
+  END Write;
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;
@@ -190,31 +199,41 @@ PACKAGE BODY RemoteIO.PWM IS
   -- Register PWM output by device designator
 
   PROCEDURE Register
-   (Self       : IN OUT DispatcherSubclass;
-    num        : ChannelNumber;
-    desg       : Device.Designator) IS
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    desg : Device.Designator) IS
 
   BEGIN
     IF Self.outputs(num).registered THEN
       RETURN;
     END IF;
 
-    Self.outputs(num) := OutputRec'(desg, NULL, True, False);
+    Self.outputs(num).registered := True;
+    Self.outputs(num).configable := True;
+    Self.outputs(num).configured := False;
+    Self.outputs(num).desg       := desg;
+    Self.outputs(num).obj        := Standard.PWM.libsimpleio.Destroyed;
+    Self.outputs(num).output     := Self.outputs(num).obj'Unchecked_Access;
   END Register;
 
   -- Register PWM output by preconfigured object access
 
   PROCEDURE Register
-   (Self       : IN OUT DispatcherSubclass;
-    num        : ChannelNumber;
-    output     : Standard.PWM.Interfaces.Output) IS
+   (Self   : IN OUT DispatcherSubclass;
+    num    : ChannelNumber;
+    output : Standard.PWM.Interfaces.Output;
+    freq   : Positive) IS
 
   BEGIN
     IF Self.outputs(num).registered THEN
       RETURN;
     END IF;
 
-    Self.outputs(num) := OutputRec'(Device.Unavailable, output, True, True);
+    Self.outputs(num).registered := True;
+    Self.outputs(num).configable := False;
+    Self.outputs(num).configured := True;
+    Self.outputs(num).output     := output;
+    Self.outputs(num).period     := 1000000000/freq;
   END Register;
 
 END RemoteIO.PWM;

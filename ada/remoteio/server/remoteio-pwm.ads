@@ -47,24 +47,28 @@ PACKAGE RemoteIO.PWM IS
   -- Register PWM output by device designator
 
   PROCEDURE Register
-   (Self       : IN OUT DispatcherSubclass;
-    num        : ChannelNumber;
-    desg       : Device.Designator);
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    desg : Device.Designator);
 
   -- Register PWM output by preconfigured object access
 
   PROCEDURE Register
-   (Self       : IN OUT DispatcherSubclass;
-    num        : ChannelNumber;
-    output     : Standard.PWM.Interfaces.Output);
+   (Self   : IN OUT DispatcherSubclass;
+    num    : ChannelNumber;
+    output : Standard.PWM.Interfaces.Output;
+    freq   : Positive);
 
 PRIVATE
 
   TYPE OutputRec IS RECORD
-    desg        : Device.Designator;
-    output      : Standard.PWM.Interfaces.Output;
-    registered  : Boolean;
-    configured  : Boolean;
+    registered : Boolean;
+    configable : Boolean;
+    configured : Boolean;
+    desg       : Device.Designator;
+    obj        : ALIASED Standard.PWM.libsimpleio.OutputSubclass;
+    output     : Standard.PWM.Interfaces.Output;
+    period     : Natural;
   END RECORD;
 
   TYPE OutputTable IS ARRAY (ChannelNumber) OF OutputRec;
@@ -75,6 +79,7 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT OutputRec :=
-    OutputRec'(Device.Unavailable, NULL, False, False);
+    OutputRec'(False, False, False, Device.Unavailable,
+      Standard.PWM.libsimpleio.Destroyed, NULL, 0);
 
 END RemoteIO.PWM;
