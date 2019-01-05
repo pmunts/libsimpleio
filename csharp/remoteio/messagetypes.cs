@@ -177,5 +177,29 @@ namespace IO.Remote
         /// DAC output write response
         /// </summary>
         DAC_WRITE_RESPONSE,
+        /// <summary>
+        /// PWM outputs available request
+        /// </summary>
+        PWM_PRESENT_REQUEST,
+        /// <summary>
+        /// PWM outputs available response
+        /// </summary>
+        PWM_PRESENT_RESPONSE,
+        /// <summary>
+        /// PWM input configure request
+        /// </summary>
+        PWM_CONFIGURE_REQUEST,
+        /// <summary>
+        /// PWM input configure response
+        /// </summary>
+        PWM_CONFIGURE_RESPONSE,
+        /// <summary>
+        /// PWM output write request
+        /// </summary>
+        PWM_WRITE_REQUEST,
+        /// <summary>
+        /// PWM output write response
+        /// </summary>
+        PWM_WRITE_RESPONSE,
     }
 }

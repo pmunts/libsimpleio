@@ -48,6 +48,10 @@ namespace IO.Remote
         /// <summary>
         /// SPI slave devices
         /// </summary>
+        PWM,
+        /// <summary>
+        /// PWM outputs
+        /// </summary>
         SPI,
     }
 
@@ -139,6 +143,7 @@ namespace IO.Remote
             "DAC",
             "GPIO",
             "I2C",
+            "PWM",
             "SPI",
         };
 
@@ -148,6 +153,7 @@ namespace IO.Remote
             MessageTypes.DAC_PRESENT_REQUEST,
             MessageTypes.GPIO_PRESENT_REQUEST,
             MessageTypes.I2C_PRESENT_REQUEST,
+            MessageTypes.PWM_PRESENT_REQUEST,
             MessageTypes.SPI_PRESENT_REQUEST,
         };
 
