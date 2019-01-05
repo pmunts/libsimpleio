@@ -1280,6 +1280,25 @@
             (full speed forward.
             </summary>
         </member>
+        <member name="T:IO.Objects.Servo.PWM.Output">
+            <summary>
+            Encapsulates servo outputs using PWM outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Objects.Servo.PWM.Output.#ctor(IO.Interfaces.PWM.Output,System.Int32,System.Double)">
+            <summary>
+            Constructor for a single servo output.
+            </summary>
+            <param name="pwm">PWM output instance.</param>
+            <param name="freq">PWM pulse frequency.</param>
+            <param name="position">Initial servo position.</param>
+        </member>
+        <member name="P:IO.Objects.Servo.PWM.Output.position">
+            <summary>
+            Write-only property for setting the servo position.
+            Allowed values are -1.0 to +1.0.
+            </summary>
+        </member>
         <member name="T:IO.Objects.USB.Munts.HID">
             <summary>
             USB device constants for Munts Technologies USB HID devices.
@@ -3165,6 +3184,20 @@
             <param name="speed">I<sup>2</sup>C bus clock frequency in Hz</param>
             <returns>I<sup>2</sup>C bus controller object.</returns>
         </member>
+        <member name="M:IO.Remote.Device.PWM_Available">
+            <summary>
+            Query available PWM outputs.
+            </summary>
+            <returns>List of available PWM output numbers.</returns>
+        </member>
+        <member name="M:IO.Remote.Device.PWM_Create(System.Int32,System.Int32)">
+            <summary>
+            Create a remote PWM output.
+            </summary>
+            <param name="num">PWM output number: 0 to 127.</param>
+            <param name="freq">PWM pulse frequency in Hz.</param>
+            <returns>PWM output object.</returns>
+        </member>
         <member name="M:IO.Remote.Device.SPI_Available">
             <summary>
             Query available SPI slave devices.
@@ -3256,9 +3289,14 @@
             I<sup>2</sup>C bus controllers
             </summary>
         </member>
-        <member name="F:IO.Remote.PeripheralTypes.SPI">
+        <member name="F:IO.Remote.PeripheralTypes.PWM">
             <summary>
             SPI slave devices
+            </summary>
+        </member>
+        <member name="F:IO.Remote.PeripheralTypes.SPI">
+            <summary>
+            PWM outputs
             </summary>
         </member>
         <member name="T:IO.Remote.GPIO">
@@ -3516,6 +3554,55 @@
         <member name="F:IO.Remote.MessageTypes.DAC_WRITE_RESPONSE">
             <summary>
             DAC output write response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.PWM_PRESENT_REQUEST">
+            <summary>
+            PWM outputs available request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.PWM_PRESENT_RESPONSE">
+            <summary>
+            PWM outputs available response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.PWM_CONFIGURE_REQUEST">
+            <summary>
+            PWM input configure request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.PWM_CONFIGURE_RESPONSE">
+            <summary>
+            PWM input configure response
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.PWM_WRITE_REQUEST">
+            <summary>
+            PWM output write request
+            </summary>
+        </member>
+        <member name="F:IO.Remote.MessageTypes.PWM_WRITE_RESPONSE">
+            <summary>
+            PWM output write response
+            </summary>
+        </member>
+        <member name="T:IO.Remote.PWM">
+            <summary>
+            Encapsulates remote PWM outputs.
+            </summary>
+        </member>
+        <member name="M:IO.Remote.PWM.#ctor(IO.Remote.Device,System.Int32,System.Int32)">
+            <summary>
+            Create a remote PWM output.
+            </summary>
+            <param name="dev">Remote I/O device object.</param>
+            <param name="num">PWM output number: 0 to 127.</param>
+            <param name="freq">PWM pulse frequency in Hz.</param>
+            <remarks>Use <c>Device.PWM_Create()</c> instead of this constructor.</remarks>
+        </member>
+        <member name="P:IO.Remote.PWM.dutycycle">
+            <summary>
+            Write-only property for setting the PWM output duty cycle.
             </summary>
         </member>
         <member name="T:IO.Remote.SPI">

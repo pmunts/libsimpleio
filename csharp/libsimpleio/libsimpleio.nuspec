@@ -11,7 +11,7 @@
     <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
     <licenseUrl>http://git.munts.com/libsimpleio/COPYING</licenseUrl>
     <copyright>Copyright (C)2018 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
-    <tags>Linux; I/O; ADC; DAC; GPIO; I2C; Serial; SPI; USB Raw HID; Watchdog</tags>
+    <tags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</tags>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes>
     </releaseNotes>
