@@ -107,7 +107,7 @@ namespace IO.Remote
 
                 if (ontime > period)
                   throw new Exception("Invalid PWM output on-time");
-                
+
                 Message cmd = new Message(0);
                 Message resp = new Message();
 
