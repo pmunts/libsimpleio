@@ -76,6 +76,15 @@ namespace test_query
 
             Console.WriteLine();
 
+            // Display the available PWM outputs
+
+            Console.Write("PWM outputs: ");
+
+            foreach (int bus in dev.PWM_Available())
+                Console.Write(bus.ToString() + " ");
+
+            Console.WriteLine();
+
             // Display the available SPI devices
 
             Console.Write("SPI devices: ");
