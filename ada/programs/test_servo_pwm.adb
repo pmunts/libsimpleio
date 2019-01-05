@@ -1,4 +1,4 @@
--- Continuous Rotation Servo Test
+-- Test program servo outputs implemented with kernel and libsimpleio support.
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -23,19 +23,17 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
-WITH Motor.Servo;
-WITH Servo.libsimpleio;
+WITH PWM.libsimpleio;
+WITH Servo.PWM;
 
-PROCEDURE test_motor_servo IS
+PROCEDURE test_servo_pwm IS
 
   chip    : Natural;
   channel : Natural;
-
   Servo0  : Servo.Interfaces.Output;
-  Motor0  : Motor.Interfaces.Output;
 
 BEGIN
-  Put_Line("Continuous Rotation Servo Test");
+  Put_Line("Servo Output Test");
   New_Line;
 
   Put("Enter PWM chip number:     ");
@@ -44,23 +42,19 @@ BEGIN
   Put("Enter PWM channel number:  ");
   Get(channel);
 
-  -- Create servo object
+  -- Create servo output object
 
-  Servo0 := Servo.libsimpleio.Create(chip, channel);
+  Servo0 := Servo.PWM.Create(PWM.libsimpleio.Create(chip, channel, 50), 50);
 
-  -- Create motor object
+  -- Sweep the servo back and forth
 
-  Motor0 := Motor.Servo.Create(Servo0);
-
-  -- Sweep the motor velocity back and forth
-
-  FOR d IN Integer RANGE -100 .. 100 LOOP
-    Motor0.Put(Motor.Velocity(Float(d)/100.0));
+  FOR d IN -100 .. 100 LOOP
+    Servo0.Put(Servo.Position(Float(d)/100.0));
     DELAY 0.05;
   END LOOP;
 
-  FOR d IN REVERSE Integer RANGE -100 .. 100 LOOP
-    Motor0.Put(Motor.Velocity(Float(d)/100.0));
+  FOR d IN REVERSE -100 .. 100 LOOP
+    Servo0.Put(Servo.Position(Float(d)/100.0));
     DELAY 0.05;
   END LOOP;
-END test_motor_servo;
+END test_servo_pwm;

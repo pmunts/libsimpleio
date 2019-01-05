@@ -1,4 +1,4 @@
--- Continuous Rotation Servo Test
+-- Servo output services using libsimpleio without heap
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,47 +20,26 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO; USE Ada.Text_IO;
-WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
+-- Beware: Many PWM controllers impose a common PWM pulse frequency on
+-- all channels.  If you attempt to configure different channels on the
+-- same PWM controller to different frequencies, you may not get correct
+-- output pulse trains.
 
-WITH Motor.Servo;
-WITH Servo.libsimpleio;
+PACKAGE Servo.libsimpleio.Static IS
 
-PROCEDURE test_motor_servo IS
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    desg      : Device.Designator;
+    frequency : Positive := 50;
+    position  : Servo.Position := Servo.NeutralPosition);
 
-  chip    : Natural;
-  channel : Natural;
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    chip      : Natural;
+    channel   : Natural;
+    frequency : Positive := 50;
+    position  : Servo.Position := Servo.NeutralPosition);
 
-  Servo0  : Servo.Interfaces.Output;
-  Motor0  : Motor.Interfaces.Output;
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass);
 
-BEGIN
-  Put_Line("Continuous Rotation Servo Test");
-  New_Line;
-
-  Put("Enter PWM chip number:     ");
-  Get(chip);
-
-  Put("Enter PWM channel number:  ");
-  Get(channel);
-
-  -- Create servo object
-
-  Servo0 := Servo.libsimpleio.Create(chip, channel);
-
-  -- Create motor object
-
-  Motor0 := Motor.Servo.Create(Servo0);
-
-  -- Sweep the motor velocity back and forth
-
-  FOR d IN Integer RANGE -100 .. 100 LOOP
-    Motor0.Put(Motor.Velocity(Float(d)/100.0));
-    DELAY 0.05;
-  END LOOP;
-
-  FOR d IN REVERSE Integer RANGE -100 .. 100 LOOP
-    Motor0.Put(Motor.Velocity(Float(d)/100.0));
-    DELAY 0.05;
-  END LOOP;
-END test_motor_servo;
+END Servo.libsimpleio.Static;
