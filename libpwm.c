@@ -163,7 +163,28 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     }
   }
 
-  // Write 0 to duty_cycle (which is actually the on time in nanosecods...)
+  // The PWM sysfs API has a chicken and egg problem: You can't write to
+  // duty_cycle if period is zero and you can't REDUCE the period if duty_cycle
+  // is nonzero.  We attempt to deal with this by INCREASING the period to
+  // 20000000 (50 Hz) and then setting the duty cycle to zero.  THEN we
+  // do normal configuration.
+
+  // Write initial 20000000 (50 Hz) to period
+
+  snprintf(filename, sizeof(filename), FILE_PERIOD, chip, channel);
+
+  fd = open(filename, O_WRONLY);
+  if (fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("Cannot open period", *error, __LINE__ - 4);
+    return;
+  }
+
+  write(fd, "20000000\n", 9); // Don't care if the write() fails
+  close(fd);
+
+  // Write initial 0 to duty_cycle
 
   snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 
@@ -175,16 +196,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     return;
   }
 
-  len = snprintf(buf, sizeof(buf), "%d\n", 0);
-
-  if (write(fd, buf, len) < len)
-  {
-    *error = errno;
-    ERRORMSG("Cannot write to duty_cycle", *error, __LINE__ - 3);
-    close(fd);
-    return;
-  }
-
+  write(fd, "0\n", 2); // Don't care if this write() fails
   close(fd);
 
   // Write to period
