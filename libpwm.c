@@ -163,6 +163,30 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     }
   }
 
+  // Write 0 to duty_cycle (which is actually the on time in nanosecods...)
+
+  snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
+
+  fd = open(filename, O_WRONLY);
+  if (fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("Cannot open duty_cycle", *error, __LINE__ - 4);
+    return;
+  }
+
+  len = snprintf(buf, sizeof(buf), "%d\n", 0);
+
+  if (write(fd, buf, len) < len)
+  {
+    *error = errno;
+    ERRORMSG("Cannot write to duty_cycle", *error, __LINE__ - 3);
+    close(fd);
+    return;
+  }
+
+  close(fd);
+
   // Write to period
 
   snprintf(filename, sizeof(filename), FILE_PERIOD, chip, channel);
