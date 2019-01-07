@@ -163,28 +163,8 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     }
   }
 
-  // The PWM sysfs API has a chicken and egg problem: You can't write to
-  // duty_cycle if period is zero and you can't REDUCE the period if duty_cycle
-  // is nonzero.  We attempt to deal with this by INCREASING the period to
-  // 20000000 (50 Hz) and then setting the duty cycle to zero.  THEN we
-  // do normal configuration.
-
-  // Write initial 20000000 (50 Hz) to period
-
-  snprintf(filename, sizeof(filename), FILE_PERIOD, chip, channel);
-
-  fd = open(filename, O_WRONLY);
-  if (fd < 0)
-  {
-    *error = errno;
-    ERRORMSG("Cannot open period", *error, __LINE__ - 4);
-    return;
-  }
-
-  write(fd, "20000000\n", 9); // Don't care if the write() fails
-  close(fd);
-
-  // Write initial 0 to duty_cycle
+  // Try to write initial 0 to duty_cycle, so we can change the period
+  // if this output has previously been configured.
 
   snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 
@@ -196,7 +176,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     return;
   }
 
-  write(fd, "0\n", 2); // Don't care if this write() fails
+  write(fd, "0\n", 2); // Don't care if write() fails here...
   close(fd);
 
   // Write to period
