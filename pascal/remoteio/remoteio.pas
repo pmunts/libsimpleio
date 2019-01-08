@@ -72,7 +72,7 @@ INTERFACE
     Device = CLASS
       CONSTRUCTOR Create;
 
-      CONSTRUCTOR Create(m : Message64.Messenger);
+      CONSTRUCTOR Create(msg : Message64.Messenger);
 
       PROCEDURE Transaction(cmd : Message; VAR resp : Message);
 
@@ -93,23 +93,34 @@ INTERFACE
 
 IMPLEMENTATION
 
+{$IFDEF MUNTSOS}
+{$DEFINE LIBSIMPLEIO}
+{$ENDIF}
+
   USES
     errno,
+{$IFDEF LIBSIMPLEIO}
     HID_libsimpleio;
-
-  { Create a Remote I/O Protocol device object }
+{$ELSE}
+    HID_hidapi;
+{$ENDIF}
 
   CONSTRUCTOR Device.Create;
 
   BEGIN
+{$IFDEF LIBSIMPLEIO}
     Self.msg := HID_libsimpleio.MessengerSubclass.Create;
+{$ELSE}
+    Self.msg := HID_hidapi.MessengerSubclass.Create;
+{$ENDIF}
+
     Self.num := 0;
   END;
 
-  CONSTRUCTOR Device.Create(m : Message64.Messenger);
+  CONSTRUCTOR Device.Create(msg : Message64.Messenger);
 
   BEGIN
-    Self.msg := m;
+    Self.msg := msg;
     Self.num := 0;
   END;
 
@@ -141,7 +152,7 @@ IMPLEMENTATION
     cmd  : Message;
     resp : Message;
     vers : ARRAY [0 .. 60] OF Char;
-    i    : Integer;
+    i    : Cardinal;
 
   BEGIN
     FillChar(cmd, SizeOf(cmd), 0);
@@ -164,7 +175,7 @@ IMPLEMENTATION
     cmd  : Message;
     resp : Message;
     caps : ARRAY [0 .. 60] OF Char;
-    i    : Integer;
+    i    : Cardinal;
 
   BEGIN
     FillChar(cmd, SizeOf(cmd), 0);
