@@ -155,5 +155,5 @@ IMPLEMENTATION
     Receive(resp);
   END;
 
-  {$linklib libhidapi}
+  {$linklib hidapi}
 END.
