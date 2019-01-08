@@ -20,45 +20,31 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_query_hid_libsimpleio;
+PROGRAM test_query_hid;
 
 USES
-  HID_libsimpleio,
-  Message64,
   RemoteIO,
   SysUtils;
 
 VAR
-  m          : HID_libsimpleio.MessengerSubclass;
-  d          : RemoteIO.Device;
-  bustype    : Integer;
-  vendor     : Integer;
-  product    : Integer;
-  chans      : ChannelArray;
-  c          : Cardinal;
+  remdev : RemoteIO.Device;
+  chans  : ChannelArray;
+  c      : Cardinal;
 
 BEGIN
   Writeln;
   Writeln('Remote I/O Device Information Query');
   Writeln;
 
-  m := HID_libsimpleio.MessengerSubclass.Create;
-  d := RemoteIO.Device.Create(m);
+  remdev := RemoteIO.Device.Create;
 
-  m.GetInfo(bustype, vendor, product);
-
-  Writeln('HID device name: ', m.GetName);
-  Writeln('HID bus type:    ', bustype);
-  Writeln('HID vendor ID:   ', IntToHex(vendor, 4));
-  Writeln('HID product ID:  ', IntToHex(product, 4));
-  Writeln;
-  Writeln('Remote I/O device version:    ', d.Version);
-  Writeln('Remote I/O device capability: ', d.Capability);
+  Writeln('Remote I/O device version:    ', remdev.Version);
+  Writeln('Remote I/O device capability: ', remdev.Capability);
   Writeln;
 
-  IF Pos('ADC', d.Capability) <> 0 THEN
+  IF Pos('ADC', remdev.Capability) <> 0 THEN
     BEGIN
-      chans := d.ADC_Inputs;
+      chans := remdev.ADC_Inputs;
 
       IF chans <> NIL THEN
         BEGIN
@@ -71,9 +57,9 @@ BEGIN
         END;
     END;
 
-  IF Pos('GPIO', d.Capability) <> 0 THEN
+  IF Pos('GPIO', remdev.Capability) <> 0 THEN
     BEGIN
-      chans := d.GPIO_Pins;
+      chans := remdev.GPIO_Pins;
 
       IF chans <> NIL THEN
         BEGIN
@@ -86,9 +72,9 @@ BEGIN
         END;
     END;
 
-  IF Pos('I2C', d.Capability) <> 0 THEN
+  IF Pos('I2C', remdev.Capability) <> 0 THEN
     BEGIN
-      chans := d.I2C_Buses;
+      chans := remdev.I2C_Buses;
 
       IF chans <> NIL THEN
         BEGIN
@@ -101,9 +87,9 @@ BEGIN
         END;
     END;
 
-  IF Pos('SPI', d.Capability) <> 0 THEN
+  IF Pos('SPI', remdev.Capability) <> 0 THEN
     BEGIN
-      chans := d.SPI_Devices;
+      chans := remdev.SPI_Devices;
 
       IF chans <> NIL THEN
         BEGIN
