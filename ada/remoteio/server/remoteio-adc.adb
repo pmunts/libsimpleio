@@ -24,7 +24,6 @@ WITH Analog;
 WITH ADC.libsimpleio;
 WITH Device;
 WITH errno;
-WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
@@ -35,6 +34,53 @@ USE TYPE Message64.Byte;
 
 PACKAGE BODY RemoteIO.ADC IS
 
+  FUNCTION Create
+   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+
+    Self : Dispatcher;
+
+  BEGIN
+    Self := NEW DispatcherSubclass'(inputs => (OTHERS => Unused));
+
+    executor.Register(ADC_PRESENT_REQUEST,   RemoteIO.Dispatch.Dispatcher(Self));
+    executor.Register(ADC_CONFIGURE_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
+    executor.Register(ADC_READ_REQUEST,      RemoteIO.Dispatch.Dispatcher(Self));
+
+    RETURN Self;
+  END Create;
+
+  -- Register analog input by device designator
+
+  PROCEDURE Register
+   (Self       : IN OUT DispatcherSubclass;
+    num        : ChannelNumber;
+    desg       : Device.Designator;
+    resolution : Positive := Analog.MaxResolution) IS
+
+  BEGIN
+    IF Self.inputs(num).registered THEN
+      RETURN;
+    END IF;
+
+    Self.inputs(num) := InputRec'(desg, resolution, NULL, True, False);
+  END Register;
+
+  -- Register analog input by preconfigured object access
+
+  PROCEDURE Register
+   (Self  : IN OUT DispatcherSubclass;
+    num   : ChannelNumber;
+    input : Analog.Input) IS
+
+  BEGIN
+    IF Self.inputs(num).registered THEN
+      RETURN;
+    END IF;
+
+    Self.inputs(num) :=
+      InputRec'(Device.Unavailable, input.GetResolution, input, True, True);
+  END Register;
+
   PROCEDURE Present
    (Self : IN OUT DispatcherSubclass;
     cmd  : Message64.Message;
@@ -44,13 +90,11 @@ PACKAGE BODY RemoteIO.ADC IS
     bitmask   : Message64.Byte;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(ADC_PRESENT_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
 
     FOR c IN ChannelNumber LOOP
-      byteindex  := c/8;
-      bitmask    := 2**(7 - (c MOD 8));
+      byteindex := c/8;
+      bitmask   := 2**(7 - (c MOD 8));
 
       IF Self.inputs(c).registered THEN
         resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
@@ -66,11 +110,18 @@ PACKAGE BODY RemoteIO.ADC IS
     num : RemoteIO.ChannelNumber;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(ADC_CONFIGURE_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
+
+    -- Make sure the channel number is valid
+
+    IF Natural(cmd(2)) > RemoteIO.ChannelNumber'Last THEN
+      resp(2) := errno.EINVAL;
+      RETURN;
+    END IF;
 
     num := RemoteIO.ChannelNumber(cmd(2));
+
+    -- Make sure the channel is available
 
     IF NOT Self.inputs(num).registered THEN
       resp(2) := errno.ENXIO;
@@ -104,11 +155,18 @@ PACKAGE BODY RemoteIO.ADC IS
     sample : Analog.Sample;
 
   BEGIN
-    resp(0) := cmd(0) + 1;
-    resp(1) := cmd(1);
-    resp(2 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
+
+    -- Make sure the channel number is valid
+
+    IF Natural(cmd(2)) > RemoteIO.ChannelNumber'Last THEN
+      resp(2) := errno.EINVAL;
+      RETURN;
+    END IF;
 
     num := RemoteIO.ChannelNumber(cmd(2));
+
+    -- Make sure the channel is available
 
     IF NOT Self.inputs(num).registered THEN
       resp(2) := errno.ENXIO;
@@ -136,22 +194,6 @@ PACKAGE BODY RemoteIO.ADC IS
       resp(2) := errno.EIO;
   END Read;
 
-  FUNCTION Create
-   (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
-
-    Self : Dispatcher;
-
-  BEGIN
-    Self := NEW DispatcherSubclass'(logger, (OTHERS => Unused));
-
-    executor.Register(ADC_PRESENT_REQUEST,   RemoteIO.Dispatch.Dispatcher(Self));
-    executor.Register(ADC_CONFIGURE_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
-    executor.Register(ADC_READ_REQUEST,      RemoteIO.Dispatch.Dispatcher(Self));
-
-    RETURN Self;
-  END Create;
-
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;
     cmd  : Message64.Message;
@@ -173,41 +215,9 @@ PACKAGE BODY RemoteIO.ADC IS
         Read(Self, cmd, resp);
 
       WHEN OTHERS =>
-        RAISE RemoteIO.Dispatch.Error WITH
+        RAISE Program_Error WITH
           "Unexected message type: " & MessageTypes'Image(msgtype);
     END CASE;
   END Dispatch;
-
-  -- Register analog input by device designator
-
-  PROCEDURE Register
-   (Self       : IN OUT DispatcherSubclass;
-    num        : ChannelNumber;
-    desg       : Device.Designator;
-    resolution : Positive := Analog.MaxResolution) IS
-
-  BEGIN
-    IF Self.inputs(num).registered THEN
-      RETURN;
-    END IF;
-
-    Self.inputs(num) := InputRec'(desg, resolution, NULL, True, False);
-  END Register;
-
-  -- Register analog input by preconfigured object access
-
-  PROCEDURE Register
-   (Self       : IN OUT DispatcherSubclass;
-    num        : ChannelNumber;
-    input      : Analog.Input) IS
-
-  BEGIN
-    IF Self.inputs(num).registered THEN
-      RETURN;
-    END IF;
-
-    Self.inputs(num) :=
-      InputRec'(Device.Unavailable, input.GetResolution, input, True, True);
-  END Register;
 
 END RemoteIO.ADC;

@@ -24,8 +24,6 @@ WITH Message64;
 
 PACKAGE RemoteIO.Dispatch IS
 
-  Error : EXCEPTION;
-
   TYPE DispatcherInterface IS INTERFACE;
 
   TYPE Dispatcher IS ACCESS ALL DispatcherInterface'Class;

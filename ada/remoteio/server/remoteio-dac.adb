@@ -23,7 +23,6 @@
 WITH Analog;
 WITH Device;
 WITH errno;
-WITH Logging;
 WITH Message64;
 WITH DAC.libsimpleio;
 WITH RemoteIO.Dispatch;
@@ -35,23 +34,67 @@ USE TYPE Message64.Byte;
 
 PACKAGE BODY RemoteIO.DAC IS
 
+  FUNCTION Create
+   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+
+    Self : Dispatcher;
+
+  BEGIN
+    Self := NEW DispatcherSubclass'(outputs => (OTHERS => Unused));
+
+    executor.Register(DAC_PRESENT_REQUEST,   RemoteIO.Dispatch.Dispatcher(Self));
+    executor.Register(DAC_CONFIGURE_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
+    executor.Register(DAC_WRITE_REQUEST,     RemoteIO.Dispatch.Dispatcher(Self));
+
+    RETURN Self;
+  END Create;
+
+  -- Register DAC output by device designator
+
+  PROCEDURE Register
+   (Self       : IN OUT DispatcherSubclass;
+    num        : ChannelNumber;
+    desg       : Device.Designator;
+    resolution : Positive := Analog.MaxResolution) IS
+
+  BEGIN
+    IF Self.outputs(num).registered THEN
+      RETURN;
+    END IF;
+
+    Self.outputs(num) := OutputRec'(desg, resolution, NULL, True, False);
+  END Register;
+
+  -- Register DAC output by preconfigured object access
+
+  PROCEDURE Register
+   (Self   : IN OUT DispatcherSubclass;
+    num    : ChannelNumber;
+    output : Analog.Output) IS
+
+  BEGIN
+    IF Self.outputs(num).registered THEN
+      RETURN;
+    END IF;
+
+    Self.outputs(num) := OutputRec'(Device.Unavailable, output.GetResolution,
+      output, True, True);
+  END Register;
+
   PROCEDURE Present
    (Self : IN OUT DispatcherSubclass;
     cmd  : Message64.Message;
     resp : OUT Message64.message) IS
 
-    byteindex  : Natural;
-    bitmask    : Message64.Byte;
+    byteindex : Natural;
+    bitmask   : Message64.Byte;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(DAC_PRESENT_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
 
     FOR c IN ChannelNumber LOOP
-      byteindex  := c/8;
-      bitmask    := 2**(7 - (c MOD 8));
+      byteindex := c/8;
+      bitmask   := 2**(7 - (c MOD 8));
 
       IF Self.outputs(c).registered THEN
         resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
@@ -64,18 +107,25 @@ PACKAGE BODY RemoteIO.DAC IS
     cmd  : Message64.Message;
     resp : OUT Message64.message) IS
 
-    num  : RemoteIO.ChannelNumber;
+    num : RemoteIO.ChannelNumber;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(DAC_CONFIGURE_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
 
-    num  := RemoteIO.ChannelNumber(cmd(2));
+    -- Make sure the channel number is valid
+
+    IF Natural(cmd(2)) > RemoteIO.ChannelNumber'Last THEN
+      resp(2) := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    num := RemoteIO.ChannelNumber(cmd(2));
+
+    -- Make sure the channel is available
 
     IF NOT Self.outputs(num).registered THEN
-      resp(2) := errno.ENODEV;
+      resp(2) := errno.ENXIO;
+      RETURN;
     END IF;
 
     IF Self.outputs(num).configured THEN
@@ -90,6 +140,10 @@ PACKAGE BODY RemoteIO.DAC IS
     Self.outputs(num).configured := True;
 
     resp(3) := Message64.Byte(Self.outputs(num).resolution);
+
+  EXCEPTION
+    WHEN OTHERS =>
+      resp(2) := errno.EIO;
   END;
 
   PROCEDURE Write
@@ -101,15 +155,21 @@ PACKAGE BODY RemoteIO.DAC IS
     data : Analog.Sample;
 
   BEGIN
-    resp(0) := cmd(0) + 1;
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
 
-    num  := RemoteIO.ChannelNumber(cmd(2));
+    -- Make sure the channel number is valid
+
+    IF Natural(cmd(2)) > RemoteIO.ChannelNumber'Last THEN
+      resp(2) := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    num := RemoteIO.ChannelNumber(cmd(2));
+
+    -- Make sure the channel is available
 
     IF NOT Self.outputs(num).registered THEN
-      resp(2) := errno.ENODEV;
+      resp(2) := errno.ENXIO;
       RETURN;
     END IF;
 
@@ -130,22 +190,6 @@ PACKAGE BODY RemoteIO.DAC IS
     WHEN OTHERS =>
       resp(2) := errno.EIO;
   END Write;
-
-  FUNCTION Create
-   (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
-
-    Self : Dispatcher;
-
-  BEGIN
-    Self := NEW DispatcherSubclass'(logger, (OTHERS => Unused));
-
-    executor.Register(DAC_PRESENT_REQUEST,   RemoteIO.Dispatch.Dispatcher(Self));
-    executor.Register(DAC_CONFIGURE_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
-    executor.Register(DAC_WRITE_REQUEST,     RemoteIO.Dispatch.Dispatcher(Self));
-
-    RETURN Self;
-  END Create;
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;
@@ -168,41 +212,9 @@ PACKAGE BODY RemoteIO.DAC IS
         Write(Self, cmd, resp);
 
       WHEN OTHERS =>
-        Self.logger.Error("Unexected message type: " &
-          MessageTypes'Image(msgtype));
+        RAISE Program_Error WITH
+          "Unexected message type: " & MessageTypes'Image(msgtype);
     END CASE;
   END Dispatch;
-
-  -- Register DAC output by device designator
-
-  PROCEDURE Register
-   (Self       : IN OUT DispatcherSubclass;
-    num        : ChannelNumber;
-    desg       : Device.Designator;
-    resolution : Positive := Analog.MaxResolution) IS
-
-  BEGIN
-    IF Self.outputs(num).registered THEN
-      RETURN;
-    END IF;
-
-    Self.outputs(num) := OutputRec'(desg, resolution, NULL, True, False);
-  END Register;
-
-  -- Register DAC output by preconfigured object access
-
-  PROCEDURE Register
-   (Self       : IN OUT DispatcherSubclass;
-    num        : ChannelNumber;
-    output     : Analog.Output) IS
-
-  BEGIN
-    IF Self.outputs(num).registered THEN
-      RETURN;
-    END IF;
-
-    Self.outputs(num) := OutputRec'(Device.Unavailable, output.GetResolution,
-      output, True, True);
-  END Register;
 
 END RemoteIO.DAC;

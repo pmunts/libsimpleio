@@ -20,7 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
@@ -36,13 +35,7 @@ PACKAGE RemoteIO.PWM IS
   TYPE Dispatcher IS ACCESS DispatcherSubclass;
 
   FUNCTION Create
-   (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
-
-  PROCEDURE Dispatch
-   (Self : IN OUT DispatcherSubclass;
-    cmd  : Message64.Message;
-    resp : OUT Message64.Message);
+   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   -- Register PWM output by device designator
 
@@ -59,6 +52,11 @@ PACKAGE RemoteIO.PWM IS
     output : Standard.PWM.Interfaces.Output;
     freq   : Positive);
 
+  PROCEDURE Dispatch
+   (Self : IN OUT DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.Message);
+
 PRIVATE
 
   TYPE OutputRec IS RECORD
@@ -74,7 +72,6 @@ PRIVATE
   TYPE OutputTable IS ARRAY (ChannelNumber) OF OutputRec;
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
-    logger  : Logging.Logger;
     outputs : OutputTable;
   END RECORD;
 

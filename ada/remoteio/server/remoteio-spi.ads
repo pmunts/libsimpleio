@@ -22,7 +22,6 @@
 
 WITH Device;
 WITH SPI.libsimpleio;
-WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
@@ -35,13 +34,7 @@ PACKAGE RemoteIO.SPI IS
   TYPE Dispatcher IS ACCESS DispatcherSubclass;
 
   FUNCTION Create
-   (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
-
-  PROCEDURE Dispatch
-   (Self : IN OUT DispatcherSubclass;
-    cmd  : Message64.Message;
-    resp : OUT Message64.Message);
+   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   -- Register SPI slave device by device designator
 
@@ -57,6 +50,11 @@ PACKAGE RemoteIO.SPI IS
     num  : ChannelNumber;
     dev  : Standard.SPI.Device);
 
+  PROCEDURE Dispatch
+   (Self : IN OUT DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.Message);
+
 PRIVATE
 
   TYPE DeviceRec IS RECORD
@@ -69,7 +67,6 @@ PRIVATE
   TYPE DeviceTable IS ARRAY (ChannelNumber) OF DeviceRec;
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
-    logger  : Logging.Logger;
     devices : DeviceTable;
   END RECORD;
 

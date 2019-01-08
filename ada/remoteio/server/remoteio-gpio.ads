@@ -22,7 +22,6 @@
 
 WITH Device;
 WITH GPIO.libsimpleio;
-WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
@@ -37,15 +36,9 @@ PACKAGE RemoteIO.GPIO IS
   TYPE Kinds IS (InputOnly, OutputOnly, InputOutput);
 
   FUNCTION Create
-   (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
+   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
 
-  PROCEDURE Dispatch
-   (Self : IN OUT DispatcherSubclass;
-    cmd  : Message64.Message;
-    resp : OUT Message64.Message);
-
-  -- Register libsimpleio GPIO pin by specified designator
+  -- Register GPIO pin by device designator
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
@@ -53,22 +46,18 @@ PACKAGE RemoteIO.GPIO IS
     desg : Device.Designator;
     kind : Kinds := InputOutput);
 
-  -- Register libsimpleio GPIO pin by specified chip and line
-
-  PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    chip : Natural;
-    line : Natural;
-    kind : Kinds := InputOutput);
-
-  -- Register an arbitrary preconfigured GPIO pin
+  -- Register GPIO pin by preconfigured object access
 
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
     pin  : Standard.GPIO.Pin;
     kind : Kinds := InputOutput);
+
+  PROCEDURE Dispatch
+   (Self : IN OUT DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.Message);
 
 PRIVATE
 
@@ -85,8 +74,7 @@ PRIVATE
   TYPE PinArray IS ARRAY (ChannelNumber) OF PinRec;
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
-    logger : Logging.Logger;
-    pins   : PinArray;
+    pins : PinArray;
   END RECORD;
 
   Unused : CONSTANT PinRec :=

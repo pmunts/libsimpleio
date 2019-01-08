@@ -23,7 +23,6 @@
 WITH Device;
 WITH errno;
 WITH I2C.libsimpleio;
-WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
@@ -34,23 +33,65 @@ USE TYPE Message64.Byte;
 
 PACKAGE BODY RemoteIO.I2C IS
 
+  FUNCTION Create
+   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+
+    Self : Dispatcher;
+
+  BEGIN
+    Self := NEW DispatcherSubclass'(buses => (OTHERS => Unused));
+
+    executor.Register(I2C_PRESENT_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
+    executor.Register(I2C_CONFIGURE_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
+    executor.Register(I2C_TRANSACTION_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
+
+    RETURN Self;
+  END Create;
+
+  -- Register I2C bus by device designator
+
+  PROCEDURE Register
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    desg : Device.Designator) IS
+
+  BEGIN
+    IF Self.buses(num).registered THEN
+      RETURN;
+    END IF;
+
+    Self.buses(num) := BusRec'(desg, NULL, True, False);
+  END Register;
+
+  -- Register I2C bus by preconfigured object access
+
+  PROCEDURE Register
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    bus  : Standard.I2C.Bus) IS
+
+  BEGIN
+    IF Self.buses(num).registered THEN
+      RETURN;
+    END IF;
+
+    Self.buses(num) := BusRec'(Device.Unavailable, bus, True, True);
+  END Register;
+
   PROCEDURE Present
    (Self : IN OUT DispatcherSubclass;
     cmd  : Message64.Message;
     resp : OUT Message64.message) IS
 
-    byteindex  : Natural;
-    bitmask    : Message64.Byte;
+    byteindex : Natural;
+    bitmask   : Message64.Byte;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(I2C_PRESENT_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
 
     FOR c IN ChannelNumber LOOP
-      byteindex  := c/8;
-      bitmask    := 2**(7 - (c MOD 8));
+      byteindex := c/8;
+      bitmask   := 2**(7 - (c MOD 8));
 
       IF Self.buses(c).registered THEN
         resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
@@ -63,18 +104,25 @@ PACKAGE BODY RemoteIO.I2C IS
     cmd  : Message64.Message;
     resp : OUT Message64.message) IS
 
-    num      : RemoteIO.ChannelNumber;
+    num : RemoteIO.ChannelNumber;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(I2C_CONFIGURE_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
+
+    -- Make sure the channel number is valid
+
+    IF Natural(cmd(2)) > RemoteIO.ChannelNumber'Last THEN
+      resp(2) := errno.EINVAL;
+      RETURN;
+    END IF;
 
     num := RemoteIO.ChannelNumber(cmd(2));
 
+    -- Make sure the channel is available
+
     IF NOT Self.buses(num).registered THEN
-      resp(2) := errno.ENODEV;
+      resp(2) := errno.ENXIO;
+      RETURN;
     END IF;
 
     IF Self.buses(num).configured THEN
@@ -83,6 +131,10 @@ PACKAGE BODY RemoteIO.I2C IS
 
     Self.buses(num).bus := Standard.I2C.libsimpleio.Create(Self.buses(num).desg);
     Self.buses(num).configured := True;
+
+  EXCEPTION
+    WHEN OTHERS =>
+      resp(2) := errno.EIO;
   END;
 
   PROCEDURE Transaction
@@ -100,14 +152,25 @@ PACKAGE BODY RemoteIO.I2C IS
     iresp    : Standard.I2C.Response(4 .. 63) := (OTHERS => 0);
 
   BEGIN
-    resp(0) := MessageTypes'Pos(I2C_TRANSACTION_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
+
+    -- Make sure the channel number is valid
+
+    IF Natural(cmd(2)) > RemoteIO.ChannelNumber'Last THEN
+      resp(2) := errno.EINVAL;
+      RETURN;
+    END IF;
 
     num := RemoteIO.ChannelNumber(cmd(2));
 
+    -- Make sure the channel is available
+
     IF NOT Self.buses(num).registered THEN
+      resp(2) := errno.ENXIO;
+      RETURN;
+    END IF;
+
+    IF NOT Self.buses(num).configured THEN
       resp(2) := errno.ENODEV;
       RETURN;
     END IF;
@@ -146,26 +209,11 @@ PACKAGE BODY RemoteIO.I2C IS
 
       resp(3) := Message64.Byte(iresplen);
     END IF;
+
   EXCEPTION
     WHEN OTHERS =>
       resp(2) := errno.EIO;
   END Transaction;
-
-  FUNCTION Create
-   (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
-
-    Self : Dispatcher;
-
-  BEGIN
-    Self := NEW DispatcherSubclass'(logger, (OTHERS => Unused));
-
-    executor.Register(I2C_PRESENT_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
-    executor.Register(I2C_CONFIGURE_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
-    executor.Register(I2C_TRANSACTION_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
-
-    RETURN Self;
-  END Create;
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;
@@ -188,39 +236,9 @@ PACKAGE BODY RemoteIO.I2C IS
         Transaction(Self, cmd, resp);
 
       WHEN OTHERS =>
-        Self.logger.Error("Unexected message type: " &
-          MessageTypes'Image(msgtype));
+        RAISE Program_Error WITH
+          "Unexected message type: " & MessageTypes'Image(msgtype);
     END CASE;
   END Dispatch;
-
-  -- Register I2C bus by device designator
-
-  PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    desg : Device.Designator) IS
-
-  BEGIN
-    IF Self.buses(num).registered THEN
-      RETURN;
-    END IF;
-
-    Self.buses(num) := BusRec'(desg, NULL, True, False);
-  END Register;
-
-  -- Register I2C bus by preconfigured object access
-
-  PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    bus  : Standard.I2C.Bus) IS
-
-  BEGIN
-    IF Self.buses(num).registered THEN
-      RETURN;
-    END IF;
-
-    Self.buses(num) := BusRec'(Device.Unavailable, bus, True, True);
-  END Register;
 
 END RemoteIO.I2C;

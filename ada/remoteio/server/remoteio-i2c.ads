@@ -22,7 +22,6 @@
 
 WITH Device;
 WITH I2C.libsimpleio;
-WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
@@ -35,13 +34,7 @@ PACKAGE RemoteIO.I2C IS
   TYPE Dispatcher IS ACCESS DispatcherSubclass;
 
   FUNCTION Create
-   (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
-
-  PROCEDURE Dispatch
-   (Self : IN OUT DispatcherSubclass;
-    cmd  : Message64.Message;
-    resp : OUT Message64.Message);
+   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   -- Register I2C bus by device designator
 
@@ -57,6 +50,11 @@ PACKAGE RemoteIO.I2C IS
     num  : ChannelNumber;
     bus  : Standard.I2C.Bus);
 
+  PROCEDURE Dispatch
+   (Self : IN OUT DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.Message);
+
 PRIVATE
 
   TYPE BusRec IS RECORD
@@ -69,8 +67,7 @@ PRIVATE
   TYPE BusTable IS ARRAY (ChannelNumber) OF BusRec;
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
-    logger : Logging.Logger;
-    buses  : BusTable;
+    buses : BusTable;
   END RECORD;
 
   Unused : CONSTANT BusRec := BusRec'(Device.Unavailable, NULL, False, False);

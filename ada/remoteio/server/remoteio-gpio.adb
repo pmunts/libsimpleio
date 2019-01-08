@@ -33,13 +33,12 @@ USE TYPE Message64.Byte;
 PACKAGE BODY RemoteIO.GPIO IS
 
   FUNCTION Create
-   (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
 
     Self : Dispatcher;
 
   BEGIN
-    Self := NEW DispatcherSubclass'(logger, (OTHERS => Unused));
+    Self := NEW DispatcherSubclass'(pins => (OTHERS => Unused));
 
     executor.Register(GPIO_PRESENT_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
     executor.Register(GPIO_CONFIGURE_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
@@ -49,23 +48,80 @@ PACKAGE BODY RemoteIO.GPIO IS
     RETURN Self;
   END Create;
 
+  -- Register libsimpleio GPIO pin by specified designator
+
+  PROCEDURE Register
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    desg : Device.Designator;
+    kind : Kinds := InputOutput) IS
+
+  BEGIN
+    IF Self.pins(num).registered THEN
+      RETURN;
+    END IF;
+
+    Self.pins(num).registered := True;
+    Self.pins(num).kind       := kind;
+    Self.pins(num).desg       := desg;
+    Self.pins(num).obj        :=
+      NEW Standard.GPIO.libsimpleio.PinSubclass'(Standard.GPIO.libsimpleio.Destroyed);
+
+    CASE kind IS
+      WHEN InputOnly =>
+        Self.pins(num).configured := True;
+        Self.pins(num).preconfig  := True;
+        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj.ALL,
+          Self.pins(num).desg, Standard.GPIO.Input);
+
+      WHEN OutputOnly =>
+        Self.pins(num).configured := True;
+        Self.pins(num).preconfig  := True;
+        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj.ALL,
+          Self.pins(num).desg, Standard.GPIO.Output);
+
+      WHEN InputOutput =>
+        Self.pins(num).configured := False;
+        Self.pins(num).preconfig  := False;
+    END CASE;
+
+    Self.pins(num).pin := Standard.GPIO.Pin(Self.pins(num).obj);
+  END Register;
+
+  -- Register GPIO pin by preconfigured object access
+
+  PROCEDURE Register
+   (Self : IN OUT DispatcherSubclass;
+    num  : ChannelNumber;
+    pin  : Standard.GPIO.Pin;
+    kind : Kinds := InputOutput) IS
+
+  BEGIN
+    IF Self.pins(num).registered THEN
+      RETURN;
+    END IF;
+
+    Self.pins(num).registered := True;
+    Self.pins(num).configured := True;
+    Self.pins(num).preconfig  := True;
+    Self.pins(num).kind       := kind;
+    Self.pins(num).pin        := pin;
+  END Register;
+
   PROCEDURE Present
    (Self : IN OUT DispatcherSubclass;
     cmd  : Message64.Message;
     resp : OUT Message64.message) IS
 
-    byteindex  : Natural;
-    bitmask    : Message64.Byte;
+    byteindex : Natural;
+    bitmask   : Message64.Byte;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(GPIO_PRESENT_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
 
     FOR c IN ChannelNumber LOOP
-      byteindex  := c/8;
-      bitmask    := 2**(7 - (c MOD 8));
+      byteindex := c/8;
+      bitmask   := 2**(7 - (c MOD 8));
 
       IF Self.pins(c).registered THEN
         resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
@@ -86,10 +142,7 @@ PACKAGE BODY RemoteIO.GPIO IS
     configable : Boolean;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(GPIO_CONFIGURE_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
 
     FOR c IN ChannelNumber LOOP
       byteindex  := c/8;
@@ -120,7 +173,7 @@ PACKAGE BODY RemoteIO.GPIO IS
           Self.pins(c).configured := True;
         EXCEPTION
           WHEN OTHERS =>
-            Self.logger.Error("Caught exception");
+            NULL;
         END;
       END IF;
     END LOOP;
@@ -137,10 +190,7 @@ PACKAGE BODY RemoteIO.GPIO IS
     configured : Boolean;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(GPIO_READ_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
 
     FOR c IN ChannelNumber LOOP
       byteindex  := c/8;
@@ -155,7 +205,7 @@ PACKAGE BODY RemoteIO.GPIO IS
           END IF;
         EXCEPTION
           WHEN OTHERS =>
-            Self.logger.Error("Caught exception");
+            NULL;
         END;
       END IF;
     END LOOP;
@@ -174,10 +224,7 @@ PACKAGE BODY RemoteIO.GPIO IS
     writable   : Boolean;
 
   BEGIN
-    resp(0) := MessageTypes'Pos(GPIO_WRITE_RESPONSE);
-    resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
 
     FOR c IN ChannelNumber LOOP
       byteindex  := c/8;
@@ -192,7 +239,7 @@ PACKAGE BODY RemoteIO.GPIO IS
           Self.pins(c).pin.Put(state);
         EXCEPTION
           WHEN OTHERS =>
-            Self.logger.Error("Caught exception");
+            NULL;
         END;
       END IF;
     END LOOP;
@@ -222,83 +269,9 @@ PACKAGE BODY RemoteIO.GPIO IS
         Write(Self, cmd, resp);
 
       WHEN OTHERS =>
-        Self.logger.Error("Unexected message type: " &
-          MessageTypes'Image(msgtype));
+        RAISE Program_Error WITH
+          "Unexected message type: " & MessageTypes'Image(msgtype);
     END CASE;
   END Dispatch;
-
-  -- Register libsimpleio GPIO pin by specified designator
-
-  PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    desg : Device.Designator;
-    kind : Kinds := InputOutput) IS
-
-  BEGIN
-    Register(Self, num, desg.chip, desg.chan, kind);
-  END Register;
-
-  -- Register libsimpleio GPIO pin by specified chip and line
-
-  PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    chip : Natural;
-    line : Natural;
-    kind : Kinds := InputOutput) IS
-
-  BEGIN
-    IF Self.pins(num).registered THEN
-      RETURN;
-    END IF;
-
-    Self.pins(num).registered := True;
-    Self.pins(num).kind       := kind;
-    Self.pins(num).desg.chip  := chip;
-    Self.pins(num).desg.chan  := line;
-    Self.pins(num).obj        :=
-      NEW Standard.GPIO.libsimpleio.PinSubclass'(Standard.GPIO.libsimpleio.Destroyed);
-
-    CASE kind IS
-      WHEN InputOnly =>
-        Self.pins(num).configured := True;
-        Self.pins(num).preconfig  := True;
-        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj.ALL,
-          Self.pins(num).desg, Standard.GPIO.Input);
-
-      WHEN OutputOnly =>
-        Self.pins(num).configured := True;
-        Self.pins(num).preconfig  := True;
-        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj.ALL,
-          Self.pins(num).desg, Standard.GPIO.Output);
-
-      WHEN InputOutput =>
-        Self.pins(num).configured := False;
-        Self.pins(num).preconfig  := False;
-    END CASE;
-
-    Self.pins(num).pin := Standard.GPIO.Pin(Self.pins(num).obj);
-  END Register;
-
-  -- Register an arbitrary preconfigured GPIO pin
-
-  PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    pin  : Standard.GPIO.Pin;
-    kind : Kinds := InputOutput) IS
-
-  BEGIN
-    IF Self.pins(num).registered THEN
-      RETURN;
-    END IF;
-
-    Self.pins(num).registered := True;
-    Self.pins(num).configured := True;
-    Self.pins(num).preconfig  := True;
-    Self.pins(num).kind       := kind;
-    Self.pins(num).pin        := pin;
-  END Register;
 
 END RemoteIO.GPIO;

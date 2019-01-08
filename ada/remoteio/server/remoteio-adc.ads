@@ -20,7 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
@@ -37,13 +36,7 @@ PACKAGE RemoteIO.ADC IS
   TYPE Dispatcher IS ACCESS DispatcherSubclass;
 
   FUNCTION Create
-   (logger   : Logging.Logger;
-    executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
-
-  PROCEDURE Dispatch
-   (Self : IN OUT DispatcherSubclass;
-    cmd  : Message64.Message;
-    resp : OUT Message64.Message);
+   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   -- Register ADC input by device designator
 
@@ -56,9 +49,14 @@ PACKAGE RemoteIO.ADC IS
   -- Register ADC input by preconfigured object access
 
   PROCEDURE Register
-   (Self       : IN OUT DispatcherSubclass;
-    num        : ChannelNumber;
-    input      : Analog.Input);
+   (Self  : IN OUT DispatcherSubclass;
+    num   : ChannelNumber;
+    input : Analog.Input);
+
+  PROCEDURE Dispatch
+   (Self : IN OUT DispatcherSubclass;
+    cmd  : Message64.Message;
+    resp : OUT Message64.Message);
 
 PRIVATE
 
@@ -73,7 +71,6 @@ PRIVATE
   TYPE InputTable IS ARRAY (ChannelNumber) OF InputRec;
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH RECORD
-    logger : Logging.Logger;
     inputs : InputTable;
   END RECORD;
 
