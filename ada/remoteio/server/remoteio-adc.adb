@@ -40,14 +40,13 @@ PACKAGE BODY RemoteIO.ADC IS
     cmd  : Message64.Message;
     resp : OUT Message64.message) IS
 
-    byteindex  : Natural;
-    bitmask    : Message64.Byte;
+    byteindex : Natural;
+    bitmask   : Message64.Byte;
 
   BEGIN
     resp(0) := MessageTypes'Pos(ADC_PRESENT_RESPONSE);
     resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp(2 .. 63) := (OTHERS => 0);
 
     FOR c IN ChannelNumber LOOP
       byteindex  := c/8;
@@ -64,18 +63,18 @@ PACKAGE BODY RemoteIO.ADC IS
     cmd  : Message64.Message;
     resp : OUT Message64.message) IS
 
-    num      : RemoteIO.ChannelNumber;
+    num : RemoteIO.ChannelNumber;
 
   BEGIN
     resp(0) := MessageTypes'Pos(ADC_CONFIGURE_RESPONSE);
     resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp(2 .. 63) := (OTHERS => 0);
 
     num := RemoteIO.ChannelNumber(cmd(2));
 
     IF NOT Self.inputs(num).registered THEN
-      resp(2) := errno.ENODEV;
+      resp(2) := errno.ENXIO;
+      RETURN;
     END IF;
 
     IF Self.inputs(num).configured THEN
@@ -90,6 +89,10 @@ PACKAGE BODY RemoteIO.ADC IS
     Self.inputs(num).configured := True;
 
     resp(3) := Message64.Byte(Self.inputs(num).resolution);
+
+  EXCEPTION
+    WHEN OTHERS =>
+      resp(2) := errno.EIO;
   END;
 
   PROCEDURE Read
@@ -97,18 +100,22 @@ PACKAGE BODY RemoteIO.ADC IS
     cmd  : Message64.Message;
     resp : OUT Message64.message) IS
 
-    num      : RemoteIO.ChannelNumber;
-    sample   : Analog.Sample;
+    num    : RemoteIO.ChannelNumber;
+    sample : Analog.Sample;
 
   BEGIN
     resp(0) := cmd(0) + 1;
     resp(1) := cmd(1);
-    resp(2) := 0;
-    resp(3 .. 63) := (OTHERS => 0);
+    resp(2 .. 63) := (OTHERS => 0);
 
     num := RemoteIO.ChannelNumber(cmd(2));
 
     IF NOT Self.inputs(num).registered THEN
+      resp(2) := errno.ENXIO;
+      RETURN;
+    END IF;
+
+    IF NOT Self.inputs(num).configured THEN
       resp(2) := errno.ENODEV;
       RETURN;
     END IF;
@@ -166,8 +173,8 @@ PACKAGE BODY RemoteIO.ADC IS
         Read(Self, cmd, resp);
 
       WHEN OTHERS =>
-        Self.logger.Error("Unexected message type: " &
-          MessageTypes'Image(msgtype));
+        RAISE RemoteIO.Dispatch.Error WITH
+          "Unexected message type: " & MessageTypes'Image(msgtype);
     END CASE;
   END Dispatch;
 

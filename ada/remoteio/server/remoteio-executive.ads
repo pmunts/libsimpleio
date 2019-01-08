@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Logging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 
@@ -31,7 +32,8 @@ PACKAGE RemoteIO.Executive IS
 
   -- Constructor
 
-  FUNCTION Create RETURN Executor;
+  FUNCTION Create
+   (logger : Logging.Logger) RETURN Executor;
 
   -- Register a command handler
 
@@ -52,6 +54,7 @@ PRIVATE
   TYPE HandlerArray IS ARRAY (MessageTypes) OF RemoteIO.Dispatch.Dispatcher;
 
   TYPE ExecutorClass IS TAGGED RECORD
+    logger   : Logging.Logger;
     handlers : HandlerArray;
   END RECORD;
 

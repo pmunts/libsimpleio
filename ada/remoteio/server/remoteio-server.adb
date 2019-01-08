@@ -74,7 +74,7 @@ PACKAGE BODY RemoteIO.Server IS
         WHEN Messaging.Timeout_Error =>
           NULL;
 
-        WHEN Error: OTHERS =>
+        WHEN Error : OTHERS =>
           logger.Error("Caught exception " &
             Ada.Exceptions.Exception_Name(Error) & ": " &
             Ada.Exceptions.Exception_Message(error));

@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Exceptions;
+
 WITH errno;
 WITH Message64;
 WITH RemoteIO.Dispatch;
@@ -31,10 +33,11 @@ PACKAGE BODY RemoteIO.Executive IS
 
   -- Constructor
 
-  FUNCTION Create RETURN Executor IS
+  FUNCTION Create
+   (logger : Logging.Logger) RETURN Executor IS
 
   BEGIN
-    RETURN NEW ExecutorClass'(handlers => HandlerArray'(OTHERS => NULL));
+    RETURN NEW ExecutorClass'(logger, (OTHERS => NULL));
   END Create;
 
   -- Register a command handler
@@ -61,7 +64,7 @@ PACKAGE BODY RemoteIO.Executive IS
     -- Check for compeletely out of range message type
 
     IF cmd(0) > MessageTypes'Pos(MessageTypes'Last) THEN
-      resp := (cmd(0), cmd(1) + 1, errno.EINVAL, OTHERS => 0);
+      resp := (cmd(0) + 1, cmd(1), errno.EINVAL, OTHERS => 0);
       RETURN;
     END IF;
 
@@ -72,13 +75,21 @@ PACKAGE BODY RemoteIO.Executive IS
     -- Check for unimplemented message type
 
     IF Self.handlers(msgtype) = NULL THEN
-      resp := (cmd(0), cmd(1) + 1, errno.EINVAL, OTHERS => 0);
+      resp := (cmd(0) + 1, cmd(1), errno.EINVAL, OTHERS => 0);
       RETURN;
     END IF;
 
     -- Dispatch the command message to the proper handler
 
     Self.handlers(msgtype).Dispatch(cmd, resp);
+
+  EXCEPTION
+    WHEN Error : OTHERS =>
+      Self.logger.Error("Caught exception " &
+        Ada.Exceptions.Exception_Name(Error) & ": " &
+        Ada.Exceptions.Exception_Message(error));
+
+      resp := (cmd(0) + 1, cmd(1), errno.EIO, OTHERS => 0);
   END Execute;
 
 END RemoteIO.Executive;

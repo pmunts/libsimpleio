@@ -86,7 +86,7 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
 
     -- Create an Executor instance
 
-    exec := RemoteIO.Executive.Create;
+    exec := RemoteIO.Executive.Create(logger);
 
     -- Create a common command dispatcher instance
 
