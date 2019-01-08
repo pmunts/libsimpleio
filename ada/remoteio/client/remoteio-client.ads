@@ -20,8 +20,12 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Containers.Ordered_Sets;
+WITH Analog;
+WITH GPIO;
+WITH I2C;
 WITH Message64;
+WITH PWM;
+WITH SPI;
 
 PACKAGE RemoteIO.Client IS
 
@@ -58,6 +62,40 @@ PACKAGE RemoteIO.Client IS
   FUNCTION GetAvailableChannels
    (Self    : IN OUT DeviceClass;
     service : ChannelTypes) RETURN ChannelSets.Set;
+
+  -- I/O object constructors, provided for convenience
+
+  FUNCTION Create
+   (Self  : IN OUT DeviceClass;
+    num   : ChannelNumber) RETURN Analog.Input;
+
+  FUNCTION Create
+   (Self  : IN OUT DeviceClass;
+    num   : ChannelNumber) RETURN Analog.Output;
+
+  FUNCTION Create
+   (Self  : IN OUT DeviceClass;
+    num   : ChannelNumber;
+    dir   : GPIO.Direction;
+    state : Boolean := False) RETURN GPIO.Pin;
+
+  FUNCTION Create
+   (Self  : IN OUT DeviceClass;
+    num   : ChannelNumber;
+    speed : Positive := I2C.SpeedStandard) RETURN I2C.Bus;
+
+  FUNCTION Create
+   (Self  : IN OUT DeviceClass;
+    num   : ChannelNumber;
+    freq  : Positive := 50;
+    duty  : PWM.DutyCycle := PWM.MinimumDutyCycle) RETURN PWM.Interfaces.Output;
+
+  FUNCTION Create
+   (Self     : IN OUT DeviceClass;
+    num      : Standard.RemoteIO.ChannelNumber;
+    mode     : Natural;
+    wordsize : Natural;
+    speed    : Natural) RETURN SPI.Device;
 
 PRIVATE
 
