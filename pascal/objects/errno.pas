@@ -1,4 +1,4 @@
-{ 'Standard' errno values -- Copied from newlib /usr/include/sys/errno.h }
+{ "Standard" errno values -- Copied from newlib /usr/include/sys/errno.h }
 
 { Copyright (C)2014-2018, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
@@ -8,7 +8,7 @@
 { * Redistributions of source code must retain the above copyright notice,    }
 {   this list of conditions and the following disclaimer.                     }
 {                                                                             }
-{ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' }
+{ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" }
 { AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE   }
 { IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE  }
 { ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE   }
@@ -68,16 +68,51 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    libLinux;
+    SysUtils;
 
   FUNCTION strerror(errno : Integer) : String;
 
-  VAR
-    errbuf : ARRAY [0 .. 255] OF Char;
-
   BEGIN
-    libLinux.StrError(errno, errbuf, 256);
-    strerror := errbuf;
+    CASE errno OF
+      EOK        : strerror := 'Success';
+      EPERM      : strerror := 'Operation not permitted';
+      ENOENT     : strerror := 'No such file or directory';
+      ESRCH      : strerror := 'No such process';
+      EINTR      : strerror := 'Interrupted system call';
+      EIO        : strerror := 'Input/output error';
+      ENXIO      : strerror := 'Device not configured';
+      E2BIG      : strerror := 'Argument list too long';
+      ENOEXEC    : strerror := 'Exec format error';
+      EBADF      : strerror := 'Bad file descriptor';
+      ECHILD     : strerror := 'No child processes';
+      EAGAIN     : strerror := 'Resource deadlock avoided';
+      ENOMEM     : strerror := 'Cannot allocate memory';
+      EACCES     : strerror := 'Permission denied';
+      EFAULT     : strerror := 'Bad address';
+      ENOTBLK    : strerror := 'Block device required';
+      EBUSY      : strerror := 'Resource busy';
+      EEXIST     : strerror := 'File exists';
+      EXDEV      : strerror := 'Cross-device link';
+      ENODEV     : strerror := 'No such device';
+      ENOTDIR    : strerror := 'Not a directory';
+      EISDIR     : strerror := 'Is a directory';
+      EINVAL     : strerror := 'Invalid argument';
+      ENFILE     : strerror := 'Too many open files in system';
+      EMFILE     : strerror := 'Too many open files';
+      ENOTTY     : strerror := 'Inappropriate ioctl for device';
+      ETXTBSY    : strerror := 'Text file busy';
+      EFBIG      : strerror := 'File too large';
+      ENOSPC     : strerror := 'No space left on device';
+      ESPIPE     : strerror := 'Illegal seek';
+      EROFS      : strerror := 'Read-only file system';
+      EMLINK     : strerror := 'Too many links';
+      EPIPE      : strerror := 'Broken pipe';
+      EDOM       : strerror := 'Numerical argument out of domain';
+      ERANGE     : strerror := 'Result too large';
+      ECONNRESET : strerror := 'Connection reset by peer';
+    ELSE
+      strerror := 'Error number ' + IntToStr(errno);
+    END;
   END;
 
 END.
