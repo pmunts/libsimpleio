@@ -42,7 +42,7 @@ BEGIN
 
   -- Create GPIO pin object
 
-  LED := GPIO.RemoteIO.Create(remdev, 0, Standard.GPIO.Output, False);
+  LED := GPIO.RemoteIO.Create(remdev, 0, GPIO.Output);
 
   -- Toggle the LED
 

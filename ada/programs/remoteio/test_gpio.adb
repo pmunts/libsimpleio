@@ -74,8 +74,7 @@ BEGIN
 
     FOR pin OF channels LOOP
       count := count + 1;
-      pins(count) := GPIO.RemoteIO.Create(remdev, pin, Standard.GPIO.Output,
-        False);
+      pins(count) := GPIO.RemoteIO.Create(remdev, pin, GPIO.Output, False);
     END LOOP;
 
     -- Toggle GPIO outputs
