@@ -23,8 +23,8 @@
 WITH "aws";
 
 PROJECT test_sms IS
-  FOR Source_Dirs USE (".", external("ADA_SRC") & "/interfaces",
-    external("ADA_SRC") & "/objects");
+  FOR Source_Dirs USE (".", external("LIBSIMPLEIO") & "/ada/interfaces",
+    external("LIBSIMPLEIO") & "/ada/objects");
   FOR Object_Dir  USE external("ADA_OBJ");
   FOR Exec_Dir    USE ".";
   FOR Main        USE ("test_sms.adb");

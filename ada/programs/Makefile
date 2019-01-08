@@ -23,7 +23,6 @@
 # Modify the following macro to build out of tree
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-ADA_SRC		?= $(LIBSIMPLEIO)/ada
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
