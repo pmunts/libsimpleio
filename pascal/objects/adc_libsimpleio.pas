@@ -27,7 +27,7 @@ INTERFACE
     ADC;
 
   TYPE
-    SampleSubclass = CLASS(TInterfacedObject, ADC.Sample)
+    InputSubclass = CLASS(TInterfacedObject, ADC.Input)
       CONSTRUCTOR Create
        (input      : libsimpleio.Designator;
         resolution : Cardinal);
@@ -53,7 +53,7 @@ IMPLEMENTATION
     errno,
     libADC;
 
-  CONSTRUCTOR SampleSubclass.Create
+  CONSTRUCTOR InputSubclass.Create
    (input      : libsimpleio.Designator;
     resolution : Cardinal);
 
@@ -70,7 +70,7 @@ IMPLEMENTATION
     Self.numbits := resolution;
   END;
 
-  CONSTRUCTOR SampleSubclass.Create
+  CONSTRUCTOR InputSubclass.Create
    (chip       : Cardinal;
     channel    : Cardinal;
     resolution : Cardinal);
@@ -88,7 +88,7 @@ IMPLEMENTATION
     Self.numbits := resolution;
   END;
 
-  DESTRUCTOR SampleSubclass.Destroy;
+  DESTRUCTOR InputSubclass.Destroy;
 
   VAR
     error : Integer;
@@ -98,9 +98,9 @@ IMPLEMENTATION
     INHERITED;
   END;
 
-  { Method implementing ADC.Sample.sample }
+  { Method implementing ADC.Input.sample }
 
-  FUNCTION SampleSubclass.sample : Integer;
+  FUNCTION InputSubclass.sample : Integer;
 
   VAR
     data   : Integer;
@@ -116,9 +116,9 @@ IMPLEMENTATION
     sample := data;
   END;
 
-  { Method implementing ADC.Sample.resolution }
+  { Method implementing ADC.Input.resolution }
 
-  FUNCTION SampleSubclass.resolution : Cardinal;
+  FUNCTION InputSubclass.resolution : Cardinal;
 
   BEGIN
     resolution := Self.numbits;

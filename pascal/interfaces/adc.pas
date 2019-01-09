@@ -30,62 +30,12 @@ INTERFACE
   TYPE
     Error = CLASS(Exception);
 
-    { Abstract interfaces }
-
-    Sample = INTERFACE
+    Input = INTERFACE
       FUNCTION sample : Integer;
 
       FUNCTION resolution : Cardinal;
     END;
 
-    Voltage = INTERFACE
-      FUNCTION voltage : Real;
-    END;
-
-    { Classes }
-
-    Input = CLASS(TInterfacedObject, Voltage)
-      CONSTRUCTOR Create(input : Sample; reference : Real; gain : Real = 1.0);
-
-      DESTRUCTOR Destroy; OVERRIDE;
-
-      FUNCTION voltage : Real;
-
-    PRIVATE
-      input    : Sample;
-      stepsize : Real;
-    END;
-
 IMPLEMENTATION
-
-  USES
-    Math;
-
-  CONSTRUCTOR Input.Create(input : Sample; reference : Real; gain : Real);
-
-  BEGIN
-    IF reference = 0.0 THEN
-      RAISE Error.Create('ERROR: reference voltage cannot be zero');
-
-    IF gain = 0.0 THEN
-      RAISE Error.Create('ERROR: gain cannot be zero');
-
-    Self.input    := input;
-    Self.stepsize := reference/intpower(2, input.resolution)/gain;
-  END;
-
-  DESTRUCTOR Input.Destroy;
-
-  BEGIN
-    FreeAndNil(Self.input);
-
-    INHERITED;
-  END;
-
-  FUNCTION Input.Voltage : Real;
-
-  BEGIN
-    Voltage := Self.input.sample*Self.stepsize;
-  END;
 
 END.
