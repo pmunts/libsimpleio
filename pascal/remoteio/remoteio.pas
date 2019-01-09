@@ -26,6 +26,7 @@ INTERFACE
 
   USES
     ADC,
+    DAC,
     GPIO,
     I2C,
     Message64,
@@ -108,6 +109,9 @@ INTERFACE
       FUNCTION ADC
        (num      : Channels) : ADC.Input;
 
+      FUNCTION DAC
+       (num      : Channels) : DAC.Output;
+
       FUNCTION GPIO
        (num      : Channels;
         dir      : GPIO.Direction;
@@ -144,6 +148,7 @@ IMPLEMENTATION
     HID_hidapi,
 {$ENDIF}
     RemoteIO_ADC,
+    RemoteIO_DAC,
     RemoteIO_GPIO,
     RemoteIO_I2C,
     RemoteIO_SPI;
@@ -305,6 +310,13 @@ IMPLEMENTATION
 
   BEGIN
     ADC := RemoteIO_ADC.InputSubclass.Create(Self, num);
+  END;
+
+  FUNCTION Device.DAC
+   (num      : Channels) : DAC.Output;
+
+  BEGIN
+    DAC := RemoteIO_DAC.OutputSubclass.Create(Self, num);
   END;
 
   FUNCTION Device.GPIO
