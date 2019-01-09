@@ -108,7 +108,7 @@ INTERFACE
         mode     : Byte;
         wordsize : Byte;
         speed    : Cardinal) : SPI.Device;
- 
+
     PRIVATE
       msg : Message64.Messenger;
       num : Byte;
