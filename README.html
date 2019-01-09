@@ -50,87 +50,9 @@ these classes will provide interface and device services, but not any platform
 dependent services.</p>
 <h2>News</h2>
 <ul>
-<li>15 November 2017 -- Started writing <tt>libsimpleio</tt> unit tests. Added
-many, many parameter checks to the functions in <tt>libsimpleio</tt>. Fixed a
-number of errors in the <tt>man</tt> pages.</li>
-<li>16 November 2017 -- Released C# bindings for <tt>libsimpleio</tt>.</li>
-<li>6 December 2017 -- Added functions <tt>STREAM_change_readfn()</tt> and
-<tt>STREAM_change_writefn()</tt> to replace <tt>read()</tt> and <tt>write</tt>
-inside <tt>libstream</tt>. This is probably most useful with <a href=
-"http://savannah.nongnu.org/projects/lwip">LWIP</a> on microcontrollers.</li>
-<li>3 January 2018 -- Imported C++, C#, and Free Pascal interfaces and objects.
-Imported the .Net assembly <tt>libsimplio.dll</tt>.</li>
-<li>12 January 2018 -- Imported Ada and Java interfaces and objects.</li>
-<li>17 January 2018 -- Extensively reworked the C++ interfaces and
-objects.</li>
-<li>26 February 2018 -- Added <tt>LINUX_poll()</tt>, which wraps
-<tt>poll()</tt>.</li>
-<li>12 March 2018 -- Reworked GPIO and PWM routines and <tt>udev</tt>
-rules.</li>
-<li>6 April 2018 -- Imported a project to build <tt>libremoteio.dll</tt>, an
-implementation of the <a href=
-"http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
-Protocol</a> that is portable across Linux, MacOS, and Windows.</li>
-<li>12 May 2018 -- Switched from the deprecated GPIO <tt>sysfs</tt> API to the
-new GPIO descriptor API.</li>
-<li>14 May 2018 -- Install include files to
-<tt>/usr/local/include/libsimpleio/</tt>.</li>
-<li>16 June 2018 -- Added <tt>LINUX_usleep()</tt>.</li>
-<li>18 June 2018 -- Minor fixes and consistency cleanups.</li>
-<li>27 June 2018 -- Added UDP over IPv4 services.</li>
-<li>28 June 2018 -- Imported initial support for <a href=
-"https://www.nongnu.org/gm2/homepage.html">GNU Modula-2</a>. This is not
-complete, and what is done is still pretty rough.</li>
-<li>11 July 2018 -- Imported many test programs from <a href=
-"http://git.munts.com/arm-linux-mcu/examples">MuntsOS Embedded Linux</a>.</li>
-<li>8 August 2018 -- The .Net assembly libraries <tt>libsimpleio.dll</tt> and
-<tt>libremoteio.dll</tt> have now been published to <a href=
-"https://www.nuget.org">NuGet.</a>.</li>
-<li>16 August 2018 -- Rebuilt the C# library <tt>.dll</tt> files to target .Net
-Framework 4.6.1. Cleaned up the C# library <tt>.dll</tt> and package metadata.
-Added experimental <a href=
-"https://docs.microsoft.com/en-us/dotnet/standard/net-standard">.Net
-Standard</a> library builders for <tt>libsimpleio</tt> and
-<tt>libremoteio</tt>. The published libraries will remain .Net Framework 4.6.1
-for now, as there are still some issues using .Net Standard libraries with
-Mono. Also performed some general file reorganization and house cleaning.</li>
-<li>18 August 2018 -- Rebuilt the C# library <tt>.dll</tt> files to target .Net
-Framework 4.7.1. Added support for the <a href=
-"http://www.ti.com/product/ADC121C021">ADC121C021</a> A/D converter chip, which
-is used in the <a href="http://wiki.seeedstudio.com/Grove-I2C_ADC">Grove
-I<sup>2</sup>C A/D Converter</a> module. Fixed a few issues in the
-I<sup>2</sup>C stack. Performed yet more file reorganization and house
-cleaning. Made C# <tt>.dll</tt> and package metadata more clear about what is
-what.</li>
-<li>22 August 2018 -- Fixed various issues with cross-compiling the example
-programs. Added more test programs for the PCA8574 I<sup>2</sup>C GPIO
-expander.</li>
-<li>26 August 2018 -- Added support for the PCA9685 I<sup>2</sup>C PWM
-controller to the .Net libraries.</li>
-<li>3 September 2018 -- Added support for the <a href=
-"http://git.munts.com/rpi-mcu/expansion/LPC1114">Raspberry Pi LPC1114 I/O
-Processor Expansion Board</a> to the C# libraries. Added a delay parameter to
-the I<sup>2</sup>C transaction methods for Ada, C++, C#, and Free Pascal. The
-<a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
-Procotol</a> has also been updated in add a delay parameter to the
-I<sup>2</sup>C transaction request message.</li>
-<li>23 September 2018 -- Modified libremoteio to use HidSharp 2.0.2. Added an
-optional USB serial device serial number parameter to the constructor for the
-libremoteio <tt>Messenger</tt> class. Added more C# test programs.</li>
-<li>3 October 2018 -- More progress on the Free Pascal units and programs.</li>
-<li>26 October 2018 -- Reworked the C++ library functions to throw
-<tt>std::runtime_error</tt> via wrapper macros that capture locality
-information instead of just an integer. Added many more device drivers. Ada
-still has the most comprehensive set of device drivers, but C++, C#, and Free
-Pascal all have new ones, too.</li>
-<li>1 November 2018 -- Extensively refactored the Ada code tree.</li>
-<li>7 November 2018 -- Added <tt>LINUX_command()</tt>, which passes a command
-string to <tt>system()</tt> for execution. Continued working on the Ada Remote
-I/O code.</li>
-<li>14 December 2018 -- Added initial bindings and test programs for the
-<a href="https://github.com/paladin-t/my_basic">MY-BASIC</a> Basic
-interpreter.</li>
-<li>21 December 2018 -- Added DAC (Digital to Analog Converter) services.</li>
+<li>9 January 2019 -- Continued working on the Ada Remote I/O code. Continued
+working on the Pascal Remote I/O code. Compiling Pascal Remote I/O client
+programs on Windows is now supported.</li>
 </ul>
 <h2>Documentation</h2>
 <p><img src="/icons/new.gif" alt="New">The user manual for <b>libsimpleio</b>
