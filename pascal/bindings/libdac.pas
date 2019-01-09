@@ -1,6 +1,6 @@
-{ Abstract interface for DAC (Digital to Analog Converter) Outputs            }
+{ FreePascal bindings for libsimpleio (http://git.munts.com/libsimpleio)      }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -20,24 +20,35 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT DAC;
+UNIT libDAC;
 
 INTERFACE
 
-  USES
-    SysUtils;
+  PROCEDURE GetName
+   (chip       : Integer;
+    name       : PChar;
+    size       : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'DAC_get_name';
 
-  TYPE
-    Error = CLASS(Exception);
+  PROCEDURE Open
+   (chip       : Integer;
+    channel    : Integer;
+    VAR fd     : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'DAC_open';
 
-    Output = INTERFACE
-      PROCEDURE Write(sample : Integer);
+  PROCEDURE Close
+   (fd         : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'DAC_close';
 
-      PROPERTY sample : Integer WRITE Write;
-
-      FUNCTION resolution : Cardinal;
-    END;
+  PROCEDURE Write
+   (fd         : Integer;
+    sample     : Integer;
+    VAR error  : Integer); CDECL; EXTERNAL NAME 'DAC_write';
 
 IMPLEMENTATION
 
+  USES
+    initc;
+
+  {$linklib libsimpleio}
 END.

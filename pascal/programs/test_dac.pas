@@ -1,6 +1,6 @@
-{ Abstract interface for DAC (Digital to Analog Converter) Outputs            }
+{ Linux Simple I/O Library DAC (Pulse Width Modulated) output test            }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -20,24 +20,42 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT DAC;
+PROGRAM test_dac;
 
-INTERFACE
+USES
+  SysUtils,
+  DAC,
+  DAC_libsimpleio;
 
-  USES
-    SysUtils;
+VAR
+  chip       : Cardinal;
+  channel    : Cardinal;
+  resolution : Cardinal;
+  DAC0       : DAC.Output;
+  n          : Integer;
 
-  TYPE
-    Error = CLASS(Exception);
+BEGIN
+  Writeln;
+  Writeln('DAC Output Test using libsimpleio');
+  Writeln;
 
-    Output = INTERFACE
-      PROCEDURE Write(sample : Integer);
+  Write('Enter chip number:    ');
+  Readln(chip);
 
-      PROPERTY sample : Integer WRITE Write;
+  Write('Enter channel number: ');
+  Readln(channel);
 
-      FUNCTION resolution : Cardinal;
-    END;
+  Write('Enter resolution:     ');
+  Readln(resolution);
 
-IMPLEMENTATION
+  { Create a DAC output object }
 
+  DAC0 := DAC_libsimpleio.OutputSubclass.Create(chip, channel, resolution);
+
+  { Generate sawtooth pattern }
+
+  REPEAT
+    FOR n := 0 TO 4095 DO
+      DAC0.sample := n;
+  UNTIL False;
 END.
