@@ -38,7 +38,7 @@ VAR
 
 BEGIN
   Writeln;
-  Writeln('HID Remote Analog Input Test');
+  Writeln('Remote Analog Input Test');
   Writeln;
 
   { Create objects }

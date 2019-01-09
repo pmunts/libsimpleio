@@ -1,4 +1,4 @@
-{ HID Remote I/O 74HC595 Shift Register Device Test }
+{ Remote I/O 74HC595 Shift Register Device Test }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -36,7 +36,7 @@ VAR
 
 BEGIN
   Writeln;
-  Writeln('HID Remote I/O 74HC595 Shift Register Device Test');
+  Writeln('Remote I/O 74HC595 Shift Register Device Test');
   Writeln;
 
   { Create objects }

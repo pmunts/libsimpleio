@@ -1,4 +1,4 @@
-{ HID Remote I/O GPIO Button and LED }
+{ Remote I/O GPIO Button and LED }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -35,7 +35,7 @@ VAR
   newstate : Boolean;
 
 BEGIN
-  Writeln('HID Remote I/O GPIO Button and LED');
+  Writeln('Remote I/O GPIO Button and LED');
   Writeln;
 
   { Configure the button input and LED output }

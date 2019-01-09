@@ -1,4 +1,4 @@
-{ HID Remote I/O 74HC595 Shift Register GPIO Pin Test }
+{ Remote I/O 74HC595 Shift Register GPIO Pin Test }
 
 { Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
@@ -39,7 +39,7 @@ VAR
 
 BEGIN
   Writeln;
-  Writeln('HID Remote I/O 74HC595 Shift Register GPIO Pin Test');
+  Writeln('Remote I/O 74HC595 Shift Register GPIO Pin Test');
   Writeln;
 
   { Create objects }

@@ -32,7 +32,7 @@ VAR
 
 BEGIN
   Writeln;
-  Writeln('HID Remote I/O LED Test');
+  Writeln('Remote I/O LED Test');
   Writeln;
 
   { Create objects }
