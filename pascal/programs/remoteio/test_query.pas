@@ -48,7 +48,22 @@ BEGIN
 
       IF chans <> NIL THEN
         BEGIN
-          Write('ADC inputs: ');
+          Write('ADC inputs:  ');
+
+          FOR c := 0 TO Length(chans) - 1 DO
+            Write(' ', chans[c]);
+
+          Writeln;
+        END;
+    END;
+
+  IF Pos('DAC', remdev.Capability) <> 0 THEN
+    BEGIN
+      chans := remdev.DAC_Outputs;
+
+      IF chans <> NIL THEN
+        BEGIN
+          Write('DAC outputs: ');
 
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);
@@ -63,7 +78,7 @@ BEGIN
 
       IF chans <> NIL THEN
         BEGIN
-          Write('GPIO pins:  ');
+          Write('GPIO pins:   ');
 
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);
@@ -78,7 +93,22 @@ BEGIN
 
       IF chans <> NIL THEN
         BEGIN
-          Write('I2C buses:  ');
+          Write('I2C buses:   ');
+
+          FOR c := 0 TO Length(chans) - 1 DO
+            Write(' ', chans[c]);
+
+          Writeln;
+        END;
+    END;
+
+  IF Pos('PWM', remdev.Capability) <> 0 THEN
+    BEGIN
+      chans := remdev.PWM_Outputs;
+
+      IF chans <> NIL THEN
+        BEGIN
+          Write('PWM outputs: ');
 
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);
@@ -93,7 +123,7 @@ BEGIN
 
       IF chans <> NIL THEN
         BEGIN
-          Write('SPI Devices:');
+          Write('SPI Devices: ');
 
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);

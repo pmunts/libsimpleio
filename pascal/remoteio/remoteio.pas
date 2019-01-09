@@ -97,8 +97,10 @@ INTERFACE
       FUNCTION Version     : String;
       FUNCTION Capability  : String;
       FUNCTION ADC_Inputs  : ChannelArray;
+      FUNCTION DAC_Outputs : ChannelArray;
       FUNCTION GPIO_Pins   : ChannelArray;
       FUNCTION I2C_Buses   : ChannelArray;
+      FUNCTION PWM_Outputs : ChannelArray;
       FUNCTION SPI_Devices : ChannelArray;
 
       { I/O Object Constructors }
@@ -266,6 +268,12 @@ IMPLEMENTATION
     ADC_Inputs := Self.QueryChannels(ADC_PRESENT_REQUEST);
   END;
 
+  FUNCTION Device.DAC_Outputs : ChannelArray;
+
+  BEGIN
+    DAC_Outputs := Self.QueryChannels(DAC_PRESENT_REQUEST);
+  END;
+
   FUNCTION Device.GPIO_Pins : ChannelArray;
 
   BEGIN
@@ -276,6 +284,12 @@ IMPLEMENTATION
 
   BEGIN
     I2C_Buses := Self.QueryChannels(I2C_PRESENT_REQUEST);
+  END;
+
+  FUNCTION Device.PWM_Outputs : ChannelArray;
+
+  BEGIN
+    PWM_Outputs := Self.QueryChannels(PWM_PRESENT_REQUEST);
   END;
 
   FUNCTION Device.SPI_Devices : ChannelArray;
