@@ -29,7 +29,7 @@ VAR
   remdev   : RemoteIO.Device;
   chanlist : RemoteIO.ChannelArray;
   numchans : Cardinal;
-  samplers : ARRAY OF ADC.Input;
+  inputs   : ARRAY OF ADC.Input;
   chan     : Cardinal;
 
 BEGIN
@@ -46,14 +46,14 @@ BEGIN
   chanlist := remdev.ADC_Inputs;
   numchans := Length(chanlist);
 
-  SetLength(samplers, numchans);
+  SetLength(inputs, numchans);
 
   FOR chan := 0 TO numchans - 1 DO
-    samplers[chan] := remdev.ADC(chan);
+    inputs[chan] := remdev.ADC(chan);
 
   REPEAT
     FOR chan := 0 TO numchans - 1 DO
-      Write(samplers[chan].sample : 5, ' ');
+      Write(inputs[chan].sample : 5, ' ');
 
     Writeln;
 
