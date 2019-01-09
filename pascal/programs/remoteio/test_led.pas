@@ -23,7 +23,6 @@ PROGRAM test_led;
 USES
   GPIO,
   RemoteIO,
-  RemoteIO_GPIO,
   SysUtils;
 
 VAR
@@ -38,7 +37,7 @@ BEGIN
   { Create objects }
 
   remdev := RemoteIO.Device.Create;
-  LED    := RemoteIO_GPIO.PinSubclass.Create(remdev, 0, GPIO.Output);
+  LED    := remdev.GPIO(0, GPIO.Output);
 
   { Flash LED }
 

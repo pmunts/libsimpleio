@@ -26,7 +26,6 @@ USES
   I2C,
   PCA8574,
   RemoteIO,
-  RemoteIO_I2C,
   SysUtils;
 
 VAR
@@ -42,7 +41,7 @@ BEGIN
   { Create objects }
 
   remdev := RemoteIO.Device.Create;
-  bus    := RemoteIO_I2C.BusSubclass.Create(remdev, 0);
+  bus    := remdev.I2C(0);
   dev    := PCA8574.Device.Create(bus, $38);
 
   { Toggle pins }

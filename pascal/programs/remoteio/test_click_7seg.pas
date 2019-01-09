@@ -26,8 +26,6 @@ USES
   Click_7Seg,
   GPIO,
   RemoteIO,
-  RemoteIO_GPIO,
-  RemoteIO_SPI,
   SPI,
   SPI_Shift_Register_74HC595,
   SysUtils;
@@ -49,13 +47,12 @@ BEGIN
 
   remdev := RemoteIO.Device.Create;
 
-  spidev := RemoteIO_SPI.DeviceSubclass.Create(remdev, 0,
-    SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
+  spidev := remdev.SPI(0, SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
     SPI_Shift_Register_74HC595.SPI_Clock_Max);
 
-  pwmpin := RemoteIO_GPIO.PinSubclass.Create(remdev, 13, GPIO.Output, True);
+  pwmpin := remdev.GPIO(13, GPIO.Output, True);
 
-  rstpin := RemoteIO_GPIO.PinSubclass.Create(remdev, 18, GPIO.Output, True);
+  rstpin := remdev.GPIO(18, GPIO.Output, True);
 
   disp   := Click_7Seg.Display.Create(spidev, pwmpin, rstpin);
 

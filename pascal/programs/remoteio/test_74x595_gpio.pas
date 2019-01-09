@@ -25,7 +25,6 @@ PROGRAM test_74x595_gpio;
 USES
   GPIO,
   RemoteIO,
-  RemoteIO_SPI,
   SPI,
   SPI_Shift_Register,
   SPI_Shift_Register_74HC595,
@@ -45,8 +44,7 @@ BEGIN
   { Create objects }
 
   remdev := RemoteIO.Device.Create;
-  spidev := RemoteIO_SPI.DeviceSubclass.Create(remdev, 0,
-    SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
+  spidev := remdev.SPI(0, SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
     SPI_Shift_Register_74HC595.SPI_Clock_Max);
   regdev := SPI_Shift_Register.Device.Create(spidev);
   pin    := SPI_Shift_Register_GPIO.PinSubclass.Create(regdev, 0);

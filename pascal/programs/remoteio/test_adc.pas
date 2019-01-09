@@ -23,7 +23,6 @@ PROGRAM test_adc;
 USES
   ADC,
   RemoteIO,
-  RemoteIO_ADC,
   SysUtils;
 
 VAR
@@ -50,7 +49,7 @@ BEGIN
   SetLength(samplers, numchans);
 
   FOR chan := 0 TO numchans - 1 DO
-    samplers[chan] := RemoteIO_ADC.SampleSubclass.Create(remdev, chan);
+    samplers[chan] := remdev.ADC(chan);
 
   REPEAT
     FOR chan := 0 TO numchans - 1 DO

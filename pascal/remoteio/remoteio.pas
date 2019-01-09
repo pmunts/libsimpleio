@@ -25,7 +25,11 @@ UNIT RemoteIO;
 INTERFACE
 
   USES
+    ADC,
+    GPIO,
+    I2C,
     Message64,
+    SPI,
     SysUtils;
 
   TYPE
@@ -84,6 +88,27 @@ INTERFACE
       FUNCTION GPIO_Pins   : ChannelArray;
       FUNCTION I2C_Buses   : ChannelArray;
       FUNCTION SPI_Devices : ChannelArray;
+
+      { I/O Object Constructors }
+
+      FUNCTION ADC
+       (num      : Channels) : ADC.Sample;
+
+      FUNCTION GPIO
+       (num      : Channels;
+        dir      : GPIO.Direction;
+        state    : Boolean = False) : GPIO.Pin;
+
+      FUNCTION I2C
+       (num      : Channels;
+        speed    : Cardinal = I2C.SpeedStandard) : I2C.Bus;
+
+      FUNCTION SPI
+       (num      : Channels;
+        mode     : Byte;
+        wordsize : Byte;
+        speed    : Cardinal) : SPI.Device;
+ 
     PRIVATE
       msg : Message64.Messenger;
       num : Byte;
@@ -100,10 +125,14 @@ IMPLEMENTATION
   USES
     errno,
 {$IFDEF LIBSIMPLEIO}
-    HID_libsimpleio;
+    HID_libsimpleio,
 {$ELSE}
-    HID_hidapi;
+    HID_hidapi,
 {$ENDIF}
+    RemoteIO_ADC,
+    RemoteIO_GPIO,
+    RemoteIO_I2C,
+    RemoteIO_SPI;
 
   CONSTRUCTOR Device.Create;
 
@@ -241,6 +270,43 @@ IMPLEMENTATION
 
   BEGIN
     SPI_Devices := Self.QueryChannels(SPI_PRESENT_REQUEST);
+  END;
+
+  { I/O Object Constructors }
+
+  FUNCTION Device.ADC
+   (num      : Channels) : ADC.Sample;
+
+  BEGIN
+    ADC := RemoteIO_ADC.SampleSubclass.Create(Self, num);
+  END;
+
+  FUNCTION Device.GPIO
+   (num      : Channels;
+    dir      : GPIO.Direction;
+    state    : Boolean) : GPIO.Pin;
+
+  BEGIN
+    GPIO := RemoteIO_GPIO.PinSubclass.Create(Self, num, dir, state);
+  END;
+
+  FUNCTION Device.I2C
+   (num      : Channels;
+    speed    : Cardinal) : I2C.Bus;
+
+  BEGIN
+    I2C := RemoteIO_I2C.BusSubclass.Create(Self, num, speed);
+  END;
+
+  FUNCTION Device.SPI
+   (num      : Channels;
+    mode     : Byte;
+    wordsize : Byte;
+    speed    : Cardinal) : SPI.Device;
+
+  BEGIN
+    SPI := RemoteIO_SPI.DeviceSubclass.Create(Self, num, mode,
+      wordsize, speed);
   END;
 
 END.

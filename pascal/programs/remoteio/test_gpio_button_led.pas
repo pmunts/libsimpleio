@@ -24,8 +24,7 @@ PROGRAM test_gpio_button_led;
 
 USES
   GPIO,
-  RemoteIO,
-  RemoteIO_GPIO;
+  RemoteIO;
 
 VAR
   remdev   : RemoteIO.Device;
@@ -41,8 +40,8 @@ BEGIN
   { Configure the button input and LED output }
 
   remdev := RemoteIO.Device.Create;
-  button := RemoteIO_GPIO.PinSubclass.Create(remdev, 1, GPIO.Input);
-  LED    := RemoteIO_GPIO.PinSubclass.Create(remdev, 0, GPIO.Output);
+  button := remdev.GPIO(1, GPIO.Input);
+  LED    := remdev.GPIO(0, GPIO.Output);
 
   { Force initial state detection }
 
