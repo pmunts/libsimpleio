@@ -39,6 +39,7 @@ include $(LIBSIMPLEIO)/pascal/include/libsimpleio.mk
 
 ifeq ($(OS), Windows_NT)
 WINARCH		?= win64
+FPC_FLAGS	+= -Fl$(LIBSIMPLEIO)/win/$(WINARCH)
 
 hidapi.dll:
 	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
@@ -47,9 +48,6 @@ endif
 # Compile the test programs
 
 default:
-ifeq ($(OS), Windows_NT)
-	$(MAKE) hidapi.dll
-endif
 	for F in *.pas ; do $(MAKE) `basename $$F .pas` ; done
 
 # Remove working files
