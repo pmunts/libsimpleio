@@ -22,14 +22,11 @@ PROGRAM test_adc;
 
 USES
   ADC,
-  HID_libsimpleio,
-  Message64,
   RemoteIO,
   RemoteIO_ADC,
   SysUtils;
 
 VAR
-  hidmsg   : Message64.Messenger;
   remdev   : RemoteIO.Device;
   chanlist : RemoteIO.ChannelArray;
   numchans : Cardinal;
@@ -43,8 +40,7 @@ BEGIN
 
   { Create objects }
 
-  hidmsg   := HID_libsimpleio.MessengerSubclass.Create;
-  remdev   := RemoteIO.Device.Create(hidmsg);
+  remdev := RemoteIO.Device.Create;
 
   { Configure analog inputs }
 
