@@ -62,25 +62,19 @@ INTERFACE
 
     { ADS1015 analog input class }
 
-    InputSubclass = CLASS(TInterfacedObject, ADC.Sample, ADC.Voltage)
+    InputSubclass = CLASS(TInterfacedObject, ADC.Input)
       CONSTRUCTOR Create
        (dev     : Device;
         channel : Channels;
-        range   : Ranges;
-        gain    : Real = 1.0);
-
-      { Public methods }
+        range   : Ranges);
 
       FUNCTION sample : Integer;
 
       FUNCTION resolution : Cardinal;
-
-      FUNCTION voltage : Real;
     PRIVATE
       dev     : Device;
       channel : Cardinal;
       range   : Cardinal;
-      gain    : Real;
     END;
 
 IMPLEMENTATION
@@ -144,8 +138,7 @@ IMPLEMENTATION
   CONSTRUCTOR InputSubclass.Create
    (dev     : Device;
     channel : Channels;
-    range   : Ranges;
-    gain    : Real);
+    range   : Ranges);
 
   BEGIN
     Self.dev := dev;
@@ -154,10 +147,9 @@ IMPLEMENTATION
     ELSE
       Self.channel := Ord(channel) - 4;
     Self.range := Ord(range);
-    Self.gain := gain;
   END;
 
-  { Method implementing ADC.Sample.sample }
+  { Method implementing ADC.Input.sample }
 
   FUNCTION InputSubclass.sample : Integer;
 
@@ -175,24 +167,12 @@ IMPLEMENTATION
     sample := SmallInt(Self.dev.ReadRegister(CONVERSION) SHR 4);
   END;
 
-  { Method implementing ADC.sample.resolution }
+  { Method implementing ADC.Input.resolution }
 
   FUNCTION InputSubclass.resolution : Cardinal;
 
   BEGIN
     resolution := ResolutionBits;
-  END;
-
-  { Method implementing ADC.Voltage.voltage }
-
-  FUNCTION InputSubclass.voltage : Real;
-
-  CONST
-    RangeValues : ARRAY [0 .. 5] OF Real =
-     (6.144, 4.096, 2.048, 1.024, 0.512, 0.256);
-
-  BEGIN
-    voltage := Self.sample*RangeValues[Self.range]/ResolutionSteps*2.0/gain;
   END;
 
 END.
