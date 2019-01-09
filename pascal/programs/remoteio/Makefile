@@ -35,6 +35,13 @@ endif
 
 include $(LIBSIMPLEIO)/pascal/include/libsimpleio.mk
 
+ifeq ($(OS), Windows_NT)
+WINARCH		?= win64
+
+hidapi.dll:
+	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
+endif
+
 # Compile the test programs
 
 default:
@@ -46,5 +53,6 @@ clean: pascal_mk_clean
 	for F in *.pas ; do rm -f `basename $$F .pas` ; done
 
 reallyclean: pascal_mk_reallyclean clean
+	rm -rf *.dll
 
 distclean: pascal_mk_distclean reallyclean
