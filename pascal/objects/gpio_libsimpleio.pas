@@ -37,7 +37,7 @@ INTERFACE
 
     PinSubclass = CLASS(TInterfacedObject, GPIO.Pin)
       CONSTRUCTOR Create
-       (pin      : libsimpleio.Designator;
+       (desg     : libsimpleio.Designator;
         dir      : Direction;
         state    : Boolean = False;
         driver   : Drivers = PushPull;
@@ -107,7 +107,7 @@ IMPLEMENTATION
   { GPIO_libsimpleio.PinSubclass constructors }
 
   CONSTRUCTOR PinSubclass.Create
-   (pin      : libsimpleio.Designator;
+   (desg     : libsimpleio.Designator;
     dir      : Direction;
     state    : Boolean;
     driver   : Drivers;
@@ -122,7 +122,7 @@ IMPLEMENTATION
   BEGIN
     ComputeFlags(dir, driver, polarity, edge, flags, events);
 
-    libGPIO.LineOpen(pin.chip, pin.chan, flags, events, Ord(state),
+    libGPIO.LineOpen(desg.chip, desg.chan, flags, events, Ord(state),
       Self.fd, error);
 
     IF error <> 0 THEN

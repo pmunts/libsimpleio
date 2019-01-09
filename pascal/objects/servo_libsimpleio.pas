@@ -31,7 +31,7 @@ INTERFACE
   TYPE
     OutputSubclass = CLASS(TInterfacedObject, Servo.Output)
       CONSTRUCTOR Create
-       (output    : libsimpleio.Designator;
+       (desg      : libsimpleio.Designator;
         frequency : Cardinal;
         position  : Real = POSITION_NEUTRAL);
 
@@ -60,7 +60,7 @@ IMPLEMENTATION
   { Servo_libsimpleio.OutputSubclass constructor }
 
   CONSTRUCTOR OutputSubclass.Create
-   (output    : libsimpleio.Designator;
+   (desg      : libsimpleio.Designator;
     frequency : Cardinal;
     position  : Real);
 
@@ -77,13 +77,13 @@ IMPLEMENTATION
     period := Round(1.0E9/frequency);
     ontime := Round(1500000.0 + 500000.0*position);
 
-    libPWM.Configure(output.chip, output.chan, period, ontime, 1, error);
+    libPWM.Configure(desg.chip, desg.chan, period, ontime, 1, error);
 
     IF error <> 0 THEN
       RAISE Servo.Error.Create('ERROR: libPWM.Configure() failed, ' +
         errno.strerror(error));
 
-    libPWM.Open(output.chip, output.chan, Self.fd, error);
+    libPWM.Open(desg.chip, desg.chan, Self.fd, error);
 
     IF error <> 0 THEN
       RAISE Servo.Error.Create('ERROR: libPWM.Open() failed, ' +

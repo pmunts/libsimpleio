@@ -33,7 +33,7 @@ INTERFACE
 
     OutputSubclass = CLASS(TInterfacedObject, PWM.Output)
       CONSTRUCTOR Create
-       (output    : libsimpleio.Designator;
+       (desg      : libsimpleio.Designator;
         frequency : Cardinal;
         dutycycle : Real = DUTYCYCLE_MIN;
         polarity  : Polarities = ActiveHigh);
@@ -65,7 +65,7 @@ IMPLEMENTATION
   { PWM_libsimpleio.OutputSubclass constructor }
 
   CONSTRUCTOR OutputSubclass.Create
-   (output    : libsimpleio.Designator;
+   (desg      : libsimpleio.Designator;
     frequency : Cardinal;
     dutycycle : Real;
     polarity  : Polarities);
@@ -82,14 +82,14 @@ IMPLEMENTATION
     Self.period := Round(1.0E9/frequency);
     ontime := Round(dutycycle/DUTYCYCLE_MAX*period);
 
-    libPWM.Configure(output.chip, output.chan, period, ontime,
+    libPWM.Configure(desg.chip, desg.chan, period, ontime,
       Ord(polarity), error);
 
     IF error <> 0 THEN
       RAISE PWM.Error.Create('ERROR: libPWM.Configure() failed, ' +
         errno.strerror(error));
 
-    libPWM.Open(output.chip, output.chan, Self.fd, error);
+    libPWM.Open(desg.chip, desg.chan, Self.fd, error);
 
     IF error <> 0 THEN
       RAISE PWM.Error.Create('ERROR: libPWM.Open() failed, ' +

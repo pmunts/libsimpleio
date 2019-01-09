@@ -33,7 +33,7 @@ INTERFACE
 
     OutputSubclass = CLASS(TInterfacedObject, DAC.Output)
       CONSTRUCTOR Create
-       (output     : libsimpleio.Designator;
+       (desg       : libsimpleio.Designator;
         resolution : Cardinal);
 
       CONSTRUCTOR Create
@@ -62,14 +62,14 @@ IMPLEMENTATION
   { DAC_libsimpleio.OutputSubclass constructor }
 
   CONSTRUCTOR OutputSubclass.Create
-   (output     : libsimpleio.Designator;
+   (desg       : libsimpleio.Designator;
     resolution : Cardinal);
 
   VAR
     error  : Integer;
 
   BEGIN
-    libDAC.Open(output.chip, output.chan, Self.fd, error);
+    libDAC.Open(desg.chip, desg.chan, Self.fd, error);
 
     IF error <> 0 THEN
       RAISE DAC.Error.Create('ERROR: libDAC.Open() failed, ' +

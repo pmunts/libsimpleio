@@ -29,7 +29,7 @@ INTERFACE
   TYPE
     InputSubclass = CLASS(TInterfacedObject, ADC.Input)
       CONSTRUCTOR Create
-       (input      : libsimpleio.Designator;
+       (desg       : libsimpleio.Designator;
         resolution : Cardinal);
 
       CONSTRUCTOR Create
@@ -54,14 +54,14 @@ IMPLEMENTATION
     libADC;
 
   CONSTRUCTOR InputSubclass.Create
-   (input      : libsimpleio.Designator;
+   (desg       : libsimpleio.Designator;
     resolution : Cardinal);
 
   VAR
     error : Integer;
 
   BEGIN
-    libADC.Open(input.chip, input.chan, Self.fd, error);
+    libADC.Open(desg.chip, desg.chan, Self.fd, error);
 
     IF error <> 0 THEN
       RAISE ADC.Error.Create('ERROR: libADC.Open() failed, ' +

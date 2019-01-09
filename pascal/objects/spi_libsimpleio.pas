@@ -41,13 +41,13 @@ INTERFACE
 
     DeviceSubclass = CLASS(TInterfacedObject, SPI.Device)
       CONSTRUCTOR Create
-       (slave    : libsimpleio.Designator;
+       (desg     : libsimpleio.Designator;
         mode     : Modes;
         wordsize : Cardinal;
         speed    : Cardinal);
 
       CONSTRUCTOR Create
-       (slave    : libsimpleio.Designator;
+       (desg     : libsimpleio.Designator;
         mode     : Modes;
         wordsize : Cardinal;
         speed    : Cardinal;
@@ -85,7 +85,7 @@ IMPLEMENTATION
   { SPI_libsimpleio.DeviceSubclass constructors }
 
   CONSTRUCTOR DeviceSubclass.Create
-   (slave    : libsimpleio.Designator;
+   (desg     : libsimpleio.Designator;
     mode     : Modes;
     wordsize : Cardinal;
     speed    : Cardinal);
@@ -95,7 +95,7 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-    name := Format('/dev/spidev%d.%d', [slave.chip, slave.chan]);
+    name := Format('/dev/spidev%d.%d', [desg.chip, desg.chan]);
 
     libSPI.Open(PChar(name), mode, wordsize, speed, Self.fd, error);
 
@@ -107,7 +107,7 @@ IMPLEMENTATION
   END;
 
   CONSTRUCTOR DeviceSubclass.Create
-   (slave    : libsimpleio.Designator;
+   (desg     : libsimpleio.Designator;
     mode     : Modes;
     wordsize : Cardinal;
     speed    : Cardinal;
@@ -118,7 +118,7 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-    name := Format('/dev/spidev%d.%d', [slave.chip, slave.chan]);
+    name := Format('/dev/spidev%d.%d', [desg.chip, desg.chan]);
 
     libSPI.Open(PChar(name), mode, wordsize, speed, Self.fd, error);
 
