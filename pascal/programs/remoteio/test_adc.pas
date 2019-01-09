@@ -29,7 +29,7 @@ VAR
   remdev   : RemoteIO.Device;
   chanlist : RemoteIO.ChannelArray;
   numchans : Cardinal;
-  samplers : ARRAY OF ADC.Sample;
+  samplers : ARRAY OF ADC.Input;
   chan     : Cardinal;
 
 BEGIN

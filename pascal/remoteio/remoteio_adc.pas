@@ -29,7 +29,7 @@ INTERFACE
     RemoteIO;
 
   TYPE
-    SampleSubclass = CLASS(TInterfacedObject, ADC.Sample)
+    InputSubclass = CLASS(TInterfacedObject, ADC.Input)
       CONSTRUCTOR Create
        (dev : RemoteIO.Device;
         num : RemoteIO.Channels);
@@ -49,7 +49,7 @@ IMPLEMENTATION
     errno,
     Message64;
 
-  CONSTRUCTOR SampleSubclass.Create
+  CONSTRUCTOR InputSubclass.Create
    (dev : RemoteIO.Device;
     num : RemoteIO.Channels);
 
@@ -75,7 +75,7 @@ IMPLEMENTATION
     Self.myres := resp[3];
   END;
 
-  FUNCTION SampleSubclass.sample : Integer;
+  FUNCTION InputSubclass.sample : Integer;
 
   VAR
     cmd  : Message64.Message;
@@ -97,7 +97,7 @@ IMPLEMENTATION
       resp[6]);
   END;
 
-  FUNCTION SampleSubclass.resolution : Cardinal;
+  FUNCTION InputSubclass.resolution : Cardinal;
 
   BEGIN
     resolution := Self.myres;

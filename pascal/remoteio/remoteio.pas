@@ -106,7 +106,7 @@ INTERFACE
       { I/O Object Constructors }
 
       FUNCTION ADC
-       (num      : Channels) : ADC.Sample;
+       (num      : Channels) : ADC.Input;
 
       FUNCTION GPIO
        (num      : Channels;
@@ -301,10 +301,10 @@ IMPLEMENTATION
   { I/O Object Constructors }
 
   FUNCTION Device.ADC
-   (num      : Channels) : ADC.Sample;
+   (num      : Channels) : ADC.Input;
 
   BEGIN
-    ADC := RemoteIO_ADC.SampleSubclass.Create(Self, num);
+    ADC := RemoteIO_ADC.InputSubclass.Create(Self, num);
   END;
 
   FUNCTION Device.GPIO
