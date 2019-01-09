@@ -34,7 +34,7 @@ VAR
 
 BEGIN
   Writeln;
-  Writeln('Remote Analog Input Test');
+  Writeln('Remote I/O Analog Input Test');
   Writeln;
 
   { Create objects }
