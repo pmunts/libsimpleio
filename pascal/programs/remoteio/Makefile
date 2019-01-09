@@ -27,13 +27,15 @@ PASCAL_SRC	?= $(EMBLINUXBASE)/examples/pascal
 include $(PASCAL_SRC)/include/pascal.mk
 LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
 else
-# Native compile for Linux
+# Native compile for Linux/MacOS/Windows
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 PASCAL_SRC	?= $(LIBSIMPLEIO)/pascal
 include $(PASCAL_SRC)/include/pascal.mk
 endif
 
 include $(LIBSIMPLEIO)/pascal/include/libsimpleio.mk
+
+# Windows needs hidapi.dll
 
 ifeq ($(OS), Windows_NT)
 WINARCH		?= win64
@@ -45,6 +47,9 @@ endif
 # Compile the test programs
 
 default:
+ifeq ($(OS), Windows_NT)
+	$(MAKE) hidapi.dll
+endif
 	for F in *.pas ; do $(MAKE) `basename $$F .pas` ; done
 
 # Remove working files
