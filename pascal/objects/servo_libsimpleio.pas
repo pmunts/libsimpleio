@@ -43,9 +43,9 @@ INTERFACE
 
       DESTRUCTOR Destroy; OVERRIDE;
 
-      PROCEDURE WritePosition(position : Real);
+      PROCEDURE Write(position : Real);
 
-      PROPERTY position : Real WRITE WritePosition;
+      PROPERTY position : Real WRITE Write;
 
     PRIVATE
       fd     : Integer;
@@ -136,7 +136,7 @@ IMPLEMENTATION
 
   {  Servo_libsimpleio.OutputSubclass write method }
 
-  PROCEDURE OutputSubclass.WritePosition(position : Real);
+  PROCEDURE OutputSubclass.Write(position : Real);
 
   VAR
     ontime : Integer;
