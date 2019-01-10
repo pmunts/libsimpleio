@@ -43,11 +43,11 @@ INTERFACE
 
       { Write method }
 
-      PROCEDURE WriteDutyCycle(dutycycle : Real);
+      PROCEDURE Write(dutycycle : Real);
 
       { Duty cycle property }
 
-      PROPERTY dutycycle : Real WRITE WriteDutyCycle;
+      PROPERTY dutycycle : Real WRITE Write;
     END;
 
 IMPLEMENTATION
