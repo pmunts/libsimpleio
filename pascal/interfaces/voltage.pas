@@ -30,15 +30,28 @@ INTERFACE
 
   TYPE
     Input = INTERFACE
-      FUNCTION voltage : Real;
+      FUNCTION Read : Real;
     END;
 
-    InputClass = CLASS(TInterfacedObject, Input)
+    Output = INTERFACE
+      PROCEDURE Write(V : Real);
+    END;
+
+    InputClass = CLASS(TInterfacedObject, Voltage.Input)
       CONSTRUCTOR Create(inp : ADC.Input; Vref : Real; gain : Real = 1.0);
 
-      FUNCTION voltage : Real;
+      FUNCTION Read : Real;
     PRIVATE
-      inp : ADC.Input;
+      inp      : ADC.Input;
+      stepsize : Real;
+    END;
+
+    OutputClass = CLASS(TInterfacedObject, Voltage.Output)
+      CONSTRUCTOR Create(outp : DAC.Output; Vref : Real; gain : Real = 1.0);
+
+      PROCEDURE Write(V : Real);
+    PRIVATE
+      outp     : DAC.Output;
       stepsize : Real;
     END;
 
@@ -54,10 +67,23 @@ IMPLEMENTATION
     Self.stepsize := Vref/intpower(2, inp.resolution)/gain;
   END;
 
-  FUNCTION InputClass.Voltage : Real;
+  FUNCTION InputClass.Read : Real;
 
   BEGIN
-    Voltage := Self.inp.sample*Self.stepsize;
+    Read := Self.inp.sample*Self.stepsize;
+  END;
+
+  CONSTRUCTOR OutputClass.Create(outp : DAC.Output; Vref : Real; gain : Real);
+
+  BEGIN
+    Self.outp     := outp;
+    Self.stepsize := Vref/intpower(2, outp.resolution)/gain;
+  END;
+
+  PROCEDURE OutputClass.Write(V : Real);
+
+  BEGIN
+    Self.outp.sample := Round(V/Self.stepsize);
   END;
 
 END.
