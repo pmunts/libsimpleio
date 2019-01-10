@@ -38,13 +38,13 @@ BEGIN
   Writeln('ADC Input Test using libsimpleio');
   Writeln;
 
-  Write('Enter chip number:    ');
+  Write('Enter ADC chip number:    ');
   Readln(chip);
 
-  Write('Enter channel number: ');
+  Write('Enter ADC channel number: ');
   Readln(channel);
 
-  Write('Enter resolution:     ');
+  Write('Enter ADC resolution:     ');
   Readln(resolution);
 
   Writeln;

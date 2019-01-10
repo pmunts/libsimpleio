@@ -30,6 +30,7 @@ USES
 VAR
   chip    : Cardinal;
   channel : Cardinal;
+  freq    : Cardinal;
   output  : PWM.Output;
   n       : Integer;
 
@@ -38,15 +39,18 @@ BEGIN
   Writeln('PWM Output Test using libsimpleio');
   Writeln;
 
-  Write('Enter chip number:    ');
+  Write('Enter PWM chip number:     ');
   Readln(chip);
 
-  Write('Enter channel number: ');
+  Write('Enter PWM channel number:  ');
   Readln(channel);
+
+  Write('Enter PWM pulse frequency: ');
+  Readln(freq);
 
   { Create a PWM output object }
 
-  output := PWM_libsimpleio.OutputSubclass.Create(chip, channel, 100);
+  output := PWM_libsimpleio.OutputSubclass.Create(chip, channel, freq);
 
   { Sweep the pulse width back and forth }
 

@@ -39,13 +39,13 @@ BEGIN
   Writeln('DAC Output Test using libsimpleio');
   Writeln;
 
-  Write('Enter chip number:    ');
+  Write('Enter DAC chip number:    ');
   Readln(chip);
 
-  Write('Enter channel number: ');
+  Write('Enter DAC channel number: ');
   Readln(channel);
 
-  Write('Enter resolution:     ');
+  Write('Enter DAC resolution:     ');
   Readln(resolution);
 
   { Create a DAC output object }

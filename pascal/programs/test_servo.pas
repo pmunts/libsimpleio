@@ -38,10 +38,10 @@ BEGIN
   Writeln('Servo Output Test using libsimpleio');
   Writeln;
 
-  Write('Enter chip number:    ');
+  Write('Enter PWM chip number:    ');
   Readln(chip);
 
-  Write('Enter channel number: ');
+  Write('Enter PWM channel number: ');
   Readln(channel);
 
   { Create a servo output object }
