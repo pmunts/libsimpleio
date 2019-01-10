@@ -33,10 +33,10 @@ GNATENV		+= ADA_SRC=$(ADA_SRC) ADA_OBJ=$(ADA_OBJ)
 # Definitions for MuntsOS
 
 ifneq ($(BOARDNAME),)
-# Cross-compiler for MuntsOS
+ifeq  ($(BOARDBASE),)
 EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
-LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
+endif
 else
 # Native compile
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
@@ -62,7 +62,7 @@ GNATSTRIP	?= env $(GNATENV) $(GNATPREFIX)strip
 # Definitions for gprbuild
 
 GPRBUILD	?= env $(GNATENV) gprbuild
-GPRBUILDFLAGS	= -aP $(ADA_SRC)/include -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
+GPRBUILDFLAGS	= -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
 GPRBUILDCFLAGS	+= -gnat2012 $(ADA_CFLAGS)
 GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
 
