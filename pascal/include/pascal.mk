@@ -104,7 +104,6 @@ pascal_mk_default: default
 
 pascal_mk_clean:
 	rm -f *.exe *.log *.o *.ppu ppas.sh *.tmp link.res
-	rm -f $(PASCAL_SRC)/*.o $(PASCAL_SRC)/*.ppu
 
 pascal_mk_reallyclean: pascal_mk_clean
 
