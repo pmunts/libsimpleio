@@ -34,8 +34,10 @@ PTOP_FLAGS	= -i 2 -c $(PTOP_CFG)
 # Definitions for MuntsOS
 
 ifneq ($(BOARDNAME),)
+ifeq  ($(BOARDBASE),)
 EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+endif
 endif
 
 ###############################################################################
