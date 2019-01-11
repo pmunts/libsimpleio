@@ -22,16 +22,7 @@
 
 ###############################################################################
 
-FPC		?= $(FREEPASCALPREFIX)fpc
-FPC_FLAGS	+= -Mobjfpc -CX -Sh -Xs -XX -g -gl -FE. $(FPC_EXTRAFLAGS)
-
-PTOP		?= $(FREEPASCALPREFIX)ptop
-PTOP_CFG	= $(PASCAL_SRC)/ptop.cfg
-PTOP_FLAGS	= -i 2 -c $(PTOP_CFG)
-
-###############################################################################
-
-# Definitions for MuntsOS
+# Definitions for MuntsOS Embedded Linux
 
 ifneq ($(BOARDNAME),)
 ifeq  ($(BOARDBASE),)
@@ -39,6 +30,15 @@ EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 endif
 endif
+
+###############################################################################
+
+FPC		?= $(FREEPASCALPREFIX)fpc
+FPC_FLAGS	+= -Mobjfpc -CX -Sh -Xs -XX -g -gl -FE. $(FPC_EXTRAFLAGS)
+
+PTOP		?= $(FREEPASCALPREFIX)ptop
+PTOP_CFG	= $(PASCAL_SRC)/ptop.cfg
+PTOP_FLAGS	= -i 2 -c $(PTOP_CFG)
 
 ###############################################################################
 
