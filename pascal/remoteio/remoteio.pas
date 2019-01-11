@@ -30,6 +30,7 @@ INTERFACE
     GPIO,
     I2C,
     Message64,
+    PWM,
     SPI,
     SysUtils;
 
@@ -121,6 +122,10 @@ INTERFACE
        (num      : Channels;
         speed    : Cardinal = I2C.SpeedStandard) : I2C.Bus;
 
+      FUNCTION PWM
+       (num      : Channels;
+        freq     : Cardinal) : PWM.Output;
+
       FUNCTION SPI
        (num      : Channels;
         mode     : Byte;
@@ -151,6 +156,7 @@ IMPLEMENTATION
     RemoteIO_DAC,
     RemoteIO_GPIO,
     RemoteIO_I2C,
+    RemoteIO_PWM,
     RemoteIO_SPI;
 
   CONSTRUCTOR Device.Create;
@@ -334,6 +340,14 @@ IMPLEMENTATION
 
   BEGIN
     I2C := RemoteIO_I2C.BusSubclass.Create(Self, num, speed);
+  END;
+
+  FUNCTION Device.PWM
+   (num      : Channels;
+    freq     : Cardinal) : PWM.Output;
+
+  BEGIN
+    PWM := RemoteIO_PWM.OutputSubclass.Create(Self, num, freq);
   END;
 
   FUNCTION Device.SPI
