@@ -1,4 +1,4 @@
-{ D/A converter input services using the Remote I/O Protocol                  }
+{ D/A converter output services using the Remote I/O Protocol                 }
 
 { Copyright (C)2019, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
