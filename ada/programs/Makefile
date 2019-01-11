@@ -20,7 +20,14 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+ifneq ($(BOARDNAME),)
+# Cross compile for MuntsOS
+EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
+include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+else
+# Native compile for Linux
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+endif
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
