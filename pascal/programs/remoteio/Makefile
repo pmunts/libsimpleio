@@ -23,16 +23,13 @@
 ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
 EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
-PASCAL_SRC	?= $(EMBLINUXBASE)/examples/pascal
-include $(PASCAL_SRC)/include/pascal.mk
-LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
+include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 else
-# Native compile for Linux/MacOS/Windows
+# Native compile for Linux
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-PASCAL_SRC	?= $(LIBSIMPLEIO)/pascal
-include $(PASCAL_SRC)/include/pascal.mk
 endif
 
+include $(LIBSIMPLEIO)/pascal/include/pascal.mk
 include $(LIBSIMPLEIO)/pascal/include/libsimpleio.mk
 
 # Windows needs hidapi.dll
