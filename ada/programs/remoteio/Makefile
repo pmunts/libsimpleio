@@ -31,7 +31,7 @@ endif
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
-include $(LIBSIMPLEIO)/ada/remoteio/remoteio.mk
+include $(LIBSIMPLEIO)/ada/include/remoteio.mk
 
 # Special goop for AdaCore GNAT for Windows
 
