@@ -24,12 +24,6 @@
 
 .SECONDARY:
 
-# General toolchain definitions
-
-ADA_OBJ		?= $(shell pwd)/obj
-
-GNATENV		+= ADA_SRC=$(ADA_SRC) ADA_OBJ=$(ADA_OBJ)
-
 # Definitions for MuntsOS
 
 ifneq ($(BOARDNAME),)
@@ -37,9 +31,6 @@ ifeq  ($(BOARDBASE),)
 EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 endif
-else
-# Native compile
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 endif
 
 # Definitions for Microsoft Windows
@@ -47,6 +38,11 @@ endif
 ifeq ($(OS),Windows_NT)
 EXESUFFIX	= .exe
 endif
+
+# General toolchain definitions
+
+ADA_OBJ		?= $(shell pwd)/obj
+GNATENV		+= ADA_SRC=$(ADA_SRC) ADA_OBJ=$(ADA_OBJ)
 
 # Definitions for gnatmake
 
