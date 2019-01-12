@@ -26,41 +26,36 @@ USES
   SysUtils;
 
 VAR
-  remdev   : RemoteIO.Device;
-  chanlist : RemoteIO.ChannelArray;
-  numchans : Cardinal;
-  outputs  : ARRAY OF PWM.Output;
-  chan     : Cardinal;
-  duty     : Cardinal;
+  remdev  : RemoteIO.Device;
+  chans   : RemoteIO.ChannelArray;
+  outputs : ARRAY OF PWM.Output;
+  i       : Cardinal;
+  duty    : Cardinal;
 
 BEGIN
   Writeln;
-  Writeln('Remote I/O Analog Output Test');
+  Writeln('Remote I/O PWM Output Test');
   Writeln;
 
   { Create objects }
 
   remdev := RemoteIO.Device.Create;
+  chans  := remdev.PWM_Outputs;
 
-  { Configure PWM outputs }
+  SetLength(outputs, Length(chans));
 
-  chanlist := remdev.PWM_Outputs;
-  numchans := Length(chanlist);
-
-  SetLength(outputs, numchans);
-
-  FOR chan := 0 TO numchans - 1 DO
-    outputs[chan] := remdev.PWM(chan, 100);
+  FOR i := 0 TO Length(chans) - 1 DO
+    outputs[i] := remdev.PWM(chans[i], 1000);
 
   { Sweep the pulse width back and forth }
 
   REPEAT
     FOR duty := 0 TO 1000 DO
-      FOR chan := 0 TO numchans - 1 DO
-        outputs[chan].dutycycle := duty/10.0;
+      FOR i := 0 TO Length(chans) - 1 DO
+        outputs[i].dutycycle := duty/10.0;
 
     FOR duty := 1000 DOWNTO 0 DO
-      FOR chan := 0 TO numchans - 1 DO
-        outputs[chan].dutycycle := duty/10.0;
+      FOR i := 0 TO Length(chans) - 1 DO
+        outputs[i].dutycycle := duty/10.0;
   UNTIL False;
 END.

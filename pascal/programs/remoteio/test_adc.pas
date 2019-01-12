@@ -26,11 +26,10 @@ USES
   SysUtils;
 
 VAR
-  remdev   : RemoteIO.Device;
-  chanlist : RemoteIO.ChannelArray;
-  numchans : Cardinal;
-  inputs   : ARRAY OF ADC.Input;
-  chan     : Cardinal;
+  remdev : RemoteIO.Device;
+  chans  : RemoteIO.ChannelArray;
+  i      : Cardinal;
+  inputs : ARRAY OF ADC.Input;
 
 BEGIN
   Writeln;
@@ -40,20 +39,16 @@ BEGIN
   { Create objects }
 
   remdev := RemoteIO.Device.Create;
+  chans  := remdev.ADC_Inputs;
 
-  { Configure analog inputs }
+  SetLength(inputs, Length(chans));
 
-  chanlist := remdev.ADC_Inputs;
-  numchans := Length(chanlist);
-
-  SetLength(inputs, numchans);
-
-  FOR chan := 0 TO numchans - 1 DO
-    inputs[chan] := remdev.ADC(chan);
+  FOR i := 0 TO Length(chans) - 1 DO
+    inputs[i] := remdev.ADC(chans[i]);
 
   REPEAT
-    FOR chan := 0 TO numchans - 1 DO
-      Write(inputs[chan].sample : 5, ' ');
+    FOR i := 0 TO Length(chans) - 1 DO
+      Write(inputs[i].sample : 5, ' ');
 
     Writeln;
 

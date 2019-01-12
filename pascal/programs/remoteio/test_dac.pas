@@ -26,12 +26,11 @@ USES
   SysUtils;
 
 VAR
-  remdev   : RemoteIO.Device;
-  chanlist : RemoteIO.ChannelArray;
-  numchans : Cardinal;
-  outputs  : ARRAY OF DAC.Output;
-  chan     : Cardinal;
-  sample   : Integer;
+  remdev  : RemoteIO.Device;
+  chans   : RemoteIO.ChannelArray;
+  outputs : ARRAY OF DAC.Output;
+  i       : Cardinal;
+  sample  : Integer;
 
 BEGIN
   Writeln;
@@ -41,20 +40,16 @@ BEGIN
   { Create objects }
 
   remdev := RemoteIO.Device.Create;
+  chans  := remdev.DAC_Outputs;
 
-  { Configure analog inputs }
+  SetLength(outputs, Length(chans));
 
-  chanlist := remdev.DAC_Outputs;
-  numchans := Length(chanlist);
-
-  SetLength(outputs, numchans);
-
-  FOR chan := 0 TO numchans - 1 DO
-    outputs[chan] := remdev.DAC(chan);
+  FOR i := 0 TO Length(chans) - 1 DO
+    outputs[i] := remdev.DAC(chans[i]);
 
   REPEAT
-    FOR sample := 0 TO 819 DO
-      FOR chan := 0 TO numchans - 1 DO
-        outputs[chan].sample := sample*5;
+    FOR sample := 0 TO 4095 DIV 5 DO
+      FOR i := 0 TO Length(chans) - 1 DO
+        outputs[i].sample := sample*5;
   UNTIL False;
 END.
