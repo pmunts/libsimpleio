@@ -1,4 +1,4 @@
-' Analog input wrapper class
+' ADC input wrapper class
 
 ' Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 '

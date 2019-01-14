@@ -1,4 +1,4 @@
-' Analog Input Test
+' ADC Input Test
 
 ' Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 '
@@ -22,7 +22,7 @@
 
 import "adc.bas"
 
-print "Analog Input Test";;
+print "ADC Input Test";;
 
 print "Enter ADC chip number:       "
 input chip
@@ -37,14 +37,14 @@ print "Enter ADC reference voltage: "
 input reference
 print "";
 
-' Open the analog input
+' Open the ADC input
 
 AIN = new(ADC_INPUT)
 AIN.Open(chip, channel, resolution, reference)
 
 fd = libsimpleio.adc_open(chip, channel)
 
-' Read the analog input
+' Read the ADC input
 
 while true
   print "Sample: ", AIN.Read(), " V";
