@@ -36,7 +36,7 @@
 
 // Delay for some number of microseconds
 //
-// Usage: sleep(usecs)
+// Usage: delay(usecs)
 
 static int delay(struct mb_interpreter_t *s, void **l)
 {
@@ -61,7 +61,7 @@ static int delay(struct mb_interpreter_t *s, void **l)
 
 /************************* A/D Converter Services ****************************/
 
-// Open an analog input
+// Open an ADC input
 //
 // Usage:  fd = adc_open(chip, channel)
 
@@ -85,7 +85,7 @@ static int adc_open(struct mb_interpreter_t *s, void **l)
   FAILIF(chip < 0);
   FAILIF(channel < 0);
 
-  // Open the analog input
+  // Open the ADC input
 
   ADC_open(chip, channel, &fd, &error);
   FAILIF(error);
@@ -97,7 +97,7 @@ static int adc_open(struct mb_interpreter_t *s, void **l)
   return MB_FUNC_OK;
 }
 
-// Close an analog input
+// Close an ADC input
 //
 // Usage: adc_close(fd)
 
@@ -117,7 +117,7 @@ static int adc_close(struct mb_interpreter_t *s, void **l)
 
   FAILIF(fd < 0);
 
-  // Close the analog input
+  // Close the ADC input
 
   ADC_close(fd, &error);
   FAILIF(error);
@@ -125,7 +125,7 @@ static int adc_close(struct mb_interpreter_t *s, void **l)
   return MB_FUNC_OK;
 }
 
-// Read from an analog input
+// Read from an ADC input
 //
 // Usage: sample = adc_read(fd)
 
@@ -146,12 +146,108 @@ static int adc_read(struct mb_interpreter_t *s, void **l)
 
   FAILIF(fd < 0);
 
-  // Read from the analog input
+  // Read from the ADC input
 
   ADC_read(fd, &sample, &error);
   FAILIF(error);
 
   mb_check(mb_push_int(s, l, sample));
+
+  return MB_FUNC_OK;
+}
+
+/************************* D/A Converter Services ****************************/
+
+// Open a DAC output
+//
+// Usage:  fd = dac_open(chip, channel)
+
+static int dac_open(struct mb_interpreter_t *s, void **l)
+{
+  int chip;
+  int channel;
+  int fd;
+  int error;
+
+  // Fetch parameters
+
+  mb_assert(s && l);
+  mb_check(mb_attempt_open_bracket(s, l));
+  mb_check(mb_pop_int(s, l, &chip));
+  mb_check(mb_pop_int(s, l, &channel));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  // Validate parameters
+
+  FAILIF(chip < 0);
+  FAILIF(channel < 0);
+
+  // Open the DAC output
+
+  DAC_open(chip, channel, &fd, &error);
+  FAILIF(error);
+
+  // Return the file descriptor
+
+  mb_check(mb_push_int(s, l, fd));
+
+  return MB_FUNC_OK;
+}
+
+// Close a DAC output
+//
+// Usage: dac_close(fd)
+
+static int dac_close(struct mb_interpreter_t *s, void **l)
+{
+  int fd;
+  int error;
+
+  // Fetch parameters
+
+  mb_assert(s && l);
+  mb_check(mb_attempt_open_bracket(s, l));
+  mb_check(mb_pop_int(s, l, &fd));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  // Validate parameters
+
+  FAILIF(fd < 0);
+
+  // Close the DAC output
+
+  DAC_close(fd, &error);
+  FAILIF(error);
+
+  return MB_FUNC_OK;
+}
+
+// Write to a DAC output
+//
+// Usage: dac_write(fd, sample)
+
+static int dac_write(struct mb_interpreter_t *s, void **l)
+{
+  int fd;
+  int sample;
+  int error;
+
+  // Fetch parameters
+
+  mb_assert(s && l);
+  mb_check(mb_attempt_open_bracket(s, l));
+  mb_check(mb_pop_int(s, l, &fd));
+  mb_check(mb_pop_int(s, l, &sample));
+  mb_check(mb_attempt_close_bracket(s, l));
+
+  // Validate parameters
+
+  FAILIF(fd < 0);
+
+  // Write to the DAC output
+
+  DAC_write(fd, sample, &error);
+  FAILIF(error);
 
   return MB_FUNC_OK;
 }
@@ -417,6 +513,11 @@ void libsimpleio_init(struct mb_interpreter_t *bas)
   mb_reg_fun(bas, adc_open);
   mb_reg_fun(bas, adc_close);
   mb_reg_fun(bas, adc_read);
+
+  // DAC services
+  mb_reg_fun(bas, dac_open);
+  mb_reg_fun(bas, dac_close);
+  mb_reg_fun(bas, dac_write);
 
   // GPIO services
   mb_reg_fun(bas, gpio_open);
