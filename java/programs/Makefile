@@ -22,7 +22,7 @@
 
 # Override the following macro to build out of tree
 
-EMBLINUXBASE	?= ../../..
+EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 
 ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
@@ -58,7 +58,3 @@ clean: java_mk_clean
 reallyclean: java_mk_reallyclean
 
 distclean: java_mk_distclean
-
-# Include subordinate makefiles
-
-include $(EMBLINUXBASE)/include/deb.mk
