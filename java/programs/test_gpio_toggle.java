@@ -31,7 +31,7 @@ public class test_gpio_toggle
 
     if (args.length != 3)
     {
-      System.out.println("Usage: java -jar Toggle_Speed.jar " +
+      System.out.println("Usage: java -jar test_gpio_toggle.jar " +
         "<chip number> <line number> <iterations>\n");
       System.exit(1);
     }
