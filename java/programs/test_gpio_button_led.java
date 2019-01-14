@@ -1,4 +1,4 @@
-// Raspberry Pi GPIO Button and LED Test
+// GPIO Button and LED Test
 
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
@@ -31,8 +31,7 @@ public class test_gpio_button_led
     boolean oldstate;
     boolean newstate;
 
-
-    System.out.println("\nRaspberry Pi GPIO Button and LED Test\n");
+    System.out.println("\nPi GPIO Button and LED Test\n");
 
     // Configure button and LED GPIO's
 

@@ -1,4 +1,4 @@
-// Raspberry Pi GPIO Interrupt Button and LED Test
+// GPIO Interrupt Button and LED Test
 
 // Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 //
@@ -29,7 +29,7 @@ public class test_gpio_interrupt_button_led
   {
     Builder b;
 
-    System.out.println("\nRaspberry Pi GPIO Interrupt Button and LED Test\n");
+    System.out.println("\nGPIO Interrupt Button and LED Test\n");
 
     // Configure button and LED GPIO's
 
