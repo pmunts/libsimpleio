@@ -45,7 +45,7 @@ JAR_COMPONENTS	+= com
 	jar xf $(LIBSIMPLEIO)/java/components/jna-4.4.0.jar com/sun/jna
 	$(JAVAC) $(JAVAC_FLAGS) $<
 
-# Build the applicaton JAR file
+# Build the applicaton JAR files
 
 default:
 	for F in *.java ; do $(MAKE) `basename $$F .java`.jar ; rm -rf $(JAR_COMPONENTS) *.manifest ; done
