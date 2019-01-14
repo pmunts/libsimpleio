@@ -29,11 +29,22 @@ public class test_pwm
   {
     System.out.println("\nPWM Output Test using libsimpleio\n");
 
-    // Create watchdog timer instance
+    if (args.length != 3)
+    {
+      System.out.println("Usage: java -jar test_pwm.jar " +
+        "<chip number> <line number> <frequency>\n");
+      System.exit(1);
+    }
 
-    Output PWM0 = new OutputSubclass(0, 0, 100);
+    int chip = Integer.parseInt(args[0]);
+    int line = Integer.parseInt(args[1]);
+    int freq = Integer.parseInt(args[2]);
 
-    // Sweep the pulse width back and forth
+    // Create PWM output instance
+
+    Output PWM0 = new OutputSubclass(chip, line, freq);
+
+    // Sweep the PWM output pulse width back and forth
 
     int d;
 
