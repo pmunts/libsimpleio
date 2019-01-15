@@ -1,49 +1,67 @@
 Linux Simple I/O Library
 ========================
 
-**libsimpleio** is an attempt to encapsulate (as much as possible) the ugliness of Linux I/O device access. It provides services for the following types of I/O devices:
+**libsimpleio** is an attempt to encapsulate (as much as possible) the
+ugliness of Linux I/O device access. It provides services for the
+following types of I/O devices:
 
--   [Industrial I/O Subsystem](https://wiki.analog.com/software/linux/docs/iio/iio) A/D (Analog to Digital) Converter Devices
--   [Industrial I/O Subsystem](https://wiki.analog.com/software/linux/docs/iio/iio) D/A (Digital to Analog) Converter Devices
+-   [Industrial I/O
+    Subsystem](https://wiki.analog.com/software/linux/docs/iio/iio) A/D
+    (Analog to Digital) Converter Devices
+-   [Industrial I/O
+    Subsystem](https://wiki.analog.com/software/linux/docs/iio/iio) D/A
+    (Digital to Analog) Converter Devices
 -   GPIO (General Purpose Input/Output) Pins
 -   Raw HID (Human Interface Device) Devices
--   I<sup>2</sup>C (Inter-Integrated Circuit) Bus Devices
--   [Labview LINX Remote I/O](https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start) Devices
+-   I^2^C (Inter-Integrated Circuit) Bus Devices
+-   [Labview LINX Remote
+    I/O](https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start)
+    Devices
 -   PWM (Pulse Width Modulated) Output Devices
 -   Serial Ports
 -   SPI (Serial Peripheral Interface) Bus Devices
--   [Stream Framing Protocol](http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf) Devices
+-   [Stream Framing
+    Protocol](http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf)
+    Devices
 -   TCP and UDP over IPv4 Network Devices
 -   Watchdog Timer Devices
 
-Although **libsimpleio** was originally intended for Linux microcomputers such as the Raspberry Pi, it can also be useful on larger desktop Linux systems.
+Although **libsimpleio** was originally intended for Linux
+microcomputers such as the Raspberry Pi, it can also be useful on larger
+desktop Linux systems.
 
-The wrapper functions exported by **libsimpleio** all follow the same uniform pattern:
+The C wrapper functions exported by **libsimpleio** all follow the same
+uniform pattern:
 
--   All wrapper functions are proper procedures (`void f()` in C).
--   All input arguments of primitive types (`int`, `float`, etc.) are passed by value.
--   All output arguments of primitive types are passed by reference (`int *`, `float *`, etc.).
+-   All C wrapper functions are proper procedures (`void f()` in C).
+-   All input arguments of primitive types (`int`, `float`, etc.) are
+    passed by value.
+-   All output arguments of primitive types are passed by reference
+    (`int *`, `float *`, etc.).
 -   All composite types are passed by reference.
 -   `int32_t` is used wherever possible for `int` and `bool` arguments.
 
-All of the wrapper functions are declared between `_BEGIN_STD_C` and `_END_STD_C` for C++. Binding modules are provided for [Ada](http://git.munts.com/libsimpleio/ada), [C\#](https://docs.microsoft.com/en-us/dotnet/csharp), [Java](http://git.munts.com/libsimpleio/java), and [Free Pascal](http://git.munts.com/libsimpleio/pascal).
-
-Source code files for Ada, C++, C\#, Java, and Free Pascal that define OOP (Object Oriented Programming) classes for **libsimpleio** are also provided. Since **libsimpleio** is intended for general utility, as a matter of policy these classes will provide interface and device services, but not any platform dependent services.
+All of the C wrapper functions are declared between `_BEGIN_STD_C` and
+`_END_STD_C` for C++. Binding modules are provided for Ada, C++, C\#,
+Java, and Free Pascal. Additional source code libraries are provided for
+Ada, C++, C\#, Java, and Free Pascal that define OOP (Object Oriented
+Programming) classes for **libsimpleio**.
 
 News
 ----
 
--   9 January 2019 -- Continued working on the Ada Remote I/O code. Continued working on the Pascal Remote I/O code. Compiling Pascal Remote I/O client programs on Windows is now supported.
+-   9 January 2019 -- Continued working on the Ada Remote I/O code.
+    Continued working on the Pascal Remote I/O code. Compiling Pascal
+    Remote I/O client programs on Windows is now supported.
 
 Documentation
 -------------
 
-![New](/icons/new.gif)The user manual for **libsimpleio** is available at: <http://git.munts.com/libsimpleio/doc/UserManual.pdf>
+The user manual for **libsimpleio** is available at:
+<http://git.munts.com/libsimpleio/doc/UserManual.pdf>
 
-The man pages specifying the **libsimpleio** API are available at: [libsimpleio.html](http://git.munts.com/libsimpleio/doc/libsimpleio.html)
-
-Git Repository
---------------
+The man pages specifying the **libsimpleio** API are available at:
+[libsimpleio.html](http://git.munts.com/libsimpleio/doc/libsimpleio.html)
 
 The source code is available at: <http://git.munts.com>
 
@@ -77,10 +95,12 @@ Original works herein are copyrighted as follows:
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
 
-Redistributed works herein are copyrighted and/or licensed by their respective authors.
+Redistributed works herein are copyrighted and/or licensed by their
+respective authors.
 
 ------------------------------------------------------------------------
 
 Questions or comments to Philip Munts <phil@munts.net>
 
-I am available for custom system development (hardware and software) of products using ARM Linux or other microcomputers.
+I am available for custom system development (hardware and software) of
+products using ARM Linux or other microcomputers.

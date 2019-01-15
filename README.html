@@ -25,10 +25,11 @@ Protocol</a> Devices</li>
 <p>Although <b>libsimpleio</b> was originally intended for Linux microcomputers
 such as the Raspberry Pi, it can also be useful on larger desktop Linux
 systems.</p>
-<p>The wrapper functions exported by <b>libsimpleio</b> all follow the same
+<p>The C wrapper functions exported by <b>libsimpleio</b> all follow the same
 uniform pattern:</p>
 <ul>
-<li>All wrapper functions are proper procedures (<tt>void f()</tt> in C).</li>
+<li>All C wrapper functions are proper procedures (<tt>void f()</tt> in
+C).</li>
 <li>All input arguments of primitive types (<tt>int</tt>, <tt>float</tt>, etc.)
 are passed by value.</li>
 <li>All output arguments of primitive types are passed by reference (<tt>int
@@ -37,17 +38,11 @@ are passed by value.</li>
 <li><tt>int32_t</tt> is used wherever possible for <tt>int</tt> and
 <tt>bool</tt> arguments.</li>
 </ul>
-<p>All of the wrapper functions are declared between <tt>_BEGIN_STD_C</tt> and
-<tt>_END_STD_C</tt> for C++. Binding modules are provided for <a href=
-"http://git.munts.com/libsimpleio/ada">Ada</a>, <a href=
-"https://docs.microsoft.com/en-us/dotnet/csharp">C#</a>, <a href=
-"http://git.munts.com/libsimpleio/java">Java</a>, and <a href=
-"http://git.munts.com/libsimpleio/pascal">Free Pascal</a>.</p>
-<p>Source code files for Ada, C++, C#, Java, and Free Pascal that define OOP
-(Object Oriented Programming) classes for <b>libsimpleio</b> are also provided.
-Since <b>libsimpleio</b> is intended for general utility, as a matter of policy
-these classes will provide interface and device services, but not any platform
-dependent services.</p>
+<p>All of the C wrapper functions are declared between <tt>_BEGIN_STD_C</tt>
+and <tt>_END_STD_C</tt> for C++. Binding modules are provided for Ada, C++, C#,
+Java, and Free Pascal. Additional source code libraries are provided for Ada,
+C++, C#, Java, and Free Pascal that define OOP (Object Oriented Programming)
+classes for <b>libsimpleio</b>.</p>
 <h2>News</h2>
 <ul>
 <li>9 January 2019 -- Continued working on the Ada Remote I/O code. Continued
@@ -55,13 +50,11 @@ working on the Pascal Remote I/O code. Compiling Pascal Remote I/O client
 programs on Windows is now supported.</li>
 </ul>
 <h2>Documentation</h2>
-<p><img src="/icons/new.gif" alt="New">The user manual for <b>libsimpleio</b>
-is available at: <a href=
+<p>The user manual for <b>libsimpleio</b> is available at: <a href=
 "http://git.munts.com/libsimpleio/doc/UserManual.pdf">http://git.munts.com/libsimpleio/doc/UserManual.pdf</a></p>
 <p>The man pages specifying the <b>libsimpleio</b> API are available at:
 <a href=
 "http://git.munts.com/libsimpleio/doc/libsimpleio.html">libsimpleio.html</a></p>
-<h2>Git Repository</h2>
 <p>The source code is available at: <a href=
 "http://git.munts.com">http://git.munts.com</a></p>
 <p>Use the following command to clone it:</p>

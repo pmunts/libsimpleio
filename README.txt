@@ -23,10 +23,10 @@
    such as the Raspberry Pi, it can also be useful on larger desktop Linux
    systems.
 
-   The wrapper functions exported by libsimpleio all follow the same
+   The C wrapper functions exported by libsimpleio all follow the same
    uniform pattern:
 
-     * All wrapper functions are proper procedures (void f() in C).
+     * All C wrapper functions are proper procedures (void f() in C).
      * All input arguments of primitive types (int, float, etc.) are
        passed by value.
      * All output arguments of primitive types are passed by reference
@@ -34,15 +34,11 @@
      * All composite types are passed by reference.
      * int32_t is used wherever possible for int and bool arguments.
 
-   All of the wrapper functions are declared between _BEGIN_STD_C and
-   _END_STD_C for C++. Binding modules are provided for [5]Ada, [6]C#,
-   [7]Java, and [8]Free Pascal.
-
-   Source code files for Ada, C++, C#, Java, and Free Pascal that define
-   OOP (Object Oriented Programming) classes for libsimpleio are also
-   provided. Since libsimpleio is intended for general utility, as a
-   matter of policy these classes will provide interface and device
-   services, but not any platform dependent services.
+   All of the C wrapper functions are declared between _BEGIN_STD_C and
+   _END_STD_C for C++. Binding modules are provided for Ada, C++, C#,
+   Java, and Free Pascal. Additional source code libraries are provided
+   for Ada, C++, C#, Java, and Free Pascal that define OOP (Object
+   Oriented Programming) classes for libsimpleio.
 
 News
 
@@ -52,17 +48,13 @@ News
 
 Documentation
 
-   New The user manual for libsimpleio is available at:
-
-   [9]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   The user manual for libsimpleio is available at:
+   [5]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
+   [6]libsimpleio.html
 
-   [10]libsimpleio.html
-
-Git Repository
-
-   The source code is available at: [11]http://git.munts.com
+   The source code is available at: [7]http://git.munts.com
 
    Use the following command to clone it:
 
@@ -96,7 +88,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [12]phil@munts.net
+   Questions or comments to Philip Munts [8]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -107,11 +99,7 @@ References
    2. https://wiki.analog.com/software/linux/docs/iio/iio
    3. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
    4. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
-   5. http://git.munts.com/libsimpleio/ada
-   6. https://docs.microsoft.com/en-us/dotnet/csharp
-   7. http://git.munts.com/libsimpleio/java
-   8. http://git.munts.com/libsimpleio/pascal
-   9. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  10. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  11. http://git.munts.com/
-  12. mailto:phil@munts.net
+   5. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   6. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+   7. http://git.munts.com/
+   8. mailto:phil@munts.net
