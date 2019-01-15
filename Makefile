@@ -97,6 +97,7 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
+	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 
