@@ -32,21 +32,6 @@ endif
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/remoteio.mk
 
-# Special goop for AdaCore GNAT for Windows
-
-ifneq ($(GNAT_ADACORE),)
-ifeq ($(OS), Windows_NT)
-WINARCH		?= win64
-GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
-
-hidapi.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
-
-libusb-1.0.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/libusb-1.0.dll .
-endif
-endif
-
 # Compile the test programs
 
 default:
