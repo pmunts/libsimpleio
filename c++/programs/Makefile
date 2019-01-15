@@ -20,23 +20,18 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-CXXDEPS		+= libsimpleio++.a
-
 ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
 EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
-CXX_SRC		?= $(EMBLINUXBASE)/examples/c++
-include $(CXX_SRC)/include/c++.mk
-LIBSIMPLEIO	?= $(GCCSYSROOT)/usr/share/libsimpleio
 else
-# Native compile for Linux
+# Native compile for Linux (e.g. Raspbian)
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-CXX_SRC		?= $(LIBSIMPLEIO)/c++
-include $(CXX_SRC)/include/c++.mk
 endif
 
 include $(LIBSIMPLEIO)/c++/include/libsimpleio.mk
+
+CXXDEPS		+= libsimpleio++.a
 
 # Compile the test programs
 
