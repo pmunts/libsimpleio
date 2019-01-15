@@ -1,4 +1,4 @@
-# Makefile definitions for building GNU Modula-2 application programs
+# Makefile definitions for building GNU Modula-2 libsimpleio example programs
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #

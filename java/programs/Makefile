@@ -1,4 +1,4 @@
-# Makefile for building a Java application for MuntsOS
+# Makefile for building Java libsimpleio example programs
 
 # Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 #
@@ -20,12 +20,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Override the following macro to build out of tree
-
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
-
 ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
+EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 else
 # Native compile for Linux (e.g. Raspbian)

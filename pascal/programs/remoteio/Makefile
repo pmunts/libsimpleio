@@ -1,4 +1,4 @@
-# Makefile for building Pascal example programs
+# Makefile for building Pascal Remote I/O example programs
 
 # Copyright (C)2013-2018, Philip Munts, President, Munts AM Corp.
 #

@@ -1,4 +1,4 @@
-# Makefile for building Pascal example programs
+# Makefile for building Pascal libsimpleio example programs
 
 # Copyright (C)2013-2018, Philip Munts, President, Munts AM Corp.
 #

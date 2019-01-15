@@ -1,4 +1,4 @@
-# Makefile for building Ada example programs
+# Makefile for building Ada Remote I/O example programs
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #

@@ -31,7 +31,8 @@ CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
 
 # Define a pattern rule to compile a C++ program
 
-%: %.cpp $(CXXDEPS)
+%: %.cpp
+	$(MAKE) $(CXXDEPS)
 	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
 	$(STRIP) $@
 

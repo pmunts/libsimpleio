@@ -1,4 +1,4 @@
-# Makefile for building C++ example programs
+# Makefile for building C++ libsimpleio example programs
 
 # Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 #
@@ -29,9 +29,8 @@ else
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 endif
 
+include $(LIBSIMPLEIO)/c++/include/c++.mk
 include $(LIBSIMPLEIO)/c++/include/libsimpleio.mk
-
-CXXDEPS		+= libsimpleio++.a
 
 # Compile the test programs
 
