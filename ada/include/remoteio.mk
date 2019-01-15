@@ -1,4 +1,4 @@
-# GNAT Ada definitions for libsimpleio Remote I/O
+# GNAT Ada definitions for Remote I/O
 
 # Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
@@ -20,8 +20,13 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/bindings
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards/remoteio
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/devices
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/interfaces
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/platforms
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio/client
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio/server

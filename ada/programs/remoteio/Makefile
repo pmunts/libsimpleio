@@ -30,7 +30,6 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 endif
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
-include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 include $(LIBSIMPLEIO)/ada/include/remoteio.mk
 
 # Special goop for AdaCore GNAT for Windows
