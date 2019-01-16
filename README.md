@@ -13,7 +13,7 @@ following types of I/O devices:
     (Digital to Analog) Converter Devices
 -   GPIO (General Purpose Input/Output) Pins
 -   Raw HID (Human Interface Device) Devices
--   I^2^C (Inter-Integrated Circuit) Bus Devices
+-   I<sup>2</sup>C (Inter-Integrated Circuit) Bus Devices
 -   [Labview LINX Remote
     I/O](https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start)
     Devices
