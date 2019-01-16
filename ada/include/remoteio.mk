@@ -31,6 +31,8 @@ ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio/client
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio/server
 
+GNATENV		+= LIBSIMPLEIO=$(LIBSIMPLEIO)
+
 # Special goop for AdaCore GNAT for Windows
 
 ifneq ($(GNAT_ADACORE),)
