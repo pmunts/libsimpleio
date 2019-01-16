@@ -59,6 +59,7 @@ SIMPLEIO_COMPONENTS	+= libadc.o
 # Compile C and C++ source files
 
 compile.done:
+	ln -s c libsimpleio
 	rm -rf obj
 	mkdir obj
 	for F in c/*.c ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
@@ -132,7 +133,7 @@ package.deb: $(PKGFILE)
 # Remove working files
 
 clean:
-	-rm -rf obj *.done *.a *.so $(PKGDIR) *.deb
+	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean
 
