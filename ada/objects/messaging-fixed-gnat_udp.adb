@@ -185,6 +185,4 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     RETURN GNAT.Sockets.To_C(Self.socket);
   END fd;
 
-BEGIN
-  GNAT.Sockets.Initialize;
 END Messaging.Fixed.GNAT_UDP;

@@ -93,8 +93,6 @@ PACKAGE BODY Webserver.HashTable IS
     WHEN Constraint_Error =>
       RETURN AWS.Response.Build(AWS.MIME.Text_HTML, "ERROR: Unknown URI",
         AWS.Messages.S404);
-
-    WHEN OTHERS => RAISE;
   END Responder;
 
   -- Wrapper for glibc system() function

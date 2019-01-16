@@ -21,11 +21,10 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Device;
-WITH SPI.libsimpleio;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
-WITH RemoteIO.Server;
+WITH SPI;
 
 PACKAGE RemoteIO.SPI IS
 

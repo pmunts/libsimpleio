@@ -22,12 +22,8 @@
 
 WITH Analog;
 WITH ADC.libsimpleio;
-WITH Device;
 WITH errno;
 WITH Message64;
-WITH RemoteIO.Dispatch;
-WITH RemoteIO.Executive;
-WITH RemoteIO.Server;
 
 USE TYPE Analog.Sample;
 USE TYPE Message64.Byte;

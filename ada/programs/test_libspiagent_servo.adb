@@ -20,9 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- NOTE: The button input has the internal pullup resistor enabled, so the
--- switch should be connected from GPIO0 to ground.
-
 WITH Ada.Integer_Text_IO;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Interfaces;
@@ -30,7 +27,6 @@ WITH Interfaces;
 WITH errno;
 WITH libspiagent;
 WITH LPC11xx;
-WITH GPIO.libspiagent;
 WITH PWM.libspiagent;
 WITH Servo;
 WITH Servo.libspiagent;

@@ -27,7 +27,6 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH HDC1080;
-WITH HID.hidapi;
 WITH Humidity;
 WITH I2C;
 WITH MCP2221.hidapi;

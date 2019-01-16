@@ -20,13 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Device;
 WITH errno;
 WITH SPI.libsimpleio;
 WITH Message64;
-WITH RemoteIO.Dispatch;
-WITH RemoteIO.Executive;
-WITH RemoteIO.Server;
 
 USE TYPE SPI.Microseconds;
 USE TYPE Message64.Byte;

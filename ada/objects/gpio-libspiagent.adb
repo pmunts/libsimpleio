@@ -25,8 +25,6 @@
 WITH Interfaces;
 
 WITH errno;
-WITH GPIO;
-WITH LPC11xx;
 WITH libspiagent;
 
 USE TYPE Interfaces.Integer_32;

@@ -20,13 +20,11 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Device;
 WITH Message64;
+WITH PWM.libsimpleio;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
-WITH RemoteIO.Server;
-
-WITH Device;
-WITH PWM.libsimpleio;
 
 PACKAGE RemoteIO.PWM IS
 

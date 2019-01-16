@@ -22,8 +22,6 @@
 
 -- Refer to http://git.munts.com/arm-linux-mcu/doc/BeagleBonePinout.pdf
 
-WITH Ada.Strings.Fixed; USE Ada.Strings.Fixed;
-
 WITH Device;
 
 PACKAGE BeagleBone IS

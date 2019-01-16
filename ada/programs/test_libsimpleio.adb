@@ -21,11 +21,9 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
-WITH System;
 
 WITH errno;
 WITH libEvent;
-WITH libGPIO;
 WITH libHIDRaw;
 WITH libI2C;
 WITH libSerial;

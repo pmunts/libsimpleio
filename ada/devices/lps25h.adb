@@ -22,9 +22,6 @@
 
 WITH Ada.Unchecked_Conversion;
 
-WITH Pressure;
-WITH Temperature;
-
 PACKAGE BODY LPS25H IS
 
   -- Define 16-bit signed and unsigned values

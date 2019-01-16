@@ -21,10 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Analog;
-WITH errno;
-WITH Messaging;
 WITH Message64;
-WITH RemoteIO.Client;
 
 USE TYPE Analog.Sample;
 USE TYPE Message64.Byte;

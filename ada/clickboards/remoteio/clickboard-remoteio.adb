@@ -21,8 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.Servers;
-WITH ClickBoard.RemoteIO;
-
 WITH RemoteIO.Arduino;
 WITH RemoteIO.Clicker;
 WITH RemoteIO.PocketBeagle;

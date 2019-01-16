@@ -21,11 +21,10 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Device;
-WITH I2C.libsimpleio;
+WITH I2C;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
-WITH RemoteIO.Server;
 
 PACKAGE RemoteIO.I2C IS
 

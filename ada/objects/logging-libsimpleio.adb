@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH errno;
-WITH libLinux;
 
 PACKAGE BODY Logging.libsimpleio IS
 

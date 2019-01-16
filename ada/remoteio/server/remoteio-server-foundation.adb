@@ -23,16 +23,13 @@
 WITH Ada.Directories;
 WITH Ada.Strings.Fixed;
 
-WITH errno;
 WITH libLinux;
 WITH libSerial;
 WITH Logging.libsimpleio;
 WITH Message64.Datagram;
 WITH Message64.Stream;
 WITH Message64.UDP;
-WITH RemoteIO.Executive;
 WITH RemoteIO.Common;
-WITH RemoteIO.Dispatch;
 WITH RemoteIO.Server.UDP;
 
 PACKAGE BODY RemoteIO.Server.Foundation IS

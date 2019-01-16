@@ -25,7 +25,6 @@ WITH GPIO.libsimpleio;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
-WITH RemoteIO.Server;
 
 PACKAGE RemoteIO.GPIO IS
 

@@ -23,7 +23,7 @@
 WITH Ada.Exceptions;
 WITH Ada.Strings.Fixed;
 
-WITH Message64.UDP;
+WITH Message64;
 WITH Messaging;
 
 USE TYPE Message64.Byte;

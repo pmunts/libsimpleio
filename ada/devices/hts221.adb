@@ -22,9 +22,6 @@
 
 WITH Ada.Unchecked_Conversion;
 
-WITH Humidity;
-WITH Temperature;
-
 PACKAGE BODY HTS221 IS
 
   -- Instantiate conversions between 16-bit signed and unsigned

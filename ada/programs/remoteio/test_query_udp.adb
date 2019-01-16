@@ -24,7 +24,6 @@ WITH Ada.Command_Line;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH errno;
 WITH Message64.UDP;
 WITH RemoteIO.Client;
 

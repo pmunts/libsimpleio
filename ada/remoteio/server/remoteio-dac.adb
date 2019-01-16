@@ -21,13 +21,9 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Analog;
-WITH Device;
 WITH errno;
 WITH Message64;
 WITH DAC.libsimpleio;
-WITH RemoteIO.Dispatch;
-WITH RemoteIO.Executive;
-WITH RemoteIO.Server;
 
 USE TYPE Analog.Sample;
 USE TYPE Message64.Byte;

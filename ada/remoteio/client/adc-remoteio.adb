@@ -22,10 +22,7 @@
 
 WITH Interfaces;
 
-WITH errno;
-WITH Messaging;
 WITH Message64;
-WITH RemoteIO.Client;
 
 USE TYPE Interfaces.Unsigned_32;
 USE TYPE Message64.Byte;

@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Interfaces;
-WITH SPI;
 WITH Temperature;
 
 USE TYPE Interfaces.Unsigned_32;

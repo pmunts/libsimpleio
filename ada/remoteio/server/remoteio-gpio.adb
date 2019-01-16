@@ -21,10 +21,8 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Device;
-WITH errno;
 WITH GPIO.libsimpleio.Static;
 WITH Message64;
-WITH RemoteIO.Server;
 
 USE TYPE Device.Designator;
 USE TYPE GPIO.libsimpleio.PinSubclass;

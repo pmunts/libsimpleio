@@ -24,7 +24,6 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Analog;
 WITH HID.hidapi;
-WITH Message64;
 WITH DAC.RemoteIO;
 WITH RemoteIO.Client;
 

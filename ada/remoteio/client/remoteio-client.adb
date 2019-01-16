@@ -25,11 +25,9 @@ WITH Ada.Strings.Fixed;
 
 WITH ADC.RemoteIO;
 WITH DAC.RemoteIO;
-WITH Analog;
 WITH GPIO.RemoteIO;
 WITH I2C.RemoteIO;
 WITH Message64;
-WITH Messaging;
 WITH PWM.RemoteIO;
 WITH SPI.RemoteIO;
 WITH errno;
@@ -175,8 +173,7 @@ PACKAGE BODY RemoteIO.Client IS
     Self.Transaction(cmd, resp);
 
     FOR c IN ChannelNumber LOOP
-      IF (Message64.Byte(resp(3 + c/8)) AND
-        Message64.Byte(2**(7 - c MOD 8))) /= 0 THEN
+      IF (resp(3 + c/8) AND Message64.Byte(2**(7 - c MOD 8))) /= 0 THEN
         chanset.Include(c);
       END IF;
     END LOOP;

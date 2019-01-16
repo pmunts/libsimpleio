@@ -27,7 +27,7 @@ WITH Voltage;
 
 PROCEDURE test_clickboard_adc IS
 
-  inputs : Clickboard.ADC.Inputs := ClickBoard.ADC.SimpleIO.Create(1);
+  inputs : CONSTANT Clickboard.ADC.Inputs := ClickBoard.ADC.SimpleIO.Create(1);
 
 BEGIN
   New_Line;

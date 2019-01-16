@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
-WITH System;
 
 WITH HID.libsimpleio;
 WITH Message64;
@@ -29,8 +28,8 @@ WITH Message64;
 PROCEDURE test_hid_button_led IS
 
   dev         : Message64.Messenger;
-  ButtonState : Message64.Message;
-  LEDCommand  : Message64.Message;
+  ButtonState : Message64.Message := (OTHERS => 0);
+  LEDCommand  : Message64.Message := (OTHERS => 0);
 
 BEGIN
   New_Line;
@@ -44,9 +43,6 @@ BEGIN
   -- Event loop
 
   LOOP
-    ButtonState := (OTHERS => 0);
-    LEDCommand  := (OTHERS => 0);
-
     dev.Receive(ButtonState);
 
     IF Integer(ButtonState(0)) /= 0 THEN

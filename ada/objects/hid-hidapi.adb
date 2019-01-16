@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Characters.Handling;
-WITH Interfaces.C;
 WITH System;
 
 WITH Messaging;

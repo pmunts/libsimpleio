@@ -23,7 +23,6 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.hidapi;
-WITH Message64;
 WITH PWM.RemoteIO;
 WITH RemoteIO.Client;
 WITH Servo.PWM;
