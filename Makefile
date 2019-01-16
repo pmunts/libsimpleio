@@ -61,7 +61,7 @@ SIMPLEIO_COMPONENTS	+= libadc.o
 compile.done:
 	rm -rf obj
 	mkdir obj
-	for F in *.c ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
+	for F in c/*.c ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
 	touch $@
 
 # Create static libarary
@@ -87,7 +87,7 @@ install: libsimpleio.a libsimpleio.so
 	mkdir -p				$(DESTDIR)/share/libsimpleio/modula2
 	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
 	mkdir -p				$(DESTDIR)/share/man/man2
-	install -cm 0644 *.h			$(DESTDIR)/include/libsimpleio
+	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
