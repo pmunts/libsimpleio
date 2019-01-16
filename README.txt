@@ -45,20 +45,28 @@ News
      * 9 January 2019 -- Continued working on the Ada Remote I/O code.
        Continued working on the Pascal Remote I/O code. Compiling Pascal
        Remote I/O client programs on Windows is now supported.
+     * 16 January 2019 -- The C wrapper function source files have been
+       moved to the c/ subdirectory. The source code is now published on
+       [5]GitHub at [6]https://github.com/pmunts/libsimpleio. The old
+       repository at [7]http://git.munts.com (which actually just mirrors
+       a private Subversion repository and then pushed to GitHub) will be
+       maintained, but you should clone from GitHub, which will be much
+       faster.
 
 Documentation
 
    The user manual for libsimpleio is available at:
-   [5]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [8]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-   [6]libsimpleio.html
+   [9]libsimpleio.html
 
-   The source code is available at: [7]http://git.munts.com
+   The source code is available at:
+   [10]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
-   git clone http://git.munts.com/libsimpleio.git
+   git clone https://github.com/pmunts/libsimpleio.git
 
 Copyright:
 
@@ -88,7 +96,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [8]phil@munts.net
+   Questions or comments to Philip Munts [11]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -99,7 +107,10 @@ References
    2. https://wiki.analog.com/software/linux/docs/iio/iio
    3. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
    4. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
-   5. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-   6. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+   5. https://github.com/
+   6. https://github.com/pmunts/libsimpleio
    7. http://git.munts.com/
-   8. mailto:phil@munts.net
+   8. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   9. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  10. https://github.com/pmunts/libsimpleio
+  11. mailto:phil@munts.net
