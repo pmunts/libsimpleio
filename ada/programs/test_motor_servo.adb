@@ -24,7 +24,8 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH Motor.Servo;
-WITH Servo.libsimpleio;
+WITH PWM.libsimpleio;
+WITH Servo.PWM;
 
 PROCEDURE test_motor_servo IS
 
@@ -46,7 +47,7 @@ BEGIN
 
   -- Create servo object
 
-  Servo0 := Servo.libsimpleio.Create(chip, channel);
+  Servo0 := Servo.PWM.Create(PWM.libsimpleio.Create(chip, channel, 50));
 
   -- Create motor object
 

@@ -28,8 +28,7 @@ WITH errno;
 WITH libspiagent;
 WITH LPC11xx;
 WITH PWM.libspiagent;
-WITH Servo;
-WITH Servo.libspiagent;
+WITH Servo.PWM;
 
 USE TYPE Interfaces.Integer_32;
 
@@ -64,7 +63,7 @@ BEGIN
   -- Configure servo outputs
 
   FOR i IN outputs'RANGE LOOP
-    outputs(i) := Servo.libspiagent.Create(Pins(i));
+    outputs(i) := Servo.PWM.Create(PWM.libspiagent.Create(Pins(i)));
   END LOOP;
 
   LOOP

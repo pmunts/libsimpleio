@@ -28,10 +28,9 @@ WITH HID.hidapi;
 WITH PCA9685;
 WITH PCA9685.GPIO;
 WITH PCA9685.PWM;
-WITH PCA9685.Servo;
 WITH PWM;
 WITH RemoteIO.Client;
-WITH Servo;
+WITH Servo.PWM;
 
 PROCEDURE test_clickboard_pwm IS
 
@@ -54,7 +53,7 @@ BEGIN
   -- Create some outputs
 
   PWM0   := PCA9685.PWM.Create(device, 0);
-  Servo1 := PCA9685.Servo.Create(device, 1);
+  Servo1 := Servo.PWM.Create(PCA9685.PWM.Create(device, 1));
   GPIO2  := PCA9685.GPIO.Create(device, 2);
 
   -- Sweep back and forth

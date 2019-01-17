@@ -24,8 +24,8 @@ WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH I2C.libsimpleio;
-WITH PCA9685.Servo;
-WITH Servo;
+WITH PCA9685.PWM;
+WITH Servo.PWM;
 
 PROCEDURE test_pca9685_servo IS
 
@@ -55,7 +55,7 @@ BEGIN
   -- Configure servo outputs
 
   FOR n IN pins'Range LOOP
-    pins(n) := PCA9685.Servo.Create(dev, n);
+    pins(n) := Servo.PWM.Create(PCA9685.PWM.Create(dev, n));
   END LOOP;
 
   -- Sweep servo positions
