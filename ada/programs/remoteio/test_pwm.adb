@@ -65,7 +65,7 @@ BEGIN
     -- Declare an array of PWM.Output sized to match the
     -- number of PWM outputs found
 
-    outputs : ARRAY (1 .. Positive(channels.Length)) OF PWM.Interfaces.Output;
+    outputs : ARRAY (1 .. Positive(channels.Length)) OF PWM.Output;
     count   : Natural := 0;
 
   BEGIN

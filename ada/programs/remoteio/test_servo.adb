@@ -75,7 +75,7 @@ BEGIN
 
     FOR c OF channels LOOP
       count := count + 1;
-      outputs(count) := Servo.PWM.Create(PWM.RemoteIO.Create(remdev, c, 50), 50);
+      outputs(count) := Servo.PWM.Create(PWM.RemoteIO.Create(remdev, c, 50));
     END LOOP;
 
     -- Sweep servo outputs

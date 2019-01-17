@@ -31,12 +31,14 @@ USE TYPE Interfaces.Integer_32;
 
 PACKAGE BODY PWM.libspiagent IS
 
+  period : Duration := 1.0/50;
+
   -- Constructors
 
   FUNCTION Create
    (id    : LPC11xx.pin_id_t;
-    duty  : Standard.PWM.DutyCycle := 0.0;
-    defer : Boolean := False) RETURN PWM.Interfaces.Output IS
+    duty  : PWM.DutyCycle := 0.0;
+    defer : Boolean := False) RETURN PWM.Output IS
 
     error : Standard.Interfaces.Integer_32;
 
@@ -73,7 +75,7 @@ PACKAGE BODY PWM.libspiagent IS
 
   PROCEDURE Put
    (self : IN OUT OutputSubclass;
-    duty : Standard.PWM.DutyCycle) IS
+    duty : PWM.DutyCycle) IS
 
     error : Standard.Interfaces.Integer_32;
 
@@ -102,6 +104,21 @@ PACKAGE BODY PWM.libspiagent IS
     END IF;
   END Put;
 
+  PROCEDURE Put
+   (self   : IN OUT OutputSubclass;
+    ontime : Duration) IS
+
+  BEGIN
+    Self.Put(PWM.DutyCycle(ontime/period)*PWM.MaximumDutyCycle);
+  END Put;
+
+  FUNCTION GetPeriod
+   (self : IN OUT OutputSubClass) RETURN Duration IS
+
+  BEGIN
+    RETURN period;
+  END GetPeriod;
+
   -- If you don't call SetFrequency(), the default PWM pulse frequency is
   -- 50 Hz. All LPC1114 PWM outputs operate at the same pulse frequency.
 
@@ -117,6 +134,8 @@ PACKAGE BODY PWM.libspiagent IS
       RAISE PWM_Error WITH "spiagent_pwm_set_frequency() failed, " &
         errno.strerror(Integer(error));
     END IF;
+
+    period := 1.0/Positive(freq);
   END SetFrequency;
 
 END PWM.libspiagent;

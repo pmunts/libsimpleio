@@ -47,7 +47,7 @@ PACKAGE RemoteIO.PWM IS
   PROCEDURE Register
    (Self   : IN OUT DispatcherSubclass;
     num    : ChannelNumber;
-    output : Standard.PWM.Interfaces.Output;
+    output : Standard.PWM.Output;
     freq   : Positive);
 
   PROCEDURE Dispatch
@@ -63,7 +63,7 @@ PRIVATE
     configured : Boolean;
     desg       : Device.Designator;
     obj        : ALIASED Standard.PWM.libsimpleio.OutputSubclass;
-    output     : Standard.PWM.Interfaces.Output;
+    output     : Standard.PWM.Output;
     period     : Natural;
   END RECORD;
 

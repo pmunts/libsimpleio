@@ -25,19 +25,14 @@ PACKAGE BODY Servo.PWM IS
   -- Servo output object constructor
 
   FUNCTION Create
-   (output    : Standard.PWM.Interfaces.Output;
-    frequency : Positive := 50;
+   (output    : Standard.PWM.Output;
     position  : Servo.Position := Servo.NeutralPosition)
     RETURN Servo.Interfaces.Output IS
 
     outp : Servo.Interfaces.Output;
 
   BEGIN
-    IF frequency > Servo.MaximumFrequency THEN
-      RAISE Servo_Error WITH "Frequency parameter is out of range";
-    END IF;
-
-    outp := NEW OutputSubclass'(output, 1000000000/frequency);
+    outp := NEW OutputSubclass'(output => output);
     outp.Put(position);
 
     RETURN outp;
@@ -49,11 +44,8 @@ PACKAGE BODY Servo.PWM IS
    (Self      : IN OUT OutputSubclass;
     position  : Servo.Position) IS
 
-    ontime : Positive; -- nanoseconds
-
   BEGIN
-    ontime := 1500000 + Integer(500000.0*position + 0.5);
-    Self.output.Put(Standard.PWM.DutyCycle(Float(ontime)/Float(Self.period)*100.0));
+    Self.output.Put(1.5E-3 + 0.5E-3*Duration(position));
   END Put;
 
 END Servo.PWM;

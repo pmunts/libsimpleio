@@ -31,7 +31,7 @@ PROCEDURE test_pwm IS
   channel : Natural;
   freq    : Positive;
 
-  PWM0 : PWM.Interfaces.Output;
+  PWM0 : PWM.Output;
 
 BEGIN
   Put_Line("PWM Output Test");

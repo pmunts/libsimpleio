@@ -38,7 +38,7 @@ PROCEDURE test_libspiagent_pwm IS
      PWM.libspiagent.PWM3, PWM.libspiagent.PWM4);
 
   error   : Interfaces.Integer_32;
-  outputs : ARRAY (Pins'Range) OF PWM.Interfaces.Output;
+  outputs : ARRAY (Pins'Range) OF PWM.Output;
   freq    : PWM.libspiagent.Frequency;
   index   : Natural RANGE 0 .. Pins'Last;
   duty    : PWM.DutyCycle;

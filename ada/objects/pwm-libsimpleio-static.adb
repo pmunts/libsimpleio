@@ -44,20 +44,19 @@ PACKAGE BODY PWM.libsimpleio.Static IS
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) IS
 
-    fd     : Integer;
-    period : Integer;
-    ontime : Integer;
+    period : Duration;
+    ontime : Duration;
     error  : Integer;
+    fd     : Integer;
 
   BEGIN
     Self := Destroyed;
 
-    -- The Linux kernel expects period and on-time values in nanoseconds
+    period := 1.0/frequency;
+    ontime := Duration(dutycycle/MaximumDutyCycle)*period;
 
-    period := Integer(1.0E9/Float(frequency));
-    ontime := Integer(Float(dutycycle/PWM.MaximumDutyCycle)*Float(period));
-
-    libPWM.Configure(chip, channel, period, ontime, Polarities'Pos(polarity), error);
+    libPWM.Configure(chip, channel, Positive(period*1E9),
+      Natural(ontime*1E9), Polarities'Pos(polarity), error);
 
     IF error /= 0 THEN
       RAISE PWM_Error WITH "libPWM.Configure() failed, " & errno.strerror(error);

@@ -34,7 +34,7 @@ WITH Servo;
 PROCEDURE test_clickboard_pwm IS
 
   device  : PCA9685.Device;
-  PWM0    : PWM.Interfaces.Output;
+  PWM0    : PWM.Output;
   Servo1  : Servo.Interfaces.Output;
   GPIO2   : GPIO.Pin;
 

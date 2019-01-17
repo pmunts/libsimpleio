@@ -44,7 +44,7 @@ BEGIN
 
   -- Create servo output object
 
-  Servo0 := Servo.PWM.Create(PWM.libsimpleio.Create(chip, channel, 50), 50);
+  Servo0 := Servo.PWM.Create(PWM.libsimpleio.Create(chip, channel, 50));
 
   -- Sweep the servo back and forth
 

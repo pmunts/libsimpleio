@@ -42,7 +42,7 @@ PACKAGE PWM.libspiagent IS
 
   TYPE Frequency IS NEW Positive RANGE 50 .. 50_000;
 
-  TYPE OutputSubclass IS NEW Standard.PWM.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass IS NEW PWM.OutputInterface WITH PRIVATE;
 
   -- Instantiate a text I/O package for Frequency
 
@@ -52,14 +52,21 @@ PACKAGE PWM.libspiagent IS
 
   FUNCTION Create
    (id    : LPC11xx.pin_id_t;
-    duty  : Standard.PWM.DutyCycle := 0.0;
-    defer : Boolean := False) RETURN PWM.Interfaces.Output;
+    duty  : PWM.DutyCycle := 0.0;
+    defer : Boolean := False) RETURN PWM.Output;
 
   -- Methods
 
   PROCEDURE Put
    (self : IN OUT OutputSubclass;
-    duty : Standard.PWM.DutyCycle);
+    duty : PWM.DutyCycle);
+
+  PROCEDURE Put
+   (self   : IN OUT OutputSubclass;
+    ontime : Duration);
+
+  FUNCTION GetPeriod
+   (self : IN OUT OutputSubClass) RETURN Duration;
 
   -- If you don't call SetFrequency(), the default PWM pulse frequency is
   -- 50 Hz. All LPC1114 PWM outputs operate at the same pulse frequency.
@@ -68,7 +75,7 @@ PACKAGE PWM.libspiagent IS
 
 PRIVATE
 
-  TYPE OutputSubclass IS NEW Standard.PWM.Interfaces.OutputInterface WITH RECORD
+  TYPE OutputSubclass IS NEW PWM.OutputInterface WITH RECORD
     ID         : LPC11xx.pin_id_t;
     configured : Boolean;
   END RECORD;

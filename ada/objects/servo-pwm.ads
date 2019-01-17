@@ -31,22 +31,20 @@ PACKAGE Servo.PWM IS
   -- Servo output object constructor
 
   FUNCTION Create
-   (output    : Standard.PWM.Interfaces.Output;
-    frequency : Positive := 50;
-    position  : Servo.Position := Servo.NeutralPosition)
+   (output   : Standard.PWM.Output;
+    position : Servo.Position := Servo.NeutralPosition)
     RETURN Servo.Interfaces.Output;
 
   -- Servo output write method
 
   PROCEDURE Put
-   (Self      : IN OUT OutputSubclass;
-    position  : Servo.Position);
+   (Self     : IN OUT OutputSubclass;
+    position : Servo.Position);
 
 PRIVATE
 
   TYPE OutputSubclass IS NEW Standard.Servo.Interfaces.OutputInterface WITH RECORD
-    output : Standard.PWM.Interfaces.Output;
-    period : Positive; -- nanoseconds
+    output : Standard.PWM.Output;
   END RECORD;
 
 END Servo.PWM;

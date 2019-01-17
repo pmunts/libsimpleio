@@ -26,7 +26,7 @@ PACKAGE BODY Motor.PWM IS
   -- GPIO output for direction control
 
   FUNCTION Create
-   (pwmout : Standard.PWM.Interfaces.Output;
+   (pwmout : Standard.PWM.Output;
     dirout : GPIO.Pin;
     velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output IS
 
@@ -58,8 +58,8 @@ PACKAGE BODY Motor.PWM IS
   -- (counterclockwise) PWM outputs
 
   FUNCTION Create
-   (cwout  : Standard.PWM.Interfaces.Output;
-    ccwout : Standard.PWM.Interfaces.Output;
+   (cwout  : Standard.PWM.Output;
+    ccwout : Standard.PWM.Output;
     velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output IS
 
     dev : ACCESS OutputSubclass2;
@@ -77,11 +77,11 @@ PACKAGE BODY Motor.PWM IS
   BEGIN
     IF velo >= 0.0 THEN
       -- Forward
-      Self.ccwout.Put(0.0);
+      Self.ccwout.Put(Standard.PWM.DutyCycle(0.0));
       Self.cwout.Put(Standard.PWM.DutyCycle(100.0*velo));
     ELSE
       -- Reverse
-      Self.cwout.Put(0.0);
+      Self.cwout.Put(Standard.PWM.DutyCycle(0.0));
       Self.ccwout.Put(Standard.PWM.DutyCycle(-100.0*velo));
     END IF;
   END Put;

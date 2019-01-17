@@ -32,12 +32,12 @@ PACKAGE BODY PWM.RemoteIO IS
    (dev  : Standard.RemoteIO.Client.Device;
     num  : Standard.RemoteIO.ChannelNumber;
     freq : Positive := 50;
-    duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Interfaces.Output IS
+    duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Output IS
 
     period : CONSTANT Positive := 1000000000/freq;
     cmd    : Message64.Message;
     resp   : Message64.Message;
-    self   : PWM.Interfaces.Output;
+    self   : PWM.Output;
 
   BEGIN
 
@@ -87,5 +87,36 @@ PACKAGE BODY PWM.RemoteIO IS
 
     Self.dev.Transaction(cmd, resp);
   END Put;
+
+  -- Set PWM output pulse width
+
+  PROCEDURE Put
+   (Self   : IN OUT OutputSubclass;
+    ontime : Duration) IS
+
+    cmd    : Message64.Message;
+    resp   : Message64.Message;
+
+  BEGIN
+    cmd    := (OTHERS => 0);
+    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+      Standard.RemoteIO.PWM_WRITE_REQUEST));
+    cmd(2) := Message64.Byte(Self.num);
+    cmd(3) := Message64.Byte(Natural(ontime*1E9)/16777216);
+    cmd(4) := Message64.Byte(Natural(ontime*1E9)/65536 MOD 256);
+    cmd(5) := Message64.Byte(Natural(ontime*1E9)/256 MOD 256);
+    cmd(6) := Message64.Byte(Natural(ontime*1E9) MOD 256);
+
+    Self.dev.Transaction(cmd, resp);
+  END Put;
+
+  -- Get PWM output pulse period
+
+  FUNCTION GetPeriod
+   (Self : IN OUT OutputSubclass) RETURN Duration IS
+
+  BEGIN
+    RETURN Duration(Self.period)/1E9;
+  END GetPeriod;
 
 END PWM.RemoteIO;

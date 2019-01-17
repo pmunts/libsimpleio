@@ -70,7 +70,7 @@ PACKAGE BODY RemoteIO.PWM IS
   PROCEDURE Register
    (Self   : IN OUT DispatcherSubclass;
     num    : ChannelNumber;
-    output : Standard.PWM.Interfaces.Output;
+    output : Standard.PWM.Output;
     freq   : Positive) IS
 
   BEGIN
@@ -174,7 +174,6 @@ PACKAGE BODY RemoteIO.PWM IS
 
     num    : RemoteIO.ChannelNumber;
     ontime : Natural;
-    duty   : Standard.PWM.DutyCycle;
 
   BEGIN
     resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
@@ -206,10 +205,7 @@ PACKAGE BODY RemoteIO.PWM IS
       Natural(cmd(5))*256 +
       Natural(cmd(6));
 
-    duty :=
-      Standard.PWM.DutyCycle(100.0*Float(ontime)/Float(Self.outputs(num).period));
-
-    Self.outputs(num).output.Put(duty);
+    Self.outputs(num).output.Put(Duration(ontime)/1E9);
 
   EXCEPTION
     WHEN OTHERS =>

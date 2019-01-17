@@ -33,7 +33,7 @@ PROCEDURE test_pca9685_pwm IS
 
   bus  : I2C.Bus;
   dev  : PCA9685.Device;
-  pins : ARRAY (PCA9685.ChannelNumber) OF PWM.Interfaces.Output;
+  pins : ARRAY (PCA9685.ChannelNumber) OF PWM.Output;
 
 BEGIN
   New_Line;

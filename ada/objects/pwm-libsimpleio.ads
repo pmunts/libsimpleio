@@ -33,7 +33,7 @@ PACKAGE PWM.libsimpleio IS
 
   TYPE Polarities IS (ActiveLow, ActiveHigh);
 
-  TYPE OutputSubclass IS NEW PWM.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass IS NEW PWM.OutputInterface WITH PRIVATE;
 
   -- Constant definitions
 
@@ -45,20 +45,28 @@ PACKAGE PWM.libsimpleio IS
    (desg      : Device.Designator;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output;
+    polarity  : Polarities := ActiveHigh) RETURN PWM.Output;
 
   FUNCTION Create
    (chip      : Natural;
     channel   : Natural;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output;
+    polarity  : Polarities := ActiveHigh) RETURN PWM.Output;
 
-  -- PWM output write method
+  -- PWM output write methods
 
   PROCEDURE Put
    (Self      : IN OUT OutputSubclass;
     dutycycle : PWM.DutyCycle);
+
+  PROCEDURE Put
+   (Self      : IN OUT OutputSubclass;
+    ontime    : Duration);
+
+  -- Retrieve the configured PWM pulse period
+
+  FUNCTION GetPeriod(Self : IN OUT OutputSubclass) RETURN Duration;
 
   -- Retrieve the underlying Linux file descriptor
 
@@ -66,11 +74,11 @@ PACKAGE PWM.libsimpleio IS
 
 PRIVATE
 
-  TYPE OutputSubclass IS NEW Standard.PWM.Interfaces.OutputInterface WITH RECORD
+  TYPE OutputSubclass IS NEW Standard.PWM.OutputInterface WITH RECORD
     fd     : Integer;
-    period : Integer;
+    period : Duration;
   END RECORD;
 
-  Destroyed : CONSTANT OutputSubclass := OutputSubclass'(-1, -1);
+  Destroyed : CONSTANT OutputSubclass := OutputSubclass'(-1, 0.0);
 
 END PWM.libsimpleio;

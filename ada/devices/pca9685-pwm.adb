@@ -32,9 +32,9 @@ PACKAGE BODY PCA9685.PWM IS
    (device  : PCA9685.Device;
     channel : PCA9685.ChannelNumber;
     duty    : Standard.PWM.DutyCycle := 0.0)
-   RETURN Standard.PWM.Interfaces.Output IS
+   RETURN Standard.PWM.Output IS
 
-    p : Standard.PWM.Interfaces.Output;
+    p : Standard.PWM.Output;
 
   BEGIN
     p := NEW OutputSubclass'(device, channel);
@@ -42,7 +42,7 @@ PACKAGE BODY PCA9685.PWM IS
     RETURN p;
   END Create;
 
- -- PCA9685 PWM output method
+ -- PCA9685 PWM output methods
 
   PROCEDURE Put(Self : IN OUT OutputSubclass;
     duty : Standard.PWM.DutyCycle) IS
@@ -60,5 +60,20 @@ PACKAGE BODY PCA9685.PWM IS
 
     Self.device.WriteChannel(Self.channel, data);
   END Put;
+
+  PROCEDURE Put
+   (Self    : IN OUT OutputSubclass;
+    ontime  : Duration) IS
+
+  BEGIN
+    Self.Put(Standard.PWM.DutyCycle(ontime*Self.device.frequency*100.0));
+  END Put;
+
+  FUNCTION GetPeriod
+   (Self    : IN OUT OutputSubclass) RETURN Duration IS
+
+  BEGIN
+    RETURN 1.0/Self.device.frequency;
+  END GetPeriod;
 
 END PCA9685.PWM;

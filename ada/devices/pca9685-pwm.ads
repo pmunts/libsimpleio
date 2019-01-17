@@ -24,22 +24,31 @@ WITH PWM;
 
 PACKAGE PCA9685.PWM IS
 
-  TYPE OutputSubclass IS NEW Standard.PWM.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass IS NEW Standard.PWM.OutputInterface WITH PRIVATE;
 
   -- PCA9685 PWM output object constructor
 
   FUNCTION Create
    (device  : PCA9685.Device;
     channel : PCA9685.ChannelNumber;
-    duty    : Standard.PWM.DutyCycle := 0.0) RETURN Standard.PWM.Interfaces.Output;
+    duty    : Standard.PWM.DutyCycle := 0.0) RETURN Standard.PWM.Output;
 
-  -- PCA9685 PWM output method
+  -- PCA9685 PWM output methods
 
-  PROCEDURE Put(Self : IN OUT OutputSubclass; duty : Standard.PWM.DutyCycle);
+  PROCEDURE Put
+   (Self    : IN OUT OutputSubclass;
+    duty    : Standard.PWM.DutyCycle);
+
+  PROCEDURE Put
+   (Self    : IN OUT OutputSubclass;
+    ontime  : Duration);
+
+  FUNCTION GetPeriod
+   (Self    : IN OUT OutputSubclass) RETURN Duration;
 
 PRIVATE
 
-  TYPE OutputSubclass IS NEW Standard.PWM.Interfaces.OutputInterface WITH RECORD
+  TYPE OutputSubclass IS NEW Standard.PWM.OutputInterface WITH RECORD
     device  : PCA9685.Device;
     channel : PCA9685.ChannelNumber;
   END RECORD;

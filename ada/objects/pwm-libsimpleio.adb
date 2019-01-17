@@ -31,7 +31,7 @@ PACKAGE BODY PWM.libsimpleio IS
    (desg      : Device.Designator;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output IS
+    polarity  : Polarities := ActiveHigh) RETURN PWM.Output IS
 
   BEGIN
     RETURN Create(desg.chip, desg.chan, frequency, dutycycle, polarity);
@@ -42,21 +42,19 @@ PACKAGE BODY PWM.libsimpleio IS
     channel   : Natural;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN PWM.Interfaces.Output IS
+    polarity  : Polarities := ActiveHigh) RETURN PWM.Output IS
 
-    fd     : Integer;
-    period : Integer;
-    ontime : Integer;
+    period : Duration;
+    ontime : Duration;
     error  : Integer;
+    fd     : Integer;
 
   BEGIN
+    period := 1.0/frequency;
+    ontime := Duration(dutycycle/MaximumDutyCycle)*period;
 
-    -- The Linux kernel expects period and on-time values in nanoseconds
-
-    period := Integer(1.0E9/Float(frequency));
-    ontime := Integer(Float(dutycycle/PWM.MaximumDutyCycle)*Float(period));
-
-    libPWM.Configure(chip, channel, period, ontime, Polarities'Pos(polarity), error);
+    libPWM.Configure(chip, channel, Positive(period*1E9),
+      Natural(ontime*1E9), Polarities'Pos(polarity), error);
 
     IF error /= 0 THEN
       RAISE PWM_Error WITH "libPWM.Configure() failed, " & errno.strerror(error);
@@ -77,7 +75,7 @@ PACKAGE BODY PWM.libsimpleio IS
    (Self      : IN OUT OutputSubclass;
     dutycycle : PWM.DutyCycle) IS
 
-    ontime : Integer;
+    ontime : Duration;
     error  : Integer;
 
   BEGIN
@@ -85,14 +83,44 @@ PACKAGE BODY PWM.libsimpleio IS
       RAISE PWM_Error WITH "PWM output has been destroyed";
     END IF;
 
-    ontime := Integer(Float(dutycycle/PWM.MaximumDutyCycle)*Float(Self.period));
+    ontime := Duration(dutycycle/MaximumDutyCycle)*Self.period;
 
-    libPWM.Write(Self.fd, ontime, error);
+    libPWM.Write(Self.fd, Natural(ontime*1E9), error);
 
     IF error /= 0 THEN
       RAISE PWM_Error WITH "libPWM.Write() failed, " & errno.strerror(error);
     END IF;
   END Put;
+
+  PROCEDURE Put
+   (Self      : IN OUT OutputSubclass;
+    ontime    : Duration) IS
+
+    error  : Integer;
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE PWM_Error WITH "PWM output has been destroyed";
+    END IF;
+
+    libPWM.Write(Self.fd, Natural(ontime*1E9), error);
+
+    IF error /= 0 THEN
+      RAISE PWM_Error WITH "libPWM.Write() failed, " & errno.strerror(error);
+    END IF;
+  END Put;
+
+  -- Retrieve the configured PWM pulse period
+
+  FUNCTION GetPeriod(Self : IN OUT OutputSubclass) RETURN Duration IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE PWM_Error WITH "PWM output has been destroyed";
+    END IF;
+
+    RETURN Self.period;
+  END GetPeriod;
 
   -- Retrieve the underlying Linux file descriptor
 

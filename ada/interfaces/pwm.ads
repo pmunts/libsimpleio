@@ -32,12 +32,25 @@ PACKAGE PWM IS
   MinimumDutyCycle : CONSTANT DutyCycle := DutyCycle'First;
   MaximumDutyCycle : CONSTANT DutyCycle := DutyCycle'Last;
 
-  -- Instantiate text I/O package
+  -- Instantiate text I/O packages
 
   PACKAGE DutyCycle_IO IS NEW Ada.Text_IO.Float_IO(DutyCycle);
 
-  -- Instantiate abstract interfaces package
+  PACKAGE Duration_IO IS NEW Ada.Text_IO.Fixed_IO(Duration);
 
-  PACKAGE Interfaces IS NEW IO_Interfaces(DutyCycle);
+  -- Instantiate abstract interfaces packages
+
+  PACKAGE DutyCycleInterfaces IS NEW IO_Interfaces(DutyCycle);
+
+  PACKAGE DurationInterfaces IS NEW IO_Interfaces(Duration);
+
+  TYPE OutputInterface IS INTERFACE AND
+    DutyCycleInterfaces.OutputInterface AND
+    DurationInterfaces.OutputInterface;
+
+  TYPE Output IS ACCESS ALL OutputInterface'Class;
+
+  FUNCTION GetPeriod(Self : IN OUT OutputInterface)
+    RETURN Duration IS ABSTRACT;
 
 END PWM;

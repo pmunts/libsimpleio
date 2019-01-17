@@ -24,7 +24,7 @@ WITH RemoteIO.Client;
 
 PACKAGE PWM.RemoteIO IS
 
-  TYPE OutputSubclass IS NEW PWM.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass IS NEW PWM.OutputInterface WITH PRIVATE;
 
   -- Configure PWM output
 
@@ -32,7 +32,7 @@ PACKAGE PWM.RemoteIO IS
    (dev  : Standard.RemoteIO.Client.Device;
     num  : Standard.RemoteIO.ChannelNumber;
     freq : Positive := 50;
-    duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Interfaces.Output;
+    duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Output;
 
   -- Set PWM output duty cycle
 
@@ -40,12 +40,23 @@ PACKAGE PWM.RemoteIO IS
    (Self : IN OUT OutputSubclass;
     duty : DutyCycle);
 
+  -- Set PWM output pulse width
+
+  PROCEDURE Put
+   (Self   : IN OUT OutputSubclass;
+    ontime : Duration);
+
+  -- Get PWM output pulse period
+
+  FUNCTION GetPeriod
+   (Self : IN OUT OutputSubclass) RETURN Duration;
+
 PRIVATE
 
-  TYPE OutputSubclass IS NEW PWM.Interfaces.OutputInterface WITH RECORD
+  TYPE OutputSubclass IS NEW PWM.OutputInterface WITH RECORD
     dev    : Standard.RemoteIO.Client.Device;
     num    : Standard.RemoteIO.ChannelNumber;
-    period : Positive;
+    period : Positive; -- nanoseconds
   END RECORD;
 
 END PWM.RemoteIO;

@@ -56,7 +56,7 @@ PACKAGE BODY Servo.libsimpleio.Static IS
 
     -- The Linux kernel expects PWM period and on-time values in nanoseconds
 
-    period := Integer(1.0E9/Float(frequency));
+    period := 1E9/frequency;
     ontime := 1500000 + Integer(500000.0*position);
 
     libPWM.Configure(chip, channel, period, ontime, libPWM.POLARITY_ACTIVEHIGH, error);

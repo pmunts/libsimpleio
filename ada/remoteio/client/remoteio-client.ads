@@ -88,7 +88,7 @@ PACKAGE RemoteIO.Client IS
    (Self  : IN OUT DeviceClass;
     num   : ChannelNumber;
     freq  : Positive := 50;
-    duty  : PWM.DutyCycle := PWM.MinimumDutyCycle) RETURN PWM.Interfaces.Output;
+    duty  : PWM.DutyCycle := PWM.MinimumDutyCycle) RETURN PWM.Output;
 
   FUNCTION Create
    (Self     : IN OUT DeviceClass;

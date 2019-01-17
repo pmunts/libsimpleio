@@ -222,7 +222,7 @@ PACKAGE BODY RemoteIO.Client IS
    (Self  : IN OUT DeviceClass;
     num   : ChannelNumber;
     freq  : Positive := 50;
-    duty  : PWM.DutyCycle := PWM.MinimumDutyCycle) RETURN PWM.Interfaces.Output IS
+    duty  : PWM.DutyCycle := PWM.MinimumDutyCycle) RETURN PWM.Output IS
 
   BEGIN
     RETURN PWM.RemoteIO.Create(Self'Unchecked_Access, num, freq, duty);

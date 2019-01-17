@@ -31,7 +31,7 @@ PACKAGE Motor.PWM IS
   TYPE OutputSubclass1 IS NEW Motor.Interfaces.OutputInterface WITH PRIVATE;
 
   FUNCTION Create
-   (pwmout : Standard.PWM.Interfaces.Output;
+   (pwmout : Standard.PWM.Output;
     dirout : GPIO.Pin;
     velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output;
 
@@ -45,8 +45,8 @@ PACKAGE Motor.PWM IS
   TYPE OutputSubclass2 IS NEW Motor.Interfaces.OutputInterface WITH PRIVATE;
 
   FUNCTION Create
-   (cwout  : Standard.PWM.Interfaces.Output;
-    ccwout : Standard.PWM.Interfaces.Output;
+   (cwout  : Standard.PWM.Output;
+    ccwout : Standard.PWM.Output;
     velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output;
 
   PROCEDURE Put
@@ -56,13 +56,13 @@ PACKAGE Motor.PWM IS
 PRIVATE
 
   TYPE OutputSubclass1 IS NEW Motor.Interfaces.OutputInterface WITH RECORD
-    pwmout : Standard.PWM.Interfaces.Output;
+    pwmout : Standard.PWM.Output;
     dirout : GPIO.Pin;
   END RECORD;
 
   TYPE OutputSubclass2 IS NEW Motor.Interfaces.OutputInterface WITH RECORD
-    cwout  : Standard.PWM.Interfaces.Output;
-    ccwout : Standard.PWM.Interfaces.Output;
+    cwout  : Standard.PWM.Output;
+    ccwout : Standard.PWM.Output;
   END RECORD;
 
 END Motor.PWM;

@@ -30,7 +30,7 @@ PROCEDURE test_mikrobus_pwm IS
 
   socknum : Positive;
   socket  : ClickBoard.SimpleIO.Socket;
-  outp    : PWM.Interfaces.Output;
+  outp    : PWM.Output;
 
 BEGIN
   New_Line;
