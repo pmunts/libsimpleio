@@ -33,6 +33,10 @@ PACKAGE BODY Servo.PWM IS
     outp : Servo.Interfaces.Output;
 
   BEGIN
+    IF frequency > Servo.MaximumFrequency THEN
+      RAISE Servo_Error WITH "Frequency parameter is out of range";
+    END IF;
+
     outp := NEW OutputSubclass'(output, 1000000000/frequency);
     outp.Put(position);
     RETURN outp;

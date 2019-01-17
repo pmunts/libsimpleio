@@ -29,9 +29,10 @@ PACKAGE Servo IS
 
   TYPE Position IS NEW Float RANGE -1.0 .. 1.0;
 
-  MinimumPosition : CONSTANT Position := Position'First;
-  NeutralPosition : CONSTANT Position := 0.0;
-  MaximumPosition : CONSTANT Position := Position'Last;
+  MinimumPosition  : CONSTANT Position := Position'First;
+  NeutralPosition  : CONSTANT Position := 0.0;
+  MaximumPosition  : CONSTANT Position := Position'Last;
+  MaximumFrequency : CONSTANT Positive := 400;
 
   -- Instantiate text I/O package
 
