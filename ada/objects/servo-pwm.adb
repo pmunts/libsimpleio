@@ -39,6 +39,7 @@ PACKAGE BODY Servo.PWM IS
 
     outp := NEW OutputSubclass'(output, 1000000000/frequency);
     outp.Put(position);
+
     RETURN outp;
   END Create;
 
