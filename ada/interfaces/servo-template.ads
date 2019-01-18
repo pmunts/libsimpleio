@@ -1,6 +1,6 @@
--- Abstract servo output interface definitions
+-- Template for servo output services, using an underlying PWM output
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,25 +20,36 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO;
-WITH IO_Interfaces;
+WITH PWM;
 
-PACKAGE Servo IS
+GENERIC
 
-  Servo_Error : EXCEPTION;
+  MinimumWidth : IN Duration;
+  MaximumWidth : IN Duration;
 
-  TYPE Position IS NEW Float RANGE -1.0 .. 1.0;
+PACKAGE Servo.Template IS
 
-  MinimumPosition  : CONSTANT Position := Position'First;
-  NeutralPosition  : CONSTANT Position := 0.0;
-  MaximumPosition  : CONSTANT Position := Position'Last;
+  -- Type definitions
 
-  -- Instantiate text I/O package
+  TYPE OutputSubclass IS NEW Servo.Interfaces.OutputInterface WITH PRIVATE;
 
-  PACKAGE Position_IO IS NEW Ada.Text_IO.Float_IO(Position);
+  -- Servo output object constructor
 
-  -- Instantiate abstract interfaces package
+  FUNCTION Create
+   (output   : PWM.Output;
+    position : Servo.Position := Servo.NeutralPosition)
+    RETURN Servo.Interfaces.Output;
 
-  PACKAGE Interfaces IS NEW IO_Interfaces(Position);
+  -- Servo output write method
 
-END Servo;
+  PROCEDURE Put
+   (Self     : IN OUT OutputSubclass;
+    position : Servo.Position);
+
+PRIVATE
+
+  TYPE OutputSubclass IS NEW Servo.Interfaces.OutputInterface WITH RECORD
+    output : PWM.Output;
+  END RECORD;
+
+END Servo.Template;

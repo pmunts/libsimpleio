@@ -1,6 +1,6 @@
--- Servo output services using a PWM output
+-- Template for servo output services, using an underlying PWM output
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,13 +20,16 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE BODY Servo.PWM IS
+PACKAGE BODY Servo.Template IS
+
+  Swing    : CONSTANT Duration := (MaximumWidth - MinimumWidth)/2;
+  Midpoint : CONSTANT Duration := MinimumWidth + Swing;
 
   -- Servo output object constructor
 
   FUNCTION Create
-   (output    : Standard.PWM.Output;
-    position  : Servo.Position := Servo.NeutralPosition)
+   (output   : PWM.Output;
+    position : Servo.Position := Servo.NeutralPosition)
     RETURN Servo.Interfaces.Output IS
 
     outp : Servo.Interfaces.Output;
@@ -41,11 +44,11 @@ PACKAGE BODY Servo.PWM IS
   -- Servo output write method
 
   PROCEDURE Put
-   (Self      : IN OUT OutputSubclass;
-    position  : Servo.Position) IS
+   (Self     : IN OUT OutputSubclass;
+    position : Servo.Position) IS
 
   BEGIN
-    Self.output.Put(1.5E-3 + 0.5E-3*Duration(position));
+    Self.output.Put(Midpoint + Swing*Duration(position));
   END Put;
 
-END Servo.PWM;
+END Servo.Template;

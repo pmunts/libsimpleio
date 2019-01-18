@@ -1,7 +1,8 @@
--- Servo output services using a PWM output
+-- Instantiate Servo.Template for standard RC Servo outputs
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
+
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
 --
@@ -20,31 +21,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH PWM;
+WITH Servo.Template;
 
-PACKAGE Servo.PWM IS
-
-  -- Type definitions
-
-  TYPE OutputSubclass IS NEW Servo.Interfaces.OutputInterface WITH PRIVATE;
-
-  -- Servo output object constructor
-
-  FUNCTION Create
-   (output   : Standard.PWM.Output;
-    position : Servo.Position := Servo.NeutralPosition)
-    RETURN Servo.Interfaces.Output;
-
-  -- Servo output write method
-
-  PROCEDURE Put
-   (Self     : IN OUT OutputSubclass;
-    position : Servo.Position);
-
-PRIVATE
-
-  TYPE OutputSubclass IS NEW Standard.Servo.Interfaces.OutputInterface WITH RECORD
-    output : Standard.PWM.Output;
-  END RECORD;
-
-END Servo.PWM;
+PACKAGE Servo.PWM IS NEW Servo.Template(1.0E-3, 2.0E-3);
