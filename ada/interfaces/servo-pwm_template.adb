@@ -1,4 +1,5 @@
--- Template for servo output services, using an underlying PWM output
+-- Template for servos controlled by a variable width control pulse
+-- realized with an underlying PWM output
 
 -- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
@@ -20,7 +21,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE BODY Servo.Template IS
+PACKAGE BODY Servo.PWM_Template IS
 
   Swing    : CONSTANT Duration := (MaximumWidth - MinimumWidth)/2;
   Midpoint : CONSTANT Duration := MinimumWidth + Swing;
@@ -35,6 +36,10 @@ PACKAGE BODY Servo.Template IS
     outp : Servo.Interfaces.Output;
 
   BEGIN
+    IF MaximumWidth > output.GetPeriod THEN
+      RAISE Servo_Error WITH "PWM pulse frequency is too high";
+    END IF;
+
     outp := NEW OutputSubclass'(output => output);
     outp.Put(position);
 
@@ -51,4 +56,4 @@ PACKAGE BODY Servo.Template IS
     Self.output.Put(Midpoint + Swing*Duration(position));
   END Put;
 
-END Servo.Template;
+END Servo.PWM_Template;

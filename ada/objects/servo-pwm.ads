@@ -1,4 +1,4 @@
--- Instantiate Servo.Template for standard RC Servo outputs
+-- Instantiate Servo.PWM_Template for standard RC Servo outputs
 
 -- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
@@ -21,6 +21,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Servo.Template;
+WITH Servo.PWM_Template;
 
-PACKAGE Servo.PWM IS NEW Servo.Template(1.0E-3, 2.0E-3);
+PACKAGE Servo.PWM IS NEW Servo.PWM_Template(1.0E-3, 2.0E-3);

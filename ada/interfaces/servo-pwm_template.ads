@@ -1,4 +1,5 @@
--- Template for servo output services, using an underlying PWM output
+-- Template for servos controlled by a variable width control pulse
+-- realized with an underlying PWM output
 
 -- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
@@ -27,7 +28,7 @@ GENERIC
   MinimumWidth : IN Duration;
   MaximumWidth : IN Duration;
 
-PACKAGE Servo.Template IS
+PACKAGE Servo.PWM_Template IS
 
   -- Type definitions
 
@@ -52,4 +53,4 @@ PRIVATE
     output : PWM.Output;
   END RECORD;
 
-END Servo.Template;
+END Servo.PWM_Template;
