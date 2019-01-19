@@ -54,8 +54,8 @@ BEGIN
 
   Put("DAC outputs:");
 
-  FOR outp OF channels LOOP
-    Put(Integer'Image(outp));
+  FOR c OF channels LOOP
+    Put(Integer'Image(c));
   END LOOP;
 
   New_Line;
@@ -63,7 +63,7 @@ BEGIN
 
   DECLARE
 
-    -- Declare an array of DAC.Output sized to match the
+    -- Declare an array of Analog.Output sized to match the
     -- number of DAC outputs found
 
     outputs : ARRAY (1 .. Positive(channels.Length)) OF Analog.Output;
