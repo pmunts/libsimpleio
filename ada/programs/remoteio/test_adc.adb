@@ -52,23 +52,39 @@ BEGIN
     RETURN;
   END IF;
 
+  Put("ADC inputs:");
+
+  FOR c OF channels LOOP
+    Put(Integer'Image(c));
+  END LOOP;
+
+  New_Line;
+  New_Line;
+
   DECLARE
 
-    inputs : ARRAY (0 .. Natural(channels.Length) - 1) OF Analog.Input;
+    -- Declare an array of Analog.Input sized to match the
+    -- number of ADC inputs found
+
+    inputs : ARRAY (1 .. Positive(channels.Length)) OF Analog.Input;
+    count  : Natural := 0;
 
   BEGIN
-    FOR i IN inputs'Range LOOP
-      inputs(i) := ADC.RemoteIO.Create(remdev, i);
+
+    -- Initialize ADC outputs
+
+    FOR c OF channels LOOP
+      count := count + 1;
+      inputs(count) := ADC.RemoteIO.Create(remdev, c);
     END LOOP;
 
-    Put_Line("Press CONTROL-C to exit...");
-    New_Line;
+    -- Sample analog inputs
 
     LOOP
       Put("Samples:");
 
-      FOR i OF inputs LOOP
-        Analog.Sample_IO.Put(i.Get, 5);
+      FOR inp OF inputs LOOP
+        Analog.Sample_IO.Put(inp.Get, 5);
       END LOOP;
 
       New_Line;
