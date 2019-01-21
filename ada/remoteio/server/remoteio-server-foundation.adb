@@ -56,7 +56,8 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
     capabilities : String;
     EnableHID    : Boolean := True;
     EnableSerial : Boolean := True;
-    EnableUDP    : Boolean := True) IS
+    EnableUDP    : Boolean := True;
+    IPTables     : Boolean := True) IS
 
     error  : Integer;
     vers   : RemoteIO.Server.ResponseString;
@@ -125,8 +126,9 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
       msgU  := Message64.UDP.Create_Server(port => 8087, timeoutms => 0);
       servU := RemoteIO.Server.UDP.Create("UDP", msgU, exec, logger);
 
-      libLinux.Command("iptables -A INPUT -p udp -m conntrack --ctstate NEW --dport 8087 -j ACCEPT",
-        status, error);
+      IF IPTables THEN
+        libLinux.Command("iptables -A INPUT -p udp -m conntrack --ctstate NEW --dport 8087 -j ACCEPT", status, error);
+      END IF;
     END IF;
   END Start;
 

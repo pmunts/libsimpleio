@@ -30,7 +30,8 @@ PACKAGE RemoteIO.Server.Foundation IS
     capabilities : String;
     EnableHID    : Boolean := True;
     EnableSerial : Boolean := True;
-    EnableUDP    : Boolean := True);
+    EnableUDP    : Boolean := True;
+    IPTables     : Boolean := True);
 
   FUNCTION Logger RETURN Logging.Logger;
 
