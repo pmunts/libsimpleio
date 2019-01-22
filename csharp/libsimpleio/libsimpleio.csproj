@@ -57,9 +57,6 @@
     <Compile Include="..\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\spiagent\*.cs">
-      <Link>SPIAgent\%(FileName)</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

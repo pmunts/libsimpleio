@@ -82,7 +82,6 @@
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Watchdog" isDocumented="True">Watchdog Timer Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework</NamespaceSummaryItem>
       <NamespaceSummaryItem name="lpc11xx" isDocumented="False" />
-      <NamespaceSummaryItem name="SPIAgent" isDocumented="True">Support for the Raspberry Pi LPC1114 I/O Processor Expansion Board (&lt;a href="http://git.munts.com/rpi-mcu/expansion/LPC1114"&gt;http://git.munts.com/rpi-mcu/expansion/LPC1114&lt;/a&gt;)</NamespaceSummaryItem>
     </NamespaceSummaries>
     <VisibleItems>None</VisibleItems>
   </PropertyGroup>

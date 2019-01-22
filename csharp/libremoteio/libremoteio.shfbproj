@@ -62,7 +62,6 @@
       <NamespaceSummaryItem name="IO.Objects.USB.Munts" isDocumented="True">&lt;a href="http://tech.munts.com"&gt;Munts Technologies&lt;/a&gt; USB Device Identifiers</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/arm-linux-mcu/examples/firmware/common/libremoteio.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="lpc11xx" isDocumented="False" />
-      <NamespaceSummaryItem name="SPIAgent" isDocumented="True">Support for the Raspberry Pi LPC1114 I/O Processor Expansion Board (&lt;a href="http://git.munts.com/rpi-mcu/expansion/LPC1114"&gt;http://git.munts.com/rpi-mcu/expansion/LPC1114&lt;/a&gt;)</NamespaceSummaryItem>
     </NamespaceSummaries>
     <VisibleItems>ProtectedInternalAsProtected</VisibleItems>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>

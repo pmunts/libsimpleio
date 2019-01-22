@@ -59,7 +59,6 @@ clean: csharp_mk_clean
 	rm -rf IO.Interfaces
 	rm -rf IO.Objects
 	rm -rf IO.Remote
-	rm -rf SPIAgent
 
 # Include subordinate makefiles
 

@@ -56,9 +56,6 @@
     <Compile Include="..\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\spiagent\*.cs" Exclude="..\spiagent\transport-libspiagent.cs">
-      <Link>SPIAgent\%(FileName)</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
