@@ -101,7 +101,7 @@ PACKAGE BODY RemoteIO.Client IS
     -- Copy the version string
 
     FOR i IN vers'Range LOOP
-      EXIT WHEN RESP(i+2) = 0;
+      EXIT WHEN resp(i+2) = 0;
       vers(i) := Character'Val(resp(i+2));
     END LOOP;
 
@@ -139,7 +139,7 @@ PACKAGE BODY RemoteIO.Client IS
     -- Copy the capability string
 
     FOR i IN caps'Range LOOP
-      EXIT WHEN RESP(i+2) = 0;
+      EXIT WHEN resp(i+2) = 0;
       caps(i) := Character'Val(resp(i+2));
     END LOOP;
 
