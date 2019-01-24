@@ -35,7 +35,7 @@ GNATENV		+= LIBSIMPLEIO=$(LIBSIMPLEIO)
 
 # Special goop for AdaCore GNAT for Windows
 
-ifneq ($(GNAT_ADACORE),)
+ifneq ($(GNAT),)
 ifeq ($(OS), Windows_NT)
 WINARCH		?= win64
 GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)

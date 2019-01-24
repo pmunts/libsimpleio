@@ -64,13 +64,13 @@ GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
 
 # Definitions for AdaCore GNAT native toolchains
 
-ifneq ($(GNAT_ADACORE),)
-GNATENV		+= PATH=$(GNAT_ADACORE)/bin:$(PATH)
+ifneq ($(GNAT),)
+GNATENV		+= PATH=$(GNAT)/bin:$(PATH)
 ifeq ($(OS), Windows_NT)
 # Windows needs even more help with the path
-GNATMAKE	= env $(GNATENV) $(GNAT_ADACORE)/bin/gnatmake
-GNATSTRIP	= env $(GNATENV) $(GNAT_ADACORE)/bin/strip
-GPRBUILD	= env $(GNATENV) $(GNAT_ADACORE)/bin/gprbuild
+GNATMAKE	= env $(GNATENV) $(GNAT)/bin/gnatmake
+GNATSTRIP	= env $(GNATENV) $(GNAT)/bin/strip
+GPRBUILD	= env $(GNATENV) $(GNAT)/bin/gprbuild
 endif
 endif
 
