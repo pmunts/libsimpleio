@@ -1,6 +1,6 @@
 @ECHO OFF
 
-REM Command script to compile an Ada program without make et al
+REM Command script to compile an Ada program for Windows without make et al
 
 REM Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 REM
@@ -28,34 +28,28 @@ IF "%1" == "" GOTO:EOF
 
 REM Set some defaults
 
-IF "%LIBSIMPLEIO%" == "" SET LIBSIMPLEIO=%HOMEDRIVE%%HOMEPATH%/libsimpleio
-IF "%GNAT%" == "" SET GNAT=C:/PROGRA~1/gnat-gpl-2018
-IF "%ARCH%" == "" SET ARCH=win64
-
-REM Set source and object file directories.  Note that it is a Bad Idea to
-REM have spaces in any directory paths...
-
-SET SRC=%LIBSIMPLEIO%/ada
-SET OBJ=./obj
+IF "%LIBSIMPLEIO%" == "" SET LIBSIMPLEIO=%HOMEDRIVE%%HOMEPATH%\libsimpleio
+IF "%ARCH%"        == "" SET ARCH=win64
+IF "%OBJ%"         == "" SET OBJ=.\obj
+IF "%GNAT%"        == "" SET GNAT=C:\PROGRA~1\gnat-gpl-2018
 
 REM Set compiler flags
 
 SET CFLAGS=-gnat2012
-SET CFLAGS=%CFLAGS% -I"%SRC%"/bindings
-SET CFLAGS=%CFLAGS% -I"%SRC%"/devices
-SET CFLAGS=%CFLAGS% -I"%SRC%"/interfaces
-SET CFLAGS=%CFLAGS% -I"%SRC%"/objects
-SET CFLAGS=%CFLAGS% -I"%SRC%"/remoteio
-SET CFLAGS=%CFLAGS% -I"%SRC%"/remoteio/client
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\bindings"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\devices"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\interfaces"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\objects"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\remoteio"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\remoteio\client"
 
 SET LDFLAGS=-L.
 
 REM Get ready to compile...
 
-robocopy  "%LIBSIMPLEIO%/win/%ARCH%" . hidapi.dll /NFL /NDL /NJH /NJS /nc /ns /np
-
-MKDIR "%OBJ%"
+IF NOT EXIST "%OBJ%" MKDIR "%OBJ%"
+robocopy  "%LIBSIMPLEIO%\win\%ARCH%" . hidapi.dll /NFL /NDL /NJH /NJS /nc /ns /np
 
 REM Compile the program
 
-"%GNAT%/bin/gnatmake" -D "%OBJ%" %1 -cargs %CFLAGS% -largs %LDFLAGS%
+"%GNAT%\bin\gnatmake" -D "%OBJ%" %1 -cargs %CFLAGS% -largs %LDFLAGS%
