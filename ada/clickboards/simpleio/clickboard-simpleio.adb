@@ -289,8 +289,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
     -- and socket number
 
     FOR i IN SocketTable'Range LOOP
-      IF kind = SocketTable(i).kind AND
-        socknum = SocketTable(i).socknum THEN
+      IF kind = SocketTable(i).kind AND socknum = SocketTable(i).socknum THEN
         RETURN Socket'(index => i);
       END IF;
     END LOOP;
