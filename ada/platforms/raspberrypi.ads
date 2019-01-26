@@ -71,7 +71,7 @@ PACKAGE RaspberryPi IS
   PWM0   : CONSTANT Device.Designator := (0,  0);  -- GPIO18
   PWM1   : CONSTANT Device.Designator := (0,  1);  -- GPIO19
 
-  SPI0_0 : CONSTANT Device.Designator := (0,  1);  -- GPIO8
+  SPI0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO8
   SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO7
 
 END RaspberryPi;
