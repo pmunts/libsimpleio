@@ -26,8 +26,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Analog;
 WITH ADC.RemoteIO;
 WITH ClickBoard.RemoteIO;
-WITH HID.hidapi;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_mikrobus_adc IS
 
@@ -53,7 +52,7 @@ BEGIN
 
   socknum := Positive'Value(Ada.Command_Line.Argument(1));
   socket  := ClickBoard.RemoteIO.Create(socknum);
-  remdev  := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev  := RemoteIO.Client.hidapi.Create;
   input   := ADC.RemoteIO.Create(remdev, socket.AIN);
 
   -- Display analog samples

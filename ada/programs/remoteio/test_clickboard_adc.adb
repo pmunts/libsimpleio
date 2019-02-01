@@ -23,8 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.ADC.Remoteio;
-WITH HID.hidapi;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 WITH Voltage;
 
 PROCEDURE test_clickboard_adc IS
@@ -37,7 +36,7 @@ BEGIN
   Put_Line("Mikroelektronika ADC Click Test");
   New_Line;
 
-  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev := RemoteIO.Client.hidapi.Create;
   inputs := ClickBoard.ADC.RemoteIO.Create(remdev, 1);
 
   Put_Line("Press CONTROL-C to exit.");

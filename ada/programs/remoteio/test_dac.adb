@@ -23,9 +23,8 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Analog;
-WITH HID.hidapi;
 WITH DAC.RemoteIO;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_dac IS
 
@@ -39,7 +38,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev := RemoteIO.Client.hidapi.Create;
 
   -- Query the available DAC outputs
 

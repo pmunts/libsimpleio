@@ -24,9 +24,8 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.Expand2.RemoteIO;
 WITH GPIO;
-WITH HID.hidapi;
 WITH MCP23017.GPIO;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_clickboard_expand2 IS
 
@@ -41,7 +40,7 @@ BEGIN
 
   -- Create MCP23017 device object
 
-  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev := RemoteIO.Client.hidapi.Create;
   dev    := ClickBoard.Expand2.RemoteIO.Create(remdev, socknum => 1);
 
   -- Configure GPIO pins

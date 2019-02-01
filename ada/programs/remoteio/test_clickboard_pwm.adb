@@ -24,12 +24,11 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.PWM_Click.RemoteIO;
 WITH GPIO;
-WITH HID.hidapi;
 WITH PCA9685;
 WITH PCA9685.GPIO;
 WITH PCA9685.PWM;
 WITH PWM;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 WITH Servo.PWM;
 
 PROCEDURE test_clickboard_pwm IS
@@ -46,7 +45,7 @@ BEGIN
 
   -- Create PCA9685 device object
 
-  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev := RemoteIO.Client.hidapi.Create;
   device := ClickBoard.PWM_Click.RemoteIO.Create(remdev, socknum => 1,
     frequency => 50);
 

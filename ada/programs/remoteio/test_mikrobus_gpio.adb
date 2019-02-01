@@ -25,8 +25,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.RemoteIO;
 WITH GPIO.RemoteIO;
-WITH HID.hidapi;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_mikrobus_gpio IS
 
@@ -54,7 +53,7 @@ BEGIN
   socknum := Positive'Value(Ada.Command_Line.Argument(1));
   socket  := ClickBoard.RemoteIO.Create(socknum);
   pin     := ClickBoard.Pins'Value(Ada.Command_Line.Argument(2));
-  remdev  := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev  := RemoteIO.Client.hidapi.Create;
   output  := GPIO.RemoteIO.Create(remdev, socket.GPIO(pin), GPIO.Output, False);
 
   -- Toggle the selected GPIO output

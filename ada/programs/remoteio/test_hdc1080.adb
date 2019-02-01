@@ -27,10 +27,9 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH HDC1080;
-WITH HID.hidapi;
 WITH I2C.Remoteio;
 WITH Humidity;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 WITH Temperature;
 
 PROCEDURE test_hdc1080 IS
@@ -43,7 +42,7 @@ BEGIN
   Put_Line("HDC1080 Temperature/Humidity Sensor Test");
   New_Line;
 
-  bus    := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
+  bus    := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0,
     HDC1080.MaxSpeed);
 
   sensor := HDC1080.Create(bus);

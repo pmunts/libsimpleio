@@ -23,8 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.Thermo.RemoteIO;
-WITH HID.hidapi;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 WITH MAX31855;
 WITH Temperature;
 
@@ -38,7 +37,7 @@ BEGIN
   Put_Line("Mikroelektronika Thermo Click Temperature Sensor Test");
   New_Line;
 
-  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev := RemoteIO.Client.hidapi.Create;
   sensor := ClickBoard.Thermo.RemoteIO.Create(remdev, socknum => 1);
 
   Put_Line("Press CONTROL-C to exit...");

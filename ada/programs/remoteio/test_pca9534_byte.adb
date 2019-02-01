@@ -25,10 +25,9 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.hidapi;
 WITH I2C.RemoteIO;
 WITH PCA9534;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_pca9534_byte IS
 
@@ -42,7 +41,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0,
     PCA9534.MaxSpeed);
 
   -- Create PCA9534 device object

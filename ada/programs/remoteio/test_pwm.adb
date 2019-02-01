@@ -22,9 +22,8 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.hidapi;
 WITH PWM.RemoteIO;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_pwm IS
 
@@ -38,7 +37,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev := RemoteIO.Client.hidapi.Create;
 
   -- Query the available PWM outputs
 

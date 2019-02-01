@@ -22,10 +22,9 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.hidapi;
 WITH I2C.RemoteIO;
 WITH PCA8574;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_pca8574_byte IS
 
@@ -39,7 +38,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0);
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0);
 
   -- Create PCA8574 device object
 

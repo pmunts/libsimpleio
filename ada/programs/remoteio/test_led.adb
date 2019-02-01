@@ -23,8 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO.RemoteIO;
-WITH HID.hidapi;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_led IS
 
@@ -38,7 +37,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev := RemoteIO.Client.hidapi.Create;
 
   -- Create GPIO pin object
 

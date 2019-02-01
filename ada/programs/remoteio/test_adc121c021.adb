@@ -30,9 +30,8 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ADC121C021;
 WITH Analog;
-WITH HID.hidapi;
 WITH I2C.RemoteIO;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_adc121c021 IS
 
@@ -46,7 +45,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.Create(HID.hidapi.Create), 0,
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0,
     ADC121C021.MaxSpeed);
 
   -- Create ADC121C021 input object

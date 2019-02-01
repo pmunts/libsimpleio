@@ -23,8 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.LEDs_8x8.RemoteIO;
-WITH HID.hidapi;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 WITH TrueColor;
 
 PROCEDURE test_clickboard_8x8 IS
@@ -38,7 +37,7 @@ BEGIN
   Put_Line("Mikroelektronika 8x8 LED Click Test");
   New_Line;
 
-  remdev  := RemoteIO.Client.Create(HID.hidapi.Create);
+  remdev  := RemoteIO.Client.hidapi.Create;
   display := ClickBoard.LEDs_8x8.RemoteIO.Create(remdev, socknum => 1);
   display.Clear;
 
