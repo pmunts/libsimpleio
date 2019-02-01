@@ -24,12 +24,10 @@ WITH Ada.Command_Line;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH Message64.UDP;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.UDP;
 
 PROCEDURE test_query_udp IS
 
-  msg      : Message64.Messenger;
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
 
@@ -46,13 +44,9 @@ BEGIN
     RETURN;
   END IF;
 
-  -- Create the messenger object
-
-  msg := Message64.UDP.Create(Ada.Command_Line.Argument(1), 8087);
-
   -- Create the remote I/O device
 
-  remdev := RemoteIO.Client.Create(msg);
+  remdev := RemoteIO.Client.UDP.Create(Ada.Command_Line.Argument(1));
 
   -- Query the firmware version
 

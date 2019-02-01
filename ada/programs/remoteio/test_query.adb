@@ -23,13 +23,10 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.hidapi;
-WITH Message64;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_query IS
 
-  msg      : Message64.Messenger;
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
 
@@ -38,13 +35,9 @@ BEGIN
   Put_Line("Remote I/O Device Information Query");
   New_Line;
 
-  -- Create the raw HID messenger
-
-  msg := HID.hidapi.Create;
-
   -- Create the remote I/O device
 
-  remdev := RemoteIO.Client.Create(msg);
+  remdev := RemoteIO.Client.hidapi.Create;
 
   -- Query the firmware version
 
