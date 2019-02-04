@@ -60,7 +60,7 @@
       <NamespaceSummaryItem name="IO.Objects.Servo.PWM" isDocumented="True">PWM Controlled Servo Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.USB.HID" isDocumented="True">USB Raw HID (Human Interface Device) Transport Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.USB.Munts" isDocumented="True">&lt;a href="http://tech.munts.com"&gt;Munts Technologies&lt;/a&gt; USB Device Identifiers</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/arm-linux-mcu/examples/firmware/common/libremoteio.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/muntsos/examples/firmware/common/libremoteio.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="lpc11xx" isDocumented="False" />
     </NamespaceSummaries>
     <VisibleItems>ProtectedInternalAsProtected</VisibleItems>

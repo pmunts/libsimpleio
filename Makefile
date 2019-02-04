@@ -38,7 +38,7 @@ PKGFILE		:= $(PKGDIR).deb
 else
 # Definitions for cross-compiling for MuntsOS embedded Linux
 
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
+EMBLINUXBASE	?= $(HOME)/muntsos
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 
 OSNAME		?= unknown

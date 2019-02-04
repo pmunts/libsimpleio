@@ -22,7 +22,7 @@
 
 ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
+EMBLINUXBASE	?= $(HOME)/muntsos
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 else
 # Native compile for Linux (e.g. Raspbian)

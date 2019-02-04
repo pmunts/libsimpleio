@@ -23,6 +23,6 @@ References
 
    1. https://www.microchip.com/wwwproducts/en/MCP2221A
    2. https://github.com/signal11/hidapi
-   3. http://git.munts.com/arm-linux-mcu
+   3. http://git.munts.com/muntsos
    4. https://www.cygwin.com/
    5. mailto:phil@munts.net

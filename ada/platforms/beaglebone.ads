@@ -20,7 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- Refer to http://git.munts.com/arm-linux-mcu/doc/BeagleBonePinout.pdf
+-- Refer to http://git.munts.com/muntsos/doc/BeagleBonePinout.pdf
 
 WITH Device;
 

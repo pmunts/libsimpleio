@@ -28,7 +28,7 @@
 
 ifneq ($(BOARDNAME),)
 ifeq  ($(BOARDBASE),)
-EMBLINUXBASE	?= $(HOME)/arm-linux-mcu
+EMBLINUXBASE	?= $(HOME)/muntsos
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 endif
 endif

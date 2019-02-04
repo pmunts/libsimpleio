@@ -26,6 +26,6 @@ References
 
    1. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
    2. https://github.com/signal11/hidapi
-   3. http://git.munts.com/arm-linux-mcu
+   3. http://git.munts.com/muntsos
    4. https://www.cygwin.com/
    5. mailto:phil@munts.net
