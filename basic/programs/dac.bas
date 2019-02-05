@@ -21,6 +21,7 @@
 ' POSSIBILITY OF SUCH DAMAGE.
 
 class DAC_Output
+  var mynumsteps = -1
   var mystepsize = -1
   var myfd       = -1
 
@@ -28,17 +29,29 @@ class DAC_Output
   ' reference  : D/A converter full scale voltage in volts
 
   def Open(chip, channel, resolution, reference)
+    mynumsteps = 2^resolution
     mystepsize = reference/2.0^resolution
     myfd       = dac_open(chip, channel)
   enddef
 
   def Close()
     dac_close(myfd)
+    mynumsteps = -1
     mystepsize = -1
     myfd       = -1
   enddef
 
   def Write(V)
-    dac_write(myfd, V/mystepsize)
+    sample = V/mystepsize
+
+    if sample < 0 then
+      sample = 0
+    endif
+
+    if sample >= mynumsteps then
+      sample = mynumsteps - 1
+    endif
+
+    dac_write(myfd, sample)
   enddef
 endclass
