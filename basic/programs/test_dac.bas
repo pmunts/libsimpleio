@@ -38,6 +38,8 @@ input resolution
 print "Enter DAC reference voltage: "
 input reference
 
+stepsize = reference/2^resolution
+
 ' Open the DAC output
 
 DAC0 = new(DAC_Output)
@@ -46,7 +48,7 @@ DAC0.Open(chip, channel, resolution, reference)
 ' Generate sawtooth wave
 
 while true
-  for sample = 0 to 2^resolution - 1
-    DAC0.Write(sample)
-  next sample
+  for Vout = 0.0 to reference - stepsize step stepsize
+    DAC0.Write(Vout)
+  next Vout
 wend
