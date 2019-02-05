@@ -42,8 +42,6 @@ print "";
 AIN = new(ADC_INPUT)
 AIN.Open(chip, channel, resolution, reference)
 
-fd = libsimpleio.adc_open(chip, channel)
-
 ' Read the ADC input
 
 while true
