@@ -30,11 +30,11 @@ class Servo_Output
   def Open(chip, channel, freq, position)
     myperiod = 1000000000/freq
     ontime = 1500000 + round(500000.0*position)
-    myfd = libsimpleio.pwm_open(chip, channel, myperiod, ontime)
+    myfd = pwm_open(chip, channel, myperiod, ontime)
   enddef
 
   def Close()
-    libsimpleio.pwm_close(myfd)
+    pwm_close(myfd)
     myperiod = -1
     myfd     = -1
   enddef
@@ -43,6 +43,6 @@ class Servo_Output
 
   def Write(position)
     ontime = 1500000 + round(500000.0*position)
-    libsimpleio.pwm_write(myfd, ontime)
+    pwm_write(myfd, ontime)
   enddef
 endclass
