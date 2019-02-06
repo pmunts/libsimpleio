@@ -49,6 +49,8 @@ PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
 endif
 
+include make/dpkg.mk
+
 default: package.deb
 
 SIMPLEIO_COMPONENTS	= errmsg.o libevent.o libgpio.o libhidraw.o libi2c.o
@@ -117,16 +119,10 @@ ifeq ($(BOARDNAME),)
 	install -cm 0644 udev/*.rules		$(PKGDIR)/etc/udev/rules.d
 	mkdir -p				$(PKGDIR)/usr/local/libexec
 	install -cm 0755 udev/udev-helper-*	$(PKGDIR)/usr/local/libexec
-	chmod -R ugo-w $(PKGDIR)/etc
 else
 # Cross-compiled package for MuntsOS embedded Linux
 	$(MAKE) install DESTDIR=$(PKGDIR)$(GCCSYSROOT)/usr
 endif
-
-$(PKGFILE): $(PKGDIR)
-	chmod -R ugo-w $(PKGDIR)/usr
-	fakeroot dpkg-deb --build $(PKGDIR)
-	chmod -R u+w $(PKGDIR)
 
 package.deb: $(PKGFILE)
 
