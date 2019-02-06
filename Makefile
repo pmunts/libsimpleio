@@ -49,7 +49,7 @@ PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
 endif
 
-include dpkg.mk
+include make/dpkg.mk
 
 default: package.deb
 
@@ -87,11 +87,11 @@ install: libsimpleio.a libsimpleio.so
 	mkdir -p				$(DESTDIR)/share/libsimpleio/csharp
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
 	mkdir -p				$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
+	mkdir -p				$(DESTDIR)/share/libsimpleio/make
 	mkdir -p				$(DESTDIR)/share/libsimpleio/modula2
 	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
-	install -cm 0644 dpkg.mk		$(DESTDIR)/include/libsimpleio
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
@@ -99,6 +99,7 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p make			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
 	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc
