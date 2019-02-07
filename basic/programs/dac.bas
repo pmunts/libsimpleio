@@ -31,11 +31,11 @@ class DAC_Output
   def Open(chip, channel, resolution, reference)
     mynumsteps = 2^resolution
     mystepsize = reference/2.0^resolution
-    myfd       = dac_open(chip, channel)
+    myfd       = libsimpleio.dac_open(chip, channel)
   enddef
 
   def Close()
-    dac_close(myfd)
+    libsimpleio.dac_close(myfd)
     mynumsteps = -1
     mystepsize = -1
     myfd       = -1
@@ -52,6 +52,6 @@ class DAC_Output
       sample = mynumsteps - 1
     endif
 
-    dac_write(myfd, sample)
+    libsimpleio.dac_write(myfd, sample)
   enddef
 endclass

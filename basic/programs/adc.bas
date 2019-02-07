@@ -29,16 +29,16 @@ class ADC_Input
 
   def Open(chip, channel, resolution, reference)
     mystepsize = reference/2.0^resolution
-    myfd       = adc_open(chip, channel)
+    myfd       = libsimpleio.adc_open(chip, channel)
   enddef
 
   def Close()
-    adc_close(myfd)
+    libsimpleio.adc_close(myfd)
     mystepsize = -1
     myfd       = -1
   enddef
 
   def Read()
-    return adc_read(myfd)*mystepsize
+    return libsimpleio.adc_read(myfd)*mystepsize
   enddef
 endclass

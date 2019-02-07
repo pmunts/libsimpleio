@@ -509,6 +509,8 @@ void libsimpleio_init(struct mb_interpreter_t *bas)
   // Operating System services
   mb_reg_fun(bas, delay);
 
+  mb_begin_module(bas, "libsimpleio");
+
   // ADC services
   mb_reg_fun(bas, adc_open);
   mb_reg_fun(bas, adc_close);
@@ -529,4 +531,6 @@ void libsimpleio_init(struct mb_interpreter_t *bas)
   mb_reg_fun(bas, pwm_open);
   mb_reg_fun(bas, pwm_close);
   mb_reg_fun(bas, pwm_write);
+
+  mb_end_module(bas);
 }

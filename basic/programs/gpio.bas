@@ -27,23 +27,23 @@ class GPIO_Pin
   'state : 0=off/low, 1=on/high
 
   def Open(chip, channel, dir, state)
-    myfd = gpio_open(chip, channel, dir, state)
+    myfd = libsimpleio.gpio_open(chip, channel, dir, state)
   enddef
 
   def Close()
-    gpio_close(myfd)
+    libsimpleio.gpio_close(myfd)
     myfd = -1
   enddef
 
   'Returns : 0=off/low, 1=on/high
 
   def Read()
-    return gpio_read(myfd)
+    return libsimpleio.gpio_read(myfd)
   enddef
 
   'state : 0=off/low, 1=on/high
 
   def Write(state)
-    gpio_write(myfd, state)
+    libsimpleio.gpio_write(myfd, state)
   enddef
 endclass

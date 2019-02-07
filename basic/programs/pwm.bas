@@ -30,11 +30,11 @@ class PWM_Output
   def Open(chip, channel, freq, duty)
     myperiod = 1000000000/freq
     ontime = round(duty/100.0*myperiod)
-    myfd = pwm_open(chip, channel, myperiod, ontime)
+    myfd = libsimpleio.pwm_open(chip, channel, myperiod, ontime)
   enddef
 
   def Close()
-    pwm_close(myfd)
+    libsimpleio.pwm_close(myfd)
     myperiod = -1
     myfd     = -1
   enddef
@@ -43,6 +43,6 @@ class PWM_Output
 
   def Write(duty)
     ontime = round(duty/100.0*myperiod)
-    pwm_write(myfd, ontime)
+    libsimpleio.pwm_write(myfd, ontime)
   enddef
 endclass
