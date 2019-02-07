@@ -3,7 +3,7 @@
 # udev helper script for setting PWM output device permissions and
 # creating and removing the /dev/pwm-X:Y symlink
 
-# Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+if [ -z "${DEVPATH}" ]; then
+  exit 0
+fi
+
 SetPerms()
 {
   chown root:plugdev $1
@@ -32,8 +36,6 @@ SetPerms()
 DEVNAME=`basename ${DEVPATH}`
 REGEXCHIPMATCH="^pwmchip[0-9]+$"
 REGEXCHIPSUBST="pwmchip"
-REGEXCHANMATCH="^(pwm-[0-9]+:[0-9]+)|(pwm[0-9]+)$"
-REGEXCHANSUBST="(pwm-[0-9]+:)|(pwm)"
 
 # Handle PWM chip events
 
@@ -47,10 +49,43 @@ if [ $? -eq 0 ]; then
     exit 0
   fi
 
+# Handle PWM chip change events (kernel 4.19)
+
+  if [ "${ACTION}" = "change" ]; then
+    if [ -n "${EXPORT}" ]; then
+      CHIP=`echo ${DEVNAME} | sed -r "s/${REGEXCHIPSUBST}//g"`
+      CHAN=`echo ${EXPORT}  | sed -r "s/pwm//g"`
+      CHANPATH=/sys${DEVPATH}/${EXPORT}
+      LINKNAME=pwm-${CHIP}:${CHAN}
+
+      SetPerms ${CHANPATH}            0750
+      SetPerms ${CHANPATH}/capture    0440
+      SetPerms ${CHANPATH}/duty_cycle 0660
+      SetPerms ${CHANPATH}/enable     0660
+      SetPerms ${CHANPATH}/period     0660
+      SetPerms ${CHANPATH}/polarity   0660
+
+      ln -s -f ${CHANPATH} /dev/${LINKNAME}
+      exit 0
+    fi
+
+    if [ -n "${UNEXPORT}" ]; then
+      CHIP=`echo ${DEVNAME}  | sed -r "s/${REGEXCHIPSUBST}//g"`
+      CHAN=`echo ${UNEXPORT} | sed -r "s/pwm//g"`
+      LINKNAME=pwm-${CHIP}:${CHAN}
+
+      rm -f /dev/pwm-${CHIP}:${CHAN}
+      exit 0
+    fi
+  fi
+
   exit 0
 fi
 
-# Handle PWM channel events
+# Handle PWM channel events (kernel 4.14)
+
+REGEXCHANMATCH="^(pwm-[0-9]+:[0-9]+)|(pwm[0-9]+)$"
+REGEXCHANSUBST="(pwm-[0-9]+:)|(pwm)"
 
 echo ${DEVNAME} | egrep "${REGEXCHANMATCH}"
 if [ $? -eq 0 ]; then
