@@ -46,6 +46,12 @@ if [ $? -eq 0 ]; then
     SetPerms /sys${DEVPATH}/export   0220
     SetPerms /sys${DEVPATH}/npwm     0440
     SetPerms /sys${DEVPATH}/unexport 0220
+    ln -s -f /sys${DEVPATH} /dev/${DEVNAME}
+    exit 0
+  fi
+
+  if [ "${ACTION}" = "remove" ]; then
+    rm -f /dev/${DEVNAME}
     exit 0
   fi
 
