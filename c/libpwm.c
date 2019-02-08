@@ -34,23 +34,14 @@
 
 // Device nodes
 
-#define DIR_CLASS	"/sys/class/pwm"
-#define DIR_CHIP	DIR_CLASS "/pwmchip%d"
+#define DIR_CHIP	"/dev/pwmchip%d"
 #define FILE_EXPORT	DIR_CHIP  "/export"
 #define FILE_UNEXPORT	DIR_CHIP  "/unexport"
-#define DIR_CHAN	DIR_CLASS "/pwm-%d:%d/"
-#if defined(MAKE_DEV_LINK) || defined(WAIT_DEV_LINK)
-#define DEV_LINK	"/dev/pwm-%d:%d"
-#define FILE_ENABLE	DEV_LINK  "/enable"
-#define FILE_ONTIME	DEV_LINK  "/duty_cycle"	// nanoseconds
-#define FILE_PERIOD	DEV_LINK  "/period"	// nanoseconds
-#define FILE_POLARITY	DEV_LINK  "/polarity"	// "normal" or "inversed" [sic]
-#else
+#define DIR_CHAN	"/dev/pwm-%d:%d"
 #define FILE_ENABLE	DIR_CHAN  "/enable"
 #define FILE_ONTIME	DIR_CHAN  "/duty_cycle"	// nanoseconds
 #define FILE_PERIOD	DIR_CHAN  "/period"	// nanoseconds
 #define FILE_POLARITY	DIR_CHAN  "/polarity"	// "normal" or "inversed" [sic]
-#endif
 
 static uint64_t milliseconds(void)
 {
@@ -297,26 +288,6 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   }
 
   close(fd);
-
-#ifdef MAKE_DEV_LINK
-  // Symlink /dev/pwm-X:Y to /sys/class/pwm/pwm-X:Y -- requires superuser
-
-  char linkname[MAXPATHLEN];
-  char linktarget[MAXPATHLEN];
-
-  snprintf(linktarget, sizeof(linktarget), DIR_CHAN, chip, channel);
-  snprintf(linkname, sizeof(linkname), DEV_LINK, chip, channel);
-
-  if (access(linkname, F_OK))
-  {
-    if (symlink(linktarget, linkname))
-    {
-      *error = errno;
-      ERRORMSG("symlink() failed", *error, __LINE__ - 3);
-      return;
-    }
-  }
-#endif
 
   *error = 0;
 }
