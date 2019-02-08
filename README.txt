@@ -52,17 +52,21 @@ News
        a private Subversion repository and then pushed to GitHub) will be
        maintained, but you should clone from GitHub, which will be much
        faster.
+     * 8 February 2019 -- Reworked PWM device handling for the Linux 4.19
+       kernel. Cleaned up some stale links and commands in the user
+       manual. Cleaned up some loose ends in the [8]MY-BASIC bindings and
+       example programs.
 
 Documentation
 
    The user manual for libsimpleio is available at:
-   [8]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [9]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-   [9]libsimpleio.html
+   [10]libsimpleio.html
 
    The source code is available at:
-   [10]https://github.com/pmunts/libsimpleio
+   [11]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -96,7 +100,7 @@ POSSIBILITY OF SUCH DAMAGE.
    respective authors.
    ___________________________________________________________________
 
-   Questions or comments to Philip Munts [11]phil@munts.net
+   Questions or comments to Philip Munts [12]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -110,7 +114,8 @@ References
    5. https://github.com/
    6. https://github.com/pmunts/libsimpleio
    7. http://git.munts.com/
-   8. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-   9. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  10. https://github.com/pmunts/libsimpleio
-  11. mailto:phil@munts.net
+   8. https://github.com/paladin-t/my_basic
+   9. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  10. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  11. https://github.com/pmunts/libsimpleio
+  12. mailto:phil@munts.net
