@@ -32,6 +32,8 @@ PACKAGE HID.hidapi IS
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH PRIVATE;
 
+  Destroyed : CONSTANT MessengerSubclass;
+
   -- Constructor
 
   -- Allowed values for the timeout parameter:
@@ -64,6 +66,9 @@ PRIVATE
     handle  : System.Address;
     timeout : Integer;
   END RECORD;
+
+  Destroyed : CONSTANT MessengerSubclass :=
+    MessengerSubclass'(System.Null_Address, Integer'First);
 
   -- Minimal Ada thin binding to hidapi
 
