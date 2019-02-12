@@ -23,7 +23,7 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.libsimpleio.static;
+WITH HID.libsimpleio.Static;
 WITH RemoteIO.Client;
 
 PROCEDURE test_query_libsimpleio IS
