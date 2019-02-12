@@ -32,13 +32,15 @@ PACKAGE HID.libusb IS
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH PRIVATE;
 
+  Destroyed : CONSTANT MessengerSubclass;
+
   -- Constructor
 
   FUNCTION Create
    (vid       : HID.Vendor  := HID.Munts.VID;
     pid       : HID.Product := HID.Munts.PID;
     iface     : Natural := 0;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
   -- Send a message
 
@@ -56,8 +58,11 @@ PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
     handle  : System.Address;
-    timeout : Natural;
+    timeout : Integer;
   END RECORD;
+
+  Destroyed : CONSTANT MessengerSubclass :=
+    MessengerSubclass'(System.Null_Address, Integer'First);
 
   -- Minimal Ada thin binding to libusb
 
@@ -100,11 +105,15 @@ PRIVATE
     count    : OUT Integer;
     timeout  : Interfaces.C.unsigned) RETURN Integer;
 
+  PROCEDURE libusb_close
+   (handle   : System.Address);
+
   PRAGMA Import(C, libusb_init);
   PRAGMA Import(C, libusb_open_device_with_vid_pid);
   PRAGMA Import(C, libusb_set_auto_detach_kernel_driver);
   PRAGMA Import(C, libusb_claim_interface);
   PRAGMA Import(C, libusb_interrupt_transfer);
+  PRAGMA Import(C, libusb_close);
 
   PRAGMA Link_With("-lusb-1.0");
 

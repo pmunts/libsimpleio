@@ -25,6 +25,7 @@ WITH DAC.libsimpleio.Static;
 WITH GPIO.libsimpleio.Static;
 WITH HID.hidapi.Static;
 WITH HID.libsimpleio.Static;
+WITH HID.libusb.Static;
 WITH I2C.libsimpleio.Static;
 WITH Logging.libsimpleio.Static;
 WITH PWM.libsimpleio.Static;
@@ -38,6 +39,7 @@ PROCEDURE test_static_objects IS
   gpio0   : GPIO.libsimpleio.PinSubclass       := GPIO.libsimpleio.Destroyed;
   hid0    : HID.hidapi.MessengerSubclass       := HID.hidapi.Destroyed;
   hid1    : HID.libsimpleio.MessengerSubclass  := HID.libsimpleio.Destroyed;
+  hid2    : HID.libusb.MessengerSubclass       := HID.libusb.Destroyed;
   i2c0    : I2C.libsimpleio.BusSubclass        := I2C.libsimpleio.Destroyed;
   log0    : Logging.libsimpleio.LoggerSubclass := Logging.libsimpleio.Destroyed;
   pwm0    : PWM.libsimpleio.OutputSubclass     := PWM.libsimpleio.Destroyed;
@@ -50,6 +52,7 @@ BEGIN
   GPIO.libsimpleio.Static.Destroy(gpio0);
   HID.hidapi.Static.Destroy(hid0);
   HID.libsimpleio.Static.Destroy(hid1);
+  HID.libusb.Static.Destroy(hid2);
   I2C.libsimpleio.Static.Destroy(i2c0);
   Logging.libsimpleio.Static.Destroy(log0);
   PWM.libsimpleio.Static.Destroy(pwm0);

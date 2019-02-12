@@ -1,6 +1,7 @@
--- 64-byte message services using the raw HID services from liblibusb
+-- 64-byte message services using the raw HID services from libusb
+-- without heap
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,29 +21,32 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Characters.Handling;
 WITH System;
 
-WITH Messaging;
+WITH errno;
+WITH libHIDRaw;
+WITH libLinux;
 
 USE TYPE System.Address;
 
-PACKAGE BODY HID.libusb IS
+PACKAGE BODY HID.libusb.Static IS
 
-  -- Constructor
+  -- Constructor using HID vendor and product ID's
 
-  FUNCTION Create
-   (vid       : HID.Vendor  := HID.Munts.VID;
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    vid       : HID.Vendor  := HID.Munts.VID;
     pid       : HID.Product := HID.Munts.PID;
     iface     : Natural := 0;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
+    timeoutms : Integer := 1000) IS
 
     error   : Integer;
     context : System.Address;
     handle  : System.Address;
 
   BEGIN
-
-    -- Validate parameters
+    Self := Destroyed;
 
     IF timeoutms < 0 THEN
       RAISE HID_Error WITH "timeoutms parameter is out of range";
@@ -76,58 +80,21 @@ PACKAGE BODY HID.libusb IS
         Integer'Image(error);
     END IF;
 
-    RETURN NEW MessengerSubclass'(handle, timeoutms);
-  END Create;
+    Self := MessengerSubclass'(handle, timeoutms);
+  END Initialize;
 
-  -- Send a message
+  -- Destructor
 
-  PROCEDURE Send
-   (Self : MessengerSubclass;
-    msg  : Message64.Message) IS
-
-    error  : Integer;
-    count  : Integer;
+  PROCEDURE Destroy(Self : IN OUT MessengerSubclass) IS
 
   BEGIN
-    error := libusb_interrupt_transfer(Self.handle, 16#01#, msg'Address,
-      msg'Length, count, Interfaces.C.unsigned(Self.timeout));
-
-    -- Handle error conditions
-
-    IF error = LIBUSB_ERROR_TIMEOUT THEN
-      RAISE Messaging.Timeout_Error WITH "libusb_interrupt_transfer() timed out";
-    ELSIF error /= LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
-        Integer'Image(error);
-    ELSIF (count /= msg'Length) AND (count /= msg'Length + 1) THEN
-      RAISE HID_Error WITH "incorrect send byte count," & Integer'Image(count);
+    IF Self = Destroyed THEN
+      RETURN;
     END IF;
-  END Send;
 
-  -- Receive a message
+    libusb_close(Self.handle);
 
-  PROCEDURE Receive
-   (Self : MessengerSubclass;
-    msg  : OUT Message64.Message) IS
+    Self := Destroyed;
+  END Destroy;
 
-    error  : Integer;
-    count  : Integer;
-
-  BEGIN
-    error := libusb_interrupt_transfer(Self.handle, 16#81#, msg'Address,
-      msg'Length, count, Interfaces.C.unsigned(Self.timeout));
-
-    -- Handle error conditions
-
-    IF error = LIBUSB_ERROR_TIMEOUT THEN
-      RAISE Messaging.Timeout_Error WITH "libusb_interrupt_transfer() timed out";
-    ELSIF error /= LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
-        Integer'Image(error);
-    ELSIF count /= msg'Length THEN
-      RAISE HID_Error WITH "Incorrect receive byte count," &
-        Integer'Image(count);
-    END IF;
-  END Receive;
-
-END HID.libusb;
+END HID.libusb.Static;
