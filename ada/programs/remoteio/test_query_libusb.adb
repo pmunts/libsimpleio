@@ -37,7 +37,7 @@ BEGIN
   Put_Line("Remote I/O Device Information Query");
   New_Line;
 
-  -- Create the raw HID messenger
+  -- Create the HID device
 
   HID.libusb.Static.Initialize(hiddev);
 
