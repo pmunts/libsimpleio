@@ -23,13 +23,12 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.libusb;
-WITH Message64;
+WITH HID.libusb.Static;
 WITH RemoteIO.Client;
 
 PROCEDURE test_query_libusb IS
 
-  msg      : Message64.Messenger;
+  hiddev   : ALIASED HID.libusb.MessengerSubclass;
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
 
@@ -40,11 +39,11 @@ BEGIN
 
   -- Create the raw HID messenger
 
-  msg := HID.libusb.Create;
+  HID.libusb.Static.Initialize(hiddev);
 
   -- Create the remote I/O device
 
-  remdev := RemoteIO.Client.Create(msg);
+  remdev := RemoteIO.Client.Create(hiddev'Unchecked_Access);
 
   -- Query the firmware version
 
@@ -172,4 +171,6 @@ BEGIN
       New_Line;
     END IF;
   END IF;
+
+  HID.libusb.Static.Destroy(hiddev);
 END test_query_libusb;
