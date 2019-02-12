@@ -24,10 +24,6 @@
 WITH Ada.Characters.Handling;
 WITH System;
 
-WITH errno;
-WITH libHIDRaw;
-WITH libLinux;
-
 USE TYPE System.Address;
 
 PACKAGE BODY HID.hidapi.Static IS
