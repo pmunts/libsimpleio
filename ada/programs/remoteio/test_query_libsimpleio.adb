@@ -181,4 +181,6 @@ BEGIN
       New_Line;
     END IF;
   END IF;
+
+  HID.libsimpleio.Static.Destroy(hiddev);
 END test_query_libsimpleio;
