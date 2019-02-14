@@ -131,6 +131,9 @@ PRIVATE
   PROCEDURE libusb_close
    (handle   : System.Address);
 
+  FUNCTION libusb_get_device
+   (handle   : System.Address) RETURN System.Address;
+
   FUNCTION libusb_get_device_descriptor
    (handle   : System.Address;
     data     : OUT Byte_Array) RETURN Integer;
@@ -147,6 +150,7 @@ PRIVATE
   PRAGMA Import(C, libusb_claim_interface);
   PRAGMA Import(C, libusb_interrupt_transfer);
   PRAGMA Import(C, libusb_close);
+  PRAGMA Import(C, libusb_get_device);
   PRAGMA Import(C, libusb_get_device_descriptor);
   PRAGMA Import(C, libusb_get_string_descriptor_ascii);
 

@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Text_IO; USE Ada.Text_IO;
+
 WITH System;
 
 WITH Messaging;
@@ -140,7 +142,7 @@ PACKAGE BODY HID.libusb IS
     data  : String(1 .. 256);
 
   BEGIN
-    error := libusb_get_device_descriptor(Self.handle, desc);
+    error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
     IF error < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
@@ -176,7 +178,7 @@ PACKAGE BODY HID.libusb IS
     data  : String(1 .. 256);
 
   BEGIN
-    error := libusb_get_device_descriptor(Self.handle, desc);
+    error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
     IF error < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
@@ -212,7 +214,7 @@ PACKAGE BODY HID.libusb IS
     data  : String(1 .. 256);
 
   BEGIN
-    error := libusb_get_device_descriptor(Self.handle, desc);
+    error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
     IF error < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
