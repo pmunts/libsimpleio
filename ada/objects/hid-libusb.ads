@@ -81,9 +81,6 @@ PRIVATE
 
   -- Minimal Ada thin binding to libusb
 
-  TYPE Byte IS MOD 256;
-  TYPE Byte_Array IS ARRAY (Natural RANGE <>) OF Byte;
-
   LIBUSB_SUCCESS             : CONSTANT Integer := 0;
   LIBUSB_ERROR_IO            : CONSTANT Integer := -1;
   LIBUSB_ERROR_INVALID_PARAM : CONSTANT Integer := -2;
@@ -99,7 +96,8 @@ PRIVATE
   LIBUSB_ERROR_NOT_SUPPORTED : CONSTANT Integer := -12;
   LIBUSB_ERROR_OTHER         : CONSTANT Integer := -99;
 
-  LIBUSB_DT_DEVICE_SIZE      : CONSTANT Natural := 18;
+  TYPE DeviceDescriptor IS ARRAY (0 .. 17) OF Interfaces.C.unsigned_char;
+
   iManufacturer              : CONSTANT Natural := 14;
   iProduct                   : CONSTANT Natural := 15;
   iSerialNumber              : CONSTANT Natural := 16;
@@ -136,12 +134,12 @@ PRIVATE
 
   FUNCTION libusb_get_device_descriptor
    (handle   : System.Address;
-    data     : OUT Byte_Array) RETURN Integer;
+    data     : OUT DeviceDescriptor) RETURN Integer;
 
   FUNCTION libusb_get_string_descriptor_ascii
    (handle   : System.Address;
-    index    : Byte;
-    data     : OUT String;
+    index    : Interfaces.C.unsigned_char;
+    data     : OUT Interfaces.C.char_array;
     length   : Integer) RETURN Integer;
 
   PRAGMA Import(C, libusb_init);

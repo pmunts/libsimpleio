@@ -22,10 +22,12 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Interfaces.C;
 WITH System;
 
 WITH Messaging;
 
+USE TYPE Interfaces.C.unsigned_char;
 USE TYPE System.Address;
 
 PACKAGE BODY HID.libusb IS
@@ -138,8 +140,8 @@ PACKAGE BODY HID.libusb IS
    (Self : MessengerSubclass) RETURN String IS
 
     error : Integer;
-    desc  : Byte_Array(0 .. LIBUSB_DT_DEVICE_SIZE - 1);
-    data  : String(1 .. 256);
+    desc  : DeviceDescriptor;
+    data  : Interfaces.c.char_array(0 .. 255);
 
   BEGIN
     error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
@@ -165,7 +167,7 @@ PACKAGE BODY HID.libusb IS
       RETURN "";
     END IF;
 
-    RETURN data(1 .. error);
+    RETURN Interfaces.C.To_Ada(data);
   END Manufacturer;
 
   -- Fetch device product string
@@ -174,8 +176,8 @@ PACKAGE BODY HID.libusb IS
    (Self : MessengerSubclass) RETURN String IS
 
     error : Integer;
-    desc  : Byte_Array(0 .. LIBUSB_DT_DEVICE_SIZE - 1);
-    data  : String(1 .. 256);
+    desc  : DeviceDescriptor;
+    data  : Interfaces.c.char_array(0 .. 255);
 
   BEGIN
     error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
@@ -201,7 +203,7 @@ PACKAGE BODY HID.libusb IS
       RETURN "";
     END IF;
 
-    RETURN data(1 .. error);
+    RETURN Interfaces.C.To_Ada(data);
   END Product;
 
   -- Fetch device serial number string
@@ -210,8 +212,8 @@ PACKAGE BODY HID.libusb IS
    (Self : MessengerSubclass) RETURN String IS
 
     error : Integer;
-    desc  : Byte_Array(0 .. LIBUSB_DT_DEVICE_SIZE - 1);
-    data  : String(1 .. 256);
+    desc  : DeviceDescriptor;
+    data  : Interfaces.c.char_array(0 .. 255);
 
   BEGIN
     error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
@@ -237,7 +239,7 @@ PACKAGE BODY HID.libusb IS
       RETURN "";
     END IF;
 
-    RETURN data(1 .. error);
+    RETURN Interfaces.C.To_Ada(data);
   END SerialNumber;
 
 END HID.libusb;
