@@ -60,6 +60,21 @@ PACKAGE HID.hidapi IS
    (Self : MessengerSubclass;
     msg  : OUT Message64.Message);
 
+  -- Fetch device manufacturer string
+
+  FUNCTION Manufacturer
+   (Self : MessengerSubclass) RETURN String;
+
+  -- Fetch device product string
+
+  FUNCTION Product
+   (Self : MessengerSubclass) RETURN String;
+
+  -- Fetch device serial number string
+
+  FUNCTION SerialNumber
+   (Self : MessengerSubclass) RETURN String;
+
 PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
@@ -93,11 +108,29 @@ PRIVATE
     buf     : System.Address;
     len     : Interfaces.C.size_t) RETURN Integer;
 
+  FUNCTION hid_get_manufacturer_string
+   (handle  : System.Address;
+    buf     : OUT Interfaces.C.wchar_array;
+    len     : Interfaces.C.size_t) RETURN Integer;
+
+  FUNCTION hid_get_product_string
+   (handle  : System.Address;
+    buf     : OUT Interfaces.C.wchar_array;
+    len     : Interfaces.C.size_t) RETURN Integer;
+
+  FUNCTION hid_get_serial_number_string
+   (handle  : System.Address;
+    buf     : OUT Interfaces.C.wchar_array;
+    len     : Interfaces.C.size_t) RETURN Integer;
+
   PRAGMA Import(C, hid_init);
   PRAGMA Import(C, hid_open);
   PRAGMA Import(C, hid_close);
   PRAGMA Import(C, hid_read_timeout);
   PRAGMA Import(C, hid_write);
+  PRAGMA Import(C, hid_get_manufacturer_string);
+  PRAGMA Import(C, hid_get_product_string);
+  PRAGMA Import(C, hid_get_serial_number_string);
 
   PRAGMA Link_With("-lhidapi");
 

@@ -137,4 +137,61 @@ PACKAGE BODY HID.hidapi IS
     END LOOP;
   END Receive;
 
+  -- Fetch device manufacturer string
+
+  FUNCTION Manufacturer
+   (Self : MessengerSubclass) RETURN String IS
+
+    status : Integer;
+    buf    : Interfaces.C.wchar_array(0 .. 255) := (OTHERS => Interfaces.C.wide_nul);
+
+  BEGIN
+    status := hid_get_manufacturer_string(Self.handle, buf, buf'Length);
+
+    IF status /= 0 THEN
+      RAISE HID_Error WITH "hid_read() failed, status =" &
+        Integer'Image(status);
+    END IF;
+
+    RETURN Ada.Characters.Handling.To_String(Interfaces.C.To_Ada(buf));
+  END Manufacturer;
+
+  -- Fetch device product string
+
+  FUNCTION Product
+   (Self : MessengerSubclass) RETURN String IS
+
+    status : Integer;
+    buf    : Interfaces.C.wchar_array(0 .. 255) := (OTHERS => Interfaces.C.wide_nul);
+
+  BEGIN
+    status := hid_get_product_string(Self.handle, buf, buf'Length);
+
+    IF status /= 0 THEN
+      RAISE HID_Error WITH "hid_read() failed, status =" &
+        Integer'Image(status);
+    END IF;
+
+    RETURN Ada.Characters.Handling.To_String(Interfaces.C.To_Ada(buf));
+  END Product;
+
+  -- Fetch device serial number string
+
+  FUNCTION SerialNumber
+   (Self : MessengerSubclass) RETURN String IS
+
+    status : Integer;
+    buf    : Interfaces.C.wchar_array(0 .. 255) := (OTHERS => Interfaces.C.wide_nul);
+
+  BEGIN
+    status := hid_get_serial_number_string(Self.handle, buf, buf'Length);
+
+    IF status /= 0 THEN
+      RAISE HID_Error WITH "hid_read() failed, status =" &
+        Integer'Image(status);
+    END IF;
+
+    RETURN Ada.Characters.Handling.To_String(Interfaces.C.To_Ada(buf));
+  END SerialNumber;
+
 END HID.hidapi;
