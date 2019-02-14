@@ -41,6 +41,12 @@ BEGIN
 
   HID.libusb.Static.Initialize(hiddev);
 
+  -- Display HID device information
+
+  Put_Line("Manufacturer:       " & hiddev.Manufacturer);
+  Put_Line("Product:            " & hiddev.Product);
+  Put_Line("Serial number:      " & hiddev.SerialNumber);
+
   -- Create the remote I/O device
 
   remdev := RemoteIO.Client.Create(hiddev'Unchecked_Access);

@@ -54,6 +54,21 @@ PACKAGE HID.libusb IS
    (Self      : MessengerSubclass;
     msg       : OUT Message64.Message);
 
+  -- Fetch device manufacturer string
+
+  FUNCTION Manufacturer
+   (Self : MessengerSubclass) RETURN String;
+
+  -- Fetch device product string
+
+  FUNCTION Product
+   (Self : MessengerSubclass) RETURN String;
+
+  -- Fetch device serial number string
+
+  FUNCTION SerialNumber
+   (Self : MessengerSubclass) RETURN String;
+
 PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
@@ -65,6 +80,9 @@ PRIVATE
     MessengerSubclass'(System.Null_Address, Integer'First);
 
   -- Minimal Ada thin binding to libusb
+
+  TYPE Byte IS MOD 256;
+  TYPE Byte_Array IS ARRAY (Natural RANGE <>) OF Byte;
 
   LIBUSB_SUCCESS             : CONSTANT Integer := 0;
   LIBUSB_ERROR_IO            : CONSTANT Integer := -1;
@@ -80,6 +98,11 @@ PRIVATE
   LIBUSB_ERROR_NO_MEM        : CONSTANT Integer := -11;
   LIBUSB_ERROR_NOT_SUPPORTED : CONSTANT Integer := -12;
   LIBUSB_ERROR_OTHER         : CONSTANT Integer := -99;
+
+  LIBUSB_DT_DEVICE_SIZE      : CONSTANT Natural := 18;
+  iManufacturer              : CONSTANT Natural := 14;
+  iProduct                   : CONSTANT Natural := 15;
+  iSerialNumber              : CONSTANT Natural := 16;
 
   FUNCTION libusb_init
    (context  : OUT System.Address) RETURN Integer;
@@ -108,12 +131,24 @@ PRIVATE
   PROCEDURE libusb_close
    (handle   : System.Address);
 
+  FUNCTION libusb_get_device_descriptor
+   (handle   : System.Address;
+    data     : OUT Byte_Array) RETURN Integer;
+
+  FUNCTION libusb_get_string_descriptor_ascii
+   (handle   : System.Address;
+    index    : Byte;
+    data     : OUT String;
+    length   : Integer) RETURN Integer;
+
   PRAGMA Import(C, libusb_init);
   PRAGMA Import(C, libusb_open_device_with_vid_pid);
   PRAGMA Import(C, libusb_set_auto_detach_kernel_driver);
   PRAGMA Import(C, libusb_claim_interface);
   PRAGMA Import(C, libusb_interrupt_transfer);
   PRAGMA Import(C, libusb_close);
+  PRAGMA Import(C, libusb_get_device_descriptor);
+  PRAGMA Import(C, libusb_get_string_descriptor_ascii);
 
   PRAGMA Link_With("-lusb-1.0");
 

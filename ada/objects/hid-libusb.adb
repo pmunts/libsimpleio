@@ -50,7 +50,7 @@ PACKAGE BODY HID.libusb IS
 
     error := libusb_init(context);
 
-    IF error /= LIBUSB_SUCCESS THEN
+    IF error < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_init() failed, error " &
         Integer'Image(error);
     END IF;
@@ -64,14 +64,14 @@ PACKAGE BODY HID.libusb IS
 
     error := libusb_set_auto_detach_kernel_driver(handle, 1);
 
-    IF (error /= LIBUSB_SUCCESS) AND (error /= LIBUSB_ERROR_NOT_SUPPORTED) THEN
+    IF (error < LIBUSB_SUCCESS) AND (error /= LIBUSB_ERROR_NOT_SUPPORTED) THEN
       RAISE HID_Error WITH "libusb_set_auto_detach_kernel() failed, error " &
         Integer'Image(error);
     END IF;
 
     error := libusb_claim_interface(handle, iface);
 
-    IF error /= LIBUSB_SUCCESS THEN
+    IF error < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_claim_interface() failed, error " &
         Integer'Image(error);
     END IF;
@@ -96,7 +96,7 @@ PACKAGE BODY HID.libusb IS
 
     IF error = LIBUSB_ERROR_TIMEOUT THEN
       RAISE Messaging.Timeout_Error WITH "libusb_interrupt_transfer() timed out";
-    ELSIF error /= LIBUSB_SUCCESS THEN
+    ELSIF error < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
         Integer'Image(error);
     ELSIF (count /= msg'Length) AND (count /= msg'Length + 1) THEN
@@ -121,7 +121,7 @@ PACKAGE BODY HID.libusb IS
 
     IF error = LIBUSB_ERROR_TIMEOUT THEN
       RAISE Messaging.Timeout_Error WITH "libusb_interrupt_transfer() timed out";
-    ELSIF error /= LIBUSB_SUCCESS THEN
+    ELSIF error < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
         Integer'Image(error);
     ELSIF count /= msg'Length THEN
@@ -129,5 +129,113 @@ PACKAGE BODY HID.libusb IS
         Integer'Image(count);
     END IF;
   END Receive;
+
+  -- Fetch device manufacturer string
+
+  FUNCTION Manufacturer
+   (Self : MessengerSubclass) RETURN String IS
+
+    error : Integer;
+    desc  : Byte_Array(0 .. LIBUSB_DT_DEVICE_SIZE - 1);
+    data  : String(1 .. 256);
+
+  BEGIN
+    error := libusb_get_device_descriptor(Self.handle, desc);
+
+    IF error < LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
+        Integer'Image(error);
+    END IF;
+
+    IF desc(iManufacturer) = 0 THEN
+      RETURN "";
+    END IF;
+
+    error := libusb_get_string_descriptor_ascii(Self.handle,
+      desc(iManufacturer), data, data'Length);
+
+    IF error < LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed, error " &
+        Integer'Image(error);
+    END IF;
+
+    IF error = 0 THEN
+      RETURN "";
+    END IF;
+
+    RETURN data(1 .. error);
+  END Manufacturer;
+
+  -- Fetch device product string
+
+  FUNCTION Product
+   (Self : MessengerSubclass) RETURN String IS
+
+    error : Integer;
+    desc  : Byte_Array(0 .. LIBUSB_DT_DEVICE_SIZE - 1);
+    data  : String(1 .. 256);
+
+  BEGIN
+    error := libusb_get_device_descriptor(Self.handle, desc);
+
+    IF error < LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
+        Integer'Image(error);
+    END IF;
+
+    IF desc(iProduct) = 0 THEN
+      RETURN "";
+    END IF;
+
+    error := libusb_get_string_descriptor_ascii(Self.handle,
+      desc(iProduct), data, data'Length);
+
+    IF error < LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed, error " &
+        Integer'Image(error);
+    END IF;
+
+    IF error = 0 THEN
+      RETURN "";
+    END IF;
+
+    RETURN data(1 .. error);
+  END Product;
+
+  -- Fetch device serial number string
+
+  FUNCTION SerialNumber
+   (Self : MessengerSubclass) RETURN String IS
+
+    error : Integer;
+    desc  : Byte_Array(0 .. LIBUSB_DT_DEVICE_SIZE - 1);
+    data  : String(1 .. 256);
+
+  BEGIN
+    error := libusb_get_device_descriptor(Self.handle, desc);
+
+    IF error < LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
+        Integer'Image(error);
+    END IF;
+
+    IF desc(iSerialNumber) = 0 THEN
+      RETURN "";
+    END IF;
+
+    error := libusb_get_string_descriptor_ascii(Self.handle,
+      desc(iSerialNumber), data, data'Length);
+
+    IF error < LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed, error " &
+        Integer'Image(error);
+    END IF;
+
+    IF error = 0 THEN
+      RETURN "";
+    END IF;
+
+    RETURN data(1 .. error);
+  END SerialNumber;
 
 END HID.libusb;
