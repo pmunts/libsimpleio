@@ -50,7 +50,7 @@ BEGIN
 
   -- Query the firmware version
 
-  Put_Line("Firmware version:   " & remdev.GetVersion);
+  Put_Line("Information:        " & remdev.GetVersion);
 
   -- Query the capability string
 
