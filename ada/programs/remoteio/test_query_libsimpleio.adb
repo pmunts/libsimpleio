@@ -50,10 +50,10 @@ BEGIN
 
   -- Query the HID device information
 
-  Put_Line("HID device name:   " & hiddev.Name);
-  Put_Line("HID bus type:     " & Natural'Image(hiddev.BusType));
-  Put("HID vendor ID:     "); VendorIO.Put(hiddev.Vendor, 1, 16);   New_Line;
-  Put("HID product ID:    "); ProductIO.Put(hiddev.Product, 1, 16); New_Line;
+  Put_Line("HID device name:    " & hiddev.Name);
+  Put_Line("HID bus type:      " & Natural'Image(hiddev.BusType));
+  Put("HID vendor ID:      "); VendorIO.Put(hiddev.Vendor, 1, 16);   New_Line;
+  Put("HID product ID:     "); ProductIO.Put(hiddev.Product, 1, 16); New_Line;
 
   -- Query the firmware version
 
