@@ -137,7 +137,15 @@ PACKAGE BODY HID.hidapi IS
     END LOOP;
   END Receive;
 
-  -- Fetch device manufacturer string
+  -- Get HID device name string
+
+  FUNCTION Name(Self : MessengerSubclass) RETURN String IS
+
+  BEGIN
+    RETURN Self.Manufacturer & " " & Self.Product;
+  END Name;
+
+  -- Get HID device manufacturer string
 
   FUNCTION Manufacturer
    (Self : MessengerSubclass) RETURN String IS
@@ -156,7 +164,7 @@ PACKAGE BODY HID.hidapi IS
     RETURN Ada.Characters.Handling.To_String(Interfaces.C.To_Ada(buf));
   END Manufacturer;
 
-  -- Fetch device product string
+  -- Get HID device product string
 
   FUNCTION Product
    (Self : MessengerSubclass) RETURN String IS
@@ -175,7 +183,7 @@ PACKAGE BODY HID.hidapi IS
     RETURN Ada.Characters.Handling.To_String(Interfaces.C.To_Ada(buf));
   END Product;
 
-  -- Fetch device serial number string
+  -- Get HID device serial number string
 
   FUNCTION SerialNumber
    (Self : MessengerSubclass) RETURN String IS

@@ -134,7 +134,15 @@ PACKAGE BODY HID.libusb IS
     END IF;
   END Receive;
 
-  -- Fetch device manufacturer string
+  -- Get HID device name string
+
+  FUNCTION Name(Self : MessengerSubclass) RETURN String IS
+
+  BEGIN
+    RETURN Self.Manufacturer & " " & Self.Product;
+  END Name;
+
+  -- Get HID device manufacturer string
 
   FUNCTION Manufacturer
    (Self : MessengerSubclass) RETURN String IS
@@ -170,7 +178,7 @@ PACKAGE BODY HID.libusb IS
     RETURN Interfaces.C.To_Ada(data);
   END Manufacturer;
 
-  -- Fetch device product string
+  -- Get HID device product string
 
   FUNCTION Product
    (Self : MessengerSubclass) RETURN String IS
@@ -206,7 +214,7 @@ PACKAGE BODY HID.libusb IS
     RETURN Interfaces.C.To_Ada(data);
   END Product;
 
-  -- Fetch device serial number string
+  -- Get HID device serial number string
 
   FUNCTION SerialNumber
    (Self : MessengerSubclass) RETURN String IS

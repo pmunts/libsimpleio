@@ -60,17 +60,21 @@ PACKAGE HID.hidapi IS
    (Self : MessengerSubclass;
     msg  : OUT Message64.Message);
 
-  -- Fetch device manufacturer string
+  -- Get HID device name string
+
+  FUNCTION Name(Self : MessengerSubclass) RETURN String;
+
+  -- Get HID device manufacturer string
 
   FUNCTION Manufacturer
    (Self : MessengerSubclass) RETURN String;
 
-  -- Fetch device product string
+  -- Get HID device product string
 
   FUNCTION Product
    (Self : MessengerSubclass) RETURN String;
 
-  -- Fetch device serial number string
+  -- Get HID device serial number string
 
   FUNCTION SerialNumber
    (Self : MessengerSubclass) RETURN String;

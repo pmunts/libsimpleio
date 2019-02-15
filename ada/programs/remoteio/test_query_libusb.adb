@@ -43,6 +43,7 @@ BEGIN
 
   -- Display HID device information
 
+  Put_Line("HID device name:    " & hiddev.Name);
   Put_Line("Manufacturer:       " & hiddev.Manufacturer);
   Put_Line("Product:            " & hiddev.Product);
   Put_Line("Serial number:      " & hiddev.SerialNumber);
