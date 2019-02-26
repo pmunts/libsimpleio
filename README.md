@@ -42,11 +42,23 @@ The user manual for **libsimpleio** is available at: <http://git.munts.com/libsi
 
 The man pages specifying the **libsimpleio** API are available at: [libsimpleio.html](http://git.munts.com/libsimpleio/doc/libsimpleio.html)
 
-The source code is available at: <https://github.com/pmunts/libsimpleio>
+Git Repository
+--------------
+
+The source code is available at:
+
+<https://github.com/pmunts/libsimpleio>
 
 Use the following command to clone it:
 
     git clone https://github.com/pmunts/libsimpleio.git
+
+Package Repository
+------------------
+
+Prebuilt packages for Debian 9 (Stretch) are available at:
+
+<http://repo.munts.com/debian9>
 
 ------------------------------------------------------------------------
 

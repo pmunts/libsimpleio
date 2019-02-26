@@ -65,15 +65,24 @@ Documentation
    The man pages specifying the libsimpleio API are available at:
    [10]libsimpleio.html
 
+Git Repository
+
    The source code is available at:
+
    [11]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
    git clone https://github.com/pmunts/libsimpleio.git
+
+Package Repository
+
+   Prebuilt packages for Debian 9 (Stretch) are available at:
+
+   [12]http://repo.munts.com/debian9
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [12]phil@munts.net
+   Questions or comments to Philip Munts [13]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -91,4 +100,5 @@ References
    9. http://git.munts.com/libsimpleio/doc/UserManual.pdf
   10. http://git.munts.com/libsimpleio/doc/libsimpleio.html
   11. https://github.com/pmunts/libsimpleio
-  12. mailto:phil@munts.net
+  12. http://repo.munts.com/debian9
+  13. mailto:phil@munts.net
