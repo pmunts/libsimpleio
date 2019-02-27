@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Interfaces.C.Strings;
+
 PACKAGE errno IS
   EOK     : CONSTANT := 0;	-- Success
   EPERM   : CONSTANT := 1;	-- Not super-user
@@ -59,9 +61,15 @@ PACKAGE errno IS
 
   ECONNRESET : CONSTANT := 104; -- Connection reset by peer
 
+  -- Binding to C standard library strerror()
+
+  FUNCTION libc_strerror(error : Integer) RETURN Interfaces.C.Strings.chars_ptr;
+    PRAGMA Import (C, libc_strerror, "strerror"); 
+
   -- Fetch the error message associated with an errno value
 
-  FUNCTION strerror(error : Integer) RETURN String;
+  FUNCTION strerror(error : Integer) RETURN String IS
+   (Interfaces.C.Strings.Value(libc_strerror(error)));
 
   -- Get the current errno value
 
