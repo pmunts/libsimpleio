@@ -59,6 +59,13 @@ PACKAGE errno IS
 
   ECONNRESET : CONSTANT := 104; -- Connection reset by peer
 
+  -- Fetch the error message associated with an errno value
+
   FUNCTION strerror(error : Integer) RETURN String;
+
+  -- Get the current errno value
+
+  FUNCTION Get RETURN Integer;
+    PRAGMA Import(C, Get, "__get_errno");
 
 END errno;
