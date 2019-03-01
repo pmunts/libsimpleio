@@ -14,7 +14,6 @@
     <tags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</tags>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes>
-Added link to RemoteIOProtocol.pdf.
     </releaseNotes>
   </metadata>
 </package>
