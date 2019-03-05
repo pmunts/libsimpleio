@@ -18,7 +18,7 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-MODULE test_gpio_toggle;
+MODULE test_gpio;
 
 IMPORT
   gpio_libsimpleio,
@@ -57,4 +57,4 @@ BEGIN
     CheckError(error, "gpio_libsimpleio.Write() failed");
   END;
 
-END test_gpio_toggle.
+END test_gpio.

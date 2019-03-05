@@ -23,7 +23,7 @@
 import com.munts.interfaces.GPIO.*;
 import com.munts.libsimpleio.objects.GPIO.*;
 
-public class test_gpio_toggle
+public class test_gpio
 {
   public static void main(String args[])
   {
@@ -31,7 +31,7 @@ public class test_gpio_toggle
 
     if (args.length != 3)
     {
-      System.out.println("Usage: java -jar test_gpio_toggle.jar " +
+      System.out.println("Usage: java -jar test_gpio.jar " +
         "<chip number> <line number> <iterations>\n");
       System.exit(1);
     }

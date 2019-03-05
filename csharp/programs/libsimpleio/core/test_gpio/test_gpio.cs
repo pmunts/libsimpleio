@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_gpio_toggle
+namespace test_gpio
 {
   class Program
   {
