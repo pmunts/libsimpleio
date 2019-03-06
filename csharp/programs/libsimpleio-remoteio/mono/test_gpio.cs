@@ -24,31 +24,31 @@ using System;
 
 namespace test_gpio
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nGPIO Pin Toggle Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nGPIO Pin Toggle Test\n");
 
-      IO.Interfaces.Message64.Messenger m =
-        new IO.Objects.libsimpleio.HID.Messenger();
+            IO.Interfaces.Message64.Messenger m =
+              new IO.Objects.libsimpleio.HID.Messenger();
 
-      IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device dev = new IO.Remote.Device(m);
 
-      // Create GPIO pin object
+            // Create GPIO pin object
 
-      Console.Write("GPIO channel number? ");
+            Console.Write("GPIO channel number? ");
 
-      IO.Interfaces.GPIO.Pin Output =
-        new IO.Remote.GPIO(dev, int.Parse(Console.ReadLine()),
-          IO.Interfaces.GPIO.Direction.Output);
+            IO.Interfaces.GPIO.Pin Output =
+              new IO.Remote.GPIO(dev, int.Parse(Console.ReadLine()),
+                IO.Interfaces.GPIO.Direction.Output);
 
-      // Toggle the GPIO output
+            // Toggle the GPIO output
 
-      Console.WriteLine("\nPress CONTROL-C to exit");
+            Console.WriteLine("\nPress CONTROL-C to exit");
 
-      for (;;)
-        Output.state = !Output.state;
+            for (;;)
+                Output.state = !Output.state;
+        }
     }
-  }
 }
