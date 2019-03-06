@@ -31,19 +31,19 @@ namespace test_gpio_button_led
             Console.WriteLine("\nUSB HID Remote I/O Button and LED Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-                new IO.Objects.libsimpleio.HID.Messenger();
+              new IO.Objects.libsimpleio.HID.Messenger();
 
             IO.Remote.Device d = new IO.Remote.Device(m);
 
             // Configure LED output
 
             IO.Interfaces.GPIO.Pin LD1 =
-                new IO.Remote.GPIO(d, 0, IO.Interfaces.GPIO.Direction.Output);
+              new IO.Remote.GPIO(d, 0, IO.Interfaces.GPIO.Direction.Output);
 
             // Configure button input
 
             IO.Interfaces.GPIO.Pin SW1 =
-                new IO.Remote.GPIO(d, 1, IO.Interfaces.GPIO.Direction.Input);
+              new IO.Remote.GPIO(d, 1, IO.Interfaces.GPIO.Direction.Input);
 
             bool OldState = !SW1.state;
             bool NewState = OldState;

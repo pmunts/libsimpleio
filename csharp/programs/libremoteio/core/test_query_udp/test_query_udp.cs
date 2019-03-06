@@ -37,7 +37,7 @@ namespace test_query
             }
 
             IO.Interfaces.Message64.Messenger m =
-                new IO.Objects.Message64.UDP.Messenger(args[0], 8087);
+              new IO.Objects.Message64.UDP.Messenger(args[0], 8087);
 
             IO.Remote.Device dev = new IO.Remote.Device(m);
 

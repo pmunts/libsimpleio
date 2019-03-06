@@ -30,12 +30,12 @@ namespace test_led
             Console.WriteLine("\nUSB HID Remote I/O Device LED Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-                new IO.Objects.libsimpleio.HID.Messenger();
+              new IO.Objects.libsimpleio.HID.Messenger();
 
             IO.Remote.Device dev = new IO.Remote.Device(m);
 
             IO.Interfaces.GPIO.Pin LED =
-                dev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);
+              dev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);
 
             for (;;)
             {

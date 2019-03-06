@@ -31,7 +31,7 @@ namespace test_adc
             Console.WriteLine("\nUSB HID Remote I/O Analog Input Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-                new IO.Objects.libsimpleio.HID.Messenger();
+              new IO.Objects.libsimpleio.HID.Messenger();
 
             IO.Remote.Device dev = new IO.Remote.Device(m);
 

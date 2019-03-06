@@ -33,7 +33,7 @@ namespace test_adc
             Console.WriteLine("\nAnalog Input Test\n");
 
             IO.Remote.Device dev =
-                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
             Console.Write("Channels:    ");
 

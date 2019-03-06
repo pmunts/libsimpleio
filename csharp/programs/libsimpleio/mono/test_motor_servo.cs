@@ -40,12 +40,12 @@ namespace test_motor_servo
             // Create servo object
 
             IO.Interfaces.Servo.Output Servo0 =
-                new IO.Objects.libsimpleio.Servo.Output(chip, chan, 50);
+              new IO.Objects.libsimpleio.Servo.Output(chip, chan, 50);
 
             // Create motor object
 
             IO.Interfaces.Motor.Output Motor0 =
-                new IO.Objects.Motor.Servo.Output(Servo0);
+              new IO.Objects.Motor.Servo.Output(Servo0);
 
             // Sweep motor velocity up and down
 
