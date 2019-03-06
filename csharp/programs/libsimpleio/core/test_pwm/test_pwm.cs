@@ -25,46 +25,46 @@ using System.Threading;
 
 namespace test_pwm
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nPWM Output Test using libsimpleio\n");
-
-      Console.Write("PWM chip:            ");
-      int chip = int.Parse(Console.ReadLine());
-
-      Console.Write("PWM channel:         ");
-      int chan = int.Parse(Console.ReadLine());
-
-      Console.Write("PWM pulse frequency: ");
-      int freq = int.Parse(Console.ReadLine());
-
-      // Create PWM output object
-
-      IO.Interfaces.PWM.Output PWM0 =
-        new IO.Objects.libsimpleio.PWM.Output(chip, chan, freq);
-
-      // Sweep PWM pulse width back and forth
-
-      Console.WriteLine("\nPress CONTROL-C to exit");
-
-      for (;;)
-      {
-        int n;
-
-        for (n = 0; n < 100; n++)
+        static void Main(string[] args)
         {
-          PWM0.dutycycle = n;
-          Thread.Sleep(50);
-        }
+            Console.WriteLine("\nPWM Output Test using libsimpleio\n");
 
-        for (n = 100; n >= 0; n--)
-        {
-          PWM0.dutycycle = n;
-          Thread.Sleep(50);
+            Console.Write("PWM chip:            ");
+            int chip = int.Parse(Console.ReadLine());
+
+            Console.Write("PWM channel:         ");
+            int chan = int.Parse(Console.ReadLine());
+
+            Console.Write("PWM pulse frequency: ");
+            int freq = int.Parse(Console.ReadLine());
+
+            // Create PWM output object
+
+            IO.Interfaces.PWM.Output PWM0 =
+              new IO.Objects.libsimpleio.PWM.Output(chip, chan, freq);
+
+            // Sweep PWM pulse width back and forth
+
+            Console.WriteLine("\nPress CONTROL-C to exit");
+
+            for (;;)
+            {
+                int n;
+
+                for (n = 0; n < 100; n++)
+                {
+                    PWM0.dutycycle = n;
+                    Thread.Sleep(50);
+                }
+
+                for (n = 100; n >= 0; n--)
+                {
+                    PWM0.dutycycle = n;
+                    Thread.Sleep(50);
+                }
+            }
         }
-      }
     }
-  }
 }

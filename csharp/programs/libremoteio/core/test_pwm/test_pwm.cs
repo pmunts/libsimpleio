@@ -25,39 +25,39 @@ using System.Collections;
 
 namespace test_pwm
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nPWM Output Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nPWM Output Test\n");
 
-      IO.Remote.Device dev =
-        new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Remote.Device dev =
+              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
-      Console.Write("Channels:");
+            Console.Write("Channels:");
 
-      foreach (int output in dev.PWM_Available())
-        Console.Write(" " + output.ToString());
+            foreach (int output in dev.PWM_Available())
+                Console.Write(" " + output.ToString());
 
-      Console.WriteLine();
+            Console.WriteLine();
 
-      ArrayList S = new ArrayList();
+            ArrayList S = new ArrayList();
 
-      foreach (int c in dev.PWM_Available())
-        S.Add(new IO.Remote.PWM(dev, c, 1000));
+            foreach (int c in dev.PWM_Available())
+                S.Add(new IO.Remote.PWM(dev, c, 1000));
 
-      for (;;)
-      {
-        int n;
+            for (;;)
+            {
+                int n;
 
-        for (n = 0; n < 500; n++)
-          foreach (IO.Interfaces.PWM.Output output in S)
-            output.dutycycle = n/5.0;
+                for (n = 0; n < 500; n++)
+                    foreach (IO.Interfaces.PWM.Output output in S)
+                        output.dutycycle = n / 5.0;
 
-        for (n = 500; n >= 0; n--)
-          foreach (IO.Interfaces.PWM.Output output in S)
-            output.dutycycle = n/5.0;
-      }
+                for (n = 500; n >= 0; n--)
+                    foreach (IO.Interfaces.PWM.Output output in S)
+                        output.dutycycle = n / 5.0;
+            }
+        }
     }
-  }
 }

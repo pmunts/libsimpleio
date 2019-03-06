@@ -25,46 +25,46 @@ using System.Threading;
 
 namespace test_watchdog
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nWatchdog Timer Test using libsimpleio\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nWatchdog Timer Test using libsimpleio\n");
 
-      // Create watchdog timer object
+            // Create watchdog timer object
 
-      IO.Interfaces.Watchdog.Timer wd =
-        new IO.Objects.libsimpleio.Watchdog.Timer("/dev/watchdog");
+            IO.Interfaces.Watchdog.Timer wd =
+              new IO.Objects.libsimpleio.Watchdog.Timer("/dev/watchdog");
 
-      // Display default watchdog timer period
+            // Display default watchdog timer period
 
-      Console.WriteLine("Default period: " + wd.timeout.ToString());
+            Console.WriteLine("Default period: " + wd.timeout.ToString());
 
-      // Change the watchdog timer period to 5 seconds
+            // Change the watchdog timer period to 5 seconds
 
-      wd.timeout = 5;
-      Console.WriteLine("New period:   " + wd.timeout.ToString());
+            wd.timeout = 5;
+            Console.WriteLine("New period:   " + wd.timeout.ToString());
 
-      // Kick the dog for 5 seconds
+            // Kick the dog for 5 seconds
 
-      int i;
+            int i;
 
-      for (i = 0; i < 5; i++)
-      {
-        Console.WriteLine("Kick the dog...");
-        wd.Kick();
+            for (i = 0; i < 5; i++)
+            {
+                Console.WriteLine("Kick the dog...");
+                wd.Kick();
 
-        Thread.Sleep(1000);
-      }
+                Thread.Sleep(1000);
+            }
 
-      // Stop kicking the dog
+            // Stop kicking the dog
 
-      for (i = 0; i < 5; i++)
-      {
-        Console.WriteLine("Don't kick the dog...");
+            for (i = 0; i < 5; i++)
+            {
+                Console.WriteLine("Don't kick the dog...");
 
-        Thread.Sleep(1000);
-      }
+                Thread.Sleep(1000);
+            }
+        }
     }
-  }
 }

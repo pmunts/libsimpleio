@@ -25,39 +25,39 @@ using System.Threading;
 
 namespace test_gpio_interrupt_button_led
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\n GPIO Interrupt Button and LED Test using libsimpleio\n");
-
-      // Create GPIO pin objects
-
-      IO.Interfaces.GPIO.Pin Button =
-        new IO.Objects.libsimpleio.GPIO.Pin(0, 19,
-          IO.Interfaces.GPIO.Direction.Input, false,
-          IO.Objects.libsimpleio.GPIO.Pin.Driver.PushPull,
-          IO.Objects.libsimpleio.GPIO.Pin.Edge.Both);
-
-      IO.Interfaces.GPIO.Pin LED =
-        new IO.Objects.libsimpleio.GPIO.Pin(0, 26,
-          IO.Interfaces.GPIO.Direction.Output, false);
-
-      // Main event loop
-
-      for (;;)
-      {
-        if (Button.state)
+        static void Main(string[] args)
         {
-          Console.WriteLine("PRESSED");
-          LED.state = true;
+            Console.WriteLine("\n GPIO Interrupt Button and LED Test using libsimpleio\n");
+
+            // Create GPIO pin objects
+
+            IO.Interfaces.GPIO.Pin Button =
+              new IO.Objects.libsimpleio.GPIO.Pin(0, 19,
+                IO.Interfaces.GPIO.Direction.Input, false,
+                IO.Objects.libsimpleio.GPIO.Pin.Driver.PushPull,
+                IO.Objects.libsimpleio.GPIO.Pin.Edge.Both);
+
+            IO.Interfaces.GPIO.Pin LED =
+              new IO.Objects.libsimpleio.GPIO.Pin(0, 26,
+                IO.Interfaces.GPIO.Direction.Output, false);
+
+            // Main event loop
+
+            for (;;)
+            {
+                if (Button.state)
+                {
+                    Console.WriteLine("PRESSED");
+                    LED.state = true;
+                }
+                else
+                {
+                    Console.WriteLine("RELEASED");
+                    LED.state = false;
+                }
+            }
         }
-        else
-        {
-          Console.WriteLine("RELEASED");
-          LED.state = false;
-        }
-      }
     }
-  }
 }

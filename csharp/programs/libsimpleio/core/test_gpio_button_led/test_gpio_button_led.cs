@@ -25,44 +25,44 @@ using System.Threading;
 
 namespace test_gpio_button_led
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\n GPIO Button and LED Test using libsimpleio\n");
-
-      bool ButtonOld = false;
-      bool ButtonNew = false;
-
-      // Create GPIO pin objects
-
-      IO.Interfaces.GPIO.Pin Button =
-        new IO.Objects.libsimpleio.GPIO.Pin(0, 19,
-          IO.Interfaces.GPIO.Direction.Input);
-
-      IO.Interfaces.GPIO.Pin LED =
-        new IO.Objects.libsimpleio.GPIO.Pin(0, 26,
-          IO.Interfaces.GPIO.Direction.Output, false);
-
-      // Force initial state change
-
-      ButtonOld = !Button.state;
-
-      // Main event loop
-
-      for (;;)
-      {
-        ButtonNew = Button.state;
-
-        if (ButtonNew != ButtonOld)
+        static void Main(string[] args)
         {
-          Console.WriteLine(ButtonNew ? "PRESSED" : "RELEASED");
-          LED.state = ButtonNew;
-          ButtonOld = ButtonNew;
-        }
+            Console.WriteLine("\n GPIO Button and LED Test using libsimpleio\n");
 
-        Thread.Sleep(100);
-      }
+            bool ButtonOld = false;
+            bool ButtonNew = false;
+
+            // Create GPIO pin objects
+
+            IO.Interfaces.GPIO.Pin Button =
+              new IO.Objects.libsimpleio.GPIO.Pin(0, 19,
+                IO.Interfaces.GPIO.Direction.Input);
+
+            IO.Interfaces.GPIO.Pin LED =
+              new IO.Objects.libsimpleio.GPIO.Pin(0, 26,
+                IO.Interfaces.GPIO.Direction.Output, false);
+
+            // Force initial state change
+
+            ButtonOld = !Button.state;
+
+            // Main event loop
+
+            for (;;)
+            {
+                ButtonNew = Button.state;
+
+                if (ButtonNew != ButtonOld)
+                {
+                    Console.WriteLine(ButtonNew ? "PRESSED" : "RELEASED");
+                    LED.state = ButtonNew;
+                    ButtonOld = ButtonNew;
+                }
+
+                Thread.Sleep(100);
+            }
+        }
     }
-  }
 }

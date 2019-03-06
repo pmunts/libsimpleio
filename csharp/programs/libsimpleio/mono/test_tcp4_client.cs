@@ -24,96 +24,96 @@ using IO.Objects.libsimpleio.Exceptions;
 
 namespace test_tcp4_client
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      System.Console.WriteLine("\nTCP Client Test using libsimpleio\n");
-
-      int addr;
-      int error;
-      System.Text.StringBuilder addrstr = new System.Text.StringBuilder(256);
-      byte[] buf = new byte[256];
-      int fd;
-      int count;
-
-      if (args.Length != 1)
-      {
-        System.Console.WriteLine("Usage: test_tcp4_client <server>\n");
-        System.Environment.Exit(1);
-      }
-
-      IO.Bindings.libsimpleio.libIPV4.IPV4_resolve(args[0], out addr,
-        out error);
-
-      if (error != 0)
-      {
-        throw new Exception("IPV4_resolve() failed", error);
-      }
-
-      IO.Bindings.libsimpleio.libIPV4.IPV4_ntoa(addr, addrstr, addrstr.Length,
-        out error);
-
-      if (error != 0)
-      {
-        throw new Exception("IPV4_ntoa() failed", error);
-      }
-
-      System.Console.WriteLine("Connecting to server " + addrstr.ToString()
-        + "\n");
-
-      IO.Bindings.libsimpleio.libIPV4.TCP4_connect(addr, 12345, out fd,
-        out error);
-
-      if (error != 0)
-      {
-        throw new Exception("TCP4_connect() failed", error);
-      }
-
-      for (;;)
-      {
-        System.Console.Write("> ");
-        string s = System.Console.ReadLine();
-
-        if (s == "quit")
+        static void Main(string[] args)
         {
-          break;
+            System.Console.WriteLine("\nTCP Client Test using libsimpleio\n");
+
+            int addr;
+            int error;
+            System.Text.StringBuilder addrstr = new System.Text.StringBuilder(256);
+            byte[] buf = new byte[256];
+            int fd;
+            int count;
+
+            if (args.Length != 1)
+            {
+                System.Console.WriteLine("Usage: test_tcp4_client <server>\n");
+                System.Environment.Exit(1);
+            }
+
+            IO.Bindings.libsimpleio.libIPV4.IPV4_resolve(args[0], out addr,
+              out error);
+
+            if (error != 0)
+            {
+                throw new Exception("IPV4_resolve() failed", error);
+            }
+
+            IO.Bindings.libsimpleio.libIPV4.IPV4_ntoa(addr, addrstr, addrstr.Length,
+              out error);
+
+            if (error != 0)
+            {
+                throw new Exception("IPV4_ntoa() failed", error);
+            }
+
+            System.Console.WriteLine("Connecting to server " + addrstr.ToString()
+              + "\n");
+
+            IO.Bindings.libsimpleio.libIPV4.TCP4_connect(addr, 12345, out fd,
+              out error);
+
+            if (error != 0)
+            {
+                throw new Exception("TCP4_connect() failed", error);
+            }
+
+            for (;;)
+            {
+                System.Console.Write("> ");
+                string s = System.Console.ReadLine();
+
+                if (s == "quit")
+                {
+                    break;
+                }
+
+                buf = System.Text.Encoding.ASCII.GetBytes(s + "\r\n");
+
+                IO.Bindings.libsimpleio.libIPV4.TCP4_send(fd, buf, buf.Length,
+                  out count, out error);
+
+                if (error != 0)
+                {
+                    throw new Exception("TCP4_send() failed", error);
+                }
+
+                buf = new byte[256];
+
+                IO.Bindings.libsimpleio.libIPV4.TCP4_receive(fd, buf, buf.Length,
+                  out count, out error);
+
+                if (error != 0)
+                {
+                    throw new Exception("TCP4_receive() failed", error);
+                }
+
+                if (count > 0)
+                {
+                    s = System.Text.Encoding.ASCII.GetString(buf, 0, count);
+                    System.Console.WriteLine("Received: " + s);
+
+                }
+            }
+
+            IO.Bindings.libsimpleio.libIPV4.TCP4_close(fd, out error);
+
+            if (error != 0)
+            {
+                throw new Exception("TCP4_close() failed", error);
+            }
         }
-
-        buf = System.Text.Encoding.ASCII.GetBytes(s + "\r\n");
-
-        IO.Bindings.libsimpleio.libIPV4.TCP4_send(fd, buf, buf.Length,
-          out count, out error);
-
-        if (error != 0)
-        {
-          throw new Exception("TCP4_send() failed", error);
-        }
-
-        buf = new byte[256];
-
-        IO.Bindings.libsimpleio.libIPV4.TCP4_receive(fd, buf, buf.Length,
-          out count, out error);
-
-        if (error != 0)
-        {
-          throw new Exception("TCP4_receive() failed", error);
-        }
-
-        if (count > 0)
-        {
-          s = System.Text.Encoding.ASCII.GetString(buf, 0, count);
-          System.Console.WriteLine("Received: " + s);
-
-        }
-      }
-
-      IO.Bindings.libsimpleio.libIPV4.TCP4_close(fd, out error);
-
-      if (error != 0)
-      {
-        throw new Exception("TCP4_close() failed", error);
-      }
     }
-  }
 }

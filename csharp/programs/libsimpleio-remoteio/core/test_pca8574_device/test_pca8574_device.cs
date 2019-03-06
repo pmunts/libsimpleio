@@ -24,26 +24,26 @@ using System;
 
 namespace test_pca8574_device
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nUSB HID Remote I/O PCA8574 GPIO Port Toggle Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nUSB HID Remote I/O PCA8574 GPIO Port Toggle Test\n");
 
-      IO.Interfaces.Message64.Messenger msg =
-        new IO.Objects.libsimpleio.HID.Messenger();
+            IO.Interfaces.Message64.Messenger msg =
+              new IO.Objects.libsimpleio.HID.Messenger();
 
-      IO.Remote.Device remdev = new IO.Remote.Device(msg);
+            IO.Remote.Device remdev = new IO.Remote.Device(msg);
 
-      IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
+            IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 
-      IO.Devices.PCA8574.Device dev = new IO.Devices.PCA8574.Device(bus, 0x38);
+            IO.Devices.PCA8574.Device dev = new IO.Devices.PCA8574.Device(bus, 0x38);
 
-      for (;;)
-      {
-        dev.Write(0x55);
-        dev.Write(0xAA);
-      }
+            for (;;)
+            {
+                dev.Write(0x55);
+                dev.Write(0xAA);
+            }
+        }
     }
-  }
 }

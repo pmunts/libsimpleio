@@ -25,31 +25,31 @@ using System.Threading;
 
 namespace test_grove_i2c_adc
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nGrove I2C A/D Converter Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nGrove I2C A/D Converter Test\n");
 
-      IO.Remote.Device dev =
-        new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Remote.Device dev =
+              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
-      IO.Interfaces.I2C.Bus bus =
-        new IO.Remote.I2C(dev, 0);
+            IO.Interfaces.I2C.Bus bus =
+              new IO.Remote.I2C(dev, 0);
 
-      IO.Interfaces.ADC.Sample adc =
-        new IO.Devices.ADC121C021.Sample(bus, 0x50);
+            IO.Interfaces.ADC.Sample adc =
+              new IO.Devices.ADC121C021.Sample(bus, 0x50);
 
-      IO.Interfaces.ADC.Input inp =
-        new IO.Interfaces.ADC.Input(adc, 3.0, 0.5);
+            IO.Interfaces.ADC.Input inp =
+              new IO.Interfaces.ADC.Input(adc, 3.0, 0.5);
 
-      Console.WriteLine("Resolution: " + adc.resolution.ToString() + " bits\n");
+            Console.WriteLine("Resolution: " + adc.resolution.ToString() + " bits\n");
 
-      for (;;)
-      {
-        Console.WriteLine("Voltage => " + inp.voltage.ToString("F2"));
-        Thread.Sleep(1000);
-      }
+            for (;;)
+            {
+                Console.WriteLine("Voltage => " + inp.voltage.ToString("F2"));
+                Thread.Sleep(1000);
+            }
+        }
     }
-  }
 }

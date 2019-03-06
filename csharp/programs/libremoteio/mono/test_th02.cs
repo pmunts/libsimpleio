@@ -24,31 +24,31 @@ using System;
 
 namespace test_th02
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nTH02 Temperature/Humidity Sensor Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nTH02 Temperature/Humidity Sensor Test\n");
 
-      IO.Remote.Device remdev =
-        new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Remote.Device remdev =
+              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
-      IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
+            IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 
-      IO.Devices.TH02.Device dev = new IO.Devices.TH02.Device(bus);
+            IO.Devices.TH02.Device dev = new IO.Devices.TH02.Device(bus);
 
-      Console.WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X2"));
-      Console.WriteLine();
+            Console.WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X2"));
+            Console.WriteLine();
 
-      for (;;)
-      {
-        Console.Write("Temperature: " + dev.Temperature.ToString("F1"));
-        Console.Write("  ");
-        Console.Write("Humidity: " + dev.Humidity.ToString("F1"));
-        Console.WriteLine();
+            for (;;)
+            {
+                Console.Write("Temperature: " + dev.Temperature.ToString("F1"));
+                Console.Write("  ");
+                Console.Write("Humidity: " + dev.Humidity.ToString("F1"));
+                Console.WriteLine();
 
-        System.Threading.Thread.Sleep(1000);
-      }
+                System.Threading.Thread.Sleep(1000);
+            }
+        }
     }
-  }
 }

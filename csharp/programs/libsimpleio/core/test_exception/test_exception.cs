@@ -24,14 +24,14 @@ using System;
 
 namespace test_exception
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nException Test using libsimpleio\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nException Test using libsimpleio\n");
 
-      throw new IO.Objects.libsimpleio.Exceptions.Exception("EINVAL", 22);
+            throw new IO.Objects.libsimpleio.Exceptions.Exception("EINVAL", 22);
+        }
     }
-  }
 }
 

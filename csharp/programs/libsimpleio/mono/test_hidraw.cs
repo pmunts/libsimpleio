@@ -24,19 +24,19 @@ using System;
 
 namespace test_hidraw
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nRaw HID Query Test using libsimpleio\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nRaw HID Query Test using libsimpleio\n");
 
-      IO.Objects.libsimpleio.HID.Messenger m =
-        new IO.Objects.libsimpleio.HID.Messenger();
+            IO.Objects.libsimpleio.HID.Messenger m =
+              new IO.Objects.libsimpleio.HID.Messenger();
 
-      Console.WriteLine("Device Name: " + m.name);
-      Console.WriteLine("Bus type:    " + m.bustype.ToString());
-      Console.WriteLine("Vendor ID:   " + m.vendor.ToString("X4"));
-      Console.WriteLine("Product ID:  " + m.product.ToString("X4"));
+            Console.WriteLine("Device Name: " + m.name);
+            Console.WriteLine("Bus type:    " + m.bustype.ToString());
+            Console.WriteLine("Vendor ID:   " + m.vendor.ToString("X4"));
+            Console.WriteLine("Product ID:  " + m.product.ToString("X4"));
+        }
     }
-  }
 }

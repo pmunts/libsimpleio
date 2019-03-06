@@ -24,35 +24,35 @@ using System;
 
 namespace test_pca9685_gpio
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nPCA9685 GPIO Output Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nPCA9685 GPIO Output Test\n");
 
-      if (args.Length != 2)
-      {
-        Console.WriteLine("Usage: test_pca9685_gpio <bus> <addr>\n");
-        Environment.Exit(1);
-      }
+            if (args.Length != 2)
+            {
+                Console.WriteLine("Usage: test_pca9685_gpio <bus> <addr>\n");
+                Environment.Exit(1);
+            }
 
-      // Create GPIO pin object
+            // Create GPIO pin object
 
-      IO.Interfaces.I2C.Bus bus =
-        new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+            IO.Interfaces.I2C.Bus bus =
+              new IO.Objects.libsimpleio.I2C.Bus(args[0]);
 
-      IO.Devices.PCA9685.Device dev =
-        new IO.Devices.PCA9685.Device(bus, int.Parse(args[1]), 5000);
+            IO.Devices.PCA9685.Device dev =
+              new IO.Devices.PCA9685.Device(bus, int.Parse(args[1]), 5000);
 
-      IO.Interfaces.GPIO.Pin GPIO0 =
-        new IO.Devices.PCA9685.GPIO.Pin(dev, 0, false);
+            IO.Interfaces.GPIO.Pin GPIO0 =
+              new IO.Devices.PCA9685.GPIO.Pin(dev, 0, false);
 
-      // Toggle the GPIO output
+            // Toggle the GPIO output
 
-      Console.WriteLine("Press CONTROL-C to exit");
+            Console.WriteLine("Press CONTROL-C to exit");
 
-      for (;;)
-        GPIO0.state = !GPIO0.state;
+            for (;;)
+                GPIO0.state = !GPIO0.state;
+        }
     }
-  }
 }

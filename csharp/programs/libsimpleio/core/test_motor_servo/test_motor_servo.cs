@@ -25,48 +25,48 @@ using System.Threading;
 
 namespace test_motor_servo
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nContinuous Rotation Servo Test using libsimpleio\n");
-
-      Console.Write("PWM chip:            ");
-      int chip = int.Parse(Console.ReadLine());
-
-      Console.Write("PWM channel:         ");
-      int chan = int.Parse(Console.ReadLine());
-
-      // Create servo object
-
-      IO.Interfaces.Servo.Output Servo0 =
-        new IO.Objects.libsimpleio.Servo.Output(chip, chan, 50);
-
-      // Create motor object
-
-      IO.Interfaces.Motor.Output Motor0 =
-        new IO.Objects.Motor.Servo.Output(Servo0);
-
-      // Sweep motor velocity up and down
-
-      Console.WriteLine("\nPress CONTROL-C to exit");
-
-      for (;;)
-      {
-        int n;
-
-        for (n = -100; n < 100; n++)
+        static void Main(string[] args)
         {
-          Motor0.velocity = n/100.0;
-          Thread.Sleep(50);
-        }
+            Console.WriteLine("\nContinuous Rotation Servo Test using libsimpleio\n");
 
-        for (n = 100; n >= -100; n--)
-        {
-          Motor0.velocity = n/100.0;
-          Thread.Sleep(50);
+            Console.Write("PWM chip:            ");
+            int chip = int.Parse(Console.ReadLine());
+
+            Console.Write("PWM channel:         ");
+            int chan = int.Parse(Console.ReadLine());
+
+            // Create servo object
+
+            IO.Interfaces.Servo.Output Servo0 =
+                new IO.Objects.libsimpleio.Servo.Output(chip, chan, 50);
+
+            // Create motor object
+
+            IO.Interfaces.Motor.Output Motor0 =
+                new IO.Objects.Motor.Servo.Output(Servo0);
+
+            // Sweep motor velocity up and down
+
+            Console.WriteLine("\nPress CONTROL-C to exit");
+
+            for (;;)
+            {
+                int n;
+
+                for (n = -100; n < 100; n++)
+                {
+                    Motor0.velocity = n / 100.0;
+                    Thread.Sleep(50);
+                }
+
+                for (n = 100; n >= -100; n--)
+                {
+                    Motor0.velocity = n / 100.0;
+                    Thread.Sleep(50);
+                }
+            }
         }
-      }
     }
-  }
 }

@@ -24,35 +24,35 @@ using System;
 
 namespace test_adc
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nADC Input Test using libsimpleio\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nADC Input Test using libsimpleio\n");
 
-      Console.Write("ADC chip:       ");
-      int chip = int.Parse(Console.ReadLine());
+            Console.Write("ADC chip:       ");
+            int chip = int.Parse(Console.ReadLine());
 
-      Console.Write("ADC channel:    ");
-      int channel = int.Parse(Console.ReadLine());
+            Console.Write("ADC channel:    ");
+            int channel = int.Parse(Console.ReadLine());
 
-      Console.Write("ADC resolution: ");
-      int resolution = int.Parse(Console.ReadLine());
+            Console.Write("ADC resolution: ");
+            int resolution = int.Parse(Console.ReadLine());
 
-      // Create ADC input object
+            // Create ADC input object
 
-      IO.Interfaces.ADC.Sample ADC0 =
-        new IO.Objects.libsimpleio.ADC.Sample(chip, channel, resolution);
+            IO.Interfaces.ADC.Sample ADC0 =
+              new IO.Objects.libsimpleio.ADC.Sample(chip, channel, resolution);
 
-      // Sample ADC input
+            // Sample ADC input
 
-      Console.WriteLine("\nPress CONTROL-C to exit\n");
+            Console.WriteLine("\nPress CONTROL-C to exit\n");
 
-      for (;;)
-      {
-        Console.WriteLine("Sample: " + ADC0.sample.ToString());
-        System.Threading.Thread.Sleep(1000);
-      }
+            for (;;)
+            {
+                Console.WriteLine("Sample: " + ADC0.sample.ToString());
+                System.Threading.Thread.Sleep(1000);
+            }
+        }
     }
-  }
 }

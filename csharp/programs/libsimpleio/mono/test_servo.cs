@@ -25,43 +25,43 @@ using System.Threading;
 
 namespace test_servo
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nServo Output Test using libsimpleio\n");
-
-      Console.Write("PWM chip:            ");
-      int chip = int.Parse(Console.ReadLine());
-
-      Console.Write("PWM channel:         ");
-      int chan = int.Parse(Console.ReadLine());
-
-      // Create servo output object
-
-      IO.Interfaces.Servo.Output Servo0 =
-        new IO.Objects.libsimpleio.Servo.Output(chip, chan, 50);
-
-      // Sweep servo position back and forth
-
-      Console.WriteLine("\nPress CONTROL-C to exit");
-
-      for (;;)
-      {
-        int n;
-
-        for (n = -100; n < 100; n++)
+        static void Main(string[] args)
         {
-          Servo0.position = n/100.0;
-          Thread.Sleep(50);
-        }
+            Console.WriteLine("\nServo Output Test using libsimpleio\n");
 
-        for (n = 100; n >= -100; n--)
-        {
-          Servo0.position = n/100.0;
-          Thread.Sleep(50);
+            Console.Write("PWM chip:            ");
+            int chip = int.Parse(Console.ReadLine());
+
+            Console.Write("PWM channel:         ");
+            int chan = int.Parse(Console.ReadLine());
+
+            // Create servo output object
+
+            IO.Interfaces.Servo.Output Servo0 =
+              new IO.Objects.libsimpleio.Servo.Output(chip, chan, 50);
+
+            // Sweep servo position back and forth
+
+            Console.WriteLine("\nPress CONTROL-C to exit");
+
+            for (;;)
+            {
+                int n;
+
+                for (n = -100; n < 100; n++)
+                {
+                    Servo0.position = n / 100.0;
+                    Thread.Sleep(50);
+                }
+
+                for (n = 100; n >= -100; n--)
+                {
+                    Servo0.position = n / 100.0;
+                    Thread.Sleep(50);
+                }
+            }
         }
-      }
     }
-  }
 }

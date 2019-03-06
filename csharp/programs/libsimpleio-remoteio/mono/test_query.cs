@@ -42,7 +42,7 @@ namespace test_query
             Console.Write("GPIO Pins:   ");
 
             foreach (int pin in dev.GPIO_Available())
-              Console.Write(pin.ToString() + " ");
+                Console.Write(pin.ToString() + " ");
 
             Console.WriteLine();
 

@@ -24,24 +24,24 @@ using System;
 
 namespace test_pca8574_gpio
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nPCA8574 GPIO Pin Toggle Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nPCA8574 GPIO Pin Toggle Test\n");
 
-      IO.Remote.Device remdev =
-        new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Remote.Device remdev =
+              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
-      IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
+            IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 
-      IO.Devices.PCA8574.Device dev = new IO.Devices.PCA8574.Device(bus, 0x38);
+            IO.Devices.PCA8574.Device dev = new IO.Devices.PCA8574.Device(bus, 0x38);
 
-      IO.Interfaces.GPIO.Pin GPIO0 = new IO.Devices.PCA8574.GPIO.Pin(dev, 0,
-        IO.Interfaces.GPIO.Direction.Output, false);
+            IO.Interfaces.GPIO.Pin GPIO0 = new IO.Devices.PCA8574.GPIO.Pin(dev, 0,
+              IO.Interfaces.GPIO.Direction.Output, false);
 
-      for (;;)
-        GPIO0.state = !GPIO0.state;
+            for (;;)
+                GPIO0.state = !GPIO0.state;
+        }
     }
-  }
 }

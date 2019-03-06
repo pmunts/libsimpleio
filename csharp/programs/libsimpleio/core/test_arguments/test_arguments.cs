@@ -24,16 +24,16 @@ using System;
 
 namespace test_arguments
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nCommand Line Arguments:\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nCommand Line Arguments:\n");
 
-      foreach (string s in args)
-      {
-        System.Console.WriteLine(s);
-      }
+            foreach (string s in args)
+            {
+                System.Console.WriteLine(s);
+            }
+        }
     }
-  }
 }

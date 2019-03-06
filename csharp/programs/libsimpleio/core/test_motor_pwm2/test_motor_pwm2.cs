@@ -25,57 +25,57 @@ using System.Threading;
 
 namespace test_motor_pwm2
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nMotor Output Test using libsimpleio\n");
-
-      Console.Write("PWM chip:            ");
-      int chipCW = int.Parse(Console.ReadLine());
-
-      Console.Write("PWM channel:         ");
-      int chanCW = int.Parse(Console.ReadLine());
-
-      Console.Write("PWM chip:            ");
-      int chipCCW = int.Parse(Console.ReadLine());
-
-      Console.Write("PWM channel:         ");
-      int chanCCW = int.Parse(Console.ReadLine());
-
-      // Create PWM output objects
-
-      IO.Interfaces.PWM.Output PWMCW =
-        new IO.Objects.libsimpleio.PWM.Output(chipCW, chanCW, 100);
-
-      IO.Interfaces.PWM.Output PWMCCW =
-        new IO.Objects.libsimpleio.PWM.Output(chipCCW, chanCCW, 100);
-
-      // Create motor object
-
-      IO.Interfaces.Motor.Output Motor0 =
-        new IO.Objects.Motor.PWM.Output(PWMCW, PWMCCW);
-
-      // Sweep motor velocity up and down
-
-      Console.WriteLine("\nPress CONTROL-C to exit");
-
-      for (;;)
-      {
-        int n;
-
-        for (n = -100; n < 100; n++)
+        static void Main(string[] args)
         {
-          Motor0.velocity = n/100.0;
-          Thread.Sleep(50);
-        }
+            Console.WriteLine("\nMotor Output Test using libsimpleio\n");
 
-        for (n = 100; n >= -100; n--)
-        {
-          Motor0.velocity = n/100.0;
-          Thread.Sleep(50);
+            Console.Write("PWM chip:            ");
+            int chipCW = int.Parse(Console.ReadLine());
+
+            Console.Write("PWM channel:         ");
+            int chanCW = int.Parse(Console.ReadLine());
+
+            Console.Write("PWM chip:            ");
+            int chipCCW = int.Parse(Console.ReadLine());
+
+            Console.Write("PWM channel:         ");
+            int chanCCW = int.Parse(Console.ReadLine());
+
+            // Create PWM output objects
+
+            IO.Interfaces.PWM.Output PWMCW =
+              new IO.Objects.libsimpleio.PWM.Output(chipCW, chanCW, 100);
+
+            IO.Interfaces.PWM.Output PWMCCW =
+              new IO.Objects.libsimpleio.PWM.Output(chipCCW, chanCCW, 100);
+
+            // Create motor object
+
+            IO.Interfaces.Motor.Output Motor0 =
+              new IO.Objects.Motor.PWM.Output(PWMCW, PWMCCW);
+
+            // Sweep motor velocity up and down
+
+            Console.WriteLine("\nPress CONTROL-C to exit");
+
+            for (;;)
+            {
+                int n;
+
+                for (n = -100; n < 100; n++)
+                {
+                    Motor0.velocity = n / 100.0;
+                    Thread.Sleep(50);
+                }
+
+                for (n = 100; n >= -100; n--)
+                {
+                    Motor0.velocity = n / 100.0;
+                    Thread.Sleep(50);
+                }
+            }
         }
-      }
     }
-  }
 }

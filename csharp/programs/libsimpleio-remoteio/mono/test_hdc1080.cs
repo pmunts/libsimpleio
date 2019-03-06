@@ -24,35 +24,35 @@ using System;
 
 namespace test_hdc1080
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nHDC1080 Temperature/Humidity Sensor Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nHDC1080 Temperature/Humidity Sensor Test\n");
 
-      IO.Interfaces.Message64.Messenger msg =
-        new IO.Objects.libsimpleio.HID.Messenger();
+            IO.Interfaces.Message64.Messenger msg =
+              new IO.Objects.libsimpleio.HID.Messenger();
 
-      IO.Remote.Device remdev = new IO.Remote.Device(msg);
+            IO.Remote.Device remdev = new IO.Remote.Device(msg);
 
-      IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
+            IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 
-      IO.Devices.HDC1080.Device dev = new IO.Devices.HDC1080.Device(bus);
+            IO.Devices.HDC1080.Device dev = new IO.Devices.HDC1080.Device(bus);
 
-      Console.Write("Manufacturer ID: 0x" + dev.ManufacturerID.ToString("X4"));
-      Console.Write("  ");
-      Console.WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X4"));
-      Console.WriteLine();
+            Console.Write("Manufacturer ID: 0x" + dev.ManufacturerID.ToString("X4"));
+            Console.Write("  ");
+            Console.WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X4"));
+            Console.WriteLine();
 
-      for (;;)
-      {
-        Console.Write("Temperature: " + dev.Temperature.ToString("F1"));
-        Console.Write("  ");
-        Console.Write("Humidity: " + dev.Humidity.ToString("F1"));
-        Console.WriteLine();
+            for (;;)
+            {
+                Console.Write("Temperature: " + dev.Temperature.ToString("F1"));
+                Console.Write("  ");
+                Console.Write("Humidity: " + dev.Humidity.ToString("F1"));
+                Console.WriteLine();
 
-        System.Threading.Thread.Sleep(1000);
-      }
+                System.Threading.Thread.Sleep(1000);
+            }
+        }
     }
-  }
 }

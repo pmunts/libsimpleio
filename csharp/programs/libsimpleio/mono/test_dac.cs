@@ -24,37 +24,37 @@ using System;
 
 namespace test_dac
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nDAC Output Test using libsimpleio\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nDAC Output Test using libsimpleio\n");
 
-      Console.Write("DAC chip:       ");
-      int chip = int.Parse(Console.ReadLine());
+            Console.Write("DAC chip:       ");
+            int chip = int.Parse(Console.ReadLine());
 
-      Console.Write("DAC channel:    ");
-      int channel = int.Parse(Console.ReadLine());
+            Console.Write("DAC channel:    ");
+            int channel = int.Parse(Console.ReadLine());
 
-      Console.Write("DAC resolution: ");
-      int resolution = int.Parse(Console.ReadLine());
+            Console.Write("DAC resolution: ");
+            int resolution = int.Parse(Console.ReadLine());
 
-      // Create DAC output object
+            // Create DAC output object
 
-      IO.Interfaces.DAC.Sample DAC0 =
-        new IO.Objects.libsimpleio.DAC.Sample(chip, channel, resolution);
+            IO.Interfaces.DAC.Sample DAC0 =
+              new IO.Objects.libsimpleio.DAC.Sample(chip, channel, resolution);
 
-      // Generate sawtooth wave
+            // Generate sawtooth wave
 
-      Console.WriteLine("\nPress CONTROL-C to exit");
+            Console.WriteLine("\nPress CONTROL-C to exit");
 
-      for (;;)
-      {
-        int n;
+            for (;;)
+            {
+                int n;
 
-        for (n = 0; n < (1 << resolution) - 1; n++)
-          DAC0.sample = n;
-      }
+                for (n = 0; n < (1 << resolution) - 1; n++)
+                    DAC0.sample = n;
+            }
+        }
     }
-  }
 }

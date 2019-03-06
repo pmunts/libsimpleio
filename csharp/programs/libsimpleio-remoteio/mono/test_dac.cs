@@ -25,44 +25,44 @@ using System.Collections;
 
 namespace test_dac
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nDAC Output Test using libsimpleio\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nDAC Output Test using libsimpleio\n");
 
-      IO.Interfaces.Message64.Messenger m =
-        new IO.Objects.libsimpleio.HID.Messenger();
+            IO.Interfaces.Message64.Messenger m =
+              new IO.Objects.libsimpleio.HID.Messenger();
 
-      IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device dev = new IO.Remote.Device(m);
 
-      Console.Write("Channels:    ");
+            Console.Write("Channels:    ");
 
-      foreach (int output in dev.DAC_Available())
-        Console.Write(" " + output.ToString());
+            foreach (int output in dev.DAC_Available())
+                Console.Write(" " + output.ToString());
 
-      Console.WriteLine();
+            Console.WriteLine();
 
-      ArrayList S = new ArrayList();
+            ArrayList S = new ArrayList();
 
-      foreach (int c in dev.DAC_Available())
-        S.Add(new IO.Remote.DAC(dev, c));
+            foreach (int c in dev.DAC_Available())
+                S.Add(new IO.Remote.DAC(dev, c));
 
-      Console.Write("Resolutions: ");
+            Console.Write("Resolutions: ");
 
-      foreach (IO.Interfaces.DAC.Sample output in S)
-        Console.Write(" " + output.resolution.ToString());
+            foreach (IO.Interfaces.DAC.Sample output in S)
+                Console.Write(" " + output.resolution.ToString());
 
-      Console.WriteLine();
+            Console.WriteLine();
 
-      for (;;)
-      {
-        int n;
+            for (;;)
+            {
+                int n;
 
-        for (n = 0; n < 4096; n++)
-          foreach (IO.Interfaces.DAC.Sample output in S)
-            output.sample = n;
-      }
+                for (n = 0; n < 4096; n++)
+                    foreach (IO.Interfaces.DAC.Sample output in S)
+                        output.sample = n;
+            }
+        }
     }
-  }
 }

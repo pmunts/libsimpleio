@@ -24,29 +24,29 @@ using System;
 
 namespace test_pca8574_device
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nPCA8574 GPIO Port Toggle Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nPCA8574 GPIO Port Toggle Test\n");
 
-      if (args.Length != 2)
-      {
-        Console.WriteLine("Usage: test_pca8574_device <bus> <addr>\n");
-        Environment.Exit(1);
-      }
+            if (args.Length != 2)
+            {
+                Console.WriteLine("Usage: test_pca8574_device <bus> <addr>\n");
+                Environment.Exit(1);
+            }
 
-      IO.Interfaces.I2C.Bus bus =
-        new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+            IO.Interfaces.I2C.Bus bus =
+                new IO.Objects.libsimpleio.I2C.Bus(args[0]);
 
-      IO.Devices.PCA8574.Device dev =
-        new IO.Devices.PCA8574.Device(bus, int.Parse(args[1]));
+            IO.Devices.PCA8574.Device dev =
+                new IO.Devices.PCA8574.Device(bus, int.Parse(args[1]));
 
-      for (;;)
-      {
-        dev.Write(0x55);
-        dev.Write(0xAA);
-      }
+            for (;;)
+            {
+                dev.Write(0x55);
+                dev.Write(0xAA);
+            }
+        }
     }
-  }
 }

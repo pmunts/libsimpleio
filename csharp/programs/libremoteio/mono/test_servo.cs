@@ -25,39 +25,39 @@ using System.Collections;
 
 namespace test_servo
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nServo Output Test\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nServo Output Test\n");
 
-      IO.Remote.Device dev =
-        new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Remote.Device dev =
+              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
-      Console.Write("Channels:");
+            Console.Write("Channels:");
 
-      foreach (int output in dev.PWM_Available())
-        Console.Write(" " + output.ToString());
+            foreach (int output in dev.PWM_Available())
+                Console.Write(" " + output.ToString());
 
-      Console.WriteLine();
+            Console.WriteLine();
 
-      ArrayList S = new ArrayList();
+            ArrayList S = new ArrayList();
 
-      foreach (int c in dev.PWM_Available())
-        S.Add(new IO.Objects.Servo.PWM.Output(new IO.Remote.PWM(dev, c, 50), 50));
+            foreach (int c in dev.PWM_Available())
+                S.Add(new IO.Objects.Servo.PWM.Output(new IO.Remote.PWM(dev, c, 50), 50));
 
-      for (;;)
-      {
-        int n;
+            for (;;)
+            {
+                int n;
 
-        for (n = -300; n <= 300; n++)
-          foreach (IO.Interfaces.Servo.Output output in S)
-            output.position = n/300.0;
+                for (n = -300; n <= 300; n++)
+                    foreach (IO.Interfaces.Servo.Output output in S)
+                        output.position = n / 300.0;
 
-        for (n = 300; n >= -300; n--)
-          foreach (IO.Interfaces.Servo.Output output in S)
-            output.position = n/300.0;
-      }
+                for (n = 300; n >= -300; n--)
+                    foreach (IO.Interfaces.Servo.Output output in S)
+                        output.position = n / 300.0;
+            }
+        }
     }
-  }
 }

@@ -24,30 +24,30 @@ using System;
 
 namespace test_gpio
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      Console.WriteLine("\nGPIO Pin Toggle Test using libsimpleio\n");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("\nGPIO Pin Toggle Test using libsimpleio\n");
 
-      // Create GPIO pin object
+            // Create GPIO pin object
 
-      Console.Write("GPIO chip number? ");
-      uint chip = uint.Parse(Console.ReadLine());
+            Console.Write("GPIO chip number? ");
+            uint chip = uint.Parse(Console.ReadLine());
 
-      Console.Write("GPIO line number? ");
-      uint line = uint.Parse(Console.ReadLine());
+            Console.Write("GPIO line number? ");
+            uint line = uint.Parse(Console.ReadLine());
 
-      IO.Interfaces.GPIO.Pin Output =
-        new IO.Objects.libsimpleio.GPIO.Pin(chip, line,
-          IO.Interfaces.GPIO.Direction.Output, false);
+            IO.Interfaces.GPIO.Pin Output =
+              new IO.Objects.libsimpleio.GPIO.Pin(chip, line,
+                IO.Interfaces.GPIO.Direction.Output, false);
 
-      // Toggle the GPIO output
+            // Toggle the GPIO output
 
-      Console.WriteLine("\nPress CONTROL-C to exit");
+            Console.WriteLine("\nPress CONTROL-C to exit");
 
-      for (;;)
-        Output.state = !Output.state;
+            for (;;)
+                Output.state = !Output.state;
+        }
     }
-  }
 }
