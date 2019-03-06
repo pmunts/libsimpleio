@@ -37,7 +37,7 @@ namespace test_gpio
 
       // Create GPIO pin object
 
-      Console.Write("GPIO pin number? ");
+      Console.Write("GPIO channel number? ");
 
       IO.Interfaces.GPIO.Pin Output =
         new IO.Remote.GPIO(dev, int.Parse(Console.ReadLine()),
