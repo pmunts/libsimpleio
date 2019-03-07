@@ -29,8 +29,8 @@ COREAPPBIN	?= $(COREAPPDEST)/bin
 
 PKGNAME		= $(shell echo $(COREAPPNAME) | tr '[_]' '[\-]')
 PKGVERSION	= $(shell date +%Y.%j)
-PKGARCH		= $(DEBARCH)
-PKGDIR		= $(PKGNAME)-$(PKGVERSION)
+PKGARCH		= all
+PKGDIR		= $(PKGNAME)-$(PKGVERSION)-$(PKGARCH)
 PKGFILE		= $(PKGDIR).deb
 
 TAR		?= tar
