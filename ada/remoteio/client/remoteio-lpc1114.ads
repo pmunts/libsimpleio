@@ -26,11 +26,11 @@ PACKAGE RemoteIO.LPC1114 IS
 
   -- Analog inputs
 
-  AD1   : CONSTANT RemoteIO.ChannelNumber := 1;  -- aka LPC1114 P1.0
-  AD2   : CONSTANT RemoteIO.ChannelNumber := 2;  -- aka LPC1114 P1.1
-  AD3   : CONSTANT RemoteIO.ChannelNumber := 3;  -- aka LPC1114 P1.2
-  AD4   : CONSTANT RemoteIO.ChannelNumber := 4;  -- aka LPC1114 P1.3
-  AD5   : CONSTANT RemoteIO.ChannelNumber := 5;  -- aka LPC1114 P1.4
+  AIN1  : CONSTANT RemoteIO.ChannelNumber := 1;  -- aka LPC1114 P1.0
+  AIN2  : CONSTANT RemoteIO.ChannelNumber := 2;  -- aka LPC1114 P1.1
+  AIN3  : CONSTANT RemoteIO.ChannelNumber := 3;  -- aka LPC1114 P1.2
+  AIN4  : CONSTANT RemoteIO.ChannelNumber := 4;  -- aka LPC1114 P1.3
+  AIN5  : CONSTANT RemoteIO.ChannelNumber := 5;  -- aka LPC1114 P1.4
 
   -- GPIO pins
 
