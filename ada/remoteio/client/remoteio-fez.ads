@@ -25,12 +25,12 @@ PACKAGE RemoteIO.FEZ IS
 
   -- Analog inputs
 
-  ADC0 : CONSTANT RemoteIO.ChannelNumber := 0;  -- aka PA4
-  ADC1 : CONSTANT RemoteIO.ChannelNumber := 1;  -- aka PA5
-  ADC2 : CONSTANT RemoteIO.ChannelNumber := 2;  -- aka PA6
-  ADC3 : CONSTANT RemoteIO.ChannelNumber := 3;  -- aka PA7
-  ADC4 : CONSTANT RemoteIO.ChannelNumber := 4;  -- aka PB0
-  ADC5 : CONSTANT RemoteIO.ChannelNumber := 5;  -- aka PB1
+  AIN0 : CONSTANT RemoteIO.ChannelNumber := 0;  -- aka PA4
+  AIN1 : CONSTANT RemoteIO.ChannelNumber := 1;  -- aka PA5
+  AIN2 : CONSTANT RemoteIO.ChannelNumber := 2;  -- aka PA6
+  AIN3 : CONSTANT RemoteIO.ChannelNumber := 3;  -- aka PA7
+  AIN4 : CONSTANT RemoteIO.ChannelNumber := 4;  -- aka PB0
+  AIN5 : CONSTANT RemoteIO.ChannelNumber := 5;  -- aka PB1
 
   -- GPIO pins
 
@@ -49,12 +49,12 @@ PACKAGE RemoteIO.FEZ IS
   D12  : CONSTANT RemoteIO.ChannelNumber := 12;  -- aka PB4 aka MISO
   D13  : CONSTANT RemoteIO.ChannelNumber := 13;  -- aka PB3 aka SCLK
 
-  A0   : CONSTANT RemoteIO.ChannelNumber := 14;  -- aka PA4 aka ADC0
-  A1   : CONSTANT RemoteIO.ChannelNumber := 15;  -- aka PA5 aka ADC1
-  A2   : CONSTANT RemoteIO.ChannelNumber := 16;  -- aka PA6 aka ADC2
-  A3   : CONSTANT RemoteIO.ChannelNumber := 17;  -- aka PA7 aka ADC3
-  A4   : CONSTANT RemoteIO.ChannelNumber := 18;  -- aka PB0 aka ADC4
-  A5   : CONSTANT RemoteIO.ChannelNumber := 19;  -- aka PB1 aka ADC5
+  A0   : CONSTANT RemoteIO.ChannelNumber := 14;  -- aka PA4 aka AIN0
+  A1   : CONSTANT RemoteIO.ChannelNumber := 15;  -- aka PA5 aka AIN1
+  A2   : CONSTANT RemoteIO.ChannelNumber := 16;  -- aka PA6 aka AIN2
+  A3   : CONSTANT RemoteIO.ChannelNumber := 17;  -- aka PA7 aka AIN3
+  A4   : CONSTANT RemoteIO.ChannelNumber := 18;  -- aka PB0 aka AIN4
+  A5   : CONSTANT RemoteIO.ChannelNumber := 19;  -- aka PB1 aka AIN5
 
   LED1 : CONSTANT RemoteIO.ChannelNumber := 20;  -- aka PB9
   LED2 : CONSTANT RemoteIO.ChannelNumber := 21;  -- aka PC10

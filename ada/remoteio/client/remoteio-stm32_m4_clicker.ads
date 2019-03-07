@@ -25,11 +25,11 @@ PACKAGE RemoteIO.STM32_M4_Clicker IS
 
   -- Analog inputs
 
-  ADC0 : CONSTANT RemoteIO.ChannelNumber := 0;  -- aka AN
-  ADC1 : CONSTANT RemoteIO.ChannelNumber := 1;  -- aka HD2_6
-  ADC2 : CONSTANT RemoteIO.ChannelNumber := 2;  -- aka HD2_5
-  ADC3 : CONSTANT RemoteIO.ChannelNumber := 3;  -- aka HD2_4
-  ADC4 : CONSTANT RemoteIO.ChannelNumber := 4;  -- aka HD2_3
+  AIN0 : CONSTANT RemoteIO.ChannelNumber := 0;  -- aka AN
+  AIN1 : CONSTANT RemoteIO.ChannelNumber := 1;  -- aka HD2_6
+  AIN2 : CONSTANT RemoteIO.ChannelNumber := 2;  -- aka HD2_5
+  AIN3 : CONSTANT RemoteIO.ChannelNumber := 3;  -- aka HD2_4
+  AIN4 : CONSTANT RemoteIO.ChannelNumber := 4;  -- aka HD2_3
 
   -- GPIO pins
 
