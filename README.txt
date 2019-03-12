@@ -56,6 +56,8 @@ News
        kernel. Cleaned up some stale links and commands in the user
        manual. Cleaned up some loose ends in the [8]MY-BASIC bindings and
        example programs.
+     * 12 March 2019 -- The Debian native packages now depend on
+       libhidapi-dev, for Remote I/O over USB raw HID.
 
 Documentation
 
