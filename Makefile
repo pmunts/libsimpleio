@@ -117,6 +117,9 @@ $(PKGDIR):
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
 ifeq ($(BOARDNAME),)
 # Native package for Debian Linux et al
+	echo "Depends: libhidapi-dev" >>	$(PKGDIR)/DEBIAN/control
+	install -cm 0755 postinst		$(PKGDIR)/DEBIAN
+	install -cm 0755 prerm			$(PKGDIR)/DEBIAN
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
 	mkdir -p				$(PKGDIR)/etc/udev/rules.d
 	install -cm 0644 udev/*.rules		$(PKGDIR)/etc/udev/rules.d
