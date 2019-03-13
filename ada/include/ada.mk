@@ -24,7 +24,7 @@
 
 .SECONDARY:
 
-# Definitions for MuntsOS
+# Definitions for MuntsOS cross-compile
 
 ifneq ($(BOARDNAME),)
 ifeq  ($(BOARDBASE),)
@@ -33,10 +33,43 @@ include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 endif
 endif
 
-# Definitions for Microsoft Windows
+# Definitions for native compile
 
-ifeq ($(OS),Windows_NT)
+ifeq ($(BOARDNAME),)
+
+# Check for AdaCore GNAT native toolchain
+
+ifeq ($(GNAT),)
+ifeq ($(OS), Windows_NT)
+# Default location for Windows installation
+ifneq ($(wildcard C:/PROGRA~1/gnat),)
+GNAT		?= C:/PROGRA~1/gnat
+endif
+else
+# Default location for Posix installation
+ifneq ($(wildcard /usr/local/gnat),)
+GNAT		?= /usr/local/gnat
+endif
+endif
+endif
+
+# Prepend $(GNAT)/bin to PATH
+
+ifneq ($(GNAT),)
+GNATENV		+= PATH=$(GNAT)/bin:$(PATH)
+ifeq ($(OS), Windows_NT)
+# Windows needs even more help with the path
+GNATMAKE	= env $(GNATENV) $(GNAT)/bin/gnatmake
+GNATSTRIP	= env $(GNATENV) $(GNAT)/bin/strip
+GPRBUILD	= env $(GNATENV) $(GNAT)/bin/gprbuild
+endif
+endif
+
+# More definitions for Microsoft Windows
+
+ifeq ($(OS), Windows_NT)
 EXESUFFIX	= .exe
+endif
 endif
 
 # General toolchain definitions
@@ -61,18 +94,6 @@ GPRBUILD	?= env $(GNATENV) gprbuild
 GPRBUILDFLAGS	= -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
 GPRBUILDCFLAGS	+= -gnat2012 $(ADA_CFLAGS)
 GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
-
-# Definitions for AdaCore GNAT native toolchains
-
-ifneq ($(GNAT),)
-GNATENV		+= PATH=$(GNAT)/bin:$(PATH)
-ifeq ($(OS), Windows_NT)
-# Windows needs even more help with the path
-GNATMAKE	= env $(GNATENV) $(GNAT)/bin/gnatmake
-GNATSTRIP	= env $(GNATENV) $(GNAT)/bin/strip
-GPRBUILD	= env $(GNATENV) $(GNAT)/bin/gprbuild
-endif
-endif
 
 # Define pattern rules for building Ada programs
 
