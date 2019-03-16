@@ -64,7 +64,7 @@ PACKAGE errno IS
   -- Binding to C standard library strerror()
 
   FUNCTION libc_strerror(error : Integer) RETURN Interfaces.C.Strings.chars_ptr;
-    PRAGMA Import (C, libc_strerror, "strerror"); 
+    PRAGMA Import (C, libc_strerror, "strerror");
 
   -- Fetch the error message associated with an errno value
 
