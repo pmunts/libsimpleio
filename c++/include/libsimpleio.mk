@@ -22,6 +22,7 @@
 
 CXXDEPS		+= libsimpleio++.a
 
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
