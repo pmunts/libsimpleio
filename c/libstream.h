@@ -33,6 +33,12 @@
 
 #include <stdint.h>
 
+#ifdef __WITH_AVRLIBC__
+// AVR-libc does not define size_t or ssize_t
+#define size_t uint16_t
+#define ssize_t int16_t
+#endif
+
 _BEGIN_STD_C
 
 typedef ssize_t (*STREAM_readfn_t)(int fd, void *buf, size_t count);
