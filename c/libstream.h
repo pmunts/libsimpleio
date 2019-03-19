@@ -23,6 +23,10 @@
 #ifndef _LIBSTREAM_H
 #define _LIBSTREAM_H
 
+#include <stdint.h>
+#include <string.h>
+#include <sys/types.h>
+
 #ifndef _BEGIN_STD_C
 #ifdef __linux__
 #include <libsimpleio/cplusplus.h>
@@ -30,8 +34,6 @@
 #include <cplusplus.h>
 #endif
 #endif
-
-#include <stdint.h>
 
 #ifdef __WITH_AVRLIBC__
 // AVR-libc does not define size_t or ssize_t
