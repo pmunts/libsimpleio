@@ -74,6 +74,21 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
     case 57600 :
     case 115200 :
     case 230400 :
+#ifdef B460800
+    case 460800 :
+#endif
+#ifdef B500000
+    case 500000 :
+#endif
+#ifdef B576000
+    case 576000 :
+#endif
+#ifdef B921600
+    case 921600 :
+#endif
+#ifdef B1000000
+    case 1000000 :
+#endif
       break;
 
     default :
@@ -204,6 +219,36 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
     case 230400:
       cfg.c_cflag |= B230400;
       break;
+
+#ifdef B460800
+    case 460800:
+      cfg.c_cflag |= B460800;
+      break;
+#endif
+
+#ifdef B500000
+    case 500000:
+      cfg.c_cflag |= B500000;
+      break;
+#endif
+
+#ifdef B576000
+    case 576000:
+      cfg.c_cflag |= B576000;
+      break;
+#endif
+
+#ifdef B921600
+    case 921600:
+      cfg.c_cflag |= B921600;
+      break;
+#endif
+
+#ifdef B1000000
+    case 1000000:
+      cfg.c_cflag |= B1000000;
+      break;
+#endif
   }
 
   switch (parity)
