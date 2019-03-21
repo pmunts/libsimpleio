@@ -144,7 +144,11 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
     return;
   }
 
+  cfg.c_cflag = 0;
+
   cfmakeraw(&cfg);
+
+  cfg.c_cflag &= ~CS8;
 
   switch (baudrate)
   {
