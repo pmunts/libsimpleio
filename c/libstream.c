@@ -57,6 +57,7 @@ void STREAM_change_readfn(STREAM_readfn_t newread, int32_t *error)
 {
   FAILIF(newread == NULL);
   readfn = newread;
+  *error = 0;
 }
 
 // Allow overriding the write() function (e.g. use lwip_write)
@@ -67,6 +68,7 @@ void STREAM_change_writefn(STREAM_writefn_t newwrite, int32_t *error)
 {
   FAILIF(newwrite == NULL);
   writefn = newwrite;
+  *error = 0;
 }
 
 // Error check macro
