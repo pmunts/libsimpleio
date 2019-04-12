@@ -51,7 +51,12 @@ static uint16_t crc16(const uint8_t* data_p, uint8_t length){
 
 // Allow overriding the read() function (e.g. use lwip_read)
 
-static STREAM_readfn_t  readfn  = read;
+#ifdef __WITH_AVRLIBC__
+// AVR-Libc doesn't export read()
+static STREAM_readfn_t  readfn = NULL;
+#else
+static STREAM_readfn_t  readfn = read;
+#endif
 
 void STREAM_change_readfn(STREAM_readfn_t newread, int32_t *error)
 {
@@ -62,7 +67,12 @@ void STREAM_change_readfn(STREAM_readfn_t newread, int32_t *error)
 
 // Allow overriding the write() function (e.g. use lwip_write)
 
+#ifdef __WITH_AVRLIBC__
+// AVR-Libc doesn't export write()
+static STREAM_writefn_t writefn = NULL;
+#else
 static STREAM_writefn_t writefn = write;
+#endif
 
 void STREAM_change_writefn(STREAM_writefn_t newwrite, int32_t *error)
 {
