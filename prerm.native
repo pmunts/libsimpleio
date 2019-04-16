@@ -2,6 +2,8 @@
 
 MULTIARCHLIBDIR=/usr/lib/`gcc -dumpmachine`
 
+rm /usr/local/include/libsimpleio
+
 if [ -e ${MULTIARCHLIBDIR}/libhidapi-hidraw.a -a -h /usr/local/lib/libhidapi.a ]; then
   rm -f /usr/local/lib/libhidapi.a
 fi

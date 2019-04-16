@@ -49,7 +49,7 @@ PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
 endif
 
-include make/dpkg.mk
+include include/dpkg.mk
 
 default: package.deb
 
@@ -80,18 +80,10 @@ libsimpleio.so: compile.done
 # Install headers and library files
 
 install: libsimpleio.a libsimpleio.so
-	mkdir -p				$(DESTDIR)/include/libsimpleio
+	mkdir -p				$(DESTDIR)/include
 	mkdir -p				$(DESTDIR)/lib
-	mkdir -p				$(DESTDIR)/share/libsimpleio/ada
-	mkdir -p				$(DESTDIR)/share/libsimpleio/c++
-	mkdir -p				$(DESTDIR)/share/libsimpleio/csharp
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
-	mkdir -p				$(DESTDIR)/share/libsimpleio/java/com/munts/libsimpleio
-	mkdir -p				$(DESTDIR)/share/libsimpleio/make
-	mkdir -p				$(DESTDIR)/share/libsimpleio/modula2
-	mkdir -p				$(DESTDIR)/share/libsimpleio/pascal
 	mkdir -p				$(DESTDIR)/share/man/man2
-	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
@@ -99,12 +91,13 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p make			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc/README
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
+	install -cm 0644 c/*.h			$(DESTDIR)/share/libsimpleio/include
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 
 # Create Debian package file
@@ -118,8 +111,8 @@ $(PKGDIR):
 ifeq ($(BOARDNAME),)
 # Native package for Debian Linux et al
 	echo "Depends: libhidapi-dev" >>	$(PKGDIR)/DEBIAN/control
-	install -cm 0755 postinst		$(PKGDIR)/DEBIAN
-	install -cm 0755 prerm			$(PKGDIR)/DEBIAN
+	install -cm 0755 postinst.native	$(PKGDIR)/DEBIAN/postinst
+	install -cm 0755 prerm.native		$(PKGDIR)/DEBIAN/prerm
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
 	mkdir -p				$(PKGDIR)/etc/udev/rules.d
 	install -cm 0644 udev/*.rules		$(PKGDIR)/etc/udev/rules.d
@@ -128,6 +121,10 @@ ifeq ($(BOARDNAME),)
 else
 # Cross-compiled package for MuntsOS embedded Linux
 	$(MAKE) install DESTDIR=$(PKGDIR)$(GCCSYSROOT)/usr
+	install -cm 0755 postinst.muntsos	$(PKGDIR)/DEBIAN/postinst
+	install -cm 0755 prerm.muntsos		$(PKGDIR)/DEBIAN/prerm
+	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/postinst
+	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/prerm
 endif
 
 package.deb: $(PKGFILE)
