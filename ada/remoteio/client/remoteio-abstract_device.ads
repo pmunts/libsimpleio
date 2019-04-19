@@ -20,15 +20,20 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Message64;
 WITH RemoteIO.Client;
 
-PACKAGE RemoteIO_Abstract IS
+GENERIC
+
+  TYPE Command  IS PRIVATE;
+  TYPE Response IS PRIVATE;
+
+  WITH FUNCTION FromCommand(cmd : Command) RETURN Message64.Message IS <>;
+  WITH FUNCTION ToResponse(msg : Message64.Message) RETURN Response IS <>;
+
+PACKAGE RemoteIO.Abstract_Device IS
 
   -- Abstract device type definitions
-
-  TYPE Byte        IS MOD 256;
-  TYPE Command     IS ARRAY (3 .. 63) OF Byte;
-  TYPE Response    IS ARRAY (3 .. 63) OF Byte;
 
   TYPE DeviceClass IS TAGGED PRIVATE;
   TYPE Device      IS ACCESS ALL DeviceClass'Class;
@@ -58,4 +63,4 @@ PRIVATE
     channel : RemoteIO.ChannelNumber;
   END RECORD;
 
-END RemoteIO_Abstract;
+END RemoteIO.Abstract_Device;

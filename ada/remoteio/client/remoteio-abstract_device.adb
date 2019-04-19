@@ -26,7 +26,7 @@ WITH Message64;
 
 USE TYPE Message64.Byte;
 
-PACKAGE BODY RemoteIO_Abstract IS
+PACKAGE BODY RemoteIO.Abstract_Device IS
 
   -- Abstract device object constructor
 
@@ -45,23 +45,23 @@ PACKAGE BODY RemoteIO_Abstract IS
   FUNCTION GetInfo
    (Self    : IN OUT DeviceClass) RETURN String IS
 
-    rcmd  : Message64.Message;
-    rresp : Message64.Message;
+    mcmd  : Message64.Message;
+    mresp : Message64.Message;
     info  : String(1 .. 61);
 
   BEGIN
-    rcmd := (OTHERS => 0);
-    rcmd(0) := Message64.Byte(RemoteIO.MessageTypes'Pos(
+    mcmd := (OTHERS => 0);
+    mcmd(0) := Message64.Byte(RemoteIO.MessageTypes'Pos(
       RemoteIO.DEVICE_INFO_REQUEST));
-    rcmd(2) := Message64.Byte(Self.channel);
+    mcmd(2) := Message64.Byte(Self.channel);
 
-    Self.remdev.Transaction(rcmd, rresp);
+    Self.remdev.Transaction(mcmd, mresp);
 
     info := (OTHERS => ' ');
 
     FOR i IN info'Range LOOP
-      EXIT WHEN rresp(2 + i) = 0;
-      info(i) := Character'Val(rresp(2 + i));
+      EXIT WHEN mresp(2 + i) = 0;
+      info(i) := Character'Val(mresp(2 + i));
     END LOOP;
 
     RETURN Ada.Strings.Fixed.Trim(info, Ada.Strings.Right);
@@ -74,24 +74,22 @@ PACKAGE BODY RemoteIO_Abstract IS
     cmd     : Command;
     resp    : OUT Response) IS
 
-    rcmd  : Message64.Message;
-    rresp : Message64.Message;
+    mcmd  : Message64.Message;
+    mresp : Message64.Message;
 
   BEGIN
-    rcmd := (OTHERS => 0);
-    rcmd(0) := Message64.Byte(RemoteIO.MessageTypes'Pos(
-      RemoteIO.DEVICE_OPERATION_REQUEST));
-    rcmd(2) := Message64.Byte(Self.channel);
+    mcmd := FromCommand(cmd);
+    mcmd(0) := Message64.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.DEVICE_OPERATION_REQUEST));
+    mcmd(1) := 0;
+    mcmd(2) := Message64.Byte(Self.channel);
 
-    FOR i IN cmd'Range LOOP
-      rcmd(i) := Message64.Byte(cmd(i));
-    END LOOP;
+    -- Execute the command
 
-    Self.remdev.Transaction(rcmd, rresp);
+    Self.remdev.Transaction(mcmd, mresp);
 
-    FOR i in resp'Range LOOP
-      resp(i) := Byte(rresp(i));
-    END LOOP;
+    -- Extract the response from the response message
+
+    resp := ToResponse(mresp);
   END Operation;
 
-END RemoteIO_Abstract;
+END RemoteIO.Abstract_Device;
