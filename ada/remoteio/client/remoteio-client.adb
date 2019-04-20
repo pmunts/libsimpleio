@@ -23,13 +23,7 @@
 WITH Ada.Strings;
 WITH Ada.Strings.Fixed;
 
-WITH ADC.RemoteIO;
-WITH DAC.RemoteIO;
-WITH GPIO.RemoteIO;
-WITH I2C.RemoteIO;
 WITH Message64;
-WITH PWM.RemoteIO;
-WITH SPI.RemoteIO;
 WITH errno;
 
 USE TYPE Message64.Byte;
@@ -180,64 +174,5 @@ PACKAGE BODY RemoteIO.Client IS
 
     RETURN chanset;
   END GetAvailableChannels;
-
-  -- I/O object constructors, provided for convenience
-
-  FUNCTION Create
-   (Self  : IN OUT DeviceClass;
-    num   : ChannelNumber) RETURN Analog.Input IS
-
-  BEGIN
-    RETURN ADC.RemoteIO.Create(Self'Unchecked_Access, num);
-  END Create;
-
-  FUNCTION Create
-   (Self  : IN OUT DeviceClass;
-    num   : ChannelNumber) RETURN Analog.Output IS
-
-  BEGIN
-    RETURN DAC.RemoteIO.Create(Self'Unchecked_Access, num);
-  END Create;
-
-  FUNCTION Create
-   (Self  : IN OUT DeviceClass;
-    num   : ChannelNumber;
-    dir   : GPIO.Direction;
-    state : Boolean := False) RETURN GPIO.Pin IS
-
-  BEGIN
-    RETURN GPIO.RemoteIO.Create(Self'Unchecked_Access, num, dir, state);
-  END Create;
-
-  FUNCTION Create
-   (Self  : IN OUT DeviceClass;
-    num   : ChannelNumber;
-    speed : Positive := I2C.SpeedStandard) RETURN I2C.Bus IS
-
-  BEGIN
-    RETURN I2C.RemoteIO.Create(Self'Unchecked_Access, num, speed);
-  END Create;
-
-  FUNCTION Create
-   (Self  : IN OUT DeviceClass;
-    num   : ChannelNumber;
-    freq  : Positive := 50;
-    duty  : PWM.DutyCycle := PWM.MinimumDutyCycle) RETURN PWM.Output IS
-
-  BEGIN
-    RETURN PWM.RemoteIO.Create(Self'Unchecked_Access, num, freq, duty);
-  END Create;
-
-  FUNCTION Create
-   (Self     : IN OUT DeviceClass;
-    num      : Standard.RemoteIO.ChannelNumber;
-    mode     : Natural;
-    wordsize : Natural;
-    speed    : Natural) RETURN SPI.Device IS
-
-  BEGIN
-    RETURN SPI.RemoteIO.Create(Self'Unchecked_Access, num, mode, wordsize,
-      speed);
-  END Create;
 
 END RemoteIO.Client;
