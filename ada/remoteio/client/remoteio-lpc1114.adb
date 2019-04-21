@@ -1,7 +1,6 @@
--- Minimal binding for the Raspberry Pi LPC1114 I/O Processor Expansion Board
--- Remote I/O Protocol server
---
--- See also: http://git.munts.com/rpi-mcu/expansion/LPC1114/doc/UserGuide.pdf
+-- Remote I/O Resources available from a Raspberry Pi LPC1114 I/O Processor
+-- Expansion Board (MUNTS-0004) or a LPC1114 I/O Processor Grove Module
+-- (MUNTS-0007)
 
 -- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
@@ -27,7 +26,7 @@ WITH Interfaces;
 
 USE TYPE Interfaces.Unsigned_32;
 
-PACKAGE BODY LPC1114 IS
+PACKAGE BODY RemoteIO.LPC1114 IS
 
   -- Split 32-bit word into individual bytes
 
@@ -56,8 +55,7 @@ PACKAGE BODY LPC1114 IS
 
   -- Convert command to message
 
-  FUNCTION FromCommand
-   (cmd : LPC1114.Command) RETURN Message64.Message IS
+  FUNCTION FromCommand(cmd : SPIAGENT_COMMAND_MSG_t) RETURN Message64.Message IS
 
   BEGIN
     RETURN
@@ -81,8 +79,7 @@ PACKAGE BODY LPC1114 IS
 
   -- Convert message to response
 
-  FUNCTION ToResponse
-   (msg : Message64.Message) RETURN LPC1114.Response IS
+  FUNCTION ToResponse(msg : Message64.Message) RETURN SPIAGENT_RESPONSE_MSG_t IS
 
   BEGIN
     RETURN
@@ -92,4 +89,4 @@ PACKAGE BODY LPC1114 IS
       ToUnsigned(msg(18), msg(17), msg(16), msg(15)));
   END ToResponse;
 
-END LPC1114;
+END RemoteIO.LPC1114;
