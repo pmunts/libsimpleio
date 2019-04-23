@@ -25,12 +25,12 @@ PACKAGE RemoteIO.FEZ IS
 
   -- Analog inputs
 
-  AIN0 : CONSTANT RemoteIO.ChannelNumber := 0;  -- aka PA4
-  AIN1 : CONSTANT RemoteIO.ChannelNumber := 1;  -- aka PA5
-  AIN2 : CONSTANT RemoteIO.ChannelNumber := 2;  -- aka PA6
-  AIN3 : CONSTANT RemoteIO.ChannelNumber := 3;  -- aka PA7
-  AIN4 : CONSTANT RemoteIO.ChannelNumber := 4;  -- aka PB0
-  AIN5 : CONSTANT RemoteIO.ChannelNumber := 5;  -- aka PB1
+  AIN0 : CONSTANT RemoteIO.ChannelNumber := 0;   -- aka PA4
+  AIN1 : CONSTANT RemoteIO.ChannelNumber := 1;   -- aka PA5
+  AIN2 : CONSTANT RemoteIO.ChannelNumber := 2;   -- aka PA6
+  AIN3 : CONSTANT RemoteIO.ChannelNumber := 3;   -- aka PA7
+  AIN4 : CONSTANT RemoteIO.ChannelNumber := 4;   -- aka PB0
+  AIN5 : CONSTANT RemoteIO.ChannelNumber := 5;   -- aka PB1
 
   -- GPIO pins
 
