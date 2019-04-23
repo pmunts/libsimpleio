@@ -31,7 +31,7 @@ REM Set some defaults
 IF "%LIBSIMPLEIO%" == "" SET LIBSIMPLEIO=%HOMEDRIVE%%HOMEPATH%\libsimpleio
 IF "%ARCH%"        == "" SET ARCH=win64
 IF "%OBJ%"         == "" SET OBJ=.\obj
-IF "%GNAT%"        == "" SET GNAT=C:\PROGRA~1\gnat-gpl-2018
+IF "%GNAT%"        == "" SET GNAT=C:\PROGRA~1\gnat
 
 REM Set compiler flags
 
