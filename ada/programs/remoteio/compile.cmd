@@ -23,7 +23,7 @@ REM ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 REM POSSIBILITY OF SUCH DAMAGE.
 
 IF "%1" == "" ECHO.
-IF "%1" == "" ECHO Usage: compile ^<filename^>
+IF "%1" == "" ECHO Usage: compile ^<program name^>
 IF "%1" == "" GOTO:EOF
 
 REM Set some defaults
