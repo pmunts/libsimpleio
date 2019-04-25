@@ -48,7 +48,7 @@ SET LDFLAGS=-L.
 REM Get ready to compile...
 
 IF NOT EXIST "%OBJ%" MKDIR "%OBJ%"
-robocopy  "%LIBSIMPLEIO%\win\%ARCH%" . hidapi.dll /NFL /NDL /NJH /NJS /nc /ns /np
+IF NOT EXIST hidapi.dll XCOPY "%LIBSIMPLEIO%\win\%ARCH%\hidapi.dll" .
 
 REM Compile the program
 
