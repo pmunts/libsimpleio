@@ -54,6 +54,7 @@
       <NamespaceSummaryItem name="IO.Devices.PCA9685.PWM" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller PWM Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA9685.Servo" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller Servo Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.TH02" isDocumented="True">TH02 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&lt;a href="http://tech.munts.com"&gt;http://tech.munts.com&lt;/a&gt;) USB devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.DAC" isDocumented="True">Abstract Interface for DAC (Digital to Analog Converter) Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Ouput) Pins</NamespaceSummaryItem>
@@ -69,7 +70,6 @@
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Platforms" isDocumented="True">Platform Definition Classes</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Servo.PWM" isDocumented="True">PWM Controlled Servo Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Objects.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&lt;a href="http://tech.munts.com"&gt;http://tech.munts.com&lt;/a&gt;) USB devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.ADC" isDocumented="True">ADC (Analog to Digital Converter) Input Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.DAC" isDocumented="True">DAC (Digital to Analog Converter) Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Exceptions" isDocumented="True">Exception Services</NamespaceSummaryItem>

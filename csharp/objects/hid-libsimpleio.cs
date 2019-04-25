@@ -69,8 +69,8 @@ namespace IO.Objects.libsimpleio.HID
         /// <param name="timeoutms">Time in milliseconds to wait for
         /// read and write operations to complete.  Zero means wait
         /// forever.</param>
-        public Messenger(int VID = IO.Objects.USB.Munts.HID.Vendor,
-            int PID = IO.Objects.USB.Munts.HID.Product, int timeoutms = 1000)
+        public Messenger(int VID = IO.Devices.USB.Munts.HID.Vendor,
+            int PID = IO.Devices.USB.Munts.HID.Product, int timeoutms = 1000)
         {
             // Validate parameters
 

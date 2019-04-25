@@ -42,6 +42,7 @@
       <NamespaceSummaryItem name="IO.Devices.PCA9685.PWM" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller PWM Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA9685.Servo" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller Servo Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.TH02" isDocumented="True">TH02 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">&lt;a href="http://tech.munts.com"&gt;Munts Technologies&lt;/a&gt; USB Device Identifiers</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.DAC" isDocumented="True">Abstract Interface for DAC (Digital to Analog Converter) Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Ouput) Pins</NamespaceSummaryItem>
@@ -59,7 +60,6 @@
       <NamespaceSummaryItem name="IO.Objects.Platforms" isDocumented="True">Platform Definition Classes</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Servo.PWM" isDocumented="True">PWM Controlled Servo Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.USB.HID" isDocumented="True">USB Raw HID (Human Interface Device) Transport Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Objects.USB.Munts" isDocumented="True">&lt;a href="http://tech.munts.com"&gt;Munts Technologies&lt;/a&gt; USB Device Identifiers</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="lpc11xx" isDocumented="False" />
     </NamespaceSummaries>
