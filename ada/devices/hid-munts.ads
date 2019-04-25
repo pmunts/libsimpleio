@@ -26,7 +26,7 @@ PACKAGE HID.Munts IS
   -- at http://www.mcselec.com) is used in all Munts Technologies USB HID
   -- device firmware.
 
-  VID : CONSTANT Vendor  := 16#16D0#;
-  PID : CONSTANT Product := 16#0AFA#;
+  VID : CONSTANT Vendor  := 16#16D0#;  -- USB Vendor ID
+  PID : CONSTANT Product := 16#0AFA#;  -- USB Product ID
 
 END HID.Munts;

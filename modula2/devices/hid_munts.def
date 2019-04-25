@@ -1,4 +1,4 @@
-(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(* Copyright (C)2018-2019, Philip Munts, President, Munts AM Corp.             *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -22,9 +22,13 @@ DEFINITION MODULE hid_munts;
 
   FROM hid_libsimpleio IMPORT Device;
 
+  (* The following USB vendor/product ID pair (purchased from MCS Electronics *)
+  (* at http://www.mcselec.com) is used in all Munts Technologies USB HID     *)
+  (* device firmware.                                                         *)
+
   CONST
-    VID = 016D0H;
-    PID = 00AFAH;
+    VID = 016D0H;  (* USB Vendor ID *)
+    PID = 00AFAH;  (* USB Product ID *)
 
   PROCEDURE Open
    (VAR dev   : Device;
