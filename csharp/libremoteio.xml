@@ -45,35 +45,40 @@
             <param name="cmd">Message to be sent.</param>
             <param name="resp">Message received.</param>
         </member>
-        <member name="T:IO.Objects.USB.Munts.HID">
+        <member name="T:IO.Objects.Message64.UDP.Messenger">
             <summary>
-            USB device constants for Munts Technologies USB HID devices.
+            64-Byte Message Transport Client Services using UDP
+            (User Datagram Protocol).
             </summary>
         </member>
-        <member name="F:IO.Objects.USB.Munts.HID.Vendor">
+        <member name="M:IO.Objects.Message64.UDP.Messenger.#ctor(System.String,System.Int32,System.Int32)">
             <summary>
-            Vendor ID for Munts Technologies
+            Constructor for a 64-byte Messenger instance using UDP.
             </summary>
+            <param name="host">UDP server domain name or IP address.</param>
+            <param name="port">UDP server port number.</param>
+            <param name="timeoutms">Receive timeout in milliseconds.  Zero
+            indicates wait forever.</param>
         </member>
-        <member name="F:IO.Objects.USB.Munts.HID.Product">
+        <member name="M:IO.Objects.Message64.UDP.Messenger.Send(IO.Interfaces.Message64.Message)">
             <summary>
-            Product ID for Munts Technologies USB hid devices.
+            Send a 64-byte command message to a raw HID device.
             </summary>
+            <param name="cmd">64-byte command message.</param>
         </member>
-        <member name="T:IO.Objects.USB.Munts.Serial">
+        <member name="M:IO.Objects.Message64.UDP.Messenger.Receive(IO.Interfaces.Message64.Message)">
             <summary>
-            USB device constants for Munts Technologies USB serial port devices.
+            Receive a 64-byte response message from a raw HID device.
             </summary>
+            <param name="resp">64-byte response message.</param>
         </member>
-        <member name="F:IO.Objects.USB.Munts.Serial.Vendor">
+        <member name="M:IO.Objects.Message64.UDP.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
             <summary>
-            Vendor ID for Munts Technologies
+            Send a 64-byte command message and receive a 64-byte response
+            message.
             </summary>
-        </member>
-        <member name="F:IO.Objects.USB.Munts.Serial.Product">
-            <summary>
-            Product ID for Munts Technologies USB serial port devices.
-            </summary>
+            <param name="cmd">64-byte command message.</param>
+            <param name="resp">64-byte response message.</param>
         </member>
         <member name="T:IO.Objects.Motor.PWM.Output">
             <summary>
@@ -153,41 +158,6 @@
             Write-only property for setting the servo position.
             Allowed values are -1.0 to +1.0.
             </summary>
-        </member>
-        <member name="T:IO.Objects.Message64.UDP.Messenger">
-            <summary>
-            64-Byte Message Transport Client Services using UDP
-            (User Datagram Protocol).
-            </summary>
-        </member>
-        <member name="M:IO.Objects.Message64.UDP.Messenger.#ctor(System.String,System.Int32,System.Int32)">
-            <summary>
-            Constructor for a 64-byte Messenger instance using UDP.
-            </summary>
-            <param name="host">UDP server domain name or IP address.</param>
-            <param name="port">UDP server port number.</param>
-            <param name="timeoutms">Receive timeout in milliseconds.  Zero
-            indicates wait forever.</param>
-        </member>
-        <member name="M:IO.Objects.Message64.UDP.Messenger.Send(IO.Interfaces.Message64.Message)">
-            <summary>
-            Send a 64-byte command message to a raw HID device.
-            </summary>
-            <param name="cmd">64-byte command message.</param>
-        </member>
-        <member name="M:IO.Objects.Message64.UDP.Messenger.Receive(IO.Interfaces.Message64.Message)">
-            <summary>
-            Receive a 64-byte response message from a raw HID device.
-            </summary>
-            <param name="resp">64-byte response message.</param>
-        </member>
-        <member name="M:IO.Objects.Message64.UDP.Messenger.Transaction(IO.Interfaces.Message64.Message,IO.Interfaces.Message64.Message)">
-            <summary>
-            Send a 64-byte command message and receive a 64-byte response
-            message.
-            </summary>
-            <param name="cmd">64-byte command message.</param>
-            <param name="resp">64-byte response message.</param>
         </member>
         <member name="T:IO.Devices.ADC121C021.Sample">
             <summary>
@@ -613,6 +583,36 @@
         <member name="P:IO.Devices.TH02.Device.DeviceID">
             <summary>
             This read-only property returns the device ID.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.USB.Munts.HID">
+            <summary>
+            USB device constants for Munts Technologies USB HID devices.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.USB.Munts.HID.Vendor">
+            <summary>
+            Vendor ID for Munts Technologies
+            </summary>
+        </member>
+        <member name="F:IO.Devices.USB.Munts.HID.Product">
+            <summary>
+            Product ID for Munts Technologies USB hid devices.
+            </summary>
+        </member>
+        <member name="T:IO.Devices.USB.Munts.Serial">
+            <summary>
+            USB device constants for Munts Technologies USB serial port devices.
+            </summary>
+        </member>
+        <member name="F:IO.Devices.USB.Munts.Serial.Vendor">
+            <summary>
+            Vendor ID for Munts Technologies
+            </summary>
+        </member>
+        <member name="F:IO.Devices.USB.Munts.Serial.Product">
+            <summary>
+            Product ID for Munts Technologies USB serial port devices.
             </summary>
         </member>
         <member name="T:IO.Interfaces.ADC.Sample">

@@ -20,9 +20,6 @@
     <Compile Include="..\libremoteio\Message64.cs">
       <Link>%(FileName)</Link>
     </Compile>
-    <Compile Include="..\common\*.cs">
-      <Link>IO.Objects\%(FileName)</Link>
-    </Compile>
     <Compile Include="..\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
     </Compile>
@@ -30,6 +27,15 @@
       <Link>IO.Interfaces\%(FileName)</Link>
     </Compile>
     <Compile Include="..\objects\message64-udp.cs">
+      <Link>%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\objects\motor-pwm.cs">
+      <Link>%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\objects\motor-servo.cs">
+      <Link>%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\objects\servo-pwm.cs">
       <Link>%(FileName)</Link>
     </Compile>
     <Compile Include="..\remoteio\*.cs">
