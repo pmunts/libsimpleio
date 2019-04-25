@@ -25,11 +25,12 @@ UNIT HID_libsimpleio;
 INTERFACE
 
   USES
+    HID_Munts,
     Message64;
 
   CONST
-    DefaultVendor  = $16D0;  { Munts Technologies }
-    DefaultProduct = $0AFA;  { USB HID device }
+    DefaultVendor  = HID_Munts.VID;
+    DefaultProduct = HID_Munts.PID;
 
   TYPE
     MessengerSubclass = CLASS(TInterfacedObject, Message64.Messenger)
