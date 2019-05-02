@@ -45,7 +45,7 @@
       <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">&lt;a href="http://tech.munts.com"&gt;Munts Technologies&lt;/a&gt; USB Device Identifiers</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.DAC" isDocumented="True">Abstract Interface for DAC (Digital to Analog Converter) Outputs</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Ouput) Pins</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Output) Pins</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Message64" isDocumented="True">Abstract Interface for 64-Byte Message Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Motor" isDocumented="True">Abstract Interface For Variable Speed Motor Outputs</NamespaceSummaryItem>

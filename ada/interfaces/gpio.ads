@@ -37,7 +37,7 @@ PACKAGE GPIO IS
   PACKAGE Interfaces IS NEW IO_Interfaces(Boolean);
 
   -- Define an abstract interface for GPIO pins, derived from
-  -- Interfaces.InputOuputInterface
+  -- Interfaces.InputOutputInterface
 
   TYPE PinInterface IS INTERFACE AND Interfaces.InputOutputInterface;
 
