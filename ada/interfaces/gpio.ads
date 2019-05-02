@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Text_IO;
 WITH IO_Interfaces;
 
 PACKAGE GPIO IS
@@ -27,6 +28,10 @@ PACKAGE GPIO IS
   -- Define an exception for GPIO errors
 
   GPIO_Error : EXCEPTION;
+
+  -- Instantiate text I/O package
+
+  PACKAGE Boolean_IO IS NEW Ada.Text_IO.Enumeration_IO(Boolean);
 
   -- Type definitions
 
