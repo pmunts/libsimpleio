@@ -102,7 +102,7 @@ GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
 # Define pattern rules for building Ada programs
 
 %: %.gpr
-	$(GPRBUILD) $< $(GPRBUILDFLAGS) -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
+	$(GPRBUILD) $< $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
 
 %: %.adb
