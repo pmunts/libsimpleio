@@ -70,9 +70,9 @@ PACKAGE RemoteIO.LPC1114 IS
   -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware command structure
 
   TYPE SPIAGENT_COMMAND_MSG_t IS RECORD
-     command : Interfaces.Unsigned_32;
-     pin     : Interfaces.Unsigned_32;
-     data    : Interfaces.Unsigned_32;
+    command : Interfaces.Unsigned_32;
+    pin     : Interfaces.Unsigned_32;
+    data    : Interfaces.Unsigned_32;
   END record;
 
   -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware response structure
