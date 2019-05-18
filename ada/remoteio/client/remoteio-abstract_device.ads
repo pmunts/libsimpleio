@@ -33,6 +33,10 @@ GENERIC
 
 PACKAGE RemoteIO.Abstract_Device IS
 
+  -- Abstract device exception definitions
+
+  Device_Error : EXCEPTION;
+
   -- Abstract device type definitions
 
   TYPE DeviceClass IS TAGGED PRIVATE;
