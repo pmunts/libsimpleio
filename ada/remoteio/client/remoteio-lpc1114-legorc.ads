@@ -21,31 +21,50 @@
 WITH Interfaces;
 
 WITH LEGORC;
+WITH Motor;
 
 PACKAGE RemoteIO.LPC1114.LEGORC IS
 
-  TYPE OutputSubclass IS NEW Standard.LEGORC.OutputInterface WITH PRIVATE;
+  TYPE OutputClass IS NEW Standard.LEGORC.OutputInterface WITH PRIVATE;
+
+  TYPE MotorClass  IS NEW Motor.Interfaces.OutputInterface WITH PRIVATE;
 
   -- Constructors
 
   FUNCTION Create
-   (dev : RemoteIO.LPC1114.Abstract_Device.Device;
-    pin : Interfaces.Unsigned_32) RETURN Standard.LEGORC.Output;
+   (dev  : Abstract_Device.Device;
+    pin  : Interfaces.Unsigned_32) RETURN Standard.LEGORC.Output;
+
+  FUNCTION Create
+   (outp : Standard.LEGORC.Output;
+    chan : Standard.LEGORC.Channel;
+    mot  : Standard.LEGORC.MotorID;
+    vel  : Motor.Velocity := 0.0) RETURN Motor.Interfaces.Output;
 
   -- Methods
 
   PROCEDURE Put
-   (Self : OutputSubclass;
+   (Self : OutputClass;
     chan : Standard.LEGORC.Channel;
     cmd  : Standard.LEGORC.Command;
     data : Standard.LEGORC.Speed;
     dir  : Standard.LEGORC.Direction);
 
+  PROCEDURE Put
+   (Self : IN OUT MotorClass;
+    vel  : Motor.Velocity);
+
 PRIVATE
 
-  TYPE OutputSubclass IS NEW Standard.LEGORC.OutputInterface WITH RECORD
-    dev : RemoteIO.LPC1114.Abstract_Device.Device;
-    pin : Interfaces.Unsigned_32;
+  TYPE OutputClass IS NEW Standard.LEGORC.OutputInterface WITH RECORD
+    dev  : Abstract_Device.Device;
+    pin  : Interfaces.Unsigned_32;
   END RECORD;
 
+  TYPE MotorClass  IS NEW Motor.Interfaces.OutputInterface WITH RECORD
+    outp : Standard.LEGORC.Output;
+    chan : Standard.LEGORC.Channel;
+    mot  : Standard.LEGORC.MotorID;
+  END RECORD;
+  
 END RemoteIO.LPC1114.LEGORC;
