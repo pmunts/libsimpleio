@@ -92,10 +92,10 @@ PACKAGE BODY RemoteIO.LPC1114.LEGORC IS
   BEGIN
     IF vel >= 0.0 THEN
       dir   := Standard.LEGORC.Forward;
-      speed := Standard.LEGORC.Speed(7.0*vel + 0.5);
+      speed := Standard.LEGORC.Speed(7.0*vel);
     ELSE
       dir   := Standard.LEGORC.Backward;
-      speed := Standard.LEGORC.Speed(-7.0*vel + 0.5);
+      speed := Standard.LEGORC.Speed(-7.0*vel);
     END IF;
 
     Self.outp.Put(Self.chan, Standard.LEGORC.Command(Self.mot), speed, dir);
