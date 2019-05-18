@@ -1,7 +1,7 @@
--- Parent package for all LEGO Power Functions Remote Control
--- motor subclass implementations
+-- Abstract interface definitions for the LEGO(TM) Power Functions Infrared
+-- Remote Control protocol
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,12 +21,41 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE Motor.LEGORC IS
+-- https://www.lego.com/themes/power-functions
+-- http://storage.technicbricks.com/Media/2010/TBs_20100304_1/LEGO%20Power%20Functions%20RC%20v120.pdf
+
+PACKAGE LEGORC IS
 
   LEGORC_Error : EXCEPTION;
 
   TYPE Channel IS NEW Natural RANGE 1 .. 4;
 
-  TYPE MotorID IS (MotorA, MotorB);
+  TYPE Command IS
+   (AllStop,
+    MotorA,
+    MotorB,
+    ComboDirect,
+    ComboPWM);
 
-END Motor.LEGORC;
+  TYPE MotorID IS NEW Command RANGE MotorA .. MotorB;
+
+  TYPE Speed IS NEW Natural RANGE 0 .. 255;
+
+  TYPE Direction IS
+   (Backward,
+    Forward);
+
+  -- Abstract interface for LEGORC outputs
+
+  TYPE OutputInterface IS INTERFACE;
+
+  TYPE Output IS ACCESS ALL OutputInterface'Class;
+
+  PROCEDURE Put
+   (Self : OutputInterface;
+    chan : Channel;
+    cmd  : Command;
+    data : Speed;
+    dir  : Direction) IS ABSTRACT;
+
+END LEGORC;
