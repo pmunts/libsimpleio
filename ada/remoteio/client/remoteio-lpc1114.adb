@@ -89,16 +89,4 @@ PACKAGE BODY RemoteIO.LPC1114 IS
       ToUnsigned(msg(18), msg(17), msg(16), msg(15)));
   END ToResponse;
 
-  -- Check for operation failure
-
-  PROCEDURE CheckError(resp : SPIAGENT_RESPONSE_MSG_t) IS
-
-  BEGIN
-    IF resp.Error /= 0 THEN
-      RAISE Abstract_Device.Device_Error WITH
-        "SPIAgent Firmware operation failed, error=" &
-        Interfaces.Unsigned_32'Image(resp.Error);
-    END IF;
-  END CheckError;
-
 END RemoteIO.LPC1114;
