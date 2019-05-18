@@ -453,6 +453,42 @@ void LINUX_open_readwrite(const char *name, int32_t *fd, int32_t *error)
   *error = 0;
 }
 
+// Open a file descriptor for create/overwrite access
+
+void LINUX_open_create(const char *name, int32_t mode, int32_t *fd,
+  int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (name == NULL)
+  {
+    *fd = -1;
+    *error = EINVAL;
+    ERRORMSG("name argument is NULL", *error, __LINE__ - 4);
+    return;
+  }
+
+  *fd = creat(name, mode);
+  if (*fd < 0)
+  {
+    *fd = -1;
+    *error = errno;
+    ERRORMSG("creat() failed", *error, __LINE__ - 5);
+    return;
+  }
+
+  *error = 0;
+}
+
 // Close a file descriptor
 
 void LINUX_close(int32_t fd, int32_t *error)

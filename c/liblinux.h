@@ -90,6 +90,11 @@ extern void LINUX_open_write(const char *name, int32_t *fd, int32_t *error);
 
 extern void LINUX_open_readwrite(const char *name, int32_t *fd, int32_t *error);
 
+// Open a file descriptor for create/overwrite access
+
+extern void LINUX_open_create(const char *name, int32_t mode, int32_t *fd,
+  int32_t *error);
+
 // Close a file descriptor
 
 extern void LINUX_close(int32_t fd, int32_t *error);

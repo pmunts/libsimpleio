@@ -131,28 +131,35 @@ PACKAGE libLinux IS
   PRAGMA Import(C, Command, "LINUX_command");
 
   PROCEDURE Open
-   (devname : String;
-    fd      : OUT Integer;
-    error   : OUT Integer);
+   (name  : String;
+    fd    : OUT Integer;
+    error : OUT Integer);
   PRAGMA Import(C, Open, "LINUX_open_readwrite");
 
   PROCEDURE OpenRead
-   (devname : String;
-    fd      : OUT Integer;
-    error   : OUT Integer);
+   (name  : String;
+    fd    : OUT Integer;
+    error : OUT Integer);
   PRAGMA Import(C, OpenRead, "LINUX_open_read");
 
   PROCEDURE OpenWrite
-   (devname : String;
-    fd      : OUT Integer;
-    error   : OUT Integer);
+   (name  : String;
+    fd    : OUT Integer;
+    error : OUT Integer);
   PRAGMA Import(C, OpenWrite, "LINUX_open_write");
 
   PROCEDURE OpenReadWrite
-   (devname : String;
-    fd      : OUT Integer;
-    error   : OUT Integer);
+   (name  : String;
+    fd    : OUT Integer;
+    error : OUT Integer);
   PRAGMA Import(C, OpenReadWrite, "LINUX_open_readwrite");
+
+  PROCEDURE OpenCreate
+   (name  : String;
+    mode  : Integer;
+    fd    : OUT Integer;
+    error : OUT Integer);
+  PRAGMA Import(C, OpenCreate, "LINUX_open_create");
 
   PROCEDURE Read
    (fd      : Integer;

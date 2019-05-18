@@ -1013,6 +1013,26 @@ START_TEST(test_liblinux)
   ck_assert(error == 0);
   fd = -1;
 
+  fd = -888;
+  LINUX_open_create(NULL, 0644, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EINVAL);
+
+  LINUX_open_create("/dev/bogus", 0644, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  LINUX_open_create("/dev/bogus", 0644, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EACCES);
+
+  LINUX_open_create("/dev/null", 0644, &fd, &error);
+  ck_assert(error == 0);
+
+  LINUX_close(fd, &error);
+  ck_assert(error == 0);
+  fd = -1;
+
   LINUX_close(-1, &error);
   ck_assert(error == EINVAL);
 
