@@ -80,9 +80,9 @@ BEGIN
   -- Send the file name
 
   DECLARE
-i
-    name : String(1 .. Ada.Command_Line.Argument(1)'Length + 4) :=
-      Ada.Command_Line.Argument(1) & ".dst";
+
+    name : String(1 .. Ada.Command_Line.Argument(1)'Length) :=
+      Ada.Command_Line.Argument(1);
 
   BEGIN
     libStream.Encode(name'Address, name'Length, frame'Address, frame'Length,
