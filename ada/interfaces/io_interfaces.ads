@@ -1,6 +1,6 @@
 -- Generic package for I/O interfaces
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,11 +30,6 @@ PACKAGE IO_Interfaces IS
 
   TYPE InputInterface IS INTERFACE;
 
-  -- Define an access type compatible with any subclass implementing
-  -- InputInterface
-
-  TYPE Input IS ACCESS ALL InputInterface'Class;
-
   -- Define a method for reading from an input
 
   FUNCTION Get(Self : IN OUT InputInterface) RETURN Property IS ABSTRACT;
@@ -44,11 +39,6 @@ PACKAGE IO_Interfaces IS
   -- Define an abstract input/output interface
 
   TYPE InputOutputInterface IS INTERFACE;
-
-  -- Define an access type compatible with any subclass implementing
-  -- InputOutputInterface
-
-  TYPE InputOutput IS ACCESS ALL InputOutputInterface'Class;
 
   -- Define a method for reading from an input
 
@@ -66,10 +56,6 @@ PACKAGE IO_Interfaces IS
 
   -- Define an access type compatible with any subclass implementing
   -- OutputInterface
-
-  TYPE Output IS ACCESS ALL OutputInterface'Class;
-
-  -- Define a method for writing to an output
 
   PROCEDURE Put(Self : IN OUT OutputInterface; value : Property) IS ABSTRACT;
 

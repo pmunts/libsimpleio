@@ -32,14 +32,14 @@ PACKAGE Servo.PWM_Template IS
 
   -- Type definitions
 
-  TYPE OutputSubclass IS NEW Servo.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass IS NEW Servo.OutputInterface WITH PRIVATE;
 
   -- Servo output object constructor
 
   FUNCTION Create
    (output   : PWM.Output;
     position : Servo.Position := Servo.NeutralPosition)
-    RETURN Servo.Interfaces.Output;
+    RETURN Servo.Output;
 
   -- Servo output write method
 
@@ -49,7 +49,7 @@ PACKAGE Servo.PWM_Template IS
 
 PRIVATE
 
-  TYPE OutputSubclass IS NEW Servo.Interfaces.OutputInterface WITH RECORD
+  TYPE OutputSubclass IS NEW Servo.OutputInterface WITH RECORD
     output : PWM.Output;
   END RECORD;
 

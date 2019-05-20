@@ -27,7 +27,7 @@ PACKAGE RemoteIO.LPC1114.LEGORC IS
 
   TYPE OutputClass IS NEW Standard.LEGORC.OutputInterface WITH PRIVATE;
 
-  TYPE MotorClass  IS NEW Motor.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE MotorClass  IS NEW Motor.OutputInterface WITH PRIVATE;
 
   -- Constructors
 
@@ -39,7 +39,7 @@ PACKAGE RemoteIO.LPC1114.LEGORC IS
    (outp : Standard.LEGORC.Output;
     chan : Standard.LEGORC.Channel;
     mot  : Standard.LEGORC.MotorID;
-    vel  : Motor.Velocity := 0.0) RETURN Motor.Interfaces.Output;
+    vel  : Motor.Velocity := 0.0) RETURN Motor.Output;
 
   -- Methods
 
@@ -61,7 +61,7 @@ PRIVATE
     pin  : Interfaces.Unsigned_32;
   END RECORD;
 
-  TYPE MotorClass  IS NEW Motor.Interfaces.OutputInterface WITH RECORD
+  TYPE MotorClass  IS NEW Motor.OutputInterface WITH RECORD
     outp : Standard.LEGORC.Output;
     chan : Standard.LEGORC.Channel;
     mot  : Standard.LEGORC.MotorID;

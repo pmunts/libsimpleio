@@ -1,6 +1,6 @@
 -- Motor services using PWM and GPIO outputs
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,12 +28,12 @@ PACKAGE Motor.PWM IS
   -- Type 1 motor outputs: Consisting of one PWM output for speed and one
   -- GPIO pin for direction control
 
-  TYPE OutputSubclass1 IS NEW Motor.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass1 IS NEW Motor.OutputInterface WITH PRIVATE;
 
   FUNCTION Create
    (pwmout : Standard.PWM.Output;
     dirout : GPIO.Pin;
-    velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output;
+    velo   : Velocity := 0.0) RETURN Motor.Output;
 
   PROCEDURE Put
    (Self : IN OUT OutputSubclass1;
@@ -42,12 +42,12 @@ PACKAGE Motor.PWM IS
   -- Type 2 motor outputs: Consisting of CW (clockwise) and CCW
   -- (counterclockwise) PWM outputs
 
-  TYPE OutputSubclass2 IS NEW Motor.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass2 IS NEW Motor.OutputInterface WITH PRIVATE;
 
   FUNCTION Create
    (cwout  : Standard.PWM.Output;
     ccwout : Standard.PWM.Output;
-    velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output;
+    velo   : Velocity := 0.0) RETURN Motor.Output;
 
   PROCEDURE Put
    (Self : IN OUT OutputSubclass2;
@@ -55,12 +55,12 @@ PACKAGE Motor.PWM IS
 
 PRIVATE
 
-  TYPE OutputSubclass1 IS NEW Motor.Interfaces.OutputInterface WITH RECORD
+  TYPE OutputSubclass1 IS NEW Motor.OutputInterface WITH RECORD
     pwmout : Standard.PWM.Output;
     dirout : GPIO.Pin;
   END RECORD;
 
-  TYPE OutputSubclass2 IS NEW Motor.Interfaces.OutputInterface WITH RECORD
+  TYPE OutputSubclass2 IS NEW Motor.OutputInterface WITH RECORD
     cwout  : Standard.PWM.Output;
     ccwout : Standard.PWM.Output;
   END RECORD;

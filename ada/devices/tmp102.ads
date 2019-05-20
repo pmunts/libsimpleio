@@ -1,6 +1,6 @@
 -- TMP102 temperature sensor services
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@ WITH Temperature;
 
 PACKAGE TMP102 IS
 
-  TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface WITH PRIVATE;
+  TYPE DeviceSubclass IS NEW Temperature.InputInterface WITH PRIVATE;
 
   TYPE Device IS ACCESS DeviceSubclass;
 
@@ -103,7 +103,7 @@ PACKAGE TMP102 IS
 
 PRIVATE
 
-  TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface WITH RECORD
+  TYPE DeviceSubclass IS NEW Temperature.InputInterface WITH RECORD
     bus     : I2C.Bus;
     address : I2C.Address;
   END RECORD;

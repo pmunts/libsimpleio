@@ -1,6 +1,6 @@
 -- Motor services for continuous rotation servos
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,11 +24,11 @@ WITH Servo;
 
 PACKAGE Motor.Servo IS
 
-  TYPE OutputSubclass IS NEW Motor.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass IS NEW Motor.OutputInterface WITH PRIVATE;
 
   FUNCTION Create
-   (output : Standard.Servo.Interfaces.Output;
-    velo   : Velocity := 0.0) RETURN Motor.Interfaces.Output;
+   (output : Standard.Servo.Output;
+    velo   : Velocity := 0.0) RETURN Motor.Output;
 
   PROCEDURE Put
    (Self : IN OUT OutputSubclass;
@@ -36,8 +36,8 @@ PACKAGE Motor.Servo IS
 
 PRIVATE
 
-  TYPE OutputSubclass IS NEW Motor.Interfaces.OutputInterface WITH RECORD
-    output : Standard.Servo.Interfaces.Output;
+  TYPE OutputSubclass IS NEW Motor.OutputInterface WITH RECORD
+    output : Standard.Servo.Output;
   END RECORD;
 
 END Motor.Servo;

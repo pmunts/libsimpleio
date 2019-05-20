@@ -31,9 +31,9 @@ PACKAGE BODY Servo.PWM_Template IS
   FUNCTION Create
    (output   : PWM.Output;
     position : Servo.Position := Servo.NeutralPosition)
-    RETURN Servo.Interfaces.Output IS
+    RETURN Servo.Output IS
 
-    outp : Servo.Interfaces.Output;
+    outp : Servo.Output;
 
   BEGIN
     IF MaximumWidth > output.GetPeriod THEN

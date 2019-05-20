@@ -1,6 +1,6 @@
 -- Mikroelecktronika ADC Click services
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -34,7 +34,7 @@ PACKAGE ClickBoard.ADC IS
 
   -- Define an array of MCP3204 analog voltage inputs
 
-  TYPE Inputs IS ARRAY (MCP3204.Channel) OF Voltage.Interfaces.Input;
+  TYPE Inputs IS ARRAY (MCP3204.Channel) OF Voltage.Input;
 
   -- Create an array of MCP3204 analog voltage inputs
 

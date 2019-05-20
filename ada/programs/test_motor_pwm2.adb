@@ -1,6 +1,6 @@
 -- Motor Output Test using two PWM outputs (CW and CCW)
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@ PROCEDURE test_motor_pwm2 IS
   chanCW  : Natural;
   chipCCW : Natural;
   chanCCW : Natural;
-  motor0  : Motor.Interfaces.Output;
+  motor0  : Motor.Output;
 
 BEGIN
   Put_Line("Motor Output Test");

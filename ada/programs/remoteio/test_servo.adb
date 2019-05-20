@@ -1,6 +1,6 @@
 -- USB HID Remote I/O Servo Output Test
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -62,10 +62,10 @@ BEGIN
 
   DECLARE
 
-    -- Declare an array of Servo.Interfaces.Output sized to match the
+    -- Declare an array of Servo.Output sized to match the
     -- number of PWM outputs found
 
-    outputs : ARRAY (1 .. Positive(channels.Length)) OF Servo.Interfaces.Output;
+    outputs : ARRAY (1 .. Positive(channels.Length)) OF Servo.Output;
     count   : Natural := 0;
 
   BEGIN

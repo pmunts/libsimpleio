@@ -1,6 +1,6 @@
 -- Abstract Digital to Analog Converter interface definitions
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,14 +27,14 @@ PACKAGE DAC IS
 
   DAC_Error : EXCEPTION;
 
-  TYPE OutputSubclass IS NEW Voltage.Interfaces.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclass IS NEW Voltage.OutputInterface WITH PRIVATE;
 
   -- Constructor
 
   FUNCTION Create
    (output    : Analog.Output;
     reference : Voltage.Volts;
-    gain      : Voltage.Volts := 1.0) RETURN Voltage.Interfaces.Output;
+    gain      : Voltage.Volts := 1.0) RETURN Voltage.Output;
 
   -- Methods
 
@@ -42,7 +42,7 @@ PACKAGE DAC IS
 
 PRIVATE
 
-  TYPE OutputSubclass IS NEW Voltage.Interfaces.OutputInterface WITH RECORD
+  TYPE OutputSubclass IS NEW Voltage.OutputInterface WITH RECORD
     output   : Analog.Output;
     stepsize : Voltage.Volts;
   END RECORD;

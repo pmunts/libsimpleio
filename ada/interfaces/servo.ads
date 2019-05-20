@@ -1,6 +1,6 @@
 -- Abstract servo output interface definitions
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -40,5 +40,15 @@ PACKAGE Servo IS
   -- Instantiate abstract interfaces package
 
   PACKAGE Interfaces IS NEW IO_Interfaces(Position);
+
+  -- Define an abstract interface for servo outputs, derived from
+  -- Interfaces.OutputInterface
+
+  TYPE OutputInterface IS INTERFACE AND Interfaces.OutputInterface;
+
+  -- Define an access type compatible with any subclass implementing
+  -- OutputInterface
+
+  TYPE Output IS ACCESS ALL OutputInterface'Class;
 
 END Servo;

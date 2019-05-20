@@ -1,6 +1,6 @@
 -- HDC1080 temperature and humidity sensor services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,8 +28,8 @@ PACKAGE HDC1080 IS
 
   HDC1080_Error : EXCEPTION;
 
-  TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface AND
-    Humidity.Interfaces.InputInterface WITH PRIVATE;
+  TYPE DeviceSubclass IS NEW Temperature.InputInterface AND
+    Humidity.InputInterface WITH PRIVATE;
 
   TYPE Device IS ACCESS DeviceSubclass;
 
@@ -57,8 +57,8 @@ PACKAGE HDC1080 IS
 
 PRIVATE
 
-  TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface AND
-    Humidity.Interfaces.InputInterface WITH RECORD
+  TYPE DeviceSubclass IS NEW Temperature.InputInterface AND
+    Humidity.InputInterface WITH RECORD
     bus     : I2C.Bus;
     address : I2C.Address;
   END RECORD;

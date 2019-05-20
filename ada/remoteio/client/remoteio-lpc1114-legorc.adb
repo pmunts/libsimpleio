@@ -49,9 +49,9 @@ PACKAGE BODY RemoteIO.LPC1114.LEGORC IS
    (outp : Standard.LEGORC.Output;
     chan : Standard.LEGORC.Channel;
     mot  : Standard.LEGORC.MotorID;
-    vel  : Motor.Velocity := 0.0) RETURN Motor.Interfaces.Output IS
+    vel  : Motor.Velocity := 0.0) RETURN Motor.Output IS
 
-    m : Motor.Interfaces.Output;
+    m : Motor.Output;
 
   BEGIN
     m := NEW MotorClass'(outp, chan, mot);

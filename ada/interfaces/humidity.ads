@@ -1,6 +1,6 @@
 -- Humidity measurement definitions
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -35,4 +35,14 @@ PACKAGE Humidity IS
 
   PACKAGE Interfaces IS NEW IO_Interfaces(Relative);
 
+  -- Define an abstract interface for humidity sensor inputs, derived from
+  -- Interfaces.InputInterface
+  
+  TYPE InputInterface IS INTERFACE AND Interfaces.InputInterface;
+  
+  -- Define an access type compatible with any subclass implementing
+  -- InputInterface
+  
+  TYPE Input IS ACCESS ALL InputInterface'Class;
+ 
 END Humidity;

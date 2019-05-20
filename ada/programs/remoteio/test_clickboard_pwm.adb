@@ -1,6 +1,6 @@
 -- Test program for the Mikroelektronika PWM Click
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -36,7 +36,7 @@ PROCEDURE test_clickboard_pwm IS
   remdev  : RemoteIO.Client.Device;
   device  : PCA9685.Device;
   PWM0    : PWM.Output;
-  Servo1  : Servo.Interfaces.Output;
+  Servo1  : Servo.Output;
   GPIO2   : GPIO.Pin;
 
 BEGIN

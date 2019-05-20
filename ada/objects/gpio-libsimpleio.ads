@@ -1,6 +1,6 @@
 -- GPIO pin services using libsimpleio
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -33,8 +33,6 @@ PACKAGE GPIO.libsimpleio IS
   TYPE Polarity IS (ActiveLow, ActiveHigh);
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH PRIVATE;
-
-  TYPE Pin IS ACCESS PinSubclass;
 
   Destroyed : CONSTANT PinSubclass;
 

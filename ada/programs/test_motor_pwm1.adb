@@ -1,6 +1,6 @@
 -- Motor Output Test using PWM (speed) and GPIO (direction) outputs
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@ PROCEDURE test_motor_pwm1 IS
   pwmchan : Natural;
   dirchip : Natural;
   dirline : Natural;
-  motor0  : Motor.Interfaces.Output;
+  motor0  : Motor.Output;
 
 BEGIN
   Put_Line("Motor Output Test");

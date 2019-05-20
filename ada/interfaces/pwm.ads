@@ -1,6 +1,6 @@
 -- Abstract PWM output interface definitions
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -44,11 +44,20 @@ PACKAGE PWM IS
 
   PACKAGE DurationInterfaces IS NEW IO_Interfaces(Duration);
 
+  -- Define an abstract interface for GPIO pins, derived from both
+  -- DutyCycleInterfacesInterfaces.OutputInterface and
+  -- DurationInterfaces.OutputInterface
+
   TYPE OutputInterface IS INTERFACE AND
     DutyCycleInterfaces.OutputInterface AND
     DurationInterfaces.OutputInterface;
 
+  -- Define an access type compatible with any subclass implementing
+  -- OutputInterface
+
   TYPE Output IS ACCESS ALL OutputInterface'Class;
+
+  -- Additional methods
 
   FUNCTION GetPeriod(Self : IN OUT OutputInterface)
     RETURN Duration IS ABSTRACT;

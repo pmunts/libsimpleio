@@ -1,6 +1,6 @@
 -- LSM9DS1 acceleration/gyroscope/magnetometer sensor services
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,10 +28,10 @@ WITH Temperature;
 
 PACKAGE LSM9DS1 IS
 
-  TYPE DeviceSubclass IS NEW Accelerometer.Interfaces.InputInterface AND
-    Gyroscope.Interfaces.InputInterface AND
-    Magnetometer.Interfaces.InputInterface AND
-    Temperature.Interfaces.InputInterface WITH PRIVATE;
+  TYPE DeviceSubclass IS NEW Accelerometer.InputInterface AND
+    Gyroscope.InputInterface AND
+    Magnetometer.InputInterface AND
+    Temperature.InputInterface WITH PRIVATE;
 
   TYPE Device IS ACCESS DeviceSubclass;
 
@@ -62,10 +62,10 @@ PACKAGE LSM9DS1 IS
 
 PRIVATE
 
-  TYPE DeviceSubclass IS NEW Accelerometer.Interfaces.InputInterface AND
-    Gyroscope.Interfaces.InputInterface AND
-    Magnetometer.Interfaces.InputInterface AND
-    Temperature.Interfaces.InputInterface WITH RECORD
+  TYPE DeviceSubclass IS NEW Accelerometer.InputInterface AND
+    Gyroscope.InputInterface AND
+    Magnetometer.InputInterface AND
+    Temperature.InputInterface WITH RECORD
     bus      : I2C.Bus;
     addr_acc : I2C.Address;
     addr_mag : I2C.Address;

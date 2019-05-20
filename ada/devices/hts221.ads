@@ -1,6 +1,6 @@
 -- HTS221 temperature and humidity sensor services
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,8 +26,8 @@ WITH Temperature;
 
 PACKAGE HTS221 IS
 
-  TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface AND
-    Humidity.Interfaces.InputInterface WITH PRIVATE;
+  TYPE DeviceSubclass IS NEW Temperature.InputInterface AND
+    Humidity.InputInterface WITH PRIVATE;
 
   TYPE Device IS ACCESS DeviceSubclass;
 
@@ -47,8 +47,8 @@ PACKAGE HTS221 IS
 
 PRIVATE
 
-  TYPE DeviceSubclass IS NEW Temperature.Interfaces.InputInterface AND
-    Humidity.Interfaces.InputInterface WITH RECORD
+  TYPE DeviceSubclass IS NEW Temperature.InputInterface AND
+    Humidity.InputInterface WITH RECORD
     bus     : I2C.Bus;
     address : I2C.Address;
     Tm      : Float; -- Temperature equation slope

@@ -1,6 +1,6 @@
 -- Test a PCA9685 as 16 individual servo outputs
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -31,7 +31,7 @@ PROCEDURE test_pca9685_servo IS
 
   bus  : I2C.Bus;
   dev  : PCA9685.Device;
-  pins : ARRAY (PCA9685.ChannelNumber) OF Servo.Interfaces.Output;
+  pins : ARRAY (PCA9685.ChannelNumber) OF Servo.Output;
 
 BEGIN
   New_Line;

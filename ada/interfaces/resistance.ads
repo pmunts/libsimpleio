@@ -1,6 +1,6 @@
 -- Resistance measurement and control definitions
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -34,5 +34,21 @@ PACKAGE Resistance IS
   -- Instantiate abstract interfaces package
 
   PACKAGE Interfaces IS NEW IO_Interfaces(Ohms);
+
+  -- Interfaces
+
+  TYPE InputInterface IS INTERFACE AND Interfaces.InputInterface;
+
+  TYPE OutputInterface IS INTERFACE AND Interfaces.OutputInterface;
+
+  TYPE InputOutputInterface IS INTERFACE AND Interfaces.InputOutputInterface;
+
+  -- Access types
+
+  TYPE Input IS ACCESS ALL InputInterface'Class;
+
+  TYPE Output IS ACCESS ALL OutputInterface'Class;
+
+  TYPE InputOutput IS ACCESS ALL InputOutputInterface'Class;
 
 END Resistance;
