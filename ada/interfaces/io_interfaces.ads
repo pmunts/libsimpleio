@@ -54,8 +54,7 @@ PACKAGE IO_Interfaces IS
 
   TYPE OutputInterface IS INTERFACE;
 
-  -- Define an access type compatible with any subclass implementing
-  -- OutputInterface
+  -- Define a method for writing to an output
 
   PROCEDURE Put(Self : IN OUT OutputInterface; value : Property) IS ABSTRACT;
 
