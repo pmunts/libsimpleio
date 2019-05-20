@@ -66,5 +66,5 @@ PRIVATE
     chan : Standard.LEGORC.Channel;
     mot  : Standard.LEGORC.MotorID;
   END RECORD;
-  
+
 END RemoteIO.LPC1114.LEGORC;

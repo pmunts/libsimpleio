@@ -43,12 +43,12 @@ PACKAGE Accelerometer IS
 
   -- Define an abstract interface for accelerometer sensor inputs, derived from
   -- Interfaces.InputInterface
-  
+
   TYPE InputInterface IS INTERFACE AND Interfaces.InputInterface;
-  
+
   -- Define an access type compatible with any subclass implementing
   -- InputInterface
-  
+
   TYPE Input IS ACCESS ALL InputInterface'Class;
- 
+
 END Accelerometer;
