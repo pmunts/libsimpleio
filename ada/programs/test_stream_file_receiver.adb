@@ -96,7 +96,7 @@ BEGIN
   libLinux.OpenCreate(name, 8#644#, filefd, error);
 
   IF error /= 0 THEN
-    Put_Line("ERROR: OpenWrite() failed, " & errno.strerror(error));
+    Put_Line("ERROR: OpenCreate() failed, " & errno.strerror(error));
     RETURN;
   END IF;
 
