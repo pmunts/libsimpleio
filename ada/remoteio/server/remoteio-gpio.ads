@@ -66,7 +66,7 @@ PRIVATE
     preconfig  : Boolean;
     kind       : Kinds;
     desg       : Device.Designator;
-    obj        : Standard.GPIO.libsimpleio.Pin;
+    obj        : ALIASED Standard.GPIO.libsimpleio.PinSubclass;
     pin        : Standard.GPIO.Pin;
   END RECORD;
 
@@ -77,6 +77,7 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT PinRec :=
-    PinRec'(False, False, False, InputOutput, Device.Unavailable, NULL, NULL);
+    PinRec'(False, False, False, InputOutput, Device.Unavailable,
+    Standard.GPIO.libsimpleio.Destroyed, NULL);
 
 END RemoteIO.GPIO;

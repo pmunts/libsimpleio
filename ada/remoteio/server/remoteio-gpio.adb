@@ -62,20 +62,19 @@ PACKAGE BODY RemoteIO.GPIO IS
     Self.pins(num).registered := True;
     Self.pins(num).kind       := kind;
     Self.pins(num).desg       := desg;
-    Self.pins(num).obj        :=
-      NEW Standard.GPIO.libsimpleio.PinSubclass'(Standard.GPIO.libsimpleio.Destroyed);
+    Self.pins(num).obj        := Standard.GPIO.libsimpleio.Destroyed;
 
     CASE kind IS
       WHEN InputOnly =>
         Self.pins(num).configured := True;
         Self.pins(num).preconfig  := True;
-        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj.ALL,
+        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj,
           Self.pins(num).desg, Standard.GPIO.Input);
 
       WHEN OutputOnly =>
         Self.pins(num).configured := True;
         Self.pins(num).preconfig  := True;
-        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj.ALL,
+        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj,
           Self.pins(num).desg, Standard.GPIO.Output);
 
       WHEN InputOutput =>
@@ -83,7 +82,7 @@ PACKAGE BODY RemoteIO.GPIO IS
         Self.pins(num).preconfig  := False;
     END CASE;
 
-    Self.pins(num).pin := Standard.GPIO.Pin(Self.pins(num).obj);
+    Self.pins(num).pin := Self.pins(num).obj'Unchecked_Access;
   END Register;
 
   -- Register GPIO pin by preconfigured object access
@@ -155,16 +154,16 @@ PACKAGE BODY RemoteIO.GPIO IS
           -- Destroy the GPIO pin if it has been previously configured
 
           IF Self.pins(c).configured THEN
-            Standard.GPIO.libsimpleio.Static.Destroy(Self.pins(c).obj.ALL);
+            Standard.GPIO.libsimpleio.Static.Destroy(Self.pins(c).obj);
           END IF;
 
           -- Configure the GPIO pin
 
           IF output THEN
-            Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(c).obj.ALL,
+            Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(c).obj,
               Self.pins(c).desg, Standard.GPIO.Output);
           ELSE
-            Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(c).obj.ALL,
+            Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(c).obj,
               Self.pins(c).desg, Standard.GPIO.Input);
           END IF;
 
