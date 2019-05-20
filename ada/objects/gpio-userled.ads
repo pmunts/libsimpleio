@@ -30,8 +30,6 @@ PACKAGE GPIO.UserLED IS
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH PRIVATE;
 
-  TYPE Pin IS ACCESS PinSubclass;
-
   -- Constructor
 
   FUNCTION Create(state : Boolean := False) RETURN GPIO.Pin;
