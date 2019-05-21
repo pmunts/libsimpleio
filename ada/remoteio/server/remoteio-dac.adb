@@ -60,7 +60,7 @@ PACKAGE BODY RemoteIO.DAC IS
     Self.outputs(num).registered := True;
     Self.outputs(num).configured := False;
     Self.outputs(num).desg       := desg;
-    Self.outputs(num).obj        := Standard.ADC.libsimpleio.Destroyed;
+    Self.outputs(num).obj        := Standard.DAC.libsimpleio.Destroyed;
     Self.outputs(num).output     := Self.outputs(num).obj'Unchecked_Access;
     Self.outputs(num).resolution := resolution;
   END Register;
