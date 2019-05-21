@@ -21,7 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH errno;
-WITH SPI.libsimpleio;
+WITH SPI;
 WITH Message64;
 
 USE TYPE SPI.Microseconds;
@@ -56,7 +56,12 @@ PACKAGE BODY RemoteIO.SPI IS
       RETURN;
     END IF;
 
-    Self.devices(num) := DeviceRec'(desg, NULL, True, False);
+    Self.devices(num).registered := True;
+    Self.devices(num).configured := False;
+    Self.devices(num).preconfig  := False;
+    Self.devices(num).desg       := desg;
+    Self.devices(num).obj        := Standard.SPI.libsimpleio.Destroyed;
+    Self.devices(num).device     := Self.devices(num).obj'Unchecked_Access;
   END Register;
 
   -- Register SPI slave device by preconfigured object access
@@ -71,7 +76,12 @@ PACKAGE BODY RemoteIO.SPI IS
       RETURN;
     END IF;
 
-    Self.devices(num) := DeviceRec'(Device.Unavailable, dev, True, True);
+    Self.devices(num).registered := True;
+    Self.devices(num).configured := True;
+    Self.devices(num).preconfig  := True;
+    Self.devices(num).desg       := Device.Unavailable;
+    Self.devices(num).obj        := Standard.SPI.libsimpleio.Destroyed;
+    Self.devices(num).device     := dev;
   END Register;
 
   PROCEDURE Present
@@ -123,7 +133,9 @@ PACKAGE BODY RemoteIO.SPI IS
       resp(2) := errno.ENXIO;
     END IF;
 
-    IF Self.devices(num).configured THEN
+    -- Check for preconfigured SPI device
+
+    IF Self.devices(num).preconfig THEN
       RETURN;
     END IF;
 
@@ -132,8 +144,7 @@ PACKAGE BODY RemoteIO.SPI IS
     speed    := Natural(cmd(5))*2**24 + Natural(cmd(6))*2**16 +
       Natural(cmd(7))*2**8 + Natural(cmd(8));
 
-    Self.devices(num).device :=
-      Standard.SPI.libsimpleio.Create(Self.devices(num).desg, mode, wordsize,
+    Self.devices(num).obj.Initialize(Self.devices(num).desg, mode, wordsize,
       speed);
 
     Self.devices(num).configured := True;

@@ -26,6 +26,8 @@ WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 
+PRIVATE WITH ADC.libsimpleio;
+
 PACKAGE RemoteIO.ADC IS
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
@@ -58,11 +60,12 @@ PACKAGE RemoteIO.ADC IS
 PRIVATE
 
   TYPE InputRec IS RECORD
-    desg       : Device.Designator;
-    resolution : Natural;
-    input      : Analog.Input;
     registered : Boolean;
     configured : Boolean;
+    desg       : Device.Designator;
+    obj        : ALIASED Standard.ADC.libsimpleio.InputSubclass;
+    input      : Analog.Input;
+    resolution : Natural;
   END RECORD;
 
   TYPE InputTable IS ARRAY (ChannelNumber) OF InputRec;
@@ -72,6 +75,7 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT InputRec :=
-    InputRec'(Device.Unavailable, 0, NULL, False, False);
+    InputRec'(False, False, Device.Unavailable,
+    Standard.ADC.libsimpleio.Destroyed, NULL, 0);
 
 END RemoteIO.ADC;

@@ -59,8 +59,8 @@ PRIVATE
 
   TYPE OutputRec IS RECORD
     registered : Boolean;
-    configable : Boolean;
     configured : Boolean;
+    preconfig  : Boolean;
     desg       : Device.Designator;
     obj        : ALIASED Standard.PWM.libsimpleio.OutputSubclass;
     output     : Standard.PWM.Output;
@@ -75,6 +75,6 @@ PRIVATE
 
   Unused : CONSTANT OutputRec :=
     OutputRec'(False, False, False, Device.Unavailable,
-      Standard.PWM.libsimpleio.Destroyed, NULL, 0);
+    Standard.PWM.libsimpleio.Destroyed, NULL, 0);
 
 END RemoteIO.PWM;

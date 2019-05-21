@@ -58,11 +58,12 @@ PACKAGE BODY RemoteIO.PWM IS
     END IF;
 
     Self.outputs(num).registered := True;
-    Self.outputs(num).configable := True;
     Self.outputs(num).configured := False;
+    Self.outputs(num).preconfig  := False;
     Self.outputs(num).desg       := desg;
     Self.outputs(num).obj        := Standard.PWM.libsimpleio.Destroyed;
     Self.outputs(num).output     := Self.outputs(num).obj'Unchecked_Access;
+    Self.outputs(num).period     := 0;
   END Register;
 
   -- Register PWM output by preconfigured object access
@@ -79,8 +80,10 @@ PACKAGE BODY RemoteIO.PWM IS
     END IF;
 
     Self.outputs(num).registered := True;
-    Self.outputs(num).configable := False;
     Self.outputs(num).configured := True;
+    Self.outputs(num).preconfig  := True;
+    Self.outputs(num).desg       := Device.Unavailable;
+    Self.outputs(num).obj        := Standard.PWM.libsimpleio.Destroyed;
     Self.outputs(num).output     := output;
     Self.outputs(num).period     := 1000000000/freq;
   END Register;
@@ -134,13 +137,11 @@ PACKAGE BODY RemoteIO.PWM IS
       RETURN;
     END IF;
 
-    IF NOT Self.outputs(num).configable THEN
+    -- Check for preconfigured PWM output
+
+    IF Self.outputs(num).preconfig THEN
       RETURN;
     END IF;
-
-    -- Destroy the PWM output in case it has been previously configured
-
-    Standard.PWM.libsimpleio.Destroy(Self.outputs(num).obj);
 
     -- Calculate the PWM pulse period in nanoseconds
 

@@ -26,6 +26,8 @@ WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 WITH SPI;
 
+PRIVATE WITH SPI.libsimpleio;
+
 PACKAGE RemoteIO.SPI IS
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
@@ -57,10 +59,12 @@ PACKAGE RemoteIO.SPI IS
 PRIVATE
 
   TYPE DeviceRec IS RECORD
-    desg       : Device.Designator;
-    device     : Standard.SPI.Device;
     registered : Boolean;
     configured : Boolean;
+    preconfig  : Boolean;
+    desg       : Device.Designator;
+    obj        : ALIASED Standard.SPI.libsimpleio.DeviceSubclass;
+    device     : Standard.SPI.Device;
   END RECORD;
 
   TYPE DeviceTable IS ARRAY (ChannelNumber) OF DeviceRec;
@@ -69,6 +73,7 @@ PRIVATE
     devices : DeviceTable;
   END RECORD;
 
-  Unused : CONSTANT DeviceRec := DeviceRec'(Device.Unavailable, NULL, False, False);
+  Unused : CONSTANT DeviceRec := DeviceRec'(False, False, False, Device.Unavailable,
+    Standard.SPI.libsimpleio.Destroyed, NULL);
 
 END RemoteIO.SPI;

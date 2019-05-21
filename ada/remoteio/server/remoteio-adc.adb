@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Analog;
-WITH ADC.libsimpleio;
 WITH errno;
 WITH Message64;
 
@@ -58,7 +57,12 @@ PACKAGE BODY RemoteIO.ADC IS
       RETURN;
     END IF;
 
-    Self.inputs(num) := InputRec'(desg, resolution, NULL, True, False);
+    Self.inputs(num).registered := True;
+    Self.inputs(num).configured := False;
+    Self.inputs(num).desg       := desg;
+    Self.inputs(num).obj        := Standard.ADC.libsimpleio.Destroyed;
+    Self.inputs(num).input      := Self.inputs(num).obj'Unchecked_Access;
+    Self.inputs(num).resolution := resolution;
   END Register;
 
   -- Register analog input by preconfigured object access
@@ -73,8 +77,12 @@ PACKAGE BODY RemoteIO.ADC IS
       RETURN;
     END IF;
 
-    Self.inputs(num) :=
-      InputRec'(Device.Unavailable, input.GetResolution, input, True, True);
+    Self.inputs(num).registered := True;
+    Self.inputs(num).configured := True;
+    Self.inputs(num).desg       := Device.Unavailable;
+    Self.inputs(num).obj        := Standard.ADC.libsimpleio.Destroyed;
+    Self.inputs(num).input      := input;
+    Self.inputs(num).resolution := input.GetResolution;
   END Register;
 
   PROCEDURE Present
@@ -129,9 +137,8 @@ PACKAGE BODY RemoteIO.ADC IS
       RETURN;
     END IF;
 
-    Self.inputs(num).input :=
-      Standard.ADC.libsimpleio.Create(Self.inputs(num).desg,
-        Self.inputs(num).resolution);
+    Self.inputs(num).obj.Initialize(Self.inputs(num).desg,
+      Self.inputs(num).resolution);
 
     Self.inputs(num).configured := True;
 

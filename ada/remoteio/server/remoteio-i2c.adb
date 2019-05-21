@@ -21,7 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH errno;
-WITH I2C.libsimpleio;
+WITH I2C;
 WITH Message64;
 
 USE TYPE I2C.Microseconds;
@@ -56,7 +56,12 @@ PACKAGE BODY RemoteIO.I2C IS
       RETURN;
     END IF;
 
-    Self.buses(num) := BusRec'(desg, NULL, True, False);
+    Self.buses(num).registered := True;
+    Self.buses(num).configured := False;
+    Self.buses(num).preconfig  := False;
+    Self.buses(num).desg       := desg;
+    Self.buses(num).obj        := Standard.I2C.libsimpleio.Destroyed;
+    Self.buses(num).bus        := Self.buses(num).obj'Unchecked_Access;
   END Register;
 
   -- Register I2C bus by preconfigured object access
@@ -71,7 +76,12 @@ PACKAGE BODY RemoteIO.I2C IS
       RETURN;
     END IF;
 
-    Self.buses(num) := BusRec'(Device.Unavailable, bus, True, True);
+    Self.buses(num).registered := True;
+    Self.buses(num).configured := True;
+    Self.buses(num).preconfig  := True;
+    Self.buses(num).desg       := Device.Unavailable;
+    Self.buses(num).obj        := Standard.I2C.libsimpleio.Destroyed;
+    Self.buses(num).bus        := bus;
   END Register;
 
   PROCEDURE Present
@@ -121,11 +131,14 @@ PACKAGE BODY RemoteIO.I2C IS
       RETURN;
     END IF;
 
-    IF Self.buses(num).configured THEN
+    -- Check for preconfigured I2C bus
+
+    IF Self.buses(num).preconfig THEN
       RETURN;
     END IF;
 
-    Self.buses(num).bus := Standard.I2C.libsimpleio.Create(Self.buses(num).desg);
+    Self.buses(num).obj.Initialize(Self.buses(num).desg);
+
     Self.buses(num).configured := True;
 
   EXCEPTION

@@ -26,6 +26,8 @@ WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 
+PRIVATE WITH I2C.libsimpleio;
+
 PACKAGE RemoteIO.I2C IS
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
@@ -57,10 +59,12 @@ PACKAGE RemoteIO.I2C IS
 PRIVATE
 
   TYPE BusRec IS RECORD
-    desg       : Device.Designator;
-    bus        : Standard.I2C.Bus;
     registered : Boolean;
     configured : Boolean;
+    preconfig  : Boolean;
+    desg       : Device.Designator;
+    obj        : ALIASED Standard.I2C.libsimpleio.BusSubclass;
+    bus        : Standard.I2C.Bus;
   END RECORD;
 
   TYPE BusTable IS ARRAY (ChannelNumber) OF BusRec;
@@ -69,6 +73,7 @@ PRIVATE
     buses : BusTable;
   END RECORD;
 
-  Unused : CONSTANT BusRec := BusRec'(Device.Unavailable, NULL, False, False);
+  Unused : CONSTANT BusRec := BusRec'(False, False, False, Device.Unavailable,
+    Standard.I2C.libsimpleio.Destroyed, NULL);
 
 END RemoteIO.I2C;

@@ -23,7 +23,6 @@
 WITH Analog;
 WITH errno;
 WITH Message64;
-WITH DAC.libsimpleio;
 
 USE TYPE Analog.Sample;
 USE TYPE Message64.Byte;
@@ -58,7 +57,12 @@ PACKAGE BODY RemoteIO.DAC IS
       RETURN;
     END IF;
 
-    Self.outputs(num) := OutputRec'(desg, resolution, NULL, True, False);
+    Self.outputs(num).registered := True;
+    Self.outputs(num).configured := False;
+    Self.outputs(num).desg       := desg;
+    Self.outputs(num).obj        := Standard.ADC.libsimpleio.Destroyed;
+    Self.outputs(num).output     := Self.outputs(num).obj'Unchecked_Access;
+    Self.outputs(num).resolution := resolution;
   END Register;
 
   -- Register DAC output by preconfigured object access
@@ -73,8 +77,12 @@ PACKAGE BODY RemoteIO.DAC IS
       RETURN;
     END IF;
 
-    Self.outputs(num) := OutputRec'(Device.Unavailable, output.GetResolution,
-      output, True, True);
+    Self.outputs(num).registered := True;
+    Self.outputs(num).configured := True;
+    Self.outputs(num).desg       := Device.Unavailable;
+    Self.outputs(num).obj        := Standard.DAC.libsimpleio.Destroyed;
+    Self.outputs(num).output     := output;
+    Self.outputs(num).resolution := output.GetResolution;
   END Register;
 
   PROCEDURE Present
@@ -129,9 +137,8 @@ PACKAGE BODY RemoteIO.DAC IS
       RETURN;
     END IF;
 
-    Self.outputs(num).output :=
-      Standard.DAC.libsimpleio.Create(Self.outputs(num).desg,
-        Self.outputs(num).resolution);
+    Self.outputs(num).obj.Initialize(Self.outputs(num).desg,
+      Self.outputs(num).resolution);
 
     Self.outputs(num).configured := True;
 

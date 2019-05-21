@@ -26,6 +26,8 @@ WITH Message64;
 WITH RemoteIO.Dispatch;
 WITH RemoteIO.Executive;
 
+PRIVATE WITH DAC.libsimpleio;
+
 PACKAGE RemoteIO.DAC IS
 
   TYPE DispatcherSubclass IS NEW RemoteIO.Dispatch.DispatcherInterface WITH PRIVATE;
@@ -58,11 +60,12 @@ PACKAGE RemoteIO.DAC IS
 PRIVATE
 
   TYPE OutputRec IS RECORD
-    desg        : Device.Designator;
-    resolution  : Natural;
-    output      : Analog.Output;
     registered  : Boolean;
     configured  : Boolean;
+    desg        : Device.Designator;
+    obj         : ALIASED Standard.DAC.libsimpleio.OutputSubclass;
+    output      : Analog.Output;
+    resolution  : Natural;
   END RECORD;
 
   TYPE OutputTable IS ARRAY (ChannelNumber) OF OutputRec;
@@ -72,6 +75,7 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT OutputRec :=
-    OutputRec'(Device.Unavailable, 0, NULL, False, False);
+    OutputRec'(False, False, Device.Unavailable,
+    Standard.DAC.libsimpleio.Destroyed, NULL, 0);
 
 END RemoteIO.DAC;
