@@ -159,6 +159,14 @@ PACKAGE RemoteIO.LPC1114 IS
   LPC1114_GPIO1DATA   : CONSTANT Unsigned_32 := 16#50010CFC#;
   LPC1114_U0SCR       : CONSTANT Unsigned_32 := 16#4000801C#;
 
+  -- LPC1114 GPIO pin modes
+
+  LPC1114_GPIO_MODE_INPUT            : CONSTANT Unsigned_32 := 0; -- High impedance input
+  LPC1114_GPIO_MODE_INPUT_PULLDOWN   : CONSTANT Unsigned_32 := 1;
+  LPC1114_GPIO_MODE_INPUT_PULLUP     : CONSTANT Unsigned_32 := 2;
+  LPC1114_GPIO_MODE_OUTPUT           : CONSTANT Unsigned_32 := 3; -- Push-pull output
+  LPC1114_GPIO_MODE_OUTPUT_OPENDRAIN : CONSTANT Unsigned_32 := 4;
+
   -- LPC1114 timer identifiers
 
   LPC1114_CT32B0      : CONSTANT Unsigned_32 := 0;
