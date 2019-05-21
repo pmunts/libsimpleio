@@ -29,16 +29,6 @@ USE TYPE Interfaces.Unsigned_32;
 
 PACKAGE BODY RemoteIO.LPC1114.GPIO IS
 
-  PROCEDURE CheckError(resp : RemoteIO.LPC1114.SPIAGENT_RESPONSE_MSG_t) IS
-
-  BEGIN
-    IF resp.Error /= 0 THEN
-      RAISE Standard.GPIO.GPIO_Error WITH
-        "Error: SPI Agent Firmware operation failed, error=" &
-        Interfaces.Unsigned_32'Image(resp.Error);
-    END IF;
-  END CheckError;
-
   -- Configure GPIO pin with SPIAGENT_CMD_CONFIGURE_GPIO_INPUT or
   -- SPIAGENT_CMD_CONFIGURE_GPIO_OUTPUT
 
@@ -62,7 +52,6 @@ PACKAGE BODY RemoteIO.LPC1114.GPIO IS
     cmd.Data := Boolean'Pos(state);
 
     absdev.Operation(cmd, resp);
-    CheckError(resp);
 
     RETURN NEW PinSubclass'(absdev, desg);
   END Create;
@@ -86,7 +75,6 @@ PACKAGE BODY RemoteIO.LPC1114.GPIO IS
     cmd.Data    := PinMode'Pos(mode);
 
     absdev.Operation(cmd, resp);
-    CheckError(resp);
 
     -- Write output pin initial state
 
@@ -96,7 +84,6 @@ PACKAGE BODY RemoteIO.LPC1114.GPIO IS
       cmd.Data    := Boolean'Pos(state);
 
       absdev.Operation(cmd, resp);
-      CheckError(resp);
     END IF;
 
     RETURN NEW PinSubclass'(absdev, desg);
@@ -115,7 +102,6 @@ PACKAGE BODY RemoteIO.LPC1114.GPIO IS
     cmd.Data    := 0;
 
     Self.dev.Operation(cmd, resp);
-    CheckError(resp);
 
     RETURN Boolean'Val(resp.data);
   END Get;
@@ -133,7 +119,6 @@ PACKAGE BODY RemoteIO.LPC1114.GPIO IS
     cmd.Data    := Boolean'Pos(state);
 
     Self.dev.Operation(cmd, resp);
-    CheckError(resp);
   END Put;
 
 END RemoteIO.LPC1114.GPIO;
