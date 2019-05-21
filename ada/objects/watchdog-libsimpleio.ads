@@ -35,6 +35,17 @@ PACKAGE Watchdog.libsimpleio IS
    (devname : String   := DefaultDevice;
     timeout : Duration := DefaultTimeout) RETURN Watchdog.Timer;
 
+  -- Watchdog device object initializer
+
+  PROCEDURE Initialize
+   (Self    : IN OUT TimerSubclass;
+    devname : String   := DefaultDevice;
+    timeout : Duration := DefaultTimeout);
+
+  -- Watchdog device object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT TimerSubclass);
+
   -- Method to get the watchdog timeout in seconds
 
   FUNCTION GetTimeout(Self : TimerSubclass) RETURN Duration;
@@ -54,7 +65,7 @@ PACKAGE Watchdog.libsimpleio IS
 PRIVATE
 
   TYPE TimerSubclass IS NEW Watchdog.TimerInterface WITH RECORD
-    fd : Integer;
+    fd : Integer := -1;
   END RECORD;
 
   Destroyed : CONSTANT TimerSubclass := TimerSubclass'(fd => -1);

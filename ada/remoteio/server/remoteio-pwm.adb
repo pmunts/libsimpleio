@@ -22,7 +22,7 @@
 
 WITH errno;
 WITH Message64;
-WITH PWM.libsimpleio.Static;
+WITH PWM.libsimpleio;
 
 USE TYPE Message64.Byte;
 
@@ -140,7 +140,7 @@ PACKAGE BODY RemoteIO.PWM IS
 
     -- Destroy the PWM output in case it has been previously configured
 
-    Standard.PWM.libsimpleio.Static.Destroy(Self.outputs(num).obj);
+    Standard.PWM.libsimpleio.Destroy(Self.outputs(num).obj);
 
     -- Calculate the PWM pulse period in nanoseconds
 
@@ -156,7 +156,7 @@ PACKAGE BODY RemoteIO.PWM IS
 
     -- Configure the PWM output
 
-    Standard.PWM.libsimpleio.Static.Initialize(Self.outputs(num).obj,
+    Standard.PWM.libsimpleio.Initialize(Self.outputs(num).obj,
       Self.outputs(num).desg, freq);
 
     Self.outputs(num).configured := True;

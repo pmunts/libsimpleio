@@ -43,6 +43,38 @@ PACKAGE BODY Logging.libsimpleio IS
     RETURN NEW LoggerSubclass'(NULL RECORD);
   END Create;
 
+  PROCEDURE Initialize
+   (Self     : IN OUT LoggerSubclass;
+    sender   : String  := libLinux.LOG_PROGNAME;
+    options  : Integer := libLinux.LOG_NDELAY + libLinux.LOG_PID +
+      libLinux.LOG_PERROR;
+    facility : Integer := libLinux.LOG_SYSLOG) IS
+
+    error : Integer;
+
+  BEGIN
+    Self := Destroyed;
+
+    libLinux.OpenLog(sender, options, facility, error);
+
+    IF error /= 0 THEN
+      RAISE Logging_Error WITH "libLinux.OpenLog() failed, " &
+        errno.strerror(error);
+    END IF;
+
+    Self := LoggerSubclass'(NULL RECORD);
+  END Initialize;
+
+  PROCEDURE Destroy(Self : IN OUT LoggerSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    Self := Destroyed;
+  END Destroy;
+
   -- Log an error event
 
   PROCEDURE Error(Self : LoggerSubclass; message : String) IS

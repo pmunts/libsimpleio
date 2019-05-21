@@ -79,6 +79,92 @@ PACKAGE BODY HID.libsimpleio IS
     RETURN NEW MessengerSubclass'(fd, timeoutms);
   END Create;
 
+  -- Initializer using raw HID device node name
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    name      : String;
+    timeoutms : Integer := 1000) IS
+
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    libHIDRaw.Open(name & ASCII.NUL, fd, error);
+
+    IF error /= 0 THEN
+      RAISE HID_Error WITH "libHIDRaw.Open() failed, " &
+        errno.strerror(error);
+    END IF;
+
+    Self := MessengerSubclass'(fd, timeoutms);
+  END Initialize;
+
+  -- Initializer using HID vendor and product ID's
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
+    timeoutms : Integer := 1000) IS
+
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    libHIDRaw.OpenID(Integer(vid), Integer(pid), fd, error);
+
+    IF error /= 0 THEN
+      RAISE HID_Error WITH "libHIDRaw.OpenID() failed, " &
+        errno.strerror(error);
+    END IF;
+
+    Self := MessengerSubclass'(fd, timeoutms);
+  END Initialize;
+
+  -- Initializer using open file descriptor
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    fd        : Integer;
+    timeoutms : Integer := 1000) IS
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    Self := MessengerSubclass'(fd, timeoutms);
+  END Initialize;
+
+  -- Destructor
+
+  PROCEDURE Destroy(Self : IN OUT MessengerSubclass) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    libLinux.Close(Self.fd, error);
+
+    Self := Destroyed;
+
+    IF error /= 0 THEN
+      RAISE HID_Error WITH "libLinux.Close() failed, " & errno.strerror(error);
+    END IF;
+  END Destroy;
+
   -- Send a message
 
   PROCEDURE Send(Self : MessengerSubclass; msg : Message64.Message) IS

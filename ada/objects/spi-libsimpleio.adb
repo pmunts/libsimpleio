@@ -37,7 +37,7 @@ PACKAGE BODY SPI.libsimpleio IS
     Side   : IN Ada.Strings.Trim_End :=
       Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
-  -- SPI device object constructor accepting device node name
+  -- SPI device object constructors
 
   FUNCTION Create
    (name     : String;
@@ -74,8 +74,6 @@ PACKAGE BODY SPI.libsimpleio IS
     RETURN NEW DeviceSubclass'(fd => fd, fdcs => fdcs);
   END Create;
 
-  -- SPI device object constructor accepting device designator
-
   FUNCTION Create
    (desg     : Standard.Device.Designator;
     mode     : Natural;
@@ -87,6 +85,85 @@ PACKAGE BODY SPI.libsimpleio IS
     RETURN Create("/dev/spidev" & Trim(Natural'Image(desg.chip)) & "." &
       Trim(Natural'Image(desg.chan)), mode, wordsize, speed, cspin);
   END Create;
+
+  -- SPI device object initializers
+
+  PROCEDURE Initialize
+   (Self     : IN OUT DeviceSubclass;
+    name     : String;
+    mode     : Natural;
+    wordsize : Natural;
+    speed    : Natural;
+    cspin    : Standard.Device.Designator := AUTOCHIPSELECT) IS
+
+    fd       : Integer;
+    fdcs     : Integer;
+    error    : Integer;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    libSPI.Open(name & ASCII.NUL, mode, wordsize, speed, fd, error);
+
+    IF error /= 0 THEN
+      RAISE SPI_Error WITH "libsimpleio.SPI.Open() failed, " &
+        errno.strerror(error);
+    END IF;
+
+    IF cspin = AUTOCHIPSELECT THEN
+      fdcs := libSPI.SPI_AUTO_CS;
+    ELSE
+      libGPIO.LineOpen(cspin.chip, cspin.chan, libGPIO.LINE_REQUEST_OUTPUT +
+        libGPIO.LINE_REQUEST_ACTIVE_HIGH + libGPIO.LINE_REQUEST_PUSH_PULL,
+        libGPIO.EVENT_REQUEST_NONE, 1, fdcs, error);
+
+      IF error /= 0 THEN
+        RAISE SPI_Error WITH "libGPIO.LineOpen() failed, " &
+          errno.strerror(error);
+      END IF;
+    END IF;
+
+    Self := DeviceSubclass'(fd => fd, fdcs => fdcs);
+  END Initialize;
+
+  PROCEDURE Initialize
+   (Self     : IN OUT DeviceSubclass;
+    desg     : Standard.Device.Designator;
+    mode     : Natural;
+    wordsize : Natural;
+    speed    : Natural;
+    cspin    : Standard.Device.Designator := AUTOCHIPSELECT) IS
+
+  BEGIN
+    Initialize(Self, "/dev/spidev" & Trim(Natural'Image(desg.chip)) & "." &
+      Trim(Natural'Image(desg.chan)), mode, wordsize, speed, cspin);
+  END Initialize;
+
+  -- SPI device object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT DeviceSubclass) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    IF Self.fdcs /= libSPI.SPI_AUTO_CS THEN
+      libGPIO.Close(Self.fdcs, error);
+    END IF;
+
+    libSPI.Close(Self.fd, error);
+
+    Self := Destroyed;
+
+    IF error /= 0 THEN
+      RAISE SPI_Error WITH "libSPI.Close() failed, " & errno.strerror(error);
+    END IF;
+  END Destroy;
 
   -- Write only SPI bus cycle method
 

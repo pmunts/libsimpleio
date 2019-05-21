@@ -54,6 +54,27 @@ PACKAGE PWM.libsimpleio IS
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) RETURN PWM.Output;
 
+  -- PWM output object initializers
+
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    desg      : Device.Designator;
+    frequency : Positive;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
+    polarity  : Polarities := ActiveHigh);
+
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    chip      : Natural;
+    channel   : Natural;
+    frequency : Positive;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
+    polarity  : Polarities := ActiveHigh);
+
+  -- PWM output object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass);
+
   -- PWM output write methods
 
   PROCEDURE Put
@@ -75,8 +96,8 @@ PACKAGE PWM.libsimpleio IS
 PRIVATE
 
   TYPE OutputSubclass IS NEW Standard.PWM.OutputInterface WITH RECORD
-    fd     : Integer;
-    period : Duration;
+    fd     : Integer  := -1;
+    period : Duration := 0.0;
   END RECORD;
 
   Destroyed : CONSTANT OutputSubclass := OutputSubclass'(-1, 0.0);

@@ -31,7 +31,7 @@ PACKAGE SPI.libsimpleio IS
 
   Destroyed : CONSTANT DeviceSubclass;
 
-  -- SPI device object constructor accepting device node name
+  -- SPI device object constructors
 
   FUNCTION Create
    (name     : String;
@@ -40,14 +40,34 @@ PACKAGE SPI.libsimpleio IS
     speed    : Natural;
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) RETURN SPI.Device;
 
-  -- SPI device object constructor accepting device designator
-
   FUNCTION Create
    (desg     : Standard.Device.Designator;
     mode     : Natural;
     wordsize : Natural;
     speed    : Natural;
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) RETURN SPI.Device;
+
+  -- SPI device object initializers
+
+  PROCEDURE Initialize
+   (Self     : IN OUT DeviceSubclass;
+    name     : String;
+    mode     : Natural;
+    wordsize : Natural;
+    speed    : Natural;
+    cspin    : Standard.Device.Designator := AUTOCHIPSELECT);
+
+  PROCEDURE Initialize
+   (Self     : IN OUT DeviceSubclass;
+    desg     : Standard.Device.Designator;
+    mode     : Natural;
+    wordsize : Natural;
+    speed    : Natural;
+    cspin    : Standard.Device.Designator := AUTOCHIPSELECT);
+
+  -- SPI device object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT DeviceSubclass);
 
   -- Write only SPI bus cycle method
 
@@ -80,8 +100,8 @@ PACKAGE SPI.libsimpleio IS
 PRIVATE
 
   TYPE DeviceSubclass IS NEW SPI.DeviceInterface WITH RECORD
-    fd   : Integer;  -- SPI channel device file descriptor
-    fdcs : Integer;  -- GPIO chip select pin device file descriptor
+    fd   : Integer := -1;  -- SPI channel device file descriptor
+    fdcs : Integer := -1;  -- GPIO chip select pin device file descriptor
   END RECORD;
 
   Destroyed : CONSTANT DeviceSubclass := DeviceSubclass'(-1, -1);

@@ -23,7 +23,7 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.libsimpleio.Static;
+WITH HID.libsimpleio;
 WITH RemoteIO.Client;
 
 PROCEDURE test_query_libsimpleio IS
@@ -42,7 +42,7 @@ BEGIN
 
   -- Create the HID device
 
-  HID.libsimpleio.Static.Initialize(hiddev);
+  HID.libsimpleio.Initialize(hiddev);
 
   -- Create the remote I/O device
 
@@ -182,5 +182,5 @@ BEGIN
     END IF;
   END IF;
 
-  HID.libsimpleio.Static.Destroy(hiddev);
+  HID.libsimpleio.Destroy(hiddev);
 END test_query_libsimpleio;

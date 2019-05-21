@@ -69,6 +69,76 @@ PACKAGE BODY PWM.libsimpleio IS
     RETURN NEW OutputSubclass'(fd, period);
   END Create;
 
+  -- PWM output object initializers
+
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    desg      : Device.Designator;
+    frequency : Positive;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
+    polarity  : Polarities := ActiveHigh) IS
+
+  BEGIN
+    Initialize(Self, desg.chip, desg.chan, frequency, dutycycle, polarity);
+  END Initialize;
+
+  PROCEDURE Initialize
+   (Self      : IN OUT OutputSubclass;
+    chip      : Natural;
+    channel   : Natural;
+    frequency : Positive;
+    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
+    polarity  : Polarities := ActiveHigh) IS
+
+    period : Duration;
+    ontime : Duration;
+    error  : Integer;
+    fd     : Integer;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    period := 1.0/frequency;
+    ontime := Duration(dutycycle/MaximumDutyCycle)*period;
+
+    libPWM.Configure(chip, channel, Positive(period*1E9),
+      Natural(ontime*1E9), Polarities'Pos(polarity), error);
+
+    IF error /= 0 THEN
+      RAISE PWM_Error WITH "libPWM.Configure() failed, " & errno.strerror(error);
+    END IF;
+
+    libPWM.Open(chip, channel, fd, error);
+
+    IF error /= 0 THEN
+      RAISE PWM_Error WITH "libPWM.Open() failed, " & errno.strerror(error);
+    END IF;
+
+    Self := OutputSubclass'(fd, period);
+  END Initialize;
+
+  -- PWM output object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    libPWM.Close(Self.fd, error);
+
+    Self := Destroyed;
+
+    IF error /= 0 THEN
+      RAISE PWM_Error WITH "libPWM.Close() failed, " & errno.strerror(error);
+    END IF;
+  END Destroy;
+
   -- PWM output write method
 
   PROCEDURE Put

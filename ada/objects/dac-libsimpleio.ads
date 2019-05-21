@@ -44,6 +44,23 @@ PACKAGE DAC.libsimpleio IS
     channel    : Natural;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Output;
 
+  -- DAC output object initializers
+
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclass;
+    desg       : Device.Designator;
+    resolution : Positive := Analog.MaxResolution);
+
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclass;
+    chip       : Natural;
+    channel    : Natural;
+    resolution : Positive := Analog.MaxResolution);
+
+  -- DAC output object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass);
+
   -- DAC output write method
 
   PROCEDURE Put
@@ -57,9 +74,9 @@ PACKAGE DAC.libsimpleio IS
 PRIVATE
 
   TYPE OutputSubclass IS NEW Analog.OutputInterface WITH RECORD
-    fd         : Integer;
-    resolution : Natural;
-    maxsample  : Analog.Sample;
+    fd         : Integer       := -1;
+    resolution : Natural       := 0;
+    maxsample  : Analog.Sample := 0;
   END RECORD;
 
   Destroyed : CONSTANT OutputSubclass := OutputSubClass'(-1, 0, 0);

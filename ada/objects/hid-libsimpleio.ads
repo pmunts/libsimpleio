@@ -48,6 +48,32 @@ PACKAGE HID.libsimpleio IS
    (fd        : Integer;
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
+  -- Initializer using raw HID device node name
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    name      : String;
+    timeoutms : Integer := 1000);
+
+  -- Initializer using HID vendor and product ID's
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
+    timeoutms : Integer := 1000);
+
+  -- Initializer using open file descriptor
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    fd        : Integer;
+    timeoutms : Integer := 1000);
+
+  -- Destructor
+
+  PROCEDURE Destroy(Self : IN OUT MessengerSubclass);
+
   -- Send a message
 
   PROCEDURE Send
@@ -83,8 +109,8 @@ PACKAGE HID.libsimpleio IS
 PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
-    fd        : Integer;
-    timeoutms : Integer;
+    fd        : Integer := -1;
+    timeoutms : Integer := -1;
   END RECORD;
 
   Destroyed : CONSTANT MessengerSubclass := MessengerSubclass'(-1, -1);

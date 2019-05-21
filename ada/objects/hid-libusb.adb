@@ -83,6 +83,73 @@ PACKAGE BODY HID.libusb IS
     RETURN NEW MessengerSubclass'(handle, timeoutms);
   END Create;
 
+  -- Initializer
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
+    iface     : Natural := 0;
+    timeoutms : Integer := 1000) IS
+
+    error   : Integer;
+    context : System.Address;
+    handle  : System.Address;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    IF timeoutms < 0 THEN
+      RAISE HID_Error WITH "timeoutms parameter is out of range";
+    END IF;
+
+    error := libusb_init(context);
+
+    IF error /= LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_init() failed, error " &
+        Integer'Image(error);
+    END IF;
+
+    handle := libusb_open_device_with_vid_pid(context,
+      Interfaces.C.unsigned_short(vid), Interfaces.C.unsigned_short(pid));
+
+    IF handle = System.Null_Address THEN
+      RAISE HID_Error WITH "libusb_open_device_with_vid_pid() failed";
+    END IF;
+
+    error := libusb_set_auto_detach_kernel_driver(handle, 1);
+
+    IF (error /= LIBUSB_SUCCESS) AND (error /= LIBUSB_ERROR_NOT_SUPPORTED) THEN
+      RAISE HID_Error WITH "libusb_set_auto_detach_kernel() failed, error " &
+        Integer'Image(error);
+    END IF;
+
+    error := libusb_claim_interface(handle, iface);
+
+    IF error /= LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_claim_interface() failed, error " &
+        Integer'Image(error);
+    END IF;
+
+    Self := MessengerSubclass'(handle, timeoutms);
+  END Initialize;
+
+  -- Destructor
+
+  PROCEDURE Destroy(Self : IN OUT MessengerSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    libusb_close(Self.handle);
+
+    Self := Destroyed;
+  END Destroy;
+
   -- Send a message
 
   PROCEDURE Send
@@ -93,6 +160,10 @@ PACKAGE BODY HID.libusb IS
     count  : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     error := libusb_interrupt_transfer(Self.handle, 16#01#, msg'Address,
       msg'Length, count, Interfaces.C.unsigned(Self.timeout));
 
@@ -118,6 +189,10 @@ PACKAGE BODY HID.libusb IS
     count  : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     error := libusb_interrupt_transfer(Self.handle, 16#81#, msg'Address,
       msg'Length, count, Interfaces.C.unsigned(Self.timeout));
 
@@ -139,6 +214,10 @@ PACKAGE BODY HID.libusb IS
   FUNCTION Name(Self : MessengerSubclass) RETURN String IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     RETURN Self.Manufacturer & " " & Self.Product;
   END Name;
 
@@ -152,6 +231,10 @@ PACKAGE BODY HID.libusb IS
     data  : Interfaces.c.char_array(0 .. 255);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
     IF error < LIBUSB_SUCCESS THEN
@@ -188,6 +271,10 @@ PACKAGE BODY HID.libusb IS
     data  : Interfaces.c.char_array(0 .. 255);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
     IF error < LIBUSB_SUCCESS THEN
@@ -224,6 +311,10 @@ PACKAGE BODY HID.libusb IS
     data  : Interfaces.c.char_array(0 .. 255);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
     IF error < LIBUSB_SUCCESS THEN

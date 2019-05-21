@@ -23,7 +23,7 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.libusb.Static;
+WITH HID.libusb;
 WITH RemoteIO.Client;
 
 PROCEDURE test_query_libusb IS
@@ -39,7 +39,7 @@ BEGIN
 
   -- Create the HID device
 
-  HID.libusb.Static.Initialize(hiddev);
+  HID.libusb.Initialize(hiddev);
 
   -- Display HID device information
 
@@ -179,5 +179,5 @@ BEGIN
     END IF;
   END IF;
 
-  HID.libusb.Static.Destroy(hiddev);
+  HID.libusb.Destroy(hiddev);
 END test_query_libusb;

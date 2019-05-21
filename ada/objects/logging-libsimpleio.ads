@@ -34,6 +34,15 @@ PACKAGE Logging.libsimpleio IS
       libLinux.LOG_PERROR;
     facility : Integer := libLinux.LOG_SYSLOG) RETURN Logger;
 
+  PROCEDURE Initialize
+   (Self     : IN OUT LoggerSubclass;
+    sender   : String  := libLinux.LOG_PROGNAME;
+    options  : Integer := libLinux.LOG_NDELAY + libLinux.LOG_PID +
+      libLinux.LOG_PERROR;
+    facility : Integer := libLinux.LOG_SYSLOG);
+
+  PROCEDURE Destroy(Self : IN OUT LoggerSubclass);
+
   -- Log an error event
 
   PROCEDURE Error(Self : LoggerSubclass; message : String);

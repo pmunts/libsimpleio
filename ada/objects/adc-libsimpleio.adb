@@ -53,6 +53,60 @@ PACKAGE BODY ADC.libsimpleio IS
     RETURN NEW InputSubclass'(fd, resolution);
   END Create;
 
+  -- ADC input object initializers
+
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclass;
+    desg       : Device.Designator;
+    resolution : Positive := Analog.MaxResolution) IS
+
+  BEGIN
+    Initialize(Self, desg.chip, desg.chan, resolution);
+  END Initialize;
+
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclass;
+    chip       : Natural;
+    channel    : Natural;
+    resolution : Positive := Analog.MaxResolution) IS
+
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    libADC.Open(chip, channel, fd, error);
+
+    IF error /= 0 THEN
+      RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
+    END IF;
+
+    Self := InputSubclass'(fd, resolution);
+  END Initialize;
+
+  -- ADC input object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT InputSubclass) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    libADC.Close(Self.fd, error);
+
+    Self := Destroyed;
+
+    IF error /= 0 THEN
+      RAISE ADC_Error WITH "libADC.Close() failed, " & errno.strerror(error);
+    END IF;
+  END Destroy;
+
   -- ADC input read method
 
   FUNCTION Get

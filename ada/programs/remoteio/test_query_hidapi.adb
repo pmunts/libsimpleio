@@ -23,7 +23,7 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH HID.hidapi.Static;
+WITH HID.hidapi;
 WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_query_hidapi IS
@@ -39,7 +39,7 @@ BEGIN
 
   -- Create the HID device
 
-  HID.hidapi.Static.Initialize(hiddev);
+  HID.hidapi.Initialize(hiddev);
 
   -- Display HID device information
 
@@ -179,5 +179,5 @@ BEGIN
     END IF;
   END IF;
 
-  HID.hidapi.Static.Destroy(hiddev);
+  HID.hidapi.Destroy(hiddev);
 END test_query_hidapi;

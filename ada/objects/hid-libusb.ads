@@ -42,6 +42,19 @@ PACKAGE HID.libusb IS
     iface     : Natural := 0;
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
+  -- Initializer
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
+    iface     : Natural := 0;
+    timeoutms : Integer := 1000);
+
+  -- Destructor
+
+  PROCEDURE Destroy(Self : IN OUT MessengerSubclass);
+
   -- Send a message
 
   PROCEDURE Send
@@ -76,8 +89,8 @@ PACKAGE HID.libusb IS
 PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
-    handle  : System.Address;
-    timeout : Integer;
+    handle  : System.Address := System.Null_Address;
+    timeout : Integer        := Integer'First;
   END RECORD;
 
   Destroyed : CONSTANT MessengerSubclass :=

@@ -56,6 +56,60 @@ PACKAGE BODY DAC.libsimpleio IS
     RETURN NEW OutputSubclass'(fd, resolution, 2**resolution - 1);
   END Create;
 
+  -- DAC output object initializers
+
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclass;
+    desg       : Device.Designator;
+    resolution : Positive := Analog.MaxResolution) IS
+
+  BEGIN
+    Initialize(Self, desg.chip, desg.chan, resolution);
+  END Initialize;
+
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclass;
+    chip       : Natural;
+    channel    : Natural;
+    resolution : Positive := Analog.MaxResolution) IS
+
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    libDAC.Open(chip, channel, fd, error);
+
+    IF error /= 0 THEN
+      RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
+    END IF;
+
+    Self := OutputSubclass'(fd, resolution, 2**resolution - 1);
+  END Initialize;
+
+  -- DAC output object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT OutputSubclass) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    libDAC.Close(Self.fd, error);
+
+    Self := Destroyed;
+
+    IF error /= 0 THEN
+      RAISE DAC_Error WITH "libDAC.Close() failed, " & errno.strerror(error);
+    END IF;
+  END Destroy;
+
   -- DAC output write method
 
   PROCEDURE Put
@@ -85,6 +139,10 @@ PACKAGE BODY DAC.libsimpleio IS
   FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE DAC_Error WITH "DAC output has been destroyed";
+    END IF;
+
     RETURN Self.resolution;
   END GetResolution;
 

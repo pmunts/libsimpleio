@@ -75,6 +75,71 @@ PACKAGE BODY HID.hidapi IS
     RETURN NEW MessengerSubclass'(handle, timeoutms);
   END Create;
 
+  -- Initializer
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
+    serial    : String  := "";
+    timeoutms : Integer := 1000) IS
+
+    handle  : System.Address;
+
+    -- Convert the serial number from string to wchar_t, as needed for hidapi
+
+    wserial : Interfaces.C.wchar_array(0 .. serial'Length) :=
+      Interfaces.C.To_C(Ada.Characters.Handling.To_Wide_String(serial));
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    -- Validate parameters
+
+    IF timeoutms < -1 THEN
+      RAISE HID_Error WITH "timeoutms parameter is out of range";
+    END IF;
+
+    -- Initialize hidapi library
+
+    IF hid_init /= 0 THEN
+      RAISE HID_Error WITH "hid_init() failed";
+    END IF;
+
+    -- Open device
+
+    IF serial = "" THEN
+      -- hid_open() wants a null pointer rather than an empty string
+      handle := hid_open(Interfaces.C.unsigned_short(vid),
+        Interfaces.C.unsigned_short(pid), System.Null_Address);
+    ELSE
+      handle := hid_open(Interfaces.C.unsigned_short(vid),
+        Interfaces.C.unsigned_short(pid), wserial'Address);
+    END IF;
+
+    IF handle = System.Null_Address THEN
+      RAISE HID_Error WITH "hid_open() failed";
+    END IF;
+
+    Self := MessengerSubclass'(handle, timeoutms);
+  END Initialize;
+
+  -- Destroyer
+
+  PROCEDURE Destroy(Self : IN OUT MessengerSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    hid_close(Self.handle);
+
+    Self := Destroyed;
+  END Destroy;
+
   -- Send a message
 
   PROCEDURE Send
@@ -85,6 +150,10 @@ PACKAGE BODY HID.hidapi IS
     status : Integer;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     -- Prepend the report ID byte
 
     outbuf(0) := 0;
@@ -114,6 +183,10 @@ PACKAGE BODY HID.hidapi IS
     offset : Natural;
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     status := hid_read_timeout(Self.handle, inbuf'Address, inbuf'Length,
       Self.timeout);
 
@@ -142,6 +215,10 @@ PACKAGE BODY HID.hidapi IS
   FUNCTION Name(Self : MessengerSubclass) RETURN String IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     RETURN Self.Manufacturer & " " & Self.Product;
   END Name;
 
@@ -154,6 +231,10 @@ PACKAGE BODY HID.hidapi IS
     buf    : Interfaces.C.wchar_array(0 .. 255);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     status := hid_get_manufacturer_string(Self.handle, buf, buf'Length);
 
     IF status /= 0 THEN
@@ -173,6 +254,10 @@ PACKAGE BODY HID.hidapi IS
     buf    : Interfaces.C.wchar_array(0 .. 255);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     status := hid_get_product_string(Self.handle, buf, buf'Length);
 
     IF status /= 0 THEN
@@ -192,6 +277,10 @@ PACKAGE BODY HID.hidapi IS
     buf    : Interfaces.C.wchar_array(0 .. 255);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+
     status := hid_get_serial_number_string(Self.handle, buf, buf'Length);
 
     IF status /= 0 THEN

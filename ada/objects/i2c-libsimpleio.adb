@@ -34,7 +34,7 @@ PACKAGE BODY I2C.libsimpleio IS
     Side   : IN Ada.Strings.Trim_End :=
       Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
-  -- I2C bus controller object constructor
+  -- I2C bus controller object constructors
 
   FUNCTION Create(name : String) RETURN I2C.Bus IS
 
@@ -60,6 +60,57 @@ PACKAGE BODY I2C.libsimpleio IS
 
     RETURN Create("/dev/i2c-" & Trim(Natural'Image(desg.chan)));
   END Create;
+
+  -- I2C bus controller object initializers
+
+  PROCEDURE Initialize(Self : IN OUT BusSubclass; name : String) IS
+
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    libI2C.Open(name & ASCII.NUL, fd, error);
+
+    IF error /= 0 THEN
+      RAISE I2C_Error WITH "libI2C.Open() failed, " & errno.strerror(error);
+    END IF;
+
+    Self := I2C.libsimpleio.BusSubclass'(fd => fd);
+  END Initialize;
+
+  PROCEDURE Initialize(Self : IN OUT BusSubclass; desg : Device.Designator) IS
+
+  BEGIN
+    IF desg.chip /= 0 THEN
+      RAISE I2C_Error WITH "Invalid designator for I2C bus controller";
+    END IF;
+
+    Initialize(Self, "/dev/i2c-" & Trim(Natural'Image(desg.chan)));
+  END Initialize;
+
+  -- I2C bus controller object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT BusSubclass) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    libI2C.Close(Self.fd, error);
+
+    Self := Destroyed;
+
+    IF error /= 0 THEN
+      RAISE I2C_Error WITH "libI2C.Close() failed, " & errno.strerror(error);
+    END IF;
+  END Destroy;
 
   -- Read only I2C bus cycle method
 

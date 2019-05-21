@@ -38,6 +38,16 @@ PACKAGE I2C.libsimpleio IS
 
   FUNCTION Create(desg : Device.Designator) RETURN I2C.Bus;
 
+  -- I2C bus controller object initializers
+
+  PROCEDURE Initialize(Self : IN OUT BusSubclass; name : String);
+
+  PROCEDURE Initialize(Self : IN OUT BusSubclass; desg : Device.Designator);
+
+  -- I2C bus controller object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT BusSubclass);
+
   -- Read only I2C bus cycle method
 
   PROCEDURE Read
@@ -72,7 +82,7 @@ PACKAGE I2C.libsimpleio IS
 PRIVATE
 
   TYPE BusSubclass IS NEW I2C.BusInterface WITH RECORD
-    fd : Integer;
+    fd : Integer := -1;
   END RECORD;
 
   Destroyed : CONSTANT BusSubclass := BusSubclass'(fd => -1);

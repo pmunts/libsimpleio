@@ -21,7 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Device;
-WITH GPIO.libsimpleio.Static;
+WITH GPIO.libsimpleio;
 WITH Message64;
 
 USE TYPE Device.Designator;
@@ -68,13 +68,13 @@ PACKAGE BODY RemoteIO.GPIO IS
       WHEN InputOnly =>
         Self.pins(num).configured := True;
         Self.pins(num).preconfig  := True;
-        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj,
+        Standard.GPIO.libsimpleio.Initialize(Self.pins(num).obj,
           Self.pins(num).desg, Standard.GPIO.Input);
 
       WHEN OutputOnly =>
         Self.pins(num).configured := True;
         Self.pins(num).preconfig  := True;
-        Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(num).obj,
+        Standard.GPIO.libsimpleio.Initialize(Self.pins(num).obj,
           Self.pins(num).desg, Standard.GPIO.Output);
 
       WHEN InputOutput =>
@@ -154,16 +154,16 @@ PACKAGE BODY RemoteIO.GPIO IS
           -- Destroy the GPIO pin if it has been previously configured
 
           IF Self.pins(c).configured THEN
-            Standard.GPIO.libsimpleio.Static.Destroy(Self.pins(c).obj);
+            Standard.GPIO.libsimpleio.Destroy(Self.pins(c).obj);
           END IF;
 
           -- Configure the GPIO pin
 
           IF output THEN
-            Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(c).obj,
+            Standard.GPIO.libsimpleio.Initialize(Self.pins(c).obj,
               Self.pins(c).desg, Standard.GPIO.Output);
           ELSE
-            Standard.GPIO.libsimpleio.Static.Initialize(Self.pins(c).obj,
+            Standard.GPIO.libsimpleio.Initialize(Self.pins(c).obj,
               Self.pins(c).desg, Standard.GPIO.Input);
           END IF;
 

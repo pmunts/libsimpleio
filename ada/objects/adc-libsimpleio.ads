@@ -44,6 +44,23 @@ PACKAGE ADC.libsimpleio IS
     channel    : Natural;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Input;
 
+  -- ADC input object initializers
+
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclass;
+    desg       : Device.Designator;
+    resolution : Positive := Analog.MaxResolution);
+
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclass;
+    chip       : Natural;
+    channel    : Natural;
+    resolution : Positive := Analog.MaxResolution);
+
+  -- ADC input object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT InputSubclass);
+
   -- ADC input read method
 
   FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample;
@@ -59,10 +76,10 @@ PACKAGE ADC.libsimpleio IS
 PRIVATE
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
-    fd         : Integer;
-    resolution : Positive;
+    fd         : Integer  := -1;
+    resolution : Natural  := 0;
   END RECORD;
 
-  Destroyed : CONSTANT InputSubclass := InputSubClass'(-1, 1);
+  Destroyed : CONSTANT InputSubclass := InputSubclass'(-1, 0);
 
 END ADC.libsimpleio;

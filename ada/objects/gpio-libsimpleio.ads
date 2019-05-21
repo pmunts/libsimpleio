@@ -36,7 +36,7 @@ PACKAGE GPIO.libsimpleio IS
 
   Destroyed : CONSTANT PinSubclass;
 
-  -- Constructors returning GPIO.Pin
+  -- GPIO pin object constructors
 
   FUNCTION Create
    (chip     : Natural;
@@ -55,6 +55,31 @@ PACKAGE GPIO.libsimpleio IS
     edge     : GPIO.libsimpleio.Edge := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
 
+  -- GPIO pin object initializers
+
+  PROCEDURE Initialize
+   (Self     : IN OUT PinSubclass;
+    desg     : Device.Designator;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh);
+
+  PROCEDURE Initialize
+   (Self     : IN OUT PinSubclass;
+    chip     : Natural;
+    line     : Natural;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh);
+
+  -- GPIO pin object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT PinSubclass);
+
   -- Read GPIO pin state
 
   FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
@@ -72,8 +97,8 @@ PRIVATE
   TYPE Kinds IS (input, output, interrupt);
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
-    kind : Kinds;
-    fd   : Integer;
+    kind : Kinds   := input;
+    fd   : Integer := -1;
   END RECORD;
 
   Destroyed : CONSTANT PinSubclass := PinSubclass'(input, -1);

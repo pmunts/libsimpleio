@@ -62,6 +62,68 @@ PACKAGE BODY Watchdog.libsimpleio IS
     RETURN NEW TimerSubclass'(fd => fd);
   END Create;
 
+  -- Watchdog device object initializer
+
+  PROCEDURE Initialize
+   (Self    : IN OUT TimerSubclass;
+    devname : String   := DefaultDevice;
+    timeout : Duration := DefaultTimeout) IS
+
+    fd            : Integer;
+    error         : Integer;
+    actualtimeout : Integer;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Destroy(Self);
+    END IF;
+
+    -- Open the watchdog device
+
+    libWatchdog.Open(devname & ASCII.NUL, fd, error);
+
+    IF error /= 0 THEN
+      RAISE Watchdog_Error WITH "libWatchdog.Open() failed, " &
+        errno.strerror(error);
+    END IF;
+
+    -- Change the timeout, if requested
+
+    IF timeout /= DefaultTimeout THEN
+      libWatchdog.SetTimeout(fd, Integer(timeout), actualtimeout, error);
+
+      IF error /= 0 THEN
+        RAISE Watchdog_Error WITH "libWatchdog.SetTimeout() failed, " &
+          errno.strerror(error);
+      END IF;
+    END IF;
+
+    -- Return the new watchdog device object instance
+
+    Self := TimerSubclass'(fd => fd);
+  END Initialize;
+
+  -- Watchdog device object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT TimerSubclass) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    libWatchdog.Close(Self.fd, error);
+
+    Self := Destroyed;
+
+    IF error /= 0 THEN
+      RAISE Watchdog_Error WITH "libWatchdog.Close() failed, " &
+        errno.strerror(error);
+    END IF;
+  END Destroy;
+
   -- Method to get the watchdog timeout in seconds
 
   FUNCTION GetTimeout(Self : TimerSubclass) RETURN Duration IS

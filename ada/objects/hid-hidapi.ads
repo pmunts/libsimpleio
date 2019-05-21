@@ -48,6 +48,19 @@ PACKAGE HID.hidapi IS
     serial    : String  := "";
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
+  -- Initializer
+
+  PROCEDURE Initialize
+   (Self      : IN OUT MessengerSubclass;
+    vid       : HID.Vendor  := HID.Munts.VID;
+    pid       : HID.Product := HID.Munts.PID;
+    serial    : String  := "";
+    timeoutms : Integer := 1000);
+
+  -- Destroyer
+
+  PROCEDURE Destroy(Self : IN OUT MessengerSubclass);
+
   -- Send a message
 
   PROCEDURE Send
@@ -82,8 +95,8 @@ PACKAGE HID.hidapi IS
 PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
-    handle  : System.Address;
-    timeout : Integer;
+    handle  : System.Address := System.Null_Address;
+    timeout : Integer        := Integer'First;
   END RECORD;
 
   Destroyed : CONSTANT MessengerSubclass :=

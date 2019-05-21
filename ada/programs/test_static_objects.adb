@@ -20,17 +20,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ADC.libsimpleio.Static;
-WITH DAC.libsimpleio.Static;
-WITH GPIO.libsimpleio.Static;
-WITH HID.hidapi.Static;
-WITH HID.libsimpleio.Static;
-WITH HID.libusb.Static;
-WITH I2C.libsimpleio.Static;
-WITH Logging.libsimpleio.Static;
-WITH PWM.libsimpleio.Static;
-WITH SPI.libsimpleio.Static;
-WITH Watchdog.libsimpleio.Static;
+WITH ADC.libsimpleio;
+WITH DAC.libsimpleio;
+WITH GPIO.libsimpleio;
+WITH HID.hidapi;
+WITH HID.libsimpleio;
+WITH HID.libusb;
+WITH I2C.libsimpleio;
+WITH Logging.libsimpleio;
+WITH PWM.libsimpleio;
+WITH SPI.libsimpleio;
+WITH Watchdog.libsimpleio;
 
 PROCEDURE test_static_objects IS
 
@@ -47,15 +47,15 @@ PROCEDURE test_static_objects IS
   wd0     : Watchdog.libsimpleio.TimerSubclass := Watchdog.libsimpleio.Destroyed;
 
 BEGIN
-  ADC.libsimpleio.Static.Destroy(adc0);
-  DAC.libsimpleio.Static.Destroy(dac0);
-  GPIO.libsimpleio.Static.Destroy(gpio0);
-  HID.hidapi.Static.Destroy(hid0);
-  HID.libsimpleio.Static.Destroy(hid1);
-  HID.libusb.Static.Destroy(hid2);
-  I2C.libsimpleio.Static.Destroy(i2c0);
-  Logging.libsimpleio.Static.Destroy(log0);
-  PWM.libsimpleio.Static.Destroy(pwm0);
-  SPI.libsimpleio.Static.Destroy(spidev0);
-  Watchdog.libsimpleio.Static.Destroy(wd0);
+  ADC.libsimpleio.Destroy(adc0);
+  DAC.libsimpleio.Destroy(dac0);
+  GPIO.libsimpleio.Destroy(gpio0);
+  HID.hidapi.Destroy(hid0);
+  HID.libsimpleio.Destroy(hid1);
+  HID.libusb.Destroy(hid2);
+  I2C.libsimpleio.Destroy(i2c0);
+  Logging.libsimpleio.Destroy(log0);
+  PWM.libsimpleio.Destroy(pwm0);
+  SPI.libsimpleio.Destroy(spidev0);
+  Watchdog.libsimpleio.Destroy(wd0);
 END test_static_objects;
