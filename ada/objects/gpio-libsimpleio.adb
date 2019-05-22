@@ -28,6 +28,18 @@ PACKAGE BODY GPIO.libsimpleio IS
   -- Constructors returning GPIO.Pin
 
   FUNCTION Create
+   (desg     : Device.Designator;
+    dir      : GPIO.Direction;
+    state    : Boolean := False;
+    driver   : GPIO.libsimpleio.Driver := PushPull;
+    edge     : GPIO.libsimpleio.Edge := None;
+    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin IS
+
+  BEGIN
+    RETURN Create(desg.chip, desg.chan, dir, state, driver, edge, polarity);
+  END Create;
+
+  FUNCTION Create
    (chip     : Natural;
     line     : Natural;
     dir      : GPIO.Direction;
@@ -85,18 +97,6 @@ PACKAGE BODY GPIO.libsimpleio IS
     END IF;
 
     RETURN NEW PinSubclass'(kind, fd);
-  END Create;
-
-  FUNCTION Create
-   (desg     : Device.Designator;
-    dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin IS
-
-  BEGIN
-    RETURN Create(desg.chip, desg.chan, dir, state, driver, edge, polarity);
   END Create;
 
   -- Static object initializers
@@ -165,7 +165,8 @@ PACKAGE BODY GPIO.libsimpleio IS
     libGPIO.LineOpen(chip, line, flags, events, Boolean'Pos(state), fd, error);
 
     IF error /= 0 THEN
-      RAISE GPIO_Error WITH "libGPIO.LineOpen() failed, " & errno.strerror(error);
+      RAISE GPIO_Error WITH "libGPIO.LineOpen() failed, " &
+        errno.strerror(error);
     END IF;
 
     IF dir = GPIO.Output THEN
@@ -176,8 +177,7 @@ PACKAGE BODY GPIO.libsimpleio IS
       kind := interrupt;
     END IF;
 
-    Self.kind := kind;
-    Self.fd   := fd;
+    Self := PinSubclass'(kind, fd);
   END Initialize;
 
   -- Static object destroyer
@@ -196,7 +196,8 @@ PACKAGE BODY GPIO.libsimpleio IS
     Self := Destroyed;
 
     IF error /= 0 THEN
-      RAISE GPIO_Error WITH "libGPIO.LineClose() failed, " & errno.strerror(error);
+      RAISE GPIO_Error WITH "libGPIO.LineClose() failed, " &
+        errno.strerror(error);
     END IF;
   END Destroy;
 
@@ -249,7 +250,8 @@ PACKAGE BODY GPIO.libsimpleio IS
         libGPIO.LineWrite(Self.fd, Boolean'Pos(state), error);
 
         IF error /= 0 THEN
-          RAISE GPIO_Error WITH "libGPIO.LineWrite() failed, " & errno.strerror(error);
+          RAISE GPIO_Error WITH "libGPIO.LineWrite() failed, " &
+            errno.strerror(error);
         END IF;
 
       WHEN input|interrupt =>

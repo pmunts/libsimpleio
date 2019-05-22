@@ -127,7 +127,8 @@ PACKAGE BODY I2C.libsimpleio IS
       RAISE I2C_Error WITH "I2C bus has been destroyed";
     END IF;
 
-    libI2C.Transaction(Self.fd, Integer(addr), System.Null_Address, 0, resp'Address, resplen, error);
+    libI2C.Transaction(Self.fd, Integer(addr), System.Null_Address, 0,
+      resp'Address, resplen, error);
 
     IF error /= 0 THEN
       RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
@@ -149,7 +150,8 @@ PACKAGE BODY I2C.libsimpleio IS
       RAISE I2C_Error WITH "I2C bus has been destroyed";
     END IF;
 
-    libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen, System.Null_Address, 0, error);
+    libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen,
+      System.Null_Address, 0, error);
 
     IF error /= 0 THEN
       RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
@@ -175,13 +177,15 @@ PACKAGE BODY I2C.libsimpleio IS
     END IF;
 
     IF delayus = 0 THEN
-      libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen, resp'Address, resplen, error);
+      libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen,
+        resp'Address, resplen, error);
 
       IF error /= 0 THEN
         RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
       END IF;
     ELSE
-      libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen, System.Null_Address, 0, error);
+      libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen,
+        System.Null_Address, 0, error);
 
       IF error /= 0 THEN
         RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);
@@ -193,7 +197,8 @@ PACKAGE BODY I2C.libsimpleio IS
         RAISE I2C_Error WITH "libLinux.usleep() failed, " & errno.strerror(error);
       END IF;
 
-      libI2C.Transaction(Self.fd, Integer(addr), System.Null_Address, 0, resp'Address, resplen, error);
+      libI2C.Transaction(Self.fd, Integer(addr), System.Null_Address, 0,
+        resp'Address, resplen, error);
 
       IF error /= 0 THEN
         RAISE I2C_Error WITH "libI2C.Transaction() failed, " & errno.strerror(error);

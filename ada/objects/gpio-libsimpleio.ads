@@ -39,8 +39,7 @@ PACKAGE GPIO.libsimpleio IS
   -- GPIO pin object constructors
 
   FUNCTION Create
-   (chip     : Natural;
-    line     : Natural;
+   (desg     : Device.Designator;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
@@ -48,7 +47,8 @@ PACKAGE GPIO.libsimpleio IS
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
 
   FUNCTION Create
-   (desg     : Device.Designator;
+   (chip     : Natural;
+    line     : Natural;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
