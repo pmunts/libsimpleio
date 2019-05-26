@@ -1,3 +1,6 @@
+-- Motor services for LEGO Power Functions Remote Control motors, using
+-- "Single Output Mode".
+
 -- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
@@ -18,34 +21,56 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Interfaces;
-
 WITH LEGORC;
 
-PACKAGE RemoteIO.LPC1114.LEGORC IS
+PACKAGE Motor.LEGORC IS
 
-  TYPE OutputClass IS NEW Standard.LEGORC.OutputInterface WITH PRIVATE;
+  TYPE MotorID IS NEW Standard.LEGORC.Command
+    RANGE Standard.LEGORC.MotorA .. Standard.LEGORC.MotorB;
+
+  TYPE Speed IS NEW Integer RANGE -7 .. 7;
+
+  -- Map the discrete motor speeds to corresponding velocity values
+
+  SpeedToVelocity : CONSTANT ARRAY (Speed) OF Velocity :=
+   (-1.0,
+    -0.8929,
+    -0.7500,
+    -0.6071,
+    -0.4643,
+    -0.3214,
+    -0.1786,
+    0.0,
+    0.1786,
+    0.3214,
+    0.4643,
+    0.6071,
+    0.7500,
+    0.8929,
+    1.0);
+
+  TYPE OutputSubclass IS NEW Motor.OutputInterface WITH PRIVATE;
 
   -- Constructors
 
   FUNCTION Create
-   (dev  : Abstract_Device.Device;
-    pin  : Interfaces.Unsigned_32) RETURN Standard.LEGORC.Output;
+   (ired : Standard.LEGORC.Output;
+    chan : Standard.LEGORC.Channel;
+    mot  : MotorID;
+    velo : Velocity := 0.0) RETURN Motor.Output;
 
   -- Methods
 
   PROCEDURE Put
-   (Self : OutputClass;
-    chan : Standard.LEGORC.Channel;
-    cmd  : Standard.LEGORC.Command;
-    data : Standard.LEGORC.Speed;
-    dir  : Standard.LEGORC.Direction);
+   (Self : IN OUT OutputSubclass;
+    velo : Velocity);
 
 PRIVATE
 
-  TYPE OutputClass IS NEW Standard.LEGORC.OutputInterface WITH RECORD
-    dev  : Abstract_Device.Device;
-    pin  : Interfaces.Unsigned_32;
+  TYPE OutputSubclass IS NEW Motor.OutputInterface WITH RECORD
+    ired : Standard.LEGORC.Output;
+    chan : Standard.LEGORC.Channel;
+    mot  : MotorID;
   END RECORD;
 
-END RemoteIO.LPC1114.LEGORC;
+END Motor.LEGORC;

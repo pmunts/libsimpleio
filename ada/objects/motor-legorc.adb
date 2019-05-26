@@ -1,3 +1,6 @@
+-- Motor services for LEGO Power Functions Remote Control motors, using
+-- "Single Output Mode".
+
 -- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
@@ -18,34 +21,43 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Interfaces;
-
 WITH LEGORC;
 
-PACKAGE RemoteIO.LPC1114.LEGORC IS
-
-  TYPE OutputClass IS NEW Standard.LEGORC.OutputInterface WITH PRIVATE;
-
-  -- Constructors
+PACKAGE BODY Motor.LEGORC IS
 
   FUNCTION Create
-   (dev  : Abstract_Device.Device;
-    pin  : Interfaces.Unsigned_32) RETURN Standard.LEGORC.Output;
+   (ired : Standard.LEGORC.Output;
+    chan : Standard.LEGORC.Channel;
+    mot  : MotorID;
+    velo : Motor.Velocity := 0.0) RETURN Motor.Output IS
+
+    m : Motor.Output;
+
+  BEGIN
+    m := NEW OutputSubclass'(ired, chan, mot);
+    m.Put(velo);
+    RETURN m;
+  END Create;
 
   -- Methods
 
   PROCEDURE Put
-   (Self : OutputClass;
-    chan : Standard.LEGORC.Channel;
-    cmd  : Standard.LEGORC.Command;
-    data : Standard.LEGORC.Speed;
-    dir  : Standard.LEGORC.Direction);
+   (Self : IN OUT OutputSubclass;
+    velo : Motor.Velocity) IS
 
-PRIVATE
+    dir   : Standard.LEGORC.Direction;
+    speed : Standard.LEGORC.Speed;
 
-  TYPE OutputClass IS NEW Standard.LEGORC.OutputInterface WITH RECORD
-    dev  : Abstract_Device.Device;
-    pin  : Interfaces.Unsigned_32;
-  END RECORD;
+  BEGIN
+    IF velo >= 0.0 THEN
+      dir   := Standard.LEGORC.Forward;
+      speed := Standard.LEGORC.Speed(7.0*velo);
+    ELSE
+      dir   := Standard.LEGORC.Backward;
+      speed := Standard.LEGORC.Speed(-7.0*velo);
+    END IF;
 
-END RemoteIO.LPC1114.LEGORC;
+    Self.ired.Put(Self.chan, Standard.LEGORC.Command(Self.mot), speed, dir);
+  END Put;
+
+END Motor.LEGORC;

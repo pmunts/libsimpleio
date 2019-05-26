@@ -45,20 +45,6 @@ PACKAGE BODY RemoteIO.LPC1114.LEGORC IS
     RETURN NEW OutputClass'(dev, pin);
   END Create;
 
-  FUNCTION Create
-   (outp : Standard.LEGORC.Output;
-    chan : Standard.LEGORC.Channel;
-    mot  : Standard.LEGORC.MotorID;
-    vel  : Motor.Velocity := 0.0) RETURN Motor.Output IS
-
-    m : Motor.Output;
-
-  BEGIN
-    m := NEW MotorClass'(outp, chan, mot);
-    m.Put(vel);
-    RETURN m;
-  END Create;
-
   -- Methods
 
   PROCEDURE Put
@@ -80,25 +66,6 @@ PACKAGE BODY RemoteIO.LPC1114.LEGORC IS
       Unsigned_32(data);
 
     Self.dev.Operation(scmd, sresp);
-  END Put;
-
-  PROCEDURE Put
-   (Self : IN OUT MotorClass;
-    vel  : Motor.Velocity) IS
-
-    dir   : Standard.LEGORC.Direction;
-    speed : Standard.LEGORC.Speed;
-
-  BEGIN
-    IF vel >= 0.0 THEN
-      dir   := Standard.LEGORC.Forward;
-      speed := Standard.LEGORC.Speed(7.0*vel);
-    ELSE
-      dir   := Standard.LEGORC.Backward;
-      speed := Standard.LEGORC.Speed(-7.0*vel);
-    END IF;
-
-    Self.outp.Put(Self.chan, Standard.LEGORC.Command(Self.mot), speed, dir);
   END Put;
 
 END RemoteIO.LPC1114.LEGORC;

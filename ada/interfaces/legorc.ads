@@ -37,8 +37,6 @@ PACKAGE LEGORC IS
     ComboDirect,
     ComboPWM);
 
-  TYPE MotorID IS NEW Command RANGE MotorA .. MotorB;
-
   TYPE Speed IS NEW Natural RANGE 0 .. 255;
 
   TYPE Direction IS
