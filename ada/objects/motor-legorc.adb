@@ -45,19 +45,19 @@ PACKAGE BODY Motor.LEGORC IS
    (Self : IN OUT OutputSubclass;
     velo : Motor.Velocity) IS
 
-    dir   : Standard.LEGORC.Direction;
-    speed : Standard.LEGORC.Speed;
+    dir : Standard.LEGORC.Direction;
+    dat : Standard.LEGORC.Data;
 
   BEGIN
     IF velo >= 0.0 THEN
-      dir   := Standard.LEGORC.Forward;
-      speed := Standard.LEGORC.Speed(7.0*velo);
+      dir := Standard.LEGORC.Forward;
+      dat := Standard.LEGORC.Data(7.0*velo);
     ELSE
-      dir   := Standard.LEGORC.Backward;
-      speed := Standard.LEGORC.Speed(-7.0*velo);
+      dir := Standard.LEGORC.Backward;
+      dat := Standard.LEGORC.Data(-7.0*velo);
     END IF;
 
-    Self.ired.Put(Self.chan, Standard.LEGORC.Command(Self.mot), speed, dir);
+    Self.ired.Put(Self.chan, Standard.LEGORC.Command(Self.mot), dat, dir);
   END Put;
 
 END Motor.LEGORC;

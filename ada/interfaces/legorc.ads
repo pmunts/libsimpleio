@@ -37,7 +37,7 @@ PACKAGE LEGORC IS
     ComboDirect,
     ComboPWM);
 
-  TYPE Speed IS NEW Natural RANGE 0 .. 255;
+  TYPE Data IS MOD 256;
 
   TYPE Direction IS
    (Backward,
@@ -53,7 +53,7 @@ PACKAGE LEGORC IS
    (Self : OutputInterface;
     chan : Channel;
     cmd  : Command;
-    data : Speed;
+    dat  : Data;
     dir  : Direction) IS ABSTRACT;
 
 END LEGORC;

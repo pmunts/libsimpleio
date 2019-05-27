@@ -20,10 +20,6 @@
 
 WITH Interfaces; USE Interfaces;
 
-WITH Motor;
-
-USE TYPE Motor.Velocity;
-
 PACKAGE BODY RemoteIO.LPC1114.LEGORC IS
 
   -- Constructors
@@ -51,7 +47,7 @@ PACKAGE BODY RemoteIO.LPC1114.LEGORC IS
    (Self : OutputClass;
     chan : Standard.LEGORC.Channel;
     cmd  : Standard.LEGORC.Command;
-    data : Standard.LEGORC.Speed;
+    dat  : Standard.LEGORC.Data;
     dir  : Standard.LEGORC.Direction) IS
 
     scmd  : SPIAGENT_COMMAND_MSG_t;
@@ -63,7 +59,7 @@ PACKAGE BODY RemoteIO.LPC1114.LEGORC IS
     scmd.Data    := Shift_Left(Unsigned_32(chan), 24) OR
       Shift_Left(Unsigned_32(Standard.LEGORC.Command'Pos(cmd)), 16) OR
       Shift_left(Unsigned_32(Standard.LEGORC.Direction'Pos(dir)), 8) OR
-      Unsigned_32(data);
+      Unsigned_32(dat);
 
     Self.dev.Operation(scmd, sresp);
   END Put;

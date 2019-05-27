@@ -38,7 +38,7 @@ PACKAGE RemoteIO.LPC1114.LEGORC IS
    (Self : OutputClass;
     chan : Standard.LEGORC.Channel;
     cmd  : Standard.LEGORC.Command;
-    data : Standard.LEGORC.Speed;
+    dat  : Standard.LEGORC.Data;
     dir  : Standard.LEGORC.Direction);
 
 PRIVATE
