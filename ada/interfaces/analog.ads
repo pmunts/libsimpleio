@@ -35,7 +35,7 @@ PACKAGE Analog IS
 
   PACKAGE Sample_IO IS NEW Ada.Text_IO.Modular_IO(Sample);
 
-  -- Instantiate I/O interfaces package for digital I/O
+  -- Instantiate abstract interfaces package
 
   PACKAGE Interfaces IS NEW IO_Interfaces(Sample);
 
