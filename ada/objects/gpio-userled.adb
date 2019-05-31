@@ -23,8 +23,8 @@
 WITH Ada.Directories;
 WITH Ada.Strings.Fixed;
 
-with errno;
-with libLinux;
+WITH errno;
+WITH libLinux;
 
 PACKAGE BODY GPIO.UserLED IS
 

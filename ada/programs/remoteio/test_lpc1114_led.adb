@@ -23,7 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO;
-with RemoteIO.Client.hidapi;
+WITH RemoteIO.Client.hidapi;
 WITH RemoteIO.LPC1114.GPIO;
 
 PROCEDURE test_lpc1114_led IS
