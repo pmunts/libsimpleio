@@ -38,7 +38,7 @@ GNATENV		+= LIBSIMPLEIO=$(LIBSIMPLEIO)
 ifneq ($(GNAT),)
 ifeq ($(OS), Windows_NT)
 WINARCH		?= win64
-GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
+ADA_LDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
 
 hidapi.dll:
 	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
