@@ -202,6 +202,15 @@ PACKAGE RemoteIO.LPC1114 IS
   LPC1114_TIMER_MATCH_OUTPUT_SET      : CONSTANT Unsigned_32 := 2;
   LPC1114_TIMER_MATCH_OUTPUT_TOGGLE   : CONSTANT Unsigned_32 := 3;
 
+  -- LPC1114 timer match action flags
+
+  LPC1114_TIMER_MATCH_RESET : CONSTANT Unsigned_32 := 2#00100000#;
+  LPC1114_TIMER_MATCH_STOP  : CONSTANT Unsigned_32 := 2#01000000#;
+
+  -- LPC1114 peripheral clock frequency
+
+  LPC1114_PCLK : CONSTANT Unsigned_32 := 48_000_000;
+
   -- Instantiate RemoteIO.Abstract_Device
 
   FUNCTION FromCommand(cmd : SPIAGENT_COMMAND_MSG_t) RETURN Message64.Message;
