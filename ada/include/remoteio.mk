@@ -47,10 +47,3 @@ libusb-1.0.dll:
 	cp $(LIBSIMPLEIO)/win/$(WINARCH)/libusb-1.0.dll .
 endif
 endif
-
-# Special goop for Adacore GNAT for MacOS
-
-ifeq ($(shell uname), Darwin)
-ADA_LDFLAGS	+= -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
-ADA_LDFLAGS	+= -L/usr/local/lib
-endif

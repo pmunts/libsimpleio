@@ -76,6 +76,13 @@ EXESUFFIX	= .exe
 endif
 endif
 
+# Definitions for recent MacOS X and AdaCore Community Edition
+
+ifeq ($(shell uname), Darwin)
+ADA_LDFLAGS	+= -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
+ADA_LDFLAGS	+= -L/usr/local/lib
+endif
+
 # General toolchain definitions
 
 ADA_OBJ		?= $(shell pwd)/obj
