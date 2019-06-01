@@ -43,7 +43,7 @@ PACKAGE BMP280 IS
 
   FUNCTION Get(Self : IN OUT DeviceSubclass) RETURN Temperature.Celsius;
 
-  MaxSpeed : CONSTANT := I2C.SpeedFastPlus;
+  MaxSpeed : CONSTANT := I2C.SpeedFast;
 
 PRIVATE
 
