@@ -113,12 +113,9 @@ PACKAGE BODY ADC121C021 IS
    (bus  : I2C.Bus;
     addr : I2C.Address) RETURN Analog.Input IS
 
-    input : ACCESS InputSubClass;
-
   BEGIN
-    input := NEW InputSubclass'(bus, addr);
-    WriteRegister8(input.ALL, Configuration, 16#00#);
-    RETURN input;
+    WriteRegister8(InputSubclass'(bus, addr), Configuration, 16#00#);
+    RETURN NEW InputSubclass'(bus, addr);
   END Create;
 
   -- Methods
