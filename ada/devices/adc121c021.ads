@@ -31,7 +31,7 @@ PACKAGE ADC121C021 IS
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
 
-  MaxSpeed : CONSTANT := I2C.SpeedFastPlus;
+  MaxSpeed : CONSTANT := I2C.SpeedFast;
 
   -- Constructors
 
