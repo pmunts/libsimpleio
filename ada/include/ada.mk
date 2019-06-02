@@ -1,6 +1,6 @@
 # Makefile definitions for building GNAT Ada application programs
 
-# Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -28,21 +28,14 @@
 
 .PHONY: ada_mk_default ada_mk_clean ada_mk_reallyclean ada_mk_distclean
 
-# Definitions for MuntsOS cross-compile
-
 ifneq ($(BOARDNAME),)
-ifeq  ($(BOARDBASE),)
+# Definitions for MuntsOS cross-compile
 EMBLINUXBASE	?= $(HOME)/muntsos
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
-endif
-endif
-
+else
 # Definitions for native compile
-
-ifeq ($(BOARDNAME),)
-
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 # Prepend $(GNAT)/bin to PATH
-
 ifneq ($(GNAT),)
 GNATENV		+= PATH=$(GNAT)/bin:$(PATH)
 ifeq ($(OS), Windows_NT)
@@ -50,6 +43,7 @@ ifeq ($(OS), Windows_NT)
 GNATMAKE	= env $(GNATENV) $(GNAT)/bin/gnatmake
 GNATSTRIP	= env $(GNATENV) $(GNAT)/bin/strip
 GPRBUILD	= env $(GNATENV) $(GNAT)/bin/gprbuild
+endif
 endif
 endif
 
