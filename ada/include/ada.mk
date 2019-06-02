@@ -41,22 +41,6 @@ endif
 
 ifeq ($(BOARDNAME),)
 
-# Check for AdaCore GNAT native toolchain
-
-ifeq ($(GNAT),)
-ifeq ($(OS), Windows_NT)
-# Default location for Windows installation
-ifneq ($(wildcard C:/PROGRA~1/gnat),)
-GNAT		?= C:/PROGRA~1/gnat
-endif
-else
-# Default location for Posix installation
-ifneq ($(wildcard /usr/local/gnat),)
-GNAT		?= /usr/local/gnat
-endif
-endif
-endif
-
 # Prepend $(GNAT)/bin to PATH
 
 ifneq ($(GNAT),)
