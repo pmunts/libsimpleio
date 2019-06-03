@@ -47,11 +47,10 @@ endif
 endif
 endif
 
-# More definitions for Microsoft Windows
+# Definitions for Microsoft Windows
 
 ifeq ($(OS), Windows_NT)
 EXESUFFIX	= .exe
-endif
 endif
 
 # Definitions for recent MacOS X and AdaCore Community Edition
