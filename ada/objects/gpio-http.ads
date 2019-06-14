@@ -26,6 +26,8 @@ PACKAGE GPIO.HTTP IS
 
   TYPE PinSubclass IS NEW PinInterface WITH PRIVATE;
 
+  Destroyed : CONSTANT PinSubclass;
+
   -- GPIO pin object constructor
 
   FUNCTION Create
@@ -33,6 +35,19 @@ PACKAGE GPIO.HTTP IS
     num      : Natural;
     dir      : Direction;
     state    : Boolean := False) RETURN Pin;
+
+  -- GPIO pin object initializer
+
+  PROCEDURE Initialize
+   (Self     : IN OUT PinSubclass;
+    hostname : String;
+    num      : Natural;
+    dir      : Direction;
+    state    : Boolean := False);
+
+  -- GPIO pin object destroyer
+
+  PROCEDURE Destroy(self : IN OUT PinSubclass);
 
   -- Read GPIO pin state
 
@@ -44,12 +59,18 @@ PACKAGE GPIO.HTTP IS
 
 PRIVATE
 
+  NullString : CONSTANT Ada.Strings.UnBounded.Unbounded_String :=
+    Ada.Strings.Unbounded.Null_Unbounded_String; 
+
   TYPE PinSubclass IS NEW PinInterface WITH RECORD
-    GetCmd : Ada.Strings.Unbounded.Unbounded_String;
-    ClrCmd : Ada.Strings.Unbounded.Unbounded_String;
-    SetCmd : Ada.Strings.Unbounded.Unbounded_String;
-    ClrRsp : Ada.Strings.Unbounded.Unbounded_String;
-    SetRsp : Ada.Strings.Unbounded.Unbounded_String;
+    GetCmd : Ada.Strings.Unbounded.Unbounded_String := NullString;
+    ClrCmd : Ada.Strings.Unbounded.Unbounded_String := NullString;
+    SetCmd : Ada.Strings.Unbounded.Unbounded_String := NullString;
+    ClrRsp : Ada.Strings.Unbounded.Unbounded_String := NullString;
+    SetRsp : Ada.Strings.Unbounded.Unbounded_String := NullString;
   END RECORD;
+
+  Destroyed : CONSTANT PinSubclass := PinSubclass'(NullString, NullString,
+    NullString, NullString, NullString);
 
 END GPIO.HTTP;

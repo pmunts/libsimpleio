@@ -49,23 +49,54 @@ PACKAGE BODY GPIO.UserLED IS
 
   FUNCTION Create(state : Boolean := False) RETURN GPIO.Pin IS
 
-    fd    : Integer;
-    error : Integer;
-    p     : Pin;
+    p : PinSubclass;
 
   BEGIN
+    Initialize(p, state);
+    RETURN NEW PinSubclass'(p);
+  END Create;
+
+  -- Initializer
+
+  PROCEDURE Initialize(Self : IN OUT PinSubclass; state : Boolean := False) IS
+
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Self.Destroy;
+    END IF;
+
     libLinux.Open(filename & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
       RAISE GPIO_Error WITH "libLinux.Open() failed, " & errno.strerror(error);
     END IF;
 
-    p := NEW PinSubclass'(myfd => fd);
+    Self.myfd := fd;
+    Self.Put(state);
+  END Initialize;
 
-    p.Put(state);
+  -- Destroyer
 
-    RETURN GPIO.Pin(p);
-  END Create;
+  PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    libLinux.Close(Self.myfd, error);
+
+    Self := Destroyed;
+
+    IF error /= 0 THEN
+      RAISE GPIO_Error WITH "libLinux.Close() failed, " & errno.strerror(error);
+    END IF;
+  END Destroy;
 
   -- Read GPIO pin state
 

@@ -132,7 +132,7 @@ PACKAGE BODY GPIO.libsimpleio IS
 
   BEGIN
     IF Self /= Destroyed THEN
-      Destroy(Self);
+      Self.Destroy;
     END IF;
 
     IF (chip = Device.Unavailable.chip) OR (line = Device.Unavailable.chan) THEN

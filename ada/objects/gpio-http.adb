@@ -46,6 +46,22 @@ PACKAGE BODY GPIO.HTTP IS
     dir      : Direction;
     state    : Boolean := False) RETURN Pin IS
 
+    p : PinSubclass;
+
+  BEGIN
+    Initialize(p, hostname, num, dir, state);
+    RETURN NEW PinSubclass'(p);
+  END Create;
+
+  -- GPIO pin object initializer
+
+  PROCEDURE Initialize
+   (Self     : IN OUT PinSubclass;
+    hostname : String;
+    num      : Natural;
+    dir      : Direction;
+    state    : Boolean := False) IS
+
     hostaddr : GNAT.Sockets.Inet_Addr_Type;
 
     CfgCmd   : Unbounded_String;
@@ -58,19 +74,33 @@ PACKAGE BODY GPIO.HTTP IS
     SetRsp   : Unbounded_string;
 
   BEGIN
+    IF Self /= Destroyed THEN
+      Self.Destroy;
+    END IF;
+
     -- Resolve the GPIO server's IP address
 
     hostaddr := GNAT.Sockets.Addresses(GNAT.Sockets.Get_Host_By_Name(hostname));
 
     -- Precalculate commands and responses
 
-    CfgCmd := "http://" & GNAT.Sockets.Image(hostaddr) & ":8083/GPIO/DDR/" & FTrim(Natural'Image(num)) & "," & FTrim(Integer'Image(Direction'Pos(dir)));
-    GetCmd := "http://" & GNAT.Sockets.Image(hostaddr) & ":8083/GPIO/GET/" & FTrim(Natural'Image(num));
-    ClrCmd := "http://" & GNAT.Sockets.Image(hostaddr) & ":8083/GPIO/PUT/" & FTrim(Natural'Image(num)) & ",0";
-    SetCmd := "http://" & GNAT.Sockets.Image(hostaddr) & ":8083/GPIO/PUT/" & FTrim(Natural'Image(num)) & ",1";
+    CfgCmd := "http://" & GNAT.Sockets.Image(hostaddr) & ":8083/GPIO/DDR/" &
+      FTrim(Natural'Image(num)) & "," & FTrim(Integer'Image(Direction'Pos(dir)));
 
-    CfgRsp := "DDR" & FTrim(Natural'Image(num)) & "=" & FTrim(Integer'Image(Direction'Pos(dir))) & ASCII.CR & ASCII.LF;
+    GetCmd := "http://" & GNAT.Sockets.Image(hostaddr) & ":8083/GPIO/GET/" &
+      FTrim(Natural'Image(num));
+
+    ClrCmd := "http://" & GNAT.Sockets.Image(hostaddr) & ":8083/GPIO/PUT/" &
+      FTrim(Natural'Image(num)) & ",0";
+
+    SetCmd := "http://" & GNAT.Sockets.Image(hostaddr) & ":8083/GPIO/PUT/" &
+      FTrim(Natural'Image(num)) & ",1";
+
+    CfgRsp := "DDR" & FTrim(Natural'Image(num)) & "=" &
+      FTrim(Integer'Image(Direction'Pos(dir))) & ASCII.CR & ASCII.LF;
+
     ClrRsp := "GPIO" & FTrim(Natural'Image(num)) & "=0" & ASCII.CR & ASCII.LF;
+
     SetRsp := "GPIO" & FTrim(Natural'Image(num)) & "=1" & ASCII.CR & ASCII.LF;
 
     -- Configure the GPIO pin
@@ -93,8 +123,20 @@ PACKAGE BODY GPIO.HTTP IS
       END IF;
     END IF;
 
-    RETURN NEW PinSubclass'(GetCmd, ClrCmd, SetCmd, ClrRsp, SetRsp);
-  END Create;
+    Self := PinSubclass'(GetCmd, ClrCmd, SetCmd, ClrRsp, SetRsp);
+  END Initialize;
+
+  -- GPIO pin object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    Self := Destroyed;
+  END Destroy;
 
   -- Read GPIO pin state
 

@@ -40,17 +40,11 @@ PACKAGE BODY ADC.libsimpleio IS
     channel    : Natural;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Input IS
 
-    fd    : Integer;
-    error : Integer;
+    i : InputSubclass;
 
   BEGIN
-    libADC.Open(chip, channel, fd, error);
-
-    IF error /= 0 THEN
-      RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
-    END IF;
-
-    RETURN NEW InputSubclass'(fd, resolution);
+    Initialize(i, chip, channel, resolution);
+    RETURN NEW InputSubclass'(i);
   END Create;
 
   -- ADC input object initializers
@@ -75,7 +69,7 @@ PACKAGE BODY ADC.libsimpleio IS
 
   BEGIN
     IF Self /= Destroyed THEN
-      Destroy(Self);
+      Self.Destroy;
     END IF;
 
     libADC.Open(chip, channel, fd, error);

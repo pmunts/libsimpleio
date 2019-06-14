@@ -43,17 +43,11 @@ PACKAGE BODY DAC.libsimpleio IS
     channel    : Natural;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Output IS
 
-    fd    : Integer;
-    error : Integer;
+    o : OutputSubclass;
 
   BEGIN
-    libDAC.Open(chip, channel, fd, error);
-
-    IF error /= 0 THEN
-      RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
-    END IF;
-
-    RETURN NEW OutputSubclass'(fd, resolution, 2**resolution - 1);
+    Initialize(o, chip, channel, resolution);
+    RETURN NEW OutputSubclass'(o);
   END Create;
 
   -- DAC output object initializers
@@ -78,7 +72,7 @@ PACKAGE BODY DAC.libsimpleio IS
 
   BEGIN
     IF Self /= Destroyed THEN
-      Destroy(Self);
+      Self.Destroy;
     END IF;
 
     libDAC.Open(chip, channel, fd, error);

@@ -30,9 +30,19 @@ PACKAGE GPIO.UserLED IS
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH PRIVATE;
 
+  Destroyed : CONSTANT PinSubclass;
+
   -- Constructor
 
   FUNCTION Create(state : Boolean := False) RETURN GPIO.Pin;
+
+  -- Initializer
+
+  PROCEDURE Initialize(Self : IN OUT PinSubclass; state : Boolean := False);
+
+  -- Destroyer
+
+  PROCEDURE Destroy(Self : IN OUT PinSubclass);
 
   -- Read GPIO pin state
 
@@ -51,5 +61,7 @@ PRIVATE
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
     myfd : Integer;
   END RECORD;
+
+  Destroyed : CONSTANT PinSubclass := PinSubclass'(myfd => -1);
 
 END GPIO.UserLED;

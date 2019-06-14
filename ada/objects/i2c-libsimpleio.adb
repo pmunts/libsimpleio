@@ -38,27 +38,20 @@ PACKAGE BODY I2C.libsimpleio IS
 
   FUNCTION Create(name : String) RETURN I2C.Bus IS
 
-    fd    : Integer;
-    error : Integer;
+    b : BusSubclass;
 
   BEGIN
-    libI2C.Open(name & ASCII.NUL, fd, error);
-
-    IF error /= 0 THEN
-      RAISE I2C_Error WITH "libI2C.Open() failed, " & errno.strerror(error);
-    END IF;
-
-    RETURN NEW I2C.libsimpleio.BusSubclass'(fd => fd);
+    Initialize(b, name);
+    RETURN NEW BusSubclass'(b);
   END Create;
 
   FUNCTION Create(desg : Device.Designator) RETURN I2C.Bus IS
 
-  BEGIN
-    IF desg.chip /= 0 THEN
-      RAISE I2C_Error WITH "Invalid designator for I2C bus controller";
-    END IF;
+    b : BusSubclass;
 
-    RETURN Create("/dev/i2c-" & Trim(Natural'Image(desg.chan)));
+  BEGIN
+    Initialize(b, desg);
+    RETURN NEW BusSubclass'(b);
   END Create;
 
   -- I2C bus controller object initializers
@@ -70,7 +63,7 @@ PACKAGE BODY I2C.libsimpleio IS
 
   BEGIN
     IF Self /= Destroyed THEN
-      Destroy(Self);
+      Self.Destroy;
     END IF;
 
     libI2C.Open(name & ASCII.NUL, fd, error);

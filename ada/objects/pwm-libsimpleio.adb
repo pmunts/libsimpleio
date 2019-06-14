@@ -44,29 +44,11 @@ PACKAGE BODY PWM.libsimpleio IS
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) RETURN PWM.Output IS
 
-    period : Duration;
-    ontime : Duration;
-    error  : Integer;
-    fd     : Integer;
+    o : OutputSubclass;
 
   BEGIN
-    period := 1.0/frequency;
-    ontime := Duration(dutycycle/MaximumDutyCycle)*period;
-
-    libPWM.Configure(chip, channel, Positive(period*1E9),
-      Natural(ontime*1E9), Polarities'Pos(polarity), error);
-
-    IF error /= 0 THEN
-      RAISE PWM_Error WITH "libPWM.Configure() failed, " & errno.strerror(error);
-    END IF;
-
-    libPWM.Open(chip, channel, fd, error);
-
-    IF error /= 0 THEN
-      RAISE PWM_Error WITH "libPWM.Open() failed, " & errno.strerror(error);
-    END IF;
-
-    RETURN NEW OutputSubclass'(fd, period);
+    Initialize(o, chip, channel, frequency, dutycycle, polarity);
+    RETURN NEW OutputSubclass'(o);
   END Create;
 
   -- PWM output object initializers
@@ -97,7 +79,7 @@ PACKAGE BODY PWM.libsimpleio IS
 
   BEGIN
     IF Self /= Destroyed THEN
-      Destroy(Self);
+      Self.Destroy;
     END IF;
 
     period := 1.0/frequency;

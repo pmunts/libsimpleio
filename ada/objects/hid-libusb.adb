@@ -40,47 +40,11 @@ PACKAGE BODY HID.libusb IS
     iface     : Natural := 0;
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
-    error   : Integer;
-    context : System.Address;
-    handle  : System.Address;
+    m : MessengerSubclass;
 
   BEGIN
-
-    -- Validate parameters
-
-    IF timeoutms < 0 THEN
-      RAISE HID_Error WITH "timeoutms parameter is out of range";
-    END IF;
-
-    error := libusb_init(context);
-
-    IF error < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_init() failed, error " &
-        Integer'Image(error);
-    END IF;
-
-    handle := libusb_open_device_with_vid_pid(context,
-      Interfaces.C.unsigned_short(vid), Interfaces.C.unsigned_short(pid));
-
-    IF handle = System.Null_Address THEN
-      RAISE HID_Error WITH "libusb_open_device_with_vid_pid() failed";
-    END IF;
-
-    error := libusb_set_auto_detach_kernel_driver(handle, 1);
-
-    IF (error < LIBUSB_SUCCESS) AND (error /= LIBUSB_ERROR_NOT_SUPPORTED) THEN
-      RAISE HID_Error WITH "libusb_set_auto_detach_kernel() failed, error " &
-        Integer'Image(error);
-    END IF;
-
-    error := libusb_claim_interface(handle, iface);
-
-    IF error < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_claim_interface() failed, error " &
-        Integer'Image(error);
-    END IF;
-
-    RETURN NEW MessengerSubclass'(handle, timeoutms);
+    Initialize(m, vid, pid, iface, timeoutms);
+    RETURN NEW MessengerSubclass'(m);
   END Create;
 
   -- Initializer
@@ -98,7 +62,7 @@ PACKAGE BODY HID.libusb IS
 
   BEGIN
     IF Self /= Destroyed THEN
-      Destroy(Self);
+      Self.Destroy;
     END IF;
 
     IF timeoutms < 0 THEN

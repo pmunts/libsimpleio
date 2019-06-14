@@ -46,32 +46,11 @@ PACKAGE BODY SPI.libsimpleio IS
     speed    : Natural;
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) RETURN SPI.Device IS
 
-    fd       : Integer;
-    fdcs     : Integer;
-    error    : Integer;
+    d : DeviceSubclass;
 
   BEGIN
-    libSPI.Open(name & ASCII.NUL, mode, wordsize, speed, fd, error);
-
-    IF error /= 0 THEN
-      RAISE SPI_Error WITH "libsimpleio.SPI.Open() failed, " &
-        errno.strerror(error);
-    END IF;
-
-    IF cspin = AUTOCHIPSELECT THEN
-      fdcs := libSPI.SPI_AUTO_CS;
-    ELSE
-      libGPIO.LineOpen(cspin.chip, cspin.chan, libGPIO.LINE_REQUEST_OUTPUT +
-        libGPIO.LINE_REQUEST_ACTIVE_HIGH + libGPIO.LINE_REQUEST_PUSH_PULL,
-        libGPIO.EVENT_REQUEST_NONE, 1, fdcs, error);
-
-      IF error /= 0 THEN
-        RAISE SPI_Error WITH "libGPIO.LineOpen() failed, " &
-          errno.strerror(error);
-      END IF;
-    END IF;
-
-    RETURN NEW DeviceSubclass'(fd => fd, fdcs => fdcs);
+    Initialize(d, name, mode, wordsize, speed, cspin);
+    RETURN NEW DeviceSubclass'(d);
   END Create;
 
   FUNCTION Create
@@ -81,9 +60,11 @@ PACKAGE BODY SPI.libsimpleio IS
     speed    : Natural;
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) RETURN SPI.Device IS
 
+    d : DeviceSubclass;
+
   BEGIN
-    RETURN Create("/dev/spidev" & Trim(Natural'Image(desg.chip)) & "." &
-      Trim(Natural'Image(desg.chan)), mode, wordsize, speed, cspin);
+    Initialize(d, desg, mode, wordsize, speed, cspin);
+    RETURN NEW DeviceSubclass'(d);
   END Create;
 
   -- SPI device object initializers
@@ -102,7 +83,7 @@ PACKAGE BODY SPI.libsimpleio IS
 
   BEGIN
     IF Self /= Destroyed THEN
-      Destroy(Self);
+      Self.Destroy;
     END IF;
 
     libSPI.Open(name & ASCII.NUL, mode, wordsize, speed, fd, error);

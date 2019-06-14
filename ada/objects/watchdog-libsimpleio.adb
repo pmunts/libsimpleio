@@ -31,35 +31,11 @@ PACKAGE BODY Watchdog.libsimpleio IS
    (devname : String   := DefaultDevice;
     timeout : Duration := DefaultTimeout) RETURN Watchdog.Timer IS
 
-    fd            : Integer;
-    error         : Integer;
-    actualtimeout : Integer;
+    t : TimerSubclass;
 
   BEGIN
-
-    -- Open the watchdog device
-
-    libWatchdog.Open(devname & ASCII.NUL, fd, error);
-
-    IF error /= 0 THEN
-      RAISE Watchdog_Error WITH "libWatchdog.Open() failed, " &
-        errno.strerror(error);
-    END IF;
-
-    -- Change the timeout, if requested
-
-    IF timeout /= DefaultTimeout THEN
-      libWatchdog.SetTimeout(fd, Integer(timeout), actualtimeout, error);
-
-      IF error /= 0 THEN
-        RAISE Watchdog_Error WITH "libWatchdog.SetTimeout() failed, " &
-          errno.strerror(error);
-      END IF;
-    END IF;
-
-    -- Return the new watchdog device object instance
-
-    RETURN NEW TimerSubclass'(fd => fd);
+    Initialize(t, devname, timeout);
+    RETURN NEW TimerSubclass'(t);
   END Create;
 
   -- Watchdog device object initializer
@@ -75,7 +51,7 @@ PACKAGE BODY Watchdog.libsimpleio IS
 
   BEGIN
     IF Self /= Destroyed THEN
-      Destroy(Self);
+      Self.Destroy;
     END IF;
 
     -- Open the watchdog device

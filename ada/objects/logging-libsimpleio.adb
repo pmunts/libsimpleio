@@ -32,15 +32,11 @@ PACKAGE BODY Logging.libsimpleio IS
 
     error : Integer;
 
+    l : LoggerSubclass;
+
   BEGIN
-    libLinux.OpenLog(sender, options, facility, error);
-
-    IF error /= 0 THEN
-      RAISE Logging_Error WITH "libLinux.OpenLog() failed, " &
-        errno.strerror(error);
-    END IF;
-
-    RETURN NEW LoggerSubclass'(NULL RECORD);
+    Initialize(l, sender, options, facility);
+    RETURN NEW LoggerSubclass'(l);
   END Create;
 
   PROCEDURE Initialize

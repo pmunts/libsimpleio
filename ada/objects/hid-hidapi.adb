@@ -37,42 +37,11 @@ PACKAGE BODY HID.hidapi IS
     serial    : String  := "";
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
-    status  : Integer;
-    handle  : System.Address;
-
-    -- Convert the serial number from string to wchar_t, as needed for hidapi
-
-    wserial : Interfaces.C.wchar_array(0 .. serial'Length) :=
-      Interfaces.C.To_C(Ada.Characters.Handling.To_Wide_String(serial));
+    m : MessengerSubclass;
 
   BEGIN
-
-    -- Validate parameters
-
-    IF timeoutms < -1 THEN
-      RAISE HID_Error WITH "timeoutms parameter is out of range";
-    END IF;
-
-    status := hid_init;
-
-    IF status /= 0 THEN
-      RAISE HID_Error WITH "hid_init() failed";
-    END IF;
-
-    IF serial = "" THEN
-      -- hid_open() wants a null pointer rather than an empty string
-      handle := hid_open(Interfaces.C.unsigned_short(vid),
-        Interfaces.C.unsigned_short(pid), System.Null_Address);
-    ELSE
-      handle := hid_open(Interfaces.C.unsigned_short(vid),
-        Interfaces.C.unsigned_short(pid), wserial'Address);
-    END IF;
-
-    IF handle = System.Null_Address THEN
-      RAISE HID_Error WITH "hid_open() failed";
-    END IF;
-
-    RETURN NEW MessengerSubclass'(handle, timeoutms);
+    Initialize(m, vid, pid, serial, timeoutms);
+    RETURN NEW MessengerSubclass'(m);
   END Create;
 
   -- Initializer
@@ -93,7 +62,7 @@ PACKAGE BODY HID.hidapi IS
 
   BEGIN
     IF Self /= Destroyed THEN
-      Destroy(Self);
+      Self.Destroy;
     END IF;
 
     -- Validate parameters
