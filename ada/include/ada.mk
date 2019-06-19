@@ -63,7 +63,7 @@ endif
 # General toolchain definitions
 
 ADA_OBJ		?= $(shell pwd)/obj
-GNATENV		+= ADA_SRC=$(ADA_SRC) ADA_OBJ=$(ADA_OBJ)
+GNATENV		+= ADA_OBJ=$(ADA_OBJ)
 
 # Definitions for gnatmake
 
