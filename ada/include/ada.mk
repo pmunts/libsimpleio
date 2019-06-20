@@ -53,7 +53,7 @@ ifeq ($(OS), Windows_NT)
 EXESUFFIX	= .exe
 endif
 
-# Definitions for recent MacOS X and AdaCore Community Edition
+# Definitions for MacOS X
 
 ifeq ($(shell uname), Darwin)
 ADA_LDFLAGS	+= -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
@@ -62,6 +62,7 @@ endif
 
 # General toolchain definitions
 
+ADA_CFLAGS	+= -g -gnat2012
 ADA_OBJ		?= $(shell pwd)/obj
 GNATENV		+= ADA_OBJ=$(ADA_OBJ)
 
@@ -69,7 +70,7 @@ GNATENV		+= ADA_OBJ=$(ADA_OBJ)
 
 GNATMAKE	?= env $(GNATENV) $(GNATPREFIX)gnatmake
 GNATMAKEFLAGS	= -D $(ADA_OBJ)
-GNATMAKECFLAGS	+= -gnat2012 $(ADA_CFLAGS) $(ADA_INCLUDES)
+GNATMAKECFLAGS	+= $(ADA_CFLAGS) $(ADA_INCLUDES)
 GNATMAKELDFLAGS	+= $(ADA_LDFLAGS)
 
 # Definitions for strip
@@ -80,11 +81,13 @@ GNATSTRIP	?= env $(GNATENV) $(GNATPREFIX)strip
 
 GPRBUILD	?= env $(GNATENV) gprbuild
 GPRBUILDFLAGS	= -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
+GPRBUILDCFLAGS	+= $(ADA_CFLAGS)
+GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
 
 # Define pattern rules for building Ada programs
 
 %: %.gpr
-	$(GPRBUILD) $< $(GPRBUILDFLAGS) $@
+	$(GPRBUILD) $< $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
 
 %: %.adb
