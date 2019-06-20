@@ -82,6 +82,22 @@ PACKAGE GPIO.libsimpleio IS
 
   -- Read GPIO pin state
 
+  -- Notes for interrupt inputs (i.e. edge /= None):
+  --
+  -- Get() will block the calling task indefinitely until a matching input
+  -- edge detection event occurs.  If blocking is unacceptable, you can wait
+  -- using libEvent.Wait() or libLinux.Poll() with an appropriate timeout
+  -- before calling Get().
+  --
+  -- Get() returns the state of the input pin *after* the latest edge
+  -- detection event (i.e. False after a falling edge and True after a rising
+  -- edge).
+  --
+  -- If both rising and falling edge detection are enabled (i.e. edge = Both),
+  -- there is no guarantee that every edge will be detected (e.g. a single
+  -- very narrow pulse rising and falling) and the value returned by Get() may
+  -- in fact be stale by the time it is delivered.
+
   FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
 
   -- Write GPIO pin state
