@@ -25,8 +25,10 @@
 # Definitions for MuntsOS Embedded Linux
 
 ifneq ($(BOARDNAME),)
+ifeq ($(BOARDBASE),)
 EMBLINUXBASE	?= $(HOME)/muntsos
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+endif
 endif
 
 ###############################################################################

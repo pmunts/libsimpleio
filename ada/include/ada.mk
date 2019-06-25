@@ -29,9 +29,11 @@
 .PHONY: ada_mk_default ada_mk_clean ada_mk_reallyclean ada_mk_distclean
 
 ifneq ($(BOARDNAME),)
+ifeq ($(BOARDBASE),)
 # Definitions for MuntsOS cross-compile
 EMBLINUXBASE	?= $(HOME)/muntsos
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+endif
 else
 # Definitions for native compile
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
