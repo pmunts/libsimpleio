@@ -70,7 +70,7 @@ PACKAGE RemoteIO.LPC1114.Timers IS
 PRIVATE
 
   TYPE TimerClass IS TAGGED RECORD
-    dev : RemoteIO.LPC1114.Abstract_Device.Device; 
+    dev : RemoteIO.LPC1114.Abstract_Device.Device;
     desg : Interfaces.Unsigned_32;
   END RECORD;
 

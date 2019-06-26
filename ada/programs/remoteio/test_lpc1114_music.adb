@@ -55,7 +55,7 @@ BEGIN
 
   CT32B1.Configure_Match_Action(RemoteIO.LPC1114.LPC1114_TIMER_MATCH1,
     RemoteIO.LPC1114.LPC1114_TIMER_MATCH_OUTPUT_TOGGLE, True, False);
-  
+
   CT32B1.Configure_Mode(RemoteIO.LPC1114.LPC1114_TIMER_MODE_PCLK);
 
   -- Play scale from C0 to B8
@@ -63,7 +63,7 @@ BEGIN
   FOR i IN Scale LOOP
     CT32B1.Configure_Match_Value(RemoteIO.LPC1114.LPC1114_TIMER_MATCH1,
       RemoteIO.LPC1114.LPC1114_PCLK/Interfaces.Unsigned_32(freq)/2);
-  
+
     DELAY 0.5;
 
     freq := freq*1.0595;  -- Equal tempered scale

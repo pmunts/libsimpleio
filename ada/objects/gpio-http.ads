@@ -60,7 +60,7 @@ PACKAGE GPIO.HTTP IS
 PRIVATE
 
   NullString : CONSTANT Ada.Strings.UnBounded.Unbounded_String :=
-    Ada.Strings.Unbounded.Null_Unbounded_String; 
+    Ada.Strings.Unbounded.Null_Unbounded_String;
 
   TYPE PinSubclass IS NEW PinInterface WITH RECORD
     GetCmd : Ada.Strings.Unbounded.Unbounded_String := NullString;
