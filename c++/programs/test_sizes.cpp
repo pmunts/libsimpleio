@@ -1,4 +1,4 @@
-// Primitive Type Size Test
+// Primitive Datatype Size Test
 
 // Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 //
@@ -24,6 +24,8 @@
 
 int main(void)
 {
+  puts("\nPrimitive Datatype Size Test\n");
+
   printf("char:               %lu\n", sizeof(char));
   printf("signed char:        %lu\n", sizeof(signed char));
   printf("unsigned char:      %lu\n", sizeof(unsigned char));
