@@ -24,17 +24,19 @@
 
 int main(void)
 {
-  printf("char:               %ld\n", sizeof(char));
-  printf("signed char:        %ld\n", sizeof(signed char));
-  printf("unsigned char:      %ld\n", sizeof(unsigned char));
-  printf("short int:          %ld\n", sizeof(short int));
-  printf("signed short int:   %ld\n", sizeof(signed short int));
-  printf("unsigned short int: %ld\n", sizeof(unsigned short int));
-  printf("int:                %ld\n", sizeof(int));
-  printf("signed int:         %ld\n", sizeof(signed int));
-  printf("unsigned int:       %ld\n", sizeof(unsigned int));
-  printf("long int:           %ld\n", sizeof(long int));
-  printf("signed long int:    %ld\n", sizeof(signed long int));
-  printf("unsigned long int:  %ld\n", sizeof(unsigned long int));
-  printf("void *:             %ld\n", sizeof(void *));
+  printf("char:               %lu\n", sizeof(char));
+  printf("signed char:        %lu\n", sizeof(signed char));
+  printf("unsigned char:      %lu\n", sizeof(unsigned char));
+  printf("short int:          %lu\n", sizeof(short int));
+  printf("signed short int:   %lu\n", sizeof(signed short int));
+  printf("unsigned short int: %lu\n", sizeof(unsigned short int));
+  printf("int:                %lu\n", sizeof(int));
+  printf("signed int:         %lu\n", sizeof(signed int));
+  printf("unsigned int:       %lu\n", sizeof(unsigned int));
+  printf("long int:           %lu\n", sizeof(long int));
+  printf("signed long int:    %lu\n", sizeof(signed long int));
+  printf("unsigned long int:  %lu\n", sizeof(unsigned long int));
+  printf("size_t:             %lu\n", sizeof(size_t));
+  printf("ssize_t:            %lu\n", sizeof(ssize_t));
+  printf("off_t :             %lu\n", sizeof(off_t));
 }
