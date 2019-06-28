@@ -21,6 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH System;
 
 PROCEDURE test_sizes IS
 
@@ -35,9 +36,12 @@ BEGIN
   Put_Line("Primitive Datatype Size Test");
   New_Line;
 
-  Put_Line("Boolean  : " & Natural'Image(a'Size));
-  Put_Line("Character: " & Natural'Image(b'Size));
-  Put_Line("Integer:   " & Natural'Image(c'Size));
-  Put_Line("Natural:   " & Natural'Image(d'Size));
-  Put_Line("ACCESS:    " & Natural'Image(e'Size));
+  Put_Line("Boolean:             " & Natural'Image(a'Size));
+  Put_Line("Character:           " & Natural'Image(b'Size));
+  Put_Line("Integer:             " & Natural'Image(c'Size));
+  Put_Line("Natural:             " & Natural'Image(d'Size));
+  Put_Line("ACCESS:              " & Natural'Image(e'Size));
+  Put_Line("System.Address:      " & Natural'Image(System.Address'Size));
+  Put_Line("System.Storage_Unit: " & Natural'Image(System.Storage_Unit));
+  Put_Line("System.Word_Size:    " & Natural'Image(System.Word_Size));
 END test_sizes;
