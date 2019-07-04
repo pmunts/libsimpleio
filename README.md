@@ -26,7 +26,7 @@ The C wrapper functions exported by **libsimpleio** all follow the same uniform 
 -   All composite types are passed by reference.
 -   `int32_t` is used wherever possible for `int` and `bool` arguments.
 
-All of the C wrapper functions are declared between `_BEGIN_STD_C` and `_END_STD_C` for C++. Binding modules are provided for Ada, C++, C\#, Java, and Free Pascal. Additional source code libraries are provided for Ada, C++, C\#, Java, and Free Pascal that define OOP (Object Oriented Programming) classes for **libsimpleio**.
+All of the C wrapper functions are declared between `_BEGIN_STD_C` and `_END_STD_C` for C++. Binding modules are provided for Ada, C\#, Java, and Free Pascal. Additional source code libraries are provided for Ada, C++, C\#, Java, and Free Pascal that define OOP (Object Oriented Programming) classes for **libsimpleio**.
 
 News
 ----
