@@ -61,7 +61,7 @@ News
      * 10 June 2019 -- Material from the Controlling I/O Devices with Ada
        using the Remote I/O Protocol educational tutorial at the
        [9]Ada-Europe 2019 conference is available
-       at:[10]http://git.munts.com/ada-remoteio-tutorial.
+       at: [10]http://git.munts.com/ada-remoteio-tutorial.
 
 Documentation
 

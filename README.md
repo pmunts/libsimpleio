@@ -35,7 +35,7 @@ News
 -   16 January 2019 -- The C wrapper function source files have been moved to the `c/` subdirectory. The source code is now published on [GitHub](https://github.com) at <https://github.com/pmunts/libsimpleio>. The old repository at <http://git.munts.com> (which actually just mirrors a private Subversion repository and then pushed to GitHub) will be maintained, but you should clone from GitHub, which will be *much* faster.
 -   8 February 2019 -- Reworked PWM device handling for the Linux 4.19 kernel. Cleaned up some stale links and commands in the user manual. Cleaned up some loose ends in the [MY-BASIC](https://github.com/paladin-t/my_basic) bindings and example programs.
 -   12 March 2019 -- The Debian native packages now depend on `libhidapi-dev`, for Remote I/O over USB raw HID.
--   10 June 2019 -- Material from the *Controlling I/O Devices with Ada using the Remote I/O Protocol* educational tutorial at the [Ada-Europe 2019](https://ae2019.edc.pl) conference is available at:<http://git.munts.com/ada-remoteio-tutorial>.
+-   10 June 2019 -- Material from the *Controlling I/O Devices with Ada using the Remote I/O Protocol* educational tutorial at the [Ada-Europe 2019](https://ae2019.edc.pl) conference is available at: <http://git.munts.com/ada-remoteio-tutorial>.
 
 Documentation
 -------------
