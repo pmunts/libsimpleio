@@ -58,20 +58,24 @@ News
        example programs.
      * 12 March 2019 -- The Debian native packages now depend on
        libhidapi-dev, for Remote I/O over USB raw HID.
+     * 10 June 2019 -- Material from the Controlling I/O Devices with Ada
+       using the Remote I/O Protocol educational tutorial at the
+       [9]Ada-Europe 2019 conference is available
+       at:[10]http://git.munts.com/ada-remoteio-tutorial.
 
 Documentation
 
    The user manual for libsimpleio is available at:
-   [9]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [11]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at:
-   [10]libsimpleio.html
+   [12]libsimpleio.html
 
 Git Repository
 
    The source code is available at:
 
-   [11]https://github.com/pmunts/libsimpleio
+   [13]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -81,10 +85,10 @@ Package Repository
 
    Prebuilt packages for Debian 9 (Stretch) are available at:
 
-   [12]http://repo.munts.com/debian9
+   [14]http://repo.munts.com/debian9
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [13]phil@munts.net
+   Questions or comments to Philip Munts [15]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -99,8 +103,10 @@ References
    6. https://github.com/pmunts/libsimpleio
    7. http://git.munts.com/
    8. https://github.com/paladin-t/my_basic
-   9. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  10. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  11. https://github.com/pmunts/libsimpleio
-  12. http://repo.munts.com/debian9
-  13. mailto:phil@munts.net
+   9. https://ae2019.edc.pl/
+  10. http://git.munts.com/ada-remoteio-tutorial
+  11. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  12. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  13. https://github.com/pmunts/libsimpleio
+  14. http://repo.munts.com/debian9
+  15. mailto:phil@munts.net
