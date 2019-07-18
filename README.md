@@ -59,7 +59,7 @@ Use the following command to clone it:
 Package Repository
 ------------------
 
-Prebuilt packages for Debian are available at:
+Prebuilt packages for [Debian](http://www.debian.org) Linux are available at:
 
 <http://repo.munts.com/debian9> and <http://repo.munts.com/debian10>.
 

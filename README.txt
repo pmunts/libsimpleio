@@ -85,13 +85,13 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for Debian are available at:
+   Prebuilt packages for [15]Debian Linux are available at:
 
-   [15]http://repo.munts.com/debian9 and
-   [16]http://repo.munts.com/debian10.
+   [16]http://repo.munts.com/debian9 and
+   [17]http://repo.munts.com/debian10.
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [17]phil@munts.net
+   Questions or comments to Philip Munts [18]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -112,6 +112,7 @@ References
   12. http://git.munts.com/libsimpleio/doc/UserManual.pdf
   13. http://git.munts.com/libsimpleio/doc/libsimpleio.html
   14. https://github.com/pmunts/libsimpleio
-  15. http://repo.munts.com/debian9
-  16. http://repo.munts.com/debian10
-  17. mailto:phil@munts.net
+  15. http://www.debian.org/
+  16. http://repo.munts.com/debian9
+  17. http://repo.munts.com/debian10
+  18. mailto:phil@munts.net
