@@ -90,6 +90,7 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p basic			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p elements			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio

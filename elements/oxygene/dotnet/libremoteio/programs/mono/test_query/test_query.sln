@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_query", "test_query.elements", "{BFF5F547-DDCE-42E0-AF9E-1D938E2496D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFF5F547-DDCE-42E0-AF9E-1D938E2496D8}.Debug|Default.ActiveCfg = Debug
+		{BFF5F547-DDCE-42E0-AF9E-1D938E2496D8}.Debug|Default.Build.0 = Debug
+		{BFF5F547-DDCE-42E0-AF9E-1D938E2496D8}.Debug|Default.Deploy.0 = Debug
+		{BFF5F547-DDCE-42E0-AF9E-1D938E2496D8}.Release|Default.ActiveCfg = Release
+		{BFF5F547-DDCE-42E0-AF9E-1D938E2496D8}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F5538D5-A85C-47BA-9C14-3F79A6895D1E}
+	EndGlobalSection
+EndGlobal

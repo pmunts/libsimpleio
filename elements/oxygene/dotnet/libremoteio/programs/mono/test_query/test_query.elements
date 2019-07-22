@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>3.5</ProductVersion>
+    <RootNamespace>test_query</RootNamespace>
+    <ProjectGuid>{bff5f547-ddce-42e0-af9e-1d938e2496d8}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>test_query</AssemblyName>
+    <ApplicationIcon>Properties\App.ico</ApplicationIcon>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <Name>test_query</Name>
+    <EBuildMSBuildProjectFile>C:\Users\pmunts\src\pascal\Oxygene\llosdfd5.lcg</EBuildMSBuildProjectFile>
+    <TargetFramework>.NETFramework4.7.1</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>False</Optimize>
+    <OutputPath>.</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <GeneratePDB>True</GeneratePDB>
+    <GenerateMDB>True</GenerateMDB>
+    <EnableAsserts>True</EnableAsserts>
+    <CpuType>anycpu</CpuType>
+    <RuntimeVersion>v25</RuntimeVersion>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+    <TargetFramework>.NETFramework4.7.1</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>.</OutputPath>
+    <CpuType>anycpu</CpuType>
+    <RuntimeVersion>v25</RuntimeVersion>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+    <TargetFramework>.NETFramework4.7.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <NuGetReference Include="libremoteio:*">
+      <Private>True</Private>
+    </NuGetReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.pas" />
+    <Compile Include="Properties\AssemblyInfo.pas" />
+    <Content Include="Properties\App.ico" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.pas" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+    </None>
+    <Compile Include="Properties\Settings.Designer.pas" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Echoes.targets" />
+</Project>
