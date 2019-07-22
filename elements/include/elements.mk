@@ -21,8 +21,11 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 CONFIGURATION	?= Release
-
+ifeq ($(OS), Windows_NT)
 EBUILD		?= C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild
+else
+EBUILD		?= /usr/local/bin/ebuild
+endif
 EBUILDPROJECT	?= $(shell basename $(shell pwd)).elements
 EBUILDFLAGS	?= --configuration:$(CONFIGURATION)
 
