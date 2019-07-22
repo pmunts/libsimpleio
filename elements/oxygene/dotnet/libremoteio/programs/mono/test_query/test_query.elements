@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
@@ -10,7 +10,6 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <Name>test_query</Name>
-    <EBuildMSBuildProjectFile>C:\Users\pmunts\src\pascal\Oxygene\llosdfd5.lcg</EBuildMSBuildProjectFile>
     <TargetFramework>.NETFramework4.7.1</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
