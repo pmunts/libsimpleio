@@ -1,23 +1,23 @@
-﻿namespace test_query;
+namespace test_remoteio_hid_query;
 
 interface
 
 uses
-    System.Reflection,
-    System.Resources,
-    System.Runtime.InteropServices;
+  System.Reflection,
+  System.Resources,
+  System.Runtime.InteropServices;
 
-    [assembly: AssemblyTitle('')]
-    [assembly: AssemblyDescription('')]
-    [assembly: AssemblyConfiguration('')]
-    [assembly: AssemblyCompany('')]
-    [assembly: AssemblyProduct('')]
-    [assembly: AssemblyCopyright('')]
-    [assembly: AssemblyTrademark('')]
-    [assembly: AssemblyCulture('')]
-    [assembly: AssemblyVersion('1.0.0.1')]
-    [assembly: NeutralResourcesLanguage('')]
-    [assembly: ComVisible(false)]
+[assembly: AssemblyTitle('')]
+[assembly: AssemblyDescription('')]
+[assembly: AssemblyConfiguration('')]
+[assembly: AssemblyCompany('')]
+[assembly: AssemblyProduct('')]
+[assembly: AssemblyCopyright('')]
+[assembly: AssemblyTrademark('')]
+[assembly: AssemblyCulture('')]
+[assembly: AssemblyVersion('1.0.0.1')]
+[assembly: NeutralResourcesLanguage('')]
+[assembly: ComVisible(false)]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the

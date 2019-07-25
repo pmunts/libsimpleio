@@ -1,4 +1,4 @@
-﻿namespace test_query;
+﻿namespace test_remoteio_hid_query;
 
 interface
 

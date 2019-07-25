@@ -2,16 +2,15 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
-    <RootNamespace>test_query</RootNamespace>
-    <ProjectGuid>{0283EC23-DF68-42DF-B394-5E2D4C4F4CA5}</ProjectGuid>
+    <RootNamespace>test_remoteio_hid_query</RootNamespace>
+    <ProjectGuid>{bff5f547-ddce-42e0-af9e-1d938e2496d8}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AssemblyName>test_query</AssemblyName>
+    <AssemblyName>test_remoteio_hid_query</AssemblyName>
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-    <TargetFramework>.NETCore</TargetFramework>
-    <Mode>Echoes</Mode>
-    <DefaultUses>RemObjects.Elements.RTL</DefaultUses>
-    <Architecture>anycpu</Architecture>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <Name>test_remoteio_hid_query</Name>
+    <TargetFramework>.NETFramework4.7.1</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>
@@ -23,21 +22,30 @@
     <CpuType>anycpu</CpuType>
     <RuntimeVersion>v25</RuntimeVersion>
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+    <TargetFramework>.NETFramework4.7.1</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>.</OutputPath>
     <CpuType>anycpu</CpuType>
     <RuntimeVersion>v25</RuntimeVersion>
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+    <TargetFramework>.NETFramework4.7.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Echoes">
-      <Private>True</Private>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Elements">
-      <Private>True</Private>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <NuGetReference Include="libremoteio-standard:*">
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <NuGetReference Include="libremoteio:*">
       <Private>True</Private>
     </NuGetReference>
   </ItemGroup>
