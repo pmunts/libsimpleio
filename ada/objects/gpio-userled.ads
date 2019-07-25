@@ -59,7 +59,7 @@ PACKAGE GPIO.UserLED IS
 PRIVATE
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
-    myfd : Integer;
+    myfd : Integer := -1;
   END RECORD;
 
   Destroyed : CONSTANT PinSubclass := PinSubclass'(myfd => -1);
