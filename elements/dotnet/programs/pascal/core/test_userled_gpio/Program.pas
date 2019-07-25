@@ -33,7 +33,7 @@ namespace test_userled_gpio;
 
     repeat
       LED.state := not LED.state;
-      RemObjects.Elements.RTL.Thread.Sleep(1000);
+      RemObjects.Elements.RTL.Thread.Sleep(500);
     until false;
   end;
 
