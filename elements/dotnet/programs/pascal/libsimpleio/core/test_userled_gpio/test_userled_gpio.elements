@@ -39,7 +39,7 @@
     </NuGetReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\objects\userled_gpio.pas">
+    <Compile Include="..\..\..\..\..\objects\userled_gpio.pas">
       <Link>userled_gpio.pas</Link>
     </Compile>
     <Compile Include="Program.pas" />
