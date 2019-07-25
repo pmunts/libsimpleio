@@ -28,7 +28,7 @@ namespace test_userled_gpio
 	{
 		public static Int32 Main(string[] args)
 		{
- Console.WriteLine("\nUser LED Toggle Test\n");
+            Console.WriteLine("\nUser LED Toggle Test\n");
 
             IO.Interfaces.GPIO.Pin LED = new IO.Objects.UserLED.GPIO.Pin();
 
@@ -37,6 +37,6 @@ namespace test_userled_gpio
                 LED.state = !LED.state;
                 RemObjects.Elements.RTL.Thread.Sleep(500);
             }
-		}
-	}
+        }
+    }
 }
