@@ -1,9 +1,10 @@
                        RemObjects Elements Test Programs
 
    [1]RemObjects Elements is a commercial cross-platform development
-   environment for the Oxygene (aka Object Pascal), C#, Java, and Swift
-   programming languages, targeting Android, Cocoa, JVM, .Net, Web
-   Assembly, native Linux, and native Windows platforms.
+   environment for the Oxygene (an object oriented Pascal dialect), C#,
+   Java, and Swift programming languages, targeting Android, Java byte
+   code, .Net, and Web Assembly as well as native Linux, native MacOS and
+   native Windows platforms.
 
    It can be used to develop both [2].Net Framework and [3].Net Core
    applications using the libsimpleio or libremoteio libraries for .Net
