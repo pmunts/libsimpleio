@@ -28,10 +28,15 @@ ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
 default: elements_mk_build
 
+package: monoapp_mk_deb
+
+tarball: monoapp_mk_tarball
+
 # Remove working files
 
-clean: elements_mk_clean
+clean: elements_mk_clean monoapp_mk_clean
 
 # Include subordinate makefiles
 
 include $(ELEMENTSSRC)/include/elements.mk
+include $(ELEMENTSSRC)/dotnet/include/monoapp.mk
