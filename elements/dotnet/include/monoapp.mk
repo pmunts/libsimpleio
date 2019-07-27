@@ -1,4 +1,4 @@
-# Makefile for building a .Net Framework application
+# Makefile for building a .Net Framework application package or tarball
 
 # Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 #
