@@ -27,7 +27,7 @@ else
 EBUILD		?= /usr/local/bin/ebuild
 endif
 EBUILDPROJECT	?= $(shell basename $(shell pwd)).elements
-EBUILDFLAGS	?= --configuration:$(CONFIGURATION)
+EBUILDFLAGS	+= --configuration:$(CONFIGURATION)
 
 # Don't delete intermediate files
 
