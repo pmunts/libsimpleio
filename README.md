@@ -36,7 +36,7 @@ News
 -   8 February 2019 -- Reworked PWM device handling for the Linux 4.19 kernel. Cleaned up some stale links and commands in the user manual. Cleaned up some loose ends in the [MY-BASIC](https://github.com/paladin-t/my_basic) bindings and example programs.
 -   12 March 2019 -- The Debian native packages now depend on `libhidapi-dev`, for Remote I/O over USB raw HID.
 -   10 June 2019 -- Material from the *Controlling I/O Devices with Ada using the Remote I/O Protocol* educational tutorial at the [Ada-Europe 2019](https://ae2019.edc.pl) conference is available at <http://git.munts.com/ada-remoteio-tutorial>.
--   18 July 2019 -- Packages for Debian 10 (Buster) are now available <http://repo.munts.com/debian10>.
+-   18 July 2019 -- Packages for Debian 10 (Buster) are now available at <http://repo.munts.com/debian10>.
 
 Documentation
 -------------
@@ -61,7 +61,7 @@ Package Repository
 
 Prebuilt packages for [Debian](http://www.debian.org) Linux are available at:
 
-<http://repo.munts.com/debian9> and <http://repo.munts.com/debian10>.
+<http://repo.munts.com/debian10>
 
 ------------------------------------------------------------------------
 
