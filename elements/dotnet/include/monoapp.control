@@ -1,5 +1,0 @@
-Package: @@NAME@@
-Description: .Net Framework Application
-Architecture: all
-Version: @@VERSION@@
-Maintainer: Somebody
