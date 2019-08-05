@@ -20,7 +20,18 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+# Override the following macro to build out of tree
+
+EMBLINUXBASE    ?= $(HOME)/muntsos
+
+ifneq ($(BOARDNAME),)
+# Cross compile
+include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+else
+# Native compile
+LIBSIMPLEIO     ?= /usr/local/share/libsimpleio
+endif
+
 CSHARPSRC	?= $(LIBSIMPLEIO)/csharp
 ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
