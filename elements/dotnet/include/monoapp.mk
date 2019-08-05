@@ -22,7 +22,7 @@
 
 MONOAPPNAME	?= $(shell basename *.elements .elements)
 MONOAPPPROJ	?= $(MONOAPPNAME).elements
-MONOAPPRELEASE	?= .
+MONOAPPRELEASE	?= Bin/Release
 MONOAPPDEST	?= /usr/local
 MONOAPPLIB	?= $(MONOAPPDEST)/lib/$(MONOAPPNAME)
 MONOAPPBIN	?= $(MONOAPPDEST)/bin
