@@ -6,12 +6,20 @@
    code, .Net, and Web Assembly as well as native Linux, native MacOS and
    native Windows platforms.
 
-   It can be used to develop both [2].Net Framework and [3].Net Core
-   applications using the libsimpleio or libremoteio libraries for .Net
-   published on [4]NuGet.
+   Here are some Visual Studio 2019 project templates and example projects
+   for developing platform neutral .Net Core applications using the
+   libsimpleio and libremoteio library packages published on [2]NuGet.
+
+   The simplest way to begin developing such an applications is to
+   download one or more of the project templates and copy it to
+
+   %HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 2019\Templates.
+
+   Then you can create a new project within Visual Studio 2019 using one
+   of the templates.
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [5]phil@munts.net
+   Questions or comments to Philip Munts [3]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -19,7 +27,5 @@
 References
 
    1. https://www.elementscompiler.com/elements
-   2. https://en.wikipedia.org/wiki/.NET_Framework
-   3. https://en.wikipedia.org/wiki/.NET_Core
-   4. https://www.nuget.org/
-   5. mailto:phil@munts.net
+   2. https://www.nuget.org/
+   3. mailto:phil@munts.net
