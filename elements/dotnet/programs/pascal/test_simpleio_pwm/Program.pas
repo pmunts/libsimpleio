@@ -1,0 +1,65 @@
+{ PWM Output Test using libsimpleio }
+
+{ Copyright (C)2019, Philip Munts, President, Munts AM Corp.                  }
+{                                                                             }
+{ Redistribution and use in source and binary forms, with or without          }
+{ modification, are permitted provided that the following conditions are met: }
+{                                                                             }
+{ * Redistributions of source code must retain the above copyright notice,    }
+{   this list of conditions and the following disclaimer.                     }
+{                                                                             }
+{ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" }
+{ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE   }
+{ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE  }
+{ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE   }
+{ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR         }
+{ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF        }
+{ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS    }
+{ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN     }
+{ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)     }
+{ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
+{ POSSIBILITY OF SUCH DAMAGE.                                                 }
+
+namespace test_simpleio_pwm;
+
+  procedure Main(args: array of String);
+
+  begin
+    writeLn;
+    writeLn('PWM Output Test using libsimpleio');
+    writeLn;
+
+    { Create a PWM output object }
+
+    write('PWM chip number?     ');
+    var chip : Integer := Integer.Parse(readLn());
+
+    write('PWM channel number?  ');
+    var chan : Integer := Integer.Parse(readLn());
+
+    write('PWM pulse frequency? ');
+    var freq : Integer := Integer.Parse(readLn());
+
+    var Output : IO.Interfaces.PWM.Output :=
+      new IO.Objects.libsimpleio.PWM.Output(chip, chan, freq);
+
+    { Sweep the PWM output duty cycle }
+
+    var duty : Integer;
+
+    repeat
+      for duty := 0 to 100 do
+        begin
+          Output.dutycycle := duty;
+          RemObjects.Elements.RTL.Thread.Sleep(50);
+        end;
+
+      for duty := 100 downto 0 do
+        begin
+          Output.dutycycle := duty;
+          RemObjects.Elements.RTL.Thread.Sleep(50);
+        end;
+    until false;
+  end;
+
+end.
