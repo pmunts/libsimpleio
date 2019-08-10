@@ -31,14 +31,14 @@ namespace test_simpleio_gpio;
 
     // Create GPIO pin object
 
-    write("GPIO chip number? ");
+    write('GPIO chip number?    ');
     var chip : Integer := Integer.Parse(readLn());
 
-    write("GPIO line number? ");
-    var line : Integer := Integer.Parse(readLn());
+    write('GPIO channel number? ');
+    var chan : Integer := Integer.Parse(readLn());
 
     var Output : IO.Interfaces.GPIO.Pin :=
-      new IO.Objects.libsimpleio.GPIO.Pin(chip, line,
+      new IO.Objects.libsimpleio.GPIO.Pin(chip, chan,
       IO.Interfaces.GPIO.Direction.Output, false);
 
     // Toggle the GPIO output
