@@ -50,6 +50,8 @@ $(PKGDIR): elements_mk_build
 	mkdir -p 						$(PKGDIR)/$(COREAPPLIB)
 	cp -R -P -p $(COREAPPPUB)/*.dll				$(PKGDIR)/$(COREAPPLIB)
 	cp -R -P -p $(COREAPPPUB)/*.json			$(PKGDIR)/$(COREAPPLIB)
+	rm							$(PKGDIR)/$(COREAPPLIB)/*deps.json
+	rm							$(PKGDIR)/$(COREAPPLIB)/*dev.json
 	find $(PKGDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
 	find $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 	touch $@
