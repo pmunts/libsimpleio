@@ -37,7 +37,7 @@ ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
 # Build the project
 
-default: elements_mk_build
+default: coreapp_mk_build
 
 package: coreapp_mk_deb
 
@@ -49,5 +49,6 @@ clean: elements_mk_clean coreapp_mk_clean
 
 # Include subordinate makefiles
 
+include $(CSHARPSRC)/include/csharp.mk
 include $(ELEMENTSSRC)/include/elements.mk
 include $(ELEMENTSSRC)/dotnet/include/coreapp.mk

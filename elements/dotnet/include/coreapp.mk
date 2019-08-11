@@ -39,8 +39,7 @@ TARFLAGS	?= --owner=root --group=root --mode=ugo-w
 
 # Compile the application
 
-coreapp_mk_build:
-	$(MAKE) elements_mk_build
+coreapp_mk_build: elements_mk_build
 
 # Pack the application into a Debian package file
 
@@ -83,5 +82,5 @@ coreapp_mk_tarball: coreapp_mk_build
 
 # Remove working files
 
-coreapp_mk_clean: elements_mk_clean
+coreapp_mk_clean: elements_mk_clean csharp_mk_clean
 	rm -rf $(PKGDIR) $(TARROOT) *.tgz *.deb

@@ -22,22 +22,31 @@
 
 # Override the following macro to build out of tree
 
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+EMBLINUXBASE    ?= $(HOME)/muntsos
+
+ifneq ($(BOARDNAME),)
+# Cross compile
+include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+else
+# Native compile
+LIBSIMPLEIO     ?= /usr/local/share/libsimpleio
+endif
+
 CSHARPSRC	?= $(LIBSIMPLEIO)/csharp
+
+# Build the project
+
+default: coreapp_mk_build
+
+package: coreapp_mk_deb
+
+tarball: coreapp_mk_tarball
+
+# Remove working files
+
+clean: coreapp_mk_clean
 
 # Include subordinate makefiles
 
 include $(CSHARPSRC)/include/csharp.mk
 include $(CSHARPSRC)/include/coreapp.mk
-
-# Build the .Net Core application project
-
-default: coreapp_mk_build
-
-# Build a Debian package file
-
-deb: coreapp_mk_deb
-
-# Remove working files
-
-clean: coreapp_mk_clean
