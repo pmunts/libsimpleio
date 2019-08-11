@@ -83,5 +83,5 @@ coreapp_mk_tarball: coreapp_mk_build
 
 # Remove working files
 
-coreapp_mk_clean: csharp_mk_clean
+coreapp_mk_clean: elements_mk_clean
 	rm -rf $(PKGDIR) $(TARROOT) *.tgz *.deb
