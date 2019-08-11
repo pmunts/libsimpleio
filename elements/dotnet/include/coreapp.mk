@@ -1,6 +1,6 @@
 # Makefile for building a .Net Core application package or tarball
 
-# Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2019, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -37,9 +37,14 @@ TAR		?= tar
 TARROOT		?= fakeroot
 TARFLAGS	?= --owner=root --group=root --mode=ugo-w
 
+# Compile the application
+
+coreapp_mk_build:
+	$(MAKE) elements_mk_build
+
 # Pack the application into a Debian package file
 
-$(PKGDIR): elements_mk_build
+$(PKGDIR): coreapp_mk_build
 	mkdir -p						$(PKGDIR)/DEBIAN
 	install -cm 0644 $(CSHARPSRC)/include/coreapp.control	$(PKGDIR)/DEBIAN/control
 	sed -i s/@@NAME@@/$(PKGNAME)/g				$(PKGDIR)/DEBIAN/control
@@ -50,8 +55,8 @@ $(PKGDIR): elements_mk_build
 	mkdir -p 						$(PKGDIR)/$(COREAPPLIB)
 	cp -R -P -p $(COREAPPPUB)/*.dll				$(PKGDIR)/$(COREAPPLIB)
 	cp -R -P -p $(COREAPPPUB)/*.json			$(PKGDIR)/$(COREAPPLIB)
-	rm							$(PKGDIR)/$(COREAPPLIB)/*deps.json
-	rm							$(PKGDIR)/$(COREAPPLIB)/*dev.json
+	rm -f							$(PKGDIR)/$(COREAPPLIB)/*deps.json
+	rm -f							$(PKGDIR)/$(COREAPPLIB)/*dev.json
 	find $(PKGDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
 	find $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 	touch $@
@@ -65,7 +70,7 @@ coreapp_mk_deb: $(PKGFILE)
 
 # Pack the application into a distribution tarball
 
-coreapp_mk_tarball: elements_mk_build
+coreapp_mk_tarball: coreapp_mk_build
 	mkdir -p 						$(TARROOT)/$(COREAPPBIN)
 	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(TARROOT)/$(COREAPPBIN)/$(COREAPPNAME)
 	chmod 755						$(TARROOT)/$(COREAPPBIN)/$(COREAPPNAME)
@@ -78,5 +83,5 @@ coreapp_mk_tarball: elements_mk_build
 
 # Remove working files
 
-coreapp_mk_clean:
+coreapp_mk_clean: csharp_mk_clean
 	rm -rf $(PKGDIR) $(TARROOT) *.tgz *.deb

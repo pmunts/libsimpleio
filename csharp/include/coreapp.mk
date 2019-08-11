@@ -1,6 +1,6 @@
-# Makefile for building a .Net Core application
+# Makefile for building a .Net Core application package or tarball
 
-# Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2019, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -41,8 +41,6 @@ TARFLAGS	?= --owner=root --group=root --mode=ugo-w
 
 coreapp_mk_build:
 	dotnet publish $(COREAPPPROJ) -c $(CONFIGURATION)
-	cp $(COREAPPPUB)/*.dll .
-	cp $(COREAPPPUB)/*.json .
 
 # Pack the application into a Debian package file
 
@@ -55,7 +53,10 @@ $(PKGDIR): coreapp_mk_build
 	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
 	chmod 755						$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
 	mkdir -p 						$(PKGDIR)/$(COREAPPLIB)
-	cp -R -P -p $(COREAPPPUB)/*				$(PKGDIR)/$(COREAPPLIB)
+	cp -R -P -p $(COREAPPPUB)/*.dll				$(PKGDIR)/$(COREAPPLIB)
+	cp -R -P -p $(COREAPPPUB)/*.json			$(PKGDIR)/$(COREAPPLIB)
+	rm -f							$(PKGDIR)/$(COREAPPLIB)/*deps.json
+	rm -f							$(PKGDIR)/$(COREAPPLIB)/*dev.json
 	find $(PKGDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
 	find $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 	touch $@
@@ -74,7 +75,8 @@ coreapp_mk_tarball: coreapp_mk_build
 	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(TARROOT)/$(COREAPPBIN)/$(COREAPPNAME)
 	chmod 755						$(TARROOT)/$(COREAPPBIN)/$(COREAPPNAME)
 	mkdir -p 						$(TARROOT)/$(COREAPPLIB)
-	cp -R -P -p $(COREAPPPUB)/*				$(TARROOT)/$(COREAPPLIB)
+	cp -R -P -p $(COREAPPPUB)/*.dll				$(TARROOT)/$(COREAPPLIB)
+	cp -R -P -p $(COREAPPPUB)/*.json			$(TARROOT)/$(COREAPPLIB)
 	find $(TARROOT)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
 	find $(TARROOT)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 	cd $(TARROOT) && $(TAR) czf ../$(COREAPPNAME).tgz * $(TARFLAGS)
@@ -82,4 +84,4 @@ coreapp_mk_tarball: coreapp_mk_build
 # Remove working files
 
 coreapp_mk_clean: csharp_mk_clean
-	rm -rf $(PKGDIR) $(TARROOT) *.tgz *.deb *.json
+	rm -rf $(PKGDIR) $(TARROOT) *.tgz *.deb
