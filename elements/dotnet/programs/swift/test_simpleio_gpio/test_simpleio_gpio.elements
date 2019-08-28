@@ -36,7 +36,7 @@
     <Reference Include="Elements">
       <Private>True</Private>
     </Reference>
-    <NuGetReference Include="libsimpleio-standard:*">
+    <NuGetReference Include="libsimpleio:*">
       <Private>True</Private>
     </NuGetReference>
   </ItemGroup>

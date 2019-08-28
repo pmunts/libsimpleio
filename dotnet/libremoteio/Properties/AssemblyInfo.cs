@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Remote I/O Library for .Net Framework")]
-[assembly: AssemblyDescription("Remote I/O Library for .Net Framework")]
+[assembly: AssemblyTitle("Remote I/O Library for .Net")]
+[assembly: AssemblyDescription("Remote I/O Library for .Net")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Munts AM Corp dba Munts Technologies")]
-[assembly: AssemblyProduct("Remote I/O Library for .Net Framework")]
+[assembly: AssemblyProduct("Remote I/O Library for .Net")]
 [assembly: AssemblyCopyright("Copyright (C)2017-2019 Philip Munts, President, Munts AM Corp dba Munts Technologies")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
