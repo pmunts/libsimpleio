@@ -1,6 +1,6 @@
-# Makefile for building the Remote I/O Library for .Net
+# Generic Makefile template for building C# applications
 
-# Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2014-2018, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -22,19 +22,19 @@
 
 # Override the following macro to build out of tree
 
-CSHARPSRC	?= ..
+CSHARPSRC	?= ../../csharp
 
 CONFIGURATION	= Release
 
-ILMERGE		?= ilmerge
+default: libsimpleio.dll
 
 # Build the projects
 
-libremoteio.dll:
-	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) libremoteio.csproj
+libsimpleio.dll:
+	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) libsimpleio.csproj
 ifeq ($(OS),Windows_NT)
 ifeq ($(CONFIGURATION), Release)
-	"$(MSBUILD)" libremoteio.shfbproj
+	"$(MSBUILD)" libsimpleio.shfbproj
 endif
 endif
 
@@ -42,11 +42,8 @@ endif
 
 ifeq ($(OS),Windows_NT)
 ifeq ($(CONFIGURATION), Release)
-release: libremoteio.dll
-	mv libremoteio.dll libremoteio-orig.dll
-	$(ILMERGE) /v4 /out:libremoteio.dll libremoteio-orig.dll HidSharp.dll
-	cp libremoteio.dll libremoteio.xml libremoteio.chm ..
-	mv libremoteio-orig.dll libremoteio.dll
+release: libsimpleio.dll
+	cp libsimpleio.dll libsimpleio.xml libsimpleio.chm ..
 	nuget pack
 	cp *.nupkg ..
 endif
@@ -55,9 +52,11 @@ endif
 # Remove working files
 
 clean: csharp_mk_clean
+	rm -rf IO.Bindings
 	rm -rf IO.Devices
 	rm -rf IO.Interfaces
 	rm -rf IO.Objects
+	rm -rf IO.Platforms
 	rm -rf IO.Remote
 
 # Include subordinate makefiles

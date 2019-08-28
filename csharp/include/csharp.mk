@@ -25,8 +25,8 @@ CONFIGURATION	?= Release
 # Pick Visual Studio or Mono compiler
 
 ifeq ($(OS), Windows_NT)
-CSC		?= C:/PROGRA~2/MSBuild/14.0/Bin/csc.exe
-MSBUILD		?= C:/PROGRA~2/MSBuild/14.0/Bin/MSBuild.exe
+CSC		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/Roslyn/csc.exe
+MSBUILD		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
 MSBUILDTARGET	?= /t:Build
 MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION) /p:CSHARPSRC=$(CSHARPSRC)
 MSBUILDPROJECT	?=

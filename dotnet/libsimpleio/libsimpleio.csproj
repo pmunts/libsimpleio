@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{64EA8BB8-9899-4F31-96B9-49BD593A25C8}</ProjectGuid>
+    <ProjectGuid>{7D0DF521-552E-4454-BF27-C03E4C2F3C60}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>USB_HID_libremoteio_DLL</RootNamespace>
-    <AssemblyName>libremoteio</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <RootNamespace>libsimpleio</RootNamespace>
+    <AssemblyName>libsimpleio</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -17,54 +17,47 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>.</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>libremoteio.xml</DocumentationFile>
+    <DocumentationFile>libsimpleio.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>.</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>libremoteio.xml</DocumentationFile>
+    <DocumentationFile>libsimpleio.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HidSharp, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\HidSharp.2.0.5\lib\net35\HidSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Message64.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\devices\*.cs">
+    <Compile Include="..\..\csharp\bindings\*.cs">
+      <Link>IO.Bindings\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\interfaces\*.cs">
+    <Compile Include="..\..\csharp\interfaces\*.cs">
       <Link>IO.Interfaces\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\objects\message64-udp.cs">
-      <Link>%(FileName)</Link>
+    <Compile Include="..\..\csharp\objects\*.cs">
+      <Link>IO.Objects\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\objects\motor-pwm.cs">
-      <Link>%(FileName)</Link>
+    <Compile Include="..\..\csharp\platforms\*.cs">
+      <Link>IO.Platforms\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\objects\motor-servo.cs">
-      <Link>%(FileName)</Link>
-    </Compile>
-    <Compile Include="..\objects\servo-pwm.cs">
-      <Link>%(FileName)</Link>
-    </Compile>
-    <Compile Include="..\remoteio\*.cs">
+    <Compile Include="..\..\csharp\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="Makefile" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

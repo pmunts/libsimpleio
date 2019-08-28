@@ -27,12 +27,12 @@ CSHARPSRC	?= $(LIBSIMPLEIO)/csharp
 
 include $(CSHARPSRC)/include/csharp.mk
 
-CSCFLAGS	+= -r:$(CSHARPSRC)/libsimpleio.dll
+CSCFLAGS	+= -r:$(LIBSIMPLEIO)/dotnet/libsimpleio.dll
 
 # Compile the test programs
 
 default:
-	install -cm 0644 $(CSHARPSRC)/libsimpleio.dll .
+	install -cm 0644 $(LIBSIMPLEIO)/dotnet/libsimpleio.dll .
 	for F in *.cs ; do $(MAKE) `basename $$F .cs`.exe ; done
 
 # Remove working files
