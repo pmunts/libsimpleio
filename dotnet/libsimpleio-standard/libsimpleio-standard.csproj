@@ -26,22 +26,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\bindings\*.cs">
+    <Compile Include="..\..\csharp\bindings\*.cs">
       <Link>IO.Bindings\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\devices\*.cs">
+    <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\interfaces\*.cs">
+    <Compile Include="..\..\csharp\interfaces\*.cs">
       <Link>IO.Interfaces\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\objects\*.cs">
+    <Compile Include="..\..\csharp\objects\*.cs">
       <Link>IO.Objects\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\platforms\*.cs">
+    <Compile Include="..\..\csharp\platforms\*.cs">
       <Link>IO.Platforms\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\remoteio\*.cs">
+    <Compile Include="..\..\csharp\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>
     </Compile>
   </ItemGroup>
