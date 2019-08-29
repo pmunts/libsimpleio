@@ -37,7 +37,7 @@
     <Reference Include="Elements">
       <Private>True</Private>
     </Reference>
-    <NuGetReference Include="libremoteio:*">
+    <NuGetReference Include="libremoteio-standard:*">
       <Private>True</Private>
     </NuGetReference>
   </ItemGroup>
