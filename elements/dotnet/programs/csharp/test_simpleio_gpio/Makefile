@@ -20,11 +20,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Override the following macro to build out of tree
-
-EMBLINUXBASE    ?= $(HOME)/muntsos
-
 ifneq ($(BOARDNAME),)
+# Override the following macro to build out of tree
+EMBLINUXBASE    ?= $(HOME)/muntsos
 # Cross compile
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 else
