@@ -61,10 +61,7 @@ $(PKGDIR): coreapp_mk_build
 	find $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 	touch $@
 
-$(PKGFILE): $(PKGDIR)
-	chmod -R ugo-w $(PKGDIR)/usr
-	fakeroot dpkg-deb -Zgzip --build $(PKGDIR)
-	chmod -R u+w $(PKGDIR)/usr
+include $(LIBSIMPLEIO)/include/dpkg.mk
 
 coreapp_mk_deb: $(PKGFILE)
 
