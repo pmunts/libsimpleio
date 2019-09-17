@@ -34,7 +34,7 @@ PKGNAME		:= munts-libsimpleio
 PKGVERSION	:= $(shell date +%Y.%j)$(BUILDNUM)
 PKGARCH		:= $(shell dpkg --print-architecture)
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
-PKGFILE		:= $(PKGDIR).deb
+DEBFILE		:= $(PKGDIR).deb
 else
 # Definitions for cross-compiling for MuntsOS embedded Linux
 
@@ -46,7 +46,7 @@ PKGNAME		:= gcc-$(TOOLCHAIN_NAME)-libsimpleio
 PKGVERSION	:= $(shell date +%Y.%j)$(BUILDNUM)
 PKGARCH		:= all
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
-PKGFILE		:= $(PKGDIR).deb
+DEBFILE		:= $(PKGDIR).deb
 endif
 
 include include/dpkg.mk
@@ -129,7 +129,7 @@ else
 	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/prerm
 endif
 
-package.deb: $(PKGFILE)
+package.deb: $(DEBFILE)
 
 # Remove working files
 
