@@ -31,6 +31,6 @@ GAINROOT ?= fakeroot
 	chmod -R ugo-w $(PKGDIR)/*
 	chmod -R u+w $(PKGDIR)/DEBIAN
 	$(GAINROOT) chown -R root.root $(PKGDIR)
-	$(GAINROOT) dpkg-deb --build $(PKGDIR)
+	$(GAINROOT) dpkg-deb -Zgzip --build $(PKGDIR)
 	$(GAINROOT) chown -R --reference=Makefile $(PKGDIR) $(PKGFILE)
 	chmod -R u+w $(PKGDIR)
