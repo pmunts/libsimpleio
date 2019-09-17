@@ -25,12 +25,12 @@
 
 GAINROOT ?= fakeroot
 
-# Define a pattern rule for building Debian packages
+# Define a pattern rule for a Debian package
 
 %.deb: %
-	chmod -R ugo-w $(PKGDIR)/*
-	chmod -R u+w $(PKGDIR)/DEBIAN
-	$(GAINROOT) chown -R root.root $(PKGDIR)
-	$(GAINROOT) dpkg-deb -Zgzip --build $(PKGDIR)
-	$(GAINROOT) chown -R --reference=Makefile $(PKGDIR) $(DEBFILE)
-	chmod -R u+w $(PKGDIR)
+	chmod -R ugo-w $</*
+	chmod -R u+w $</DEBIAN
+	$(GAINROOT) chown -R root.root $<
+	$(GAINROOT) dpkg-deb -Zgzip --build $<
+	$(GAINROOT) chown -R --reference=Makefile $< $@
+	chmod -R u+w $<
