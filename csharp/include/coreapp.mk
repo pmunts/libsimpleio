@@ -31,11 +31,9 @@ PKGNAME		= $(shell echo $(COREAPPNAME) | tr '[_]' '[\-]')
 PKGVERSION	= $(shell date +%Y.%j)
 PKGARCH		= all
 PKGDIR		= $(PKGNAME)-$(PKGVERSION)-$(PKGARCH)
-PKGFILE		= $(PKGDIR).deb
-
-TAR		?= tar
-TARROOT		?= fakeroot
-TARFLAGS	?= --owner=root --group=root --mode=ugo-w
+DEBFILE		= $(PKGDIR).deb
+RPMFILE		= $(PKGDIR).rpm
+TARFILE		= $(PKGDIR).tgz
 
 # Compile the application
 
@@ -61,24 +59,25 @@ $(PKGDIR): coreapp_mk_build
 	find $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 	touch $@
 
+# Build a Debian package file
+
 include $(LIBSIMPLEIO)/include/dpkg.mk
 
-coreapp_mk_deb: $(PKGFILE)
+coreapp_mk_deb: $(DEBFILE)
 
-# Pack the application into a distribution tarball
+# Build an RPM package file
 
-coreapp_mk_tarball: coreapp_mk_build
-	mkdir -p 						$(TARROOT)/$(COREAPPBIN)
-	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(TARROOT)/$(COREAPPBIN)/$(COREAPPNAME)
-	chmod 755						$(TARROOT)/$(COREAPPBIN)/$(COREAPPNAME)
-	mkdir -p 						$(TARROOT)/$(COREAPPLIB)
-	cp -R -P -p $(COREAPPPUB)/*.dll				$(TARROOT)/$(COREAPPLIB)
-	cp -R -P -p $(COREAPPPUB)/*.json			$(TARROOT)/$(COREAPPLIB)
-	find $(TARROOT)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
-	find $(TARROOT)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
-	cd $(TARROOT) && $(TAR) czf ../$(COREAPPNAME).tgz * $(TARFLAGS)
+include $(LIBSIMPLEIO)/include/rpm.mk
+
+coreapp_mk_rpm: $(RPMFILE)
+
+# Build an application tarball file
+
+include $(LIBSIMPLEIO)/include/tarball.mk
+
+coreapp_mk_tarball: $(TARFILE)
 
 # Remove working files
 
 coreapp_mk_clean: csharp_mk_clean
-	rm -rf $(PKGDIR) $(TARROOT) *.tgz *.deb
+	rm -rf $(PKGDIR) rpmbuild specfile *.deb *.rpm *.tgz
