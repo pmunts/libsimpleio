@@ -28,6 +28,7 @@ LICENSE		?= Unknown
 
 %.rpm: %
 	cp $(LIBSIMPLEIO)/include/specfile.template specfile
+	chmod 644 specfile
 	sed -i 's/@@NAME@@/$(PKGNAME)/g' specfile
 	sed -i 's/@@SUMMARY@@/$(PKGNAME)/g' specfile
 	sed -i 's/@@VERSION@@/$(PKGVERSION)/g' specfile
