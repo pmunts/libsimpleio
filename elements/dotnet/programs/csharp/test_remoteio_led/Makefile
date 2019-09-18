@@ -1,4 +1,4 @@
-# Generic Makefile template for RemObjects Elements .Net Core applications
+# Makefile for building RemObjects Elements .Net Core applications
 
 # Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 #
@@ -37,7 +37,9 @@ ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
 default: coreapp_mk_build
 
-package: coreapp_mk_deb
+deb: coreapp_mk_deb
+
+rpm: coreapp_mk_rpm
 
 tarball: coreapp_mk_tarball
 
