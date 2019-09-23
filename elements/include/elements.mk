@@ -46,4 +46,4 @@ elements_mk_build:
 
 elements_mk_clean:
 	rm -rf bin obj Bin Obj *.dll *.exe *.json *.log *.mdb *.nupkg *.pdb *.xml *~ *.cache *.user
-	-$(CSHARPSRC)/include/vsclean.sh
+	$(LIBSIMPLEIO)/include/vsclean.sh
