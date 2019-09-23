@@ -30,7 +30,6 @@ else
 LIBSIMPLEIO     ?= /usr/local/share/libsimpleio
 endif
 
-CSHARPSRC	?= $(LIBSIMPLEIO)/csharp
 ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
 # Build the project
@@ -49,6 +48,5 @@ clean: elements_mk_clean coreapp_mk_clean
 
 # Include subordinate makefiles
 
-include $(CSHARPSRC)/include/csharp.mk
 include $(ELEMENTSSRC)/include/elements.mk
 include $(ELEMENTSSRC)/dotnet/include/coreapp.mk

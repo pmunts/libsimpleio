@@ -43,7 +43,7 @@ coreapp_mk_build: elements_mk_build
 
 $(PKGDIR): coreapp_mk_build
 	mkdir -p						$(PKGDIR)/DEBIAN
-	install -cm 0644 $(CSHARPSRC)/include/coreapp.control	$(PKGDIR)/DEBIAN/control
+	install -cm 0644 $(ELEMENTSSRC)/dotnet/include/coreapp.control	$(PKGDIR)/DEBIAN/control
 	sed -i s/@@NAME@@/$(PKGNAME)/g				$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
 	mkdir -p 						$(PKGDIR)/$(COREAPPBIN)
@@ -78,5 +78,5 @@ coreapp_mk_tarball: $(TARFILE)
 
 # Remove working files
 
-coreapp_mk_clean: elements_mk_clean csharp_mk_clean
+coreapp_mk_clean: elements_mk_clean
 	rm -rf $(PKGDIR) rpmbuild specfile *.deb *.rpm *.tgz
