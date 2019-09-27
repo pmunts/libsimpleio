@@ -23,18 +23,19 @@
 BUILDARCH	?= noarch
 GROUP		?= Applications
 LICENSE		?= Unknown
+SED		?= sed
 
 # Define a pattern rule for building RPM packages
 
 %.rpm: %
 	cp $(LIBSIMPLEIO)/include/specfile.template specfile
 	chmod 644 specfile
-	sed -i 's/@@NAME@@/$(PKGNAME)/g' specfile
-	sed -i 's/@@SUMMARY@@/$(PKGNAME)/g' specfile
-	sed -i 's/@@VERSION@@/$(PKGVERSION)/g' specfile
-	sed -i 's/@@BUILDARCH@@/$(BUILDARCH)/g' specfile
-	sed -i 's/@@GROUP@@/$(GROUP)/g' specfile
-	sed -i 's/@@LICENSE@@/$(LICENSE)/g' specfile
+	$(SED) -i 's/@@NAME@@/$(PKGNAME)/g' specfile
+	$(SED) -i 's/@@SUMMARY@@/$(PKGNAME)/g' specfile
+	$(SED) -i 's/@@VERSION@@/$(PKGVERSION)/g' specfile
+	$(SED) -i 's/@@BUILDARCH@@/$(BUILDARCH)/g' specfile
+	$(SED) -i 's/@@GROUP@@/$(GROUP)/g' specfile
+	$(SED) -i 's/@@LICENSE@@/$(LICENSE)/g' specfile
 	cd $? && find * -type d -exec echo "%dir /{}" ";" | grep -v DEBIAN >>../specfile
 	cd $? && find * -type f -exec echo "/{}" ";" | grep -v DEBIAN >>../specfile
 	rpmbuild --buildroot=`pwd`/$? --define="_topdir `pwd`/rpmbuild" -bb specfile
