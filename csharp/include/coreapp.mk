@@ -38,7 +38,7 @@ TARFILE		= $(PKGDIR).tgz
 # Compile the application
 
 coreapp_mk_build:
-	dotnet publish $(COREAPPPROJ) -c $(CONFIGURATION)
+	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) $(COREAPPPROJ)
 
 # Pack the application into a Debian package file
 
