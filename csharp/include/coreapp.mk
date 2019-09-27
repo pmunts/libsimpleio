@@ -37,10 +37,44 @@ TARFILE		= $(PKGDIR).tgz
 
 SED		?= sed
 
+# Set a reasonable default architecture for single file deliverables
+
+ifeq ($(shell uname), Darwin)
+DOTNETARCH	?= osx-x64
+endif
+
+ifeq ($(shell uname), Linux)
+ifeq ($(shell uname -m), aarch64)
+DOTNETARCH	?= linux-arm64
+endif
+ifeq ($(shell uname -m), armhf)
+DOTNETARCH	?= linux-arm
+endif
+ifeq ($(shell uname -m), x86_64)
+DOTNETARCH	?= linux-x64
+endif
+endif
+
+ifeq ($(OS), Windows_NT)
+DOTNETARCH	?= win-x64
+endif
+
 # Compile the application
 
 coreapp_mk_build:
 	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) $(COREAPPPROJ)
+
+# Build a single file deliverable without runtime included
+
+coreapp_mk_single:
+	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) -r $(DOTNETARCH) /p:PublishSingleFile=true --self-contained false $(COREAPPPROJ)
+	cp bin/Release/netcoreapp3.0/$(DOTNETARCH)/publish/$(COREAPPNAME) .
+
+# Build a single file deliverable with runtime include
+
+coreapp_mk_selfcontained:
+	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) -r $(DOTNETARCH) /p:PublishSingleFile=true --self-contained true $(COREAPPPROJ)
+	cp bin/Release/netcoreapp3.0/$(DOTNETARCH)/publish/$(COREAPPNAME) .
 
 # Pack the application into a Debian package file
 
@@ -82,4 +116,4 @@ coreapp_mk_tarball: $(TARFILE)
 # Remove working files
 
 coreapp_mk_clean: csharp_mk_clean
-	rm -rf $(PKGDIR) rpmbuild specfile *.deb *.rpm *.tgz
+	rm -rf $(COREAPPNAME) $(PKGDIR) rpmbuild specfile *.deb *.rpm *.tgz
