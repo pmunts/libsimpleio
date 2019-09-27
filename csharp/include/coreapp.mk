@@ -22,7 +22,7 @@
 
 COREAPPNAME	?= $(shell basename *.csproj .csproj)
 COREAPPPROJ	?= $(COREAPPNAME).csproj
-COREAPPPUB	?= bin/$(CONFIGURATION)/netcoreapp2.2/publish
+COREAPPPUB	?= bin/$(CONFIGURATION)/netcoreapp3.0/publish
 COREAPPDEST	?= /usr/local
 COREAPPLIB	?= $(COREAPPDEST)/lib/$(COREAPPNAME)
 COREAPPBIN	?= $(COREAPPDEST)/bin
