@@ -35,6 +35,8 @@ DEBFILE		= $(PKGDIR).deb
 RPMFILE		= $(PKGDIR).rpm
 TARFILE		= $(PKGDIR).tgz
 
+SED		?= sed
+
 # Compile the application
 
 coreapp_mk_build:
@@ -45,8 +47,8 @@ coreapp_mk_build:
 $(PKGDIR): coreapp_mk_build
 	mkdir -p						$(PKGDIR)/DEBIAN
 	install -cm 0644 $(CSHARPSRC)/include/coreapp.control	$(PKGDIR)/DEBIAN/control
-	sed -i s/@@NAME@@/$(PKGNAME)/g				$(PKGDIR)/DEBIAN/control
-	sed -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
+	$(SED) -i s/@@NAME@@/$(PKGNAME)/g				$(PKGDIR)/DEBIAN/control
+	$(SED) -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
 	mkdir -p 						$(PKGDIR)/$(COREAPPBIN)
 	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
 	chmod 755						$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
