@@ -28,7 +28,7 @@ TEMPLATEDIR	?= $(HOME)/Documents/Visual Studio 2019/Templates/ProjectTemplates
 
 %.zip: %.d
 	rm -f $@
-	cd $< ; zip ../$@ *
+	cd $< ; zip -r ../$@ *
 
 # Define a pattern rule for unpacking a template archive
 
