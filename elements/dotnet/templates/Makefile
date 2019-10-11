@@ -20,7 +20,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+ifeq ($(OS), Windows_NT)
 TEMPLATEDIR	?= $(HOME)/Documents/Visual Studio 2019/Templates/ProjectTemplates
+endif
 
 ###############################################################################
 
@@ -51,7 +53,9 @@ unpackall:
 # Install template archives
 
 install:
-	install -cm 0644 *.zip "$(TEMPLATEDIR)"
+ifeq ($(OS), Windows_NT)
+	for A in *.zip ; do install -cm 0644 $$A "$(TEMPLATEDIR)" ; done
+endif
 
 # Remove working files
 
