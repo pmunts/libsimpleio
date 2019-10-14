@@ -130,7 +130,7 @@ IMPLEMENTATION
       RAISE GPIO.Error.Create('ERROR: libGPIO.Configure() failed, ' +
         errno.strerror(error));
 
-    Self.inp := (dir == GPIO.Input);
+    Self.inp := (dir = GPIO.Input);
     Self.int := (Edge <> None);
   END;
 
