@@ -62,6 +62,7 @@ INTERFACE
       PROPERTY state : Boolean READ Read WRITE Write;
     PRIVATE
       fd  : Integer;
+      inp : Boolean;
       int : Boolean;
     END;
 
@@ -129,6 +130,7 @@ IMPLEMENTATION
       RAISE GPIO.Error.Create('ERROR: libGPIO.Configure() failed, ' +
         errno.strerror(error));
 
+    Self.inp := (dir == GPIO.Input);
     Self.int := (Edge <> None);
   END;
 
@@ -207,8 +209,8 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-    IF Self.int THEN
-      RAISE GPIO.Error.Create('ERROR: Cannot write to interrupt input');
+    IF Self.inp THEN
+      RAISE GPIO.Error.Create('ERROR: Cannot write to input pin');
 
     libGPIO.LineWrite(Self.fd, Ord(state), error);
 
