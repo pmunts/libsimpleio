@@ -63,4 +63,22 @@ PACKAGE BODY WebClient IS
     RETURN aws.Response.Message_Body(resp);
   END Get;
 
+  FUNCTION Get(URL : Unbounded_String) RETURN String IS
+
+  BEGIN
+    RETURN Get(To_String(URL));
+  END Get;
+
+  FUNCTION Get(URL : String) RETURN Unbounded_String IS
+
+  BEGIN
+    RETURN To_Unbounded_String(Get(URL));
+  END Get;
+
+  FUNCTION Get(URL : Unbounded_String) RETURN Unbounded_String IS
+
+  BEGIN
+    RETURN To_Unbounded_String(Get(To_String(URL)));
+  END Get;
+
 END WebClient;

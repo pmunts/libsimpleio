@@ -20,10 +20,18 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
+
 PACKAGE WebClient IS
 
   FUNCTION GetProxy(URL : String) RETURN String;
 
   FUNCTION Get(URL : String) RETURN String;
+
+  FUNCTION Get(URL : Unbounded_String) RETURN String;
+
+  FUNCTION Get(URL : String) RETURN Unbounded_String;
+
+  FUNCTION Get(URL : Unbounded_String) RETURN Unbounded_String;
 
 END WebClient;
