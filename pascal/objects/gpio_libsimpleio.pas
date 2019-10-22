@@ -127,7 +127,7 @@ IMPLEMENTATION
       Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE GPIO.Error.Create('ERROR: libGPIO.Configure() failed, ' +
+      RAISE GPIO.Error.Create('ERROR: libGPIO.LineOpen() failed, ' +
         errno.strerror(error));
 
     Self.inp := (dir = GPIO.Input);
@@ -154,7 +154,7 @@ IMPLEMENTATION
     libGPIO.LineOpen(chip, line, flags, events, Ord(state), Self.fd, error);
 
     IF error <> 0 THEN
-      RAISE GPIO.Error.Create('ERROR: libGPIO.Configure() failed, ' +
+      RAISE GPIO.Error.Create('ERROR: libGPIO.LineOpen() failed, ' +
         errno.strerror(error));
 
     Self.int := (edge <> None);
