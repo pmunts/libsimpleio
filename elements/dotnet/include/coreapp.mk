@@ -20,6 +20,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+ifeq ($(shell uname), Darwin)
+EBUILDFLAGS	+= --setting:AdditionalReferencePaths=/Applications/Fire.app/Contents/Resources/References
+endif
+
 COREAPPNAME	?= $(shell basename *.elements .elements)
 COREAPPPROJ	?= $(COREAPPNAME).elements
 COREAPPPUB	?= Bin/Release
