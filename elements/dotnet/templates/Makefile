@@ -20,8 +20,16 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+ifeq ($(shell uname), Darwin)
+FIRETEMPLATES	?= $(HOME)/"Library/Application Support/RemObjects Software/Elements/Templates"
+CSHARPTEMPLATES	:= $(FIRETEMPLATES)/Hydrogene/Echoes/Projects/Core
+JAVATEMPLATES	:= $(FIRETEMPLATES)/Iodine/Echoes/Projects/Core
+PASCALTEMPLATES	:= $(FIRETEMPLATES)/Oxygene/Echoes/Projects/Core
+SWIFTTEMPLATES	:= $(FIRETEMPLATES)/Silver/Echoes/Projects/Core
+endif
+
 ifeq ($(OS), Windows_NT)
-TEMPLATEDIR	?= $(HOME)/Documents/Visual Studio 2019/Templates/ProjectTemplates
+VSTEMPLATES	?= $(HOME)/Documents/Visual Studio 2019/Templates/ProjectTemplates
 endif
 
 ###############################################################################
@@ -38,6 +46,37 @@ endif
 	mkdir -p $@
 	cd $@ ; unzip ../$<
 
+# Define a pattern rule for installing a template for Windows Visual Studio
+
+ifeq ($(OS), Windows_NT)
+%.install: %.zip
+	install -cm 0644 $< "$(VSTEMPLATES)"
+endif
+
+# Define pattern rules for installing a template for MacOS Fire
+
+ifeq ($(shell uname), Darwin)
+csharp%.install: csharp%.zip
+	rm -rf $(CSHARPTEMPLATES)/`basename $@ .install`
+	mkdir -p $(CSHARPTEMPLATES)/`basename $@ .install`
+	unzip $< -d $(CSHARPTEMPLATES)/`basename $@ .install`
+
+java%.install: java%.zip
+	rm -rf $(JAVATEMPLATES)/`basename $@ .install`
+	mkdir -p $(JAVATEMPLATES)/`basename $@ .install`
+	unzip $< -d $(JAVATEMPLATES)/`basename $@ .install`
+
+pascal%.install: pascal%.zip
+	rm -rf $(PASCALTEMPLATES)/`basename $@ .install`
+	mkdir -p $(PASCALTEMPLATES)/`basename $@ .install`
+	unzip $< -d $(PASCALTEMPLATES)/`basename $@ .install`
+
+swift%.install: swift%.zip
+	rm -rf $(SWIFTTEMPLATES)/`basename $@ .install`
+	mkdir -p $(SWIFTTEMPLATES)/`basename $@ .install`
+	unzip $< -d $(SWIFTTEMPLATES)/`basename $@ .install`
+endif
+
 ###############################################################################
 
 # Pack all template archives
@@ -50,12 +89,10 @@ packall:
 unpackall:
 	for A in *.zip ; do $(MAKE) `basename $$A .zip`.d ; done
 
-# Install template archives
+# Install all template archives
 
 install:
-ifeq ($(OS), Windows_NT)
-	for A in *.zip ; do install -cm 0644 $$A "$(TEMPLATEDIR)" ; done
-endif
+	for A in *.zip ; do $(MAKE) `basename $$A .zip`.install ; done
 
 # Remove working files
 
