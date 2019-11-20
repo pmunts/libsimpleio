@@ -30,6 +30,12 @@ endif
 
 ifeq ($(OS), Windows_NT)
 VSTEMPLATES	?= $(HOME)/Documents/Visual Studio 2019/Templates/ProjectTemplates
+
+WATERTEMPLATES	?= $(HOME)/"Application Data/RemObjects Software/Elements/Templates"
+CSHARPTEMPLATES	:= $(WATERTEMPLATES)/Hydrogene/Echoes/Projects/Core
+JAVATEMPLATES	:= $(WATERTEMPLATES)/Iodine/Echoes/Projects/Core
+PASCALTEMPLATES	:= $(WATERTEMPLATES)/Oxygene/Echoes/Projects/Core
+SWIFTTEMPLATES	:= $(WATERTEMPLATES)/Silver/Echoes/Projects/Core
 endif
 
 ###############################################################################
@@ -46,35 +52,59 @@ endif
 	mkdir -p $@
 	cd $@ ; unzip ../$<
 
-# Define a pattern rule for installing a template for Windows Visual Studio
-
-ifeq ($(OS), Windows_NT)
-%.install: %.zip
-	install -cm 0644 $< "$(VSTEMPLATES)"
-endif
-
 # Define pattern rules for installing a template for MacOS Fire
 
 ifeq ($(shell uname), Darwin)
-csharp%.install: csharp%.zip
-	rm -rf $(CSHARPTEMPLATES)/`basename $@ .install`
-	mkdir -p $(CSHARPTEMPLATES)/`basename $@ .install`
-	unzip $< -d $(CSHARPTEMPLATES)/`basename $@ .install`
+csharp%.installfire: csharp%.zip
+	rm -rf $(CSHARPTEMPLATES)/`basename $@ .installfire`
+	mkdir -p $(CSHARPTEMPLATES)/`basename $@ .installfire`
+	unzip $< -d $(CSHARPTEMPLATES)/`basename $@ .installfire`
 
-java%.install: java%.zip
-	rm -rf $(JAVATEMPLATES)/`basename $@ .install`
-	mkdir -p $(JAVATEMPLATES)/`basename $@ .install`
-	unzip $< -d $(JAVATEMPLATES)/`basename $@ .install`
+java%.installfire: java%.zip
+	rm -rf $(JAVATEMPLATES)/`basename $@ .installfire`
+	mkdir -p $(JAVATEMPLATES)/`basename $@ .installfire`
+	unzip $< -d $(JAVATEMPLATES)/`basename $@ .installfire`
 
-pascal%.install: pascal%.zip
-	rm -rf $(PASCALTEMPLATES)/`basename $@ .install`
-	mkdir -p $(PASCALTEMPLATES)/`basename $@ .install`
-	unzip $< -d $(PASCALTEMPLATES)/`basename $@ .install`
+pascal%.installfire: pascal%.zip
+	rm -rf $(PASCALTEMPLATES)/`basename $@ .installfire`
+	mkdir -p $(PASCALTEMPLATES)/`basename $@ .installfire`
+	unzip $< -d $(PASCALTEMPLATES)/`basename $@ .installfire`
 
-swift%.install: swift%.zip
-	rm -rf $(SWIFTTEMPLATES)/`basename $@ .install`
-	mkdir -p $(SWIFTTEMPLATES)/`basename $@ .install`
-	unzip $< -d $(SWIFTTEMPLATES)/`basename $@ .install`
+swift%.installfire: swift%.zip
+	rm -rf $(SWIFTTEMPLATES)/`basename $@ .installfire`
+	mkdir -p $(SWIFTTEMPLATES)/`basename $@ .installfire`
+	unzip $< -d $(SWIFTTEMPLATES)/`basename $@ .installfire`
+endif
+
+# Define a pattern rule for installing a template for Windows Visual Studio
+
+ifeq ($(OS), Windows_NT)
+%.installvs: %.zip
+	install -cm 0644 $< "$(VSTEMPLATES)"
+endif
+
+# Define pattern rules for installing a template for Windows water
+
+ifeq ($(OS), Windows_NT)
+csharp%.installwater: csharp%.zip
+	rm -rf $(CSHARPTEMPLATES)/`basename $@ .installwater`
+	mkdir -p $(CSHARPTEMPLATES)/`basename $@ .installwater`
+	unzip $< -d $(CSHARPTEMPLATES)/`basename $@ .installwater`
+
+java%.installwater: java%.zip
+	rm -rf $(JAVATEMPLATES)/`basename $@ .installwater`
+	mkdir -p $(JAVATEMPLATES)/`basename $@ .installwater`
+	unzip $< -d $(JAVATEMPLATES)/`basename $@ .installwater`
+
+pascal%.installwater: pascal%.zip
+	rm -rf $(PASCALTEMPLATES)/`basename $@ .installwater`
+	mkdir -p $(PASCALTEMPLATES)/`basename $@ .installwater`
+	unzip $< -d $(PASCALTEMPLATES)/`basename $@ .installwater`
+
+swift%.installwater: swift%.zip
+	rm -rf $(SWIFTTEMPLATES)/`basename $@ .installwater`
+	mkdir -p $(SWIFTTEMPLATES)/`basename $@ .installwater`
+	unzip $< -d $(SWIFTTEMPLATES)/`basename $@ .installwater`
 endif
 
 ###############################################################################
@@ -91,8 +121,20 @@ unpackall:
 
 # Install all template archives
 
-install:
-	for A in *.zip ; do $(MAKE) `basename $$A .zip`.install ; done
+ifeq ($(shell uname), Darwin)
+installfire:
+	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installfire ; done
+endif
+
+ifeq ($(OS), Windows_NT)
+installvs:
+	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installvs ; done
+endif
+
+ifeq ($(OS), Windows_NT)
+installwater:
+	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installwater ; done
+endif
 
 # Remove working files
 
