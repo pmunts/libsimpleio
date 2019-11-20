@@ -29,8 +29,7 @@ SWIFTTEMPLATES	:= $(FIRETEMPLATES)/Silver/Echoes/Projects/Core
 endif
 
 ifeq ($(OS), Windows_NT)
-VSTEMPLATES	?= $(HOME)/Documents/Visual Studio 2019/Templates/ProjectTemplates
-
+VSTEMPLATES	?= $(HOME)/"Documents/Visual Studio 2019/Templates/ProjectTemplates"
 WATERTEMPLATES	?= $(HOME)/"Application Data/RemObjects Software/Elements/Templates"
 CSHARPTEMPLATES	:= $(WATERTEMPLATES)/Hydrogene/Echoes/Projects/Core
 JAVATEMPLATES	:= $(WATERTEMPLATES)/Iodine/Echoes/Projects/Core
@@ -80,7 +79,7 @@ endif
 
 ifeq ($(OS), Windows_NT)
 %.installvs: %.zip
-	install -cm 0644 $< "$(VSTEMPLATES)"
+	install -cm 0644 $< $(VSTEMPLATES)
 endif
 
 # Define pattern rules for installing a template for Windows water
