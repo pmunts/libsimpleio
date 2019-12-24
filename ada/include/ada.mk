@@ -75,8 +75,10 @@ GNATMAKEFLAGS	= -D $(ADA_OBJ)
 GNATMAKECFLAGS	+= $(ADA_CFLAGS) $(ADA_INCLUDES)
 GNATMAKELDFLAGS	+= $(ADA_LDFLAGS)
 
-# Definitions for strip
+# Definitions for other GNAT programs
 
+GNATBIND	?= env $(GNATENV) $(GNATPREFIX)gnatbind
+GNATLINK	?= env $(GNATENV) $(GNATPREFIX)gnatlink
 GNATSTRIP	?= env $(GNATENV) $(GNATPREFIX)strip
 
 # Definitions for gprbuild
