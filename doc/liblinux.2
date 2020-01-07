@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH liblinux 2 "21 December 2018" "version 1" "Linux Simple I/O Library"
+.TH liblinux 2 "7 January 2019" "version 1" "Linux Simple I/O Library"
 .SH NAME
 .B liblinux
 \-\- Linux Simple I/O Library: Linux System Call Wrapper Module
@@ -37,8 +37,10 @@
 
 .BI "void LINUX_syslog(int32_t " priority ", const char *" msg ", int32_t *" error ");"
 
-.BI "void LINUX_strerror(int32_t " error ", char *" buf ", int32_t " bufsize ");"
+.BI "int32_t LINUX_errno(void);"
 
+.BI "void LINUX_strerror(int32_t " error ", char *" buf ", int32_t " bufsize ");"
+)
 .BI "void LINUX_poll(int32_t " numfiles ", int32_t *" files ", int32_t *" events ","
 .BI "  int32_t *" results ", int32_t " timeout ", int32_t *" error ");"
 
@@ -94,6 +96,11 @@ message logger. The
 parameter accepts the same values as the
 .B syslog()
 system library function.
+.PP
+.B LINUX_errno()
+returns the current value of the
+.B errno
+variable.
 .PP
 .B LINUX_strerror()
 retrieves the error message for the

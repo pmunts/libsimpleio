@@ -105,6 +105,10 @@ INTERFACE
     msg       : PChar;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_syslog';
 
+  { Retrieve errno }
+
+  FUNCTION ErrNo : Integer; CDECL; EXTERNAL NAME 'LINUX_errno';
+
   { Retrieve an error message }
 
   PROCEDURE StrError

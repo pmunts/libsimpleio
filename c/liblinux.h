@@ -50,6 +50,10 @@ extern void LINUX_openlog(const char *id, int32_t options, int32_t facility,
 
 extern void LINUX_syslog(int32_t priority, const char *msg, int32_t *error);
 
+// Retrieve errno value
+
+extern int32_t LINUX_errno(void);
+
 // Retrieve errno message
 
 extern void LINUX_strerror(int32_t error, char *buf, int32_t bufsize);

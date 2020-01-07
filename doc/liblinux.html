@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of liblinux</TITLE>
 </HEAD><BODY>
 <H1>liblinux</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 7 January 2019<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -26,8 +26,10 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#
 
 <B>void LINUX_syslog(int32_t </B><I>priority</I><B>, const char *</B><I>msg</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void LINUX_strerror(int32_t </B><I>error</I><B>, char *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>);</B>
+<B>int32_t LINUX_errno(void);</B>
 
+<B>void LINUX_strerror(int32_t </B><I>error</I><B>, char *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>);</B>
+)
 <B>void LINUX_poll(int32_t </B><I>numfiles</I><B>, int32_t *</B><I>files</I><B>, int32_t *</B><I>events</I><B>,</B>
 <B>  int32_t *</B><I>results</I><B>, int32_t </B><I>timeout</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -108,6 +110,14 @@ parameter accepts the same values as the
 <B>syslog()</B>
 
 system library function.
+<P>
+
+<B>LINUX_errno()</B>
+
+returns the current value of the
+<B>errno</B>
+
+variable.
 <P>
 
 <B>LINUX_strerror()</B>
@@ -216,6 +226,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 09:41:20 GMT, December 21, 2018
+Time: 23:26:28 GMT, January 07, 2020
 </BODY>
 </HTML>
