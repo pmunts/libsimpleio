@@ -87,6 +87,8 @@ public class liblinux
   public static native void LINUX_syslog(int priority, String message,
     IntByReference error);
 
+  public static native int LINUX_errno();
+
   public static native void LINUX_strerror(int error, byte[] buf, int size);
 
   public static native void LINUX_poll(int numfiles, int[] files, int events,

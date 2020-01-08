@@ -86,6 +86,8 @@ DEFINITION MODULE FOR "C" liblinux;
     message      : ARRAY OF CHAR;
     VAR error    : CARDINAL);
 
+  PROCEDURE LINUX_errno() : CARDINAL;
+
   PROCEDURE LINUX_strerror
    (error        : CARDINAL;
     buf          : ARRAY OF CHAR;
@@ -121,11 +123,14 @@ DEFINITION MODULE FOR "C" liblinux;
   (* Define some useful procedure synonyms *)
 
   CONST
-    openlog      = LINUX_openlog;
-    syslog       = LINUX_syslog;
-    strerror     = LINUX_strerror;
-    poll         = LINUX_poll;
-    usleep       = LINUX_usleep;
-    command      = LINUX_command;
+    detach          = LINUX_detach;
+    drop_privileges = LINUX_drop_privileges;
+    openlog         = LINUX_openlog;
+    syslog          = LINUX_syslog;
+    errno           = LINUX_errno;
+    strerror        = LINUX_strerror;
+    poll            = LINUX_poll;
+    usleep          = LINUX_usleep;
+    command         = LINUX_command;
 
 END liblinux.
