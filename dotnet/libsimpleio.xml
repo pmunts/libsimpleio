@@ -884,6 +884,12 @@
             <param name="error">Error code.  Zero upon success or an
             <c>errno</c> value upon failure.</param>
         </member>
+        <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_errno">
+            <summary>
+            Fetch the value of <c>errno</c>.
+            </summary>
+            <returns>Current value of <c>errno</c>.</returns>
+        </member>
         <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_strerror(System.Int32,System.Text.StringBuilder,System.Int32)">
             <summary>
             Retrieve the error message for a particular <c>errno</c>
@@ -944,6 +950,13 @@
             Sleep for the specified number of microseconds.
             </summary>
             <param name="microsecs">Number of microseconds to sleep.</param>
+            <param name="error">Error code.</param>
+        </member>
+        <member name="M:IO.Bindings.libsimpleio.libLinux.LINUX_command(System.String,System.Int32@)">
+            <summary>
+            Execute a shell command string.
+            </summary>
+            <param name="cmd">Command string.</param>
             <param name="error">Error code.</param>
         </member>
         <member name="T:IO.Bindings.libsimpleio.libPWM">

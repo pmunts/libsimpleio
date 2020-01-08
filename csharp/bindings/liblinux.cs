@@ -1,6 +1,6 @@
 // C# binding for system call wrappers in libsimpleio.so
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -196,6 +196,13 @@ namespace IO.Bindings.libsimpleio
             out int error);
 
         /// <summary>
+        /// Fetch the value of <c>errno</c>.
+        /// </summary>
+        /// <returns>Current value of <c>errno</c>.</returns>
+        [DllImport("simpleio")]
+        public static extern int LINUX_errno();
+
+        /// <summary>
         /// Retrieve the error message for a particular <c>errno</c>
         /// error code.
         /// </summary>
@@ -256,5 +263,13 @@ namespace IO.Bindings.libsimpleio
         /// <param name="error">Error code.</param>
         [DllImport("simpleio")]
         public static extern void LINUX_usleep(int microsecs, out int error);
+        
+        /// <summary>
+        /// Execute a shell command string.
+        /// </summary>
+        /// <param name="cmd">Command string.</param>
+        /// <param name="error">Error code.</param>
+        [DllImport("simpleio")]
+        public static extern void LINUX_command(string cmd, out int error);
     }
 }
