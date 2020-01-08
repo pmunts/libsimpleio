@@ -30,6 +30,8 @@ PACKAGE Modbus IS
 
   Destroyed : CONSTANT Bus;
 
+  -- Constructor for an RTU (serial port) bus object
+
   FUNCTION Create
    (port     : String;
     mode     : SerialMode := RS232;
@@ -38,6 +40,8 @@ PACKAGE Modbus IS
     databits : Natural := 8;
     stopbits : Natural := 1;
     debug    : Boolean := False) RETURN Bus;
+
+  -- Initializer for an RTU (serial port) bus object
 
   PROCEDURE Initialize
    (Self     : IN OUT Bus;
@@ -48,6 +52,23 @@ PACKAGE Modbus IS
     databits : Natural := 8;
     stopbits : Natural := 1;
     debug    : Boolean := False);
+
+  -- Constructor for a TCP bus object
+
+  FUNCTION Create
+   (host    : String;
+    service : String;
+    debug   : Boolean := False) RETURN Bus;
+
+  -- Initializer for a TCP bus object
+
+  PROCEDURE Initialize
+   (Self    : IN OUT Bus;
+    host    : String;
+    service : String;
+    debug   : Boolean := False);
+
+  -- Bus object destructor
 
   PROCEDURE Destroy(Self : IN OUT Bus);
 

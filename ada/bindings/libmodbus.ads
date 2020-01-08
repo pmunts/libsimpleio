@@ -55,6 +55,14 @@ PACKAGE libModbus IS
     data_bit : Integer;
     stop_bit : Integer) RETURN context;
 
+  FUNCTION modbus_new_tcp
+   (addr : String;
+    port : Integer) RETURN context;
+
+  FUNCTION modbus_new_tcp_pi
+   (node    : String;
+    service : String) RETURN context;
+
   PROCEDURE modbus_free
    (ctx : Context);
 
@@ -226,6 +234,8 @@ PACKAGE libModbus IS
   PRAGMA Import(C, modbus_get_float_cdab);
   PRAGMA Import(C, modbus_get_float_dcba);
   PRAGMA Import(C, modbus_new_rtu);
+  PRAGMA Import(C, modbus_new_tcp);
+  PRAGMA Import(C, modbus_new_tcp_pi);
   PRAGMA Import(C, modbus_read_bits);
   PRAGMA Import(C, modbus_read_input_bits);
   PRAGMA Import(C, modbus_read_input_registers);

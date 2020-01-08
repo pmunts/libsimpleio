@@ -39,6 +39,8 @@ PACKAGE BODY Modbus IS
    (libModbus.MODBUS_DEBUG_DISABLE,
     libModbus.MODBUS_DEBUG_ENABLE);
 
+  -- Constructor for an RTU (serial port) bus object
+
   FUNCTION Create
    (port     : String;
     mode     : SerialMode := RS232;
@@ -77,6 +79,8 @@ PACKAGE BODY Modbus IS
     RETURN Bus'(ctx => ctx);
   END Create;
 
+  -- Initializer for an RTU (serial port) bus object
+
   PROCEDURE Initialize
    (Self     : IN OUT Bus;
     port     : String;
@@ -94,6 +98,50 @@ PACKAGE BODY Modbus IS
 
     Self := Create(port, mode, baudrate, parity, databits, stopbits, debug);
   END Initialize;
+
+  -- Constructor for a TCP bus object
+
+  FUNCTION Create
+   (host    : String;
+    service : String;
+    debug   : Boolean := False) RETURN Bus IS
+
+    ctx : libModbus.Context;
+
+  BEGIN
+    ctx := libModbus.modbus_new_tcp_pi(host, service);
+
+    IF ctx = libModbus.Null_Context THEN
+      RAISE Error WITH "modbus_new_tcp_pi() failed, " &
+        libmodbus.error_message;
+    END IF;
+
+    IF libModbus.modbus_set_debug(ctx, DebugModes(debug)) /= 0 THEN
+      RAISE Error WITH "modbus_set_debug() failed, " &
+        libmodbus.error_message;
+    END IF;
+
+    IF libModbus.modbus_connect(ctx) /= 0 THEN
+      RAISE Error WITH "modbus_connect() failed, " &
+        libmodbus.error_message;
+    END IF;
+
+    RETURN Bus'(ctx => ctx);
+  END Create;
+
+  -- Initializer for a TCP bus object
+
+  PROCEDURE Initialize
+   (Self    : IN OUT Bus;
+    host    : String;
+    service : String;
+    debug   : Boolean := False) IS
+
+  BEGIN
+    Self := Create(host, service);
+  END Initialize;
+
+  -- Bus object destructor
 
   PROCEDURE Destroy(Self : IN OUT Bus) IS
 
