@@ -153,7 +153,7 @@ PACKAGE BODY Modbus IS
     libModbus.modbus_close(Self.ctx);
     libModbus.modbus_free(Self.ctx);
 
-    Self.ctx := libModbus.Null_Context;
+    Self := Destroyed;
   END Destroy;
 
 END ModBus;
