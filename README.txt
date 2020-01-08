@@ -66,20 +66,22 @@ News
        at [11]http://repo.munts.com/debian10.
      * 5 August 2019 -- Started adding .Net Core example programs using
        [12]RemObjects Elements.
+     * 8 January 2020 -- Added LINUX_errno(). Added [13]libmodbus bindings
+       and objects for Ada.
 
 Documentation
 
    The user manual for libsimpleio is available at
-   [13]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [14]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at
-   [14]libsimpleio.html
+   [15]libsimpleio.html
 
 Git Repository
 
    The source code is available at:
 
-   [15]https://github.com/pmunts/libsimpleio
+   [16]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -87,11 +89,11 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [16]Debian Linux are available at:
-   [17]http://repo.munts.com/debian10
+   Prebuilt packages for [17]Debian Linux are available at:
+   [18]http://repo.munts.com/debian10
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [18]phil@munts.net
+   Questions or comments to Philip Munts [19]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -110,9 +112,10 @@ References
   10. http://git.munts.com/ada-remoteio-tutorial
   11. http://repo.munts.com/debian10
   12. https://www.elementscompiler.com/elements/
-  13. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  14. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  15. https://github.com/pmunts/libsimpleio
-  16. http://www.debian.org/
-  17. http://repo.munts.com/debian10
-  18. mailto:phil@munts.net
+  13. https://libmodbus.org/
+  14. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  15. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  16. https://github.com/pmunts/libsimpleio
+  17. http://www.debian.org/
+  18. http://repo.munts.com/debian10
+  19. mailto:phil@munts.net

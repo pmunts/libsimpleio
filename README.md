@@ -75,6 +75,8 @@ News
     <http://repo.munts.com/debian10>.
 -   5 August 2019 -- Started adding .Net Core example programs using
     [RemObjects Elements](https://www.elementscompiler.com/elements/).
+-   8 January 2020 -- Added `LINUX_errno()`. Added
+    [libmodbus](https://libmodbus.org) bindings and objects for Ada.
 
 Documentation
 -------------
