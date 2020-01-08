@@ -20,20 +20,56 @@
 
 PACKAGE BODY Modbus.GPIO IS
 
+  -- GPIO pin constructor
+
   FUNCTION Create
    (cont  : Bus;
     slave : Natural;
     kind  : Kinds;
     addr  : Natural) RETURN Standard.GPIO.Pin IS
 
-    p     : PinSubclass;
+    Self  : PinSubclass;
     state : Boolean;
 
   BEGIN
-    p     := PinSubclass'(cont.ctx, slave, kind, addr);
-    state := p.Get;
-    RETURN NEW PinSubclass'(p);
+    Self  := PinSubclass'(cont.ctx, slave, kind, addr);
+    state := Self.Get;
+    RETURN NEW PinSubclass'(Self);
   END Create;
+
+  -- GPIO pin initializer
+
+  PROCEDURE Initialize
+   (Self  : IN OUT PinSubclass;
+    cont  : Bus;
+    slave : Natural;
+    kind  : Kinds;
+    addr  : Natural) IS
+
+    state : Boolean;
+
+  BEGIN
+    IF Self /= Destroyed THEN
+      Self.Destroy;
+    END IF;
+
+    Self := PinSubclass'(cont.ctx, slave, kind, addr);
+    state := Self.get;
+  END Initialize;
+
+  -- GPIO pin object destructor
+
+  PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RETURN;
+    END IF;
+
+    Self := Destroyed;    
+  END Destroy;
+
+  -- Helper to select which slave to communicate with
 
   PROCEDURE SelectSlave(Self : IN OUT PinSubclass) IS
 
@@ -43,21 +79,28 @@ PACKAGE BODY Modbus.GPIO IS
     END IF;
   END SelectSlave;
 
+  -- GPIO pin read method
+
   FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
 
     buf : libModbus.bytearray(0 .. 0);
 
   BEGIN
-    Self.SelectSlave;
-
     CASE Self.kind IS
+      WHEN Unconfigured =>
+        RAISE Error WITH "I/O pin has not been configured";
+
       WHEN Coil =>
+        Self.SelectSlave;
+
         IF libModbus.modbus_read_bits(Self.ctx, Self.addr, 1, buf) /= 1 THEN
           RAISE Error WITH "modbus_read_bits() failed, " &
             libModbus.error_message;
         END IF;
 
       WHEN Input =>
+        Self.SelectSlave;
+
         IF libModbus.modbus_read_input_bits(Self.ctx, Self.addr, 1, buf) /= 1 THEN
           RAISE Error WITH "modbus_read_input_bits() failed, " &
             libModbus.error_message;
@@ -67,22 +110,25 @@ PACKAGE BODY Modbus.GPIO IS
     RETURN Boolean'Val(buf(0));
   END Get;
 
+  -- GPIO pin write method
+
   PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
-    ret : Integer;
-
   BEGIN
-    IF Self.kind = Input THEN
-      RAISE Error WITH "Cannot write to discrete input";
-    END IF;
+    CASE Self.kind IS
+      WHEN Unconfigured =>
+        RAISE Error WITH "I/O pin has not been configured";
 
-    Self.SelectSlave;
+      WHEN Input =>
+        RAISE Error WITH "Cannot write to discrete input";
 
-    ret := libModbus.modbus_write_bit(Self.ctx, Self.addr, Boolean'Pos(state));
+      WHEN Coil =>
+        Self.SelectSlave;
 
-    IF ret /= 1 THEN
-      RAISE Error WITH "modbus_write_bit() failed, " & libModbus.error_message;
-    END IF;
+        IF libModbus.modbus_write_bit(Self.ctx, Self.addr, Boolean'Pos(state)) /= 1 THEN
+          RAISE Error WITH "modbus_write_bit() failed, " & libModbus.error_message;
+        END IF;
+    END CASE;
   END Put;
 
 END ModBus.GPIO;
