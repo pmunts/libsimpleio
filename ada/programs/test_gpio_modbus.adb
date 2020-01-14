@@ -30,7 +30,7 @@ PROCEDURE test_gpio_modbus IS
   port    : String(1 .. 256);
   portlen : Natural;
   slave   : Natural;
-  coil    : Natural;
+  addr    : Natural;
   period  : Duration;
   bus     : ModBus.Bus;
   gpio0   : GPIO.Pin;
@@ -50,13 +50,13 @@ BEGIN
   Get(slave);
 
   Put("Enter coil number:   ");
-  Get(coil);
+  Get(addr);
 
   Put("Period in seconds:   ");
   Get(period);
 
   bus   := Modbus.Create(port(1 .. portlen));
-  gpio0 := Modbus.GPIO.Create(bus, slave, Modbus.GPIO.Coil, coil);
+  gpio0 := Modbus.GPIO.Create(bus, slave, Modbus.GPIO.Coil, addr);
 
   New_Line;
   Put_Line("Press CONTROL-C to stop program.");
