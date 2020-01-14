@@ -22,8 +22,8 @@ WITH GPIO;
 
 PACKAGE Modbus.GPIO IS
 
-  TYPE PinSubclass   IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
-  TYPE Kinds         IS (Unconfigured, Coil, Input);
+  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
+  TYPE Kinds       IS (Input, Coil);
 
   Destroyed : CONSTANT PinSubclass;
 
@@ -33,7 +33,8 @@ PACKAGE Modbus.GPIO IS
    (cont  : Bus;
     slave : Natural;
     kind  : Kinds;
-    addr  : Natural) RETURN Standard.GPIO.Pin;
+    addr  : Natural;
+    state : Boolean := False) RETURN Standard.GPIO.Pin;
 
   -- GPIO pin initializer
 
@@ -42,7 +43,8 @@ PACKAGE Modbus.GPIO IS
     cont  : Bus;
     slave : Natural;
     kind  : Kinds;
-    addr  : Natural);
+    addr  : Natural;
+    state : Boolean := False);
 
   -- GPIO pin object destructor
 
@@ -59,11 +61,11 @@ PRIVATE
   TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
     ctx   : libModbus.Context := libModbus.Null_Context;
     slave : Natural           := Natural'Last;
-    kind  : Kinds             := Unconfigured;
+    kind  : Kinds             := Input;
     addr  : Natural           := Natural'Last;
   END RECORD;
 
   Destroyed : CONSTANT PinSubclass := PinSubclass'(libModbus.Null_Context,
-    Natural'Last, Unconfigured, Natural'Last);
+    Natural'Last, Input, Natural'Last);
 
 END ModBus.GPIO;
