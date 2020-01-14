@@ -25,13 +25,16 @@ WITH Logging.libsimpleio;
 
 PROCEDURE test_syslog IS
 
-  log : Logging.Logger;
+  log : CONSTANT Logging.Logger := Logging.libsimpleio.Create;
 
 BEGIN
-  log := Logging.libsimpleio.Create;
-
   log.Note("Test1");
   log.Warning("Test2");
   log.Error("Test3");
   log.Error("Test4", errno.EINVAL);
+
+  Logging.libsimpleio.Note("Test5");
+  Logging.libsimpleio.Warning("Test6");
+  Logging.libsimpleio.Error("Test7");
+  Logging.libsimpleio.Error("Test8", errno.EINVAL);
 END test_syslog;
