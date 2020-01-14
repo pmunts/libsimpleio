@@ -59,6 +59,16 @@ PACKAGE Logging.libsimpleio IS
 
   PROCEDURE Note(Self : LoggerSubclass; message : String);
 
+  -- The following subprograms are analogous to classwide static methods.
+
+  PROCEDURE Error(message : String);
+
+  PROCEDURE Error(message : String; errnum : Integer);
+
+  PROCEDURE Warning(message : String);
+
+  PROCEDURE Note(message : String);
+
 PRIVATE
 
   TYPE LoggerSubclass IS NEW Logging.LoggerInterface WITH NULL RECORD;

@@ -30,13 +30,11 @@ PACKAGE BODY Logging.libsimpleio IS
       libLinux.LOG_PERROR;
     facility : Integer := libLinux.LOG_SYSLOG) RETURN Logger IS
 
-    error : Integer;
-
-    l : LoggerSubclass;
+    Self : LoggerSubclass;
 
   BEGIN
-    Initialize(l, sender, options, facility);
-    RETURN NEW LoggerSubclass'(l);
+    Initialize(Self, sender, options, facility);
+    RETURN NEW LoggerSubclass'(Self);
   END Create;
 
   PROCEDURE Initialize
@@ -106,6 +104,42 @@ PACKAGE BODY Logging.libsimpleio IS
   -- Log a notification event
 
   PROCEDURE Note(Self : LoggerSubclass; message : String) IS
+
+    err : Integer;
+
+  BEGIN
+    libLinux.Syslog(libLinux.LOG_INFO, "NOTE: " & message & ASCII.NUL, err);
+  END Note;
+
+  -- The following subprograms are analogous to classwide static methods.
+
+  PROCEDURE Error(message : String) IS
+
+    err : Integer;
+
+  BEGIN
+    libLinux.Syslog(libLinux.LOG_ERR, "ERROR: " & message & ASCII.NUL, err);
+  END Error;
+
+  PROCEDURE Error(message : String; errnum : Integer) IS
+
+    err : Integer;
+
+  BEGIN
+    libLinux.Syslog(libLinux.LOG_ERR, "ERROR: " & message & ", " &
+      errno.strerror(errnum) & ASCII.NUL, err);
+  END Error;
+
+  PROCEDURE Warning(message : String) IS
+
+    err : Integer;
+
+  BEGIN
+    libLinux.Syslog(libLinux.LOG_WARNING, "WARNING: " & message & ASCII.NUL,
+      err);
+  END Warning;
+
+  PROCEDURE Note(message : String) IS
 
     err : Integer;
 
