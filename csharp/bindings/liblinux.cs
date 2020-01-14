@@ -263,7 +263,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="error">Error code.</param>
         [DllImport("simpleio")]
         public static extern void LINUX_usleep(int microsecs, out int error);
-        
+
         /// <summary>
         /// Execute a shell command string.
         /// </summary>
