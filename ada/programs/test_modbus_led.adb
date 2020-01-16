@@ -35,7 +35,6 @@ PROCEDURE test_modbus_led IS
   LED     : GPIO.Pin;
 
   PACKAGE Natural_IO IS NEW Ada.Text_IO.Integer_IO(Natural); USE Natural_IO;
-  PACKAGE Duration_IO IS NEW Ada.Text_IO.Fixed_IO(Duration); USE Duration_IO;
 
 BEGIN
   New_Line;
