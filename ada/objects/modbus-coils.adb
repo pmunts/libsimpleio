@@ -18,21 +18,20 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE BODY Modbus.GPIO IS
+PACKAGE BODY Modbus.Coils IS
 
   -- GPIO pin constructor
 
   FUNCTION Create
    (cont  : Bus;
     slave : Natural;
-    kind  : Kinds;
     addr  : Natural;
     state : Boolean := False) RETURN Standard.GPIO.Pin IS
 
     Self  : PinSubclass := Destroyed;
 
   BEGIN
-    Self.Initialize(cont, slave, kind, addr, state);
+    Self.Initialize(cont, slave, addr, state);
     RETURN NEW PinSubclass'(Self);
   END Create;
 
@@ -42,30 +41,15 @@ PACKAGE BODY Modbus.GPIO IS
    (Self  : IN OUT PinSubclass;
     cont  : Bus;
     slave : Natural;
-    kind  : Kinds;
     addr  : Natural;
     state : Boolean := False) IS
 
     dummy : Boolean;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
-
-    -- Populate the pin object
-
-    Self := PinSubclass'(cont.ctx, slave, kind, addr);
-
-    -- Read from an input pin or write to an output pin
-
-    CASE kind IS
-      WHEN Input =>
-        dummy := Self.Get;
-
-      WHEN Coil =>
-        Self.Put(state);
-    END CASE;
+    Self.Destroy;
+    Self := PinSubclass'(cont.ctx, slave, addr);
+    Self.Put(state);
   EXCEPTION
     WHEN Error =>
       Self.Destroy;
@@ -84,16 +68,6 @@ PACKAGE BODY Modbus.GPIO IS
     Self := Destroyed;
   END Destroy;
 
-  -- Helper to select which slave to communicate with
-
-  PROCEDURE SelectSlave(Self : IN OUT PinSubclass) IS
-
-  BEGIN
-    IF libModbus.modbus_set_slave(Self.ctx, Self.slave) /= 0 THEN
-      RAISE Error WITH "modbus_set_slave() failed, " & libModbus.error_message;
-    END IF;
-  END SelectSlave;
-
   -- GPIO pin read method
 
   FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
@@ -101,21 +75,12 @@ PACKAGE BODY Modbus.GPIO IS
     buf : libModbus.bytearray(0 .. 0);
 
   BEGIN
-    Self.SelectSlave;
+    SelectSlave(Self.ctx, Self.slave);
 
-    CASE Self.kind IS
-      WHEN Input =>
-        IF libModbus.modbus_read_input_bits(Self.ctx, Self.addr, 1, buf) /= 1 THEN
-          RAISE Error WITH "modbus_read_input_bits() failed, " &
-            libModbus.error_message;
-        END IF;
-
-      WHEN Coil =>
-        IF libModbus.modbus_read_bits(Self.ctx, Self.addr, 1, buf) /= 1 THEN
-          RAISE Error WITH "modbus_read_bits() failed, " &
-            libModbus.error_message;
-        END IF;
-    END CASE;
+    IF libModbus.modbus_read_bits(Self.ctx, Self.addr, 1, buf) /= 1 THEN
+      RAISE Error WITH "modbus_read_bits() failed, " &
+        libModbus.error_message;
+    END IF;
 
     RETURN Boolean'Val(buf(0));
   END Get;
@@ -125,18 +90,12 @@ PACKAGE BODY Modbus.GPIO IS
   PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
   BEGIN
-    Self.SelectSlave;
+    SelectSlave(Self.ctx, Self.slave);
 
-    CASE Self.kind IS
-      WHEN Input =>
-        RAISE Error WITH "Cannot write to a discrete input";
-
-      WHEN Coil =>
-        IF libModbus.modbus_write_bit(Self.ctx, Self.addr, Boolean'Pos(state)) /= 1 THEN
-          RAISE Error WITH "modbus_write_bit() failed, " &
-            libModbus.error_message;
-        END IF;
-    END CASE;
+    IF libModbus.modbus_write_bit(Self.ctx, Self.addr, Boolean'Pos(state)) /= 1 THEN
+      RAISE Error WITH "modbus_write_bit() failed, " &
+        libModbus.error_message;
+    END IF;
   END Put;
 
-END ModBus.GPIO;
+END ModBus.Coils;

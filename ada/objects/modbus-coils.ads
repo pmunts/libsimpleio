@@ -20,10 +20,9 @@
 
 WITH GPIO;
 
-PACKAGE Modbus.GPIO IS
+PACKAGE Modbus.Coils IS
 
   TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
-  TYPE Kinds       IS (Input, Coil);
 
   Destroyed : CONSTANT PinSubclass;
 
@@ -32,7 +31,6 @@ PACKAGE Modbus.GPIO IS
   FUNCTION Create
    (cont  : Bus;
     slave : Natural;
-    kind  : Kinds;
     addr  : Natural;
     state : Boolean := False) RETURN Standard.GPIO.Pin;
 
@@ -42,7 +40,6 @@ PACKAGE Modbus.GPIO IS
    (Self  : IN OUT PinSubclass;
     cont  : Bus;
     slave : Natural;
-    kind  : Kinds;
     addr  : Natural;
     state : Boolean := False);
 
@@ -61,11 +58,10 @@ PRIVATE
   TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
     ctx   : libModbus.Context := libModbus.Null_Context;
     slave : Natural           := Natural'Last;
-    kind  : Kinds             := Input;
     addr  : Natural           := Natural'Last;
   END RECORD;
 
   Destroyed : CONSTANT PinSubclass := PinSubclass'(libModbus.Null_Context,
-    Natural'Last, Input, Natural'Last);
+    Natural'Last, Natural'Last);
 
-END ModBus.GPIO;
+END ModBus.Coils;

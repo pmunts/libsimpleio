@@ -80,4 +80,10 @@ PRIVATE
 
   Destroyed : CONSTANT Bus := Bus'(ctx => libModbus.Null_Context);
 
+  -- Select which slave device to communicate with
+
+  PROCEDURE SelectSlave
+   (ctx   : libModbus.Context;
+    slave : Natural);
+
 END ModBus;

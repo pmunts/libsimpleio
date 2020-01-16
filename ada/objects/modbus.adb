@@ -156,4 +156,16 @@ PACKAGE BODY Modbus IS
     Self := Destroyed;
   END Destroy;
 
+  -- Select which slave device to communicate with
+
+  PROCEDURE SelectSlave
+   (ctx   : libModbus.Context;
+    slave : Natural) IS
+
+  BEGIN
+    IF libModbus.modbus_set_slave(ctx, slave) /= 0 THEN
+      RAISE Error WITH "modbus_set_slave() failed, " & libModbus.error_message;
+    END IF;
+  END SelectSlave;
+
 END ModBus;
