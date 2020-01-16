@@ -1,4 +1,4 @@
--- Modbus GPIO Toggle Test
+-- Modbus LED Test
 
 -- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 --
@@ -39,7 +39,7 @@ PROCEDURE test_modbus_led IS
 
 BEGIN
   New_Line;
-  Put_Line("Modbus GPIO Toggle Test");
+  Put_Line("Modbus LED Test");
   New_Line;
 
   Put("Enter serial port:   ");
