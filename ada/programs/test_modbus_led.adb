@@ -23,17 +23,16 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO;
-WITH Modbus.GPIO;
+WITH Modbus.Coils;
 
-PROCEDURE test_gpio_modbus IS
+PROCEDURE test_modbus_led IS
 
   port    : String(1 .. 256);
   portlen : Natural;
   slave   : Natural;
   addr    : Natural;
-  period  : Duration;
   bus     : ModBus.Bus;
-  gpio0   : GPIO.Pin;
+  LED     : GPIO.Pin;
 
   PACKAGE Natural_IO IS NEW Ada.Text_IO.Integer_IO(Natural); USE Natural_IO;
   PACKAGE Duration_IO IS NEW Ada.Text_IO.Fixed_IO(Duration); USE Duration_IO;
@@ -52,17 +51,14 @@ BEGIN
   Put("Enter coil number:   ");
   Get(addr);
 
-  Put("Period in seconds:   ");
-  Get(period);
-
-  bus   := Modbus.Create(port(1 .. portlen));
-  gpio0 := Modbus.GPIO.Create(bus, slave, Modbus.GPIO.Coil, addr);
+  bus := Modbus.Create(port(1 .. portlen));
+  LED := Modbus.Coils.Create(bus, slave, addr);
 
   New_Line;
   Put_Line("Press CONTROL-C to stop program.");
 
   LOOP
-    gpio0.Put(NOT gpio0.Get);
-    DELAY period;
+    LED.Put(NOT LED.Get);
+    DELAY 0.5;
   END LOOP;
-END test_gpio_modbus;
+END test_modbus_led;
