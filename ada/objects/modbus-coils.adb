@@ -44,8 +44,6 @@ PACKAGE BODY Modbus.Coils IS
     addr  : Natural;
     state : Boolean := False) IS
 
-    dummy : Boolean;
-
   BEGIN
     Self.Destroy;
     Self := PinSubclass'(cont.ctx, slave, addr);
