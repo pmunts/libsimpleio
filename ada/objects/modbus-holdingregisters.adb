@@ -18,45 +18,45 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- Modbus holding registers are READ/WRITE
+-- Modbus (output) holding registers are READ/WRITE or possibly WRITE ONLY
 
 PACKAGE BODY Modbus.HoldingRegisters IS
 
-  -- Holding register constructor
+  -- (Outout) holding register constructor
 
   FUNCTION Create
    (cont  : Bus;
     slave : Natural;
-    addr  : Natural) RETURN Register IS
+    addr  : Natural;
+    state : RegisterData) RETURN Register IS
 
     Self : RegisterClass := Destroyed;
 
   BEGIN
-    Self.Initialize(cont, slave, addr);
+    Self.Initialize(cont, slave, addr, state);
     RETURN NEW RegisterClass'(Self);
   END Create;
 
-  -- Holding register initializer
+  -- (Outout) holding register initializer
 
   PROCEDURE Initialize
    (Self  : IN OUT RegisterClass;
     cont  : Bus;
     slave : Natural;
-    addr  : Natural) IS
-
-    dummy : RegisterData;
+    addr  : Natural;
+    state : RegisterData) IS
 
   BEGIN
     Self.Destroy;
     Self := RegisterClass'(cont.ctx, slave, addr);
-    dummy := Self.Get;
+    Self.Put(state);
   EXCEPTION
     WHEN Error =>
       Self.Destroy;
       RAISE;
   END Initialize;
 
-  -- Holding register destructor
+  -- (Outout) holding register destructor
 
   PROCEDURE Destroy(Self : IN OUT RegisterClass) IS
 
@@ -68,7 +68,7 @@ PACKAGE BODY Modbus.HoldingRegisters IS
     Self := Destroyed;
   END Destroy;
 
-  -- Holding register methods
+  -- (Outout) holding register methods
 
   FUNCTION Get(Self : IN OUT RegisterClass) RETURN RegisterData IS
 

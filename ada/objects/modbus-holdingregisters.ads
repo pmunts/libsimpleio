@@ -18,7 +18,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- Modbus holding registers are READ/WRITE
+-- Modbus (output) holding registers are READ/WRITE
 
 WITH IO_Interfaces;
 
@@ -34,26 +34,28 @@ PACKAGE Modbus.HoldingRegisters IS
 
   Destroyed : CONSTANT RegisterClass;
 
-  -- Holding register constructor
+  -- (Output) holding register constructor
 
   FUNCTION Create
    (cont  : Bus;
     slave : Natural;
-    addr  : Natural) RETURN Register;
+    addr  : Natural;
+    state : RegisterData) RETURN Register;
 
-  -- Holding register initializer
+  -- (Output) holding register initializer
 
   PROCEDURE Initialize
    (Self  : IN OUT RegisterClass;
     cont  : Bus;
     slave : Natural;
-    addr  : Natural);
+    addr  : Natural;
+    state : RegisterData);
 
-  -- Holding register destructor
+  -- (Output) holding register destructor
 
   PROCEDURE Destroy(Self : IN OUT RegisterClass);
 
-  -- Holding register methods
+  -- (Output) holding register methods
 
   FUNCTION Get(Self : IN OUT RegisterClass) RETURN RegisterData;
 
