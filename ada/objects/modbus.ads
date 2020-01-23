@@ -28,7 +28,6 @@ PACKAGE Modbus IS
   TYPE SerialMode    IS (RS232, RS485);
   TYPE ParitySetting IS (None, Even, Odd);
 
-  -- Note: ABCD is network byte order
   TYPE ShortFloatByteOrder IS (ABCD, BADC, CDAB, DCBA);
 
   Destroyed : CONSTANT Bus;
