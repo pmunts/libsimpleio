@@ -28,7 +28,7 @@ PACKAGE BODY Modbus.InputShortFloat IS
    (cont  : Bus;
     slave : Natural;
     addr  : Natural;
-    order : ShortFloatByteOrder := BADC) RETURN Input IS
+    order : ShortFloatByteOrder := ABCD) RETURN Input IS
 
     Self : InputClass := Destroyed;
 
@@ -44,7 +44,7 @@ PACKAGE BODY Modbus.InputShortFloat IS
     cont  : Bus;
     slave : Natural;
     addr  : Natural;
-    order : ShortFloatByteOrder := BADC) IS
+    order : ShortFloatByteOrder := ABCD) IS
 
     dummy : Quantity;
 
@@ -86,16 +86,16 @@ PACKAGE BODY Modbus.InputShortFloat IS
 
     CASE Self.order IS
       WHEN ABCD =>
-        RETURN Quantity(libModbus.modbus_get_float_abcd(buf));
-
-      WHEN BADC =>
         RETURN Quantity(libModbus.modbus_get_float_badc(buf));
 
+      WHEN BADC =>
+        RETURN Quantity(libModbus.modbus_get_float_abcd(buf));
+
       WHEN CDAB =>
-        RETURN Quantity(libModbus.modbus_get_float_cdab(buf));
+        RETURN Quantity(libModbus.modbus_get_float_dcba(buf));
 
       WHEN DCBA =>
-        RETURN Quantity(libModbus.modbus_get_float_dcba(buf));
+        RETURN Quantity(libModbus.modbus_get_float_cdab(buf));
     END CASE;
   END Get;
 

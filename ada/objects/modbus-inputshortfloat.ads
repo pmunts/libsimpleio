@@ -37,7 +37,7 @@ PACKAGE Modbus.InputShortFloat IS
    (cont  : Bus;
     slave : Natural;
     addr  : Natural;
-    order : ShortFloatByteOrder := BADC) RETURN Input;
+    order : ShortFloatByteOrder := ABCD) RETURN Input;
 
   -- Input initializer
 
@@ -46,7 +46,7 @@ PACKAGE Modbus.InputShortFloat IS
     cont  : Bus;
     slave : Natural;
     addr  : Natural;
-    order : ShortFloatByteOrder := BADC);
+    order : ShortFloatByteOrder := ABCD);
 
   -- Input destructor
 
