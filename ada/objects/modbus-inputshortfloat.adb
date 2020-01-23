@@ -28,7 +28,7 @@ PACKAGE BODY Modbus.InputShortFloat IS
    (cont  : Bus;
     slave : Natural;
     addr  : Natural;
-    order : ShortFloatByteOrder := ABCD) RETURN Input IS
+    order : ShortFloatByteOrder := BADC) RETURN Input IS
 
     Self : InputClass := Destroyed;
 
@@ -44,7 +44,7 @@ PACKAGE BODY Modbus.InputShortFloat IS
     cont  : Bus;
     slave : Natural;
     addr  : Natural;
-    order : ShortFloatByteOrder := ABCD) IS
+    order : ShortFloatByteOrder := BADC) IS
 
     dummy : Quantity;
 
