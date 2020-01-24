@@ -26,7 +26,7 @@ EBUILD		?= C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild
 else
 EBUILD		?= /usr/local/bin/ebuild
 endif
-EBUILDPROJECT	?= $(shell basename $(shell pwd)).elements
+EBUILDPROJECT	?= $(shell basename "$(shell pwd)").elements
 EBUILDFLAGS	+= --configuration:$(CONFIGURATION)
 
 # Don't delete intermediate files
