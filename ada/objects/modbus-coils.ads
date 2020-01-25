@@ -18,11 +18,13 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Modbus coils are READ/WRITE or possibly WRITE ONLY
+
 WITH GPIO;
 
 PACKAGE Modbus.Coils IS
 
-  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
+  TYPE PinSubclass IS NEW GPIO.PinInterface WITH PRIVATE;
 
   Destroyed : CONSTANT PinSubclass;
 
@@ -32,7 +34,7 @@ PACKAGE Modbus.Coils IS
    (cont  : Bus;
     slave : Natural;
     addr  : Natural;
-    state : Boolean := False) RETURN Standard.GPIO.Pin;
+    state : Boolean := False) RETURN GPIO.Pin;
 
   -- GPIO pin initializer
 
@@ -55,7 +57,7 @@ PACKAGE Modbus.Coils IS
 
 PRIVATE
 
-  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
+  TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
     ctx   : libModbus.Context := libModbus.Null_Context;
     slave : Natural           := Natural'Last;
     addr  : Natural           := Natural'Last;

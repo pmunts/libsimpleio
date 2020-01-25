@@ -27,7 +27,7 @@ PACKAGE BODY Modbus.DiscreteInputs IS
   FUNCTION Create
    (cont  : Bus;
     slave : Natural;
-    addr  : Natural) RETURN Standard.GPIO.Pin IS
+    addr  : Natural) RETURN GPIO.Pin IS
 
     Self  : PinSubclass := Destroyed;
 

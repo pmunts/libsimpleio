@@ -24,7 +24,7 @@ WITH GPIO;
 
 PACKAGE Modbus.DiscreteInputs IS
 
-  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
+  TYPE PinSubclass IS NEW GPIO.PinInterface WITH PRIVATE;
 
   Destroyed : CONSTANT PinSubclass;
 
@@ -33,7 +33,7 @@ PACKAGE Modbus.DiscreteInputs IS
   FUNCTION Create
    (cont  : Bus;
     slave : Natural;
-    addr  : Natural) RETURN Standard.GPIO.Pin;
+    addr  : Natural) RETURN GPIO.Pin;
 
   -- GPIO pin initializer
 
@@ -55,7 +55,7 @@ PACKAGE Modbus.DiscreteInputs IS
 
 PRIVATE
 
-  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
+  TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
     ctx   : libModbus.Context := libModbus.Null_Context;
     slave : Natural           := Natural'Last;
     addr  : Natural           := Natural'Last;

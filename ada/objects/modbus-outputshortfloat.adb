@@ -18,7 +18,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- Modbus input registers are READ ONLY
+-- Modbus (output) holding registers are READ/WRITE or possibly WRITE ONLY
 
 PACKAGE BODY Modbus.OutputShortFloat IS
 

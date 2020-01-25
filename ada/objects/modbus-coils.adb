@@ -18,6 +18,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Modbus coils are READ/WRITE or possibly WRITE ONLY
+
 PACKAGE BODY Modbus.Coils IS
 
   -- GPIO pin constructor
@@ -26,7 +28,7 @@ PACKAGE BODY Modbus.Coils IS
    (cont  : Bus;
     slave : Natural;
     addr  : Natural;
-    state : Boolean := False) RETURN Standard.GPIO.Pin IS
+    state : Boolean := False) RETURN GPIO.Pin IS
 
     Self  : PinSubclass := Destroyed;
 
