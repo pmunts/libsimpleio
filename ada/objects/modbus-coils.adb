@@ -75,6 +75,10 @@ PACKAGE BODY Modbus.Coils IS
     buf : libModbus.bytearray(0 .. 0);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Coil output has been destroyed";
+    END IF;
+
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_bits(Self.ctx, Self.addr, 1, buf) /= 1 THEN
@@ -90,6 +94,10 @@ PACKAGE BODY Modbus.Coils IS
   PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Coil output has been destroyed";
+    END IF;
+
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_write_bit(Self.ctx, Self.addr, Boolean'Pos(state)) /= 1 THEN

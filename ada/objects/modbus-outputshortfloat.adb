@@ -77,6 +77,10 @@ PACKAGE BODY Modbus.OutputShortFloat IS
     buf : libModbus.wordarray(0 .. 1);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Analog output has been destroyed";
+    END IF;
+
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_registers(Self.ctx, Self.addr, 2, buf) /= 2 THEN
@@ -106,6 +110,10 @@ PACKAGE BODY Modbus.OutputShortFloat IS
     buf : libModbus.wordarray(0 .. 1);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Analog output has been destroyed";
+    END IF;
+
     SelectSlave(Self.ctx, Self.slave);
 
     CASE Self.order IS

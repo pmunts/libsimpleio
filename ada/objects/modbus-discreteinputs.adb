@@ -75,6 +75,10 @@ PACKAGE BODY Modbus.DiscreteInputs IS
     buf : libModbus.bytearray(0 .. 0);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Discrete input has been destroyed";
+    END IF;
+
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_input_bits(Self.ctx, Self.addr, 1, buf) /= 1 THEN
@@ -90,6 +94,10 @@ PACKAGE BODY Modbus.DiscreteInputs IS
   PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Discrete input has been destroyed";
+    END IF;
+
     RAISE Error WITH "Cannot write to a discrete input";
   END Put;
 

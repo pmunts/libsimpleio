@@ -75,6 +75,10 @@ PACKAGE BODY Modbus.HoldingRegisters IS
     buf : libModbus.wordarray(0 .. 0);
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Holding register has been destroyed";
+    END IF;
+
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_registers(Self.ctx, Self.addr, 1, buf) /= 1 THEN
@@ -90,6 +94,10 @@ PACKAGE BODY Modbus.HoldingRegisters IS
     item : RegisterData) IS
 
   BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Holding register has been destroyed";
+    END IF;
+
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_write_register(Self.ctx, Self.addr,
