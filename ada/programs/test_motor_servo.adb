@@ -30,9 +30,6 @@ WITH Servo.PWM;
 
 PROCEDURE test_motor_servo IS
 
-  chip    : Natural;
-  channel : Natural;
-
   desg    : Device.Designator;
   Servo0  : Servo.Output;
   Motor0  : Motor.Output;
