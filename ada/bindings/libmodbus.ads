@@ -172,7 +172,7 @@ PACKAGE libModbus IS
 
   PROCEDURE modbus_set_float
    (f    : Short_Float;
-    dest : wordarray);
+    dest : OUT wordarray);
     Pragma Obsolescent;
 
   FUNCTION modbus_get_float
@@ -192,19 +192,19 @@ PACKAGE libModbus IS
 
   PROCEDURE modbus_set_float_abcd
    (f    : Short_Float;
-    dest : wordarray);
+    dest : OUT wordarray);
 
   PROCEDURE modbus_set_float_badc
    (f    : Short_Float;
-    dest : wordarray);
+    dest : OUT wordarray);
 
   PROCEDURE modbus_set_float_cdab
    (f    : Short_Float;
-    dest : wordarray);
+    dest : OUT wordarray);
 
   PROCEDURE modbus_set_float_dcba
    (f    : Short_Float;
-    dest : wordarray);
+    dest : OUT wordarray);
 
   FUNCTION modbus_get_float_abcd
    (src : wordarray) RETURN Short_Float;
