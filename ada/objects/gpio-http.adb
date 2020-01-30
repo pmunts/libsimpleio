@@ -105,7 +105,7 @@ PACKAGE BODY GPIO.HTTP IS
 
     -- Configure the GPIO pin
 
-    IF WebClient.Get(To_String(CfgCmd)) /= CfgRsp THEN
+    IF Unbounded_String'(WebClient.Get(To_String(CfgCmd))) /= CfgRsp THEN
       RAISE GPIO_Error WITH "Unexpected response from server";
     END IF;
 
@@ -113,11 +113,11 @@ PACKAGE BODY GPIO.HTTP IS
 
     IF dir = Output THEN
       IF state THEN
-        IF WebClient.Get(To_String(SetCmd)) /= SetRsp THEN
+        IF Unbounded_String'(WebClient.Get(To_String(SetCmd))) /= SetRsp THEN
           RAISE GPIO_Error WITH "Unexpected response from server";
         END IF;
       ELSE
-        IF WebClient.Get(To_String(ClrCmd)) /= ClrRsp THEN
+        IF Unbounded_String'(WebClient.Get(To_String(ClrCmd))) /= ClrRsp THEN
           RAISE GPIO_Error WITH "Unexpected response from server";
         END IF;
       END IF;
@@ -162,11 +162,11 @@ PACKAGE BODY GPIO.HTTP IS
 
   BEGIN
     IF state THEN
-      IF WebClient.Get(To_String(self.SetCmd)) /= self.SetRsp THEN
+      IF Unbounded_String'(WebClient.Get(To_String(self.SetCmd))) /= self.SetRsp THEN
         RAISE GPIO_Error WITH "Unexpected response from server";
       END IF;
     ELSE
-      IF WebClient.Get(To_String(self.ClrCmd)) /= self.ClrRsp THEN
+      IF Unbounded_String'(WebClient.Get(To_String(self.ClrCmd))) /= self.ClrRsp THEN
         RAISE GPIO_Error WITH "Unexpected response from server";
       END IF;
     END IF;
