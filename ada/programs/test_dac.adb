@@ -25,13 +25,13 @@ WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH Analog;
 WITH DAC.libsimpleio;
+WITH Device;
 
 USE TYPE Analog.Sample;
 
 PROCEDURE test_dac IS
 
-  chip       : Natural;
-  channel    : Natural;
+  desg       : Device.Designator;
   resolution : Positive;
   DAC0       : Analog.Output;
 
@@ -40,17 +40,17 @@ BEGIN
   New_Line;
 
   Put("Enter DAC chip number:    ");
-  Get(chip);
+  Get(desg.chip);
 
   Put("Enter DAC channel number: ");
-  Get(channel);
+  Get(desg.chan);
 
   Put("Enter DAC resolution:     ");
   Get(resolution);
 
   -- Create DAC output object
 
-  DAC0 := DAC.libsimpleio.Create(chip, channel, resolution);
+  DAC0 := DAC.libsimpleio.Create(desg, resolution);
 
   -- Generate sawtooth wave
 

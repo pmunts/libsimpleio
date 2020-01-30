@@ -25,26 +25,26 @@ WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH Analog;
 WITH ADC.libsimpleio;
+WITH Device;
 
 PROCEDURE test_adc IS
 
-  chip       : Natural;
-  channel    : Natural;
-  ADC0       : Analog.Input;
+  desg : Device.Designator;
+  ADC0 : Analog.Input;
 
 BEGIN
   Put_Line("ADC Input Test");
   New_Line;
 
   Put("Enter ADC chip number:    ");
-  Get(chip);
+  Get(desg.chip);
 
   Put("Enter ADC channel number: ");
-  Get(channel);
+  Get(desg.chan);
 
   -- Create ADC input object
 
-  ADC0 := ADC.libsimpleio.Create(chip, channel);
+  ADC0 := ADC.libsimpleio.Create(desg);
 
   -- Sample the analog input
 

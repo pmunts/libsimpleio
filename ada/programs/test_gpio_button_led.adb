@@ -41,9 +41,9 @@ BEGIN
 
   -- Configure button and LED GPIO's
 
-  Button := GPIO.libsimpleio.Create(0, 19, GPIO.Input);
+  Button := GPIO.libsimpleio.Create((0, 19), GPIO.Input);
 
-  LED := GPIO.libsimpleio.Create(0, 26, GPIO.Output);
+  LED := GPIO.libsimpleio.Create((0, 26), GPIO.Output);
 
   -- Force initial detection
 

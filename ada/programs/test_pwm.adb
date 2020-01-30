@@ -23,13 +23,13 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
+WITH Device;
 WITH PWM.libsimpleio;
 
 PROCEDURE test_pwm IS
 
-  chip    : Natural;
-  channel : Natural;
-  freq    : Positive;
+  desg : Device.Designator;
+  freq : Positive;
 
   PWM0 : PWM.Output;
 
@@ -38,17 +38,17 @@ BEGIN
   New_Line;
 
   Put("Enter PWM chip number:     ");
-  Get(chip);
+  Get(desg.chip);
 
   Put("Enter PWM channel number:  ");
-  Get(channel);
+  Get(desg.chan);
 
   Put("Enter PWM pulse frequency: ");
   Get(freq);
 
   -- Create PWM output object
 
-  PWM0 := PWM.libsimpleio.Create(chip, channel, freq);
+  PWM0 := PWM.libsimpleio.Create(desg, freq);
 
   -- Sweep the pulse width back and forth
 

@@ -23,13 +23,12 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
+WITH Device;
 WITH GPIO.libsimpleio;
 
 PROCEDURE test_gpio IS
 
-  chip    : Natural;
-  channel : Natural;
-
+  desg  : Device.Designator;
   GPIO0 : GPIO.Pin;
 
 BEGIN
@@ -37,14 +36,14 @@ BEGIN
   New_Line;
 
   Put("Enter GPIO chip number:     ");
-  Get(chip);
+  Get(desg.chip);
 
   Put("Enter GPIO channel number:  ");
-  Get(channel);
+  Get(desg.chan);
 
   -- Create GPIO output object
 
-  GPIO0 := GPIO.libsimpleio.Create(chip, channel, GPIO.Output);
+  GPIO0 := GPIO.libsimpleio.Create(desg, GPIO.Output);
 
   -- Toggle the GPIO output
 

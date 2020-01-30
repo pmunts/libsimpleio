@@ -23,15 +23,14 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
+WITH Device;
 WITH Motor.PWM;
 WITH PWM.libsimpleio;
 
 PROCEDURE test_motor_pwm2 IS
 
-  chipCW  : Natural;
-  chanCW  : Natural;
-  chipCCW : Natural;
-  chanCCW : Natural;
+  desgCW  : Device.Designator;
+  desgCCW : Device.Designator;
   motor0  : Motor.Output;
 
 BEGIN
@@ -39,21 +38,21 @@ BEGIN
   New_Line;
 
   Put("Enter PWM chip number:     ");
-  Get(chipCW);
+  Get(desgCW.chip);
 
   Put("Enter PWM channel number:  ");
-  Get(chanCW);
+  Get(desgCW.chan);
 
   Put("Enter PWM chip number:     ");
-  Get(chipCCW);
+  Get(desgCCW.chip);
 
   Put("Enter PWM channel number:  ");
-  Get(chanCCW);
+  Get(desgCCW.chan);
 
   -- Create motor output object
 
-  motor0 := Motor.PWM.Create(PWM.libsimpleio.Create(chipCW, chanCW, 50),
-    PWM.libsimpleio.Create(chipCCW, chanCCW, 50));
+  motor0 := Motor.PWM.Create(PWM.libsimpleio.Create(desgCW, 50),
+    PWM.libsimpleio.Create(desgCCW, 50));
 
   -- Sweep the pulse width back and forth
 
