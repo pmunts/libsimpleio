@@ -22,7 +22,7 @@
 
 COREAPPNAME	?= $(shell basename *.csproj .csproj)
 COREAPPPROJ	?= $(COREAPPNAME).csproj
-COREAPPPUB	?= bin/$(CONFIGURATION)/netcoreapp3.0/publish
+COREAPPPUB	?= bin/$(CONFIGURATION)/netcoreapp3.1/publish
 COREAPPDEST	?= /usr/local
 COREAPPLIB	?= $(COREAPPDEST)/lib/$(COREAPPNAME)
 COREAPPBIN	?= $(COREAPPDEST)/bin
@@ -68,13 +68,13 @@ coreapp_mk_build:
 
 coreapp_mk_single:
 	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) -r $(DOTNETARCH) /p:PublishSingleFile=true --self-contained false $(COREAPPPROJ)
-	cp bin/Release/netcoreapp3.0/$(DOTNETARCH)/publish/$(COREAPPNAME) .
+	cp bin/Release/netcoreapp3.1/$(DOTNETARCH)/publish/$(COREAPPNAME) .
 
 # Build a single file deliverable with runtime include
 
 coreapp_mk_selfcontained:
 	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) -r $(DOTNETARCH) /p:PublishSingleFile=true --self-contained true $(COREAPPPROJ)
-	cp bin/Release/netcoreapp3.0/$(DOTNETARCH)/publish/$(COREAPPNAME) .
+	cp bin/Release/netcoreapp3.1/$(DOTNETARCH)/publish/$(COREAPPNAME) .
 
 # Pack the application into a Debian package file
 
