@@ -31,11 +31,11 @@ PACKAGE BODY Watchdog.libsimpleio IS
    (devname : String   := DefaultDevice;
     timeout : Duration := DefaultTimeout) RETURN Watchdog.Timer IS
 
-    t : TimerSubclass;
+    Self : TimerSubclass;
 
   BEGIN
-    Initialize(t, devname, timeout);
-    RETURN NEW TimerSubclass'(t);
+    Self.Initialize(devname, timeout);
+    RETURN NEW TimerSubclass'(Self);
   END Create;
 
   -- Watchdog device object initializer
@@ -50,9 +50,7 @@ PACKAGE BODY Watchdog.libsimpleio IS
     actualtimeout : Integer;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     -- Open the watchdog device
 
@@ -108,9 +106,7 @@ PACKAGE BODY Watchdog.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Watchdog_Error WITH "Watchdog timer has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libWatchdog.GetTimeout(Self.fd, timeout, error);
 
@@ -130,9 +126,7 @@ PACKAGE BODY Watchdog.libsimpleio IS
     actualtimeout : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Watchdog_Error WITH "Watchdog timer has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libWatchdog.SetTimeout(Self.fd, Integer(timeout), actualtimeout, error);
 
@@ -149,9 +143,7 @@ PACKAGE BODY Watchdog.libsimpleio IS
     error : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Watchdog_Error WITH "Watchdog timer has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libWatchdog.Kick(Self.fd, error);
 
@@ -166,11 +158,19 @@ PACKAGE BODY Watchdog.libsimpleio IS
   FUNCTION fd(Self : TimerSubclass) RETURN Integer IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Watchdog_Error WITH "Watchdog timer has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RETURN Self.fd;
   END fd;
+
+  -- Check whether watchdog timer has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : TimerSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE Watchdog_Error WITH "Watchdog timer has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END Watchdog.libsimpleio;

@@ -30,7 +30,7 @@ PACKAGE BODY Modbus.Coils IS
     addr  : Natural;
     state : Boolean := False) RETURN GPIO.Pin IS
 
-    Self  : PinSubclass := Destroyed;
+    Self  : PinSubclass;
 
   BEGIN
     Self.Initialize(cont, slave, addr, state);
@@ -51,7 +51,7 @@ PACKAGE BODY Modbus.Coils IS
     Self := PinSubclass'(cont.ctx, slave, addr);
     Self.Put(state);
   EXCEPTION
-    WHEN Error =>
+    WHEN OTHERS =>
       Self.Destroy;
       RAISE;
   END Initialize;
@@ -61,10 +61,6 @@ PACKAGE BODY Modbus.Coils IS
   PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RETURN;
-    END IF;
-
     Self := Destroyed;
   END Destroy;
 
@@ -75,10 +71,7 @@ PACKAGE BODY Modbus.Coils IS
     buf : libModbus.bytearray(0 .. 0);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Coil output has been destroyed";
-    END IF;
-
+    Self.CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_bits(Self.ctx, Self.addr, 1, buf) /= 1 THEN
@@ -94,10 +87,7 @@ PACKAGE BODY Modbus.Coils IS
   PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Coil output has been destroyed";
-    END IF;
-
+    Self.CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_write_bit(Self.ctx, Self.addr, Boolean'Pos(state)) /= 1 THEN
@@ -105,5 +95,15 @@ PACKAGE BODY Modbus.Coils IS
         libModbus.error_message;
     END IF;
   END Put;
+
+  -- Check whether GPIO pin object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : Pinsubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE GPIO.GPIO_Error WITH "GPIO pin has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END ModBus.Coils;

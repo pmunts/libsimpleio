@@ -92,10 +92,7 @@ PACKAGE BODY Modbus IS
     debug    : Boolean := False) IS
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
-
+    Self.Destroy;
     Self := Create(port, mode, baudrate, parity, databits, stopbits, debug);
   END Initialize;
 
@@ -138,6 +135,7 @@ PACKAGE BODY Modbus IS
     debug   : Boolean := False) IS
 
   BEGIN
+    Self.Destroy;
     Self := Create(host, service);
   END Initialize;
 

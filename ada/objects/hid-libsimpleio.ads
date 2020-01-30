@@ -108,6 +108,10 @@ PACKAGE HID.libsimpleio IS
 
 PRIVATE
 
+  -- Check whether the HID device has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : MessengerSubclass);
+
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
     fd        : Integer := -1;
     timeoutms : Integer := -1;

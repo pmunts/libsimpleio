@@ -22,7 +22,7 @@
 
 PACKAGE BODY Modbus.InputShortFloat IS
 
-  -- Input constructor
+  -- Analog input constructor
 
   FUNCTION Create
    (cont  : Bus;
@@ -30,14 +30,14 @@ PACKAGE BODY Modbus.InputShortFloat IS
     addr  : Natural;
     order : ShortFloatByteOrder := ABCD) RETURN Input IS
 
-    Self : InputClass := Destroyed;
+    Self : InputClass;
 
   BEGIN
     Self.Initialize(cont, slave, addr, order);
     RETURN NEW InputClass'(Self);
   END Create;
 
-  -- Input initializer
+  -- Analog input initializer
 
   PROCEDURE Initialize
    (Self  : IN OUT InputClass;
@@ -53,34 +53,27 @@ PACKAGE BODY Modbus.InputShortFloat IS
     Self := InputClass'(cont.ctx, slave, addr, order);
     dummy := Self.Get;
   EXCEPTION
-    WHEN Error =>
+    WHEN OTHERS =>
       Self.Destroy;
       RAISE;
   END Initialize;
 
-  -- Input destructor
+  -- Analog input destructor
 
   PROCEDURE Destroy(Self : IN OUT InputClass) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RETURN;
-    END IF;
-
     Self := Destroyed;
   END Destroy;
 
-  -- Input methods
+  -- Analog input methods
 
   FUNCTION Get(Self : IN OUT InputClass) RETURN Quantity IS
 
     buf    : libModbus.wordarray(0 .. 1);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Analog input has been destroyed";
-    END IF;
-
+    Self.CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_input_registers(Self.ctx, Self.addr, 2, buf) /= 2 THEN
@@ -102,5 +95,15 @@ PACKAGE BODY Modbus.InputShortFloat IS
         RETURN Quantity(libModbus.modbus_get_float_cdab(buf));
     END CASE;
   END Get;
+
+  -- Check whether analog input has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : InputClass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Analog input has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END ModBus.InputShortFloat;

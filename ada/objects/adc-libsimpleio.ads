@@ -33,28 +33,17 @@ PACKAGE ADC.libsimpleio IS
 
   Destroyed : CONSTANT InputSubclass;
 
-  -- ADC input object constructors
+  -- ADC input object constructor
 
   FUNCTION Create
    (desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Input;
 
-  FUNCTION Create
-   (chip       : Natural;
-    channel    : Natural;
-    resolution : Positive := Analog.MaxResolution) RETURN Analog.Input;
-
-  -- ADC input object initializers
+  -- ADC input object initializer
 
   PROCEDURE Initialize
    (Self       : IN OUT InputSubclass;
     desg       : Device.Designator;
-    resolution : Positive := Analog.MaxResolution);
-
-  PROCEDURE Initialize
-   (Self       : IN OUT InputSubclass;
-    chip       : Natural;
-    channel    : Natural;
     resolution : Positive := Analog.MaxResolution);
 
   -- ADC input object destroyer
@@ -65,7 +54,7 @@ PACKAGE ADC.libsimpleio IS
 
   FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample;
 
-  -- Retrieve the A/D converter resolution
+  -- Retrieve the ADC resolution
 
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
 
@@ -74,6 +63,10 @@ PACKAGE ADC.libsimpleio IS
   FUNCTION fd(Self : InputSubclass) RETURN Integer;
 
 PRIVATE
+
+  -- Check whether ADC input has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : InputSubclass);
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
     fd         : Integer  := -1;

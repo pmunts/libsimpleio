@@ -59,6 +59,10 @@ PACKAGE GPIO.HTTP IS
 
 PRIVATE
 
+  -- Check whether GPIO pin has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : Pinsubclass);
+
   NullString : CONSTANT Ada.Strings.UnBounded.Unbounded_String :=
     Ada.Strings.Unbounded.Null_Unbounded_String;
 

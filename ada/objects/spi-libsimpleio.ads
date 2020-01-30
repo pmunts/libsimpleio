@@ -99,6 +99,10 @@ PACKAGE SPI.libsimpleio IS
 
 PRIVATE
 
+  -- Check whether SPI device has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : DeviceSubclass);
+
   TYPE DeviceSubclass IS NEW SPI.DeviceInterface WITH RECORD
     fd   : Integer := -1;  -- SPI channel device file descriptor
     fdcs : Integer := -1;  -- GPIO chip select pin device file descriptor

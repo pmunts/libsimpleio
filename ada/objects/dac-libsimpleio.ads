@@ -33,28 +33,17 @@ PACKAGE DAC.libsimpleio IS
 
   Destroyed : CONSTANT OutputSubclass;
 
-  -- DAC output object constructors
+  -- DAC output object constructor
 
   FUNCTION Create
    (desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Output;
 
-  FUNCTION Create
-   (chip       : Natural;
-    channel    : Natural;
-    resolution : Positive := Analog.MaxResolution) RETURN Analog.Output;
-
-  -- DAC output object initializers
+  -- DAC output object initializer
 
   PROCEDURE Initialize
    (Self       : IN OUT OutputSubclass;
     desg       : Device.Designator;
-    resolution : Positive := Analog.MaxResolution);
-
-  PROCEDURE Initialize
-   (Self       : IN OUT OutputSubclass;
-    chip       : Natural;
-    channel    : Natural;
     resolution : Positive := Analog.MaxResolution);
 
   -- DAC output object destroyer
@@ -71,7 +60,15 @@ PACKAGE DAC.libsimpleio IS
 
   FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive;
 
+  -- Retrieve the underlying Linux file descriptor
+
+  FUNCTION fd(Self : OutputSubclass) RETURN Integer;
+
 PRIVATE
+
+  -- Check whether DAC output has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : OutputSubclass);
 
   TYPE OutputSubclass IS NEW Analog.OutputInterface WITH RECORD
     fd         : Integer       := -1;

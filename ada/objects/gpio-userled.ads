@@ -58,6 +58,10 @@ PACKAGE GPIO.UserLED IS
 
 PRIVATE
 
+  -- Check whether GPIO pin has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : Pinsubclass);
+
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
     myfd : Integer := -1;
   END RECORD;

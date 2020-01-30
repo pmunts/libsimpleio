@@ -31,7 +31,7 @@ PACKAGE Modbus.InputShortFloat IS
 
   Destroyed : CONSTANT InputClass;
 
-  -- Input constructor
+  -- Analog input constructor
 
   FUNCTION Create
    (cont  : Bus;
@@ -39,7 +39,7 @@ PACKAGE Modbus.InputShortFloat IS
     addr  : Natural;
     order : ShortFloatByteOrder := ABCD) RETURN Input;
 
-  -- Input initializer
+  -- Analog input initializer
 
   PROCEDURE Initialize
    (Self  : IN OUT InputClass;
@@ -48,15 +48,19 @@ PACKAGE Modbus.InputShortFloat IS
     addr  : Natural;
     order : ShortFloatByteOrder := ABCD);
 
-  -- Input destructor
+  -- Analog input destructor
 
   PROCEDURE Destroy(Self : IN OUT InputClass);
 
-  -- Input methods
+  -- Analog input methods
 
   FUNCTION Get(Self : IN OUT InputClass) RETURN Quantity;
 
 PRIVATE
+
+  -- Check whether analog input has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : InputClass);
 
   TYPE InputClass IS TAGGED RECORD
     ctx   : libModbus.Context   := libModbus.Null_Context;

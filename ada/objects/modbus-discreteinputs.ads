@@ -55,6 +55,10 @@ PACKAGE Modbus.DiscreteInputs IS
 
 PRIVATE
 
+  -- Check whether GPIO pin object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : PinSubclass);
+
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
     ctx   : libModbus.Context := libModbus.Null_Context;
     slave : Natural           := Natural'Last;

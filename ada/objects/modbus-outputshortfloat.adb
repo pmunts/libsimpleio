@@ -22,7 +22,7 @@
 
 PACKAGE BODY Modbus.OutputShortFloat IS
 
-  -- Output holding register constructor
+  -- Analog output constructor
 
   FUNCTION Create
    (cont  : Bus;
@@ -31,14 +31,14 @@ PACKAGE BODY Modbus.OutputShortFloat IS
     state : Quantity;
     order : ShortFloatByteOrder := ABCD) RETURN Output IS
 
-    Self : OutputClass := Destroyed;
+    Self : OutputClass;
 
   BEGIN
     Self.Initialize(cont, slave, addr, state, order);
     RETURN NEW OutputClass'(Self);
   END Create;
 
-  -- Output holding register initializer
+  -- Analog output initializer
 
   PROCEDURE Initialize
    (Self  : IN OUT OutputClass;
@@ -53,34 +53,27 @@ PACKAGE BODY Modbus.OutputShortFloat IS
     Self := OutputClass'(cont.ctx, slave, addr, order);
     Self.Put(state);
   EXCEPTION
-    WHEN Error =>
+    WHEN OTHERS =>
       Self.Destroy;
       RAISE;
   END Initialize;
 
-  -- Output holding register destructor
+  -- Analog output destructor
 
   PROCEDURE Destroy(Self : IN OUT OutputClass) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RETURN;
-    END IF;
-
     Self := Destroyed;
   END Destroy;
 
-  -- Output holding register methods
+  -- Analog output methods
 
   FUNCTION Get(Self : IN OUT OutputClass) RETURN Quantity IS
 
     buf : libModbus.wordarray(0 .. 1);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Analog output has been destroyed";
-    END IF;
-
+    Self.CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_registers(Self.ctx, Self.addr, 2, buf) /= 2 THEN
@@ -110,10 +103,7 @@ PACKAGE BODY Modbus.OutputShortFloat IS
     buf : libModbus.wordarray(0 .. 1);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Analog output has been destroyed";
-    END IF;
-
+    Self.CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     CASE Self.order IS
@@ -135,5 +125,15 @@ PACKAGE BODY Modbus.OutputShortFloat IS
         libModbus.error_message;
     END IF;
   END Put;
+
+  -- Check whether analog output has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : OutputClass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Analog output has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END ModBus.OutputShortFloat;

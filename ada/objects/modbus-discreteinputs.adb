@@ -29,7 +29,7 @@ PACKAGE BODY Modbus.DiscreteInputs IS
     slave : Natural;
     addr  : Natural) RETURN GPIO.Pin IS
 
-    Self  : PinSubclass := Destroyed;
+    Self  : PinSubclass;
 
   BEGIN
     Self.Initialize(cont, slave, addr);
@@ -51,7 +51,7 @@ PACKAGE BODY Modbus.DiscreteInputs IS
     Self := PinSubclass'(cont.ctx, slave, addr);
     dummy := Self.Get;
   EXCEPTION
-    WHEN Error =>
+    WHEN OTHERS =>
       Self.Destroy;
       RAISE;
   END Initialize;
@@ -61,10 +61,6 @@ PACKAGE BODY Modbus.DiscreteInputs IS
   PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RETURN;
-    END IF;
-
     Self := Destroyed;
   END Destroy;
 
@@ -75,10 +71,7 @@ PACKAGE BODY Modbus.DiscreteInputs IS
     buf : libModbus.bytearray(0 .. 0);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Discrete input has been destroyed";
-    END IF;
-
+    Self.CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_input_bits(Self.ctx, Self.addr, 1, buf) /= 1 THEN
@@ -94,11 +87,19 @@ PACKAGE BODY Modbus.DiscreteInputs IS
   PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Discrete input has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RAISE Error WITH "Cannot write to a discrete input";
   END Put;
+
+  -- Check whether GPIO pin object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : Pinsubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE GPIO.GPIO_Error WITH "GPIO pin has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END ModBus.DiscreteInputs;

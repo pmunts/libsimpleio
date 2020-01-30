@@ -25,54 +25,33 @@ WITH libADC;
 
 PACKAGE BODY ADC.libsimpleio IS
 
-  -- ADC input object constructors
+  -- ADC input object constructor
 
   FUNCTION Create
    (desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Input IS
 
-  BEGIN
-    RETURN Create(desg.chip, desg.chan, resolution);
-  END Create;
-
-  FUNCTION Create
-   (chip       : Natural;
-    channel    : Natural;
-    resolution : Positive := Analog.MaxResolution) RETURN Analog.Input IS
-
-    i : InputSubclass;
+    Self : InputSubclass;
 
   BEGIN
-    Initialize(i, chip, channel, resolution);
-    RETURN NEW InputSubclass'(i);
+    Self.Initialize(desg, resolution);
+    RETURN NEW InputSubclass'(Self);
   END Create;
 
-  -- ADC input object initializers
+  -- ADC input object initializer
 
   PROCEDURE Initialize
    (Self       : IN OUT InputSubclass;
     desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) IS
 
-  BEGIN
-    Initialize(Self, desg.chip, desg.chan, resolution);
-  END Initialize;
-
-  PROCEDURE Initialize
-   (Self       : IN OUT InputSubclass;
-    chip       : Natural;
-    channel    : Natural;
-    resolution : Positive := Analog.MaxResolution) IS
-
     fd    : Integer;
     error : Integer;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
-    libADC.Open(chip, channel, fd, error);
+    libADC.Open(desg.chip, desg.chan, fd, error);
 
     IF error /= 0 THEN
       RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
@@ -110,9 +89,7 @@ PACKAGE BODY ADC.libsimpleio IS
     error  : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE ADC_Error WITH "Analog input has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libADC.Read(Self.fd, sample, error);
 
@@ -123,14 +100,12 @@ PACKAGE BODY ADC.libsimpleio IS
     RETURN Analog.Sample(sample);
   END Get;
 
-  -- Retrieve the A/D converter resolution
+  -- Retrieve the ADC resolution
 
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE ADC_Error WITH "Analog input has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RETURN Self.resolution;
   END GetResolution;
@@ -140,11 +115,19 @@ PACKAGE BODY ADC.libsimpleio IS
   FUNCTION fd(Self : InputSubclass) RETURN Integer IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE ADC_Error WITH "Analog input has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RETURN Self.fd;
   END fd;
+
+  -- Check whether ADC input has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : InputSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE ADC_Error WITH "Analog input has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END ADC.libsimpleio;

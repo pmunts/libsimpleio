@@ -94,6 +94,10 @@ PACKAGE HID.hidapi IS
 
 PRIVATE
 
+  -- Check whether the HID device has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : MessengerSubclass);
+
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
     handle  : System.Address := System.Null_Address;
     timeout : Integer        := Integer'First;

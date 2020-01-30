@@ -38,20 +38,20 @@ PACKAGE BODY I2C.libsimpleio IS
 
   FUNCTION Create(name : String) RETURN I2C.Bus IS
 
-    b : BusSubclass;
+    Self : BusSubclass;
 
   BEGIN
-    Initialize(b, name);
-    RETURN NEW BusSubclass'(b);
+    Self.Initialize(name);
+    RETURN NEW BusSubclass'(Self);
   END Create;
 
   FUNCTION Create(desg : Device.Designator) RETURN I2C.Bus IS
 
-    b : BusSubclass;
+    Self : BusSubclass;
 
   BEGIN
-    Initialize(b, desg);
-    RETURN NEW BusSubclass'(b);
+    Self.Initialize(desg);
+    RETURN NEW BusSubclass'(Self);
   END Create;
 
   -- I2C bus controller object initializers
@@ -62,9 +62,7 @@ PACKAGE BODY I2C.libsimpleio IS
     error : Integer;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     libI2C.Open(name & ASCII.NUL, fd, error);
 
@@ -78,6 +76,8 @@ PACKAGE BODY I2C.libsimpleio IS
   PROCEDURE Initialize(Self : IN OUT BusSubclass; desg : Device.Designator) IS
 
   BEGIN
+    Self.Destroy;
+
     IF desg.chip /= 0 THEN
       RAISE I2C_Error WITH "Invalid designator for I2C bus controller";
     END IF;
@@ -116,9 +116,7 @@ PACKAGE BODY I2C.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE I2C_Error WITH "I2C bus has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libI2C.Transaction(Self.fd, Integer(addr), System.Null_Address, 0,
       resp'Address, resplen, error);
@@ -139,9 +137,7 @@ PACKAGE BODY I2C.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE I2C_Error WITH "I2C bus has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen,
       System.Null_Address, 0, error);
@@ -165,9 +161,7 @@ PACKAGE BODY I2C.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE I2C_Error WITH "I2C bus has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     IF delayus = 0 THEN
       libI2C.Transaction(Self.fd, Integer(addr), cmd'Address, cmdlen,
@@ -204,11 +198,19 @@ PACKAGE BODY I2C.libsimpleio IS
   FUNCTION fd(Self : BusSubclass) RETURN Integer IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE I2C_Error WITH "I2C bus has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RETURN Self.fd;
   END fd;
+
+  -- Check whether I2C bus has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : BusSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE I2C_Error WITH "I2C bus has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END I2C.libsimpleio;

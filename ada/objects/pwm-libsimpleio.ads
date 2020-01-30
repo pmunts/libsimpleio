@@ -1,6 +1,6 @@
 -- PWM (Pulse Width Modulated) output services using libsimpleio
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -39,7 +39,7 @@ PACKAGE PWM.libsimpleio IS
 
   Destroyed : CONSTANT OutputSubclass;
 
-  -- PWM output object constructors
+  -- PWM output object constructor
 
   FUNCTION Create
    (desg      : Device.Designator;
@@ -47,26 +47,11 @@ PACKAGE PWM.libsimpleio IS
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) RETURN PWM.Output;
 
-  FUNCTION Create
-   (chip      : Natural;
-    channel   : Natural;
-    frequency : Positive;
-    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN PWM.Output;
-
-  -- PWM output object initializers
+  -- PWM output object initializer
 
   PROCEDURE Initialize
    (Self      : IN OUT OutputSubclass;
     desg      : Device.Designator;
-    frequency : Positive;
-    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh);
-
-  PROCEDURE Initialize
-   (Self      : IN OUT OutputSubclass;
-    chip      : Natural;
-    channel   : Natural;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh);
@@ -94,6 +79,10 @@ PACKAGE PWM.libsimpleio IS
   FUNCTION fd(Self : OutputSubclass) RETURN Integer;
 
 PRIVATE
+
+  -- Check whether PWM output has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : OutputSubclass);
 
   TYPE OutputSubclass IS NEW Standard.PWM.OutputInterface WITH RECORD
     fd     : Integer  := -1;

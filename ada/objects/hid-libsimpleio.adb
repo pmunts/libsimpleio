@@ -34,11 +34,11 @@ PACKAGE BODY HID.libsimpleio IS
    (name      : String;
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
-    m : MessengerSubclass;
+    Self : MessengerSubclass;
 
   BEGIN
-    Initialize(m, name, timeoutms);
-    RETURN NEW MessengerSubclass'(m);
+    Self.Initialize(name, timeoutms);
+    RETURN NEW MessengerSubclass'(Self);
   END Create;
 
   -- Constructor using HID vendor and product ID's
@@ -48,12 +48,12 @@ PACKAGE BODY HID.libsimpleio IS
     pid       : HID.Product := HID.Munts.PID;
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
-    m : MessengerSubclass;
+    Self : MessengerSubclass;
 
   BEGIN
-    Initialize(m, vid, pid, timeoutms);
-    RETURN NEW MessengerSubclass'(m);
-  END;
+    Self.Initialize(vid, pid, timeoutms);
+    RETURN NEW MessengerSubclass'(Self);
+  END Create;
 
   -- Constructor using open file descriptor
 
@@ -61,11 +61,11 @@ PACKAGE BODY HID.libsimpleio IS
    (fd        : Integer;
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
-    m : MessengerSubclass;
+    Self : MessengerSubclass;
 
   BEGIN
-    Initialize(m, fd, timeoutms);
-    RETURN NEW MessengerSubclass'(m);
+    Self.Initialize(fd, timeoutms);
+    RETURN NEW MessengerSubclass'(Self);
   END Create;
 
   -- Initializer using raw HID device node name
@@ -79,9 +79,7 @@ PACKAGE BODY HID.libsimpleio IS
     error : Integer;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     libHIDRaw.Open(name & ASCII.NUL, fd, error);
 
@@ -105,9 +103,7 @@ PACKAGE BODY HID.libsimpleio IS
     error : Integer;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     libHIDRaw.OpenID(Integer(vid), Integer(pid), fd, error);
 
@@ -127,9 +123,7 @@ PACKAGE BODY HID.libsimpleio IS
     timeoutms : Integer := 1000) IS
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     Self := MessengerSubclass'(fd, timeoutms);
   END Initialize;
@@ -162,9 +156,7 @@ PACKAGE BODY HID.libsimpleio IS
     count : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libLinux.Write(Self.fd, msg'Address, msg'Length, count, error);
 
@@ -182,9 +174,7 @@ PACKAGE BODY HID.libsimpleio IS
     count : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     IF Self.timeoutms > 0 THEN
       DECLARE
@@ -229,9 +219,7 @@ PACKAGE BODY HID.libsimpleio IS
     error : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libHIDRAW.GetName(Self.fd, name, name'Length, error);
 
@@ -253,9 +241,7 @@ PACKAGE BODY HID.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libHIDRaw.GetInfo(Self.fd, bustype, vid, pid, error);
 
@@ -277,9 +263,7 @@ PACKAGE BODY HID.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libHIDRaw.GetInfo(Self.fd, bustype, vid, pid, error);
 
@@ -301,9 +285,7 @@ PACKAGE BODY HID.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libHIDRaw.GetInfo(Self.fd, bustype, vid, pid, error);
 
@@ -320,11 +302,19 @@ PACKAGE BODY HID.libsimpleio IS
   FUNCTION fd(Self : MessengerSubclass) RETURN Integer IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RETURN Self.fd;
   END fd;
+
+  -- Check whether the HID device has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : MessengerSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
  END HID.libsimpleio;

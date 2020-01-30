@@ -64,6 +64,10 @@ PACKAGE Watchdog.libsimpleio IS
 
 PRIVATE
 
+  -- Check whether watchdog timer has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : TimerSubclass);
+
   TYPE TimerSubclass IS NEW Watchdog.TimerInterface WITH RECORD
     fd : Integer := -1;
   END RECORD;

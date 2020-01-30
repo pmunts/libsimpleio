@@ -46,30 +46,11 @@ PACKAGE GPIO.libsimpleio IS
     edge     : GPIO.libsimpleio.Edge := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
 
-  FUNCTION Create
-   (chip     : Natural;
-    line     : Natural;
-    dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
-
   -- GPIO pin object initializers
 
   PROCEDURE Initialize
    (Self     : IN OUT PinSubclass;
     desg     : Device.Designator;
-    dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
-    polarity : GPIO.libsimpleio.Polarity := ActiveHigh);
-
-  PROCEDURE Initialize
-   (Self     : IN OUT PinSubclass;
-    chip     : Natural;
-    line     : Natural;
     dir      : GPIO.Direction;
     state    : Boolean := False;
     driver   : GPIO.libsimpleio.Driver := PushPull;
@@ -109,6 +90,10 @@ PACKAGE GPIO.libsimpleio IS
   FUNCTION fd(Self : PinSubclass) RETURN Integer;
 
 PRIVATE
+
+  -- Check whether GPIO pin object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : Pinsubclass);
 
   TYPE Kinds IS (input, output, interrupt);
 

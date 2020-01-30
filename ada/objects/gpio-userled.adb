@@ -49,11 +49,11 @@ PACKAGE BODY GPIO.UserLED IS
 
   FUNCTION Create(state : Boolean := False) RETURN GPIO.Pin IS
 
-    p : PinSubclass;
+    Self : PinSubclass;
 
   BEGIN
-    Initialize(p, state);
-    RETURN NEW PinSubclass'(p);
+    Self.Initialize(state);
+    RETURN NEW PinSubclass'(Self);
   END Create;
 
   -- Initializer
@@ -61,12 +61,11 @@ PACKAGE BODY GPIO.UserLED IS
   PROCEDURE Initialize(Self : IN OUT PinSubclass; state : Boolean := False) IS
 
     fd    : Integer;
+    count : Integer;
     error : Integer;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     libLinux.Open(filename & ASCII.NUL, fd, error);
 
@@ -74,8 +73,17 @@ PACKAGE BODY GPIO.UserLED IS
       RAISE GPIO_Error WITH "libLinux.Open() failed, " & errno.strerror(error);
     END IF;
 
-    Self.myfd := fd;
-    Self.Put(state);
+    IF state THEN
+      libLinux.Write(Self.myfd, state_on'Address, state_on'Length, count, error);
+    ELSE
+      libLinux.Write(Self.myfd, state_off'Address, state_off'Length, count, error);
+    END IF;
+
+    IF error /= 0 THEN
+      RAISE GPIO_Error WITH "libLinux.Write() failed, " & errno.strerror(error);
+    END IF;
+
+    Self := PinSubclass'(myfd => fd);
   END Initialize;
 
   -- Destroyer
@@ -107,6 +115,8 @@ PACKAGE BODY GPIO.UserLED IS
     error : Integer;
 
   BEGIN
+    Self.CheckDestroyed;
+
     lseek(Self.fd, 0, 0);
 
     libLinux.Read(Self.fd, buf'Address, buf'Length, count, error);
@@ -126,6 +136,8 @@ PACKAGE BODY GPIO.UserLED IS
     error : Integer;
 
   BEGIN
+    Self.CheckDestroyed;
+
     IF state THEN
       libLinux.Write(Self.myfd, state_on'Address, state_on'Length, count, error);
     ELSE
@@ -142,7 +154,19 @@ PACKAGE BODY GPIO.UserLED IS
   FUNCTION fd(Self : PinSubclass) RETURN Integer IS
 
   BEGIN
+    Self.CheckDestroyed;
+
     RETURN Self.myfd;
   END fd;
+
+  -- Check whether GPIO pin object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : Pinsubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE GPIO_Error WITH "GPIO pin has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END GPIO.UserLED;

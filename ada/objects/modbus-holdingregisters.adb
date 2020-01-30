@@ -30,7 +30,7 @@ PACKAGE BODY Modbus.HoldingRegisters IS
     addr  : Natural;
     state : RegisterData) RETURN Register IS
 
-    Self : RegisterClass := Destroyed;
+    Self : RegisterClass;
 
   BEGIN
     Self.Initialize(cont, slave, addr, state);
@@ -51,7 +51,7 @@ PACKAGE BODY Modbus.HoldingRegisters IS
     Self := RegisterClass'(cont.ctx, slave, addr);
     Self.Put(state);
   EXCEPTION
-    WHEN Error =>
+    WHEN OTHERS =>
       Self.Destroy;
       RAISE;
   END Initialize;
@@ -61,10 +61,6 @@ PACKAGE BODY Modbus.HoldingRegisters IS
   PROCEDURE Destroy(Self : IN OUT RegisterClass) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RETURN;
-    END IF;
-
     Self := Destroyed;
   END Destroy;
 
@@ -75,10 +71,7 @@ PACKAGE BODY Modbus.HoldingRegisters IS
     buf : libModbus.wordarray(0 .. 0);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Holding register has been destroyed";
-    END IF;
-
+    CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_registers(Self.ctx, Self.addr, 1, buf) /= 1 THEN
@@ -94,10 +87,7 @@ PACKAGE BODY Modbus.HoldingRegisters IS
     item : RegisterData) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Holding register has been destroyed";
-    END IF;
-
+    CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_write_register(Self.ctx, Self.addr,
@@ -106,5 +96,15 @@ PACKAGE BODY Modbus.HoldingRegisters IS
         libModbus.error_message;
     END IF;
   END Put;
+
+  -- Check whether holding register has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : RegisterClass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Holding register has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END ModBus.HoldingRegisters;

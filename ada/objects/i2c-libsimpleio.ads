@@ -81,6 +81,10 @@ PACKAGE I2C.libsimpleio IS
 
 PRIVATE
 
+  -- Check whether I2C bus has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : BusSubclass);
+
   TYPE BusSubclass IS NEW I2C.BusInterface WITH RECORD
     fd : Integer := -1;
   END RECORD;

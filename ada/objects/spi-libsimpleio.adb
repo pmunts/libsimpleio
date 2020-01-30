@@ -46,11 +46,11 @@ PACKAGE BODY SPI.libsimpleio IS
     speed    : Natural;
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) RETURN SPI.Device IS
 
-    d : DeviceSubclass;
+    Self : DeviceSubclass;
 
   BEGIN
-    Initialize(d, name, mode, wordsize, speed, cspin);
-    RETURN NEW DeviceSubclass'(d);
+    Self.Initialize(name, mode, wordsize, speed, cspin);
+    RETURN NEW DeviceSubclass'(Self);
   END Create;
 
   FUNCTION Create
@@ -60,11 +60,11 @@ PACKAGE BODY SPI.libsimpleio IS
     speed    : Natural;
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) RETURN SPI.Device IS
 
-    d : DeviceSubclass;
+    Self : DeviceSubclass;
 
   BEGIN
-    Initialize(d, desg, mode, wordsize, speed, cspin);
-    RETURN NEW DeviceSubclass'(d);
+    Self.Initialize(desg, mode, wordsize, speed, cspin);
+    RETURN NEW DeviceSubclass'(Self);
   END Create;
 
   -- SPI device object initializers
@@ -82,9 +82,7 @@ PACKAGE BODY SPI.libsimpleio IS
     error    : Integer;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     libSPI.Open(name & ASCII.NUL, mode, wordsize, speed, fd, error);
 
@@ -118,6 +116,8 @@ PACKAGE BODY SPI.libsimpleio IS
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) IS
 
   BEGIN
+    Self.Destroy;
+
     Initialize(Self, "/dev/spidev" & Trim(Natural'Image(desg.chip)) & "." &
       Trim(Natural'Image(desg.chan)), mode, wordsize, speed, cspin);
   END Initialize;
@@ -156,9 +156,7 @@ PACKAGE BODY SPI.libsimpleio IS
     error  : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE SPI_Error WITH "SPI device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libSPI.Transaction(Self.fd, Self.fdcs, cmd'Address, cmdlen, 0,
       System.Null_Address, 0, error);
@@ -179,9 +177,7 @@ PACKAGE BODY SPI.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE SPI_Error WITH "SPI device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libSPI.Transaction(Self.fd, Self.fdcs, System.Null_Address, 0, 0,
       resp'Address, resplen, error);
@@ -205,9 +201,7 @@ PACKAGE BODY SPI.libsimpleio IS
     error   : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE SPI_Error WITH "SPI device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     IF delayus > 65535 THEN
       RAISE SPI_Error WITH "Invalid delay value";
@@ -227,11 +221,19 @@ PACKAGE BODY SPI.libsimpleio IS
   FUNCTION fd(Self : DeviceSubclass) RETURN Integer IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE SPI_Error WITH "SPI device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RETURN Self.fd;
   END fd;
+
+  -- Check whether SPI device has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : DeviceSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE SPI_Error WITH "SPI device has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END SPI.libsimpleio;

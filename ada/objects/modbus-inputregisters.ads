@@ -59,6 +59,10 @@ PACKAGE Modbus.InputRegisters IS
 
 PRIVATE
 
+  -- Check whether input register has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : RegisterClass);
+
   TYPE RegisterClass IS NEW Interfaces.InputInterface WITH RECORD
     ctx   : libModbus.Context := libModbus.Null_Context;
     slave : Natural           := Natural'Last;

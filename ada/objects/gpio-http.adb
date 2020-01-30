@@ -46,11 +46,11 @@ PACKAGE BODY GPIO.HTTP IS
     dir      : Direction;
     state    : Boolean := False) RETURN Pin IS
 
-    p : PinSubclass;
+    Self : PinSubclass;
 
   BEGIN
-    Initialize(p, hostname, num, dir, state);
-    RETURN NEW PinSubclass'(p);
+    Self.Initialize(hostname, num, dir, state);
+    RETURN NEW PinSubclass'(Self);
   END Create;
 
   -- GPIO pin object initializer
@@ -74,9 +74,7 @@ PACKAGE BODY GPIO.HTTP IS
     SetRsp   : Unbounded_string;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     -- Resolve the GPIO server's IP address
 
@@ -131,10 +129,6 @@ PACKAGE BODY GPIO.HTTP IS
   PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RETURN;
-    END IF;
-
     Self := Destroyed;
   END Destroy;
 
@@ -145,6 +139,8 @@ PACKAGE BODY GPIO.HTTP IS
     resp : Unbounded_String;
 
   BEGIN
+    Self.CheckDestroyed;
+
     resp := To_Unbounded_String(WebClient.Get(To_String(self.GetCmd)));
 
     IF resp = self.SetRsp THEN
@@ -161,6 +157,8 @@ PACKAGE BODY GPIO.HTTP IS
   PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean) IS
 
   BEGIN
+    Self.CheckDestroyed;
+
     IF state THEN
       IF Unbounded_String'(WebClient.Get(To_String(self.SetCmd))) /= self.SetRsp THEN
         RAISE GPIO_Error WITH "Unexpected response from server";
@@ -171,5 +169,15 @@ PACKAGE BODY GPIO.HTTP IS
       END IF;
     END IF;
   END Put;
+
+  -- Check whether GPIO pin object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : Pinsubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE GPIO_Error WITH "GPIO pin has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END GPIO.HTTP;

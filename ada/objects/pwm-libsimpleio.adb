@@ -1,6 +1,6 @@
 -- PWM (Pulse Width Modulated) output services using libsimpleio
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@ WITH libPWM;
 
 PACKAGE BODY PWM.libsimpleio IS
 
-  -- PWM output object constructors
+  -- PWM output object constructor
 
   FUNCTION Create
    (desg      : Device.Designator;
@@ -33,41 +33,18 @@ PACKAGE BODY PWM.libsimpleio IS
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) RETURN PWM.Output IS
 
-  BEGIN
-    RETURN Create(desg.chip, desg.chan, frequency, dutycycle, polarity);
-  END Create;
-
-  FUNCTION Create
-   (chip      : Natural;
-    channel   : Natural;
-    frequency : Positive;
-    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) RETURN PWM.Output IS
-
-    o : OutputSubclass;
+    Self : OutputSubclass;
 
   BEGIN
-    Initialize(o, chip, channel, frequency, dutycycle, polarity);
-    RETURN NEW OutputSubclass'(o);
+    Self.Initialize(desg, frequency, dutycycle, polarity);
+    RETURN NEW OutputSubclass'(Self);
   END Create;
 
-  -- PWM output object initializers
+  -- PWM output object initializer
 
   PROCEDURE Initialize
    (Self      : IN OUT OutputSubclass;
     desg      : Device.Designator;
-    frequency : Positive;
-    dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
-    polarity  : Polarities := ActiveHigh) IS
-
-  BEGIN
-    Initialize(Self, desg.chip, desg.chan, frequency, dutycycle, polarity);
-  END Initialize;
-
-  PROCEDURE Initialize
-   (Self      : IN OUT OutputSubclass;
-    chip      : Natural;
-    channel   : Natural;
     frequency : Positive;
     dutycycle : PWM.DutyCycle := PWM.MinimumDutyCycle;
     polarity  : Polarities := ActiveHigh) IS
@@ -78,21 +55,19 @@ PACKAGE BODY PWM.libsimpleio IS
     fd     : Integer;
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     period := 1.0/frequency;
     ontime := Duration(dutycycle/MaximumDutyCycle)*period;
 
-    libPWM.Configure(chip, channel, Positive(period*1E9),
+    libPWM.Configure(desg.chip, desg.chan, Positive(period*1E9),
       Natural(ontime*1E9), Polarities'Pos(polarity), error);
 
     IF error /= 0 THEN
       RAISE PWM_Error WITH "libPWM.Configure() failed, " & errno.strerror(error);
     END IF;
 
-    libPWM.Open(chip, channel, fd, error);
+    libPWM.Open(desg.chip, desg.chan, fd, error);
 
     IF error /= 0 THEN
       RAISE PWM_Error WITH "libPWM.Open() failed, " & errno.strerror(error);
@@ -131,9 +106,7 @@ PACKAGE BODY PWM.libsimpleio IS
     error  : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE PWM_Error WITH "PWM output has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     ontime := Duration(dutycycle/MaximumDutyCycle)*Self.period;
 
@@ -151,9 +124,7 @@ PACKAGE BODY PWM.libsimpleio IS
     error  : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE PWM_Error WITH "PWM output has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     libPWM.Write(Self.fd, Natural(ontime*1E9), error);
 
@@ -167,9 +138,7 @@ PACKAGE BODY PWM.libsimpleio IS
   FUNCTION GetPeriod(Self : IN OUT OutputSubclass) RETURN Duration IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE PWM_Error WITH "PWM output has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RETURN Self.period;
   END GetPeriod;
@@ -179,11 +148,19 @@ PACKAGE BODY PWM.libsimpleio IS
   FUNCTION fd(Self : OutputSubclass) RETURN Integer IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE PWM_Error WITH "PWM output has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RETURN Self.fd;
   END fd;
+
+  -- Check whether PWM output has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : OutputSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE PWM_Error WITH "PWM output has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END PWM.libsimpleio;

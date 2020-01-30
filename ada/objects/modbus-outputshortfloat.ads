@@ -31,7 +31,7 @@ PACKAGE Modbus.OutputShortFloat IS
 
   Destroyed : CONSTANT OutputClass;
 
-  -- Output holding register constructor
+  -- Analog output constructor
 
   FUNCTION Create
    (cont  : Bus;
@@ -40,7 +40,7 @@ PACKAGE Modbus.OutputShortFloat IS
     state : Quantity;
     order : ShortFloatByteOrder := ABCD) RETURN Output;
 
-  -- Output holding register initializer
+  -- Analog output initializer
 
   PROCEDURE Initialize
    (Self  : IN OUT OutputClass;
@@ -50,11 +50,11 @@ PACKAGE Modbus.OutputShortFloat IS
     state : Quantity;
     order : ShortFloatByteOrder := ABCD);
 
-  -- Output holding register destructor
+  -- Analog output destructor
 
   PROCEDURE Destroy(Self : IN OUT OutputClass);
 
-  -- Output holding register methods
+  -- Analog output methods
 
   FUNCTION Get(Self : IN OUT OutputClass) RETURN Quantity;
 
@@ -63,6 +63,10 @@ PACKAGE Modbus.OutputShortFloat IS
     state : Quantity);
 
 PRIVATE
+
+  -- Check whether analog output has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : OutputClass);
 
   TYPE OutputClass IS TAGGED RECORD
     ctx   : libModbus.Context   := libModbus.Null_Context;

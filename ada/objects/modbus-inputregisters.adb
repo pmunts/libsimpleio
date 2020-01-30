@@ -29,7 +29,7 @@ PACKAGE BODY Modbus.InputRegisters IS
     slave : Natural;
     addr  : Natural) RETURN Register IS
 
-    Self : RegisterClass := Destroyed;
+    Self : RegisterClass;
 
   BEGIN
     Self.Initialize(cont, slave, addr);
@@ -51,7 +51,7 @@ PACKAGE BODY Modbus.InputRegisters IS
     Self := RegisterClass'(cont.ctx, slave, addr);
     dummy := Self.Get;
   EXCEPTION
-    WHEN Error =>
+    WHEN OTHERS =>
       Self.Destroy;
       RAISE;
   END Initialize;
@@ -61,10 +61,6 @@ PACKAGE BODY Modbus.InputRegisters IS
   PROCEDURE Destroy(Self : IN OUT RegisterClass) IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RETURN;
-    END IF;
-
     Self := Destroyed;
   END Destroy;
 
@@ -75,10 +71,7 @@ PACKAGE BODY Modbus.InputRegisters IS
     buf : libModbus.wordarray(0 .. 0);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE Error WITH "Input register has been destroyed";
-    END IF;
-
+    CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_input_registers(Self.ctx, Self.addr, 1, buf) /= 1 THEN
@@ -88,5 +81,15 @@ PACKAGE BODY Modbus.InputRegisters IS
 
     RETURN RegisterData(buf(0));
   END Get;
+
+  -- Check whether input register has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : RegisterClass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE Error WITH "Input register has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END ModBus.InputRegisters;

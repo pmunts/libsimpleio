@@ -61,9 +61,7 @@ PACKAGE BODY HID.hidapi IS
       Interfaces.C.To_C(Ada.Characters.Handling.To_Wide_String(serial));
 
   BEGIN
-    IF Self /= Destroyed THEN
-      Self.Destroy;
-    END IF;
+    Self.Destroy;
 
     -- Validate parameters
 
@@ -119,9 +117,7 @@ PACKAGE BODY HID.hidapi IS
     status : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     -- Prepend the report ID byte
 
@@ -152,9 +148,7 @@ PACKAGE BODY HID.hidapi IS
     offset : Natural;
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     status := hid_read_timeout(Self.handle, inbuf'Address, inbuf'Length,
       Self.timeout);
@@ -184,9 +178,7 @@ PACKAGE BODY HID.hidapi IS
   FUNCTION Name(Self : MessengerSubclass) RETURN String IS
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     RETURN Self.Manufacturer & " " & Self.Product;
   END Name;
@@ -200,9 +192,7 @@ PACKAGE BODY HID.hidapi IS
     buf    : Interfaces.C.wchar_array(0 .. 255);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     status := hid_get_manufacturer_string(Self.handle, buf, buf'Length);
 
@@ -223,9 +213,7 @@ PACKAGE BODY HID.hidapi IS
     buf    : Interfaces.C.wchar_array(0 .. 255);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     status := hid_get_product_string(Self.handle, buf, buf'Length);
 
@@ -246,9 +234,7 @@ PACKAGE BODY HID.hidapi IS
     buf    : Interfaces.C.wchar_array(0 .. 255);
 
   BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
+    Self.CheckDestroyed;
 
     status := hid_get_serial_number_string(Self.handle, buf, buf'Length);
 
@@ -259,5 +245,15 @@ PACKAGE BODY HID.hidapi IS
 
     RETURN Ada.Characters.Handling.To_String(Interfaces.C.To_Ada(buf));
   END SerialNumber;
+
+  -- Check whether the HID device has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : MessengerSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
 END HID.hidapi;
