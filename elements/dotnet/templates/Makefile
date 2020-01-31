@@ -79,6 +79,7 @@ endif
 
 ifeq ($(OS), Windows_NT)
 %.installvs: %.zip
+	mkdir -p $(VSTEMPLATES)
 	install -cm 0644 $< $(VSTEMPLATES)
 endif
 
