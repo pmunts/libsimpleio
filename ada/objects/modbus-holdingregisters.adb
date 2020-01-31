@@ -71,7 +71,7 @@ PACKAGE BODY Modbus.HoldingRegisters IS
     buf : libModbus.wordarray(0 .. 0);
 
   BEGIN
-    CheckDestroyed;
+    Self.CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_registers(Self.ctx, Self.addr, 1, buf) /= 1 THEN
@@ -87,7 +87,7 @@ PACKAGE BODY Modbus.HoldingRegisters IS
     item : RegisterData) IS
 
   BEGIN
-    CheckDestroyed;
+    Self.CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_write_register(Self.ctx, Self.addr,

@@ -71,7 +71,7 @@ PACKAGE BODY Modbus.InputRegisters IS
     buf : libModbus.wordarray(0 .. 0);
 
   BEGIN
-    CheckDestroyed;
+    Self.CheckDestroyed;
     SelectSlave(Self.ctx, Self.slave);
 
     IF libModbus.modbus_read_input_registers(Self.ctx, Self.addr, 1, buf) /= 1 THEN
