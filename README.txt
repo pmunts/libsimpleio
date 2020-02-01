@@ -68,20 +68,21 @@ News
        [12]RemObjects Elements.
      * 8 January 2020 -- Added LINUX_errno(). Added [13]libmodbus bindings
        and objects for Ada.
+     * 1 February 2020 -- Added links to [14]Make With Ada projects.
 
 Documentation
 
    The user manual for libsimpleio is available at
-   [14]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [15]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at
-   [15]libsimpleio.html
+   [16]libsimpleio.html
 
 Git Repository
 
    The source code is available at:
 
-   [16]https://github.com/pmunts/libsimpleio
+   [17]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -89,11 +90,16 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [17]Debian Linux are available at:
-   [18]http://repo.munts.com/debian10
+   Prebuilt packages for [18]Debian Linux are available at:
+   [19]http://repo.munts.com/debian10
+
+[20]Make With Ada Projects
+
+     * 2017 [21]Ada Embedded Linux Framework
+     * 2019 [22]Modbus RTU Framework for Ada
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [19]phil@munts.net
+   Questions or comments to Philip Munts [23]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -113,9 +119,13 @@ References
   11. http://repo.munts.com/debian10
   12. https://www.elementscompiler.com/elements/
   13. https://libmodbus.org/
-  14. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  15. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  16. https://github.com/pmunts/libsimpleio
-  17. http://www.debian.org/
-  18. http://repo.munts.com/debian10
-  19. mailto:phil@munts.net
+  14. https://www.makewithada.org/
+  15. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  16. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  17. https://github.com/pmunts/libsimpleio
+  18. http://www.debian.org/
+  19. http://repo.munts.com/debian10
+  20. https://www.makewithada.org/
+  21. https://www.makewithada.org/entry/ada_linux_sensor_framework
+  22. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
+  23. mailto:phil@munts.net

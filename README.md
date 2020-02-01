@@ -77,6 +77,8 @@ News
     [RemObjects Elements](https://www.elementscompiler.com/elements/).
 -   8 January 2020 -- Added `LINUX_errno()`. Added
     [libmodbus](https://libmodbus.org) bindings and objects for Ada.
+-   1 February 2020 -- Added links to [Make With
+    Ada](https://www.makewithada.org) projects.
 
 Documentation
 -------------
@@ -105,6 +107,14 @@ Prebuilt packages for [Debian](http://www.debian.org) Linux are
 available at:
 
 <http://repo.munts.com/debian10>
+
+[Make With Ada](https://www.makewithada.org/) Projects
+------------------------------------------------------
+
+-   2017 [Ada Embedded Linux
+    Framework](https://www.makewithada.org/entry/ada_linux_sensor_framework)
+-   2019 [Modbus RTU Framework for
+    Ada](https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6)
 
 ------------------------------------------------------------------------
 
