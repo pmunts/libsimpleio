@@ -28,29 +28,29 @@ systems.</p>
 <p>The C wrapper functions exported by <b>libsimpleio</b> all follow the same
 uniform pattern:</p>
 <ul>
-<li>All C wrapper functions are proper procedures (<tt>void f()</tt> in
+<li>All C wrapper functions are proper procedures (<b><tt>void f()</tt></b> in
 C).</li>
-<li>All input arguments of primitive types (<tt>int</tt>, <tt>float</tt>, etc.)
-are passed by value.</li>
-<li>All output arguments of primitive types are passed by reference (<tt>int
-*</tt>, <tt>float *</tt>, etc.).</li>
+<li>All input arguments of primitive types (<b><tt>int</tt></b>,
+<b><tt>float</tt></b>, etc.) are passed by value.</li>
+<li>All output arguments of primitive types are passed by reference (<b><tt>int
+*</tt></b>, <b><tt>float *</tt></b>, etc.).</li>
 <li>All composite types are passed by reference.</li>
-<li><tt>int32_t</tt> is used wherever possible for <tt>int</tt> and
-<tt>bool</tt> arguments.</li>
+<li><b><tt>int32_t</tt></b> is used wherever possible for <b><tt>int</tt></b>
+and <b><tt>bool</tt></b> arguments.</li>
 </ul>
-<p>All of the C wrapper functions are declared between <tt>_BEGIN_STD_C</tt>
-and <tt>_END_STD_C</tt> for C++. Binding modules are provided for Ada, C#,
-Java, and Free Pascal. Additional source code libraries are provided for Ada,
-C++, C#, Java, and Free Pascal that define OOP (Object Oriented Programming)
-classes for <b>libsimpleio</b>.</p>
+<p>All of the C wrapper functions are declared between
+<b><tt>_BEGIN_STD_C</tt></b> and <b><tt>_END_STD_C</tt></b> for C++. Binding
+modules are provided for Ada, C#, Java, and Free Pascal. Additional source code
+libraries are provided for Ada, C++, C#, Java, and Free Pascal that define OOP
+(Object Oriented Programming) classes for <b>libsimpleio</b>.</p>
 <h2>News</h2>
 <ul>
 <li>9 January 2019 -- Continued working on the Ada Remote I/O code. Continued
 working on the Pascal Remote I/O code. Compiling Pascal Remote I/O client
 programs on Windows is now supported.</li>
 <li>16 January 2019 -- The C wrapper function source files have been moved to
-the <tt>c/</tt> subdirectory. The source code is now published on <a href=
-"https://github.com">GitHub</a> at <a href=
+the <b><tt>c/</tt></b> subdirectory. The source code is now published on
+<a href="https://github.com">GitHub</a> at <a href=
 "https://github.com/pmunts/libsimpleio">https://github.com/pmunts/libsimpleio</a>.
 The old repository at <a href="http://git.munts.com">http://git.munts.com</a>
 (which actually just mirrors a private Subversion repository and then pushed to
@@ -61,7 +61,7 @@ Cleaned up some stale links and commands in the user manual. Cleaned up some
 loose ends in the <a href="https://github.com/paladin-t/my_basic">MY-BASIC</a>
 bindings and example programs.</li>
 <li>12 March 2019 -- The Debian native packages now depend on
-<tt>libhidapi-dev</tt>, for Remote I/O over USB raw HID.</li>
+<b><tt>libhidapi-dev</tt></b>, for Remote I/O over USB raw HID.</li>
 <li>10 June 2019 -- Material from the <i>Controlling I/O Devices with Ada using
 the Remote I/O Protocol</i> educational tutorial at the <a href=
 "https://ae2019.edc.pl">Ada-Europe 2019</a> conference is available at <a href=
@@ -71,8 +71,20 @@ the Remote I/O Protocol</i> educational tutorial at the <a href=
 "http://repo.munts.com/debian10">http://repo.munts.com/debian10</a>.</li>
 <li>5 August 2019 -- Started adding .Net Core example programs using <a href=
 "https://www.elementscompiler.com/elements/">RemObjects Elements</a>.</li>
-<li>8 January 2020 -- Added <tt>LINUX_errno()</tt>. Added <a href=
+<li>8 January 2020 -- Added <b><tt>LINUX_errno()</tt></b>. Added <a href=
 "https://libmodbus.org">libmodbus</a> bindings and objects for Ada.</li>
+<li>31 January 2020 -- Added .gpr project files to
+<b><tt>ada/programs/libsimpleio/</tt></b>,
+<b><tt>ada/programs/libsimpleio/mcp2221/</tt></b>, and
+<b><tt>ada/programs/libsimpleio/remoteio</tt></b> to allow building native
+programs with just <b><tt>gprbuild</tt></b>, using a command like:
+<pre>
+gprbuild libsimpleio.gpr -p test_userled
+</pre>
+Reworked Ada make files to allow building Windows applications in <a href=
+"https://docs.microsoft.com/en-us/windows/wsl/faq">Windows Subsystem for
+Linux</a>. Until now, using the make files on Windows required using <a href=
+"https://www.cygwin.com">Cygwin</a>.</li>
 <li>1 February 2020 -- Added links to <a href=
 "https://www.makewithada.org">Make With Ada</a> projects.</li>
 </ul>

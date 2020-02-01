@@ -33,18 +33,19 @@ desktop Linux systems.
 The C wrapper functions exported by **libsimpleio** all follow the same
 uniform pattern:
 
--   All C wrapper functions are proper procedures (`void f()` in C).
--   All input arguments of primitive types (`int`, `float`, etc.) are
-    passed by value.
+-   All C wrapper functions are proper procedures (**`void f()`** in C).
+-   All input arguments of primitive types (**`int`**, **`float`**,
+    etc.) are passed by value.
 -   All output arguments of primitive types are passed by reference
-    (`int *`, `float *`, etc.).
+    (**`int *`**, **`float *`**, etc.).
 -   All composite types are passed by reference.
--   `int32_t` is used wherever possible for `int` and `bool` arguments.
+-   **`int32_t`** is used wherever possible for **`int`** and **`bool`**
+    arguments.
 
-All of the C wrapper functions are declared between `_BEGIN_STD_C` and
-`_END_STD_C` for C++. Binding modules are provided for Ada, C\#, Java,
-and Free Pascal. Additional source code libraries are provided for Ada,
-C++, C\#, Java, and Free Pascal that define OOP (Object Oriented
+All of the C wrapper functions are declared between **`_BEGIN_STD_C`**
+and **`_END_STD_C`** for C++. Binding modules are provided for Ada, C\#,
+Java, and Free Pascal. Additional source code libraries are provided for
+Ada, C++, C\#, Java, and Free Pascal that define OOP (Object Oriented
 Programming) classes for **libsimpleio**.
 
 News
@@ -54,8 +55,8 @@ News
     Continued working on the Pascal Remote I/O code. Compiling Pascal
     Remote I/O client programs on Windows is now supported.
 -   16 January 2019 -- The C wrapper function source files have been
-    moved to the `c/` subdirectory. The source code is now published on
-    [GitHub](https://github.com) at
+    moved to the **`c/`** subdirectory. The source code is now published
+    on [GitHub](https://github.com) at
     <https://github.com/pmunts/libsimpleio>. The old repository at
     <http://git.munts.com> (which actually just mirrors a private
     Subversion repository and then pushed to GitHub) will be maintained,
@@ -66,7 +67,7 @@ News
     [MY-BASIC](https://github.com/paladin-t/my_basic) bindings and
     example programs.
 -   12 March 2019 -- The Debian native packages now depend on
-    `libhidapi-dev`, for Remote I/O over USB raw HID.
+    **`libhidapi-dev`**, for Remote I/O over USB raw HID.
 -   10 June 2019 -- Material from the *Controlling I/O Devices with Ada
     using the Remote I/O Protocol* educational tutorial at the
     [Ada-Europe 2019](https://ae2019.edc.pl) conference is available at
@@ -75,8 +76,22 @@ News
     <http://repo.munts.com/debian10>.
 -   5 August 2019 -- Started adding .Net Core example programs using
     [RemObjects Elements](https://www.elementscompiler.com/elements/).
--   8 January 2020 -- Added `LINUX_errno()`. Added
+-   8 January 2020 -- Added **`LINUX_errno()`**. Added
     [libmodbus](https://libmodbus.org) bindings and objects for Ada.
+-   31 January 2020 -- Added .gpr project files to
+    **`ada/programs/libsimpleio/`**,
+    **`ada/programs/libsimpleio/mcp2221/`**, and
+    **`ada/programs/libsimpleio/remoteio`** to allow building native
+    programs with just **`gprbuild`**, using a command like:
+
+        gprbuild libsimpleio.gpr -p test_userled
+
+    Reworked Ada make files to allow building Windows applications in
+    [Windows Subsystem for
+    Linux](https://docs.microsoft.com/en-us/windows/wsl/faq). Until now,
+    using the make files on Windows required using
+    [Cygwin](https://www.cygwin.com).
+
 -   1 February 2020 -- Added links to [Make With
     Ada](https://www.makewithada.org) projects.
 

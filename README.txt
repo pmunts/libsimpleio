@@ -68,21 +68,31 @@ News
        [12]RemObjects Elements.
      * 8 January 2020 -- Added LINUX_errno(). Added [13]libmodbus bindings
        and objects for Ada.
-     * 1 February 2020 -- Added links to [14]Make With Ada projects.
+     * 31 January 2020 -- Added .gpr project files to
+       ada/programs/libsimpleio/, ada/programs/libsimpleio/mcp2221/, and
+       ada/programs/libsimpleio/remoteio to allow building native programs
+       with just gprbuild, using a command like:
+
+       gprbuild libsimpleio.gpr -p test_userled
+
+       Reworked Ada make files to allow building Windows applications in
+       [14]Windows Subsystem for Linux. Until now, using the make files on
+       Windows required using [15]Cygwin.
+     * 1 February 2020 -- Added links to [16]Make With Ada projects.
 
 Documentation
 
    The user manual for libsimpleio is available at
-   [15]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [17]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at
-   [16]libsimpleio.html
+   [18]libsimpleio.html
 
 Git Repository
 
    The source code is available at:
 
-   [17]https://github.com/pmunts/libsimpleio
+   [19]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -90,16 +100,16 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [18]Debian Linux are available at:
-   [19]http://repo.munts.com/debian10
+   Prebuilt packages for [20]Debian Linux are available at:
+   [21]http://repo.munts.com/debian10
 
-[20]Make With Ada Projects
+[22]Make With Ada Projects
 
-     * 2017 [21]Ada Embedded Linux Framework
-     * 2019 [22]Modbus RTU Framework for Ada
+     * 2017 [23]Ada Embedded Linux Framework
+     * 2019 [24]Modbus RTU Framework for Ada
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [23]phil@munts.net
+   Questions or comments to Philip Munts [25]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -119,13 +129,15 @@ References
   11. http://repo.munts.com/debian10
   12. https://www.elementscompiler.com/elements/
   13. https://libmodbus.org/
-  14. https://www.makewithada.org/
-  15. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  16. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  17. https://github.com/pmunts/libsimpleio
-  18. http://www.debian.org/
-  19. http://repo.munts.com/debian10
-  20. https://www.makewithada.org/
-  21. https://www.makewithada.org/entry/ada_linux_sensor_framework
-  22. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
-  23. mailto:phil@munts.net
+  14. https://docs.microsoft.com/en-us/windows/wsl/faq
+  15. https://www.cygwin.com/
+  16. https://www.makewithada.org/
+  17. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  18. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  19. https://github.com/pmunts/libsimpleio
+  20. http://www.debian.org/
+  21. http://repo.munts.com/debian10
+  22. https://www.makewithada.org/
+  23. https://www.makewithada.org/entry/ada_linux_sensor_framework
+  24. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
+  25. mailto:phil@munts.net
