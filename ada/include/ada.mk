@@ -37,15 +37,9 @@ endif
 else
 # Definitions for native compile
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-# Prepend $(GNAT)/bin to PATH
 ifneq ($(GNAT),)
 GNATENV		+= PATH=$(GNAT)/bin:$(PATH)
-ifeq ($(OS), Windows_NT)
-# Windows needs even more help with the path
-GNATMAKE	= env $(GNATENV) $(GNAT)/bin/gnatmake
-GNATSTRIP	= env $(GNATENV) $(GNAT)/bin/strip
-GPRBUILD	= env $(GNATENV) $(GNAT)/bin/gprbuild
-endif
+GNATPREFIX	= $(GNAT)/bin/
 endif
 endif
 
@@ -70,20 +64,24 @@ GNATENV		+= ADA_OBJ=$(ADA_OBJ)
 
 # Definitions for gnatmake
 
-GNATMAKE	?= env $(GNATENV) $(GNATPREFIX)gnatmake
+GNATMAKE	?= env $(GNATENV) $(GNATPREFIX)gnatmake$(EXESUFFIX)
 GNATMAKEFLAGS	= -D $(ADA_OBJ)
 GNATMAKECFLAGS	+= $(ADA_CFLAGS) $(ADA_INCLUDES)
 GNATMAKELDFLAGS	+= $(ADA_LDFLAGS)
 
 # Definitions for other GNAT programs
 
-GNATBIND	?= env $(GNATENV) $(GNATPREFIX)gnatbind
-GNATLINK	?= env $(GNATENV) $(GNATPREFIX)gnatlink
-GNATSTRIP	?= env $(GNATENV) $(GNATPREFIX)strip
+GNATBIND	?= env $(GNATENV) $(GNATPREFIX)gnatbind$(EXESUFFIX)
+GNATLINK	?= env $(GNATENV) $(GNATPREFIX)gnatlink$(EXESUFFIX)
+GNATSTRIP	?= env $(GNATENV) $(GNATPREFIX)strip$(EXESUFFIX)
 
 # Definitions for gprbuild
 
-GPRBUILD	?= env $(GNATENV) gprbuild
+ifneq ($(GNAT),)
+GPRBUILD	?= env $(GNATENV) $(GNATPREFIX)gprbuild$(EXESUFFIX)
+else
+GPRBUILD	?= env $(GNATENV) gprbuild$(EXESUFFIX)
+endif
 GPRBUILDFLAGS	= -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
 GPRBUILDCFLAGS	+= $(ADA_CFLAGS)
 GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
@@ -93,11 +91,13 @@ GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
 %: %.gpr
 	$(GPRBUILD) $< $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
+	chmod 755 $@$(EXESUFFIX)
 
 %: %.adb
 	mkdir -p $(ADA_OBJ)
 	$(GNATMAKE) $(GNATMAKEFLAGS) $@ -cargs $(GNATMAKECFLAGS) -largs $(GNATMAKELDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
+	chmod 755 $@$(EXESUFFIX)
 
 # Default make target
 
