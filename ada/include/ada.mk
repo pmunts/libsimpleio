@@ -1,6 +1,6 @@
 # Makefile definitions for building GNAT Ada application programs
 
-# Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
