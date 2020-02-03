@@ -1,6 +1,6 @@
-# Makefile for building the Remote I/O Library for .Net
+# Makefile for building a .Net Framework applicaiton for Mono
 
-# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,43 +20,35 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ILMERGE		?= ilmerge
+# Pick Visual Studio or Mono compiler
 
-# Include subordinate makefiles
-
-include ../../csharp/include/csharp.mk
-include ../../csharp/include/monoapp.mk
-
-default: libremoteio.dll
-
-# Build the projects
-
-libremoteio.dll:
-	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) libremoteio.csproj
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
-	"$(MSBUILD)" libremoteio.shfbproj
-endif
+ifeq ($(OS), Windows_NT)
+CSC		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/Roslyn/csc.exe
+MSBUILD		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
+MSBUILDTARGET	?= /t:Build
+MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION)
+MSBUILDPROJECT	?=
+else
+CSC		?= csc
+MSBUILD		?= msbuild
+MSBUILDTARGET	?= -t:Build
+MSBUILDFLAGS	?= -p:Configuration=$(CONFIGURATION)
+MSBUILDPROJECT	?=
 endif
 
-# Release the assembly and help file
+CSCFLAGS	+= -lib:$(LIBSIMPLEIO)/dotnet
 
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
-release: libremoteio.dll
-	mv libremoteio.dll libremoteio-orig.dll
-	$(ILMERGE) /v4 /out:libremoteio.dll libremoteio-orig.dll HidSharp.dll
-	cp libremoteio.dll libremoteio.xml libremoteio.chm ..
-	mv libremoteio-orig.dll libremoteio.dll
-	nuget pack
-	cp *.nupkg ..
-endif
-endif
+# Compile C# application with csc
 
-# Remove working files
+%.exe: %.cs
+	$(LIBSIMPLEIO)/csharp/include/monolibs.sh $(CSCFLAGS)
+	"$(CSC)" $(CSCFLAGS) $^
 
-clean: csharp_mk_clean
-	rm -rf IO.Devices
-	rm -rf IO.Interfaces
-	rm -rf IO.Objects
-	rm -rf IO.Remote
+# Build Visual Studio C# project with MSBuild
+
+monoapp_mk_build:
+	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
+
+# Clean out working files
+
+monoapp_mk_clean: csharp_mk_clean

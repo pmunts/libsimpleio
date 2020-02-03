@@ -1,6 +1,6 @@
 # Makefile for building a .Net Core application package or tarball
 
-# Copyright (C)2018-2019, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -80,7 +80,7 @@ coreapp_mk_selfcontained:
 
 $(PKGDIR): coreapp_mk_build
 	mkdir -p						$(PKGDIR)/DEBIAN
-	install -cm 0644 $(CSHARPSRC)/include/coreapp.control	$(PKGDIR)/DEBIAN/control
+	install -cm 0644 $(LIBSIMPLEIO)/csharp/include/coreapp.control	$(PKGDIR)/DEBIAN/control
 	$(SED) -i s/@@NAME@@/$(PKGNAME)/g				$(PKGDIR)/DEBIAN/control
 	$(SED) -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
 	mkdir -p 						$(PKGDIR)/$(COREAPPBIN)

@@ -1,6 +1,6 @@
-# Makefile definitions for C# programming
+# Makefile definitions for C# programming with libsimpleio
 
-# Copyright (C)2014-2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2014-2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,35 +20,13 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-CONFIGURATION	?= Release
-
-# Pick Visual Studio or Mono compiler
-
-ifeq ($(OS), Windows_NT)
-CSC		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/Roslyn/csc.exe
-MSBUILD		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
-MSBUILDTARGET	?= /t:Build
-MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION) /p:CSHARPSRC=$(CSHARPSRC)
-MSBUILDPROJECT	?=
-else
-CSC		?= mcs
-MSBUILD		?= msbuild
-MSBUILDTARGET	?= /t:Build
-MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION) /p:CSHARPSRC=$(CSHARPSRC)
-MSBUILDPROJECT	?=
-endif
-
 # Don't delete intermediate files
 
 .SECONDARY:
 
-# C# pattern rules
+CONFIGURATION	?= Release
 
-%.exe: %.cs
-	"$(CSC)" $(CSCFLAGS) $^
-
-# This default target placeholder depends on the default target
-# in the superordinate Makefile
+# Placeholder default target
 
 csharp_mk_default: default
 
@@ -57,14 +35,3 @@ csharp_mk_default: default
 csharp_mk_clean:
 	rm -rf *.chm *.dll *.exe *.log *.mdb *.nupkg *.pdb *.xml *~ Help
 	$(LIBSIMPLEIO)/include/vsclean.sh
-
-# Build Visual Studio C# project with MSBuild
-
-csharp_mk_build:
-	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
-
-# Include subordinate makefiles
-
-ifeq ($(shell uname), Darwin)
-sinclude $(CSHARPSRC)/MacOS/MonoApp.mk
-endif

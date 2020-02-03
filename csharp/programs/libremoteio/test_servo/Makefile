@@ -1,6 +1,6 @@
-# Makefile for building the Remote I/O Library for .Net
+# Generic Makefile template for building C# .Net Core applications
 
-# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,43 +20,32 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ILMERGE		?= ilmerge
+ifneq ($(BOARDNAME),)
+# Override the following macro to build out of tree
+EMBLINUXBASE    ?= $(HOME)/muntsos
+# Cross compile
+include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+else
+# Native compile
+LIBSIMPLEIO     ?= /usr/local/share/libsimpleio
+endif
 
 # Include subordinate makefiles
 
-include ../../csharp/include/csharp.mk
-include ../../csharp/include/monoapp.mk
+include $(LIBSIMPLEIO)/csharp/include/csharp.mk
+include $(LIBSIMPLEIO)/csharp/include/coreapp.mk
+include $(LIBSIMPLEIO)/csharp/include/monoapp.mk
 
-default: libremoteio.dll
+CSCFLAGS	+= -r:libremoteio.dll
 
-# Build the projects
+# Build the project
 
-libremoteio.dll:
-	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) libremoteio.csproj
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
-	"$(MSBUILD)" libremoteio.shfbproj
-endif
-endif
+default: coreapp_mk_build
 
-# Release the assembly and help file
+package: coreapp_mk_deb
 
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
-release: libremoteio.dll
-	mv libremoteio.dll libremoteio-orig.dll
-	$(ILMERGE) /v4 /out:libremoteio.dll libremoteio-orig.dll HidSharp.dll
-	cp libremoteio.dll libremoteio.xml libremoteio.chm ..
-	mv libremoteio-orig.dll libremoteio.dll
-	nuget pack
-	cp *.nupkg ..
-endif
-endif
+tarball: coreapp_mk_tarball
 
 # Remove working files
 
-clean: csharp_mk_clean
-	rm -rf IO.Devices
-	rm -rf IO.Interfaces
-	rm -rf IO.Objects
-	rm -rf IO.Remote
+clean: coreapp_mk_clean

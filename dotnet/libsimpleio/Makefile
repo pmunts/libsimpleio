@@ -20,11 +20,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Override the following macro to build out of tree
+# Include subordinate makefiles
 
-CSHARPSRC	?= ../../csharp
-
-CONFIGURATION	= Release
+include ../../csharp/include/csharp.mk
+include ../../csharp/include/monoapp.mk
 
 default: libsimpleio.dll
 
@@ -58,7 +57,3 @@ clean: csharp_mk_clean
 	rm -rf IO.Objects
 	rm -rf IO.Platforms
 	rm -rf IO.Remote
-
-# Include subordinate makefiles
-
-include $(CSHARPSRC)/include/csharp.mk
