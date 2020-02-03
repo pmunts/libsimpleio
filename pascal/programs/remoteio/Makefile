@@ -39,7 +39,8 @@ WINARCH		?= win64
 FPC_FLAGS	+= -Fl$(LIBSIMPLEIO)/win/$(WINARCH)
 
 hidapi.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
+	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll $@
+	chmod 755 $@
 endif
 
 # Compile the test programs
