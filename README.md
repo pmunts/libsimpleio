@@ -94,6 +94,12 @@ News
 
 -   1 February 2020 -- Added links to [Make With
     Ada](https://www.makewithada.org) projects.
+-   2 February 2020 -- Flattened the **`csharp/`** directory tree.
+    Removed separate Mono program directories. Now you can build a Mono
+    program in one of the unified .Net project directories using a
+    command like:
+
+        make test_gpio.exe
 
 Documentation
 -------------
