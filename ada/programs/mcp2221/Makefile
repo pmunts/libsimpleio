@@ -40,7 +40,8 @@ WINARCH		?= win64
 GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
 
 hidapi.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll .
+	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll $@
+	chmod 755 $@
 endif
 endif
 
