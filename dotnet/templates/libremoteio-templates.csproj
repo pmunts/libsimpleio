@@ -12,7 +12,6 @@
     <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI;</PackageTags>
     <PackageReleaseNotes>
-Initial release.
     </PackageReleaseNotes>
 
     <TargetFramework>netcoreapp3.1</TargetFramework>

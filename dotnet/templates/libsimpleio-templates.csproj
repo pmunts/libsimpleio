@@ -12,7 +12,6 @@
     <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
     <PackageTags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
-Initial release.
     </PackageReleaseNotes>
 
     <TargetFramework>netcoreapp3.1</TargetFramework>
