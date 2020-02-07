@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageVersion>$(BUILDVERSION)</PackageVersion>
+    <PackageId>libsimpleio-templates</PackageId>
+    <Title>Templates for .Net Core console applications using libsimpleio.</Title>
+    <Description>Templates for .Net Core console applications using libsimpleio.</Description>
+    <Authors>Philip Munts</Authors>
+    <Copyright>Copyright (C)2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
+    <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
+    <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
+    <PackageTags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
+    <PackageReleaseNotes>
+Initial release.
+    </PackageReleaseNotes>
+
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="csharp_console_libsimpleio\**\*" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+
+</Project>

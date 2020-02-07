@@ -18,11 +18,28 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-TEMPLATES	+= csharp_console_libremoteio
-TEMPLATES	+= csharp_console_libsimpleio
+VERSION		= 1.0.`date '+%Y.%j'`
+CONFIGURATION	= Release
+
+# Build all NuGet packages
+
+default:
+	$(MAKE) build LIBNAME=libremoteio-templates && rm -rf bin obj
+	$(MAKE) build LIBNAME=libsimpleio-templates && rm -rf bin obj
+
+# Build a NuGet package containing the specified project templates
+
+build:
+	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
+	cp bin/Release/*.nupkg .
+
+# Remove working files
+
+clean:
+	rm -rf bin obj *.nupkg
+
+# Install templates from libsimpleio installation or source checkout
 
 install:
-	@for T in $(TEMPLATES) ; do cd $$T && dotnet new -i . ; cd .. ; done
-
-uninstall:
-	@for T in $(TEMPLATES) ; do cd $$T && dotnet new -u | awk "/dotnet new \-u.*$$T/ { print $0 }" | sh ; cd .. ; done
+	dotnet new -i ./csharp_console_libremoteio
+	dotnet new -i ./csharp_console_libsimpleio
