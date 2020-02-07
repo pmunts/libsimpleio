@@ -5,6 +5,7 @@
   "identity":        "munts.console.libremoteio",
   "name":            "Console Application using the Remote I/O Protocol",
   "shortName":       "libremoteio",
+  "sourceName":      "test_libremoteio",
   "tags": {
     "language": "C#",
     "type":     "project"

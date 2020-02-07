@@ -5,6 +5,7 @@
   "identity":        "munts.console.libsimpleio",
   "name":            "Console Application using the Linux Simple I/O Libary",
   "shortName":       "libsimpleio",
+  "sourceName":      "test_libsimpleio",
   "tags": {
     "language": "C#",
     "type":     "project"
