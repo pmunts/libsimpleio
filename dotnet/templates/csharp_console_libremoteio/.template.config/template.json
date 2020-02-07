@@ -3,7 +3,7 @@
   "author":          "Philip Munts, President, Munts AM Corp dba Munts Technologies",
   "classifications": [ "C#", "Console", "Linux", "libremoteio", "Embedded" ],
   "identity":        "munts.console.libremoteio",
-  "name":            "Console Application using the Remote I/O Protocol",
+  "name":            "Console Application using the Remote I/O Protocol Library",
   "shortName":       "libremoteio",
   "sourceName":      "test_libremoteio",
   "tags": {
