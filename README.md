@@ -102,7 +102,7 @@ News
         make test_gpio.exe
 
 -   7 February 2020 -- Added .Net Core 3.1 project templates for both
-    **lisimpleio** and **libremoteio**. Install these from
+    **libsimpleio** and **libremoteio**. Install these from
     [NuGet](https://www.nuget.org) with the following commands:
 
         dotnet new -i libsimpleio-templates
