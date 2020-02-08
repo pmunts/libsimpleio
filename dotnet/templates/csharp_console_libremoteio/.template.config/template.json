@@ -2,9 +2,9 @@
   "$schema":         "http://json.schemastore.org/template",
   "author":          "Philip Munts, President, Munts AM Corp dba Munts Technologies",
   "classifications": [ "C#", "Console", "Linux", "libremoteio", "Embedded" ],
-  "identity":        "munts.console.libremoteio",
+  "identity":        "csharp_console_libremoteio",
   "name":            "Console Application using the Remote I/O Protocol Library",
-  "shortName":       "libremoteio",
+  "shortName":       "csharp_console_libremoteio",
   "sourceName":      "test_libremoteio",
   "tags": {
     "language": "C#",
