@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="libremoteio" Version="1.*" />
+    <PackageReference Include="libremoteio" Version="2.*" />
   </ItemGroup>
 
 </Project>

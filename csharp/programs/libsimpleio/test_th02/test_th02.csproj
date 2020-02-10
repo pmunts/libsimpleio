@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="libsimpleio" Version="1.*" />
+    <PackageReference Include="libsimpleio" Version="2.*" />
   </ItemGroup>
 
 </Project>
