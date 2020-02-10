@@ -30,6 +30,32 @@ CONFIGURATION	?= Release
 
 csharp_mk_default: default
 
+# Pick Visual Studio or Mono tools
+
+ifeq ($(OS), Windows_NT)
+CSC		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/Roslyn/csc.exe
+MSBUILD		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
+MSBUILDTARGET	?= /t:Build
+MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION)
+MSBUILDPROJECT	?=
+else
+CSC		?= csc
+MSBUILD		?= msbuild
+MSBUILDTARGET	?= -t:Build
+MSBUILDFLAGS	?= -p:Configuration=$(CONFIGURATION)
+MSBUILDPROJECT	?=
+endif
+
+# Compile C# application with csc
+
+%.exe: %.cs
+	"$(CSC)" $(CSCFLAGS) $^
+
+# Build Visual Studio C# project with MSBuild
+
+csharp_mk_build:
+	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
+
 # Clean out working files
 
 csharp_mk_clean:

@@ -1,6 +1,6 @@
-# Generic Makefile template for building C# applications
+# Makefile for building libsimpleio.dll for .Net Standard 2.0 
 
-# Copyright (C)2014-2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2014-2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,22 +20,28 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBNAME		= libremoteio-standard
-VERSION		= 1.0.`date '+%Y.%j'`
+BUILDNUM	= 1
+LIBNAME		= libsimpleio
+VERSION		= 2.`date '+%Y.%j'`.$(BUILDNUM)
 CONFIGURATION	= Release
 
-# Build library package
+# Include subordinate makefiles
 
-build:
+include ../../csharp/include/csharp.mk
+
+# Build the projects
+
+default:
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	cp bin/$(CONFIGURATION)/*.nupkg .
-
-# Release library package
-
-release: build
-	cp *.nupkg ..
+ifeq ($(OS),Windows_NT)
+ifeq ($(CONFIGURATION), Release)
+	"$(MSBUILD)" $(LIBNAME).shfbproj
+	install -cm 0644 Help/$(LIBNAME).chm ../../doc
+endif
+endif
 
 # Remove working files
 
-clean:
+clean: csharp_mk_clean
 	rm -rf bin obj *.nupkg

@@ -18,7 +18,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-VERSION		= 1.0.`date '+%Y.%j'`
+BUILDNUM	= 1
+LIBNAME		= libsimpleio
+VERSION		= 2.`date '+%Y.%j'`.$(BUILDNUM)
 CONFIGURATION	= Release
 
 # Build all NuGet packages

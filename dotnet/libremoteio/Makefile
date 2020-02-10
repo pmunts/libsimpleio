@@ -1,6 +1,6 @@
-# Makefile for building a .Net Framework applicaiton for Mono
+# Makefile for building libremoteio.dll for .Net Standard 2.0 
 
-# Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2014-2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,35 +20,28 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Pick Visual Studio or Mono compiler
+BUILDNUM	= 1
+LIBNAME		= libremoteio
+VERSION		= 2.`date '+%Y.%j'`.$(BUILDNUM)
+CONFIGURATION	= Release
 
-ifeq ($(OS), Windows_NT)
-CSC		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/Roslyn/csc.exe
-MSBUILD		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
-MSBUILDTARGET	?= /t:Build
-MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION)
-MSBUILDPROJECT	?=
-else
-CSC		?= csc
-MSBUILD		?= msbuild
-MSBUILDTARGET	?= -t:Build
-MSBUILDFLAGS	?= -p:Configuration=$(CONFIGURATION)
-MSBUILDPROJECT	?=
+# Include subordinate makefiles
+
+include ../../csharp/include/csharp.mk
+
+# Build the projects
+
+default:
+	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
+	cp bin/$(CONFIGURATION)/*.nupkg .
+ifeq ($(OS),Windows_NT)
+ifeq ($(CONFIGURATION), Release)
+	"$(MSBUILD)" $(LIBNAME).shfbproj
+	install -cm 0644 Help/$(LIBNAME).chm ../../doc
+endif
 endif
 
-CSCFLAGS	+= -lib:$(LIBSIMPLEIO)/dotnet
+# Remove working files
 
-# Compile C# application with csc
-
-%.exe: %.cs
-	$(LIBSIMPLEIO)/csharp/include/monolibs.sh $(CSCFLAGS)
-	"$(CSC)" $(CSCFLAGS) $^
-
-# Build Visual Studio C# project with MSBuild
-
-monoapp_mk_build:
-	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
-
-# Clean out working files
-
-monoapp_mk_clean: csharp_mk_clean
+clean: csharp_mk_clean
+	rm -rf bin obj *.nupkg

@@ -34,7 +34,6 @@ endif
 
 include $(LIBSIMPLEIO)/csharp/include/csharp.mk
 include $(LIBSIMPLEIO)/csharp/include/coreapp.mk
-include $(LIBSIMPLEIO)/csharp/include/monoapp.mk
 
 CSCFLAGS	+= -r:libremoteio.dll
 
