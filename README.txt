@@ -93,6 +93,11 @@ News
        dotnet new -i libsimpleio-templates
        dotnet new -i libremoteio-templates
 
+     * 10 February 2020 -- Renamed NuGet package libsimpleio-standard to
+       libsimpleio. Renamed NuGet package libremoteio-standard to
+       libremoteio. Dropped support for building .Net Framework
+       applications with csc.exe.
+
 Documentation
 
    The user manual for libsimpleio is available at
