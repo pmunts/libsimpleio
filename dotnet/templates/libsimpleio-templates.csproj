@@ -13,6 +13,8 @@
     <PackageTags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
 
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
