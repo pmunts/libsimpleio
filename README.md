@@ -51,31 +51,6 @@ Programming) classes for **libsimpleio**.
 News
 ----
 
--   9 January 2019 -- Continued working on the Ada Remote I/O code.
-    Continued working on the Pascal Remote I/O code. Compiling Pascal
-    Remote I/O client programs on Windows is now supported.
--   16 January 2019 -- The C wrapper function source files have been
-    moved to the **`c/`** subdirectory. The source code is now published
-    on [GitHub](https://github.com) at
-    <https://github.com/pmunts/libsimpleio>. The old repository at
-    <http://git.munts.com> (which actually just mirrors a private
-    Subversion repository and then pushed to GitHub) will be maintained,
-    but you should clone from GitHub, which will be *much* faster.
--   8 February 2019 -- Reworked PWM device handling for the Linux 4.19
-    kernel. Cleaned up some stale links and commands in the user manual.
-    Cleaned up some loose ends in the
-    [MY-BASIC](https://github.com/paladin-t/my_basic) bindings and
-    example programs.
--   12 March 2019 -- The Debian native packages now depend on
-    **`libhidapi-dev`**, for Remote I/O over USB raw HID.
--   10 June 2019 -- Material from the *Controlling I/O Devices with Ada
-    using the Remote I/O Protocol* educational tutorial at the
-    [Ada-Europe 2019](https://ae2019.edc.pl) conference is available at
-    <http://git.munts.com/ada-remoteio-tutorial>.
--   18 July 2019 -- Packages for Debian 10 (Buster) are now available at
-    <http://repo.munts.com/debian10>.
--   5 August 2019 -- Started adding .Net Core example programs using
-    [RemObjects Elements](https://www.elementscompiler.com/elements/).
 -   8 January 2020 -- Added **`LINUX_errno()`**. Added
     [libmodbus](https://libmodbus.org) bindings and objects for Ada.
 -   31 January 2020 -- Added .gpr project files to
@@ -95,12 +70,6 @@ News
 -   1 February 2020 -- Added links to [Make With
     Ada](https://www.makewithada.org) projects.
 -   2 February 2020 -- Flattened the **`csharp/`** directory tree.
-    Removed separate Mono program directories. Now you can build a Mono
-    program in one of the unified .Net project directories using a
-    command like:
-
-        make test_gpio.exe
-
 -   7 February 2020 -- Added .Net Core 3.1 project templates for both
     **libsimpleio** and **libremoteio**. Install these from
     [NuGet](https://www.nuget.org) with the following commands:
@@ -112,6 +81,9 @@ News
     to **libsimpleio**. Renamed NuGet package **libremoteio-standard**
     to **libremoteio**. Dropped support for building .Net Framework
     applications with **`csc.exe`**.
+-   12 February 2020 -- Added Visual Studio project templates for
+    **libsimpleio** and **libremoteio** for C\# console applications for
+    .Net Core and .Net Framework.
 
 Documentation
 -------------

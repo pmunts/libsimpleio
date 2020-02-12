@@ -42,31 +42,7 @@
 
 News
 
-     * 9 January 2019 -- Continued working on the Ada Remote I/O code.
-       Continued working on the Pascal Remote I/O code. Compiling Pascal
-       Remote I/O client programs on Windows is now supported.
-     * 16 January 2019 -- The C wrapper function source files have been
-       moved to the c/ subdirectory. The source code is now published on
-       [5]GitHub at [6]https://github.com/pmunts/libsimpleio. The old
-       repository at [7]http://git.munts.com (which actually just mirrors
-       a private Subversion repository and then pushed to GitHub) will be
-       maintained, but you should clone from GitHub, which will be much
-       faster.
-     * 8 February 2019 -- Reworked PWM device handling for the Linux 4.19
-       kernel. Cleaned up some stale links and commands in the user
-       manual. Cleaned up some loose ends in the [8]MY-BASIC bindings and
-       example programs.
-     * 12 March 2019 -- The Debian native packages now depend on
-       libhidapi-dev, for Remote I/O over USB raw HID.
-     * 10 June 2019 -- Material from the Controlling I/O Devices with Ada
-       using the Remote I/O Protocol educational tutorial at the
-       [9]Ada-Europe 2019 conference is available at
-       [10]http://git.munts.com/ada-remoteio-tutorial.
-     * 18 July 2019 -- Packages for Debian 10 (Buster) are now available
-       at [11]http://repo.munts.com/debian10.
-     * 5 August 2019 -- Started adding .Net Core example programs using
-       [12]RemObjects Elements.
-     * 8 January 2020 -- Added LINUX_errno(). Added [13]libmodbus bindings
+     * 8 January 2020 -- Added LINUX_errno(). Added [5]libmodbus bindings
        and objects for Ada.
      * 31 January 2020 -- Added .gpr project files to
        ada/programs/libsimpleio/, ada/programs/libsimpleio/mcp2221/, and
@@ -76,18 +52,12 @@ News
        gprbuild libsimpleio.gpr -p test_userled
 
        Reworked Ada make files to allow building Windows applications in
-       [14]Windows Subsystem for Linux. Until now, using the make files on
-       Windows required using [15]Cygwin.
-     * 1 February 2020 -- Added links to [16]Make With Ada projects.
-     * 2 February 2020 -- Flattened the csharp/ directory tree. Removed
-       separate Mono program directories. Now you can build a Mono program
-       in one of the unified .Net project directories using a command
-       like:
-
-       make test_gpio.exe
-
+       [6]Windows Subsystem for Linux. Until now, using the make files on
+       Windows required using [7]Cygwin.
+     * 1 February 2020 -- Added links to [8]Make With Ada projects.
+     * 2 February 2020 -- Flattened the csharp/ directory tree.
      * 7 February 2020 -- Added .Net Core 3.1 project templates for both
-       libsimpleio and libremoteio. Install these from [17]NuGet with the
+       libsimpleio and libremoteio. Install these from [9]NuGet with the
        following commands:
 
        dotnet new -i libsimpleio-templates
@@ -97,20 +67,23 @@ News
        libsimpleio. Renamed NuGet package libremoteio-standard to
        libremoteio. Dropped support for building .Net Framework
        applications with csc.exe.
+     * 12 February 2020 -- Added Visual Studio project templates for
+       libsimpleio and libremoteio for C# console applications for .Net
+       Core and .Net Framework.
 
 Documentation
 
    The user manual for libsimpleio is available at
-   [18]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [10]http://git.munts.com/libsimpleio/doc/UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at
-   [19]libsimpleio.html
+   [11]libsimpleio.html
 
 Git Repository
 
    The source code is available at:
 
-   [20]https://github.com/pmunts/libsimpleio
+   [12]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -118,16 +91,16 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [21]Debian Linux are available at:
-   [22]http://repo.munts.com/debian10
+   Prebuilt packages for [13]Debian Linux are available at:
+   [14]http://repo.munts.com/debian10
 
-[23]Make With Ada Projects
+[15]Make With Ada Projects
 
-     * 2017 [24]Ada Embedded Linux Framework
-     * 2019 [25]Modbus RTU Framework for Ada
+     * 2017 [16]Ada Embedded Linux Framework
+     * 2019 [17]Modbus RTU Framework for Ada
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [26]phil@munts.net
+   Questions or comments to Philip Munts [18]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -138,25 +111,17 @@ References
    2. https://wiki.analog.com/software/linux/docs/iio/iio
    3. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
    4. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
-   5. https://github.com/
-   6. https://github.com/pmunts/libsimpleio
-   7. http://git.munts.com/
-   8. https://github.com/paladin-t/my_basic
-   9. https://ae2019.edc.pl/
-  10. http://git.munts.com/ada-remoteio-tutorial
-  11. http://repo.munts.com/debian10
-  12. https://www.elementscompiler.com/elements/
-  13. https://libmodbus.org/
-  14. https://docs.microsoft.com/en-us/windows/wsl/faq
-  15. https://www.cygwin.com/
-  16. https://www.makewithada.org/
-  17. https://www.nuget.org/
-  18. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  19. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  20. https://github.com/pmunts/libsimpleio
-  21. http://www.debian.org/
-  22. http://repo.munts.com/debian10
-  23. https://www.makewithada.org/
-  24. https://www.makewithada.org/entry/ada_linux_sensor_framework
-  25. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
-  26. mailto:phil@munts.net
+   5. https://libmodbus.org/
+   6. https://docs.microsoft.com/en-us/windows/wsl/faq
+   7. https://www.cygwin.com/
+   8. https://www.makewithada.org/
+   9. https://www.nuget.org/
+  10. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  11. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  12. https://github.com/pmunts/libsimpleio
+  13. http://www.debian.org/
+  14. http://repo.munts.com/debian10
+  15. https://www.makewithada.org/
+  16. https://www.makewithada.org/entry/ada_linux_sensor_framework
+  17. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
+  18. mailto:phil@munts.net
