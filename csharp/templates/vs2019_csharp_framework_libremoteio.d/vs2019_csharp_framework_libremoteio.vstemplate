@@ -1,0 +1,28 @@
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
+  <TemplateData>
+    <Name>C# console application for .Net Framework using libremoteio</Name>
+    <Description>A project for building a C# console application for .Net Framework using libremoteio.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>vs2019_csharp_framework_libremoteio</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LanguageTag>CSharp</LanguageTag>
+    <PlatformTag>Mono</PlatformTag>
+    <PlatformTag>.Net Framework</PlatformTag>
+    <ProjectTypeTag>console</ProjectTypeTag>
+    <ProjectTypeTag>libremoteio</ProjectTypeTag>
+    <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="vs2019_csharp_framework_libremoteio.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="Properties\AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" OpenInEditor="true">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">App.config</ProjectItem>
+      <ProjectItem ReplaceParameters="true">Makefile</ProjectItem>
+      <ProjectItem ReplaceParameters="true">packages.config</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
