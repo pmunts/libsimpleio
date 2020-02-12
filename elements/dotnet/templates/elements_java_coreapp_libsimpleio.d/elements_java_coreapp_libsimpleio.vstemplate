@@ -1,16 +1,16 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>RemObjects Elements C# console application for .Net Core using libsimpleio</Name>
-    <Description>A project for building a C# console application for .Net Core using libsimpleio.</Description>
-    <Icon>csharp_coreapp_libsimpleio.ico</Icon>
+    <Name>RemObjects Elements Java console application for .Net Core using libsimpleio</Name>
+    <Description>A project for building a Java console application for .Net Core using libsimpleio.</Description>
+    <Icon>elements_java_coreapp_libsimpleio.ico</Icon>
     <ProjectType>Oxygene</ProjectType>
     <Elements:Type>Oxygene.Echoes</Elements:Type>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>csharp_coreapp_libsimpleio</DefaultName>
+    <DefaultName>elements_java_coreapp_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
-    <LanguageTag>CSharp</LanguageTag>
-    <LanguageTag>RemObjects C#</LanguageTag>
+    <LanguageTag>Java</LanguageTag>
+    <LanguageTag>RemObjects Java</LanguageTag>
     <PlatformTag>.Net Core</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
     <ProjectTypeTag>Console</ProjectTypeTag>
@@ -20,17 +20,17 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="csharp_coreapp_libsimpleio.elements" File="csharp_coreapp_libsimpleio.elements" ReplaceParameters="true">
+    <Project TargetFileName="elements_java_coreapp_libsimpleio.elements" File="elements_java_coreapp_libsimpleio.elements" ReplaceParameters="true">
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="false" TargetFileName="App.ico">App.ico</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.java">AssemblyInfo.java</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.cs">Resources.Designer.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.java">Resources.Designer.java</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.cs">Settings.Designer.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.java">Settings.Designer.java</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="false" TargetFileName="Makefile">Makefile</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.java">Program.java</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>
