@@ -5,14 +5,16 @@
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
+    <CreateInPlace>true</CreateInPlace>
     <DefaultName>vs2019_csharp_framework_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>CSharp</LanguageTag>
+    <PlatformTag>Linux</PlatformTag>
     <PlatformTag>Mono</PlatformTag>
     <PlatformTag>.Net Framework</PlatformTag>
     <ProjectTypeTag>console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
+    <ProjectTypeTag>Munts Technologies Linux Simple I/O Library client</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
