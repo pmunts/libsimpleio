@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace console.libsimpleio
+namespace test_libsimpleio
 {
     class Program
     {
