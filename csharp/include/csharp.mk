@@ -26,10 +26,6 @@
 
 CONFIGURATION	?= Release
 
-# Placeholder default target
-
-csharp_mk_default: default
-
 # Pick Visual Studio or Mono tools
 
 ifeq ($(OS), Windows_NT)
@@ -38,26 +34,33 @@ MSBUILD		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/B
 MSBUILDTARGET	?= /t:Build
 MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION)
 MSBUILDPROJECT	?=
+NUGET		?= nuget.exe
 else
 CSC		?= csc
 MSBUILD		?= msbuild
 MSBUILDTARGET	?= -t:Build
 MSBUILDFLAGS	?= -p:Configuration=$(CONFIGURATION)
 MSBUILDPROJECT	?=
+NUGET		?= nuget
 endif
 
-# Compile C# application with csc
+# Compile C# application with csc command line compiler
 
 %.exe: %.cs
 	"$(CSC)" $(CSCFLAGS) $^
 
+# Placeholder default target
+
+csharp_mk_default: default
+
 # Build Visual Studio C# project with MSBuild
 
 csharp_mk_build:
+	"$(NUGET)" restore $(MSBUILDPROJECT)
 	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
 
 # Clean out working files
 
 csharp_mk_clean:
-	rm -rf *.chm *.dll *.exe *.log *.mdb *.nupkg *.pdb *.xml *~ Help
+	rm -rf *.chm *.dll *.exe *.log *.mdb *.nupkg *.pdb *.xml *~ Help packages
 	$(LIBSIMPLEIO)/include/vsclean.sh
