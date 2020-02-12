@@ -13,7 +13,7 @@
     <PlatformTag>.Net Framework</PlatformTag>
     <ProjectTypeTag>console</ProjectTypeTag>
     <ProjectTypeTag>libremoteio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
+    <ProjectTypeTag>Munts Technologies Remote I/O Protocol Library client</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
