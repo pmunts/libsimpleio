@@ -45,12 +45,6 @@ endif
 	rm -f $@
 	cd $< ; zip -r ../$@ *
 
-# Define a pattern rule for unpacking a template archive
-
-%.d: %.zip
-	mkdir -p $@
-	cd $@ ; unzip ../$<
-
 # Define pattern rules for installing a template for MacOS Fire
 
 ifeq ($(shell uname), Darwin)
@@ -114,29 +108,24 @@ endif
 packall:
 	for D in *.d ; do $(MAKE) `basename $$D .d`.zip ; done
 
-# Unpack all template archives
-
-unpackall:
-	for A in *.zip ; do $(MAKE) `basename $$A .zip`.d ; done
-
 # Install all template archives
 
 ifeq ($(shell uname), Darwin)
-installfire:
+installfire: packall
 	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installfire ; done
 endif
 
 ifeq ($(OS), Windows_NT)
-installvs:
+installvs: packall
 	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installvs ; done
 endif
 
 ifeq ($(OS), Windows_NT)
-installwater:
+installwater: packall
 	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installwater ; done
 endif
 
 # Remove working files
 
 clean:
-	rm -rf *.d
+	rm -rf *.zip

@@ -1,0 +1,35 @@
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
+  <TemplateData>
+    <Name>RemObjects Elements Java console application for .Net Core using libremoteio</Name>
+    <Description>A project for building a Java console application for .Net Core using libremoteio.</Description>
+    <Icon>java_coreapp_libremoteio.ico</Icon>
+    <ProjectType>Oxygene</ProjectType>
+    <Elements:Type>Oxygene.Echoes</Elements:Type>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>java_coreapp_libremoteio</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LanguageTag>Java</LanguageTag>
+    <LanguageTag>RemObjects Java</LanguageTag>
+    <PlatformTag>.Net Core</PlatformTag>
+    <ProjectTypeTag>Console</ProjectTypeTag>
+    <ProjectTypeTag>libremoteio</ProjectTypeTag>
+    <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="java_coreapp_libremoteio.elements" File="java_coreapp_libremoteio.elements" ReplaceParameters="true">
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="false" TargetFileName="App.ico">App.ico</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.java">AssemblyInfo.java</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.java">Resources.Designer.java</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.java">Settings.Designer.java</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Makefile">Makefile</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.java">Program.java</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
