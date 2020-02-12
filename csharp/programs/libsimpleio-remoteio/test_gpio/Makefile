@@ -20,22 +20,12 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifneq ($(BOARDNAME),)
-# Override the following macro to build out of tree
-EMBLINUXBASE    ?= $(HOME)/muntsos
-# Cross compile
-include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
-else
-# Native compile
 LIBSIMPLEIO     ?= /usr/local/share/libsimpleio
-endif
 
 # Include subordinate makefiles
 
 include $(LIBSIMPLEIO)/csharp/include/csharp.mk
 include $(LIBSIMPLEIO)/csharp/include/coreapp.mk
-
-CSCFLAGS	+= -r:libsimpleio.dll
 
 # Build the project
 
