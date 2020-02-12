@@ -20,6 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+LIBSIMPLEIO     ?= /usr/local/share/libsimpleio
+
 # Include subordinate makefiles
 
 include $(LIBSIMPLEIO)/csharp/include/csharp.mk
