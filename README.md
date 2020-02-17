@@ -18,6 +18,9 @@ following types of I/O devices:
     I/O](https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start)
     Devices
 -   PWM (Pulse Width Modulated) Output Devices
+-   [Remote I/O
+    Protocol](http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf)
+    Devices
 -   Serial Ports
 -   SPI (Serial Peripheral Interface) Bus Devices
 -   [Stream Framing
