@@ -74,11 +74,10 @@ News
 
 Documentation
 
-   The user manual for libsimpleio is available at
-   [11]UserManual.pdf
+   The user manual for libsimpleio is available at [11]UserManual.pdf.
 
    The man pages specifying the libsimpleio API are available at
-   [12]libsimpleio.html
+   [12]libsimpleio.html.
 
 Git Repository
 
