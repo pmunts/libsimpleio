@@ -1,4 +1,4 @@
-# Makefile for building libremoteio.dll for .Net Standard 2.0 
+# Makefile for building libremoteio.dll for .Net Standard 2.0
 
 # Copyright (C)2014-2020, Philip Munts, President, Munts AM Corp.
 #
