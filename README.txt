@@ -75,7 +75,7 @@ News
 Documentation
 
    The user manual for libsimpleio is available at
-   [11]http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   [11]UserManual.pdf
 
    The man pages specifying the libsimpleio API are available at
    [12]libsimpleio.html

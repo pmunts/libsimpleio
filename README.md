@@ -92,7 +92,7 @@ Documentation
 -------------
 
 The user manual for **libsimpleio** is available at
-<http://git.munts.com/libsimpleio/doc/UserManual.pdf>
+[UserManual.pdf](http://git.munts.com/libsimpleio/doc/UserManual.pdf)
 
 The man pages specifying the **libsimpleio** API are available at
 [libsimpleio.html](http://git.munts.com/libsimpleio/doc/libsimpleio.html)
