@@ -38,7 +38,13 @@ include $(LIBSIMPLEIO)/csharp/include/coreapp.mk
 
 default: coreapp_mk_build
 
-package: coreapp_mk_deb
+# Build an application distribution package
+
+deb: coreapp_mk_deb
+
+nupkg: coreapp_mk_nupkg
+
+rpm: coreapp_mk_rpm
 
 tarball: coreapp_mk_tarball
 
