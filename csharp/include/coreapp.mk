@@ -76,7 +76,13 @@ coreapp_mk_selfcontained:
 	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) -r $(DOTNETARCH) /p:PublishSingleFile=true --self-contained true $(COREAPPPROJ)
 	cp bin/$(CONFIGURATION)/netcoreapp3.1/$(DOTNETARCH)/publish/$(COREAPPNAME) .
 
-# Pack the application into a Debian package file
+# Build a NuGet application package file
+
+coreapp_mk_nupkg:
+	dotnet pack -c $(CONFIGURATION) $(DOTNETFLAGS) $(COREAPPPROJ)
+	cp bin/$(CONFIGURATION)/*.nupkg .
+
+# Build a Debian package file
 
 $(PKGDIR): coreapp_mk_build
 	mkdir -p						$(PKGDIR)/DEBIAN
@@ -95,8 +101,6 @@ $(PKGDIR): coreapp_mk_build
 	find $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 	touch $@
 
-# Build a Debian package file
-
 include $(LIBSIMPLEIO)/include/dpkg.mk
 
 coreapp_mk_deb: $(DEBFILE)
@@ -112,12 +116,6 @@ coreapp_mk_rpm: $(RPMFILE)
 include $(LIBSIMPLEIO)/include/tarball.mk
 
 coreapp_mk_tarball: $(TARFILE)
-
-# Build an application NuGet package (aka glorified zip file)
-
-coreapp_mk_nupkg:
-	dotnet pack -c $(CONFIGURATION) $(DOTNETFLAGS) $(COREAPPPROJ)
-	cp bin/$(CONFIGURATION)/*.nupkg .
 
 # Remove working files
 
