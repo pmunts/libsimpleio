@@ -5,25 +5,28 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <!-- Disable internationalization to eliminate requirement for iconv -->
+
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
   </ItemGroup>
+
+  <!-- Reference NuGet package libremoteio (https://www.nuget.org/packages/libremoteio) -->
 
   <ItemGroup>
     <PackageReference Include="libremoteio" Version="2.*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="bin/$(Configuration)/netcoreapp3.1/libremoteio.dll">
-      <Pack>true</Pack>
-      <PackagePath>lib/netcoreapp3.1</PackagePath>
-    </Content>
-  </ItemGroup>
+  <!-- Include all necessary library assemblies in the package -->
 
   <ItemGroup>
-    <Content Include="bin/$(Configuration)/netcoreapp3.1/HidSharp.dll">
+    <Content Include="$(BaseOutputPath)/$(Configuration)/$(TargetFramework)/libremoteio.dll">
       <Pack>true</Pack>
-      <PackagePath>lib/netcoreapp3.1</PackagePath>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+    </Content>
+    <Content Include="$(BaseOutputPath)/$(Configuration)/$(TargetFramework)/HidSharp.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </Content>
   </ItemGroup>
 
