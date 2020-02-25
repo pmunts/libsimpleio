@@ -13,4 +13,18 @@
     <PackageReference Include="libremoteio" Version="2.*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="bin/$(Configuration)/netcoreapp3.1/libremoteio.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib/netcoreapp3.1</PackagePath>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin/$(Configuration)/netcoreapp3.1/HidSharp.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib/netcoreapp3.1</PackagePath>
+    </Content>
+  </ItemGroup>
+
 </Project>
