@@ -24,7 +24,7 @@
       <Pack>true</Pack>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </Content>
-    <Content Include="start.script" Condition="Exists('start.script')">
+    <Content Include="S00$(ProjectName)" Condition="Exists('S00$(ProjectName)')">
       <Pack>true</Pack>
       <PackagePath>rc.d</PackagePath>
     </Content>
