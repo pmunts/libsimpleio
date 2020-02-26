@@ -87,8 +87,12 @@ coreapp_mk_nupkg:
 $(PKGDIR): coreapp_mk_build
 	mkdir -p						$(PKGDIR)/DEBIAN
 	install -cm 0644 $(LIBSIMPLEIO)/csharp/include/coreapp.control	$(PKGDIR)/DEBIAN/control
-	$(SED) -i s/@@NAME@@/$(PKGNAME)/g				$(PKGDIR)/DEBIAN/control
+	$(SED) -i s/@@NAME@@/$(PKGNAME)/g			$(PKGDIR)/DEBIAN/control
 	$(SED) -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
+ifneq ($(wildcard start.script),)
+	mkdir -p						$(PKGDIR)/etc/rc.d
+	install -cm 0755 start.script				$(PKGDIR)/etc/rc.d/$(COREAPPNAME)	
+endif
 	mkdir -p 						$(PKGDIR)/$(COREAPPBIN)
 	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
 	chmod 755						$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
