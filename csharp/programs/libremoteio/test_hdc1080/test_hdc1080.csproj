@@ -28,6 +28,10 @@
       <Pack>true</Pack>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </Content>
+    <Content Include="start.script" Condition="Exists('start.script')">
+      <Pack>true</Pack>
+      <PackagePath>rc.d</PackagePath>
+    </Content>
   </ItemGroup>
 
 </Project>
