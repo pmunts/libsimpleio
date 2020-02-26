@@ -29,6 +29,9 @@ BuildArch: @@BUILDARCH@@
 Group: @@GROUP@@
 License: @@LICENSE@@
 
+%clean
+/bin/true
+
 %description
 @@SUMMARY@@
 
