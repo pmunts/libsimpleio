@@ -89,9 +89,9 @@ $(PKGDIR): coreapp_mk_build
 	install -cm 0644 $(LIBSIMPLEIO)/csharp/include/coreapp.control	$(PKGDIR)/DEBIAN/control
 	$(SED) -i s/@@NAME@@/$(PKGNAME)/g			$(PKGDIR)/DEBIAN/control
 	$(SED) -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
-ifneq ($(wildcard start.script),)
+ifneq ($(wildcard S[0-9][0-9]$(COREAPPNAME)),)
 	mkdir -p						$(PKGDIR)/etc/rc.d
-	install -cm 0755 start.script				$(PKGDIR)/etc/rc.d/$(COREAPPNAME)	
+	install -cm 0755 S[0-9][0-9]$(COREAPPNAME)		$(PKGDIR)/etc/rc.d
 endif
 	mkdir -p 						$(PKGDIR)/$(COREAPPBIN)
 	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
