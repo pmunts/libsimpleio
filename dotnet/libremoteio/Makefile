@@ -43,6 +43,13 @@ ifeq ($(CONFIGURATION), Release)
 endif
 endif
 
+# Install NuGet package to local package feed
+
+install_local: default
+	mkdir -p ../nuget
+	rm -rf ../nuget/$(LIBNAME)
+	nuget add *.nupkg -source ../nuget
+
 # Remove working files
 
 clean: csharp_mk_clean
