@@ -20,49 +20,18 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+using IO.Objects.libsimpleio.Device;
 using IO.Objects.libsimpleio.Exceptions;
 
 namespace IO.Objects.libsimpleio.GPIO
 {
     /// <summary>
-    /// GPIO pin designator.
-    /// </summary>
-    public struct Designator
-    {
-        /// <summary>
-        /// Linux kernel GPIO chip number.
-        /// </summary>
-        public uint chip;
-
-        /// <summary>
-        /// Linux kernel GPIO line number.
-        /// </summary>
-        public uint line;
-
-        /// <summary>
-        /// GPIO pin designator constructor.
-        /// </summary>
-        /// <param name="chip">Linux kernel GPIO chip number.</param>
-        /// <param name="line">Linux kernel GPIO line number.</param>
-        public Designator(uint chip, uint line)
-        {
-            this.chip = chip;
-            this.line = line;
-        }
-    }
-
-    /// <summary>
     /// Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
     /// </summary>
     public class Pin : IO.Interfaces.GPIO.Pin
     {
-        private int myfd;
-        private Kinds kind;
-
-        /// <summary>
-        /// GPIO pin designator for unusable pins.
-        /// </summary>
-        public static readonly Designator Unavailable = new Designator(uint.MaxValue, uint.MaxValue);
+        private readonly int myfd;
+        private readonly Kinds kind;
 
         /// <summary>
         /// GPIO output driver settings.
@@ -240,49 +209,6 @@ namespace IO.Objects.libsimpleio.GPIO
         /// <summary>
         /// Constructor for a single GPIO pin.
         /// </summary>
-        /// <param name="chip">Linux kernel GPIO chip number.</param>
-        /// <param name="line">Linux kernel GPIO line number.</param>
-        /// <param name="dir">Data direction.</param>
-        /// <param name="state">Initial output state.</param>
-        /// <param name="driver">Output driver setting</param>
-        /// <param name="edge">Interrupt edge setting.</param>
-        /// <param name="polarity">Polarity setting.</param>
-        public Pin(uint chip, uint line, IO.Interfaces.GPIO.Direction dir,
-            bool state = false, Driver driver = Driver.PushPull,
-            Edge edge = Edge.None, Polarity polarity = Polarity.ActiveHigh)
-        {
-            // Validate the GPIO chip and line numbers
-
-            if (chip == Unavailable.chip)
-            {
-                throw new System.Exception("GPIO chip number is invalid");
-            }
-
-            if (line == Unavailable.line)
-            {
-                throw new System.Exception("GPIO line number is invalid");
-            }
-
-            int flags;
-            int events;
-            int error;
-
-            CalculateFlags(dir, driver, edge, polarity, out flags, out events,
-                out this.kind);
-
-            IO.Bindings.libsimpleio.libGPIO.GPIO_line_open((int)chip,
-                (int)line, flags, events, state ? 1 : 0, out this.myfd,
-                out error);
-
-            if (error != 0)
-            {
-                throw new Exception("GPIO_line_open() failed", error);
-            }
-        }
-
-        /// <summary>
-        /// Constructor for a single GPIO pin.
-        /// </summary>
         /// <param name="pin">GPIO pin designator.</param>
         /// <param name="dir">Data direction.</param>
         /// <param name="state">Initial output state.</param>
@@ -295,7 +221,8 @@ namespace IO.Objects.libsimpleio.GPIO
         {
             // Validate the GPIO pin designator
 
-            if ((pin.chip == Unavailable.chip) || (pin.line == Unavailable.line))
+            if ((pin.chip == Designator.Unavailable.chip) ||
+                (pin.chan == Designator.Unavailable.chan))
             {
                 throw new Exception("GPIO pin designator is invalid");
             }
@@ -308,7 +235,7 @@ namespace IO.Objects.libsimpleio.GPIO
                 out this.kind);
 
             IO.Bindings.libsimpleio.libGPIO.GPIO_line_open((int)pin.chip,
-                (int)pin.line, flags, events, state ? 1 : 0, out this.myfd,
+                (int)pin.chan, flags, events, state ? 1 : 0, out this.myfd,
                 out error);
 
             if (error != 0)

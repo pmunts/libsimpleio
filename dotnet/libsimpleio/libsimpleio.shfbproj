@@ -52,6 +52,7 @@
       <NamespaceSummaryItem name="IO.Objects.Servo.PWM" isDocumented="True">PWM Controlled Servo Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.ADC" isDocumented="True">ADC (Analog to Digital Converter) Input Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.DAC" isDocumented="True">DAC (Digital to Analog Converter) Output Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.Device" isDocumented="True">Common device declarations</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Exceptions" isDocumented="True">Exception Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.GPIO" isDocumented="True">GPIO (General Purpose Input/Output) Pin Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.HID" isDocumented="True">Raw HID (Human Interface Device) Services</NamespaceSummaryItem>

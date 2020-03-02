@@ -1,6 +1,6 @@
 //  GPIO Interrupt Button and LED Test using libsimpleio
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_gpio_interrupt_button_led
 {
@@ -33,15 +32,21 @@ namespace test_gpio_interrupt_button_led
 
             // Create GPIO pin objects
 
+            IO.Objects.libsimpleio.Device.Designator desg_Button =
+                new IO.Objects.libsimpleio.Device.Designator(0, 19);
+
             IO.Interfaces.GPIO.Pin Button =
-              new IO.Objects.libsimpleio.GPIO.Pin(0, 19,
-                IO.Interfaces.GPIO.Direction.Input, false,
-                IO.Objects.libsimpleio.GPIO.Pin.Driver.PushPull,
-                IO.Objects.libsimpleio.GPIO.Pin.Edge.Both);
+                new IO.Objects.libsimpleio.GPIO.Pin(desg_Button,
+                    IO.Interfaces.GPIO.Direction.Input, false,
+                    IO.Objects.libsimpleio.GPIO.Pin.Driver.PushPull,
+                    IO.Objects.libsimpleio.GPIO.Pin.Edge.Both);
+
+            IO.Objects.libsimpleio.Device.Designator desg_LED =
+                new IO.Objects.libsimpleio.Device.Designator(0, 26);
 
             IO.Interfaces.GPIO.Pin LED =
-              new IO.Objects.libsimpleio.GPIO.Pin(0, 26,
-                IO.Interfaces.GPIO.Direction.Output, false);
+                new IO.Objects.libsimpleio.GPIO.Pin(desg_LED,
+                    IO.Interfaces.GPIO.Direction.Output, false);
 
             // Main event loop
 

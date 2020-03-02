@@ -1,6 +1,6 @@
 // Motor output test using PWM (speed) and GPIO (direction) outputs
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_motor_pwm1
 {
@@ -31,11 +30,13 @@ namespace test_motor_pwm1
         {
             Console.WriteLine("\nMotor Output Test using libsimpleio\n");
 
+            IO.Objects.libsimpleio.Device.Designator desg_GPIO;
+
             Console.Write("GPIO chip number:    ");
-            uint gpiochip = uint.Parse(Console.ReadLine());
+            desg_GPIO.chip = uint.Parse(Console.ReadLine());
 
             Console.Write("GPIO line number:    ");
-            uint gpioline = uint.Parse(Console.ReadLine());
+            desg_GPIO.chan = uint.Parse(Console.ReadLine());
 
             Console.Write("PWM chip:            ");
             int pwmchip = int.Parse(Console.ReadLine());
@@ -46,18 +47,18 @@ namespace test_motor_pwm1
             // Create GPIO pin object
 
             IO.Interfaces.GPIO.Pin GPIO0 =
-              new IO.Objects.libsimpleio.GPIO.Pin(gpiochip, gpioline,
-                IO.Interfaces.GPIO.Direction.Output);
+                new IO.Objects.libsimpleio.GPIO.Pin(desg_GPIO,
+                    IO.Interfaces.GPIO.Direction.Output);
 
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-              new IO.Objects.libsimpleio.PWM.Output(pwmchip, pwmchan, 100);
+                new IO.Objects.libsimpleio.PWM.Output(pwmchip, pwmchan, 100);
 
             // Create motor object
 
             IO.Interfaces.Motor.Output Motor0 =
-              new IO.Objects.Motor.PWM.Output(GPIO0, PWM0);
+                new IO.Objects.Motor.PWM.Output(GPIO0, PWM0);
 
             // Sweep motor velocity up and down
 
@@ -70,13 +71,13 @@ namespace test_motor_pwm1
                 for (n = -100; n < 100; n++)
                 {
                     Motor0.velocity = n / 100.0;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
 
                 for (n = 100; n >= -100; n--)
                 {
                     Motor0.velocity = n / 100.0;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
             }
         }

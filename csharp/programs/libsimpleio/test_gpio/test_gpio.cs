@@ -1,6 +1,6 @@
 // GPIO pin toggle test using libsimpleio
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,18 +28,20 @@ namespace test_gpio
     {
         static void Main(string[] args)
         {
+            IO.Objects.libsimpleio.Device.Designator desg;
+
             Console.WriteLine("\nGPIO Pin Toggle Test using libsimpleio\n");
 
             // Create GPIO pin object
 
-            Console.Write("GPIO chip number? ");
-            uint chip = uint.Parse(Console.ReadLine());
+            Console.Write("GPIO chip number?    ");
+            desg.chip = uint.Parse(Console.ReadLine());
 
-            Console.Write("GPIO line number? ");
-            uint line = uint.Parse(Console.ReadLine());
+            Console.Write("GPIO channel number? ");
+            desg.chan = uint.Parse(Console.ReadLine());
 
             IO.Interfaces.GPIO.Pin Output =
-              new IO.Objects.libsimpleio.GPIO.Pin(chip, line,
+              new IO.Objects.libsimpleio.GPIO.Pin(desg,
                 IO.Interfaces.GPIO.Direction.Output, false);
 
             // Toggle the GPIO output

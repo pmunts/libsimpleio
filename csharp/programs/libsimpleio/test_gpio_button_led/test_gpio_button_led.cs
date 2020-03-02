@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_gpio_button_led
 {
@@ -31,20 +30,26 @@ namespace test_gpio_button_led
         {
             Console.WriteLine("\n GPIO Button and LED Test using libsimpleio\n");
 
-            bool ButtonOld = false;
-            bool ButtonNew = false;
-
             // Create GPIO pin objects
 
+            IO.Objects.libsimpleio.Device.Designator desg_Button =
+                new IO.Objects.libsimpleio.Device.Designator(0, 19);
+
             IO.Interfaces.GPIO.Pin Button =
-              new IO.Objects.libsimpleio.GPIO.Pin(0, 19,
-                IO.Interfaces.GPIO.Direction.Input);
+                new IO.Objects.libsimpleio.GPIO.Pin(desg_Button,
+                    IO.Interfaces.GPIO.Direction.Input);
+
+            IO.Objects.libsimpleio.Device.Designator desg_LED =
+                new IO.Objects.libsimpleio.Device.Designator(0, 26);
 
             IO.Interfaces.GPIO.Pin LED =
-              new IO.Objects.libsimpleio.GPIO.Pin(0, 26,
-                IO.Interfaces.GPIO.Direction.Output, false);
+                new IO.Objects.libsimpleio.GPIO.Pin(desg_LED,
+                    IO.Interfaces.GPIO.Direction.Output, false);
 
             // Force initial state change
+
+            bool ButtonOld = false;
+            bool ButtonNew = false;
 
             ButtonOld = !Button.state;
 
@@ -61,7 +66,7 @@ namespace test_gpio_button_led
                     ButtonOld = ButtonNew;
                 }
 
-                Thread.Sleep(100);
+                System.Threading.Thread.Sleep(100);
             }
         }
     }
