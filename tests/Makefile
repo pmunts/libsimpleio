@@ -33,6 +33,8 @@ test_parameter_checks: test_parameter_checks.c
 
 test_compile:
 	-$(MAKE) test_compile_boards >test_compile.log 2>&1
+	-$(MAKE) test_compile_csharp >>test_compile.log 2>&1
+	-$(MAKE) test_compile_elements >>test_compile.log 2>&1
 	-grep -i error test_compile.log | cat
 	-grep -i warn test_compile.log | grep -v 'did you forget' | cat
 
@@ -51,18 +53,18 @@ test_compile_programs:
 	-$(MAKE) -C ../ada/programs/remoteio clean
 	-$(MAKE) -C ../c++/programs default
 	-$(MAKE) -C ../c++/programs clean
-	-$(MAKE) -C ../csharp/programs/libremoteio/mono default
-	-$(MAKE) -C ../csharp/programs/libremoteio/mono clean
-	-$(MAKE) -C ../csharp/programs/libsimpleio/mono default
-	-$(MAKE) -C ../csharp/programs/libsimpleio/mono clean
-	-$(MAKE) -C ../csharp/programs/libsimpleio-remoteio/mono default
-	-$(MAKE) -C ../csharp/programs/libsimpleio-remoteio/mono clean
 	-$(MAKE) -C ../java/programs default
 	-$(MAKE) -C ../java/programs clean
 	-$(MAKE) -C ../pascal/programs default
 	-$(MAKE) -C ../pascal/programs clean
 	-$(MAKE) -C ../pascal/programs/remoteio default
 	-$(MAKE) -C ../pascal/programs/remoteio clean
+
+test_compile_csharp:
+	for D in ../csharp/programs/*/* ; do $(MAKE) -C $$D default clean ; done
+
+test_compile_elements:
+	for D in ../elements/dotnet/programs/*/* ; do $(MAKE) -C $$D default clean ; done
 
 clean:
 	rm -rf $(PROGRAMS) *.log
