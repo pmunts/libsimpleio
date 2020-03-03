@@ -71,7 +71,7 @@ namespace IO.Objects.libsimpleio.DAC
             if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
                 (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
             {
-                throw new Exception("DAC output designator is invalid");
+                throw new Exception("Invalid designator");
             }
 
             IO.Bindings.libsimpleio.libDAC.DAC_open((int)desg.chip, (int)desg.chan,

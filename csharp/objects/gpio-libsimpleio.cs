@@ -224,7 +224,7 @@ namespace IO.Objects.libsimpleio.GPIO
             if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
                 (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
             {
-                throw new Exception("GPIO pin designator is invalid");
+                throw new Exception("Invalid designator");
             }
 
             int flags;
