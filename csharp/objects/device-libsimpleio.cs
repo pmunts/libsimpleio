@@ -25,6 +25,11 @@ namespace IO.Objects.libsimpleio.Device
     /// <summary>
     /// Linux kernel I/O device designator..
     /// </summary>
+    /// <remarks>
+    /// Many Linux kernel I/O devices, including ADC inputs, DAC outputs,
+    /// GPIO pins, I2C buses, PWM outputs, and SPI devices, are selected by a
+    /// tuple of integers: chip and channel.
+    /// </remarks>
     public struct Designator
     {
         /// <summary>
