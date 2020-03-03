@@ -1,6 +1,6 @@
 // BeagleBone device definitions
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -30,139 +30,236 @@ namespace IO.Objects.Platforms
     /// </summary>
     public static class BeagleBone
     {
-        /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>ADC input designator for P9.39 (1.8V)</summary>
+        /// <remarks>Requires the <c>BB-ADC</c> device tree overlay.</remarks>
+        public static readonly Designator AIN0 = new Designator(0, 0);      // P9.39 1.8V
+        /// <summary>ADC input designator for P9.40 (1.8V)</summary>
+        /// <remarks>Requires the <c>BB-ADC</c> device tree overlay.</remarks>
+        public static readonly Designator AIN1 = new Designator(0, 1);      // P9.40 1.8V
+        /// <summary>ADC input designator for P9.37 (1.8V)</summary>
+        /// <remarks>Requires the <c>BB-ADC</c> device tree overlay.</remarks>
+        public static readonly Designator AIN2 = new Designator(0, 2);      // P9.37 1.8V
+        /// <summary>ADC input designator for P9.38 (1.8V)</summary>
+        /// <remarks>Requires the <c>BB-ADC</c> device tree overlay.</remarks>
+        public static readonly Designator AIN3 = new Designator(0, 3);      // P9.38 1.8V
+        /// <summary>ADC input designator for P9.33 (1.8V)</summary>
+        /// <remarks>Requires the <c>BB-ADC</c> device tree overlay.</remarks>
+        public static readonly Designator AIN4 = new Designator(0, 4);      // P9.33 1.8V
+        /// <summary>ADC input designator for P9.36 (1.8V)</summary>
+        /// <remarks>Requires the <c>BB-ADC</c> device tree overlay.</remarks>
+        public static readonly Designator AIN5 = new Designator(0, 5);      // P9.36 1.8V
+        /// <summary>ADC input designator for P9.35 (1.8V)</summary>
+        /// <remarks>Requires the <c>BB-ADC</c> device tree overlay.</remarks>
+        public static readonly Designator AIN6 = new Designator(0, 6);      // P9.35 1.8V
+
+        /// <summary>Legacy GPIO pin designator for P9.22</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO2 = new Designator(0, 2);     // P9.22  UART2 RXD
-        /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.21</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO3 = new Designator(0, 3);     // P9.21  UART2 TXD
-        /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.18</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO4 = new Designator(0, 4);     // P9.18
-        /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.17</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO5 = new Designator(0, 5);     // P9.17
-        /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.42</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO7 = new Designator(0, 7);     // P9.42  SPI1 SS1
-        /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.35</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO8 = new Designator(0, 8);     // P8.35
-        /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.33</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO9 = new Designator(0, 9);     // P8.33
-        /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.31</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO10 = new Designator(0, 10);   // P8.31
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.32</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO11 = new Designator(0, 11);   // P8.32
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.20</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO12 = new Designator(0, 12);   // P9.20  I2C2 SDA
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.19</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO13 = new Designator(0, 13);   // P9.19  I2C2 SCL
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.26</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO14 = new Designator(0, 14);   // P9.26  UART1 RXD
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.24</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO15 = new Designator(0, 15);   // P9.24  UART1 TXD
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.41</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO20 = new Designator(0, 20);   // P9.41
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.19</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO22 = new Designator(0, 22);   // P8.19
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.13</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO23 = new Designator(0, 23);   // P8.13
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.14</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO26 = new Designator(0, 26);   // P8.14
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.17</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO27 = new Designator(0, 27);   // P8.17
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.11</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO30 = new Designator(0, 30);   // P9.11  UART4 RXD
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.13</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO31 = new Designator(0, 31);   // P9.13  UART4 TXD
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.25</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
         public static readonly Designator GPIO32 = new Designator(1, 0);    // P8.25  MMC1 DAT0
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.24</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
         public static readonly Designator GPIO33 = new Designator(1, 1);    // P8.24  MMC1 DAT1
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.5</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
         public static readonly Designator GPIO34 = new Designator(1, 2);    // P8.5   MMC1 DAT2
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.6</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
         public static readonly Designator GPIO35 = new Designator(1, 3);    // P8.6   MMC1 DAT3
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.23</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
         public static readonly Designator GPIO36 = new Designator(1, 4);    // P8.23  MMC1 DAT4
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.22</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
         public static readonly Designator GPIO37 = new Designator(1, 5);    // P8.22  MMC1 DAT5
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.3</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
         public static readonly Designator GPIO38 = new Designator(1, 6);    // P8.3   MMC1 DAT6
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.4</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
         public static readonly Designator GPIO39 = new Designator(1, 7);    // P8.4   MMC1 DAT7
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.12</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO44 = new Designator(1, 12);   // P8.12
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.11</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO45 = new Designator(1, 13);   // P8.11
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.16</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO46 = new Designator(1, 14);   // P8.16
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.15</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO47 = new Designator(1, 15);   // P8.15
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.15</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO48 = new Designator(1, 16);   // P9.15
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.23</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO49 = new Designator(1, 17);   // P9.23
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.14</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO50 = new Designator(1, 18);   // P9.14
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.16</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO51 = new Designator(1, 19);   // P9.16
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.12</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO60 = new Designator(1, 28);   // P9.12
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.26</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO61 = new Designator(1, 29);   // P8.26
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.21</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
         public static readonly Designator GPIO62 = new Designator(1, 30);   // P8.21  MMC1 CLK
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <remarks>Requires the BeagleBone White and the <c>BB-NOEMMC</c> device tree overlay.</remarks>
+        /// <summary>Legacy GPIO pin designator for P8.20</summary>
         public static readonly Designator GPIO63 = new Designator(1, 31);   // P8.20  MMC1 CMD
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.18</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO65 = new Designator(2, 1);    // P8.18
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.7</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO66 = new Designator(2, 2);    // P8.7
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.8</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO67 = new Designator(2, 3);    // P8.8
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.10</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO68 = new Designator(2, 4);    // P8.10
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.9</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO69 = new Designator(2, 5);    // P8.9
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.45</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO70 = new Designator(2, 6);    // P8.45
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.46</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO71 = new Designator(2, 7);    // P8.46
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.43</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO72 = new Designator(2, 8);    // P8.43
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.44</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO73 = new Designator(2, 9);    // P8.44
-         /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.41</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO74 = new Designator(2, 10);   // P8.41
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.42</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO75 = new Designator(2, 11);   // P8.42
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.39</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO76 = new Designator(2, 12);   // P8.39
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.40</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO77 = new Designator(2, 13);   // P8.40
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.37</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO78 = new Designator(2, 14);   // P8.37  UART5 TXD
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.38</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO79 = new Designator(2, 15);   // P8.38  UART5 RXD
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.36</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO80 = new Designator(2, 16);   // P8.36
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.34</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO81 = new Designator(2, 17);   // P8.34
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.27</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO86 = new Designator(2, 22);   // P8.27
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.29</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO87 = new Designator(2, 23);   // P8.29
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.28</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO88 = new Designator(2, 24);   // P8.28
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P8.30</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO89 = new Designator(2, 25);   // P8.30
-          /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.31</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO110 = new Designator(3, 14);  // P9.31  SPI1 SCLK
-           /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.29</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO111 = new Designator(3, 15);  // P9.29  SPI1 MISO
-           /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.30</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO112 = new Designator(3, 16);  // P9.30  SPI1 MOSI
-           /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.28</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO113 = new Designator(3, 17);  // P9.28  SPI1 SS0
-           /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.27</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO115 = new Designator(3, 19);  // P9.27
-           /// <summary>Legacy GPIO pin designator</summary>
+        /// <summary>Legacy GPIO pin designator for P9.25</summary>
+        /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator GPIO117 = new Designator(3, 21);  // P9.25
+
+        /// <summary>I2C bus designator for P9.19 and P9.20</summary>
+        public static readonly Designator I2C2 = new Designator(0, 2);      // P9.19 and P9.20
+
+        /// <summary>SPI slave select designator for P9.28</summary>
+        public static readonly Designator SPI2_0 = new Designator(2, 0);    // P9.28
+        /// <summary>SPI slave select designator for P9.42</summary>
+        public static readonly Designator SPI2_1 = new Designator(2, 1);    // P9.42
     }
 }

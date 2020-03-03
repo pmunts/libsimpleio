@@ -30,6 +30,16 @@ namespace IO.Objects.Platforms
     /// </summary>
     public static class RaspberryPi
     {
+        // The following analog inputs are only available if the Mikroelektronika
+        // Pi 3 Click Shield (MIKROE-2756) and its device tree overlay are installed
+
+        /// <summary>Analog input designator</summary>
+        /// <remarks>Requires the Mikroelektronika Pi 3 Click Shield and the <c>Pi3ClickShield</c> device tree overlay.</remarks>
+        public static readonly Designator AIN0 = new Designator(0, 0);
+        /// <summary>Analog input designator</summary>
+        /// <remarks>Requires the Mikroelektronika Pi 3 Click Shield and the <c>Pi3ClickShield</c> device tree overlay.</remarks>
+        public static readonly Designator AIN1 = new Designator(0, 1);
+
         // The following GPIO pins are available on all Raspberry Pi Models
 
         /// <summary>Legacy GPIO pin designator</summary>
@@ -88,5 +98,27 @@ namespace IO.Objects.Platforms
         public static readonly Designator GPIO21 = new Designator(0, 21);  // SPI1 SCLK
          /// <summary>Legacy GPIO pin designator</summary>
         public static readonly Designator GPIO26 = new Designator(0, 26);
+
+        // The following I2C buses are available on all Raspberry Pi Models
+
+        /// <summary>I2C bus designator for GPIO2 and GPIO3</summary>:
+        public static readonly Designator I2C1 = new Designator(0, 1);     // GPIO2 and GPIO3
+
+        // The following PWM outputs are only available if the proper
+        // device tree overlay(s) are installed
+
+        /// <summary>PWM output designator for GPIO18</summary>
+        /// <remarks>Requires the <c>pwm</c> device tree overlay.</remarks>
+        public static readonly Designator PWM0 = new Designator(0, 0);     // GPIO18
+        /// <summary>PWM output designator for GPIO19</summary>
+        /// <remarks>Requires the <c>pwm</c> device tree overlay.</remarks>
+        public static readonly Designator PWM1 = new Designator(0, 1);     // GPIO19
+
+        // The following SPI slave selects are available on all Raspberry Pi Models
+
+        /// <summary>SPI slave select designator for GPIO8</summary>
+        public static readonly Designator SPI0_0 = new Designator(0, 0);   // GPIO8
+        /// <summary>SPI slave select designator for GPIO7</summary>
+        public static readonly Designator SPI0_1 = new Designator(0, 1);   // GPIO7
     }
 }
