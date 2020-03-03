@@ -1,6 +1,6 @@
 // GPIO pin services using IO.Objects.libsimpleio
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Device;
 using IO.Objects.libsimpleio.Exceptions;
 
 namespace IO.Objects.libsimpleio.GPIO
@@ -209,20 +208,21 @@ namespace IO.Objects.libsimpleio.GPIO
         /// <summary>
         /// Constructor for a single GPIO pin.
         /// </summary>
-        /// <param name="pin">GPIO pin designator.</param>
+        /// <param name="desg">GPIO pin designator.</param>
         /// <param name="dir">Data direction.</param>
         /// <param name="state">Initial output state.</param>
         /// <param name="driver">Output driver setting</param>
         /// <param name="edge">Interrupt edge setting.</param>
         /// <param name="polarity">Polarity setting.</param>
-        public Pin(Designator pin, IO.Interfaces.GPIO.Direction dir,
-            bool state = false, Driver driver = Driver.PushPull,
-            Edge edge = Edge.None, Polarity polarity = Polarity.ActiveHigh)
+        public Pin(IO.Objects.libsimpleio.Device.Designator desg,
+            IO.Interfaces.GPIO.Direction dir, bool state = false,
+            Driver driver = Driver.PushPull, Edge edge = Edge.None,
+            Polarity polarity = Polarity.ActiveHigh)
         {
             // Validate the GPIO pin designator
 
-            if ((pin.chip == Designator.Unavailable.chip) ||
-                (pin.chan == Designator.Unavailable.chan))
+            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
             {
                 throw new Exception("GPIO pin designator is invalid");
             }
@@ -234,8 +234,8 @@ namespace IO.Objects.libsimpleio.GPIO
             CalculateFlags(dir, driver, edge, polarity, out flags, out events,
                 out this.kind);
 
-            IO.Bindings.libsimpleio.libGPIO.GPIO_line_open((int)pin.chip,
-                (int)pin.chan, flags, events, state ? 1 : 0, out this.myfd,
+            IO.Bindings.libsimpleio.libGPIO.GPIO_line_open((int)desg.chip,
+                (int)desg.chan, flags, events, state ? 1 : 0, out this.myfd,
                 out error);
 
             if (error != 0)
