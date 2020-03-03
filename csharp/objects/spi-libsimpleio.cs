@@ -40,7 +40,7 @@ namespace IO.Objects.libsimpleio.SPI
         /// <summary>
         /// Constructor for a single SPI device.
         /// </summary>
-        /// <param name="devname">Device node name.</param>
+        /// <param name="devname">SPI device node name.</param>
         /// <param name="mode">SPI clock mode.</param>
         /// <param name="wordsize">SPI transfer word size.</param>
         /// <param name="speed">SPI transfer speed.</param>
@@ -49,10 +49,46 @@ namespace IO.Objects.libsimpleio.SPI
         public Device(string devname, int mode, int wordsize,
             int speed, IO.Objects.libsimpleio.GPIO.Pin cspin = AUTOCHIPSELECT)
         {
-            int error;
+            IO.Bindings.libsimpleio.libSPI.SPI_open(devname, mode, wordsize,
+                speed, out this.myfd, out int error);
+
+            if (error != 0)
+            {
+                throw new Exception("SPI_open() failed", error);
+            }
+
+            if (cspin == AUTOCHIPSELECT)
+                this.myfdcs = IO.Bindings.libsimpleio.libSPI.SPI_AUTO_CS;
+            else
+                this.myfdcs = cspin.fd;
+        }
+
+        /// <summary>
+        /// Constructor for a single SPI device.
+        /// </summary>
+        /// <param name="desg">SPI device designator.</param>
+        /// <param name="mode">SPI clock mode.</param>
+        /// <param name="wordsize">SPI transfer word size.</param>
+        /// <param name="speed">SPI transfer speed.</param>
+        /// <param name="cspin">SPI slave select GPIO pin number, or
+        /// <c>AUTOCHIPSELECT</c>.</param>
+        public Device(IO.Objects.libsimpleio.Device.Designator desg, int mode,
+            int wordsize, int speed,
+            IO.Objects.libsimpleio.GPIO.Pin cspin = AUTOCHIPSELECT)
+        {
+            // Validate the I2C bus designator
+
+            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
+            {
+                throw new Exception("Invalid designator");
+            }
+
+            System.String devname = System.String.Format("/dev/spidev{0}.{1}",
+              desg.chip, desg.chan);
 
             IO.Bindings.libsimpleio.libSPI.SPI_open(devname, mode, wordsize,
-                speed, out this.myfd, out error);
+                speed, out this.myfd, out int error);
 
             if (error != 0)
             {
