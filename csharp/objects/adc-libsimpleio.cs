@@ -59,24 +59,22 @@ namespace IO.Objects.libsimpleio.ADC
         /// <summary>
         /// Constructor for a single ADC input.
         /// </summary>
-        /// <param name="chip">ADC chip number.</param>
-        /// <param name="channel">ADC channel number.</param>
+        /// <param name="desg">ADC input designator.</param>
         /// <param name="resolution">Bits of resolution.</param>
-        public Sample(int chip, int channel, int resolution)
+        public Sample(IO.Objects.libsimpleio.Device.Designator desg,
+            int resolution)
         {
             int error;
 
-            if (chip < 0)
+            // Validate the ADC input designator
+
+            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
             {
-                throw new Exception("Invalid chip number");
+                throw new Exception("GPIO pin designator is invalid");
             }
 
-            if (channel < 0)
-            {
-                throw new Exception("Invalid channel number");
-            }
-
-            IO.Bindings.libsimpleio.libADC.ADC_open(chip, channel,
+            IO.Bindings.libsimpleio.libADC.ADC_open((int)desg.chip, (int)desg.chan,
                 out this.myfd, out error);
 
             if (error != 0)
