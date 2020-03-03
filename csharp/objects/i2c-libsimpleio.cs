@@ -1,6 +1,6 @@
 // I2C bus controller services using IO.Objects.libsimpleio
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -38,10 +38,34 @@ namespace IO.Objects.libsimpleio.I2C
         /// <param name="devname">Device node name.</param>
         public Bus(string devname)
         {
-            int error;
+            IO.Bindings.libsimpleio.libI2C.I2C_open(devname, out this.myfd,
+                out int error);
+
+            if (error != 0)
+            {
+                throw new Exception("I2C_open() failed", error);
+            }
+        }
+
+        /// <summary>
+        /// Constructor for a single I<sup>2</sup>C bus controller.
+        /// </summary>
+        /// <param name="desg">I<sup>2</sup> bus designator.</param>
+        public Bus(IO.Objects.libsimpleio.Device.Designator desg)
+        {
+            // Validate the I2C bus designator
+
+            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
+                (desg.chip != 0) ||
+                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
+            {
+                throw new Exception("Invalid designator");
+            }
+
+            System.String devname = System.String.Format("/dev/i2c-{0}", desg.chan);
 
             IO.Bindings.libsimpleio.libI2C.I2C_open(devname, out this.myfd,
-                out error);
+                out int error);
 
             if (error != 0)
             {
