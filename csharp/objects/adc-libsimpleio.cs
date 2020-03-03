@@ -71,7 +71,7 @@ namespace IO.Objects.libsimpleio.ADC
             if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
                 (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
             {
-                throw new Exception("GPIO pin designator is invalid");
+                throw new Exception("ADC input designator is invalid");
             }
 
             IO.Bindings.libsimpleio.libADC.ADC_open((int)desg.chip, (int)desg.chan,
