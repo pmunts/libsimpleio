@@ -41,8 +41,8 @@ namespace test_gpio
             desg.chan = uint.Parse(Console.ReadLine());
 
             IO.Interfaces.GPIO.Pin Output =
-              new IO.Objects.libsimpleio.GPIO.Pin(desg,
-                IO.Interfaces.GPIO.Direction.Output, false);
+                new IO.Objects.libsimpleio.GPIO.Pin(desg,
+                    IO.Interfaces.GPIO.Direction.Output, false);
 
             // Toggle the GPIO output
 
