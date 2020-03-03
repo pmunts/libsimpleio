@@ -1,6 +1,6 @@
 ﻿// GPIO Pin Toggle Test using libsimpleio
 
-// Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,14 +24,16 @@ print("\nGPIO Pin Toggle Test using libsimpleio\n")
 
 // Create GPIO pin object
 
+var desg : IO.Objects.libsimpleio.Device.Designator;
+
 print("GPIO chip number? ", terminator:"")
-var chip = readLine().toInt()
+desg.chip = readLine().toInt()
 
 print("GPIO line number? ", terminator:"")
-var line = readLine().toInt()
+desg.chan = readLine().toInt()
 
-var Output : IO.Interfaces.GPIO.Pin = IO.Objects.libsimpleio.GPIO.Pin(chip,
-  line, IO.Interfaces.GPIO.Direction.Output, false)
+var Output : IO.Interfaces.GPIO.Pin = IO.Objects.libsimpleio.GPIO.Pin(desg,
+  IO.Interfaces.GPIO.Direction.Output, false)
 
 // Toggle the GPIO output
 

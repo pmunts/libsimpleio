@@ -1,6 +1,6 @@
 { PWM Output Test using libsimpleio }
 
-{ Copyright (C)2019, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -31,17 +31,19 @@ namespace test_simpleio_pwm;
 
     { Create a PWM output object }
 
+    var desg : IO.Objects.libsimpleio.Device.Designator;
+
     write('PWM chip number?     ');
-    var chip : Integer := Integer.Parse(readLn());
+    desg.chip := Integer.Parse(readLn());
 
     write('PWM channel number?  ');
-    var chan : Integer := Integer.Parse(readLn());
+    desg.chan := Integer.Parse(readLn());
 
     write('PWM pulse frequency? ');
     var freq : Integer := Integer.Parse(readLn());
 
     var Output : IO.Interfaces.PWM.Output :=
-      new IO.Objects.libsimpleio.PWM.Output(chip, chan, freq);
+      new IO.Objects.libsimpleio.PWM.Output(desg, freq);
 
     { Sweep the PWM output duty cycle }
 
