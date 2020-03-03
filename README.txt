@@ -73,6 +73,10 @@ News
        Core and .Net Framework.
      * 25 February 2020 -- Added support for building NuGet C# .Net Core
        application packages.
+     * 3 March 2020 -- Modified libsimpleio.dll use
+       IO.Objects.libsimpleio.Device.Designator instead of chip and
+       channel to select ADC inputs, DAC outputs, GPIO pins, I2C buses,
+       PWM outputs, and SPI slave selects.
 
 Documentation
 
