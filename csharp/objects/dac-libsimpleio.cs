@@ -1,6 +1,6 @@
 // PWM output services using IO.Objects.libsimpleio
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -59,24 +59,22 @@ namespace IO.Objects.libsimpleio.DAC
         /// <summary>
         /// Constructor for a single DAC output.
         /// </summary>
-        /// <param name="chip">DAC chip number.</param>
-        /// <param name="channel">DAC channel number.</param>
+        /// <param name="desg">DAC output designator.</param>
         /// <param name="resolution">Bits of resolution.</param>
-        public Sample(int chip, int channel, int resolution)
+        public Sample(IO.Objects.libsimpleio.Device.Designator desg,
+            int resolution)
         {
             int error;
 
-            if (chip < 0)
+            // Validate the DAC output designator
+
+            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
             {
-                throw new Exception("Invalid chip number");
+                throw new Exception("DAC output designator is invalid");
             }
 
-            if (channel < 0)
-            {
-                throw new Exception("Invalid channel number");
-            }
-
-            IO.Bindings.libsimpleio.libDAC.DAC_open(chip, channel,
+            IO.Bindings.libsimpleio.libDAC.DAC_open((int)desg.chip, (int)desg.chan,
                 out this.myfd, out error);
 
             if (error != 0)

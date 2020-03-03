@@ -1,6 +1,6 @@
 // DAC output test using libsimpleio
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -30,11 +30,13 @@ namespace test_dac
         {
             Console.WriteLine("\nDAC Output Test using libsimpleio\n");
 
+            IO.Objects.libsimpleio.Device.Designator desg;
+
             Console.Write("DAC chip:       ");
-            int chip = int.Parse(Console.ReadLine());
+            desg.chip = uint.Parse(Console.ReadLine());
 
             Console.Write("DAC channel:    ");
-            int channel = int.Parse(Console.ReadLine());
+            desg.chan = uint.Parse(Console.ReadLine());
 
             Console.Write("DAC resolution: ");
             int resolution = int.Parse(Console.ReadLine());
@@ -42,7 +44,7 @@ namespace test_dac
             // Create DAC output object
 
             IO.Interfaces.DAC.Sample DAC0 =
-              new IO.Objects.libsimpleio.DAC.Sample(chip, channel, resolution);
+                new IO.Objects.libsimpleio.DAC.Sample(desg, resolution);
 
             // Generate sawtooth wave
 
