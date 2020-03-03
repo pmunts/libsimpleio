@@ -1,6 +1,6 @@
 // PWM output test using libsimpleio
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_pwm
 {
@@ -31,11 +30,13 @@ namespace test_pwm
         {
             Console.WriteLine("\nPWM Output Test using libsimpleio\n");
 
+            IO.Objects.libsimpleio.Device.Designator desg_PWM;
+
             Console.Write("PWM chip:            ");
-            int chip = int.Parse(Console.ReadLine());
+            desg_PWM.chip = uint.Parse(Console.ReadLine());
 
             Console.Write("PWM channel:         ");
-            int chan = int.Parse(Console.ReadLine());
+            desg_PWM.chan = uint.Parse(Console.ReadLine());
 
             Console.Write("PWM pulse frequency: ");
             int freq = int.Parse(Console.ReadLine());
@@ -43,7 +44,7 @@ namespace test_pwm
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-              new IO.Objects.libsimpleio.PWM.Output(chip, chan, freq);
+              new IO.Objects.libsimpleio.PWM.Output(desg_PWM, freq);
 
             // Sweep PWM pulse width back and forth
 
@@ -56,13 +57,13 @@ namespace test_pwm
                 for (n = 0; n < 100; n++)
                 {
                     PWM0.dutycycle = n;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
 
                 for (n = 100; n >= 0; n--)
                 {
                     PWM0.dutycycle = n;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
             }
         }

@@ -1,6 +1,6 @@
 // Servo output test using libsimpleio
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -31,16 +31,18 @@ namespace test_servo_pwm
         {
             Console.WriteLine("\nServo Output Test using libsimpleio\n");
 
+            IO.Objects.libsimpleio.Device.Designator desg;
+
             Console.Write("PWM chip:            ");
-            int chip = int.Parse(Console.ReadLine());
+            desg.chip = uint.Parse(Console.ReadLine());
 
             Console.Write("PWM channel:         ");
-            int chan = int.Parse(Console.ReadLine());
+            desg.chan = uint.Parse(Console.ReadLine());
 
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-              new IO.Objects.libsimpleio.PWM.Output(chip, chan, 50);
+              new IO.Objects.libsimpleio.PWM.Output(desg, 50);
 
             // Create servo output object
 

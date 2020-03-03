@@ -1,6 +1,6 @@
 // Continuous rotation servo test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_motor_servo
 {
@@ -31,21 +30,23 @@ namespace test_motor_servo
         {
             Console.WriteLine("\nContinuous Rotation Servo Test using libsimpleio\n");
 
+            IO.Objects.libsimpleio.Device.Designator desg_PWM;
+
             Console.Write("PWM chip:            ");
-            int chip = int.Parse(Console.ReadLine());
+            desg_PWM.chip = uint.Parse(Console.ReadLine());
 
             Console.Write("PWM channel:         ");
-            int chan = int.Parse(Console.ReadLine());
+            desg_PWM.chan = uint.Parse(Console.ReadLine());
 
             // Create servo object
 
             IO.Interfaces.Servo.Output Servo0 =
-              new IO.Objects.libsimpleio.Servo.Output(chip, chan, 50);
+                new IO.Objects.libsimpleio.Servo.Output(desg_PWM, 50);
 
             // Create motor object
 
             IO.Interfaces.Motor.Output Motor0 =
-              new IO.Objects.Motor.Servo.Output(Servo0);
+                new IO.Objects.Motor.Servo.Output(Servo0);
 
             // Sweep motor velocity up and down
 
@@ -58,13 +59,13 @@ namespace test_motor_servo
                 for (n = -100; n < 100; n++)
                 {
                     Motor0.velocity = n / 100.0;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
 
                 for (n = 100; n >= -100; n--)
                 {
                     Motor0.velocity = n / 100.0;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
             }
         }

@@ -38,11 +38,13 @@ namespace test_motor_pwm1
             Console.Write("GPIO line number:    ");
             desg_GPIO.chan = uint.Parse(Console.ReadLine());
 
+            IO.Objects.libsimpleio.Device.Designator desg_PWM;
+
             Console.Write("PWM chip:            ");
-            int pwmchip = int.Parse(Console.ReadLine());
+            desg_PWM.chip = uint.Parse(Console.ReadLine());
 
             Console.Write("PWM channel:         ");
-            int pwmchan = int.Parse(Console.ReadLine());
+            desg_PWM.chan = uint.Parse(Console.ReadLine());
 
             // Create GPIO pin object
 
@@ -53,7 +55,7 @@ namespace test_motor_pwm1
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-                new IO.Objects.libsimpleio.PWM.Output(pwmchip, pwmchan, 100);
+                new IO.Objects.libsimpleio.PWM.Output(desg_PWM, 100);
 
             // Create motor object
 

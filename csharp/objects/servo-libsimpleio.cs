@@ -1,6 +1,6 @@
 // Servo output services using IO.Objects.libsimpleio
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -34,23 +34,23 @@ namespace IO.Objects.libsimpleio.Servo
         /// <summary>
         /// Constructor for a single servo output.
         /// </summary>
-        /// <param name="chip">PWM chip number.</param>
-        /// <param name="channel">PWM channel number.</param>
+        /// <param name="desg">PWM output designator.</param>
         /// <param name="frequency">PWM pulse frequency.</param>
         /// <param name="position">Initial servo position).
         /// Allowed values are -1.0 to +1.0.</param>
-        public Output(int chip, int channel, int frequency = 50,
+        public Output(IO.Objects.libsimpleio.Device.Designator desg, int frequency = 50,
             double position = IO.Interfaces.Servo.Positions.Neutral)
         {
-            if (chip < 0)
+            // Validate the PWM output designator
+
+            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
             {
-                throw new Exception("Invalid chip number");
+                throw new Exception("Invalid designator");
             }
 
-            if (channel < 0)
-            {
-                throw new Exception("Invalid channel number");
-            }
+            // Validate other parameters
+
 
             if ((frequency < 1) || (frequency > 400))
             {
@@ -67,17 +67,17 @@ namespace IO.Objects.libsimpleio.Servo
             int ontime = (int)(1500000.0 + 500000.0 * position);
             int error;
 
-            IO.Bindings.libsimpleio.libPWM.PWM_configure(chip, channel,
-                period, ontime, IO.Bindings.libsimpleio.libPWM.ActiveHigh,
-                out error);
+            IO.Bindings.libsimpleio.libPWM.PWM_configure((int)desg.chip,
+                (int)desg.chan, period, ontime,
+                IO.Bindings.libsimpleio.libPWM.ActiveHigh, out error);
 
             if (error != 0)
             {
                 throw new Exception("PWM_configure() failed", error);
             }
 
-            IO.Bindings.libsimpleio.libPWM.PWM_open(chip, channel,
-                out this.myfd, out error);
+            IO.Bindings.libsimpleio.libPWM.PWM_open((int)desg.chip,
+                (int)desg.chan, out this.myfd, out error);
 
             if (error != 0)
             {

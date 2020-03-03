@@ -1,6 +1,6 @@
 // PWM output services using IO.Objects.libsimpleio
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -35,25 +35,24 @@ namespace IO.Objects.libsimpleio.PWM
         /// <summary>
         /// Constructor for a single PWM output.
         /// </summary>
-        /// <param name="chip">PWM chip number.</param>
-        /// <param name="channel">PWM channel number.</param>
+        /// <param name="desg">PWM output designator.</param>
         /// <param name="frequency">PWM pulse frequency.</param>
         /// <param name="dutycycle">Initial PWM output duty cycle.
         /// Allowed values are 0.0 to 100.0 percent.</param>
         /// <param name="polarity">PWM output polarity.</param>
-        public Output(int chip, int channel, int frequency,
-            double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum,
+        public Output(IO.Objects.libsimpleio.Device.Designator desg,
+            int frequency, double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum,
             int polarity = IO.Bindings.libsimpleio.libPWM.ActiveHigh)
         {
-            if (chip < 0)
+            // Validate the PWM output designator
+
+            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
             {
-                throw new Exception("Invalid chip number");
+                throw new Exception("Invalid designator");
             }
 
-            if (channel < 0)
-            {
-                throw new Exception("Invalid channel number");
-            }
+            // Validate other parameters
 
             if (frequency < 1)
             {
@@ -76,16 +75,16 @@ namespace IO.Objects.libsimpleio.PWM
             int ontime =(int)(dutycycle / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
             int error;
 
-            IO.Bindings.libsimpleio.libPWM.PWM_configure(chip, channel,
-                period, ontime, (int)polarity, out error);
+            IO.Bindings.libsimpleio.libPWM.PWM_configure((int)desg.chip,
+                (int)desg.chan, period, ontime, (int)polarity, out error);
 
             if (error != 0)
             {
                 throw new Exception("PWM_configure() failed", error);
             }
 
-            IO.Bindings.libsimpleio.libPWM.PWM_open(chip, channel,
-                out this.myfd, out error);
+            IO.Bindings.libsimpleio.libPWM.PWM_open((int)desg.chip,
+                (int)desg.chan, out this.myfd, out error);
 
             if (error != 0)
             {

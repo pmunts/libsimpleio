@@ -1,6 +1,6 @@
 // Motor output test using two PWM outputs (CW and CCW)
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_motor_pwm2
 {
@@ -31,25 +30,29 @@ namespace test_motor_pwm2
         {
             Console.WriteLine("\nMotor Output Test using libsimpleio\n");
 
-            Console.Write("PWM chip:            ");
-            int chipCW = int.Parse(Console.ReadLine());
-
-            Console.Write("PWM channel:         ");
-            int chanCW = int.Parse(Console.ReadLine());
+            IO.Objects.libsimpleio.Device.Designator desg_CW;
 
             Console.Write("PWM chip:            ");
-            int chipCCW = int.Parse(Console.ReadLine());
+            desg_CW.chip = uint.Parse(Console.ReadLine());
 
             Console.Write("PWM channel:         ");
-            int chanCCW = int.Parse(Console.ReadLine());
+            desg_CW.chan = uint.Parse(Console.ReadLine());
+
+            IO.Objects.libsimpleio.Device.Designator desg_CCW;
+
+            Console.Write("PWM chip:            ");
+            desg_CCW.chip = uint.Parse(Console.ReadLine());
+
+            Console.Write("PWM channel:         ");
+            desg_CCW.chan = uint.Parse(Console.ReadLine());
 
             // Create PWM output objects
 
             IO.Interfaces.PWM.Output PWMCW =
-              new IO.Objects.libsimpleio.PWM.Output(chipCW, chanCW, 100);
+              new IO.Objects.libsimpleio.PWM.Output(desg_CW, 100);
 
             IO.Interfaces.PWM.Output PWMCCW =
-              new IO.Objects.libsimpleio.PWM.Output(chipCCW, chanCCW, 100);
+              new IO.Objects.libsimpleio.PWM.Output(desg_CCW, 100);
 
             // Create motor object
 
@@ -67,13 +70,13 @@ namespace test_motor_pwm2
                 for (n = -100; n < 100; n++)
                 {
                     Motor0.velocity = n / 100.0;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
 
                 for (n = 100; n >= -100; n--)
                 {
                     Motor0.velocity = n / 100.0;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
             }
         }

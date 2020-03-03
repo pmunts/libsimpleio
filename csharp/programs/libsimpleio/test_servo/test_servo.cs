@@ -31,16 +31,18 @@ namespace test_servo
         {
             Console.WriteLine("\nServo Output Test using libsimpleio\n");
 
+            IO.Objects.libsimpleio.Device.Designator desg_PWM;
+
             Console.Write("PWM chip:            ");
-            int chip = int.Parse(Console.ReadLine());
+            desg_PWM.chip = uint.Parse(Console.ReadLine());
 
             Console.Write("PWM channel:         ");
-            int chan = int.Parse(Console.ReadLine());
+            desg_PWM.chan = uint.Parse(Console.ReadLine());
 
             // Create servo output object
 
             IO.Interfaces.Servo.Output Servo0 =
-              new IO.Objects.libsimpleio.Servo.Output(chip, chan, 50);
+              new IO.Objects.libsimpleio.Servo.Output(desg_PWM, 50);
 
             // Sweep servo position back and forth
 
