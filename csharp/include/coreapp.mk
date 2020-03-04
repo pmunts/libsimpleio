@@ -63,6 +63,8 @@ endif
 
 coreapp_mk_build:
 	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) $(COREAPPPROJ)
+	cp $(COREAPPPUB)/*.dll .
+	cp $(COREAPPPUB)/*.runtimeconfig.json .
 
 # Build a single file deliverable without runtime included
 
