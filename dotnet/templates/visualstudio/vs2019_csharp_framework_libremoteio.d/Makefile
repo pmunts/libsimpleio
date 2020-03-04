@@ -29,6 +29,8 @@ include $(LIBSIMPLEIO)/csharp/include/csharp.mk
 # Build the project
 
 default: csharp_mk_build
+	cp bin/$(CONFIGURATION)/*.dll .
+	cp bin/$(CONFIGURATION)/*.exe .
 
 # Remove working files
 
