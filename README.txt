@@ -103,7 +103,7 @@ Package Repository
 [16]Make With Ada Projects
 
      * 2017 [17]Ada Embedded Linux Framework
-     * 2019 [18]Modbus RTU Framework for Ada
+     * 2019 [18]Modbus RTU Framework for Ada (Prize Winner!)
    _______________________________________________________________________
 
    Questions or comments to Philip Munts [19]phil@munts.net

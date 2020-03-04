@@ -129,6 +129,7 @@ available at:
     Framework](https://www.makewithada.org/entry/ada_linux_sensor_framework)
 -   2019 [Modbus RTU Framework for
     Ada](https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6)
+    (Prize Winner!)
 
 ------------------------------------------------------------------------
 
