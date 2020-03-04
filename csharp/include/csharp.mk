@@ -62,5 +62,5 @@ csharp_mk_build:
 # Clean out working files
 
 csharp_mk_clean:
-	rm -rf *.chm *.dll *.exe *.log *.mdb *.nupkg *.pdb *.xml *~ Help packages
+	rm -rf *.chm *.dll *.exe *.log *.mdb *.nupkg *.pdb *.runtimeconfig.json *.xml *~ Help packages
 	$(LIBSIMPLEIO)/include/vsclean.sh
