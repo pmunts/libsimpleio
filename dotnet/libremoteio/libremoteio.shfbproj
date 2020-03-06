@@ -61,6 +61,15 @@
       <NamespaceSummaryItem name="IO.Objects.USB.HID" isDocumented="True">USB Raw HID (Human Interface Device) Transport Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
     </NamespaceSummaries>
+    <HelpTitle>Munts Technologies Remote I/O Library .Net Standard 2.0 Class Library</HelpTitle>
+    <HelpFileVersion>$(BUILDVERSION)</HelpFileVersion>
+    <NamingMethod>Guid</NamingMethod>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <NamespaceGrouping>False</NamespaceGrouping>
+    <MaximumGroupParts>2</MaximumGroupParts>
+    <Preliminary>False</Preliminary>
+    <SdkLinkTarget>Blank</SdkLinkTarget>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
