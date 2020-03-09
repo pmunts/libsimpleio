@@ -63,7 +63,7 @@
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Watchdog" isDocumented="True">Watchdog Timer Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
     </NamespaceSummaries>
-    <HelpTitle>Munts Technologies Linux Simple I/O Library .Net Standard 2.0 Class Library</HelpTitle>
+    <HelpTitle>Munts Technologies Linux Simple I/O Library .Net Standard 2.0 Class Library $(BUILDVERSION)</HelpTitle>
     <HelpFileVersion>$(BUILDVERSION)</HelpFileVersion>
     <NamingMethod>Guid</NamingMethod>
     <ContentPlacement>AboveNamespaces</ContentPlacement>

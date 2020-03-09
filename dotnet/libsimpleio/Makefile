@@ -38,7 +38,7 @@ default:
 	cp bin/$(CONFIGURATION)/*.nupkg .
 ifeq ($(OS),Windows_NT)
 ifeq ($(CONFIGURATION), Release)
-	"$(MSBUILD)" $(LIBNAME).shfbproj
+	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
 	install -cm 0644 Help/$(LIBNAME).chm ../../doc/$(LIBNAME).dll.chm
 endif
 endif
