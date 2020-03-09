@@ -48,22 +48,22 @@ endif
 # Define pattern rules for installing a template for MacOS Fire
 
 ifeq ($(shell uname), Darwin)
-csharp%.installfire: csharp%.zip
+elements_csharp%.installfire: elements_csharp%.zip
 	rm -rf $(CSHARPTEMPLATES)/`basename $@ .installfire`
 	mkdir -p $(CSHARPTEMPLATES)/`basename $@ .installfire`
 	unzip $< -d $(CSHARPTEMPLATES)/`basename $@ .installfire`
 
-java%.installfire: java%.zip
+elements_java%.installfire: elements_java%.zip
 	rm -rf $(JAVATEMPLATES)/`basename $@ .installfire`
 	mkdir -p $(JAVATEMPLATES)/`basename $@ .installfire`
 	unzip $< -d $(JAVATEMPLATES)/`basename $@ .installfire`
 
-pascal%.installfire: pascal%.zip
+elements_pascal%.installfire: elements_pascal%.zip
 	rm -rf $(PASCALTEMPLATES)/`basename $@ .installfire`
 	mkdir -p $(PASCALTEMPLATES)/`basename $@ .installfire`
 	unzip $< -d $(PASCALTEMPLATES)/`basename $@ .installfire`
 
-swift%.installfire: swift%.zip
+elements_swift%.installfire: elements_swift%.zip
 	rm -rf $(SWIFTTEMPLATES)/`basename $@ .installfire`
 	mkdir -p $(SWIFTTEMPLATES)/`basename $@ .installfire`
 	unzip $< -d $(SWIFTTEMPLATES)/`basename $@ .installfire`
@@ -80,22 +80,22 @@ endif
 # Define pattern rules for installing a template for Windows water
 
 ifeq ($(OS), Windows_NT)
-csharp%.installwater: csharp%.zip
+elements_csharp%.installwater: elements_csharp%.zip
 	rm -rf $(CSHARPTEMPLATES)/`basename $@ .installwater`
 	mkdir -p $(CSHARPTEMPLATES)/`basename $@ .installwater`
 	unzip $< -d $(CSHARPTEMPLATES)/`basename $@ .installwater`
 
-java%.installwater: java%.zip
+elements_java%.installwater: elements_java%.zip
 	rm -rf $(JAVATEMPLATES)/`basename $@ .installwater`
 	mkdir -p $(JAVATEMPLATES)/`basename $@ .installwater`
 	unzip $< -d $(JAVATEMPLATES)/`basename $@ .installwater`
 
-pascal%.installwater: pascal%.zip
+elements_pascal%.installwater: elements_pascal%.zip
 	rm -rf $(PASCALTEMPLATES)/`basename $@ .installwater`
 	mkdir -p $(PASCALTEMPLATES)/`basename $@ .installwater`
 	unzip $< -d $(PASCALTEMPLATES)/`basename $@ .installwater`
 
-swift%.installwater: swift%.zip
+elements_swift%.installwater: elements_swift%.zip
 	rm -rf $(SWIFTTEMPLATES)/`basename $@ .installwater`
 	mkdir -p $(SWIFTTEMPLATES)/`basename $@ .installwater`
 	unzip $< -d $(SWIFTTEMPLATES)/`basename $@ .installwater`
