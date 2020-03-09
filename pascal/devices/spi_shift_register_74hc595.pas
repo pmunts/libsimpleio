@@ -24,7 +24,7 @@ INTERFACE
 
   CONST
     SPI_Clock_Mode = 0;
-    SPI_Clock_Max  = 4000000;  { Most pessimistic limit at 2V }
+    SPI_Clock_Max  = 4000000;  { Most pessimistic datasheet limit at 2V }
 
 IMPLEMENTATION
 
