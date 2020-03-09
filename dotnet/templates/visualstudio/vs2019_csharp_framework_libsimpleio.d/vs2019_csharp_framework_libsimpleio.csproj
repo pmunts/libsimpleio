@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libsimpleio, Version=2.2020.41.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\libsimpleio.2.2020.41.1\lib\netstandard2.0\libsimpleio.dll</HintPath>
+    <Reference Include="libsimpleio, Version=2.2020.69.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\libsimpleio.2.2020.69.1\lib\netstandard2.0\libsimpleio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

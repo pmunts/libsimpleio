@@ -33,6 +33,8 @@
       <NamespaceSummaryItem name="IO.Devices.PCA9685.GPIO" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller GPIO Pin Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA9685.PWM" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller PWM Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA9685.Servo" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller Servo Output Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.SN74HC595" isDocumented="True">SN74HC595 Shift Register Device Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.SN74HC595.GPIO" isDocumented="True">SN74HC595 Shift Register GPIO pin Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.TH02" isDocumented="True">TH02 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&lt;a href="http://tech.munts.com"&gt;http://tech.munts.com&lt;/a&gt;) USB devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
