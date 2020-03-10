@@ -31,6 +31,7 @@
       <NamespaceSummaryItem name="HidSharp.Reports.Units" isDocumented="False" />
       <NamespaceSummaryItem name="HidSharp.Utility" isDocumented="False" />
       <NamespaceSummaryItem name="IO.Devices.ADC121C021" isDocumented="True">ADC121C021 I&lt;sup&gt;2&lt;/sup&gt;C A/D Converter Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.HDC1080" isDocumented="True">HDC1080 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA8574" isDocumented="True">PCA8574 (and similar) I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander Device Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA8574.GPIO" isDocumented="True">PCA8574 (and similar) I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander GPIO Pin Services</NamespaceSummaryItem>
