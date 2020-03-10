@@ -106,6 +106,9 @@ namespace IO.Devices.SN74HC595
 
             set
             {
+                if (value.Length != statebuf.Length)
+                  throw new System.Exception("Shift register data length mismatch");
+
                 spidev.Write(value, value.Length);
                 statebuf = value;
             }
