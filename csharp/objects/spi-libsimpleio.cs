@@ -117,7 +117,7 @@ namespace IO.Objects.libsimpleio.SPI
             int error;
 
             IO.Bindings.libsimpleio.libSPI.SPI_transaction(this.myfd,
-                this.myfdcs, cmd, 0, 0, resp, resp.Length, out error);
+                this.myfdcs, null, 0, 0, resp, resp.Length, out error);
 
             if (error != 0)
             {
@@ -141,7 +141,7 @@ namespace IO.Objects.libsimpleio.SPI
             int error;
 
             IO.Bindings.libsimpleio.libSPI.SPI_transaction(this.myfd,
-                this.myfdcs, cmd, cmd.Length, 0, resp, resp.Length, out error);
+                this.myfdcs, cmd, cmdlen, 0, null, 0, out error);
 
             if (error != 0)
             {
@@ -193,7 +193,7 @@ namespace IO.Objects.libsimpleio.SPI
             int error;
 
             IO.Bindings.libsimpleio.libSPI.SPI_transaction(this.myfd,
-                this.myfdcs, cmd, cmd.Length, delayus, resp, resp.Length,
+                this.myfdcs, cmd, cmdlen, delayus, resp, resplen,
                 out error);
 
             if (error != 0)
