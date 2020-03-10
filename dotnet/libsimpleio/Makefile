@@ -22,9 +22,9 @@
 
 LIBSIMPLEIO	?= ../..
 
-BUILDNUM	= 1
+BUILDNUM	?= 1
 LIBNAME		= libsimpleio
-VERSION		= 2.`date '+%Y.%j'`.$(BUILDNUM)
+VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
 CONFIGURATION	= Release
 
 # Include subordinate makefiles
