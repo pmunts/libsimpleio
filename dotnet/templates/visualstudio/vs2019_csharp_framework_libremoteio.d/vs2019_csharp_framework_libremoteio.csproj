@@ -36,8 +36,8 @@
     <Reference Include="HidSharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\HidSharp.2.1.0\lib\net35\HidSharp.dll</HintPath>
     </Reference>
-    <Reference Include="libremoteio, Version=2.2020.70.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\libremoteio.2.2020.70.1\lib\netstandard2.0\libremoteio.dll</HintPath>
+    <Reference Include="libremoteio, Version=2.2020.71.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\libremoteio.2.2020.71.1\lib\netstandard2.0\libremoteio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

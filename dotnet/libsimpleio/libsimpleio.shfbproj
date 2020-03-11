@@ -25,6 +25,7 @@
       <NamespaceSummaryItem name="IO.Bindings.libsimpleio" isDocumented="True">Wrapper Classes for the Linux Simple I/O Library (&lt;a href="http://git.munts.com/libsimpleio"&gt;http://git.munts.com/libsimpleio&lt;/a&gt;)</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ADC121C021" isDocumented="True">ADC121C021 I&lt;sup&gt;2&lt;/sup&gt;C A/D Converter Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ClickBoards.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.Grove.Temperature" isDocumented="True">Seeed Studio Grove Temperature Sensor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.HDC1080" isDocumented="True">HDC1080 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA8574" isDocumented="True">PCA8574 (and similar) I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander Device Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA8574.GPIO" isDocumented="True">PCA8574 (and similar) I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander GPIO Pin Services</NamespaceSummaryItem>
@@ -37,6 +38,7 @@
       <NamespaceSummaryItem name="IO.Devices.SN74HC595" isDocumented="True">SN74HC595 Shift Register Device Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.SN74HC595.GPIO" isDocumented="True">SN74HC595 Shift Register GPIO pin Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.TH02" isDocumented="True">TH02 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.Thermistor" isDocumented="True">Thermistor Modeling Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&lt;a href="http://tech.munts.com"&gt;http://tech.munts.com&lt;/a&gt;) USB devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.DAC" isDocumented="True">Abstract Interface for DAC (Digital to Analog Converter) Outputs</NamespaceSummaryItem>
