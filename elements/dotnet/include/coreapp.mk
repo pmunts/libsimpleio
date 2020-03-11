@@ -42,6 +42,8 @@ TARFILE		= $(PKGDIR).tgz
 # Compile the application
 
 coreapp_mk_build: elements_mk_build
+	cp Bin/$(CONFIGURATION)/*.dll .
+	cp Bin/$(CONFIGURATION)/*.runtimeconfig.json .
 
 # Pack the application into a Debian package file
 
@@ -83,4 +85,4 @@ coreapp_mk_tarball: $(TARFILE)
 # Remove working files
 
 coreapp_mk_clean: elements_mk_clean
-	rm -rf $(PKGDIR) rpmbuild specfile *.deb *.rpm *.tgz
+	rm -rf $(PKGDIR) packages rpmbuild specfile *.deb *.rpm *.tgz
