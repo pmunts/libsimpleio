@@ -229,5 +229,17 @@ namespace IO.Devices.ClickBoards.SevenSegment
                 Post();
             }
         }
+
+        /// <summary>
+        /// Clear the display.
+        /// </summary>
+        public void Clear()
+        {
+            outbuf[0] = 0;
+            outbuf[1] = 0;
+            myleftdp = false;
+            myrightdp = false;
+            mydev.state = outbuf;
+        }
     }
 }
