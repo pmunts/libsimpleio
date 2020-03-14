@@ -20,10 +20,10 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Devices.Grove.Temperature
+namespace IO.Devices.Grove.Thermistor
 {
     /// <summary>
-    /// Encapsulates the Grove Temperature Sensor module.
+    /// Encapsulates the Grove (thermistor) Temperature Sensor module.
     /// </summary>
     public class Sensor
     {
