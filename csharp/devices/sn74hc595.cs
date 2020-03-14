@@ -1,4 +1,4 @@
-// SN74HC595 8-bit shift register device Services
+// SN74HC595 8-Bit Shift Register Device Services
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //

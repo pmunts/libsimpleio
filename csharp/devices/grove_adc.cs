@@ -1,4 +1,4 @@
-// Seeed Studio Grove I2C ADC (ADC121C021) Analog Input Services
+// Seeed Studio Grove I2C ADC (ADC121C021) Services
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //

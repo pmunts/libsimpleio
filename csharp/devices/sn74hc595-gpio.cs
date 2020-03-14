@@ -1,4 +1,4 @@
-// SN74HC595 8-bit shift register GPIO pin Services
+// SN74HC595 8-Bit Shift Register GPIO Pin Services
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
