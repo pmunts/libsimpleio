@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections;
-using System.Threading;
 
 namespace test_adc
 {
@@ -62,7 +61,7 @@ namespace test_adc
                   Console.Write(String.Format(" {0:00000}", inp.sample));
 
                 Console.WriteLine();
-                Thread.Sleep(2000);
+                System.Threading.Thread.Sleep(2000);
             }
         }
     }

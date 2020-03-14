@@ -19,7 +19,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_led
 {
@@ -40,7 +39,7 @@ namespace test_led
             for (;;)
             {
                 LED.state = !LED.state;
-                Thread.Sleep(500);
+                System.Threading.Thread.Sleep(500);
             }
         }
     }

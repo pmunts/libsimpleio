@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_adc121c021
 {
@@ -46,7 +45,7 @@ namespace test_adc121c021
             for (;;)
             {
                 Console.WriteLine("Sample => " + ain.sample.ToString());
-                Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1000);
             }
         }
     }

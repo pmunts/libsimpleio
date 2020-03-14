@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_servo_pwm
 {
@@ -60,13 +59,13 @@ namespace test_servo_pwm
                 for (n = -100; n < 100; n++)
                 {
                     Servo0.position = n / 100.0;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
 
                 for (n = 100; n >= -100; n--)
                 {
                     Servo0.position = n / 100.0;
-                    Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(50);
                 }
             }
         }

@@ -21,7 +21,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
 namespace test_watchdog
 {
@@ -54,7 +53,7 @@ namespace test_watchdog
                 Console.WriteLine("Kick the dog...");
                 wd.Kick();
 
-                Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1000);
             }
 
             // Stop kicking the dog
@@ -63,7 +62,7 @@ namespace test_watchdog
             {
                 Console.WriteLine("Don't kick the dog...");
 
-                Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1000);
             }
         }
     }
