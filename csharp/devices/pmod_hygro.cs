@@ -32,7 +32,7 @@ namespace IO.Devices.Pmod.HYGRO
         /// Constructor for a Digilent Pmod HYGRO Temperature and
         /// Humidity Sensor (HDC1080).
         /// </summary>
-        /// <param name="bus">I<sup>2</sup> bus object.</sub></param>
+        /// <param name="bus">I<sup>2</sup> bus object.</param>
         public Device(IO.Interfaces.I2C.Bus bus) : base(bus)
         {
         }
