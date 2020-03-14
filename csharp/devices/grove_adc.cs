@@ -25,7 +25,7 @@ namespace IO.Devices.Grove.ADC
     /// <summary>
     /// Encapsulates the Seeed Studio Grove I<sup>2</sup>C ADC (ADC121C021).
     /// </summary>
-    class Device
+    public class Device
     {
         private readonly IO.Interfaces.ADC.Input myinput;
 
@@ -33,8 +33,8 @@ namespace IO.Devices.Grove.ADC
         /// Constructor for a Seeed Studio Grove I<sup>2</sup>C ADC
         /// (ADC121C021).
         /// </summary>
-        /// <param name="bus"></param>
-        /// <param name="addr"></param>
+        /// <param name="bus">I<sup>2</sup>C bus object.</param>
+        /// <param name="addr">I<sup>2</sup>C device address.</param>
         public Device(IO.Interfaces.I2C.Bus bus, byte addr = 0x50)
         {
             myinput =
@@ -45,7 +45,7 @@ namespace IO.Devices.Grove.ADC
         /// <summary>
         /// Read-only property returning an analog input voltage measurement.
         /// </summary>
-        double voltage
+        public double voltage
         {
             get
             {
