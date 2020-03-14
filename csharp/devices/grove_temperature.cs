@@ -1,4 +1,4 @@
-// Grove (thermistor) Temperature Sensor services
+// Seeed Studio Grove Temperature Sensor (thermistor) services
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -20,12 +20,12 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Devices.Grove.Thermistor
+namespace IO.Devices.Grove.Temperature
 {
     /// <summary>
-    /// Encapsulates the Grove (thermistor) Temperature Sensor module.
+    /// Encapsulates the Seeed Studio Grove Temperature Sensor (thermistor).
     /// </summary>
-    public class Sensor
+    public class Device
     {
         // Module physical parameters
 
@@ -39,11 +39,12 @@ namespace IO.Devices.Grove.Thermistor
         private readonly IO.Devices.Thermistor.NTC_B myTh;
 
         /// <summary>
-        /// Constructor for a single Grove Temperature Sensor module.
+        /// Constructor for a Seeed Studio Grove Temperature Sensor
+        /// (thermistor).
         /// </summary>
         /// <param name="Vin">Voltage input object.</param>
         /// <param name="Vcc">Reference voltage.</param>
-        public Sensor(IO.Interfaces.ADC.Voltage Vin, double Vcc = 3.3)
+        public Device(IO.Interfaces.ADC.Voltage Vin, double Vcc = 3.3)
         {
             myVin = Vin;
             myVcc = Vcc;
