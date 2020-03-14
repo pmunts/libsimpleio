@@ -23,9 +23,10 @@ namespace IO.Devices.TH02
     /// <summary>
     /// Encapsulates the TH02 temperature and humidity sensor.
     /// </summary>
-    public class Device
+    public class Device : IO.Interfaces.Temperature.Sensor,
+        IO.Interfaces.Humidity.Sensor
     {
-        private IO.Interfaces.I2C.Device dev;
+        private readonly IO.Interfaces.I2C.Device dev;
         private byte[] cmd = { 0, 0, 0 };
         private byte[] resp = { 0, 0 };
 
@@ -127,20 +128,40 @@ namespace IO.Devices.TH02
         }
 
         /// <summary>
-        /// This read-only property reads the temperature,
-        /// in degrees Celsius.
+        /// Read-only property returning the temperature in degrees Celsius.
         /// </summary>
-        public double Temperature
+        public double Celsius
         {
             get
             {
-                return (Sample(cmdTemp) >> 2)/32.0 - 50.0;
+                return (Sample(cmdTemp) >> 2) / 32.0 - 50.0;
             }
         }
 
         /// <summary>
-        /// This read-only property reads the humidity,
-        /// in percent relative humidity.
+        /// Read-only property returning the temperature in Kelvins.
+        /// </summary>
+        public double Kelvins
+        {
+            get
+            {
+                return IO.Interfaces.Temperature.Conversions.CelsiusToKelvins(Celsius);
+            }
+        }
+
+        /// <summary>
+        /// Read-only property returning the temperature in degrees Fahrenheit.
+        /// </summary>
+        public double Fahrenheit
+        {
+            get
+            {
+                return IO.Interfaces.Temperature.Conversions.CelsiusToFahrenheit(Celsius);
+            }
+        }
+
+        /// <summary>
+        /// Read-only property returning the percentage relative humidity.
         /// </summary>
         public double Humidity
         {
@@ -157,12 +178,12 @@ namespace IO.Devices.TH02
 
                 // Perform temperature compensation
 
-                return RHlinear + (Temperature - 30.0)*(RHlinear*Q1 + Q0);
+                return RHlinear + (Celsius - 30.0)*(RHlinear*Q1 + Q0);
             }
         }
 
         /// <summary>
-        /// This read-only property returns the device ID.
+        /// Read-only property returning the device ID.
         /// </summary>
         public byte DeviceID
         {

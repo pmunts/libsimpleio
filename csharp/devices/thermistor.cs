@@ -55,25 +55,5 @@ namespace IO.Devices.Thermistor
         {
             return myB / Log(R / myR);
         }
-
-        /// <summary>
-        /// Celsius temperature as a function of the thermistor resistance.
-        /// </summary>
-        /// <param name="R">Thermistor resistance in ohms.</param>
-        /// <returns>Tempmerature in degrees Celsius.</returns>
-        public double Celsius(double R)
-        {
-            return Kelvins(R) + 273.15;
-        }
-
-        /// <summary>
-        /// Fahrenheit temperature as a function of the thermistor resistance.
-        /// </summary>
-        /// <param name="R">Thermistor resistance in ohms.</param>
-        /// <returns>Temperature in degrees Fahrenheit.</returns>
-        public double Fahrenheit(double R)
-        {
-            return Kelvins(R) * 9.0 / 5.0 - 459.67;
-        }
     }
 }

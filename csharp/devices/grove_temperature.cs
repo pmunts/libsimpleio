@@ -25,7 +25,7 @@ namespace IO.Devices.Grove.Temperature
     /// <summary>
     /// Encapsulates the Seeed Studio Grove Temperature Sensor (thermistor).
     /// </summary>
-    public class Device
+    public class Device : IO.Interfaces.Temperature.Sensor
     {
         // Module physical parameters
 
@@ -52,24 +52,34 @@ namespace IO.Devices.Grove.Temperature
         }
 
         /// <summary>
+        /// Read-only property returning the temperature in Kelvins.
+        /// </summary>
+        public double Kelvins
+        {
+            get
+            {
+                return myTh.Kelvins(myVcc * Rs / myVin.voltage - Rs);
+            }
+        }
+        /// <summary>
         /// Read-only property returning the temperature in degrees Celsius.
         /// </summary>
         public double Celsius
         {
             get
             {
-                return myTh.Celsius(myVcc * Rs / myVin.voltage - Rs);
+                return IO.Interfaces.Temperature.Conversions.KelvinsToCelsius(Kelvins);
             }
         }
 
         /// <summary>
-        /// Read-only property returing the temperature in degrees Fahrenheit.
+        /// Read-only property returning the temperature in degrees Fahrenheit.
         /// </summary>
         public double Fahrenheit
         {
             get
             {
-                return myTh.Fahrenheit(myVcc * Rs / myVin.voltage - Rs);
+                return IO.Interfaces.Temperature.Conversions.KelvinsToFahrenheit(Kelvins);
             }
         }
     }

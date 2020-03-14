@@ -1,4 +1,4 @@
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -23,9 +23,10 @@ namespace IO.Devices.HDC1080
     /// <summary>
     /// Encapsulates the HDC1080 temperature and humidity sensor.
     /// </summary>
-    public class Device
+    public class Device : IO.Interfaces.Temperature.Sensor,
+        IO.Interfaces.Humidity.Sensor
     {
-        private IO.Interfaces.I2C.Device dev;
+        private readonly IO.Interfaces.I2C.Device dev;
         private byte[] cmd = { 0, 0, 0 };
         private byte[] resp = { 0, 0 };
 
@@ -126,10 +127,9 @@ namespace IO.Devices.HDC1080
         }
 
         /// <summary>
-        /// This read-only property reads the temperature,
-        /// in degrees Celsius.
+        /// Read-only property returning the temperature in degrees Celsius.
         /// </summary>
-        public double Temperature
+        public double Celsius
         {
             get
             {
@@ -138,8 +138,29 @@ namespace IO.Devices.HDC1080
         }
 
         /// <summary>
-        /// This read-only property reads the humidity,
-        /// in percent relative humidity.
+        /// Read-only property returning the temperature in Kelvins.
+        /// </summary>
+        public double Kelvins
+        {
+            get
+            {
+                return IO.Interfaces.Temperature.Conversions.CelsiusToKelvins(Celsius);
+            }
+        }
+
+        /// <summary>
+        /// Read-only property returning the temperature in degrees Fahrenheit.
+        /// </summary>
+        public double Fahrenheit
+        {
+            get
+            {
+                return IO.Interfaces.Temperature.Conversions.CelsiusToFahrenheit(Celsius);
+            }
+        }
+
+        /// <summary>
+        /// Read-only property returning the percentage relative humidity.
         /// </summary>
         public double Humidity
         {
@@ -150,7 +171,7 @@ namespace IO.Devices.HDC1080
         }
 
         /// <summary>
-        /// This read-only property returns the manufacturer ID.
+        /// Read-only property returning the manufacturer ID.
         /// </summary>
         public ushort ManufacturerID
         {
@@ -161,7 +182,7 @@ namespace IO.Devices.HDC1080
         }
 
         /// <summary>
-        /// This read-only property returns the device ID.
+        /// Read-only property returning the device ID.
         /// </summary>
         public ushort DeviceID
         {
