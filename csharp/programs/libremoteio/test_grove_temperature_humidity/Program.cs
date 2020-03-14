@@ -1,6 +1,6 @@
-// Grove I2C A/D Converter Test
+// Grove Temperature and Humidity Sensor (TH02) Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,30 +21,36 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Threading;
 
-namespace test_grove_i2c_adc
+namespace test_th02
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nGrove I2C A/D Converter Test\n");
+            Console.WriteLine("\nGrove Temperature and Humidity Sensor (TH02) Test\n");
 
-            IO.Remote.Device dev =
-              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Remote.Device remdev =
+                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
-            IO.Interfaces.I2C.Bus bus =
-              new IO.Remote.I2C(dev, 0);
+            IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 
-            IO.Devices.Grove.ADC.Device ain =
-              new IO.Devices.Grove.ADC.Device(bus);
+            IO.Devices.Grove.Temperature_Humidity.Device dev =
+                new IO.Devices.Grove.Temperature_Humidity.Device(bus);
+
+            Console.WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X2"));
+            Console.WriteLine();
 
             for (;;)
             {
-                Console.WriteLine("Voltage => " + ain.voltage.ToString("F2"));
-                Thread.Sleep(1000);
+                Console.Write("Temperature: " + dev.Celsius.ToString("F1"));
+                Console.Write("  ");
+                Console.Write("Humidity: " + dev.Humidity.ToString("F1"));
+                Console.WriteLine();
+
+                System.Threading.Thread.Sleep(1000);
             }
         }
     }
 }
+
