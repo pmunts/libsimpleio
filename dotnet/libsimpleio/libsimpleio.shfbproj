@@ -25,7 +25,9 @@
       <NamespaceSummaryItem name="IO.Bindings.libsimpleio" isDocumented="True">Wrapper Classes for the Linux Simple I/O Library (&lt;a href="http://git.munts.com/libsimpleio"&gt;http://git.munts.com/libsimpleio&lt;/a&gt;)</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ADC121C021" isDocumented="True">ADC121C021 I&lt;sup&gt;2&lt;/sup&gt;C A/D Converter Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ClickBoards.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.Grove.Temperature" isDocumented="True">Seeed Studio Grove Temperature Sensor Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.Grove.ADC" isDocumented="True">Seeed Studio Grove I&lt;sup&gt;2&lt;/sup&gt;C ADC (ADC121C021) Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.Grove.Temperature" isDocumented="True">Seeed Studio Grove Temperature Sensor (thermistor) Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.Grove.Temperature_Humidity" isDocumented="True">Seeed Studio Grove Temperature and Humdity Sensor (TH02) Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.HDC1080" isDocumented="True">HDC1080 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA8574" isDocumented="True">PCA8574 (and similar) I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander Device Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA8574.GPIO" isDocumented="True">PCA8574 (and similar) I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander GPIO Pin Services</NamespaceSummaryItem>
@@ -35,25 +37,27 @@
       <NamespaceSummaryItem name="IO.Devices.PCA9685.GPIO" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller GPIO Pin Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA9685.PWM" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller PWM Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.PCA9685.Servo" isDocumented="True">PCA9685 I&lt;sup&gt;2&lt;/sup&gt;C PWM Controller Servo Output Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.SN74HC595" isDocumented="True">SN74HC595 Shift Register Device Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.SN74HC595.GPIO" isDocumented="True">SN74HC595 Shift Register GPIO pin Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.Pmod.HYGRO" isDocumented="True">Digilent Pmod HYGRO Temperature and Humdity Sensor (HDC1080) Services.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.SN74HC595" isDocumented="True">SN74HC595 8-Bit Shift Register Device Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.SN74HC595.GPIO" isDocumented="True">SN74HC595 8-Bit Shift Register GPIO Pin Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.TH02" isDocumented="True">TH02 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Thermistor" isDocumented="True">Thermistor Modeling Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&lt;a href="http://tech.munts.com"&gt;http://tech.munts.com&lt;/a&gt;) USB devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.DAC" isDocumented="True">Abstract Interface for DAC (Digital to Analog Converter) Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Output) Pins</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.Humidity" isDocumented="True">Abstract Interface for Humidity Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Message64" isDocumented="True">Abstract Interface for 64-Byte Message Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Motor" isDocumented="True">Abstract Interface For Variable Speed Motor Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.PWM" isDocumented="True">Abstract Interface for PWM (Pulse Width Modulated) Outputs</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Interfaces.SPI" isDocumented="True">Abstract Interface for SPI (Serial Peripheral Interconnect) Devices</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.SPI" isDocumented="True">Abstract Interface for SPI (Serial Peripheral Interconnect) Slave Devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Servo" isDocumented="True">Abstract Interface for Servo Outputs</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.Temperature" isDocumented="True">Abstract Interface for Temperature Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Watchdog" isDocumented="True">Abstract Interface for Watchdog Timers</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Services over UDP</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Objects.Platforms" isDocumented="True">Platform Definition Classes</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Servo.PWM" isDocumented="True">PWM Controlled Servo Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.ADC" isDocumented="True">ADC (Analog to Digital Converter) Input Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.DAC" isDocumented="True">DAC (Digital to Analog Converter) Output Services</NamespaceSummaryItem>
@@ -63,6 +67,7 @@
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.HID" isDocumented="True">Raw HID (Human Interface Device) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.I2C" isDocumented="True">I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controller Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.PWM" isDocumented="True">PWM (Pulse Width Modulated) Output Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.Platforms" isDocumented="True">Platform Definition Classes</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.SPI" isDocumented="True">SPI (Serial Peripheral Interconnect) Device Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Servo" isDocumented="True">Servo Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Watchdog" isDocumented="True">Watchdog Timer Services</NamespaceSummaryItem>
