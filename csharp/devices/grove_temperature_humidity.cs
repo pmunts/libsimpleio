@@ -1,4 +1,4 @@
-// Seeed Studio Grove Temperature and Humdity Sensor (TH02) services.
+// Seeed Studio Grove Temperature and Humdity Sensor (TH02) Services.
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //

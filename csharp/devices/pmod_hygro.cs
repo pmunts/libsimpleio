@@ -1,4 +1,4 @@
-// Digilent Pmod HYGRO Temperature and Humdity Sensor (HDC1080) services.
+// Digilent Pmod HYGRO Temperature and Humdity Sensor (HDC1080) Services.
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //

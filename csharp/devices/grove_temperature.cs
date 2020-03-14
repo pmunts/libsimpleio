@@ -1,4 +1,4 @@
-// Seeed Studio Grove Temperature Sensor (thermistor) services
+// Seeed Studio Grove Temperature Sensor (thermistor) Services
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
