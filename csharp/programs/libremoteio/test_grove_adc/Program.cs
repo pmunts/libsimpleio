@@ -1,4 +1,4 @@
-// Grove ADC Test
+// Remote I/O Grove ADC Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_grove_adc
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nGrove ADC Test\n");
+            Console.WriteLine("\nRemote I/O Grove ADC Test\n");
 
             IO.Remote.Device dev =
                 new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());

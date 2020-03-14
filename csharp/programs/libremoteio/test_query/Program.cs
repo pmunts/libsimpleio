@@ -1,6 +1,6 @@
-// USB HID Remote I/O Device Information Query Test
+// Remote I/O Device Information Query Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@ namespace test_query
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nUSB HID Remote I/O Device Information Query Test\n");
+            Console.WriteLine("\nRemote I/O Device Information Query Test\n");
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
             IO.Remote.Device dev = new IO.Remote.Device(m);

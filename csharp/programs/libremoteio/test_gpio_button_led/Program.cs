@@ -1,6 +1,6 @@
-// GPIO Button and LED Test
+// Remote I/O GPIO Button and LED Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@ namespace test_gpio_button_led
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nGPIO Button and LED Test\n");
+            Console.WriteLine("\nRemote I/O GPIO Button and LED Test\n");
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
             IO.Remote.Device d = new IO.Remote.Device(m);
@@ -36,12 +36,12 @@ namespace test_gpio_button_led
             // Configure LED output
 
             IO.Interfaces.GPIO.Pin LD1 =
-              new IO.Remote.GPIO(d, 0, IO.Interfaces.GPIO.Direction.Output);
+                new IO.Remote.GPIO(d, 0, IO.Interfaces.GPIO.Direction.Output);
 
             // Configure button input
 
             IO.Interfaces.GPIO.Pin SW1 =
-              new IO.Remote.GPIO(d, 1, IO.Interfaces.GPIO.Direction.Input);
+                new IO.Remote.GPIO(d, 1, IO.Interfaces.GPIO.Direction.Input);
 
             bool OldState = !SW1.state;
             bool NewState = OldState;

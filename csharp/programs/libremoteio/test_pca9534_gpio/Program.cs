@@ -1,6 +1,6 @@
-// PCA9534 GPIO Pin Toggle Test
+// Remote I/O PCA9534 GPIO Pin Toggle Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,17 +28,17 @@ namespace test_pca9534_gpio
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nPCA9534 GPIO Pin Toggle Test\n");
+            Console.WriteLine("\nRemote I/O PCA9534 GPIO Pin Toggle Test\n");
 
             IO.Remote.Device remdev =
-              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
             IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 
             IO.Devices.PCA9534.Device dev = new IO.Devices.PCA9534.Device(bus, 0x27);
 
             IO.Interfaces.GPIO.Pin GPIO0 = new IO.Devices.PCA9534.GPIO.Pin(dev, 0,
-              IO.Interfaces.GPIO.Direction.Output, false);
+                IO.Interfaces.GPIO.Direction.Output, false);
 
             for (;;)
                 GPIO0.state = !GPIO0.state;

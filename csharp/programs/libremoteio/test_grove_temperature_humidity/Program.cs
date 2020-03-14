@@ -1,4 +1,4 @@
-// Grove Temperature and Humidity Sensor (TH02) Test
+// Remote I/O Grove Temperature and Humidity Sensor (TH02) Test
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_grove_temperature_humidity
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nGrove Temperature and Humidity Sensor (TH02) Test\n");
+            Console.WriteLine("\nRemote I/O Grove Temperature and Humidity Sensor (TH02) Test\n");
 
             IO.Remote.Device remdev =
                 new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());

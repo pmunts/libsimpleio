@@ -1,4 +1,4 @@
-// Grove Temperature Sensor (thermistor) Test
+// Remote I/O Grove Temperature Sensor (thermistor) Test
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_grove_temperature
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nGrove Temperature Sensor (thermistor) Test\n");
+            Console.WriteLine("\nRemote I/O Grove Temperature Sensor (thermistor) Test\n");
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
 

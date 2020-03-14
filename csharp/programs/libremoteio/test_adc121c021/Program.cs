@@ -1,4 +1,4 @@
-// ADC121C021 A/D Converter Test
+// Remote I/O ADC121C021 A/D Converter Test
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_adc121c021
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nADC121C021 A/D Converter Test\n");
+            Console.WriteLine("\nRemote I/O ADC121C021 A/D Converter Test\n");
 
             IO.Remote.Device dev =
                 new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());

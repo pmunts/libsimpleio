@@ -1,6 +1,6 @@
-// Analog Input Test
+// Remote I/O Analog Input Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -29,10 +29,10 @@ namespace test_adc
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nAnalog Input Test\n");
+            Console.WriteLine("\nRemote I/O Analog Input Test\n");
 
             IO.Remote.Device dev =
-              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
             Console.Write("Channels:    ");
 
