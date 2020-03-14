@@ -22,7 +22,7 @@
 
 using IO.Objects.libsimpleio.Device;
 
-namespace IO.Objects.Platforms
+namespace IO.Objects.libsimpleio.Platforms
 {
     /// <summary>
     /// This class defines identifiers for the devices provided by the
