@@ -1,6 +1,6 @@
 // UDP Remote I/O Device Information Query Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_query
+namespace test_query_udp
 {
     class Program
     {

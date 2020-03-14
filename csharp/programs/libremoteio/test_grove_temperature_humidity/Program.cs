@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_th02
+namespace test_grove_temperature_humidity
 {
     class Program
     {

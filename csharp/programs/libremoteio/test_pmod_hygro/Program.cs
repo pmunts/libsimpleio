@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_hdc1080
+namespace test_pmod_hygro
 {
     class Program
     {
