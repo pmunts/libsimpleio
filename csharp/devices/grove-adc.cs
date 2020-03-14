@@ -39,7 +39,7 @@ namespace IO.Devices.Grove.ADC
         {
             myinput =
                 new IO.Interfaces.ADC.Input(new IO.Devices.ADC121C021.Sample(bus, addr),
-                3.0, 1.0);
+                3.0, 0.5);
         }
 
         /// <summary>
