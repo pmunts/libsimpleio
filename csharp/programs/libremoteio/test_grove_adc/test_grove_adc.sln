@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_grove_i2c_adc", "test_grove_i2c_adc.csproj", "{93DEAA9D-6CAB-40B0-ACC7-87B3ACE0F442}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_grove_adc", "test_grove_adc.csproj", "{93DEAA9D-6CAB-40B0-ACC7-87B3ACE0F442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

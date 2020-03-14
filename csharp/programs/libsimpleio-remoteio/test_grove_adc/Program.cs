@@ -1,4 +1,4 @@
-// Grove I2C A/D Converter Test
+// Grove ADC Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -23,16 +23,18 @@
 using System;
 using System.Threading;
 
-namespace test_grove_i2c_adc
+namespace test_grove_adc
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nGrove I2C A/D Converter Test\n");
+            Console.WriteLine("\nGrove ADC Test\n");
 
-            IO.Remote.Device dev =
-                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Interfaces.Message64.Messenger m =
+                new IO.Objects.libsimpleio.HID.Messenger();
+
+            IO.Remote.Device dev = new IO.Remote.Device(m);
 
             IO.Interfaces.I2C.Bus bus =
                 new IO.Remote.I2C(dev, 0);
@@ -43,7 +45,7 @@ namespace test_grove_i2c_adc
             for (;;)
             {
                 Console.WriteLine("Voltage => " + ain.voltage.ToString("F2"));
-                Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1000);
             }
         }
     }
