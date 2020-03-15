@@ -1,6 +1,6 @@
-// GPIO pin toggle test using libremoteio
+// Remote I/O GPIO Pin Toggle Test
 
-// Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,19 +28,19 @@ namespace test_gpio
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nGPIO Pin Toggle Test\n");
+            Console.WriteLine("\nRemote I/O GPIO Pin Toggle Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-              new IO.Objects.libsimpleio.HID.Messenger();
+                new IO.Objects.libsimpleio.HID.Messenger();
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             // Create GPIO pin object
 
             Console.Write("GPIO channel number? ");
 
             IO.Interfaces.GPIO.Pin Output =
-              new IO.Remote.GPIO(dev, int.Parse(Console.ReadLine()),
+                new IO.Remote.GPIO(remdev, int.Parse(Console.ReadLine()),
                 IO.Interfaces.GPIO.Direction.Output);
 
             // Toggle the GPIO output

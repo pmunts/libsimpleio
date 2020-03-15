@@ -1,3 +1,25 @@
+// Remote I/O Device Information Query Test
+
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+// * Redistributions of source code must retain the above copyright notice,
+//   this list of conditions and the following disclaimer.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
 using System;
 
 namespace test_query
@@ -6,24 +28,24 @@ namespace test_query
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nUSB HID Remote I/O Device Information Query Test\n");
+            Console.WriteLine("\nRemote I/O Device Information Query Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-              new IO.Objects.libsimpleio.HID.Messenger();
+                new IO.Objects.libsimpleio.HID.Messenger();
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             // Display some device information
 
-            Console.WriteLine(dev.Version);
-            Console.WriteLine(dev.Capabilities);
+            Console.WriteLine(remdev.Version);
+            Console.WriteLine(remdev.Capabilities);
             Console.WriteLine();
 
             // Display the available ADC inputs
 
             Console.Write("ADC inputs:  ");
 
-            foreach (int input in dev.ADC_Available())
+            foreach (int input in remdev.ADC_Available())
                 Console.Write(input.ToString() + " ");
 
             Console.WriteLine();
@@ -32,7 +54,7 @@ namespace test_query
 
             Console.Write("DAC outputs: ");
 
-            foreach (int output in dev.DAC_Available())
+            foreach (int output in remdev.DAC_Available())
                 Console.Write(output.ToString() + " ");
 
             Console.WriteLine();
@@ -41,7 +63,7 @@ namespace test_query
 
             Console.Write("GPIO Pins:   ");
 
-            foreach (int pin in dev.GPIO_Available())
+            foreach (int pin in remdev.GPIO_Available())
                 Console.Write(pin.ToString() + " ");
 
             Console.WriteLine();
@@ -50,7 +72,7 @@ namespace test_query
 
             Console.Write("I2C buses:   ");
 
-            foreach (int bus in dev.I2C_Available())
+            foreach (int bus in remdev.I2C_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();
@@ -59,7 +81,7 @@ namespace test_query
 
             Console.Write("PWM outputs: ");
 
-            foreach (int bus in dev.PWM_Available())
+            foreach (int bus in remdev.PWM_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();
@@ -68,7 +90,7 @@ namespace test_query
 
             Console.Write("SPI devices: ");
 
-            foreach (int bus in dev.SPI_Available())
+            foreach (int bus in remdev.SPI_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();

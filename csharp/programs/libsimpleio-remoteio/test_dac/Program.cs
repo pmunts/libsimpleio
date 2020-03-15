@@ -1,6 +1,6 @@
-// DAC output test using libsimpleio
+// Remote I/O Analog Output Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -29,24 +29,24 @@ namespace test_dac
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nDAC Output Test using libsimpleio\n");
+            Console.WriteLine("\nRemote I/O Analog Output Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-              new IO.Objects.libsimpleio.HID.Messenger();
+                new IO.Objects.libsimpleio.HID.Messenger();
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             Console.Write("Channels:    ");
 
-            foreach (int output in dev.DAC_Available())
+            foreach (int output in remdev.DAC_Available())
                 Console.Write(" " + output.ToString());
 
             Console.WriteLine();
 
             ArrayList S = new ArrayList();
 
-            foreach (int c in dev.DAC_Available())
-                S.Add(new IO.Remote.DAC(dev, c));
+            foreach (int c in remdev.DAC_Available())
+                S.Add(new IO.Remote.DAC(remdev, c));
 
             Console.Write("Resolutions: ");
 

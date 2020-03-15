@@ -1,4 +1,4 @@
-// ADC121C021 A/D Converter Test
+// Remote I/O ADC121C021 A/D Converter Test
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,15 +28,15 @@ namespace test_adc121c021
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nADC121C021 A/D Converter Test\n");
+            Console.WriteLine("\nRemote I/O ADC121C021 A/D Converter Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-              new IO.Objects.libsimpleio.HID.Messenger();
+                new IO.Objects.libsimpleio.HID.Messenger();
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Remote.I2C(dev, 0);
+                new IO.Remote.I2C(remdev, 0);
 
             IO.Devices.ADC121C021.Sample ain =
                 new IO.Devices.ADC121C021.Sample(bus, 0x50);
@@ -52,4 +52,3 @@ namespace test_adc121c021
         }
     }
 }
-

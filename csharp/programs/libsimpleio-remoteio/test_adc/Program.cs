@@ -1,4 +1,6 @@
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Remote I/O Analog Input Test
+
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -27,24 +29,24 @@ namespace test_adc
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nUSB HID Remote I/O Analog Input Test\n");
+            Console.WriteLine("\nRemote I/O Analog Input Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-              new IO.Objects.libsimpleio.HID.Messenger();
+                new IO.Objects.libsimpleio.HID.Messenger();
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             Console.Write("Channels:    ");
 
-            foreach (int input in dev.ADC_Available())
+            foreach (int input in remdev.ADC_Available())
                 Console.Write(" " + input.ToString());
 
             Console.WriteLine();
 
             ArrayList S = new ArrayList();
 
-            foreach (int c in dev.ADC_Available())
-                S.Add(new IO.Remote.ADC(dev, c));
+            foreach (int c in remdev.ADC_Available())
+                S.Add(new IO.Remote.ADC(remdev, c));
 
             Console.Write("Resolutions: ");
 
@@ -58,7 +60,7 @@ namespace test_adc
                 Console.Write("Samples:     ");
 
                 foreach (IO.Interfaces.ADC.Sample inp in S)
-                  Console.Write(String.Format(" {0:00000}", inp.sample));
+                    Console.Write(String.Format(" {0:00000}", inp.sample));
 
                 Console.WriteLine();
                 System.Threading.Thread.Sleep(2000);

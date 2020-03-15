@@ -1,6 +1,6 @@
-// PWM output test
+// Remote I/O PWM Output Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -29,24 +29,24 @@ namespace test_pwm
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nPWM Output Test\n");
+            Console.WriteLine("\nRemote I/O PWM Output Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-              new IO.Objects.libsimpleio.HID.Messenger();
+                new IO.Objects.libsimpleio.HID.Messenger();
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             Console.Write("Channels:");
 
-            foreach (int output in dev.PWM_Available())
+            foreach (int output in remdev.PWM_Available())
                 Console.Write(" " + output.ToString());
 
             Console.WriteLine();
 
             ArrayList S = new ArrayList();
 
-            foreach (int c in dev.PWM_Available())
-                S.Add(new IO.Remote.PWM(dev, c, 1000));
+            foreach (int c in remdev.PWM_Available())
+                S.Add(new IO.Remote.PWM(remdev, c, 1000));
 
             for (;;)
             {

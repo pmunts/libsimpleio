@@ -1,6 +1,6 @@
-// TH02 Temperature/Humidity Sensor Test
+// Remote I/O TH02 Temperature/Humidity Sensor Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,10 +28,10 @@ namespace test_th02
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nTH02 Temperature/Humidity Sensor Test\n");
+            Console.WriteLine("\nRemote I/O TH02 Temperature/Humidity Sensor Test\n");
 
             IO.Interfaces.Message64.Messenger msg =
-              new IO.Objects.libsimpleio.HID.Messenger();
+                new IO.Objects.libsimpleio.HID.Messenger();
 
             IO.Remote.Device remdev = new IO.Remote.Device(msg);
 
@@ -44,7 +44,7 @@ namespace test_th02
 
             for (;;)
             {
-                Console.Write("Temperature: " + dev.Temperature.ToString("F1"));
+                Console.Write("Temperature: " + dev.Celsius.ToString("F1"));
                 Console.Write("  ");
                 Console.Write("Humidity: " + dev.Humidity.ToString("F1"));
                 Console.WriteLine();

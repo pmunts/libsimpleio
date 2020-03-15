@@ -1,4 +1,6 @@
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Remote I/O LED Toggle Test
+
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -26,15 +28,15 @@ namespace test_led
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nUSB HID Remote I/O Device LED Test\n");
+            Console.WriteLine("\nRemote I/O LED Toggle Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-              new IO.Objects.libsimpleio.HID.Messenger();
+                new IO.Objects.libsimpleio.HID.Messenger();
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             IO.Interfaces.GPIO.Pin LED =
-              dev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);
+                remdev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);
 
             for (;;)
             {

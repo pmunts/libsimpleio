@@ -1,4 +1,4 @@
-// Grove Temperature Sensor (thermistor) Test
+// Remote I/O Grove Temperature Sensor (thermistor) Test
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,14 +28,14 @@ namespace test_grove_temperature
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nGrove Temperature Sensor (thermistor) Test\n");
+            Console.WriteLine("\nRemote I/O Grove Temperature Sensor (thermistor) Test\n");
 
             IO.Interfaces.Message64.Messenger m =
-              new IO.Objects.libsimpleio.HID.Messenger();
+                new IO.Objects.libsimpleio.HID.Messenger();
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
-            IO.Interfaces.ADC.Sample S = new IO.Remote.ADC(dev, 0);
+            IO.Interfaces.ADC.Sample S = new IO.Remote.ADC(remdev, 0);
 
             IO.Interfaces.ADC.Input inp = new IO.Interfaces.ADC.Input(S, 3.3);
 
