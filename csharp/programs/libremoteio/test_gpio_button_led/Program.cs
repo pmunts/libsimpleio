@@ -31,6 +31,7 @@ namespace test_gpio_button_led
             Console.WriteLine("\nRemote I/O GPIO Button and LED Test\n");
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
+
             IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             // Configure LED output
