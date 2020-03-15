@@ -37,7 +37,7 @@ namespace test_hdc1080
             }
 
             IO.Interfaces.I2C.Bus bus =
-              new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+                new IO.Objects.libsimpleio.I2C.Bus(args[0]);
 
             IO.Devices.HDC1080.Device dev = new IO.Devices.HDC1080.Device(bus);
 

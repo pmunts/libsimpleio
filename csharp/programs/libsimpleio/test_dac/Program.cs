@@ -1,4 +1,4 @@
-// DAC output test using libsimpleio
+// DAC Output Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_dac
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nDAC Output Test using libsimpleio\n");
+            Console.WriteLine("\nDAC Output Test\n");
 
             IO.Objects.libsimpleio.Device.Designator desg;
 

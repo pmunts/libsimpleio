@@ -1,4 +1,4 @@
-// PWM output test using libsimpleio
+// PWM Output Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_pwm
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nPWM Output Test using libsimpleio\n");
+            Console.WriteLine("\nPWM Output Test\n");
 
             IO.Objects.libsimpleio.Device.Designator desg_PWM;
 
@@ -44,7 +44,7 @@ namespace test_pwm
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-              new IO.Objects.libsimpleio.PWM.Output(desg_PWM, freq);
+                new IO.Objects.libsimpleio.PWM.Output(desg_PWM, freq);
 
             // Sweep PWM pulse width back and forth
 

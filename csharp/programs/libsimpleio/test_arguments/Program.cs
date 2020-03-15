@@ -28,7 +28,8 @@ namespace test_arguments
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nCommand Line Arguments:\n");
+            Console.WriteLine("\nCommand Line Argument Test\n");
+            Console.WriteLine("Command Line Arguments:\n");
 
             foreach (string s in args)
             {

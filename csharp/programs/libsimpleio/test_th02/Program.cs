@@ -1,6 +1,6 @@
 // TH02 Temperature/Humidity Sensor Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@ namespace test_th02
             }
 
             IO.Interfaces.I2C.Bus bus =
-              new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+                new IO.Objects.libsimpleio.I2C.Bus(args[0]);
 
             IO.Devices.TH02.Device dev = new IO.Devices.TH02.Device(bus);
 

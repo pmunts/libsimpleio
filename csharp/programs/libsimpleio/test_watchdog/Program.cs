@@ -1,6 +1,6 @@
-// Watchdog timer test using libsimpleio
+// Watchdog Timer Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,12 +28,12 @@ namespace test_watchdog
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nWatchdog Timer Test using libsimpleio\n");
+            Console.WriteLine("\nWatchdog Timer Test\n");
 
             // Create watchdog timer object
 
             IO.Interfaces.Watchdog.Timer wd =
-              new IO.Objects.libsimpleio.Watchdog.Timer("/dev/watchdog");
+                new IO.Objects.libsimpleio.Watchdog.Timer("/dev/watchdog");
 
             // Display default watchdog timer period
 

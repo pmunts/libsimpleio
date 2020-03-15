@@ -1,4 +1,4 @@
-// Continuous rotation servo test
+// Continuous Rotation Servo Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_motor_servo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nContinuous Rotation Servo Test using libsimpleio\n");
+            Console.WriteLine("\nContinuous Rotation Servo Test\n");
 
             IO.Objects.libsimpleio.Device.Designator desg_PWM;
 

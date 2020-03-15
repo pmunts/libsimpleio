@@ -1,4 +1,4 @@
-// Motor output test using PWM (speed) and GPIO (direction) outputs
+// Motor Output Test Using PWM (speed) and GPIO (direction) Outputs
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_motor_pwm1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMotor Output Test using libsimpleio\n");
+            Console.WriteLine("\nMotor Output Test Using PWM (speed) and GPIO (direction) Outputs\n");
 
             IO.Objects.libsimpleio.Device.Designator desg_GPIO;
 

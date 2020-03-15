@@ -1,4 +1,4 @@
-// Motor output test using two PWM outputs (CW and CCW)
+// Motor Output Test Using Two PWM outputs (CW and CCW)
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_motor_pwm2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMotor Output Test using libsimpleio\n");
+            Console.WriteLine("\nMotor Output Test Using Two PWM outputs (CW and CCW)\n");
 
             IO.Objects.libsimpleio.Device.Designator desg_CW;
 
@@ -49,15 +49,15 @@ namespace test_motor_pwm2
             // Create PWM output objects
 
             IO.Interfaces.PWM.Output PWMCW =
-              new IO.Objects.libsimpleio.PWM.Output(desg_CW, 100);
+                new IO.Objects.libsimpleio.PWM.Output(desg_CW, 100);
 
             IO.Interfaces.PWM.Output PWMCCW =
-              new IO.Objects.libsimpleio.PWM.Output(desg_CCW, 100);
+                new IO.Objects.libsimpleio.PWM.Output(desg_CCW, 100);
 
             // Create motor object
 
             IO.Interfaces.Motor.Output Motor0 =
-              new IO.Objects.Motor.PWM.Output(PWMCW, PWMCCW);
+                new IO.Objects.Motor.PWM.Output(PWMCW, PWMCCW);
 
             // Sweep motor velocity up and down
 

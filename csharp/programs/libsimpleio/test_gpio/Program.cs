@@ -1,4 +1,4 @@
-// GPIO pin toggle test using libsimpleio
+// GPIO Pin Toggle Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -30,7 +30,7 @@ namespace test_gpio
         {
             IO.Objects.libsimpleio.Device.Designator desg;
 
-            Console.WriteLine("\nGPIO Pin Toggle Test using libsimpleio\n");
+            Console.WriteLine("\nGPIO Pin Toggle Test\n");
 
             // Create GPIO pin object
 

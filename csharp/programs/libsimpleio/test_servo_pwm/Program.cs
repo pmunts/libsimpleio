@@ -1,4 +1,4 @@
-// Servo output test using libsimpleio
+// Servo Output Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_servo_pwm
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nServo Output Test using libsimpleio\n");
+            Console.WriteLine("\nServo Output Test\n");
 
             IO.Objects.libsimpleio.Device.Designator desg;
 
@@ -41,12 +41,12 @@ namespace test_servo_pwm
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-              new IO.Objects.libsimpleio.PWM.Output(desg, 50);
+                new IO.Objects.libsimpleio.PWM.Output(desg, 50);
 
             // Create servo output object
 
             IO.Interfaces.Servo.Output Servo0 =
-              new IO.Objects.Servo.PWM.Output(PWM0, 50);
+                new IO.Objects.Servo.PWM.Output(PWM0, 50);
 
             // Sweep servo position back and forth
 

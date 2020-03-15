@@ -1,6 +1,6 @@
 // PCA9685 Servo Output Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -39,13 +39,13 @@ namespace test_pca9685_servo
             // Create servo output object
 
             IO.Interfaces.I2C.Bus bus =
-              new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+                new IO.Objects.libsimpleio.I2C.Bus(args[0]);
 
             IO.Devices.PCA9685.Device dev =
-              new IO.Devices.PCA9685.Device(bus, int.Parse(args[1]), 50);
+                new IO.Devices.PCA9685.Device(bus, int.Parse(args[1]), 50);
 
             IO.Interfaces.Servo.Output Servo0 =
-              new IO.Devices.PCA9685.Servo.Output(dev, 0);
+                new IO.Devices.PCA9685.Servo.Output(dev, 0);
 
             // Sweep servo position back and forth
 

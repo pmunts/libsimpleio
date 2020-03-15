@@ -1,4 +1,4 @@
-// Exception Test using libsimpleio
+// Exception Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_exception
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nException Test using libsimpleio\n");
+            Console.WriteLine("\nException Test\n");
 
             throw new IO.Objects.libsimpleio.Exceptions.Exception("EINVAL", 22);
         }

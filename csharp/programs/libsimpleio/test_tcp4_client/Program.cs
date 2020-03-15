@@ -1,6 +1,6 @@
-// TCP4 client test using libsimpleio
+// TCP4 Client Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@ namespace test_tcp4_client
     {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("\nTCP Client Test using libsimpleio\n");
+            System.Console.WriteLine("\nTCP4 Client Test\n");
 
             int addr;
             int error;
@@ -44,7 +44,7 @@ namespace test_tcp4_client
             }
 
             IO.Bindings.libsimpleio.libIPV4.IPV4_resolve(args[0], out addr,
-              out error);
+                out error);
 
             if (error != 0)
             {
@@ -52,7 +52,7 @@ namespace test_tcp4_client
             }
 
             IO.Bindings.libsimpleio.libIPV4.IPV4_ntoa(addr, addrstr, addrstr.Length,
-              out error);
+                out error);
 
             if (error != 0)
             {
@@ -60,10 +60,10 @@ namespace test_tcp4_client
             }
 
             System.Console.WriteLine("Connecting to server " + addrstr.ToString()
-              + "\n");
+                + "\n");
 
             IO.Bindings.libsimpleio.libIPV4.TCP4_connect(addr, 12345, out fd,
-              out error);
+                out error);
 
             if (error != 0)
             {
@@ -83,7 +83,7 @@ namespace test_tcp4_client
                 buf = System.Text.Encoding.ASCII.GetBytes(s + "\r\n");
 
                 IO.Bindings.libsimpleio.libIPV4.TCP4_send(fd, buf, buf.Length,
-                  out count, out error);
+                    out count, out error);
 
                 if (error != 0)
                 {
@@ -93,7 +93,7 @@ namespace test_tcp4_client
                 buf = new byte[256];
 
                 IO.Bindings.libsimpleio.libIPV4.TCP4_receive(fd, buf, buf.Length,
-                  out count, out error);
+                    out count, out error);
 
                 if (error != 0)
                 {

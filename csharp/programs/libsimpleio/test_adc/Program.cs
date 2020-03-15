@@ -1,4 +1,4 @@
-// ADC input test using libsimpleio
+// ADC Input Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_adc
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nADC Input Test using libsimpleio\n");
+            Console.WriteLine("\nADC Input Test\n");
 
             IO.Objects.libsimpleio.Device.Designator desg;
 

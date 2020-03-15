@@ -1,4 +1,4 @@
-//  GPIO Interrupt Button and LED Test using libsimpleio
+// GPIO Interrupt Button and LED Test
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -28,7 +28,7 @@ namespace test_gpio_interrupt_button_led
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\n GPIO Interrupt Button and LED Test using libsimpleio\n");
+            Console.WriteLine("\nGPIO Interrupt Button and LED Test\n");
 
             // Create GPIO pin objects
 
