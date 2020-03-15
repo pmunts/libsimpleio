@@ -46,7 +46,7 @@ namespace test_th02
 
             for (;;)
             {
-                Console.Write("Temperature: " + dev.Temperature.ToString("F1"));
+                Console.Write("Temperature: " + dev.Celsius.ToString("F1"));
                 Console.Write("  ");
                 Console.Write("Humidity: " + dev.Humidity.ToString("F1"));
                 Console.WriteLine();
