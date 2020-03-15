@@ -58,7 +58,7 @@ namespace test_adc
                 Console.Write("Samples:     ");
 
                 foreach (IO.Interfaces.ADC.Sample inp in S)
-                  Console.Write(String.Format(" {0:00000}", inp.sample));
+                    Console.Write(String.Format(" {0:00000}", inp.sample));
 
                 Console.WriteLine();
                 System.Threading.Thread.Sleep(2000);

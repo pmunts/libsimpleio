@@ -32,7 +32,7 @@ namespace test_pwm
             Console.WriteLine("\nRemote I/O PWM Output Test\n");
 
             IO.Remote.Device remdev =
-              new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
             Console.Write("Channels:");
 

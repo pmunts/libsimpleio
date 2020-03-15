@@ -37,7 +37,7 @@ namespace test_query_udp
             }
 
             IO.Interfaces.Message64.Messenger m =
-              new IO.Objects.Message64.UDP.Messenger(args[0], 8087);
+                new IO.Objects.Message64.UDP.Messenger(args[0], 8087);
 
             IO.Remote.Device remdev = new IO.Remote.Device(m);
 
@@ -68,7 +68,7 @@ namespace test_query_udp
             Console.Write("GPIO Pins:   ");
 
             foreach (int pin in remdev.GPIO_Available())
-              Console.Write(pin.ToString() + " ");
+                Console.Write(pin.ToString() + " ");
 
             Console.WriteLine();
 

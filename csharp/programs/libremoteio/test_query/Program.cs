@@ -63,7 +63,7 @@ namespace test_query
             Console.Write("GPIO Pins:   ");
 
             foreach (int pin in remdev.GPIO_Available())
-              Console.Write(pin.ToString() + " ");
+                Console.Write(pin.ToString() + " ");
 
             Console.WriteLine();
 

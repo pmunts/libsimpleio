@@ -31,7 +31,7 @@ namespace test_pca8574_device
             Console.WriteLine("\nRemote I/O PCA8574 GPIO Port Toggle Test\n");
 
             IO.Remote.Device remdev =
-               new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
             IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 
