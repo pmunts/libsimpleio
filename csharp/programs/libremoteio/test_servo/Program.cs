@@ -31,20 +31,20 @@ namespace test_servo
         {
             Console.WriteLine("\nRemote I/O Servo Output Test\n");
 
-            IO.Remote.Device dev =
+            IO.Remote.Device remdev =
                 new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
             Console.Write("Channels:");
 
-            foreach (int output in dev.PWM_Available())
+            foreach (int output in remdev.PWM_Available())
                 Console.Write(" " + output.ToString());
 
             Console.WriteLine();
 
             ArrayList S = new ArrayList();
 
-            foreach (int c in dev.PWM_Available())
-                S.Add(new IO.Objects.Servo.PWM.Output(new IO.Remote.PWM(dev, c, 50), 50));
+            foreach (int c in remdev.PWM_Available())
+                S.Add(new IO.Objects.Servo.PWM.Output(new IO.Remote.PWM(remdev, c, 50), 50));
 
             for (;;)
             {

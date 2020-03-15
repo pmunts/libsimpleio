@@ -39,17 +39,17 @@ namespace test_query_udp
             IO.Interfaces.Message64.Messenger m =
               new IO.Objects.Message64.UDP.Messenger(args[0], 8087);
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
-            Console.WriteLine(dev.Version);
-            Console.WriteLine(dev.Capabilities);
+            Console.WriteLine(remdev.Version);
+            Console.WriteLine(remdev.Capabilities);
             Console.WriteLine();
 
             // Display the available ADC inputs
 
             Console.Write("ADC inputs:  ");
 
-            foreach (int input in dev.ADC_Available())
+            foreach (int input in remdev.ADC_Available())
                 Console.Write(input.ToString() + " ");
 
             Console.WriteLine();
@@ -58,7 +58,7 @@ namespace test_query_udp
 
             Console.Write("DAC outputs: ");
 
-            foreach (int input in dev.DAC_Available())
+            foreach (int input in remdev.DAC_Available())
                 Console.Write(input.ToString() + " ");
 
             Console.WriteLine();
@@ -67,7 +67,7 @@ namespace test_query_udp
 
             Console.Write("GPIO Pins:   ");
 
-            foreach (int pin in dev.GPIO_Available())
+            foreach (int pin in remdev.GPIO_Available())
               Console.Write(pin.ToString() + " ");
 
             Console.WriteLine();
@@ -76,7 +76,7 @@ namespace test_query_udp
 
             Console.Write("I2C buses:   ");
 
-            foreach (int bus in dev.I2C_Available())
+            foreach (int bus in remdev.I2C_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();
@@ -85,7 +85,7 @@ namespace test_query_udp
 
             Console.Write("PWM outputs: ");
 
-            foreach (int bus in dev.PWM_Available())
+            foreach (int bus in remdev.PWM_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();
@@ -94,7 +94,7 @@ namespace test_query_udp
 
             Console.Write("SPI devices: ");
 
-            foreach (int bus in dev.SPI_Available())
+            foreach (int bus in remdev.SPI_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();

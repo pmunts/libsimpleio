@@ -31,14 +31,14 @@ namespace test_gpio
             Console.WriteLine("\nRemote I/O GPIO Pin Toggle Test\n");
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             // Create GPIO pin object
 
             Console.Write("GPIO channel number? ");
 
             IO.Interfaces.GPIO.Pin Output =
-                new IO.Remote.GPIO(dev, int.Parse(Console.ReadLine()),
+                new IO.Remote.GPIO(remdev, int.Parse(Console.ReadLine()),
                 IO.Interfaces.GPIO.Direction.Output);
 
             // Toggle the GPIO output

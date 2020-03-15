@@ -31,20 +31,20 @@ namespace test_dac
         {
             Console.WriteLine("\nRemote I/O Analog Output Test\n");
 
-            IO.Remote.Device dev =
+            IO.Remote.Device remdev =
                 new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
             Console.Write("Channels:    ");
 
-            foreach (int output in dev.DAC_Available())
+            foreach (int output in remdev.DAC_Available())
                 Console.Write(" " + output.ToString());
 
             Console.WriteLine();
 
             ArrayList S = new ArrayList();
 
-            foreach (int c in dev.DAC_Available())
-                S.Add(new IO.Remote.DAC(dev, c));
+            foreach (int c in remdev.DAC_Available())
+                S.Add(new IO.Remote.DAC(remdev, c));
 
             Console.Write("Resolutions: ");
 

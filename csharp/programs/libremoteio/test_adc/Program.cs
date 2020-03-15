@@ -31,20 +31,20 @@ namespace test_adc
         {
             Console.WriteLine("\nRemote I/O Analog Input Test\n");
 
-            IO.Remote.Device dev =
+            IO.Remote.Device remdev =
                 new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
 
             Console.Write("Channels:    ");
 
-            foreach (int input in dev.ADC_Available())
+            foreach (int input in remdev.ADC_Available())
                 Console.Write(" " + input.ToString());
 
             Console.WriteLine();
 
             ArrayList S = new ArrayList();
 
-            foreach (int c in dev.ADC_Available())
-                S.Add(new IO.Remote.ADC(dev, c));
+            foreach (int c in remdev.ADC_Available())
+                S.Add(new IO.Remote.ADC(remdev, c));
 
             Console.Write("Resolutions: ");
 

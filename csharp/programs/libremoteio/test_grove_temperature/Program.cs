@@ -32,9 +32,9 @@ namespace test_grove_temperature
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
 
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
-            IO.Interfaces.ADC.Sample S = new IO.Remote.ADC(dev, 0);
+            IO.Interfaces.ADC.Sample S = new IO.Remote.ADC(remdev, 0);
 
             IO.Interfaces.ADC.Input inp = new IO.Interfaces.ADC.Input(S, 3.3);
 

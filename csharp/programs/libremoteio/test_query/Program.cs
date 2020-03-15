@@ -31,20 +31,20 @@ namespace test_query
             Console.WriteLine("\nRemote I/O Device Information Query Test\n");
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
-            IO.Remote.Device dev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device(m);
 
             // Display some device information
 
             Console.WriteLine(m.Info);
-            Console.WriteLine(dev.Version);
-            Console.WriteLine(dev.Capabilities);
+            Console.WriteLine(remdev.Version);
+            Console.WriteLine(remdev.Capabilities);
             Console.WriteLine();
 
             // Display the available ADC inputs
 
             Console.Write("ADC inputs:  ");
 
-            foreach (int input in dev.ADC_Available())
+            foreach (int input in remdev.ADC_Available())
                 Console.Write(input.ToString() + " ");
 
             Console.WriteLine();
@@ -53,7 +53,7 @@ namespace test_query
 
             Console.Write("DAC outputs: ");
 
-            foreach (int input in dev.DAC_Available())
+            foreach (int input in remdev.DAC_Available())
                 Console.Write(input.ToString() + " ");
 
             Console.WriteLine();
@@ -62,7 +62,7 @@ namespace test_query
 
             Console.Write("GPIO Pins:   ");
 
-            foreach (int pin in dev.GPIO_Available())
+            foreach (int pin in remdev.GPIO_Available())
               Console.Write(pin.ToString() + " ");
 
             Console.WriteLine();
@@ -71,7 +71,7 @@ namespace test_query
 
             Console.Write("I2C buses:   ");
 
-            foreach (int bus in dev.I2C_Available())
+            foreach (int bus in remdev.I2C_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();
@@ -80,7 +80,7 @@ namespace test_query
 
             Console.Write("PWM outputs: ");
 
-            foreach (int bus in dev.PWM_Available())
+            foreach (int bus in remdev.PWM_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();
@@ -89,7 +89,7 @@ namespace test_query
 
             Console.Write("SPI devices: ");
 
-            foreach (int bus in dev.SPI_Available())
+            foreach (int bus in remdev.SPI_Available())
                 Console.Write(bus.ToString() + " ");
 
             Console.WriteLine();
