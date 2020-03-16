@@ -30,8 +30,7 @@ namespace test_th02
         {
             Console.WriteLine("\nRemote I/O TH02 Temperature/Humidity Sensor Test\n");
 
-            IO.Remote.Device remdev =
-                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Remote.Device remdev = new IO.Remote.Device();
 
             IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 

@@ -30,8 +30,7 @@ namespace test_led
         {
             Console.WriteLine("\nRemote I/O LED Toggle Test\n");
 
-            IO.Remote.Device remdev =
-                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Remote.Device remdev = new IO.Remote.Device();
 
             IO.Interfaces.GPIO.Pin LED =
                 remdev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);

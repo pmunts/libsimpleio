@@ -30,9 +30,7 @@ namespace test_grove_temperature
         {
             Console.WriteLine("\nRemote I/O Grove Temperature Sensor (thermistor) Test\n");
 
-            IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
-
-            IO.Remote.Device remdev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device();
 
             IO.Interfaces.ADC.Sample S = new IO.Remote.ADC(remdev, 0);
 

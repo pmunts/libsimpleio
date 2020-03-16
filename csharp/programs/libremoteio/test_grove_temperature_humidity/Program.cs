@@ -30,8 +30,7 @@ namespace test_grove_temperature_humidity
         {
             Console.WriteLine("\nRemote I/O Grove Temperature and Humidity Sensor (TH02) Test\n");
 
-            IO.Remote.Device remdev =
-                new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Remote.Device remdev = new IO.Remote.Device();
 
             IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
 

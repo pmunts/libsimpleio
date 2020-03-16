@@ -1,6 +1,4 @@
-// Remote I/O Servo Output Test
-
-// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,42 +19,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Collections;
+using IO.Interfaces.Message64;
 
-namespace test_servo
+namespace IO.Remote
 {
-    class Program
+    /// <summary>
+    /// Encasulates a remote I/O device.
+    /// </summary>
+    public partial class Device
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Create a Remote I/O device object, using an implicit message
+        /// transport object.
+        /// </summary>
+        public Device()
         {
-            Console.WriteLine("\nRemote I/O Servo Output Test\n");
+            transport = new IO.Objects.USB.HID.Messenger();
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            Message cmd = new Message(0);
+            Message resp = new Message();
 
-            Console.Write("Channels:");
+            cmd.payload[0] = (byte)MessageTypes.VERSION_REQUEST;
+            cmd.payload[1] = 1;
 
-            foreach (int output in remdev.PWM_Available())
-                Console.Write(" " + output.ToString());
+            transport.Transaction(cmd, resp);
+            Version_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
 
-            Console.WriteLine();
+            cmd.payload[0] = (byte)MessageTypes.CAPABILITY_REQUEST;
+            cmd.payload[1] = 2;
 
-            ArrayList S = new ArrayList();
-
-            foreach (int c in remdev.PWM_Available())
-                S.Add(new IO.Objects.Servo.PWM.Output(new IO.Remote.PWM(remdev, c, 50), 50));
-
-            for (;;)
-            {
-                int n;
-
-                for (n = -300; n <= 300; n++)
-                    foreach (IO.Interfaces.Servo.Output output in S)
-                        output.position = n / 300.0;
-
-                for (n = 300; n >= -300; n--)
-                    foreach (IO.Interfaces.Servo.Output output in S)
-                        output.position = n / 300.0;
-            }
+            transport.Transaction(cmd, resp);
+            Capability_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
         }
     }
 }

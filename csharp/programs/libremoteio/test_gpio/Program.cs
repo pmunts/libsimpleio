@@ -30,8 +30,7 @@ namespace test_gpio
         {
             Console.WriteLine("\nRemote I/O GPIO Pin Toggle Test\n");
 
-            IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
-            IO.Remote.Device remdev = new IO.Remote.Device(m);
+            IO.Remote.Device remdev = new IO.Remote.Device();
 
             // Create GPIO pin object
 
