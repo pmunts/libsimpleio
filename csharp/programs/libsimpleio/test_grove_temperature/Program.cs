@@ -30,17 +30,37 @@ namespace test_grove_temperature
         {
             Console.WriteLine("\nRemote I/O Grove Temperature Sensor (thermistor) Test\n");
 
-            IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
+            // Get ADC hardware parameters
 
-            IO.Remote.Device remdev = new IO.Remote.Device(m);
+            IO.Objects.libsimpleio.Device.Designator desg;
 
-            IO.Interfaces.ADC.Sample S = new IO.Remote.ADC(remdev, 0);
+            Console.Write("ADC chip:       ");
+            desg.chip = uint.Parse(Console.ReadLine());
 
-            IO.Interfaces.ADC.Input inp = new IO.Interfaces.ADC.Input(S, 3.3);
+            Console.Write("ADC channel:    ");
+            desg.chan = uint.Parse(Console.ReadLine());
+
+            Console.Write("ADC resolution: ");
+            int resolution = int.Parse(Console.ReadLine());
+
+            Console.Write("ADC reference:  ");
+            double reference = double.Parse(Console.ReadLine());
+
+            Console.WriteLine();
+
+            // Create objects
+
+            IO.Interfaces.ADC.Sample S =
+                new IO.Objects.libsimpleio.ADC.Sample(desg, resolution);
+
+            IO.Interfaces.ADC.Input V = new IO.Interfaces.ADC.Input(S, reference);
+
+            IO.Devices.Grove.Temperature.Device T =
+                new IO.Devices.Grove.Temperature.Device(V);
 
             for (;;)
             {
-                Console.WriteLine("Voltage => " + inp.voltage.ToString("F2"));
+                Console.WriteLine("Temperature => " + T.Celsius.ToString("F2"));
                 System.Threading.Thread.Sleep(1000);
             }
         }
