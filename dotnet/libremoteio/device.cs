@@ -29,9 +29,8 @@ namespace IO.Remote
     public partial class Device
     {
         /// <summary>
-        /// Create a Remote I/O device object, using an implicit message
-        /// transport object for a Munts Technologies USB raw HID (VID=0x16D0,
-        /// PID=0x0AFA) Remote I/O Server.
+        /// Create a Remote I/O device object for a Munts Technologies
+        /// USB raw HID (VID=0x16D0, PID=0x0AFA) device Remote I/O Server.
         /// </summary>
         public Device()
         {
