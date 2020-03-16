@@ -41,7 +41,7 @@ namespace test_grove_temperature
             IO.Devices.Grove.Temperature.Device T =
                 new IO.Devices.Grove.Temperature.Device(V);
 
-            for (; ; )
+            for (;;)
             {
                 Console.WriteLine("Temperature => " + T.Celsius.ToString("F2"));
                 System.Threading.Thread.Sleep(1000);
