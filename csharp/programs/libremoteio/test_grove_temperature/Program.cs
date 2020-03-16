@@ -36,11 +36,14 @@ namespace test_grove_temperature
 
             IO.Interfaces.ADC.Sample S = new IO.Remote.ADC(remdev, 0);
 
-            IO.Interfaces.ADC.Input inp = new IO.Interfaces.ADC.Input(S, 3.3);
+            IO.Interfaces.ADC.Input V = new IO.Interfaces.ADC.Input(S, 3.3);
 
-            for (;;)
+            IO.Devices.Grove.Temperature.Device T =
+                new IO.Devices.Grove.Temperature.Device(V);
+
+            for (; ; )
             {
-                Console.WriteLine("Voltage => " + inp.voltage.ToString("F2"));
+                Console.WriteLine("Temperature => " + T.Celsius.ToString("F2"));
                 System.Threading.Thread.Sleep(1000);
             }
         }
