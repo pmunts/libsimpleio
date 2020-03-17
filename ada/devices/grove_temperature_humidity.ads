@@ -1,6 +1,6 @@
--- Seeed Studio Grove I2C ADC Module services
+-- Seeed Studio Grove Temperature and Humdity Sensor (TH02) Services.
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,24 +20,26 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ADC;
-WITH ADC121C021;
-WITH Analog;
+WITH Humidity;
+WITH Temperature;
 WITH I2C;
-WITH Voltage;
+WITH TH02;
 
-PACKAGE Grove_I2C_ADC IS
+PACKAGE Grove_Temperature_Humidity IS
 
-  DefaultAddress : CONSTANT I2C.Address := 16#50#;
+  -- Create a humidity sensor object
 
-  FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN Analog.Input IS
-     (ADC121C021.Create(bus, addr));
+  FUNCTION Create(bus : I2C.Bus) RETURN Humidity.Relative IS
+   (TH02.Create(bus));
 
-  FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN Voltage.Input IS
-     (ADC.Create(ADC121C021.Create(bus, addr), 3.0, 0.5));
+  -- Create a temperature sensor object
 
-END Grove_I2C_ADC;
+  FUNCTION Create(bus : I2C.Bus) RETURN Temperature.Celsius IS
+   (TH02.Create(bus));
+
+  -- Create a TH02 temperature and humidity sensor object
+
+  FUNCTION Create(bus : I2C.Bus) RETURN TH02.Device IS
+   (TH02.Create(bus));
+
+END Grove_Temperature_Humidity;
