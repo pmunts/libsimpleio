@@ -71,6 +71,7 @@
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.SPI" isDocumented="True">SPI (Serial Peripheral Interconnect) Device Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Servo" isDocumented="True">Servo Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Watchdog" isDocumented="True">Watchdog Timer Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Shield and Socket Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
     </NamespaceSummaries>
     <HelpTitle>Munts Technologies Linux Simple I/O Library .Net Standard 2.0 Class Library $(BUILDVERSION)</HelpTitle>

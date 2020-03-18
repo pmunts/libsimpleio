@@ -1,3 +1,6 @@
+// Mikroelektronika 7seg click MIKROE-1201 (https://www.mikroe.com/7seg-click)
+// Services
+
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -21,8 +24,14 @@
 namespace IO.Devices.ClickBoards.SevenSegment
 {
     /// <summary>
-    /// Encapsulates the Mikroelektronika 7Seg Click.
+    /// Encapsulates the Mikroelektronika 7Seg Click
+    /// <a href="https://www.mikroe.com/7seg-click">MIKROE-1201</a>.
     /// </summary>
+    /// <remarks>
+    /// The <c>MISO</c> <i>aka</i> <c>SDI</c> pin should be removed from the
+    /// 7seg click, because it is not tri-state and will interfere with other
+    /// devices on the same SPI bus.
+    /// </remarks>
     public class Device
     {
         // The segments of the Mikroelektronika Seven Segment Display
@@ -75,9 +84,11 @@ namespace IO.Devices.ClickBoards.SevenSegment
             0x7F, 0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71,
         };
 
-        private readonly IO.Devices.SN74HC595.Device mydev;
-        private readonly Base mybase;
-        private readonly ZeroBlanking myblanking;
+        private readonly IO.Interfaces.GPIO.Pin myRST;
+        private readonly IO.Interfaces.GPIO.Pin myPWM;
+        private readonly IO.Devices.SN74HC595.Device mychain;
+        private Base mybase;
+        private ZeroBlanking myblanking;
         private bool myleftdp = false;
         private bool myrightdp = false;
         private byte[] outbuf = { 0, 0 };
@@ -85,10 +96,17 @@ namespace IO.Devices.ClickBoards.SevenSegment
         // Write the output buffer to the display
         private void Post()
         {
-            if (myrightdp) outbuf[0] |= 0x01;
-            if (myleftdp) outbuf[1] |= 0x01;
+            if (myrightdp)
+                outbuf[0] |= 0x01;
+            else
+                outbuf[0] &= 0xFE;
 
-            mydev.state = outbuf;
+            if (myleftdp)
+                outbuf[1] |= 0x01;
+            else
+                outbuf[1] &= 0xFE;
+
+            mychain.state = outbuf;
         }
 
         /// <summary>
@@ -126,20 +144,71 @@ namespace IO.Devices.ClickBoards.SevenSegment
         }
 
         /// <summary>
-        /// Constructor for a single Mikroelektronika 7Seg Click.
+        /// Constructor for a Mikroelektronika 7seg click.
         /// </summary>
-        /// <param name="dev">SN74HC595 shift register chain object.
-        /// Must have exactly two register stages.</param>
-        /// <param name="numbase">Numeral system mode.</param>
-        /// <param name="blanking">Zero blanking mode.</param>
-        public Device(IO.Devices.SN74HC595.Device dev, Base numbase = Base.Decimal,
+        /// <param name="socket">mikroBUS socket number.</param>
+        /// <param name="radix">Numerical base or radix.  Allowed values are
+        /// <c>Decimal</c> and <c>Hexadecimal</c>.</param>
+        /// <param name="blanking">Zero blanking.  Allowed values are
+        /// <c>None</c>, <c>Leading</c>, and <c>Full</c>.</param>
+        public Device(int socket, Base radix = Base.Decimal,
             ZeroBlanking blanking = ZeroBlanking.None)
         {
-            mydev = dev;
-            mybase = numbase;
-            myblanking = blanking;
+            IO.Objects.libsimpleio.mikroBUS.Socket S =
+                new IO.Objects.libsimpleio.mikroBUS.Socket(socket);
 
-            state = 0;
+            // Configure GPIO pins
+
+            myRST = new IO.Objects.libsimpleio.GPIO.Pin(S.RST,
+                IO.Interfaces.GPIO.Direction.Output, true);
+
+            myPWM = new IO.Objects.libsimpleio.GPIO.Pin(S.PWM,
+                IO.Interfaces.GPIO.Direction.Output, true);
+
+            // Configure 74HC595 shift register chain
+
+            mychain = new SN74HC595.Device(new IO.Objects.libsimpleio.SPI.Device(S.SPI,
+                IO.Devices.SN74HC595.Device.SPI_Mode, 8,
+                IO.Devices.SN74HC595.Device.SPI_MaxFreq,
+                S.CS.available ? new IO.Objects.libsimpleio.GPIO.Pin(S.CS,
+                IO.Interfaces.GPIO.Direction.Output, true) : null), 2);
+
+            mybase = radix;
+            myblanking = blanking;
+            Clear();
+        }
+
+        /// <summary>
+        /// Numerical base or radix.  Allowed values are <c>Decimal</c> and
+        /// <c>Hexadecimal</c>.
+        /// </summary>
+        public Base radix
+        {
+            get
+            {
+                return mybase;
+            }
+
+            set
+            {
+                mybase = value;
+            }
+        }
+
+        /// <summary>
+        /// Zero blanking mode.  Allowed values are <c>None</c>,
+        /// <c>Leading</c>, and <c>Full</c>.
+        /// </summary>
+        public ZeroBlanking blanking
+        {
+            get
+            {
+                return myblanking;
+            }
+            set
+            {
+                myblanking = value;
+            }
         }
 
         /// <summary>
@@ -239,7 +308,7 @@ namespace IO.Devices.ClickBoards.SevenSegment
             outbuf[1] = 0;
             myleftdp = false;
             myrightdp = false;
-            mydev.state = outbuf;
+            Post();
         }
     }
 }
