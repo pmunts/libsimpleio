@@ -56,6 +56,16 @@ namespace IO.Objects.libsimpleio.Device
         /// <summary>
         /// Linux kernel I/O device designator for an unavailable device.
         /// </summary>
-        public static readonly Designator Unavailable = new Designator(uint.MaxValue, uint.MaxValue);
+        public static readonly Designator Unavailable =
+            new Designator(uint.MaxValue, uint.MaxValue);
+
+        /// <summary>
+        /// Returns <c>true</c> if this device designator is not equal to
+        /// <c>Unavailable</c>.
+        /// </summary>
+        public bool available
+        {
+            get { return !this.Equals(Unavailable); }
+        }
     }
 }
