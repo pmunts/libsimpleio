@@ -32,7 +32,7 @@ namespace IO.Devices.ClickBoards.SevenSegment
     /// 7seg click, because it is not tri-state and will interfere with other
     /// devices on the same SPI bus.
     /// </remarks>
-    public class Device
+    public class Board
     {
         // The segments of the Mikroelektronika Seven Segment Display
         // Click Board are wired in an odd fashion.  The following
@@ -151,7 +151,7 @@ namespace IO.Devices.ClickBoards.SevenSegment
         /// <c>Decimal</c> and <c>Hexadecimal</c>.</param>
         /// <param name="blanking">Zero blanking.  Allowed values are
         /// <c>None</c>, <c>Leading</c>, and <c>Full</c>.</param>
-        public Device(int socket, Base radix = Base.Decimal,
+        public Board(int socket, Base radix = Base.Decimal,
             ZeroBlanking blanking = ZeroBlanking.None)
         {
             IO.Objects.libsimpleio.mikroBUS.Socket S =
