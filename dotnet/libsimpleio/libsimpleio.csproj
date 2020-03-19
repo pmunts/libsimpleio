@@ -13,7 +13,6 @@
     <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
     <PackageTags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
-Added Mikroelektronika mikroBUS (https://www.mikroe.com/mikrobus) shield and socket services.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
@@ -33,7 +32,7 @@ Added Mikroelektronika mikroBUS (https://www.mikroe.com/mikrobus) shield and soc
       <Link>IO.Bindings\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\clickboards\*.cs">
-      <Link>IO.Devices\%(FileName)</Link>
+      <Link>IO.Devices.Clickboards\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
