@@ -24,8 +24,8 @@
     <NamespaceSummaries>
       <NamespaceSummaryItem name="IO.Bindings.libsimpleio" isDocumented="True">Wrapper Classes for the Linux Simple I/O Library (&lt;a href="http://git.munts.com/libsimpleio"&gt;http://git.munts.com/libsimpleio&lt;/a&gt;)</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ADC121C021" isDocumented="True">ADC121C021 I&lt;sup&gt;2&lt;/sup&gt;C A/D Converter Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.PWM" isDocumented="True">Mikroelektronika PWM Click MIKROE-1898 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.PWM" isDocumented="True">Mikroelektronika PWM Click MIKROE-1898 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.ADC" isDocumented="True">Seeed Studio Grove I&lt;sup&gt;2&lt;/sup&gt;C ADC (ADC121C021) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature" isDocumented="True">Seeed Studio Grove Temperature Sensor (thermistor) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature_Humidity" isDocumented="True">Seeed Studio Grove Temperature and Humdity Sensor (TH02) Services.</NamespaceSummaryItem>
@@ -74,6 +74,7 @@
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Watchdog" isDocumented="True">Watchdog Timer Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Shield and Socket Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Remote.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Remote I/O protocol Server and Socket Services</NamespaceSummaryItem>
     </NamespaceSummaries>
     <HelpTitle>Munts Technologies Linux Simple I/O Library .Net Standard 2.0 Class Library $(BUILDVERSION)</HelpTitle>
     <HelpFileVersion>$(BUILDVERSION)</HelpFileVersion>

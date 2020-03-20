@@ -21,8 +21,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using IO.Devices.ClickBoards.SevenSegment;
-using static IO.Devices.ClickBoards.SevenSegment.Board;
+using IO.Devices.ClickBoards.SimpleIO.SevenSegment;
+using static IO.Devices.ClickBoards.SimpleIO.SevenSegment.Board;
 
 namespace test_7seg_click
 {

@@ -5,12 +5,12 @@
     <Version>$(BUILDVERSION)</Version>
     <AssemblyVersion>$(BUILDVERSION)</AssemblyVersion>
     <FileVersion>$(BUILDVERSION)</FileVersion>
-    <Title>Remote I/O Library for .Net Standard</Title>
-    <Description>Remote I/O Library for .Net Standard</Description>
+    <Title>Remote I/O Library for .Net Standard 2.0</Title>
+    <Description>Remote I/O Library for .Net Standard 2.0</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2017-2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
+    <PackageLicenseFile>doc/COPYING</PackageLicenseFile>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
-    <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI;</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
@@ -28,6 +28,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\csharp\clickboards\remoteio\*.cs">
+      <Link>IO.Devices.Clickboards.RemoteIO\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
     </Compile>
@@ -49,6 +52,7 @@
     <Compile Include="..\..\csharp\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>
     </Compile>
+    <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
   </ItemGroup>
 
   <ItemGroup>

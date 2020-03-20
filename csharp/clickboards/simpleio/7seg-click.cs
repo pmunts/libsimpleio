@@ -21,7 +21,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Devices.ClickBoards.SevenSegment
+namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
 {
     /// <summary>
     /// Encapsulates the Mikroelektronika 7Seg Click

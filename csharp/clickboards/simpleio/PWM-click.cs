@@ -1,4 +1,4 @@
-namespace IO.Devices.ClickBoards.PWM
+namespace IO.Devices.ClickBoards.SimpleIO.PWM
 {
     /// <summary>
     /// Encapsulates the Mikroelektronika PWM Click Board
