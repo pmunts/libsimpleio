@@ -74,7 +74,7 @@ PACKAGE BODY GPIO.UserLED IS
       Logging.libsimpleio.Error("libLinux.Open() failed", error);
       RAISE GPIO_Error WITH "libLinux.Open() failed, " & errno.strerror(error);
     END IF;
-fd := -1;
+
     IF state THEN
       libLinux.Write(fd, state_on'Address, state_on'Length, count, error);
     ELSE
