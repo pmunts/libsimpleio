@@ -25,6 +25,7 @@ WITH Ada.Strings.Fixed;
 
 WITH errno;
 WITH libLinux;
+WITH Logging.libsimpleio;
 
 PACKAGE BODY GPIO.UserLED IS
 
@@ -70,16 +71,18 @@ PACKAGE BODY GPIO.UserLED IS
     libLinux.Open(filename & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
+      Logging.libsimpleio.Error("libLinux.Open() failed", error);
       RAISE GPIO_Error WITH "libLinux.Open() failed, " & errno.strerror(error);
     END IF;
-
+fd := -1;
     IF state THEN
-      libLinux.Write(Self.myfd, state_on'Address, state_on'Length, count, error);
+      libLinux.Write(fd, state_on'Address, state_on'Length, count, error);
     ELSE
-      libLinux.Write(Self.myfd, state_off'Address, state_off'Length, count, error);
+      libLinux.Write(fd, state_off'Address, state_off'Length, count, error);
     END IF;
 
     IF error /= 0 THEN
+      Logging.libsimpleio.Error("libLinux.Write() failed", error);
       RAISE GPIO_Error WITH "libLinux.Write() failed, " & errno.strerror(error);
     END IF;
 
@@ -102,6 +105,7 @@ PACKAGE BODY GPIO.UserLED IS
     Self := Destroyed;
 
     IF error /= 0 THEN
+      Logging.libsimpleio.Error("libLinux.Close() failed", error);
       RAISE GPIO_Error WITH "libLinux.Close() failed, " & errno.strerror(error);
     END IF;
   END Destroy;
@@ -122,6 +126,7 @@ PACKAGE BODY GPIO.UserLED IS
     libLinux.Read(Self.fd, buf'Address, buf'Length, count, error);
 
     IF error /= 0 THEN
+      Logging.libsimpleio.Error("libLinux.Read() failed", error);
       RAISE GPIO_Error WITH "libLinux.Read() failed, " & errno.strerror(error);
     END IF;
 
@@ -145,6 +150,7 @@ PACKAGE BODY GPIO.UserLED IS
     END IF;
 
     IF error /= 0 THEN
+      Logging.libsimpleio.Error("libLinux.Write() failed", error);
       RAISE GPIO_Error WITH "libLinux.Write() failed, " & errno.strerror(error);
     END IF;
   END Put;
@@ -165,6 +171,7 @@ PACKAGE BODY GPIO.UserLED IS
 
   BEGIN
     IF Self = Destroyed THEN
+      Logging.libsimpleio.Error("GPIO pin had been destroyed");
       RAISE GPIO_Error WITH "GPIO pin has been destroyed";
     END IF;
   END CheckDestroyed;
