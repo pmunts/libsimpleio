@@ -1,6 +1,6 @@
 -- I/O Resources available from a Raspberry Pi Remote I/O Server
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -31,20 +31,20 @@ PACKAGE RemoteIO.RaspberryPi IS
 
   -- The following GPIO pins are available on all Raspberry Pi Models
 
-  USERLED : CONSTANT RemoteIO.ChannelNumber :=  0;  -- aka /dev/userled
+  USERLED : CONSTANT RemoteIO.ChannelNumber :=  0;  -- /dev/userled
 
-  GPIO2   : CONSTANT RemoteIO.ChannelNumber :=  2;  -- aka I2C1 SDA
-  GPIO3   : CONSTANT RemoteIO.ChannelNumber :=  3;  -- aka I2C1 SCL
+  GPIO2   : CONSTANT RemoteIO.ChannelNumber :=  2;  -- I2C1 SDA
+  GPIO3   : CONSTANT RemoteIO.ChannelNumber :=  3;  -- I2C1 SCL
   GPIO4   : CONSTANT RemoteIO.ChannelNumber :=  4;
-  GPIO7   : CONSTANT RemoteIO.ChannelNumber :=  7;  -- aka SPI0 SS1
-  GPIO8   : CONSTANT RemoteIO.ChannelNumber :=  8;  -- aka SPI0 SS0
-  GPIO9   : CONSTANT RemoteIO.ChannelNumber :=  9;  -- aka SPI0 MISO
-  GPIO10  : CONSTANT RemoteIO.ChannelNumber := 10;  -- aka SPI0 MOSI
-  GPIO11  : CONSTANT RemoteIO.ChannelNumber := 11;  -- aka SPI0 SCLK
-  GPIO14  : CONSTANT RemoteIO.ChannelNumber := 14;  -- aka UART0 TXD
-  GPIO15  : CONSTANT RemoteIO.ChannelNumber := 15;  -- aka UART0 RXD
+  GPIO7   : CONSTANT RemoteIO.ChannelNumber :=  7;  -- SPI0 SS1
+  GPIO8   : CONSTANT RemoteIO.ChannelNumber :=  8;  -- SPI0 SS0
+  GPIO9   : CONSTANT RemoteIO.ChannelNumber :=  9;  -- SPI0 MISO
+  GPIO10  : CONSTANT RemoteIO.ChannelNumber := 10;  -- SPI0 MOSI
+  GPIO11  : CONSTANT RemoteIO.ChannelNumber := 11;  -- SPI0 SCLK
+  GPIO14  : CONSTANT RemoteIO.ChannelNumber := 14;  -- UART0 TXD
+  GPIO15  : CONSTANT RemoteIO.ChannelNumber := 15;  -- UART0 RXD
   GPIO17  : CONSTANT RemoteIO.ChannelNumber := 17;
-  GPIO18  : CONSTANT RemoteIO.ChannelNumber := 18;
+  GPIO18  : CONSTANT RemoteIO.ChannelNumber := 18;  -- PWM0
   GPIO22  : CONSTANT RemoteIO.ChannelNumber := 22;
   GPIO23  : CONSTANT RemoteIO.ChannelNumber := 23;
   GPIO24  : CONSTANT RemoteIO.ChannelNumber := 24;
@@ -58,19 +58,24 @@ PACKAGE RemoteIO.RaspberryPi IS
   GPIO6   : CONSTANT RemoteIO.ChannelNumber :=  6;
   GPIO12  : CONSTANT RemoteIO.ChannelNumber := 12;
   GPIO13  : CONSTANT RemoteIO.ChannelNumber := 13;
-  GPIO16  : CONSTANT RemoteIO.ChannelNumber := 16;  -- aka SPI1 SS0
-  GPIO19  : CONSTANT RemoteIO.ChannelNumber := 19;  -- aka SPI1 MISO
-  GPIO20  : CONSTANT RemoteIO.ChannelNumber := 20;  -- aka SPI1 MOSI
-  GPIO21  : CONSTANT RemoteIO.ChannelNumber := 21;  -- aka SPI1 SCLK
+  GPIO16  : CONSTANT RemoteIO.ChannelNumber := 16;  -- SPI1 SS0
+  GPIO19  : CONSTANT RemoteIO.ChannelNumber := 19;  -- SPI1 MISO, PWM1
+  GPIO20  : CONSTANT RemoteIO.ChannelNumber := 20;  -- SPI1 MOSI
+  GPIO21  : CONSTANT RemoteIO.ChannelNumber := 21;  -- SPI1 SCLK
   GPIO26  : CONSTANT RemoteIO.ChannelNumber := 26;
 
   -- I2C bus controllers
 
-  I2C1    : CONSTANT RemoteIO.ChannelNumber :=  0;  -- aka /dev/i2c-1
+  I2C1    : CONSTANT RemoteIO.ChannelNumber :=  0;  -- GPIO2 and GPIO3
+
+  -- PWM outputs -- require device tree overlay
+
+  PWM0    : CONSTANT RemoteIO.ChannelNumber := 0;   -- GPIO18
+  PWM1    : CONSTANT RemoteIO.ChannelNumber := 1;   -- GPIO19
 
   -- SPI slave devices
 
-  SPI0    : CONSTANT RemoteIO.ChannelNumber :=  0;  -- aka /dev/spidev0.0
-  SPI1    : CONSTANT RemoteIO.ChannelNumber :=  1;  -- aka /dev/spidev0.1
+  SPI0    : CONSTANT RemoteIO.ChannelNumber :=  0;  -- GPIO8
+  SPI1    : CONSTANT RemoteIO.ChannelNumber :=  1;  -- GPIO7
 
 END RemoteIO.RaspberryPi;
