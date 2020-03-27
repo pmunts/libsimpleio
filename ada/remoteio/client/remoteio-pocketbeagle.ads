@@ -94,7 +94,7 @@ PACKAGE RemoteIO.PocketBeagle IS
 
   -- SPI slave devices
 
-  SPI0    : CONSTANT RemoteIO.ChannelNumber :=   0;  -- SPI1 CS0 P1.6,8,10,12
-  SPI1    : CONSTANT RemoteIO.ChannelNumber :=   1;  -- SPI2 CS1 P2.25,27,29,31
+  SPI0    : CONSTANT RemoteIO.ChannelNumber :=   0;  -- SPI0 CS0 P1.6,8,10,12
+  SPI1    : CONSTANT RemoteIO.ChannelNumber :=   1;  -- SPI1 CS1 P2.25,27,29,31
 
 END RemoteIO.PocketBeagle;

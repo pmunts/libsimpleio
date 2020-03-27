@@ -257,7 +257,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       AIN     => PocketBeagle.AIN6,
       I2C     => PocketBeagle.I2C1,
       PWM     => PocketBeagle.PWM2_0,
-      SPI     => PocketBeagle.SPI1_0,
+      SPI     => PocketBeagle.SPI0_0,
       UART    => To_DeviceString("ttyS4"),
       Stretch => True),
 
@@ -272,7 +272,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       AIN     => PocketBeagle.AIN5,
       I2C     => PocketBeagle.I2C2,
       PWM     => PocketBeagle.PWM0_0,
-      SPI     => PocketBeagle.SPI2_1,
+      SPI     => PocketBeagle.SPI1_1,
       UART    => To_DeviceString("ttyS0"),
       Stretch => True));
 

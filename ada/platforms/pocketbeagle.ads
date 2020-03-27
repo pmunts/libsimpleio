@@ -86,7 +86,7 @@ PACKAGE PocketBeagle IS
   PWM0_0  : CONSTANT Device.Designator := (0,  0);  -- P1.36
   PWM2_0  : CONSTANT Device.Designator := (2,  0);  -- P2.1
 
-  SPI1_0  : CONSTANT Device.Designator := (1,  0);  -- P1.6
-  SPI2_1  : CONSTANT Device.Designator := (2,  1);  -- P2.31
+  SPI0_0  : CONSTANT Device.Designator := (0,  0);  -- P1.6
+  SPI1_1  : CONSTANT Device.Designator := (1,  1);  -- P2.31
 
 END PocketBeagle;
