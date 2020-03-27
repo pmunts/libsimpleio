@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services using Remote I/O
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -115,6 +115,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO17,
       OTHERS          => Unavailable),
       I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
+      PWM    => Standard.RemoteIO.RaspberryPi.PWM0, -- PWM0 channel 0
       SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
       OTHERS => Unavailable),
 
@@ -125,6 +126,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO6,
       OTHERS          => Unavailable),
       I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
+      PWM    => Standard.RemoteIO.RaspberryPi.PWM0, -- PWM0 channel 0
       SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
       OTHERS => Unavailable),
 
@@ -146,6 +148,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.RaspberryPi.AIN0,
       I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
+      PWM    => Standard.RemoteIO.RaspberryPi.PWM0, -- PWM0 channel 0
       SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
       OTHERS => Unavailable),
 
@@ -170,6 +173,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN6,
       I2C    => Standard.RemoteIO.PocketBeagle.I2C0, -- I2C1
+      PWM    => Standard.RemoteIO.PocketBeagle.PWM0, -- PWM2 channel 0
       SPI    => Standard.RemoteIO.PocketBeagle.SPI0, -- SPI0 CS0
       OTHERS => Unavailable),
 
@@ -183,6 +187,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN5,
       I2C    => Standard.RemoteIO.PocketBeagle.I2C1, -- I2C2
+      PWM    => Standard.RemoteIO.PocketBeagle.PWM1, -- PWM0 channel 0
       SPI    => Standard.RemoteIO.PocketBeagle.SPI1, -- SPI2 CS1
       OTHERS => Unavailable));
 
