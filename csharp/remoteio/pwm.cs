@@ -39,10 +39,12 @@ namespace IO.Remote
         /// </summary>
         /// <param name="num">PWM output number: 0 to 127.</param>
         /// <param name="freq">PWM pulse frequency in Hz.</param>
+        /// <param name="duty">Initial PWM output dutycycle.</param>
         /// <returns>PWM output object.</returns>
-        public IO.Interfaces.PWM.Output PWM_Create(int num, int freq)
+        public IO.Interfaces.PWM.Output PWM_Create(int num, int freq,
+            double duty = 0.0)
         {
-            return new PWM(this, num, freq);
+            return new PWM(this, num, freq, duty);
         }
     }
 
@@ -51,9 +53,9 @@ namespace IO.Remote
     /// </summary>
     public class PWM: IO.Interfaces.PWM.Output
     {
-        private Device device;
-        private int num;
-        private int period;
+        private readonly Device device;
+        private readonly int num;
+        private readonly int period;
 
         /// <summary>
         /// Create a remote PWM output.
@@ -61,8 +63,9 @@ namespace IO.Remote
         /// <param name="dev">Remote I/O device object.</param>
         /// <param name="num">PWM output number: 0 to 127.</param>
         /// <param name="freq">PWM pulse frequency in Hz.</param>
+        /// <param name="duty">Initial PWM output dutycycle.</param>
         /// <remarks>Use <c>Device.PWM_Create()</c> instead of this constructor.</remarks>
-        public PWM(Device dev, int num, int freq)
+        public PWM(Device dev, int num, int freq, double duty = 0.0)
         {
             this.device = dev;
             this.num = (byte)num;
@@ -86,6 +89,8 @@ namespace IO.Remote
             cmd.payload[6] = (byte)(period & 0xFF);
 
             device.Dispatcher(cmd, resp);
+
+            this.dutycycle = duty;
         }
 
         /// <summary>
