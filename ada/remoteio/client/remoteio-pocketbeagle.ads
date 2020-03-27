@@ -89,8 +89,8 @@ PACKAGE RemoteIO.PocketBeagle IS
 
   -- PWM outputs
 
-  PWM0    : CONSTANT RemoteIO.ChannelNumber :=   0;  -- PWM2:0 P2.1
-  PWM1    : CONSTANT RemoteIO.ChannelNumber :=   1;  -- PWM0:0 P1.36
+  PWM0    : CONSTANT RemoteIO.ChannelNumber :=   0;  -- PWM0:0 P1.36
+  PWM1    : CONSTANT RemoteIO.ChannelNumber :=   1;  -- PWM2:0 P2.1
 
   -- SPI slave devices
 
