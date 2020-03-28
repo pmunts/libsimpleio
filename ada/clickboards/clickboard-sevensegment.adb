@@ -74,7 +74,16 @@ PACKAGE BODY ClickBoard.SevenSegment IS
     rstpin : GPIO.Pin) RETURN Display IS
 
   BEGIN
-    RETURN Display'(spidev, pwmpin, rstpin);
+    RETURN Display'(spidev, pwmpin, null, rstpin);
+  END Create;
+
+  FUNCTION Create
+   (spidev : SPI.Device;
+    pwmout : Standard.PWM.Output;
+    rstpin : GPIO.Pin) RETURN Display IS
+
+  BEGIN
+    RETURN Display'(spidev, null, pwmout, rstpin);
   END Create;
 
   PROCEDURE Write(self : Display; segs : Segments) IS

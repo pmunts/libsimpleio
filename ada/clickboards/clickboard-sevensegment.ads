@@ -26,6 +26,7 @@
 -- one slave device.
 
 WITH GPIO;
+WITH PWM;
 WITH SPI;
 
 PACKAGE ClickBoard.SevenSegment IS
@@ -73,6 +74,11 @@ PACKAGE ClickBoard.SevenSegment IS
     pwmpin : GPIO.PIN;
     rstpin : GPIO.Pin) RETURN Display;
 
+  FUNCTION Create
+   (spidev : SPI.Device;
+    pwmout : Standard.PWM.Output;
+    rstpin : GPIO.Pin) RETURN Display;
+
   PROCEDURE Write
    (self : Display;
     segs : Segments);
@@ -90,6 +96,7 @@ PRIVATE
   TYPE Display IS TAGGED RECORD
     spidev : SPI.Device;
     pwmpin : GPIO.Pin;
+    pwmout : Standard.PWM.Output;
     rstpin : GPIO.Pin;
   END RECORD;
 

@@ -21,19 +21,50 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.SimpleIO;
+WITH GPIO.libsimpleio;
+WITH PWM.libsimpleio;
+WITH SPI.libsimpleio;
 
-PACKAGE ClickBoard.SevenSegment.SimpleIO IS
+PACKAGE BODY ClickBoard.SevenSegment.SimpleIO IS
 
   -- Create display object from socket object
 
   FUNCTION Create
    (socket  : ClickBoard.SimpleIO.Socket;
-    pwmfreq : Natural := 100) RETURN Display;
+    pwmfreq : Natural := 100) RETURN Display IS
+
+  BEGIN
+    IF (pwmfreq > 0) THEN
+      BEGIN
+        RETURN Display'(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+         SPI_Frequency, socket.GPIO(ClickBoard.CS)), NULL,
+         Standard.PWM.libsimpleio.Create(socket.PWM, pwmfreq,
+         Standard.PWM.MaximumDutyCycle),
+         GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST), GPIO.Output, True));
+      EXCEPTION
+        WHEN ClickBoard.SocketError =>
+          NULL;
+
+        WHEN OTHERS =>
+          RAISE;
+      END;
+    END IF;
+
+    RETURN Display'(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+     SPI_Frequency, socket.GPIO(ClickBoard.CS)),
+     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.PWM), GPIO.Output, True),
+     NULL,
+     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST), GPIO.Output, True));
+  END Create;
 
   -- Create display object from socket number
 
   FUNCTION Create
    (socknum : Positive;
-    pwmfreq : Natural := 100) RETURN Display;
+    pwmfreq : Natural := 100) RETURN Display IS
+
+  BEGIN
+    RETURN Create(ClickBoard.SimpleIO.Create(socknum), pwmfreq);
+  END Create;
 
 END ClickBoard.SevenSegment.SimpleIO;
