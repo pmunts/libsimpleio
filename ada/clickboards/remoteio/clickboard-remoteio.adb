@@ -173,7 +173,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN6,
       I2C    => Standard.RemoteIO.PocketBeagle.I2C0, -- I2C1
-      PWM    => Standard.RemoteIO.PocketBeagle.PWM0, -- PWM2 channel 0
+      PWM    => Standard.RemoteIO.PocketBeagle.PWM1, -- PWM2 channel 0
       SPI    => Standard.RemoteIO.PocketBeagle.SPI0, -- SPI0 CS0
       OTHERS => Unavailable),
 
@@ -187,7 +187,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN5,
       I2C    => Standard.RemoteIO.PocketBeagle.I2C1, -- I2C2
-      PWM    => Standard.RemoteIO.PocketBeagle.PWM1, -- PWM0 channel 0
+      PWM    => Standard.RemoteIO.PocketBeagle.PWM0, -- PWM0 channel 0
       SPI    => Standard.RemoteIO.PocketBeagle.SPI1, -- SPI2 CS1
       OTHERS => Unavailable));
 
