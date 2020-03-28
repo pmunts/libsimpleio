@@ -71,6 +71,11 @@ namespace IO.Remote
         public const int MAX_CHANNELS = 128;
 
         /// <summary>
+        /// Designator for an unavailable channel.
+        /// </summary>
+        public const int Unavailable = -1;
+
+        /// <summary>
         /// Create a Remote I/O device object.
         /// </summary>
         /// <param name="m">Message transport object</param>
