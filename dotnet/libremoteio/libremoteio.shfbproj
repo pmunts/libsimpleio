@@ -31,7 +31,7 @@
       <NamespaceSummaryItem name="HidSharp.Reports.Units" isDocumented="False" />
       <NamespaceSummaryItem name="HidSharp.Utility" isDocumented="False" />
       <NamespaceSummaryItem name="IO.Devices.ADC121C021" isDocumented="True">ADC121C021 I&lt;sup&gt;2&lt;/sup&gt;C A/D Converter Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.ADC" isDocumented="True">Seeed Studio Grove I&lt;sup&gt;2&lt;/sup&gt;C ADC (ADC121C021) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature" isDocumented="True">Seeed Studio Grove Temperature Sensor (thermistor) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature_Humidity" isDocumented="True">Seeed Studio Grove Temperature and Humdity Sensor (TH02) Services.</NamespaceSummaryItem>
