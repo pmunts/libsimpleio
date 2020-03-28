@@ -35,7 +35,7 @@ BEGIN
   Put_Line("Mikroelektronika 7seg Click Test");
   New_Line;
 
-  display := ClickBoard.SevenSegment.SimpleIO.Create(socknum => 2);
+  display := ClickBoard.SevenSegment.SimpleIO.Create(socknum => 1);
 
   -- Count up
 
