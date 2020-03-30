@@ -155,8 +155,8 @@ namespace IO.Objects.libsimpleio.Platforms
         public static readonly Designator PWM2_0 = new Designator(2, 0);    // P2.1
 
         /// <summary>SPI slave select designator for P1.6</summary>
-        public static readonly Designator SPI1_0 = new Designator(1, 0);    // P1.6
+        public static readonly Designator SPI0_0 = new Designator(0, 0);    // P1.6
         /// <summary>SPI slave select designator for P2.31</summary>
-        public static readonly Designator SPI2_1 = new Designator(2, 1);    // P2.31
+        public static readonly Designator SPI1_1 = new Designator(1, 1);    // P2.31
     }
 }
