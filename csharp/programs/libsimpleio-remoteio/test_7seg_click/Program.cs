@@ -30,16 +30,12 @@ namespace test_7seg_click
     {
         static void Main()
         {
-            Console.WriteLine("Mikroelektronika Seven Segment Click Test");
+            Console.WriteLine("\nMikroelektronika Seven Segment Click Test\n");
 
-            IO.Interfaces.Message64.Messenger m =
-                new IO.Objects.libsimpleio.HID.Messenger();
-
-            IO.Remote.Device remdev = new IO.Remote.Device(m);
-
-            var disp = new Board(remdev, 1);
-
-            disp.brightness = 0.1;
+            Console.Write("Socket number? ");
+            var num = int.Parse(Console.ReadLine());
+            var remdev = new IO.Remote.Device();
+            var disp = new Board(remdev, num);
 
             // Test decimal mode
 
