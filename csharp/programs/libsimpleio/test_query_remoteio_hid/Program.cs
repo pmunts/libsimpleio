@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_query
+namespace test_query_remoteio_hid
 {
     class Program
     {
@@ -30,10 +30,7 @@ namespace test_query
         {
             Console.WriteLine("\nRemote I/O Device Information Query Test\n");
 
-            IO.Interfaces.Message64.Messenger m =
-                new IO.Objects.libsimpleio.HID.Messenger();
-
-            IO.Remote.Device remdev = new IO.Remote.Device(m);
+            var remdev = new IO.Remote.Device();
 
             // Display some device information
 

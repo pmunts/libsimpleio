@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_query", "test_query.csproj", "{1646B923-2534-4F6A-A605-1BFFCD470075}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_query_remoteio_hid", "test_query_remoteio_hid.csproj", "{1646B923-2534-4F6A-A605-1BFFCD470075}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
