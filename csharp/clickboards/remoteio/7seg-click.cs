@@ -168,7 +168,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
             myRSTgpio = remdev.GPIO_Create(S.RST,
                 IO.Interfaces.GPIO.Direction.Output, true);
 
-            // Configure PWM pin -- Prefer PWM over GPIO is possible, and
+            // Configure PWM pin -- Prefer PWM over GPIO, if possible, and
             // assume full brightness until otherwise changed.
 
             myPWMgpio = null;
