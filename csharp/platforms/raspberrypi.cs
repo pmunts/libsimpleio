@@ -109,10 +109,10 @@ namespace IO.Objects.libsimpleio.Platforms
 
         /// <summary>PWM output designator for GPIO18</summary>
         /// <remarks>Requires the <c>pwm</c> device tree overlay.</remarks>
-        public static readonly Designator PWM0 = new Designator(0, 0);     // GPIO18
+        public static readonly Designator PWM0_0 = new Designator(0, 0);     // GPIO18
         /// <summary>PWM output designator for GPIO19</summary>
         /// <remarks>Requires the <c>pwm</c> device tree overlay.</remarks>
-        public static readonly Designator PWM1 = new Designator(0, 1);     // GPIO19
+        public static readonly Designator PWM0_1 = new Designator(0, 1);     // GPIO19
 
         // The following SPI slave selects are available on all Raspberry Pi Models
 
