@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\csharp\bindings\*.cs">
+    <Compile Include="..\..\csharp\bindings\simpleio\*.cs">
       <Link>IO.Bindings\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\clickboards\remoteio\*.cs">
