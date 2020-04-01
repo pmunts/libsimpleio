@@ -166,19 +166,18 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
             myRSTgpio = new IO.Objects.libsimpleio.GPIO.Pin(S.RST,
                 IO.Interfaces.GPIO.Direction.Output, true);
 
-            // Configure PWM pin -- Prefer PWM over GPIOi, if possible, and
+            // Configure PWM pin -- Prefer PWM over GPIO, if possible, and
             // assume full brightness until otherwise changed.
 
             myPWMgpio = null;
             myPWMout = null;
 
-            if ((pwmfreq > 0) &&
-                (!S.PWMOut.Equals(IO.Objects.libsimpleio.Device.Designator.Unavailable)))
+            if ((pwmfreq > 0) && (S.PWMOut.available))
             {
                 myPWMout = new IO.Objects.libsimpleio.PWM.Output(S.PWMOut,
                     pwmfreq, 100.0);
             }
-            else if (!S.PWM.Equals(IO.Objects.libsimpleio.Device.Designator.Unavailable))
+            else if (S.PWM.available)
             {
                 myPWMgpio = new IO.Objects.libsimpleio.GPIO.Pin(S.PWM,
                     IO.Interfaces.GPIO.Direction.Output, true);
