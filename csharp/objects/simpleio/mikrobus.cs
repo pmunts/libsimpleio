@@ -384,7 +384,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 I2CBus: IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
                 PWMOut: IO.Objects.libsimpleio.Platforms.RaspberryPi.PWM0_0,
                 SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
-                UART:   "/dev/ttyS0"),
+                UART:   "/dev/ttyAMA0"),
 
             new SocketEntry(Shield.Kinds.PiClick2, 1,
                 // mikroBUS GPIO pins
