@@ -30,14 +30,10 @@ namespace IO.Objects.libsimpleio.mikroBUS
     public static class Shield
     {
         /// <summary>
-        /// Supported target board mikroBUS shields.
+        /// Supported mikroBUS shields.
         /// </summary>
         public enum Kinds
         {
-            /// <summary>
-            /// No known mikroBUS shield installed.
-            /// </summary>
-            None,
             /// <summary>
             /// Mikroelektronika BeagleBone Click Shield
             /// <a href="https://www.mikroe.com/beaglebone">MIKROE-1596</a>,
@@ -75,6 +71,10 @@ namespace IO.Objects.libsimpleio.mikroBUS
             /// female headers on top, with two mikroBUS sockets.
             /// </summary>
             PocketBeagle,
+            /// <summary>
+            /// No known mikroBUS shield installed.
+            /// </summary>
+            Unknown = int.MaxValue
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 string board = System.Environment.GetEnvironmentVariable("BOARDNAME");
 
                 if (board == null)
-                    return Kinds.None;
+                    return Kinds.Unknown;
 
                 if (board.Equals("pocketbeagle", System.StringComparison.InvariantCultureIgnoreCase))
                     return Kinds.PocketBeagle;
@@ -114,7 +114,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 if (board.StartsWith("raspberrypi", System.StringComparison.InvariantCultureIgnoreCase))
                     return Kinds.PiClick2;
 
-                return Kinds.None;
+                return Kinds.Unknown;
             }
         }
     }
@@ -129,6 +129,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         {
             public readonly Shield.Kinds shield;
             public readonly int num;
+            // mikroBUS GPIO pins
             public readonly IO.Objects.libsimpleio.Device.Designator AN;
             public readonly IO.Objects.libsimpleio.Device.Designator RST;
             public readonly IO.Objects.libsimpleio.Device.Designator CS;
@@ -141,14 +142,17 @@ namespace IO.Objects.libsimpleio.mikroBUS
             public readonly IO.Objects.libsimpleio.Device.Designator RX;
             public readonly IO.Objects.libsimpleio.Device.Designator INT;
             public readonly IO.Objects.libsimpleio.Device.Designator PWM;
+            // mikroBUS devices
             public readonly IO.Objects.libsimpleio.Device.Designator AIN;
-            public readonly IO.Objects.libsimpleio.Device.Designator I2C;
-            public readonly IO.Objects.libsimpleio.Device.Designator SPI;
+            public readonly IO.Objects.libsimpleio.Device.Designator I2CBus;
+            public readonly IO.Objects.libsimpleio.Device.Designator PWMOut;
+            public readonly IO.Objects.libsimpleio.Device.Designator SPIDev;
             public readonly string UART;
 
             public SocketEntry(
                 Shield.Kinds shield,
                 int num,
+                // mikroBUS GPIO pins
                 IO.Objects.libsimpleio.Device.Designator AN,
                 IO.Objects.libsimpleio.Device.Designator RST,
                 IO.Objects.libsimpleio.Device.Designator CS,
@@ -161,272 +165,316 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 IO.Objects.libsimpleio.Device.Designator RX,
                 IO.Objects.libsimpleio.Device.Designator INT,
                 IO.Objects.libsimpleio.Device.Designator PWM,
+                // mikroBUS devices
                 IO.Objects.libsimpleio.Device.Designator AIN,
-                IO.Objects.libsimpleio.Device.Designator I2C,
-                IO.Objects.libsimpleio.Device.Designator SPI,
+                IO.Objects.libsimpleio.Device.Designator I2CBus,
+                IO.Objects.libsimpleio.Device.Designator PWMOut,
+                IO.Objects.libsimpleio.Device.Designator SPIDev,
                 string UART)
             {
                 this.shield = shield;
-                this.num = num;
-                this.AN = AN;
-                this.RST = RST;
-                this.CS = CS;
-                this.SCK = SCK;
-                this.MISO = MISO;
-                this.MOSI = MOSI;
-                this.SDA = SDA;
-                this.SCL = SCL;
-                this.TX = TX;
-                this.RX = RX;
-                this.INT = INT;
-                this.PWM = PWM;
-                this.I2C = I2C;
-                this.AIN = AIN;
-                this.SPI = SPI;
-                this.UART = UART;
+                this.num    = num;
+                // mikroBUS GPIO pins
+                this.AN     = AN;
+                this.RST    = RST;
+                this.CS     = CS;
+                this.SCK    = SCK;
+                this.MISO   = MISO;
+                this.MOSI   = MOSI;
+                this.SDA    = SDA;
+                this.SCL    = SCL;
+                this.TX     = TX;
+                this.RX     = RX;
+                this.INT    = INT;
+                this.PWM    = PWM;
+                // mikroBUS devices
+                this.AIN    = AIN;
+                this.I2CBus = I2CBus;
+                this.PWMOut = PWMOut;
+                this.SPIDev = SPIDev;
+                this.UART   = UART;
             }
         }
 
         private static readonly SocketEntry[] SocketTable =
         {
             new SocketEntry(Shield.Kinds.BeagleBoneClick2, 1,
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // AN
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO45,      // RST
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO44,      // CS (software SPI slave select)
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO27,      // INT
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO50,      // PWM
-                IO.Objects.libsimpleio.Platforms.BeagleBone.AIN0,        // 0-1.8V
-                IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
-                IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_0,
-                "/dev/ttyS1"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO45,
+                CS:     IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO44,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO27,
+                PWM:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO50,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.BeagleBone.AIN0,
+                I2CBus: IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
+                PWMOut: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SPIDev: IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_0,
+                UART:   "/dev/ttyS1"),
 
             new SocketEntry(Shield.Kinds.BeagleBoneClick2, 2,
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // AN
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO47,      // RST
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO46,      // CS (software SPI slave select)
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO65,      // INT
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO22,      // PWM
-                IO.Objects.libsimpleio.Platforms.BeagleBone.AIN1,        // 0-1.8V
-                IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
-                IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_1,
-                "/dev/ttyS2"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO47,
+                CS:     IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO46,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO65,
+                PWM:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO22,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.BeagleBone.AIN1,
+                I2CBus: IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
+                PWMOut: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SPIDev: IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_1,
+                UART:   "/dev/ttyS2"),
 
             new SocketEntry(Shield.Kinds.BeagleBoneClick4, 1,
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // AN
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO60,      // RST
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO48,      // INT
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO50,      // PWM
-                IO.Objects.libsimpleio.Platforms.BeagleBone.AIN3,        // 0-3.6V
-                IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
-                IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_0,
-                "/dev/ttyS2"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO60,
+                CS:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO48,
+                PWM:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO50,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.BeagleBone.AIN3,
+                I2CBus: IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
+                PWMOut: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SPIDev: IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_0,
+                UART:   "/dev/ttyS2"),
 
             new SocketEntry(Shield.Kinds.BeagleBoneClick4, 2,
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // AN
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO49,      // RST
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO20,      // INT
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO51,      // PWM
-                IO.Objects.libsimpleio.Platforms.BeagleBone.AIN2,        // 0-3.6V
-                IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
-                IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_1,
-                "/dev/ttyS1"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO49,
+                CS:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO20,
+                PWM:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO51,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.BeagleBone.AIN2,
+                I2CBus: IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
+                PWMOut: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SPIDev: IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_1,
+                UART:   "/dev/ttyS1"),
 
             new SocketEntry(Shield.Kinds.BeagleBoneClick4, 3,
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // AN
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO26,      // RST
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO5,       // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO65,      // INT
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO22,      // PWM
-                IO.Objects.libsimpleio.Platforms.BeagleBone.AIN1,        // 0-3.6V
-                IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,
-                "/dev/ttyS1"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO26,
+                CS:     IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO5,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO65,
+                PWM:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO22,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.BeagleBone.AIN1,
+                I2CBus: IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
+                PWMOut: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SPIDev: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                UART:   "/dev/ttyS1"),
 
             new SocketEntry(Shield.Kinds.BeagleBoneClick4, 4,
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // AN
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO46,      // RST
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO68,      // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO27,      // INT
-                IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO23,      // PWM
-                IO.Objects.libsimpleio.Platforms.BeagleBone.AIN0,        // 0-3.6V
-                IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,
-                "/dev/ttyS4"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO46,
+                CS:     IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO68,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO27,
+                PWM:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO23,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.BeagleBone.AIN0,
+                I2CBus: IO.Objects.libsimpleio.Platforms.BeagleBone.I2C2,
+                PWMOut: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SPIDev: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                UART:   "/dev/ttyS4"),
 
             new SocketEntry(Shield.Kinds.PocketBeagle, 1,                // Over the micro USB socket
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO87,    // AN
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO89,    // RST
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO23,    // INT
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO50,    // PWM
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.AIN6,      // 0-3.6V
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.I2C1,
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.SPI1_0,
-                "/dev/ttyS4"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO87,
+                RST:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO89,
+                CS:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO23,
+                PWM:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO50,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.PocketBeagle.AIN6,
+                I2CBus: IO.Objects.libsimpleio.Platforms.PocketBeagle.I2C1,
+                PWMOut: IO.Objects.libsimpleio.Platforms.PocketBeagle.PWM2_0,
+                SPIDev: IO.Objects.libsimpleio.Platforms.PocketBeagle.SPI0_0,
+                UART:   "/dev/ttyS4"),
 
             new SocketEntry(Shield.Kinds.PocketBeagle, 2,                // Over the micro SDHC socket
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO86,    // AN
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO45,    // RST
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO26,    // INT
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO110,   // PWM
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.AIN5,      // 0-3.6V
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.I2C2,
-                IO.Objects.libsimpleio.Platforms.PocketBeagle.SPI2_1,
-                "/dev/ttyS0"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO86,
+                RST:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO45,
+                CS:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO26,
+                PWM:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO110,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.PocketBeagle.AIN5,
+                I2CBus: IO.Objects.libsimpleio.Platforms.PocketBeagle.I2C2,
+                PWMOut: IO.Objects.libsimpleio.Platforms.PocketBeagle.PWM0_0,
+                SPIDev: IO.Objects.libsimpleio.Platforms.PocketBeagle.SPI1_1,
+                UART:   "/dev/ttyS0"),
 
             new SocketEntry(Shield.Kinds.PiClick1, 1,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO22,     // AN
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO4,      // RST
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO17,     // INT
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO18,     // PWM
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
-                "/dev/ttyAMA0"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO22,
+                RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO4,
+                CS:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO17,
+                PWM:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO18,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                I2CBus: IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
+                PWMOut: IO.Objects.libsimpleio.Platforms.RaspberryPi.PWM0_0,
+                SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
+                UART:   "/dev/ttyS0"),
 
             new SocketEntry(Shield.Kinds.PiClick2, 1,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO4,      // AN
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO5,      // RST
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO6,      // INT
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO18,     // PWM
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
-                "/dev/ttyAMA0"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO4,
+                RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO5,
+                CS:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO6,
+                PWM:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO18,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                I2CBus: IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
+                PWMOut: IO.Objects.libsimpleio.Platforms.RaspberryPi.PWM0_0,
+                SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
+                UART:   "/dev/ttyAMA0"),
 
             new SocketEntry(Shield.Kinds.PiClick2, 2,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO13,     // AN
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO19,     // RST
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO26,     // INT
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO17,     // PWM
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_1,
-                "/dev/ttyAMA0"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO13,
+                RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO19,
+                CS:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO26,
+                PWM:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO17,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                I2CBus: IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
+                PWMOut: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_1,
+                UART:   "/dev/ttyAMA0"),
 
             new SocketEntry(Shield.Kinds.PiClick3, 1,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO4,      // AN
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO5,      // RST
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO6,      // INT
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO18,     // PWM
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.AIN0,       // 0-4.096V
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
-                "/dev/ttyAMA0"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO4,
+                RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO5,
+                CS:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO6,
+                PWM:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO18,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.RaspberryPi.AIN0,
+                I2CBus: IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
+                PWMOut: IO.Objects.libsimpleio.Platforms.RaspberryPi.PWM0_0,
+                SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
+                UART:   "/dev/ttyAMA0"),
 
             new SocketEntry(Shield.Kinds.PiClick3, 2,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO13,     // AN
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO12,     // RST
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // CS
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCK
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MISO
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // MOSI
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SDA
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // SCL
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // TX
-                IO.Objects.libsimpleio.Device.Designator.Unavailable,    // RX
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO26,     // INT
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO17,     // PWM
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.AIN1,       // 0-4.096V
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
-                IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_1,
-                "/dev/ttyAMA0"),
+                // mikroBUS GPIO pins
+                AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO13,
+                RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO12,
+                CS:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCK:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MISO:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                MOSI:   IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SDA:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SCL:    IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                TX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                RX:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                INT:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO26,
+                PWM:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO17,
+                // mikroBUS devices
+                AIN:    IO.Objects.libsimpleio.Platforms.RaspberryPi.AIN1,
+                I2CBus: IO.Objects.libsimpleio.Platforms.RaspberryPi.I2C1,
+                PWMOut: IO.Objects.libsimpleio.Device.Designator.Unavailable,
+                SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_1,
+                UART:   "/dev/ttyAMA0"),
         };
 
         private int LookupSocket(Shield.Kinds shield, int num)
         {
-            if (shield == Shield.Kinds.None) shield = Shield.kind;
+            if (shield == Shield.Kinds.Unknown) shield = Shield.kind;
 
             // Validate parameters
 
@@ -567,17 +615,25 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// <summary>
         /// Returns the I<sup>2</sup>C bus designator for this socket.
         /// </summary>
-        public IO.Objects.libsimpleio.Device.Designator I2C
+        public IO.Objects.libsimpleio.Device.Designator I2CBus
         {
-            get { return SocketTable[this.index].I2C; }
+            get { return SocketTable[this.index].I2CBus; }
+        }
+
+        /// <summary>
+        /// Returns the PWM output designator for this socket.
+        /// </summary>
+        public IO.Objects.libsimpleio.Device.Designator PWMOut
+        {
+            get {  return SocketTable[this.index].I2CBus;}
         }
 
         /// <summary>
         /// Returns the SPI device designator for this socket.
         /// </summary>
-        public IO.Objects.libsimpleio.Device.Designator SPI
+        public IO.Objects.libsimpleio.Device.Designator SPIDev
         {
-            get { return SocketTable[this.index].SPI; }
+            get { return SocketTable[this.index].SPIDev; }
         }
 
         /// <summary>

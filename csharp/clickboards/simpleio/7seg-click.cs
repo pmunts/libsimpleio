@@ -84,8 +84,9 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
             0x7F, 0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71,
         };
 
-        private readonly IO.Interfaces.GPIO.Pin myRST;
-        private readonly IO.Interfaces.GPIO.Pin myPWM;
+        private readonly IO.Interfaces.GPIO.Pin myRSTgpio;
+        private readonly IO.Interfaces.GPIO.Pin myPWMgpio;
+        private readonly IO.Interfaces.PWM.Output myPWMout;
         private readonly IO.Devices.SN74HC595.Device mychain;
         private Base mybase;
         private ZeroBlanking myblanking;
@@ -151,23 +152,41 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
         /// <c>Decimal</c> and <c>Hexadecimal</c>.</param>
         /// <param name="blanking">Zero blanking.  Allowed values are
         /// <c>None</c>, <c>Leading</c>, and <c>Full</c>.</param>
+        /// <param name="pwmfreq">PWM frequency.  Set to zero to use GPIO
+        /// instead of PWM.</param>
         public Board(int socket, Base radix = Base.Decimal,
-            ZeroBlanking blanking = ZeroBlanking.None)
+            ZeroBlanking blanking = ZeroBlanking.None,
+            int pwmfreq = 100)
         {
             IO.Objects.libsimpleio.mikroBUS.Socket S =
                 new IO.Objects.libsimpleio.mikroBUS.Socket(socket);
 
-            // Configure GPIO pins
+            // Configure RST pin
 
-            myRST = new IO.Objects.libsimpleio.GPIO.Pin(S.RST,
+            myRSTgpio = new IO.Objects.libsimpleio.GPIO.Pin(S.RST,
                 IO.Interfaces.GPIO.Direction.Output, true);
 
-            myPWM = new IO.Objects.libsimpleio.GPIO.Pin(S.PWM,
-                IO.Interfaces.GPIO.Direction.Output, true);
+            // Configure PWM pin -- Prefer PWM over GPIOi, if possible, and
+            // assume full brightness until otherwise changed.
+
+            myPWMgpio = null;
+            myPWMout = null;
+
+            if ((pwmfreq > 0) &&
+                (!S.PWMOut.Equals(IO.Objects.libsimpleio.Device.Designator.Unavailable)))
+            {
+                myPWMout = new IO.Objects.libsimpleio.PWM.Output(S.PWMOut,
+                    pwmfreq, 100.0);
+            }
+            else if (!S.PWM.Equals(IO.Objects.libsimpleio.Device.Designator.Unavailable))
+            {
+                myPWMgpio = new IO.Objects.libsimpleio.GPIO.Pin(S.PWM,
+                    IO.Interfaces.GPIO.Direction.Output, true);
+            }
 
             // Configure 74HC595 shift register chain
 
-            mychain = new SN74HC595.Device(new IO.Objects.libsimpleio.SPI.Device(S.SPI,
+            mychain = new SN74HC595.Device(new IO.Objects.libsimpleio.SPI.Device(S.SPIDev,
                 IO.Devices.SN74HC595.Device.SPI_Mode, 8,
                 IO.Devices.SN74HC595.Device.SPI_MaxFreq,
                 S.CS.available ? new IO.Objects.libsimpleio.GPIO.Pin(S.CS,
@@ -208,6 +227,28 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
             set
             {
                 myblanking = value;
+            }
+        }
+
+        /// <summary>
+        /// Write-only property for setting the brightness of the display.
+        /// Allowed values are 0.0 to 100.0 percent.
+        /// </summary>
+        public double brightness
+        {
+            set
+            {
+                if (value < IO.Interfaces.PWM.DutyCycles.Minimum)
+                    throw new System.Exception("LED brightness value out of range.");
+
+                if (value > IO.Interfaces.PWM.DutyCycles.Maximum)
+                    throw new System.Exception("LED brightness value out of range.");
+
+                if (myPWMgpio != null)
+                    myPWMgpio.state = (value != 0.0);
+                
+                if (myPWMout != null)
+                    myPWMout.dutycycle = value;
             }
         }
 
