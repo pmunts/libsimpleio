@@ -44,7 +44,7 @@ PACKAGE RemoteIO.RaspberryPi IS
   GPIO14  : CONSTANT RemoteIO.ChannelNumber := 14;  -- UART0 TXD
   GPIO15  : CONSTANT RemoteIO.ChannelNumber := 15;  -- UART0 RXD
   GPIO17  : CONSTANT RemoteIO.ChannelNumber := 17;
-  GPIO18  : CONSTANT RemoteIO.ChannelNumber := 18;  -- PWM0
+  GPIO18  : CONSTANT RemoteIO.ChannelNumber := 18;
   GPIO22  : CONSTANT RemoteIO.ChannelNumber := 22;
   GPIO23  : CONSTANT RemoteIO.ChannelNumber := 23;
   GPIO24  : CONSTANT RemoteIO.ChannelNumber := 24;

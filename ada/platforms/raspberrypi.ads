@@ -43,7 +43,7 @@ PACKAGE RaspberryPi IS
   GPIO14 : CONSTANT Device.Designator := (0, 14);  -- UART0 TXD
   GPIO15 : CONSTANT Device.Designator := (0, 15);  -- UART0 RXD
   GPIO17 : CONSTANT Device.Designator := (0, 17);
-  GPIO18 : CONSTANT Device.Designator := (0, 18);  -- PWM0
+  GPIO18 : CONSTANT Device.Designator := (0, 18);  -- PWM0 channel 0
   GPIO22 : CONSTANT Device.Designator := (0, 22);
   GPIO23 : CONSTANT Device.Designator := (0, 23);
   GPIO24 : CONSTANT Device.Designator := (0, 24);
@@ -68,8 +68,8 @@ PACKAGE RaspberryPi IS
   -- The following PWM outputs are only available if the proper
   -- device tree overlay(s) are installed
 
-  PWM0   : CONSTANT Device.Designator := (0,  0);  -- GPIO18
-  PWM1   : CONSTANT Device.Designator := (0,  1);  -- GPIO19
+  PWM0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO18
+  PWM0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO19
 
   SPI0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO8
   SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO7
