@@ -124,7 +124,6 @@ namespace IO.Objects.libsimpleio.mikroBUS
     /// </summary>
     public class Socket
     {
-        private readonly int index;
         private struct SocketEntry
         {
             public readonly Shield.Kinds shield;
@@ -324,7 +323,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Device.Designator.Unavailable,
                 UART:   "/dev/ttyS4"),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 1,                // Over the micro USB socket
+            new SocketEntry(Shield.Kinds.PocketBeagle, 1, // Over the micro USB socket
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO87,
                 RST:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO89,
@@ -345,7 +344,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.PocketBeagle.SPI0_0,
                 UART:   "/dev/ttyS4"),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 2,                // Over the micro SDHC socket
+            new SocketEntry(Shield.Kinds.PocketBeagle, 2, // Over the micro SDHC socket
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO86,
                 RST:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO45,
@@ -472,39 +471,30 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 UART:   "/dev/ttyAMA0"),
         };
 
-        private int LookupSocket(Shield.Kinds shield, int num)
-        {
-            if (shield == Shield.Kinds.Unknown) shield = Shield.kind;
-
-            // Validate parameters
-
-            if (shield < Shield.Kinds.BeagleBoneClick2)
-                throw new System.Exception("Invalid shield kind.");
-
-            if (shield > Shield.Kinds.PiClick3)
-                throw new System.Exception("Invalid shield kind.");
-
-            if (num < 1)
-                throw new System.Exception("Invalid socket number.");
-
-            for (int i = 0; i < SocketTable.Length; i++)
-                if ((SocketTable[i].shield == shield) &&
-                    (SocketTable[i].num == num))
-                    return i;
-
-            throw new System.Exception("Unable to find matching shield and socket number.");
-        }
+        private readonly SocketEntry myInfo;
 
         /// <summary>
         /// Constructor for a single mikroBUS socket.
         /// </summary>
         /// <param name="num">Socket number.</param>
-        /// <param name="shield">mikroBUS shield kind.  Zero
-        /// indicates automatic detection using the <c>Shield.kind</c>
-        /// property.</param>
-        public Socket(int num, Shield.Kinds shield = 0)
+        /// <param name="shield">mikroBUS shield kind.
+        /// <c>Shield.Kinds.Unknown</c> indicates automatic detection using
+        /// using the <c>Shield.kind</c> property.</param>
+        public Socket(int num, Shield.Kinds shield = Shield.Kinds.Unknown)
         {
-            this.index = LookupSocket(shield, num);
+            if (shield == Shield.Kinds.Unknown) shield = Shield.kind;
+
+            // Search for matching shield kind and socket number
+
+            for (int i = 0; i < SocketTable.Length; i++)
+                if ((SocketTable[i].shield == shield) &&
+                    (SocketTable[i].num == num))
+                {
+                    myInfo = SocketTable[i];
+                    return;
+                }
+
+            throw new System.Exception("Unable to find matching shield and socket number.");
         }
 
         /// <summary>
@@ -512,7 +502,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator AN
         {
-            get { return SocketTable[this.index].AN; }
+            get { return myInfo.AN; }
         }
 
 
@@ -521,7 +511,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator RST
         {
-            get { return SocketTable[this.index].RST; }
+            get { return myInfo.RST; }
         }
 
         /// <summary>
@@ -529,7 +519,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator CS
         {
-            get { return SocketTable[this.index].CS; }
+            get { return myInfo.CS; }
         }
 
         /// <summary>
@@ -537,7 +527,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator SCK
         {
-            get { return SocketTable[this.index].SCK; }
+            get { return myInfo.SCK; }
         }
 
         /// <summary>
@@ -545,7 +535,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator MISO
         {
-            get { return SocketTable[this.index].MISO; }
+            get { return myInfo.MISO; }
         }
 
         /// <summary>
@@ -553,7 +543,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator MOSI
         {
-            get { return SocketTable[this.index].MOSI; }
+            get { return myInfo.MOSI; }
         }
 
         /// <summary>
@@ -561,7 +551,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator SDA
         {
-            get { return SocketTable[this.index].SDA; }
+            get { return myInfo.SDA; }
         }
 
         /// <summary>
@@ -569,7 +559,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator SCL
         {
-            get { return SocketTable[this.index].SCL; }
+            get { return myInfo.SCL; }
         }
 
         /// <summary>
@@ -577,7 +567,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator TX
         {
-            get { return SocketTable[this.index].TX; }
+            get { return myInfo.TX; }
         }
 
         /// <summary>
@@ -585,7 +575,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator RX
         {
-            get { return SocketTable[this.index].RX; }
+            get { return myInfo.RX; }
         }
 
         /// <summary>
@@ -593,7 +583,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator INT
         {
-            get { return SocketTable[this.index].INT; }
+            get { return myInfo.INT; }
         }
 
         /// <summary>
@@ -601,7 +591,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator PWM
         {
-            get { return SocketTable[this.index].PWM; }
+            get { return myInfo.PWM; }
         }
 
         /// <summary>
@@ -609,7 +599,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator AIN
         {
-            get { return SocketTable[this.index].AIN; }
+            get { return myInfo.AIN; }
         }
 
         /// <summary>
@@ -617,7 +607,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator I2CBus
         {
-            get { return SocketTable[this.index].I2CBus; }
+            get { return myInfo.I2CBus; }
         }
 
         /// <summary>
@@ -625,7 +615,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator PWMOut
         {
-            get {  return SocketTable[this.index].I2CBus;}
+            get {  return myInfo.PWMOut;}
         }
 
         /// <summary>
@@ -633,7 +623,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator SPIDev
         {
-            get { return SocketTable[this.index].SPIDev; }
+            get { return myInfo.SPIDev; }
         }
 
         /// <summary>
@@ -641,7 +631,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public string UART
         {
-            get { return SocketTable[this.index].UART; }
+            get { return myInfo.UART; }
         }
     }
 }
