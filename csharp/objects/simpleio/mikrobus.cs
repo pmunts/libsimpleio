@@ -172,26 +172,26 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 string UART)
             {
                 this.shield = shield;
-                this.num    = num;
+                this.num = num;
                 // mikroBUS GPIO pins
-                this.AN     = AN;
-                this.RST    = RST;
-                this.CS     = CS;
-                this.SCK    = SCK;
-                this.MISO   = MISO;
-                this.MOSI   = MOSI;
-                this.SDA    = SDA;
-                this.SCL    = SCL;
-                this.TX     = TX;
-                this.RX     = RX;
-                this.INT    = INT;
-                this.PWM    = PWM;
+                this.AN = AN;
+                this.RST = RST;
+                this.CS = CS;
+                this.SCK = SCK;
+                this.MISO = MISO;
+                this.MOSI = MOSI;
+                this.SDA = SDA;
+                this.SCL = SCL;
+                this.TX = TX;
+                this.RX = RX;
+                this.INT = INT;
+                this.PWM = PWM;
                 // mikroBUS devices
-                this.AIN    = AIN;
+                this.AIN = AIN;
                 this.I2CBus = I2CBus;
                 this.PWMOut = PWMOut;
                 this.SPIDev = SPIDev;
-                this.UART   = UART;
+                this.UART = UART;
             }
         }
 
@@ -484,7 +484,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         {
             if (shield == Shield.Kinds.Unknown) shield = Shield.kind;
 
-            // Search for matching shield kind and socket number
+            // Search for matching shield and socket number
 
             for (int i = 0; i < SocketTable.Length; i++)
                 if ((SocketTable[i].shield == shield) &&
@@ -615,7 +615,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// </summary>
         public IO.Objects.libsimpleio.Device.Designator PWMOut
         {
-            get {  return myInfo.PWMOut;}
+            get { return myInfo.PWMOut; }
         }
 
         /// <summary>

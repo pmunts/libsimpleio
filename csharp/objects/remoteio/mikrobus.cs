@@ -98,7 +98,6 @@ namespace IO.Remote.mikroBUS
     /// </summary>
     public class Socket
     {
-        private readonly int index;
         private struct SocketEntry
         {
             public readonly Server.Kinds server;
@@ -330,162 +329,157 @@ namespace IO.Remote.mikroBUS
                 SPIDev: 1),
         };
 
-    private int LookupSocket(Server.Kinds server, int num)
-    {
-        if (server == Server.Kinds.Unknown) server = Server.kind;
+        private readonly SocketEntry myInfo;
 
-        // Validate parameters
+        /// <summary>
+        /// Constructor for a single mikroBUS socket.
+        /// </summary>
+        /// <param name="num">Socket number.</param>
+        /// <param name="server">mikroBUS server kind.  Zero
+        /// indicates automatic detection using the <c>Server.kind</c>
+        /// property.</param>
+        public Socket(int num, Server.Kinds server = Server.Kinds.Unknown)
+        {
+            // Search for matching server and socket number
 
-        if (num < 1)
-            throw new System.Exception("Invalid socket number.");
+            for (int i = 0; i < SocketTable.Length; i++)
+                if ((SocketTable[i].server == server) &&
+                    (SocketTable[i].num == num))
+                {
+                    myInfo = SocketTable[i];
+                    return;
+                }
 
-        for (int i = 0; i < SocketTable.Length; i++)
-            if ((SocketTable[i].server == server) &&
-                (SocketTable[i].num == num))
-                return i;
+            throw new System.Exception("Unable to find matching server and socket number.");
+        }
 
-        throw new System.Exception("Unable to find matching server and socket number.");
+        /// <summary>
+        /// Returns the GPIO pin designator for AN.
+        /// </summary>
+        public int AN
+        {
+            get { return myInfo.AN; }
+        }
+
+
+        /// <summary>
+        /// Returns the GPIO pin designator for RST.
+        /// </summary>
+        public int RST
+        {
+            get { return myInfo.RST; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for CS.
+        /// </summary>
+        public int CS
+        {
+            get { return myInfo.CS; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for SCK.
+        /// </summary>
+        public int SCK
+        {
+            get { return myInfo.SCK; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for MISO.
+        /// </summary>
+        public int MISO
+        {
+            get { return myInfo.MISO; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for MOSI.
+        /// </summary>
+        public int MOSI
+        {
+            get { return myInfo.MOSI; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for SDA.
+        /// </summary>
+        public int SDA
+        {
+            get { return myInfo.SDA; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for SCL.
+        /// </summary>
+        public int SCL
+        {
+            get { return myInfo.SCL; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for TX.
+        /// </summary>
+        public int TX
+        {
+            get { return myInfo.TX; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for RX.
+        /// </summary>
+        public int RX
+        {
+            get { return myInfo.RX; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for INT.
+        /// </summary>
+        public int INT
+        {
+            get { return myInfo.INT; }
+        }
+
+        /// <summary>
+        /// Returns the GPIO pin designator for PWM.
+        /// </summary>
+        public int PWM
+        {
+            get { return myInfo.PWM; }
+        }
+
+        /// <summary>
+        /// Returns the ADC input designator for AN.
+        /// </summary>
+        public int AIN
+        {
+            get { return myInfo.AIN; }
+        }
+
+        /// <summary>
+        /// Returns the PWM output designator for PWM.
+        /// </summary>
+        public int PWMOut
+        {
+            get { return myInfo.PWMOut; }
+        }
+
+        /// <summary>
+        /// Returns the I<sup>2</sup>C bus designator for this socket.
+        /// </summary>
+        public int I2C
+        {
+            get { return myInfo.I2CBus; }
+        }
+
+        /// <summary>
+        /// Returns the SPI device designator for this socket.
+        /// </summary>
+        public int SPI
+        {
+            get { return myInfo.SPIDev; }
+        }
     }
-
-    /// <summary>
-    /// Constructor for a single mikroBUS socket.
-    /// </summary>
-    /// <param name="num">Socket number.</param>
-    /// <param name="server">mikroBUS server kind.  Zero
-    /// indicates automatic detection using the <c>Server.kind</c>
-    /// property.</param>
-    public Socket(int num, Server.Kinds server = 0)
-    {
-        this.index = LookupSocket(server, num);
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for AN.
-    /// </summary>
-    public int AN
-    {
-        get { return SocketTable[this.index].AN; }
-    }
-
-
-    /// <summary>
-    /// Returns the GPIO pin designator for RST.
-    /// </summary>
-    public int RST
-    {
-        get { return SocketTable[this.index].RST; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for CS.
-    /// </summary>
-    public int CS
-    {
-        get { return SocketTable[this.index].CS; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for SCK.
-    /// </summary>
-    public int SCK
-    {
-        get { return SocketTable[this.index].SCK; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for MISO.
-    /// </summary>
-    public int MISO
-    {
-        get { return SocketTable[this.index].MISO; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for MOSI.
-    /// </summary>
-    public int MOSI
-    {
-        get { return SocketTable[this.index].MOSI; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for SDA.
-    /// </summary>
-    public int SDA
-    {
-        get { return SocketTable[this.index].SDA; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for SCL.
-    /// </summary>
-    public int SCL
-    {
-        get { return SocketTable[this.index].SCL; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for TX.
-    /// </summary>
-    public int TX
-    {
-        get { return SocketTable[this.index].TX; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for RX.
-    /// </summary>
-    public int RX
-    {
-        get { return SocketTable[this.index].RX; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for INT.
-    /// </summary>
-    public int INT
-    {
-        get { return SocketTable[this.index].INT; }
-    }
-
-    /// <summary>
-    /// Returns the GPIO pin designator for PWM.
-    /// </summary>
-    public int PWM
-    {
-        get { return SocketTable[this.index].PWM; }
-    }
-
-    /// <summary>
-    /// Returns the ADC input designator for AN.
-    /// </summary>
-    public int AIN
-    {
-        get { return SocketTable[this.index].AIN; }
-    }
-
-    /// <summary>
-    /// Returns the PWM output designator for PWM.
-    /// </summary>
-    public int PWMOut
-    {
-        get { return SocketTable[this.index].PWMOut; }
-    }
-
-    /// <summary>
-    /// Returns the I<sup>2</sup>C bus designator for this socket.
-    /// </summary>
-    public int I2C
-    {
-        get { return SocketTable[this.index].I2CBus; }
-    }
-
-    /// <summary>
-    /// Returns the SPI device designator for this socket.
-    /// </summary>
-    public int SPI
-    {
-        get { return SocketTable[this.index].SPIDev; }
-    }
-}
 }
