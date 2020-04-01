@@ -46,11 +46,11 @@
     <Compile Include="..\..\csharp\objects\*.cs">
       <Link>IO.Objects\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\..\csharp\platforms\*.cs">
-      <Link>IO.Platforms\%(FileName)</Link>
-    </Compile>
-    <Compile Include="..\..\csharp\remoteio\*.cs">
+    <Compile Include="..\..\csharp\objects\remoteio\*.cs">
       <Link>IO.Remote\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\objects\simpleio\*.cs">
+      <Link>IO.Objects\%(FileName)</Link>
     </Compile>
     <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
   </ItemGroup>
