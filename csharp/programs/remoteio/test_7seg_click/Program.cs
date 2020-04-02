@@ -36,7 +36,6 @@ namespace test_7seg_click
             var num = int.Parse(Console.ReadLine());
             var remdev = new IO.Remote.Device();
             var disp = new Board(remdev, num);
-disp.brightness = 10;
 
             // Test decimal mode
 
