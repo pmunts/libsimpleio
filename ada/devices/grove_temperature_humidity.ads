@@ -29,13 +29,13 @@ PACKAGE Grove_Temperature_Humidity IS
 
   -- Create a humidity sensor object
 
-  FUNCTION Create(bus : I2C.Bus) RETURN Humidity.Relative IS
-   (TH02.Create(bus));
+  FUNCTION Create(bus : I2C.Bus) RETURN Humidity.Input IS
+   (Humidity.Input(TH02.Create(bus)));
 
   -- Create a temperature sensor object
 
-  FUNCTION Create(bus : I2C.Bus) RETURN Temperature.Celsius IS
-   (TH02.Create(bus));
+  FUNCTION Create(bus : I2C.Bus) RETURN Temperature.Input IS
+   (Temperature.Input(TH02.Create(bus)));
 
   -- Create a TH02 temperature and humidity sensor object
 
