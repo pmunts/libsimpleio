@@ -340,6 +340,8 @@ namespace IO.Remote.mikroBUS
         /// property.</param>
         public Socket(int num, Server.Kinds server = Server.Kinds.Unknown)
         {
+            if (server == Server.Kinds.Unknown) server = Server.kind;
+
             // Search for matching server and socket number
 
             for (int i = 0; i < SocketTable.Length; i++)
