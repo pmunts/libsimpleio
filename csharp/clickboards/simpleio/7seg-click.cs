@@ -1,4 +1,4 @@
-// Mikroelektronika 7seg click MIKROE-1201 (https://www.mikroe.com/7seg-click)
+// Mikroelektronika 7seg Click MIKROE-1201 (https://www.mikroe.com/7seg-click)
 // Services
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
