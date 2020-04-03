@@ -13,8 +13,6 @@
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageTags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
-Added support for the Mikroelektronika PWM Click MIKROE-1898.
-Added support for sharing the I2C bus between sockets on a shield, if possible.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
