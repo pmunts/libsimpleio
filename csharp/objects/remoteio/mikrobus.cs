@@ -480,7 +480,7 @@ namespace IO.Remote.mikroBUS
         /// <summary>
         /// Returns the I<sup>2</sup>C bus designator for this socket.
         /// </summary>
-        public int I2C
+        public int I2CBus
         {
             get { return myInfo.I2CBus; }
         }
@@ -488,7 +488,7 @@ namespace IO.Remote.mikroBUS
         /// <summary>
         /// Returns the SPI device designator for this socket.
         /// </summary>
-        public int SPI
+        public int SPIDev
         {
             get { return myInfo.SPIDev; }
         }
