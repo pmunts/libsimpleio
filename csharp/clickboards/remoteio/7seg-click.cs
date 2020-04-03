@@ -186,7 +186,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
 
             // Configure 74HC595 shift register chain
 
-            mychain = new SN74HC595.Device(remdev.SPI_Create(S.SPI,
+            mychain = new SN74HC595.Device(remdev.SPI_Create(S.SPIDev,
                 IO.Devices.SN74HC595.Device.SPI_Mode, 8,
                 IO.Devices.SN74HC595.Device.SPI_MaxFreq), 2);
 
