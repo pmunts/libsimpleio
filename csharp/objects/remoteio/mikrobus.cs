@@ -91,6 +91,12 @@ namespace IO.Remote.mikroBUS
                     return Kinds.Unknown;
             }
         }
+
+        /// <summary>
+        /// Shared I<sup>2</sup>C bus that is common to all sockets on this
+        /// server.
+        /// </summary>
+        public static IO.Interfaces.I2C.Bus I2CBus = null;
     }
 
     /// <summary>
@@ -101,8 +107,9 @@ namespace IO.Remote.mikroBUS
         private struct SocketEntry
         {
             public readonly Server.Kinds server;
-            // mikroBUS GPIO pins
             public readonly int num;
+            public readonly bool ShareI2C;
+            // mikroBUS GPIO pins
             public readonly int AN;
             public readonly int RST;
             public readonly int CS;
@@ -124,6 +131,7 @@ namespace IO.Remote.mikroBUS
             public SocketEntry(
                 Server.Kinds server,
                 int num,
+                bool ShareI2C,
                 // mikroBUS GPIO pins
                 int AN,
                 int RST,
@@ -145,6 +153,7 @@ namespace IO.Remote.mikroBUS
             {
                 this.server = server;
                 this.num = num;
+                this.ShareI2C = ShareI2C;
                 // mikroBUS GPIO pins
                 this.AN = AN;
                 this.RST = RST;
@@ -168,7 +177,7 @@ namespace IO.Remote.mikroBUS
 
         private static readonly SocketEntry[] SocketTable =
         {
-            new SocketEntry(Server.Kinds.Clicker, 1,
+            new SocketEntry(Server.Kinds.Clicker, 1, false,
                 // mikroBUS GPIO pins
                 AN:     12,
                 RST:    13,
@@ -188,7 +197,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PocketBeagle, 1, // Over the micro USB socket
+            new SocketEntry(Server.Kinds.PocketBeagle, 1, false, // Over the micro USB socket
                 // mikroBUS GPIO pins
                 AN:     87,
                 RST:    89,
@@ -208,7 +217,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 1,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PocketBeagle, 2, // Over the micro SDHC socket
+            new SocketEntry(Server.Kinds.PocketBeagle, 2, false, // Over the micro SDHC socket
                 // mikroBUS GPIO pins
                 AN:     86,
                 RST:    45,
@@ -228,7 +237,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 1),
 
-            new SocketEntry(Server.Kinds.PiClick1, 1,
+            new SocketEntry(Server.Kinds.PiClick1, 1, false,
                 // mikroBUS GPIO pins
                 AN:     22,
                 RST:    4,
@@ -248,7 +257,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PiClick2, 1,
+            new SocketEntry(Server.Kinds.PiClick2, 1, true,
                 // mikroBUS GPIO pins
                 AN:     4,
                 RST:    5,
@@ -268,7 +277,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PiClick2, 2,
+            new SocketEntry(Server.Kinds.PiClick2, 2, true,
                 // mikroBUS GPIO pins
                 AN:     13,
                 RST:    19,
@@ -288,7 +297,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: IO.Remote.Device.Unavailable,
                 SPIDev: 1),
 
-            new SocketEntry(Server.Kinds.PiClick3, 1,
+            new SocketEntry(Server.Kinds.PiClick3, 1, true,
                 // mikroBUS GPIO pins
                 AN:     4,
                 RST:    5,
@@ -308,7 +317,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PiClick3, 2,
+            new SocketEntry(Server.Kinds.PiClick3, 2, true,
                 // mikroBUS GPIO pins
                 AN:     13,
                 RST:    12,
