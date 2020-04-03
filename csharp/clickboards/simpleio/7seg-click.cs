@@ -245,7 +245,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
 
                 if (myPWMgpio != null)
                     myPWMgpio.state = (value != 0.0);
-                
+
                 if (myPWMout != null)
                     myPWMout.dutycycle = value;
             }

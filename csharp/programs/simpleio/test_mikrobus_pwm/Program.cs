@@ -39,7 +39,7 @@ namespace test_mikrobus_pwm
             var freq = int.Parse(Console.ReadLine());
 
             // Create objects
-            
+
             var S = new IO.Objects.libsimpleio.mikroBUS.Socket(num);
             var outp = new IO.Objects.libsimpleio.PWM.Output(S.PWMOut, freq);
 

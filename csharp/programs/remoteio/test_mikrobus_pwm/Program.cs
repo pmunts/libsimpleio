@@ -39,7 +39,7 @@ namespace test_mikrobus_pwm
             var freq = int.Parse(Console.ReadLine());
 
             // Create objects
-            
+
             var socket = new IO.Remote.mikroBUS.Socket(num);
             var remdev = new IO.Remote.Device();
             IO.Interfaces.PWM.Output outp = remdev.PWM_Create(socket.PWMOut, freq);

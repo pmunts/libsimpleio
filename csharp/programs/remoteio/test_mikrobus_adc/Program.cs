@@ -36,7 +36,7 @@ namespace test_mikrobus_adc
             var num = int.Parse(Console.ReadLine());
 
             // Create objects
-            
+
             var socket = new IO.Remote.mikroBUS.Socket(num);
             var remdev = new IO.Remote.Device();
             IO.Interfaces.ADC.Sample AIN = remdev.ADC_Create(socket.AIN);
