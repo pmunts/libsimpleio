@@ -117,6 +117,12 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 return Kinds.Unknown;
             }
         }
+
+        /// <summary>
+        /// Shared I<sup>2</sup>C bus that is common to all sockets on this
+        /// shield.
+        /// </summary>
+        public static IO.Interfaces.I2C.Bus I2CBus;
     }
 
     /// <summary>
@@ -128,6 +134,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         {
             public readonly Shield.Kinds shield;
             public readonly int num;
+            public readonly bool ShareI2C;
             // mikroBUS GPIO pins
             public readonly IO.Objects.libsimpleio.Device.Designator AN;
             public readonly IO.Objects.libsimpleio.Device.Designator RST;
@@ -151,6 +158,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
             public SocketEntry(
                 Shield.Kinds shield,
                 int num,
+                bool ShareI2C,
                 // mikroBUS GPIO pins
                 IO.Objects.libsimpleio.Device.Designator AN,
                 IO.Objects.libsimpleio.Device.Designator RST,
@@ -173,6 +181,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
             {
                 this.shield = shield;
                 this.num = num;
+                this.ShareI2C = ShareI2C;
                 // mikroBUS GPIO pins
                 this.AN = AN;
                 this.RST = RST;
@@ -197,7 +206,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
 
         private static readonly SocketEntry[] SocketTable =
         {
-            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 1,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 1, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
                 RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO45,
@@ -218,7 +227,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_0,
                 UART:   "/dev/ttyS1"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 2,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 2, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
                 RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO47,
@@ -239,7 +248,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_1,
                 UART:   "/dev/ttyS2"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 1,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 1, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
                 RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO60,
@@ -260,7 +269,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_0,
                 UART:   "/dev/ttyS2"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 2,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 2, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
                 RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO49,
@@ -281,7 +290,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.BeagleBone.SPI2_1,
                 UART:   "/dev/ttyS1"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 3,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 3, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
                 RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO26,
@@ -302,7 +311,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Device.Designator.Unavailable,
                 UART:   "/dev/ttyS1"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 4,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 4, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Device.Designator.Unavailable,
                 RST:    IO.Objects.libsimpleio.Platforms.BeagleBone.GPIO46,
@@ -323,7 +332,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Device.Designator.Unavailable,
                 UART:   "/dev/ttyS4"),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 1, // Over the micro USB socket
+            new SocketEntry(Shield.Kinds.PocketBeagle, 1, false, // Over the micro USB socket
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO87,
                 RST:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO89,
@@ -344,7 +353,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.PocketBeagle.SPI0_0,
                 UART:   "/dev/ttyS4"),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 2, // Over the micro SDHC socket
+            new SocketEntry(Shield.Kinds.PocketBeagle, 2, false, // Over the micro SDHC socket
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO86,
                 RST:    IO.Objects.libsimpleio.Platforms.PocketBeagle.GPIO45,
@@ -365,7 +374,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.PocketBeagle.SPI1_1,
                 UART:   "/dev/ttyS0"),
 
-            new SocketEntry(Shield.Kinds.PiClick1, 1,
+            new SocketEntry(Shield.Kinds.PiClick1, 1, false,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO22,
                 RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO4,
@@ -386,7 +395,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
                 UART:   "/dev/ttyAMA0"),
 
-            new SocketEntry(Shield.Kinds.PiClick2, 1,
+            new SocketEntry(Shield.Kinds.PiClick2, 1, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO4,
                 RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO5,
@@ -407,7 +416,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
                 UART:   "/dev/ttyAMA0"),
 
-            new SocketEntry(Shield.Kinds.PiClick2, 2,
+            new SocketEntry(Shield.Kinds.PiClick2, 2, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO13,
                 RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO19,
@@ -428,7 +437,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_1,
                 UART:   "/dev/ttyAMA0"),
 
-            new SocketEntry(Shield.Kinds.PiClick3, 1,
+            new SocketEntry(Shield.Kinds.PiClick3, 1, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO4,
                 RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO5,
@@ -449,7 +458,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
                 SPIDev: IO.Objects.libsimpleio.Platforms.RaspberryPi.SPI0_0,
                 UART:   "/dev/ttyAMA0"),
 
-            new SocketEntry(Shield.Kinds.PiClick3, 2,
+            new SocketEntry(Shield.Kinds.PiClick3, 2, true,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO13,
                 RST:    IO.Objects.libsimpleio.Platforms.RaspberryPi.GPIO12,
@@ -487,12 +496,23 @@ namespace IO.Objects.libsimpleio.mikroBUS
             // Search for matching shield and socket number
 
             for (int i = 0; i < SocketTable.Length; i++)
+            {
                 if ((SocketTable[i].shield == shield) &&
                     (SocketTable[i].num == num))
                 {
                     myInfo = SocketTable[i];
+
+                    if (myInfo.ShareI2C && (Shield.I2CBus == null))
+                    {
+                        // Initialize the shared I2C bus object
+
+                        Shield.I2CBus =
+                            new IO.Objects.libsimpleio.I2C.Bus(myInfo.I2CBus);
+                    }
+
                     return;
                 }
+            }
 
             throw new System.Exception("Unable to find matching shield and socket number.");
         }
