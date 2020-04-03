@@ -31,7 +31,7 @@ namespace test_query
             Console.WriteLine("\nRemote I/O Device Information Query Test\n");
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
-            IO.Remote.Device remdev = new IO.Remote.Device(m);
+            var remdev = new IO.Remote.Device(m);
 
             // Display some device information
 
@@ -53,8 +53,8 @@ namespace test_query
 
             Console.Write("DAC outputs: ");
 
-            foreach (int input in remdev.DAC_Available())
-                Console.Write(input.ToString() + " ");
+            foreach (int output in remdev.DAC_Available())
+                Console.Write(output.ToString() + " ");
 
             Console.WriteLine();
 

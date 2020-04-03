@@ -39,7 +39,7 @@ namespace test_query_udp
             IO.Interfaces.Message64.Messenger m =
                 new IO.Objects.Message64.UDP.Messenger(args[0], 8087);
 
-            IO.Remote.Device remdev = new IO.Remote.Device(m);
+            var remdev = new IO.Remote.Device(m);
 
             Console.WriteLine(remdev.Version);
             Console.WriteLine(remdev.Capabilities);
@@ -58,8 +58,8 @@ namespace test_query_udp
 
             Console.Write("DAC outputs: ");
 
-            foreach (int input in remdev.DAC_Available())
-                Console.Write(input.ToString() + " ");
+            foreach (int output in remdev.DAC_Available())
+                Console.Write(output.ToString() + " ");
 
             Console.WriteLine();
 
