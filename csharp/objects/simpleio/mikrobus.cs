@@ -78,7 +78,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         }
 
         /// <summary>
-        /// Returns the kind of mikroBUS shield that is installed on the 
+        /// Returns the kind of mikroBUS shield that is installed on the
         /// target board, as obtained from the <c>SHIELDNAME</c> environment
         /// variable or guessed from the <c>BOARDNAME</c> environment
         /// variable.  The guessed value for BeagleBone family target boards
@@ -122,7 +122,7 @@ namespace IO.Objects.libsimpleio.mikroBUS
         /// Shared I<sup>2</sup>C bus that is common to all sockets on this
         /// shield.
         /// </summary>
-        public static IO.Interfaces.I2C.Bus I2CBus;
+        public static IO.Interfaces.I2C.Bus I2CBus = null;
     }
 
     /// <summary>
