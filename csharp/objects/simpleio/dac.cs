@@ -25,13 +25,13 @@ using IO.Objects.libsimpleio.Exceptions;
 namespace IO.Objects.libsimpleio.DAC
 {
     /// <summary>
-    /// Encapsulates Linux Industrial I/O Subsystem DAC outputs usingi
+    /// Encapsulates Linux Industrial I/O Subsystem DAC outputs using
     /// <c>libsimpleio</c>.
     /// </summary>
     public class Sample: IO.Interfaces.DAC.Sample
     {
-        private int myfd;
-        private int nbits;
+        private readonly int myfd;
+        private readonly int nbits;
 
         /// <summary>
         /// Retrieve the subsystem name string for a Linux Industrial
@@ -61,8 +61,9 @@ namespace IO.Objects.libsimpleio.DAC
         /// </summary>
         /// <param name="desg">DAC output designator.</param>
         /// <param name="resolution">Bits of resolution.</param>
+        /// <param name="sample">Initial DAC output sample.</param>
         public Sample(IO.Objects.libsimpleio.Device.Designator desg,
-            int resolution)
+            int resolution, int sample = 0)
         {
             int error;
 
@@ -83,6 +84,7 @@ namespace IO.Objects.libsimpleio.DAC
             }
 
             this.nbits = resolution;
+            this.sample = sample;
         }
 
         /// <summary>

@@ -38,10 +38,11 @@ namespace IO.Remote
         /// Create a remote D/A output.
         /// </summary>
         /// <param name="num">D/A output number: 0 to 127.</param>
+        /// <param name="sample">Initial DAC output sample.</param>
         /// <returns>D/A output object.</returns>
-        public IO.Interfaces.DAC.Sample DAC_Create(int num)
+        public IO.Interfaces.DAC.Sample DAC_Create(int num, int sample = 0)
         {
-            return new DAC(this, num);
+            return new DAC(this, num, sample);
         }
     }
 
@@ -50,17 +51,19 @@ namespace IO.Remote
     /// </summary>
     public class DAC: IO.Interfaces.DAC.Sample
     {
-        private Device device;
-        private int num;
-        private int nbits;
+        private readonly Device device;
+        private readonly int num;
+        private readonly int nbits;
 
         /// <summary>
         /// Create a remote D/A output.
         /// </summary>
         /// <param name="dev">Remote I/O device object.</param>
         /// <param name="num">D/A output number: 0 to 127.</param>
-        /// <remarks>Use <c>Device.DAC_Create()</c> instead of this constructor.</remarks>
-        public DAC(Device dev, int num)
+        /// <param name="sample">Initial DAC output sample.</param>
+        /// <remarks>Use <c>Device.DAC_Create()</c> instead of this
+        /// constructor.</remarks>
+        public DAC(Device dev, int num, int sample = 0)
         {
             this.device = dev;
             this.num = (byte)num;
@@ -83,6 +86,7 @@ namespace IO.Remote
             // Save resolution from the response message
 
             this.nbits = resp.payload[3];
+            this.sample = sample;
         }
 
         /// <summary>
