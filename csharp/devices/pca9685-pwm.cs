@@ -34,8 +34,7 @@ namespace IO.Devices.PCA9685.PWM
     /// </summary>
     /// <param name="dev">PCA9685 device object.</param>
     /// <param name="channel">Output channel number.</param>
-    /// <param name="dutycycle">Initial PWM output duty cycle.
-    /// Allowed values are 0.0 to 100.0 percent.</param>
+    /// <param name="dutycycle">Initial PWM output duty cycle.</param>
     public Output(Device dev, int channel,
       double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum)
     {

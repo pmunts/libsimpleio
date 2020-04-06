@@ -35,7 +35,7 @@ namespace IO.Devices.PCA8574.GPIO
         /// <param name="dev">PCA8574 (or similar) device.</param>
         /// <param name="num">GPIO pin number.</param>
         /// <param name="dir">Data direction.</param>
-        /// <param name="state">Initial output state.</param>
+        /// <param name="state">Initial GPIO output state.</param>
         public Pin(PCA8574.Device dev, int num,
             IO.Interfaces.GPIO.Direction dir, bool state = false)
         {

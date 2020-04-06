@@ -39,7 +39,7 @@ namespace IO.Remote
         /// </summary>
         /// <param name="num">GPIO pin number: 0 to 127.</param>
         /// <param name="dir">GPIO pin data direction: Input or Output.</param>
-        /// <param name="state">GPIO pin initial output state: true or false.  Ignored for input pins.</param>
+        /// <param name="state">Initial GPIO output state.</param>
         /// <returns>GPIO pin object.</returns>
         public IO.Interfaces.GPIO.Pin GPIO_Create(int num, IO.Interfaces.GPIO.Direction dir, bool state = false)
         {
@@ -61,7 +61,7 @@ namespace IO.Remote
         /// <param name="dev">Remote I/O device object.</param>
         /// <param name="num">GPIO pin number: 0 to 127.</param>
         /// <param name="dir">GPIO pin data direction: Input or Output.</param>
-        /// <param name="state">GPIO pin initial output state: true or false.  Ignored for input pins.</param>
+        /// <param name="state">Initial GPIO output state.</param>
         /// <remarks>Use <c>Device.GPIO_Create()</c> instead of this constructor.</remarks>
         public GPIO(Device dev, int num, IO.Interfaces.GPIO.Direction dir, bool state = false)
         {

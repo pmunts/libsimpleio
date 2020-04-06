@@ -210,7 +210,7 @@ namespace IO.Objects.libsimpleio.GPIO
         /// </summary>
         /// <param name="desg">GPIO pin designator.</param>
         /// <param name="dir">Data direction.</param>
-        /// <param name="state">Initial output state.</param>
+        /// <param name="state">Initial GPIO output state.</param>
         /// <param name="driver">Output driver setting</param>
         /// <param name="edge">Interrupt edge setting.</param>
         /// <param name="polarity">Polarity setting.</param>

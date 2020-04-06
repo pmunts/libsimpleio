@@ -1,4 +1,4 @@
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@ namespace IO.Devices.PCA9534.GPIO
         /// <param name="dev">PCA9534 (or similar) device.</param>
         /// <param name="num">GPIO pin number.</param>
         /// <param name="dir">Data direction.</param>
-        /// <param name="state">Initial output state.</param>
+        /// <param name="state">Initial GPIO output state.</param>
         public Pin(PCA9534.Device dev, int num,
             IO.Interfaces.GPIO.Direction dir, bool state = false)
         {

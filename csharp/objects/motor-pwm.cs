@@ -42,9 +42,7 @@ namespace IO.Objects.Motor.PWM
         /// control).</param>
         /// <param name="speed">PWM output instance (for speed
         /// control).</param>
-        /// <param name="velocity">Initial normalized motor velocity.
-        /// Allowed values are -1.0 (full speed reverse) to +1.0
-        /// (full speed forward.</param>
+        /// <param name="velocity">Initial motor velocity.</param>
         public Output(IO.Interfaces.GPIO.Pin direction,
           IO.Interfaces.PWM.Output speed,
           double velocity = IO.Interfaces.Motor.Velocities.Stop)
@@ -67,9 +65,7 @@ namespace IO.Objects.Motor.PWM
         /// rotation control).</param>
         /// <param name="counterclockwise">PWM output instance (for
         /// counterclockwise rotation control).</param>
-        /// <param name="velocity">Initial normalized motor velocity.
-        /// Allowed values are -1.0 (full speed reverse) to +1.0
-        /// (full speed forward.</param>
+        /// <param name="velocity">Initial motor velocity.</param>
         public Output(IO.Interfaces.PWM.Output clockwise,
             IO.Interfaces.PWM.Output counterclockwise,
           double velocity = IO.Interfaces.Motor.Velocities.Stop)

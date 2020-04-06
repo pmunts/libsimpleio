@@ -36,8 +36,7 @@ namespace IO.Objects.libsimpleio.Servo
         /// </summary>
         /// <param name="desg">PWM output designator.</param>
         /// <param name="frequency">PWM pulse frequency.</param>
-        /// <param name="position">Initial servo position).
-        /// Allowed values are -1.0 to +1.0.</param>
+        /// <param name="position">Initial servo position.</param>
         public Output(IO.Objects.libsimpleio.Device.Designator desg, int frequency = 50,
             double position = IO.Interfaces.Servo.Positions.Neutral)
         {

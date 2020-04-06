@@ -37,8 +37,7 @@ namespace IO.Objects.libsimpleio.PWM
         /// </summary>
         /// <param name="desg">PWM output designator.</param>
         /// <param name="frequency">PWM pulse frequency.</param>
-        /// <param name="dutycycle">Initial PWM output duty cycle.
-        /// Allowed values are 0.0 to 100.0 percent.</param>
+        /// <param name="dutycycle">Initial PWM output duty cycle.</param>
         /// <param name="polarity">PWM output polarity.</param>
         public Output(IO.Objects.libsimpleio.Device.Designator desg,
             int frequency, double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum,

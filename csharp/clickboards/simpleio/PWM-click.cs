@@ -83,7 +83,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         /// Factory function for creating PCA9685 PWM outputs.
         /// </summary>
         /// <param name="channel">PCA9685 output channel number.</param>
-        /// <param name="dutycycle">Initial PWM output dutycycle.</param>
+        /// <param name="dutycycle">Initial PWM output duty cycle.</param>
         /// <returns>PWM output object.</returns>
         public IO.Interfaces.PWM.Output PWM(int channel,
             double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum)

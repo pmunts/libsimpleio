@@ -1,4 +1,4 @@
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@ namespace IO.Devices.PCA9685.GPIO
     /// </summary>
     /// <param name="dev">PCA9685 device object.</param>
     /// <param name="channel">Output channel number.</param>
-    /// <param name="state">Initial output state.</param>
+    /// <param name="state">Initial GPIO output state.</param>
     public Pin(Device dev, int channel, bool state = false)
     {
       // Validate parameters

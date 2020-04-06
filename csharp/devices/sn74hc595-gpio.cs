@@ -38,8 +38,8 @@ namespace IO.Devices.SN74HC595.GPIO
         /// <param name="pos">Bit position, numbered left to right.
         /// Zero indicates the most significant bit of the first shift
         /// register stage.</param>
-        /// <param name="initialstate">Initial GPIO output state.</param>
-        public Pin(IO.Devices.SN74HC595.Device dev, int pos, bool initialstate = false)
+        /// <param name="state">Initial GPIO output state.</param>
+        public Pin(IO.Devices.SN74HC595.Device dev, int pos, bool state = false)
         {
             // Validate parameters
 
@@ -57,10 +57,7 @@ namespace IO.Devices.SN74HC595.GPIO
 
             // Write initial state
 
-            if (initialstate)
-                mydev.SetBit(myindex, mymask);
-            else
-                mydev.ClrBit(myindex, mymask);
+            this.state = state;
         }
 
         /// <summary>

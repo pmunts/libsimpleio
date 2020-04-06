@@ -86,7 +86,7 @@ namespace IO.Bindings.libsimpleio
         /// </summary>
         /// <param name="pin">Pin number.</param>
         /// <param name="direction">Data direction.</param>
-        /// <param name="state">Initial state for output pin.</param>
+        /// <param name="state">Initial GPIO output state.</param>
         /// <param name="edge">Interrupt edge for input pin.</param>
         /// <param name="polarity">Polarity</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
@@ -246,7 +246,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="line">GPIO line number.</param>
         /// <param name="flags">GPIO line configuration flags.</param>
         /// <param name="events">GPIO line event flags.</param>
-        /// <param name="state">GPIO initial output state.</param>
+        /// <param name="state">Initial GPIO output state.</param>
         /// <param name="fd">Linux file descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>

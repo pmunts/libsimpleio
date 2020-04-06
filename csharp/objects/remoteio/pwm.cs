@@ -39,7 +39,7 @@ namespace IO.Remote
         /// </summary>
         /// <param name="num">PWM output number: 0 to 127.</param>
         /// <param name="freq">PWM pulse frequency in Hz.</param>
-        /// <param name="duty">Initial PWM output dutycycle.</param>
+        /// <param name="duty">Initial PWM output duty cycle.</param>
         /// <returns>PWM output object.</returns>
         public IO.Interfaces.PWM.Output PWM_Create(int num, int freq,
             double duty = 0.0)
@@ -63,7 +63,7 @@ namespace IO.Remote
         /// <param name="dev">Remote I/O device object.</param>
         /// <param name="num">PWM output number: 0 to 127.</param>
         /// <param name="freq">PWM pulse frequency in Hz.</param>
-        /// <param name="duty">Initial PWM output dutycycle.</param>
+        /// <param name="duty">Initial PWM output duty cycle.</param>
         /// <remarks>Use <c>Device.PWM_Create()</c> instead of this constructor.</remarks>
         public PWM(Device dev, int num, int freq, double duty = 0.0)
         {
@@ -103,10 +103,10 @@ namespace IO.Remote
                 // Validate parameters
 
                 if (value < IO.Interfaces.PWM.DutyCycles.Minimum)
-                  throw new Exception("Invalid PWM output dutycycle");
+                  throw new Exception("Invalid PWM output duty cycle");
 
                 if (value > IO.Interfaces.PWM.DutyCycles.Maximum)
-                  throw new Exception("Invalid PWM output dutycycle");
+                  throw new Exception("Invalid PWM output duty cycle");
 
                 int ontime = (int) (value/100.0 * this.period);
 

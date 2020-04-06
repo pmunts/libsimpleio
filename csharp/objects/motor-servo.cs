@@ -31,12 +31,10 @@ namespace IO.Objects.Motor.Servo
         private IO.Interfaces.Servo.Output servo;
 
         /// <summary>
-        /// Consructor for a single motor output.
+        /// Constructor for a single motor output.
         /// </summary>
         /// <param name="servo">Servo output instance.</param>
-        /// <param name="velocity">Initial normalized motor velocity.
-        /// Allowed values are -1.0 (full speed reverse) to +1.0
-        /// (full speed forward.</param>
+        /// <param name="velocity">Initial motor velocity.</param>
         public Output(IO.Interfaces.Servo.Output servo,
           double velocity = IO.Interfaces.Motor.Velocities.Stop)
         {
