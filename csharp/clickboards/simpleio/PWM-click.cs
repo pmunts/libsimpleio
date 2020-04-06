@@ -29,15 +29,15 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
     /// </summary>
     public class Board
     {
+        private readonly IO.Devices.PCA9685.Device mydev;
+
         /// <summary>
         /// Default I<sup>2</sup>C slave address.
         /// </summary>
         public const byte DefaultAddress = 0x40;
 
-        private readonly IO.Devices.PCA9685.Device mydev;
-
         /// <summary>
-        /// Constructor for a single PWM click board.
+        /// Constructor for a single PWM Click Board.
         /// </summary>
         /// <param name="socknum">mikroBUS socket number.</param>
         /// <param name="freq">PWM pulse frequency in Hz.</param>
@@ -58,7 +58,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         }
 
         /// <summary>
-        /// Returns the underlying PCA9685 device object for this PWM Click Board.
+        /// Returns the underlying PCA9685 device object.
         /// </summary>
         public IO.Devices.PCA9685.Device dev
         {
@@ -69,7 +69,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         }
 
         /// <summary>
-        /// Factory function for creating PCA9685 GPIO output pins.
+        /// Factory function for creating GPIO output pins.
         /// </summary>
         /// <param name="channel">PCA9685 output channel number.</param>
         /// <param name="state">Initial GPIO output state.</param>
@@ -80,7 +80,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         }
 
         /// <summary>
-        /// Factory function for creating PCA9685 PWM outputs.
+        /// Factory function for creating PWM outputs.
         /// </summary>
         /// <param name="channel">PCA9685 output channel number.</param>
         /// <param name="dutycycle">Initial PWM output duty cycle.</param>
@@ -92,7 +92,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         }
 
         /// <summary>
-        /// Factory function for creating PCA9685 servo outputs.
+        /// Factory function for creating servo outputs.
         /// </summary>
         /// <param name="channel">PCA9685 output channel number.</param>
         /// <param name="position">Initial servo position.></param>
