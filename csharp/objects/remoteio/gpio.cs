@@ -41,7 +41,7 @@ namespace IO.Remote
         /// <param name="dir">GPIO pin data direction: Input or Output.</param>
         /// <param name="state">GPIO pin initial output state: true or false.  Ignored for input pins.</param>
         /// <returns>GPIO pin object.</returns>
-        public GPIO GPIO_Create(int num, IO.Interfaces.GPIO.Direction dir, bool state = false)
+        public IO.Interfaces.GPIO.Pin GPIO_Create(int num, IO.Interfaces.GPIO.Direction dir, bool state = false)
         {
             return new GPIO(this, num, dir, state);
         }
