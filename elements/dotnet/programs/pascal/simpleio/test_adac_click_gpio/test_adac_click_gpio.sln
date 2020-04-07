@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_adac_click_gpio", "test_adac_click_gpio.elements", "{DF11BFFE-0635-4B32-B5F0-31CCA6048EE0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF11BFFE-0635-4B32-B5F0-31CCA6048EE0}.Debug|Default.ActiveCfg = Debug
+		{DF11BFFE-0635-4B32-B5F0-31CCA6048EE0}.Debug|Default.Build.0 = Debug
+		{DF11BFFE-0635-4B32-B5F0-31CCA6048EE0}.Debug|Default.Deploy.0 = Debug
+		{DF11BFFE-0635-4B32-B5F0-31CCA6048EE0}.Release|Default.ActiveCfg = Release
+		{DF11BFFE-0635-4B32-B5F0-31CCA6048EE0}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6DAA3FD1-C742-4EC0-9A58-172454CD449B}
+	EndGlobalSection
+EndGlobal
