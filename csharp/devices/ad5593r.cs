@@ -360,13 +360,13 @@ namespace IO.Devices.AD5593R
         /// <summary>
         /// Read from an ADC channel.
         /// </summary>
-        /// <param name="channel">ADC channel number (0 to 8).</param>
+        /// <param name="channel">ADC channel number (0 to 7).</param>
         /// <returns>ADC input sample data (0 to 4095).</returns>
         public int Read_ADC(int channel)
         {
             // Validate parameters
 
-            if ((channel < MinChannel) || (channel > 8))
+            if ((channel < MinChannel) || (channel > MaxChannel))
                 throw new System.Exception("Invalid channel number.");
 
             WriteRegister(MODE_CONFIGURATION, REG_ADC_SEQ, (uint)(1 << channel));
@@ -426,7 +426,7 @@ namespace IO.Devices.AD5593R
         /// <summary>
         /// Create an AD5593R ADC input object.
         /// </summary>
-        /// <param name="channel">AD5593R ADC channel number (0 to 8).</param>
+        /// <param name="channel">AD5593R ADC channel number (0 to 7).</param>
         /// <returns>ADC input object.</returns>
         public IO.Interfaces.ADC.Sample ADC_Create(int channel)
         {
