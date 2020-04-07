@@ -1,0 +1,26 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_query", "test_query.elements", "{0283EC23-DF68-42DF-B394-5E2D4C4F4CA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0283EC23-DF68-42DF-B394-5E2D4C4F4CA5}.Debug|AnyCPU.ActiveCfg = Debug
+		{0283EC23-DF68-42DF-B394-5E2D4C4F4CA5}.Debug|AnyCPU.Build.0 = Debug
+		{0283EC23-DF68-42DF-B394-5E2D4C4F4CA5}.Debug|AnyCPU.Deploy.0 = Debug
+		{0283EC23-DF68-42DF-B394-5E2D4C4F4CA5}.Release|AnyCPU.ActiveCfg = Release
+		{0283EC23-DF68-42DF-B394-5E2D4C4F4CA5}.Release|AnyCPU.Build.0 = Release
+		{0283EC23-DF68-42DF-B394-5E2D4C4F4CA5}.Release|AnyCPU.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {43E5265C-4F62-45E7-A8C4-DDF52A803B2C}
+	EndGlobalSection
+EndGlobal
