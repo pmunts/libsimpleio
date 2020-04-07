@@ -10,7 +10,7 @@ import System.Runtime.InteropServices
 @assembly:AssemblyConfiguration("")
 @assembly:AssemblyCompany("")
 @assembly:AssemblyProduct("$safeprojectname$")
-@assembly:AssemblyCopyright("Copyright ©  2019")
+@assembly:AssemblyCopyright("")
 @assembly:AssemblyTrademark("")
 @assembly:AssemblyCulture("")
 

@@ -10,7 +10,7 @@ import System.Runtime.InteropServices
 @assembly:AssemblyConfiguration("")
 @assembly:AssemblyCompany("")
 @assembly:AssemblyProduct("test_remoteio_led")
-@assembly:AssemblyCopyright("Copyright ©  2019")
+@assembly:AssemblyCopyright("")
 @assembly:AssemblyTrademark("")
 @assembly:AssemblyCulture("")
 

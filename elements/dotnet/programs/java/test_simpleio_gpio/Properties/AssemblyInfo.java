@@ -10,7 +10,7 @@ import System.Runtime.InteropServices.*;
 @__assembly:AssemblyConfiguration("")
 @__assembly:AssemblyCompany("")
 @__assembly:AssemblyProduct("$rootnamespace$")
-@__assembly:AssemblyCopyright("Copyright ©  2019")
+@__assembly:AssemblyCopyright("")
 @__assembly:AssemblyTrademark("")
 @__assembly:AssemblyCulture("")
 
