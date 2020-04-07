@@ -23,9 +23,15 @@
     </DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="IO.Bindings.libsimpleio" isDocumented="True">Wrapper Classes for the Linux Simple I/O Library (&lt;a href="http://git.munts.com/libsimpleio"&gt;http://git.munts.com/libsimpleio&lt;/a&gt;)</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.AD5593R" isDocumented="True">AD5593 Analog/Digital I/O Device Services.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.AD5593R.ADC" isDocumented="True">AD5593 Analog/Digital I/O Device ADC Input Services.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.AD5593R.DAC" isDocumented="True">AD5593 Analog/Digital I/O Device DAC Output Services.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.AD5593R.GPIO" isDocumented="True">AD5593 Analog/Digital I/O Device GPIO Pin Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ADC121C021" isDocumented="True">ADC121C021 I&lt;sup&gt;2&lt;/sup&gt;C A/D Converter Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.ADAC" isDocumented="True">Mikroelektronika ADAC Click MIKROE-2690 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.PWM" isDocumented="True">Mikroelektronika PWM Click MIKROE-1898 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.ADAC" isDocumented="True">Mikroelektronika ADAC Click MIKROE-2690 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.PWM" isDocumented="True">Mikroelektronika PWM Click MIKROE-1898 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.ADC" isDocumented="True">Seeed Studio Grove I&lt;sup&gt;2&lt;/sup&gt;C ADC (ADC121C021) Services</NamespaceSummaryItem>
