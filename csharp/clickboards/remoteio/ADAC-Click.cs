@@ -23,6 +23,10 @@
 
 namespace IO.Devices.ClickBoards.RemoteIO.ADAC
 {
+    /// <summary>
+    /// Encapsulates the Mikroelektronika ADAC Click Board
+    /// <a href="https://www.mikroe.com/adac-click-click">MIKROE-2690</a>.
+    /// </summary>
     public class Board
     {
         private readonly IO.Interfaces.GPIO.Pin myrst;
