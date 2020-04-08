@@ -39,8 +39,7 @@ namespace test_pwm_click_pwm
             Console.Write("PWM pulse frequency? ");
             var freq = int.Parse(Console.ReadLine());
 
-            var remdev = new IO.Remote.Device();
-            var board = new IO.Devices.ClickBoards.RemoteIO.PWM.Board(remdev, socket, freq);
+            var board = new IO.Devices.ClickBoards.RemoteIO.PWM.Board(socket, freq);
             var outp = board.PWM(channel);
 
             for (;;)

@@ -36,8 +36,7 @@ namespace test_pwm_click_servo
             Console.Write("Channel number?      ");
             var channel = int.Parse(Console.ReadLine());
 
-            var remdev = new IO.Remote.Device();
-            var board = new IO.Devices.ClickBoards.RemoteIO.PWM.Board(remdev, socket, 50);
+            var board = new IO.Devices.ClickBoards.RemoteIO.PWM.Board(socket, 50);
             var outp = board.Servo(channel);
 
             for (;;)

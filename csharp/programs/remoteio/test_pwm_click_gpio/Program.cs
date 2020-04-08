@@ -36,8 +36,7 @@ namespace test_pwm_click_gpio
             Console.Write("Channel number? ");
             var channel = int.Parse(Console.ReadLine());
 
-            var remdev = new IO.Remote.Device();
-            var board = new IO.Devices.ClickBoards.RemoteIO.PWM.Board(remdev, socket, 1526);
+            var board = new IO.Devices.ClickBoards.RemoteIO.PWM.Board(socket, 1526);
             var outp = board.GPIO(channel);
 
             for (;;)

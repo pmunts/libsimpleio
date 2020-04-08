@@ -34,8 +34,7 @@ namespace test_7seg_click
 
             Console.Write("Socket number? ");
             var num = int.Parse(Console.ReadLine());
-            var remdev = new IO.Remote.Device();
-            var disp = new Board(remdev, num);
+            var disp = new Board(num);
 
             // Test decimal mode
 

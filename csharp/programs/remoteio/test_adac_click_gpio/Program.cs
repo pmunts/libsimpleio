@@ -36,8 +36,7 @@ namespace test_adac_click_gpio
             Console.Write("Channel number? ");
             var channel = int.Parse(Console.ReadLine());
 
-            var remdev = new IO.Remote.Device();
-            var board = new IO.Devices.ClickBoards.RemoteIO.ADAC.Board(remdev, socket);
+            var board = new IO.Devices.ClickBoards.RemoteIO.ADAC.Board(socket);
             var outp = board.GPIO(channel, IO.Interfaces.GPIO.Direction.Output);
 
             for (;;)
