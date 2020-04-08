@@ -24,13 +24,13 @@
 namespace IO.Remote.mikroBUS
 {
     /// <summary>
-    /// Encapsulates Remote I/O Protocol servers providing
+    /// Encapsulates mikroBUS shields on Remote I/O Protocol servers providing
     /// <a href="https://www.mikroe.com/mikrobus">mikroBUS</a> sockets).
     /// </summary>
-    public static class Server
+    public static class Shield
     {
         /// <summary>
-        /// Supported Remote I/O Protocol servers.
+        /// Supported mikroBUS shields.
         /// </summary>
         public enum Kinds
         {
@@ -70,23 +70,23 @@ namespace IO.Remote.mikroBUS
             /// </remarks>
             PocketBeagle,
             /// <summary>
-            /// Unknown Remote I/O Protocol server.
+            /// No known mikroBUS shield installed.
             /// </summary>
-            Unknown = int.MaxValue,
+            Unknown = int.MaxValue
         }
 
         /// <summary>
-        /// Returns the kind of Remote I/O Protocol server, as obtained from
-        /// the <c>SERVERKIND</c> environment
-        /// variable.
+        /// Returns the kind of mikroBUS shield that is installed on the Remote
+        /// I/O Protocol server, as obtained from the <c>SHIELDNAME</c>
+        /// environment variable.
         /// </summary>
         public static Kinds kind
         {
             get
             {
-                if (System.Enum.TryParse<Kinds>(System.Environment.GetEnvironmentVariable("SERVERKIND"),
-                    true, out Kinds server))
-                    return server;
+                if (System.Enum.TryParse<Kinds>(System.Environment.GetEnvironmentVariable("SHIELDNAME"),
+                    true, out Kinds shield))
+                    return shield;
                 else
                     return Kinds.Unknown;
             }
@@ -94,7 +94,7 @@ namespace IO.Remote.mikroBUS
 
         /// <summary>
         /// Shared I<sup>2</sup>C bus that is common to all sockets on this
-        /// server.
+        /// shield.
         /// </summary>
         public static IO.Interfaces.I2C.Bus I2CBus = null;
     }
@@ -106,7 +106,7 @@ namespace IO.Remote.mikroBUS
     {
         private struct SocketEntry
         {
-            public readonly Server.Kinds server;
+            public readonly Shield.Kinds shield;
             public readonly int num;
             public readonly bool ShareI2C;
             // mikroBUS GPIO pins
@@ -129,7 +129,7 @@ namespace IO.Remote.mikroBUS
             public readonly int SPIDev;
 
             public SocketEntry(
-                Server.Kinds server,
+                Shield.Kinds shield,
                 int num,
                 bool ShareI2C,
                 // mikroBUS GPIO pins
@@ -151,7 +151,7 @@ namespace IO.Remote.mikroBUS
                 int PWMOut,
                 int SPIDev)
             {
-                this.server = server;
+                this.shield = shield;
                 this.num = num;
                 this.ShareI2C = ShareI2C;
                 // mikroBUS GPIO pins
@@ -177,7 +177,7 @@ namespace IO.Remote.mikroBUS
 
         private static readonly SocketEntry[] SocketTable =
         {
-            new SocketEntry(Server.Kinds.Clicker, 1, false,
+            new SocketEntry(Shield.Kinds.Clicker, 1, false,
                 // mikroBUS GPIO pins
                 AN:     12,
                 RST:    13,
@@ -197,7 +197,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PocketBeagle, 1, false, // Over the micro USB socket
+            new SocketEntry(Shield.Kinds.PocketBeagle, 1, false, // Over the micro USB socket
                 // mikroBUS GPIO pins
                 AN:     87,
                 RST:    89,
@@ -217,7 +217,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 1,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PocketBeagle, 2, false, // Over the micro SDHC socket
+            new SocketEntry(Shield.Kinds.PocketBeagle, 2, false, // Over the micro SDHC socket
                 // mikroBUS GPIO pins
                 AN:     86,
                 RST:    45,
@@ -237,7 +237,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 1),
 
-            new SocketEntry(Server.Kinds.PiClick1, 1, false,
+            new SocketEntry(Shield.Kinds.PiClick1, 1, false,
                 // mikroBUS GPIO pins
                 AN:     22,
                 RST:    4,
@@ -257,7 +257,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PiClick2, 1, true,
+            new SocketEntry(Shield.Kinds.PiClick2, 1, true,
                 // mikroBUS GPIO pins
                 AN:     4,
                 RST:    5,
@@ -277,7 +277,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PiClick2, 2, true,
+            new SocketEntry(Shield.Kinds.PiClick2, 2, true,
                 // mikroBUS GPIO pins
                 AN:     13,
                 RST:    19,
@@ -297,7 +297,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: IO.Remote.Device.Unavailable,
                 SPIDev: 1),
 
-            new SocketEntry(Server.Kinds.PiClick3, 1, true,
+            new SocketEntry(Shield.Kinds.PiClick3, 1, true,
                 // mikroBUS GPIO pins
                 AN:     4,
                 RST:    5,
@@ -317,7 +317,7 @@ namespace IO.Remote.mikroBUS
                 PWMOut: 0,
                 SPIDev: 0),
 
-            new SocketEntry(Server.Kinds.PiClick3, 2, true,
+            new SocketEntry(Shield.Kinds.PiClick3, 2, true,
                 // mikroBUS GPIO pins
                 AN:     13,
                 RST:    12,
@@ -344,24 +344,24 @@ namespace IO.Remote.mikroBUS
         /// Constructor for a single mikroBUS socket.
         /// </summary>
         /// <param name="num">Socket number.</param>
-        /// <param name="server">mikroBUS server kind.  Zero
-        /// indicates automatic detection using the <c>Server.kind</c>
+        /// <param name="shield">mikroBUS shield kind.  Zero
+        /// indicates automatic detection using the <c>Shield.kind</c>
         /// property.</param>
-        public Socket(int num, Server.Kinds server = Server.Kinds.Unknown)
+        public Socket(int num, Shield.Kinds shield = Shield.Kinds.Unknown)
         {
-            if (server == Server.Kinds.Unknown) server = Server.kind;
+            if (shield == Shield.Kinds.Unknown) shield = Shield.kind;
 
-            // Search for matching server and socket number
+            // Search for matching shield and socket number
 
             for (int i = 0; i < SocketTable.Length; i++)
-                if ((SocketTable[i].server == server) &&
+                if ((SocketTable[i].shield == shield) &&
                     (SocketTable[i].num == num))
                 {
                     myInfo = SocketTable[i];
                     return;
                 }
 
-            throw new System.Exception("Unable to find matching server and socket number.");
+            throw new System.Exception("Unable to find matching shield and socket number.");
         }
 
         /// <summary>

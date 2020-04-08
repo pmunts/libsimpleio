@@ -58,10 +58,10 @@ namespace IO.Devices.ClickBoards.RemoteIO.PWM
 
             IO.Interfaces.I2C.Bus bus;
 
-            if (IO.Remote.mikroBUS.Server.I2CBus is null)
+            if (IO.Remote.mikroBUS.Shield.I2CBus is null)
                 bus = remdev.I2C_Create(S.I2CBus);
             else
-                bus = IO.Remote.mikroBUS.Server.I2CBus;
+                bus = IO.Remote.mikroBUS.Shield.I2CBus;
 
             mydev = new IO.Devices.PCA9685.Device(bus, addr, freq);
         }
