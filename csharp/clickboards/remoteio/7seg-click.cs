@@ -147,7 +147,6 @@ namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
         /// <summary>
         /// Constructor for a Mikroelektronika 7seg click.
         /// </summary>
-        /// <param name="remdev">Remote I/O device object.</param>
         /// <param name="socket">mikroBUS socket number.</param>
         /// <param name="radix">Numerical base or radix.  Allowed values are
         /// <c>Decimal</c> and <c>Hexadecimal</c>.</param>
@@ -155,18 +154,29 @@ namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
         /// <c>None</c>, <c>Leading</c>, and <c>Full</c>.</param>
         /// <param name="pwmfreq">PWM frequency.  Set to zero to use GPIO
         /// instead of PWM.</param>
-        public Board(IO.Remote.Device remdev, int socket,
-            Base radix = Base.Decimal,
-            ZeroBlanking blanking = ZeroBlanking.None,
-            int pwmfreq = 100)
+        /// <param name="remdev">Remote I/O server device object.</param>
+        public Board(int socket, Base radix = Base.Decimal,
+            ZeroBlanking blanking = ZeroBlanking.None, int pwmfreq = 100,
+            IO.Remote.Device remdev = null)
         {
+            // Create Remote I/O server device object, if one wasn't supplied
+
+            if (remdev == null)
+                remdev = new IO.Remote.Device();
+
+            // Create a mikroBUS socket object
+
             IO.Remote.mikroBUS.Socket S =
                 new IO.Remote.mikroBUS.Socket(socket);
 
-            // Configure RST pin
+            // Configure hardware reset GPIO pin
 
             myRSTgpio = remdev.GPIO_Create(S.RST,
                 IO.Interfaces.GPIO.Direction.Output, true);
+
+            // Issue hardware reset
+
+            Reset();
 
             // Configure PWM pin -- Prefer PWM over GPIO, if possible, and
             // assume full brightness until otherwise changed.
@@ -336,6 +346,16 @@ namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
                 myrightdp = value;
                 Post();
             }
+        }
+
+        /// <summary>
+        /// Issue hardware reset to the 74HC595 shift register chain.
+        /// </summary>
+        public void Reset()
+        {
+            myRSTgpio.state = false;
+            System.Threading.Thread.Sleep(1);
+            myRSTgpio.state = true;
         }
 
         /// <summary>
