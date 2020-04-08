@@ -21,7 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.Interface_RemoteIO;
-WITH ClickBoard.Servers;
+WITH ClickBoard.Shields;
 WITH RemoteIO;
 
 PACKAGE ClickBoard.RemoteIO IS
@@ -34,12 +34,12 @@ PACKAGE ClickBoard.RemoteIO IS
 
   FUNCTION Create
    (socknum : Positive;
-    kind    : ClickBoard.Servers.kind := ClickBoard.Servers.Detect)
+    kind    : ClickBoard.Shields.kind := ClickBoard.Shields.Detect)
    RETURN Socket;
 
-  -- Retrieve the type of Remote I/O server
+  -- Retrieve the type of shield on the remote I/O server
 
-  FUNCTION Kind(self : socket) RETURN ClickBoard.Servers.Kind;
+  FUNCTION Kind(self : socket) RETURN ClickBoard.Shields.Kind;
 
   -- Retrieve the socket number
 

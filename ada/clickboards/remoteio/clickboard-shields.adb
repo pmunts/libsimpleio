@@ -1,4 +1,4 @@
--- Mikroelektronika Click Board Server definitions
+-- Mikroelektronika Click Board Shield definitions
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,15 +22,15 @@
 
 WITH Ada.Environment_Variables;
 
-PACKAGE BODY ClickBoard.Servers IS
+PACKAGE BODY ClickBoard.Shields IS
 
   FUNCTION Detect RETURN Kind IS
 
   BEGIN
-    RETURN Kind'Value(Ada.Environment_Variables.Value("SERVERKIND"));
+    RETURN Kind'Value(Ada.Environment_Variables.Value("SHIELDNAME"));
   EXCEPTION
     WHEN OTHERS =>
       RETURN None;
   END Detect;
 
-END ClickBoard.Servers;
+END ClickBoard.Shields;
