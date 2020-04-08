@@ -60,10 +60,10 @@ namespace IO.Devices.ClickBoards.SimpleIO.ADAC
 
             IO.Interfaces.I2C.Bus bus;
 
-            if (IO.Remote.mikroBUS.Server.I2CBus is null)
+            if (IO.Objects.libsimpleio.mikroBUS.Shield.I2CBus is null)
                 bus = new IO.Objects.libsimpleio.I2C.Bus(S.I2CBus);
             else
-                bus = IO.Remote.mikroBUS.Server.I2CBus;
+                bus = IO.Objects.libsimpleio.mikroBUS.Shield.I2CBus;
 
             // Configure AD5593R
 
