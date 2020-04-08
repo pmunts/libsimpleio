@@ -1,4 +1,4 @@
-﻿namespace testgpio;
+namespace testgpio;
 
 interface
 

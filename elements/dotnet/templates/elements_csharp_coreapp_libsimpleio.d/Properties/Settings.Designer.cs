@@ -1,4 +1,4 @@
-﻿namespace $safeprojectname$
+namespace $safeprojectname$
 {
 
 /* The .Designer.cs file will be automatically generated when the parent file changes.

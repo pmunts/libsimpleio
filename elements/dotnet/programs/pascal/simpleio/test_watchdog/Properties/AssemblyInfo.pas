@@ -1,4 +1,4 @@
-﻿namespace testwatchdog;
+namespace testwatchdog;
 
 interface
 

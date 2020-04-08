@@ -1,4 +1,4 @@
-﻿namespace test_led;
+namespace test_led;
 
 interface
 

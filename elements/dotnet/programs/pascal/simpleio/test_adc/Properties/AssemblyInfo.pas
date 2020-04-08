@@ -1,4 +1,4 @@
-﻿namespace testadc;
+namespace testadc;
 
 interface
 

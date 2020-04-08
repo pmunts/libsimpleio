@@ -1,4 +1,4 @@
-﻿namespace test_simpleio_gpio
+namespace test_simpleio_gpio
 {
 
 /* The .Designer.cs file will be automatically generated when the parent file changes.

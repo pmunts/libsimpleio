@@ -1,4 +1,4 @@
-﻿package $safeprojectname$;
+package $safeprojectname$;
 
 public class Program
 {

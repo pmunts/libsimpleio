@@ -1,4 +1,4 @@
-﻿// GPIO Pin Toggle Test using libsimpleio
+// GPIO Pin Toggle Test using libsimpleio
 
 // Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.
 //
