@@ -41,7 +41,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.ADAC
         /// Constructor for a single ADAC click.
         /// </summary>
         /// <param name="socknum">mikroBUS socket number.</param>
-        /// <param name="addr">PCA9685 I<sup>2</sup>C slave address.</param>
+        /// <param name="addr">I<sup>2</sup>C slave address.</param>
         public Board(int socknum, int addr = DefaultAddress)
         {
             IO.Objects.libsimpleio.mikroBUS.Socket S =

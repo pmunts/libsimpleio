@@ -41,7 +41,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         /// </summary>
         /// <param name="socknum">mikroBUS socket number.</param>
         /// <param name="freq">PWM pulse frequency in Hz.</param>
-        /// <param name="addr">PCA9685 I<sup>2</sup>C slave address.</param>
+        /// <param name="addr">I<sup>2</sup>C slave address.</param>
         public Board(int socknum, int freq, int addr = DefaultAddress)
         {
             IO.Objects.libsimpleio.mikroBUS.Socket S =
