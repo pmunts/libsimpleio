@@ -99,7 +99,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.ADAC
         /// <summary>
         /// Factory function for creating ADC inputs.
         /// </summary>
-        /// <param name="channel">AD5593R I/O channel number (0 to 8).</param>
+        /// <param name="channel">AD5593R I/O channel number (0 to 7).</param>
         /// <returns>ADC input object.</returns>
         public IO.Interfaces.ADC.Sample ADC(int channel)
         {
