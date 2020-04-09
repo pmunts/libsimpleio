@@ -24,6 +24,8 @@ AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
 CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS) -DWAIT_DEV_LINK
 
+BUILDNUM	?= 1
+
 ifeq ($(BOARDNAME),)
 # Definitions for compiling for native Linux
 
@@ -31,7 +33,7 @@ DESTDIR		?= /usr/local
 
 OSNAME		?= unknown
 PKGNAME		:= munts-libsimpleio
-PKGVERSION	:= $(shell date +%Y.%j)$(BUILDNUM)
+PKGVERSION	:= $(shell date +%Y.%j).$(BUILDNUM)
 PKGARCH		:= $(shell dpkg --print-architecture)
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 DEBFILE		:= $(PKGDIR).deb
@@ -43,7 +45,7 @@ include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 
 OSNAME		?= unknown
 PKGNAME		:= gcc-$(TOOLCHAIN_NAME)-libsimpleio
-PKGVERSION	:= $(shell date +%Y.%j)$(BUILDNUM)
+PKGVERSION	:= $(shell date +%Y.%j).$(BUILDNUM)
 PKGARCH		:= all
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 DEBFILE		:= $(PKGDIR).deb
