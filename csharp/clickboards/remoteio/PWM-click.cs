@@ -24,7 +24,7 @@
 namespace IO.Devices.ClickBoards.RemoteIO.PWM
 {
     /// <summary>
-    /// Encapsulates the Mikroelektronika PWM Click Board
+    /// Encapsulates the Mikroelektronika PWM Click Board.
     /// <a href="https://www.mikroe.com/pwm-click">MIKROE-1898</a>.
     /// </summary>
     public class Board
@@ -37,7 +37,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.PWM
         public const byte DefaultAddress = 0x40;
 
         /// <summary>
-        /// Constructor for a single PWM Click Board.
+        /// Constructor for a single PWM click.
         /// </summary>
         /// <param name="socknum">mikroBUS socket number.</param>
         /// <param name="freq">PWM pulse frequency in Hz.</param>

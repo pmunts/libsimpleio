@@ -24,7 +24,7 @@
 namespace IO.Devices.ClickBoards.RemoteIO.ADAC
 {
     /// <summary>
-    /// Encapsulates the Mikroelektronika ADAC Click Board
+    /// Encapsulates the Mikroelektronika ADAC Click Board.
     /// <a href="https://www.mikroe.com/adac-click-click">MIKROE-2690</a>.
     /// </summary>
     public class Board
@@ -38,7 +38,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.ADAC
         public const byte DefaultAddress = 0x10;
 
         /// <summary>
-        /// Constructor for a single ADAC Click board.
+        /// Constructor for a single ADAC click.
         /// </summary>
         /// <param name="socknum">mikroBUS socket number.</param>
         /// <param name="addr">AD5593R I<sup>2</sup>C slave address.</param>

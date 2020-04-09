@@ -24,7 +24,7 @@
 namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
 {
     /// <summary>
-    /// Encapsulates the Mikroelektronika 7Seg Click
+    /// Encapsulates the Mikroelektronika 7Seg Click Board.
     /// <a href="https://www.mikroe.com/7seg-click">MIKROE-1201</a>.
     /// </summary>
     /// <remarks>
@@ -145,7 +145,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
         }
 
         /// <summary>
-        /// Constructor for a Mikroelektronika 7seg click.
+        /// Constructor for a single 7seg click.
         /// </summary>
         /// <param name="socket">mikroBUS socket number.</param>
         /// <param name="radix">Numerical base or radix.  Allowed values are
