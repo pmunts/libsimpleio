@@ -1,4 +1,4 @@
-// Mikroelektronika Expand2 Click MIKROE-1838 (https://www.mikroe.com/expand-2-click) Services
+// Mikroelektronika Expand 2 Click MIKROE-1838 (https://www.mikroe.com/expand-2-click) Services
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
