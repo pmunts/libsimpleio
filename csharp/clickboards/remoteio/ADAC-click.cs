@@ -41,7 +41,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.ADAC
         /// Constructor for a single ADAC click.
         /// </summary>
         /// <param name="socknum">mikroBUS socket number.</param>
-        /// <param name="addr">AD5593R I<sup>2</sup>C slave address.</param>
+        /// <param name="addr">I<sup>2</sup>C slave address.</param>
         /// <param name="remdev">Remote I/O server device object.</param>
         public Board(int socknum, int addr = DefaultAddress,
             IO.Remote.Device remdev = null)
