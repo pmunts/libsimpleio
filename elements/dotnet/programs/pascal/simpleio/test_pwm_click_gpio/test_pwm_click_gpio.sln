@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_pwm_click_gpio", "test_pwm_click_gpio.elements", "{31F773EE-E6AA-4B76-ACDC-698E6031258F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31F773EE-E6AA-4B76-ACDC-698E6031258F}.Debug|Default.ActiveCfg = Debug
+		{31F773EE-E6AA-4B76-ACDC-698E6031258F}.Debug|Default.Build.0 = Debug
+		{31F773EE-E6AA-4B76-ACDC-698E6031258F}.Debug|Default.Deploy.0 = Debug
+		{31F773EE-E6AA-4B76-ACDC-698E6031258F}.Release|Default.ActiveCfg = Release
+		{31F773EE-E6AA-4B76-ACDC-698E6031258F}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {370B8B0E-47BD-4647-815C-4C26E635683C}
+	EndGlobalSection
+EndGlobal

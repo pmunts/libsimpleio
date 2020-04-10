@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_adac_click_dac", "test_adac_click_dac.elements", "{69455C36-FC2F-40FD-9F96-DC73745CFDFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69455C36-FC2F-40FD-9F96-DC73745CFDFB}.Debug|Default.ActiveCfg = Debug
+		{69455C36-FC2F-40FD-9F96-DC73745CFDFB}.Debug|Default.Build.0 = Debug
+		{69455C36-FC2F-40FD-9F96-DC73745CFDFB}.Debug|Default.Deploy.0 = Debug
+		{69455C36-FC2F-40FD-9F96-DC73745CFDFB}.Release|Default.ActiveCfg = Release
+		{69455C36-FC2F-40FD-9F96-DC73745CFDFB}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {11676DDD-9879-4014-AC55-F53DA155136F}
+	EndGlobalSection
+EndGlobal
