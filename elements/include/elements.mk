@@ -42,6 +42,14 @@ elements_mk_default: default
 elements_mk_build:
 	"$(EBUILD)" "$(EBUILDPROJECT)" $(EBUILDFLAGS)
 
+# Fixup permissions etc.
+
+elements_mk_fixup:
+	/usr/bin/find . -type f -exec chmod 644 {} ";"
+	/usr/bin/find . -type f -exec bom_remove {} ";"
+	/usr/bin/find . -type f -exec unix2dos {} ";"
+	/usr/bin/find . -name Makefile -exec dos2unix {} ";"
+
 # Clean out working files
 
 elements_mk_clean:
