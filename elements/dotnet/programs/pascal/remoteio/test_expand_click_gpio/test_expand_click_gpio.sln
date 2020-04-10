@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_expand_click_gpio", "test_expand_click_gpio.elements", "{1519470F-3361-4A77-A438-9816375C948F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1519470F-3361-4A77-A438-9816375C948F}.Debug|Default.ActiveCfg = Debug
+		{1519470F-3361-4A77-A438-9816375C948F}.Debug|Default.Build.0 = Debug
+		{1519470F-3361-4A77-A438-9816375C948F}.Debug|Default.Deploy.0 = Debug
+		{1519470F-3361-4A77-A438-9816375C948F}.Release|Default.ActiveCfg = Release
+		{1519470F-3361-4A77-A438-9816375C948F}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {746E0502-5D83-463F-BFF1-8DD42A8E011B}
+	EndGlobalSection
+EndGlobal
