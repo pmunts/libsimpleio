@@ -2,15 +2,15 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
-    <RootNamespace>testwatchdog</RootNamespace>
+    <RootNamespace>test_watchdog</RootNamespace>
     <ProjectGuid>{97c85aea-8dd1-4461-80e9-112e767c92d9}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AssemblyName>testwatchdog</AssemblyName>
+    <AssemblyName>test_watchdog</AssemblyName>
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <TargetFramework>.NETCore</TargetFramework>
     <Mode>Echoes</Mode>
-    <Name>testwatchdog</Name>
+    <Name>test_watchdog</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>

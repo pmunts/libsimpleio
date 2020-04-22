@@ -20,7 +20,7 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-namespace testadc;
+namespace test_adc;
 
   procedure Main(args: array of String);
 
