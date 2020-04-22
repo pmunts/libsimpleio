@@ -38,6 +38,10 @@ namespace IO.Objects.Motor.Servo
         public Output(IO.Interfaces.Servo.Output servo,
           double velocity = IO.Interfaces.Motor.Velocities.Stop)
         {
+            if ((velocity < IO.Interfaces.Motor.Velocities.Minimum) ||
+                (velocity > IO.Interfaces.Motor.Velocities.Maximum))
+                throw new System.Exception("Invalid motor velocity");
+
             servo.position = velocity;
             this.servo = servo;
         }
@@ -51,6 +55,10 @@ namespace IO.Objects.Motor.Servo
         {
             set
             {
+                if ((velocity < IO.Interfaces.Motor.Velocities.Minimum) ||
+                    (velocity > IO.Interfaces.Motor.Velocities.Maximum))
+                    throw new System.Exception("Invalid motor velocity");
+
                 this.servo.position = value;
             }
         }

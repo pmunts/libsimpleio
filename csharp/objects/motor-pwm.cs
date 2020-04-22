@@ -47,6 +47,10 @@ namespace IO.Objects.Motor.PWM
           IO.Interfaces.PWM.Output speed,
           double velocity = IO.Interfaces.Motor.Velocities.Stop)
         {
+            if ((velocity < IO.Interfaces.Motor.Velocities.Minimum) ||
+                (velocity > IO.Interfaces.Motor.Velocities.Maximum))
+                throw new System.Exception("Invalid motor velocity");
+
             dirpin = direction;
             pwm0 = speed;
             pwm1 = null;
@@ -70,6 +74,10 @@ namespace IO.Objects.Motor.PWM
             IO.Interfaces.PWM.Output counterclockwise,
           double velocity = IO.Interfaces.Motor.Velocities.Stop)
         {
+            if ((velocity < IO.Interfaces.Motor.Velocities.Minimum) ||
+                (velocity > IO.Interfaces.Motor.Velocities.Maximum))
+                throw new System.Exception("Invalid motor velocity");
+
             dirpin = null;
             pwm0 = clockwise;
             pwm1 = counterclockwise;
@@ -80,12 +88,16 @@ namespace IO.Objects.Motor.PWM
         /// <summary>
         /// Write-only property for setting the normalized motor velocity.
         /// Allowed values are -1.0 (full speed reverse) to +1.0
-        /// (full speed forward.
+        /// (full speed forward).
         /// </summary>
         public double velocity
         {
             set
             {
+                if ((velocity < IO.Interfaces.Motor.Velocities.Minimum) ||
+                    (velocity > IO.Interfaces.Motor.Velocities.Maximum))
+                    throw new System.Exception("Invalid motor velocity");
+
                 // Type 1 motor drivers, using one GPIO output for direction,
                 // and one PWM output for speed
 

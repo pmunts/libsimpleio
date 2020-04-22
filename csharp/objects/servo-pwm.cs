@@ -37,6 +37,10 @@ namespace IO.Objects.Servo.PWM
         public Output(IO.Interfaces.PWM.Output pwm, int freq = 50,
           double position = IO.Interfaces.Servo.Positions.Neutral)
         {
+            if ((position < IO.Interfaces.Servo.Positions.Minimum) ||
+                (position > IO.Interfaces.Servo.Positions.Maximum))
+                throw new System.Exception("Invalid servo position");
+
             this.pwm = pwm;
             this.period = 1000000000 / freq;
             this.position = position;
@@ -50,6 +54,10 @@ namespace IO.Objects.Servo.PWM
         {
             set
             {
+                if ((position < IO.Interfaces.Servo.Positions.Minimum) ||
+                    (position > IO.Interfaces.Servo.Positions.Maximum))
+                    throw new System.Exception("Invalid servo position");
+
                 int ontime = 1500000 + (int)(500000.0 * value);
                 this.pwm.dutycycle = ((double)ontime) / ((double)this.period) * 100.0;
             }
