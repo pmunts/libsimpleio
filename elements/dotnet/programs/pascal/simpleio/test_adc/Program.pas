@@ -58,11 +58,11 @@ namespace testadc;
 
     writeLn;
 
-    repeat
+    loop begin
       writeLn(String.Format('Sample: {0,5}  Voltage: {1,6:F4}', samp.sample,
         volts.voltage));
       RemObjects.Elements.RTL.Thread.Sleep(1000);
-    until false;
+    end;
   end;
 
 end.

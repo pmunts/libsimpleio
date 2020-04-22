@@ -38,10 +38,10 @@ namespace test_adac_click_adc;
     var board := new IO.Devices.ClickBoards.SimpleIO.ADAC.Board(socket);
     var inp := board.ADC(channel);
 
-    repeat
+    loop begin
       writeLn('Sample => ' + inp.sample.ToString());
       RemObjects.Elements.RTL.Thread.Sleep(1000);
-    until false;
+    end;
   end;
 
 end.

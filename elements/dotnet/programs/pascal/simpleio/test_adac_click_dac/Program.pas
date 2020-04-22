@@ -37,12 +37,11 @@ namespace test_adac_click_dac;
 
     var board := new IO.Devices.ClickBoards.SimpleIO.ADAC.Board(socket);
     var outp := board.DAC(channel);
-    var i : Integer;
 
-    repeat
-      for i := 0 to 4095 do
+    loop begin
+      for i : Integer := 0 to 4095 do
         outp.sample := i;
-    until false;
+    end;
   end;
 
 end.

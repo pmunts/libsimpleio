@@ -38,9 +38,9 @@ namespace test_adac_click_gpio;
     var board := new IO.Devices.ClickBoards.RemoteIO.ADAC.Board(socket);
     var outp := board.GPIO(channel, IO.Interfaces.GPIO.Direction.Output);
 
-    repeat
+    loop begin
       outp.state := not outp.state;
-    until false;
+    end;
   end;
 
 end.

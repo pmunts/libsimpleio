@@ -38,9 +38,9 @@ namespace test_pwm_click_gpio;
     var board := new IO.Devices.ClickBoards.SimpleIO.PWM.Board(socket, 1526);
     var outp := board.GPIO(channel);
 
-    repeat
+    loop begin
       outp.state := not outp.state;
-    until false;
+    end;
   end;
 
 end.

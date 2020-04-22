@@ -41,10 +41,10 @@ namespace test_led;
 
     { Flash the LED }
 
-    repeat
+    loop begin
       LED.state := not LED.state;
       RemObjects.Elements.RTL.Thread.Sleep(500);
-    until false;
+    end;
   end;
 
 end.

@@ -47,21 +47,19 @@ namespace testpwm;
 
     { Sweep the PWM output duty cycle }
 
-    var duty : Integer;
-
-    repeat
-      for duty := 0 to 100 do
+    loop begin
+      for duty : Integer := 0 to 100 do
         begin
           Output.dutycycle := duty;
           RemObjects.Elements.RTL.Thread.Sleep(50);
         end;
 
-      for duty := 100 downto 0 do
+      for duty : Integer := 100 downto 0 do
         begin
           Output.dutycycle := duty;
           RemObjects.Elements.RTL.Thread.Sleep(50);
         end;
-    until false;
+    end;
   end;
 
 end.

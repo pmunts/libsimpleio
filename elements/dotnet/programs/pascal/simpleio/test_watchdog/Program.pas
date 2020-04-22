@@ -1,6 +1,6 @@
 { Watchdog Timer Test using libsimpleio }
 
-{ Copyright (C)2019, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -45,9 +45,7 @@ namespace testwatchdog;
 
     { Kick the dog }
 
-    var i : Integer;
-
-    for i := 1 to 10 do
+    for i : Integer := 1 to 10 do
       begin
         writeLn('Kick the dog...');
         wd.Kick();
@@ -57,7 +55,7 @@ namespace testwatchdog;
 
     { Stop kicking the dog }
 
-    for i := 1 to 10 do
+    for i : Integer := 1 to 10 do
       begin
         writeLn('Don''t kick the dog...');
 

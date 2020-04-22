@@ -45,9 +45,9 @@ namespace testgpio;
 
     // Toggle the GPIO output
 
-    repeat
+    loop begin
       Output.state := not Output.state;
-    until false;
+    end;
   end;
 
 end.
