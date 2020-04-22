@@ -20,7 +20,7 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-namespace testpwm;
+namespace test_pwm;
 
   procedure Main(args: array of String);
 
@@ -40,23 +40,22 @@ namespace testpwm;
     desg.chan := Integer.Parse(readLn());
 
     write('PWM pulse frequency? ');
-    var freq : Integer := Integer.Parse(readLn());
+    var freq := Integer.Parse(readLn());
 
-    var Output : IO.Interfaces.PWM.Output :=
-      new IO.Objects.libsimpleio.PWM.Output(desg, freq);
+    var outp := new IO.Objects.libsimpleio.PWM.Output(desg, freq);
 
     { Sweep the PWM output duty cycle }
 
     loop begin
       for duty : Integer := 0 to 100 do
         begin
-          Output.dutycycle := duty;
+          outp.dutycycle := duty;
           RemObjects.Elements.RTL.Thread.Sleep(50);
         end;
 
       for duty : Integer := 100 downto 0 do
         begin
-          Output.dutycycle := duty;
+          outp.dutycycle := duty;
           RemObjects.Elements.RTL.Thread.Sleep(50);
         end;
     end;

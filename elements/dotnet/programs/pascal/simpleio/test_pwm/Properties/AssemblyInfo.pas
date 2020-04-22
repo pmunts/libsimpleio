@@ -1,4 +1,4 @@
-namespace testpwm;
+namespace test_pwm;
 
 interface
 

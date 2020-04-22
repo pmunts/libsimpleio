@@ -2,15 +2,15 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
-    <RootNamespace>testpwm</RootNamespace>
+    <RootNamespace>test_pwm</RootNamespace>
     <ProjectGuid>{94ce7fb6-3af3-4d30-983d-7d5e4ed4aecf}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AssemblyName>testpwm</AssemblyName>
+    <AssemblyName>test_pwm</AssemblyName>
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <TargetFramework>.NETCore</TargetFramework>
     <Mode>Echoes</Mode>
-    <Name>testpwm</Name>
+    <Name>test_pwm</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>
