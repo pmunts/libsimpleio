@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_pwm_click_pwm", "test_pwm_click_pwm.elements", "{D96A8529-E366-4776-B607-D96B691A4E44}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D96A8529-E366-4776-B607-D96B691A4E44}.Debug|Default.ActiveCfg = Debug
+		{D96A8529-E366-4776-B607-D96B691A4E44}.Debug|Default.Build.0 = Debug
+		{D96A8529-E366-4776-B607-D96B691A4E44}.Debug|Default.Deploy.0 = Debug
+		{D96A8529-E366-4776-B607-D96B691A4E44}.Release|Default.ActiveCfg = Release
+		{D96A8529-E366-4776-B607-D96B691A4E44}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA3F9F27-F46A-431A-9114-998C6E9EC06B}
+	EndGlobalSection
+EndGlobal
