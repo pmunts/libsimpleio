@@ -55,8 +55,8 @@ namespace IO.Objects.Motor.Servo
         {
             set
             {
-                if ((velocity < IO.Interfaces.Motor.Velocities.Minimum) ||
-                    (velocity > IO.Interfaces.Motor.Velocities.Maximum))
+                if ((value < IO.Interfaces.Motor.Velocities.Minimum) ||
+                    (value > IO.Interfaces.Motor.Velocities.Maximum))
                     throw new System.Exception("Invalid motor velocity");
 
                 this.servo.position = value;

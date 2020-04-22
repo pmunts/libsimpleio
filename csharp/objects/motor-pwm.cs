@@ -94,8 +94,8 @@ namespace IO.Objects.Motor.PWM
         {
             set
             {
-                if ((velocity < IO.Interfaces.Motor.Velocities.Minimum) ||
-                    (velocity > IO.Interfaces.Motor.Velocities.Maximum))
+                if ((value < IO.Interfaces.Motor.Velocities.Minimum) ||
+                    (value > IO.Interfaces.Motor.Velocities.Maximum))
                     throw new System.Exception("Invalid motor velocity");
 
                 // Type 1 motor drivers, using one GPIO output for direction,

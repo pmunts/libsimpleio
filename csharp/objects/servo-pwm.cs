@@ -54,8 +54,8 @@ namespace IO.Objects.Servo.PWM
         {
             set
             {
-                if ((position < IO.Interfaces.Servo.Positions.Minimum) ||
-                    (position > IO.Interfaces.Servo.Positions.Maximum))
+                if ((value < IO.Interfaces.Servo.Positions.Minimum) ||
+                    (value > IO.Interfaces.Servo.Positions.Maximum))
                     throw new System.Exception("Invalid servo position");
 
                 int ontime = 1500000 + (int)(500000.0 * value);
