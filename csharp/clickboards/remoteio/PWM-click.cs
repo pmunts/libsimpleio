@@ -109,8 +109,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.PWM
         public IO.Interfaces.Servo.Output Servo(int channel,
             double position = IO.Interfaces.Servo.Positions.Neutral)
         {
-            return new IO.Objects.Servo.PWM.Output(PWM(channel),
-                mydev.Frequency, position);
+            return new IO.Devices.PCA9685.Servo.Output(mydev, channel, position);
         }
     }
 }
