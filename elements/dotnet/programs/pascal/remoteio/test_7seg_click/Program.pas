@@ -43,6 +43,8 @@ namespace test_7seg_click;
     disp.radix := Board.Base.Decimal;
     disp.blanking := Board.ZeroBlanking.Leading;
 
+    RemObjects.Elements.RTL.Thread.Sleep(1000);
+
     for i : Integer := 0 to 99 do
       begin
         disp.state := i;
@@ -57,11 +59,15 @@ namespace test_7seg_click;
         RemObjects.Elements.RTL.Thread.Sleep(100);
       end;
 
+    RemObjects.Elements.RTL.Thread.Sleep(1000);
+
     { Text hexadecimal mode }
 
     disp.Clear;
     disp.radix := Board.Base.Hexadecimal;
     disp.blanking := Board.ZeroBlanking.Leading;
+
+    RemObjects.Elements.RTL.Thread.Sleep(1000);
 
     for i : Integer := 0 to 255 do
       begin
@@ -76,6 +82,8 @@ namespace test_7seg_click;
         disp.state := i;
         RemObjects.Elements.RTL.Thread.Sleep(100);
       end;
+
+    RemObjects.Elements.RTL.Thread.Sleep(1000);
 
     { Test decimal points }
 
