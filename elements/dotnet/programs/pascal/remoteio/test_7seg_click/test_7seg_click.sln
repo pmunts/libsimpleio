@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_7seg_click", "test_7seg_click.elements", "{59A4468F-882C-48B0-8972-FF53F416D3DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59A4468F-882C-48B0-8972-FF53F416D3DA}.Debug|Default.ActiveCfg = Debug
+		{59A4468F-882C-48B0-8972-FF53F416D3DA}.Debug|Default.Build.0 = Debug
+		{59A4468F-882C-48B0-8972-FF53F416D3DA}.Debug|Default.Deploy.0 = Debug
+		{59A4468F-882C-48B0-8972-FF53F416D3DA}.Release|Default.ActiveCfg = Release
+		{59A4468F-882C-48B0-8972-FF53F416D3DA}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8C1D4BCA-4C1C-4925-8F3A-66C312B30630}
+	EndGlobalSection
+EndGlobal
