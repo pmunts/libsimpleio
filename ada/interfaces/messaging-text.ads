@@ -40,6 +40,6 @@ PACKAGE Messaging.Text IS
     sender    : String;
     recipient : String;
     message   : String;
-    subject   : String := "") IS ABSTRACT;
+    subject   : String) IS ABSTRACT;
 
 END Messaging.Text;
