@@ -1,6 +1,6 @@
--- SMTP object definitions
+-- Ada email test client using GNAT AWS SMTP
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,44 +20,36 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH AWS.SMTP.Client;
+WITH Ada.Command_Line;
+WITH Ada.Text_IO; USE Ada.Text_IO;
 
-PACKAGE BODY SMTP_AWS IS
+WITH Messaging.Text;
+WITH Email_SMTP;
 
-  -- SMTP mail relay object constructor
+PROCEDURE test_email_smtp IS
 
-  FUNCTION Create(servername : String := "localhost")
-    RETURN Messaging.Text.Relay IS
+  relay : Messaging.Text.Relay;
 
-  BEGIN
-    RETURN NEW RelaySubclass'(mailrelay =>
-      Standard.AWS.SMTP.Client.Initialize(servername));
-  END Create;
+BEGIN
 
-  -- Send an email
+  -- Check command line parameters
 
-  PROCEDURE Send
-   (self      : RelaySubclass;
-    sender    : String;
-    recipient : String;
-    message   : String;
-    subject   : String := "") IS
+  IF Ada.Command_Line.Argument_Count /= 4 THEN
+    New_Line;
+    Put_Line("Usage: test_email_smtp <sender> <recipient> <subject> <message>");
+    New_Line;
+    RETURN;
+  END IF;
 
-    result : Standard.AWS.SMTP.Status;
+  -- Create a mail relay object
 
-  BEGIN
-    Standard.AWS.SMTP.Client.Send
-     (Server  => self.mailrelay,
-      From    => Standard.AWS.SMTP.E_Mail("", sender),
-      To      => Standard.AWS.SMTP.E_Mail("", recipient),
-      Subject => subject,
-      Message => message,
-      Status  => result);
+  relay := Email_SMTP.Create;
 
-    IF NOT Standard.AWS.SMTP.Is_OK(result) THEN
-      RAISE Messaging.Text.RelayError WITH
-        Standard.AWS.SMTP.Status_Message(result);
-    END IF;
-  END Send;
+  -- Send the email message
 
-END SMTP_AWS;
+  relay.Send
+   (sender    => Ada.Command_Line.Argument(1),
+    recipient => Ada.Command_Line.Argument(2),
+    subject   => Ada.Command_Line.Argument(3),
+    message   => Ada.Command_Line.Argument(4));
+END test_email_smtp;

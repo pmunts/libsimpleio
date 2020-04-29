@@ -1,4 +1,4 @@
--- Ada email test client
+-- SMTP object definitions
 
 -- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
 --
@@ -20,36 +20,44 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Command_Line;
-WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH AWS.SMTP.Client;
 
-WITH Messaging.Text;
-WITH SMTP_AWS;
+PACKAGE BODY Email_SMTP IS
 
-PROCEDURE test_email IS
+  -- SMTP mail relay object constructor
 
-  relay : Messaging.Text.Relay;
+  FUNCTION Create(servername : String := "localhost")
+    RETURN Messaging.Text.Relay IS
 
-BEGIN
+  BEGIN
+    RETURN NEW RelaySubclass'(mailrelay =>
+      Standard.AWS.SMTP.Client.Initialize(servername));
+  END Create;
 
-  -- Check command line parameters
+  -- Send an email
 
-  IF Ada.Command_Line.Argument_Count /= 4 THEN
-    New_Line;
-    Put_Line("Usage: test_email <sender> <recipient> <subject> <message>");
-    New_Line;
-    RETURN;
-  END IF;
+  PROCEDURE Send
+   (self      : RelaySubclass;
+    sender    : String;
+    recipient : String;
+    message   : String;
+    subject   : String := "") IS
 
-  -- Create an SMTP relay object
+    result : Standard.AWS.SMTP.Status;
 
-  relay := SMTP_AWS.Create;
+  BEGIN
+    Standard.AWS.SMTP.Client.Send
+     (Server  => self.mailrelay,
+      From    => Standard.AWS.SMTP.E_Mail("", sender),
+      To      => Standard.AWS.SMTP.E_Mail("", recipient),
+      Subject => subject,
+      Message => message,
+      Status  => result);
 
-  -- Send the message
+    IF NOT Standard.AWS.SMTP.Is_OK(result) THEN
+      RAISE Messaging.Text.RelayError WITH
+        Standard.AWS.SMTP.Status_Message(result);
+    END IF;
+  END Send;
 
-  relay.Send
-   (sender    => Ada.Command_Line.Argument(1),
-    recipient => Ada.Command_Line.Argument(2),
-    subject   => Ada.Command_Line.Argument(3),
-    message   => Ada.Command_Line.Argument(4));
-END test_email;
+END Email_SMTP;

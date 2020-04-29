@@ -24,7 +24,7 @@ WITH Messaging.Text;
 
 PRIVATE WITH AWS.SMTP;
 
-PACKAGE SMTP_AWS IS
+PACKAGE Email_SMTP IS
 
   -- SMTP mail relay object type
 
@@ -50,4 +50,4 @@ PRIVATE
     mailrelay : Standard.AWS.SMTP.Receiver;
   END RECORD;
 
-END SMTP_AWS;
+END Email_SMTP;

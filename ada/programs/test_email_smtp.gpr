@@ -22,7 +22,7 @@
 
 WITH "aws";
 
-PROJECT test_email IS
+PROJECT test_email_smtp IS
   LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
 
   FOR Source_Dirs USE (".",
@@ -34,4 +34,4 @@ PROJECT test_email IS
   FOR Object_Dir  USE "./obj";
 
   FOR Exec_Dir    USE ".";
-END test_email;
+END test_email_smtp;
