@@ -65,10 +65,15 @@ PACKAGE BODY Email_Sendmail IS
 
     -- Open pipe to /usr/sbin/sendmail
 
-    libLinux.Sendmail(sender & ASCII.NUL, recipient & ASCII.NUL, stream, error);
+    IF sender /= "" THEN
+      libLinux.POpenWrite("/usr/sbin/sendmail -t -v -f " & ASCII.QUOTATION &
+        sender & ASCII.QUOTATION & ASCII.NUL, stream, error);
+    ELSE
+      libLinux.POpenWrite("/usr/sbin/sendmail -t -v" & ASCII.NUL, stream, error);
+    END IF;
 
     IF error /= 0 THEN
-      RAISE Messaging.Text.RelayError WITH "libLinux.Sendmail() failed, " &
+      RAISE Messaging.Text.RelayError WITH "libLinux.POpen() failed, " &
         errno.strerror(error);
     END IF;
 

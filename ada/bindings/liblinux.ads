@@ -202,18 +202,4 @@ PACKAGE libLinux IS
     error   : OUT Integer);
   PRAGMA Import(C, PClose, "LINUX_pclose");
    
-  PROCEDURE Sendmail
-   (sender    : String;
-    recipient : String;
-    stream    : OUT System.Address;
-    error     : OUT Integer);
-  PRAGMA Import(C, Sendmail, "LINUX_sendmail");
-
-  PROCEDURE Mail
-   (recipient : String;
-    subject   : String;
-    stream    : OUT System.Address;
-    error     : OUT Integer);
-  PRAGMA Import(C, Mail, "LINUX_mail");
-
 END libLinux;
