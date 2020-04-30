@@ -42,7 +42,7 @@ PACKAGE BODY Email_Sendmail IS
 
   PROCEDURE Send
    (Self      : RelaySubclass;
-    sender    : String := "";
+    sender    : String;
     recipient : String;
     message   : String;
     subject   : String := "") IS
@@ -66,10 +66,10 @@ PACKAGE BODY Email_Sendmail IS
     -- Open pipe to /usr/sbin/sendmail
 
     IF sender /= "" THEN
-      libLinux.POpenWrite("/usr/sbin/sendmail -t -v -f " & ASCII.QUOTATION &
+      libLinux.POpenWrite("/usr/sbin/sendmail -t -f " & ASCII.QUOTATION &
         sender & ASCII.QUOTATION & ASCII.NUL, stream, error);
     ELSE
-      libLinux.POpenWrite("/usr/sbin/sendmail -t -v" & ASCII.NUL, stream, error);
+      libLinux.POpenWrite("/usr/sbin/sendmail -t" & ASCII.NUL, stream, error);
     END IF;
 
     IF error /= 0 THEN

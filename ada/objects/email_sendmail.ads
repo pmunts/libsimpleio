@@ -36,7 +36,7 @@ PACKAGE Email_Sendmail IS
 
   PROCEDURE Send
    (Self      : RelaySubclass;
-    sender    : String := "";
+    sender    : String;
     recipient : String;
     message   : String;
     subject   : String := "");
