@@ -77,6 +77,10 @@ News
        IO.Objects.libsimpleio.Device.Designator instead of chip and
        channel to select ADC inputs, DAC outputs, GPIO pins, I2C buses,
        PWM outputs, and SPI slave selects.
+     * 30 April 2020. Added popen() wrappers LINUX_popen_read(),
+       LINUX_popen_write() and LINUX_pclose(). Added Ada packages
+       Email_Sendmail and Email_Mail, for sending email messages via
+       /usr/sbin/sendmail and /usr/bin/mail respectively.
 
 Documentation
 
