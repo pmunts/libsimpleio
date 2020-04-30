@@ -50,7 +50,6 @@ PACKAGE BODY Email_Sendmail IS
     stream : System.Address;
     error  : Integer;
     file   : Ada.Text_IO.File_Type;
-    relay  : Messaging.Text.Relay;
 
   BEGIN
     -- Validate parameters
