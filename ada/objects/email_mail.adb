@@ -66,16 +66,16 @@ PACKAGE BODY Email_Mail IS
 
     IF sender /= "" AND subject /= "" THEN
       libLinux.POpenWrite("/usr/bin/mail " &
-        "-r " & ASCII.QUOTATION & sender & ASCII.QUOTATION & " " & 
-        "-s " & ASCII.QUOTATION & subject & ASCII.QUOTATION & " " & 
+        "-r " & ASCII.QUOTATION & sender & ASCII.QUOTATION & " " &
+        "-s " & ASCII.QUOTATION & subject & ASCII.QUOTATION & " " &
         ASCII.QUOTATION & recipient & ASCII.QUOTATION & ASCII.NUL, stream, error);
     ELSIF sender /= "" THEN
       libLinux.POpenWrite("/usr/bin/mail " &
-        "-r " & ASCII.QUOTATION & sender & ASCII.QUOTATION & " " & 
+        "-r " & ASCII.QUOTATION & sender & ASCII.QUOTATION & " " &
         ASCII.QUOTATION & recipient & ASCII.QUOTATION & ASCII.NUL, stream, error);
     ELSIF subject /= "" THEN
       libLinux.POpenWrite("/usr/bin/mail " &
-        "-s " & ASCII.QUOTATION & subject & ASCII.QUOTATION & " " & 
+        "-s " & ASCII.QUOTATION & subject & ASCII.QUOTATION & " " &
         ASCII.QUOTATION & recipient & ASCII.QUOTATION & ASCII.NUL, stream, error);
     ELSE
       libLinux.POpenWrite("/usr/bin/mail " &

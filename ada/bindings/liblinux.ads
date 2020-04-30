@@ -201,5 +201,5 @@ PACKAGE libLinux IS
    (stream  : System.Address;
     error   : OUT Integer);
   PRAGMA Import(C, PClose, "LINUX_pclose");
-   
+
 END libLinux;
