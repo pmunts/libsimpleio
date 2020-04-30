@@ -185,4 +185,35 @@ PACKAGE libLinux IS
     error   : OUT Integer);
   PRAGMA Import(C, Close, "LINUX_close");
 
+  PROCEDURE POpenWrite
+   (cmd     : String;
+    stream  : OUT System.Address;
+    error   : OUT Integer);
+  PRAGMA Import(C, POpenWrite, "LINUX_popen_write");
+
+  PROCEDURE POpenRead
+   (cmd     : String;
+    stream  : OUT System.Address;
+    error   : OUT Integer);
+  PRAGMA Import(C, POpenRead, "LINUX_popen_read");
+
+  PROCEDURE PClose
+   (stream  : System.Address;
+    error   : OUT Integer);
+  PRAGMA Import(C, PClose, "LINUX_pclose");
+   
+  PROCEDURE Sendmail
+   (sender    : String;
+    recipient : String;
+    stream    : OUT System.Address;
+    error     : OUT Integer);
+  PRAGMA Import(C, Sendmail, "LINUX_sendmail");
+
+  PROCEDURE Mail
+   (recipient : String;
+    subject   : String;
+    stream    : OUT System.Address;
+    error     : OUT Integer);
+  PRAGMA Import(C, Mail, "LINUX_mail");
+
 END libLinux;
