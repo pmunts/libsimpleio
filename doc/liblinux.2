@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH liblinux 2 "7 January 2019" "version 1" "Linux Simple I/O Library"
+.TH liblinux 2 "30 April 2020" "version 1" "Linux Simple I/O Library"
 .SH NAME
 .B liblinux
 \-\- Linux Simple I/O Library: Linux System Call Wrapper Module
@@ -47,6 +47,12 @@
 .BI "void LINUX_usleep(int32_t " microseconds ", int32_t *" error ");"
 
 .BI "void LINUX_command(const char *" cmd ", int32_t *" status ", int32_t *" error ");"
+
+.BI "void LINUX_popen_read(const char *" cmd ", void **" stream ", int32_t *" error ");"
+
+.BI "void LINUX_popen_write(const char *" cmd ", void **" stream ", int32_t *" error ");"
+
+.BI "void LINUX_pclose(void *" stream ", int32_t *" error ");"
 
 .fi
 Link with
@@ -151,6 +157,37 @@ parameter to the
 system library function for execution.  The return value from the
 shell command will be returned in
 .IR status "."
+.PP
+.B LINUX_popen_read()
+opens a pipe for reading standard output from another program.  The shell command
+string for running the program must be passed in the
+.I cmd
+parameter.  The
+.B FILE
+pointer for the pipe will be returned in the
+.I stream
+parameter.
+.PP
+.B LINUX_popen_read()
+opens a pipe for writing standard input to another program.  The shell command
+string for running the program must be passed in the
+.I cmd
+parameter.  The
+.B FILE
+pointer for the pipe will be returned in the
+.I stream
+parameter.
+.PP
+.B LINUX_pclose()
+closes a pipe opened by
+.B LINUX_popen_read()
+or
+.BR Linux_popen_close() .
+The
+.B FILE
+pointer for the pipe must be passed in the
+.I stream
+parameter.
 .SH SEE ALSO
 .BR libsimpleio "(2), " libadc "(2), " libdac "(2), " libevent "(2), " libgpio "(2),"
 .br

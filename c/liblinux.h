@@ -71,12 +71,6 @@ extern void LINUX_usleep(int32_t microseconds, int32_t *error);
 
 extern void LINUX_command(const char *cmd, int32_t *ret, int32_t *error);
 
-/****************************************************************************/
-/*   The following helper functions should not be called directly.  They    */
-/*   will be wrapped for each type of I/O device and language binding.      */
-/*   Example: SERIAL_close() is defined as a macro wrapping LINUX_close().  */
-/****************************************************************************/
-
 // Open a file descriptor
 
 extern void LINUX_open(const char *name, int32_t flags, int32_t mode,
@@ -112,6 +106,18 @@ extern void LINUX_read(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
 
 extern void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
   int32_t *error);
+
+// Open a pipe from another program
+
+extern void LINUX_popen_read(const char *cmd, void **stream, int32_t *error);
+
+// Open a pipe to another program
+
+extern void LINUX_popen_write(const char *cmd, void **stream, int32_t *error);
+
+// Close a pipe
+
+extern void LINUX_pclose(void *stream, int32_t *error);
 
 _END_STD_C
 

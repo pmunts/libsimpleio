@@ -621,6 +621,115 @@ void LINUX_write(int32_t fd, void *buf, int32_t bufsize, int32_t *count,
   *error = 0;
 }
 
+// Open a pipe from another program
+
+void LINUX_popen_read(const char *cmd, void **stream, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (cmd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (strlen(cmd) == 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd argument is empty", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (stream == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("stream argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  *stream = popen(cmd, "re");
+
+  if (*stream == NULL)
+  {
+    *error = errno;
+    ERRORMSG("popen() failed", *error, __LINE__ - 5);
+    return;
+  }
+
+  *error = 0;
+}
+
+// Open a pipe to another program
+
+void LINUX_popen_write(const char *cmd, void **stream, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (cmd == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (strlen(cmd) == 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("cmd argument is empty", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (stream == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("stream argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  *stream = popen(cmd, "we");
+
+  if (*stream == NULL)
+  {
+    *error = errno;
+    ERRORMSG("popen() failed", *error, __LINE__ - 5);
+    return;
+  }
+
+  *error = 0;
+}
+
+// Close a pipe
+
+void LINUX_pclose(void *stream, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (stream == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("stream argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Close the pipe
+
+  if (pclose(stream) < 0)
+  {
+    *error = errno;
+    ERRORMSG("pclose() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  *error = 0;
+}
+
 // Function aliases
 
 #define ALIAS(orig) __attribute__((weak, alias(orig)))

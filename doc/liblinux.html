@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of liblinux</TITLE>
 </HEAD><BODY>
 <H1>liblinux</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 7 January 2019<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 30 April 2020<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -36,6 +36,12 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 7 January 2019<BR><A HREF="#in
 <B>void LINUX_usleep(int32_t </B><I>microseconds</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void LINUX_command(const char *</B><I>cmd</I><B>, int32_t *</B><I>status</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void LINUX_popen_read(const char *</B><I>cmd</I><B>, void **</B><I>stream</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void LINUX_popen_write(const char *</B><I>cmd</I><B>, void **</B><I>stream</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void LINUX_pclose(void *</B><I>stream</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -194,6 +200,53 @@ system library function for execution.  The return value from the
 shell command will be returned in
 <I>status</I>.
 
+<P>
+
+<B>LINUX_popen_read()</B>
+
+opens a pipe for reading standard output from another program.  The shell command
+string for running the program must be passed in the
+<I>cmd</I>
+
+parameter.  The
+<B>FILE</B>
+
+pointer for the pipe will be returned in the
+<I>stream</I>
+
+parameter.
+<P>
+
+<B>LINUX_popen_read()</B>
+
+opens a pipe for writing standard input to another program.  The shell command
+string for running the program must be passed in the
+<I>cmd</I>
+
+parameter.  The
+<B>FILE</B>
+
+pointer for the pipe will be returned in the
+<I>stream</I>
+
+parameter.
+<P>
+
+<B>LINUX_pclose()</B>
+
+closes a pipe opened by
+<B>LINUX_popen_read()</B>
+
+or
+<B>Linux_popen_close()</B>.
+
+The
+<B>FILE</B>
+
+pointer for the pipe must be passed in the
+<I>stream</I>
+
+parameter.
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -226,6 +279,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 23:28:33 GMT, January 07, 2020
+Time: 15:04:54 GMT, April 30, 2020
 </BODY>
 </HTML>
