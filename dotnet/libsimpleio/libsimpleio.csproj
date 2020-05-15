@@ -5,8 +5,8 @@
     <Version>$(BUILDVERSION)</Version>
     <AssemblyVersion>$(BUILDVERSION)</AssemblyVersion>
     <FileVersion>$(BUILDVERSION)</FileVersion>
-    <Title>Linux Simple I/O Library for .Net Standard 2.0</Title>
-    <Description>Linux Simple I/O Library for .Net Standard 2.0</Description>
+    <Title>Munts Technologies Linux Simple I/O Library for .Net Standard 2.0</Title>
+    <Description>Munts Technologies Linux Simple I/O Library for .Net Standard 2.0</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2017-2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageLicenseFile>doc/COPYING</PackageLicenseFile>
