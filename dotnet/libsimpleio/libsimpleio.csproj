@@ -53,6 +53,8 @@
       <Link>IO.Objects\%(FileName)</Link>
     </Compile>
     <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
+    <None Include="Help/*.chm" Pack="true" PackagePath="doc"/>
+    <None Include="Help/*.pdf" Pack="true" PackagePath="doc"/>
   </ItemGroup>
 
 </Project>

@@ -27,8 +27,6 @@ LIBNAME		= libsimpleio
 VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
 CONFIGURATION	= Release
 
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
 # Definitions for Calibre ebook-convert program
 CONVERT		?= C:/Progra~1/Calibre2/ebook-convert
 CONVERTFLAGS	+= --paper-size letter
@@ -39,8 +37,6 @@ CONVERTFLAGS	+= --pdf-page-margin-right 54
 CONVERTFLAGS	+= --pdf-page-margin-left 54
 CONVERTFLAGS	+= --pdf-page-numbers
 CONVERTFLAGS	+= --toc-title "Index"
-endif
-endif
 
 # Include subordinate makefiles
 
@@ -49,15 +45,15 @@ include ../../csharp/include/csharp.mk
 # Build the projects
 
 default:
+	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
+	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
+	$(CONVERT) Help/$(LIBNAME).chm Help/$(LIBNAME).pdf $(CONVERTFLAGS)
+	mv Help/$(LIBNAME).chm Help/$(LIBNAME).dll.chm
+	mv Help/$(LIBNAME).pdf Help/$(LIBNAME).dll.pdf
+	install -cm 0644 Help/$(LIBNAME).dll.chm ../../doc
+	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	cp bin/$(CONFIGURATION)/*.nupkg .
-ifeq ($(OS),Windows_NT)
-ifeq ($(CONFIGURATION), Release)
-	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
-	install -cm 0644 Help/$(LIBNAME).chm ../../doc/$(LIBNAME).dll.chm
-	$(CONVERT) Help/$(LIBNAME).chm ../../doc/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
-endif
-endif
 
 # Install NuGet package to local package feed
 
