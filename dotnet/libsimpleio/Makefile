@@ -27,6 +27,21 @@ LIBNAME		= libsimpleio
 VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
 CONFIGURATION	= Release
 
+ifeq ($(OS),Windows_NT)
+ifeq ($(CONFIGURATION), Release)
+# Definitions for Calibre ebook-convert program
+CONVERT		?= C:/Progra~1/Calibre2/ebook-convert
+CONVERTFLAGS	+= --paper-size letter
+CONVERTFLAGS	+= --pdf-add-toc
+CONVERTFLAGS	+= --pdf-page-margin-top 54
+CONVERTFLAGS	+= --pdf-page-margin-bottom 54
+CONVERTFLAGS	+= --pdf-page-margin-right 54
+CONVERTFLAGS	+= --pdf-page-margin-left 54
+CONVERTFLAGS	+= --pdf-page-numbers
+CONVERTFLAGS	+= --toc-title "Index"
+endif
+endif
+
 # Include subordinate makefiles
 
 include ../../csharp/include/csharp.mk
@@ -40,6 +55,7 @@ ifeq ($(OS),Windows_NT)
 ifeq ($(CONFIGURATION), Release)
 	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
 	install -cm 0644 Help/$(LIBNAME).chm ../../doc/$(LIBNAME).dll.chm
+	$(CONVERT) Help/$(LIBNAME).chm ../../doc/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
 endif
 endif
 
