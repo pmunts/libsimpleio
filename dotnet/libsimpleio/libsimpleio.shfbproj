@@ -92,7 +92,7 @@
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Remote I/O protocol Server and Socket Services</NamespaceSummaryItem>
     </NamespaceSummaries>
-    <HelpTitle>Munts Technologies Linux Simple I/O Library .Net Standard 2.0 Class Library $(BUILDVERSION)</HelpTitle>
+    <HelpTitle>Munts Technologies Linux Simple I/O Class Library $(BUILDVERSION) for .Net Standard 2.0</HelpTitle>
     <HelpFileVersion>$(BUILDVERSION)</HelpFileVersion>
     <NamingMethod>Guid</NamingMethod>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
