@@ -97,6 +97,9 @@ News
     `LINUX_popen_write()` and `LINUX_pclose()`. Added Ada packages
     `Email_Sendmail` and `Email_Mail`, for sending email messages via
     `/usr/sbin/sendmail` and `/usr/bin/mail` respectively.
+-   15 May 2020. Autogenerate API documentation `.pdf` files from
+    `libremoteio.dll.chm` and `libsimpleio.dll.chm`. Include API
+    documentation files (both `.chm` and `.pdf`) in the NuGet packages.
 
 Documentation
 -------------
