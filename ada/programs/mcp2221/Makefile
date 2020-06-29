@@ -29,6 +29,8 @@ else
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 endif
 
+DEFAULT_PROJECT	?= mcp2221.gpr
+
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 
