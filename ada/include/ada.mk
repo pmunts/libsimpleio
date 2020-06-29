@@ -78,7 +78,7 @@ GNATSTRIP	?= env $(GNATENV) $(GNATPREFIX)strip$(EXESUFFIX)
 # Definitions for gprbuild
 
 ifneq ($(GNAT),)
-GPRBUILD	?= env $(GNATENV) $(GNATPREFIX)gprbuild$(EXESUFFIX)
+GPRBUILD	?= env $(GNATENV) $(GNAT)/bin/gprbuild$(EXESUFFIX)
 else
 GPRBUILD	?= env $(GNATENV) gprbuild$(EXESUFFIX)
 endif
@@ -93,11 +93,18 @@ GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 
+ifneq ($(DEFAULT_PROJECT),)
+%:
+	$(GPRBUILD) $(DEFAULT_PROJECT) $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
+	$(GNATSTRIP) $@$(EXESUFFIX)
+	chmod 755 $@$(EXESUFFIX)
+else
 %: %.adb
 	mkdir -p $(ADA_OBJ)
 	$(GNATMAKE) $(GNATMAKEFLAGS) $@ -cargs $(GNATMAKECFLAGS) -largs $(GNATMAKELDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
+endif
 
 # Default make target
 
