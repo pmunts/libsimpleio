@@ -89,16 +89,19 @@ GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
 # Define pattern rules for building Ada programs
 
 %: %.gpr
-	$(GPRBUILD) $< $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
+# Build with explicit Ada program project file
+	$(GPRBUILD) -P$< $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 
 ifneq ($(DEFAULT_PROJECT),)
+# Build with default Ada program project file
 %:
-	$(GPRBUILD) $(DEFAULT_PROJECT) $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
+	$(GPRBUILD) -P$(DEFAULT_PROJECT) $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 else
+# Build with gnatmake (deprecated)
 %: %.adb
 	mkdir -p $(ADA_OBJ)
 	$(GNATMAKE) $(GNATMAKEFLAGS) $@ -cargs $(GNATMAKECFLAGS) -largs $(GNATMAKELDFLAGS)
