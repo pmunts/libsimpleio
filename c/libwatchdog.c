@@ -118,5 +118,5 @@ void WATCHDOG_kick(int32_t fd, int32_t *error)
     return;
   }
 
-  *error = errno;
+  *error = 0;
 }
