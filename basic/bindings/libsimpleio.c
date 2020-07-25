@@ -24,6 +24,7 @@
 #include <unistd.h>
 
 #include <libsimpleio/libadc.h>
+#include <libsimpleio/libdac.h>
 #include <libsimpleio/libgpio.h>
 #include <libsimpleio/libpwm.h>
 #include <my_basic.h>
