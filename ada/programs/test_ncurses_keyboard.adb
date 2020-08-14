@@ -62,4 +62,4 @@ BEGIN
   END LOOP;
 
   ncurses.endwin;
-END test_ncurses;
+END test_ncurses_keyboard;
