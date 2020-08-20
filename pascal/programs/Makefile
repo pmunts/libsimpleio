@@ -25,7 +25,7 @@ ifneq ($(BOARDNAME),)
 EMBLINUXBASE	?= $(HOME)/muntsos
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 else
-# Native compile for Linux (e.g. Raspbian)
+# Native compile for Linux
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 endif
 
