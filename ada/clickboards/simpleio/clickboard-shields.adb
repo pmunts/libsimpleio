@@ -71,15 +71,11 @@ PACKAGE BODY ClickBoard.Shields IS
       RETURN ClickBoard.Shields.BeagleBoneClick2;
     END IF;
 
-    -- In the absence of SHIELDNAME, assume the Pi 2 Click Shield
-    -- (MIKROE-1512/1513) for all Raspberry Pi boards
+    -- In the absence of SHIELDNAME, assume the Pi 3 Click Shield
+    -- (MIKROE-2756) for all Raspberry Pi boards
 
-    -- TODO: There is now a Pi 3 Click Shield which includes on an on-board
-    -- A/D converter.  At some point we may want to change the default shield
-    -- from PiClick2 to PiClick3.
-
-    IF matchenv("BOARDNAME", "raspberrypi") OR matchenv("OSNAME", "raspbian") THEN
-      RETURN ClickBoard.Shields.PiClick2;
+    IF matchenv("BOARDNAME", "raspberrypi") OR matchenv("OSNAME", "raspberrypi") THEN
+      RETURN ClickBoard.Shields.PiClick3;
     END IF;
 
     RAISE ShieldError WITH "Cannot identify the ClickBoard shield";
