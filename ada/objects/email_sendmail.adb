@@ -64,12 +64,7 @@ PACKAGE BODY Email_Sendmail IS
 
     -- Open pipe to /usr/sbin/sendmail
 
-    IF sender /= "" THEN
-      libLinux.POpenWrite("/usr/sbin/sendmail -t -f " & ASCII.QUOTATION &
-        sender & ASCII.QUOTATION & ASCII.NUL, stream, error);
-    ELSE
-      libLinux.POpenWrite("/usr/sbin/sendmail -t" & ASCII.NUL, stream, error);
-    END IF;
+    libLinux.POpenWrite("/usr/sbin/sendmail -t" & ASCII.NUL, stream, error);
 
     IF error /= 0 THEN
       RAISE Messaging.Text.RelayError WITH "libLinux.POpen() failed, " &
@@ -81,11 +76,11 @@ PACKAGE BODY Email_Sendmail IS
 
     -- Send headers
 
+      Ada.Text_IO.Put_Line(file, "To: " & recipient);
+
       IF sender /= "" THEN
         Ada.Text_IO.Put_Line(file, "From: " & sender);
       END IF;
-
-      Ada.Text_IO.Put_Line(file, "To: " & recipient);
 
       IF subject /= "" THEN
         Ada.Text_IO.Put_Line(file, "Subject: " & subject);
