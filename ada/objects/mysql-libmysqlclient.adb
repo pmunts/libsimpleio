@@ -31,7 +31,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
   -- Connect to a MySQL server, as specified by parameters
 
   PROCEDURE Connect
-   (self   : IN OUT Server;
+   (Self   : IN OUT Server;
     dbhost : String;
     dbuser : String;
     dbpass : String;
@@ -41,14 +41,14 @@ PACKAGE BODY MySQL.libmysqlclient IS
     error : Integer;
 
   BEGIN
-    self.Disconnect;
-    self.handle := Standard.libmysqlclient.Init;
+    Self.Disconnect;
+    Self.handle := Standard.libmysqlclient.Init;
 
-    IF Standard.libmysqlclient.Connect(self.handle, dbhost, dbuser, dbpass,
+    IF Standard.libmysqlclient.Connect(Self.handle, dbhost, dbuser, dbpass,
       dbname, dbport) = Standard.libmysqlclient.NullPointer THEN
-      error := Standard.libmysqlclient.errno(self.handle);
+      error := Standard.libmysqlclient.errno(Self.handle);
 
-      self.Disconnect;
+      Self.Disconnect;
 
       RAISE MySQL.Error WITH "Connect() failed, error" &
         Integer'Image(error);
@@ -58,24 +58,24 @@ PACKAGE BODY MySQL.libmysqlclient IS
   -- Connect to a server, as specified by DBHOST, DBUSER, DBPASS, DBNAME,
   -- and DBPORT environment variables
 
-  PROCEDURE Connect(self : IN OUT Server) IS
+  PROCEDURE Connect(Self : IN OUT Server) IS
 
     error : Integer;
 
   BEGIN
-    self.Disconnect;
-    self.handle := Standard.libmysqlclient.Init;
+    Self.Disconnect;
+    Self.handle := Standard.libmysqlclient.Init;
 
-    IF Standard.libmysqlclient.Connect(self.handle,
+    IF Standard.libmysqlclient.Connect(Self.handle,
       Value("DBHOST") & ASCII.NUL,
       Value("DBUSER") & ASCII.NUL,
       Value("DBPASS") & ASCII.NUL,
       (IF Exists("DBNAME") THEN Value("DBNAME") ELSE "") & ASCII.NUL,
       (IF Exists("DBPORT") THEN Integer'Value(Value("DBPORT")) ELSE 3306)) =
         Standard.libmysqlclient.NullPointer THEN
-      error := Standard.libmysqlclient.errno(self.handle);
+      error := Standard.libmysqlclient.errno(Self.handle);
 
-      self.Disconnect;
+      Self.Disconnect;
 
       RAISE MySQL.Error WITH "Connect() failed, error" &
         Integer'Image(error);
@@ -85,56 +85,56 @@ PACKAGE BODY MySQL.libmysqlclient IS
   -- Disconnect from a MySQL server
 
   PROCEDURE Disconnect
-   (self   : IN OUT Server) IS
+   (Self   : IN OUT Server) IS
 
   BEGIN
-    IF self.handle /= Standard.libmysqlclient.NullPointer THEN
-      Standard.libmysqlclient.Disconnect(self.handle);
-      self.handle := Standard.libmysqlclient.NullPointer;
+    IF Self.handle /= Standard.libmysqlclient.NullPointer THEN
+      Standard.libmysqlclient.Disconnect(Self.handle);
+      Self.handle := Standard.libmysqlclient.NullPointer;
     END IF;
   END Disconnect;
 
   -- Issue a query command to the database server
 
-  PROCEDURE Command(self : Server; cmd : String) IS
+  PROCEDURE Command(Self : Server; cmd : String) IS
 
   BEGIN
-    IF Standard.libmysqlclient.Query(self.handle, cmd & ASCII.NUL) /= 0 THEN
+    IF Standard.libmysqlclient.Query(Self.handle, cmd & ASCII.NUL) /= 0 THEN
       RAISE MySQL.Error WITH "Query() failed, error" &
-        Integer'Image(self.error);
+        Integer'Image(Self.error);
     END IF;
   END Command;
 
   -- Call a stored procedure
 
-  PROCEDURE Call(self : Server; proc : String; parms : String := "") IS
+  PROCEDURE Call(Self : Server; proc : String; parms : String := "") IS
 
   BEGIN
-    self.Command("CALL " & proc & "(" & parms & ")");
+    Self.Command("CALL " & proc & "(" & parms & ")");
   END Call;
 
   -- Retrieve MySQL error code
 
-  FUNCTION error(self : Server) RETURN Integer IS
+  FUNCTION error(Self : Server) RETURN Integer IS
 
   BEGIN
-    RETURN Standard.libmysqlclient.errno(self.handle);
+    RETURN Standard.libmysqlclient.errno(Self.handle);
   END error;
 
   -- Initialize a server connection object
 
-  PROCEDURE Initialize(self : IN OUT Server) IS
+  PROCEDURE Initialize(Self : IN OUT Server) IS
 
   BEGIN
-    self.handle := Standard.libmysqlclient.NullPointer;
+    Self.handle := Standard.libmysqlclient.NullPointer;
   END Initialize;
 
   -- Destroy a server connection object
 
-  PROCEDURE Finalize(self : IN OUT Server) IS
+  PROCEDURE Finalize(Self : IN OUT Server) IS
 
   BEGIN
-    self.Disconnect;
+    Self.Disconnect;
   END Finalize;
 
 END MySQL.libmysqlclient;

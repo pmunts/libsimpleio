@@ -134,18 +134,18 @@ PACKAGE BODY GPIO.HTTP IS
 
   -- Read GPIO pin state
 
-  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
 
     resp : Unbounded_String;
 
   BEGIN
     Self.CheckDestroyed;
 
-    resp := To_Unbounded_String(WebClient.Get(To_String(self.GetCmd)));
+    resp := To_Unbounded_String(WebClient.Get(To_String(Self.GetCmd)));
 
-    IF resp = self.SetRsp THEN
+    IF resp = Self.SetRsp THEN
       RETURN True;
-    ELSIF resp = self.ClrRsp THEN
+    ELSIF resp = Self.ClrRsp THEN
       RETURN False;
     ELSE
       RAISE GPIO_Error WITH "Unexpected response from server";
@@ -154,17 +154,17 @@ PACKAGE BODY GPIO.HTTP IS
 
   -- Write GPIO pin state
 
-  PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean) IS
+  PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
   BEGIN
     Self.CheckDestroyed;
 
     IF state THEN
-      IF Unbounded_String'(WebClient.Get(To_String(self.SetCmd))) /= self.SetRsp THEN
+      IF Unbounded_String'(WebClient.Get(To_String(Self.SetCmd))) /= Self.SetRsp THEN
         RAISE GPIO_Error WITH "Unexpected response from server";
       END IF;
     ELSE
-      IF Unbounded_String'(WebClient.Get(To_String(self.ClrCmd))) /= self.ClrRsp THEN
+      IF Unbounded_String'(WebClient.Get(To_String(Self.ClrCmd))) /= Self.ClrRsp THEN
         RAISE GPIO_Error WITH "Unexpected response from server";
       END IF;
     END IF;

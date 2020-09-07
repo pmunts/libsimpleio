@@ -51,7 +51,7 @@ PACKAGE SMS_MBlox IS
   -- Method for sending an SMS
 
   PROCEDURE Send
-   (self      : RelaySubclass;
+   (Self      : RelaySubclass;
     sender    : String;
     recipient : String;
     message   : String;

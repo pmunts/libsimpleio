@@ -47,15 +47,15 @@ PACKAGE GPIO.HTTP IS
 
   -- GPIO pin object destroyer
 
-  PROCEDURE Destroy(self : IN OUT PinSubclass);
+  PROCEDURE Destroy(Self : IN OUT PinSubclass);
 
   -- Read GPIO pin state
 
-  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean;
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
 
   -- Write GPIO pin state
 
-  PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean);
+  PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean);
 
 PRIVATE
 

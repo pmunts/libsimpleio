@@ -31,7 +31,7 @@ PACKAGE MySQL.libmysqlclient IS
   -- Connect to a MySQL server, as specified by parameters
 
   PROCEDURE Connect
-   (self   : IN OUT Server;
+   (Self   : IN OUT Server;
     dbhost : String;
     dbuser : String;
     dbpass : String;
@@ -41,31 +41,31 @@ PACKAGE MySQL.libmysqlclient IS
   -- Connect to a server, as specified by DBHOST, DBUSER, DBPASS, DBNAME,
   -- and DBPORT environment variables
 
-  PROCEDURE Connect(self : IN OUT Server);
+  PROCEDURE Connect(Self : IN OUT Server);
 
   -- Disconnect from a MySQL server
 
-  PROCEDURE Disconnect(self : IN OUT Server);
+  PROCEDURE Disconnect(Self : IN OUT Server);
 
   -- Issue a query command to the database server
 
-  PROCEDURE Command(self : Server; cmd : String);
+  PROCEDURE Command(Self : Server; cmd : String);
 
   -- Call a stored procedure
 
-  PROCEDURE Call(self : Server; proc : String; parms : String := "");
+  PROCEDURE Call(Self : Server; proc : String; parms : String := "");
 
   -- Retrieve MySQL error code
 
-  FUNCTION error(self : Server) RETURN Integer;
+  FUNCTION error(Self : Server) RETURN Integer;
 
   -- Initialize a server connection object
 
-  PROCEDURE Initialize(self : IN OUT Server);
+  PROCEDURE Initialize(Self : IN OUT Server);
 
   -- Destroy a server connection object
 
-  PROCEDURE Finalize(self : IN OUT Server);
+  PROCEDURE Finalize(Self : IN OUT Server);
 
 PRIVATE
 

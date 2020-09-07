@@ -63,7 +63,7 @@ PACKAGE BODY SMS_MBlox IS
   -- Method for sending an SMS
 
   PROCEDURE Send
-   (self      : RelaySubclass;
+   (Self      : RelaySubclass;
     sender    : String;
     recipient : String;
     message   : String;
@@ -76,9 +76,9 @@ PACKAGE BODY SMS_MBlox IS
 
     -- Build the SMS request URL
 
-    URL := self.server & "/HTTPSMS?S=H" &
-      "&UN=" & AWS.URL.Encode(To_String(self.username)) &
-      "&P="  & AWS.URL.Encode(To_String(self.password)) &
+    URL := Self.server & "/HTTPSMS?S=H" &
+      "&UN=" & AWS.URL.Encode(To_String(Self.username)) &
+      "&P="  & AWS.URL.Encode(To_String(Self.password)) &
       "&SA=" & AWS.URL.Encode(sender) &
       "&DA=" & AWS.URL.Encode(recipient) &
       "&M="  & (IF subject = "" THEN AWS.URL.Encode(message) ELSE AWS.URL.Encode(subject) & "%0D%0A" & AWS.URL.Encode(message));
