@@ -1,6 +1,6 @@
--- SMTP object definitions
+-- Send email via SMTP to localhost:25
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,23 +22,32 @@
 
 WITH Messaging.Text;
 
-PRIVATE WITH AWS.SMTP;
+PRIVATE WITH AWS.SMTP.Client;
 
 PACKAGE Email_SMTP IS
 
-  -- SMTP mail relay object type
+  -- Mail relay object type
 
   TYPE RelaySubclass IS NEW Messaging.Text.RelayInterface WITH PRIVATE;
 
-  -- SMTP mail relay object constructor
+  Destroyed : CONSTANT RelaySubclass;
 
-  FUNCTION Create(servername : String := "localhost")
-    RETURN Messaging.Text.Relay;
+  -- Mail relay object constructor
+
+  FUNCTION Create RETURN Messaging.Text.Relay;
+
+  -- Mail relay object initializer
+
+  PROCEDURE Initialize(Self : IN OUT RelaySubclass);
+
+  -- Mail relay object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT RelaySubclass);
 
   -- Send an email
 
   PROCEDURE Send
-   (self      : RelaySubclass;
+   (Self      : RelaySubclass;
     sender    : String;
     recipient : String;
     message   : String;
@@ -50,4 +59,6 @@ PRIVATE
     mailrelay : Standard.AWS.SMTP.Receiver;
   END RECORD;
 
+  Destroyed : CONSTANT RelaySubclass :=
+    RelaySubclass'(mailrelay => AWS.SMTP.Client.Initialize("foo.invalid"));
 END Email_SMTP;

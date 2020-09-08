@@ -24,13 +24,23 @@ WITH Messaging.Text;
 
 PACKAGE Email_Mail IS
 
-  -- SMTP mail relay object type
+  -- Mail relay object type
 
   TYPE RelaySubclass IS NEW Messaging.Text.RelayInterface WITH PRIVATE;
 
-  -- SMTP mail relay object constructor
+  Destroyed : CONSTANT RelaySubclass;
+
+  -- Mail relay object constructor
 
   FUNCTION Create RETURN Messaging.Text.Relay;
+
+  -- Mail relay object initializer
+
+  PROCEDURE Initialize(Self : IN OUT RelaySubclass);
+
+  -- Mail relay object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT RelaySubclass);
 
   -- Method for sending a message via a message relay
 
@@ -43,6 +53,10 @@ PACKAGE Email_Mail IS
 
 PRIVATE
 
-  TYPE RelaySubclass IS NEW Messaging.Text.RelayInterface WITH NULL RECORD;
+  TYPE RelaySubclass IS NEW Messaging.Text.RelayInterface WITH RECORD
+    initialized : Boolean := False;
+  END RECORD;
+
+  Destroyed : CONSTANT RelaySubclass := RelaySubclass'(initialized => False);
 
 END Email_Mail;

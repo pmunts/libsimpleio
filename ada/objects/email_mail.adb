@@ -30,13 +30,39 @@ WITH Messaging.Text;
 
 PACKAGE BODY Email_Mail IS
 
-  -- SMTP mail relay object constructor
+  -- Mail relay object constructor
 
   FUNCTION Create RETURN Messaging.Text.Relay IS
 
   BEGIN
-    RETURN NEW RelaySubclass'(NULL RECORD);
+    RETURN NEW RelaySubclass'(initialized => True);
   END Create;
+
+  -- Mail relay object initializer
+
+  PROCEDURE Initialize(Self : IN OUT RelaySubclass) IS
+
+  BEGIN
+    Self.initialized := True;
+  END Initialize;
+
+  -- Mail relay object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT RelaySubclass) IS
+
+  BEGIN
+    Self := Destroyed;
+  END Destroy;
+
+  -- Check whether mail relay object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : Relaysubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE Messaging.Text.RelayError WITH "Mail relay object has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
   -- Method for sending a message via a message relay
 

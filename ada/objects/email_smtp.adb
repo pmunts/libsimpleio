@@ -1,6 +1,6 @@
--- SMTP object definitions
+-- Send email via SMTP to localhost:25
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,39 +24,66 @@ WITH AWS.SMTP.Client;
 
 PACKAGE BODY Email_SMTP IS
 
-  -- SMTP mail relay object constructor
+  -- Mail relay object constructor
 
-  FUNCTION Create(servername : String := "localhost")
-    RETURN Messaging.Text.Relay IS
+  FUNCTION Create RETURN Messaging.Text.Relay IS
 
   BEGIN
-    RETURN NEW RelaySubclass'(mailrelay =>
-      Standard.AWS.SMTP.Client.Initialize(servername));
+    RETURN NEW RelaySubclass'(mailrelay => AWS.SMTP.Client.Initialize("localhost"));
   END Create;
+
+  -- Mail relay object initializer
+
+  PROCEDURE Initialize(Self : IN OUT RelaySubclass) IS
+
+  BEGIN
+    Self.Destroy;
+    Self.mailrelay := AWS.SMTP.Client.Initialize("localhost");
+  END Initialize;
+
+  -- Mail relay object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT RelaySubclass) IS
+
+  BEGIN
+    Self := Destroyed;
+  END Destroy;
+
+  -- Check whether Mail relay object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : RelaySubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE Messaging.Text.RelayError WITH "Mail relay object has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
   -- Send an email
 
   PROCEDURE Send
-   (self      : RelaySubclass;
+   (Self      : RelaySubclass;
     sender    : String;
     recipient : String;
     message   : String;
     subject   : String := "") IS
 
-    result : Standard.AWS.SMTP.Status;
+    result : AWS.SMTP.Status;
 
   BEGIN
-    Standard.AWS.SMTP.Client.Send
-     (Server  => self.mailrelay,
-      From    => Standard.AWS.SMTP.E_Mail("", sender),
-      To      => Standard.AWS.SMTP.E_Mail("", recipient),
+    Self.CheckDestroyed;
+
+    AWS.SMTP.Client.Send
+     (Server  => Self.mailrelay,
+      From    => AWS.SMTP.E_Mail("", sender),
+      To      => AWS.SMTP.E_Mail("", recipient),
       Subject => subject,
       Message => message,
       Status  => result);
 
-    IF NOT Standard.AWS.SMTP.Is_OK(result) THEN
+    IF NOT AWS.SMTP.Is_OK(result) THEN
       RAISE Messaging.Text.RelayError WITH
-        Standard.AWS.SMTP.Status_Message(result);
+        AWS.SMTP.Status_Message(result);
     END IF;
   END Send;
 
