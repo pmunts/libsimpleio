@@ -29,8 +29,6 @@ PACKAGE DAC.libsimpleio IS
 
   TYPE OutputSubclass IS NEW Analog.OutputInterface WITH PRIVATE;
 
-  -- Constant definitions
-
   Destroyed : CONSTANT OutputSubclass;
 
   -- DAC output object constructor

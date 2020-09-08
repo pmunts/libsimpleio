@@ -29,8 +29,6 @@ PACKAGE ADC.libsimpleio IS
 
   TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
 
-  -- Constant definitions
-
   Destroyed : CONSTANT InputSubclass;
 
   -- ADC input object constructor

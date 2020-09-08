@@ -35,8 +35,6 @@ PACKAGE PWM.libsimpleio IS
 
   TYPE OutputSubclass IS NEW PWM.OutputInterface WITH PRIVATE;
 
-  -- Constant definitions
-
   Destroyed : CONSTANT OutputSubclass;
 
   -- PWM output object constructor
