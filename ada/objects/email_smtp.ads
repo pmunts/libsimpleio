@@ -51,7 +51,7 @@ PACKAGE Email_SMTP IS
     sender    : String;
     recipient : String;
     message   : String;
-    subject   : String := "");
+    subject   : String);
 
 PRIVATE
 

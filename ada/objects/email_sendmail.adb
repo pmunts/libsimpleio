@@ -71,7 +71,7 @@ PACKAGE BODY Email_Sendmail IS
     sender    : String;
     recipient : String;
     message   : String;
-    subject   : String := "") IS
+    subject   : String) IS
 
     stream : System.Address;
     error  : Integer;

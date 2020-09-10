@@ -66,7 +66,7 @@ PACKAGE BODY Email_SMTP IS
     sender    : String;
     recipient : String;
     message   : String;
-    subject   : String := "") IS
+    subject   : String) IS
 
     result : AWS.SMTP.Status;
 

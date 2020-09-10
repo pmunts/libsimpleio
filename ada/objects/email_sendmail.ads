@@ -49,7 +49,7 @@ PACKAGE Email_Sendmail IS
     sender    : String;
     recipient : String;
     message   : String;
-    subject   : String := "");
+    subject   : String);
 
 PRIVATE
 
