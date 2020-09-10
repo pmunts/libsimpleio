@@ -42,14 +42,24 @@ PACKAGE Email_Mail IS
 
   PROCEDURE Destroy(Self : IN OUT RelaySubclass);
 
-  -- Method for sending a message via a message relay
+  -- Method for sending a message with an attachment
 
   PROCEDURE Send
-   (Self      : RelaySubclass;
-    sender    : String;
-    recipient : String;
-    message   : String;
-    subject   : String := "");
+   (Self       : RelaySubclass;
+    sender     : String;
+    recipient  : String;
+    message    : String;
+    subject    : String;
+    attachment : String);
+
+  -- Method for sending a message per Messaging.Text.RelayInterface
+
+  PROCEDURE Send
+   (Self       : RelaySubclass;
+    sender     : String;
+    recipient  : String;
+    message    : String;
+    subject    : String := "");
 
 PRIVATE
 

@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Directories;
 WITH Ada.Text_IO;
 WITH Ada.Text_IO.C_Streams;
 WITH System;
@@ -29,6 +30,8 @@ WITH libLinux;
 WITH Messaging.Text;
 
 PACKAGE BODY Email_Mail IS
+
+  MailProg : CONSTANT String := "/usr/bin/mail";
 
   -- Mail relay object constructor
 
@@ -64,52 +67,20 @@ PACKAGE BODY Email_Mail IS
     END IF;
   END CheckDestroyed;
 
-  -- Method for sending a message via a message relay
-
-  PROCEDURE Send
+  PROCEDURE Dispatch
    (Self      : RelaySubclass;
-    sender    : String;
-    recipient : String;
-    message   : String;
-    subject   : String := "") IS
+    parms     : String;
+    message   : String) IS
 
     stream : System.Address;
     error  : Integer;
     file   : Ada.Text_IO.File_Type;
 
   BEGIN
-    -- Validate parameters
-
-    IF recipient = "" THEN
-      RAISE Messaging.Text.RelayError WITH "Recipient cannot be empty string";
-    END IF;
-
-    IF message = "" THEN
-      RAISE Messaging.Text.RelayError WITH "Message cannot be empty string";
-    END IF;
-
-    -- Open pipe to /usr/bin/mail
-
-    IF sender /= "" AND subject /= "" THEN
-      libLinux.POpenWrite("/usr/bin/mail " &
-        "-r " & ASCII.QUOTATION & sender & ASCII.QUOTATION & " " &
-        "-s " & ASCII.QUOTATION & subject & ASCII.QUOTATION & " " &
-        ASCII.QUOTATION & recipient & ASCII.QUOTATION & ASCII.NUL, stream, error);
-    ELSIF sender /= "" THEN
-      libLinux.POpenWrite("/usr/bin/mail " &
-        "-r " & ASCII.QUOTATION & sender & ASCII.QUOTATION & " " &
-        ASCII.QUOTATION & recipient & ASCII.QUOTATION & ASCII.NUL, stream, error);
-    ELSIF subject /= "" THEN
-      libLinux.POpenWrite("/usr/bin/mail " &
-        "-s " & ASCII.QUOTATION & subject & ASCII.QUOTATION & " " &
-        ASCII.QUOTATION & recipient & ASCII.QUOTATION & ASCII.NUL, stream, error);
-    ELSE
-      libLinux.POpenWrite("/usr/bin/mail " &
-        ASCII.QUOTATION & recipient & ASCII.QUOTATION & ASCII.NUL, stream, error);
-    END IF;
+    libLinux.POpenWrite(MailProg & " " & parms & ASCII.NUL, stream, error);
 
     IF error /= 0 THEN
-      RAISE Messaging.Text.RelayError WITH "libLinux.POpen() failed, " &
+      RAISE Messaging.Text.RelayError WITH "libLinux.POpenWrite() failed, " &
         errno.strerror(error);
     END IF;
 
@@ -125,6 +96,83 @@ PACKAGE BODY Email_Mail IS
         -- ...and then re-raise the exception.
         RAISE;
     END;
+  END Dispatch;
+
+  FUNCTION Quote(s : String) RETURN String IS
+
+  BEGIN
+    RETURN ASCII.QUOTATION & s & ASCII.QUOTATION;
+  END Quote;
+
+  FUNCTION PackSender(s : String) RETURN String IS
+
+  BEGIN
+    IF s = "" THEN
+      RETURN s;
+    ELSE
+      RETURN " -r " & Quote(s) & " ";
+    END IF;
+  END PackSender;
+
+  FUNCTION PackSubject(s : String) RETURN String IS
+
+  BEGIN
+    IF s = "" THEN
+      RETURN s;
+    ELSE
+      RETURN " -s " & Quote(s) & " ";
+    END IF;
+  END PackSubject;
+
+  FUNCTION PackAttachment(a : String) RETURN String IS
+
+  BEGIN
+    IF a = "" THEN
+      RETURN a;
+    ELSE
+      IF NOT Ada.Directories.Exists(a) THEN
+        RAISE Ada.Directories.Name_Error WITH "Attachment file does not exist";
+      END IF;
+
+      RETURN " -A " & Quote(a) & " ";
+    END IF;
+  END PackAttachment;
+
+  FUNCTION PackRecipient(r : String) RETURN String IS
+
+  BEGIN
+    IF r = "" THEN
+      RAISE Messaging.Text.RelayError WITH "Recipient cannot be empty string";
+    END IF;
+
+    RETURN Quote(r);
+  END PackRecipient;
+
+  -- Method for sending a message via a message relay
+
+  PROCEDURE Send
+   (Self       : RelaySubclass;
+    sender     : String;
+    recipient  : String;
+    message    : String;
+    subject    : String;
+    attachment : String) IS
+
+  BEGIN
+    Self.Dispatch(PackSender(sender) & PackSubject(subject) &
+      PackAttachment(attachment) & PackRecipient(recipient), message);
+  END Send;
+
+  PROCEDURE Send
+   (Self      : RelaySubclass;
+    sender    : String;
+    recipient : String;
+    message   : String;
+    subject   : String := "") IS
+
+  BEGIN
+    Self.Dispatch(PackSender(sender) & PackSubject(subject) &
+      PackRecipient(recipient), message);
   END Send;
 
 END Email_Mail;
