@@ -65,6 +65,7 @@
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Output) Pins</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Humidity" isDocumented="True">Abstract Interface for Humidity Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.Message.Text" isDocumented="True">Abstract Interface for Text Message Relays</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Message64" isDocumented="True">Abstract Interface for 64-Byte Message Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Motor" isDocumented="True">Abstract Interface For Variable Speed Motor Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.PWM" isDocumented="True">Abstract Interface for PWM (Pulse Width Modulated) Outputs</NamespaceSummaryItem>
@@ -72,6 +73,7 @@
       <NamespaceSummaryItem name="IO.Interfaces.Servo" isDocumented="True">Abstract Interface for Servo Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Temperature" isDocumented="True">Abstract Interface for Temperature Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Watchdog" isDocumented="True">Abstract Interface for Watchdog Timers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Email.Mail" isDocumented="True">Email Sending Services using <c>/usr/bin/mail</c></NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Services over UDP</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
