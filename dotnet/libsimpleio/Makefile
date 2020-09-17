@@ -26,6 +26,7 @@ BUILDNUM	?= 1
 LIBNAME		= libsimpleio
 VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
 CONFIGURATION	= Release
+NUGETDIR	= ../../nuget
 
 # Definitions for Calibre ebook-convert program
 CONVERT		?= C:/Progra~1/Calibre2/ebook-convert
@@ -53,14 +54,11 @@ default:
 	install -cm 0644 Help/$(LIBNAME).dll.chm ../../doc
 	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
+	rm -rf $(NUGETDIR)/$(LIBNAME)
+	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
+	/bin/find $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
+	/bin/find $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
 	cp bin/$(CONFIGURATION)/*.nupkg .
-
-# Install NuGet package to local package feed
-
-install_local: default
-	mkdir -p ../nuget
-	rm -rf ../nuget/$(LIBNAME)
-	nuget add *.nupkg -source ../nuget
 
 # Remove working files
 

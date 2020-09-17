@@ -22,6 +22,7 @@ LIBNAME		= UNDEFINEND
 BUILDNUM	?= 1
 VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
 CONFIGURATION	= Release
+NUGETDIR	= ../../../nuget
 
 # Build all NuGet packages
 
@@ -33,7 +34,11 @@ default:
 
 build:
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
-	cp bin/Release/*.nupkg .
+	rm -rf $(NUGETDIR)/$(LIBNAME)
+	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
+	/bin/find $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
+	/bin/find $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
+	cp bin/$(CONFIGURATION)/*.nupkg .
 
 # Remove working files
 
