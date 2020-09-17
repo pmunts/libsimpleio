@@ -3,6 +3,8 @@
 MULTIARCHLIBDIR=/usr/lib/`gcc -dumpmachine`
 
 ln -s -f /usr/local/share/libsimpleio/include /usr/local/include/libsimpleio
+ln -s -f /usr/local/share/libsimpleio/udev/60-gpio.rules /etc/udev/rules.d/60-gpio.rules
+ln -s -f /usr/local/share/libsimpleio/udev/60-pwm.rules /etc/udev/rules.d/60-pwm.rules
 
 if [ -e ${MULTIARCHLIBDIR}/libhidapi-hidraw.a ]; then
   ln -s -f ${MULTIARCHLIBDIR}/libhidapi-hidraw.a  /usr/local/lib/libhidapi.a

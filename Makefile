@@ -98,12 +98,18 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p udev			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p win				$(DESTDIR)/share/libsimpleio
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc/README
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 c/*.h			$(DESTDIR)/share/libsimpleio/include
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
+
+# Install symlinks for the udev rules
+
+install_udev_rules:
+	cd /etc/udev/rules.d && for R in /usr/local/share/libsimpleio/udev/*.rules ; do ln -s $$R ; done
 
 # Create Debian package file
 
@@ -117,19 +123,15 @@ ifeq ($(BOARDNAME),)
 # Native package for Debian Linux et al
 	echo "Depends: libhidapi-dev" >>	$(PKGDIR)/DEBIAN/control
 	install -cm 0755 postinst.native	$(PKGDIR)/DEBIAN/postinst
-	install -cm 0755 prerm.native		$(PKGDIR)/DEBIAN/prerm
+	install -cm 0755 postrm.native		$(PKGDIR)/DEBIAN/postrm
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local
-	mkdir -p				$(PKGDIR)/etc/udev/rules.d
-	install -cm 0644 udev/*.rules		$(PKGDIR)/etc/udev/rules.d
-	mkdir -p				$(PKGDIR)/usr/local/libexec
-	install -cm 0755 udev/udev-helper-*	$(PKGDIR)/usr/local/libexec
 else
 # Cross-compiled package for MuntsOS embedded Linux
 	$(MAKE) install DESTDIR=$(PKGDIR)$(GCCSYSROOT)/usr
 	install -cm 0755 postinst.muntsos	$(PKGDIR)/DEBIAN/postinst
-	install -cm 0755 prerm.muntsos		$(PKGDIR)/DEBIAN/prerm
+	install -cm 0755 postrm.muntsos		$(PKGDIR)/DEBIAN/postrm
 	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/postinst
-	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/prerm
+	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/postrm
 endif
 
 package.deb: $(DEBFILE)
