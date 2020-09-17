@@ -51,6 +51,8 @@ PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 DEBFILE		:= $(PKGDIR).deb
 endif
 
+UDEVRULESDIR	?= /etc/udev/rules.d
+
 include include/dpkg.mk
 
 default: package.deb
@@ -109,7 +111,7 @@ install: libsimpleio.a libsimpleio.so
 # Install symlinks for the udev rules
 
 install_udev_rules:
-	cd /etc/udev/rules.d && for R in /usr/local/share/libsimpleio/udev/*.rules ; do ln -s $$R ; done
+	cd $(UDEVRULESDIR) && for R in /usr/local/share/libsimpleio/udev/*.rules ; do ln -s $$R ; done
 
 # Create Debian package file
 
