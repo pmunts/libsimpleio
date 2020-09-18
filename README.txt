@@ -77,26 +77,42 @@ News
        IO.Objects.libsimpleio.Device.Designator instead of chip and
        channel to select ADC inputs, DAC outputs, GPIO pins, I2C buses,
        PWM outputs, and SPI slave selects.
-     * 30 April 2020. Added popen() wrappers LINUX_popen_read(),
+     * 30 April 2020 -- Added popen() wrappers LINUX_popen_read(),
        LINUX_popen_write() and LINUX_pclose(). Added Ada packages
        Email_Sendmail and Email_Mail, for sending email messages via
        /usr/sbin/sendmail and /usr/bin/mail respectively.
-     * 15 May 2020. Autogenerate API documentation .pdf files from
+     * 15 May 2020 -- Autogenerate API documentation .pdf files from
        libremoteio.dll.chm and libsimpleio.dll.chm. Include API
        documentation files (both .chm and .pdf) in the NuGet packages.
+     * 12 September 2020 -- Added or refined email services for Ada, C#,
+       and Free Pascal. This work resulted from a lengthy period of
+       experimentation with sending email from a Linux embedded system.
+     * 18 September 2020 -- Modified udev rule handling for native Linux
+       systems. The rules and their helper scripts are now installed to
+       /usr/local/share/libsimpleio/udev/. If you install from a source
+       checkout, you now need to do make install_udev_rules after make
+       install in order to install some symbolic links in
+       /etc/udev/rules.d.
+       Added a [11]NuGet [12]local package feed to libsimpleio. You need
+       to manually add an entry to the packageSources block in
+       NuGet.Config (found at .config/NuGet/NuGet.Config on Linux or
+       %HOMEDRIVE%%HOMEPATH%\AppData\Roaming\NuGet\NuGet.Config on
+       Windows) in order to use the local package feed. You should also
+       comment out the entry for nuget.org, especially if you need to
+       build .Net applications offline from the Internet.
 
 Documentation
 
-   The user manual for libsimpleio is available at [11]UserManual.pdf.
+   The user manual for libsimpleio is available at [13]UserManual.pdf.
 
    The man pages specifying the libsimpleio API are available at
-   [12]libsimpleio.html.
+   [14]libsimpleio.html.
 
 Git Repository
 
    The source code is available at:
 
-   [13]https://github.com/pmunts/libsimpleio
+   [15]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -104,16 +120,16 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [14]Debian Linux are available at:
-   [15]http://repo.munts.com/debian10
+   Prebuilt packages for [16]Debian Linux are available at:
+   [17]http://repo.munts.com/debian10
 
-[16]Make With Ada Projects
+[18]Make With Ada Projects
 
-     * 2017 [17]Ada Embedded Linux Framework
-     * 2019 [18]Modbus RTU Framework for Ada (Prize Winner!)
+     * 2017 [19]Ada Embedded Linux Framework
+     * 2019 [20]Modbus RTU Framework for Ada (Prize Winner!)
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [19]phil@munts.net
+   Questions or comments to Philip Munts [21]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -130,12 +146,14 @@ References
    8. https://www.cygwin.com/
    9. https://www.makewithada.org/
   10. https://www.nuget.org/
-  11. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  12. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  13. https://github.com/pmunts/libsimpleio
-  14. http://www.debian.org/
-  15. http://repo.munts.com/debian10
-  16. https://www.makewithada.org/
-  17. https://www.makewithada.org/entry/ada_linux_sensor_framework
-  18. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
-  19. mailto:phil@munts.net
+  11. https://www.nuget.org/
+  12. https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds
+  13. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  14. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  15. https://github.com/pmunts/libsimpleio
+  16. http://www.debian.org/
+  17. http://repo.munts.com/debian10
+  18. https://www.makewithada.org/
+  19. https://www.makewithada.org/entry/ada_linux_sensor_framework
+  20. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
+  21. mailto:phil@munts.net

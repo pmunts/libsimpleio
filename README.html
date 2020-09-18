@@ -54,9 +54,9 @@ libraries are provided for Ada, C++, C#, Java, and Free Pascal that define OOP
 <b><tt>ada/programs/libsimpleio/mcp2221/</tt></b>, and
 <b><tt>ada/programs/libsimpleio/remoteio</tt></b> to allow building native
 programs with just <b><tt>gprbuild</tt></b>, using a command like:
-<pre>
+<pre><b>
 gprbuild libsimpleio.gpr -p test_userled
-</pre>
+</b></pre>
 Reworked Ada make files to allow building Windows applications in <a href=
 "https://docs.microsoft.com/en-us/windows/wsl/faq">Windows Subsystem for
 Linux</a>. Until now, using the make files on Windows required using <a href=
@@ -68,10 +68,10 @@ tree.</li>
 <li>7 February 2020 -- Added .Net Core 3.1 project templates for both
 <b>libsimpleio</b> and <b>libremoteio</b>. Install these from <a href=
 "https://www.nuget.org">NuGet</a> with the following commands:
-<pre>
+<pre><b>
 dotnet new -i libsimpleio-templates
 dotnet new -i libremoteio-templates
-</pre></li>
+</b></pre></li>
 <li>10 February 2020 -- Renamed NuGet package <b>libsimpleio-standard</b> to
 <b>libsimpleio</b>. Renamed NuGet package <b>libremoteio-standard</b> to
 <b>libremoteio</b>. Dropped support for building .Net Framework applications
@@ -81,18 +81,38 @@ with <b><tt>csc.exe</tt></b>.</li>
 Core and .Net Framework.</li>
 <li>25 February 2020 -- Added support for building NuGet C# .Net Core
 application packages.</li>
-<li>3 March 2020 -- Modified <tt>libsimpleio.dll</tt> use
-<tt>IO.Objects.libsimpleio.Device.Designator</tt> instead of chip and channel
-to select ADC inputs, DAC outputs, GPIO pins, I<sup>2</sup>C buses, PWM
+<li>3 March 2020 -- Modified <b><tt>libsimpleio.dll</tt></b> use
+<b><tt>IO.Objects.libsimpleio.Device.Designator</tt></b> instead of chip and
+channel to select ADC inputs, DAC outputs, GPIO pins, I<sup>2</sup>C buses, PWM
 outputs, and SPI slave selects.</li>
-<li>30 April 2020. Added <tt>popen()</tt> wrappers <tt>LINUX_popen_read()</tt>,
-<tt>LINUX_popen_write()</tt> and <tt>LINUX_pclose()</tt>. Added Ada packages
-<tt>Email_Sendmail</tt> and <tt>Email_Mail</tt>, for sending email messages via
-<tt>/usr/sbin/sendmail</tt> and <tt>/usr/bin/mail</tt> respectively.</li>
-<li>15 May 2020. Autogenerate API documentation <tt>.pdf</tt> files from
-<tt>libremoteio.dll.chm</tt> and <tt>libsimpleio.dll.chm</tt>. Include API
-documentation files (both <tt>.chm</tt> and <tt>.pdf</tt>) in the NuGet
-packages.</li>
+<li>30 April 2020 -- Added <b><tt>popen()</tt></b> wrappers
+<b><tt>LINUX_popen_read()</tt></b>, <b><tt>LINUX_popen_write()</tt></b> and
+<b><tt>LINUX_pclose()</tt></b>. Added Ada packages
+<b><tt>Email_Sendmail</tt></b> and <b><tt>Email_Mail</tt></b>, for sending
+email messages via <b><tt>/usr/sbin/sendmail</tt></b> and
+<b><tt>/usr/bin/mail</tt></b> respectively.</li>
+<li>15 May 2020 -- Autogenerate API documentation <b><tt>.pdf</tt></b> files
+from <b><tt>libremoteio.dll.chm</tt></b> and
+<b><tt>libsimpleio.dll.chm</tt></b>. Include API documentation files (both
+<b><tt>.chm</tt></b> and <b><tt>.pdf</tt></b>) in the NuGet packages.</li>
+<li>12 September 2020 -- Added or refined email services for Ada, C#, and Free
+Pascal. This work resulted from a lengthy period of experimentation with
+sending email from a Linux embedded system.</li>
+<li>18 September 2020 -- Modified udev rule handling for native Linux systems.
+The rules and their helper scripts are now installed to
+<b><tt>/usr/local/share/libsimpleio/udev/</tt></b>. If you install from a
+source checkout, you now need to do <b><tt>make install_udev_rules</tt></b>
+after <b><tt>make install</tt></b> in order to install some symbolic links in
+<b><tt>/etc/udev/rules.d</tt></b>.<br>
+Added a <a href="https://www.nuget.org">NuGet</a> <a href=
+"https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds">local
+package feed</a> to <b>libsimpleio</b>. You need to manually add an entry to
+the <b><tt>packageSources</tt></b> block in <b><tt>NuGet.Config</tt></b> (found
+at <b><tt>.config/NuGet/NuGet.Config</tt></b> on Linux or
+<b><tt>%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\NuGet\NuGet.Config</tt></b> on
+Windows) in order to use the local package feed. You should also comment out
+the entry for <b><tt>nuget.org</tt></b>, especially if you need to build .Net
+applications offline from the Internet.</li>
 </ul>
 <h2>Documentation</h2>
 <p>The user manual for <b>libsimpleio</b> is available at <a href=
@@ -104,9 +124,9 @@ packages.</li>
 <p><a href=
 "https://github.com/pmunts/libsimpleio">https://github.com/pmunts/libsimpleio</a></p>
 <p>Use the following command to clone it:</p>
-<pre>
+<pre><b>
 git clone https://github.com/pmunts/libsimpleio.git
-</pre>
+</b></pre>
 <h2>Package Repository</h2>
 <p>Prebuilt packages for <a href="http://www.debian.org">Debian</a> Linux are
 available at:</p>
