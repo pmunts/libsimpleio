@@ -1,6 +1,6 @@
 /* PWM (Pulse Width Modulated) output services for Linux */
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -34,10 +34,10 @@
 
 // Device nodes
 
-#define DIR_CHIP	"/dev/pwmchip%d"
+#define DIR_CHIP	"/sys/class/pwm/pwmchip%d"
 #define FILE_EXPORT	DIR_CHIP  "/export"
 #define FILE_UNEXPORT	DIR_CHIP  "/unexport"
-#define DIR_CHAN	"/dev/pwm-%d:%d"
+#define DIR_CHAN	DIR_CHIP  "/pwm%d"
 #define FILE_ENABLE	DIR_CHAN  "/enable"
 #define FILE_ONTIME	DIR_CHAN  "/duty_cycle"	// nanoseconds
 #define FILE_PERIOD	DIR_CHAN  "/period"	// nanoseconds
@@ -58,7 +58,11 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 {
   assert(error != NULL);
 
-  char filename[MAXPATHLEN];
+  char filename_export[MAXPATHLEN];
+  char filename_enable[MAXPATHLEN];
+  char filename_ontime[MAXPATHLEN];
+  char filename_period[MAXPATHLEN];
+  char filename_polarity[MAXPATHLEN];
   char buf[16];
   int fd;
   int len;
@@ -100,17 +104,20 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     return;
   }
 
+  snprintf(filename_export,   sizeof(filename_export),   FILE_EXPORT,   chip);
+  snprintf(filename_enable,   sizeof(filename_enable),   FILE_ENABLE,   chip, channel);
+  snprintf(filename_ontime,   sizeof(filename_ontime),   FILE_ONTIME,   chip, channel);
+  snprintf(filename_period,   sizeof(filename_period),   FILE_PERIOD,   chip, channel);
+  snprintf(filename_polarity, sizeof(filename_polarity), FILE_POLARITY, chip, channel);
+
   // Export the PWM channel, if necessary
 
-  snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
-
-  if (access(filename, F_OK))
+  if (access(filename_ontime, W_OK))
   {
-    snprintf(filename, sizeof(filename), FILE_EXPORT, chip);
 
     // Open the PWM chip export file
 
-    fd = open(filename, O_WRONLY);
+    fd = open(filename_export, O_WRONLY);
     if (fd < 0)
     {
       *error = errno;
@@ -136,11 +143,12 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
     // Wait for the PWM output channel device to be created
 
-    snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
-
     uint64_t start = milliseconds();
 
-    while (access(filename, F_OK))
+    while (access(filename_enable,   W_OK) ||
+           access(filename_ontime,   W_OK) ||
+           access(filename_period,   W_OK) ||
+           access(filename_polarity, W_OK))
     {
       if (milliseconds() - start > 1000)
       {
@@ -157,9 +165,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
   // Try to write initial 0 to duty_cycle, so we can change the period
   // if this output has previously been configured.
 
-  snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
-
-  fd = open(filename, O_WRONLY);
+  fd = open(filename_ontime, O_WRONLY);
   if (fd < 0)
   {
     *error = errno;
@@ -172,9 +178,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
   // Write to period
 
-  snprintf(filename, sizeof(filename), FILE_PERIOD, chip, channel);
-
-  fd = open(filename, O_WRONLY);
+  fd = open(filename_period, O_WRONLY);
   if (fd < 0)
   {
     *error = errno;
@@ -196,9 +200,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
  // Disable the PWM output
 
-  snprintf(filename, sizeof(filename), FILE_ENABLE, chip, channel);
-
-  fd = open(filename, O_WRONLY);
+  fd = open(filename_enable, O_WRONLY);
   if (fd < 0)
   {
     *error = errno;
@@ -218,9 +220,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
   // Write to polarity
 
-  snprintf(filename, sizeof(filename), FILE_POLARITY, chip, channel);
-
-  fd = open(filename, O_WRONLY);
+  fd = open(filename_polarity, O_WRONLY);
   if (fd < 0)
   {
     *error = errno;
@@ -245,9 +245,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
   // Reenable the PWM output
 
-  snprintf(filename, sizeof(filename), FILE_ENABLE, chip, channel);
-
-  fd = open(filename, O_WRONLY);
+  fd = open(filename_enable, O_WRONLY);
   if (fd < 0)
   {
     *error = errno;
@@ -267,9 +265,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
 
   // Write to duty_cycle (which is actually the on time in nanosecods...)
 
-  snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
-
-  fd = open(filename, O_WRONLY);
+  fd = open(filename_ontime, O_WRONLY);
   if (fd < 0)
   {
     *error = errno;
