@@ -22,7 +22,7 @@
 
 AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
-CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS) -DWAIT_DEV_LINK
+CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
 
 BUILDNUM	?= 1
 
