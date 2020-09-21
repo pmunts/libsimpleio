@@ -321,7 +321,6 @@ void PWM_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
     return;
   }
 
-  memset(filename, 0, sizeof(filename));
   snprintf(filename, sizeof(filename), FILE_ONTIME, chip, channel);
 
   *fd = open(filename, O_WRONLY);
