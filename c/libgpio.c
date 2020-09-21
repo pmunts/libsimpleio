@@ -1,6 +1,6 @@
 /* GPIO services for Linux */
 
-// Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -87,7 +87,6 @@ void GPIO_chip_info(int32_t chip, char *name, int32_t namesize,
   // Open the GPIO controller device
 
   char nodename[32];
-  memset(nodename, 0, sizeof(nodename));
   snprintf(nodename, sizeof(nodename), "/dev/gpiochip%d", chip);
 
   int chipfd = open(nodename, O_RDWR);
@@ -182,7 +181,6 @@ void GPIO_line_info(int32_t chip, int32_t line, int32_t *flags, char *name,
   // Open the GPIO controller device
 
   char nodename[32];
-  memset(nodename, 0, sizeof(nodename));
   snprintf(nodename, sizeof(nodename), "/dev/gpiochip%d", chip);
 
   int chipfd = open(nodename, O_RDWR);
@@ -327,7 +325,6 @@ void GPIO_line_open(int32_t chip, int32_t line, int32_t flags, int32_t events,
   // Open GPIO controller device
 
   char nodename[32];
-  memset(nodename, 0, sizeof(nodename));
   snprintf(nodename, sizeof(nodename), "/dev/gpiochip%d", chip);
 
   int chipfd = open(nodename, O_RDWR);
@@ -517,7 +514,6 @@ void GPIO_line_event(int32_t fd, int32_t *state, int32_t *error)
 #define DIRECTION	PINDIR  "/direction"
 #define EDGE		PINDIR  "/edge"
 #define VALUE		PINDIR  "/value"
-#define SYMLINK		"/dev/gpio%d"
 
 static uint64_t milliseconds(void)
 {
@@ -529,11 +525,16 @@ static uint64_t milliseconds(void)
 
 // Configure GPIO pin device
 
-void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge, int32_t polarity, int32_t *error)
+void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
+  int32_t polarity, int32_t *error)
 {
   assert(error != NULL);
 
-  char buf[MAXPATHLEN];
+  char name_direction[MAXPATHLEN];
+  char name_edge[MAXPATHLEN];
+  char name_polarity[MAXPATHLEN];
+  char name_value[MAXPATHLEN];
+  char buf[16];
   int fd;
   uint64_t start;
   int status;
@@ -589,24 +590,15 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     return;
   }
 
+  snprintf(name_direction, sizeof(name_direction), DIRECTION, pin);
+  snprintf(name_edge,      sizeof(name_edge),      EDGE,      pin);
+  snprintf(name_polarity,  sizeof(name_polarity),  ACTIVELOW, pin);
+  snprintf(name_value,     sizeof(name_value),     VALUE,     pin);
+
   // Export the GPIO pin if necessary
 
-  if (snprintf(buf, sizeof(buf), PINDIR, pin) < 0)
+  if (access(name_value, W_OK))
   {
-    *error = errno;
-    ERRORMSG("snprintf() failed", *error, __LINE__ - 3);
-    return;
-  }
-
-  if (access(buf, F_OK))
-  {
-    if (snprintf(buf, sizeof(buf), "%d\n", pin) < 0)
-    {
-      *error = errno;
-      ERRORMSG("snprintf() failed", *error, __LINE__ - 3);
-      return;
-    }
-
     fd = open(EXPORT, O_WRONLY);
     if (fd < 0)
     {
@@ -614,6 +606,8 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
       ERRORMSG("open() failed", *error, __LINE__ - 4);
       return;
     }
+
+    snprintf(buf, sizeof(buf), "%d\n", pin);
 
     if (write(fd, buf, strlen(buf)) < 0)
     {
@@ -632,15 +626,12 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
     // Wait for the GPIO pin device to be created
 
-#ifdef WAIT_DEV_LINK
-    snprintf(buf, sizeof(buf), SYMLINK, pin);
-#else
-    snprintf(buf, sizeof(buf), VALUE, pin);
-#endif
-
     start = milliseconds();
 
-    while (access(buf, W_OK))
+    while (access(name_direction, W_OK) ||
+           access(name_edge,      W_OK) ||
+           access(name_polarity,  W_OK) ||
+           access(name_value,     W_OK))
     {
       if (milliseconds() - start > 1000)
       {
@@ -656,14 +647,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
   // Set polarity
 
-  if (snprintf(buf, sizeof(buf), ACTIVELOW, pin) < 0)
-  {
-    *error = errno;
-    ERRORMSG("snprintf() failed", *error, __LINE__ - 3);
-    return;
-  }
-
-  fd = open(buf, O_WRONLY);
+  fd = open(name_polarity, O_WRONLY);
   if (fd < 0)
   {
     *error = errno;
@@ -688,14 +672,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
   // Set direction and possibly initial output state
 
-  if (snprintf(buf, sizeof(buf), DIRECTION, pin) < 0)
-  {
-    *error = errno;
-    ERRORMSG("snprintf() failed", *error, __LINE__ - 3);
-    return;
-  }
-
-  fd = open(buf, O_WRONLY);
+  fd = open(DIRECTION, O_WRONLY);
   if (fd < 0)
   {
     *error = errno;
@@ -729,14 +706,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
   if (direction == GPIO_DIRECTION_INPUT)
   {
-    if (snprintf(buf, sizeof(buf), EDGE, pin) < 0)
-    {
-      *error = errno;
-      ERRORMSG("snprintf() failed", *error, __LINE__ - 3);
-      return;
-    }
-
-    fd = open(buf, O_WRONLY);
+    fd = open(name_edge, O_WRONLY);
     if (fd < 0)
     {
       *error = errno;
@@ -779,26 +749,6 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     }
   }
 
-#ifdef MAKE_DEV_LINK
-  // Symlink /dev/gpioN to /sys/class/gpio/gpioN/value -- requires superuser
-
-  char linkname[MAXPATHLEN];
-  char linktarget[MAXPATHLEN];
-
-  snprintf(linktarget, sizeof(linktarget), VALUE, pin);
-  snprintf(linkname, sizeof(linkname), SYMLINK, pin);
-
-  if (access(linkname, F_OK))
-  {
-    if (symlink(linktarget, linkname))
-    {
-      *error = errno;
-      ERRORMSG("symlink() failed", *error, __LINE__ - 3);
-      return;
-    }
-  }
-#endif
-
   *error = 0;
 }
 
@@ -828,13 +778,7 @@ void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
     return;
   }
 
-  memset(filename, 0, sizeof(filename));
-
-#if defined(MAKE_DEV_LINK) || defined(WAIT_DEV_LINK)
-  snprintf(filename, sizeof(filename), SYMLINK, pin);
-#else
   snprintf(filename, sizeof(filename), VALUE, pin);
-#endif
 
   *fd = open(filename, O_RDWR);
   if (*fd < 0)
