@@ -27,18 +27,20 @@ if [ $? -eq 1 -a ! -f csharp.mk ]; then
   exit 0
 fi
 
+FIND=${FIND:-/usr/bin/find}
+
 echo "Removing Visual Studio flotsam from `pwd`"
 
-/usr/bin/find . -name DOTNETMF_FS_EMULATION	-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name bin			-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name obj			-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name OnBoardFlash.dat		-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name '*.apk' -a -not -path './prebuilt/*' -exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name '*.csproj.user'		-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name '*.exe.config'		-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name '*.suo'			-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name '*.userprefs'		-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name '*.vs'			-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name '*.vshost.exe'		-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name '*.vshost.exe.manifest'	-exec rm -rf {} ";" >/dev/null 2>&1
-/usr/bin/find . -name '*TemporaryKey.pfx'	-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name DOTNETMF_FS_EMULATION	-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name bin			-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name obj			-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name OnBoardFlash.dat	-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '*.apk' -a -not -path './prebuilt/*' -exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '*.csproj.user'		-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '*.exe.config'		-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '*.suo'			-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '*.userprefs'		-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '*.vs'			-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '*.vshost.exe'		-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '*.vshost.exe.manifest'	-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '*TemporaryKey.pfx'	-exec rm -rf {} ";" >/dev/null 2>&1
