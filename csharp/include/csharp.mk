@@ -20,6 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+include $(LIBSIMPLEIO)/include/common.mk
+
 # Don't delete intermediate files
 
 .SECONDARY:

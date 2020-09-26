@@ -20,10 +20,11 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+include $(LIBSIMPLEIO)/include/common.mk
+
 BUILDARCH	?= noarch
 GROUP		?= Applications
 LICENSE		?= Unknown
-SED		?= sed
 
 # Define a pattern rule for building RPM packages
 
@@ -36,7 +37,7 @@ SED		?= sed
 	$(SED) -i 's/@@BUILDARCH@@/$(BUILDARCH)/g' specfile
 	$(SED) -i 's/@@GROUP@@/$(GROUP)/g' specfile
 	$(SED) -i 's/@@LICENSE@@/$(LICENSE)/g' specfile
-	cd $? && find * -type d -exec echo "%dir /{}" ";" | grep -v DEBIAN >>../specfile
-	cd $? && find * -type f -exec echo "/{}" ";" | grep -v DEBIAN >>../specfile
+	cd $? && $(FIND) * -type d -exec echo "%dir /{}" ";" | grep -v DEBIAN >>../specfile
+	cd $? && $(FIND) * -type f -exec echo "/{}" ";" | grep -v DEBIAN >>../specfile
 	rpmbuild --buildroot=`pwd`/$? --define="_topdir `pwd`/rpmbuild" -bb specfile
 	cp rpmbuild/RPMS/*/*.rpm .

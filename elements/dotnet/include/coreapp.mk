@@ -50,8 +50,8 @@ coreapp_mk_build: elements_mk_build
 $(PKGDIR): coreapp_mk_build
 	mkdir -p						$(PKGDIR)/DEBIAN
 	install -cm 0644 $(ELEMENTSSRC)/dotnet/include/coreapp.control	$(PKGDIR)/DEBIAN/control
-	sed -i s/@@NAME@@/$(PKGNAME)/g				$(PKGDIR)/DEBIAN/control
-	sed -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
+	$(SED) -i s/@@NAME@@/$(PKGNAME)/g			$(PKGDIR)/DEBIAN/control
+	$(SED) -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
 	mkdir -p 						$(PKGDIR)/$(COREAPPBIN)
 	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
 	chmod 755						$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
@@ -60,8 +60,8 @@ $(PKGDIR): coreapp_mk_build
 	cp -R -P -p $(COREAPPPUB)/*.json			$(PKGDIR)/$(COREAPPLIB)
 	rm -f							$(PKGDIR)/$(COREAPPLIB)/*deps.json
 	rm -f							$(PKGDIR)/$(COREAPPLIB)/*dev.json
-	find $(PKGDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
-	find $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
+	$(FIND) $(PKGDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
+	$(FIND) $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 	touch $@
 
 # Build a Debian package file

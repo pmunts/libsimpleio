@@ -20,10 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# GAINROOT can also be set to sudo, if fakeroot isn't usable (e.g. Windows
-# Subsystem for Linux
-
-GAINROOT ?= fakeroot
+include $(LIBSIMPLEIO)/include/common.mk
 
 # Define a pattern rule for a Debian package
 

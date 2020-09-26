@@ -20,6 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+include $(LIBSIMPLEIO)/include/common.mk
+
 CONFIGURATION	?= Release
 ifeq ($(OS), Windows_NT)
 EBUILD		?= C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild
@@ -45,10 +47,10 @@ elements_mk_build:
 # Fixup permissions etc.
 
 elements_mk_fixup:
-	/usr/bin/find . -type f -exec chmod 644 {} ";"
-	/usr/bin/find . -type f -exec bom_remove {} ";"
-	/usr/bin/find . -type f -exec unix2dos {} ";"
-	/usr/bin/find . -name Makefile -exec dos2unix {} ";"
+	$(FIND) . -type f -exec chmod 644 {} ";"
+	$(FIND) . -type f -exec bom_remove {} ";"
+	$(FIND) . -type f -exec unix2dos {} ";"
+	$(FIND) . -name Makefile -exec dos2unix {} ";"
 
 # Clean out working files
 

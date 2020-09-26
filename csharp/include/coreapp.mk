@@ -35,8 +35,6 @@ DEBFILE		= $(PKGDIR).deb
 RPMFILE		= $(PKGDIR).rpm
 TARFILE		= $(PKGDIR).tgz
 
-SED		?= sed
-
 # Set a reasonable default architecture for single file deliverables
 
 ifeq ($(shell uname), Darwin)
@@ -103,8 +101,8 @@ endif
 	cp -R -P -p $(COREAPPPUB)/*.json			$(PKGDIR)/$(COREAPPLIB)
 	rm -f							$(PKGDIR)/$(COREAPPLIB)/*deps.json
 	rm -f							$(PKGDIR)/$(COREAPPLIB)/*dev.json
-	find $(PKGDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
-	find $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
+	$(FIND) $(PKGDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
+	$(FIND) $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 	touch $@
 
 include $(LIBSIMPLEIO)/include/dpkg.mk

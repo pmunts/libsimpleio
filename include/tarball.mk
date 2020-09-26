@@ -20,7 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-TAR		?= tar
+include $(LIBSIMPLEIO)/include/common.mk
+
 TARFLAGS	?= --owner=root --group=root --mode=ugo-w --exclude=DEBIAN
 
 # Define a pattern rule for an application tarball

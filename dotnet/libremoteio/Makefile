@@ -56,8 +56,8 @@ default:
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	rm -rf $(NUGETDIR)/$(LIBNAME)
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
-	/bin/find $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
-	/bin/find $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
+	$(FIND) $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
+	$(FIND) $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
 	cp bin/$(CONFIGURATION)/*.nupkg .
 
 # Remove working files

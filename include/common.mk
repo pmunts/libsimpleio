@@ -1,3 +1,5 @@
+# Common definitions for libsimpleio
+
 # Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -18,35 +20,11 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBNAME		= UNDEFINEND
-BUILDNUM	?= 1
-VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
-CONFIGURATION	= Release
-NUGETDIR	= ../../../nuget
+# Program definitions
 
-# Build all NuGet packages
-
-default:
-	$(MAKE) build LIBNAME=libremoteio-templates && rm -rf bin obj
-	$(MAKE) build LIBNAME=libsimpleio-templates && rm -rf bin obj
-
-# Build a NuGet package containing the specified project templates
-
-build:
-	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
-	rm -rf $(NUGETDIR)/$(LIBNAME)
-	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
-	$(FIND) $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
-	$(FIND) $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
-	cp bin/$(CONFIGURATION)/*.nupkg .
-
-# Remove working files
-
-clean:
-	rm -rf bin obj *.nupkg
-
-# Install templates from libsimpleio installation or source checkout
-
-install:
-	dotnet new -i ./csharp_console_libremoteio
-	dotnet new -i ./csharp_console_libsimpleio
+FIND		?= /usr/bin/find
+# GAINROOT can also be set to sudo, if fakeroot isn't usable (e.g. Windows
+# Subsystem for Linux
+GAINROOT	?= fakeroot
+SED		?= /bin/sed
+TAR		?= /bin/tar
