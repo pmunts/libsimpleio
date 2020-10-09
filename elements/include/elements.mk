@@ -25,11 +25,15 @@ include $(LIBSIMPLEIO)/include/common.mk
 CONFIGURATION	?= Release
 ifeq ($(OS), Windows_NT)
 EBUILD		?= C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild
+MSBUILD		?= C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
 else
 EBUILD		?= /usr/local/bin/ebuild
+MSBUILD		?= msbuild
 endif
-EBUILDPROJECT	?= $(shell basename "$(shell pwd)").elements
 EBUILDFLAGS	+= --configuration:$(CONFIGURATION)
+MSBUILDFLAGS	+= -t:Build -p:Configuration=$(CONFIGURATION)
+PROJECTBUILDER	?= msbuild
+PROJECTNAME	?= $(shell basename "$(shell pwd)").elements
 
 # Don't delete intermediate files
 
@@ -39,10 +43,19 @@ EBUILDFLAGS	+= --configuration:$(CONFIGURATION)
 
 elements_mk_default: default
 
-# Build project
+# Build project using EBuild
 
-elements_mk_build:
-	"$(EBUILD)" "$(EBUILDPROJECT)" $(EBUILDFLAGS)
+elements_mk_ebuild:
+	"$(EBUILD)" "$(PROJECTNAME)" $(EBUILDFLAGS)
+
+# Build project using MSBuild
+
+elements_mk_msbuild:
+	"$(MSBUILD)" $(MSBUILDFLAGS) "$(PROJECTNAME)"
+
+# Build project using selected project builder
+
+elements_mk_build: elements_mk_$(PROJECTBUILDER)
 
 # Fixup permissions etc.
 
