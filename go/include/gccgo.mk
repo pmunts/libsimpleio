@@ -28,12 +28,14 @@ EMBLINUXBASE	?= $(HOME)/muntsos
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 GCCGO		:= $(CROSS_COMPILE)gccgo
 AR		:= $(CROSS_COMPILE)ar
+RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
 endif
 else
 # Definitions for native compile
 GCCGO		?= gccgo
 AR		?= ar
+RANLIB		?= ranlib
 STRIP		?= strip
 endif
 
@@ -60,7 +62,7 @@ $(LIBSUBORDINATES):
 	$(MAKE) -C $(GO_SRC)/libsimpleio GO_SRC=$(GO_SRC) GO_OBJ=$(GO_OBJ)
 	$(AR) rc $(LIBSUBORDINATES) $(GO_OBJ)/*.o
 	rm -f $(GO_OBJ)/*.o
-	ranlib $(LIBSUBORDINATES)
+	$(RANLIB) $(LIBSUBORDINATES)
 
 go_mk_subordinates: $(LIBSUBORDINATES)
 
