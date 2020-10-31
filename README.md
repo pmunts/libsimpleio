@@ -110,7 +110,7 @@ News
     **`/usr/local/share/libsimpleio/udev/`**. If you install from a
     source checkout, you now need to do **`make install_udev_rules`**
     after **`make install`** in order to install some symbolic links in
-    **`/etc/udev/rules.d`**.  
+    **`/etc/udev/rules.d`**.
     Added a [NuGet](https://www.nuget.org) [local package
     feed](https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds)
     to **libsimpleio**. You need to manually add an entry to the

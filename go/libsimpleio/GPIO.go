@@ -94,7 +94,7 @@ const (
 )
 
 // GPIO pin kinds
- 
+
 type kinds int
 
 const (
@@ -168,7 +168,7 @@ func (self *Pin) Initialize(desg Designator.Designator, dir GPIO.Direction,
   if dir == GPIO.Output {
     self.kind = output
   } else if edge == None {
-    self.kind = input 
+    self.kind = input
   } else {
     self.kind = interrupt
   }
