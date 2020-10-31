@@ -26,14 +26,3 @@ type Designator struct {
   Chip int32
   Channel int32
 }
-
-func Create(chip, channel uint) Designator {
-  return Designator { int32(chip), int32(channel) }
-}
-
-func Destroy(desg *Designator) {
-  desg.Chip = int32(-1)
-  desg.Channel = int32(-1)
-
-  return
-}
