@@ -100,19 +100,22 @@ News
        Windows) in order to use the local package feed. You should also
        comment out the entry for nuget.org, especially if you need to
        build .Net applications offline from the Internet.
+     * 30 October 2020 -- Added initial support for the [13]Go programming
+       language, including a build framework using [14]gccgo and enough
+       packages to support GPIO pins.
 
 Documentation
 
-   The user manual for libsimpleio is available at [13]UserManual.pdf.
+   The user manual for libsimpleio is available at [15]UserManual.pdf.
 
    The man pages specifying the libsimpleio API are available at
-   [14]libsimpleio.html.
+   [16]libsimpleio.html.
 
 Git Repository
 
    The source code is available at:
 
-   [15]https://github.com/pmunts/libsimpleio
+   [17]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -120,16 +123,16 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [16]Debian Linux are available at:
-   [17]http://repo.munts.com/debian10
+   Prebuilt packages for [18]Debian Linux are available at:
+   [19]http://repo.munts.com/debian10
 
-[18]Make With Ada Projects
+[20]Make With Ada Projects
 
-     * 2017 [19]Ada Embedded Linux Framework
-     * 2019 [20]Modbus RTU Framework for Ada (Prize Winner!)
+     * 2017 [21]Ada Embedded Linux Framework
+     * 2019 [22]Modbus RTU Framework for Ada (Prize Winner!)
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [21]phil@munts.net
+   Questions or comments to Philip Munts [23]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -148,12 +151,14 @@ References
   10. https://www.nuget.org/
   11. https://www.nuget.org/
   12. https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds
-  13. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  14. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  15. https://github.com/pmunts/libsimpleio
-  16. http://www.debian.org/
-  17. http://repo.munts.com/debian10
-  18. https://www.makewithada.org/
-  19. https://www.makewithada.org/entry/ada_linux_sensor_framework
-  20. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
-  21. mailto:phil@munts.net
+  13. https://golang.org/
+  14. https://golang.org/doc/install/gccgo
+  15. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  16. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  17. https://github.com/pmunts/libsimpleio
+  18. http://www.debian.org/
+  19. http://repo.munts.com/debian10
+  20. https://www.makewithada.org/
+  21. https://www.makewithada.org/entry/ada_linux_sensor_framework
+  22. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
+  23. mailto:phil@munts.net

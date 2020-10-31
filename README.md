@@ -120,6 +120,10 @@ News
     Windows) in order to use the local package feed. You should also
     comment out the entry for **`nuget.org`**, especially if you need to
     build .Net applications offline from the Internet.
+-   30 October 2020 -- Added initial support for the
+    [Go](https://golang.org) programming language, including a build
+    framework using [gccgo](https://golang.org/doc/install/gccgo) and
+    enough packages to support GPIO pins.
 
 Documentation
 -------------
