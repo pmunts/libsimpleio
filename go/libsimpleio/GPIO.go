@@ -215,13 +215,55 @@ func (self *Pin) Destroy() error {
 
 // Create a GPIO pin struct
 
-func NewPin(desg Designator.Designator, dir GPIO.Direction,
+func New(desg Designator.Designator, dir GPIO.Direction,
   state bool, driver OutputDriver, edge InputEdge, polarity Polarity) (self *Pin, err error) {
 
   // Allocate memory for a GPIO pin struct
   self = new(Pin)
 
   err = self.Initialize(desg, dir, state, driver, edge, polarity)
+
+  if (err == nil) {
+    return self, nil
+  } else {
+    return nil, err
+  }
+}
+
+func NewInput(desg Designator.Designator) (self *Pin, err error) {
+
+  // Allocate memory for a GPIO pin struct
+  self = new(Pin)
+
+  err = self.Initialize(desg, GPIO.Input, false, PushPull, None, ActiveHigh)
+
+  if (err == nil) {
+    return self, nil
+  } else {
+    return nil, err
+  }
+}
+
+func NewInterrupt(desg Designator.Designator, edge InputEdge) (self *Pin, err error) {
+
+  // Allocate memory for a GPIO pin struct
+  self = new(Pin)
+
+  err = self.Initialize(desg, GPIO.Input, false, PushPull, edge, ActiveHigh)
+
+  if (err == nil) {
+    return self, nil
+  } else {
+    return nil, err
+  }
+}
+
+func NewOutput(desg Designator.Designator, state bool) (self *Pin, err error) {
+
+  // Allocate memory for a GPIO pin struct
+  self = new(Pin)
+
+  err = self.Initialize(desg, GPIO.Output, state, PushPull, None, ActiveHigh)
 
   if (err == nil) {
     return self, nil
