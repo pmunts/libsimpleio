@@ -1,4 +1,4 @@
-// GPIO Output Toggle Test
+// Error checking routines
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -20,44 +20,14 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-package main
+package Error
 
-import (
-  "fmt"
-  "munts.com/libsimpleio/Designator"
-  "munts.com/libsimpleio/Error"
-  "munts.com/interfaces/GPIO"
-  GPIO_libsimpleio "munts.com/libsimpleio/GPIO"
-)
+import "fmt"
+import "os"
 
-func main() {
-  fmt.Printf("\nGPIO Output Toggle Test\n\n")
-
-  var chip int32
-  fmt.Printf("Enter GPIO chip number:    ")
-  fmt.Scanln(&chip)
-
-  var channel int32
-  fmt.Printf("Enter GPIO channel number: ")
-  fmt.Scanln(&channel)
-
-  // Configure a GPIO output
-
-  var outp GPIO.Pin
-  var err error
-
-  outp, err = GPIO_libsimpleio.NewOutput(Designator.Designator { chip, channel }, false)
-  Error.Exit(err, "NewOutput() failed")
-
-  var state bool
-
-  // Toggle the GPIO output
-
-  for {
-    state, err = outp.Get()
-    Error.Exit(err, "outp.Get() failed")
-
-    err = outp.Put(!state)
-    Error.Exit(err, "outp.Put() failed")
+func Exit(err error, message string) {
+  if err != nil {
+    fmt.Println(message + ", " + err.Error())
+    os.Exit(1)
   }
 }

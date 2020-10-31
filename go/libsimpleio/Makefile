@@ -33,6 +33,7 @@ CFLAGS		+= -I$(GO_OBJ)/munts.com/interfaces
 
 PACKAGES	+= unsafeConvert
 PACKAGES	+= Designator
+PACKAGES	+= Error
 PACKAGES	+= GPIO
 
 # Compile the list of source files
