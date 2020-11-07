@@ -21,7 +21,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 ifneq ($(BOARDNAME),)
-TOOLCHAIN_BUILDER := crosstool
 ifeq ($(BOARDBASE),)
 # Definitions for MuntsOS cross-compile
 EMBLINUXBASE	?= $(HOME)/muntsos
