@@ -222,9 +222,8 @@ func (self *Pin) Initialize(desg Designator.Designator, dir GPIO.Direction,
 
 // Create a GPIO pin struct instance
 
-func New(desg Designator.Designator, dir GPIO.Direction,
-  state bool, driver OutputDriver, edge InputEdge, polarity Polarity)
-  (self *Pin, err error) {
+func New(desg Designator.Designator, dir GPIO.Direction, state bool,
+  driver OutputDriver, edge InputEdge, polarity Polarity) (self *Pin, err error) {
 
   // Allocate memory for a GPIO pin struct
 
