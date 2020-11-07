@@ -113,6 +113,31 @@ type Pin struct {
 
 //*****************************************************************************
 
+// Method to destroy a GPIO pin struct
+
+func (self *Pin) Destroy() error {
+  if self.kind == destroyed {
+    self.fd = -1
+    return nil
+  }
+
+  var error int32
+
+  c_GPIO_line_close(self.fd, &error)
+
+  self.kind = destroyed
+  self.fd = 0
+
+  if (error != 0) {
+    return fmt.Errorf("ERROR: GPIO_line_close() failed, %s",
+      syscall.Errno(error).Error())
+  }
+
+  return nil
+}
+
+//*****************************************************************************
+
 // Method to initialize a GPIO pin struct
 
 func (self *Pin) Initialize(desg Designator.Designator, dir GPIO.Direction,
@@ -122,7 +147,11 @@ func (self *Pin) Initialize(desg Designator.Designator, dir GPIO.Direction,
   var cevents int32 = 0
   var cstate int32 = 0
 
+  // Initialize the GPIO pin struct
+
   self.Destroy()
+
+  // Calculate configuration flags
 
   switch dir {
     case GPIO.Input:
@@ -173,6 +202,8 @@ func (self *Pin) Initialize(desg Designator.Designator, dir GPIO.Direction,
     self.kind = interrupt
   }
 
+  // Configure the GPIO pin
+
   var error int32
 
   c_GPIO_line_open(desg.Chip, desg.Channel, cflags, cevents, cstate, &self.fd,
@@ -180,7 +211,7 @@ func (self *Pin) Initialize(desg Designator.Designator, dir GPIO.Direction,
 
   if (error != 0) {
     self.Destroy()
-    return fmt.Errorf("ERROR: Cannot open GPIO pin, %s",
+    return fmt.Errorf("ERROR: GPIO_line_open() failed, %s",
       syscall.Errno(error).Error())
   }
 
@@ -189,37 +220,17 @@ func (self *Pin) Initialize(desg Designator.Designator, dir GPIO.Direction,
 
 //*****************************************************************************
 
-// Method to destroy a GPIO pin struct
-
-func (self *Pin) Destroy() error {
-  if self.kind == destroyed {
-    return nil
-  }
-
-  var error int32
-
-  c_GPIO_line_close(self.fd, &error)
-
-  self.kind = destroyed
-  self.fd = 0
-
-  if (error != 0) {
-    return fmt.Errorf("ERROR: Cannot close GPIO pin, %s",
-      syscall.Errno(error).Error())
-  }
-
-  return nil
-}
-
-//*****************************************************************************
-
-// Create a GPIO pin struct
+// Create a GPIO pin struct instance
 
 func New(desg Designator.Designator, dir GPIO.Direction,
-  state bool, driver OutputDriver, edge InputEdge, polarity Polarity) (self *Pin, err error) {
+  state bool, driver OutputDriver, edge InputEdge, polarity Polarity)
+  (self *Pin, err error) {
 
   // Allocate memory for a GPIO pin struct
+
   self = new(Pin)
+
+  // Initialize the new GPIO pin struct
 
   err = self.Initialize(desg, dir, state, driver, edge, polarity)
 
@@ -233,7 +244,10 @@ func New(desg Designator.Designator, dir GPIO.Direction,
 func NewInput(desg Designator.Designator) (self *Pin, err error) {
 
   // Allocate memory for a GPIO pin struct
+
   self = new(Pin)
+
+  // Initialize the new GPIO pin struct
 
   err = self.Initialize(desg, GPIO.Input, false, PushPull, None, ActiveHigh)
 
@@ -247,7 +261,10 @@ func NewInput(desg Designator.Designator) (self *Pin, err error) {
 func NewInterrupt(desg Designator.Designator, edge InputEdge) (self *Pin, err error) {
 
   // Allocate memory for a GPIO pin struct
+
   self = new(Pin)
+
+  // Initialize the new GPIO pin struct
 
   err = self.Initialize(desg, GPIO.Input, false, PushPull, edge, ActiveHigh)
 
@@ -261,7 +278,10 @@ func NewInterrupt(desg Designator.Designator, edge InputEdge) (self *Pin, err er
 func NewOutput(desg Designator.Designator, state bool) (self *Pin, err error) {
 
   // Allocate memory for a GPIO pin struct
+
   self = new(Pin)
+
+  // Initialize the new GPIO pin struct
 
   err = self.Initialize(desg, GPIO.Output, state, PushPull, None, ActiveHigh)
 
