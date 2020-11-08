@@ -90,7 +90,7 @@ func (self *Output) Destroy() error {
   self.fd = -1
 
   if (errnum != 0) {
-    return fmt.Errorf("ERROR: PWM_close() failed, %s",
+    return fmt.Errorf("PWM_close() failed, %s",
       syscall.Errno(errnum).Error())
   }
 
@@ -107,15 +107,15 @@ func (self *Output) Initialize(desg Designator.Designator, freq PWM.Frequency,
   // Validate parameters
 
   if freq < 1 {
-    return fmt.Errorf("ERROR: frequency parameter is out of range")
+    return fmt.Errorf("Frequency parameter is out of range")
   }
 
   if duty < PWM.MinimumDutyCycle {
-    return fmt.Errorf("ERROR: Duty cycle parameter is out of range")
+    return fmt.Errorf("Duty cycle parameter is out of range")
   }
 
   if duty > PWM.MaximumDutyCycle {
-    return fmt.Errorf("ERROR: Duty cycle parameter is out of range")
+    return fmt.Errorf("Duty cycle parameter is out of range")
   }
 
   // Initialize the PWM output struct
@@ -135,7 +135,7 @@ func (self *Output) Initialize(desg Designator.Designator, freq PWM.Frequency,
 
   if (errnum != 0) {
     self.Destroy()
-    return fmt.Errorf("ERROR: PWM_configure() failed, %s",
+    return fmt.Errorf("PWM_configure() failed, %s",
       syscall.Errno(errnum).Error())
   }
 
@@ -145,7 +145,7 @@ func (self *Output) Initialize(desg Designator.Designator, freq PWM.Frequency,
 
   if (errnum != 0) {
     self.Destroy()
-    return fmt.Errorf("ERROR: PWM_open() failed, %s",
+    return fmt.Errorf("PWM_open() failed, %s",
       syscall.Errno(errnum).Error())
   }
 
@@ -162,15 +162,15 @@ func New(desg Designator.Designator, freq PWM.Frequency, duty PWM.DutyCycle,
   // Validate parameters
 
   if freq < 1 {
-    return nil, fmt.Errorf("ERROR: Frequency parameter is out of range")
+    return nil, fmt.Errorf("Frequency parameter is out of range")
   }
 
   if duty < PWM.MinimumDutyCycle {
-    return nil, fmt.Errorf("ERROR: Duty cycle parameter is out of range")
+    return nil, fmt.Errorf("Duty cycle parameter is out of range")
   }
 
   if duty > PWM.MaximumDutyCycle {
-    return nil, fmt.Errorf("ERROR: Duty cycle parameter is out of range")
+    return nil, fmt.Errorf("Duty cycle parameter is out of range")
   }
 
   // Allocate memory for a PWM output struct
@@ -194,17 +194,17 @@ func New(desg Designator.Designator, freq PWM.Frequency, duty PWM.DutyCycle,
 
 func (self *Output) Put(duty PWM.DutyCycle) error {
   if (self.period == 0) {
-    return fmt.Errorf("ERROR: PWM output struct has been destroyed")
+    return fmt.Errorf("PWM output has been destroyed")
   }
 
   // Validate parameters
 
   if duty < PWM.MinimumDutyCycle {
-    return fmt.Errorf("ERROR: Duty cycle parameter is out of range")
+    return fmt.Errorf("Duty cycle parameter is out of range")
   }
 
   if duty > PWM.MaximumDutyCycle {
-    return fmt.Errorf("ERROR: Duty cycle parameter is out of range")
+    return fmt.Errorf("Duty cycle parameter is out of range")
   }
 
   // Write to the PWM output
@@ -214,7 +214,7 @@ func (self *Output) Put(duty PWM.DutyCycle) error {
   c_PWM_write(self.fd, self.ontime(duty), &errnum)
 
   if errnum != 0 {
-    return fmt.Errorf("ERROR: PWM_write() failed, %s",
+    return fmt.Errorf("PWM_write() failed, %s",
       syscall.Errno(errnum).Error())
   }
 
@@ -227,7 +227,7 @@ func (self *Output) Put(duty PWM.DutyCycle) error {
 
 func (self *Output) GetPeriod() (ns PWM.Nanoseconds, err error) {
   if (self.period == 0) {
-    return 0, fmt.Errorf("ERROR: PWM output struct has been destroyed")
+    return 0, fmt.Errorf("PWM output has been destroyed")
   }
 
   return PWM.Nanoseconds(self.period), nil

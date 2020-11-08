@@ -27,7 +27,7 @@ import "os"
 
 func Exit(err error, message string) {
   if err != nil {
-    fmt.Println(message + ", " + err.Error())
+    fmt.Println("ERROR: " + message + ", " + err.Error())
     os.Exit(1)
   }
 }

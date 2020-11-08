@@ -129,7 +129,7 @@ func (self *Pin) Destroy() error {
   self.fd = 0
 
   if (error != 0) {
-    return fmt.Errorf("ERROR: GPIO_line_close() failed, %s",
+    return fmt.Errorf("GPIO_line_close() failed, %s",
       syscall.Errno(error).Error())
   }
 
@@ -211,7 +211,7 @@ func (self *Pin) Initialize(desg Designator.Designator, dir GPIO.Direction,
 
   if (error != 0) {
     self.Destroy()
-    return fmt.Errorf("ERROR: GPIO_line_open() failed, %s",
+    return fmt.Errorf("GPIO_line_open() failed, %s",
       syscall.Errno(error).Error())
   }
 
@@ -301,7 +301,7 @@ func (self *Pin) Get() (state bool, err error) {
 
   switch self.kind {
     case destroyed:
-      return false, fmt.Errorf("ERROR: GPIO pin has been destroyed")
+      return false, fmt.Errorf("GPIO pin has been destroyed")
     case input:
       c_GPIO_line_read(self.fd, &cstate, &error)
     case output:
@@ -311,7 +311,7 @@ func (self *Pin) Get() (state bool, err error) {
   }
 
   if error != 0 {
-    return false, fmt.Errorf("ERROR: Cannot read from GPIO pin, %s",
+    return false, fmt.Errorf("GPIO_line_read() failed, %s",
       syscall.Errno(error).Error())
   }
 
@@ -342,17 +342,17 @@ func (self *Pin) Put(state bool) error {
 
   switch self.kind {
     case destroyed:
-      return fmt.Errorf("ERROR: GPIO pin has been destroyed")
+      return fmt.Errorf("GPIO pin has been destroyed")
     case input:
-      return fmt.Errorf("ERROR: Cannot write to GPIO input")
+      return fmt.Errorf("Cannot write to GPIO input")
     case output:
       c_GPIO_line_write(self.fd, cstate, &error)
     case interrupt:
-      return fmt.Errorf("ERROR: Cannot write to GPIO input")
+      return fmt.Errorf("Cannot write to GPIO input")
   }
 
   if error != 0 {
-    return fmt.Errorf("ERROR: Cannot write to GPIO pin, %s",
+    return fmt.Errorf("GPIO_line_read() failed, %s",
       syscall.Errno(error).Error())
   }
 
