@@ -32,6 +32,7 @@ CFLAGS		+=
 # Packages to compile for this collection
 
 PACKAGES	+= GPIO
+PACKAGES	+= PWM
 
 # Compile the list of source files
 

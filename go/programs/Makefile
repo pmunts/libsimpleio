@@ -38,3 +38,7 @@ default:
 
 clean: go_mk_clean
 	for F in *.go ; do rm -f `basename $$F .go` ; done
+
+reallyclean: go_mk_reallyclean
+
+distclean: go_mk_distclean

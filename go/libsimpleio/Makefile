@@ -35,6 +35,7 @@ PACKAGES	+= unsafeConvert
 PACKAGES	+= Designator
 PACKAGES	+= Error
 PACKAGES	+= GPIO
+PACKAGES	+= PWM
 
 # Compile the list of source files
 
