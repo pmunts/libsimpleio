@@ -1,6 +1,6 @@
-# C++ make definitions for libsimpleio
+# Makefile for building C++ Remote I/O Protocol example programs
 
-# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,40 +20,34 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBNAME		:= simpleio++
-LIBFILE		:= lib$(LIBNAME).a
-OBJDIR		:= lib$(LIBNAME).obj
+ifneq ($(BOARDNAME),)
+# Cross compile for MuntsOS
+EMBLINUXBASE	?= $(HOME)/muntsos
+include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+else
+# Native compile for Linux
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+endif
 
-CXXDEPS		+= $(LIBFILE)
+include $(LIBSIMPLEIO)/c++/include/c++.mk
+include $(LIBSIMPLEIO)/c++/include/remoteio.mk
 
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/common
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/remoteio
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/simpleio
+# Use Linux Simple I/O Library libhid
 
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/common/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/remoteio/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/simpleio/*.cpp
+CFLAGS		+= -I$(LIBSIMPLEIO)/c++/simpleio
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/simpleio/hid-libsimpleio.cpp
+LDFLAGS		+= -lsimpleio
 
-LDFLAGS		+= -L. -l$(LIBNAME) -lsimpleio
+# Compile the test programs
 
-# Build the C++ class library
-
-$(LIBFILE):
-	mkdir -p $(OBJDIR)
-	for F in $(CXXSRCS) ; do $(CXX) $(CXXFLAGS) -c -o $(OBJDIR)/`basename $$F .c`.o $$F ; done
-	$(AR) rcs $@ $(OBJDIR)/*.o
-	rm -rf $(OBJDIR)
+default:
+	for F in *.cpp ; do $(MAKE) `basename $$F .cpp` ; done
 
 # Remove working files
 
-libsimpleio_mk_clean:
-	rm -rf $(LIBFILE) $(OBJDIR)
+clean: cxx_mk_clean remoteio_mk_clean
+	for F in *.cpp ; do rm -f `basename $$F .cpp` ; done
 
-libsimpleio_mk_reallyclean: libsimpleio_mk_clean
+reallyclean: clean cxx_mk_reallyclean remoteio_mk_reallyclean
 
-libsimpleio_mk_distclean: libsimpleio_mk_reallyclean
+distclean: reallyclean cxx_mk_distclean remoteio_mk_distclean

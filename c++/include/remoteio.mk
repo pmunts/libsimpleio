@@ -1,6 +1,6 @@
-# C++ make definitions for libsimpleio
+# C++ make definitions for building Remote I/O Protocol clients
 
-# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,26 +20,23 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBNAME		:= simpleio++
+LIBNAME		:= remoteio++
 LIBFILE		:= lib$(LIBNAME).a
 OBJDIR		:= lib$(LIBNAME).obj
 
 CXXDEPS		+= $(LIBFILE)
 
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/common
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/remoteio
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/simpleio
 
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/common/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/remoteio/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/simpleio/*.cpp
 
-LDFLAGS		+= -L. -l$(LIBNAME) -lsimpleio
+LDFLAGS		+= -L. -l$(LIBNAME)
 
 # Build the C++ class library
 
@@ -51,9 +48,9 @@ $(LIBFILE):
 
 # Remove working files
 
-libsimpleio_mk_clean:
+remoteio_mk_clean:
 	rm -rf $(LIBFILE) $(OBJDIR)
 
-libsimpleio_mk_reallyclean: libsimpleio_mk_clean
+remoteio_mk_reallyclean: remoteio_mk_clean
 
-libsimpleio_mk_distclean: libsimpleio_mk_reallyclean
+remoteio_mk_distclean: remoteio_mk_reallyclean
