@@ -24,6 +24,7 @@
 #define _HID_LIBSIMPLEIO_H
 
 #include <cstdint>
+#include <string>
 
 #include <message64-interface.h>
 
@@ -43,6 +44,8 @@ namespace libsimpleio::HID
 
     virtual void Transaction(Interfaces::Message64::Message cmd,
       Interfaces::Message64::Message resp);
+
+    std::string Name(void);
 
   private:
 

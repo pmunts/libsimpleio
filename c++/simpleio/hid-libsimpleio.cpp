@@ -20,8 +20,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cstdint>
-
 #include <exception-libsimpleio.h>
 #include <hid-libsimpleio.h>
 #include <libsimpleio/libhidraw.h>
@@ -104,4 +102,17 @@ void libsimpleio::HID::Messenger_Class::Transaction(
 {
   this->Send(cmd);
   this->Receive(resp);
+}
+
+std::string libsimpleio::HID::Messenger_Class::Name(void)
+{
+  char buf[256];
+  int32_t error;
+
+  HIDRAW_get_name(this->fd, buf, sizeof(buf), &error);
+
+  if (error)
+    THROW_MSG_ERR("HIDRAW_get_name() failed", error);
+
+  return std::string(buf);
 }

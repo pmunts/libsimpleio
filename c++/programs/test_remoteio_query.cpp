@@ -33,8 +33,10 @@ int main(void)
   libsimpleio::HID::Messenger_Class msg(0x16D0, 0x0AFA);
   RemoteIO::Client::Device_Class dev(&msg);
 
-  printf("Information:  %s\n", dev.Version().c_str());
-  printf("Capabilities: %s\n", dev.Capability().c_str());
+  printf("Device Name:   %s\n", msg.Name().c_str());
+
+  printf("Information:   %s\n", dev.Version().c_str());
+  printf("Capabilities:  %s\n", dev.Capability().c_str());
 
   exit(0);
 }
