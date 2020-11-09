@@ -1,4 +1,4 @@
-# Makefile for building C++ Remote I/O Protocol example programs
+# Makefile for building C++ Remote I/O Protocol example programs using hidapi
 
 # Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 #
@@ -32,11 +32,9 @@ endif
 include $(LIBSIMPLEIO)/c++/include/c++.mk
 include $(LIBSIMPLEIO)/c++/include/remoteio.mk
 
-# Use Linux Simple I/O Library libhid
-
-CFLAGS		+= -I$(LIBSIMPLEIO)/c++/simpleio
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/simpleio/hid-libsimpleio.cpp
-LDFLAGS		+= -lsimpleio
+CFLAGS		+= -I$(LIBSIMPLEIO)/c++/hidapi
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/hidapi/*.cpp
+LDFLAGS		+= -lhidapi
 
 # Compile the test programs
 

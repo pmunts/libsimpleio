@@ -1,4 +1,4 @@
-// Remote I/O Device Information Query
+// Raw HID device services using libhidapi
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -20,21 +20,38 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cstdio>
-#include <cstdlib>
+#ifndef _HID_HIDAPI_H
+#define _HID_HIDAPI_H
 
-#include <hid-hidapi.h>
-#include <remoteio_client.h>
+#include <message64-interface.h>
 
-int main(void)
+namespace hidapi::HID
 {
-  puts("\nRemote I/O Device Information Query\n");
+  // Messenger class definition
 
-  hidapi::HID::Messenger_Class msg(0x16D0, 0x0AFA);
-  RemoteIO::Client::Device_Class dev(&msg);
+  struct Messenger_Class: public Interfaces::Message64::Messenger_Interface
+  {
+    // Allowed values for the timeout parameter:
+    // 
+    // -1 => Receive operation blocks forever, until a report is received
+    //  0 => Receive operation never blocks at all
+    // >0 => Receive operation blocks for the indicated number of milliseconds
 
-  printf("Information:  %s\n", dev.Version().c_str());
-  printf("Capabilities: %s\n", dev.Capability().c_str());
+    Messenger_Class(uint16_t VID, uint16_t PID, const char *serial = "",
+      int timeoutms = 1000);
 
-  exit(0);
+    virtual void Send(Interfaces::Message64::Message cmd);
+
+    virtual void Receive(Interfaces::Message64::Message resp);
+
+    virtual void Transaction(Interfaces::Message64::Message cmd,
+      Interfaces::Message64::Message resp);
+
+  private:
+
+    void *handle;
+    int timeout;
+  };
 }
+
+#endif
