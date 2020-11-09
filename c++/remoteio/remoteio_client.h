@@ -50,19 +50,19 @@ namespace RemoteIO::Client
       Interfaces::Message64::Message resp);
 
     // Retrieve the Remote I/O server version string
-    std::string Version();
+    std::string Version(void);
 
     // Retrieve the Remote I/O server capability string
-    std::string Capability();
+    std::string Capability(void);
 
     // Retrieve the available Remote I/O devices
-    ChannelSet_t ADC_Inputs();
-    ChannelSet_t Abstract_Devices();
-    ChannelSet_t DAC_Outputs();
-    ChannelSet_t GPIO_Pins();
-    ChannelSet_t I2C_Buses();
-    ChannelSet_t PWM_Outputs();
-    ChannelSet_t SPI_Devices();
+    ChannelSet_t ADC_Inputs(void);
+    ChannelSet_t Abstract_Devices(void);
+    ChannelSet_t DAC_Outputs(void);
+    ChannelSet_t GPIO_Pins(void);
+    ChannelSet_t I2C_Buses(void);
+    ChannelSet_t PWM_Outputs(void);
+    ChannelSet_t SPI_Devices(void);
 
   private:
 
