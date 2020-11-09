@@ -33,8 +33,12 @@ int main(void)
   hidapi::HID::Messenger_Class msg(0x16D0, 0x0AFA);
   RemoteIO::Client::Device_Class dev(&msg);
 
-  printf("Information:  %s\n", dev.Version().c_str());
-  printf("Capabilities: %s\n", dev.Capability().c_str());
+  printf("Manufacturer:  %s\n", msg.Manufacturer().c_str());
+  printf("Product:       %s\n", msg.Product().c_str());
+  printf("Serial Number: %s\n", msg.SerialNumber().c_str());
+
+  printf("Information:   %s\n", dev.Version().c_str());
+  printf("Capabilities:  %s\n", dev.Capability().c_str());
 
   exit(0);
 }

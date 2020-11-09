@@ -22,6 +22,8 @@
 
 #include <cstdint>
 #include <cstring>
+#include <string>
+
 #include <hidapi/hidapi.h>
 
 #include <exception-libsimpleio.h>
@@ -115,4 +117,40 @@ void hidapi::HID::Messenger_Class::Transaction(
 
   this->Send(cmd);
   this->Receive(resp);
+}
+
+std::string hidapi::HID::Messenger_Class::Manufacturer(void)
+{
+  wchar_t wbuf[256];
+  char buf[256];
+
+  if (hid_get_manufacturer_string((hid_device *) this->handle, wbuf, sizeof(wbuf)) != 0)
+    THROW_MSG("hid_get_manufacturer_string() failed");
+
+  wcstombs(buf, wbuf, 256);
+  return std::string(buf);
+}
+
+std::string hidapi::HID::Messenger_Class::Product(void)
+{
+  wchar_t wbuf[256];
+  char buf[256];
+
+  if (hid_get_product_string((hid_device *) this->handle, wbuf, sizeof(wbuf)) != 0)
+    THROW_MSG("hid_get_product_string() failed");
+
+  wcstombs(buf, wbuf, 256);
+  return std::string(buf);
+}
+
+std::string hidapi::HID::Messenger_Class::SerialNumber(void)
+{
+  wchar_t wbuf[256];
+  char buf[256];
+
+  if (hid_get_serial_number_string((hid_device *) this->handle, wbuf, sizeof(wbuf)) != 0)
+    THROW_MSG("hid_get_serial_number_string() failed");
+
+  wcstombs(buf, wbuf, 256);
+  return std::string(buf);
 }

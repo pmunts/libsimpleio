@@ -23,6 +23,8 @@
 #ifndef _HID_HIDAPI_H
 #define _HID_HIDAPI_H
 
+#include <string>
+
 #include <message64-interface.h>
 
 namespace hidapi::HID
@@ -46,6 +48,12 @@ namespace hidapi::HID
 
     virtual void Transaction(Interfaces::Message64::Message cmd,
       Interfaces::Message64::Message resp);
+
+    std::string Manufacturer(void);
+
+    std::string Product(void);
+
+    std::string SerialNumber(void);
 
   private:
 
