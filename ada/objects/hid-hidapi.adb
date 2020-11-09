@@ -160,9 +160,9 @@ PACKAGE BODY HID.hidapi IS
     ELSIF status = msg'Length THEN
       offset := 0;  -- No report ID byte
     ELSIF status = 0 THEN
-      RAISE Messaging.Timeout_Error WITH "hid_read() timed out";
+      RAISE Messaging.Timeout_Error WITH "hid_read_timeout() timed out";
     ELSE
-      RAISE HID_Error WITH "hid_read() failed, status =" &
+      RAISE HID_Error WITH "hid_read_timeout() failed, status =" &
         Integer'Image(status);
     END IF;
 
