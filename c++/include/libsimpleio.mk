@@ -1,6 +1,6 @@
 # C++ make definitions for libsimpleio
 
-# Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@ CXXDEPS		+= libsimpleio++.a
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/simpleio
 
 LDFLAGS		+= -L. -lsimpleio -lsimpleio++
 
@@ -34,7 +34,7 @@ LDFLAGS		+= -L. -lsimpleio -lsimpleio++
 libsimpleio++.a:
 	for F in $(LIBSIMPLEIO)/c++/devices/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
 	for F in $(LIBSIMPLEIO)/c++/interfaces/*.cpp ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
-	for F in $(LIBSIMPLEIO)/c++/objects/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
+	for F in $(LIBSIMPLEIO)/c++/simpleio/*.cpp    ; do $(CXX) $(CXXFLAGS) -c -o `basename $$F .c`.o $$F ; done
 	$(AR) rcs $@ *.o
 	rm -f *.o
 
