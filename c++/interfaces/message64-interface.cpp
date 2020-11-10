@@ -20,38 +20,16 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _MESSAGE64_INTERFACE_H
-#define _MESSAGE64_INTERFACE_H
+#include <cstdio>
 
-#include <cstdint>
+#include <message64-interface.h>
 
-namespace Interfaces::Message64
+void Interfaces::Message64::Message_Class::Dump(void)
 {
-  static const unsigned Size = 64;
+  unsigned i;
 
-  // Message class
+  for (i = 0; i < Interfaces::Message64::Size; i++)
+    printf("%02X ", this->payload[i]);
 
-  struct Message_Class
-  {
-    uint8_t payload[Size];
-
-    void Dump(void);
-  };
-
-  typedef Message_Class *Message;
-
-  // Messenger abstract interface
-
-  struct Messenger_Interface
-  {
-    virtual void Send(Message cmd) = 0;
-
-    virtual void Receive(Message resp) = 0;
-
-    virtual void Transaction(Message cmd, Message resp) = 0;
-  };
-
-  typedef Messenger_Interface *Messenger;
+  putchar('\n');
 }
-
-#endif
