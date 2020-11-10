@@ -20,6 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <unistd.h>
+
 #include <exception-libsimpleio.h>
 #include <i2c-libsimpleio.h>
 #include <libsimpleio/libi2c.h>
@@ -78,8 +80,7 @@ void libsimpleio::I2C::Bus_Class::Transaction(unsigned slaveaddr, void *cmd,
     I2C_transaction(this->fd, slaveaddr, cmd, cmdlen, nullptr, 0, &error);
     if (error) THROW_MSG_ERR("I2C_transaction() failed", error);
 
-    LINUX_usleep(delayus, &error);
-    if (error) THROW_MSG_ERR("LINUX_usleep() failed", error);
+    usleep(delayus);
 
     I2C_transaction(this->fd, slaveaddr, nullptr, 0, resp, resplen, &error);
     if (error) THROW_MSG_ERR("I2C_transaction() failed", error);
