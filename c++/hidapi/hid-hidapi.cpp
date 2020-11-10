@@ -76,10 +76,18 @@ void hidapi::HID::Messenger_Class::Send(Interfaces::Message64::Message cmd)
   if (cmd == nullptr)
     THROW_MSG("cmd parameter is NULL");
 
-  int count = hid_write((hid_device *) this->handle, cmd->payload,
-    Interfaces::Message64::Size);
+  uint8_t buf[Interfaces::Message64::Size + 1];
 
-  if (count != Interfaces::Message64::Size)
+  // Prepend report ID byte
+
+  buf[0] = 0;
+  memcpy(buf + 1, cmd->payload, Interfaces::Message64::Size);
+
+  // Send the report
+
+  int count = hid_write((hid_device *) this->handle, buf, sizeof(buf));
+
+  if (count != sizeof(buf))
     THROW_MSG("hid_write() failed");
 }
 
@@ -90,15 +98,20 @@ void hidapi::HID::Messenger_Class::Receive(Interfaces::Message64::Message resp)
   if (resp == nullptr)
     THROW_MSG("resp parameter is NULL");
 
- int32_t count = hid_read_timeout((hid_device *) this->handle, resp->payload,
-      Interfaces::Message64::Size, this->timeout);
+  uint8_t buf[Interfaces::Message64::Size + 1];
+
+  int32_t count = hid_read_timeout((hid_device *) this->handle, buf, sizeof(buf),
+    this->timeout);
 
   // Handle the various outcomes
 
   if (count == 0)
     THROW_MSG("hid_read_timeout() timed out");
-
-  if (count != Interfaces::Message64::Size)
+  else if (count == sizeof(buf))
+    memcpy(resp->payload, buf + 1, Interfaces::Message64::Size);
+  else if (count == Interfaces::Message64::Size)
+    memcpy(resp->payload, buf, Interfaces::Message64::Size);
+  else
     THROW_MSG("hid_read_timeout() failed");
 }
 
