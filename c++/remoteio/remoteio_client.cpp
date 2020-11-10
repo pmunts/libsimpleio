@@ -29,8 +29,12 @@
 #include <exception-libsimpleio.h>
 #include <remoteio_client.h>
 
+using namespace RemoteIO;
+using namespace RemoteIO::Client;
+
 // Constructor
-RemoteIO::Client::Device_Class::Device_Class(Interfaces::Message64::Messenger transport)
+
+Device_Class::Device_Class(Interfaces::Message64::Messenger transport)
 {
   // Validate parameters
 
@@ -39,10 +43,34 @@ RemoteIO::Client::Device_Class::Device_Class(Interfaces::Message64::Messenger tr
 
   this->msg = transport;
   this->num = 0;
+  this->Version = QueryVersion();
+  this->Capability = QueryCapability();
+
+  if (this->Capability.find("ADC") != std::string::npos)
+    this->ADC_Inputs = QueryChannels(ADC_PRESENT_REQUEST);
+
+  if (this->Capability.find("DAC") != std::string::npos)
+    this->DAC_Outputs = QueryChannels(DAC_PRESENT_REQUEST);
+
+  if (this->Capability.find("GPIO") != std::string::npos)
+    this->GPIO_Pins = QueryChannels(GPIO_PRESENT_REQUEST);
+
+  if (this->Capability.find("I2C") != std::string::npos)
+    this->I2C_Buses = QueryChannels(I2C_PRESENT_REQUEST);
+
+  if (this->Capability.find("PWM") != std::string::npos)
+    this->PWM_Outputs = QueryChannels(PWM_PRESENT_REQUEST);
+
+  if (this->Capability.find("SPI") != std::string::npos)
+    this->SPI_Slaves = QueryChannels(SPI_PRESENT_REQUEST);
+
+  if (this->Capability.find("DEVICE") != std::string::npos)
+    this->Abstract_Devices = QueryChannels(DEVICE_PRESENT_REQUEST);
 }
 
 // Execute a Remote I/O operation
-void RemoteIO::Client::Device_Class::Transaction(Interfaces::Message64::Message cmd,
+
+void Device_Class::Transaction(Interfaces::Message64::Message cmd,
   Interfaces::Message64::Message resp)
 {
   // Validate parameters
@@ -74,7 +102,8 @@ void RemoteIO::Client::Device_Class::Transaction(Interfaces::Message64::Message 
 }
 
 // Retrieve the Remote I/O server version string
-std::string RemoteIO::Client::Device_Class::Version()
+
+std::string Device_Class::QueryVersion()
 {
   Interfaces::Message64::Message_Class cmd;
   Interfaces::Message64::Message_Class resp;
@@ -82,14 +111,15 @@ std::string RemoteIO::Client::Device_Class::Version()
   memset(cmd.payload, 0, Interfaces::Message64::Size);
   memset(resp.payload, 0, Interfaces::Message64::Size);
 
-  cmd.payload[0] = RemoteIO::VERSION_REQUEST;
+  cmd.payload[0] = VERSION_REQUEST;
   this->Transaction(&cmd, &resp);
 
   return std::string((char *) (resp.payload + 3));
 }
 
 // Retrieve the Remote I/O server capability string
-std::string RemoteIO::Client::Device_Class::Capability()
+
+std::string Device_Class::QueryCapability()
 {
   Interfaces::Message64::Message_Class cmd;
   Interfaces::Message64::Message_Class resp;
@@ -97,8 +127,31 @@ std::string RemoteIO::Client::Device_Class::Capability()
   memset(cmd.payload, 0, Interfaces::Message64::Size);
   memset(resp.payload, 0, Interfaces::Message64::Size);
 
-  cmd.payload[0] = RemoteIO::CAPABILITY_REQUEST;
+  cmd.payload[0] = CAPABILITY_REQUEST;
   this->Transaction(&cmd, &resp);
 
   return std::string((char *) (resp.payload + 3));
+}
+
+// Retrieve the set of channels available for the specified resource type
+
+ChannelSet_t Device_Class::QueryChannels(unsigned query)
+{
+  Interfaces::Message64::Message_Class cmd;
+  Interfaces::Message64::Message_Class resp;
+  ChannelSet_t channels;
+  unsigned c;
+
+  memset(cmd.payload, 0, Interfaces::Message64::Size);
+  memset(resp.payload, 0, Interfaces::Message64::Size);
+
+  cmd.payload[0] = query;
+
+  this->Transaction(&cmd, &resp);
+
+  for (c = 0; c < MAX_CHANNELS; c++)
+    if (resp.payload[3 + c/8] & (1 << (7 - c % 8)))
+      channels.insert(c);
+
+  return channels;
 }

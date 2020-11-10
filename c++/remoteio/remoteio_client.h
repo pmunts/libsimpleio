@@ -49,25 +49,31 @@ namespace RemoteIO::Client
     void Transaction(Interfaces::Message64::Message cmd,
       Interfaces::Message64::Message resp);
 
-    // Retrieve the Remote I/O server version string
-    std::string Version(void);
+    std::string Version;
+    std::string Capability;
 
-    // Retrieve the Remote I/O server capability string
-    std::string Capability(void);
-
-    // Retrieve the available Remote I/O devices
-    ChannelSet_t ADC_Inputs(void);
-    ChannelSet_t Abstract_Devices(void);
-    ChannelSet_t DAC_Outputs(void);
-    ChannelSet_t GPIO_Pins(void);
-    ChannelSet_t I2C_Buses(void);
-    ChannelSet_t PWM_Outputs(void);
-    ChannelSet_t SPI_Devices(void);
+    // Available Remote I/O devices
+    ChannelSet_t ADC_Inputs;
+    ChannelSet_t DAC_Outputs;
+    ChannelSet_t GPIO_Pins;
+    ChannelSet_t I2C_Buses;
+    ChannelSet_t PWM_Outputs;
+    ChannelSet_t SPI_Slaves;
+    ChannelSet_t Abstract_Devices;
 
   private:
 
     Interfaces::Message64::Messenger msg;
     uint8_t num;
+
+    // Retrieve the Remote I/O server version string
+    std::string QueryVersion(void);
+
+    // Retrieve the Remote I/O server capability string
+    std::string QueryCapability(void);
+
+    // Retrive the set of channels available for a given resource type
+    ChannelSet_t QueryChannels(unsigned query);
   };
 
   typedef Device_Class *Device;

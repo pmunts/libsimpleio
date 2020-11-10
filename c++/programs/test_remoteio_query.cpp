@@ -33,10 +33,82 @@ int main(void)
   libsimpleio::HID::Messenger_Class msg(0x16D0, 0x0AFA);
   RemoteIO::Client::Device_Class dev(&msg);
 
-  printf("Device Name:   %s\n", msg.Name().c_str());
+  printf("Manufacturer:            %s\n", msg.Manufacturer().c_str());
+  printf("Product:                 %s\n", msg.Product().c_str());
+  printf("Serial Number:           %s\n", msg.SerialNumber().c_str());
 
-  printf("Information:   %s\n", dev.Version().c_str());
-  printf("Capabilities:  %s\n", dev.Capability().c_str());
+  printf("Information:             %s\n", dev.Version.c_str());
+  printf("Capabilities:            %s\n", dev.Capability.c_str());
+
+  if (!dev.ADC_Inputs.empty())
+  {
+    printf("Found ADC inputs:       ");
+
+    for (auto channel : dev.ADC_Inputs)
+      printf(" %d", channel);
+
+    putchar('\n');
+  }
+
+  if (!dev.DAC_Outputs.empty())
+  {
+    printf("Found DAC outputs:      ");
+
+    for (auto channel : dev.DAC_Outputs)
+      printf(" %d", channel);
+
+    putchar('\n');
+  }
+
+  if (!dev.GPIO_Pins.empty())
+  {
+    printf("Found GPIO pins:        ");
+
+    for (auto channel : dev.GPIO_Pins)
+      printf(" %d", channel);
+
+    putchar('\n');
+  }
+
+  if (!dev.I2C_Buses.empty())
+  {
+    printf("Found I2C buses:        ");
+
+    for (auto channel : dev.I2C_Buses)
+      printf(" %d", channel);
+
+    putchar('\n');
+  }
+
+  if (!dev.PWM_Outputs.empty())
+  {
+    printf("Found PWM outputs:      ");
+
+    for (auto channel : dev.PWM_Outputs)
+      printf(" %d", channel);
+
+    putchar('\n');
+  }
+
+  if (!dev.SPI_Slaves.empty())
+  {
+    printf("Found SPI slave devices:");
+
+    for (auto channel : dev.SPI_Slaves)
+      printf(" %d", channel);
+
+    putchar('\n');
+  }
+
+  if (!dev.Abstract_Devices.empty())
+  {
+    printf("Found abstract devices: ");
+
+    for (auto channel : dev.Abstract_Devices)
+      printf(" %d", channel);
+
+    putchar('\n');
+  }
 
   exit(0);
 }
