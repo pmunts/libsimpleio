@@ -20,7 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <unistd.h>
+#include <thread>
+#include <chrono>
 
 #include <exception-libsimpleio.h>
 #include <hdc1080.h>
@@ -52,7 +53,7 @@ HDC1080::Device_Class::Device_Class(Interfaces::I2C::Bus bus)
   // Issue software reset
 
   this->WriteRegister(RegConfiguration, 0x8000);
-  usleep(100000);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
   // Heater off, acquire temp or humidity, 14 bit resolutions
 
