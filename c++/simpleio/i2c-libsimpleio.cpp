@@ -25,7 +25,6 @@
 #include <exception-libsimpleio.h>
 #include <i2c-libsimpleio.h>
 #include <libsimpleio/libi2c.h>
-#include <libsimpleio/liblinux.h>
 
 // Constructor
 
