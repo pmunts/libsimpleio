@@ -1,6 +1,6 @@
 // PCA9685 LED controller services
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,8 +22,10 @@
 
 #include <cstring>
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <pca9685.h>
+
+using namespace Devices::PCA9685;
 
 // PCA9685 Register addresses -- Only a few are defined here: Those that we
 // will need below
@@ -35,7 +37,7 @@
 
 // Device_Class constructor
 
-PCA9685::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr,
+Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr,
   unsigned freq, unsigned clock)
 {
   // Validate parameters
@@ -75,7 +77,7 @@ PCA9685::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr,
 
 // Device_Class methods
 
-void PCA9685::Device_Class::WriteRegister(uint8_t regaddr, uint8_t regdata)
+void Device_Class::WriteRegister(uint8_t regaddr, uint8_t regdata)
 {
   uint8_t cmd[2];
 
@@ -85,7 +87,7 @@ void PCA9685::Device_Class::WriteRegister(uint8_t regaddr, uint8_t regdata)
   this->bus->Transaction(this->addr, cmd, sizeof(cmd), nullptr, 0);
 }
 
-void PCA9685::Device_Class::ReadChannel(unsigned channel, uint8_t *regdata)
+void Device_Class::ReadChannel(unsigned channel, uint8_t *regdata)
 {
   // Validate parameters
 
@@ -99,8 +101,7 @@ void PCA9685::Device_Class::ReadChannel(unsigned channel, uint8_t *regdata)
   this->bus->Transaction(this->addr, cmd, sizeof(cmd), regdata, 4);
 }
 
-void PCA9685::Device_Class::WriteChannel(unsigned channel,
-  const uint8_t *regdata)
+void Device_Class::WriteChannel(unsigned channel, const uint8_t *regdata)
 {
   // Validate parameters
 
@@ -118,7 +119,7 @@ void PCA9685::Device_Class::WriteChannel(unsigned channel,
   this->bus->Transaction(this->addr, cmd, sizeof(cmd), nullptr, 0);
 }
 
-unsigned PCA9685::Device_Class::frequency(void)
+unsigned Device_Class::frequency(void)
 {
   return this->freq;
 }
@@ -132,8 +133,7 @@ static const uint8_t GPIO_OFF[] = { 0x00, 0x00, 0x00, 0x10 };
 
 // GPIO output constructor
 
-PCA9685::GPIO_Output_Class::GPIO_Output_Class(Device dev, unsigned channel,
-  bool state)
+GPIO_Output_Class::GPIO_Output_Class(Device dev, unsigned channel, bool state)
 {
   // Validate parameters
 
@@ -153,7 +153,7 @@ PCA9685::GPIO_Output_Class::GPIO_Output_Class(Device dev, unsigned channel,
 
 // GPIO output methods
 
-bool PCA9685::GPIO_Output_Class::read(void)
+bool GPIO_Output_Class::read(void)
 {
   uint8_t regdata[4];
 
@@ -161,7 +161,7 @@ bool PCA9685::GPIO_Output_Class::read(void)
   return memcmp(regdata, GPIO_OFF, sizeof(regdata));
 }
 
-void PCA9685::GPIO_Output_Class::write(const bool state)
+void GPIO_Output_Class::write(const bool state)
 {
   // Write the channel settings
 
@@ -172,8 +172,7 @@ void PCA9685::GPIO_Output_Class::write(const bool state)
 
 // PWM output constructor
 
-PCA9685::PWM_Output_Class::PWM_Output_Class(Device dev, unsigned channel,
-  double dutycycle)
+PWM_Output_Class::PWM_Output_Class(Device dev, unsigned channel, double dutycycle)
 {
   // Validate parameters
 
@@ -204,7 +203,7 @@ PCA9685::PWM_Output_Class::PWM_Output_Class(Device dev, unsigned channel,
 
 // PWM output methods
 
-void PCA9685::PWM_Output_Class::write(const double dutycycle)
+void PWM_Output_Class::write(const double dutycycle)
 {
   // Validate parameters
 
@@ -228,8 +227,7 @@ void PCA9685::PWM_Output_Class::write(const double dutycycle)
 
 // Servo output constructor
 
-PCA9685::Servo_Output_Class::Servo_Output_Class(Device dev, unsigned channel,
-  double position)
+Servo_Output_Class::Servo_Output_Class(Device dev, unsigned channel, double position)
 {
   // Validate parameters
 
@@ -261,7 +259,7 @@ PCA9685::Servo_Output_Class::Servo_Output_Class(Device dev, unsigned channel,
 
 // Servo output methods
 
-void PCA9685::Servo_Output_Class::write(const double position)
+void Servo_Output_Class::write(const double position)
 {
   // Validate parameters
 

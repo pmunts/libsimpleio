@@ -1,6 +1,6 @@
 // Abstract interface for DAC (Digital to Analog Converter) outputs
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,20 +21,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <dac-interface.h>
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 
-void Interfaces::DAC::Sample_Interface::operator =(const int sample)
+using namespace Interfaces::DAC;
+
+#ifdef WITH_ASSIGNMENT_OPERATORS
+void Sample_Interface::operator =(const int sample)
 {
   this->write(sample);
 }
 
-void Interfaces::DAC::Voltage_Interface::operator =(const double voltage)
+void Voltage_Interface::operator =(const double voltage)
 {
   this->write(voltage);
 }
+#endif
 
-Interfaces::DAC::Output_Class::Output_Class(Interfaces::DAC::Sample output,
-  double reference, double gain)
+Output_Class::Output_Class(Sample output, double reference, double gain)
 {
   // Validate parameters
 
@@ -48,7 +51,7 @@ Interfaces::DAC::Output_Class::Output_Class(Interfaces::DAC::Sample output,
   this->stepsize = reference/(1 << output->resolution())/gain;
 }
 
-void Interfaces::DAC::Output_Class::write(const double voltage)
+void Output_Class::write(const double voltage)
 {
   this->output->write(voltage/stepsize);
 }

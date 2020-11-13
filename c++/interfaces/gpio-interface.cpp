@@ -1,6 +1,6 @@
 // Abstract interface for GPIO pins
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,12 +22,16 @@
 
 #include <gpio-interface.h>
 
-Interfaces::GPIO::Pin_Interface::operator bool(void)
+using namespace Interfaces::GPIO;
+
+#ifdef WITH_ASSIGNMENT_OPERATORS
+Pin_Interface::operator bool(void)
 {
   return this->read();
 }
 
-void Interfaces::GPIO::Pin_Interface::operator =(const bool state)
+void Pin_Interface::operator =(const bool state)
 {
   this->write(state);
 }
+#endif

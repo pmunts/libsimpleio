@@ -1,6 +1,6 @@
 // Servo output services using libsimpleio
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,14 +20,16 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <servo-libsimpleio.h>
 #include <libsimpleio/libpwm.h>
 
+using namespace libsimpleio::Servo;
+
 // Constructor
 
-libsimpleio::Servo::Output_Class::Output_Class(unsigned chip, unsigned channel,
-  unsigned frequency, double position)
+Output_Class::Output_Class(unsigned chip, unsigned channel, unsigned frequency,
+  double position)
 {
   // Validate parameters
 
@@ -64,7 +66,7 @@ libsimpleio::Servo::Output_Class::Output_Class(unsigned chip, unsigned channel,
 
 // Servo output methods
 
-void libsimpleio::Servo::Output_Class::write(const double position)
+void Output_Class::write(const double position)
 {
   // Validate parameters
 

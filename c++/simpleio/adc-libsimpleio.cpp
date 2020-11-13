@@ -1,6 +1,6 @@
 // Analog input services using libsimpleio
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -23,13 +23,14 @@
 #include <cstdint>
 
 #include <adc-libsimpleio.h>
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <libsimpleio/libadc.h>
+
+using namespace libsimpleio::ADC;
 
 // Constructors
 
-libsimpleio::ADC::Sample_Subclass::Sample_Subclass(unsigned chip,
-  unsigned channel, unsigned resolution)
+Sample_Class::Sample_Class(unsigned chip, unsigned channel, unsigned resolution)
 {
   int error;
 
@@ -41,7 +42,7 @@ libsimpleio::ADC::Sample_Subclass::Sample_Subclass(unsigned chip,
 
 // Methods
 
-int libsimpleio::ADC::Sample_Subclass::sample(void)
+int Sample_Class::sample(void)
 {
   int32_t sample;
   int32_t error;
@@ -52,7 +53,7 @@ int libsimpleio::ADC::Sample_Subclass::sample(void)
   return sample;
 }
 
-unsigned libsimpleio::ADC::Sample_Subclass::resolution(void)
+unsigned Sample_Class::resolution(void)
 {
   return this->numbits;
 }

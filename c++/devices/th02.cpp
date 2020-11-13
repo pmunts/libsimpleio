@@ -1,6 +1,6 @@
 // TH02 Temperature/Humidity Sensor services
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
 
 #include <unistd.h>
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <th02.h>
 
 // TH02 register addresses
@@ -43,9 +43,11 @@
 
 #define mskBusy		0x01  // Zero when conversion complete
 
+using namespace Devices::TH02;
+
 // Device_Class constructor
 
-TH02::Device_Class::Device_Class(Interfaces::I2C::Bus bus)
+Device_Class::Device_Class(Interfaces::I2C::Bus bus)
 {
   // Validate parameters
 
@@ -63,7 +65,7 @@ TH02::Device_Class::Device_Class(Interfaces::I2C::Bus bus)
 
 // Read from an TH02 device register
 
-uint8_t TH02::Device_Class::ReadRegister(uint8_t reg)
+uint8_t Device_Class::ReadRegister(uint8_t reg)
 {
   uint8_t cmd[1];
   uint8_t resp[1];
@@ -91,7 +93,7 @@ uint8_t TH02::Device_Class::ReadRegister(uint8_t reg)
 
 // Write to an TH02 device register
 
-void TH02::Device_Class::WriteRegister(uint8_t reg, uint8_t data)
+void Device_Class::WriteRegister(uint8_t reg, uint8_t data)
 {
   uint8_t cmd[2];
 
@@ -116,7 +118,7 @@ void TH02::Device_Class::WriteRegister(uint8_t reg, uint8_t data)
   this->bus->Transaction(this->addr, cmd, sizeof(cmd), nullptr, 0);
 }
 
-uint16_t TH02::Device_Class::ReadData(uint8_t which)
+uint16_t Device_Class::ReadData(uint8_t which)
 {
   uint8_t cmd[1];
   uint8_t resp[2];
@@ -141,7 +143,7 @@ uint16_t TH02::Device_Class::ReadData(uint8_t which)
 
 // Aquire a temperature sample
 
-double TH02::Device_Class::temperature(void)
+double Device_Class::temperature(void)
 {
   return (ReadData(cmdTemp) >> 2)/32.0 - 50.0;
 }
@@ -157,7 +159,7 @@ double TH02::Device_Class::temperature(void)
 
 // Acquire a humidity sample
 
-double TH02::Device_Class::humidity(void)
+double Device_Class::humidity(void)
 {
   // Get humidity sample
 
@@ -174,7 +176,7 @@ double TH02::Device_Class::humidity(void)
 
 // Fetch the device ID
 
-uint8_t TH02::Device_Class::deviceID(void)
+uint8_t Device_Class::deviceID(void)
 {
   return this->ReadRegister(RegID);
 }

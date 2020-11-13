@@ -1,6 +1,6 @@
 // SPI device services using libsimpleio
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,14 +20,16 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <spi-libsimpleio.h>
 #include <libsimpleio/libspi.h>
 
+using namespace libsimpleio::SPI;
+
 // Constructor
 
-libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
-  unsigned wordsize, unsigned speed, libsimpleio::GPIO::Designator cspin)
+Device_Class::Device_Class(const char *name, unsigned mode, unsigned wordsize,
+  unsigned speed, libsimpleio::GPIO::Designator cspin)
 {
   // Validate parameters
 
@@ -59,8 +61,8 @@ libsimpleio::SPI::Device_Class::Device_Class(const char *name, unsigned mode,
 
 // Methods
 
-void libsimpleio::SPI::Device_Class::Transaction(void *cmd, unsigned cmdlen,
-  void *resp, unsigned resplen, unsigned delayus)
+void Device_Class::Transaction(void *cmd, unsigned cmdlen, void *resp,
+  unsigned resplen, unsigned delayus)
 {
   // Validate parameters
 

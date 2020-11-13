@@ -26,8 +26,8 @@
 
 #include <cstring>
 
-#include <exception-libsimpleio.h>
-#include <remoteio_client.h>
+#include <exception-raisers.h>
+#include <remoteio-client.h>
 
 using namespace RemoteIO;
 using namespace RemoteIO::Client;

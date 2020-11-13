@@ -1,6 +1,6 @@
 // MCP4822 DAC (Digital to Analog Converter) output services
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@
 #include <dac-interface.h>
 #include <spi-interface.h>
 
-namespace MCP4822
+namespace Devices::MCP4822
 {
   static const unsigned MaxChannels = 2;
   static const unsigned Resolution = 12;

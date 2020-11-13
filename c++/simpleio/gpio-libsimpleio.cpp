@@ -1,6 +1,6 @@
 // GPIO pin services using libsimpleio
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,9 +20,11 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <gpio-libsimpleio.h>
 #include <libsimpleio/libgpio.h>
+
+using namespace libsimpleio::GPIO;
 
 static const int32_t DirectionFlags[] =
 {
@@ -53,9 +55,8 @@ static const int32_t EventFlags[] =
 
 // GPIO Constructors
 
-libsimpleio::GPIO::Pin_Class::Pin_Class(libsimpleio::GPIO::Designator pin,
-  unsigned direction, bool state, unsigned driver, unsigned polarity,
-  unsigned edge)
+Pin_Class::Pin_Class(Designator pin, unsigned direction, bool state,
+  unsigned driver, unsigned polarity, unsigned edge)
 {
   int32_t flags = 0;
   int32_t events = 0;
@@ -64,10 +65,10 @@ libsimpleio::GPIO::Pin_Class::Pin_Class(libsimpleio::GPIO::Designator pin,
 
   // Validate parameters
 
-  if (pin.chip == libsimpleio::GPIO::Unavailable.chip)
+  if (pin.chip == Unavailable.chip)
     THROW_MSG("The GPIO pin is unavailable");
 
-  if (pin.line == libsimpleio::GPIO::Unavailable.line)
+  if (pin.line == Unavailable.line)
     THROW_MSG("The GPIO pin is unavailable");
 
   if (direction > GPIO_DIRECTION_OUTPUT)
@@ -96,9 +97,8 @@ libsimpleio::GPIO::Pin_Class::Pin_Class(libsimpleio::GPIO::Designator pin,
   this->interrupt = (edge != GPIO_EDGE_NONE);
 }
 
-libsimpleio::GPIO::Pin_Class::Pin_Class(unsigned chip, unsigned line,
-  unsigned direction, bool state, unsigned driver, unsigned polarity,
-  unsigned edge)
+Pin_Class::Pin_Class(unsigned chip, unsigned line, unsigned direction,
+  bool state, unsigned driver, unsigned polarity, unsigned edge)
 {
   int32_t flags = 0;
   int32_t events = 0;
@@ -107,10 +107,10 @@ libsimpleio::GPIO::Pin_Class::Pin_Class(unsigned chip, unsigned line,
 
   // Validate parameters
 
-  if (chip == libsimpleio::GPIO::Unavailable.chip)
+  if (chip == Unavailable.chip)
     THROW_MSG("The GPIO pin is unavailable");
 
-  if (line == libsimpleio::GPIO::Unavailable.line)
+  if (line == Unavailable.line)
     THROW_MSG("The GPIO pin is unavailable");
 
   if (direction > GPIO_DIRECTION_OUTPUT)
@@ -141,7 +141,7 @@ libsimpleio::GPIO::Pin_Class::Pin_Class(unsigned chip, unsigned line,
 
 // GPIO Methods
 
-bool libsimpleio::GPIO::Pin_Class::read(void)
+bool Pin_Class::read(void)
 {
   int32_t state;
   int32_t error;
@@ -161,7 +161,7 @@ bool libsimpleio::GPIO::Pin_Class::read(void)
   return state;
 }
 
-void libsimpleio::GPIO::Pin_Class::write(const bool state)
+void Pin_Class::write(const bool state)
 {
   int32_t error;
 

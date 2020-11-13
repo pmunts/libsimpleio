@@ -1,6 +1,6 @@
 // MCP4822 DAC (Digital to Analog Converter) output services
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,12 +20,14 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <mcp4822.h>
+
+using namespace Devices::MCP4822;
 
 // Device class constructor
 
-MCP4822::Device_Class::Device_Class(Interfaces::SPI::Device dev)
+Device_Class::Device_Class(Interfaces::SPI::Device dev)
 {
   // Validate parameters
 
@@ -37,7 +39,7 @@ MCP4822::Device_Class::Device_Class(Interfaces::SPI::Device dev)
 
 // Device class methods
 
-void MCP4822::Device_Class::write(unsigned channel, int sample)
+void Device_Class::write(unsigned channel, int sample)
 {
   // Validate parameters
 
@@ -57,7 +59,7 @@ void MCP4822::Device_Class::write(unsigned channel, int sample)
 
 // Sample_Subclass constructor
 
-MCP4822::Sample_Subclass::Sample_Subclass(Device dev, unsigned channel)
+Sample_Subclass::Sample_Subclass(Device dev, unsigned channel)
 {
   // Validate parameters
 
@@ -73,7 +75,7 @@ MCP4822::Sample_Subclass::Sample_Subclass(Device dev, unsigned channel)
 
 // Sample_Subclass methods
 
-void MCP4822::Sample_Subclass::write(const int sample)
+void Sample_Subclass::write(const int sample)
 {
   // Validate parameters
 
@@ -83,7 +85,7 @@ void MCP4822::Sample_Subclass::write(const int sample)
   this->dev->write(this->channel, sample);
 }
 
-unsigned MCP4822::Sample_Subclass::resolution(void)
+unsigned Sample_Subclass::resolution(void)
 {
-  return MCP4822::Resolution;
+  return Resolution;
 }

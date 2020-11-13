@@ -1,6 +1,6 @@
 // ADS1015 ADC (Analog to Digital Converter) input services
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@
 #include <adc-interface.h>
 #include <i2c-interface.h>
 
-namespace ADS1015
+namespace Devices::ADS1015
 {
   static const unsigned MaxChannels = 4;
   static const unsigned Resolution = 12;

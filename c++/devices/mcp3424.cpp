@@ -1,6 +1,6 @@
 // MCP3424 ADC (Analog to Digital Converter) input services
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,8 +20,10 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <mcp3424.h>
+
+using namespace Devices::MCP3424;
 
 // Define some sign extending functions
 
@@ -55,7 +57,7 @@ static int SignExtend18(unsigned n)
 
 // Device_Class constructor
 
-MCP3424::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
+Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
 {
   // Validate parameters
 
@@ -68,8 +70,7 @@ MCP3424::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
 
 // Device_Class sample() method
 
-int MCP3424::Device_Class::sample(unsigned channel, unsigned resolution,
-  unsigned range)
+int Device_Class::sample(unsigned channel, unsigned resolution, unsigned range)
 {
   // Validate parameters
 
@@ -145,8 +146,8 @@ int MCP3424::Device_Class::sample(unsigned channel, unsigned resolution,
 
 // Analog input class constructor
 
-MCP3424::Input_Class::Input_Class(Device dev, unsigned channel,
-  unsigned resolution, unsigned range, double gain)
+Input_Class::Input_Class(Device dev, unsigned channel, unsigned resolution,
+  unsigned range, double gain)
 {
   this->dev = dev;
   this->channel = channel;
@@ -157,14 +158,14 @@ MCP3424::Input_Class::Input_Class(Device dev, unsigned channel,
 
 // Analog input class methods
 
-int MCP3424::Input_Class::sample(void)
+int Input_Class::sample(void)
 {
   return dev->sample(this->channel, this->res, this->range);
 }
 
 static const unsigned Bits[]  = { 12, 14, 16, 18 };
 
-unsigned MCP3424::Input_Class::resolution(void)
+unsigned Input_Class::resolution(void)
 {
   return Bits[this->res];
 }
@@ -172,7 +173,7 @@ unsigned MCP3424::Input_Class::resolution(void)
 static const int Steps[] = { 2048, 8192, 32768, 131072 };
 static const int Gains[] = { 1, 2, 4, 8 };
 
-double MCP3424::Input_Class::voltage(void)
+double Input_Class::voltage(void)
 {
   return double(this->sample())/Steps[this->res]*2.048*Gains[this->range]/this->gain;
 }

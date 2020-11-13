@@ -1,6 +1,6 @@
 // Motor services using PWM and GPIO outputs
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,15 +20,17 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <motor-pwm.h>
+
+using namespace Interfaces::Motor::PWM;
 
 // Type 1 motor control systems:
 
 // One PWM output for speed control
 // One GPIO output for direction control
 
-Motor::PWM::Output_Class::Output_Class(Interfaces::PWM::Output speed,
+Output_Class::Output_Class(Interfaces::PWM::Output speed,
   Interfaces::GPIO::Pin dir, const double velocity)
 {
   // Validate parameters
@@ -57,7 +59,7 @@ Motor::PWM::Output_Class::Output_Class(Interfaces::PWM::Output speed,
 // One PWM output for clockwise rotation
 // One PWM output for counter-clockwise rotation
 
-Motor::PWM::Output_Class::Output_Class(Interfaces::PWM::Output cw,
+Output_Class::Output_Class(Interfaces::PWM::Output cw,
   Interfaces::PWM::Output ccw, const double velocity)
 {
   // Validate parameters
@@ -83,7 +85,7 @@ Motor::PWM::Output_Class::Output_Class(Interfaces::PWM::Output cw,
 
 // Motor output methods
 
-void Motor::PWM::Output_Class::write(const double velocity)
+void Output_Class::write(const double velocity)
 {
   // Validate parameters
 

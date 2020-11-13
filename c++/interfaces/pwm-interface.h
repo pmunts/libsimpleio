@@ -1,6 +1,6 @@
 // Abstract interface for PWM (Pulse Width Modulated) outputs
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,9 @@ namespace Interfaces::PWM
 
     // PWM output operators
 
+#ifdef WITH_ASSIGNMENT_OPERATORS
     void operator =(const double dutycycle);
+#endif
   };
 
   typedef Output_Interface *Output;

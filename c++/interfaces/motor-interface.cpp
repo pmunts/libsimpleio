@@ -1,6 +1,6 @@
 // Abstract interface for continuously variable motor control outputs
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,11 @@
 
 #include <motor-interface.h>
 
-void Interfaces::Motor::Output_Interface::operator =(const double velocity)
+using namespace Interfaces::Motor;
+
+#ifdef WITH_ASSIGNMENT_OPERATORS
+void Output_Interface::operator =(const double velocity)
 {
   this->write(velocity);
 }
+#endif

@@ -1,6 +1,6 @@
 // ADS1015 ADC (Analog to Digital Converter) input services
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <ads1015.h>
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
+
+using namespace Devices::ADS1015;
 
 // Map full scale range enum to double
 
@@ -29,7 +31,7 @@ static const double Ranges[] = { 6.144, 4.096, 2.048, 1.024, 0.512, 0.256 };
 
 // Device_Class constructor
 
-ADS1015::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
+Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
 {
   // Validate parameters
 
@@ -42,7 +44,7 @@ ADS1015::Device_Class::Device_Class(Interfaces::I2C::Bus bus, unsigned addr)
 
 // Device_Class ReadRegister() method
 
-uint16_t ADS1015::Device_Class::ReadRegister(unsigned reg)
+uint16_t Device_Class::ReadRegister(unsigned reg)
 {
   // Validate parameters
 
@@ -60,7 +62,7 @@ uint16_t ADS1015::Device_Class::ReadRegister(unsigned reg)
 
 // Device_Class WriteRegister() method
 
-void ADS1015::Device_Class::WriteRegister(unsigned reg, uint16_t value)
+void Device_Class::WriteRegister(unsigned reg, uint16_t value)
 {
   // Validate parameters
 
@@ -81,7 +83,7 @@ static const unsigned PermuteChannels[] = { 4, 5, 6, 7, 0, 1, 2, 3 };
 
 // Input_Class constructor
 
-ADS1015::Input_Class::Input_Class(Device dev, unsigned channel, unsigned range,
+Input_Class::Input_Class(Device dev, unsigned channel, unsigned range,
   double gain)
 {
   // Validate parameters
@@ -99,7 +101,7 @@ ADS1015::Input_Class::Input_Class(Device dev, unsigned channel, unsigned range,
 
 // Input_Class methods
 
-int ADS1015::Input_Class::sample(void)
+int Input_Class::sample(void)
 {
   // Start conversion
 
@@ -115,12 +117,12 @@ int ADS1015::Input_Class::sample(void)
   return int16_t(this->dev->ReadRegister(CONVERSION))/16;
 }
 
-unsigned ADS1015::Input_Class::resolution(void)
+unsigned Input_Class::resolution(void)
 {
-  return ADS1015::Resolution;
+  return Resolution;
 }
 
-double ADS1015::Input_Class::voltage(void)
+double Input_Class::voltage(void)
 {
   return double(this->sample())*Ranges[this->range]/double(Steps)*2.0/this->gain;
 }

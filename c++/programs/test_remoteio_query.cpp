@@ -24,7 +24,7 @@
 #include <cstdlib>
 
 #include <hid-libsimpleio.h>
-#include <remoteio_client.h>
+#include <remoteio-client.h>
 
 int main(void)
 {

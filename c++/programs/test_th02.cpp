@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
 
   // Create sensor device object
 
-  TH02::Device sensor =
-    new TH02::Device_Class(new libsimpleio::I2C::Bus_Class(argv[1]));
+  Devices::TH02::Device sensor =
+    new Devices::TH02::Device_Class(new libsimpleio::I2C::Bus_Class(argv[1]));
 
   // Display device identification
 

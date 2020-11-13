@@ -70,13 +70,15 @@ int main(void)
 
   // Create PWM, GPIO, and motor objects
 
-  Interfaces::PWM::Output PWM0 = new libsimpleio::PWM::Output_Class(pwm_chip,
-    pwm_chan, 100);
+  Interfaces::PWM::Output PWM0 =
+    new libsimpleio::PWM::Output_Class(pwm_chip, pwm_chan, 100);
 
-  Interfaces::GPIO::Pin GPIO0 = new libsimpleio::GPIO::Pin_Class(gpio_chip,
-    gpio_line, Interfaces::GPIO::OUTPUT);
+  Interfaces::GPIO::Pin GPIO0 =
+    new libsimpleio::GPIO::Pin_Class(gpio_chip, gpio_line,
+    Interfaces::GPIO::OUTPUT);
 
-  Interfaces::Motor::Output Motor0 = new Motor::PWM::Output_Class(PWM0, GPIO0);
+  Interfaces::Motor::Output Motor0 =
+    new Interfaces::Motor::PWM::Output_Class(PWM0, GPIO0);
 
   // Sweep the motor velocity up and down
 

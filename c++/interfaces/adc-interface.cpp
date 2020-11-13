@@ -1,6 +1,6 @@
 // Abstract interface for ADC (Analog to Digital Converter) inputs
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,20 +21,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <adc-interface.h>
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 
-Interfaces::ADC::Sample_Interface::operator int(void)
+using namespace Interfaces::ADC;
+
+#ifdef WITH_ASSIGNMENT_OPERATORS
+Sample_Interface::operator int(void)
 {
   return this->sample();
 }
 
-Interfaces::ADC::Voltage_Interface::operator double(void)
+Voltage_Interface::operator double(void)
 {
   return this->voltage();
 }
+#endif
 
-Interfaces::ADC::Input_Class::Input_Class(Sample input, double reference,
-  double gain)
+Input_Class::Input_Class(Sample input, double reference, double gain)
 {
   // Validate parameters
 
@@ -48,7 +51,7 @@ Interfaces::ADC::Input_Class::Input_Class(Sample input, double reference,
   this->stepsize = reference/(1 << input->resolution())/gain;
 }
 
-double Interfaces::ADC::Input_Class::voltage(void)
+double Input_Class::voltage(void)
 {
   return this->input->sample()*this->stepsize;
 }

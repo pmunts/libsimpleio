@@ -24,7 +24,7 @@
 #include <cstdlib>
 
 #include <hid-hidapi.h>
-#include <remoteio_client.h>
+#include <remoteio-client.h>
 
 int main(void)
 {

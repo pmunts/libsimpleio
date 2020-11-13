@@ -1,6 +1,6 @@
 // MCP3204 ADC (Analog to Digital Converter) input services
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,12 +20,14 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <mcp3204.h>
+
+using namespace Devices::MCP3204;
 
 // Device class constructor
 
-MCP3204::Device_Class::Device_Class(Interfaces::SPI::Device dev)
+Device_Class::Device_Class(Interfaces::SPI::Device dev)
 {
   // Validate parameters
 
@@ -36,8 +38,7 @@ MCP3204::Device_Class::Device_Class(Interfaces::SPI::Device dev)
 
 // Sample_Subclass constructor
 
-MCP3204::Sample_Subclass::Sample_Subclass(Device dev, unsigned channel,
-  bool differential)
+Sample_Subclass::Sample_Subclass(Device dev, unsigned channel, bool differential)
 {
   // Validate parameters
 
@@ -51,7 +52,7 @@ MCP3204::Sample_Subclass::Sample_Subclass(Device dev, unsigned channel,
 
 // Sample_Subclass methods
 
-int MCP3204::Sample_Subclass::sample(void)
+int Sample_Subclass::sample(void)
 {
   uint8_t cmd[1];
   uint8_t resp[2];
@@ -62,7 +63,7 @@ int MCP3204::Sample_Subclass::sample(void)
   return (resp[0] << 4) + (resp[1] >> 4);
 }
 
-unsigned MCP3204::Sample_Subclass::resolution(void)
+unsigned Sample_Subclass::resolution(void)
 {
-  return MCP3204::Resolution;
+  return Resolution;
 }

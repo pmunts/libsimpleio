@@ -1,6 +1,6 @@
 // Motor services using servo outputs (e.g. continuous rotation servos)
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,12 +20,14 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <motor-servo.h>
+
+using namespace Interfaces::Motor::Servo;
 
 // Motor output constructor
 
-Motor::Servo::Output_Class::Output_Class(Interfaces::Servo::Output servo,
+Output_Class::Output_Class(Interfaces::Servo::Output servo,
   const double velocity)
 {
   // Validate parameters
@@ -45,7 +47,7 @@ Motor::Servo::Output_Class::Output_Class(Interfaces::Servo::Output servo,
 
 // Motor output methods
 
-void Motor::Servo::Output_Class::write(const double velocity)
+void Output_Class::write(const double velocity)
 {
   // Validate parameters
 

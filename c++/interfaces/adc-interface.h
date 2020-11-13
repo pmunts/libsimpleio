@@ -1,6 +1,6 @@
 // Abstract interface for ADC (Analog to Digital Converter) inputs
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,9 @@ namespace Interfaces::ADC
 
     // Operators
 
+#ifdef WITH_ASSIGNMENT_OPERATORS
     operator int(void);
+#endif
   };
 
   typedef Sample_Interface *Sample;
@@ -52,7 +54,9 @@ namespace Interfaces::ADC
 
     // Operators
 
+#ifdef WITH_ASSIGNMENT_OPERATORS
     operator double(void);
+#endif
   };
 
   typedef Voltage_Interface *Voltage;

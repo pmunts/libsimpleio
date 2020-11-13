@@ -1,6 +1,6 @@
 // Watchdog timer device services using libsimpleio
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,14 +20,15 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <watchdog-libsimpleio.h>
 #include <libsimpleio/libwatchdog.h>
 
+using namespace libsimpleio::Watchdog;
+
 // Constructor
 
-libsimpleio::Watchdog::Timer_Class::Timer_Class(const char *devname,
-  unsigned timeout)
+Timer_Class::Timer_Class(const char *devname, unsigned timeout)
 {
   int32_t fd;
   int32_t error;
@@ -44,7 +45,7 @@ libsimpleio::Watchdog::Timer_Class::Timer_Class(const char *devname,
 
   // Change the watchdog timeout period, if requested
 
-  if (timeout != libsimpleio::Watchdog::DefaultTimeout)
+  if (timeout != DefaultTimeout)
   {
     int32_t newtimeout;
 
@@ -57,7 +58,7 @@ libsimpleio::Watchdog::Timer_Class::Timer_Class(const char *devname,
 
 // Methods
 
-unsigned libsimpleio::Watchdog::Timer_Class::GetTimeout(void)
+unsigned Timer_Class::GetTimeout(void)
 {
   int32_t timeout;
   int32_t error;
@@ -68,7 +69,7 @@ unsigned libsimpleio::Watchdog::Timer_Class::GetTimeout(void)
   return timeout;
 }
 
-unsigned libsimpleio::Watchdog::Timer_Class::SetTimeout(unsigned timeout)
+unsigned Timer_Class::SetTimeout(unsigned timeout)
 {
   int32_t newtimeout;
   int32_t error;
@@ -79,7 +80,7 @@ unsigned libsimpleio::Watchdog::Timer_Class::SetTimeout(unsigned timeout)
   return timeout;
 }
 
-void libsimpleio::Watchdog::Timer_Class::Kick(void)
+void Timer_Class::Kick(void)
 {
   int32_t error;
 

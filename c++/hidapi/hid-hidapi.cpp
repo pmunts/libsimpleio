@@ -26,13 +26,15 @@
 
 #include <hidapi/hidapi.h>
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <hid-hidapi.h>
+
+using namespace hidapi::HID;
 
 // Constructors
 
-hidapi::HID::Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID,
-  const char *serial, int timeoutms)
+Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, const char *serial,
+  int timeoutms)
 {
   // Validate parameters
 
@@ -69,7 +71,7 @@ hidapi::HID::Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID,
 
 // Methods
 
-void hidapi::HID::Messenger_Class::Send(Interfaces::Message64::Message cmd)
+void Messenger_Class::Send(Interfaces::Message64::Message cmd)
 {
   // Validate parameters
 
@@ -91,7 +93,7 @@ void hidapi::HID::Messenger_Class::Send(Interfaces::Message64::Message cmd)
     THROW_MSG("hid_write() failed");
 }
 
-void hidapi::HID::Messenger_Class::Receive(Interfaces::Message64::Message resp)
+void Messenger_Class::Receive(Interfaces::Message64::Message resp)
 {
   // Validate parameters
 
@@ -115,8 +117,8 @@ void hidapi::HID::Messenger_Class::Receive(Interfaces::Message64::Message resp)
     THROW_MSG("hid_read_timeout() failed");
 }
 
-void hidapi::HID::Messenger_Class::Transaction(
-  Interfaces::Message64::Message cmd, Interfaces::Message64::Message resp)
+void Messenger_Class::Transaction(Interfaces::Message64::Message cmd,
+  Interfaces::Message64::Message resp)
 {
   // Validate parameters
 
@@ -132,7 +134,7 @@ void hidapi::HID::Messenger_Class::Transaction(
   this->Receive(resp);
 }
 
-std::string hidapi::HID::Messenger_Class::Manufacturer(void)
+std::string Messenger_Class::Manufacturer(void)
 {
   wchar_t wbuf[256];
   char buf[256];
@@ -144,7 +146,7 @@ std::string hidapi::HID::Messenger_Class::Manufacturer(void)
   return std::string(buf);
 }
 
-std::string hidapi::HID::Messenger_Class::Product(void)
+std::string Messenger_Class::Product(void)
 {
   wchar_t wbuf[256];
   char buf[256];
@@ -156,7 +158,7 @@ std::string hidapi::HID::Messenger_Class::Product(void)
   return std::string(buf);
 }
 
-std::string hidapi::HID::Messenger_Class::SerialNumber(void)
+std::string Messenger_Class::SerialNumber(void)
 {
   wchar_t wbuf[256];
   char buf[256];

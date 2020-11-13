@@ -23,7 +23,7 @@
 #include <cerrno>
 #include <cstdio>
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 
 int main(void)
 {

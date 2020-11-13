@@ -1,6 +1,6 @@
 // HDC1080 Temperature/Humidity Sensor services
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -23,7 +23,7 @@
 #include <thread>
 #include <chrono>
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <hdc1080.h>
 
 // HDC1080 register addresses
@@ -37,9 +37,11 @@
 #define RegManufacturerID	0xFE
 #define RegDeviceID		0xFF
 
+using namespace Devices::HDC1080;
+
 // Device_Class constructor
 
-HDC1080::Device_Class::Device_Class(Interfaces::I2C::Bus bus)
+Device_Class::Device_Class(Interfaces::I2C::Bus bus)
 {
   // Validate parameters
 
@@ -62,7 +64,7 @@ HDC1080::Device_Class::Device_Class(Interfaces::I2C::Bus bus)
 
 // Read from an HDC1080 device register
 
-uint16_t HDC1080::Device_Class::ReadRegister(uint8_t reg)
+uint16_t Device_Class::ReadRegister(uint8_t reg)
 {
   uint8_t cmd[1];
   uint8_t resp[2];
@@ -88,7 +90,7 @@ uint16_t HDC1080::Device_Class::ReadRegister(uint8_t reg)
 
 // Write to an HDC1080 device register
 
-void HDC1080::Device_Class::WriteRegister(uint8_t reg, uint16_t data)
+void Device_Class::WriteRegister(uint8_t reg, uint16_t data)
 {
   uint8_t cmd[3];
 
@@ -110,28 +112,28 @@ void HDC1080::Device_Class::WriteRegister(uint8_t reg, uint16_t data)
 
 // Aquire a temperature sample
 
-double HDC1080::Device_Class::temperature(void)
+double Device_Class::temperature(void)
 {
   return this->ReadRegister(RegTemperature)/65536.0*165.0 - 40.0;
 }
 
 // Acquire a humidity sample
 
-double HDC1080::Device_Class::humidity(void)
+double Device_Class::humidity(void)
 {
   return this->ReadRegister(RegHumidity)/65536.0*100.0;
 }
 
 // Fetch the manufacturer ID
 
-uint16_t HDC1080::Device_Class::manufacturerID(void)
+uint16_t Device_Class::manufacturerID(void)
 {
   return this->ReadRegister(RegManufacturerID);
 }
 
 // Fetch the device ID
 
-uint16_t HDC1080::Device_Class::deviceID(void)
+uint16_t Device_Class::deviceID(void)
 {
   return this->ReadRegister(RegDeviceID);
 }

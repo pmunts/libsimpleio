@@ -1,6 +1,6 @@
-// Motor services using PWM and GPIO outputs
+// Motor services using servo outputs (e.g. continuous rotation servos)
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,31 +20,17 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _MOTOR_PWM_H
-#define _MOTOR_PWM_H
+#ifndef _MOTOR_SERVO_H
+#define _MOTOR_SERVO_H
 
-#include <gpio-interface.h>
 #include <motor-interface.h>
-#include <pwm-interface.h>
+#include <servo-interface.h>
 
-namespace Motor::PWM
+namespace Interfaces::Motor::Servo
 {
   struct Output_Class: public Interfaces::Motor::Output_Interface
   {
-    // Type 1 motor control systems:
-
-    // One PWM output for speed control
-    // One GPIO output for direction control
-
-    Output_Class(Interfaces::PWM::Output speed, Interfaces::GPIO::Pin dir,
-      const double velocity = Interfaces::Motor::VELOCITY_STOP);
-
-    // Type 2 motor control systems:
-
-    // One PWM output for clockwise rotation
-    // One PWM output for counter-clockwise rotation
-
-    Output_Class(Interfaces::PWM::Output cw, Interfaces::PWM::Output ccw,
+    Output_Class(Interfaces::Servo::Output servo,
       const double velocity = Interfaces::Motor::VELOCITY_STOP);
 
     // Motor output methods
@@ -53,9 +39,7 @@ namespace Motor::PWM
 
   private:
 
-    Interfaces::GPIO::Pin dir;
-    Interfaces::PWM::Output pwm1;
-    Interfaces::PWM::Output pwm2;
+    Interfaces::Servo::Output servo;
   };
 }
 

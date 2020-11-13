@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
 
   // Create sensor device object
 
-  HDC1080::Device sensor =
-    new HDC1080::Device_Class(new libsimpleio::I2C::Bus_Class(argv[1]));
+  Devices::HDC1080::Device sensor =
+    new Devices::HDC1080::Device_Class(new libsimpleio::I2C::Bus_Class(argv[1]));
 
   // Display device identification
 

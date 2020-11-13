@@ -1,6 +1,6 @@
 // PWM output services using libsimpleio
 
-// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,14 +20,16 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <pwm-libsimpleio.h>
 #include <libsimpleio/libpwm.h>
 
+using namespace libsimpleio::PWM;
+
 // Constructor
 
-libsimpleio::PWM::Output_Class::Output_Class(unsigned chip, unsigned channel,
-  unsigned frequency, double dutycycle, unsigned polarity)
+Output_Class::Output_Class(unsigned chip, unsigned channel, unsigned frequency,
+  double dutycycle, unsigned polarity)
 {
   // Validate parameters
 
@@ -40,7 +42,7 @@ libsimpleio::PWM::Output_Class::Output_Class(unsigned chip, unsigned channel,
   if (dutycycle > Interfaces::PWM::DUTYCYCLE_MAX)
     THROW_MSG("The dutycycle parameter is out of range");
 
-  if (polarity > libsimpleio::PWM::ActiveHigh)
+  if (polarity > ActiveHigh)
     THROW_MSG("The polarity parameter is out of range");
 
   // Calculate the PWM pulse frequency and initial pulse width in nanoseconds
@@ -65,7 +67,7 @@ libsimpleio::PWM::Output_Class::Output_Class(unsigned chip, unsigned channel,
 
 // PWM output methods
 
-void libsimpleio::PWM::Output_Class::write(const double dutycycle)
+void Output_Class::write(const double dutycycle)
 {
   // Validate parameters
 

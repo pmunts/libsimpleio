@@ -1,6 +1,6 @@
 // TH02 Temperature/Humidity Sensor services
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@
 #include <i2c-interface.h>
 #include <temperature-interface.h>
 
-namespace TH02
+namespace Devices::TH02
 {
   struct Device_Class:
     Interfaces::Temperature::Sensor_Interface,

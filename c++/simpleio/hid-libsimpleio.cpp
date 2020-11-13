@@ -1,6 +1,6 @@
 // Raw HID device services using libsimpleio
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,15 +20,16 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <exception-libsimpleio.h>
+#include <exception-raisers.h>
 #include <hid-libsimpleio.h>
 #include <libsimpleio/libhidraw.h>
 #include <libsimpleio/liblinux.h>
 
+using namespace libsimpleio::HID;
+
 // Constructors
 
-libsimpleio::HID::Messenger_Class::Messenger_Class(const char *name,
-  unsigned timeoutms)
+Messenger_Class::Messenger_Class(const char *name, unsigned timeoutms)
 {
   int32_t fd;
   int32_t error;
@@ -40,8 +41,7 @@ libsimpleio::HID::Messenger_Class::Messenger_Class(const char *name,
   this->timeout = timeoutms;
 }
 
-libsimpleio::HID::Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID,
-  unsigned timeoutms)
+Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, unsigned timeoutms)
 {
   int32_t fd;
   int32_t error;
@@ -55,8 +55,7 @@ libsimpleio::HID::Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID,
 
 // Methods
 
-void libsimpleio::HID::Messenger_Class::Send(
-  Interfaces::Message64::Message cmd)
+void Messenger_Class::Send(Interfaces::Message64::Message cmd)
 {
   int32_t count;
   int32_t error;
@@ -71,8 +70,7 @@ void libsimpleio::HID::Messenger_Class::Send(
     THROW_MSG("Returned byte count is invalid");
 }
 
-void libsimpleio::HID::Messenger_Class::Receive(
-  Interfaces::Message64::Message cmd)
+void Messenger_Class::Receive(Interfaces::Message64::Message cmd)
 {
   int32_t count;
   int32_t error;
@@ -97,14 +95,14 @@ void libsimpleio::HID::Messenger_Class::Receive(
     THROW_MSG("Returned byte count is invalid");
 }
 
-void libsimpleio::HID::Messenger_Class::Transaction(
-  Interfaces::Message64::Message cmd, Interfaces::Message64::Message resp)
+void Messenger_Class::Transaction(Interfaces::Message64::Message cmd,
+  Interfaces::Message64::Message resp)
 {
   this->Send(cmd);
   this->Receive(resp);
 }
 
-std::string libsimpleio::HID::Messenger_Class::Name(void)
+std::string Messenger_Class::Name(void)
 {
   char buf[256];
   int32_t error;
