@@ -1,24 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>libremoteio-templates</id>
-    <version>2.2020.76.1</version>
-    <title>Templates for .Net Core console applications using libremoteio.</title>
+    <id>libsimpleio-templates</id>
+    <version>2.2020.318.1</version>
+    <title>Templates for .Net Core console applications using libsimpleio.</title>
     <authors>Philip Munts</authors>
-    <owners>Philip Munts</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>http://git.munts.com/libsimpleio/COPYING</licenseUrl>
     <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
-    <description>Templates for .Net Core console applications using libremoteio.</description>
-    <releaseNotes>Added constructor IO.Remote.Device() using implicit message transport object.</releaseNotes>
+    <description>Templates for .Net Core console applications using libsimpleio.</description>
+    <releaseNotes>Target .Net 5.0.</releaseNotes>
     <copyright>Copyright (C)2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
-    <tags>Linux USB HID Remote I/O ADC DAC GPIO I2C PWM Servo SPI</tags>
+    <tags>Linux I/O ADC DAC GPIO I2C PWM Serial Servo SPI USB Raw HID Watchdog</tags>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
     <repository type="git" url="https://github.com/pmunts/libsimpleio" />
     <dependencies>
-      <group targetFramework=".NETCoreApp3.1" />
+      <group targetFramework="net5.0" />
     </dependencies>
   </metadata>
 </package>
