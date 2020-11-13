@@ -124,6 +124,9 @@ News
     [Go](https://golang.org) programming language, including a build
     framework using [gccgo](https://golang.org/doc/install/gccgo) and
     enough packages to support GPIO pins.
+-   13 November 2020 -- Overhauled the C++ code base. Started
+    implementing C++ Remote I/O support. Upgraded from .Net Core 3.1 to
+    .Net 5.0.
 
 Documentation
 -------------
