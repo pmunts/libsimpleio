@@ -22,9 +22,9 @@ namespace Interfaces::Pressure
 {
   // Some useful conversion factors
 
-  const double Pascals_per_atmosphere     = 1.01325E+05;
-  const double Pascals_per_millibar       = 1.0E+02;
-  const double Pascals_per_bar            = 1.0E+05;
-  const double Pascals_per_PSI            = 6.894757E+03;
-  const double Pascals_per_inches_mercury = 3.386389E+03;
+  extern const double Pascals_per_atmosphere     = 1.01325E+05;
+  extern const double Pascals_per_millibar       = 1.0E+02;
+  extern const double Pascals_per_bar            = 1.0E+05;
+  extern const double Pascals_per_PSI            = 6.894757E+03;
+  extern const double Pascals_per_inches_mercury = 3.386389E+03;
 }

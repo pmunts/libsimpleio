@@ -20,9 +20,9 @@
 
 namespace Interfaces::Temperature
 {
-  const double AbsoluteZero  = -273.15;
-  const double FreezingPoint = 0.0;
-  const double BoilingPoint  = 100.0;
+  extern const double AbsoluteZero  = -273.15;
+  extern const double FreezingPoint = 0.0;
+  extern const double BoilingPoint  = 100.0;
 
   // Temperature conversion routines
 
