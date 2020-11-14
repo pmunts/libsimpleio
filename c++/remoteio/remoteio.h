@@ -29,7 +29,7 @@
 
 namespace RemoteIO
 {
-  const unsigned MAX_CHANNELS = 128;
+  extern const unsigned MAX_CHANNELS;
 
   typedef enum
   {
@@ -85,6 +85,12 @@ namespace RemoteIO
     DEVICE_OPERATION_RESPONSE,
     MAX_MESSAGETYPES
   } MessageTypes_t;
+
+  // Byte index for a channel
+  unsigned BI(unsigned channel);
+
+  // Bit mask for a channel
+  unsigned BM(unsigned channel);
 }
 
 #endif
