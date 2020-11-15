@@ -20,8 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <chrono>
 #include <cstdio>
-#include <unistd.h>
+#include <thread>
 
 #include <gpio-interface.h>
 #include <hid-hidapi.h>
@@ -41,6 +42,6 @@ int main(void)
   for (;;)
   {
     *LED = !*LED;
-    sleep(1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
   }
 }
