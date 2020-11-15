@@ -45,9 +45,14 @@ namespace libsimpleio::PWM
 
     virtual void write(const double dutycycle);
 
+    // Return the PWM output pulse frequency
+
+    virtual unsigned frequency(void);
+
   private:
 
     int fd;
+    unsigned freq;
     unsigned period;
   };
 }

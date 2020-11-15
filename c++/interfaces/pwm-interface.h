@@ -41,6 +41,10 @@ namespace Interfaces::PWM
 #ifdef WITH_ASSIGNMENT_OPERATORS
     void operator =(const double dutycycle);
 #endif
+
+    // Query the PWM output pulse frequency
+
+    virtual unsigned frequency(void) = 0;
   };
 
   typedef Output_Interface *Output;

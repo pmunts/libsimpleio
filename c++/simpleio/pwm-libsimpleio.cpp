@@ -62,6 +62,7 @@ Output_Class::Output_Class(unsigned chip, unsigned channel, unsigned frequency,
   if (error) THROW_MSG_ERR("PWM_open() failed", error);
 
   this->fd = fd;
+  this->freq = frequency;
   this->period = period;
 }
 
@@ -86,4 +87,11 @@ void Output_Class::write(const double dutycycle)
 
   PWM_write(this->fd, ontime, &error);
   if (error) THROW_MSG_ERR("PWM_write() failed", error);
+}
+
+// Return the PWM output pulse frequency
+
+unsigned Output_Class::frequency(void)
+{
+  return this->freq;
 }
