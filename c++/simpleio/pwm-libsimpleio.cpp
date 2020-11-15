@@ -89,7 +89,7 @@ void Output_Class::write(const double dutycycle)
   if (error) THROW_MSG_ERR("PWM_write() failed", error);
 }
 
-// Return the PWM output pulse frequency
+// Query the configured PWM output pulse frequency
 
 unsigned Output_Class::frequency(void)
 {
