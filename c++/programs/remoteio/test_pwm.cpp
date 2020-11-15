@@ -20,9 +20,10 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <chrono>
 #include <cstdio>
 #include <cstring>
-#include <unistd.h>
+#include <thread>
 
 #include <pwm-interface.h>
 #include <hid-hidapi.h>
@@ -69,13 +70,13 @@ int main(void)
     for (n = 0; n <= 100; n++)
     {
       *outp = double(n);
-      usleep(50000);
+      std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
     for (n = 100; n >= 0; n--)
     {
       *outp = double(n);
-      usleep(50000);
+      std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
   }
 }
