@@ -32,19 +32,6 @@ endif
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 
-# Special goop for AdaCore GNAT for Windows
-
-ifneq ($(GNAT),)
-ifeq ($(OS), Windows_NT)
-WINARCH		?= win64
-GNATMAKELDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
-
-hidapi.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll $@
-	chmod 755 $@
-endif
-endif
-
 # Compile the test programs
 
 default:
@@ -56,6 +43,5 @@ clean: ada_mk_clean
 	for F in *.adb ; do rm -f `basename $$F .adb` ; done
 
 reallyclean: clean ada_mk_reallyclean
-	rm -rf *.dll
 
 distclean: reallyclean ada_mk_distclean

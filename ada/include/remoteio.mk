@@ -32,20 +32,3 @@ ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio/client
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio/server
 
 GNATENV		+= LIBSIMPLEIO=$(LIBSIMPLEIO)
-
-# Special goop for AdaCore GNAT for Windows
-
-ifneq ($(GNAT),)
-ifeq ($(OS), Windows_NT)
-WINARCH		?= win64
-ADA_LDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
-
-hidapi.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/hidapi.dll $@
-	chmod 755 $@
-
-libusb-1.0.dll:
-	cp $(LIBSIMPLEIO)/win/$(WINARCH)/libusb-1.0.dll $@
-	chmod 755 $@
-endif
-endif

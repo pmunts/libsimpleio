@@ -43,6 +43,5 @@ clean: ada_mk_clean
 	for F in *.adb ; do rm -f `basename $$F .adb` ; done
 
 reallyclean: clean ada_mk_reallyclean
-	rm -rf *.dll
 
 distclean: reallyclean ada_mk_distclean
