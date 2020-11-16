@@ -223,6 +223,13 @@ void PWM_Output_Class::write(const double dutycycle)
   this->dev->WriteChannel(channel, data);
 }
 
+// Query the configured PWM output pulse frequency
+
+unsigned PWM_Output_Class::frequency(void)
+{
+  return this->dev->frequency();
+}
+
 //*****************************************************************************
 
 // Servo output constructor

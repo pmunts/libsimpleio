@@ -92,6 +92,8 @@ namespace Devices::PCA9685
 
     virtual void write(const double dutycycle);
 
+    virtual unsigned frequency(void);
+
   private:
 
     Device dev;
