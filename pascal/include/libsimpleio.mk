@@ -1,6 +1,6 @@
-# Free Pascal definitions for libsimpleio
+# Free Pascal definitions for building libsimpleio applications
 
-# Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/bindings
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/common
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/devices
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/interfaces
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/objects
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/remoteio
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/simpleio
