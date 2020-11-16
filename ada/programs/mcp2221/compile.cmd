@@ -2,7 +2,7 @@
 
 REM Command script to compile an Ada program for Windows without make et al
 
-REM Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+REM Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 REM
 REM Redistribution and use in source and binary forms, with or without
 REM modification, are permitted provided that the following conditions are met:
@@ -41,12 +41,11 @@ SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\devices"
 SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\interfaces"
 SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\objects"
 
-SET LDFLAGS=-L.
+SET LDFLAGS=-L%LIBSIMPLEIO%\win\%ARCH%
 
 REM Get ready to compile...
 
 IF NOT EXIST "%OBJ%" MKDIR "%OBJ%"
-IF NOT EXIST hidapi.dll XCOPY "%LIBSIMPLEIO%\win\%ARCH%\hidapi.dll" .
 
 REM Compile the program
 

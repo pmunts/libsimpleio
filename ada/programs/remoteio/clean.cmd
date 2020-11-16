@@ -2,7 +2,7 @@
 
 REM Command script to clean the working directory without make et al
 
-REM Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+REM Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 REM
 REM Redistribution and use in source and binary forms, with or without
 REM modification, are permitted provided that the following conditions are met:
@@ -22,5 +22,5 @@ REM CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 REM ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 REM POSSIBILITY OF SUCH DAMAGE.
 
-DEL *.exe *.dll b~*.*
+DEL /Q *.exe b~*.*
 RMDIR /Q /S obj
