@@ -44,9 +44,9 @@ namespace Devices::MCP3204
 
   // MCP3204 analog input class
 
-  struct Sample_Subclass: public Interfaces::ADC::Sample_Interface
+  struct Sample_Class: public Interfaces::ADC::Sample_Interface
   {
-    Sample_Subclass(Device dev, unsigned channel, bool differential = false);
+    Sample_Class(Device dev, unsigned channel, bool differential = false);
 
     // ADC input methods
 
@@ -71,7 +71,7 @@ namespace Devices::MCP3204
 
     Interfaces::SPI::Device dev;
 
-    friend class Sample_Subclass;
+    friend class Sample_Class;
   };
 }
 

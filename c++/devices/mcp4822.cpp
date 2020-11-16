@@ -57,9 +57,9 @@ void Device_Class::write(unsigned channel, int sample)
   this->dev->Transaction(cmd, 2, nullptr, 0);
 }
 
-// Sample_Subclass constructor
+// Sample_Class constructor
 
-Sample_Subclass::Sample_Subclass(Device dev, unsigned channel)
+Sample_Class::Sample_Class(Device dev, unsigned channel)
 {
   // Validate parameters
 
@@ -73,9 +73,9 @@ Sample_Subclass::Sample_Subclass(Device dev, unsigned channel)
   this->channel = channel;
 }
 
-// Sample_Subclass methods
+// Sample_Class methods
 
-void Sample_Subclass::write(const int sample)
+void Sample_Class::write(const int sample)
 {
   // Validate parameters
 
@@ -85,7 +85,7 @@ void Sample_Subclass::write(const int sample)
   this->dev->write(this->channel, sample);
 }
 
-unsigned Sample_Subclass::resolution(void)
+unsigned Sample_Class::resolution(void)
 {
   return Resolution;
 }

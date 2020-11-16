@@ -42,9 +42,9 @@ namespace Devices::MCP4822
 
   // MCP4822 analog output class
 
-  struct Sample_Subclass: public Interfaces::DAC::Sample_Interface
+  struct Sample_Class: public Interfaces::DAC::Sample_Interface
   {
-    Sample_Subclass(Device dev, unsigned channel);
+    Sample_Class(Device dev, unsigned channel);
 
     // DAC output methods
 
@@ -72,7 +72,7 @@ namespace Devices::MCP4822
 
     Interfaces::SPI::Device dev;
 
-    friend class Sample_Subclass;
+    friend class Sample_Class;
   };
 
 }

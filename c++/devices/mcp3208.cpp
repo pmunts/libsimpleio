@@ -36,9 +36,9 @@ Device_Class::Device_Class(Interfaces::SPI::Device dev)
   this->dev = dev;
 }
 
-// Sample_Subclass constructor
+// Sample_Class constructor
 
-Sample_Subclass::Sample_Subclass(Device dev, unsigned channel, bool differential)
+Sample_Class::Sample_Class(Device dev, unsigned channel, bool differential)
 {
   // Validate parameters
 
@@ -50,9 +50,9 @@ Sample_Subclass::Sample_Subclass(Device dev, unsigned channel, bool differential
   this->differential = differential;
 }
 
-// Sample_Subclass methods
+// Sample_Class methods
 
-int Sample_Subclass::sample(void)
+int Sample_Class::sample(void)
 {
   uint8_t cmd[1];
   uint8_t resp[2];
@@ -63,7 +63,7 @@ int Sample_Subclass::sample(void)
   return (resp[0] << 4) + (resp[1] >> 4);
 }
 
-unsigned Sample_Subclass::resolution(void)
+unsigned Sample_Class::resolution(void)
 {
   return Resolution;
 }
