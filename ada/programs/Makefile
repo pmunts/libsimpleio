@@ -29,8 +29,6 @@ else
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 endif
 
-DEFAULT_PROJECT	?= libsimpleio.gpr
-
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 

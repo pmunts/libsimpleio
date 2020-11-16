@@ -1,4 +1,4 @@
--- Project for building an Ada program using an MCP2221 USB I/O adapter
+-- Project for building an Ada program using libsimpleio
 
 -- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 --
@@ -20,13 +20,13 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PROJECT MCP2221 IS
+PROJECT Default IS
   LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
-  OS          := external("OS", external("OSNAME", "unknown"));
-  WINARCH     := external("WINARCH", "win64");
 
   FOR Source_Dirs USE (".",
     LIBSIMPLEIO & "/ada/bindings",
+    LIBSIMPLEIO & "/ada/clickboards",
+    LIBSIMPLEIO & "/ada/clickboards/simpleio",
     LIBSIMPLEIO & "/ada/devices",
     LIBSIMPLEIO & "/ada/interfaces",
     LIBSIMPLEIO & "/ada/objects",
@@ -35,21 +35,4 @@ PROJECT MCP2221 IS
   FOR Object_Dir  USE "./obj";
 
   FOR Exec_Dir    USE ".";
-
-  PACKAGE Linker IS
-    CASE OS IS
-      WHEN "Windows_NT" =>
-        FOR Default_Switches ("ada") USE
-          ("-L" & LIBSIMPLEIO & "/win/" & WINARCH);
-
-      WHEN "Darwin" =>
-        FOR Default_Switches ("ada") USE
-          ("-L/usr/local/lib",
-           "-L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib");
-
-      WHEN OTHERS =>
-        NULL;
-    END CASE;
-  END Linker;
-
-END MCP2221;
+END Default;

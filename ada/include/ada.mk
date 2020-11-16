@@ -94,10 +94,10 @@ GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 
-ifneq ($(DEFAULT_PROJECT),)
+ifneq ($(wildcard default.gpr),)
 # Build with default Ada program project file
 %:
-	$(GPRBUILD) -P$(DEFAULT_PROJECT) $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
+	$(GPRBUILD) $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 else
