@@ -34,7 +34,7 @@ namespace hidapi::HID
   struct Messenger_Class: public Interfaces::Message64::Messenger_Interface
   {
     // Allowed values for the timeout parameter:
-    // 
+    //
     // -1 => Receive operation blocks forever, until a report is received
     //  0 => Receive operation never blocks at all
     // >0 => Receive operation blocks for the indicated number of milliseconds
