@@ -32,10 +32,6 @@ endif
 include $(LIBSIMPLEIO)/c++/include/c++.mk
 include $(LIBSIMPLEIO)/c++/include/remoteio.mk
 
-CFLAGS		+= -I$(LIBSIMPLEIO)/c++/hidapi
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/hidapi/*.cpp
-LDFLAGS		+= -lhidapi
-
 # Compile the test programs
 
 default:

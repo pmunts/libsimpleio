@@ -28,17 +28,17 @@ CXXDEPS		+= $(LIBFILE)
 
 CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/common
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/remoteio
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/simpleio
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/remoteio
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/simpleio
 
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/common/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/remoteio/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/simpleio/*.cpp
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/remoteio/*.cpp
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/*.cpp
 
 LDFLAGS		+= -L. -l$(LIBNAME) -lsimpleio
 

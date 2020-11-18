@@ -27,17 +27,19 @@ OBJDIR		:= lib$(LIBNAME).obj
 CXXDEPS		+= $(LIBFILE)
 
 CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/common
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/remoteio
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/hidapi
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/remoteio
 
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/common/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/remoteio/*.cpp
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/hidapi/*.cpp
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/remoteio/*.cpp
 
-LDFLAGS		+= -L. -l$(LIBNAME)
+LDFLAGS		+= -L. -l$(LIBNAME) -lhidapi
 
 # Build the C++ class library
 
