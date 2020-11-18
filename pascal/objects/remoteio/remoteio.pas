@@ -142,13 +142,13 @@ INTERFACE
 IMPLEMENTATION
 
 {$IFDEF MUNTSOS}
-{$DEFINE LIBSIMPLEIO}
+{$DEFINE LIBHIDRAW}
 {$ENDIF}
 
   USES
     errno,
-{$IFDEF LIBSIMPLEIO}
-    HID_libsimpleio,
+{$IFDEF LIBHIDRAW}
+    HID_libhidraw,
 {$ELSE}
     HID_hidapi,
 {$ENDIF}
@@ -162,8 +162,8 @@ IMPLEMENTATION
   CONSTRUCTOR Device.Create;
 
   BEGIN
-{$IFDEF LIBSIMPLEIO}
-    Self.msg := HID_libsimpleio.MessengerSubclass.Create;
+{$IFDEF LIBHIDRAW}
+    Self.msg := HID_libhidraw.MessengerSubclass.Create;
 {$ELSE}
     Self.msg := HID_hidapi.MessengerSubclass.Create;
 {$ENDIF}

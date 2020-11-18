@@ -21,11 +21,10 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/bindings
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/common
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/devices
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/hidapi
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/interfaces
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/remoteio
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/objects
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/objects/remoteio
 
 ifeq ($(OS), Windows_NT)
 WINARCH		?= win64

@@ -1,6 +1,6 @@
 { 64-byte message services using libsimpleio raw HID transport                }
 
-{ Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.             }
+{ Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -20,7 +20,7 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT HID_libsimpleio;
+UNIT HID_libhidraw;
 
 INTERFACE
 
