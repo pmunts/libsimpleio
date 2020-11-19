@@ -23,7 +23,7 @@
 include $(GO_SRC)/include/gccgo.mk
 
 MYCOLLECTION	:= munts.com/interfaces
-OBJ		:= $(GO_OBJ)/$(MYCOLLECTION)
+OBJ		:= $(GO_LIB)/$(MYCOLLECTION)
 
 # What this collection depends on
 
@@ -38,4 +38,4 @@ MYMODULES	+= PWM
 
 default:
 	mkdir -p $(OBJ)
-	for P in $(MYMODULES) ; do $(GCCGO) $(CFLAGS) -I$(OBJ) -c -o$(OBJ)/$$P.o $$P.go ; cp $(OBJ)/$$P.o $(GO_OBJ)/$(shell echo $(MYCOLLECTION) | sed 's@/@-@g')-$$P.o ; done
+	for P in $(MYMODULES) ; do $(GCCGO) $(CFLAGS) -I$(OBJ) -c -o$(OBJ)/$$P.o $$P.go ; cp $(OBJ)/$$P.o $(GO_LIB)/$(shell echo $(MYCOLLECTION) | sed 's@/@-@g')-$$P.o ; done

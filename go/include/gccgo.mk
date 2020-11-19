@@ -38,9 +38,9 @@ RANLIB		?= ranlib
 STRIP		?= strip
 endif
 
-LIBSUBORDINATES	:= $(GO_OBJ)/subordinates.a
+LIBSUBORDINATES	:= $(GO_LIB)/subordinates.a
 
-CFLAGS		+= -Wall -I$(GO_OBJ)
+CFLAGS		+= -Wall -I$(GO_LIB)
 LDFLAGS		+= $(LIBSUBORDINATES)
 
 # Define a pattern rule for compiling a Go program
@@ -57,11 +57,11 @@ go_mk_default: default
 # Compile subordinate packages
 
 $(LIBSUBORDINATES):
-	$(MAKE) -C $(GO_SRC)/interfaces       GO_SRC=$(GO_SRC) GO_OBJ=$(GO_OBJ)
-	$(MAKE) -C $(GO_SRC)/objects          GO_SRC=$(GO_SRC) GO_OBJ=$(GO_OBJ)
-	$(MAKE) -C $(GO_SRC)/objects/simpleio GO_SRC=$(GO_SRC) GO_OBJ=$(GO_OBJ)
-	$(AR) rc $(LIBSUBORDINATES) $(GO_OBJ)/*.o
-	rm -f $(GO_OBJ)/*.o
+	$(MAKE) -C $(GO_SRC)/interfaces       GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB)
+	$(MAKE) -C $(GO_SRC)/objects          GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB)
+	$(MAKE) -C $(GO_SRC)/objects/simpleio GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB)
+	$(AR) rc $(LIBSUBORDINATES) $(GO_LIB)/*.o
+	rm -f $(GO_LIB)/*.o
 	$(RANLIB) $(LIBSUBORDINATES)
 
 go_mk_subordinates: $(LIBSUBORDINATES)
@@ -69,7 +69,7 @@ go_mk_subordinates: $(LIBSUBORDINATES)
 # Remove working files
 
 go_mk_clean:
-	rm -rf $(GO_OBJ)
+	rm -rf $(GO_LIB)
 
 go_mk_reallyclean: go_mk_clean
 

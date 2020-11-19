@@ -23,11 +23,12 @@
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
 GO_SRC		?= $(LIBSIMPLEIO)/go
-GO_OBJ		?= $(shell pwd)/obj
+GO_LIB		?= $(shell pwd)/lib
 
 include $(GO_SRC)/include/gccgo.mk
 
 LDFLAGS		+= -lsimpleio
+LDFLAGS		+= -static
 
 # Compile the test programs
 

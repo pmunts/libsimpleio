@@ -23,11 +23,11 @@
 include $(GO_SRC)/include/gccgo.mk
 
 MYCOLLECTION	:= munts.com/objects
-OBJ		:= $(GO_OBJ)/$(MYCOLLECTION)
+OBJ		:= $(GO_LIB)/$(MYCOLLECTION)
 
 # What this collection depends on
 
-CFLAGS		+= -I$(GO_OBJ)/munts.com/interfaces
+CFLAGS		+= -I$(GO_LIB)/munts.com/interfaces
 
 # What to compile for this collection
 
@@ -38,4 +38,4 @@ MYMODULES	+= Error
 
 default:
 	mkdir -p $(OBJ)
-	for P in $(MYMODULES) ; do $(GCCGO) $(CFLAGS) -I$(OBJ) -c -o$(OBJ)/$$P.o $$P.go ; cp $(OBJ)/$$P.o $(GO_OBJ)/$(shell echo $(MYCOLLECTION) | sed 's@/@-@g')-$$P.o ; done
+	for P in $(MYMODULES) ; do $(GCCGO) $(CFLAGS) -I$(OBJ) -c -o$(OBJ)/$$P.o $$P.go ; cp $(OBJ)/$$P.o $(GO_LIB)/$(shell echo $(MYCOLLECTION) | sed 's@/@-@g')-$$P.o ; done
