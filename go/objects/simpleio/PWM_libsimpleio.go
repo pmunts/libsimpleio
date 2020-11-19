@@ -25,8 +25,8 @@ package PWM_libsimpleio
 import "fmt"
 import "syscall"
 
-import "munts.com/libsimpleio/Designator"
 import "munts.com/interfaces/PWM"
+import "munts.com/objects/simpleio/Designator"
 
 //*****************************************************************************
 

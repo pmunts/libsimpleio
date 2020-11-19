@@ -24,10 +24,10 @@ package main
 
 import (
   "fmt"
-  "munts.com/libsimpleio/Designator"
-  "munts.com/libsimpleio/Error"
   "munts.com/interfaces/GPIO"
-  GPIO_libsimpleio "munts.com/libsimpleio/GPIO"
+  "munts.com/objects/Error"
+  "munts.com/objects/simpleio/Designator"
+  "munts.com/objects/simpleio/GPIO_libsimpleio"
 )
 
 func main() {

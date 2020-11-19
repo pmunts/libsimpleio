@@ -22,17 +22,17 @@
 
 include $(GO_SRC)/include/gccgo.mk
 
-MYCOLLECTION	:= munts.com/interfaces
+MYCOLLECTION	:= munts.com/objects
 OBJ		:= $(GO_OBJ)/$(MYCOLLECTION)
 
 # What this collection depends on
 
-CFLAGS		+=
+CFLAGS		+= -I$(GO_OBJ)/munts.com/interfaces
 
 # What to compile for this collection
 
-MYMODULES	+= GPIO
-MYMODULES	+= PWM
+MYMODULES	+= unsafeConvert
+MYMODULES	+= Error
 
 # Compile the modules in this collection
 

@@ -57,8 +57,9 @@ go_mk_default: default
 # Compile subordinate packages
 
 $(LIBSUBORDINATES):
-	$(MAKE) -C $(GO_SRC)/interfaces  GO_SRC=$(GO_SRC) GO_OBJ=$(GO_OBJ)
-	$(MAKE) -C $(GO_SRC)/libsimpleio GO_SRC=$(GO_SRC) GO_OBJ=$(GO_OBJ)
+	$(MAKE) -C $(GO_SRC)/interfaces       GO_SRC=$(GO_SRC) GO_OBJ=$(GO_OBJ)
+	$(MAKE) -C $(GO_SRC)/objects          GO_SRC=$(GO_SRC) GO_OBJ=$(GO_OBJ)
+	$(MAKE) -C $(GO_SRC)/objects/simpleio GO_SRC=$(GO_SRC) GO_OBJ=$(GO_OBJ)
 	$(AR) rc $(LIBSUBORDINATES) $(GO_OBJ)/*.o
 	rm -f $(GO_OBJ)/*.o
 	$(RANLIB) $(LIBSUBORDINATES)

@@ -22,23 +22,22 @@
 
 include $(GO_SRC)/include/gccgo.mk
 
-COLLECTION	:= libsimpleio
-OBJ		:= $(GO_OBJ)/munts.com/$(COLLECTION)
+MYCOLLECTION	:= munts.com/objects/simpleio
+OBJ		:= $(GO_OBJ)/$(MYCOLLECTION)
 
-# Other collections that this collection depends on
+# What this collection depends on
 
 CFLAGS		+= -I$(GO_OBJ)/munts.com/interfaces
+CFLAGS		+= -I$(GO_OBJ)/munts.com/objects
 
-# Packages to compile for this collection
+# What to compile for this collection
 
-PACKAGES	+= unsafeConvert
-PACKAGES	+= Designator
-PACKAGES	+= Error
-PACKAGES	+= GPIO
-PACKAGES	+= PWM
+MYMODULES	+= Designator
+MYMODULES	+= GPIO_libsimpleio
+MYMODULES	+= PWM_libsimpleio
 
-# Compile the list of source files
+# Compile the modules in this collection
 
 default:
 	mkdir -p $(OBJ)
-	for P in $(PACKAGES) ; do $(GCCGO) $(CFLAGS) -I$(OBJ) -c -o$(OBJ)/$$P.o $$P.go ; cp $(OBJ)/$$P.o $(GO_OBJ)/munts.com-$(COLLECTION)-$$P.o ; done
+	for P in $(MYMODULES) ; do $(GCCGO) $(CFLAGS) -I$(OBJ) -c -o$(OBJ)/$$P.o $$P.go ; cp $(OBJ)/$$P.o $(GO_OBJ)/$(shell echo $(MYCOLLECTION) | sed 's@/@-@g')-$$P.o ; done

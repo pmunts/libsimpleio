@@ -25,8 +25,8 @@ package GPIO_libsimpleio
 import "fmt"
 import "syscall"
 
-import "munts.com/libsimpleio/Designator"
 import "munts.com/interfaces/GPIO"
+import "munts.com/objects/simpleio/Designator"
 
 //*****************************************************************************
 

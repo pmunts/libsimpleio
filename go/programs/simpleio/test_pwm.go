@@ -25,10 +25,10 @@ package main
 import (
   "fmt"
   "time"
-  "munts.com/libsimpleio/Designator"
-  "munts.com/libsimpleio/Error"
   "munts.com/interfaces/PWM"
-  PWM_libsimpleio "munts.com/libsimpleio/PWM"
+  "munts.com/objects/Error"
+  "munts.com/objects/simpleio/Designator"
+  "munts.com/objects/simpleio/PWM_libsimpleio"
 )
 
 func main() {
