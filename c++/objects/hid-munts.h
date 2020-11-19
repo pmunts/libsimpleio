@@ -1,4 +1,4 @@
-// Raw HID device services using libhidapi
+// Munts Technologies USB HID Device Identifiers
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -20,46 +20,15 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _HID_HIDAPI_H
-#define _HID_HIDAPI_H
+#ifndef _HID_MUNTS_H
+#define _HID_MUNTS_H
 
-#include <string>
+#include <cstdint>
 
-#include <message64-interface.h>
-
-namespace hidapi::HID
+namespace HID::Munts
 {
-  // Messenger class definition
-
-  struct Messenger_Class: public Interfaces::Message64::Messenger_Interface
-  {
-    // Allowed values for the timeout parameter:
-    //
-    // -1 => Receive operation blocks forever, until a report is received
-    //  0 => Receive operation never blocks at all
-    // >0 => Receive operation blocks for the indicated number of milliseconds
-
-    Messenger_Class(uint16_t VID, uint16_t PID, const char *serial = "",
-      int timeoutms = 1000);
-
-    virtual void Send(Interfaces::Message64::Message cmd);
-
-    virtual void Receive(Interfaces::Message64::Message resp);
-
-    virtual void Transaction(Interfaces::Message64::Message cmd,
-      Interfaces::Message64::Message resp);
-
-    std::string Manufacturer(void);
-
-    std::string Product(void);
-
-    std::string SerialNumber(void);
-
-  private:
-
-    void *handle;
-    int timeout;
-  };
+  extern const uint16_t VID;
+  extern const uint16_t PID;
 }
 
 #endif

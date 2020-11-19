@@ -1,4 +1,4 @@
-// Remote I/O LED Toggle Test
+// Munts Technologies USB HID Device Identifiers
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -20,32 +20,10 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <chrono>
-#include <cstdio>
-#include <thread>
+#include <hid-munts.h>
 
-#include <gpio-interface.h>
-#include <remoteio-client.h>
-#include <remoteio-gpio.h>
-
-int main(void)
+namespace HID::Munts
 {
-  puts("\nRemote I/O LED Toggle Test\n");
-
-  // Create a Remote I/O client object
-
-  RemoteIO::Client::Device_Class dev;
-
-  // Create a GPIO output pin object
-
-  Interfaces::GPIO::Pin LED = new RemoteIO::GPIO::Pin_Class(&dev, 0,
-    Interfaces::GPIO::OUTPUT, false);
-
-  // Flash the LED
-
-  for (;;)
-  {
-    *LED = !*LED;
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-  }
+  extern const uint16_t VID = 0x16D0;
+  extern const uint16_t PID = 0x0AFA;
 }

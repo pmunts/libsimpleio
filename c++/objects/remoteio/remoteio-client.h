@@ -42,6 +42,9 @@ namespace RemoteIO::Client
 
   struct Device_Class
   {
+    // Default Constructor
+    Device_Class(void);
+
     // Constructor
     Device_Class(Interfaces::Message64::Messenger transport);
 

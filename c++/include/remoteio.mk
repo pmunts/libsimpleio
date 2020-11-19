@@ -30,16 +30,32 @@ CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/hidapi
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/remoteio
 
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/hidapi/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/remoteio/*.cpp
 
-LDFLAGS		+= -L. -l$(LIBNAME) -lhidapi
+LDFLAGS		+= -L. -lremoteio++
+
+# Select which USB raw HID library to use
+
+ifeq ($(HID_USE_HIDAPI), yes)
+CXXFLAGS	+= -DHID_USE_HIDAPI
+LDFLAGS		+= -lhidapi
+else ifeq ($(HID_USE_LIBSIMPLEIO), yes)
+CXXFLAGS	+= -DHID_USE_LIBSIMPLEIO
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/simpleio
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/hid-libsimpleio.cpp
+else
+ifeq ($(MUNTSOS), yes)
+CXXFLAGS	+= -DHID_USE_LIBSIMPLEIO
+else
+CXXFLAGS	+= -DHID_USE_HIDAPI
+LDFLAGS		+= -lhidapi
+endif
+endif
 
 # Build the C++ class library
 
@@ -48,6 +64,8 @@ $(LIBFILE):
 	for F in $(CXXSRCS) ; do $(CXX) $(CXXFLAGS) -c -o $(OBJDIR)/`basename $$F .c`.o $$F ; done
 	$(AR) rcs $@ $(OBJDIR)/*.o
 	rm -rf $(OBJDIR)
+
+remoteio_mk_lib: $(LIBFILE)
 
 # Remove working files
 

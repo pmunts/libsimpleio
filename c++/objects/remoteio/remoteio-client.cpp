@@ -29,8 +29,55 @@
 #include <exception-raisers.h>
 #include <remoteio-client.h>
 
+#ifdef HID_USE_HIDAPI
+#include <hid-hidapi.h>
+#include <hid-munts.h>
+#endif
+
+#ifdef HID_USE_LIBSIMPLEIO
+#include <hid-libsimpleio.h>
+#include <hid-munts.h>
+#endif
+
 using namespace RemoteIO;
 using namespace RemoteIO::Client;
+
+// Default Constructor
+Device_Class::Device_Class(void)
+{
+#ifdef HID_USE_HIDAPI
+  this->msg = new HID::hidapi::Messenger_Class(HID::Munts::VID, HID::Munts::PID);
+#endif
+
+#ifdef HID_USE_LIBSIMPLEIO
+  this->msg = new libsimpleio::HID::Messenger_Class(HID::Munts::VID, HID::Munts::PID);
+#endif
+
+  this->num = 0;
+  this->Version = QueryVersion();
+  this->Capability = QueryCapability();
+
+  if (this->Capability.find("ADC") != std::string::npos)
+    this->ADC_Inputs = QueryChannels(ADC_PRESENT_REQUEST);
+
+  if (this->Capability.find("DAC") != std::string::npos)
+    this->DAC_Outputs = QueryChannels(DAC_PRESENT_REQUEST);
+
+  if (this->Capability.find("GPIO") != std::string::npos)
+    this->GPIO_Pins = QueryChannels(GPIO_PRESENT_REQUEST);
+
+  if (this->Capability.find("I2C") != std::string::npos)
+    this->I2C_Buses = QueryChannels(I2C_PRESENT_REQUEST);
+
+  if (this->Capability.find("PWM") != std::string::npos)
+    this->PWM_Outputs = QueryChannels(PWM_PRESENT_REQUEST);
+
+  if (this->Capability.find("SPI") != std::string::npos)
+    this->SPI_Slaves = QueryChannels(SPI_PRESENT_REQUEST);
+
+  if (this->Capability.find("DEVICE") != std::string::npos)
+    this->Abstract_Devices = QueryChannels(DEVICE_PRESENT_REQUEST);
+}
 
 // Constructor
 

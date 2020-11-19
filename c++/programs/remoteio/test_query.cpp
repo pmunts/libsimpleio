@@ -23,19 +23,15 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include <hid-hidapi.h>
 #include <remoteio-client.h>
 
 int main(void)
 {
   puts("\nRemote I/O Device Information Query\n");
 
-  hidapi::HID::Messenger_Class msg(0x16D0, 0x0AFA);
-  RemoteIO::Client::Device_Class dev(&msg);
+  // Create a Remote I/O client object
 
-  printf("Manufacturer:            %s\n", msg.Manufacturer().c_str());
-  printf("Product:                 %s\n", msg.Product().c_str());
-  printf("Serial Number:           %s\n", msg.SerialNumber().c_str());
+  RemoteIO::Client::Device_Class dev;
 
   printf("Information:             %s\n", dev.Version.c_str());
   printf("Capabilities:            %s\n", dev.Capability.c_str());

@@ -50,6 +50,8 @@ $(LIBFILE):
 	$(AR) rcs $@ $(OBJDIR)/*.o
 	rm -rf $(OBJDIR)
 
+libsimpleio_mk_lib: $(LIBFILE)
+
 # Remove working files
 
 libsimpleio_mk_clean:

@@ -1,4 +1,4 @@
-// Remote I/O PWM Output Test
+// Raw HID device services using libhidapi
 
 // Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
@@ -20,63 +20,50 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <chrono>
-#include <cstdio>
-#include <cstring>
-#include <thread>
+// libhidapi is not available for MuntsOS Embedded Linux
+#ifndef MUNTSOS
 
-#include <pwm-interface.h>
-#include <remoteio-client.h>
-#include <remoteio-pwm.h>
+#ifndef _HID_HIDAPI_H
+#define _HID_HIDAPI_H
 
-int main(void)
+#include <string>
+
+#include <message64-interface.h>
+
+namespace HID::hidapi
 {
-  puts("\nRemote I/O PWM Output Test\n");
+  // Messenger class definition
 
-  printf("Enter PWM channel number:  ");
-  fflush(stdout);
-
-  char buf[256];
-  memset(buf, 0, sizeof(buf));
-  fgets(buf, sizeof(buf), stdin);
-
-  unsigned chan = atoi(buf);
-
-  printf("Enter PWM pulse frequency: ");
-  fflush(stdout);
-
-  memset(buf, 0, sizeof(buf));
-  fgets(buf, sizeof(buf), stdin);
-
-  unsigned freq = atoi(buf);
-
-  // Create a Remote I/O client object
-
-  RemoteIO::Client::Device_Class dev;
-
-  // Create a PWM output object
-
-  Interfaces::PWM::Output outp =
-    new RemoteIO::PWM::Output_Class(&dev, chan, freq, 100.0);
-
-  // Sweep the pulse width back and forth
-
-  puts("\nPress CONTROL-C to exit.\n");
-
-  int n;
-
-  for (;;)
+  struct Messenger_Class: public Interfaces::Message64::Messenger_Interface
   {
-    for (n = 0; n <= 100; n++)
-    {
-      *outp = double(n);
-      std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    }
+    // Allowed values for the timeout parameter:
+    //
+    // -1 => Receive operation blocks forever, until a report is received
+    //  0 => Receive operation never blocks at all
+    // >0 => Receive operation blocks for the indicated number of milliseconds
 
-    for (n = 100; n >= 0; n--)
-    {
-      *outp = double(n);
-      std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    }
-  }
+    Messenger_Class(uint16_t VID, uint16_t PID, const char *serial = "",
+      int timeoutms = 1000);
+
+    virtual void Send(Interfaces::Message64::Message cmd);
+
+    virtual void Receive(Interfaces::Message64::Message resp);
+
+    virtual void Transaction(Interfaces::Message64::Message cmd,
+      Interfaces::Message64::Message resp);
+
+    std::string Manufacturer(void);
+
+    std::string Product(void);
+
+    std::string SerialNumber(void);
+
+  private:
+
+    void *handle;
+    int timeout;
+  };
 }
+
+#endif
+#endif
