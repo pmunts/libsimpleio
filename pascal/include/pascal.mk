@@ -34,7 +34,8 @@ endif
 ###############################################################################
 
 FPC		?= $(FREEPASCALPREFIX)fpc
-FPC_FLAGS	+= -Mobjfpc -CX -Sh -Xs -XX -g -gl -FE. $(FPC_EXTRAFLAGS)
+OBJ		?= obj
+FPC_FLAGS	+= -Mobjfpc -CX -Sh -Xs -XX -g -gl -FE. -FU$(OBJ) $(FPC_EXTRAFLAGS)
 
 PTOP		?= $(FREEPASCALPREFIX)ptop
 PTOP_CFG	= $(PASCAL_SRC)/ptop.cfg
@@ -63,11 +64,13 @@ endif
 # Define a pattern rule to compile a Pascal program
 
 %: %.pas
+	mkdir -p $(OBJ)
 	$(FPC) $(FPC_FLAGS) $(FPC_LDFLAGS) -o$@$(EXESUFFIX) $^
 
 # We dislike the .pp file extension, but we support it anyway
 
 %: %.pp
+	mkdir -p $(OBJ)
 	$(FPC) $(FPC_FLAGS) $(FPC_LDFLAGS) -o$@$(EXESUFFIX) $^
 
 ###############################################################################
@@ -75,11 +78,13 @@ endif
 # Define a pattern rule to compile a Pascal unit
 
 %.ppu: %.pas
+	mkdir -p $(OBJ)
 	$(FPC) $(FPC_FLAGS) -o$@ $^
 
 # We dislike the .pp file extension, but we support it anyway
 
 %.ppu: %.pp
+	mkdir -p $(OBJ)
 	$(FPC) $(FPC_FLAGS) -o$@ $^
 
 ###############################################################################
@@ -105,7 +110,7 @@ pascal_mk_default: default
 # Clean out working files
 
 pascal_mk_clean:
-	rm -f *.exe *.log *.o *.ppu ppas.sh *.tmp link.res
+	if [ "$(OBJ)" != "." ]; then rm -rf $(OBJ) ; fi
 
 pascal_mk_reallyclean: pascal_mk_clean
 
