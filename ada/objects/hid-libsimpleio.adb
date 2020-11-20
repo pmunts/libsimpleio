@@ -44,8 +44,8 @@ PACKAGE BODY HID.libsimpleio IS
   -- Constructor using HID vendor and product ID's
 
   FUNCTION Create
-   (vid       : HID.Vendor  := HID.Munts.VID;
-    pid       : HID.Product := HID.Munts.PID;
+   (vid       : HID.Vendor;
+    pid       : HID.Product;
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
@@ -95,8 +95,8 @@ PACKAGE BODY HID.libsimpleio IS
 
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
-    vid       : HID.Vendor  := HID.Munts.VID;
-    pid       : HID.Product := HID.Munts.PID;
+    vid       : HID.Vendor;
+    pid       : HID.Product;
     timeoutms : Integer := 1000) IS
 
     fd    : Integer;

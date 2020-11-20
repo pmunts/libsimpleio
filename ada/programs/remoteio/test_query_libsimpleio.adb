@@ -1,6 +1,6 @@
 -- Remote I/O Device Information Query
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH HID.Munts;
 WITH HID.libsimpleio;
 WITH RemoteIO.Client;
 
@@ -42,7 +43,7 @@ BEGIN
 
   -- Create the HID device
 
-  HID.libsimpleio.Initialize(hiddev);
+  HID.libsimpleio.Initialize(hiddev, HID.Munts.VID, HID.Munts.PID);
 
   -- Create the remote I/O device
 

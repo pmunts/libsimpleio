@@ -20,7 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH HID.Munts;
 WITH Message64;
 
 PRIVATE WITH Interfaces.C;
@@ -37,8 +36,8 @@ PACKAGE HID.libusb IS
   -- Constructor
 
   FUNCTION Create
-   (vid       : HID.Vendor  := HID.Munts.VID;
-    pid       : HID.Product := HID.Munts.PID;
+   (vid       : HID.Vendor;
+    pid       : HID.Product;
     iface     : Natural := 0;
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
@@ -46,8 +45,8 @@ PACKAGE HID.libusb IS
 
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
-    vid       : HID.Vendor  := HID.Munts.VID;
-    pid       : HID.Product := HID.Munts.PID;
+    vid       : HID.Vendor;
+    pid       : HID.Product;
     iface     : Natural := 0;
     timeoutms : Integer := 1000);
 

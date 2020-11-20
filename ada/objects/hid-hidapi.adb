@@ -32,8 +32,8 @@ PACKAGE BODY HID.hidapi IS
   -- Constructor
 
   FUNCTION Create
-   (vid       : HID.Vendor  := HID.Munts.VID;
-    pid       : HID.Product := HID.Munts.PID;
+   (vid       : HID.Vendor;
+    pid       : HID.Product;
     serial    : String  := "";
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
@@ -48,8 +48,8 @@ PACKAGE BODY HID.hidapi IS
 
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
-    vid       : HID.Vendor  := HID.Munts.VID;
-    pid       : HID.Product := HID.Munts.PID;
+    vid       : HID.Vendor;
+    pid       : HID.Product;
     serial    : String  := "";
     timeoutms : Integer := 1000) IS
 

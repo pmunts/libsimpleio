@@ -35,8 +35,8 @@ PACKAGE BODY HID.libusb IS
   -- Constructor
 
   FUNCTION Create
-   (vid       : HID.Vendor  := HID.Munts.VID;
-    pid       : HID.Product := HID.Munts.PID;
+   (vid       : HID.Vendor;
+    pid       : HID.Product;
     iface     : Natural := 0;
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
@@ -51,8 +51,8 @@ PACKAGE BODY HID.libusb IS
 
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
-    vid       : HID.Vendor  := HID.Munts.VID;
-    pid       : HID.Product := HID.Munts.PID;
+    vid       : HID.Vendor;
+    pid       : HID.Product;
     iface     : Natural := 0;
     timeoutms : Integer := 1000) IS
 
