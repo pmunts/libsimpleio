@@ -28,6 +28,7 @@ INTERFACE
     ADC,
     DAC,
     GPIO,
+    HID_Munts,
     I2C,
     Message64,
     PWM,
@@ -88,7 +89,8 @@ INTERFACE
       PWM_WRITE_RESPONSE);
 
     Device = CLASS
-      CONSTRUCTOR Create;
+      CONSTRUCTOR Create(vid : Cardinal = HID_Munts.VID;
+        pid : Cardinal = HID_Munts.PID; serial : PChar = Nil);
 
       CONSTRUCTOR Create(msg : Message64.Messenger);
 
@@ -159,13 +161,14 @@ IMPLEMENTATION
     RemoteIO_PWM,
     RemoteIO_SPI;
 
-  CONSTRUCTOR Device.Create;
+  CONSTRUCTOR Device.Create(vid : Cardinal = HID_Munts.VID;
+    pid : Cardinal = HID_Munts.PID; serial : PChar = Nil);
 
   BEGIN
 {$IFDEF LIBHIDRAW}
-    Self.msg := HID_libhidraw.MessengerSubclass.Create;
+    Self.msg := HID_libhidraw.MessengerSubclass.Create(vid, pid);
 {$ELSE}
-    Self.msg := HID_hidapi.MessengerSubclass.Create;
+    Self.msg := HID_hidapi.MessengerSubclass.Create(vid, pid, serial);
 {$ENDIF}
 
     Self.num := 0;
