@@ -30,8 +30,8 @@ INTERFACE
     VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_open';
 
   PROCEDURE OpenID
-   (vendor      : Integer;
-    product     : Integer;
+   (vendor      : Cardinal;
+    product     : Cardinal;
     VAR fd      : Integer;
     VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_open_id';
 
