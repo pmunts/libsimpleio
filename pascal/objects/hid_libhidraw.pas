@@ -25,17 +25,12 @@ UNIT HID_libhidraw;
 INTERFACE
 
   USES
-    HID_Munts,
     Message64;
-
-  CONST
-    DefaultVendor  = HID_Munts.VID;
-    DefaultProduct = HID_Munts.PID;
 
   TYPE
     MessengerSubclass = CLASS(TInterfacedObject, Message64.Messenger)
-      CONSTRUCTOR Create(vid : Integer = DefaultVendor;
-        pid : Integer = DefaultProduct; timeoutms : Cardinal = 1000);
+      CONSTRUCTOR Create(vid : Cardinal; pid : Cardinal;
+        timeoutms : Cardinal = 1000);
 
       DESTRUCTOR Destroy; OVERRIDE;
 
@@ -64,7 +59,7 @@ IMPLEMENTATION
 
   { Create a Message64 messenger object using libsimpleio raw HID transport }
 
-  CONSTRUCTOR MessengerSubclass.Create(vid : Integer; pid : Integer;
+  CONSTRUCTOR MessengerSubclass.Create(vid : Cardinal; pid : Cardinal;
     timeoutms : Cardinal);
 
   VAR

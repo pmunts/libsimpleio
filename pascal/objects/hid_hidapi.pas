@@ -25,17 +25,12 @@ UNIT HID_hidapi;
 INTERFACE
 
   USES
-    HID_Munts,
     Message64;
-
-  CONST
-    DefaultVendor  = HID_Munts.VID;
-    DefaultProduct = HID_Munts.PID;
 
   TYPE
     MessengerSubclass = CLASS(TInterfacedObject, Message64.Messenger)
-      CONSTRUCTOR Create(vid : Cardinal = DefaultVendor;
-        pid : Cardinal = DefaultProduct; timeoutms : Cardinal = 1000);
+      CONSTRUCTOR Create(vid : Cardinal; pid : Cardinal; serial : PChar = Nil;
+        timeoutms : Cardinal = 1000);
 
       DESTRUCTOR Destroy; OVERRIDE;
 
@@ -76,7 +71,7 @@ IMPLEMENTATION
     len     : Cardinal) : Integer; CDECL; EXTERNAL NAME 'hid_write';
 
   CONSTRUCTOR MessengerSubclass.Create(vid : Cardinal; pid : Cardinal;
-    timeoutms : Cardinal);
+    serial : PChar = Nil; timeoutms : Cardinal = 1000);
 
   VAR
     status : Integer;
@@ -90,7 +85,7 @@ IMPLEMENTATION
     IF status <> 0 THEN
       RAISE Message64.Error.Create('ERROR: hid_init() failed');
 
-    Self.handle := hid_open(vid, pid, Nil);
+    Self.handle := hid_open(vid, pid, serial);
 
     IF handle = Nil THEN
       RAISE Message64.Error.Create('ERROR: hid_open() failed');
