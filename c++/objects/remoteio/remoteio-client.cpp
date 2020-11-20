@@ -43,14 +43,16 @@ using namespace RemoteIO;
 using namespace RemoteIO::Client;
 
 // Default Constructor
-Device_Class::Device_Class(void)
+Device_Class::Device_Class(const char *serial)
 {
 #ifdef HID_USE_HIDAPI
-  this->msg = new HID::hidapi::Messenger_Class(HID::Munts::VID, HID::Munts::PID);
+  this->msg = new HID::hidapi::Messenger_Class(HID::Munts::VID,
+    HID::Munts::PID, serial);
 #endif
 
 #ifdef HID_USE_LIBSIMPLEIO
-  this->msg = new libsimpleio::HID::Messenger_Class(HID::Munts::VID, HID::Munts::PID);
+  this->msg = new libsimpleio::HID::Messenger_Class(HID::Munts::VID,
+    HID::Munts::PID);
 #endif
 
   this->num = 0;
