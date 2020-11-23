@@ -47,12 +47,7 @@ CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/simpleio
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/hid-libsimpleio.cpp
 LDFLAGS		+= -lsimpleio
 else
-CXXFLAGS	+= -DHID_USE_HIDAPI
-ifeq ($(MUNTSOS), yes)
-LDFLAGS		+= -l:libhidapi.a -l:libusb-1.0.a -lpthread
-else
 LDFLAGS		+= -lhidapi
-endif
 endif
 
 # Build the C++ class library

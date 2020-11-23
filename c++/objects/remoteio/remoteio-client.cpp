@@ -29,15 +29,13 @@
 #include <exception-raisers.h>
 #include <remoteio-client.h>
 
-#ifdef HID_USE_HIDAPI
-#include <hid-hidapi.h>
-#include <hid-munts.h>
-#endif
-
 #ifdef HID_USE_LIBSIMPLEIO
 #include <hid-libsimpleio.h>
-#include <hid-munts.h>
+#else
+#include <hid-hidapi.h>
 #endif
+
+#include <hid-munts.h>
 
 using namespace RemoteIO;
 using namespace RemoteIO::Client;
@@ -45,14 +43,12 @@ using namespace RemoteIO::Client;
 // Default Constructor
 Device_Class::Device_Class(const char *serial)
 {
-#ifdef HID_USE_HIDAPI
-  this->msg = new HID::hidapi::Messenger_Class(HID::Munts::VID,
-    HID::Munts::PID, serial);
-#endif
-
 #ifdef HID_USE_LIBSIMPLEIO
   this->msg = new libsimpleio::HID::Messenger_Class(HID::Munts::VID,
     HID::Munts::PID);
+#else
+  this->msg = new HID::hidapi::Messenger_Class(HID::Munts::VID,
+    HID::Munts::PID, serial);
 #endif
 
   this->num = 0;
