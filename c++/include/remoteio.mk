@@ -41,18 +41,16 @@ LDFLAGS		+= -L. -lremoteio++
 
 # Select which USB raw HID library to use
 
-ifeq ($(HID_USE_HIDAPI), yes)
-CXXFLAGS	+= -DHID_USE_HIDAPI
-LDFLAGS		+= -lhidapi
-else ifeq ($(HID_USE_LIBSIMPLEIO), yes)
+ifeq ($(HID_USE_LIBSIMPLEIO), yes)
 CXXFLAGS	+= -DHID_USE_LIBSIMPLEIO
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/simpleio
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/hid-libsimpleio.cpp
-else
-ifeq ($(MUNTSOS), yes)
-CXXFLAGS	+= -DHID_USE_LIBSIMPLEIO
+LDFLAGS		+= -lsimpleio
 else
 CXXFLAGS	+= -DHID_USE_HIDAPI
+ifeq ($(MUNTSOS), yes)
+LDFLAGS		+= -l:libhidapi.a -l:libusb-1.0.a -lpthread
+else
 LDFLAGS		+= -lhidapi
 endif
 endif

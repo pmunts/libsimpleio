@@ -20,9 +20,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// libhidapi is not available for MuntsOS Embedded Linux
-#ifndef MUNTSOS
-
 #ifndef _HID_HIDAPI_H
 #define _HID_HIDAPI_H
 
@@ -65,5 +62,4 @@ namespace HID::hidapi
   };
 }
 
-#endif
 #endif
