@@ -1,6 +1,6 @@
 { Mikroelektronika 7Seg Click Test for PocketBeagle }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -25,13 +25,13 @@ PROGRAM test_click_7seg;
 USES
   Click_7Seg,
   GPIO,
-  RemoteIO,
+  RemoteIO_Client,
   SPI,
   SPI_Shift_Register_74HC595,
   SysUtils;
 
 VAR
-  remdev : RemoteIO.Device;
+  remdev : RemoteIO_Client.Device;
   spidev : SPI.Device;
   pwmpin : GPIO.Pin;
   rstpin : GPIO.Pin;
@@ -45,7 +45,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO.Device.Create;
+  remdev := RemoteIO_Client.Device.Create;
 
   spidev := remdev.SPI(0, SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
     SPI_Shift_Register_74HC595.SPI_Clock_Max);

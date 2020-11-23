@@ -1,4 +1,6 @@
-{ Copyright (C)2019, Philip Munts, President, Munts AM Corp.                  }
+{ Remote I/O PWM Output Test }
+
+{ Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -23,11 +25,12 @@ PROGRAM test_pwm;
 USES
   PWM,
   RemoteIO,
+  RemoteIO_Client,
   SysUtils;
 
 VAR
-  remdev  : RemoteIO.Device;
-  chans   : RemoteIO.ChannelArray;
+  remdev  : RemoteIO_Client.Device;
+  chans   : ChannelArray;
   outputs : ARRAY OF PWM.Output;
   i       : Cardinal;
   duty    : Cardinal;
@@ -39,7 +42,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO.Device.Create;
+  remdev := RemoteIO_Client.Device.Create;
   chans  := remdev.PWM_Outputs;
 
   SetLength(outputs, Length(chans));

@@ -27,11 +27,11 @@ USES
   I2C,
   PCA8574,
   PCA8574_GPIO,
-  RemoteIO,
+  RemoteIO_Client,
   SysUtils;
 
 VAR
-  remdev : RemoteIO.Device;
+  remdev : RemoteIO_Client.Device;
   bus    : I2C.Bus;
   dev    : PCA8574.Device;
   pin    : GPIO.Pin;
@@ -43,7 +43,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO.Device.Create;
+  remdev := RemoteIO_Client.Device.Create;
   bus    := remdev.I2C(0);
   dev    := PCA8574.Device.Create(bus, $38);
   pin    := PCA8574_GPIO.PinSubclass.Create(dev, 0, GPIO.Output);

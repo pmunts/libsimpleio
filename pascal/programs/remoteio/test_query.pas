@@ -1,4 +1,4 @@
-{ Remote I/O Device Information Query                                         }
+{ Remote I/O RemoteIO_Client.Device Information Query                                         }
 
 { Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
@@ -24,19 +24,20 @@ PROGRAM test_query_hid;
 
 USES
   RemoteIO,
+  RemoteIO_Client,
   SysUtils;
 
 VAR
-  remdev : RemoteIO.Device;
-  chans  : ChannelArray;
+  remdev : RemoteIO_Client.Device;
+  chans  : RemoteIO.ChannelArray;
   c      : Cardinal;
 
 BEGIN
   Writeln;
-  Writeln('Remote I/O Device Information Query');
+  Writeln('Remote I/O RemoteIO_Client.Device Information Query');
   Writeln;
 
-  remdev := RemoteIO.Device.Create;
+  remdev := RemoteIO_Client.Device.Create;
 
   Writeln('Remote I/O device version:    ', remdev.Version);
   Writeln('Remote I/O device capability: ', remdev.Capability);
@@ -123,7 +124,7 @@ BEGIN
 
       IF chans <> NIL THEN
         BEGIN
-          Write('SPI Devices: ');
+          Write('SPI RemoteIO_Client.Devices: ');
 
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);

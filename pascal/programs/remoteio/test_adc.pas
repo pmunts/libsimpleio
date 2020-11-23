@@ -1,4 +1,6 @@
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Remote I/O Analog Input Test }
+
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -23,11 +25,12 @@ PROGRAM test_adc;
 USES
   ADC,
   RemoteIO,
+  RemoteIO_Client,
   SysUtils;
 
 VAR
-  remdev : RemoteIO.Device;
-  chans  : RemoteIO.ChannelArray;
+  remdev : RemoteIO_Client.Device;
+  chans  : ChannelArray;
   i      : Cardinal;
   inputs : ARRAY OF ADC.Input;
 
@@ -38,7 +41,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO.Device.Create;
+  remdev := RemoteIO_Client.Device.Create;
   chans  := remdev.ADC_Inputs;
 
   SetLength(inputs, Length(chans));

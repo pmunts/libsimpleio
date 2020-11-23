@@ -1,6 +1,6 @@
 { D/A converter output services using the Remote I/O Protocol                 }
 
-{ Copyright (C)2019, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -26,13 +26,14 @@ INTERFACE
 
   USES
     DAC,
-    RemoteIO;
+    RemoteIO,
+    RemoteIO_Client;
 
   TYPE
     OutputSubclass = CLASS(TInterfacedObject, DAC.Output)
       CONSTRUCTOR Create
-       (dev : RemoteIO.Device;
-        num : RemoteIO.Channels);
+       (dev : Device;
+        num : Channels);
 
       PROCEDURE Write(sample : Integer);
 
@@ -40,8 +41,8 @@ INTERFACE
 
       FUNCTION resolution : Cardinal;
     PRIVATE
-      mydev  : RemoteIO.Device;
-      mynum  : RemoteIO.Channels;
+      mydev  : Device;
+      mynum  : Channels;
       myres  : Cardinal;
     END;
 
@@ -52,8 +53,8 @@ IMPLEMENTATION
     Message64;
 
   CONSTRUCTOR OutputSubclass.Create
-   (dev : RemoteIO.Device;
-    num : RemoteIO.Channels);
+   (dev : Device;
+    num : Channels);
 
   VAR
     cmd  : Message64.Message;
@@ -65,13 +66,13 @@ IMPLEMENTATION
 
     FillChar(cmd, SizeOf(cmd), #0);
 
-    cmd[0] := Ord(RemoteIO.DAC_CONFIGURE_REQUEST);
+    cmd[0] := Ord(DAC_CONFIGURE_REQUEST);
     cmd[2] := num;
 
     Self.mydev.Transaction(cmd, resp);
 
     IF resp[2] <> 0 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
 
     Self.myres := resp[3];
@@ -86,7 +87,7 @@ IMPLEMENTATION
   BEGIN
     FillChar(cmd, SizeOf(cmd), #0);
 
-    cmd[0] := Ord(RemoteIO.DAC_WRITE_REQUEST);
+    cmd[0] := Ord(DAC_WRITE_REQUEST);
     cmd[2] := mynum;
     cmd[3] := sample DIV 16777216;
     cmd[4] := sample DIV 65536 MOD 256;
@@ -96,7 +97,7 @@ IMPLEMENTATION
     Self.mydev.Transaction(cmd, resp);
 
     IF resp[2] <> 0 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
   END;
 

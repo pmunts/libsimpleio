@@ -1,6 +1,6 @@
 { GPIO pin services using the Remote I/O Protocol                             }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -26,13 +26,14 @@ INTERFACE
 
   USES
     GPIO,
-    RemoteIO;
+    RemoteIO,
+    RemoteIO_Client;
 
   TYPE
     PinSubclass = CLASS(TInterfacedObject, GPIO.Pin)
       CONSTRUCTOR Create
-       (dev   : RemoteIO.Device;
-        num   : RemoteIO.Channels;
+       (dev   : Device;
+        num   : Channels;
         dir   : GPIO.Direction;
         state : Boolean = False);
 
@@ -42,7 +43,7 @@ INTERFACE
 
       PROPERTY state : Boolean READ Read WRITE Write;
     PRIVATE
-      mydev   : RemoteIO.Device;
+      mydev   : Device;
       mydir   : GPIO.Direction;
       myindex : Cardinal;
       mymask  : Byte;
@@ -57,8 +58,8 @@ IMPLEMENTATION
     Message64;
 
   CONSTRUCTOR PinSubclass.Create
-   (dev   : RemoteIO.Device;
-    num   : RemoteIO.Channels;
+   (dev   : Device;
+    num   : Channels;
     dir   : GPIO.Direction;
     state : Boolean);
 
@@ -85,7 +86,7 @@ IMPLEMENTATION
   BEGIN
     FillChar(cmd, SizeOf(cmd), #0);
 
-    cmd[0] := Ord(RemoteIO.GPIO_CONFIGURE_REQUEST);
+    cmd[0] := Ord(GPIO_CONFIGURE_REQUEST);
     cmd[2 + Self.myindex] := Self.mymask;
 
     IF Self.mydir = GPIO.Output THEN
@@ -94,7 +95,7 @@ IMPLEMENTATION
     Self.mydev.Transaction(cmd, resp);
 
     IF resp[2] <> 0 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
   END;
 
@@ -109,13 +110,13 @@ IMPLEMENTATION
   BEGIN
     FillChar(cmd, SizeOf(cmd), #0);
 
-    cmd[0] := Ord(RemoteIO.GPIO_READ_REQUEST);
+    cmd[0] := Ord(GPIO_READ_REQUEST);
     cmd[2 + Self.myindex] := Self.mymask;
 
     Self.mydev.Transaction(cmd, resp);
 
     IF resp[2] <> 0 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
 
     Read := (resp[3 + Self.myindex] AND Self.mymask) <> 0;
@@ -132,7 +133,7 @@ IMPLEMENTATION
   BEGIN
     FillChar(cmd, SizeOf(cmd), #0);
 
-    cmd[0] := Ord(RemoteIO.GPIO_WRITE_REQUEST);
+    cmd[0] := Ord(GPIO_WRITE_REQUEST);
     cmd[2 + Self.myindex] := Self.mymask;
 
     IF state THEN
@@ -141,7 +142,7 @@ IMPLEMENTATION
     Self.mydev.Transaction(cmd, resp);
 
     IF resp[2] <> 0 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
   END;
 

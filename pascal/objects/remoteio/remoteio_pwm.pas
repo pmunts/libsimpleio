@@ -1,6 +1,6 @@
 { PWM output services using the Remote I/O Protocol                           }
 
-{ Copyright (C)2019, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -26,21 +26,22 @@ INTERFACE
 
   USES
     PWM,
-    RemoteIO;
+    RemoteIO,
+    RemoteIO_Client;
 
   TYPE
     OutputSubclass = CLASS(TInterfacedObject, PWM.Output)
       CONSTRUCTOR Create
-       (dev  : RemoteIO.Device;
-        num  : RemoteIO.Channels;
+       (dev  : Device;
+        num  : Channels;
         freq : Cardinal);
 
       PROCEDURE Write(dutycycle : Real);
 
       PROPERTY dutycycle : Real WRITE Write;
     PRIVATE
-      mydev  : RemoteIO.Device;
-      mynum  : RemoteIO.Channels;
+      mydev  : Device;
+      mynum  : Channels;
       period : Cardinal;
     END;
 
@@ -51,8 +52,8 @@ IMPLEMENTATION
     Message64;
 
   CONSTRUCTOR OutputSubclass.Create
-   (dev  : RemoteIO.Device;
-    num  : RemoteIO.Channels;
+   (dev  : Device;
+    num  : Channels;
     freq : Cardinal);
 
   VAR
@@ -66,7 +67,7 @@ IMPLEMENTATION
 
     FillChar(cmd, SizeOf(cmd), #0);
 
-    cmd[0] := Ord(RemoteIO.PWM_CONFIGURE_REQUEST);
+    cmd[0] := Ord(PWM_CONFIGURE_REQUEST);
     cmd[2] := num;
     cmd[3] := Self.period DIV 16777216;
     cmd[4] := Self.period DIV 65536 MOD 256;
@@ -76,7 +77,7 @@ IMPLEMENTATION
     Self.mydev.Transaction(cmd, resp);
 
     IF resp[2] <> 0 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
   END;
 
@@ -92,7 +93,7 @@ IMPLEMENTATION
 
     FillChar(cmd, SizeOf(cmd), #0);
 
-    cmd[0] := Ord(RemoteIO.PWM_WRITE_REQUEST);
+    cmd[0] := Ord(PWM_WRITE_REQUEST);
     cmd[2] := mynum;
     cmd[3] := ontime DIV 16777216;
     cmd[4] := ontime DIV 65536 MOD 256;
@@ -102,7 +103,7 @@ IMPLEMENTATION
     Self.mydev.Transaction(cmd, resp);
 
     IF resp[2] <> 0 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
   END;
 

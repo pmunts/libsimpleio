@@ -24,10 +24,10 @@ PROGRAM test_gpio_button_led;
 
 USES
   GPIO,
-  RemoteIO;
+  RemoteIO_Client;
 
 VAR
-  remdev   : RemoteIO.Device;
+  remdev   : RemoteIO_Client.Device;
   button   : GPIO.Pin;
   LED      : GPIO.Pin;
   oldstate : Boolean;
@@ -39,7 +39,7 @@ BEGIN
 
   { Configure the button input and LED output }
 
-  remdev := RemoteIO.Device.Create;
+  remdev := RemoteIO_Client.Device.Create;
   button := remdev.GPIO(1, GPIO.Input);
   LED    := remdev.GPIO(0, GPIO.Output);
 

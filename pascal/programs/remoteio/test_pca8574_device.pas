@@ -1,6 +1,6 @@
-{ PCA8574 I2C GPIO Expander Device Toggle Test }
+{ PCA8574 I2C GPIO Expander RemoteIO_Client.Device Toggle Test }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -25,22 +25,22 @@ PROGRAM test_pca8574_device;
 USES
   I2C,
   PCA8574,
-  RemoteIO,
+  RemoteIO_Client,
   SysUtils;
 
 VAR
-  remdev : RemoteIO.Device;
+  remdev : RemoteIO_Client.Device;
   bus    : I2C.Bus;
   dev    : PCA8574.Device;
 
 BEGIN
   Writeln;
-  Writeln('PCA8574 I2C GPIO Expander Device Toggle Test');
+  Writeln('PCA8574 I2C GPIO Expander RemoteIO_Client.Device Toggle Test');
   Writeln;
 
   { Create objects }
 
-  remdev := RemoteIO.Device.Create;
+  remdev := RemoteIO_Client.Device.Create;
   bus    := remdev.I2C(0);
   dev    := PCA8574.Device.Create(bus, $38);
 

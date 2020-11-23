@@ -1,6 +1,6 @@
 { Remote I/O 74HC595 Shift Register GPIO Pin Test }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -24,14 +24,14 @@ PROGRAM test_74x595_gpio;
 
 USES
   GPIO,
-  RemoteIO,
+  RemoteIO_Client,
   SPI,
   SPI_Shift_Register,
   SPI_Shift_Register_74HC595,
   SPI_Shift_Register_GPIO;
 
 VAR
-  remdev : RemoteIO.Device;
+  remdev : RemoteIO_Client.Device;
   spidev : SPI.Device;
   regdev : SPI_Shift_Register.Device;
   pin    : GPIO.Pin;
@@ -43,7 +43,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO.Device.Create;
+  remdev := RemoteIO_Client.Device.Create;
   spidev := remdev.SPI(0, SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
     SPI_Shift_Register_74HC595.SPI_Clock_Max);
   regdev := SPI_Shift_Register.Device.Create(spidev);

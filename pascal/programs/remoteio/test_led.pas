@@ -1,4 +1,6 @@
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Remote I/O LED Test }
+
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -22,11 +24,11 @@ PROGRAM test_led;
 
 USES
   GPIO,
-  RemoteIO,
+  RemoteIO_Client,
   SysUtils;
 
 VAR
-  remdev : RemoteIO.Device;
+  remdev : RemoteIO_Client.Device;
   LED    : GPIO.Pin;
 
 BEGIN
@@ -36,7 +38,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO.Device.Create;
+  remdev := RemoteIO_Client.Device.Create;
   LED    := remdev.GPIO(0, GPIO.Output);
 
   { Flash LED }

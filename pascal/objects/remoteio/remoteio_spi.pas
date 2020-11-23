@@ -1,6 +1,6 @@
 { SPI device services using the Remote I/O Protocol                           }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -26,13 +26,14 @@ INTERFACE
 
   USES
     SPI,
-    RemoteIO;
+    RemoteIO,
+    RemoteIO_Client;
 
   TYPE
     DeviceSubclass = CLASS(TInterfacedObject, SPI.Device)
       CONSTRUCTOR Create
-       (dev      : RemoteIO.Device;
-        num      : RemoteIO.Channels;
+       (dev      : Device;
+        num      : Channels;
         mode     : Byte;
         wordsize : Byte;
         speed    : Cardinal);
@@ -59,8 +60,8 @@ INTERFACE
         delayus  : Cardinal = 0);
 
     PRIVATE
-      dev : RemoteIO.Device;
-      num : RemoteIO.Channels;
+      dev : Device;
+      num : Channels;
     END;
 
 IMPLEMENTATION
@@ -70,8 +71,8 @@ IMPLEMENTATION
     Message64;
 
   CONSTRUCTOR DeviceSubclass.Create
-   (dev      : RemoteIO.Device;
-    num      : RemoteIO.Channels;
+   (dev      : Device;
+    num      : Channels;
     mode     : Byte;
     wordsize : Byte;
     speed    : Cardinal);
@@ -88,7 +89,7 @@ IMPLEMENTATION
 
     FillChar(cmdmsg, SizeOf(cmdmsg), #0);
 
-    cmdmsg[0] := Ord(RemoteIO.SPI_CONFIGURE_REQUEST);
+    cmdmsg[0] := Ord(SPI_CONFIGURE_REQUEST);
     cmdmsg[2] := Self.num;
     cmdmsg[3] := mode;
     cmdmsg[4] := wordsize;
@@ -100,7 +101,7 @@ IMPLEMENTATION
     dev.Transaction(cmdmsg, respmsg);
 
     IF respmsg[2] <> 0 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(respmsg[2]));
   END;
 
@@ -149,24 +150,24 @@ IMPLEMENTATION
     { Validate parameters }
 
     IF cmdlen > 57 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Command length is out of range');
 
     IF resplen > 60 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Response length is out of range');
 
     IF (cmdlen = 0) AND (resplen = 0) THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Command length and response length are both zero');
 
     IF delayus > 65535 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: delayus parameter is out of range');
 
     FillChar(cmdmsg, SizeOf(cmdmsg), #0);
 
-    cmdmsg[0] := Ord(RemoteIO.SPI_TRANSACTION_REQUEST);
+    cmdmsg[0] := Ord(SPI_TRANSACTION_REQUEST);
     cmdmsg[2] := Self.num;
     cmdmsg[3] := cmdlen;
     cmdmsg[4] := resplen;
@@ -180,7 +181,7 @@ IMPLEMENTATION
     Self.dev.Transaction(cmdmsg, respmsg);
 
     IF respmsg[2] <> 0 THEN
-      RAISE RemoteIO.Error.Create
+      RAISE Error.Create
        ('ERROR: Remote IO transaction failed, ' + errno.strerror(respmsg[2]));
 
     IF resplen > 0 THEN
