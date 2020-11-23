@@ -154,7 +154,4 @@ PRIVATE
 
   PRAGMA Link_With("-lhidapi");
 
-  -- NOTE: On Linux, you will need to symlink libhidapi.so to
-  -- libhidapi-hidraw.so
-
 END HID.hidapi;
