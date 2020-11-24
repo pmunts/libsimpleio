@@ -197,7 +197,7 @@ PACKAGE BODY HID.hidapi IS
     status := hid_get_manufacturer_string(Self.handle, buf, buf'Length);
 
     IF status /= 0 THEN
-      RAISE HID_Error WITH "hid_read() failed, status =" &
+      RAISE HID_Error WITH "hid_get_manufacturer_string() failed, status =" &
         Integer'Image(status);
     END IF;
 
@@ -218,7 +218,7 @@ PACKAGE BODY HID.hidapi IS
     status := hid_get_product_string(Self.handle, buf, buf'Length);
 
     IF status /= 0 THEN
-      RAISE HID_Error WITH "hid_read() failed, status =" &
+      RAISE HID_Error WITH "hid_get_product_string() failed, status =" &
         Integer'Image(status);
     END IF;
 
@@ -239,7 +239,7 @@ PACKAGE BODY HID.hidapi IS
     status := hid_get_serial_number_string(Self.handle, buf, buf'Length);
 
     IF status /= 0 THEN
-      RAISE HID_Error WITH "hid_read() failed, status =" &
+      RAISE HID_Error WITH "hid_get_serial_number_string() failed, status =" &
         Integer'Image(status);
     END IF;
 
