@@ -106,6 +106,9 @@ News
      * 13 November 2020 -- Overhauled the C++ code base. Started
        implementing C++ Remote I/O support. Upgraded from .Net Core 3.1 to
        .Net 5.0.
+     * 24 November 2020 -- Made many improvements, cleanups, and
+       reorganizations of the Remote I/O Protocol client implementations
+       for Ada, C++, and Free Pascal.
 
 Documentation
 
