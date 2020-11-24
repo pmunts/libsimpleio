@@ -28,7 +28,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH ClickBoard.HTU21D.RemoteIO;
 WITH HTU21D;
 WITH Humidity;
-WITH RemoteIO.Client.hidapi;
+WITH RemoteIO.Client.libusb;
 WITH Temperature;
 
 PROCEDURE test_clickboard_htu21d IS
@@ -41,7 +41,7 @@ BEGIN
   Put_Line("Mikroelektronika HTU21D Click Temperature/Humidity Sensor Test");
   New_Line;
 
-  remdev := RemoteIO.Client.hidapi.Create;
+  remdev := RemoteIO.Client.libusb.Create;
   sensor := ClickBoard.HTU21D.RemoteIO.Create(remdev, socknum => 1);
 
   Put_Line("Press CONTROL-C to exit...");

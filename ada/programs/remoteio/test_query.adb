@@ -23,7 +23,7 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH RemoteIO.Client.hidapi;
+WITH RemoteIO.Client.libusb;
 
 PROCEDURE test_query IS
 
@@ -37,7 +37,7 @@ BEGIN
 
   -- Create the remote I/O device
 
-  remdev := RemoteIO.Client.hidapi.Create;
+  remdev := RemoteIO.Client.libusb.Create;
 
   -- Query the firmware version
 

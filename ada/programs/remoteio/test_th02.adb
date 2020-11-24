@@ -28,7 +28,7 @@ WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH I2C.RemoteIO;
 WITH Humidity;
-WITH RemoteIO.Client.hidapi;
+WITH RemoteIO.Client.libusb;
 WITH Temperature;
 WITH TH02;
 
@@ -42,7 +42,7 @@ BEGIN
   Put_Line("TH02 Temperature/Humidity Sensor Test");
   New_Line;
 
-  bus    := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0,
+  bus    := I2C.RemoteIO.Create(RemoteIO.Client.libusb.Create, 0,
     TH02.MaxSpeed);
 
   sensor := TH02.Create(bus);

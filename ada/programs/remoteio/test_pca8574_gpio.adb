@@ -26,7 +26,7 @@ WITH GPIO;
 WITH I2C.RemoteIO;
 WITH PCA8574;
 WITH PCA8574.GPIO;
-WITH RemoteIO.Client.hidapi;
+WITH RemoteIO.Client.libusb;
 
 PROCEDURE test_pca8574_gpio IS
 
@@ -41,7 +41,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0);
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.libusb.Create, 0);
 
   -- Create PCA8574 device object
 

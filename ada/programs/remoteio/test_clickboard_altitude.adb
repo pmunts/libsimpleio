@@ -28,7 +28,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH ClickBoard.Altitude.RemoteIO;
 WITH MPL3115A2;
 WITH Pressure;
-WITH RemoteIO.Client.hidapi;
+WITH RemoteIO.Client.libusb;
 WITH Temperature;
 
 USE TYPE Pressure.Pascals;
@@ -43,7 +43,7 @@ BEGIN
   Put_Line("Mikroelektronika Altitude Click Temperature Sensor/Pressure Test");
   New_Line;
 
-  remdev := RemoteIO.Client.hidapi.Create;
+  remdev := RemoteIO.Client.libusb.Create;
   sensor := ClickBoard.Altitude.RemoteIO.Create(remdev, socknum => 1);
 
   Put_Line("Press CONTROL-C to exit...");

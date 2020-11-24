@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ADC.RemoteIO;
 WITH Analog;
-WITH RemoteIO.Client.hidapi;
+WITH RemoteIO.Client.libusb;
 
 PROCEDURE test_adc IS
 
@@ -38,7 +38,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Client.hidapi.Create;
+  remdev := RemoteIO.Client.libusb.Create;
 
   -- Query the available analog input pins
 
