@@ -38,6 +38,7 @@ PACKAGE HID.libusb IS
   FUNCTION Create
    (vid       : HID.Vendor;
     pid       : HID.Product;
+    serial    : String := "";
     iface     : Natural := 0;
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
@@ -47,6 +48,7 @@ PACKAGE HID.libusb IS
    (Self      : IN OUT MessengerSubclass;
     vid       : HID.Vendor;
     pid       : HID.Product;
+    serial    : String := "";
     iface     : Natural := 0;
     timeoutms : Integer := 1000);
 
@@ -118,17 +120,29 @@ PRIVATE
 
   TYPE DeviceDescriptor IS ARRAY (0 .. 17) OF Interfaces.C.unsigned_char;
 
+  idVendor                   : CONSTANT Natural := 8;
+  idProduct                  : CONSTANT Natural := 10;
   iManufacturer              : CONSTANT Natural := 14;
   iProduct                   : CONSTANT Natural := 15;
   iSerialNumber              : CONSTANT Natural := 16;
 
   FUNCTION libusb_init
-   (context  : OUT System.Address) RETURN Integer;
+   (context  : System.Address) RETURN Integer;
 
-  FUNCTION libusb_open_device_with_vid_pid
+  FUNCTION libusb_get_device_list
    (context  : System.Address;
-    vid      : Interfaces.C.unsigned_short;
-    pid      : Interfaces.C.unsigned_short) RETURN System.Address;
+    list     : System.Address) RETURN Integer;
+
+  PROCEDURE libusb_free_device_list
+   (list     : System.Address;
+    unref    : Integer);
+
+  FUNCTION libusb_open
+   (dev      : System.Address;
+    handle   : OUT System.Address) RETURN Integer;
+
+  PROCEDURE libusb_close
+   (handle   : System.Address);
 
   FUNCTION libusb_set_auto_detach_kernel_driver
    (handle   : System.Address;
@@ -146,9 +160,6 @@ PRIVATE
     count    : OUT Integer;
     timeout  : Interfaces.C.unsigned) RETURN Integer;
 
-  PROCEDURE libusb_close
-   (handle   : System.Address);
-
   FUNCTION libusb_get_device
    (handle   : System.Address) RETURN System.Address;
 
@@ -163,11 +174,13 @@ PRIVATE
     length   : Integer) RETURN Integer;
 
   PRAGMA Import(C, libusb_init);
-  PRAGMA Import(C, libusb_open_device_with_vid_pid);
+  PRAGMA Import(C, libusb_get_device_list);
+  PRAGMA Import(C, libusb_free_device_list);
+  PRAGMA Import(C, libusb_open);
+  PRAGMA Import(C, libusb_close);
   PRAGMA Import(C, libusb_set_auto_detach_kernel_driver);
   PRAGMA Import(C, libusb_claim_interface);
   PRAGMA Import(C, libusb_interrupt_transfer);
-  PRAGMA Import(C, libusb_close);
   PRAGMA Import(C, libusb_get_device);
   PRAGMA Import(C, libusb_get_device_descriptor);
   PRAGMA Import(C, libusb_get_string_descriptor_ascii);

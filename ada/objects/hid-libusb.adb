@@ -23,6 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Interfaces.C;
+WITH Interfaces.C.Pointers;
 WITH System;
 
 WITH Messaging;
@@ -37,13 +38,14 @@ PACKAGE BODY HID.libusb IS
   FUNCTION Create
    (vid       : HID.Vendor;
     pid       : HID.Product;
+    serial    : String := "";
     iface     : Natural := 0;
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
   BEGIN
-    Self.Initialize(vid, pid, iface, timeoutms);
+    Self.Initialize(vid, pid, serial, iface, timeoutms);
     RETURN NEW MessengerSubclass'(Self);
   END Create;
 
@@ -53,12 +55,18 @@ PACKAGE BODY HID.libusb IS
    (Self      : IN OUT MessengerSubclass;
     vid       : HID.Vendor;
     pid       : HID.Product;
+    serial    : String := "";
     iface     : Natural := 0;
     timeoutms : Integer := 1000) IS
 
-    error   : Integer;
-    context : System.Address;
-    handle  : System.Address;
+    TYPE DeviceArray IS ARRAY (Natural RANGE <>) OF ALIASED System.Address;
+
+    PACKAGE DevicePointers IS NEW Interfaces.C.Pointers(Natural,
+      System.Address, DeviceArray, System.Null_Address);
+
+    status   : Integer;
+    devlistp : DevicePointers.Pointer;
+    handle   : System.Address;
 
   BEGIN
     Self.Destroy;
@@ -67,32 +75,110 @@ PACKAGE BODY HID.libusb IS
       RAISE HID_Error WITH "timeoutms parameter is out of range";
     END IF;
 
-    error := libusb_init(context);
+    -- Initialize the libusb internals.  It is safe to call libusb_init()
+    -- multiple times.
 
-    IF error /= LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_init() failed, error " &
-        Integer'Image(error);
+    IF libusb_init(System.Null_Address) /= LIBUSB_SUCCESS THEN
+      RAISE HID_Error WITH "libusb_init() failed";
     END IF;
 
-    handle := libusb_open_device_with_vid_pid(context,
-      Interfaces.C.unsigned_short(vid), Interfaces.C.unsigned_short(pid));
+    -- Fetch the list of USB devices.
 
-    IF handle = System.Null_Address THEN
-      RAISE HID_Error WITH "libusb_open_device_with_vid_pid() failed";
+    IF libusb_get_device_list(System.Null_Address, devlistp'Address) < 0 THEN
+      RAISE HID_Error WITH "libusb_get_device_list() failed";
     END IF;
 
-    error := libusb_set_auto_detach_kernel_driver(handle, 1);
+    -- Iterate over the list of USB devices, looking for matching VID, PID,
+    -- and serial number.
 
-    IF (error /= LIBUSB_SUCCESS) AND (error /= LIBUSB_ERROR_NOT_SUPPORTED) THEN
+    DECLARE
+      devlist   : DeviceArray := DevicePointers.Value(devlistp);
+      devdesc   : DeviceDescriptor;
+      devvid    : HID.Vendor;
+      devpid    : HID.Product;
+      devserial : Interfaces.c.char_array(0 .. 255);
+
+    BEGIN
+      FOR dev OF devlist LOOP
+
+        -- Check for the end of the list of USB devices (i.e. NULL).
+
+        IF dev = System.Null_Address THEN
+          libusb_free_device_list(devlistp.ALL'Address, 1);
+          RAISE HID_Error WITH "Unable to find matching device";
+        END IF;
+
+        -- Get the device descriptor for this candidate USB device.
+
+        IF libusb_get_device_descriptor(dev, devdesc) = LIBUSB_SUCCESS THEN
+
+          -- Extract the vendor ID from the device descriptor.
+
+          devvid := HID.Vendor(devdesc(idVendor+1))*256 +
+            HID.Vendor(devdesc(idVendor));
+
+          -- Extract the product ID from the device descriptor.
+
+          devpid := HID.Product(devdesc(idProduct+1))*256 +
+            HID.Product(devdesc(idProduct));
+
+          -- Check for matching VID and PID.
+
+          IF (VID = devvid) AND (PID = devpid) THEN
+
+            -- Try to open this candidate USB device.  Not an error if this
+            -- fails (we might not have permission, or the device may not be
+            -- available).
+
+            IF libusb_open(dev, handle) = 0 THEN
+
+              -- If no specific serial number was requested, we are done.
+
+              IF serial = "" THEN
+                libusb_free_device_list(devlistp.ALL'Address, 1);
+                EXIT;
+              END IF;
+
+              -- We *MUST* match the requested serial number.
+
+              IF devdesc(iSerialNumber) /= 0 THEN
+
+                -- This candidate USB device does indeed have a serial number,
+                -- so fetch it.
+
+                status := libusb_get_string_descriptor_ascii(handle,
+                  devdesc(iSerialNumber), devserial, devserial'Length);
+
+                -- If we have a matching serial number, we are done.
+
+                IF serial = Interfaces.C.To_Ada(devserial) THEN
+                  libusb_free_device_list(devlistp.ALL'Address, 1);
+                  EXIT;
+                END IF;
+              END IF;
+
+              -- This candidate USB device didn't match, for whatever reason,
+              -- so close it and try again with the next device on the list.
+
+              libusb_close(handle);
+            END IF;
+          END IF;
+        END IF;
+      END LOOP;
+    END;
+
+    status := libusb_set_auto_detach_kernel_driver(handle, 1);
+
+    IF (status /= LIBUSB_SUCCESS) AND (status /= LIBUSB_ERROR_NOT_SUPPORTED) THEN
       RAISE HID_Error WITH "libusb_set_auto_detach_kernel() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     END IF;
 
-    error := libusb_claim_interface(handle, iface);
+    status := libusb_claim_interface(handle, iface);
 
-    IF error /= LIBUSB_SUCCESS THEN
+    IF status /= LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_claim_interface() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     END IF;
 
     Self := MessengerSubclass'(handle, timeoutms);
@@ -111,6 +197,16 @@ PACKAGE BODY HID.libusb IS
 
     Self := Destroyed;
   END Destroy;
+
+  -- Check whether the HID device has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : MessengerSubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE HID_Error WITH "HID device has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
   -- Send a message
 
@@ -290,15 +386,5 @@ PACKAGE BODY HID.libusb IS
 
     RETURN Interfaces.C.To_Ada(data);
   END SerialNumber;
-
-  -- Check whether the HID device has been destroyed
-
-  PROCEDURE CheckDestroyed(Self : MessengerSubclass) IS
-
-  BEGIN
-    IF Self = Destroyed THEN
-      RAISE HID_Error WITH "HID device has been destroyed";
-    END IF;
-  END CheckDestroyed;
 
 END HID.libusb;
