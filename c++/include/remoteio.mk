@@ -47,7 +47,7 @@ CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/simpleio
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/hid-libsimpleio.cpp
 LDFLAGS		+= -lsimpleio
 else
-LDFLAGS		+= -lhidapi
+LDFLAGS		+= -lusb-1.0
 endif
 
 # Build the C++ class library

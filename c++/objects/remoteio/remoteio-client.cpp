@@ -32,7 +32,7 @@
 #ifdef HID_USE_LIBSIMPLEIO
 #include <hid-libsimpleio.h>
 #else
-#include <hid-hidapi.h>
+#include <hid-libusb.h>
 #endif
 
 #include <hid-munts.h>
@@ -47,7 +47,7 @@ Device_Class::Device_Class(const char *serial)
   this->msg = new libsimpleio::HID::Messenger_Class(HID::Munts::VID,
     HID::Munts::PID);
 #else
-  this->msg = new HID::hidapi::Messenger_Class(HID::Munts::VID,
+  this->msg = new HID::libusb::Messenger_Class(HID::Munts::VID,
     HID::Munts::PID, serial);
 #endif
 
