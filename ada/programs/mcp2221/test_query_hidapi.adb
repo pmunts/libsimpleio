@@ -1,6 +1,6 @@
--- MCP2221 Device Query Test using HID.libusb
+-- MCP2221 Device Query Test using HID.hidapi
 
--- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,9 +22,9 @@
 
 WITH Ada.Text_IO ; USE Ada.Text_IO;
 
-WITH MCP2221.libusb;
+WITH MCP2221.hidapi;
 
-PROCEDURE test_query_libusb IS
+PROCEDURE test_query IS
 
   dev : MCP2221.Device;
 
@@ -33,11 +33,11 @@ BEGIN
   Put_Line("MCP2221 Device Query Test");
   New_Line;
 
-  dev := MCP2221.libusb.Create;
+  dev := MCP2221.hidapi.Create;
 
   Put_Line("Revision      => " & dev.Revision);
   Put_Line("Manufacturer  => " & dev.Manufacturer);
   Put_Line("Product       => " & dev.Product);
   Put_Line("Serial Number => " & dev.SerialNumber);
   New_Line;
-END test_query_libusb;
+END test_query;
