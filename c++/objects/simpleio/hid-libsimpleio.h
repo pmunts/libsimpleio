@@ -34,9 +34,15 @@ namespace libsimpleio::HID
 
   struct Messenger_Class: public Interfaces::Message64::Messenger_Interface
   {
-    Messenger_Class(const char *name, unsigned timeoutms = 1000);
+    // Allowed values for the timeout parameter:
+    //
+    // -1 => Receive operation blocks forever, until a report is received
+    //  0 => Receive operation never blocks at all
+    // >0 => Receive operation blocks for the indicated number of milliseconds
 
-    Messenger_Class(uint16_t VID, uint16_t PID, unsigned timeoutms = 1000);
+    Messenger_Class(const char *name, int timeoutms = 1000);
+
+    Messenger_Class(uint16_t VID, uint16_t PID, int timeoutms = 1000);
 
     virtual void Send(Interfaces::Message64::Message cmd);
 
