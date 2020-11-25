@@ -230,7 +230,7 @@ PACKAGE BODY HID.libusb IS
     ELSIF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
         Integer'Image(status);
-    ELSIF count /= msg'Length THEN
+    ELSIF (count /= msg'Length) AND (count /= msg'Length + 1) THEN
       RAISE HID_Error WITH "incorrect send byte count," & Integer'Image(count);
     END IF;
   END Send;
