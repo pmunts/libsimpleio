@@ -24,7 +24,7 @@ WITH Ada.Text_IO ; USE Ada.Text_IO;
 
 WITH MCP2221.libusb;
 
-PROCEDURE test_query_libusb IS
+PROCEDURE test_query IS
 
   dev : MCP2221.Device;
 
@@ -40,4 +40,4 @@ BEGIN
   Put_Line("Product       => " & dev.Product);
   Put_Line("Serial Number => " & dev.SerialNumber);
   New_Line;
-END test_query_libusb;
+END test_query;
