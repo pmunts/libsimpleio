@@ -20,8 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO; USE Ada.Text_IO;
-
 WITH Interfaces.C;
 WITH Interfaces.C.Pointers;
 WITH System;
@@ -224,7 +222,6 @@ PACKAGE BODY HID.libusb IS
 
     status := libusb_interrupt_transfer(Self.handle, 16#01#, msg'Address,
       msg'Length, count, Interfaces.C.unsigned(Self.timeout));
-Put_Line("DEBUG: send count    =>" & Integer'Image(count));
 
     -- Handle error conditions
 
@@ -233,7 +230,7 @@ Put_Line("DEBUG: send count    =>" & Integer'Image(count));
     ELSIF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
         Integer'Image(status);
-    ELSIF (count /= msg'Length) AND (count /= msg'Length + 1) THEN
+    ELSIF count /= msg'Length THEN
       RAISE HID_Error WITH "incorrect send byte count," & Integer'Image(count);
     END IF;
   END Send;
@@ -252,7 +249,6 @@ Put_Line("DEBUG: send count    =>" & Integer'Image(count));
 
     status := libusb_interrupt_transfer(Self.handle, 16#81#, msg'Address,
       msg'Length, count, Interfaces.C.unsigned(Self.timeout));
-Put_Line("DEBUG: receive count =>" & Integer'Image(count));
 
     -- Handle error conditions
 
