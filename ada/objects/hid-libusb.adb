@@ -40,7 +40,7 @@ PACKAGE BODY HID.libusb IS
     pid       : HID.Product;
     serial    : String := "";
     iface     : Natural := 0;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
+    timeoutms : Natural := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
@@ -57,7 +57,7 @@ PACKAGE BODY HID.libusb IS
     pid       : HID.Product;
     serial    : String := "";
     iface     : Natural := 0;
-    timeoutms : Integer := 1000) IS
+    timeoutms : Natural := 1000) IS
 
     TYPE DeviceArray IS ARRAY (Natural RANGE <>) OF ALIASED System.Address;
 
@@ -71,8 +71,10 @@ PACKAGE BODY HID.libusb IS
   BEGIN
     Self.Destroy;
 
-    IF timeoutms < 0 THEN
-      RAISE HID_Error WITH "timeoutms parameter is out of range";
+    -- Validate parameters
+
+    IF serial'Length > 126 THEN
+      RAISE HID_Error WITH "serial number parameter is too long";
     END IF;
 
     -- Initialize the libusb internals.  It is safe to call libusb_init()

@@ -40,7 +40,7 @@ PACKAGE HID.libusb IS
     pid       : HID.Product;
     serial    : String := "";
     iface     : Natural := 0;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger;
+    timeoutms : Natural := 1000) RETURN Message64.Messenger;
 
   -- Initializer
 
@@ -50,7 +50,7 @@ PACKAGE HID.libusb IS
     pid       : HID.Product;
     serial    : String := "";
     iface     : Natural := 0;
-    timeoutms : Integer := 1000);
+    timeoutms : Natural := 1000);
 
   -- Destructor
 
