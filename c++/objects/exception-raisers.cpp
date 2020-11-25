@@ -22,6 +22,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 
 #include <exception-raisers.h>
 
@@ -35,6 +36,9 @@ void _Throw(const char *func, const char *file, int line)
     "Function:    %s\n"
     "File:        %s\n"
     "Line number: %d\n", func, file, line);
+
+  if (getenv("DEBUGLEVEL"))
+    if (atoi(getenv("DEBUGLEVEL")) > 0) fprintf(stderr, "%s\n", buf);
 
   throw new std::runtime_error(buf);
 }
@@ -51,6 +55,9 @@ void _Throw_Error(const char *func, const char *file, int line, int error)
     "Line number: %d\n"
     "Error:       %s\n", func, file, line, strerror(error));
 
+  if (getenv("DEBUGLEVEL"))
+    if (atoi(getenv("DEBUGLEVEL")) > 0) fprintf(stderr, "%s\n", buf);
+
   throw new std::runtime_error(buf);
 }
 
@@ -65,6 +72,9 @@ void _Throw_Message(const char *func, const char *file, int line, const char *ms
     "File:        %s\n"
     "Line number: %d\n"
     "Message:     %s\n", func, file, line, msg);
+
+  if (getenv("DEBUGLEVEL"))
+    if (atoi(getenv("DEBUGLEVEL")) > 0) fprintf(stderr, "%s\n", buf);
 
   throw new std::runtime_error(buf);
 }
@@ -81,6 +91,9 @@ void _Throw_Message_Error(const char *func, const char *file, int line, const ch
     "Line number: %d\n"
     "Message    : %s\n"
     "Error:       %s\n", func, file, line, msg, strerror(error));
+
+  if (getenv("DEBUGLEVEL"))
+    if (atoi(getenv("DEBUGLEVEL")) > 0) fprintf(stderr, "%s\n", buf);
 
   throw new std::runtime_error(buf);
 }
