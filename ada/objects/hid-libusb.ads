@@ -95,11 +95,12 @@ PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
     handle  : System.Address := System.Null_Address;
-    timeout : Integer        := Integer'First;
+    iface   : Natural        := 0;
+    timeout : Natural        := 0;
   END RECORD;
 
   Destroyed : CONSTANT MessengerSubclass :=
-    MessengerSubclass'(System.Null_Address, Integer'First);
+    MessengerSubclass'(System.Null_Address, 0, 0);
 
   -- Minimal Ada thin binding to libusb
 

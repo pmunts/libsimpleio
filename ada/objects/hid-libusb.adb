@@ -181,7 +181,7 @@ PACKAGE BODY HID.libusb IS
         Integer'Image(status);
     END IF;
 
-    Self := MessengerSubclass'(handle, timeoutms);
+    Self := MessengerSubclass'(handle, iface, timeoutms);
   END Initialize;
 
   -- Destructor
@@ -220,7 +220,8 @@ PACKAGE BODY HID.libusb IS
   BEGIN
     Self.CheckDestroyed;
 
-    status := libusb_interrupt_transfer(Self.handle, 16#01#, msg'Address,
+    status := libusb_interrupt_transfer(Self.handle,
+      Interfaces.C.unsigned_char(16#01# + Self.iface), msg'Address,
       msg'Length, count, Interfaces.C.unsigned(Self.timeout));
 
     -- Handle error conditions
@@ -247,7 +248,8 @@ PACKAGE BODY HID.libusb IS
   BEGIN
     Self.CheckDestroyed;
 
-    status := libusb_interrupt_transfer(Self.handle, 16#81#, msg'Address,
+    status := libusb_interrupt_transfer(Self.handle,
+      Interfaces.C.unsigned_char(16#81# + Self.iface), msg'Address,
       msg'Length, count, Interfaces.C.unsigned(Self.timeout));
 
     -- Handle error conditions
