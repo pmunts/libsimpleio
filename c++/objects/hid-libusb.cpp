@@ -44,7 +44,7 @@ Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, const char *serial,
   // Initialize the libusb internals.  It is safe to call libusb_init()
   // multiple times.
 
-  if (libusb_init(NULL) != LIBUSB_SUCCESS)
+  if (libusb_init(NULL))
     THROW_MSG("libusb_init() failed");
 
   // Fetch the list of USB devices.
@@ -74,7 +74,7 @@ Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, const char *serial,
 
     // Try to open this candidate USB device
 
-    if (libusb_open(*dev, &devhandle) != LIBUSB_SUCCESS) continue;
+    if (libusb_open(*dev, &devhandle)) continue;
 
     // If no specific serial number was requested, we are done.
 
@@ -115,12 +115,11 @@ CLOSE_AND_CONTINUE:
   if (devhandle == nullptr)
     THROW_MSG("Unable to find matching device");
 
-  int status = libusb_set_auto_detach_kernel_driver(devhandle, 1);
+  if (libusb_has_capability(LIBUSB_CAP_SUPPORTS_DETACH_KERNEL_DRIVER))
+    if (libusb_set_auto_detach_kernel_driver(devhandle, 1))
+      THROW_MSG("libusb_set_auto_detach_kernel_driver() failed");
 
-  if ((status != LIBUSB_SUCCESS) && (status != LIBUSB_ERROR_NOT_SUPPORTED))
-    THROW_MSG("libusb_set_auto_detach_kernel_driver() failed");
-
-  if (libusb_claim_interface(devhandle, iface) != LIBUSB_SUCCESS)
+  if (libusb_claim_interface(devhandle, iface))
     THROW_MSG("libusb_claim_interface() failed");
 
   this->handle = devhandle;
