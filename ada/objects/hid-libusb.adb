@@ -216,22 +216,23 @@ PACKAGE BODY HID.libusb IS
    (Self : MessengerSubclass;
     msg  : Message64.Message) IS
 
-    error  : Integer;
+    status : Integer;
     count  : Integer;
 
   BEGIN
     Self.CheckDestroyed;
 
-    error := libusb_interrupt_transfer(Self.handle, 16#01#, msg'Address,
+    status := libusb_interrupt_transfer(Self.handle, 16#01#, msg'Address,
       msg'Length, count, Interfaces.C.unsigned(Self.timeout));
+Put_Line("DEBUG: send count    =>" & Integer'Image(count));
 
     -- Handle error conditions
 
-    IF error = LIBUSB_ERROR_TIMEOUT THEN
+    IF status = LIBUSB_ERROR_TIMEOUT THEN
       RAISE Messaging.Timeout_Error WITH "libusb_interrupt_transfer() timed out";
-    ELSIF error < LIBUSB_SUCCESS THEN
+    ELSIF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     ELSIF (count /= msg'Length) AND (count /= msg'Length + 1) THEN
       RAISE HID_Error WITH "incorrect send byte count," & Integer'Image(count);
     END IF;
@@ -243,22 +244,23 @@ PACKAGE BODY HID.libusb IS
    (Self : MessengerSubclass;
     msg  : OUT Message64.Message) IS
 
-    error  : Integer;
+    status : Integer;
     count  : Integer;
 
   BEGIN
     Self.CheckDestroyed;
 
-    error := libusb_interrupt_transfer(Self.handle, 16#81#, msg'Address,
+    status := libusb_interrupt_transfer(Self.handle, 16#81#, msg'Address,
       msg'Length, count, Interfaces.C.unsigned(Self.timeout));
+Put_Line("DEBUG: receive count =>" & Integer'Image(count));
 
     -- Handle error conditions
 
-    IF error = LIBUSB_ERROR_TIMEOUT THEN
+    IF status = LIBUSB_ERROR_TIMEOUT THEN
       RAISE Messaging.Timeout_Error WITH "libusb_interrupt_transfer() timed out";
-    ELSIF error < LIBUSB_SUCCESS THEN
+    ELSIF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     ELSIF count /= msg'Length THEN
       RAISE HID_Error WITH "Incorrect receive byte count," &
         Integer'Image(count);
@@ -280,33 +282,33 @@ PACKAGE BODY HID.libusb IS
   FUNCTION Manufacturer
    (Self : MessengerSubclass) RETURN String IS
 
-    error : Integer;
-    desc  : DeviceDescriptor;
-    data  : Interfaces.c.char_array(0 .. 255);
+    status : Integer;
+    desc   : DeviceDescriptor;
+    data   : Interfaces.c.char_array(0 .. 255);
 
   BEGIN
     Self.CheckDestroyed;
 
-    error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
+    status := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
-    IF error < LIBUSB_SUCCESS THEN
+    IF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     END IF;
 
     IF desc(iManufacturer) = 0 THEN
       RETURN "";
     END IF;
 
-    error := libusb_get_string_descriptor_ascii(Self.handle,
+    status := libusb_get_string_descriptor_ascii(Self.handle,
       desc(iManufacturer), data, data'Length);
 
-    IF error < LIBUSB_SUCCESS THEN
+    IF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     END IF;
 
-    IF error = 0 THEN
+    IF status = 0 THEN
       RETURN "";
     END IF;
 
@@ -318,33 +320,33 @@ PACKAGE BODY HID.libusb IS
   FUNCTION Product
    (Self : MessengerSubclass) RETURN String IS
 
-    error : Integer;
-    desc  : DeviceDescriptor;
-    data  : Interfaces.c.char_array(0 .. 255);
+    status : Integer;
+    desc   : DeviceDescriptor;
+    data   : Interfaces.c.char_array(0 .. 255);
 
   BEGIN
     Self.CheckDestroyed;
 
-    error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
+    status := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
-    IF error < LIBUSB_SUCCESS THEN
+    IF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     END IF;
 
     IF desc(iProduct) = 0 THEN
       RETURN "";
     END IF;
 
-    error := libusb_get_string_descriptor_ascii(Self.handle,
+    status := libusb_get_string_descriptor_ascii(Self.handle,
       desc(iProduct), data, data'Length);
 
-    IF error < LIBUSB_SUCCESS THEN
+    IF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     END IF;
 
-    IF error = 0 THEN
+    IF status = 0 THEN
       RETURN "";
     END IF;
 
@@ -356,33 +358,33 @@ PACKAGE BODY HID.libusb IS
   FUNCTION SerialNumber
    (Self : MessengerSubclass) RETURN String IS
 
-    error : Integer;
-    desc  : DeviceDescriptor;
-    data  : Interfaces.c.char_array(0 .. 255);
+    status : Integer;
+    desc   : DeviceDescriptor;
+    data   : Interfaces.c.char_array(0 .. 255);
 
   BEGIN
     Self.CheckDestroyed;
 
-    error := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
+    status := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
-    IF error < LIBUSB_SUCCESS THEN
+    IF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     END IF;
 
     IF desc(iSerialNumber) = 0 THEN
       RETURN "";
     END IF;
 
-    error := libusb_get_string_descriptor_ascii(Self.handle,
+    status := libusb_get_string_descriptor_ascii(Self.handle,
       desc(iSerialNumber), data, data'Length);
 
-    IF error < LIBUSB_SUCCESS THEN
+    IF status < LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed, error " &
-        Integer'Image(error);
+        Integer'Image(status);
     END IF;
 
-    IF error = 0 THEN
+    IF status = 0 THEN
       RETURN "";
     END IF;
 
