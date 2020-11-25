@@ -65,6 +65,10 @@ PACKAGE BODY HID.hidapi IS
 
     -- Validate parameters
 
+    IF serial'Length > 126 THEN
+      RAISE HID_Error WITH "serial number parameter is too long";
+    END IF;
+
     IF timeoutms < -1 THEN
       RAISE HID_Error WITH "timeoutms parameter is out of range";
     END IF;
