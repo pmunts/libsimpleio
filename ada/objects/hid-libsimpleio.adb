@@ -32,7 +32,7 @@ PACKAGE BODY HID.libsimpleio IS
 
   FUNCTION Create
    (name      : String;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger IS
+    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
@@ -46,7 +46,7 @@ PACKAGE BODY HID.libsimpleio IS
   FUNCTION Create
    (vid       : HID.Vendor;
     pid       : HID.Product;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger IS
+    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
@@ -59,7 +59,7 @@ PACKAGE BODY HID.libsimpleio IS
 
   FUNCTION Create
    (fd        : Integer;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger IS
+    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
@@ -73,13 +73,17 @@ PACKAGE BODY HID.libsimpleio IS
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
     name      : String;
-    timeoutms : Natural := 1000) IS
+    timeoutms : Integer := 1000) IS
 
     fd    : Integer;
     error : Integer;
 
   BEGIN
     Self.Destroy;
+
+    IF timeoutms < -1 THEN
+      RAISE HID_Error WITH "timeoutms parameter is out of range";
+    END IF;
 
     libHIDRaw.Open(name & ASCII.NUL, fd, error);
 
@@ -97,13 +101,17 @@ PACKAGE BODY HID.libsimpleio IS
    (Self      : IN OUT MessengerSubclass;
     vid       : HID.Vendor;
     pid       : HID.Product;
-    timeoutms : Natural := 1000) IS
+    timeoutms : Integer := 1000) IS
 
     fd    : Integer;
     error : Integer;
 
   BEGIN
     Self.Destroy;
+
+    IF timeoutms < -1 THEN
+      RAISE HID_Error WITH "timeoutms parameter is out of range";
+    END IF;
 
     libHIDRaw.OpenID(Integer(vid), Integer(pid), fd, error);
 
@@ -120,10 +128,14 @@ PACKAGE BODY HID.libsimpleio IS
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
     fd        : Integer;
-    timeoutms : Natural := 1000) IS
+    timeoutms : Integer := 1000) IS
 
   BEGIN
     Self.Destroy;
+
+    IF timeoutms < -1 THEN
+      RAISE HID_Error WITH "timeoutms parameter is out of range";
+    END IF;
 
     Self := MessengerSubclass'(fd, timeoutms);
   END Initialize;

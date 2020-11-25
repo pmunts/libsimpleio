@@ -32,27 +32,27 @@ PACKAGE HID.libsimpleio IS
 
   FUNCTION Create
    (name      : String;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
   -- Constructor using HID vendor and product ID's
 
   FUNCTION Create
    (vid       : HID.Vendor;
     pid       : HID.Product;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
   -- Constructor using open file descriptor
 
   FUNCTION Create
    (fd        : Integer;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger;
+    timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
   -- Initializer using raw HID device node name
 
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
     name      : String;
-    timeoutms : Natural := 1000);
+    timeoutms : Integer := 1000);
 
   -- Initializer using HID vendor and product ID's
 
@@ -60,14 +60,14 @@ PACKAGE HID.libsimpleio IS
    (Self      : IN OUT MessengerSubclass;
     vid       : HID.Vendor;
     pid       : HID.Product;
-    timeoutms : Natural := 1000);
+    timeoutms : Integer := 1000);
 
   -- Initializer using open file descriptor
 
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
     fd        : Integer;
-    timeoutms : Natural := 1000);
+    timeoutms : Integer := 1000);
 
   -- Destructor
 
