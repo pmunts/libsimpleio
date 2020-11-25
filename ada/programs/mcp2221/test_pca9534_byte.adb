@@ -26,7 +26,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH I2C;
-WITH MCP2221.hidapi;
+WITH MCP2221.libusb;
 WITH MCP2221.I2C;
 WITH PCA9534;
 
@@ -42,7 +42,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := MCP2221.I2C.Create(MCP2221.hidapi.Create);
+  bus := MCP2221.I2C.Create(MCP2221.libusb.Create);
 
   -- Create PCA9534 device object
 

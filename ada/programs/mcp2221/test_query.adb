@@ -1,4 +1,4 @@
--- MCP2221 Device Query Test using HID.hidapi
+-- MCP2221 Device Query Test using HID.libusb
 
 -- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
 --
@@ -22,7 +22,7 @@
 
 WITH Ada.Text_IO ; USE Ada.Text_IO;
 
-WITH MCP2221.hidapi;
+WITH MCP2221.libusb;
 
 PROCEDURE test_query IS
 
@@ -33,7 +33,7 @@ BEGIN
   Put_Line("MCP2221 Device Query Test");
   New_Line;
 
-  dev := MCP2221.hidapi.Create;
+  dev := MCP2221.libusb.Create;
 
   Put_Line("Revision      => " & dev.Revision);
   Put_Line("Manufacturer  => " & dev.Manufacturer);
