@@ -39,7 +39,8 @@ namespace HID::libusb
     // >0 => Send or receive operation blocks for the indicated number of milliseconds
 
     Messenger_Class(uint16_t VID, uint16_t PID, const char *serial = "",
-      unsigned iface = 0, unsigned timeoutms = 1000);
+      unsigned timeoutms = 1000, unsigned iface = 0, unsigned epin = 0x81,
+      unsigned epout = 0x01);
 
     virtual void Send(Interfaces::Message64::Message cmd);
 
@@ -57,6 +58,8 @@ namespace HID::libusb
   private:
 
     void *handle;
+    uint8_t epin;
+    uint8_t epout;
     int timeout;
   };
 }

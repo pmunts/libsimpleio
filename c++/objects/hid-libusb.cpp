@@ -33,7 +33,7 @@ using namespace HID::libusb;
 // Constructors
 
 Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, const char *serial,
-  unsigned iface, unsigned timeoutms)
+  unsigned timeoutms, unsigned iface, unsigned epin, unsigned epout)
 {
   // Validate parameters
 
@@ -123,6 +123,8 @@ CLOSE_AND_CONTINUE:
     THROW_MSG("libusb_claim_interface() failed");
 
   this->handle = devhandle;
+  this->epin = epin;
+  this->epout = epout;
   this->timeout = timeoutms;
 }
 
@@ -140,7 +142,8 @@ void Messenger_Class::Send(Interfaces::Message64::Message cmd)
   // Send the report
 
   status = libusb_interrupt_transfer((libusb_device_handle *) this->handle,
-    0x01, cmd->payload, Interfaces::Message64::Size, &count, this->timeout);
+    this->epout, cmd->payload, Interfaces::Message64::Size, &count,
+    this->timeout);
 
   // Handle error conditions
 
@@ -167,7 +170,8 @@ void Messenger_Class::Receive(Interfaces::Message64::Message resp)
   // Receive the report
 
   status = libusb_interrupt_transfer((libusb_device_handle *) this->handle,
-    0x81, resp->payload, Interfaces::Message64::Size, &count, this->timeout);
+    this->epin, resp->payload, Interfaces::Message64::Size, &count,
+    this->timeout);
 
   // Handle error conditions
 
