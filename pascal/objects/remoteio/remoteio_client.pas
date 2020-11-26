@@ -95,7 +95,7 @@ IMPLEMENTATION
   USES
     errno,
 {$IFDEF HID_USE_LIBSIMPLEIO}
-    HID_libhidraw,
+    HID_libsimpleio,
 {$ELSE}
     HID_hidapi,
 {$ENDIF}
@@ -111,7 +111,7 @@ IMPLEMENTATION
 
   BEGIN
 {$IFDEF HID_USE_LIBSIMPLEIO}
-    Self.msg := HID_libhidraw.MessengerSubclass.Create(vid, pid);
+    Self.msg := HID_libsimpleio.MessengerSubclass.Create(vid, pid);
 {$ELSE}
     Self.msg := HID_hidapi.MessengerSubclass.Create(vid, pid, serial);
 {$ENDIF}
