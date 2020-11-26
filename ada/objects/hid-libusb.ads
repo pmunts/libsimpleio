@@ -39,8 +39,10 @@ PACKAGE HID.libusb IS
    (vid       : HID.Vendor;
     pid       : HID.Product;
     serial    : String := "";
+    timeoutms : Natural := 1000;
     iface     : Natural := 0;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger;
+    epin      : Natural := 16#81#;
+    epout     : Natural := 16#01#) RETURN Message64.Messenger;
 
   -- Initializer
 
@@ -49,8 +51,10 @@ PACKAGE HID.libusb IS
     vid       : HID.Vendor;
     pid       : HID.Product;
     serial    : String := "";
+    timeoutms : Natural := 1000;
     iface     : Natural := 0;
-    timeoutms : Natural := 1000);
+    epin      : Natural := 16#81#;
+    epout     : Natural := 16#01#);
 
   -- Destructor
 
@@ -95,12 +99,13 @@ PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
     handle  : System.Address := System.Null_Address;
-    iface   : Natural        := 0;
-    timeout : Natural        := 0;
+    epin    : Interfaces.C.unsigned_char := 0;
+    epout   : Interfaces.C.unsigned_char := 0;
+    timeout : Interfaces.C.unsigned := 0;
   END RECORD;
 
   Destroyed : CONSTANT MessengerSubclass :=
-    MessengerSubclass'(System.Null_Address, 0, 0);
+    MessengerSubclass'(System.Null_Address, 0, 0, 0);
 
   -- Minimal Ada thin binding to libusb
 

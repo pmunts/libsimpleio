@@ -32,7 +32,8 @@ PACKAGE BODY MCP2221.libusb IS
     pinmodes  : PinModeArray := AllGPIO) RETURN Device IS
 
     dev : DeviceClass :=
-      DeviceClass'(msg => HID.libusb.Create(vid, pid, serial, 2, timeoutms));
+      DeviceClass'(msg => HID.libusb.Create(vid, pid, serial, timeoutms, 2,
+        16#83#, 16#03#));
 
   BEGIN
     dev.SetPinModes(pinmodes);

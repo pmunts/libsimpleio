@@ -37,13 +37,15 @@ PACKAGE BODY HID.libusb IS
    (vid       : HID.Vendor;
     pid       : HID.Product;
     serial    : String := "";
+    timeoutms : Natural := 1000;
     iface     : Natural := 0;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger IS
+    epin      : Natural := 16#81#;
+    epout     : Natural := 16#01#) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
   BEGIN
-    Self.Initialize(vid, pid, serial, iface, timeoutms);
+    Self.Initialize(vid, pid, serial, timeoutms, iface, epin, epout);
     RETURN NEW MessengerSubclass'(Self);
   END Create;
 
@@ -54,17 +56,19 @@ PACKAGE BODY HID.libusb IS
     vid       : HID.Vendor;
     pid       : HID.Product;
     serial    : String := "";
+    timeoutms : Natural := 1000;
     iface     : Natural := 0;
-    timeoutms : Natural := 1000) IS
+    epin      : Natural := 16#81#;
+    epout     : Natural := 16#01#) IS
 
     TYPE DeviceArray IS ARRAY (Natural RANGE <>) OF ALIASED System.Address;
 
     PACKAGE DevicePointers IS NEW Interfaces.C.Pointers(Natural,
       System.Address, DeviceArray, System.Null_Address);
 
-    status   : Integer;
-    devlistp : DevicePointers.Pointer;
-    handle   : System.Address;
+    status    : Integer;
+    devlistp  : DevicePointers.Pointer;
+    devhandle : System.Address;
 
   BEGIN
     Self.Destroy;
@@ -130,7 +134,7 @@ PACKAGE BODY HID.libusb IS
             -- fails (we might not have permission, or the device may not be
             -- available).
 
-            IF libusb_open(dev, handle) = 0 THEN
+            IF libusb_open(dev, devhandle) = 0 THEN
 
               -- If no specific serial number was requested, we are done.
 
@@ -146,7 +150,7 @@ PACKAGE BODY HID.libusb IS
                 -- This candidate USB device does indeed have a serial number,
                 -- so fetch it.
 
-                status := libusb_get_string_descriptor_ascii(handle,
+                status := libusb_get_string_descriptor_ascii(devhandle,
                   devdesc(iSerialNumber), devserial, devserial'Length);
 
                 -- If we have a matching serial number, we are done.
@@ -160,28 +164,29 @@ PACKAGE BODY HID.libusb IS
               -- This candidate USB device didn't match, for whatever reason,
               -- so close it and try again with the next device on the list.
 
-              libusb_close(handle);
+              libusb_close(devhandle);
             END IF;
           END IF;
         END IF;
       END LOOP;
     END;
 
-    status := libusb_set_auto_detach_kernel_driver(handle, 1);
+    status := libusb_set_auto_detach_kernel_driver(devhandle, 1);
 
     IF (status /= LIBUSB_SUCCESS) AND (status /= LIBUSB_ERROR_NOT_SUPPORTED) THEN
       RAISE HID_Error WITH "libusb_set_auto_detach_kernel() failed, error " &
         Integer'Image(status);
     END IF;
 
-    status := libusb_claim_interface(handle, iface);
+    status := libusb_claim_interface(devhandle, iface);
 
     IF status /= LIBUSB_SUCCESS THEN
       RAISE HID_Error WITH "libusb_claim_interface() failed, error " &
         Integer'Image(status);
     END IF;
 
-    Self := MessengerSubclass'(handle, iface, timeoutms);
+    Self := MessengerSubclass'(devhandle, Interfaces.C.unsigned_char(epin),
+      Interfaces.c.unsigned_char(epout), Interfaces.C.unsigned(timeoutms));
   END Initialize;
 
   -- Destructor
@@ -220,9 +225,8 @@ PACKAGE BODY HID.libusb IS
   BEGIN
     Self.CheckDestroyed;
 
-    status := libusb_interrupt_transfer(Self.handle,
-      Interfaces.C.unsigned_char(16#01# + Self.iface), msg'Address,
-      msg'Length, count, Interfaces.C.unsigned(Self.timeout));
+    status := libusb_interrupt_transfer(Self.handle, Self.epout, msg'Address,
+      msg'Length, count, Self.timeout);
 
     -- Handle error conditions
 
@@ -248,9 +252,8 @@ PACKAGE BODY HID.libusb IS
   BEGIN
     Self.CheckDestroyed;
 
-    status := libusb_interrupt_transfer(Self.handle,
-      Interfaces.C.unsigned_char(16#81# + Self.iface), msg'Address,
-      msg'Length, count, Interfaces.C.unsigned(Self.timeout));
+    status := libusb_interrupt_transfer(Self.handle, Self.epin, msg'Address,
+      msg'Length, count, Self.timeout);
 
     -- Handle error conditions
 
