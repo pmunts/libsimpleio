@@ -1,6 +1,6 @@
-{ Remote I/O RemoteIO_Client.Device Information Query                                         }
+{ Remote I/O Device Information Query }
 
-{ Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.             }
+{ Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -124,7 +124,7 @@ BEGIN
 
       IF chans <> NIL THEN
         BEGIN
-          Write('SPI RemoteIO_Client.Devices: ');
+          Write('SPI slaves:  ');
 
           FOR c := 0 TO Length(chans) - 1 DO
             Write(' ', chans[c]);
@@ -132,4 +132,6 @@ BEGIN
           Writeln;
         END;
     END;
+
+  Writeln;
 END.
