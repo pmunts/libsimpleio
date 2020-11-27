@@ -34,7 +34,7 @@ VAR
 
 BEGIN
   Writeln;
-  Writeln('Remote I/O RemoteIO_Client.Device Information Query');
+  Writeln('Remote I/O Device Information Query');
   Writeln;
 
   remdev := RemoteIO_Client.Device.Create;

@@ -1,4 +1,4 @@
-{ PCA8574 I2C GPIO Expander RemoteIO_Client.Device Toggle Test }
+{ PCA8574 I2C GPIO Expander Device Toggle Test }
 
 { Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
@@ -35,7 +35,7 @@ VAR
 
 BEGIN
   Writeln;
-  Writeln('PCA8574 I2C GPIO Expander RemoteIO_Client.Device Toggle Test');
+  Writeln('PCA8574 I2C GPIO Expander Device Toggle Test');
   Writeln;
 
   { Create objects }

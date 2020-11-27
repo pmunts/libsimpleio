@@ -1,4 +1,4 @@
-{ Remote I/O 74HC595 Shift Register RemoteIO_Client.Device Test }
+{ Remote I/O 74HC595 Shift Register Device Test }
 
 { Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
@@ -35,7 +35,7 @@ VAR
 
 BEGIN
   Writeln;
-  Writeln('Remote I/O 74HC595 Shift Register RemoteIO_Client.Device Test');
+  Writeln('Remote I/O 74HC595 Shift Register Device Test');
   Writeln;
 
   { Create objects }
