@@ -27,8 +27,10 @@ PACKAGE RemoteIO.Client.libusb IS
    (vid     : HID.Vendor  := HID.Munts.VID;
     pid     : HID.Product := HID.Munts.PID;
     serial  : String  := "";
+    timeout : Integer := 1000;
     iface   : Natural := 0;
-    timeout : Integer := 1000) RETURN Device IS
-   (Create(HID.libusb.Create(vid, pid, serial, iface, timeout)));
+    epin    : Natural := 16#81#;
+    epout   : Natural := 16#01#) RETURN Device IS
+   (Create(HID.libusb.Create(vid, pid, serial, timeout, iface, epin, epout)));
 
 END RemoteIO.Client.libusb;
