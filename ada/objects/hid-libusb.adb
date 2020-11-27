@@ -68,7 +68,7 @@ PACKAGE BODY HID.libusb IS
 
     status    : Integer;
     devlistp  : DevicePointers.Pointer;
-    devhandle : System.Address;
+    devhandle : System.Address := System.Null_Address;
 
   BEGIN
     Self.Destroy;
@@ -134,7 +134,7 @@ PACKAGE BODY HID.libusb IS
             -- fails (we might not have permission, or the device may not be
             -- available).
 
-            IF libusb_open(dev, devhandle) = 0 THEN
+            IF libusb_open(dev, devhandle) = LIBUSB_SUCCESS THEN
 
               -- If no specific serial number was requested, we are done.
 
