@@ -20,6 +20,12 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Allowed values for the timeout parameter:
+--
+-- -1 => Receive operation blocks forever, until a report is received
+--  0 => Receive operation never blocks at all
+-- >0 => Receive operation blocks for the indicated number of milliseconds
+
 WITH Message64;
 
 PACKAGE HID.libsimpleio IS

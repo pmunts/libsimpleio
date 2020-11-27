@@ -20,6 +20,11 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- Allowed values for the timeout parameter:
+--
+--  0 => Send or receive operation blocks forever
+-- >0 => Send or receive operation blocks for the indicated number of milliseconds
+
 WITH Message64;
 
 PRIVATE WITH Interfaces.C;
