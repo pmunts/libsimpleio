@@ -96,8 +96,12 @@ IMPLEMENTATION
     errno,
 {$IFDEF HID_USE_LIBSIMPLEIO}
     HID_libsimpleio,
-{$ELSE}
+{$ENDIF}
+{$IFDEF HID_USE_HIDAPI}
     HID_hidapi,
+{$ENDIF}
+{$IFDEF HID_USE_LIBUSB}
+    HID_libusb,
 {$ENDIF}
     RemoteIO_ADC,
     RemoteIO_DAC,
@@ -112,8 +116,12 @@ IMPLEMENTATION
   BEGIN
 {$IFDEF HID_USE_LIBSIMPLEIO}
     Self.msg := HID_libsimpleio.MessengerSubclass.Create(vid, pid);
-{$ELSE}
+{$ENDIF}
+{$IFDEF HID_USE_HIDAPI}
     Self.msg := HID_hidapi.MessengerSubclass.Create(vid, pid, serial);
+{$ENDIF}
+{$IFDEF HID_USE_LIBUSB}
+    Self.msg := HID_libusb.MessengerSubclass.Create(vid, pid, serial);
 {$ENDIF}
 
     Self.num := 0;
