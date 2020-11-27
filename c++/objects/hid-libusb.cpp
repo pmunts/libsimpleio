@@ -100,12 +100,13 @@ Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, const char *serial,
 
     if (!strcmp(serial, devserial)) break;
 
+CLOSE_AND_CONTINUE:
+
     // This candidate USB device didn't match, for whatever reason,
     // so close it and try again with the next device on the list.
 
-CLOSE_AND_CONTINUE:
-
     libusb_close(devhandle);
+    devhandle = nullptr;
   }
 
   // Free the device list
