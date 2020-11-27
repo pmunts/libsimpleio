@@ -27,11 +27,9 @@ MODULA2_SRC	?= $(LIBSIMPLEIO)/modula2
 
 include $(MODULA2_SRC)/include/modula2.mk
 
-GM2_FLAGS	+= -fno-pth
 GM2_FLAGS	+= -I$(MODULA2_SRC)/bindings
 GM2_FLAGS	+= -I$(MODULA2_SRC)/devices
 GM2_FLAGS	+= -I$(MODULA2_SRC)/modules
-GM2_FLAGS	+= -I$(MODULA2_SRC)/platforms
 GM2_LIBS	+= -lsimpleio
 
 # Compile the test programs
