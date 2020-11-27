@@ -1,6 +1,6 @@
 { 64-byte message services using HIDAPI raw HID transport                     }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -20,6 +20,12 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
+{ Allowed values for the timeout parameter:                               }
+{                                                                         }
+{ -1 => Receive operation blocks forever, until a report is received      }
+{  0 => Receive operation never blocks at all                             }
+{ >0 => Receive operation blocks for the indicated number of milliseconds }
+
 UNIT HID_hidapi;
 
 INTERFACE
@@ -30,7 +36,7 @@ INTERFACE
   TYPE
     MessengerSubclass = CLASS(TInterfacedObject, Message64.Messenger)
       CONSTRUCTOR Create(vid : Cardinal; pid : Cardinal; serial : PChar = Nil;
-        timeoutms : Cardinal = 1000);
+        timeoutms : Integer = 1000);
 
       DESTRUCTOR Destroy; OVERRIDE;
 
@@ -42,7 +48,7 @@ INTERFACE
 
     PRIVATE
       handle  : Pointer;
-      timeout : Cardinal;
+      timeout : Integer;
     END;
 
 IMPLEMENTATION
@@ -71,13 +77,13 @@ IMPLEMENTATION
     len     : Cardinal) : Integer; CDECL; EXTERNAL NAME 'hid_write';
 
   CONSTRUCTOR MessengerSubclass.Create(vid : Cardinal; pid : Cardinal;
-    serial : PChar = Nil; timeoutms : Cardinal = 1000);
+    serial : PChar = Nil; timeoutms : Integer = 1000);
 
   VAR
     status : Integer;
 
   BEGIN
-    IF timeoutms < 1 THEN
+    IF timeoutms < -1 THEN
       RAISE Message64.Error.Create('ERROR: timeoutms parameter is out of range');
 
     status := hid_init;
