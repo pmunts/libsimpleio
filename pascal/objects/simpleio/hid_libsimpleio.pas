@@ -46,10 +46,10 @@ INTERFACE
 
       PROCEDURE Transaction(cmd : Message; VAR resp : Message);
 
-      FUNCTION GetName : String;
-
       PROCEDURE GetInfo(VAR bustype : Integer; VAR vendor : Integer;
         VAR product : Integer);
+
+      FUNCTION Name : String;
 
     PRIVATE
       fd      : Integer;
@@ -154,7 +154,7 @@ IMPLEMENTATION
 
   { Get the HID device name }
 
-  FUNCTION MessengerSubclass.GetName : String;
+  FUNCTION MessengerSubclass.Name : String;
 
   VAR
     cname : ARRAY [0 .. 255] OF Char;
@@ -164,10 +164,10 @@ IMPLEMENTATION
     libHIDRaw.GetName(Self.fd, cname, SizeOf(cname), error);
 
     IF error <> 0 THEN
-      RAISE Message64.Error.Create('ERROR: libHIDRaw.GetName() failed, ' +
+      RAISE Message64.Error.Create('ERROR: libHIDRaw.Name() failed, ' +
         errno.strerror(error));
 
-    GetName := cname;
+    Name := cname;
   END;
 
   { Get the HID device bus type, vendor ID, and product ID information }
