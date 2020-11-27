@@ -40,8 +40,11 @@ SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\bindings"
 SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\devices"
 SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\interfaces"
 SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\objects"
-SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\remoteio"
-SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\remoteio\client"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\objects\clickboards"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\objects\clickboards\remoteio"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\objects\remoteio"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\objects\remoteio\client"
+SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\objects\simpleio"
 
 SET LDFLAGS=-L%LIBSIMPLEIO%\win\%ARCH%
 

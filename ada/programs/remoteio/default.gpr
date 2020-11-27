@@ -27,14 +27,14 @@ PROJECT Default IS
 
   FOR Source_Dirs USE (".",
     LIBSIMPLEIO & "/ada/bindings",
-    LIBSIMPLEIO & "/ada/clickboards",
-    LIBSIMPLEIO & "/ada/clickboards/remoteio",
     LIBSIMPLEIO & "/ada/devices",
     LIBSIMPLEIO & "/ada/interfaces",
     LIBSIMPLEIO & "/ada/objects",
-    LIBSIMPLEIO & "/ada/platforms",
-    LIBSIMPLEIO & "/ada/remoteio",
-    LIBSIMPLEIO & "/ada/remoteio/client");
+    LIBSIMPLEIO & "/ada/objects/clickboards",
+    LIBSIMPLEIO & "/ada/objects/clickboards/remoteio",
+    LIBSIMPLEIO & "/ada/objects/remoteio",
+    LIBSIMPLEIO & "/ada/objects/remoteio/client",
+    LIBSIMPLEIO & "/ada/objects/simpleio");
 
   FOR Object_Dir  USE "./obj";
 

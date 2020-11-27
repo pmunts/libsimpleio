@@ -21,14 +21,13 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/bindings
-ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards
-ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/clickboards/remoteio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/devices
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/interfaces
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects
-ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/platforms
-ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio
-ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio/client
-ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/remoteio/server
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/clickboards
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/clickboards/remoteio
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/remoteio
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/remoteio/client
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/remoteio/server
 
 GNATENV		+= LIBSIMPLEIO=$(LIBSIMPLEIO)

@@ -139,7 +139,6 @@ PACKAGE BODY HID.libusb IS
               -- If no specific serial number was requested, we are done.
 
               IF serial = "" THEN
-                libusb_free_device_list(devlistp.ALL'Address, 1);
                 EXIT;
               END IF;
 
@@ -156,7 +155,6 @@ PACKAGE BODY HID.libusb IS
                 -- If we have a matching serial number, we are done.
 
                 IF serial = Interfaces.C.To_Ada(devserial) THEN
-                  libusb_free_device_list(devlistp.ALL'Address, 1);
                   EXIT;
                 END IF;
               END IF;
@@ -171,18 +169,18 @@ PACKAGE BODY HID.libusb IS
       END LOOP;
     END;
 
+    libusb_free_device_list(devlistp.ALL'Address, 1);
+
     status := libusb_set_auto_detach_kernel_driver(devhandle, 1);
 
     IF (status /= LIBUSB_SUCCESS) AND (status /= LIBUSB_ERROR_NOT_SUPPORTED) THEN
-      RAISE HID_Error WITH "libusb_set_auto_detach_kernel() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_set_auto_detach_kernel_driver() failed";
     END IF;
 
     status := libusb_claim_interface(devhandle, iface);
 
     IF status /= LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_claim_interface() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_claim_interface() failed";
     END IF;
 
     Self := MessengerSubclass'(devhandle, Interfaces.C.unsigned_char(epin),
@@ -233,8 +231,7 @@ PACKAGE BODY HID.libusb IS
     IF status = LIBUSB_ERROR_TIMEOUT THEN
       RAISE Messaging.Timeout_Error WITH "libusb_interrupt_transfer() timed out";
     ELSIF status < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_interrupt_transfer() failed";
     ELSIF (count /= msg'Length) AND (count /= msg'Length + 1) THEN
       RAISE HID_Error WITH "incorrect send byte count," & Integer'Image(count);
     END IF;
@@ -260,11 +257,9 @@ PACKAGE BODY HID.libusb IS
     IF status = LIBUSB_ERROR_TIMEOUT THEN
       RAISE Messaging.Timeout_Error WITH "libusb_interrupt_transfer() timed out";
     ELSIF status < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_interrupt_transfer() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_interrupt_transfer() failed";
     ELSIF count /= msg'Length THEN
-      RAISE HID_Error WITH "Incorrect receive byte count," &
-        Integer'Image(count);
+      RAISE HID_Error WITH "Incorrect receive byte count," & Integer'Image(count);
     END IF;
   END Receive;
 
@@ -293,8 +288,7 @@ PACKAGE BODY HID.libusb IS
     status := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
     IF status < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_get_device_descriptor() failed";
     END IF;
 
     IF desc(iManufacturer) = 0 THEN
@@ -305,8 +299,7 @@ PACKAGE BODY HID.libusb IS
       desc(iManufacturer), data, data'Length);
 
     IF status < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed";
     END IF;
 
     IF status = 0 THEN
@@ -331,8 +324,7 @@ PACKAGE BODY HID.libusb IS
     status := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
     IF status < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_get_device_descriptor() failed";
     END IF;
 
     IF desc(iProduct) = 0 THEN
@@ -343,8 +335,7 @@ PACKAGE BODY HID.libusb IS
       desc(iProduct), data, data'Length);
 
     IF status < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed";
     END IF;
 
     IF status = 0 THEN
@@ -369,8 +360,7 @@ PACKAGE BODY HID.libusb IS
     status := libusb_get_device_descriptor(libusb_get_device(Self.handle), desc);
 
     IF status < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_get_device_descriptor() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_get_device_descriptor() failed";
     END IF;
 
     IF desc(iSerialNumber) = 0 THEN
@@ -381,8 +371,7 @@ PACKAGE BODY HID.libusb IS
       desc(iSerialNumber), data, data'Length);
 
     IF status < LIBUSB_SUCCESS THEN
-      RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed, error " &
-        Integer'Image(status);
+      RAISE HID_Error WITH "libusb_get_string_descriptor_ascii() failed";
     END IF;
 
     IF status = 0 THEN
