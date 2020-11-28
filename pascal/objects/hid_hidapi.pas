@@ -105,7 +105,11 @@ IMPLEMENTATION
   VAR
     status   : Integer;
     i        : Cardinal;
+{$IFDEF Windows}
+    wserial : ARRAY [0 .. 127] OF Word;
+{$ELSE}
     wserial : ARRAY [0 .. 127] OF LongWord;
+{$ENDIF}
 
   BEGIN
     IF Length(serial) > 126 THEN
@@ -124,6 +128,8 @@ IMPLEMENTATION
     ELSE
       BEGIN
         FillChar(wserial, SizeOf(wserial), 0);
+
+        { Do brute force conversion from string to wide string }
 
         FOR i := 1 TO Length(serial) DO
           wserial[i-1] := Ord(serial[i]);
