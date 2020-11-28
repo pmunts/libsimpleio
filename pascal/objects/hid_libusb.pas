@@ -69,9 +69,6 @@ INTERFACE
 
 IMPLEMENTATION
 
-  USES
-    UnixType;
-
   { Minimal Pascal thin binding to libusb }
 
   CONST
@@ -113,7 +110,7 @@ IMPLEMENTATION
 
   FUNCTION libusb_get_device_list
    (context    : Pointer;
-    list       : Pointer) : ssize_t; CDECL; EXTERNAL;
+    list       : Pointer) : Integer; CDECL; EXTERNAL;
 
   PROCEDURE libusb_free_device_list
    (list       : Pointer;
@@ -167,7 +164,7 @@ IMPLEMENTATION
   VAR
     status    : Integer;
     devlist   : ^Pointer;
-    devcount  : ssize_t;
+    devcount  : Integer;
     devindex  : Cardinal;
     dev       : Pointer;
     devdesc   : DeviceDescriptor;
