@@ -25,6 +25,7 @@ PROGRAM test_74x595_gpio;
 USES
   GPIO,
   RemoteIO_Client,
+  RemoteIO_Client_libusb,
   SPI,
   SPI_Shift_Register,
   SPI_Shift_Register_74HC595,
@@ -43,7 +44,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client.Device.Create;
+  remdev := RemoteIO_Client_libusb.Create;
   spidev := remdev.SPI(0, SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
     SPI_Shift_Register_74HC595.SPI_Clock_Max);
   regdev := SPI_Shift_Register.Device.Create(spidev);

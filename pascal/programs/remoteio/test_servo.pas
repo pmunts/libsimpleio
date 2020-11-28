@@ -25,6 +25,7 @@ PROGRAM test_pwm;
 USES
   RemoteIO,
   RemoteIO_Client,
+  RemoteIO_Client_libusb,
   Servo,
   Servo_PWM,
   SysUtils;
@@ -43,7 +44,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client.Device.Create;
+  remdev := RemoteIO_Client_libusb.Create;
   chans  := remdev.PWM_Outputs;
 
   SetLength(outputs, Length(chans));

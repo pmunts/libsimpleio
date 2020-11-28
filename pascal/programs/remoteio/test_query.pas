@@ -25,6 +25,7 @@ PROGRAM test_query_hid;
 USES
   RemoteIO,
   RemoteIO_Client,
+  RemoteIO_Client_libusb,
   SysUtils;
 
 VAR
@@ -37,7 +38,7 @@ BEGIN
   Writeln('Remote I/O Device Information Query');
   Writeln;
 
-  remdev := RemoteIO_Client.Device.Create;
+  remdev := RemoteIO_Client_libusb.Create;
 
   Writeln('Remote I/O device version:    ', remdev.Version);
   Writeln('Remote I/O device capability: ', remdev.Capability);

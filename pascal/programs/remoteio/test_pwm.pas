@@ -26,6 +26,7 @@ USES
   PWM,
   RemoteIO,
   RemoteIO_Client,
+  RemoteIO_Client_libusb,
   SysUtils;
 
 VAR
@@ -42,7 +43,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client.Device.Create;
+  remdev := RemoteIO_Client_libusb.Create;
   chans  := remdev.PWM_Outputs;
 
   SetLength(outputs, Length(chans));

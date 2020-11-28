@@ -25,6 +25,7 @@ PROGRAM test_led;
 USES
   GPIO,
   RemoteIO_Client,
+  RemoteIO_Client_libusb,
   SysUtils;
 
 VAR
@@ -38,7 +39,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client.Device.Create;
+  remdev := RemoteIO_Client_libusb.Create;
   LED    := remdev.GPIO(0, GPIO.Output);
 
   { Flash LED }

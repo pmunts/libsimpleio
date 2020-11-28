@@ -1,6 +1,6 @@
 { PCA8574 I2C GPIO Expander GPIO Pin Toggle Test }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -28,6 +28,7 @@ USES
   PCA8574,
   PCA8574_GPIO,
   RemoteIO_Client,
+  RemoteIO_Client_libusb,
   SysUtils;
 
 VAR
@@ -43,7 +44,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client.Device.Create;
+  remdev := RemoteIO_Client_libusb.Create;
   bus    := remdev.I2C(0);
   dev    := PCA8574.Device.Create(bus, $38);
   pin    := PCA8574_GPIO.PinSubclass.Create(dev, 0, GPIO.Output);

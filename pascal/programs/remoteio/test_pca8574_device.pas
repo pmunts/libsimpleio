@@ -26,6 +26,7 @@ USES
   I2C,
   PCA8574,
   RemoteIO_Client,
+  RemoteIO_Client_libusb,
   SysUtils;
 
 VAR
@@ -40,7 +41,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client.Device.Create;
+  remdev := RemoteIO_Client_libusb.Create;
   bus    := remdev.I2C(0);
   dev    := PCA8574.Device.Create(bus, $38);
 

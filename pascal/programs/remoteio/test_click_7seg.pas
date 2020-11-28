@@ -26,6 +26,7 @@ USES
   Click_7Seg,
   GPIO,
   RemoteIO_Client,
+  RemoteIO_Client_libusb,
   SPI,
   SPI_Shift_Register_74HC595,
   SysUtils;
@@ -45,7 +46,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client.Device.Create;
+  remdev := RemoteIO_Client_libusb.Create;
 
   spidev := remdev.SPI(0, SPI_Shift_Register_74HC595.SPI_Clock_Mode, 8,
     SPI_Shift_Register_74HC595.SPI_Clock_Max);

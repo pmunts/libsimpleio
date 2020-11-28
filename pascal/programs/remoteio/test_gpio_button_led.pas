@@ -1,6 +1,6 @@
 { Remote I/O GPIO Button and LED }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -24,7 +24,8 @@ PROGRAM test_gpio_button_led;
 
 USES
   GPIO,
-  RemoteIO_Client;
+  RemoteIO_Client,
+  RemoteIO_Client_libusb;
 
 VAR
   remdev   : RemoteIO_Client.Device;
@@ -39,7 +40,7 @@ BEGIN
 
   { Configure the button input and LED output }
 
-  remdev := RemoteIO_Client.Device.Create;
+  remdev := RemoteIO_Client_libusb.Create;
   button := remdev.GPIO(1, GPIO.Input);
   LED    := remdev.GPIO(0, GPIO.Output);
 
