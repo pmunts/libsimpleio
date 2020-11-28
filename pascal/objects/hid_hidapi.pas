@@ -98,7 +98,7 @@ IMPLEMENTATION
    (handle  : Pointer;
     VAR dst : ARRAY OF WideChar;
     len     : Cardinal) : Integer; CDECL; EXTERNAL;
- 
+
   CONSTRUCTOR MessengerSubclass.Create(vid : Cardinal; pid : Cardinal;
     serial : String; timeoutms : Integer = 1000);
 
@@ -202,10 +202,6 @@ IMPLEMENTATION
   END;
 
   FUNCTION MessengerSubclass.Name : String;
-
-  VAR
-    status : Integer;
-    buf    : ARRAY [0 .. 255] OF Char;
 
   BEGIN
     Name := Self.Manufacturer + ' ' + Self.Product;
