@@ -28,7 +28,6 @@ INTERFACE
     ADC,
     DAC,
     GPIO,
-    HID_Munts,
     I2C,
     Message64,
     PWM,
@@ -38,9 +37,6 @@ INTERFACE
 
   TYPE
     Device = CLASS
-      CONSTRUCTOR Create(vid : Cardinal = HID_Munts.VID;
-        pid : Cardinal = HID_Munts.PID; serial : PChar = Nil);
-
       CONSTRUCTOR Create(msg : Message64.Messenger);
 
       PROCEDURE Transaction(cmd : Message; VAR resp : Message);
@@ -94,38 +90,12 @@ IMPLEMENTATION
 
   USES
     errno,
-{$IFDEF HID_USE_LIBSIMPLEIO}
-    HID_libsimpleio,
-{$ENDIF}
-{$IFDEF HID_USE_HIDAPI}
-    HID_hidapi,
-{$ENDIF}
-{$IFDEF HID_USE_LIBUSB}
-    HID_libusb,
-{$ENDIF}
     RemoteIO_ADC,
     RemoteIO_DAC,
     RemoteIO_GPIO,
     RemoteIO_I2C,
     RemoteIO_PWM,
     RemoteIO_SPI;
-
-  CONSTRUCTOR Device.Create(vid : Cardinal = HID_Munts.VID;
-    pid : Cardinal = HID_Munts.PID; serial : PChar = Nil);
-
-  BEGIN
-{$IFDEF HID_USE_LIBSIMPLEIO}
-    Self.msg := HID_libsimpleio.MessengerSubclass.Create(vid, pid);
-{$ENDIF}
-{$IFDEF HID_USE_HIDAPI}
-    Self.msg := HID_hidapi.MessengerSubclass.Create(vid, pid, serial);
-{$ENDIF}
-{$IFDEF HID_USE_LIBUSB}
-    Self.msg := HID_libusb.MessengerSubclass.Create(vid, pid, serial);
-{$ENDIF}
-
-    Self.num := 0;
-  END;
 
   CONSTRUCTOR Device.Create(msg : Message64.Messenger);
 
