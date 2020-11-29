@@ -68,6 +68,12 @@ INTERFACE
     SPI0_1 : Designator = (chip : 0; chan :  1);
     SPI1_0 : Designator = (chip : 1; chan :  0);
 
+  { The following analog inputs are only available if the Mikroelektronika    }
+  { Pi 3 Click Shield (MIKROE-2756) and its device tree overlay are installed }
+
+    AIN0   : Designator = (chip : 0; chan :  0);
+    AIN1   : Designator = (chip : 0; chan :  1);
+
 IMPLEMENTATION
 
 END.
