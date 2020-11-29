@@ -42,6 +42,7 @@ SET FPCFLAGS=%FPCFLAGS% -Fu"%LIBSIMPLEIO%"\pascal\devices
 SET FPCFLAGS=%FPCFLAGS% -Fu"%LIBSIMPLEIO%"\pascal\interfaces
 SET FPCFLAGS=%FPCFLAGS% -Fu"%LIBSIMPLEIO%"\pascal\objects
 SET FPCFLAGS=%FPCFLAGS% -Fu"%LIBSIMPLEIO%"\pascal\objects\remoteio
+SET FPCFLAGS=%FPCFLAGS% -Fu"%LIBSIMPLEIO%"\pascal\objects\simpleio
 SET FPCFLAGS=%FPCFLAGS% -Fl"%LIBSIMPLEIO%"\win\%ARCH%
 
 REM Get ready to compile...
