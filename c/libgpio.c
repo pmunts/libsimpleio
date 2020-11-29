@@ -672,7 +672,7 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
 
   // Set direction and possibly initial output state
 
-  fd = open(DIRECTION, O_WRONLY);
+  fd = open(name_direction, O_WRONLY);
   if (fd < 0)
   {
     *error = errno;
