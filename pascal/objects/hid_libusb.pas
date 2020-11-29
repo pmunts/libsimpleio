@@ -419,5 +419,9 @@ IMPLEMENTATION
     SerialNumber := buf;
   END;
 
-  {$linklib libusb-1.0}
+{$ifdef Windows}
+{$linklib libusb-1.0.dll}
+{$else}
+{$linklib libusb-1.0}
+{$endif}
 END.
