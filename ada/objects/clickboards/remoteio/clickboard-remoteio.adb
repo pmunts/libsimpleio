@@ -20,13 +20,13 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.Shields;
+WITH ClickBoard.Servers;
 WITH RemoteIO.Arduino;
 WITH RemoteIO.Clicker;
 WITH RemoteIO.PocketBeagle;
 WITH RemoteIO.RaspberryPi;
 
-USE TYPE ClickBoard.Shields.Kind;
+USE TYPE ClickBoard.Servers.Kind;
 
 PACKAGE BODY ClickBoard.RemoteIO IS
 
@@ -38,7 +38,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
   -- socket
 
   TYPE SocketRec IS RECORD
-    kind : ClickBoard.Shields.Kind;
+    kind : ClickBoard.Servers.Kind;
     num  : Positive;
     GPIO : PinArray;
     AIN  : Integer;
@@ -51,7 +51,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
   SocketTable : CONSTANT ARRAY (Natural RANGE <>) OF SocketRec :=
    (
     -- Any server with an Arduino Click Shield
-    SocketRec'(ClickBoard.Shields.ArduinoClick, 1,
+    SocketRec'(ClickBoard.Servers.ArduinoClick, 1,
      (ClickBoard.AN   => Standard.RemoteIO.Arduino.A0,
       ClickBoard.RST  => Standard.RemoteIO.Arduino.A3,
       ClickBoard.CS   => Standard.RemoteIO.Arduino.D10,
@@ -70,7 +70,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       OTHERS => Unavailable),
 
     -- Any server with an Arduino Click Shield
-    SocketRec'(ClickBoard.Shields.ArduinoClick, 2,
+    SocketRec'(ClickBoard.Servers.ArduinoClick, 2,
      (ClickBoard.AN   => Standard.RemoteIO.Arduino.A1,
       ClickBoard.RST  => Standard.RemoteIO.Arduino.A2,
       ClickBoard.CS   => Standard.RemoteIO.Arduino.D9,
@@ -90,7 +90,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
     -- Mikroelektronika Clicker board with 1 socket
 
-    SocketRec'(ClickBoard.Shields.Clicker, 1,
+    SocketRec'(ClickBoard.Servers.Clicker, 1,
      (ClickBoard.AN   => Standard.RemoteIO.Clicker.AN,
       ClickBoard.RST  => Standard.RemoteIO.Clicker.RST,
       ClickBoard.CS   => Standard.RemoteIO.Clicker.CS,
@@ -108,7 +108,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       SPI    => Standard.RemoteIO.Clicker.SPI0,
       OTHERS => Unavailable),
 
-    SocketRec'(ClickBoard.Shields.PiClick1, 1,
+    SocketRec'(ClickBoard.Servers.PiClick1, 1,
      (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO22,
       ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO4,
       ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18,
@@ -119,7 +119,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
       OTHERS => Unavailable),
 
-    SocketRec'(ClickBoard.Shields.PiClick2, 1,
+    SocketRec'(ClickBoard.Servers.PiClick2, 1,
      (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO4,
       ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO5,
       ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18,
@@ -130,7 +130,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
       OTHERS => Unavailable),
 
-    SocketRec'(ClickBoard.Shields.PiClick2, 2,
+    SocketRec'(ClickBoard.Servers.PiClick2, 2,
      (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO13,
       ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO19,
       ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO17,
@@ -140,7 +140,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       SPI    => Standard.RemoteIO.RaspberryPi.SPI1, -- SPI0 SS1
       OTHERS => Unavailable),
 
-    SocketRec'(ClickBoard.Shields.PiClick3, 1,
+    SocketRec'(ClickBoard.Servers.PiClick3, 1,
      (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO4,
       ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO5,
       ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18,
@@ -152,7 +152,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
       OTHERS => Unavailable),
 
-    SocketRec'(ClickBoard.Shields.PiClick3, 2,
+    SocketRec'(ClickBoard.Servers.PiClick3, 2,
      (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO13,
       ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO12,
       ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO17,
@@ -165,7 +165,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
     -- Socket 1 is over the micro USB connector (left)
 
-    SocketRec'(ClickBoard.Shields.PocketBeagle, 1,
+    SocketRec'(ClickBoard.Servers.PocketBeagle, 1,
      (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.GPIO87,
       ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.GPIO89,
       ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO50,
@@ -179,7 +179,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
     -- Socket 2 is over the micro-SDHC card socket (right)
 
-    SocketRec'(ClickBoard.Shields.PocketBeagle, 2,
+    SocketRec'(ClickBoard.Servers.PocketBeagle, 2,
      (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.GPIO86,
       ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.GPIO45,
       ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO110,
@@ -195,7 +195,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   FUNCTION Create
    (socknum : Positive;
-    kind    : ClickBoard.Shields.kind := ClickBoard.Shields.Detect)
+    kind    : ClickBoard.Servers.kind := ClickBoard.Servers.Detect)
    RETURN Socket IS
 
   BEGIN
@@ -214,7 +214,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Retrieve the type of shield on the Remote I/O server
 
-  FUNCTION Kind(Self : socket) RETURN ClickBoard.Shields.Kind IS
+  FUNCTION Kind(Self : socket) RETURN ClickBoard.Servers.Kind IS
 
   BEGIN
     RETURN SocketTable(Self.index).kind;

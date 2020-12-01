@@ -22,10 +22,10 @@
 
 WITH RemoteIO;
 WITH ClickBoard.Interface_Template;
-WITH ClickBoard.Shields;
+WITH ClickBoard.Servers;
 
 PACKAGE ClickBoard.Interface_RemoteIO IS NEW ClickBoard.Interface_Template
- (ClickBoard.Shields.Kind, Standard.RemoteIO.ChannelNumber,
+ (ClickBoard.Servers.Kind, Standard.RemoteIO.ChannelNumber,
   Standard.RemoteIO.ChannelNumber, Standard.RemoteIO.ChannelNumber,
   Standard.RemoteIO.ChannelNumber, Standard.RemoteIO.ChannelNumber,
   Standard.RemoteIO.ChannelNumber);

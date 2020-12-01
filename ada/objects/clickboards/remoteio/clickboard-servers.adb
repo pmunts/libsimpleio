@@ -1,4 +1,4 @@
--- Mikroelektronika Click Board Shield definitions
+-- Mikroelektronika Click Board Remote I/O server kind definitions
 
 -- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
@@ -20,17 +20,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE ClickBoard.Shields IS
+WITH Ada.Environment_Variables;
 
-  TYPE Kind IS
-   (None,
-    ArduinoClick,
-    Clicker,
-    PiClick1,
-    PiClick2,
-    PiClick3,
-    PocketBeagle);
+PACKAGE BODY ClickBoard.Servers IS
 
-  FUNCTION Detect RETURN Kind;
+  FUNCTION Detect RETURN Kind IS
 
-END ClickBoard.Shields;
+  BEGIN
+    RETURN Kind'Value(Ada.Environment_Variables.Value("SHIELDNAME"));
+  EXCEPTION
+    WHEN OTHERS =>
+      RETURN None;
+  END Detect;
+
+END ClickBoard.Servers;
