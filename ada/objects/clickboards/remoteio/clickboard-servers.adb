@@ -27,7 +27,7 @@ PACKAGE BODY ClickBoard.Servers IS
   FUNCTION Detect RETURN Kind IS
 
   BEGIN
-    RETURN Kind'Value(Ada.Environment_Variables.Value("SHIELDNAME"));
+    RETURN Kind'Value(Ada.Environment_Variables.Value("SERVERKIND"));
   EXCEPTION
     WHEN OTHERS =>
       RETURN None;
