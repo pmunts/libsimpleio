@@ -29,11 +29,7 @@ PROJECT Default IS
     LIBSIMPLEIO & "/ada/bindings",
     LIBSIMPLEIO & "/ada/devices",
     LIBSIMPLEIO & "/ada/interfaces",
-    LIBSIMPLEIO & "/ada/objects",
-    LIBSIMPLEIO & "/ada/objects/clickboards",
-    LIBSIMPLEIO & "/ada/objects/clickboards/simpleio",
-    LIBSIMPLEIO & "/ada/objects/modbus",
-    LIBSIMPLEIO & "/ada/objects/simpleio");
+    LIBSIMPLEIO & "/ada/objects/**");
 
   FOR Object_Dir  USE "./obj";
 
