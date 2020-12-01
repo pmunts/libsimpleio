@@ -30,23 +30,8 @@ REM Set some defaults
 
 IF "%LIBSIMPLEIO%" == "" SET LIBSIMPLEIO=%HOMEDRIVE%%HOMEPATH%\libsimpleio
 IF "%ARCH%"        == "" SET ARCH=win64
-IF "%OBJ%"         == "" SET OBJ=.\obj
 IF "%GNAT%"        == "" SET GNAT=C:\PROGRA~1\gnat
-
-REM Set compiler flags
-
-SET CFLAGS=-gnat2012
-SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\bindings"
-SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\devices"
-SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\interfaces"
-SET CFLAGS=%CFLAGS% -I"%LIBSIMPLEIO%\ada\objects"
-
-SET LDFLAGS=-L%LIBSIMPLEIO%\win\%ARCH%
-
-REM Get ready to compile...
-
-IF NOT EXIST "%OBJ%" MKDIR "%OBJ%"
 
 REM Compile the program
 
-"%GNAT%\bin\gnatmake" -D "%OBJ%" %1 -cargs %CFLAGS% -largs %LDFLAGS%
+"%GNAT%/bin/gprbuild" -p %1
