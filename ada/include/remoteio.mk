@@ -29,5 +29,3 @@ ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/clickboards/remoteio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/remoteio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/remoteio/client
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/remoteio/server
-
-GNATENV		+= LIBSIMPLEIO=$(LIBSIMPLEIO)

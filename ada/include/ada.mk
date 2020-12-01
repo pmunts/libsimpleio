@@ -38,7 +38,6 @@ else
 # Definitions for native compile
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 ifneq ($(GNAT),)
-GNATENV		+= PATH=$(GNAT)/bin:$(PATH)
 GNATPREFIX	= $(GNAT)/bin/
 endif
 endif
@@ -47,6 +46,8 @@ endif
 
 ifeq ($(OS), Windows_NT)
 EXESUFFIX	= .exe
+WINARCH		?= win64
+ADA_LDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
 endif
 
 # Definitions for MacOS X
@@ -60,44 +61,41 @@ endif
 
 ADA_CFLAGS	+= -g -gnat2012
 ADA_OBJ		?= $(shell pwd)/obj
-GNATENV		+= ADA_OBJ=$(ADA_OBJ)
 
 # Definitions for gnatmake
 
-GNATMAKE	?= env $(GNATENV) $(GNATPREFIX)gnatmake$(EXESUFFIX)
+GNATMAKE	?= $(GNATPREFIX)gnatmake$(EXESUFFIX)
 GNATMAKEFLAGS	= -D $(ADA_OBJ)
 GNATMAKECFLAGS	+= $(ADA_CFLAGS) $(ADA_INCLUDES)
 GNATMAKELDFLAGS	+= $(ADA_LDFLAGS)
 
 # Definitions for other GNAT programs
 
-GNATBIND	?= env $(GNATENV) $(GNATPREFIX)gnatbind$(EXESUFFIX)
-GNATLINK	?= env $(GNATENV) $(GNATPREFIX)gnatlink$(EXESUFFIX)
-GNATSTRIP	?= env $(GNATENV) $(GNATPREFIX)strip$(EXESUFFIX)
+GNATBIND	?= $(GNATPREFIX)gnatbind$(EXESUFFIX)
+GNATLINK	?= $(GNATPREFIX)gnatlink$(EXESUFFIX)
+GNATSTRIP	?= $(GNATPREFIX)strip$(EXESUFFIX)
 
 # Definitions for gprbuild
 
 ifneq ($(GNAT),)
-GPRBUILD	?= env $(GNATENV) $(GNAT)/bin/gprbuild$(EXESUFFIX)
+GPRBUILD	?= $(GNAT)/bin/gprbuild$(EXESUFFIX)
 else
-GPRBUILD	?= env $(GNATENV) gprbuild$(EXESUFFIX)
+GPRBUILD	?= gprbuild$(EXESUFFIX)
 endif
 GPRBUILDFLAGS	= -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
-GPRBUILDCFLAGS	+= $(ADA_CFLAGS)
-GPRBUILDLDFLAGS	+= $(ADA_LDFLAGS)
 
 # Define pattern rules for building Ada programs
 
 %: %.gpr
 # Build with explicit Ada program project file
-	$(GPRBUILD) -P$< $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
+	$(GPRBUILD) -P$< $(GPRBUILDFLAGS) $@
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 
 ifneq ($(wildcard default.gpr),)
 # Build with default Ada program project file
 %:
-	$(GPRBUILD) $(GPRBUILDFLAGS) $@ -cargs $(GPRBUILDCFLAGS) -largs $(GPRBUILDLDFLAGS)
+	$(GPRBUILD) $(GPRBUILDFLAGS) $@
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 else

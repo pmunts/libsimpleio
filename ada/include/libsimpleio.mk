@@ -25,8 +25,10 @@ ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/devices
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/interfaces
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/clickboards
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/clickboards/remoteio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/clickboards/simpleio
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/modbus
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/remoteio
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/remoteio/client
+ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/remoteio/server
 ADA_INCLUDES	+= -I$(LIBSIMPLEIO)/ada/objects/simpleio
-
-GNATENV		+= LIBSIMPLEIO=$(LIBSIMPLEIO)
