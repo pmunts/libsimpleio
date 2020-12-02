@@ -1,6 +1,6 @@
--- USB HID remote I/O GPIO test
+-- USB HID Remote I/O GPIO Output Toggle Test
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,6 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH GPIO.RemoteIO;
 WITH RemoteIO.Client.libusb;
@@ -29,10 +30,12 @@ PROCEDURE test_gpio IS
 
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
+  num      : Natural;
+  outp     : GPIO.Pin;
 
 BEGIN
   New_Line;
-  Put_Line("USB HID Remote I/O GPIO Test");
+  Put_Line("USB HID Remote I/O GPIO Output Toggle Test");
   New_Line;
 
   -- Open the remote I/O device
@@ -58,30 +61,17 @@ BEGIN
 
   New_Line;
   New_Line;
+  Put("Enter GPIO pin number: ");
+  Get(num);
+  New_Line;
 
-  DECLARE
+  -- Create GPIO output object
 
-    -- Declare an array of GPIO.Pin sized to match the
-    -- number of GPIO pins found
+  outp := GPIO.RemoteIO.Create(remdev, num, GPIO.Output);
 
-    pins  : ARRAY (1 .. Positive(channels.Length)) OF GPIO.Pin;
-    count : Natural := 0;
+  -- Toggle the GPIO output
 
-  BEGIN
-
-    -- Initialize GPIO pins: All outputs initially turned off
-
-    FOR pin OF channels LOOP
-      count := count + 1;
-      pins(count) := GPIO.RemoteIO.Create(remdev, pin, GPIO.Output, False);
-    END LOOP;
-
-    -- Toggle GPIO outputs
-
-    LOOP
-      FOR pin OF pins LOOP
-        pin.Put(NOT pin.Get);
-      END LOOP;
-    END LOOP;
-  END;
+  LOOP
+    outp.Put(NOT outp.Get);
+  END LOOP;
 END test_gpio;
