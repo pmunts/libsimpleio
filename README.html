@@ -122,6 +122,11 @@ Remote I/O support. Upgraded from .Net Core 3.1 to .Net 5.0.</li>
 <li>24 November 2020 -- Made many improvements, cleanups, and reorganizations
 of the Remote I/O Protocol client implementations for Ada, C++, and Free
 Pascal.</li>
+<li>5 December 2020 -- More improvements to the Remote I/O Protocol client
+implementations. Modified <tt>libhdraw</tt> to rename <tt>HIDRAW_open()</tt> to
+<tt>HIDRAW_open1()</tt>, <tt>HIDRAW_open_id()</tt> to <tt>HIDRAW_open()2</tt>,
+and add <tt>HIDRAW_open3()</tt>, which accepts as USB device serial number
+string in addition to the vendor and product ID's.</li>
 </ul>
 <h2>Documentation</h2>
 <p>The user manual for <b>libsimpleio</b> is available at <a href=

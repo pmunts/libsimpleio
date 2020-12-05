@@ -130,6 +130,12 @@ News
 -   24 November 2020 -- Made many improvements, cleanups, and
     reorganizations of the Remote I/O Protocol client implementations
     for Ada, C++, and Free Pascal.
+-   5 December 2020 -- More improvements to the Remote I/O Protocol
+    client implementations. Modified `libhdraw` to rename
+    `HIDRAW_open()` to `HIDRAW_open1()`, `HIDRAW_open_id()` to
+    `HIDRAW_open()2`, and add `HIDRAW_open3()`, which accepts as USB
+    device serial number string in addition to the vendor and product
+    ID's.
 
 Documentation
 -------------
