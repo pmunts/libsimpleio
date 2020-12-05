@@ -31,11 +31,14 @@ public class libhidraw
 {
   // Raw HID device function definitions
 
-  public static native void HIDRAW_open(String name, IntByReference fd,
+  public static native void HIDRAW_open1(String name, IntByReference fd,
     IntByReference error);
 
-  public static native void HIDRAW_open_id(int VID, int PID, IntByReference fd,
+  public static native void HIDRAW_open2(int VID, int PID, IntByReference fd,
     IntByReference error);
+
+  public static native void HIDRAW_open3(int VID, int PID, String serial,
+    IntByReference fd, IntByReference error);
 
   public static native void HIDRAW_close(int fd, IntByReference error);
 
