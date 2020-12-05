@@ -43,8 +43,8 @@ namespace IO.Objects.USB.HID
         private class libHIDRaw
         {
             [System.Runtime.InteropServices.DllImport("simpleio")]
-            public static extern void HIDRAW_open_id(int VID, int PID,
-                out int fd, out int error);
+            public static extern void HIDRAW_open3(int VID, int PID,
+                string serial, out int fd, out int error);
 
             [System.Runtime.InteropServices.DllImport("simpleio")]
             public static extern void HIDRAW_close(int fd, out int error);
@@ -121,7 +121,8 @@ namespace IO.Objects.USB.HID
 
                 int error;
 
-                libHIDRaw.HIDRAW_open_id(vid, pid, out this.fd, out error);
+                libHIDRaw.HIDRAW_open3(vid, pid, serialnumber, out this.fd,
+                  out error);
 
                 if (error != 0)
                 {
