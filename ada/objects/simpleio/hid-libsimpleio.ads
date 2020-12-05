@@ -45,6 +45,7 @@ PACKAGE HID.libsimpleio IS
   FUNCTION Create
    (vid       : HID.Vendor;
     pid       : HID.Product;
+    serial    : String := "";
     timeoutms : Integer := 1000) RETURN Message64.Messenger;
 
   -- Constructor using open file descriptor
@@ -66,6 +67,7 @@ PACKAGE HID.libsimpleio IS
    (Self      : IN OUT MessengerSubclass;
     vid       : HID.Vendor;
     pid       : HID.Product;
+    serial    : String := "";
     timeoutms : Integer := 1000);
 
   -- Initializer using open file descriptor

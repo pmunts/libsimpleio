@@ -46,12 +46,13 @@ PACKAGE BODY HID.libsimpleio IS
   FUNCTION Create
    (vid       : HID.Vendor;
     pid       : HID.Product;
+    serial    : String := "";
     timeoutms : Integer := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
   BEGIN
-    Self.Initialize(vid, pid, timeoutms);
+    Self.Initialize(vid, pid, serial, timeoutms);
     RETURN NEW MessengerSubclass'(Self);
   END Create;
 
@@ -85,10 +86,10 @@ PACKAGE BODY HID.libsimpleio IS
       RAISE HID_Error WITH "timeoutms parameter is out of range";
     END IF;
 
-    libHIDRaw.Open(name & ASCII.NUL, fd, error);
+    libHIDRaw.Open1(name & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
-      RAISE HID_Error WITH "libHIDRaw.Open() failed, " &
+      RAISE HID_Error WITH "libHIDRaw.Open1() failed, " &
         errno.strerror(error);
     END IF;
 
@@ -101,6 +102,7 @@ PACKAGE BODY HID.libsimpleio IS
    (Self      : IN OUT MessengerSubclass;
     vid       : HID.Vendor;
     pid       : HID.Product;
+    serial    : String := "";
     timeoutms : Integer := 1000) IS
 
     fd    : Integer;
@@ -113,11 +115,10 @@ PACKAGE BODY HID.libsimpleio IS
       RAISE HID_Error WITH "timeoutms parameter is out of range";
     END IF;
 
-    libHIDRaw.OpenID(Integer(vid), Integer(pid), fd, error);
+    libHIDRaw.Open3(Integer(vid), Integer(pid), serial & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
-      RAISE HID_Error WITH "libHIDRaw.OpenID() failed, " &
-        errno.strerror(error);
+      RAISE HID_Error WITH "libHIDRaw.Open3() failed, " & errno.strerror(error);
     END IF;
 
     Self := MessengerSubclass'(fd, timeoutms);

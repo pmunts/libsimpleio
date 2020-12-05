@@ -26,18 +26,27 @@ WITH System;
 PACKAGE libHIDRaw IS
   PRAGMA Link_With("-lsimpleio");
 
-  PROCEDURE Open
+  PROCEDURE Open1
    (devname : String;
     fd      : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, Open, "HIDRAW_open");
+  PRAGMA Import(C, Open1, "HIDRAW_open1");
 
-  PROCEDURE OpenID
+  PROCEDURE Open2
    (vendor  : Integer;
     product : Integer;
+    serial  : String;
     fd      : OUT Integer;
     error   : OUT Integer);
-  PRAGMA Import(C, OpenID, "HIDRAW_open_id");
+  PRAGMA Import(C, Open2, "HIDRAW_open2");
+
+  PROCEDURE Open3
+   (vendor  : Integer;
+    product : Integer;
+    serial  : String;
+    fd      : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, Open3, "HIDRAW_open3");
 
   PROCEDURE Close
    (fd      : Integer;
