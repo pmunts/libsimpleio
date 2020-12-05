@@ -42,7 +42,8 @@ namespace libsimpleio::HID
 
     Messenger_Class(const char *name, int timeoutms = 1000);
 
-    Messenger_Class(uint16_t VID, uint16_t PID, int timeoutms = 1000);
+    Messenger_Class(uint16_t VID, uint16_t PID, const char *serial = nullptr,
+      int timeoutms = 1000);
 
     virtual void Send(Interfaces::Message64::Message cmd);
 

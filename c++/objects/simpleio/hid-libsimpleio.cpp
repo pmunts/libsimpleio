@@ -41,14 +41,15 @@ Messenger_Class::Messenger_Class(const char *name, int timeoutms)
 
   // Open raw HID device
 
-  HIDRAW_open(name, &fd, &error);
+  HIDRAW_open1(name, &fd, &error);
   if (error) THROW_MSG_ERR("HIDRAW_open() failed", error);
 
   this->fd = fd;
   this->timeout = timeoutms;
 }
 
-Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, int timeoutms)
+Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID,
+  const char *serial, int timeoutms)
 {
   int32_t fd;
   int32_t error;
@@ -60,7 +61,7 @@ Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, int timeoutms)
 
   // Open raw HID device
 
-  HIDRAW_open_id(VID, PID, &fd, &error);
+  HIDRAW_open3(VID, PID, serial, &fd, &error);
   if (error) THROW_MSG_ERR("HIDRAW_open_id() failed", error);
 
   this->fd = fd;
