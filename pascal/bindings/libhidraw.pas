@@ -24,16 +24,23 @@ UNIT libHIDRaw;
 
 INTERFACE
 
-  PROCEDURE Open
+  PROCEDURE Open1
    (name        : PChar;
     VAR fd      : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_open';
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_open1';
 
-  PROCEDURE OpenID
+  PROCEDURE Open2
    (vendor      : Cardinal;
     product     : Cardinal;
     VAR fd      : Integer;
-    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_open_id';
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_open2';
+
+  PROCEDURE Open3
+   (vendor      : Cardinal;
+    product     : Cardinal;
+    serial      : PChar;
+    VAR fd      : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'HIDRAW_open3';
 
   PROCEDURE Close
    (fd          : Integer;
