@@ -39,7 +39,7 @@ namespace HID::hidapi
     //  0 => Receive operation never blocks at all
     // >0 => Receive operation blocks for the indicated number of milliseconds
 
-    Messenger_Class(uint16_t VID, uint16_t PID, const char *serial = "",
+    Messenger_Class(uint16_t VID, uint16_t PID, const char *serial = nullptr,
       int timeoutms = 1000);
 
     virtual void Send(Interfaces::Message64::Message cmd);
