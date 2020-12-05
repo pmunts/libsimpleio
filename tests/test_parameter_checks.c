@@ -555,23 +555,31 @@ START_TEST(test_libhidraw)
 #endif
 
   fd = -888;
-  HIDRAW_open(NULL, &fd, &error);
+  HIDRAW_open1(NULL, &fd, &error);
   ck_assert(fd == -1);
   ck_assert(error == EINVAL);
 
-  HIDRAW_open("/dev/bogus", NULL, &error);
+  HIDRAW_open1("/dev/bogus", NULL, &error);
   ck_assert(error == EINVAL);
 
   fd = -888;
-  HIDRAW_open("/dev/bogus", &fd, &error);
+  HIDRAW_open1("/dev/bogus", &fd, &error);
   ck_assert(fd == -1);
   ck_assert(error == ENOENT);
 
-  HIDRAW_open_id(0, 0, NULL, &error);
+  HIDRAW_open2(0, 0, NULL, &error);
   ck_assert(error == EINVAL);
 
   fd = -888;
-  HIDRAW_open_id(0, 0, &fd, &error);
+  HIDRAW_open2(0, 0, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == ENODEV);
+
+  HIDRAW_open3(0, 0, NULL, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  HIDRAW_open3(0, 0, NULL, &fd, &error);
   ck_assert(fd == -1);
   ck_assert(error == ENODEV);
 
