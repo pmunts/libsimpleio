@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of libhidraw</TITLE>
 </HEAD><BODY>
 <H1>libhidraw</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 4 December 2020<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -17,10 +17,13 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#
 <PRE>
 <B>#include &lt;<A HREF="file:///usr/include/libsimpleio/libhidraw.h">libsimpleio/libhidraw.h</A>&gt;</B>
 
-<B>void HIDRAW_open(const char *</B><I>name</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
+<B>void HIDRAW_open1(const char *</B><I>name</I><B>, int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
-<B>void HIDRAW_open_id(int32_t </B><I>VID</I><B>, int32_t </B><I>PID</I><B>, int32_t *</B><I>fd</I><B>,</B>
+<B>void HIDRAW_open2(int32_t </B><I>VID</I><B>, int32_t </B><I>PID</I><B>, int32_t *</B><I>fd</I><B>,</B>
 <B>  int32_t *</B><I>error</I><B>);</B>
+
+<B>void HIDRAW_open3(int32_t </B><I>VID</I><B>, int32_t </B><I>PID</I><B>, const char *</B><I>serial</I><B>,</B>
+<B>  int32_t *</B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void HIDRAW_close(int32_t </B><I>fd</I><B>, int32_t *</B><I>error</I><B>);</B>
 
@@ -56,7 +59,7 @@ value (upon failure) in
 
 <P>
 
-<B>HIDRAW_open()</B> opens a raw HID device by name.  The device node name (<B>/dev/hidrawN</B>)
+<B>HIDRAW_open1()</B> opens a raw HID device by name.  The device node name (<B>/dev/hidrawN</B>)
 
 must be passed in
 <I>name</I>.
@@ -66,10 +69,20 @@ Upon success, a file descriptor for the raw HID device is returned in
 
 <P>
 
-<B>HIDRAW_open_id()</B> opens the first raw HID device
+<B>HIDRAW_open2()</B> opens the first raw HID device
 
-that matches the specified vendor and product ID numbers passed in
+that matches the vendor ID and product ID passed in
 <I>VID</I> and <I>PID</I>.
+
+Upon success, a file descriptor for the raw hid device is returned in
+<I>*fd</I>.
+
+<P>
+
+<B>HIDRAW_open3()</B> opens the raw HID device
+
+that matches the vendor ID, product ID, and serial number passed in
+<I>VID</I>, <I>PID</I>, and <I>serial</I>.
 
 Upon success, a file descriptor for the raw hid device is returned in
 <I>*fd</I>.
@@ -194,6 +207,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 09:41:20 GMT, December 21, 2018
+Time: 01:20:10 GMT, December 05, 2020
 </BODY>
 </HTML>

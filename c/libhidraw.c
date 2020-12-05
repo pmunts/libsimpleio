@@ -35,9 +35,29 @@
 #include "errmsg.inc"
 #include "libhidraw.h"
 
-// Open the first raw HID device with matching vendor and product ID's
+// Compatibility shims
+
+void HIDRAW_open(const char *name, int32_t *fd, int32_t *error)
+{
+  HIDRAW_open1(name, fd, error);
+}
 
 void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
+{
+  HIDRAW_open3(VID, PID, NULL, fd, error);
+}
+
+// Open the first raw HID device with matching vendor and product ID's
+
+void HIDRAW_open2(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
+{
+  HIDRAW_open3(VID, PID, NULL, fd, error);
+}
+
+// Open the the raw HID device with matching vendor, product, and serial number
+
+void HIDRAW_open3(int32_t VID, int32_t PID, const char *serial, int32_t *fd,
+  int32_t *error)
 {
   assert(error != NULL);
 
@@ -53,10 +73,12 @@ void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
   int i;
   char name[MAXPATHLEN];
   int32_t b, v, p, e;
+  char serialpath[MAXPATHLEN];
+  char devserial[256];
 
   // Search raw HID devices, looking for matching VID and PID
 
-  for (i = 0; i < 100; i++)
+  for (i = 0; i < 255; i++)
   {
     snprintf(name, sizeof(name), "/dev/hidraw%d", i);
 
@@ -72,7 +94,59 @@ void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
 
     // Look for a matching device
 
-    if ((VID == v) && (PID == p))
+    if ((VID != v) || (PID != p))
+    {
+      close(*fd);
+      continue;
+    }
+
+    // If no serial number was specified, we are done
+
+    if (serial == NULL)
+    {
+      *error = 0;
+      return;
+    }
+
+    if (strlen(serial) == 0)
+    {
+      *error = 0;
+      return;
+    }
+
+    // Fetch the serial number for this candidate device
+
+    snprintf(serialpath, sizeof(serialpath),
+      "/sys/class/hidraw/hidraw%d/../../../../serial", i);
+
+    int serialfd = open(serialpath, O_RDONLY);
+
+    if (serialfd < 0)
+    {
+      close(*fd);
+      continue;
+    }
+
+    memset(devserial, 0, sizeof(0));
+    read(serialfd, devserial, sizeof(devserial)-1);
+    close(serialfd);
+
+    // Check whether we found a serial number
+
+    if (strlen(devserial) == 0)
+    {
+      close(*fd);
+      continue;
+    }
+
+    // Remove trailing LF, if any
+
+    if (devserial[strlen(devserial)-1] == 10)
+      devserial[strlen(devserial)-1] = 0;
+
+    // Check for matching serial number
+
+    if (!strcmp(serial, devserial))
     {
       *error = 0;
       return;
@@ -88,7 +162,7 @@ void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd, int32_t *error)
   ERRORMSG("Cannot find matching raw HID device", *error, __LINE__ - 1);
 }
 
-// Get device information string
+// Get device information string (manufacturer + product)
 
 void HIDRAW_get_name(int32_t fd, char *name, int32_t namesize, int32_t *error)
 {

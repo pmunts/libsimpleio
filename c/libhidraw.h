@@ -28,10 +28,12 @@
 
 _BEGIN_STD_C
 
-extern void HIDRAW_open(const char *name, int32_t *fd, int32_t *error);
+extern void HIDRAW_open1(const char *name, int32_t *fd, int32_t *error);
 
-extern void HIDRAW_open_id(int32_t VID, int32_t PID, int32_t *fd,
-  int32_t *error);
+extern void HIDRAW_open2(int32_t VID, int32_t PID, int32_t *fd, int32_t *error);
+
+extern void HIDRAW_open3(int32_t VID, int32_t PID, const char *serial,
+  int32_t *fd, int32_t *error);
 
 extern void HIDRAW_close(int32_t fd, int32_t *error);
 

@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libhidraw 2 "21 December 2018" "version 1" "Linux Simple I/O Library"
+.TH libhidraw 2 "4 December 2020" "version 1" "Linux Simple I/O Library"
 .SH NAME
 .B libhidraw
 \-\- Linux Simple I/O Library: Raw HID Module
@@ -28,10 +28,13 @@
 .nf
 .B #include <libsimpleio/libhidraw.h>
 
-.BI "void HIDRAW_open(const char *" name ", int32_t *" fd ", int32_t *" error ");"
+.BI "void HIDRAW_open1(const char *" name ", int32_t *" fd ", int32_t *" error ");"
 
-.BI "void HIDRAW_open_id(int32_t " VID ", int32_t " PID ", int32_t *" fd ","
+.BI "void HIDRAW_open2(int32_t " VID ", int32_t " PID ", int32_t *" fd ","
 .BI "  int32_t *" error ");"
+
+.BI "void HIDRAW_open3(int32_t " VID ", int32_t " PID ", const char *" serial ","
+.BI "  int32_t *" fd ", int32_t *" error ");"
 
 .BI "void HIDRAW_close(int32_t " fd ", int32_t *" error ");"
 
@@ -59,15 +62,21 @@ All functions return either
 value (upon failure) in
 .IR *error .
 .PP
-.BR HIDRAW_open() " opens a raw HID device by name.  The device node name (" /dev/hidrawN ")"
+.BR HIDRAW_open1() " opens a raw HID device by name.  The device node name (" /dev/hidrawN ")"
 must be passed in
 .IR name .
 Upon success, a file descriptor for the raw HID device is returned in
 .IR *fd .
 .PP
-.BR HIDRAW_open_id() " opens the first raw HID device
-that matches the specified vendor and product ID numbers passed in
+.BR HIDRAW_open2() " opens the first raw HID device
+that matches the vendor ID and product ID passed in
 .IR VID " and " PID .
+Upon success, a file descriptor for the raw hid device is returned in
+.IR *fd .
+.PP
+.BR HIDRAW_open3() " opens the raw HID device
+that matches the vendor ID, product ID, and serial number passed in
+.IR VID ", " PID ", and " serial .
 Upon success, a file descriptor for the raw hid device is returned in
 .IR *fd .
 .PP
