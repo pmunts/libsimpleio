@@ -172,6 +172,8 @@ IMPLEMENTATION
     devserial : ARRAY [0 .. 255] OF Char;
 
   BEGIN
+    Self.handle := Nil;
+
     IF Length(serial) > 126 THEN
       RAISE Message64.Error.Create('ERROR: serial number parameter is too long');
 
@@ -192,6 +194,8 @@ IMPLEMENTATION
 
     { Iterate over the list of USB devices, looking for matching VID, PID, }
     { and serial number.                                                   }
+
+    devhandle := Nil;
 
     FOR devindex := 0 TO devcount - 1 DO
       BEGIN
@@ -256,7 +260,7 @@ IMPLEMENTATION
 
     libusb_free_device_list(devlist, 1);
 
-    IF devhandle = NIL THEN
+    IF devhandle = Nil THEN
       RAISE Message64.Error.Create('ERROR: Unable to find matching device');
 
     status := libusb_set_auto_detach_kernel_driver(devhandle, 1);
@@ -278,7 +282,9 @@ IMPLEMENTATION
   DESTRUCTOR MessengerSubclass.Destroy;
 
   BEGIN
-    libusb_close(Self.handle);
+    IF Self.handle <> Nil THEN
+      libusb_close(Self.handle);
+
     INHERITED;
   END;
 
