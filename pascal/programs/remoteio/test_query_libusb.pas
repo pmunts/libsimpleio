@@ -38,7 +38,7 @@ VAR
 
 BEGIN
   Writeln;
-  Writeln('Remote I/O DeviceInformation Query');
+  Writeln('Remote I/O Device Information Query');
   Writeln;
 
   msg    := HID_libusb.MessengerSubclass.Create(HID_Munts.VID, HID_Munts.PID);
