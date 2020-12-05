@@ -50,12 +50,12 @@ namespace IO.Objects.libsimpleio.HID
 
             int error;
 
-            IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open(devname,
+            IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open1(devname,
                 out this.myfd, out error);
 
             if (error != 0)
             {
-                throw new Exception("HIDRAW_open() failed", error);
+                throw new Exception("HIDRAW_open1() failed", error);
             }
 
             this.timeout = timeoutms;
@@ -66,11 +66,13 @@ namespace IO.Objects.libsimpleio.HID
         /// </summary>
         /// <param name="VID">Vendor ID.</param>
         /// <param name="PID">Product ID.</param>
+        /// <param name="serial">Serial Number.</param>
         /// <param name="timeoutms">Time in milliseconds to wait for
         /// read and write operations to complete.  Zero means wait
         /// forever.</param>
         public Messenger(int VID = IO.Devices.USB.Munts.HID.Vendor,
-            int PID = IO.Devices.USB.Munts.HID.Product, int timeoutms = 1000)
+            int PID = IO.Devices.USB.Munts.HID.Product, string serial = null,
+            int timeoutms = 1000)
         {
             // Validate parameters
 
@@ -91,12 +93,12 @@ namespace IO.Objects.libsimpleio.HID
 
             int error;
 
-            IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open_id(VID, PID,
-                out this.myfd, out error);
+            IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open3(VID, PID,
+                serial, out this.myfd, out error);
 
             if (error != 0)
             {
-                throw new Exception("HIDRAW_open_id() failed", error);
+                throw new Exception("HIDRAW_open3() failed", error);
             }
 
             this.timeout = timeoutms;

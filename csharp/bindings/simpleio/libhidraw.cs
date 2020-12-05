@@ -37,7 +37,7 @@ namespace IO.Bindings.libsimpleio
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void HIDRAW_open(string devname, out int fd,
+        public static extern void HIDRAW_open1(string devname, out int fd,
             out int error);
 
         /// <summary>
@@ -49,8 +49,22 @@ namespace IO.Bindings.libsimpleio
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void HIDRAW_open_id(int VID, int PID, out int fd,
+        public static extern void HIDRAW_open2(int VID, int PID, out int fd,
             out int error);
+
+        /// <summary>
+        /// Open a Linux raw HID device by vendor ID and product ID and serial
+        /// number.
+        /// </summary>
+        /// <param name="VID">Vendor ID.</param>
+        /// <param name="PID">Product ID.</param>
+        /// <param name="serial">Serial number.</param>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void HIDRAW_open3(int VID, int PID, string serial,
+            out int fd, out int error);
 
         /// <summary>
         /// Close a Linux raw HID.
