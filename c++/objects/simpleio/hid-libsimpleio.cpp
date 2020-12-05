@@ -62,7 +62,7 @@ Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID,
   // Open raw HID device
 
   HIDRAW_open3(VID, PID, serial, &fd, &error);
-  if (error) THROW_MSG_ERR("HIDRAW_open_id() failed", error);
+  if (error) THROW_MSG_ERR("HIDRAW_open3() failed", error);
 
   this->fd = fd;
   this->timeout = timeoutms;
