@@ -45,7 +45,7 @@ BEGIN
   WriteLn;
   FlushOutErr;
 
-  hid_munts.Open(dev, hid_libsimpleio.FOREVER, error);
+  hid_munts.Open(hid_libsimpleio.ANYSERIAL, hid_libsimpleio.FOREVER, dev, error);
   CheckError(error, "hid_munts.Open() failed");
 
   libhidraw.HIDRAW_get_name(hid_libsimpleio.fd(dev), name, HIGH(name),

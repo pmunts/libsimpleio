@@ -1,4 +1,4 @@
-(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(* Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -24,12 +24,13 @@ IMPLEMENTATION MODULE hid_munts;
     hid_libsimpleio;
 
   PROCEDURE Open
-   (VAR dev   : Device;
+   (serial    : ARRAY OF CHAR;
     timeoutms : CARDINAL;
+    VAR dev   : Device;
     VAR error : CARDINAL);
 
   BEGIN
-    hid_libsimpleio.Open(VID, PID, timeoutms, dev, error);
+    hid_libsimpleio.Open(VID, PID, serial, timeoutms, dev, error);
   END Open;
 
 END hid_munts.

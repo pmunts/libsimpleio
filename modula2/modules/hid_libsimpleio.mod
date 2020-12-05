@@ -1,6 +1,6 @@
 (* Raw HID services using libsimpleio *)
 
-(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(* Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -38,11 +38,12 @@ IMPLEMENTATION MODULE hid_libsimpleio;
 
     Device = POINTER TO DeviceRec;
 
-  (* Open raw HID device given vendor and product ID's *)
+  (* Open raw HID device given vendor, product, and serial number  *)
 
   PROCEDURE Open
    (vendor    : CARDINAL;
     product   : CARDINAL;
+    serial    : ARRAY OF CHAR;
     timeoutms : CARDINAL;
     VAR dev   : Device;
     VAR error : CARDINAL);
@@ -60,7 +61,7 @@ IMPLEMENTATION MODULE hid_libsimpleio;
 
     (* Open the raw HID device *)
 
-    libhidraw.HIDRAW_open_id(vendor, product, fd, error);
+    libhidraw.HIDRAW_open3(vendor, product, serial, fd, error);
 
     IF error <> 0 THEN
       RETURN;
@@ -95,7 +96,7 @@ IMPLEMENTATION MODULE hid_libsimpleio;
 
     (* Open the raw HID device *)
 
-    libhidraw.HIDRAW_open(name, fd, error);
+    libhidraw.HIDRAW_open1(name, fd, error);
 
     IF error <> 0 THEN
       RETURN;

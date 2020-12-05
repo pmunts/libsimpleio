@@ -1,4 +1,4 @@
-(* Copyright (C)2018-2019, Philip Munts, President, Munts AM Corp.             *)
+(* Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -31,8 +31,9 @@ DEFINITION MODULE hid_munts;
     PID = 00AFAH;  (* USB Product ID *)
 
   PROCEDURE Open
-   (VAR dev   : Device;
+   (serial    : ARRAY OF CHAR;
     timeoutms : CARDINAL;
+    VAR dev   : Device;
     VAR error : CARDINAL);
 
 END hid_munts.

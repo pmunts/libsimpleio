@@ -1,6 +1,6 @@
 (* libsimpleio bindings for GNU Modula-2 *)
 
-(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(* Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -24,26 +24,33 @@ DEFINITION MODULE FOR "C" libhidraw;
 
   FROM SYSTEM IMPORT BYTE;
 
-  PROCEDURE HIDRAW_open
-   (VAR name  : ARRAY OF CHAR;
-    VAR fd    : INTEGER;
-    VAR error : CARDINAL);
+  PROCEDURE HIDRAW_open1
+   (name        : ARRAY OF CHAR;
+    VAR fd      : INTEGER;
+    VAR error   : CARDINAL);
 
-  PROCEDURE HIDRAW_open_id
-   (VID       : CARDINAL;
-    PID       : CARDINAL;
-    VAR fd    : INTEGER;
-    VAR error : CARDINAL);
+  PROCEDURE HIDRAW_open2
+   (VID         : CARDINAL;
+    PID         : CARDINAL;
+    VAR fd      : INTEGER;
+    VAR error   : CARDINAL);
+
+  PROCEDURE HIDRAW_open3
+   (VID         : CARDINAL;
+    PID         : CARDINAL;
+    serial      : ARRAY OF CHAR;
+    VAR fd      : INTEGER;
+    VAR error   : CARDINAL);
 
   PROCEDURE HIDRAW_close
-   (fd        : INTEGER;
-    VAR error : CARDINAL);
+   (fd          : INTEGER;
+    VAR error   : CARDINAL);
 
   PROCEDURE HIDRAW_get_name
-   (fd        : INTEGER;
-    VAR name  : ARRAY OF CHAR;
-    namesize  : CARDINAL;
-    VAR error : CARDINAL);
+   (fd          : INTEGER;
+    VAR name    : ARRAY OF CHAR;
+    namesize    : CARDINAL;
+    VAR error   : CARDINAL);
 
   PROCEDURE HIDRAW_get_info
    (fd          : INTEGER;
