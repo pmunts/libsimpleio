@@ -44,14 +44,14 @@ Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, const char *serial,
   // Initialize the libusb internals.  It is safe to call libusb_init()
   // multiple times.
 
-  if (libusb_init(NULL))
+  if (libusb_init(nullptr))
     THROW_MSG("libusb_init() failed");
 
   // Fetch the list of USB devices.
 
   libusb_device **devlist;
 
-  if (libusb_get_device_list(NULL, &devlist) < 0)
+  if (libusb_get_device_list(nullptr, &devlist) < 0)
     THROW_MSG("libusb_get_device_list() failed");
 
   // Iterate over the list of USB devices, looking for matching VID, PID,
