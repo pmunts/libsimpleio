@@ -29,7 +29,9 @@
 #include <exception-raisers.h>
 #include <remoteio-client.h>
 
-#ifdef HID_USE_LIBSIMPLEIO
+#if defined(HID_USE_HIDAPI)
+#include <hid-hidapi.h>
+#elif defined(HID_USE_LIBSIMPLEIO)
 #include <hid-libsimpleio.h>
 #else
 #include <hid-libusb.h>
@@ -43,9 +45,12 @@ using namespace RemoteIO::Client;
 // Default Constructor
 Device_Class::Device_Class(const char *serial)
 {
-#ifdef HID_USE_LIBSIMPLEIO
+#if defined(HID_USE_HIDAPI)
+  this->msg = new HID::hidapi::Messenger_Class(HID::Munts::VID,
+    HID::Munts::PID, serial);
+#elif defined(HID_USE_LIBSIMPLEIO)
   this->msg = new libsimpleio::HID::Messenger_Class(HID::Munts::VID,
-    HID::Munts::PID);
+    HID::Munts::PID, serial);
 #else
   this->msg = new HID::libusb::Messenger_Class(HID::Munts::VID,
     HID::Munts::PID, serial);
