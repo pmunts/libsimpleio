@@ -35,7 +35,7 @@ INTERFACE
 
   TYPE
     MessengerSubclass = CLASS(TInterfacedObject, Message64.Messenger)
-      CONSTRUCTOR Create(vid : Cardinal; pid : Cardinal;
+      CONSTRUCTOR Create(vid : Cardinal; pid : Cardinal; serial : String = '';
         timeoutms : Integer = 1000);
 
       DESTRUCTOR Destroy; OVERRIDE;
@@ -66,16 +66,18 @@ IMPLEMENTATION
   { Create a Message64 messenger object using libsimpleio raw HID transport }
 
   CONSTRUCTOR MessengerSubclass.Create(vid : Cardinal; pid : Cardinal;
-    timeoutms : Integer);
+    serial : String; timeoutms : Integer);
 
   VAR
     error  : Integer;
 
   BEGIN
+    Self.fd := -1;
+
     IF timeoutms < -1 THEN
       RAISE Message64.Error.Create('ERROR: timeoutms parameter is out of range');
 
-    libHIDRaw.OpenID(vid, pid, Self.fd, error);
+    libHIDRaw.Open3(vid, pid, PChar(serial), Self.fd, error);
 
     IF error <> 0 THEN
       RAISE Message64.Error.Create('ERROR: libHIDRaw.OpenID() failed, ' +
@@ -92,7 +94,9 @@ IMPLEMENTATION
     error  : Integer;
 
   BEGIN
-    libHIDRaw.Close(Self.fd, error);
+    IF Self.fd >= 0 THEN
+      libHIDRaw.Close(Self.fd, error);
+
     INHERITED;
   END;
 
