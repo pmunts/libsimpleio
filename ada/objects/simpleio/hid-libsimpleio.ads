@@ -22,8 +22,7 @@
 
 -- Allowed values for the timeout parameter:
 --
--- -1 => Receive operation blocks forever, until a report is received
---  0 => Receive operation never blocks at all
+--  0 => Receive operation blocks forever, until a report is received
 -- >0 => Receive operation blocks for the indicated number of milliseconds
 
 WITH Message64;
@@ -38,7 +37,7 @@ PACKAGE HID.libsimpleio IS
 
   FUNCTION Create
    (name      : String;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger;
+    timeoutms : Natural := 1000) RETURN Message64.Messenger;
 
   -- Constructor using HID vendor and product ID's
 
@@ -46,13 +45,13 @@ PACKAGE HID.libsimpleio IS
    (vid       : HID.Vendor;
     pid       : HID.Product;
     serial    : String := "";
-    timeoutms : Integer := 1000) RETURN Message64.Messenger;
+    timeoutms : Natural := 1000) RETURN Message64.Messenger;
 
   -- Constructor using open file descriptor
 
   FUNCTION Create
    (fd        : Integer;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger;
+    timeoutms : Natural := 1000) RETURN Message64.Messenger;
 
   -- Initializer using raw HID device node name
 
@@ -68,14 +67,14 @@ PACKAGE HID.libsimpleio IS
     vid       : HID.Vendor;
     pid       : HID.Product;
     serial    : String := "";
-    timeoutms : Integer := 1000);
+    timeoutms : Natural := 1000);
 
   -- Initializer using open file descriptor
 
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
     fd        : Integer;
-    timeoutms : Integer := 1000);
+    timeoutms : Natural := 1000);
 
   -- Destructor
 
@@ -121,9 +120,9 @@ PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
     fd        : Integer := -1;
-    timeoutms : Integer := -1;
+    timeoutms : Natural := 0;
   END RECORD;
 
-  Destroyed : CONSTANT MessengerSubclass := MessengerSubclass'(-1, -1);
+  Destroyed : CONSTANT MessengerSubclass := MessengerSubclass'(-1, 0);
 
 END HID.libsimpleio;

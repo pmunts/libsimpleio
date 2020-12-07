@@ -32,7 +32,7 @@ PACKAGE BODY HID.libsimpleio IS
 
   FUNCTION Create
    (name      : String;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
+    timeoutms : Natural := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
@@ -47,7 +47,7 @@ PACKAGE BODY HID.libsimpleio IS
    (vid       : HID.Vendor;
     pid       : HID.Product;
     serial    : String := "";
-    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
+    timeoutms : Natural := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
@@ -60,7 +60,7 @@ PACKAGE BODY HID.libsimpleio IS
 
   FUNCTION Create
    (fd        : Integer;
-    timeoutms : Integer := 1000) RETURN Message64.Messenger IS
+    timeoutms : Natural := 1000) RETURN Message64.Messenger IS
 
     Self : MessengerSubclass;
 
@@ -74,7 +74,7 @@ PACKAGE BODY HID.libsimpleio IS
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
     name      : String;
-    timeoutms : Integer := 1000) IS
+    timeoutms : Natural := 1000) IS
 
     fd    : Integer;
     error : Integer;
@@ -103,7 +103,7 @@ PACKAGE BODY HID.libsimpleio IS
     vid       : HID.Vendor;
     pid       : HID.Product;
     serial    : String := "";
-    timeoutms : Integer := 1000) IS
+    timeoutms : Natural := 1000) IS
 
     fd    : Integer;
     error : Integer;
@@ -129,7 +129,7 @@ PACKAGE BODY HID.libsimpleio IS
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
     fd        : Integer;
-    timeoutms : Integer := 1000) IS
+    timeoutms : Natural := 1000) IS
 
   BEGIN
     Self.Destroy;
