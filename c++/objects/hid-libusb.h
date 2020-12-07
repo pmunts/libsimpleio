@@ -60,7 +60,7 @@ namespace HID::libusb
     void *handle;
     uint8_t epin;
     uint8_t epout;
-    int timeout;
+    unsigned timeout;
   };
 }
 
