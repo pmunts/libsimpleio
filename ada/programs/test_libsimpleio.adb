@@ -58,7 +58,7 @@ BEGIN
     Put_Line("ERROR: Event.Close() failed, " & errno.strerror(error));
   END IF;
 
-  libHIDRaw.Open("/dev/hidraw0" & ASCII.NUL, fd, error);
+  libHIDRaw.Open1("/dev/hidraw0" & ASCII.NUL, fd, error);
   IF error /= 0 THEN
     Put_Line("ERROR: HIDRaw.Open() failed, " & errno.strerror(error));
   END IF;
