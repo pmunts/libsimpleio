@@ -22,8 +22,7 @@
 
 { Allowed values for the timeout parameter:                               }
 {                                                                         }
-{ -1 => Receive operation blocks forever, until a report is received      }
-{  0 => Receive operation never blocks at all                             }
+{  0 => Receive operation blocks forever, until a report is received      }
 { >0 => Receive operation blocks for the indicated number of milliseconds }
 
 UNIT RemoteIO_Client_libsimpleio;
@@ -37,12 +36,12 @@ INTERFACE
 
   FUNCTION Create(vid : Cardinal = HID_Munts.VID;
     pid : Cardinal = HID_Munts.PID; serial : String = '';
-    timeout : Integer = 1000) : RemoteIO_Client.Device;
+    timeout : Cardinal = 1000) : RemoteIO_Client.Device;
 
 IMPLEMENTATION
 
   FUNCTION Create(vid : Cardinal; pid : Cardinal; serial : String;
-    timeout : Integer) : RemoteIO_Client.Device;
+    timeout : Cardinal) : RemoteIO_Client.Device;
 
   BEGIN
     Create := RemoteIO_Client.Device.Create(

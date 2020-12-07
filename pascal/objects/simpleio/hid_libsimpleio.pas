@@ -22,8 +22,7 @@
 
 { Allowed values for the timeout parameter:                               }
 {                                                                         }
-{ -1 => Receive operation blocks forever, until a report is received      }
-{  0 => Receive operation never blocks at all                             }
+{  0 => Receive operation blocks forever, until a report is received      }
 { >0 => Receive operation blocks for the indicated number of milliseconds }
 
 UNIT HID_libsimpleio;
@@ -36,7 +35,7 @@ INTERFACE
   TYPE
     MessengerSubclass = CLASS(TInterfacedObject, Message64.Messenger)
       CONSTRUCTOR Create(vid : Cardinal; pid : Cardinal; serial : String = '';
-        timeoutms : Integer = 1000);
+        timeoutms : Cardinal = 1000);
 
       DESTRUCTOR Destroy; OVERRIDE;
 
@@ -53,7 +52,7 @@ INTERFACE
 
     PRIVATE
       fd      : Integer;
-      timeout : Integer;
+      timeout : Cardinal;
     END;
 
 IMPLEMENTATION
@@ -66,16 +65,13 @@ IMPLEMENTATION
   { Create a Message64 messenger object using libsimpleio raw HID transport }
 
   CONSTRUCTOR MessengerSubclass.Create(vid : Cardinal; pid : Cardinal;
-    serial : String; timeoutms : Integer);
+    serial : String; timeoutms : Cardinal);
 
   VAR
     error  : Integer;
 
   BEGIN
     Self.fd := -1;
-
-    IF timeoutms < -1 THEN
-      RAISE Message64.Error.Create('ERROR: timeoutms parameter is out of range');
 
     libHIDRaw.Open3(vid, pid, PChar(serial), Self.fd, error);
 

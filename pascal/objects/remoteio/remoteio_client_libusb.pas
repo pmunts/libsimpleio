@@ -20,11 +20,10 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-{ Allowed values for the timeout parameter:                          }
-{                                                                    }
-{  0 => Send or receive operation blocks forever.                    }
-{ >0 => Send or receive operation blocks for the indicated number of }
-{       milliseconds.                                                }
+{ Allowed values for the timeout parameter:                               }
+{                                                                         }
+{  0 => Receive operation blocks forever, until a report is received      }
+{ >0 => Receive operation blocks for the indicated number of milliseconds }
 
 UNIT RemoteIO_Client_libusb;
 
@@ -37,13 +36,13 @@ INTERFACE
 
   FUNCTION Create(vid : Cardinal = HID_Munts.VID;
     pid : Cardinal = HID_Munts.PID; serial : String = '';
-    timeout : Integer = 1000; iface : Cardinal = 0; epin : Byte = $81;
+    timeout : Cardinal = 1000; iface : Cardinal = 0; epin : Byte = $81;
     epout : Byte = $01) : RemoteIO_Client.Device;
 
 IMPLEMENTATION
 
   FUNCTION Create(vid : Cardinal; pid : Cardinal; serial : String;
-    timeout : Integer; iface : Cardinal; epin : Byte;
+    timeout : Cardinal; iface : Cardinal; epin : Byte;
     epout : Byte) : RemoteIO_Client.Device;
 
   BEGIN
