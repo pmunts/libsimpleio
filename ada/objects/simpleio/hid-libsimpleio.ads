@@ -58,7 +58,7 @@ PACKAGE HID.libsimpleio IS
   PROCEDURE Initialize
    (Self      : IN OUT MessengerSubclass;
     name      : String;
-    timeoutms : Integer := 1000);
+    timeoutms : Natural := 1000);
 
   -- Initializer using HID vendor and product ID's
 

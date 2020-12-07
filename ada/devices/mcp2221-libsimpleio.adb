@@ -1,6 +1,6 @@
 -- MCP2221 Device Services using HID.libsimpleio
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,11 +27,11 @@ PACKAGE BODY MCP2221.libsimpleio IS
   FUNCTION Create
    (vid       : HID.Vendor   := MCP2221.VendorID;
     pid       : HID.Product  := MCP2221.ProductID;
-    timeoutms : Integer      := 1000;
+    timeoutms : Natural      := 1000;
     pinmodes  : PinModeArray := AllGPIO) RETURN Device IS
 
     dev : DeviceClass :=
-      DeviceClass'(msg => HID.libsimpleio.Create(vid, pid, timeoutms));
+      DeviceClass'(msg => HID.libsimpleio.Create(vid, pid, "", timeoutms));
 
   BEGIN
     dev.SetPinModes(pinmodes);

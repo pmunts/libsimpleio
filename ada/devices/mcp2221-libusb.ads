@@ -26,7 +26,7 @@ PACKAGE MCP2221.libusb IS
    (vid       : HID.Vendor   := MCP2221.VendorID;
     pid       : HID.Product  := MCP2221.ProductID;
     serial    : String       := "";
-    timeoutms : Integer      := 1000;
+    timeoutms : Natural      := 1000;
     pinmodes  : PinModeArray := AllGPIO) RETURN Device;
 
 END MCP2221.libusb;
