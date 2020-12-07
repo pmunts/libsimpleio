@@ -43,7 +43,8 @@ namespace RemoteIO::Client
   struct Device_Class
   {
     // Default Constructor
-    Device_Class(const char *serial = nullptr);
+    Device_Class(uint16_t VID = 0x16D0, uint16_t PID = 0x0AFA,
+      const char *serial = nullptr, int timeoutms = 1000);
 
     // Constructor
     Device_Class(Interfaces::Message64::Messenger transport);
