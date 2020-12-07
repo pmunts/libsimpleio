@@ -27,7 +27,7 @@ PACKAGE RemoteIO.Client.libsimpleio IS
    (vid     : HID.Vendor  := HID.Munts.VID;
     pid     : HID.Product := HID.Munts.PID;
     serial  : String := "";
-    timeout : Integer := 1000) RETURN Device IS
+    timeout : Natural := 1000) RETURN Device IS
    (Create(HID.libsimpleio.Create(vid, pid, serial, timeout)));
 
 END RemoteIO.Client.libsimpleio;

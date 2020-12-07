@@ -27,7 +27,7 @@ PACKAGE RemoteIO.Client.libusb IS
    (vid     : HID.Vendor  := HID.Munts.VID;
     pid     : HID.Product := HID.Munts.PID;
     serial  : String  := "";
-    timeout : Integer := 1000;
+    timeout : Natural := 1000;
     iface   : Natural := 0;
     epin    : Natural := 16#81#;
     epout   : Natural := 16#01#) RETURN Device IS
