@@ -29,15 +29,10 @@ using namespace libsimpleio::HID;
 
 // Constructors
 
-Messenger_Class::Messenger_Class(const char *name, int timeoutms)
+Messenger_Class::Messenger_Class(const char *name, unsigned timeoutms)
 {
   int32_t fd;
   int32_t error;
-
-  // Validate parameters
-
-  if (timeoutms < -1)
-    THROW_MSG("timeoutms parameter is out of range");
 
   // Open raw HID device
 
@@ -49,17 +44,10 @@ Messenger_Class::Messenger_Class(const char *name, int timeoutms)
 }
 
 Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID,
-  const char *serial, int timeoutms)
+  const char *serial, unsigned timeoutms)
 {
   int32_t fd;
   int32_t error;
-
-  // Validate parameters
-
-  if (timeoutms < -1)
-    THROW_MSG("timeoutms parameter is out of range");
-
-  // Open raw HID device
 
   HIDRAW_open3(VID, PID, serial, &fd, &error);
   if (error) THROW_MSG_ERR("HIDRAW_open3() failed", error);

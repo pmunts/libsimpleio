@@ -36,14 +36,13 @@ namespace libsimpleio::HID
   {
     // Allowed values for the timeout parameter:
     //
-    // -1 => Receive operation blocks forever, until a report is received
-    //  0 => Receive operation never blocks at all
+    //  0 => Receive operation blocks forever, until a report is received
     // >0 => Receive operation blocks for the indicated number of milliseconds
 
-    Messenger_Class(const char *name, int timeoutms = 1000);
+    Messenger_Class(const char *name, unsigned timeoutms = 1000);
 
     Messenger_Class(uint16_t VID, uint16_t PID, const char *serial = nullptr,
-      int timeoutms = 1000);
+      unsigned timeoutms = 1000);
 
     virtual void Send(Interfaces::Message64::Message cmd);
 
