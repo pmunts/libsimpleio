@@ -82,10 +82,6 @@ PACKAGE BODY HID.libsimpleio IS
   BEGIN
     Self.Destroy;
 
-    IF timeoutms < -1 THEN
-      RAISE HID_Error WITH "timeoutms parameter is out of range";
-    END IF;
-
     libHIDRaw.Open1(name & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
@@ -111,10 +107,6 @@ PACKAGE BODY HID.libsimpleio IS
   BEGIN
     Self.Destroy;
 
-    IF timeoutms < -1 THEN
-      RAISE HID_Error WITH "timeoutms parameter is out of range";
-    END IF;
-
     libHIDRaw.Open3(Integer(vid), Integer(pid), serial & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
@@ -133,10 +125,6 @@ PACKAGE BODY HID.libsimpleio IS
 
   BEGIN
     Self.Destroy;
-
-    IF timeoutms < -1 THEN
-      RAISE HID_Error WITH "timeoutms parameter is out of range";
-    END IF;
 
     Self := MessengerSubclass'(fd, timeoutms);
   END Initialize;
