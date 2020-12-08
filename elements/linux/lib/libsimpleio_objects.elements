@@ -1,0 +1,45 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>3.5</ProductVersion>
+    <RootNamespace>IO.Objects.libsimpleio</RootNamespace>
+    <ProjectGuid>{5599598E-09CC-482C-B509-D57BE7EB82E5}</ProjectGuid>
+    <OutputType>StaticLibrary</OutputType>
+    <AssemblyName>libsimpleio_objects</AssemblyName>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>False</Optimize>
+    <OutputPath>.\Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <GenerateDebugInfo>True</GenerateDebugInfo>
+    <EnableAsserts>True</EnableAsserts>
+    <CpuType>anycpu</CpuType>
+    <Architecture>x86_64;armv6;aarch64</Architecture>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>.\Bin\Release</OutputPath>
+    <CpuType>anycpu</CpuType>
+    <Architecture>x86_64;armv6;aarch64</Architecture>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'x86_64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio_bindings.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'armv6' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio_bindings.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'aarch64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio_bindings.fx</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(LIBSIMPLEIO)\elements\linux\devices\*" />
+    <Compile Include="$(LIBSIMPLEIO)\elements\linux\interfaces\*" />
+    <Compile Include="$(LIBSIMPLEIO)\elements\linux\objects\*" />
+    <Compile Include="$(LIBSIMPLEIO)\elements\linux\objects\remoteio\*" />
+    <Compile Include="$(LIBSIMPLEIO)\elements\linux\objects\simpleio\*" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Linux.targets" />
+</Project>

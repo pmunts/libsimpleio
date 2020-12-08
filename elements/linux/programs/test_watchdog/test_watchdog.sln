@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_watchdog", "test_watchdog.elements", "{37634538-BAA2-4C9B-B140-963EC3222D38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37634538-BAA2-4C9B-B140-963EC3222D38}.Debug|Default.ActiveCfg = Debug
+		{37634538-BAA2-4C9B-B140-963EC3222D38}.Debug|Default.Build.0 = Debug
+		{37634538-BAA2-4C9B-B140-963EC3222D38}.Debug|Default.Deploy.0 = Debug
+		{37634538-BAA2-4C9B-B140-963EC3222D38}.Release|Default.ActiveCfg = Release
+		{37634538-BAA2-4C9B-B140-963EC3222D38}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ABAA9999-F97B-4F4E-8DDF-CEC80F24CEC8}
+	EndGlobalSection
+EndGlobal

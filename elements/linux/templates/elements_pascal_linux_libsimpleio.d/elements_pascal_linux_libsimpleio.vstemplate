@@ -1,0 +1,30 @@
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
+  <TemplateData>
+    <Name>RemObjects Elements Pascal console application for Linux using libsimpleio</Name>
+    <Description>A project for building a Pascal console application for Linux using libsimpleio.</Description>
+    <Icon>elements_pascal_linux_libsimpleio.ico</Icon>
+    <ProjectType>Oxygene</ProjectType>
+    <Elements:Type>Oxygene.Island</Elements:Type>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>elements_pascal_linux_libsimpleio</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LanguageTag>Oxygene</LanguageTag>
+    <LanguageTag>Pascal</LanguageTag>
+    <LanguageTag>RemObjects Oxygene</LanguageTag>
+    <LanguageTag>RemObjects Pascal</LanguageTag>
+    <PlatformTag>Island</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <ProjectTypeTag>console</ProjectTypeTag>
+    <ProjectTypeTag>libsimpleio</ProjectTypeTag>
+    <ProjectTypeTag>Munts Techonlogies Linux Simple I/O Library client</ProjectTypeTag>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="elements_pascal_linux_libsimpleio.elements" File="elements_pascal_linux_libsimpleio.elements" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="false" TargetFileName="Makefile">Makefile</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.pas">Program.pas</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

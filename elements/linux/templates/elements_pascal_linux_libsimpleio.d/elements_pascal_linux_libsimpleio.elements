@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>3.5</ProductVersion>
+    <RootNamespace>$safeprojectname$</RootNamespace>
+    <ProjectGuid>$guid1$</ProjectGuid>
+    <OutputType>Executable</OutputType>
+    <AssemblyName>$safeprojectname$</AssemblyName>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <Name>$safeprojectname$</Name>
+    <Architecture>x86_64;armv6;aarch64</Architecture>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>.\Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <GenerateDebugInfo>True</GenerateDebugInfo>
+    <Optimize>False</Optimize>
+    <EnableAsserts>True</EnableAsserts>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>.\Bin\Release</OutputPath>
+    <EnableAsserts>True</EnableAsserts>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Makefile" />
+    <Compile Include="Program.pas" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'x86_64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio_bindings.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'armv6' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio_bindings.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'aarch64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio_bindings.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio_objects" Condition=" '$(Architecture)' == 'x86_64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio_objects.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio_objects" Condition=" '$(Architecture)' == 'armv6' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio_objects.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio_objects" Condition=" '$(Architecture)' == 'aarch64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio_objects.fx</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Linux.targets" />
+</Project>

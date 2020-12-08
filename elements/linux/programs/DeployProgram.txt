@@ -1,0 +1,18 @@
+  <!-- Add the following goop to the bottom of a Linux Island project file -->
+  <!-- to automatically deploy the application program file to the         -->
+  <!-- specified MuntsOS Embedded Linux target board.                      -->
+  <!-- CUT HERE                                                            -->
+
+  <!-- Define the target host -->
+
+  <PropertyGroup>
+    <TargetDist>Ubuntu</TargetDist>
+    <TargetArch>aarch64</TargetArch>
+    <TargetHost>hostname.domain</TargetHost>
+  </PropertyGroup>
+
+  <!-- Deploy the application program file to the target host (MSBuild/Visual Studio) -->
+
+  <Target Name="DeployMuntsOS" AfterTargets="Build">
+    <exec command="scp $(OutputPath.Replace('\', '/'))/$(TargetDist)/$(TargetArch)/$(RootNameSpace) root@$(TargetHost):." />
+  </Target>
