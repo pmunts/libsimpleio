@@ -43,7 +43,7 @@ namespace test_tcp4_client
                 System.Environment.Exit(1);
             }
 
-            IO.Bindings.libsimpleio.libIPV4.IPV4_resolve(args[0], out addr,
+            IO.Bindings.libsimpleio.IPV4_resolve(args[0], out addr,
                 out error);
 
             if (error != 0)
@@ -51,7 +51,7 @@ namespace test_tcp4_client
                 throw new Exception("IPV4_resolve() failed", error);
             }
 
-            IO.Bindings.libsimpleio.libIPV4.IPV4_ntoa(addr, addrstr, addrstr.Length,
+            IO.Bindings.libsimpleio.IPV4_ntoa(addr, addrstr, addrstr.Length,
                 out error);
 
             if (error != 0)
@@ -62,7 +62,7 @@ namespace test_tcp4_client
             System.Console.WriteLine("Connecting to server " + addrstr.ToString()
                 + "\n");
 
-            IO.Bindings.libsimpleio.libIPV4.TCP4_connect(addr, 12345, out fd,
+            IO.Bindings.libsimpleio.TCP4_connect(addr, 12345, out fd,
                 out error);
 
             if (error != 0)
@@ -82,7 +82,7 @@ namespace test_tcp4_client
 
                 buf = System.Text.Encoding.ASCII.GetBytes(s + "\r\n");
 
-                IO.Bindings.libsimpleio.libIPV4.TCP4_send(fd, buf, buf.Length,
+                IO.Bindings.libsimpleio.TCP4_send(fd, buf, buf.Length,
                     out count, out error);
 
                 if (error != 0)
@@ -92,7 +92,7 @@ namespace test_tcp4_client
 
                 buf = new byte[256];
 
-                IO.Bindings.libsimpleio.libIPV4.TCP4_receive(fd, buf, buf.Length,
+                IO.Bindings.libsimpleio.TCP4_receive(fd, buf, buf.Length,
                     out count, out error);
 
                 if (error != 0)
@@ -108,7 +108,7 @@ namespace test_tcp4_client
                 }
             }
 
-            IO.Bindings.libsimpleio.libIPV4.TCP4_close(fd, out error);
+            IO.Bindings.libsimpleio.TCP4_close(fd, out error);
 
             if (error != 0)
             {
