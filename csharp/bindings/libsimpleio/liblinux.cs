@@ -22,12 +22,9 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio Linux system call services.
-    /// </summary>
-    public class libLinux
+    public static partial class libsimpleio
     {
         /// <summary>
         /// Use the program name for the identity string.

@@ -1,4 +1,4 @@
-// C# binding for ADC input services in libsimpleio.so
+// C# binding for Stream Framing Protocol services in libsimpleio.so
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,56 +22,62 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio A/D converter services.
-    /// </summary>
-    public class libADC
+    public static partial class libsimpleio
     {
         /// <summary>
-        /// Get the subsystem name for the specified Linux IIO A/D converter
-        /// device.
+        /// Encode a frame.
         /// </summary>
-        /// <param name="chip">Linux IIO device number.</param>
-        /// <param name="name">Destination buffer.</param>
-        /// <param name="size">Size of destination buffer.</param>
+        /// <param name="src">Source buffer.</param>
+        /// <param name="srclen">Source buffer size.</param>
+        /// <param name="dst">Destination buffer.</param>
+        /// <param name="dstsize">Destination buffer size.</param>
+        /// <param name="dstlen">Size of encoded frame.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void ADC_get_name(int chip,
-          System.Text.StringBuilder name, int size, out int error);
+        public static extern void STREAM_encode_frame(byte[] src, int srclen,
+            byte[] dst, int dstsize, out int dstlen, out int error);
 
         /// <summary>
-        /// Open a Linux IIO A/D converter input device.
+        /// Decode a frame.
         /// </summary>
-        /// <param name="chip">Linux IIO device number.</param>
-        /// <param name="channel">Input channel number.</param>
-        /// <param name="fd">File descriptor.</param>
+        /// <param name="src">Source buffer.</param>
+        /// <param name="srclen">Source buffer size.</param>
+        /// <param name="dst">Destination buffer.</param>
+        /// <param name="dstsize">Destination buffer size.</param>
+        /// <param name="dstlen">Size of decoded frame.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void ADC_open(int chip, int channel, out int fd,
-          out int error);
+        public static extern void STREAM_decode_frame(byte[] src, int srclen,
+            byte[] dst, int dstsize, out int dstlen, out int error);
 
         /// <summary>
-        /// Close a Linux IIO A/D converter input device.
+        /// Receive an encoded frame.
         /// </summary>
-        /// <param name="fd">File descriptor.</param>
+        /// <param name="fd">File descriptior.</param>
+        /// <param name="buf">Destination buffer.</param>
+        /// <param name="bufsize">Destination buffer size.</param>
+        /// <param name="count">Number of bytes actually received.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void ADC_close(int fd, out int error);
+        public static extern void STREAM_receive_frame(int fd, byte[] buf,
+            int bufsize, out int count, out int error);
 
         /// <summary>
-        /// Read a Linux IIO A/D converter input device.
+        /// Send an encoded frame.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="sample">Analog sample data.</param>
+        /// <param name="buf">Source buffer.</param>
+        /// <param name="bufsize">Source buffer size.</param>
+        /// <param name="count">Number of bytes actually sent.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void ADC_read(int fd, out int sample,
-          out int error);
+        public static extern void STREAM_send_frame(int fd, byte[] buf,
+            int bufsize, out int count, out int error);
     }
 }

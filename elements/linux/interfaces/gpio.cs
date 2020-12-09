@@ -1,4 +1,6 @@
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Abstract interface for a GPIO pin
+
+// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -18,36 +20,35 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Objects.libsimpleio.Exceptions
+namespace IO.Interfaces.GPIO
 {
     /// <summary>
-    /// Encapsulates exceptions that may include an optional
-    /// <c>errno</c> value.
+    /// Abstract interface for GPIO pins.
     /// </summary>
-    public class Exception: System.Exception
+    public interface Pin
     {
         /// <summary>
-        /// Constructor for an exception that writes an error message to
-        /// standard output.
+        /// Read/Write GPIO state property.
         /// </summary>
-        /// <param name="message">Error message.</param>
-        public Exception(string message)
+        bool state
         {
-            System.Console.WriteLine(message);
-        }
-
-        /// <summary>
-        /// Constructor for an exception that writes an error message
-        /// including an <c>errno</c> value.
-        /// </summary>
-        /// <param name="message">Error message.</param>
-        /// <param name="error">Error code.</param>
-        public Exception(string message, int error)
-        {
-            System.Text.StringBuilder buf = new System.Text.StringBuilder(256);
-            IO.Bindings.libsimpleio.LINUX_strerror(error, buf,
-                buf.Capacity);
-            System.Console.WriteLine(message + ", " + buf.ToString());
+            get;
+            set;
         }
     }
+
+    /// <summary>
+    /// GPIO pin data direction settings.
+    /// </summary>
+    public enum Direction
+    {
+        /// <summary>
+        /// Input pin (read only)
+        /// </summary>
+        Input,
+        /// <summary>
+        /// Output pin (read or write)
+        /// </summary>
+        Output
+    };
 }

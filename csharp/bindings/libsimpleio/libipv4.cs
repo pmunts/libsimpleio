@@ -22,12 +22,9 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio IPv4 network services.
-    /// </summary>
-    public class libIPV4
+    public static partial class libsimpleio
     {
         /// <summary>
         /// IPv4 address for binding to all network interfaces.

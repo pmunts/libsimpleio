@@ -22,7 +22,7 @@
       <DocumentationSource sourceFile="bin\Release\netstandard2.0\libsimpleio.xml" xmlns="" />
     </DocumentationSources>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="IO.Bindings.libsimpleio" isDocumented="True">Wrapper Classes for the Linux Simple I/O Library (&lt;a href="http://git.munts.com/libsimpleio"&gt;http://git.munts.com/libsimpleio&lt;/a&gt;)</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Bindings" isDocumented="True">Wrapper classes for C shared libraries.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.AD5593R" isDocumented="True">AD5593 Analog/Digital I/O Device Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.AD5593R.ADC" isDocumented="True">AD5593 Analog/Digital I/O Device ADC Input Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.AD5593R.DAC" isDocumented="True">AD5593 Analog/Digital I/O Device DAC Output Services.</NamespaceSummaryItem>

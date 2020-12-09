@@ -1,4 +1,6 @@
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Abstract interface for a watchdog timer
+
+// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -18,36 +20,25 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Objects.libsimpleio.Exceptions
+namespace IO.Interfaces.Watchdog
 {
     /// <summary>
-    /// Encapsulates exceptions that may include an optional
-    /// <c>errno</c> value.
+    /// Abstract interface for watchdog timers.
     /// </summary>
-    public class Exception: System.Exception
+    public interface Timer
     {
         /// <summary>
-        /// Constructor for an exception that writes an error message to
-        /// standard output.
+        /// Reset the watchdog timer.
         /// </summary>
-        /// <param name="message">Error message.</param>
-        public Exception(string message)
-        {
-            System.Console.WriteLine(message);
-        }
+        void Kick();
 
         /// <summary>
-        /// Constructor for an exception that writes an error message
-        /// including an <c>errno</c> value.
+        /// Read/Write watchdog timer period property.
         /// </summary>
-        /// <param name="message">Error message.</param>
-        /// <param name="error">Error code.</param>
-        public Exception(string message, int error)
+        int timeout
         {
-            System.Text.StringBuilder buf = new System.Text.StringBuilder(256);
-            IO.Bindings.libsimpleio.LINUX_strerror(error, buf,
-                buf.Capacity);
-            System.Console.WriteLine(message + ", " + buf.ToString());
+            get;
+            set;
         }
     }
 }

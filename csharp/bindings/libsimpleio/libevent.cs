@@ -22,12 +22,9 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio epoll services.
-    /// </summary>
-    public class libEvent
+    public static partial class libsimpleio
     {
         // epoll events, extracted from /usr/include/sys/epoll.h
 

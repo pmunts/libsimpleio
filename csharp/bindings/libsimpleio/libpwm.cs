@@ -1,6 +1,6 @@
-// C# binding for DAC output services in libsimpleio.so
+// C# binding for PWM output services in libsimpleio.so
 
-// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,55 +22,69 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio D/A converter services.
-    /// </summary>
-    public class libDAC
+    public static partial class libsimpleio
     {
         /// <summary>
-        /// Get the subsystem name for the specified Linux IIO D/A converter
-        /// device.
+        /// Configure the PWM output as active low (inverted).
         /// </summary>
-        /// <param name="chip">Linux IIO device number.</param>
-        /// <param name="name">Destination buffer.</param>
-        /// <param name="size">Size of destination buffer.</param>
+        /// <remarks>Not all platforms support active low (inverted) PWM
+        /// outputs.</remarks>
+        public const int PWM_POLARITY_ACTIVELOW = 0;
+        /// <summary>
+        /// Configure the PWM output as active high (normal).
+        /// </summary>
+        public const int PWM_POLARITY_ACTIVEHIGH = 1;
+
+        /// <summary>
+        /// Configure a Linux PWM output device.
+        /// </summary>
+        /// <param name="chip">Chip number.</param>
+        /// <param name="channel">Channel number.</param>
+        /// <param name="period">Pulse period in microseconds.</param>
+        /// <param name="ontime">Initial on time in microseconds.</param>
+        /// <remarks>On many platforms two more more PWM outputs may share the same
+        /// clock generator, so configuring different PWM pulse periods may not be
+        /// possible.</remarks>
+        /// <param name="polarity">PWM output polarity (0 for active low/inverted or 1
+        /// for active high/normal).</param>
+        /// <remarks>Not all platforms support active low (inverted) PWM outputs.</remarks>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void DAC_get_name(int chip,
-          System.Text.StringBuilder name, int size, out int error);
+        public static extern void PWM_configure(int chip, int channel,
+          int period, int ontime, int polarity, out int error);
 
         /// <summary>
-        /// Open a Linux IIO D/A converter output device.
+        /// Open a Linux PWM output device.
         /// </summary>
-        /// <param name="chip">Linux IIO device number.</param>
-        /// <param name="channel">Output channel number.</param>
+        /// <param name="chip">Chip number.</param>
+        /// <param name="channel">Channel number.</param>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void DAC_open(int chip, int channel, out int fd,
+        public static extern void PWM_open(int chip, int channel, out int fd,
           out int error);
 
         /// <summary>
-        /// Close a Linux IIO D/A converter output device.
+        /// Close a Linux PWM output device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void DAC_close(int fd, out int error);
+        public static extern void PWM_close(int fd, out int error);
 
         /// <summary>
-        /// Write to a Linux IIO D/A converter output device.
+        /// Set a Linux PWM output device duty cycle.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="sample">Analog sample data.</param>
+        /// <param name="ontime">On time in microseconds.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void DAC_write(int fd, int sample, out int error);
+        public static extern void PWM_write(int fd, int ontime, out int error);
     }
 }

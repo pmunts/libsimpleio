@@ -22,12 +22,9 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio raw HID services.
-    /// </summary>
-    public class libHIDRaw
+    public static partial class libsimpleio
     {
         /// <summary>
         /// Open a Linux raw HID device by device node name.

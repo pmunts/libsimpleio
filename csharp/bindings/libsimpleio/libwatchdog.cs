@@ -1,4 +1,4 @@
-// C# binding for PWM output services in libsimpleio.so
+// C# binding for watchdog timer services in libsimpleio.so
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,72 +22,62 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio PWM output services.
-    /// </summary>
-    public class libPWM
+    public static partial class libsimpleio
     {
         /// <summary>
-        /// Configure the PWM output as active low (inverted).
+        /// Open a Linux watchdog timer device.
         /// </summary>
-        /// <remarks>Not all platforms support active low (inverted) PWM
-        /// outputs.</remarks>
-        public const int ActiveLow = 0;
-        /// <summary>
-        /// Configure the PWM output as active high (normal).
-        /// </summary>
-        public const int ActiveHigh = 1;
-
-        /// <summary>
-        /// Configure a Linux PWM output device.
-        /// </summary>
-        /// <param name="chip">Chip number.</param>
-        /// <param name="channel">Channel number.</param>
-        /// <param name="period">Pulse period in microseconds.</param>
-        /// <param name="ontime">Initial on time in microseconds.</param>
-        /// <remarks>On many platforms two more more PWM outputs may share the same
-        /// clock generator, so configuring different PWM pulse periods may not be
-        /// possible.</remarks>
-        /// <param name="polarity">PWM output polarity (0 for active low/inverted or 1
-        /// for active high/normal).</param>
-        /// <remarks>Not all platforms support active low (inverted) PWM outputs.</remarks>
-        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
-        /// value upon failure.</param>
-        [DllImport("simpleio")]
-        public static extern void PWM_configure(int chip, int channel,
-          int period, int ontime, int polarity, out int error);
-
-        /// <summary>
-        /// Open a Linux PWM output device.
-        /// </summary>
-        /// <param name="chip">Chip number.</param>
-        /// <param name="channel">Channel number.</param>
+        /// <param name="devname">Device node name.</param>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void PWM_open(int chip, int channel, out int fd,
-          out int error);
+        public static extern void WATCHDOG_open(string devname, out int fd,
+            out int error);
 
         /// <summary>
-        /// Close a Linux PWM output device.
+        /// Close a Linux watchdog timer device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void PWM_close(int fd, out int error);
+        public static extern void WATCHDOG_close(int fd, out int error);
 
         /// <summary>
-        /// Set a Linux PWM output device duty cycle.
+        /// Query a Linux watchdog timer device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="ontime">On time in microseconds.</param>
+        /// <param name="timeout">Timeout period in seconds.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void PWM_write(int fd, int ontime, out int error);
+        public static extern void WATCHDOG_get_timeout(int fd, out int timeout,
+            out int error);
+
+        /// <summary>
+        /// Change the watchdog timer period.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="newtimeout">Requested timeout period in seconds.</param>
+        /// <param name="timeout">Actual timeout period in seconds.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        /// <remarks>Not all platforms allow changing the timeout period.
+        /// Some platforms may not allow <i>increasing</i> the period.</remarks>
+        [DllImport("simpleio")]
+        public static extern void WATCHDOG_set_timeout(int fd, int newtimeout,
+            out int timeout, out int error);
+
+        /// <summary>
+        /// Reset the watchdog timer.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void WATCHDOG_kick(int fd, out int error);
     }
 }

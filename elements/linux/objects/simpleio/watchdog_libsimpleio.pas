@@ -31,16 +31,18 @@ interface
   type
     Timer = public class(Object, IO.Interfaces.Watchdog.Timer)
       public constructor
-       (name    : String = DefaultDevice;
-        timeout : Cardinal = 0);
+       (name        : String = DefaultDevice;
+        timeoutsecs : Cardinal = 0);
 
       finalizer;
 
       public method GetTimeout : Cardinal;
 
-      public method SetTimeout(timeout : Cardinal);
+      public method SetTimeout(timeoutsecs : Cardinal);
 
       public method Kick;
+
+      property timeout : Int32 read GetTimeout write SetTimeout;
 
       { Private internal state }
 
@@ -52,8 +54,8 @@ implementation
   { Constructor }
 
   constructor Timer
-   (name    : String;
-    timeout : Cardinal);
+   (name        : String;
+    timeoutsecs : Cardinal);
 
   begin
     var error      : Int32;
@@ -62,16 +64,16 @@ implementation
     IO.Bindings.libsimpleio.WATCHDOG_open(name, @self.fd, @error);
 
     if error <> 0 then
-      raise new IO.Interfaces.Watchdog.Error('ERROR: WATCHDOG_open() failed, ' +
+      raise new Exception('ERROR: WATCHDOG_open() failed, ' +
         errno.strerror(error));
 
-    if timeout <> DefaultTimeout then
+    if timeoutsecs <> DefaultTimeout then
       begin
-        IO.Bindings.libsimpleio.WATCHDOG_set_timeout(self.fd, timeout,
+        IO.Bindings.libsimpleio.WATCHDOG_set_timeout(self.fd, timeoutsecs,
           @newtimeout, @error);
 
         if error <> 0 then
-          raise new IO.Interfaces.Watchdog.Error('ERROR: WATCHDOG_set_timeout() failed, ' +
+          raise new Exception('ERROR: WATCHDOG_set_timeout() failed, ' +
             errno.strerror(error));
       end;
   end;
@@ -90,31 +92,31 @@ implementation
   method Timer.GetTimeout : Cardinal;
 
   begin
-    var timeout : Int32;
-    var error   : Int32;
+    var oldtimeout : Int32;
+    var error      : Int32;
 
-    IO.Bindings.libsimpleio.WATCHDOG_get_timeout(self.fd, @timeout, @error);
+    IO.Bindings.libsimpleio.WATCHDOG_get_timeout(self.fd, @oldtimeout, @error);
 
     if error <> 0 then
-      raise new IO.Interfaces.Watchdog.Error('ERROR: WATCHDOG_get_timeout() failed, ' +
+      raise new Exception('ERROR: WATCHDOG_get_timeout() failed, ' +
         errno.strerror(error));
 
-    GetTimeout := timeout;
+    GetTimeout := oldtimeout;
   end;
 
   { Set timeout method }
 
-  method Timer.SetTimeout(timeout : Cardinal);
+  method Timer.SetTimeout(timeoutsecs : Cardinal);
 
   begin
     var newtimeout : Int32;
     var error      : Int32;
 
-    IO.Bindings.libsimpleio.WATCHDOG_set_timeout(self.fd, timeout,
+    IO.Bindings.libsimpleio.WATCHDOG_set_timeout(self.fd, timeoutsecs,
       @newtimeout, @error);
 
     if error <> 0 then
-      raise new IO.Interfaces.Watchdog.Error('ERROR: WATCHDOG_set_timeout() failed, ' +
+      raise new Exception('ERROR: WATCHDOG_set_timeout() failed, ' +
         errno.strerror(error));
   end;
 
@@ -128,7 +130,7 @@ implementation
     IO.Bindings.libsimpleio.WATCHDOG_kick(self.fd, @error);
 
     if error <> 0 then
-      raise new IO.Interfaces.Watchdog.Error('ERROR: WATCHDOG_kick() failed, ' +
+      raise new Exception('ERROR: WATCHDOG_kick() failed, ' +
         errno.strerror(error));
   end;
 

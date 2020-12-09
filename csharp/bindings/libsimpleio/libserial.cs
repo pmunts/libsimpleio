@@ -22,25 +22,22 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio serial port services.
-    /// </summary>
-    public class libSerial
+    public static partial class libsimpleio
     {
         /// <summary>
         /// Disable parity checking.
         /// </summary>
-        public const int PARITY_NONE = 0;
+        public const int SERIAL_PARITY_NONE = 0;
         /// <summary>
         /// Request even parity checking.
         /// </summary>
-        public const int PARITY_EVEN = 1;
+        public const int SERIAL_PARITY_EVEN = 1;
         /// <summary>
         /// Request odd parity checking.
         /// </summary>
-        public const int PARITY_ODD  = 2;
+        public const int SERIAL_PARITY_ODD  = 2;
 
         /// <summary>
         /// Open a Linux serial port device.

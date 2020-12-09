@@ -56,7 +56,7 @@ namespace IO.Objects.libsimpleio.Watchdog
 
             int error;
 
-            IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_open(devname,
+            IO.Bindings.libsimpleio.WATCHDOG_open(devname,
                 out this.myfd, out error);
 
             if (error != 0)
@@ -68,7 +68,7 @@ namespace IO.Objects.libsimpleio.Watchdog
             {
                 int newtimeout;
 
-                IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_set_timeout(this.myfd,
+                IO.Bindings.libsimpleio.WATCHDOG_set_timeout(this.myfd,
                     timeout, out newtimeout, out error);
 
                 if (error != 0)
@@ -86,7 +86,7 @@ namespace IO.Objects.libsimpleio.Watchdog
         {
             int error;
 
-            IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_kick(this.myfd,
+            IO.Bindings.libsimpleio.WATCHDOG_kick(this.myfd,
                 out error);
 
             if (error != 0)
@@ -107,7 +107,7 @@ namespace IO.Objects.libsimpleio.Watchdog
                 int error;
                 int value;
 
-                IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_get_timeout(this.myfd,
+                IO.Bindings.libsimpleio.WATCHDOG_get_timeout(this.myfd,
                     out value, out error);
 
                 if (error != 0)
@@ -128,7 +128,7 @@ namespace IO.Objects.libsimpleio.Watchdog
                 int newtimeout;
                 int error;
 
-                IO.Bindings.libsimpleio.libWatchdog.WATCHDOG_set_timeout(this.myfd,
+                IO.Bindings.libsimpleio.WATCHDOG_set_timeout(this.myfd,
                     value, out newtimeout, out error);
 
                 if (error != 0)

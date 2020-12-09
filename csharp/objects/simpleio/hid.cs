@@ -50,7 +50,7 @@ namespace IO.Objects.libsimpleio.HID
 
             int error;
 
-            IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open1(devname,
+            IO.Bindings.libsimpleio.HIDRAW_open1(devname,
                 out this.myfd, out error);
 
             if (error != 0)
@@ -93,7 +93,7 @@ namespace IO.Objects.libsimpleio.HID
 
             int error;
 
-            IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_open3(VID, PID,
+            IO.Bindings.libsimpleio.HIDRAW_open3(VID, PID,
                 serial, out this.myfd, out error);
 
             if (error != 0)
@@ -113,7 +113,7 @@ namespace IO.Objects.libsimpleio.HID
             int error;
             int count;
 
-            IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_send(this.myfd,
+            IO.Bindings.libsimpleio.HIDRAW_send(this.myfd,
                 cmd.payload, IO.Interfaces.Message64.Message.Size, out count,
                 out error);
 
@@ -135,10 +135,10 @@ namespace IO.Objects.libsimpleio.HID
             if (this.timeout > 0)
             {
                 int[] files = { this.fd };
-                int[] events = { IO.Bindings.libsimpleio.libLinux.POLLIN };
+                int[] events = { IO.Bindings.libsimpleio.POLLIN };
                 int[] results = { 0 };
 
-                IO.Bindings.libsimpleio.libLinux.LINUX_poll(1, files, events,
+                IO.Bindings.libsimpleio.LINUX_poll(1, files, events,
                     results, this.timeout, out error);
 
                 if (error != 0)
@@ -147,7 +147,7 @@ namespace IO.Objects.libsimpleio.HID
                 }
             }
 
-            IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_receive(this.myfd,
+            IO.Bindings.libsimpleio.HIDRAW_receive(this.myfd,
                 resp.payload, IO.Interfaces.Message64.Message.Size,
                 out count, out error);
 
@@ -182,7 +182,7 @@ namespace IO.Objects.libsimpleio.HID
                     new System.Text.StringBuilder(256);
                 int error;
 
-                IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_get_name(this.fd, buf,
+                IO.Bindings.libsimpleio.HIDRAW_get_name(this.fd, buf,
                     buf.Capacity, out error);
 
                 if (error != 0)
@@ -207,7 +207,7 @@ namespace IO.Objects.libsimpleio.HID
                 int vid;
                 int pid;
 
-                IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_get_info(this.fd,
+                IO.Bindings.libsimpleio.HIDRAW_get_info(this.fd,
                     out bus, out vid, out pid, out error);
 
                 if (error != 0)
@@ -232,7 +232,7 @@ namespace IO.Objects.libsimpleio.HID
                 int vid;
                 int pid;
 
-                IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_get_info(this.fd,
+                IO.Bindings.libsimpleio.HIDRAW_get_info(this.fd,
                     out bus, out vid, out pid, out error);
 
                 if (error != 0)
@@ -257,7 +257,7 @@ namespace IO.Objects.libsimpleio.HID
                 int vid;
                 int pid;
 
-                IO.Bindings.libsimpleio.libHIDRaw.HIDRAW_get_info(this.fd,
+                IO.Bindings.libsimpleio.HIDRAW_get_info(this.fd,
                     out bus, out vid, out pid, out error);
 
                 if (error != 0)

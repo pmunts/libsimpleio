@@ -66,16 +66,16 @@ namespace IO.Objects.libsimpleio.Servo
             int ontime = (int)(1500000.0 + 500000.0 * position);
             int error;
 
-            IO.Bindings.libsimpleio.libPWM.PWM_configure((int)desg.chip,
+            IO.Bindings.libsimpleio.PWM_configure((int)desg.chip,
                 (int)desg.chan, period, ontime,
-                IO.Bindings.libsimpleio.libPWM.ActiveHigh, out error);
+                IO.Bindings.libsimpleio.PWM_POLARITY_ACTIVEHIGH, out error);
 
             if (error != 0)
             {
                 throw new Exception("PWM_configure() failed", error);
             }
 
-            IO.Bindings.libsimpleio.libPWM.PWM_open((int)desg.chip,
+            IO.Bindings.libsimpleio.PWM_open((int)desg.chip,
                 (int)desg.chan, out this.myfd, out error);
 
             if (error != 0)
@@ -101,7 +101,7 @@ namespace IO.Objects.libsimpleio.Servo
                 int ontime = (int)(1500000.0 + 500000.0 * value);
                 int error;
 
-                IO.Bindings.libsimpleio.libPWM.PWM_write(this.myfd,
+                IO.Bindings.libsimpleio.PWM_write(this.myfd,
                     ontime, out error);
 
                 if (error != 0)

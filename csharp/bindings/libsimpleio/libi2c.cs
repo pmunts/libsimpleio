@@ -1,4 +1,4 @@
-// C# binding for SPI device services in libsimpleio.so
+// C# binding for I2C bus controller services in libsimpleio.so
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,59 +22,43 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio SPI device services.
-    /// </summary>
-    public class libSPI
+    public static partial class libsimpleio
     {
         /// <summary>
-        /// Use hardware slave select.
-        /// </summary>
-        public const int SPI_AUTO_CS = -1;
-
-        /// <summary>
-        /// Open a Linux SPI device.
+        /// Open a Linux I<sup>2</sup>C bus controller device.
         /// </summary>
         /// <param name="devname">Device node name.</param>
-        /// <param name="mode">SPI transfer mode (0 .. 3)</param>
-        /// <param name="wordsize">SPI transfer word size (8, 16, or 32).</param>
-        /// <param name="speed">SPI transfer speed in Hz.</param>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
-        ///<remarks>The Linux kernel create a device nodes for each SPI slave
-        ///device, of the form
-        ///<c>/dev/spidevX.Y</c> where <c>X</c> is the SPI bus
-        ///controller number and <c>Y</c> is the SPI slave select number.</remarks>
         [DllImport("simpleio")]
-        public static extern void SPI_open(string devname, int mode,
-            int wordsize, int speed, out int fd, out int error);
+        public static extern void I2C_open(string devname, out int fd,
+            out int error);
 
         /// <summary>
-        /// Send bytes to and/or receive bytes from a Linux SPI device.
+        /// Close a Linux I<sup>2</sup>C bus controller device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="csfd">Chip select file descriptor.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void I2C_close(int fd, out int error);
+
+        /// <summary>
+        /// Send bytes to and/or receive bytes from an I<sup>2</sup>C slave device.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="slaveaddr">Slave address.</param>
         /// <param name="cmd">Source buffer.</param>
         /// <param name="cmdlen">Source buffer size.</param>
-        /// <param name="delayus">Delay in microseconds between the write and read operations.</param>
-        /// <param name="resp">Destination buffer.</param>
-        /// <param name="resplen">Destination buffer size.</param>
+        /// <param name="resp">Response buffer.</param>
+        /// <param name="resplen">Response buffer size.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void SPI_transaction(int fd, int csfd, byte[] cmd,
-            int cmdlen, int delayus, byte[] resp, int resplen, out int error);
-
-        /// <summary>
-        /// Close a Linux SPI device.
-        /// </summary>
-        /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
-        /// value upon failure.</param>
-        [DllImport("simpleio")]
-        public static extern void SPI_close(int fd, out int error);
+        public static extern void I2C_transaction(int fd, int slaveaddr,
+            byte[] cmd, int cmdlen, byte[] resp, int resplen, out int error);
     }
 }

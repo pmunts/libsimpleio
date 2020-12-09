@@ -50,7 +50,7 @@ namespace IO.Objects.libsimpleio.DAC
                 throw new Exception("Invalid chip number");
             }
 
-            IO.Bindings.libsimpleio.libDAC.DAC_get_name(chip, name,
+            IO.Bindings.libsimpleio.DAC_get_name(chip, name,
                 name.Capacity, out error);
 
             return name.ToString();
@@ -75,7 +75,7 @@ namespace IO.Objects.libsimpleio.DAC
                 throw new Exception("Invalid designator");
             }
 
-            IO.Bindings.libsimpleio.libDAC.DAC_open((int)desg.chip, (int)desg.chan,
+            IO.Bindings.libsimpleio.DAC_open((int)desg.chip, (int)desg.chan,
                 out this.myfd, out error);
 
             if (error != 0)
@@ -97,7 +97,7 @@ namespace IO.Objects.libsimpleio.DAC
             {
                 int error;
 
-                IO.Bindings.libsimpleio.libDAC.DAC_write(this.myfd,
+                IO.Bindings.libsimpleio.DAC_write(this.myfd,
                     value, out error);
 
                 if (error != 0)

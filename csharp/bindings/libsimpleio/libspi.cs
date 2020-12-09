@@ -1,4 +1,4 @@
-// C# binding for watchdog timer services in libsimpleio.so
+// C# binding for SPI device services in libsimpleio.so
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,65 +22,56 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio watchdog timer services.
-    /// </summary>
-    public class libWatchdog
+    public static partial class libsimpleio
     {
         /// <summary>
-        /// Open a Linux watchdog timer device.
+        /// Use hardware slave select.
+        /// </summary>
+        public const int SPI_AUTO_CS = -1;
+
+        /// <summary>
+        /// Open a Linux SPI device.
         /// </summary>
         /// <param name="devname">Device node name.</param>
+        /// <param name="mode">SPI transfer mode (0 .. 3)</param>
+        /// <param name="wordsize">SPI transfer word size (8, 16, or 32).</param>
+        /// <param name="speed">SPI transfer speed in Hz.</param>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
+        ///<remarks>The Linux kernel create a device nodes for each SPI slave
+        ///device, of the form
+        ///<c>/dev/spidevX.Y</c> where <c>X</c> is the SPI bus
+        ///controller number and <c>Y</c> is the SPI slave select number.</remarks>
         [DllImport("simpleio")]
-        public static extern void WATCHDOG_open(string devname, out int fd,
-            out int error);
+        public static extern void SPI_open(string devname, int mode,
+            int wordsize, int speed, out int fd, out int error);
 
         /// <summary>
-        /// Close a Linux watchdog timer device.
+        /// Send bytes to and/or receive bytes from a Linux SPI device.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="csfd">Chip select file descriptor.</param>
+        /// <param name="cmd">Source buffer.</param>
+        /// <param name="cmdlen">Source buffer size.</param>
+        /// <param name="delayus">Delay in microseconds between the write and read operations.</param>
+        /// <param name="resp">Destination buffer.</param>
+        /// <param name="resplen">Destination buffer size.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void SPI_transaction(int fd, int csfd, byte[] cmd,
+            int cmdlen, int delayus, byte[] resp, int resplen, out int error);
+
+        /// <summary>
+        /// Close a Linux SPI device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void WATCHDOG_close(int fd, out int error);
-
-        /// <summary>
-        /// Query a Linux watchdog timer device.
-        /// </summary>
-        /// <param name="fd">File descriptor.</param>
-        /// <param name="timeout">Timeout period in seconds.</param>
-        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
-        /// value upon failure.</param>
-        [DllImport("simpleio")]
-        public static extern void WATCHDOG_get_timeout(int fd, out int timeout,
-            out int error);
-
-        /// <summary>
-        /// Change the watchdog timer period.
-        /// </summary>
-        /// <param name="fd">File descriptor.</param>
-        /// <param name="newtimeout">Requested timeout period in seconds.</param>
-        /// <param name="timeout">Actual timeout period in seconds.</param>
-        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
-        /// value upon failure.</param>
-        /// <remarks>Not all platforms allow changing the timeout period.
-        /// Some platforms may not allow <i>increasing</i> the period.</remarks>
-        [DllImport("simpleio")]
-        public static extern void WATCHDOG_set_timeout(int fd, int newtimeout,
-            out int timeout, out int error);
-
-        /// <summary>
-        /// Reset the watchdog timer.
-        /// </summary>
-        /// <param name="fd">File descriptor.</param>
-        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
-        /// value upon failure.</param>
-        [DllImport("simpleio")]
-        public static extern void WATCHDOG_kick(int fd, out int error);
+        public static extern void SPI_close(int fd, out int error);
     }
 }

@@ -1,4 +1,6 @@
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Abstract interface for an SPI slave device
+
+// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -18,36 +20,37 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Objects.libsimpleio.Exceptions
+namespace IO.Interfaces.SPI
 {
     /// <summary>
-    /// Encapsulates exceptions that may include an optional
-    /// <c>errno</c> value.
+    /// Abstract interface for SPI slave devices.
     /// </summary>
-    public class Exception: System.Exception
+    public interface Device
     {
         /// <summary>
-        /// Constructor for an exception that writes an error message to
-        /// standard output.
+        /// Read bytes from an SPI slave device.
         /// </summary>
-        /// <param name="message">Error message.</param>
-        public Exception(string message)
-        {
-            System.Console.WriteLine(message);
-        }
+        /// <param name="resp">Response buffer.</param>
+        /// <param name="resplen">Number of bytes to read.</param>
+        void Read(byte[] resp, int resplen);
 
         /// <summary>
-        /// Constructor for an exception that writes an error message
-        /// including an <c>errno</c> value.
+        /// Write bytes to an SPI slave device.
         /// </summary>
-        /// <param name="message">Error message.</param>
-        /// <param name="error">Error code.</param>
-        public Exception(string message, int error)
-        {
-            System.Text.StringBuilder buf = new System.Text.StringBuilder(256);
-            IO.Bindings.libsimpleio.LINUX_strerror(error, buf,
-                buf.Capacity);
-            System.Console.WriteLine(message + ", " + buf.ToString());
-        }
+        /// <param name="cmd">Command buffer.</param>
+        /// <param name="cmdlen">Number of bytes to write.</param>
+        void Write(byte[] cmd, int cmdlen);
+
+        /// <summary>
+        /// Write bytes to and read bytes from an SPI slave device.
+        /// </summary>
+        /// <param name="cmd">Command buffer.</param>
+        /// <param name="cmdlen">Number of bytes to write.</param>
+        /// <param name="resp">Response buffer.</param>
+        /// <param name="resplen">Number of bytes to read.</param>
+        /// <param name="delayus">Delay in microseconds between write and read
+        /// operations.</param>
+        void Transaction(byte[] cmd, int cmdlen, byte[] resp, int resplen,
+            int delayus = 0);
     }
 }

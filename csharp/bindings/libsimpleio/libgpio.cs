@@ -22,62 +22,59 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio GPIO services.
-    /// </summary>
-    public class libGPIO
+    public static partial class libsimpleio
     {
         /// <summary>
         /// Input data direction.
         /// </summary>
-        public const int DIRECTION_INPUT = 0;
+        public const int GPIO_DIRECTION_INPUT = 0;
         /// <summary>
         /// Out data direction.
         /// </summary>
-        public const int DIRECTION_OUTPUT = 1;
+        public const int GPIO_DIRECTION_OUTPUT = 1;
 
         /// <summary>
         /// Push-pull (source and sink) output driver.
         /// </summary>
-        public const int DRIVER_PUSHPULL = 0;
+        public const int GPIO_DRIVER_PUSHPULL = 0;
 
         /// <summary>
         /// Open drain (sink only) output driver.
         /// </summary>
-        public const int DRIVER_OPENDRAIN = 1;
+        public const int GPIO_DRIVER_OPENDRAIN = 1;
 
         /// <summary>
         /// Open source (source only) output driver
         /// </summary>
-        public const int DRIVER_OPENSOURCE = 2;
+        public const int GPIO_DRIVER_OPENSOURCE = 2;
 
         /// <summary>
         /// Interrupts are disabled.
         /// </summary>
-        public const int EDGE_NONE = 0;
+        public const int GPIO_EDGE_NONE = 0;
         /// <summary>
         /// Interrupt on rising edge.
         /// </summary>
-        public const int EDGE_RISING = 1;
+        public const int GPIO_EDGE_RISING = 1;
         /// <summary>
         /// Interrupt on falling edge.
         /// </summary>
-        public const int EDGE_FALLING = 2;
+        public const int GPIO_EDGE_FALLING = 2;
         /// <summary>
         /// Interrupt on both edges.
         /// </summary>
-        public const int EDGE_BOTH = 3;
+        public const int GPIO_EDGE_BOTH = 3;
 
         /// <summary>
         /// Active low (inverted) polarity.
         /// </summary>
-        public const int POLARITY_ACTIVELOW = 0;
+        public const int GPIO_POLARITY_ACTIVELOW = 0;
         /// <summary>
         /// Active high (normal) polarity.
         /// </summary>
-        public const int POLARITY_ACTIVEHIGH = 1;
+        public const int GPIO_POLARITY_ACTIVEHIGH = 1;
 
         // Old GPIO sysfs API:
 
@@ -140,71 +137,71 @@ namespace IO.Bindings.libsimpleio
         /// <summary>
         /// GPIO line is being used by the kernel.
         /// </summary>
-        public const int LINE_INFO_KERNEL         = 0x0001;
+        public const int GPIO_LINE_INFO_KERNEL         = 0x0001;
         /// <summary>
         /// GPIO line is configured as an output.
         /// </summary>
-        public const int LINE_INFO_OUTPUT         = 0x0002;
+        public const int GPIO_LINE_INFO_OUTPUT         = 0x0002;
         /// <summary>
         /// GPIO line is configured as active low (inverted).
         /// </summary>
-        public const int LINE_INFO_ACTIVE_LOW     = 0x0004;
+        public const int GPIO_LINE_INFO_ACTIVE_LOW     = 0x0004;
         /// <summary>
         /// GPIO line is configured as open drain (current sink only).
         /// </summary>
-        public const int LINE_INFO_OPEN_DRAIN     = 0x0008;
+        public const int GPIO_LINE_INFO_OPEN_DRAIN     = 0x0008;
         /// <summary>
         /// GPIO line is configured as open source (current source only).
         /// </summary>
-        public const int LINE_INFO_OPEN_SOURCE    = 0x0010;
+        public const int GPIO_LINE_INFO_OPEN_SOURCE    = 0x0010;
 
         /// <summary>
         /// Select GPIO line direction input.
         /// </summary>
-        public const int LINE_REQUEST_INPUT       = 0x0001;
+        public const int GPIO_LINE_REQUEST_INPUT       = 0x0001;
         /// <summary>
         /// Select GPIO line direction output.
         /// </summary>
-        public const int LINE_REQUEST_OUTPUT      = 0x0002;
+        public const int GPIO_LINE_REQUEST_OUTPUT      = 0x0002;
 
         /// <summary>
         /// Select GPIO line polarity active high (normal).
         /// </summary>
-        public const int LINE_REQUEST_ACTIVE_HIGH = 0x0000;
+        public const int GPIO_LINE_REQUEST_ACTIVE_HIGH = 0x0000;
         /// <summary>
         /// Select GPIO line polarity active low (inverted).
         /// </summary>
-        public const int LINE_REQUEST_ACTIVE_LOW  = 0x0004;
+        public const int GPIO_LINE_REQUEST_ACTIVE_LOW  = 0x0004;
 
         /// <summary>
         /// Select GPIO line driver push-pull (current source and sink).
         /// </summary>
-        public const int LINE_REQUEST_PUSH_PULL   = 0x0000;
+        public const int GPIO_LINE_REQUEST_PUSH_PULL   = 0x0000;
         /// <summary>
         /// Select GPIO line driver open drain (current sink only).
         /// </summary>
-        public const int LINE_REQUEST_OPEN_DRAIN  = 0x0008;
+        public const int GPIO_LINE_REQUEST_OPEN_DRAIN  = 0x0008;
         /// <summary>
         /// Select GPIO line driver open source (current source only).
         /// </summary>
-        public const int LINE_REQUEST_OPEN_SOURCE = 0x0010;
+        public const int GPIO_LINE_REQUEST_OPEN_SOURCE = 0x0010;
 
         /// <summary>
         /// Disable GPIO input interrupt.
         /// </summary>
-        public const int EVENT_REQUEST_NONE        = 0x0000;
+        public const int GPIO_EVENT_REQUEST_NONE        = 0x0000;
         /// <summary>
         /// Enable GPIO input interrupt on rising edge.
         /// </summary>
-        public const int EVENT_REQUEST_RISING      = 0x0001;
+        public const int GPIO_EVENT_REQUEST_RISING      = 0x0001;
         /// <summary>
         /// Enable GPIO input interrupt on falling edge.
         /// </summary>
-        public const int EVENT_REQUEST_FALLING     = 0x0002;
+        public const int GPIO_EVENT_REQUEST_FALLING     = 0x0002;
         /// <summary>
         /// Enable GPIO input interrupt on both edges.
         /// </summary>
-        public const int EVENT_REQUEST_BOTH        = 0x0003;
+        public const int GPIO_EVENT_REQUEST_BOTH        = 0x0003;
 
         /// <summary>
         /// Get GPIO chip information.

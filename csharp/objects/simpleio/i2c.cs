@@ -38,7 +38,7 @@ namespace IO.Objects.libsimpleio.I2C
         /// <param name="devname">Device node name.</param>
         public Bus(string devname)
         {
-            IO.Bindings.libsimpleio.libI2C.I2C_open(devname, out this.myfd,
+            IO.Bindings.libsimpleio.I2C_open(devname, out this.myfd,
                 out int error);
 
             if (error != 0)
@@ -64,7 +64,7 @@ namespace IO.Objects.libsimpleio.I2C
 
             System.String devname = System.String.Format("/dev/i2c-{0}", desg.chan);
 
-            IO.Bindings.libsimpleio.libI2C.I2C_open(devname, out this.myfd,
+            IO.Bindings.libsimpleio.I2C_open(devname, out this.myfd,
                 out int error);
 
             if (error != 0)
@@ -93,7 +93,7 @@ namespace IO.Objects.libsimpleio.I2C
 
             int error;
 
-            IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+            IO.Bindings.libsimpleio.I2C_transaction(this.myfd,
                 slaveaddr, null, 0, resp, resplen, out error);
 
             if (error != 0)
@@ -122,7 +122,7 @@ namespace IO.Objects.libsimpleio.I2C
 
             int error;
 
-            IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+            IO.Bindings.libsimpleio.I2C_transaction(this.myfd,
                 slaveaddr, cmd, cmdlen, null, 0, out error);
 
             if (error != 0)
@@ -182,7 +182,7 @@ namespace IO.Objects.libsimpleio.I2C
 
             if (delayus == 0)
             {
-                IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+                IO.Bindings.libsimpleio.I2C_transaction(this.myfd,
                     slaveaddr, cmd, cmdlen, resp, resplen, out error);
 
                 if (error != 0)
@@ -192,7 +192,7 @@ namespace IO.Objects.libsimpleio.I2C
             }
             else
             {
-                IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+                IO.Bindings.libsimpleio.I2C_transaction(this.myfd,
                     slaveaddr, cmd, cmdlen, null, 0, out error);
 
                 if (error != 0)
@@ -200,14 +200,14 @@ namespace IO.Objects.libsimpleio.I2C
                     throw new Exception("I2C_transaction() failed", error);
                 }
 
-                IO.Bindings.libsimpleio.libLinux.LINUX_usleep(delayus, out error);
+                IO.Bindings.libsimpleio.LINUX_usleep(delayus, out error);
 
                 if (error != 0)
                 {
                     throw new Exception("LINUX_usleep() failed", error);
                 }
 
-                IO.Bindings.libsimpleio.libI2C.I2C_transaction(this.myfd,
+                IO.Bindings.libsimpleio.I2C_transaction(this.myfd,
                     slaveaddr, null, 0, resp, resplen, out error);
 
                 if (error != 0)

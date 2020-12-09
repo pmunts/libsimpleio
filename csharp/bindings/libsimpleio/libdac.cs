@@ -1,6 +1,6 @@
-// C# binding for I2C bus controller services in libsimpleio.so
+// C# binding for DAC output services in libsimpleio.so
 
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,46 +22,52 @@
 
 using System.Runtime.InteropServices;
 
-namespace IO.Bindings.libsimpleio
+namespace IO.Bindings
 {
-    /// <summary>
-    /// Wrapper for libsimpleio I<sup>2</sup>C bus controller services.
-    /// </summary>
-    public class libI2C
+    public static partial class libsimpleio
     {
         /// <summary>
-        /// Open a Linux I<sup>2</sup>C bus controller device.
+        /// Get the subsystem name for the specified Linux IIO D/A converter
+        /// device.
         /// </summary>
-        /// <param name="devname">Device node name.</param>
-        /// <param name="fd">File descriptor.</param>
+        /// <param name="chip">Linux IIO device number.</param>
+        /// <param name="name">Destination buffer.</param>
+        /// <param name="size">Size of destination buffer.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void I2C_open(string devname, out int fd,
-            out int error);
+        public static extern void DAC_get_name(int chip,
+          System.Text.StringBuilder name, int size, out int error);
 
         /// <summary>
-        /// Close a Linux I<sup>2</sup>C bus controller device.
+        /// Open a Linux IIO D/A converter output device.
         /// </summary>
+        /// <param name="chip">Linux IIO device number.</param>
+        /// <param name="channel">Output channel number.</param>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void I2C_close(int fd, out int error);
+        public static extern void DAC_open(int chip, int channel, out int fd,
+          out int error);
 
         /// <summary>
-        /// Send bytes to and/or receive bytes from an I<sup>2</sup>C slave device.
+        /// Close a Linux IIO D/A converter output device.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
-        /// <param name="slaveaddr">Slave address.</param>
-        /// <param name="cmd">Source buffer.</param>
-        /// <param name="cmdlen">Source buffer size.</param>
-        /// <param name="resp">Response buffer.</param>
-        /// <param name="resplen">Response buffer size.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         [DllImport("simpleio")]
-        public static extern void I2C_transaction(int fd, int slaveaddr,
-            byte[] cmd, int cmdlen, byte[] resp, int resplen, out int error);
+        public static extern void DAC_close(int fd, out int error);
+
+        /// <summary>
+        /// Write to a Linux IIO D/A converter output device.
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="sample">Analog sample data.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void DAC_write(int fd, int sample, out int error);
     }
 }

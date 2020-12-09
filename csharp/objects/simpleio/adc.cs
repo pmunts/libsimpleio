@@ -50,7 +50,7 @@ namespace IO.Objects.libsimpleio.ADC
                 throw new Exception("Invalid chip number");
             }
 
-            IO.Bindings.libsimpleio.libADC.ADC_get_name(chip, name,
+            IO.Bindings.libsimpleio.ADC_get_name(chip, name,
                 name.Capacity, out error);
 
             return name.ToString();
@@ -74,7 +74,7 @@ namespace IO.Objects.libsimpleio.ADC
                 throw new Exception("Invalid designator");
             }
 
-            IO.Bindings.libsimpleio.libADC.ADC_open((int)desg.chip, (int)desg.chan,
+            IO.Bindings.libsimpleio.ADC_open((int)desg.chip, (int)desg.chan,
                 out this.myfd, out error);
 
             if (error != 0)
@@ -96,7 +96,7 @@ namespace IO.Objects.libsimpleio.ADC
                 int rawdata;
                 int error;
 
-                IO.Bindings.libsimpleio.libADC.ADC_read(this.myfd,
+                IO.Bindings.libsimpleio.ADC_read(this.myfd,
                     out rawdata, out error);
 
                 if (error != 0)

@@ -138,11 +138,11 @@ namespace IO.Objects.libsimpleio.GPIO
             switch (dir)
             {
                 case IO.Interfaces.GPIO.Direction.Input:
-                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_INPUT;
+                    flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_INPUT;
                     break;
 
                 case IO.Interfaces.GPIO.Direction.Output:
-                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_OUTPUT;
+                    flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_OUTPUT;
                     break;
             }
 
@@ -151,15 +151,15 @@ namespace IO.Objects.libsimpleio.GPIO
             switch (driver)
             {
                 case Driver.PushPull:
-                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_PUSH_PULL;
+                    flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_PUSH_PULL;
                     break;
 
                 case Driver.OpenDrain:
-                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_OPEN_DRAIN;
+                    flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_OPEN_DRAIN;
                     break;
 
                 case Driver.OpenSource:
-                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_OPEN_SOURCE;
+                    flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_OPEN_SOURCE;
                     break;
             }
 
@@ -168,11 +168,11 @@ namespace IO.Objects.libsimpleio.GPIO
             switch (polarity)
             {
                 case Polarity.ActiveLow:
-                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_ACTIVE_LOW;
+                    flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_ACTIVE_LOW;
                     break;
 
                 case Polarity.ActiveHigh:
-                    flags |= IO.Bindings.libsimpleio.libGPIO.LINE_REQUEST_ACTIVE_HIGH;
+                    flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_ACTIVE_HIGH;
                     break;
             }
 
@@ -181,19 +181,19 @@ namespace IO.Objects.libsimpleio.GPIO
             switch (edge)
             {
                 case Edge.None:
-                    events |= IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_NONE;
+                    events |= IO.Bindings.libsimpleio.GPIO_EVENT_REQUEST_NONE;
                     break;
 
                 case Edge.Rising:
-                    events |= IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_RISING;
+                    events |= IO.Bindings.libsimpleio.GPIO_EVENT_REQUEST_RISING;
                     break;
 
                 case Edge.Falling:
-                    events |= IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_FALLING;
+                    events |= IO.Bindings.libsimpleio.GPIO_EVENT_REQUEST_FALLING;
                     break;
 
                 case Edge.Both:
-                    events |= IO.Bindings.libsimpleio.libGPIO.EVENT_REQUEST_BOTH;
+                    events |= IO.Bindings.libsimpleio.GPIO_EVENT_REQUEST_BOTH;
                     break;
             }
 
@@ -234,7 +234,7 @@ namespace IO.Objects.libsimpleio.GPIO
             CalculateFlags(dir, driver, edge, polarity, out flags, out events,
                 out this.kind);
 
-            IO.Bindings.libsimpleio.libGPIO.GPIO_line_open((int)desg.chip,
+            IO.Bindings.libsimpleio.GPIO_line_open((int)desg.chip,
                 (int)desg.chan, flags, events, state ? 1 : 0, out this.myfd,
                 out error);
 
@@ -258,7 +258,7 @@ namespace IO.Objects.libsimpleio.GPIO
                 {
                     case Kinds.Input:
                     case Kinds.Output:
-                        IO.Bindings.libsimpleio.libGPIO.GPIO_line_read(this.myfd,
+                        IO.Bindings.libsimpleio.GPIO_line_read(this.myfd,
                             out value, out error);
 
                         if (error != 0)
@@ -268,7 +268,7 @@ namespace IO.Objects.libsimpleio.GPIO
                         break;
 
                     case Kinds.Interrupt:
-                        IO.Bindings.libsimpleio.libGPIO.GPIO_line_event(this.myfd,
+                        IO.Bindings.libsimpleio.GPIO_line_event(this.myfd,
                             out value, out error);
 
                         if (error != 0)
@@ -292,7 +292,7 @@ namespace IO.Objects.libsimpleio.GPIO
                         throw new Exception("Cannot write to input pin");
 
                     case Kinds.Output:
-                        IO.Bindings.libsimpleio.libGPIO.GPIO_line_write(this.myfd,
+                        IO.Bindings.libsimpleio.GPIO_line_write(this.myfd,
                             value ? 1 : 0, out error);
 
                         if (error != 0)

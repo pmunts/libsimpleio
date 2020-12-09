@@ -49,7 +49,7 @@ namespace IO.Objects.libsimpleio.SPI
         public Device(string devname, int mode, int wordsize,
             int speed, IO.Objects.libsimpleio.GPIO.Pin cspin = AUTOCHIPSELECT)
         {
-            IO.Bindings.libsimpleio.libSPI.SPI_open(devname, mode, wordsize,
+            IO.Bindings.libsimpleio.SPI_open(devname, mode, wordsize,
                 speed, out this.myfd, out int error);
 
             if (error != 0)
@@ -58,7 +58,7 @@ namespace IO.Objects.libsimpleio.SPI
             }
 
             if (cspin == AUTOCHIPSELECT)
-                this.myfdcs = IO.Bindings.libsimpleio.libSPI.SPI_AUTO_CS;
+                this.myfdcs = IO.Bindings.libsimpleio.SPI_AUTO_CS;
             else
                 this.myfdcs = cspin.fd;
         }
@@ -87,7 +87,7 @@ namespace IO.Objects.libsimpleio.SPI
             System.String devname = System.String.Format("/dev/spidev{0}.{1}",
               desg.chip, desg.chan);
 
-            IO.Bindings.libsimpleio.libSPI.SPI_open(devname, mode, wordsize,
+            IO.Bindings.libsimpleio.SPI_open(devname, mode, wordsize,
                 speed, out this.myfd, out int error);
 
             if (error != 0)
@@ -96,7 +96,7 @@ namespace IO.Objects.libsimpleio.SPI
             }
 
             if (cspin == AUTOCHIPSELECT)
-                this.myfdcs = IO.Bindings.libsimpleio.libSPI.SPI_AUTO_CS;
+                this.myfdcs = IO.Bindings.libsimpleio.SPI_AUTO_CS;
             else
                 this.myfdcs = cspin.fd;
         }
@@ -116,7 +116,7 @@ namespace IO.Objects.libsimpleio.SPI
             byte[] cmd = new byte[1];
             int error;
 
-            IO.Bindings.libsimpleio.libSPI.SPI_transaction(this.myfd,
+            IO.Bindings.libsimpleio.SPI_transaction(this.myfd,
                 this.myfdcs, null, 0, 0, resp, resp.Length, out error);
 
             if (error != 0)
@@ -140,7 +140,7 @@ namespace IO.Objects.libsimpleio.SPI
             byte[] resp = new byte[1];
             int error;
 
-            IO.Bindings.libsimpleio.libSPI.SPI_transaction(this.myfd,
+            IO.Bindings.libsimpleio.SPI_transaction(this.myfd,
                 this.myfdcs, cmd, cmdlen, 0, null, 0, out error);
 
             if (error != 0)
@@ -192,7 +192,7 @@ namespace IO.Objects.libsimpleio.SPI
 
             int error;
 
-            IO.Bindings.libsimpleio.libSPI.SPI_transaction(this.myfd,
+            IO.Bindings.libsimpleio.SPI_transaction(this.myfd,
                 this.myfdcs, cmd, cmdlen, delayus, resp, resplen,
                 out error);
 

@@ -1,4 +1,6 @@
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Abstract interface for a text message relay.
+
+// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -18,36 +20,20 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Objects.libsimpleio.Exceptions
+namespace IO.Interfaces.Message.Text
 {
     /// <summary>
-    /// Encapsulates exceptions that may include an optional
-    /// <c>errno</c> value.
+    /// Abstract interface for a text message relay.
     /// </summary>
-    public class Exception: System.Exception
+    public interface Relay
     {
         /// <summary>
-        /// Constructor for an exception that writes an error message to
-        /// standard output.
+        /// Method for sending a text message.
         /// </summary>
-        /// <param name="message">Error message.</param>
-        public Exception(string message)
-        {
-            System.Console.WriteLine(message);
-        }
-
-        /// <summary>
-        /// Constructor for an exception that writes an error message
-        /// including an <c>errno</c> value.
-        /// </summary>
-        /// <param name="message">Error message.</param>
-        /// <param name="error">Error code.</param>
-        public Exception(string message, int error)
-        {
-            System.Text.StringBuilder buf = new System.Text.StringBuilder(256);
-            IO.Bindings.libsimpleio.LINUX_strerror(error, buf,
-                buf.Capacity);
-            System.Console.WriteLine(message + ", " + buf.ToString());
-        }
+        /// <param name="sender">Message originator.</param>
+        /// <param name="recipient">Message recipient.</param>
+        /// <param name="subject">Message subject.</param>
+        /// <param name="message">Message text.</param>
+        void Send(string sender, string recipient, string subject, string message);
     }
 }

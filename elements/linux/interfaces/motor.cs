@@ -1,4 +1,6 @@
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Abstract interface for variable speed motor outputs
+
+// Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -18,36 +20,40 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Objects.libsimpleio.Exceptions
+namespace IO.Interfaces.Motor
 {
     /// <summary>
-    /// Encapsulates exceptions that may include an optional
-    /// <c>errno</c> value.
+    /// Motor velocity contants.
     /// </summary>
-    public class Exception: System.Exception
+    public static class Velocities
     {
         /// <summary>
-        /// Constructor for an exception that writes an error message to
-        /// standard output.
+        /// Minimum velocity (full speed reverse).
         /// </summary>
-        /// <param name="message">Error message.</param>
-        public Exception(string message)
-        {
-            System.Console.WriteLine(message);
-        }
+        public const double Minimum = -1.0;
 
         /// <summary>
-        /// Constructor for an exception that writes an error message
-        /// including an <c>errno</c> value.
+        /// Zero velocity (motor stopped).
         /// </summary>
-        /// <param name="message">Error message.</param>
-        /// <param name="error">Error code.</param>
-        public Exception(string message, int error)
+        public const double Stop = 0.0;
+
+        /// <summary>
+        /// Maximum velocity (full speed forward).
+        /// </summary>
+        public const double Maximum = 1.0;
+    }
+
+    /// <summary>
+    ///  Abstract interface for variable speed motor outputs.
+    /// </summary>
+    public interface Output
+    {
+        /// <summary>
+        /// Write-only motor velocity property.
+        /// </summary>
+        double velocity
         {
-            System.Text.StringBuilder buf = new System.Text.StringBuilder(256);
-            IO.Bindings.libsimpleio.LINUX_strerror(error, buf,
-                buf.Capacity);
-            System.Console.WriteLine(message + ", " + buf.ToString());
+            set;
         }
     }
 }

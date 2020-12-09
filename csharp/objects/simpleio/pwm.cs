@@ -41,7 +41,7 @@ namespace IO.Objects.libsimpleio.PWM
         /// <param name="polarity">PWM output polarity.</param>
         public Output(IO.Objects.libsimpleio.Device.Designator desg,
             int frequency, double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum,
-            int polarity = IO.Bindings.libsimpleio.libPWM.ActiveHigh)
+            int polarity = IO.Bindings.libsimpleio.PWM_POLARITY_ACTIVEHIGH)
         {
             // Validate the PWM output designator
 
@@ -64,8 +64,8 @@ namespace IO.Objects.libsimpleio.PWM
                 throw new Exception("Invalid duty cycle");
             }
 
-            if ((polarity < IO.Bindings.libsimpleio.libPWM.ActiveLow) ||
-                (polarity > IO.Bindings.libsimpleio.libPWM.ActiveHigh))
+            if ((polarity < IO.Bindings.libsimpleio.PWM_POLARITY_ACTIVELOW) ||
+                (polarity > IO.Bindings.libsimpleio.PWM_POLARITY_ACTIVEHIGH))
             {
                 throw new Exception("Invalid polarity");
             }
@@ -74,7 +74,7 @@ namespace IO.Objects.libsimpleio.PWM
             int ontime =(int)(dutycycle / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
             int error;
 
-            IO.Bindings.libsimpleio.libPWM.PWM_configure((int)desg.chip,
+            IO.Bindings.libsimpleio.PWM_configure((int)desg.chip,
                 (int)desg.chan, period, ontime, (int)polarity, out error);
 
             if (error != 0)
@@ -82,7 +82,7 @@ namespace IO.Objects.libsimpleio.PWM
                 throw new Exception("PWM_configure() failed", error);
             }
 
-            IO.Bindings.libsimpleio.libPWM.PWM_open((int)desg.chip,
+            IO.Bindings.libsimpleio.PWM_open((int)desg.chip,
                 (int)desg.chan, out this.myfd, out error);
 
             if (error != 0)
@@ -108,7 +108,7 @@ namespace IO.Objects.libsimpleio.PWM
                 int ontime = (int)(value / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
                 int error;
 
-                IO.Bindings.libsimpleio.libPWM.PWM_write(this.myfd,
+                IO.Bindings.libsimpleio.PWM_write(this.myfd,
                     ontime, out error);
 
                 if (error != 0)
