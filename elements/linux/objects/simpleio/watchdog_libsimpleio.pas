@@ -42,7 +42,7 @@ interface
 
       public method Kick;
 
-      property timeout : Int32 read GetTimeout write SetTimeout;
+      property timeout : Cardinal read GetTimeout write SetTimeout;
 
       { Private internal state }
 

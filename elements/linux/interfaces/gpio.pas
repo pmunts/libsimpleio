@@ -24,14 +24,16 @@ namespace IO.Interfaces.GPIO;
 
   type Direction = public (Input, Output);
 
+  { Define an exception for GPIO pin errors }
   type Error = public class(Exception);
 
+  { Define an interface for GPIO pins }
   type Pin = public interface
-    method Get : Boolean;
+    method GetState : Boolean;
 
-    method Put(newstate : Boolean);
+    method PutState(newstate : Boolean);
 
-    property state : Boolean read Get write Put;
+    property state : Boolean read GetState write PutState;
   end;
 
 end.

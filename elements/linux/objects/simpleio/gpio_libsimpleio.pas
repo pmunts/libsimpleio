@@ -42,11 +42,11 @@ interface
 
     finalizer;
 
-    public method Get : Boolean;
+    public method GetState : Boolean;
 
-    public method Put(newstate : Boolean);
+    public method PutState(newstate : Boolean);
 
-    property state : Boolean read Get write Put;
+    property state : Boolean read GetState write PutState;
 
   { Private internal state }
 
@@ -115,7 +115,7 @@ implementation
     IO.Bindings.libsimpleio.GPIO_line_close(self.fd, @error);
   end;
 
-  method Pin.Get : Boolean;
+  method Pin.GetState : Boolean;
 
   begin
     var s     : Int32;
@@ -141,7 +141,7 @@ implementation
     result := (s <> 0);
   end;
 
-  method Pin.Put(newstate : Boolean);
+  method Pin.PutState(newstate : Boolean);
 
   begin
     var error : Int32;

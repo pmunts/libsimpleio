@@ -29,9 +29,11 @@ namespace IO.Interfaces.Watchdog;
   type Timer = public interface
     method GetTimeout : Cardinal;
 
-    method SetTimeout(timeout : Cardinal);
+    method SetTimeout(t : Cardinal);
 
     method Kick;
+
+    property timeout : Cardinal read GetTimeout write SetTimeout;
   end;
 
 end.
