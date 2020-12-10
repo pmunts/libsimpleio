@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Exceptions;
+using System;
 
 namespace IO.Objects.libsimpleio.HID
 {
@@ -55,7 +55,8 @@ namespace IO.Objects.libsimpleio.HID
 
             if (error != 0)
             {
-                throw new Exception("HIDRAW_open1() failed", error);
+                throw new Exception("HIDRAW_open1() failed, " +
+                    errno.strerror(error));
             }
 
             this.timeout = timeoutms;
@@ -98,7 +99,8 @@ namespace IO.Objects.libsimpleio.HID
 
             if (error != 0)
             {
-                throw new Exception("HIDRAW_open3() failed", error);
+                throw new Exception("HIDRAW_open3() failed, " +
+                    errno.strerror(error));
             }
 
             this.timeout = timeoutms;
@@ -119,7 +121,8 @@ namespace IO.Objects.libsimpleio.HID
 
             if (error != 0)
             {
-                throw new Exception("HIDRAW_send() failed", error);
+                throw new Exception("HIDRAW_send() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -143,7 +146,8 @@ namespace IO.Objects.libsimpleio.HID
 
                 if (error != 0)
                 {
-                    throw new Exception("LINUX_poll() failed", error);
+                    throw new Exception("LINUX_poll() failed, " +
+                        errno.strerror(error));
                 }
             }
 
@@ -153,7 +157,8 @@ namespace IO.Objects.libsimpleio.HID
 
             if (error != 0)
             {
-                throw new Exception("HIDRAW_send() failed", error);
+                throw new Exception("HIDRAW_send() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -187,7 +192,8 @@ namespace IO.Objects.libsimpleio.HID
 
                 if (error != 0)
                 {
-                    throw new Exception("HIDRAW_get_name() failed", error);
+                    throw new Exception("HIDRAW_get_name() failed, " +
+                        errno.strerror(error));
                 }
 
                 return buf.ToString();
@@ -212,7 +218,8 @@ namespace IO.Objects.libsimpleio.HID
 
                 if (error != 0)
                 {
-                    throw new Exception("HIDRAW_get_info() failed", error);
+                    throw new Exception("HIDRAW_get_info() failed, " +
+                        errno.strerror(error));
                 }
 
                 return bus;
@@ -237,7 +244,8 @@ namespace IO.Objects.libsimpleio.HID
 
                 if (error != 0)
                 {
-                    throw new Exception("HIDRAW_get_info() failed", error);
+                    throw new Exception("HIDRAW_get_info() failed, " +
+                        errno.strerror(error));
                 }
 
                 return vid;
@@ -262,7 +270,8 @@ namespace IO.Objects.libsimpleio.HID
 
                 if (error != 0)
                 {
-                    throw new Exception("HIDRAW_get_info() failed", error);
+                    throw new Exception("HIDRAW_get_info() failed, " +
+                        errno.strerror(error));
                 }
 
                 return pid;

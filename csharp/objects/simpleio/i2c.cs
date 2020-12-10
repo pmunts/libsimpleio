@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Exceptions;
+using System;
 
 namespace IO.Objects.libsimpleio.I2C
 {
@@ -43,7 +43,8 @@ namespace IO.Objects.libsimpleio.I2C
 
             if (error != 0)
             {
-                throw new Exception("I2C_open() failed", error);
+                throw new Exception("I2C_open() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -69,7 +70,8 @@ namespace IO.Objects.libsimpleio.I2C
 
             if (error != 0)
             {
-                throw new Exception("I2C_open() failed", error);
+                throw new Exception("I2C_open() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -98,7 +100,8 @@ namespace IO.Objects.libsimpleio.I2C
 
             if (error != 0)
             {
-                throw new Exception("I2C_transaction() failed", error);
+                throw new Exception("I2C_transaction() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -127,7 +130,8 @@ namespace IO.Objects.libsimpleio.I2C
 
             if (error != 0)
             {
-                throw new Exception("I2C_transaction() failed", error);
+                throw new Exception("I2C_transaction() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -187,7 +191,8 @@ namespace IO.Objects.libsimpleio.I2C
 
                 if (error != 0)
                 {
-                    throw new Exception("I2C_transaction() failed", error);
+                    throw new Exception("I2C_transaction() failed, " +
+                        errno.strerror(error));
                 }
             }
             else
@@ -197,14 +202,16 @@ namespace IO.Objects.libsimpleio.I2C
 
                 if (error != 0)
                 {
-                    throw new Exception("I2C_transaction() failed", error);
+                    throw new Exception("I2C_transaction() failed, " +
+                        errno.strerror(error));
                 }
 
                 IO.Bindings.libsimpleio.LINUX_usleep(delayus, out error);
 
                 if (error != 0)
                 {
-                    throw new Exception("LINUX_usleep() failed", error);
+                    throw new Exception("LINUX_usleep() failed, " +
+                        errno.strerror(error));
                 }
 
                 IO.Bindings.libsimpleio.I2C_transaction(this.myfd,
@@ -212,7 +219,8 @@ namespace IO.Objects.libsimpleio.I2C
 
                 if (error != 0)
                 {
-                    throw new Exception("I2C_transaction() failed", error);
+                    throw new Exception("I2C_transaction() failed, " +
+                        errno.strerror(error));
                 }
             }
         }

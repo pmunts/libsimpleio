@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Exceptions;
+using System;
 
 namespace IO.Objects.libsimpleio.DAC
 {
@@ -80,7 +80,8 @@ namespace IO.Objects.libsimpleio.DAC
 
             if (error != 0)
             {
-                throw new Exception("DAC_open() failed", error);
+                throw new Exception("DAC_open() failed, " +
+                    errno.strerror(error));
             }
 
             this.nbits = resolution;
@@ -102,7 +103,8 @@ namespace IO.Objects.libsimpleio.DAC
 
                 if (error != 0)
                 {
-                    throw new Exception("DAC_write() failed", error);
+                    throw new Exception("DAC_write() failed" +
+                        errno.strerror(error));
                 }
             }
         }

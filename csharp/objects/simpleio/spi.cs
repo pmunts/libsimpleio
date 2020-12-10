@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Exceptions;
+using System;
 
 namespace IO.Objects.libsimpleio.SPI
 {
@@ -54,7 +54,8 @@ namespace IO.Objects.libsimpleio.SPI
 
             if (error != 0)
             {
-                throw new Exception("SPI_open() failed", error);
+                throw new Exception("SPI_open() failed, " +
+                    errno.strerror(error));
             }
 
             if (cspin == AUTOCHIPSELECT)
@@ -92,7 +93,8 @@ namespace IO.Objects.libsimpleio.SPI
 
             if (error != 0)
             {
-                throw new Exception("SPI_open() failed", error);
+                throw new Exception("SPI_open() failed, " +
+                    errno.strerror(error));
             }
 
             if (cspin == AUTOCHIPSELECT)
@@ -121,7 +123,8 @@ namespace IO.Objects.libsimpleio.SPI
 
             if (error != 0)
             {
-                throw new Exception("SPI_transaction() failed", error);
+                throw new Exception("SPI_transaction() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -145,7 +148,8 @@ namespace IO.Objects.libsimpleio.SPI
 
             if (error != 0)
             {
-                throw new Exception("SPI_transaction() failed", error);
+                throw new Exception("SPI_transaction() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -198,7 +202,8 @@ namespace IO.Objects.libsimpleio.SPI
 
             if (error != 0)
             {
-                throw new Exception("SPI_transaction() failed", error);
+                throw new Exception("SPI_transaction() failed, " +
+                    errno.strerror(error));
             }
         }
 

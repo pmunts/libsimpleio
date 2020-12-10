@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Exceptions;
+using System;
 
 namespace IO.Objects.libsimpleio.Watchdog
 {
@@ -61,7 +61,8 @@ namespace IO.Objects.libsimpleio.Watchdog
 
             if (error != 0)
             {
-                throw new Exception("WATCHDOG_open() failed", error);
+                throw new Exception("WATCHDOG_open() failed, " +
+                  errno.strerror(error));
             }
 
             if (timeout != DefaultTimeout)
@@ -73,8 +74,8 @@ namespace IO.Objects.libsimpleio.Watchdog
 
                 if (error != 0)
                 {
-                    throw new Exception("WATCHDOG_set_timeout() failed",
-                        error);
+                    throw new Exception("WATCHDOG_set_timeout() failed, " +
+                      errno.strerror(error));
                 }
             }
         }
@@ -91,7 +92,8 @@ namespace IO.Objects.libsimpleio.Watchdog
 
             if (error != 0)
             {
-                throw new Exception("WATCHDOG_kick() failed", error);
+                throw new Exception("WATCHDOG_kick() failed, " +
+                  errno.strerror(error));
             }
         }
 
@@ -112,7 +114,8 @@ namespace IO.Objects.libsimpleio.Watchdog
 
                 if (error != 0)
                 {
-                    throw new Exception("WATCHDOG_get_timeout() failed", error);
+                    throw new Exception("WATCHDOG_get_timeout() failed, " +
+                      errno.strerror(error));
                 }
 
                 return value;
@@ -133,7 +136,8 @@ namespace IO.Objects.libsimpleio.Watchdog
 
                 if (error != 0)
                 {
-                    throw new Exception("WATCHDOG_set_timeout() failed", error);
+                    throw new Exception("WATCHDOG_set_timeout() failed, " +
+                      errno.strerror(error));
                 }
             }
         }

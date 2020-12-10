@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Exceptions;
+using System;
 
 namespace IO.Objects.libsimpleio.GPIO
 {
@@ -240,7 +240,8 @@ namespace IO.Objects.libsimpleio.GPIO
 
             if (error != 0)
             {
-                throw new Exception("GPIO_line_open() failed", error);
+                throw new Exception("GPIO_line_open() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -263,7 +264,8 @@ namespace IO.Objects.libsimpleio.GPIO
 
                         if (error != 0)
                         {
-                            throw new Exception("GPIO_line_read() failed", error);
+                            throw new Exception("GPIO_line_read() failed, " +
+                                errno.strerror(error));
                         }
                         break;
 
@@ -273,7 +275,8 @@ namespace IO.Objects.libsimpleio.GPIO
 
                         if (error != 0)
                         {
-                            throw new Exception("GPIO_line_event() failed", error);
+                            throw new Exception("GPIO_line_event() failed, " +
+                                errno.strerror(error));
                         }
                         break;
                 }
@@ -297,7 +300,8 @@ namespace IO.Objects.libsimpleio.GPIO
 
                         if (error != 0)
                         {
-                            throw new Exception("GPIO_line_write() failed", error);
+                            throw new Exception("GPIO_line_write() failed, " +
+                                errno.strerror(error));
                         }
                         break;
                 }

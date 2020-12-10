@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Exceptions;
+using System;
 
 namespace IO.Objects.libsimpleio.ADC
 {
@@ -28,7 +28,7 @@ namespace IO.Objects.libsimpleio.ADC
     /// Encapsulates Linux Industrial I/O Subsystem ADC inputs usingi
     /// <c>libsimpleio</c>.
     /// </summary>
-    public class Sample: IO.Interfaces.ADC.Sample
+    public class Sample : IO.Interfaces.ADC.Sample
     {
         private int myfd;
         private int nbits;
@@ -79,7 +79,8 @@ namespace IO.Objects.libsimpleio.ADC
 
             if (error != 0)
             {
-                throw new Exception("ADC_open() failed", error);
+                throw new Exception("ADC_open() failed, " +
+                    errno.strerror(error));
             }
 
             this.nbits = resolution;
@@ -101,7 +102,8 @@ namespace IO.Objects.libsimpleio.ADC
 
                 if (error != 0)
                 {
-                    throw new Exception("ADC_read() failed", error);
+                    throw new Exception("ADC_read() failed, " +
+                        errno.strerror(error));
                 }
 
                 return rawdata;

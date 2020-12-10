@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Exceptions;
+using System;
 
 namespace IO.Objects.libsimpleio.Servo
 {
@@ -72,7 +72,8 @@ namespace IO.Objects.libsimpleio.Servo
 
             if (error != 0)
             {
-                throw new Exception("PWM_configure() failed", error);
+                throw new Exception("PWM_configure() failed, " +
+                    errno.strerror(error));
             }
 
             IO.Bindings.libsimpleio.PWM_open((int)desg.chip,
@@ -80,7 +81,8 @@ namespace IO.Objects.libsimpleio.Servo
 
             if (error != 0)
             {
-                throw new Exception("PWM_open() failed", error);
+                throw new Exception("PWM_open() failed, " +
+                    errno.strerror(error));
             }
         }
 
@@ -106,7 +108,8 @@ namespace IO.Objects.libsimpleio.Servo
 
                 if (error != 0)
                 {
-                    throw new Exception("PWM_write() failed", error);
+                    throw new Exception("PWM_write() failed, " +
+                        errno.strerror(error));
                 }
             }
         }
