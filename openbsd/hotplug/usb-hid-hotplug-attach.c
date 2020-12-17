@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 
   // Try to create a device node (just in case)
   
-  mknod(devname, 0400, makedev(62, atoi(DEVNAME + 4)));
+  mknod(devname, S_IFCHR | 0600, makedev(62, atoi(DEVNAME + 4)));
 
   // Open the candidate raw HID device
 
