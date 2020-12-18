@@ -42,6 +42,12 @@ GNATPREFIX	= $(GNAT)/bin/
 endif
 endif
 
+# Definitions for FreeBSD
+
+ifeq ($(shell uname), FreeBSD)
+GNATSTRIP	?= strip
+endif
+
 # Definitions for Microsoft Windows
 
 ifeq ($(OS), Windows_NT)
