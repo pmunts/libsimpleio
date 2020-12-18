@@ -83,7 +83,7 @@ PACKAGE Posix IS
   PRAGMA Import(C, C_write,      "write");
   PRAGMA Import(C, C_poll,       "poll");
   PRAGMA Import(C, C_errno,      "__get_errno");   -- From GNAT runtime library
-  PRAGMA Import(C, C_strerror_r, "__xpg_strerror_r");
+  PRAGMA Import(C, C_strerror_r, "strerror_r");
 
   -- Nicer Ada wrappers
 
