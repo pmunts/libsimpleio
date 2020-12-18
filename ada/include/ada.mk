@@ -31,21 +31,27 @@
 ifneq ($(BOARDNAME),)
 ifeq ($(BOARDBASE),)
 # Definitions for MuntsOS cross-compile
+
 EMBLINUXBASE	?= $(HOME)/muntsos
 include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
 endif
 else
 # Definitions for native compile
+
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-ifneq ($(GNAT),)
-GNATPREFIX	= $(GNAT)/bin/
-endif
-endif
 
 # Definitions for FreeBSD
 
 ifeq ($(shell uname), FreeBSD)
+GNAT		?= /usr/local/gcc6-aux
 GNATSTRIP	?= strip
+GPRBUILD	?= no
+endif
+
+# Definitions for OpenBSD
+
+ifeq ($(shell uname), OpenBSD)
+GPRBUILD	?= no
 endif
 
 # Definitions for Microsoft Windows
@@ -61,6 +67,11 @@ endif
 ifeq ($(shell uname), Darwin)
 ADA_LDFLAGS	+= -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
 ADA_LDFLAGS	+= -L/usr/local/lib
+endif
+
+ifneq ($(GNAT),)
+GNATPREFIX	= $(GNAT)/bin/
+endif
 endif
 
 # General toolchain definitions
@@ -92,8 +103,9 @@ GPRBUILDFLAGS	= -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
 
 # Define pattern rules for building Ada programs
 
-%: %.gpr
+ifneq ($(GPRBUILD), no)
 # Build with explicit Ada program project file
+%: %.gpr
 	$(GPRBUILD) -P$< $(GPRBUILDFLAGS) $@
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
@@ -104,8 +116,9 @@ ifneq ($(wildcard default.gpr),)
 	$(GPRBUILD) $(GPRBUILDFLAGS) $@
 	$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
+endif
 else
-# Build with gnatmake (deprecated)
+# Build with gnatmake (deprecated, but sometimes necessary)
 %: %.adb
 	mkdir -p $(ADA_OBJ)
 	$(GNATMAKE) $(GNATMAKEFLAGS) $@ -cargs $(GNATMAKECFLAGS) -largs $(GNATMAKELDFLAGS)
