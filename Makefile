@@ -99,11 +99,11 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p dotnet			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p elements			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
+	cp -R -P -p hotplug			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p udev			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p win				$(DESTDIR)/share/libsimpleio
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc/README
@@ -114,7 +114,7 @@ install: libsimpleio.a libsimpleio.so
 # Install symlinks for the udev rules
 
 install_udev_rules:
-	cd $(UDEVRULESDIR) && for R in /usr/local/share/libsimpleio/udev/*.rules ; do ln -s $$R ; done
+	cd $(UDEVRULESDIR) && for R in /usr/local/share/libsimpleio/hotplug/linux/*.rules ; do ln -s $$R ; done
 
 # Create Debian package file
 
