@@ -136,6 +136,18 @@ News
     `HIDRAW_open()2`, and add `HIDRAW_open3()`, which accepts as USB
     device serial number string in addition to the vendor and product
     ID's.
+-   18 December 2020 -- Added Ada packages `Posix` and `HID.Posix`.
+    These make it possible to build Ada Remote I/O Protocol client
+    programs on [FreeBSD](https://www.freebsd.org) and
+    [OpenBSD](https://www.openbsd.org). The `HID.Posix` package very
+    nearly works on Linux as well, except that the ***utterly
+    braindead*** GNU implementation of `strerror_r()` doesn't work
+    properly: The `buf` and `buflen` arguments are usually (*but not
+    always!*) ignored. This is indefensible, but the `glibc` maintainers
+    don't seem inclined to fix it. Seamless use of `HID.Posix` requires
+    some operating system hotplug magic. Some implementations of same
+    are now in `hotplug/`. Accordingly, `udev/` has been moved to
+    `hotplug/linux/`.
 
 Documentation
 -------------

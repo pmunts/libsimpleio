@@ -114,19 +114,29 @@ News
        to HIDRAW_open1(), HIDRAW_open_id() to HIDRAW_open()2, and add
        HIDRAW_open3(), which accepts as USB device serial number string in
        addition to the vendor and product ID's.
+     * 18 December 2020 -- Added Ada packages Posix and HID.Posix. These
+       make it possible to build Ada Remote I/O Protocol client programs
+       on [15]FreeBSD and [16]OpenBSD. The HID.Posix package very nearly
+       works on Linux as well, except that the utterly braindead GNU
+       implementation of strerror_r() doesn't work properly: The buf and
+       buflen arguments are usually (but not always!) ignored. This is
+       indefensible, but the glibc maintainers don't seem inclined to fix
+       it. Seamless use of HID.Posix requires some operating system
+       hotplug magic. Some implementations of same are now in hotplug/.
+       Accordingly, udev/ has been moved to hotplug/linux/.
 
 Documentation
 
-   The user manual for libsimpleio is available at [15]UserManual.pdf.
+   The user manual for libsimpleio is available at [17]UserManual.pdf.
 
    The man pages specifying the libsimpleio API are available at
-   [16]libsimpleio.html.
+   [18]libsimpleio.html.
 
 Git Repository
 
    The source code is available at:
 
-   [17]https://github.com/pmunts/libsimpleio
+   [19]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -134,16 +144,16 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [18]Debian Linux are available at:
-   [19]http://repo.munts.com/debian10
+   Prebuilt packages for [20]Debian Linux are available at:
+   [21]http://repo.munts.com/debian10
 
-[20]Make With Ada Projects
+[22]Make With Ada Projects
 
-     * 2017 [21]Ada Embedded Linux Framework
-     * 2019 [22]Modbus RTU Framework for Ada (Prize Winner!)
+     * 2017 [23]Ada Embedded Linux Framework
+     * 2019 [24]Modbus RTU Framework for Ada (Prize Winner!)
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [23]phil@munts.net
+   Questions or comments to Philip Munts [25]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -164,12 +174,14 @@ References
   12. https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds
   13. https://golang.org/
   14. https://golang.org/doc/install/gccgo
-  15. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  16. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  17. https://github.com/pmunts/libsimpleio
-  18. http://www.debian.org/
-  19. http://repo.munts.com/debian10
-  20. https://www.makewithada.org/
-  21. https://www.makewithada.org/entry/ada_linux_sensor_framework
-  22. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
-  23. mailto:phil@munts.net
+  15. https://www.freebsd.org/
+  16. https://www.openbsd.org/
+  17. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  18. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  19. https://github.com/pmunts/libsimpleio
+  20. http://www.debian.org/
+  21. http://repo.munts.com/debian10
+  22. https://www.makewithada.org/
+  23. https://www.makewithada.org/entry/ada_linux_sensor_framework
+  24. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
+  25. mailto:phil@munts.net

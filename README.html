@@ -127,6 +127,18 @@ implementations. Modified <tt>libhdraw</tt> to rename <tt>HIDRAW_open()</tt> to
 <tt>HIDRAW_open1()</tt>, <tt>HIDRAW_open_id()</tt> to <tt>HIDRAW_open()2</tt>,
 and add <tt>HIDRAW_open3()</tt>, which accepts as USB device serial number
 string in addition to the vendor and product ID's.</li>
+<li>18 December 2020 -- Added Ada packages <tt>Posix</tt> and
+<tt>HID.Posix</tt>. These make it possible to build Ada Remote I/O Protocol
+client programs on <a href="https://www.freebsd.org">FreeBSD</a> and <a href=
+"https://www.openbsd.org">OpenBSD</a>. The <tt>HID.Posix</tt> package very
+nearly works on Linux as well, except that the <i><b>utterly braindead</b></i>
+GNU implementation of <tt>strerror_r()</tt> doesn't work properly: The
+<tt>buf</tt> and <tt>buflen</tt> arguments are usually (<i>but not always!</i>)
+ignored. This is indefensible, but the <tt>glibc</tt> maintainers don't seem
+inclined to fix it. Seamless use of <tt>HID.Posix</tt> requires some operating
+system hotplug magic. Some implementations of same are now in
+<tt>hotplug/</tt>. Accordingly, <tt>udev/</tt> has been moved to
+<tt>hotplug/linux/</tt>.</li>
 </ul>
 <h2>Documentation</h2>
 <p>The user manual for <b>libsimpleio</b> is available at <a href=
