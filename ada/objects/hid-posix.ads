@@ -1,4 +1,4 @@
--- 64-byte message services using the raw HID services from the OpenBSD kernel
+-- Portable 64-byte message services using services from the Posix package
 
 -- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 --
@@ -27,7 +27,7 @@
 
 WITH Message64;
 
-PACKAGE HID.OpenBSD IS
+PACKAGE HID.Posix IS
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH PRIVATE;
 
@@ -47,12 +47,6 @@ PACKAGE HID.OpenBSD IS
     serial    : String := "";
     timeoutms : Natural := 1000) RETURN Message64.Messenger;
 
-  -- Constructor using open file descriptor
-
-  FUNCTION Create
-   (fd        : Integer;
-    timeoutms : Natural := 1000) RETURN Message64.Messenger;
-
   -- Initializer using raw HID device node name
 
   PROCEDURE Initialize
@@ -67,13 +61,6 @@ PACKAGE HID.OpenBSD IS
     vid       : HID.Vendor;
     pid       : HID.Product;
     serial    : String := "";
-    timeoutms : Natural := 1000);
-
-  -- Initializer using open file descriptor
-
-  PROCEDURE Initialize
-   (Self      : IN OUT MessengerSubclass;
-    fd        : Integer;
     timeoutms : Natural := 1000);
 
   -- Destructor
@@ -100,9 +87,10 @@ PRIVATE
 
   TYPE MessengerSubclass IS NEW Message64.MessengerInterface WITH RECORD
     fd        : Integer := Integer'First;
-    timeoutms : Natural := 0;
+    timeoutms : Integer := Integer'First;
   END RECORD;
 
-  Destroyed : CONSTANT MessengerSubclass := MessengerSubclass'(Integer'First, 0);
+  Destroyed : CONSTANT MessengerSubclass :=
+    MessengerSubclass'(Integer'First, Integer'First);
 
-END HID.OpenBSD;
+END HID.Posix;

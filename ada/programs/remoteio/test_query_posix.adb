@@ -23,9 +23,9 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH RemoteIO.Client.OpenBSD;
+WITH RemoteIO.Client.Posix;
 
-PROCEDURE test_query_openbsd IS
+PROCEDURE test_query_posix IS
 
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
@@ -37,7 +37,7 @@ BEGIN
 
   -- Create the remote I/O device
 
-  remdev := RemoteIO.Client.OpenBSD.Create;
+  remdev := RemoteIO.Client.Posix.Create;
 
   -- Query the firmware version
 
@@ -165,4 +165,4 @@ BEGIN
       New_Line;
     END IF;
   END IF;
-END test_query_openbsd;
+END test_query_posix;

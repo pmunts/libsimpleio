@@ -19,15 +19,15 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH HID.Munts;
-WITH HID.OpenBSD;
+WITH HID.Posix;
 
-PACKAGE RemoteIO.Client.OpenBSD IS
+PACKAGE RemoteIO.Client.Posix IS
 
   FUNCTION Create
    (vid     : HID.Vendor  := HID.Munts.VID;
     pid     : HID.Product := HID.Munts.PID;
     serial  : String := "";
     timeout : Natural := 1000) RETURN Device IS
-   (Create(HID.OpenBSD.Create(vid, pid, serial, timeout)));
+   (Create(HID.Posix.Create(vid, pid, serial, timeout)));
 
-END RemoteIO.Client.OpenBSD;
+END RemoteIO.Client.Posix;
