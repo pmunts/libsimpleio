@@ -22,6 +22,7 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,26 +36,45 @@
 #define PROGNAME	"usb-hid-hotplug-attach"
 #define DEVNAME		argv[1]
 
-typedef struct
-{
-  uint16_t VID;
-  uint16_t PID;
-} devitem_t;
+// Search the config file for a matching device ID
 
-devitem_t Devices[] =
+void SearchConfig(uint16_t VID, uint16_t PID)
 {
-  { 0x16D0, 0x0AFA },
-  { 0x0000, 0x0000 }
-};
+  FILE *cfg;
+  char devid[32];
+  char inbuf[256];
 
-// TODO: Populate the device table from a file
+  // Open the configuration file
+
+  cfg = fopen("/etc/hidraw.conf", "rt");
+
+  if (cfg == NULL)
+  {
+    syslog(LOG_ERR, "fopen() failed, %s", strerror(errno));
+    exit(0);
+  }
+
+  // Search for a matching entry in the configuration file
+
+  snprintf(devid, sizeof(devid)-1, "%04X:%04X", VID, PID);
+
+  while (fgets(inbuf, sizeof(inbuf)-1, cfg) != NULL)
+    if (!strncasecmp(devid, inbuf, 9))
+    {
+      fclose(cfg);
+      return;
+    }
+
+  // Nothing found
+
+  exit(0);
+}
 
 int main(int argc, char **argv)
 {
   char devname[MAXPATHLEN];
   int fd;
   struct usb_device_info devinfo;
-  devitem_t *devitem;
   char linkname[MAXPATHLEN];
 
   openlog(PROGNAME, LOG_PERROR|LOG_PID, LOG_LOCAL0);
@@ -68,7 +88,7 @@ int main(int argc, char **argv)
   snprintf(devname, sizeof(devname) - 1, "/dev/%s", DEVNAME);
 
   // Try to create a device node (just in case)
-  
+
   mknod(devname, S_IFCHR | 0600, makedev(62, atoi(DEVNAME + 4)));
 
   // Open the candidate raw HID device
@@ -77,7 +97,7 @@ int main(int argc, char **argv)
 
   if (fd < 0)
   {
-    syslog(LOG_ERR, "open() for %s failed, %s", devname, strerror(errno));
+    syslog(LOG_ERR, "open() failed, %s", strerror(errno));
     exit(0);
   }
 
@@ -91,19 +111,11 @@ int main(int argc, char **argv)
 
   close(fd);
 
-  // Search our device table to see if this is a device we are interested in
+  // Search the configuration file for a matching device entry
 
-  for (devitem = Devices;; devitem++)
-  {
-    if ((devitem->VID == 0) && (devitem->PID == 0))
-      exit(0);
+  SearchConfig(devinfo.udi_vendorNo, devinfo.udi_productNo);
 
-    if ((devinfo.udi_vendorNo  == devitem->VID) &&
-        (devinfo.udi_productNo == devitem->PID))
-      break;
-  }
-
-  // Relax permissions
+  // Relax permissions of the raw HID device
 
   if (chmod(devname, 0660) < 0)
   {
@@ -111,7 +123,7 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-  // Create some useful symbolic links
+  // Create some useful symbolic links to the raw HID device
 
   snprintf(linkname, sizeof(linkname) - 1, "/dev/hidraw-%04x:%04x",
     devinfo.udi_vendorNo, devinfo.udi_productNo);

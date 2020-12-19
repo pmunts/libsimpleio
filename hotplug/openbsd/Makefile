@@ -29,9 +29,10 @@ default: $(PROGRAMS)
 # Install the hotplug scripts and associated helper programs
 
 install: $(PROGRAMS)
-	install -csm 0555 $(PROGRAMS)	/usr/local/libexec
+	install -cm  0444 hidraw.conf	/etc
 	install -cm  0555 attach	/etc/hotplug
 	install -cm  0555 detach	/etc/hotplug
+	install -csm 0555 $(PROGRAMS)	/usr/local/libexec
 
 # Remove working files
 
