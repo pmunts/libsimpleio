@@ -103,7 +103,8 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
 ifeq ($(BOARDNAME),)
-	cp -R -P -p hotplug			$(DESTDIR)/share/libsimpleio
+	mkdir -p				$(DESTDIR)/share/libsimpleio/udev
+	cp -P -p hotplug/linux/*		$(DESTDIR)/share/libsimpleio/udev
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p win				$(DESTDIR)/share/libsimpleio
 endif
