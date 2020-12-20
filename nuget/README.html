@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
+<title></title>
+</head>
+<body>
+<h1>NuGet Local Package Feed</h1>
+<p>Here is a local snapshot of the <a href="https://www.nuget.org">NuGet</a>
+packages necessary to build <a href="https://dotnet.microsoft.com">.Net</a>
+applications using the <b>Linux Simple I/O Library</b> or the <b>Remote I/O
+Protocol Library</b> without Internet access.</p>
+<p>In order to use this local package feed, you will need to manually add an
+entry to the <b><tt>packageSources</tt></b> block in the file
+<b><tt>NuGet.Config</tt></b> (found at
+<b><tt>$HOME/.config/NuGet/NuGet.Config</tt></b> on Linux or
+<b><tt>%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\NuGet\NuGet.Config</tt></b> on
+Windows). You should also comment out the entry for <b><tt>nuget.org</tt></b>,
+especially if you need to build .Net applications offline from the
+Internet.</p>
+<h2>Windows Example NuGet.Config:</h2>
+<pre>
+...
+  &lt;packageSources&gt;
+    &lt;!-- &lt;add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /&gt; --&gt;
+    &lt;add key="libsimpleio local feed" value="C:\Users\fred\libsimpleio\nuget\" /&gt;
+  &lt;/packageSources&gt;
+...
+</pre>
+<h2>Linux Example NuGet.Config:</h2>
+<pre>
+...
+  &lt;packageSources&gt;
+    &lt;!-- &lt;add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /&gt; --&gt;
+    &lt;add key="libsimpleio local feed" value="/usr/local/share/libsimpleio/nuget/" /&gt;
+  &lt;/packageSources&gt;
+...
+</pre>
+<hr>
+Questions or comments to Philip Munts <a href=
+"mailto:phil@munts.net">phil@munts.net</a>
+<p>I am available for custom system development (hardware and software) of
+products using ARM Linux or other microcomputers.</p>
+</body>
+</html>
