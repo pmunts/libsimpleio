@@ -28,6 +28,7 @@
 #include <syslog.h>
 #include <unistd.h>
 #include <sys/param.h>
+#include <sys/stat.h>
 
 #define PROGNAME	"usb-hid-hotplug-detach"
 #define DEVNAME		argv[1]
@@ -36,6 +37,7 @@ int main(int argc, char **argv)
 {
   DIR *dirp;
   struct dirent *dire;
+  char devname[MAXPATHLEN];
   char linkname[MAXPATHLEN];
   char linktarget[MAXPATHLEN];
 
@@ -46,6 +48,8 @@ int main(int argc, char **argv)
   if (argc != 2) exit(0);
   if (!strncmp(DEVNAME, "uhidev", 6)) exit(0);
   if (strncmp(DEVNAME, "uhid", 4)) exit(0);
+
+  snprintf(devname, sizeof(devname)-1, "/dev/%s", DEVNAME);
 
   dirp = opendir("/dev");
 
@@ -71,9 +75,13 @@ int main(int argc, char **argv)
       readlink(linkname, linktarget, sizeof(linktarget)-1);
 
       if (!strcmp(linktarget, DEVNAME))
+      {
 	if (unlink(linkname))
           syslog(LOG_ERR, "unlink() for %s failed, %s", linkname,
 	    strerror(errno));
+
+	chmod(devname, 0600);
+      }
     }
 
     dire = readdir(dirp);
