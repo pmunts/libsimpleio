@@ -106,7 +106,6 @@ ifeq ($(BOARDNAME),)
 	mkdir -p				$(DESTDIR)/share/libsimpleio/udev
 	cp -P -p hotplug/linux/*		$(DESTDIR)/share/libsimpleio/udev
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p win				$(DESTDIR)/share/libsimpleio
 endif
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc/README
@@ -117,7 +116,7 @@ endif
 # Install symlinks for the udev rules
 
 install_udev_rules:
-	cd $(UDEVRULESDIR) && for R in /usr/local/share/libsimpleio/hotplug/linux/*.rules ; do ln -s $$R ; done
+	cd $(UDEVRULESDIR) && for R in /usr/local/share/libsimpleio/udev/*.rules ; do ln -s $$R ; done
 
 # Create Debian package file
 
