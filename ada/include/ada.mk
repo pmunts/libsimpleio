@@ -43,23 +43,29 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 # Definitions for FreeBSD
 
 ifeq ($(shell uname), FreeBSD)
-GNAT		?= /usr/local/gcc6-aux
-GNATSTRIP	?= strip
-GPRBUILD	?= no
+GNAT		:= /usr/local/gcc6-aux
+GNATSTRIP	:= strip
+GPRBUILD	:= no
 endif
 
 # Definitions for OpenBSD
 
 ifeq ($(shell uname), OpenBSD)
-GPRBUILD	?= no
+GPRBUILD	:= no
 endif
 
 # Definitions for Microsoft Windows
 
 ifeq ($(OS), Windows_NT)
 EXESUFFIX	= .exe
+ifeq ($(WINARCH), cygwin)
+GNAT		:=
+GPRBUILD	:= no
+LIBSIMPLEIO	:= $(shell cygpath $(LIBSIMPLEIO))
+else
 WINARCH		?= win64
 ADA_LDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
+endif
 endif
 
 # Definitions for MacOS X
