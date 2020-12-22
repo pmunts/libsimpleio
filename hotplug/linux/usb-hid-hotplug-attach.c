@@ -77,9 +77,12 @@ void SearchConfig(uint16_t VID, uint16_t PID)
 int main(int argc, char **argv)
 {
   char devname[MAXPATHLEN];
-  int fd;
+  int devfd;
   struct hidraw_devinfo devinfo;
   char linkname[MAXPATHLEN];
+  char serialpath[MAXPATHLEN];
+  int serialfd;
+  char devserial[256];
 
   openlog(PROGNAME, LOG_PERROR|LOG_PID, LOG_LOCAL0);
 
@@ -90,25 +93,25 @@ int main(int argc, char **argv)
 
   snprintf(devname, sizeof(devname) - 1, "/dev/%s", DEVNAME);
 
-  // Open the candidate raw HID device
+  // Open the raw HID device
 
-  fd = open(devname, O_RDONLY);
+  devfd = open(devname, O_RDONLY);
 
-  if (fd < 0)
+  if (devfd < 0)
   {
     syslog(LOG_ERR, "open() failed, %s", strerror(errno));
     exit(0);
   }
 
-  // Fetch the USB device information
+  // Fetch the USB device information for the raw HID device
 
-  if (ioctl(fd, HIDIOCGRAWINFO, &devinfo) < 0)
+  if (ioctl(devfd, HIDIOCGRAWINFO, &devinfo) < 0)
   {
     syslog(LOG_ERR, "ioctl() failed, %s", strerror(errno));
     exit(0);
   }
 
-  close(fd);
+  close(devfd);
 
   // Search the configuration file for a matching device entry
 
@@ -138,7 +141,7 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-  // Create some useful symbolic links to the raw HID device
+  // Create a useful symbolic link to the raw HID device
 
   snprintf(linkname, sizeof(linkname) - 1, "/dev/hidraw-%04x:%04x",
     devinfo.vendor, devinfo.product);
@@ -151,11 +154,34 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-#if 0
-  if (strlen(devinfo.udi_serial) == 0) exit(0);
+  // Fetch the serial number for the raw HID device
+
+  snprintf(serialpath, sizeof(serialpath),
+    "/sys/class/hidraw/%s/../../../../serial", DEVNAME);
+
+  serialfd = open(serialpath, O_RDONLY);
+
+  if (serialfd < 0)
+    exit(0);
+
+  memset(devserial, 0, sizeof(0));
+  read(serialfd, devserial, sizeof(devserial)-1);
+  close(serialfd);
+
+  // Check whether we found a serial number
+
+  if (strlen(devserial) == 0)
+    exit(0);
+
+  // Remove trailing LF, if any
+
+  if (devserial[strlen(devserial)-1] == 10)
+    devserial[strlen(devserial)-1] = 0;
+
+  // Create another useful symbolic link to the raw HID device
 
   snprintf(linkname, sizeof(linkname) - 1, "/dev/hidraw-%04x:%04x-%s",
-    devinfo.vendor, devinfo.product, devinfo.udi_serial);
+    devinfo.vendor, devinfo.product, devserial);
 
   unlink(linkname);
 
@@ -164,5 +190,4 @@ int main(int argc, char **argv)
     syslog(LOG_ERR, "symlink() failed, %s", strerror(errno));
     exit(0);
   }
-#endif
 }
