@@ -139,6 +139,8 @@ else
 # Cross-compiled package for MuntsOS embedded Linux
 	install -cm 0755 postinst.muntsos	$(PKGDIR)/DEBIAN/postinst
 	install -cm 0755 postrm.muntsos		$(PKGDIR)/DEBIAN/postrm
+	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/postinst
+	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/postrm
 	$(MAKE) install DESTDIR=$(PKGDIR)$(GCCSYSROOT)/usr
 endif
 
