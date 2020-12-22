@@ -52,7 +52,7 @@ cxx_mk_default: default
 # Remove working files
 
 cxx_mk_clean:
-	rm -rf *.a *.o
+	rm -rf *.a *.o *.core
 
 cxx_mk_reallyclean: cxx_mk_clean
 
