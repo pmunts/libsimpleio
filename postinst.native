@@ -10,4 +10,6 @@ if [ -e ${MULTIARCHLIBDIR}/libhidapi-hidraw.so ]; then
   ln -s -f ${MULTIARCHLIBDIR}/libhidapi-hidraw.so  /usr/local/lib/libhidapi.so
 fi
 
+ln -s -f ../share/libsimpleio/include /usr/local/include/libsimpleio
+
 ldconfig

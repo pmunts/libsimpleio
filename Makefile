@@ -88,7 +88,6 @@ install: libsimpleio.a libsimpleio.so
 	mkdir -p				$(DESTDIR)/include
 	mkdir -p				$(DESTDIR)/lib
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
-	ln -s ../share/libsimpleio/include	$(DESTDIR)/include/libsimpleio
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
@@ -119,6 +118,7 @@ endif
 	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc/README
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 c/*.h			$(DESTDIR)/share/libsimpleio/include
+	rm					$(DESTDIR)/share/libsimpleio/include/specfile.template
 
 # Create Debian package file
 
@@ -136,6 +136,8 @@ ifeq ($(BOARDNAME),)
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local ETCDIR=$(PKGDIR)/etc
 else
 # Cross-compiled package for MuntsOS embedded Linux
+	install -cm 0755 postinst.muntsos	$(PKGDIR)/DEBIAN/postinst
+	install -cm 0755 postrm.muntsos		$(PKGDIR)/DEBIAN/postrm
 	$(MAKE) install DESTDIR=$(PKGDIR)$(GCCSYSROOT)/usr
 endif
 

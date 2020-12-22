@@ -11,4 +11,6 @@ if [ -e ${MULTIARCHLIBDIR}/libhidapi-hidraw.so -a -h /usr/local/lib/libhidapi.so
   rm -f /usr/local/lib/libhidapi-hidraw.so.0
 fi
 
+rm -f /usr/local/include/libsimpleio
+
 ldconfig
