@@ -2,11 +2,6 @@
 
 MULTIARCHLIBDIR=/usr/lib/`gcc -dumpmachine`
 
-rm /usr/local/include/libsimpleio
-rm /etc/udev/rules.d/60-libsimpleio-gpio.rules
-rm /etc/udev/rules.d/60-libsimpleio-hid.rules
-rm /etc/udev/rules.d/60-libsimpleio-pwm.rules
-
 if [ -e ${MULTIARCHLIBDIR}/libhidapi-hidraw.a -a -h /usr/local/lib/libhidapi.a ]; then
   rm -f /usr/local/lib/libhidapi.a
 fi

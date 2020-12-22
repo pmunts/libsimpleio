@@ -2,8 +2,6 @@
 
 MULTIARCHLIBDIR=/usr/lib/`gcc -dumpmachine`
 
-ln -s -f /usr/local/share/libsimpleio/include /usr/local/include/libsimpleio
-
 if [ -e ${MULTIARCHLIBDIR}/libhidapi-hidraw.a ]; then
   ln -s -f ${MULTIARCHLIBDIR}/libhidapi-hidraw.a  /usr/local/lib/libhidapi.a
 fi
@@ -11,8 +9,5 @@ fi
 if [ -e ${MULTIARCHLIBDIR}/libhidapi-hidraw.so ]; then
   ln -s -f ${MULTIARCHLIBDIR}/libhidapi-hidraw.so  /usr/local/lib/libhidapi.so
 fi
-
-cd /etc/udev/rules.d
-for L in /usr/local/share/libsimpleio/udev/*.rules ; do ln -s -f $L ; done
 
 ldconfig

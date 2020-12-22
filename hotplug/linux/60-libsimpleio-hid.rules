@@ -20,7 +20,5 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0afa", MODE="660", GROUP="plugdev", SYMLINK+="hidraw-$attr{idVendor}:$attr{idProduct}"
-ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0afa", MODE="660", GROUP="plugdev", SYMLINK+="hidraw-$attr{idVendor}:$attr{idProduct}-$attr{serial}"
-ACTION=="remove", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0afa", RUN+="/bin/sh -c '/bin/rm /dev/hidraw-$attr{idVendor}:$attr{idProduct}'"
-ACTION=="remove", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0afa", RUN+="/bin/sh -c '/bin/rm /dev/hidraw-$attr{idVendor}:$attr{idProduct}-$attr{serial}'"
+ACTION=="add",    SUBSYSTEMS=="usb", RUN+="/usr/local/libexec/usb-hid-hotplug-attach $name"
+ACTION=="remove", SUBSYSTEMS=="usb", RUN+="/usr/local/libexec/usb-hid-hotplug-detach $name"
