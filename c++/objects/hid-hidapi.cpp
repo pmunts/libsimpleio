@@ -29,6 +29,10 @@
 #include <exception-raisers.h>
 #include <hid-hidapi.h>
 
+#ifdef __OpenBSD__
+#define hid_init() hidapi_hid_init()
+#endif
+
 using namespace HID::hidapi;
 
 // Constructors
