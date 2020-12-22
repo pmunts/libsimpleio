@@ -130,6 +130,7 @@ $(PKGDIR):
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
 ifeq ($(BOARDNAME),)
 # Native package for Debian Linux et al
+	echo "/etc/hidraw.conf" >>		$(PKGDIR)/DEBIAN/conffiles
 	echo "Depends: libhidapi-dev, libusb-1.0-0-dev" >> $(PKGDIR)/DEBIAN/control
 	install -cm 0755 postinst.native	$(PKGDIR)/DEBIAN/postinst
 	install -cm 0755 postrm.native		$(PKGDIR)/DEBIAN/postrm
