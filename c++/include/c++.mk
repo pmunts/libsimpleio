@@ -24,8 +24,17 @@
 
 .SECONDARY:
 
-CXX	 	= $(CROSS_COMPILE)g++
-STRIP		= $(CROSS_COMPILE)strip
+ifeq ($(BOARDNAME),)
+ifeq ($(shell uname), OpenBSD)
+# Special goop for OpenBSD native applications
+CXX		:= eg++
+STRIP		:= strip
+CXXFLAGS	+= -I/usr/local/include
+endif
+endif
+
+CXX	 	?= $(CROSS_COMPILE)g++
+STRIP		?= $(CROSS_COMPILE)strip
 
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
 
