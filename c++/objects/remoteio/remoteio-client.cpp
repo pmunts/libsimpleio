@@ -33,8 +33,12 @@
 #include <hid-hidapi.h>
 #elif defined(HID_USE_LIBSIMPLEIO)
 #include <hid-libsimpleio.h>
-#else
+#elif defined(HID_USE_LIBUSB)
 #include <hid-libusb.h>
+#elif defined(HID_USE_POSIX)
+#include <hid-posix.h>
+#else
+#error Must define one of HID_USE_HIDAPI, HID_USE_LIBSIMPLEIO, HID_USE_LIBUSB or HID_USE_POSIX.
 #endif
 
 #include <hid-munts.h>
@@ -50,8 +54,10 @@ Device_Class::Device_Class(uint16_t VID, uint16_t PID, const char *serial,
   this->msg = new HID::hidapi::Messenger_Class(VID, PID, serial, timeoutms);
 #elif defined(HID_USE_LIBSIMPLEIO)
   this->msg = new libsimpleio::HID::Messenger_Class(VID, PID, serial, timeoutms);
-#else
+#elif defined(HID_USE_LIBUSB)
   this->msg = new HID::libusb::Messenger_Class(VID, PID, serial, timeoutms);
+#elif defined(HID_USE_POSIX)
+  this->msg = new HID::Posix::Messenger_Class(VID, PID, serial, timeoutms);
 #endif
 
   this->num = 0;

@@ -39,6 +39,13 @@ CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/remoteio/*.cpp
 
 LDFLAGS		+= -L. -lremoteio++
 
+ifeq ($(BOARDNAME),)
+ifeq ($(shell uname), OpenBSD)
+# Special goop for OpenBSD native applications
+HID_USE_POSIX	?= yes
+endif
+endif
+
 # Select which USB raw HID library to use
 
 ifeq ($(HID_USE_HIDAPI), yes)
@@ -49,7 +56,13 @@ CXXFLAGS	+= -DHID_USE_LIBSIMPLEIO
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/simpleio
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/hid-libsimpleio.cpp
 LDFLAGS		+= -lsimpleio
+else ifeq ($(HID_USE_LIBUSB), yes)
+CXXFLAGS	+= -DHID_USE_LIBUSB
+LDFLAGS		+= -lusb-1.0
+else ifeq ($(HID_USE_POSIX), yes)
+CXXFLAGS	+= -DHID_USE_POSIX
 else
+CXXFLAGS	+= -DHID_USE_LIBUSB
 LDFLAGS		+= -lusb-1.0
 endif
 
