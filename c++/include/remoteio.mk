@@ -39,16 +39,16 @@ CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/remoteio/*.cpp
 
 LDFLAGS		+= -L. -lremoteio++
 
+# Different targets need different HID implementations
+
 ifneq ($(BOARDNAME),)
 # Cross-compile for MuntsOS
 HID_USE_LIBSIMPLEIO ?= yes
 else
 # Native compile for Unix
-
 ifeq ($(shell uname), Linux)
 HID_USE_LIBSIMPLEIO ?= yes
 endif
-
 ifeq ($(shell uname), OpenBSD)
 HID_USE_POSIX	?= yes
 endif
