@@ -139,6 +139,13 @@ inclined to fix it. Seamless use of <tt>HID.Posix</tt> requires some operating
 system hotplug magic. Some implementations of same are now in
 <tt>hotplug/</tt>. Accordingly, <tt>udev/</tt> has been moved to
 <tt>hotplug/linux/</tt>.</li>
+<li>22 December 2020 -- Reworked the Linux hotplug scheme for raw HID devices
+again. Now it reuses code from the OpenBSD hotplug scheme. This allows
+selecting devices you want to create symbolic links for in
+<tt>/etc/hidraw.conf</tt>, just like MuntsOS, FreeBSD, and OpenBSD.
+<tt>udev</tt> rules are now installed directly to <tt>/etc/udev/rules.d/</tt>
+and helper programs and scripts are installed directly to
+<tt>/usr/local/libexec/</tt>.</li>
 </ul>
 <h2>Documentation</h2>
 <p>The user manual for <b>libsimpleio</b> is available at <a href=
