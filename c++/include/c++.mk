@@ -35,6 +35,8 @@ CXX		:= eg++
 CXXFLAGS	+= -I/usr/local/include
 STRIP		:= strip
 endif
+CXX		?= g++
+STRIP		?= strip
 endif
 
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
