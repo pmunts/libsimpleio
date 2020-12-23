@@ -31,13 +31,11 @@ CXXFLAGS	+= -I$(LIBSIMPLEIO)/c
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/remoteio
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/simpleio
 
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/remoteio/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/*.cpp
 
 LDFLAGS		+= -L. -l$(LIBNAME) -lsimpleio
