@@ -26,6 +26,7 @@
 #include <cstring>
 #include <exception-raisers.h>
 #include <fcntl.h>
+#include <poll.h>
 #include <unistd.h>
 
 #include <hid-posix.h>
@@ -74,7 +75,7 @@ void Messenger_Class::Send(Interfaces::Message64::Message cmd)
   ssize_t count = write(this->fd, cmd->payload, Interfaces::Message64::Size);
 
   if (count < 0)
-    THROW_MSG_ERR("HIDRAW_send() failed", errno);
+    THROW_MSG_ERR("write() failed", errno);
 
   if (count != Interfaces::Message64::Size)
     THROW_MSG("Returned byte count is invalid");
@@ -82,10 +83,22 @@ void Messenger_Class::Send(Interfaces::Message64::Message cmd)
 
 void Messenger_Class::Receive(Interfaces::Message64::Message cmd)
 {
+  if (this->timeout > 0)
+  {
+    struct pollfd fds[1] = { this->fd, POLLIN, 0 };
+    int status = poll(fds, 1, this->timeout);
+
+    if (status < 0)
+      THROW_MSG_ERR("poll() failed", errno);
+
+    if (status == 0)
+      THROW_MSG_ERR("poll() timed out", EAGAIN);
+  }
+
   ssize_t count = read(this->fd, cmd->payload, Interfaces::Message64::Size);
 
   if (count < 0)
-    THROW_MSG_ERR("HIDRAW_receive() failed", errno);
+    THROW_MSG_ERR("read() failed", errno);
 
   if (count != Interfaces::Message64::Size)
     THROW_MSG("Returned byte count is invalid");
