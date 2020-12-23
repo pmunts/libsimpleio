@@ -24,17 +24,18 @@
 
 .SECONDARY:
 
-ifeq ($(BOARDNAME),)
+ifneq ($(BOARDNAME),)
+# Cross-compile for MuntsOS
+CXX	 	:= $(CROSS_COMPILE)g++
+STRIP		:= $(CROSS_COMPILE)strip
+else
+# Native compile for Unix
 ifeq ($(shell uname), OpenBSD)
-# Special goop for OpenBSD native applications
 CXX		:= eg++
-STRIP		:= strip
 CXXFLAGS	+= -I/usr/local/include
+STRIP		:= strip
 endif
 endif
-
-CXX	 	?= $(CROSS_COMPILE)g++
-STRIP		?= $(CROSS_COMPILE)strip
 
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
 
