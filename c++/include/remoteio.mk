@@ -43,31 +43,32 @@ LDFLAGS		+= -L. -lremoteio++
 
 ifneq ($(BOARDNAME),)
 # Cross-compile for MuntsOS
-HID_USE_LIBSIMPLEIO ?= yes
+HID_USE		?= libsimpleio
 else
 # Native compile for Unix
 ifeq ($(shell uname), Linux)
-HID_USE_LIBSIMPLEIO ?= yes
+HID_USE		?= libsimpleio
 endif
 ifeq ($(shell uname), FreeBSD)
-HID_USE_POSIX	?= yes
+HID_USE		?= posix
 endif
 ifeq ($(shell uname), OpenBSD)
-HID_USE_POSIX	?= yes
+HID_USE		?= posix
 endif
+HID_USE		?= libusb
 endif
 
 # Select which USB raw HID library to use
 
-ifeq ($(HID_USE_HIDAPI), yes)
+ifeq ($(HID_USE), hidapi)
 CXXFLAGS	+= -DHID_USE_HIDAPI
 LDFLAGS		+= -lhidapi
-else ifeq ($(HID_USE_LIBSIMPLEIO), yes)
+else ifeq ($(HID_USE), libsimpleio)
 CXXFLAGS	+= -DHID_USE_LIBSIMPLEIO
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/simpleio
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/hid-libsimpleio.cpp
 LDFLAGS		+= -lsimpleio
-else ifeq ($(HID_USE_LIBUSB), yes)
+else ifeq ($(HID_USE), libusb)
 CXXFLAGS	+= -DHID_USE_LIBUSB
 ifeq ($(shell uname), FreeBSD)
 LDFLAGS		+= -lusb
@@ -76,13 +77,6 @@ LDFLAGS		+= -lusb-1.0
 endif
 else ifeq ($(HID_USE_POSIX), yes)
 CXXFLAGS	+= -DHID_USE_POSIX
-else
-CXXFLAGS	+= -DHID_USE_LIBUSB
-ifeq ($(shell uname), FreeBSD)
-LDFLAGS		+= -lusb
-else
-LDFLAGS		+= -lusb-1.0
-endif
 endif
 
 # Build the C++ class library
