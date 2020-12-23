@@ -49,6 +49,9 @@ else
 ifeq ($(shell uname), Linux)
 HID_USE_LIBSIMPLEIO ?= yes
 endif
+ifeq ($(shell uname), FreeBSD)
+HID_USE_POSIX	?= yes
+endif
 ifeq ($(shell uname), OpenBSD)
 HID_USE_POSIX	?= yes
 endif
@@ -66,12 +69,20 @@ CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/hid-libsimpleio.cpp
 LDFLAGS		+= -lsimpleio
 else ifeq ($(HID_USE_LIBUSB), yes)
 CXXFLAGS	+= -DHID_USE_LIBUSB
+ifeq ($(shell uname), FreeBSD)
+LDFLAGS		+= -lusb
+else
 LDFLAGS		+= -lusb-1.0
+endif
 else ifeq ($(HID_USE_POSIX), yes)
 CXXFLAGS	+= -DHID_USE_POSIX
 else
 CXXFLAGS	+= -DHID_USE_LIBUSB
+ifeq ($(shell uname), FreeBSD)
+LDFLAGS		+= -lusb
+else
 LDFLAGS		+= -lusb-1.0
+endif
 endif
 
 # Build the C++ class library

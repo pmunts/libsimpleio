@@ -30,6 +30,10 @@ CXX	 	:= $(CROSS_COMPILE)g++
 STRIP		:= $(CROSS_COMPILE)strip
 else
 # Native compile for Unix
+ifeq ($(shell uname), FreeBSD)
+CXX		:= g++10
+STRIP		:= strip
+endif
 ifeq ($(shell uname), OpenBSD)
 CXX		:= eg++
 CXXFLAGS	+= -I/usr/local/include
