@@ -47,7 +47,7 @@ HID_USE		?= libsimpleio
 else
 # Native compile for Unix
 ifeq ($(shell uname), Linux)
-HID_USE		?= libsimpleio
+HID_USE		?= posix
 endif
 ifeq ($(shell uname), FreeBSD)
 HID_USE		?= posix
