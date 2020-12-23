@@ -75,7 +75,7 @@ LDFLAGS		+= -lusb
 else
 LDFLAGS		+= -lusb-1.0
 endif
-else ifeq ($(HID_USE_POSIX), yes)
+else ifeq ($(HID_USE), posix)
 CXXFLAGS	+= -DHID_USE_POSIX
 endif
 
