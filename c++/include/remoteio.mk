@@ -46,6 +46,9 @@ ifneq ($(BOARDNAME),)
 HID_USE		?= libsimpleio
 else
 # Native compile for Unix
+ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+HID_USE		?= libusb
+endif
 ifeq ($(shell uname), Linux)
 HID_USE		?= posix
 endif
@@ -55,7 +58,6 @@ endif
 ifeq ($(shell uname), OpenBSD)
 HID_USE		?= posix
 endif
-HID_USE		?= libusb
 endif
 
 # Select which USB raw HID library to use
