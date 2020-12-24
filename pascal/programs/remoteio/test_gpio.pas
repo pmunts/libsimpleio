@@ -25,7 +25,7 @@ PROGRAM test_gpio;
 USES
   GPIO,
   RemoteIO_Client,
-  RemoteIO_Client_libusb,
+  RemoteIO_Client_hidapi,
   SysUtils;
 
 VAR
@@ -43,7 +43,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client_libusb.Create;
+  remdev := RemoteIO_Client_hidapi.Create;
   outp   := remdev.GPIO(chan, GPIO.Output);
 
   { Toggle the GPIO output }

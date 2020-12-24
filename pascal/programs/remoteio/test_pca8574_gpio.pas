@@ -28,7 +28,7 @@ USES
   PCA8574,
   PCA8574_GPIO,
   RemoteIO_Client,
-  RemoteIO_Client_libusb,
+  RemoteIO_Client_hidapi,
   SysUtils;
 
 VAR
@@ -44,7 +44,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client_libusb.Create;
+  remdev := RemoteIO_Client_hidapi.Create;
   bus    := remdev.I2C(0);
   dev    := PCA8574.Device.Create(bus, $38);
   pin    := PCA8574_GPIO.PinSubclass.Create(dev, 0, GPIO.Output);

@@ -25,7 +25,7 @@ PROGRAM test_gpio_button_led;
 USES
   GPIO,
   RemoteIO_Client,
-  RemoteIO_Client_libusb;
+  RemoteIO_Client_hidapi;
 
 VAR
   remdev   : RemoteIO_Client.Device;
@@ -40,7 +40,7 @@ BEGIN
 
   { Configure the button input and LED output }
 
-  remdev := RemoteIO_Client_libusb.Create;
+  remdev := RemoteIO_Client_hidapi.Create;
   button := remdev.GPIO(1, GPIO.Input);
   LED    := remdev.GPIO(0, GPIO.Output);
 

@@ -26,7 +26,7 @@ USES
   ADC,
   RemoteIO,
   RemoteIO_Client,
-  RemoteIO_Client_libusb,
+  RemoteIO_Client_hidapi,
   SysUtils;
 
 VAR
@@ -42,7 +42,7 @@ BEGIN
 
   { Create objects }
 
-  remdev := RemoteIO_Client_libusb.Create;
+  remdev := RemoteIO_Client_hidapi.Create;
   chans  := remdev.ADC_Inputs;
 
   SetLength(inputs, Length(chans));
