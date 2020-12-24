@@ -26,7 +26,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.Thermo3.RemoteIO;
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 WITH TMP102;
 WITH Temperature;
 
@@ -40,7 +40,7 @@ BEGIN
   Put_Line("Mikroelektronika Thermo3 Click Temperature Sensor Test");
   New_Line;
 
-  remdev := RemoteIO.Client.libusb.Create;
+  remdev := RemoteIO.Client.hidapi.Create;
   sensor := ClickBoard.Thermo3.RemoteIO.Create(remdev, socknum => 1);
 
   Put_Line("Press CONTROL-C to exit...");

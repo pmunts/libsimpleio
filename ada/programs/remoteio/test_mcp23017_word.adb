@@ -28,7 +28,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH I2C.RemoteIO;
 WITH MCP23017;
 WITH MCP23017.Word;
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 
 USE TYPE MCP23017.Word.Word;
 
@@ -47,7 +47,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.libusb.Create, 0,
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0,
     MCP23017.MaxSpeed);
 
   -- Create MCP23017 device object

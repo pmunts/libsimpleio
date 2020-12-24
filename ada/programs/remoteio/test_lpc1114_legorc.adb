@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH LEGORC;
 WITH Motor.LEGORC;
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 WITH RemoteIO.LPC1114.LEGORC;
 
 USE type Motor.LEGORC.Speed;
@@ -41,7 +41,7 @@ BEGIN
   Put_Line("LPC1114 I/O Processor LEGO Power Functions Remote Control Test");
   New_Line;
 
-  remdev := RemoteIO.Client.libusb.Create;
+  remdev := RemoteIO.Client.hidapi.Create;
   absdev := RemoteIO.LPC1114.Abstract_Device.Create(remdev, 0);
   ired   := RemoteIO.LPC1114.LEGORC.Create(absdev, RemoteIO.LPC1114.LPC1114_GPIO0);
 

@@ -23,7 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO;
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 WITH RemoteIO.LPC1114.GPIO;
 
 PROCEDURE test_lpc1114_led IS
@@ -37,7 +37,7 @@ BEGIN
   Put_Line("LPC1114 I/O Processor LED Test");
   New_Line;
 
-  remdev := RemoteIO.Client.libusb.Create;
+  remdev := RemoteIO.Client.hidapi.Create;
   absdev := RemoteIO.LPC1114.Abstract_Device.Create(remdev, 0);
   LED    := RemoteIO.LPC1114.GPIO.Create(absdev, RemoteIO.LPC1114.LPC1114_LED,
     RemoteIO.LPC1114.GPIO.Output_PushPull, False);

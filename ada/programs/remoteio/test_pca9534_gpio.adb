@@ -29,7 +29,7 @@ WITH GPIO;
 WITH I2C.RemoteIO;
 WITH PCA9534;
 WITH PCA9534.GPIO;
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_pca9534_gpio IS
 
@@ -44,7 +44,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.libusb.Create, 0,
+  bus := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0,
     PCA9534.MaxSpeed);
 
   -- Create PCA9534 device object

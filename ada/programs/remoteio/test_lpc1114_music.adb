@@ -23,7 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Interfaces;
 
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 WITH RemoteIO.LPC1114.Timers;
 
 USE TYPE Interfaces.Unsigned_32;
@@ -44,7 +44,7 @@ BEGIN
   Put_Line("LPC1114 I/O Processor Musical Scale Test");
   New_Line;
 
-  remdev := RemoteIO.Client.libusb.Create;
+  remdev := RemoteIO.Client.hidapi.Create;
   absdev := RemoteIO.LPC1114.Abstract_Device.Create(remdev, 0);
   CT32B1 := RemoteIO.LPC1114.Timers.Create(absdev,
     RemoteIO.LPC1114.LPC1114_CT32B1);

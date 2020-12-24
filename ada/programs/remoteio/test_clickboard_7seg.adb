@@ -23,7 +23,7 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.SevenSegment.RemoteIO;
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 
 USE TYPE ClickBoard.SevenSegment.Features;
 
@@ -37,7 +37,7 @@ BEGIN
   Put_Line("Mikroelektronika 7seg Click Test");
   New_Line;
 
-  remdev  := RemoteIO.Client.libusb.Create;
+  remdev  := RemoteIO.Client.hidapi.Create;
   display := ClickBoard.SevenSegment.RemoteIO.Create(remdev, 1);
 
   -- Count up

@@ -28,7 +28,7 @@ WITH PCA9685;
 WITH PCA9685.GPIO;
 WITH PCA9685.PWM;
 WITH PWM;
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 WITH Servo.PWM;
 
 PROCEDURE test_clickboard_pwm IS
@@ -45,7 +45,7 @@ BEGIN
 
   -- Create PCA9685 device object
 
-  remdev := RemoteIO.Client.libusb.Create;
+  remdev := RemoteIO.Client.hidapi.Create;
   device := ClickBoard.PWM_Click.RemoteIO.Create(remdev, socknum => 1,
     frequency => 50);
 

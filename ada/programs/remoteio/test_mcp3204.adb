@@ -26,7 +26,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Analog;
 WITH MCP3204;
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 WITH SPI.RemoteIO;
 
 PROCEDURE test_mcp3204 IS
@@ -40,7 +40,7 @@ BEGIN
   Put_Line("MCP3204 SPI A/D Converter Test");
   New_Line;
 
-  remdev := RemoteIO.Client.libusb.Create;
+  remdev := RemoteIO.Client.hidapi.Create;
 
   spidev := SPI.RemoteIO.Create(remdev, 0, MCP3204.SPI_Mode,
     MCP3204.SPI_WordSize, MCP3204.SPI_Frequency);

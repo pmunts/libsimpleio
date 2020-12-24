@@ -23,7 +23,7 @@
 WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 WITH SPI.RemoteIO;
 
 PROCEDURE test_spi IS
@@ -58,7 +58,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Client.libusb.Create;
+  remdev := RemoteIO.Client.hidapi.Create;
 
   -- Create the SPI slave device
 

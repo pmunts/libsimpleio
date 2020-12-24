@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH GPIO.RemoteIO;
-WITH RemoteIO.Client.libusb;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_gpio IS
 
@@ -40,7 +40,7 @@ BEGIN
 
   -- Open the remote I/O device
 
-  remdev := RemoteIO.Client.libusb.Create;
+  remdev := RemoteIO.Client.hidapi.Create;
 
   -- Query the available GPIO pins
 
