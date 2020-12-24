@@ -71,8 +71,7 @@ IMPLEMENTATION
 
   BEGIN
     IF (position < POSITION_MIN) OR (position > POSITION_MAX) THEN
-      RAISE Servo.Error.Create('ERROR: Invalid position parameter, ' +
-        StrError(EINVAL));
+      RAISE Servo.Error.Create('ERROR: Invalid position parameter');
 
     period := Round(1.0E9/frequency);
     ontime := Round(1500000.0 + 500000.0*position);
@@ -103,8 +102,7 @@ IMPLEMENTATION
 
   BEGIN
     IF (position < POSITION_MIN) OR (position > POSITION_MAX) THEN
-      RAISE Servo.Error.Create('ERROR: Invalid position parameter, ' +
-        StrError(EINVAL));
+      RAISE Servo.Error.Create('ERROR: Invalid position parameter');
 
     period := Round(1.0E9/frequency);
     ontime := Round(1500000.0 + 500000.0*position);

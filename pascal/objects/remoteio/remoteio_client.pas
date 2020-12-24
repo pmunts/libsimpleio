@@ -120,7 +120,7 @@ IMPLEMENTATION
     IF resp[1] <> cmd[1] THEN
       RAISE Error.Create('ERROR: Incorrect response message number');
 
-    IF resp[2] <> EOK THEN
+    IF resp[2] <> 0 THEN
       RAISE Error.Create('ERROR: Command failed, ' + StrError(resp[2]));
   END;
 

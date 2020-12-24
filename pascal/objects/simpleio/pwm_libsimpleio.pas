@@ -76,8 +76,7 @@ IMPLEMENTATION
 
   BEGIN
     IF (dutycycle < DUTYCYCLE_MIN) OR (dutycycle > DUTYCYCLE_MAX) THEN
-      RAISE PWM.Error.Create('ERROR: Invalid duty cycle parameter, ' +
-        StrError(EINVAL));
+      RAISE PWM.Error.Create('ERROR: Invalid duty cycle parameter');
 
     Self.period := Round(1.0E9/frequency);
     ontime := Round(dutycycle/DUTYCYCLE_MAX*period);
@@ -109,8 +108,7 @@ IMPLEMENTATION
 
   BEGIN
     IF (dutycycle < DUTYCYCLE_MIN) OR (dutycycle > DUTYCYCLE_MAX) THEN
-      RAISE PWM.Error.Create('ERROR: Invalid duty cycle parameter, ' +
-        StrError(EINVAL));
+      RAISE PWM.Error.Create('ERROR: Invalid duty cycle parameter');
 
     Self.period := Round(1.0E9/frequency);
     ontime := Round(dutycycle/DUTYCYCLE_MAX*period);
