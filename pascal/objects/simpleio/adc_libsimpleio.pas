@@ -50,7 +50,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     libADC;
 
   CONSTRUCTOR InputSubclass.Create
@@ -65,7 +65,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE ADC.Error.Create('ERROR: libADC.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     Self.numbits := resolution;
   END;
@@ -83,7 +83,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE ADC.Error.Create('ERROR: libADC.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     Self.numbits := resolution;
   END;
@@ -111,7 +111,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE ADC.Error.Create('ERROR: libADC.Read() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     sample := data;
   END;

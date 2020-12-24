@@ -54,7 +54,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     Message64;
 
   CONSTRUCTOR PinSubclass.Create
@@ -96,7 +96,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
   END;
 
   { GPIO read method }
@@ -117,7 +117,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
 
     Read := (resp[3 + Self.myindex] AND Self.mymask) <> 0;
   END;
@@ -143,7 +143,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
   END;
 
 END.

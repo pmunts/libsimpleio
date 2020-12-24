@@ -23,7 +23,7 @@
 PROGRAM test_command;
 
 USES
-  sysutils,
+  SysUtils,
   libLinux;
 
 VAR

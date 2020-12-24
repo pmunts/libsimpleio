@@ -49,7 +49,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     Message64;
 
   CONSTRUCTOR OutputSubclass.Create
@@ -73,7 +73,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
 
     Self.myres := resp[3];
   END;
@@ -98,7 +98,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
   END;
 
   FUNCTION OutputSubclass.resolution : Cardinal;

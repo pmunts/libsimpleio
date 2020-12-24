@@ -67,7 +67,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     Message64;
 
   CONSTRUCTOR DeviceSubclass.Create
@@ -102,7 +102,7 @@ IMPLEMENTATION
 
     IF respmsg[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(respmsg[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(respmsg[2]));
   END;
 
   { SPI read method }
@@ -182,7 +182,7 @@ IMPLEMENTATION
 
     IF respmsg[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(respmsg[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(respmsg[2]));
 
     IF resplen > 0 THEN
       FOR i := 0 TO resplen -1 DO

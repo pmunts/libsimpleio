@@ -23,8 +23,9 @@
 PROGRAM test_tcp4_client;
 
 USES
-  errno,
-  sysutils,
+  BaseUnix,
+  Errors,
+  SysUtils,
   libIPV4;
 
 CONST
@@ -58,7 +59,7 @@ BEGIN
   IP_Resolve(PChar(ParamStr(1)), addr, error);
   IF error <> 0 THEN
     BEGIN
-      Writeln('IP_Resolve() for ', ParamStr(1), ' failed, ', strerror(error));
+      Writeln('IP_Resolve() for ', ParamStr(1), ' failed, ', StrError(error));
       Halt(1);
     END;
 
@@ -67,7 +68,7 @@ BEGIN
   TCP_Connect(addr, StrToInt(ParamStr(2)), fd, error);
   IF error <> 0 THEN
     BEGIN
-      Writeln('TCP_Connect() to ', ParamStr(1), ' failed, ', strerror(error));
+      Writeln('TCP_Connect() to ', ParamStr(1), ' failed, ', StrError(error));
       Halt(1);
     END;
 
@@ -81,10 +82,10 @@ BEGIN
 
     CASE error OF
       0 {Success} : ;
-      ECONNRESET  : BREAK;
-      EPIPE       : BREAK;
+      ESysECONNRESET : BREAK;
+      ESysEPIPE      : BREAK;
     ELSE
-      Writeln('TCP_Send() failed, ', strerror(error));
+      Writeln('TCP_Send() failed, ', StrError(error));
       BREAK;
     END;
   UNTIL False;
@@ -92,7 +93,7 @@ BEGIN
   TCP_Close(fd, error);
   IF error <> 0 THEN
     BEGIN
-      Writeln('TCP_Close() failed, ', strerror(error));
+      Writeln('TCP_Close() failed, ', StrError(error));
       Halt(1);
     END;
 

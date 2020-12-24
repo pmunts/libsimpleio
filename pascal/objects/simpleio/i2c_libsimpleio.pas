@@ -57,7 +57,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     libI2C,
     libLinux;
 
@@ -73,7 +73,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE I2C.Error.Create('ERROR: libI2C.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { I2C_libsimpleio.BusSubclass destructor }
@@ -103,7 +103,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE I2C.Error.Create('ERROR: libI2C.Transaction() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { I2C write method }
@@ -121,7 +121,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE I2C.Error.Create('ERROR: libI2C.Transaction() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { I2C write/read transaction method }
@@ -147,19 +147,19 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE I2C.Error.Create('ERROR: libI2C.Transaction() failed, ' +
-            errno.strerror(error));
+            StrError(error));
 
         libLinux.usleep(delayus, error);
 
         IF error <> 0 THEN
           RAISE I2C.Error.Create('ERROR: libLiux.usleep() failed, ' +
-            errno.strerror(error));
+            StrError(error));
 
         libI2C.Transaction(Self.fd, addr, NIL, 0, @resp, resplen, error);
 
         IF error <> 0 THEN
           RAISE I2C.Error.Create('ERROR: libI2C.Transaction() failed, ' +
-            errno.strerror(error));
+            StrError(error));
       END
     ELSE
       BEGIN
@@ -167,7 +167,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE I2C.Error.Create('ERROR: libI2C.Transaction() failed, ' +
-            errno.strerror(error));
+            StrError(error));
       END;
   END;
 

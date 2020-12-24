@@ -23,8 +23,9 @@
 PROGRAM test_stream_sender;
 
 USES
-  errno,
-  sysutils,
+  BaseUnix,
+  Errors,
+  SysUtils,
   libStream,
   libIPV4;
 
@@ -50,7 +51,7 @@ BEGIN
   libIPV4.TCP_Connect(host, port, fd, error);
   IF error <> 0 THEN
     BEGIN
-      Writeln('ERROR: TCP_Connect() failed, ', strerror(error));
+      Writeln('ERROR: TCP_Connect() failed, ', StrError(error));
       Halt(1);
     END;
 
@@ -62,16 +63,16 @@ BEGIN
     libStream.Encode(BytePtr(@msg)+1, Length(msg), @frame, SizeOf(frame), framesize, error);
     IF error <> 0 THEN
       BEGIN
-        Writeln('ERROR: Encode() failed, ', strerror(error));
+        Writeln('ERROR: Encode() failed, ', StrError(error));
         Halt(1);
       END;
 
     libStream.Send(fd, @frame, framesize, count, error);
-    IF error = EPIPE THEN EXIT;
+    IF error = ESysEPIPE THEN EXIT;
 
     IF error <> 0 THEN
       BEGIN
-        Writeln('ERROR: Send() failed, ', strerror(error));
+        Writeln('ERROR: Send() failed, ', StrError(error));
         Halt(1);
       END;
   UNTIL msg = 'quit';
@@ -79,7 +80,7 @@ BEGIN
   libIPV4.TCP_Close(fd, error);
   IF error <> 0 THEN
     BEGIN
-      Writeln('TCP_Close() failed, ', strerror(error));
+      Writeln('TCP_Close() failed, ', StrError(error));
       Halt(1);
     END;
 END.

@@ -58,7 +58,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     libHIDRaw,
     libLinux;
 
@@ -77,7 +77,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Message64.Error.Create('ERROR: libHIDRaw.OpenID() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     Self.timeout := timeoutms;
   END;
@@ -109,7 +109,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Message64.Error.Create('ERROR: libHIDRaw.Send() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { Receive a Message64 message using libsimpleio raw HID transport }
@@ -133,14 +133,14 @@ IMPLEMENTATION
         libLinux.Poll(1, files, events, results, Self.timeout, error);
         IF error <> 0 THEN
           RAISE Message64.Error.Create('ERROR: liblinux.Poll() failed, ' +
-            errno.strerror(error));
+            StrError(error));
       END;
 
     libHIDRaw.Receive(Self.fd, @resp, Message64.Size, count, error);
 
     IF error <> 0 THEN
       RAISE Message64.Error.Create('ERROR: libHIDRaw.Send() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { Perform a Message64 command/response transaction }
@@ -165,7 +165,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Message64.Error.Create('ERROR: libHIDRaw.Name() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     Name := cname;
   END;
@@ -183,7 +183,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Message64.Error.Create('ERROR: libHIDRaw.GetInfo() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
 END.

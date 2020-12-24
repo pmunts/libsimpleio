@@ -69,7 +69,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     libGPIO;
 
   PROCEDURE ComputeFlags
@@ -128,7 +128,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE GPIO.Error.Create('ERROR: libGPIO.LineOpen() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     Self.inp := (dir = GPIO.Input);
     Self.int := (Edge <> None);
@@ -155,7 +155,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE GPIO.Error.Create('ERROR: libGPIO.LineOpen() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     Self.int := (edge <> None);
   END;
@@ -187,7 +187,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE GPIO.Error.Create('ERROR: libGPIO.LineEvent() failed, ' +
-            errno.strerror(error))
+            StrError(error))
       END
     ELSE
       BEGIN
@@ -195,7 +195,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE GPIO.Error.Create('ERROR: libGPIO.LineRead() failed, ' +
-            errno.strerror(error))
+            StrError(error))
       END;
 
     Read := Boolean(s);
@@ -216,7 +216,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE GPIO.Error.Create('ERROR: libGPIO.LineWrite() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
 END.

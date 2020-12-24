@@ -89,7 +89,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     RemoteIO_ADC,
     RemoteIO_DAC,
     RemoteIO_GPIO,
@@ -121,7 +121,7 @@ IMPLEMENTATION
       RAISE Error.Create('ERROR: Incorrect response message number');
 
     IF resp[2] <> EOK THEN
-      RAISE Error.Create('ERROR: Command failed, ' + strerror(resp[2]));
+      RAISE Error.Create('ERROR: Command failed, ' + StrError(resp[2]));
   END;
 
   { Fetch the Remote I/O Protocol device version string }
@@ -187,7 +187,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
 
     FOR i := 0 TO 127 DO
       IF resp[3 + i DIV 8] AND (1 SHL (7 - i MOD 8)) <> 0 THEN

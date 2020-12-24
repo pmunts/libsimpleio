@@ -47,7 +47,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     Message64;
 
   CONSTRUCTOR InputSubclass.Create
@@ -71,7 +71,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
 
     Self.myres := resp[3];
   END;
@@ -92,7 +92,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + errno.strerror(resp[2]));
+       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
 
     sample := Integer((resp[3] SHL 24) + (resp[4] SHL 16) + (resp[5] SHL 8) +
       resp[6]);

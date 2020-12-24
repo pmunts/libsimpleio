@@ -56,7 +56,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     libDAC;
 
   { DAC_libsimpleio.OutputSubclass constructor }
@@ -73,7 +73,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE DAC.Error.Create('ERROR: libDAC.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   CONSTRUCTOR OutputSubclass.Create
@@ -89,7 +89,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE DAC.Error.Create('ERROR: libDAC.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { DAC_libsimpleio.OutputSubclass destructor }
@@ -116,7 +116,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE DAC.Error.Create('ERROR: libDAC.Write() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { Method implementing DAC.Sample.resolution }

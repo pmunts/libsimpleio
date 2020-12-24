@@ -50,7 +50,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     libWatchdog;
 
   { Constructor }
@@ -66,7 +66,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Watchdog.Error.Create('ERROR: libWatchdog.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     IF timeout <> DefaultTimeout THEN
       BEGIN
@@ -74,7 +74,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE Watchdog.Error.Create('ERROR: libWatchdog.Open() failed, ' +
-            errno.strerror(error));
+            StrError(error));
       END;
   END;
 
@@ -103,7 +103,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Watchdog.Error.Create('ERROR: libWatchdog.GetTimeout() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     GetTimeout := timeout;
   END;
@@ -121,7 +121,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Watchdog.Error.Create('ERROR: libWatchdog.SetTimeout() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { Kick watchdog timer method }
@@ -136,7 +136,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Watchdog.Error.Create('ERROR: libWatchdog.Kick() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
 END.

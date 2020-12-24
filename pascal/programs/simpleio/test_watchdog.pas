@@ -23,7 +23,7 @@
 PROGRAM test_watchdog;
 
 USES
-  sysutils,
+  SysUtils,
   Watchdog,
   Watchdog_libsimpleio;
 

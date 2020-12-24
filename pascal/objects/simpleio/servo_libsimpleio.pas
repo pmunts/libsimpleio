@@ -54,7 +54,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     libPWM;
 
   { Servo_libsimpleio.OutputSubclass constructor }
@@ -72,7 +72,7 @@ IMPLEMENTATION
   BEGIN
     IF (position < POSITION_MIN) OR (position > POSITION_MAX) THEN
       RAISE Servo.Error.Create('ERROR: Invalid position parameter, ' +
-        errno.strerror(EINVAL));
+        StrError(EINVAL));
 
     period := Round(1.0E9/frequency);
     ontime := Round(1500000.0 + 500000.0*position);
@@ -81,13 +81,13 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Servo.Error.Create('ERROR: libPWM.Configure() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     libPWM.Open(desg.chip, desg.chan, Self.fd, error);
 
     IF error <> 0 THEN
       RAISE Servo.Error.Create('ERROR: libPWM.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   CONSTRUCTOR OutputSubclass.Create
@@ -104,7 +104,7 @@ IMPLEMENTATION
   BEGIN
     IF (position < POSITION_MIN) OR (position > POSITION_MAX) THEN
       RAISE Servo.Error.Create('ERROR: Invalid position parameter, ' +
-        errno.strerror(EINVAL));
+        StrError(EINVAL));
 
     period := Round(1.0E9/frequency);
     ontime := Round(1500000.0 + 500000.0*position);
@@ -113,13 +113,13 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Servo.Error.Create('ERROR: libPWM.Configure() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     libPWM.Open(chip, channel, Self.fd, error);
 
     IF error <> 0 THEN
       RAISE Servo.Error.Create('ERROR: libPWM.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { Servo_libsimpleio.OutputSubclass destructor }
@@ -149,7 +149,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE Servo.Error.Create('ERROR: libPWM.Write() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
 END.

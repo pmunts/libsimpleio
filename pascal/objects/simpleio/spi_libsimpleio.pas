@@ -78,7 +78,7 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    errno,
+    Errors,
     libGPIO,
     libSPI;
 
@@ -101,7 +101,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI.Error.Create('ERROR: libSPI.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     Self.fdcs := libSPI.SPI_CS_AUTO;
   END;
@@ -124,7 +124,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI.Error.Create('ERROR: libSPI.Open() failed, ' +
-        errno.strerror(error));
+        StrError(error));
 
     IF (cspin.chip = AUTOCHIPSELECT.chip) AND
        (cspin.chan = AUTOCHIPSELECT.chan) THEN
@@ -136,7 +136,7 @@ IMPLEMENTATION
 
         IF error <> 0 THEN
           RAISE SPI.Error.Create('ERROR: libSPI.LineOpen() failed, ' +
-            errno.strerror(error));
+            StrError(error));
       END;
   END;
 
@@ -167,7 +167,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI.Error.Create('ERROR: libSPI.Transaction() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { SPI write method }
@@ -184,7 +184,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI.Error.Create('ERROR: libSPI.Transaction() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
   { SPI write/read transaction method }
@@ -208,7 +208,7 @@ IMPLEMENTATION
 
     IF error <> 0 THEN
       RAISE SPI.Error.Create('ERROR: libSPI.Transaction() failed, ' +
-        errno.strerror(error));
+        StrError(error));
   END;
 
 END.
