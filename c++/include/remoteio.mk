@@ -47,7 +47,7 @@ HID_USE		?= libsimpleio
 else
 # Native compile for Unix
 ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-HID_USE		?= libusb
+HID_USE		?= hidapi
 endif
 ifeq ($(shell uname), Linux)
 HID_USE		?= posix
