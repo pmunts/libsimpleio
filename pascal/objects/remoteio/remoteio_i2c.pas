@@ -68,8 +68,8 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    Errors,
-    Message64;
+    Message64,
+    SysUtils;
 
   CONSTRUCTOR BusSubclass.Create
    (dev      : Device;
@@ -99,7 +99,7 @@ IMPLEMENTATION
 
     IF respmsg[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + StrError(respmsg[2]));
+       ('ERROR: Remote IO transaction failed, error=' + IntToStr(respmsg[2]));
   END;
 
   { I2C read method }
@@ -183,7 +183,7 @@ IMPLEMENTATION
 
     IF respmsg[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + StrError(respmsg[2]));
+       ('ERROR: Remote IO transaction failed, error=' + IntToStr(respmsg[2]));
 
     IF resplen > 0 THEN
       FOR i := 0 TO resplen -1 DO

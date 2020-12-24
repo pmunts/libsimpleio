@@ -48,8 +48,8 @@ INTERFACE
 IMPLEMENTATION
 
   USES
-    Errors,
-    Message64;
+    Message64,
+    SysUtils;
 
   CONSTRUCTOR OutputSubclass.Create
    (dev  : Device;
@@ -78,7 +78,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
+       ('ERROR: Remote IO transaction failed, error=' + IntToStr(resp[2]));
   END;
 
   PROCEDURE OutputSubclass.Write(dutycycle : Real);
@@ -104,7 +104,7 @@ IMPLEMENTATION
 
     IF resp[2] <> 0 THEN
       RAISE Error.Create
-       ('ERROR: Remote IO transaction failed, ' + StrError(resp[2]));
+       ('ERROR: Remote IO transaction failed, error=' + IntToStr(resp[2]));
   END;
 
 END.
