@@ -1,6 +1,6 @@
 -- Remote I/O Server Services using Message64 transport (e.g. raw HID)
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@
 WITH Ada.Exceptions;
 WITH Ada.Strings.Fixed;
 
+WITH Logging.libsimpleio;
 WITH Message64;
 WITH Messaging;
 
@@ -35,7 +36,6 @@ PACKAGE BODY RemoteIO.Server IS
     myname    : String(1 .. 80);
     messenger : Message64.Messenger;
     executor  : RemoteIO.Executive.Executor;
-    logger    : Logging.Logger;
     cmd       : Message64.Message;
     resp      : Message64.Message;
 
@@ -55,13 +55,9 @@ PACKAGE BODY RemoteIO.Server IS
       executor := exec;
     END SetExecutor;
 
-    ACCEPT SetLogger(log : Logging.Logger) DO
-      logger := log;
-    END SetLogger;
-
     -- Message loop follows
 
-    logger.Note(Ada.Strings.Fixed.Trim(myname, Ada.Strings.Right) &
+    Logging.libsimpleio.Note(Ada.Strings.Fixed.Trim(myname, Ada.Strings.Right) &
       " Server ready");
 
     LOOP
@@ -75,7 +71,7 @@ PACKAGE BODY RemoteIO.Server IS
           NULL;
 
         WHEN Error : OTHERS =>
-          logger.Error("Caught exception " &
+          Logging.libsimpleio.Error("Caught exception " &
             Ada.Exceptions.Exception_Name(Error) & ": " &
             Ada.Exceptions.Exception_Message(error));
       END;
@@ -85,8 +81,7 @@ PACKAGE BODY RemoteIO.Server IS
   FUNCTION Create
    (name      : String;
     messenger : Message64.Messenger;
-    executor  : RemoteIO.Executive.Executor;
-    logger    : Logging.Logger) RETURN Device IS
+    executor  : RemoteIO.Executive.Executor) RETURN Device IS
 
     dev : Device;
 
@@ -100,7 +95,6 @@ PACKAGE BODY RemoteIO.Server IS
     dev.MessageHandler.SetName(name);
     dev.MessageHandler.SetMessenger(messenger);
     dev.MessageHandler.SetExecutor(executor);
-    dev.MessageHandler.SetLogger(logger);
 
     RETURN dev;
   END Create;

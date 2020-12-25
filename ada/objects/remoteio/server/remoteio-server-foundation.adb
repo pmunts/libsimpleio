@@ -1,6 +1,6 @@
 -- Foundation for a Remote I/O Server for UDP and USB Gadget Services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,6 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
 
   -- Persistent variables
 
-  log   : CONSTANT Logging.Logger := Logging.libsimpleio.Create;
   exec  : RemoteIO.Executive.Executor;
   comm  : RemoteIO.Common.Dispatcher;
   msgH  : Message64.Messenger;
@@ -66,14 +65,15 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
     status : Integer;
 
   BEGIN
-    logger.Note(title);
+    libLinux.OpenLog(title, liblinux.LOG_NDELAY + libLinux.LOG_PID,
+      libLinux.LOG_DAEMON, error);
 
     -- Switch to background execution
 
     libLinux.Detach(error);
 
     IF error /= 0 THEN
-      logger.Error("libLinux.Detach() failed", error);
+      Logging.libsimpleio.Error("libLinux.Detach() failed", error);
       RETURN;
     END IF;
 
@@ -84,11 +84,11 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
 
     -- Create an Executor instance
 
-    exec := RemoteIO.Executive.Create(logger);
+    exec := RemoteIO.Executive.Create;
 
     -- Create a common command dispatcher instance
 
-    comm := RemoteIO.Common.Create(logger, exec, vers, caps);
+    comm := RemoteIO.Common.Create(exec, vers, caps);
 
     -- USB Raw HID Gadget Server
 
@@ -96,13 +96,13 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
       libLinux.Open(Gadget_Device_HID & ASCII.NUL, fd, error);
 
       IF error /= 0 THEN
-        logger.Error("libLinux.Open() for " & Gadget_Device_HID & " failed",
-          error);
+        Logging.libsimpleio.Error("libLinux.Open() for " & Gadget_Device_HID &
+        " failed", error);
         RETURN;
       END IF;
 
       msgH  := Message64.Datagram.Create(fd);
-      servH := RemoteIO.Server.Create("USB Raw HID Gadget", msgH, exec, logger);
+      servH := RemoteIO.Server.Create("USB Raw HID Gadget", msgH, exec);
     END IF;
 
     -- USB Serial Port Gadget Server, using Stream Framing Protocol
@@ -111,32 +111,26 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
       libSerial.Open(Gadget_Device_Serial & ASCII.NUL, 115200, 0, 8, 1, fd, error);
 
       IF error /= 0 THEN
-        logger.Error("libSerial.Open() for " & Gadget_Device_Serial & " failed",
-          error);
+        Logging.libsimpleio.Error("libSerial.Open() for " &
+        Gadget_Device_Serial & " failed", error);
         RETURN;
       END IF;
 
       msgS  := Message64.Stream.Create(fd);
-      servS := RemoteIO.Server.Create("USB Serial Port Gadget", msgS, exec, logger);
+      servS := RemoteIO.Server.Create("USB Serial Port Gadget", msgS, exec);
     END IF;
 
     -- UDP Server
 
     IF EnableUDP THEN
       msgU  := Message64.UDP.Create_Server(port => 8087, timeoutms => 0);
-      servU := RemoteIO.Server.UDP.Create("UDP", msgU, exec, logger);
+      servU := RemoteIO.Server.UDP.Create("UDP", msgU, exec);
 
       IF IPTables THEN
         libLinux.Command("iptables -A INPUT -p udp -m conntrack --ctstate NEW --dport 8087 -j ACCEPT", status, error);
       END IF;
     END IF;
   END Start;
-
-  FUNCTION Logger RETURN Logging.Logger IS
-
-  BEGIN
-    RETURN log;
-  END Logger;
 
   FUNCTION Executor RETURN Remoteio.Executive.Executor IS
 

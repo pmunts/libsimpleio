@@ -1,6 +1,6 @@
 -- Remote I/O Server Command Executive Services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@
 WITH Ada.Exceptions;
 
 WITH errno;
+WITH Logging.libsimpleio;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 
@@ -33,11 +34,10 @@ PACKAGE BODY RemoteIO.Executive IS
 
   -- Constructor
 
-  FUNCTION Create
-   (logger : Logging.Logger) RETURN Executor IS
+  FUNCTION Create RETURN Executor IS
 
   BEGIN
-    RETURN NEW ExecutorClass'(logger, (OTHERS => NULL));
+    RETURN NEW ExecutorClass'(handlers => (OTHERS => NULL));
   END Create;
 
   -- Register a command handler
@@ -85,7 +85,7 @@ PACKAGE BODY RemoteIO.Executive IS
 
   EXCEPTION
     WHEN Error : OTHERS =>
-      Self.logger.Error("Caught exception " &
+      Logging.libsimpleio.Error("Caught exception " &
         Ada.Exceptions.Exception_Name(Error) & ": " &
         Ada.Exceptions.Exception_Message(error));
 

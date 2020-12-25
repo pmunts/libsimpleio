@@ -1,6 +1,6 @@
 -- Remote I/O Server Services using Message64 transport (e.g. raw HID)
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Logging;
 WITH Message64;
 WITH RemoteIO.Executive;
 
@@ -37,8 +36,7 @@ PACKAGE RemoteIO.Server IS
   FUNCTION Create
    (name      : String;
     messenger : Message64.Messenger;
-    executor  : RemoteIO.Executive.Executor;
-    logger    : Logging.Logger) RETURN Device;
+    executor  : RemoteIO.Executive.Executor) RETURN Device;
 
 PRIVATE
 
@@ -46,7 +44,6 @@ PRIVATE
     ENTRY SetName(name : String);
     ENTRY SetMessenger(msg : Message64.Messenger);
     ENTRY SetExecutor(exec : RemoteIO.Executive.Executor);
-    ENTRY SetLogger(log : Logging.Logger);
   END MessageHandlerTask;
 
   TYPE MessageHandlerAccess IS ACCESS MessageHandlerTask;

@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for common commands
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Logging.libsimpleio;
 WITH Message64;
 
 USE TYPE Message64.Byte;
@@ -27,8 +28,7 @@ USE TYPE Message64.Byte;
 PACKAGE BODY RemoteIO.Common IS
 
   FUNCTION Create
-   (logger       : Logging.Logger;
-    executor     : IN OUT RemoteIO.Executive.Executor;
+   (executor     : IN OUT RemoteIO.Executive.Executor;
     version      : RemoteIO.Server.ResponseString;
     capabilities : RemoteIO.Server.ResponseString)
     RETURN Dispatcher IS
@@ -36,7 +36,7 @@ PACKAGE BODY RemoteIO.Common IS
     Self : Dispatcher;
 
   BEGIN
-    Self := NEW DispatcherSubclass'(logger, version, capabilities);
+    Self := NEW DispatcherSubclass'(version, capabilities);
 
     executor.Register(LOOPBACK_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
     executor.Register(VERSION_REQUEST, RemoteIO.Dispatch.Dispatcher(Self));
@@ -81,7 +81,7 @@ PACKAGE BODY RemoteIO.Common IS
         END LOOP;
 
       WHEN OTHERS =>
-        Self.logger.Error("Unexpected message type: " &
+        Logging.libsimpleio.Error("Unexpected message type: " &
           MessageTypes'Image(msgtype));
     END CASE;
   END Dispatch;
