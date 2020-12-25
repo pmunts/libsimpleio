@@ -76,7 +76,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_ERR, "ERROR: " & message & ASCII.NUL, err);
+    libLinux.Syslog(libLinux.LOG_ERR, message & ASCII.NUL, err);
   END Error;
 
   -- Log an error event, with errno value
@@ -86,8 +86,8 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_ERR, "ERROR: " & message & ", " &
-      errno.strerror(errnum) & ASCII.NUL, err);
+    libLinux.Syslog(libLinux.LOG_ERR, message & ", " & errno.strerror(errnum) &
+      ASCII.NUL, err);
   END Error;
 
   -- Log a warning event
@@ -97,7 +97,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_WARNING, "WARNING: " & message & ASCII.NUL,
+    libLinux.Syslog(libLinux.LOG_WARNING, message & ASCII.NUL,
       err);
   END Warning;
 
@@ -108,7 +108,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_INFO, "NOTE: " & message & ASCII.NUL, err);
+    libLinux.Syslog(libLinux.LOG_INFO, message & ASCII.NUL, err);
   END Note;
 
   -- The following subprograms are analogous to classwide static methods.
@@ -118,7 +118,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_ERR, "ERROR: " & message & ASCII.NUL, err);
+    libLinux.Syslog(libLinux.LOG_ERR, message & ASCII.NUL, err);
   END Error;
 
   PROCEDURE Error(message : String; errnum : Integer) IS
@@ -126,7 +126,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_ERR, "ERROR: " & message & ", " &
+    libLinux.Syslog(libLinux.LOG_ERR, message & ", " &
       errno.strerror(errnum) & ASCII.NUL, err);
   END Error;
 
@@ -135,7 +135,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_WARNING, "WARNING: " & message & ASCII.NUL,
+    libLinux.Syslog(libLinux.LOG_WARNING, message & ASCII.NUL,
       err);
   END Warning;
 
@@ -144,7 +144,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_INFO, "NOTE: " & message & ASCII.NUL, err);
+    libLinux.Syslog(libLinux.LOG_INFO, message & ASCII.NUL, err);
   END Note;
 
 END Logging.libsimpleio;
