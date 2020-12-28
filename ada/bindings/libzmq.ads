@@ -34,10 +34,52 @@ PACKAGE libzmq IS
     events : Interfaces.C.short;
   END RECORD WITH Convention => C;
 
+  -- Socket types
+
+  ZMQ_PAIR     : CONSTANT := 0;
+  ZMQ_PUB      : CONSTANT := 1;
+  ZMQ_SUB      : CONSTANT := 2;
+  ZMQ_REQ      : CONSTANT := 3;
+  ZMQ_REP      : CONSTANT := 4;
+  ZMQ_DEALER   : CONSTANT := 5;
+  ZMQ_ROUTER   : CONSTANT := 6;
+  ZMQ_PULL     : CONSTANT := 7;
+  ZMQ_PUSH     : CONSTANT := 8;
+  ZMQ_XPUB     : CONSTANT := 9;
+  ZMQ_XSUB     : CONSTANT := 10;
+  ZMQ_STREAM   : CONSTANT := 11;
+
+  -- Draft socket types
+
+  ZMQ_SERVER   : CONSTANT := 12;
+  ZMQ_CLIENT   : CONSTANT := 13;
+  ZMQ_RADIO    : CONSTANT := 14;
+  ZMQ_DISH     : CONSTANT := 15;
+  ZMQ_GATHER   : CONSTANT := 16;
+  ZMQ_SCATTER  : CONSTANT := 17;
+  ZMQ_DGRAM    : CONSTANT := 18;
+
+  -- Deprecated socket type aliases
+
+  ZMQ_XREQ     : CONSTANT := ZMQ_DEALER;
+  ZMQ_XREP     : CONSTANT := ZMQ_ROUTER;
+
+  -- Send/receive options
+
+  ZMQ_DONTWAIT : CONSTANT := 1;
+  ZMQ_SNDMORE  : CONSTANT := 2;
+
+  -- Poll event flags
+
+  ZMQ_POLLIN   : CONSTANT := 1;
+  ZMQ_POLLOUT  : CONSTANT := 2;
+  ZMQ_POLLERR  : CONSTANT := 4;
+  ZMQ_POLLPRI  : CONSTANT := 8;
+
   FUNCTION zmq_ctx_new RETURN System.Address
     WITH Import => True, Convention => C;
 
-  FUNCTION zmq_ctx_destroy
+  FUNCTION zmq_ctx_term
    (ctx        : System.Address) RETURN Interfaces.C.int
     WITH Import => True, Convention => C;
 
@@ -64,14 +106,14 @@ PACKAGE libzmq IS
    (socket : System.Address;
     buf    : System.Address;
     len    : Interfaces.C.size_t;
-    flags  : Interfaces.C.int) RETURN Interfaces.C.int
+    flags  : Interfaces.C.int := 0) RETURN Interfaces.C.int
     WITH Import => True, Convention => C;
 
   FUNCTION zmq_send
    (socket : System.Address;
     buf    : System.Address;
     len    : Interfaces.C.size_t;
-    flags  : Interfaces.C.int) RETURN Interfaces.C.int
+    flags  : Interfaces.C.int := 0) RETURN Interfaces.C.int
     WITH Import => True, Convention => C;
 
   FUNCTION zmq_poller_new RETURN System.Address
@@ -97,5 +139,14 @@ PACKAGE libzmq IS
   FUNCTION zmq_strerror
    (errnum  : Interfaces.C.Int) RETURN Interfaces.C.Strings.chars_ptr
     WITH Import => True, Convention => C;
+
+  FUNCTION errno RETURN Interfaces.C.Int
+    WITH Import => True, Convention => C, External_Name => "__get_errno";
+
+  FUNCTION strerror(errnum : Interfaces.C.Int) RETURN STRING IS
+   (Interfaces.C.Strings.Value(zmq_strerror(errnum)));
+
+  FUNCTION strerror RETURN STRING IS
+   (Interfaces.C.Strings.Value(zmq_strerror(errno)));
 
 END libzmq;
