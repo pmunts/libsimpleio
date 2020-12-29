@@ -72,6 +72,10 @@ PACKAGE BODY Messaging.Fixed.ZeroMQ IS
 
   BEGIN
     Self.sock.Send(msg'Address, msg'Length, count);
+
+    IF count /= msg'Length THEN
+      RAISE Messaging.Length_Error WITH "Incorrect send byte count";
+    END IF;
   END Send;
 
   -- Receive a message
@@ -84,6 +88,10 @@ PACKAGE BODY Messaging.Fixed.ZeroMQ IS
 
   BEGIN
     Self.sock.Receive(msg'Address, msg'Length, count);
+
+    IF count /= msg'Length THEN
+      RAISE Messaging.Length_Error WITH "Incorrect receive byte count";
+    END IF;
   END Receive;
 
 END Messaging.Fixed.ZeroMQ;
