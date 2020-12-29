@@ -25,25 +25,33 @@ WITH ZeroMQ.Sockets;
 
 PACKAGE BODY Messaging.Fixed.ZeroMQ IS
 
-  -- Create a messenger object
+  -- Initialize a client messenger object
 
-  FUNCTION Create
-   (sock : Standard.ZeroMQ.Sockets.Socket_Class) RETURN Messaging.Fixed.Messenger IS
-
-  BEGIN
-    RETURN NEW MessengerSubclass'(sock => sock);
-  END Create;
-
-  -- Initialize a messenger object
-
-  PROCEDURE Initialize
-   (Self : IN OUT MessengerSubclass;
-    sock : Standard.ZeroMQ.Sockets.Socket_Class) IS
+  PROCEDURE Initialize_Client
+   (Self      : IN OUT MessengerSubclass;
+    ctx       : Standard.ZeroMQ.Context;
+    endpoint  : String;
+    timeoutms : Natural := 1000) IS
 
   BEGIN
     Self.sock.Destroy;
-    Self.sock := sock;
-  END Initialize;
+    Self.sock.Initialize(ctx, Standard.ZeroMQ.Sockets.Req, timeoutms);
+    Self.sock.Connect(endpoint);
+  END Initialize_Client;
+
+  -- Initialize a server messenger object
+
+  PROCEDURE Initialize_Server
+   (Self      : IN OUT MessengerSubclass;
+    ctx       : Standard.ZeroMQ.Context;
+    endpoint  : String;
+    timeoutms : Natural := 1000) IS
+
+  BEGIN
+    Self.sock.Destroy;
+    Self.sock.Initialize(ctx, Standard.ZeroMQ.Sockets.Rep, timeoutms);
+    Self.sock.bind(endpoint);
+  END Initialize_Server;
 
   -- Destroy a messenger object
 

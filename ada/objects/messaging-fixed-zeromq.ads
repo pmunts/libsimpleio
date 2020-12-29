@@ -29,35 +29,38 @@ PACKAGE Messaging.Fixed.ZeroMQ IS
 
   TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
 
-  TYPE Messenger IS ACCESS ALL MessengerSubclass'Class;
+  -- Initialize a client messenger object
 
-  -- Create a messenger object
-
-  FUNCTION Create
-   (sock : Standard.ZeroMQ.Sockets.Socket_Class) RETURN Messaging.Fixed.Messenger;
-
-  -- Initialize a messenger object
-
-  PROCEDURE Initialize
+  PROCEDURE Initialize_Client
    (Self : IN OUT MessengerSubclass;
-    sock : Standard.ZeroMQ.Sockets.Socket_Class);
+    ctx       : Standard.ZeroMQ.Context;
+    endpoint  : String;
+    timeoutms : Natural := 1000);
+
+  -- Initialize a server messenger object
+
+  PROCEDURE Initialize_Server
+   (Self : IN OUT MessengerSubclass;
+    ctx       : Standard.ZeroMQ.Context;
+    endpoint  : String;
+    timeoutms : Natural := 1000);
 
   -- Destroy a messenger object
 
   PROCEDURE Destroy
-   (Self : IN OUT MessengerSubclass);
+   (Self      : IN OUT MessengerSubclass);
 
   -- Send a message
 
   PROCEDURE Send
-   (Self : MessengerSubclass;
-    msg  : Message);
+   (Self      : MessengerSubclass;
+    msg       : Message);
 
   -- Receive a message
 
   PROCEDURE Receive
-   (Self : MessengerSubclass;
-    msg  : OUT Message);
+   (Self      : MessengerSubclass;
+    msg       : OUT Message);
 
 PRIVATE
 
