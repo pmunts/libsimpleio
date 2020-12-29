@@ -27,8 +27,6 @@ PACKAGE Messaging.Fixed.GNAT_Serial IS
 
   TYPE MessengerSubclass IS NEW MessengerInterface WITH PRIVATE;
 
-  TYPE Messenger IS ACCESS MessengerSubclass;
-
   FUNCTION Create
    (portname  : String;
     timeoutms : Integer := 1000) RETURN Messaging.Fixed.Messenger;
