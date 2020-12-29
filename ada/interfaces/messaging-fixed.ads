@@ -27,8 +27,6 @@ GENERIC
 
 PACKAGE Messaging.Fixed IS
 
-  Length_Mismatch : EXCEPTION;
-
   TYPE MessengerInterface IS INTERFACE;
 
   TYPE Messenger IS ACCESS ALL MessengerInterface'Class;

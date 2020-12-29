@@ -22,6 +22,7 @@
 
 PACKAGE Messaging IS
 
+  Length_Error  : EXCEPTION;
   Message_Error : EXCEPTION;
   Timeout_Error : EXCEPTION;
 
