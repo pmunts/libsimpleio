@@ -42,7 +42,6 @@ PRIVATE
     ENTRY SetExecutor(exec : RemoteIO.Executive.Executor);
   END MessageHandlerTask;
 
-
   TYPE MessageHandlerAccess IS ACCESS MessageHandlerTask;
 
   TYPE Device IS TAGGED RECORD

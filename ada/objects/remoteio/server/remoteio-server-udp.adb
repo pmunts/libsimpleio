@@ -1,4 +1,4 @@
--- Remote I/O Server Services using Message64 transport (e.g. raw HID)
+-- Remote I/O Server Services using Message64.UDP transport
 
 -- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
