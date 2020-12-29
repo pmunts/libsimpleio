@@ -27,13 +27,17 @@ GENERIC
 
 PACKAGE Messaging.Fixed IS
 
+  Length_Mismatch : EXCEPTION;
+
   TYPE MessengerInterface IS INTERFACE;
 
   TYPE Messenger IS ACCESS ALL MessengerInterface'Class;
 
   TYPE Byte IS MOD 256;
 
-  TYPE Message IS ARRAY (Natural RANGE 0 .. MessageSize -1) OF Byte;
+  TYPE Buffer IS ARRAY (Natural RANGE <>) OF Byte;
+
+  TYPE Message IS NEW Buffer(0 .. MessageSize - 1);
 
   -- Send a message
 
