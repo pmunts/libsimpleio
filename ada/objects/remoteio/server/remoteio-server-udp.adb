@@ -96,7 +96,7 @@ PACKAGE BODY RemoteIO.Server.UDP IS
     msg.Initialize_Server(addr, port, timeoutms);
 
     libLinux.Command("iptables -A INPUT -p udp -m conntrack --ctstate NEW " &
-      "--dport" & Natural'Image(port) & " -j ACCEPT", status, error);
+      "--dport" & Natural'Image(port) & " -j ACCEPT" & ASCII.NUL, status, error);
 
     -- Pass objects to the message handler task
 
