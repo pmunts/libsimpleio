@@ -1,6 +1,6 @@
--- Abstrace interface for a Remote I/O server instance
+-- Remote I/O Server Services using Message64.Messenger
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,14 +20,32 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE RemoteIO.Server IS
+WITH Message64;
+WITH RemoteIO.Executive;
 
-  -- Define an abstract interface for remote I/O server instances
+PACKAGE RemoteIO.Server.Message64 IS
 
-  TYPE InstanceInterface IS INTERFACE;
+  TYPE InstanceSubclass IS NEW InstanceInterface WITH PRIVATE;
 
-  TYPE Instance IS ACCESS ALL InstanceInterface'Class;
+  -- Constructors
 
-  SUBTYPE ResponseString IS String(1 .. 61);
+  FUNCTION Create
+   (exec : RemoteIO.Executive.Executor;
+    name : String;
+    msg  : Standard.Message64.Messenger) RETURN Instance;
 
-END RemoteIO.Server;
+PRIVATE
+
+  TASK TYPE MessageHandlerTask IS
+    ENTRY SetName(name : String);
+    ENTRY SetMessenger(msg : Standard.Message64.Messenger);
+    ENTRY SetExecutor(exec : RemoteIO.Executive.Executor);
+  END MessageHandlerTask;
+
+  TYPE MessageHandlerAccess IS ACCESS MessageHandlerTask;
+
+  TYPE InstanceSubclass IS NEW InstanceInterface WITH RECORD
+    MessageHandler : MessageHandlerAccess;
+  END RECORD;
+
+END RemoteIO.Server.Message64;

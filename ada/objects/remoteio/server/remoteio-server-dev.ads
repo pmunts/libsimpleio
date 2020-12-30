@@ -1,6 +1,6 @@
--- Abstrace interface for a Remote I/O server instance
+-- Remote I/O Server Services using a datagram character device
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -8,7 +8,7 @@
 -- * Redistributions of source code must retain the above copyright notice,
 --   this list of conditions and the following disclaimer.
 --
--- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+-- THIS SOFTWARE IS PROVIDED BY THE COYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 -- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 -- IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
 -- ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
@@ -20,14 +20,16 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE RemoteIO.Server IS
+WITH RemoteIO.Executive;
 
-  -- Define an abstract interface for remote I/O server instances
+PACKAGE RemoteIO.Server.Dev IS
 
-  TYPE InstanceInterface IS INTERFACE;
+  -- Constructors
 
-  TYPE Instance IS ACCESS ALL InstanceInterface'Class;
+  FUNCTION Create
+   (exec      : RemoteIO.Executive.Executor;
+    name      : String;
+    devname   : String;
+    timeoutms : Natural := 1000) RETURN Instance;
 
-  SUBTYPE ResponseString IS String(1 .. 61);
-
-END RemoteIO.Server;
+END RemoteIO.Server.Dev;

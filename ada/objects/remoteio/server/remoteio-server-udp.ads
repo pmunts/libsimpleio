@@ -25,26 +25,28 @@ WITH RemoteIO.Executive;
 
 PACKAGE RemoteIO.Server.UDP IS
 
-  TYPE Device IS TAGGED PRIVATE;
+  TYPE InstanceSubclass IS NEW InstanceInterface WITH PRIVATE;
 
   -- Constructors
 
   FUNCTION Create
-   (name      : String;
-    messenger : Message64.UDP.Messenger;
-    executor  : RemoteIO.Executive.Executor) RETURN Device;
+   (exec      : RemoteIO.Executive.Executor;
+    name      : String;
+    addr      : String  := "0.0.0.0";
+    port      : Natural := 8087;
+    timeoutms : Natural := 1000) RETURN Instance;
 
 PRIVATE
 
   TASK TYPE MessageHandlerTask IS
     ENTRY SetName(name : String);
-    ENTRY SetMessenger(msg : Message64.UDP.Messenger);
+    ENTRY SetMessenger(msg : Message64.UDP.MessengerSubclass);
     ENTRY SetExecutor(exec : RemoteIO.Executive.Executor);
   END MessageHandlerTask;
 
   TYPE MessageHandlerAccess IS ACCESS MessageHandlerTask;
 
-  TYPE Device IS TAGGED RECORD
+  TYPE InstanceSubclass IS NEW InstanceInterface WITH RECORD
     MessageHandler : MessageHandlerAccess;
   END RECORD;
 

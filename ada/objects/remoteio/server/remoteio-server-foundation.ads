@@ -1,4 +1,4 @@
--- Foundation for a Remote I/O Server for UDP and USB Gadget Services
+-- Foundation for a Remote I/O Server
 
 -- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 --
@@ -24,13 +24,7 @@ WITH RemoteIO.Executive;
 
 PACKAGE RemoteIO.Server.Foundation IS
 
-  PROCEDURE Start
-   (title        : String;
-    capabilities : String;
-    EnableHID    : Boolean := True;
-    EnableSerial : Boolean := True;
-    EnableUDP    : Boolean := True;
-    IPTables     : Boolean := True);
+  PROCEDURE Initialize(title : String; capabilities : String);
 
   FUNCTION Executor RETURN Remoteio.Executive.Executor;
 

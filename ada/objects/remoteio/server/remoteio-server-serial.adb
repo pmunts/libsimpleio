@@ -1,6 +1,7 @@
--- Abstrace interface for a Remote I/O server instance
+-- Remote I/O Server Services using the Stream Framing Protocol over a serial
+-- port
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,14 +21,37 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE RemoteIO.Server IS
+WITH libSerial;
+WITH Logging.libsimpleio;
+WITH Message64.Stream;
+WITH RemoteIO.Server.Message64;
 
-  -- Define an abstract interface for remote I/O server instances
+PACKAGE BODY RemoteIO.Server.Serial IS
 
-  TYPE InstanceInterface IS INTERFACE;
+  FUNCTION Create
+   (exec      : RemoteIO.Executive.Executor;
+    name      : String;
+    devname   : String;
+    baudrate  : Natural := 115200;
+    parity    : Natural := libSerial.PARITY_NONE;
+    databits  : Natural := 8;
+    stopbits  : Natural := 1;
+    timeoutms : Natural := 1000) RETURN Instance IS
 
-  TYPE Instance IS ACCESS ALL InstanceInterface'Class;
+    fd    : Integer;
+    error : Integer;
 
-  SUBTYPE ResponseString IS String(1 .. 61);
+  BEGIN
+    libSerial.Open(devname & ASCII.NUL, baudrate, parity, databits, stopbits,
+      fd, error);
 
-END RemoteIO.Server;
+    IF error /= 0 THEN
+      Logging.libsimpleio.Error("Cannot open " & devname);
+      RETURN NULL;
+    END IF;
+
+    RETURN RemoteIO.Server.Message64.Create(exec, name,
+      Standard.Message64.Stream.Create(fd, timeoutms));
+  END Create;
+
+END RemoteIO.Server.Serial;

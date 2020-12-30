@@ -1,6 +1,6 @@
--- Abstrace interface for a Remote I/O server instance
+-- Remote I/O Server Services using a datagram character device
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,14 +20,31 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE RemoteIO.Server IS
+WITH libLinux;
+WITH Logging.libsimpleio;
+WITH Message64.Datagram;
+WITH RemoteIO.Server.Message64;
 
-  -- Define an abstract interface for remote I/O server instances
+PACKAGE BODY RemoteIO.Server.Dev IS
 
-  TYPE InstanceInterface IS INTERFACE;
+  FUNCTION Create
+   (exec      : RemoteIO.Executive.Executor;
+    name      : String;
+    devname   : String;
+    timeoutms : Natural := 1000) RETURN Instance IS
 
-  TYPE Instance IS ACCESS ALL InstanceInterface'Class;
+    fd    : Integer;
+    error : Integer;
 
-  SUBTYPE ResponseString IS String(1 .. 61);
+  BEGIN
+    libLinux.OpenReadWrite(devname, fd, error);
 
-END RemoteIO.Server;
+    IF error /= 0 THEN
+      Logging.libsimpleio.Error("Cannot open " & devname);
+      RETURN NULL;
+    END IF;
+
+    RETURN RemoteIO.Server.Message64.Create(exec, name, Standard.Message64.Datagram.Create(fd, timeoutms));
+  END Create;
+
+END RemoteIO.Server.Dev;

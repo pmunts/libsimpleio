@@ -1,6 +1,6 @@
--- Remote I/O Server Services using Message64 transport (e.g. raw HID)
+-- Remote I/O Server Services using a datagram character device
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,24 +20,26 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Directories;
 WITH Ada.Exceptions;
 WITH Ada.Strings.Fixed;
 
+WITH libLinux;
 WITH Logging.libsimpleio;
-WITH Message64;
+WITH Message64.Datagram;
 WITH Messaging;
 
 USE TYPE Message64.Byte;
 
-PACKAGE BODY RemoteIO.Server IS
+PACKAGE BODY RemoteIO.Server.Message64 IS
 
   TASK BODY MessageHandlerTask IS
 
     myname    : String(1 .. 80);
-    messenger : Message64.Messenger;
+    messenger : Standard.Message64.Messenger;
     executor  : RemoteIO.Executive.Executor;
-    cmd       : Message64.Message;
-    resp      : Message64.Message;
+    cmd       : Standard.Message64.Message;
+    resp      : Standard.Message64.Message;
 
   BEGIN
 
@@ -47,7 +49,7 @@ PACKAGE BODY RemoteIO.Server IS
       Ada.Strings.Fixed.Move(name, myname, Ada.Strings.Right);
     END SetName;
 
-    ACCEPT SetMessenger(msg : Message64.Messenger) DO
+    ACCEPT SetMessenger(msg : Standard.Message64.Messenger) DO
       messenger := msg;
     END SetMessenger;
 
@@ -79,24 +81,25 @@ PACKAGE BODY RemoteIO.Server IS
   END MessageHandlerTask;
 
   FUNCTION Create
-   (name      : String;
-    messenger : Message64.Messenger;
-    executor  : RemoteIO.Executive.Executor) RETURN Device IS
+   (exec : RemoteIO.Executive.Executor;
+    name : String;
+    msg  : Standard.Message64.Messenger) RETURN Instance IS
 
-    dev : Device;
+    srv : InstanceSubclass;
 
   BEGIN
+
     -- Create the message handler task
 
-    dev := Device'(MessageHandler => NEW MessageHandlerTask);
+    srv.MessageHandler := NEW MessageHandlerTask;
 
-    -- Pass objects to the message handler task
+    -- Pass some information to the message handler task
 
-    dev.MessageHandler.SetName(name);
-    dev.MessageHandler.SetMessenger(messenger);
-    dev.MessageHandler.SetExecutor(executor);
+    srv.MessageHandler.SetName(name);
+    srv.MessageHandler.SetMessenger(msg);
+    srv.MessageHandler.SetExecutor(exec);
 
-    RETURN dev;
+    RETURN NEW InstanceSubclass'(srv);
   END Create;
 
-END RemoteIO.Server;
+END RemoteIO.Server.Message64;

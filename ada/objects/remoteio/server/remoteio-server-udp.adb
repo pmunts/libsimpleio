@@ -23,6 +23,7 @@
 WITH Ada.Exceptions;
 WITH Ada.Strings.Fixed;
 
+WITH libLinux;
 WITH Logging.libsimpleio;
 WITH Message64;
 WITH Messaging;
@@ -34,7 +35,7 @@ PACKAGE BODY RemoteIO.Server.UDP IS
   TASK BODY MessageHandlerTask IS
 
     myname    : String(1 .. 80);
-    messenger : Message64.UDP.Messenger;
+    messenger : Message64.UDP.MessengerSubclass;
     executor  : RemoteIO.Executive.Executor;
     client    : Message64.UDP.PeerIdentifier;
     cmd       : Message64.Message;
@@ -48,7 +49,7 @@ PACKAGE BODY RemoteIO.Server.UDP IS
       Ada.Strings.Fixed.Move(name, myname, Ada.Strings.Right);
     END SetName;
 
-    ACCEPT SetMessenger(msg : Message64.UDP.Messenger) DO
+    ACCEPT SetMessenger(msg : Message64.UDP.MessengerSubclass) DO
       messenger := msg;
     END SetMessenger;
 
@@ -63,9 +64,9 @@ PACKAGE BODY RemoteIO.Server.UDP IS
 
     LOOP
       BEGIN
-        messenger.Receive(client, cmd);
+        messenger.Receive_Server(client, cmd);
         executor.Execute(cmd, resp);
-        messenger.Send(client, resp);
+        messenger.Send_Server(client, resp);
 
       EXCEPTION
         WHEN Messaging.Timeout_Error =>
@@ -80,24 +81,31 @@ PACKAGE BODY RemoteIO.Server.UDP IS
   END MessageHandlerTask;
 
   FUNCTION Create
-   (name      : String;
-    messenger : Message64.UDP.Messenger;
-    executor  : RemoteIO.Executive.Executor) RETURN Device IS
+   (exec      : RemoteIO.Executive.Executor;
+    name      : String;
+    addr      : String  := "0.0.0.0";
+    port      : Natural := 8087;
+    timeoutms : Natural := 1000) RETURN Instance IS
 
-    dev : Device;
+    msg    : Message64.UDP.MessengerSubclass;
+    status : Integer;
+    error  : Integer;
+    dev    : InstanceSubclass;
 
   BEGIN
-    -- Create the message handler task
+    msg.Initialize_Server(addr, port, timeoutms);
 
-    dev := Device'(MessageHandler => NEW MessageHandlerTask);
+    libLinux.Command("iptables -A INPUT -p udp -m conntrack --ctstate NEW " &
+      "--dport" & Natural'Image(port) & " -j ACCEPT", status, error);
 
     -- Pass objects to the message handler task
 
+    dev.MessageHandler := NEW MessageHandlerTask;
     dev.MessageHandler.SetName(name);
-    dev.MessageHandler.SetMessenger(messenger);
-    dev.MessageHandler.SetExecutor(executor);
+    dev.MessageHandler.SetMessenger(msg);
+    dev.MessageHandler.SetExecutor(exec);
 
-    RETURN dev;
+    RETURN NEW InstanceSubclass'(dev);
   END Create;
 
 END RemoteIO.Server.UDP;
