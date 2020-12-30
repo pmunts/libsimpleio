@@ -48,17 +48,18 @@ PACKAGE Messaging.Fixed.GNAT_UDP IS
 
   TYPE PeerIdentifier IS PRIVATE;
 
-  FUNCTION Create_Server
-   (netiface  : String := "0.0.0.0"; -- Bind to all available network interfaces
+  PROCEDURE Initialize_Server
+   (Self      : IN OUT MessengerSubclass;
+    netiface  : String := "0.0.0.0"; -- Bind to all available network interfaces
     port      : Positive;
-    timeoutms : Integer := 1000) RETURN Messaging.Fixed.GNAT_UDP.Messenger;
+    timeoutms : Integer := 1000);
 
-  PROCEDURE Send
+  PROCEDURE Send_Server
    (Self : MessengerSubclass;
     dst  : PeerIdentifier;
     msg  : Message);
 
-  PROCEDURE Receive
+  PROCEDURE Receive_Server
    (Self : MessengerSubclass;
     src  : OUT PeerIdentifier;
     msg  : OUT Message);

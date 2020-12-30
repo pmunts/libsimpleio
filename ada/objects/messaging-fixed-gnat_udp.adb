@@ -21,6 +21,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Exceptions;
+WITH Ada.Strings.Fixed;
 WITH Ada.Streams;
 WITH GNAT.Sockets;
 
@@ -102,14 +104,25 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     FOR i IN Data'Range LOOP
       msg(Integer(i)) := Byte(Data(i));
     END LOOP;
+  EXCEPTION
+    WHEN E : GNAT.Sockets.Socket_Error =>
+      IF Ada.Strings.Fixed.Head(Ada.Exceptions.Exception_Message(E), 4) = "[11]" THEN
+        RAISE Messaging.Timeout_Error;
+      ELSE
+        RAISE;
+      END IF;
+
+    WHEN OTHERS =>
+      RAISE;
   END Receive;
 
   -- UDP server (responder) constructor
 
-  FUNCTION Create_Server
-   (netiface  : String  := "0.0.0.0"; -- Bind to available network interfaces
+  PROCEDURE Initialize_Server
+   (Self      : IN OUT MessengerSubclass;
+    netiface  : String := "0.0.0.0"; -- Bind to all available network interfaces
     port      : Positive;
-    timeoutms : Integer := 1000) RETURN Messenger IS
+    timeoutms : Integer := 1000) IS
 
     iface  : GNAT.Sockets.Sock_Addr_Type;
     socket : GNAT.Sockets.Socket_Type;
@@ -132,12 +145,12 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
         (GNAT.Sockets.Receive_Timeout, Timeout => Duration(timeoutms)/1000.0));
     END IF;
 
-    RETURN NEW MessengerSubclass'(socket, GNAT.Sockets.No_Sock_Addr);
-  END Create_Server;
+    Self := MessengerSubclass'(socket, GNAT.Sockets.No_Sock_Addr);
+  END Initialize_Server;
 
   -- UDP server (responder) transmit service
 
-  PROCEDURE Send
+  PROCEDURE Send_Server
    (Self : MessengerSubclass;
     dst  : PeerIdentifier;
     msg  : Message) IS
@@ -154,11 +167,11 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     END LOOP;
 
     GNAT.Sockets.Send_Socket(Self.socket, Data, Last, To);
-  END Send;
+  END Send_Server;
 
   -- UDP server (responder) receive service
 
-  PROCEDURE Receive
+  PROCEDURE Receive_Server
    (Self : MessengerSubclass;
     src  : OUT PeerIdentifier;
     msg  : OUT Message) IS
@@ -175,7 +188,17 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     END LOOP;
 
     src := PeerIdentifier(From);
-  END Receive;
+  EXCEPTION
+    WHEN E : GNAT.Sockets.Socket_Error =>
+      IF Ada.Strings.Fixed.Head(Ada.Exceptions.Exception_Message(E), 4) = "[11]" THEN
+        RAISE Messaging.Timeout_Error;
+      ELSE
+        RAISE;
+      END IF;
+
+    WHEN OTHERS =>
+      RAISE;
+  END Receive_Server;
 
   -- Retrieve the underlying Linux file descriptor
 
