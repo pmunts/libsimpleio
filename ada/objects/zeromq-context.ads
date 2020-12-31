@@ -20,8 +20,32 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE ZeroMQ IS
+PRIVATE WITH System;
 
-  Error : EXCEPTION;
+PACKAGE ZeroMQ.Context IS
 
-END ZeroMQ;
+  TYPE Context IS TAGGED PRIVATE;
+
+  -- Initialize a ZeroMQ context object
+
+  PROCEDURE Initialize(ctx : IN OUT Context);
+
+  -- Destroy a ZeroMQ context object
+
+  PROCEDURE Destroy(ctx : IN OUT Context);
+
+  -- Accessors for the private default context object
+
+  PROCEDURE Initialize;
+
+  PROCEDURE Destroy;
+
+  FUNCTION Get RETURN Context;
+
+PRIVATE
+
+  TYPE Context IS TAGGED RECORD
+    addr : System.Address := System.Null_Address;
+  END RECORD;
+
+END ZeroMQ.Context;

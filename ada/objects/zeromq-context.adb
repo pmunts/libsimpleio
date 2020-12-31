@@ -20,8 +20,68 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE ZeroMQ IS
+WITH Interfaces.C;
+WITH System;
 
-  Error : EXCEPTION;
+WITH libzmq;
 
-END ZeroMQ;
+USE TYPE Interfaces.C.int;
+USE TYPE System.Address;
+
+PACKAGE BODY ZeroMQ.Context IS
+
+  -- Initialize an existing ZeroMQ context object
+
+  PROCEDURE Initialize(ctx : IN OUT Context) IS
+
+  BEGIN
+    IF ctx.addr /= System.Null_Address THEN
+      ctx.Destroy;
+    END IF;
+
+    ctx.addr := libzmq.zmq_ctx_new;
+
+    IF ctx.addr = System.Null_Address THEN
+      RAISE Error WITH "zmq_ctx_new() failed, " & libzmq.strerror;
+    END IF;
+  END Initialize;
+
+  -- Destroy an existing ZeroMQ context object
+
+  PROCEDURE Destroy(ctx : IN OUT Context) IS
+
+  BEGIN
+    IF ctx.addr = System.Null_Address THEN
+      RETURN;
+    END IF;
+
+    IF libzmq.zmq_ctx_term(ctx.addr) /= 0 THEN
+      RAISE Error WITH "zmq_ctx_term() failed, " & libzmq.strerror;
+    END IF;
+
+    ctx.addr := System.Null_Address;
+  END Destroy;
+
+  -- Accessors for the private default context object
+
+  Default_Context : Context;
+
+  PROCEDURE Initialize IS
+
+  BEGIN
+    Default_Context.Initialize;
+  END Initialize;
+
+  PROCEDURE Destroy IS
+
+  BEGIN
+    Default_Context.Destroy;
+  END Destroy;
+
+  FUNCTION Get RETURN Context IS
+
+  BEGIN
+    RETURN Default_Context;
+  END Get;
+
+END ZeroMQ.Context;
