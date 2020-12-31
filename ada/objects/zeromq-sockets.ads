@@ -82,6 +82,11 @@ PACKAGE ZeroMQ.Sockets IS
     len       : Natural;
     count     : OUT Natural);
 
+  FUNCTION To_Endpoint
+   (addr      : String;
+    port      : Positive;
+    transport : String := "tcp") RETURN String;
+
 PRIVATE
 
   TYPE Socket_Class IS TAGGED RECORD

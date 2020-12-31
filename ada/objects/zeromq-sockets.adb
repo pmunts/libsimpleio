@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Strings.Fixed;
 WITH Interfaces.C;
 WITH System;
 
@@ -220,4 +221,14 @@ PACKAGE BODY ZeroMQ.Sockets IS
     count := Natural(ret);
   END Send;
   
+  FUNCTION To_Endpoint
+   (addr      : String;
+    port      : Positive;
+    transport : String := "tcp") RETURN String IS
+
+  BEGIN
+    RETURN transport & "://" & addr & ":" &
+      Ada.Strings.Fixed.Trim(Positive'Image(port), Ada.Strings.Both);
+  END To_Endpoint;
+
 END ZeroMQ.Sockets;
