@@ -46,8 +46,8 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
     caps   : RemoteIO.Server.ResponseString;
 
   BEGIN
-    libLinux.OpenLog(title, liblinux.LOG_NDELAY + libLinux.LOG_PID,
-      libLinux.LOG_DAEMON, error);
+    libLinux.OpenLog(title, liblinux.LOG_NDELAY + libLinux.LOG_PID +
+      libLinux.LOG_PERROR, libLinux.LOG_DAEMON, error);
 
     -- Switch to background execution
 
