@@ -92,4 +92,6 @@ PACKAGE BODY ZeroMQ.Context IS
     RETURN Default_Context;
   END Default;
 
+BEGIN
+  Default_Context.Initialize;
 END ZeroMQ.Context;
