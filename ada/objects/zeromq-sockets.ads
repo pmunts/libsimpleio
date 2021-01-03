@@ -20,8 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Finalization;
 WITH System;
+
+WITH ZeroMQ.Context;
 
 PACKAGE ZeroMQ.Sockets IS
 
@@ -37,7 +38,7 @@ PACKAGE ZeroMQ.Sockets IS
   -- Create a new dynamically allocated ZeroMQ socket object
 
   FUNCTION Create
-   (ctx       : Context;
+   (ctx       : ZeroMQ.Context.Context;
     kind      : Kinds;
     timeoutms : Natural := 0) RETURN Socket;
 
@@ -45,7 +46,7 @@ PACKAGE ZeroMQ.Sockets IS
 
   PROCEDURE Initialize
    (Self      : IN OUT Socket_Class;
-    ctx       : Context;
+    ctx       : ZeroMQ.Context.Context;
     kind      : Kinds;
     timeoutms : Natural := 0);
 

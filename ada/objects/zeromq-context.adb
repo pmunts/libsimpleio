@@ -32,35 +32,43 @@ PACKAGE BODY ZeroMQ.Context IS
 
   -- Initialize an existing ZeroMQ context object
 
-  PROCEDURE Initialize(ctx : IN OUT Context) IS
+  PROCEDURE Initialize(Self : IN OUT Context) IS
 
   BEGIN
-    IF ctx.addr /= System.Null_Address THEN
-      ctx.Destroy;
+    IF Self /= Null_Context THEN
+      Self.Destroy;
     END IF;
 
-    ctx.addr := libzmq.zmq_ctx_new;
+    Self.addr := libzmq.zmq_ctx_new;
 
-    IF ctx.addr = System.Null_Address THEN
+    IF Self = Null_Context THEN
       RAISE Error WITH "zmq_ctx_new() failed, " & libzmq.strerror;
     END IF;
   END Initialize;
 
   -- Destroy an existing ZeroMQ context object
 
-  PROCEDURE Destroy(ctx : IN OUT Context) IS
+  PROCEDURE Destroy(Self : IN OUT Context) IS
 
   BEGIN
-    IF ctx.addr = System.Null_Address THEN
+    IF Self = Null_Context THEN
       RETURN;
     END IF;
 
-    IF libzmq.zmq_ctx_term(ctx.addr) /= 0 THEN
+    IF libzmq.zmq_ctx_term(Self.addr) /= 0 THEN
       RAISE Error WITH "zmq_ctx_term() failed, " & libzmq.strerror;
     END IF;
 
-    ctx.addr := System.Null_Address;
+    Self := Null_Context;
   END Destroy;
+
+  -- Fetch underlying ZeroMQ context pointer
+
+  FUNCTION Pointer(Self : Context) RETURN System.Address IS
+
+  BEGIN
+    RETURN Self.addr;
+  END;
 
   -- Accessors for the private default context object
 
@@ -78,10 +86,10 @@ PACKAGE BODY ZeroMQ.Context IS
     Default_Context.Destroy;
   END Destroy;
 
-  FUNCTION Get RETURN Context IS
+  FUNCTION Default RETURN Context IS
 
   BEGIN
     RETURN Default_Context;
-  END Get;
+  END Default;
 
 END ZeroMQ.Context;

@@ -21,37 +21,32 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Logging.libsimpleio;
 WITH ZeroMQ.Sockets;
+
+USE TYPE ZeroMQ.Sockets.Socket;
 
 PACKAGE BODY Messaging.Fixed.ZeroMQ IS
 
-  -- Initialize a client messenger object
+  -- Create a messenger object
 
-  PROCEDURE Initialize_Client
-   (Self      : IN OUT MessengerSubclass;
-    ctx       : Standard.ZeroMQ.Context;
-    endpoint  : String;
-    timeoutms : Natural := 1000) IS
+  FUNCTION Create
+   (sock : Standard.ZeroMQ.Sockets.Socket) RETURN Messaging.Fixed.Messenger IS
 
   BEGIN
-    Self.sock.Destroy;
-    Self.sock.Initialize(ctx, Standard.ZeroMQ.Sockets.Req, timeoutms);
-    Self.sock.Connect(endpoint);
-  END Initialize_Client;
+    RETURN NEW MessengerSubclass'(sock => sock);
+  END Create;
 
-  -- Initialize a server messenger object
+  -- Initialize a messenger object
 
-  PROCEDURE Initialize_Server
-   (Self      : IN OUT MessengerSubclass;
-    ctx       : Standard.ZeroMQ.Context;
-    endpoint  : String;
-    timeoutms : Natural := 1000) IS
+  PROCEDURE Initialize
+   (Self : IN OUT MessengerSubclass;
+    sock : Standard.ZeroMQ.Sockets.Socket) IS
 
   BEGIN
-    Self.sock.Destroy;
-    Self.sock.Initialize(ctx, Standard.ZeroMQ.Sockets.Rep, timeoutms);
-    Self.sock.bind(endpoint);
-  END Initialize_Server;
+    Self.Destroy;
+    Self.sock := sock;
+  END Initialize;
 
   -- Destroy a messenger object
 
@@ -59,7 +54,10 @@ PACKAGE BODY Messaging.Fixed.ZeroMQ IS
    (Self : IN OUT MessengerSubclass) IS
 
   BEGIN
-    Self.sock.Destroy;
+    IF Self.sock /= NULL THEN
+      Self.sock.Destroy;
+      Self.sock := NULL;
+    END IF;
   END Destroy;
 
   -- Send a message

@@ -25,27 +25,29 @@ WITH Interfaces.C;
 WITH System;
 
 WITH libzmq;
+WITH ZeroMQ.Context;
 
 USE TYPE Interfaces.C.int;
 USE TYPE System.Address;
+USE TYPE ZeroMQ.Context.Context;
 
 PACKAGE BODY ZeroMQ.Sockets IS
 
   -- Create a new dynamically allocated ZeroMQ socket object
 
   FUNCTION Create
-   (ctx       : Context;
+   (ctx       : ZeroMQ.Context.Context;
     kind      : Kinds;
     timeoutms : Natural := 0) RETURN Socket IS
 
     addr : System.Address;
 
   BEGIN
-    IF ctx.addr = System.Null_Address THEN
+    IF ctx = ZeroMQ.Context.Null_Context THEN
       RAISE Error WITH "Context parameter is NULL";
     END IF;
 
-    addr := libzmq.zmq_socket(ctx.addr, Kinds'Pos(kind));
+    addr := libzmq.zmq_socket(ctx.Pointer, Kinds'Pos(kind));
 
     IF addr = System.Null_Address THEN
       RAISE Error WITH "zmq_socket() failed, " & libzmq.strerror;
@@ -58,18 +60,18 @@ PACKAGE BODY ZeroMQ.Sockets IS
 
   PROCEDURE Initialize
    (Self      : IN OUT Socket_Class;
-    ctx       : Context;
+    ctx       : ZeroMQ.Context.Context;
     kind      : Kinds;
     timeoutms : Natural := 0) IS
 
   BEGIN
     Self.Destroy;
 
-    IF ctx.addr = System.Null_Address THEN
+    IF ctx = ZeroMQ.Context.Null_Context THEN
       RAISE Error WITH "Context parameter is NULL";
     END IF;
 
-    Self.addr := libzmq.zmq_socket(ctx.addr, Kinds'Pos(kind));
+    Self.addr := libzmq.zmq_socket(ctx.Pointer, Kinds'Pos(kind));
 
     IF Self.addr = System.Null_Address THEN
       RAISE Error WITH "zmq_socket() failed, " & libzmq.strerror;
