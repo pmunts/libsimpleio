@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Command_Line;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
@@ -38,8 +39,16 @@ BEGIN
   Put_Line("Remote I/O Device Information Query");
   New_Line;
 
+  -- Check command line parameters
+
+  IF Ada.Command_Line.Argument_Count /= 1 THEN
+    Put_Line("Usage: test_query_zeromq <host name>");
+    New_Line;
+    RETURN;
+  END IF;
+
   sock := ZeroMQ.Sockets.Create(ZeroMQ.Context.Default, ZeroMQ.Sockets.Req, 1000);
-  sock.Connect("tcp://ai.munts.net:8088");
+  sock.Connect(ZeroMQ.Sockets.To_EndPoint(Ada.Command_Line.Argument(1), 8088));
 
   remdev := RemoteIO.Client.ZeroMQ.Create(sock);
 
