@@ -83,5 +83,5 @@ int main(int argc, char **argv)
     dire = readdir(dirp);
   }
 
-  closedir(dirp);  
+  closedir(dirp);
 }

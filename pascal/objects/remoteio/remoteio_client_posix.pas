@@ -49,7 +49,7 @@ IMPLEMENTATION
     timeout : Cardinal) : RemoteIO_Client.Device;
 
   BEGIN
-    Create := 
+    Create :=
       RemoteIO_Client.Device.Create(HID_Posix.MessengerSubclass.Create(vid,
         pid, serial, timeout);
   END;

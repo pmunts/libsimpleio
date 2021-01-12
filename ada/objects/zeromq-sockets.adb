@@ -222,7 +222,7 @@ PACKAGE BODY ZeroMQ.Sockets IS
 
     count := Natural(ret);
   END Send;
-  
+
   FUNCTION To_Endpoint
    (addr      : String;
     port      : Positive;
