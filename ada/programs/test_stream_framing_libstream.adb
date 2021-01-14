@@ -1,6 +1,6 @@
 -- Stream Framing Protocol Encoding Test
 
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Strings.Fixed;
 WITH libStream;
 
-PROCEDURE test_stream_framing IS
+PROCEDURE test_stream_framing_libstream IS
 
   TYPE Byte    IS MOD 256;
   Type Message IS ARRAY (Natural RANGE <>) OF Byte;
@@ -81,4 +81,4 @@ BEGIN
   libStream.Encode(msgbuf'Address, 9, framebuf'Address, framebuf'Length, framelen, error);
 
   DumpFrame(framebuf, framelen);
-END test_stream_framing;
+END test_stream_framing_libstream;
