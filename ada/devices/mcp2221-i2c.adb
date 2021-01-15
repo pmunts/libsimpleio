@@ -1,6 +1,6 @@
 -- MCP2221 I2C Bus Controller Services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,9 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Messaging;
 WITH Message64;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY MCP2221.I2C IS
 
@@ -54,8 +55,8 @@ PACKAGE BODY MCP2221.I2C IS
 
     cmdmsg := (OTHERS => 0);
     cmdmsg(0) := CMD_I2C_READ;
-    cmdmsg(1) := Message64.Byte(resplen);
-    cmdmsg(3) := Message64.Byte(addr)*2 + 1;
+    cmdmsg(1) := Messaging.Byte(resplen);
+    cmdmsg(3) := Messaging.Byte(addr)*2 + 1;
 
     Self.dev.Command(cmdmsg, respmsg);
 
@@ -95,11 +96,11 @@ PACKAGE BODY MCP2221.I2C IS
 
     cmdmsg := (OTHERS => 0);
     cmdmsg(0) := CMD_I2C_WRITE;
-    cmdmsg(1) := Message64.Byte(cmdlen);
-    cmdmsg(3) := Message64.Byte(addr)*2;
+    cmdmsg(1) := Messaging.Byte(cmdlen);
+    cmdmsg(3) := Messaging.Byte(addr)*2;
 
     FOR i IN 0 .. cmdlen - 1 LOOP
-      cmdmsg(i + 4) := Message64.Byte(cmd(i));
+      cmdmsg(i + 4) := Messaging.Byte(cmd(i));
     END LOOP;
 
     Self.dev.Command(cmdmsg, respmsg);
@@ -136,11 +137,11 @@ PACKAGE BODY MCP2221.I2C IS
 
     cmdmsg := (OTHERS => 0);
     cmdmsg(0) := CMD_I2C_WRITE_NOSTOP;
-    cmdmsg(1) := Message64.Byte(cmdlen);
-    cmdmsg(3) := Message64.Byte(addr)*2;
+    cmdmsg(1) := Messaging.Byte(cmdlen);
+    cmdmsg(3) := Messaging.Byte(addr)*2;
 
     FOR i IN 0 .. cmdlen - 1 LOOP
-      cmdmsg(i + 4) := Message64.Byte(cmd(i));
+      cmdmsg(i + 4) := Messaging.Byte(cmd(i));
     END LOOP;
 
     Self.dev.Command(cmdmsg, respmsg);
@@ -153,8 +154,8 @@ PACKAGE BODY MCP2221.I2C IS
 
     cmdmsg := (OTHERS => 0);
     cmdmsg(0) := CMD_I2C_READ_REPEAT;
-    cmdmsg(1) := Message64.Byte(resplen);
-    cmdmsg(3) := Message64.Byte(addr)*2 + 1;
+    cmdmsg(1) := Messaging.Byte(resplen);
+    cmdmsg(3) := Messaging.Byte(addr)*2 + 1;
 
     Self.dev.Command(cmdmsg, respmsg);
 

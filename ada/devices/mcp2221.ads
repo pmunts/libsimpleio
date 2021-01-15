@@ -1,6 +1,6 @@
 -- MCP2221 Device Services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,6 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH HID;
+WITH Messaging;
 WITH Message64;
 
 PACKAGE MCP2221 IS
@@ -52,8 +53,8 @@ PACKAGE MCP2221 IS
   -- Create an MCP2221 device object instance
 
   FUNCTION Create
-   (msg       : Message64.Messenger;
-    pinmodes  : PinModeArray := AllGPIO) RETURN Device;
+   (msg      : Message64.Messenger;
+    pinmodes : PinModeArray := AllGPIO) RETURN Device;
 
   -- Configure MCP2221 GPIO pin mux
 
@@ -85,20 +86,20 @@ PRIVATE
 
   -- MCP2221 commands
 
-  CMD_SET_PARM             : CONSTANT Message64.Byte := 16#10#;
-  CMD_READ_FLASH           : CONSTANT Message64.Byte := 16#B0#;
-  CMD_WRITE_FLASH          : CONSTANT Message64.Byte := 16#B1#;
-  CMD_I2C_READ             : CONSTANT Message64.Byte := 16#91#;
-  CMD_I2C_READ_REPEAT      : CONSTANT Message64.Byte := 16#93#;
-  CMD_I2C_GET_DATA         : CONSTANT Message64.Byte := 16#40#;
-  CMD_I2C_WRITE            : CONSTANT Message64.Byte := 16#90#;
-  CMD_I2C_WRITE_REPEAT     : CONSTANT Message64.Byte := 16#92#;
-  CMD_I2C_WRITE_NOSTOP     : CONSTANT Message64.Byte := 16#94#;
-  CMD_SET_GPIO             : CONSTANT Message64.Byte := 16#50#;
-  CMD_GET_GPIO             : CONSTANT Message64.Byte := 16#51#;
-  CMD_SET_SRAM             : CONSTANT Message64.Byte := 16#60#;
-  CMD_GET_SRAM             : CONSTANT Message64.Byte := 16#61#;
-  CMD_RESET                : CONSTANT Message64.Byte := 16#70#;
+  CMD_SET_PARM             : CONSTANT Messaging.Byte := 16#10#;
+  CMD_READ_FLASH           : CONSTANT Messaging.Byte := 16#B0#;
+  CMD_WRITE_FLASH          : CONSTANT Messaging.Byte := 16#B1#;
+  CMD_I2C_READ             : CONSTANT Messaging.Byte := 16#91#;
+  CMD_I2C_READ_REPEAT      : CONSTANT Messaging.Byte := 16#93#;
+  CMD_I2C_GET_DATA         : CONSTANT Messaging.Byte := 16#40#;
+  CMD_I2C_WRITE            : CONSTANT Messaging.Byte := 16#90#;
+  CMD_I2C_WRITE_REPEAT     : CONSTANT Messaging.Byte := 16#92#;
+  CMD_I2C_WRITE_NOSTOP     : CONSTANT Messaging.Byte := 16#94#;
+  CMD_SET_GPIO             : CONSTANT Messaging.Byte := 16#50#;
+  CMD_GET_GPIO             : CONSTANT Messaging.Byte := 16#51#;
+  CMD_SET_SRAM             : CONSTANT Messaging.Byte := 16#60#;
+  CMD_GET_SRAM             : CONSTANT Messaging.Byte := 16#61#;
+  CMD_RESET                : CONSTANT Messaging.Byte := 16#70#;
 
   -- Issue a command to the MCP2221
 

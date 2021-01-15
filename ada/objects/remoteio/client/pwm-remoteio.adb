@@ -1,6 +1,6 @@
 -- PWM output services using the Remote I/O Protocol
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,9 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Messaging;
 WITH Message64;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY PWM.RemoteIO IS
 
@@ -44,14 +45,14 @@ PACKAGE BODY PWM.RemoteIO IS
     -- Configure the PWM output channel
 
     cmd    := (OTHERS => 0);
-    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.PWM_CONFIGURE_REQUEST));
-    cmd(2) := Message64.Byte(num);
+    cmd(2) := Messaging.Byte(num);
 
-    cmd(3) := Message64.Byte(period/16777216);
-    cmd(4) := Message64.Byte(period/65536 MOD 256);
-    cmd(5) := Message64.Byte(period/256 MOD 256);
-    cmd(6) := Message64.Byte(period MOD 256);
+    cmd(3) := Messaging.Byte(period/16777216);
+    cmd(4) := Messaging.Byte(period/65536 MOD 256);
+    cmd(5) := Messaging.Byte(period/256 MOD 256);
+    cmd(6) := Messaging.Byte(period MOD 256);
 
     dev.Transaction(cmd, resp);
 
@@ -77,13 +78,13 @@ PACKAGE BODY PWM.RemoteIO IS
     ontime := Natural(Long_Float(duty/100.0)*Long_Float(Self.period));
 
     cmd    := (OTHERS => 0);
-    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.PWM_WRITE_REQUEST));
-    cmd(2) := Message64.Byte(Self.num);
-    cmd(3) := Message64.Byte(ontime/16777216);
-    cmd(4) := Message64.Byte(ontime/65536 MOD 256);
-    cmd(5) := Message64.Byte(ontime/256 MOD 256);
-    cmd(6) := Message64.Byte(ontime MOD 256);
+    cmd(2) := Messaging.Byte(Self.num);
+    cmd(3) := Messaging.Byte(ontime/16777216);
+    cmd(4) := Messaging.Byte(ontime/65536 MOD 256);
+    cmd(5) := Messaging.Byte(ontime/256 MOD 256);
+    cmd(6) := Messaging.Byte(ontime MOD 256);
 
     Self.dev.Transaction(cmd, resp);
   END Put;
@@ -99,13 +100,13 @@ PACKAGE BODY PWM.RemoteIO IS
 
   BEGIN
     cmd    := (OTHERS => 0);
-    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.PWM_WRITE_REQUEST));
-    cmd(2) := Message64.Byte(Self.num);
-    cmd(3) := Message64.Byte(Natural(ontime*1E9)/16777216);
-    cmd(4) := Message64.Byte(Natural(ontime*1E9)/65536 MOD 256);
-    cmd(5) := Message64.Byte(Natural(ontime*1E9)/256 MOD 256);
-    cmd(6) := Message64.Byte(Natural(ontime*1E9) MOD 256);
+    cmd(2) := Messaging.Byte(Self.num);
+    cmd(3) := Messaging.Byte(Natural(ontime*1E9)/16777216);
+    cmd(4) := Messaging.Byte(Natural(ontime*1E9)/65536 MOD 256);
+    cmd(5) := Messaging.Byte(Natural(ontime*1E9)/256 MOD 256);
+    cmd(6) := Messaging.Byte(Natural(ontime*1E9) MOD 256);
 
     Self.dev.Transaction(cmd, resp);
   END Put;

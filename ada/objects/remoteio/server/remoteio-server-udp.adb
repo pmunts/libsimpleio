@@ -1,6 +1,6 @@
 -- Remote I/O Server Services using Message64.UDP transport
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@ WITH Logging.libsimpleio;
 WITH Message64;
 WITH Messaging;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY RemoteIO.Server.UDP IS
 

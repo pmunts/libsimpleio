@@ -1,6 +1,6 @@
 -- MCP2221 Device Services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,9 +23,10 @@
 WITH Ada.Characters.Conversions;
 WITH Ada.Strings.Fixed;
 
+WITH Messaging;
 WITH Message64;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY MCP2221 IS
 
@@ -60,7 +61,7 @@ PACKAGE BODY MCP2221 IS
 
     IF resp(1) /= 0 THEN
       RAISE MCP2221_Error WITH "Command failed, error => " &
-        Message64.Byte'Image(resp(1));
+        Messaging.Byte'Image(resp(1));
     END IF;
   END Command;
 
@@ -80,7 +81,7 @@ PACKAGE BODY MCP2221 IS
         cmd(8 + Natural(p)) := 16#08#;
       ELSE
         -- Configure pin as special function
-        cmd(8 + Natural(p)) := Message64.Byte(Modes(p));
+        cmd(8 + Natural(p)) := Messaging.Byte(Modes(p));
       END IF;
     END LOOP;
 

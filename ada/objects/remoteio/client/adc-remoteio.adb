@@ -1,6 +1,6 @@
 -- A/D input services using the Remote I/O Protocol
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,10 +22,11 @@
 
 WITH Interfaces;
 
+WITH Messaging;
 WITH Message64;
 
 USE TYPE Interfaces.Unsigned_32;
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY ADC.RemoteIO IS
 
@@ -43,9 +44,9 @@ PACKAGE BODY ADC.RemoteIO IS
     -- Configure the A/D input channel
 
     cmd := (OTHERS => 0);
-    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.ADC_CONFIGURE_REQUEST));
-    cmd(2) := Message64.Byte(num);
+    cmd(2) := Messaging.Byte(num);
 
     dev.Transaction(cmd, resp);
 
@@ -61,9 +62,9 @@ PACKAGE BODY ADC.RemoteIO IS
 
   BEGIN
     cmd := (OTHERS => 0);
-    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.ADC_READ_REQUEST));
-    cmd(2) := Message64.Byte(Self.num);
+    cmd(2) := Messaging.Byte(Self.num);
 
     Self.dev.Transaction(cmd, resp);
 

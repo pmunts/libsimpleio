@@ -1,7 +1,7 @@
 -- Fixed length message services implementing using GNAT.Sockets UDP
 -- Must be instantiated for each message size.
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -102,7 +102,7 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     END IF;
 
     FOR i IN Data'Range LOOP
-      msg(Integer(i)) := Byte(Data(i));
+      msg(Integer(i)) := Messaging.Byte(Data(i));
     END LOOP;
   EXCEPTION
     WHEN E : GNAT.Sockets.Socket_Error =>
@@ -184,7 +184,7 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     GNAT.Sockets.Receive_Socket(Self.socket, Data, Last, From);
 
     FOR i IN Data'Range LOOP
-      msg(Integer(i)) := Byte(Data(i));
+      msg(Integer(i)) := Messaging.Byte(Data(i));
     END LOOP;
 
     src := PeerIdentifier(From);

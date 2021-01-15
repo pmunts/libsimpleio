@@ -1,6 +1,6 @@
 -- Remote I/O Client Services using Message64 transport (e.g. raw HID)
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,10 +23,10 @@
 WITH Ada.Strings;
 WITH Ada.Strings.Fixed;
 
-WITH Message64;
+WITH Messaging;
 WITH errno;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY RemoteIO.Client IS
 
@@ -162,12 +162,12 @@ PACKAGE BODY RemoteIO.Client IS
     chanset : ChannelSets.Set;
 
   BEGIN
-    cmd(0) := Message64.Byte(MessageTypes'Pos(QueryCommands(service)));
+    cmd(0) := Messaging.Byte(MessageTypes'Pos(QueryCommands(service)));
 
     Self.Transaction(cmd, resp);
 
     FOR c IN ChannelNumber LOOP
-      IF (resp(3 + c/8) AND Message64.Byte(2**(7 - c MOD 8))) /= 0 THEN
+      IF (resp(3 + c/8) AND Messaging.Byte(2**(7 - c MOD 8))) /= 0 THEN
         chanset.Include(c);
       END IF;
     END LOOP;

@@ -1,6 +1,6 @@
 -- Remote I/O Server Services using a datagram character device
 
--- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ WITH Logging.libsimpleio;
 WITH Message64.Datagram;
 WITH Messaging;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY RemoteIO.Server.Message64 IS
 

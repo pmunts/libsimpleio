@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for PWM commands
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,10 +21,11 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH errno;
+WITH Messaging;
 WITH Message64;
 WITH PWM.libsimpleio;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY RemoteIO.PWM IS
 
@@ -94,7 +95,7 @@ PACKAGE BODY RemoteIO.PWM IS
     resp : OUT Message64.message) IS
 
     byteindex : Natural;
-    bitmask   : Message64.Byte;
+    bitmask   : Messaging.Byte;
 
   BEGIN
     resp := (cmd(0) + 1, cmd(1), OTHERS => 0);

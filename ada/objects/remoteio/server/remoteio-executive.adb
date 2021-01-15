@@ -1,6 +1,6 @@
 -- Remote I/O Server Command Executive Services
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,10 +24,11 @@ WITH Ada.Exceptions;
 
 WITH errno;
 WITH Logging.libsimpleio;
+WITH Messaging;
 WITH Message64;
 WITH RemoteIO.Dispatch;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 USE TYPE RemoteIO.Dispatch.Dispatcher;
 
 PACKAGE BODY RemoteIO.Executive IS

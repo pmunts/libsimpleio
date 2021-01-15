@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for I2C commands
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,10 +22,11 @@
 
 WITH errno;
 WITH I2C;
+WITH Messaging;
 WITH Message64;
 
 USE TYPE I2C.Microseconds;
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY RemoteIO.I2C IS
 
@@ -90,7 +91,7 @@ PACKAGE BODY RemoteIO.I2C IS
     resp : OUT Message64.message) IS
 
     byteindex : Natural;
-    bitmask   : Message64.Byte;
+    bitmask   : Messaging.Byte;
 
   BEGIN
     resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
@@ -213,10 +214,10 @@ PACKAGE BODY RemoteIO.I2C IS
 
     IF iresplen > 0 THEN
       FOR i IN iresp'Range LOOP
-        resp(i) := Message64.Byte(iresp(i));
+        resp(i) := Messaging.Byte(iresp(i));
       END LOOP;
 
-      resp(3) := Message64.Byte(iresplen);
+      resp(3) := Messaging.Byte(iresplen);
     END IF;
 
   EXCEPTION

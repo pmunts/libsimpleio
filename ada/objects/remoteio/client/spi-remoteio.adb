@@ -1,6 +1,6 @@
 -- SPI device services using the Remote I/O Protocol
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,9 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Messaging;
 WITH Message64;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY SPI.RemoteIO IS
 
@@ -40,16 +41,16 @@ PACKAGE BODY SPI.RemoteIO IS
 
   BEGIN
     cmdmsg := (OTHERS => 0);
-    cmdmsg(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmdmsg(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.SPI_CONFIGURE_REQUEST));
     cmdmsg(1) := 1;
-    cmdmsg(2) := Message64.Byte(num);
-    cmdmsg(3) := Message64.Byte(mode);
-    cmdmsg(4) := Message64.Byte(wordsize);
-    cmdmsg(5) := Message64.Byte(speed/16777216);
-    cmdmsg(6) := Message64.Byte(speed/65536 MOD 256);
-    cmdmsg(7) := Message64.Byte(speed/256 MOD 256);
-    cmdmsg(8) := Message64.Byte(speed MOD 256);
+    cmdmsg(2) := Messaging.Byte(num);
+    cmdmsg(3) := Messaging.Byte(mode);
+    cmdmsg(4) := Messaging.Byte(wordsize);
+    cmdmsg(5) := Messaging.Byte(speed/16777216);
+    cmdmsg(6) := Messaging.Byte(speed/65536 MOD 256);
+    cmdmsg(7) := Messaging.Byte(speed/256 MOD 256);
+    cmdmsg(8) := Messaging.Byte(speed MOD 256);
 
     dev.Transaction(cmdmsg, respmsg);
 
@@ -111,17 +112,17 @@ PACKAGE BODY SPI.RemoteIO IS
     END IF;
 
     cmdmsg := (OTHERS => 0);
-    cmdmsg(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmdmsg(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.SPI_TRANSACTION_REQUEST));
     cmdmsg(1) := 2;
-    cmdmsg(2) := Message64.Byte(Self.num);
-    cmdmsg(3) := Message64.Byte(cmdlen);
-    cmdmsg(4) := Message64.Byte(resplen);
-    cmdmsg(5) := Message64.Byte(delayus / 256);
-    cmdmsg(6) := Message64.Byte(delayus MOD 256);
+    cmdmsg(2) := Messaging.Byte(Self.num);
+    cmdmsg(3) := Messaging.Byte(cmdlen);
+    cmdmsg(4) := Messaging.Byte(resplen);
+    cmdmsg(5) := Messaging.Byte(delayus / 256);
+    cmdmsg(6) := Messaging.Byte(delayus MOD 256);
 
     FOR i IN Natural RANGE 0 .. cmdlen - 1 LOOP
-      cmdmsg(7 + i) := Message64.Byte(cmd(i));
+      cmdmsg(7 + i) := Messaging.Byte(cmd(i));
     END LOOP;
 
     Self.dev.Transaction(cmdmsg, respmsg);

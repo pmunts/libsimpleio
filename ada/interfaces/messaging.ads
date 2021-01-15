@@ -1,6 +1,6 @@
 -- Parent package for messaging child packages
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,8 +22,18 @@
 
 PACKAGE Messaging IS
 
+  CRC_Error     : EXCEPTION;
+  Framing_Error : EXCEPTION;
   Length_Error  : EXCEPTION;
   Message_Error : EXCEPTION;
   Timeout_Error : EXCEPTION;
+
+  TYPE Byte IS MOD 256;
+
+  TYPE Buffer IS ARRAY (Natural RANGE <>) OF Byte;
+
+  -- Display buffer contents in hexadecimal
+
+  PROCEDURE Dump(src : Buffer; nbytes : Natural := Natural'Last);
 
 END Messaging;

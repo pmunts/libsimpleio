@@ -1,6 +1,6 @@
 -- 64-byte message services using the raw HID services from libhidapi
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -117,7 +117,7 @@ PACKAGE BODY HID.hidapi IS
    (Self : MessengerSubclass;
     msg  : Message64.Message) IS
 
-    outbuf : ARRAY (0 .. msg'Length) OF Message64.Byte;
+    outbuf : Messaging.Buffer(0 .. msg'Length);
     status : Integer;
 
   BEGIN
@@ -126,10 +126,7 @@ PACKAGE BODY HID.hidapi IS
     -- Prepend the report ID byte
 
     outbuf(0) := 0;
-
-    FOR i IN msg'Range LOOP
-      outbuf(i + 1) := msg(i);
-    END LOOP;
+    outbuf(1 .. msg'Length) := msg;
 
     -- Send the report
 
@@ -148,8 +145,7 @@ PACKAGE BODY HID.hidapi IS
     msg  : OUT Message64.Message) IS
 
     status : Integer;
-    inbuf  : ARRAY (0 .. msg'Length) OF Message64.Byte;
-    offset : Natural;
+    inbuf  : Messaging.Buffer(0 .. msg'Length);
 
   BEGIN
     Self.CheckDestroyed;
@@ -160,21 +156,15 @@ PACKAGE BODY HID.hidapi IS
     -- Handle the various outcomes
 
     IF status = inbuf'Length THEN
-      offset := 1;  -- Strip report ID byte
+      msg := inbuf(1 .. msg'Length);
     ELSIF status = msg'Length THEN
-      offset := 0;  -- No report ID byte
+      msg := inbuf(0 .. msg'Length - 1);
     ELSIF status = 0 THEN
       RAISE Messaging.Timeout_Error WITH "hid_read_timeout() timed out";
     ELSE
       RAISE HID_Error WITH "hid_read_timeout() failed, status =" &
         Integer'Image(status);
     END IF;
-
-    -- Copy bytes from the input buffer to the message array
-
-    FOR i IN msg'Range LOOP
-      msg(i) := inbuf(i + offset);
-    END LOOP;
   END Receive;
 
   -- Get HID device name string

@@ -1,6 +1,6 @@
 -- Abstract device services using the Remote I/O Protocol
 
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,9 +22,10 @@
 
 WITH Ada.Strings.Fixed;
 
+WITH Messaging;
 WITH Message64;
 
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY RemoteIO.Abstract_Device IS
 
@@ -51,9 +52,9 @@ PACKAGE BODY RemoteIO.Abstract_Device IS
 
   BEGIN
     mcmd := (OTHERS => 0);
-    mcmd(0) := Message64.Byte(RemoteIO.MessageTypes'Pos(
+    mcmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(
       RemoteIO.DEVICE_INFO_REQUEST));
-    mcmd(2) := Message64.Byte(Self.channel);
+    mcmd(2) := Messaging.Byte(Self.channel);
 
     Self.remdev.Transaction(mcmd, mresp);
 
@@ -79,9 +80,9 @@ PACKAGE BODY RemoteIO.Abstract_Device IS
 
   BEGIN
     mcmd := FromCommand(cmd);
-    mcmd(0) := Message64.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.DEVICE_OPERATION_REQUEST));
+    mcmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.DEVICE_OPERATION_REQUEST));
     mcmd(1) := 0;
-    mcmd(2) := Message64.Byte(Self.channel);
+    mcmd(2) := Messaging.Byte(Self.channel);
 
     -- Execute the command
 

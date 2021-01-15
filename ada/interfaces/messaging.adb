@@ -1,7 +1,6 @@
--- Abstract interface for fixed length message services (e.g. raw HID)
--- Must be instantiated for each message size.
+-- Parent package for messaging child packages
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,18 +23,19 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-PACKAGE BODY Messaging.Fixed IS
+PACKAGE BODY Messaging IS
 
   PACKAGE ByteIO IS NEW Ada.Text_IO.Modular_IO(Byte);
 
   -- Dump a message in hexadecimal format
 
-  PROCEDURE Dump(msg : Message) IS
+  PROCEDURE Dump(src : Buffer; nbytes : Natural := Natural'Last) IS
 
-    buf : String(1 .. 6);
+    buf   : String(1 .. 6);
+    count : Natural := nbytes;
 
   BEGIN
-    FOR b OF msg LOOP
+    FOR b OF src LOOP
       ByteIO.Put(buf, b, 16);
 
       IF buf(1) = ' ' THEN
@@ -47,9 +47,12 @@ PACKAGE BODY Messaging.Fixed IS
 
       Put(Ada.Strings.Fixed.Trim(buf, Ada.Strings.Both));
       Put(" ");
+
+      count := count - 1;
+      EXIT WHEN count = 0;
     END LOOP;
 
     New_Line;
   END Dump;
 
-END Messaging.Fixed;
+END Messaging;

@@ -22,6 +22,7 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Messaging;
 WITH Stream_Framing_Protocol;
 
 PROCEDURE test_stream_framing_ada IS
@@ -41,34 +42,34 @@ BEGIN
   -- Empty frame
 
   payload := (OTHERS =>  0);
-  SFP.Dump(payload);
+  Messaging.Dump(payload);
   SFP.Encode(payload, 0, frame, framesize);
-  SFP.Dump(frame);
+  Messaging.Dump(frame);
 
   SFP.Decode(frame, framesize, payload, payloadsize);
-  SFP.Dump(payload);
+  Messaging.Dump(payload);
   New_Line;
 
   -- Frame containing "123456789"
 
   payload := (49, 50, 51, 52, 53, 54, 55, 56, 57, OTHERS => 0);
-  SFP.Dump(payload);
+  Messaging.Dump(payload);
   SFP.Encode(payload, 9, frame, framesize);
-  SFP.Dump(frame);
+  Messaging.Dump(frame);
 
   SFP.Decode(frame, framesize, payload, payloadsize);
-  SFP.Dump(payload);
+  Messaging.Dump(payload);
   New_Line;
 
   -- Frame containing DLE DLE ...
 
   payload := (OTHERS => 16);
-  SFP.Dump(payload);
+  Messaging.Dump(payload);
   SFP.Encode(payload, 10, frame, framesize);
-  SFP.Dump(frame);
+  Messaging.Dump(frame);
 
   SFP.Decode(frame, framesize, payload, payloadsize);
-  SFP.Dump(payload);
+  Messaging.Dump(payload);
   New_Line;
 
 END test_stream_framing_ada;

@@ -1,6 +1,6 @@
 -- DAC output services using the Remote I/O Protocol
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,10 +21,11 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Analog;
+WITH Messaging;
 WITH Message64;
 
 USE TYPE Analog.Sample;
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY DAC.RemoteIO IS
 
@@ -42,9 +43,9 @@ PACKAGE BODY DAC.RemoteIO IS
     -- Configure the DAC output channel
 
     cmd := (OTHERS => 0);
-    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.DAC_CONFIGURE_REQUEST));
-    cmd(2) := Message64.Byte(num);
+    cmd(2) := Messaging.Byte(num);
 
     dev.Transaction(cmd, resp);
 
@@ -62,14 +63,14 @@ PACKAGE BODY DAC.RemoteIO IS
 
   BEGIN
     cmd := (OTHERS => 0);
-    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.DAC_WRITE_REQUEST));
-    cmd(2) := Message64.Byte(Self.num);
+    cmd(2) := Messaging.Byte(Self.num);
 
-    cmd(3) := Message64.Byte(data/16777216);
-    cmd(4) := Message64.Byte(data/65536 MOD 256);
-    cmd(5) := Message64.Byte(data/256 MOD 256);
-    cmd(6) := Message64.Byte(data MOD 256);
+    cmd(3) := Messaging.Byte(data/16777216);
+    cmd(4) := Messaging.Byte(data/65536 MOD 256);
+    cmd(5) := Messaging.Byte(data/256 MOD 256);
+    cmd(6) := Messaging.Byte(data MOD 256);
 
     Self.dev.Transaction(cmd, resp);
   END Put;

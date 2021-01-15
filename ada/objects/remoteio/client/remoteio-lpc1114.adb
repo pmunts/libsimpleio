@@ -2,7 +2,7 @@
 -- Expansion Board (MUNTS-0004) or a LPC1114 I/O Processor Grove Module
 -- (MUNTS-0007)
 
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Interfaces;
+WITH Messaging;
 
 USE TYPE Interfaces.Unsigned_32;
 
@@ -31,19 +32,19 @@ PACKAGE BODY RemoteIO.LPC1114 IS
   -- Split 32-bit word into individual bytes
 
   FUNCTION ToByte
-   (u : Interfaces.Unsigned_32; b : Natural) RETURN Message64.Byte IS
+   (u : Interfaces.Unsigned_32; b : Natural) RETURN Messaging.Byte IS
 
   BEGIN
-    RETURN Message64.Byte(Interfaces.Shift_Right(u, b*8) AND 16#FF#);
+    RETURN Messaging.Byte(Interfaces.Shift_Right(u, b*8) AND 16#FF#);
   END ToByte;
 
   -- Merge four bytes into one 32-bit word
 
   FUNCTION ToUnsigned
-   (byte0 : Message64.Byte;
-    byte1 : Message64.Byte;
-    byte2 : Message64.Byte;
-    byte3 : Message64.Byte) RETURN Interfaces.Unsigned_32 IS
+   (byte0 : Messaging.Byte;
+    byte1 : Messaging.Byte;
+    byte2 : Messaging.Byte;
+    byte3 : Messaging.Byte) RETURN Interfaces.Unsigned_32 IS
 
   BEGIN
     RETURN

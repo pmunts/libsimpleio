@@ -1,6 +1,6 @@
 -- I2C bus controller services using the Remote I/O Protocol
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Messaging;
 WITH Message64;
 
 PACKAGE BODY I2C.RemoteIO IS
@@ -36,13 +37,13 @@ PACKAGE BODY I2C.RemoteIO IS
 
   BEGIN
     cmd := (OTHERS => 0);
-    cmd(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.I2C_CONFIGURE_REQUEST));
-    cmd(2) := Message64.Byte(num);
-    cmd(3) := Message64.Byte(speed/16777216);
-    cmd(4) := Message64.Byte(speed/65536 MOD 256);
-    cmd(5) := Message64.Byte(speed/256 MOD 256);
-    cmd(6) := Message64.Byte(speed MOD 256);
+    cmd(2) := Messaging.Byte(num);
+    cmd(3) := Messaging.Byte(speed/16777216);
+    cmd(4) := Messaging.Byte(speed/65536 MOD 256);
+    cmd(5) := Messaging.Byte(speed/256 MOD 256);
+    cmd(6) := Messaging.Byte(speed MOD 256);
 
     dev.Transaction(cmd, resp);
 
@@ -94,18 +95,18 @@ PACKAGE BODY I2C.RemoteIO IS
 
   BEGIN
     cmdmsg := (OTHERS => 0);
-    cmdmsg(0) := Message64.Byte(Standard.RemoteIO.MessageTypes'Pos(
+    cmdmsg(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.I2C_TRANSACTION_REQUEST));
-    cmdmsg(1) := Message64.Byte(2);
-    cmdmsg(2) := Message64.Byte(Self.num);
-    cmdmsg(3) := Message64.Byte(addr);
-    cmdmsg(4) := Message64.Byte(cmdlen);
-    cmdmsg(5) := Message64.Byte(resplen);
-    cmdmsg(6) := Message64.Byte(delayus / 256);
-    cmdmsg(7) := Message64.Byte(delayus MOD 256);
+    cmdmsg(1) := Messaging.Byte(2);
+    cmdmsg(2) := Messaging.Byte(Self.num);
+    cmdmsg(3) := Messaging.Byte(addr);
+    cmdmsg(4) := Messaging.Byte(cmdlen);
+    cmdmsg(5) := Messaging.Byte(resplen);
+    cmdmsg(6) := Messaging.Byte(delayus / 256);
+    cmdmsg(7) := Messaging.Byte(delayus MOD 256);
 
     FOR i IN 1 .. cmdlen LOOP
-      cmdmsg(i + 7) := Message64.Byte(cmd(i - 1));
+      cmdmsg(i + 7) := Messaging.Byte(cmd(i - 1));
     END LOOP;
 
     Self.dev.Transaction(cmdmsg, respmsg);

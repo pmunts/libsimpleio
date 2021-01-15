@@ -1,7 +1,7 @@
 -- Abstract interface for fixed length message services (e.g. raw HID)
 -- Must be instantiated for each message size.
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -31,11 +31,7 @@ PACKAGE Messaging.Fixed IS
 
   TYPE Messenger IS ACCESS ALL MessengerInterface'Class;
 
-  TYPE Byte IS MOD 256;
-
-  TYPE Buffer IS ARRAY (Natural RANGE <>) OF Byte;
-
-  TYPE Message IS NEW Buffer(0 .. MessageSize - 1);
+  SUBTYPE Message IS Messaging.Buffer(0 .. MessageSize - 1);
 
   -- Send a message
 
@@ -48,9 +44,5 @@ PACKAGE Messaging.Fixed IS
   PROCEDURE Receive
    (Self      : MessengerInterface;
     msg       : OUT Message) IS ABSTRACT;
-
-  -- Dump a message in hexadecimal format
-
-  PROCEDURE Dump(msg : Message);
 
 END Messaging.Fixed;

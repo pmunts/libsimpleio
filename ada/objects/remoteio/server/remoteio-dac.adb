@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for DAC commands
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,10 +22,11 @@
 
 WITH Analog;
 WITH errno;
+WITH Messaging;
 WITH Message64;
 
 USE TYPE Analog.Sample;
-USE TYPE Message64.Byte;
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY RemoteIO.DAC IS
 
@@ -91,7 +92,7 @@ PACKAGE BODY RemoteIO.DAC IS
     resp : OUT Message64.message) IS
 
     byteindex : Natural;
-    bitmask   : Message64.Byte;
+    bitmask   : Messaging.Byte;
 
   BEGIN
     resp := (cmd(0) + 1, cmd(1), OTHERS => 0);
@@ -133,7 +134,7 @@ PACKAGE BODY RemoteIO.DAC IS
     END IF;
 
     IF Self.outputs(num).configured THEN
-      resp(3) := Message64.Byte(Self.outputs(num).resolution);
+      resp(3) := Messaging.Byte(Self.outputs(num).resolution);
       RETURN;
     END IF;
 
@@ -142,7 +143,7 @@ PACKAGE BODY RemoteIO.DAC IS
 
     Self.outputs(num).configured := True;
 
-    resp(3) := Message64.Byte(Self.outputs(num).resolution);
+    resp(3) := Messaging.Byte(Self.outputs(num).resolution);
 
   EXCEPTION
     WHEN OTHERS =>

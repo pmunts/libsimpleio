@@ -25,12 +25,15 @@
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO;
 WITH Interfaces; USE Interfaces;
+WITH Messaging;
+
+USE TYPE Messaging.Byte;
 
 PACKAGE BODY Stream_Framing_Protocol IS
 
-  DLE : CONSTANT Byte := 16#10#;
-  STX : CONSTANT Byte := 16#02#;
-  ETX : CONSTANT Byte := 16#03#;
+  DLE : CONSTANT Messaging.Byte := 16#10#;
+  STX : CONSTANT Messaging.Byte := 16#02#;
+  ETX : CONSTANT Messaging.Byte := 16#03#;
 
   -- The following CRC16-CCITT subroutine came from:
   -- http://stackoverflow.com/questions/10564491/function-to-calculate-a-crc16-checksum
@@ -86,7 +89,7 @@ PACKAGE BODY Stream_Framing_Protocol IS
 
     -- Append frame check sequence high byte
 
-    dst(didx) := Byte(crc / 256);
+    dst(didx) := Messaging.Byte(crc / 256);
     didx := didx + 1;
 
     IF dst(didx - 1) = DLE THEN
@@ -96,7 +99,7 @@ PACKAGE BODY Stream_Framing_Protocol IS
 
     -- Append frame check sequence low byte
 
-    dst(didx) := Byte(crc MOD 256);
+    dst(didx) := Messaging.Byte(crc MOD 256);
     didx := didx + 1;
 
     IF dst(didx - 1) = DLE THEN
@@ -236,40 +239,5 @@ PACKAGE BODY Stream_Framing_Protocol IS
 
     dstlen := didx - 1;
   END Decode;
-
-  -- Display buffer contents in hexadecimal
-
-  PROCEDURE Dump
-   (src  : Buffer;
-    trim : Boolean := True) IS
-
-    len : Positive;
-    buf : String(1 .. 6);
-
-    PACKAGE ByteIO IS NEW Ada.Text_IO.Modular_IO(Byte);
-
-  BEGIN
-    len := src'Last;
-
-    WHILE trim AND (len > 1) AND (src(len) = 0) LOOP
-      len := len - 1;
-    END LOOP;
-
-    FOR b OF src(1 .. len) LOOP
-      ByteIO.Put(buf, b, 16);
-
-      IF buf(1) = ' ' THEN
-        Ada.Strings.Fixed.Insert(buf, 5, "0", Ada.Strings.Left);
-      END IF;
-
-      Ada.Strings.Fixed.Replace_Slice(buf, 6, 6, " ");
-      Ada.Strings.Fixed.Replace_Slice(buf, 1, 3, " ");
-
-      Ada.Text_IO.Put(Ada.Strings.Fixed.Trim(buf, Ada.Strings.Both));
-      Ada.Text_IO.Put(" ");
-    END LOOP;
-
-    Ada.Text_IO.New_Line;
-  END Dump;
 
 END Stream_Framing_Protocol;

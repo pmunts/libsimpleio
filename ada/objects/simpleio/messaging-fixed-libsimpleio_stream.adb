@@ -1,7 +1,7 @@
 -- Fixed length message services using the libsimpleio Stream Framing Protocol
 -- library.  Must be instantiated for each message size.
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ PACKAGE BODY Messaging.Fixed.libsimpleio_stream IS
 
   MaxFrameSize : CONSTANT Natural := 2*MessageSize + 8;
 
-  TYPE FrameBuffer IS ARRAY (1 .. MaxFrameSize) OF Byte;
+  SUBTYPE FrameBuffer IS Messaging.Buffer(1 .. MaxFrameSize);
 
   -- Constructor
 
