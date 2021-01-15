@@ -47,7 +47,7 @@ PACKAGE Stream_Framing_Protocol IS
     dst    : OUT FrameBuffer;
     dstlen : OUT FrameSize);
 
-  -- Decode a frame.
+  -- Decode a frame.  May raise Messaging.Framing_Error or Messaging.CRC_Error.
 
   PROCEDURE Decode
    (src    : FrameBuffer;

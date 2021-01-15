@@ -119,7 +119,7 @@ PACKAGE BODY Stream_Framing_Protocol IS
     dstlen := didx - 1;
   END Encode;
 
-  -- Decode a frame.
+  -- Decode a frame.  May raise Messaging.Framing_Error or Messaging.CRC_Error.
 
   PROCEDURE Decode
    (src    : FrameBuffer;
