@@ -1,6 +1,6 @@
 # Makefile for building Ada Remote I/O example programs
 
-# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -22,8 +22,8 @@
 
 ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
-EMBLINUXBASE	?= $(HOME)/muntsos
-include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+MUNTSOS		?= $(HOME)/muntsos
+include $(MUNTSOS)/include/$(BOARDNAME).mk
 else
 # Native compile for Linux
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio

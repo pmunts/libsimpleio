@@ -1,6 +1,6 @@
 # Makefile to build Linux Simple I/O Library
 
-# Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -43,8 +43,8 @@ DEBFILE		:= $(PKGDIR).deb
 else
 # Definitions for cross-compiling for MuntsOS embedded Linux
 
-EMBLINUXBASE	?= $(HOME)/muntsos
-include $(EMBLINUXBASE)/include/$(BOARDNAME).mk
+MUNTSOS		?= $(HOME)/muntsos
+include $(MUNTSOS)/include/$(BOARDNAME).mk
 
 OSNAME		?= unknown
 PKGNAME		:= gcc-$(TOOLCHAIN_NAME)-libsimpleio
