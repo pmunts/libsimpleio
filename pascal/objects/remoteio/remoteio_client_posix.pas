@@ -1,6 +1,6 @@
 { Remote I/O Client Constructor using Posix file I/O services }
 
-{ Copyright (C)2020, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.                  }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
