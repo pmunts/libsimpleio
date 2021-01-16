@@ -1,6 +1,6 @@
--- Message64.Stream Send Test
+-- Message64.Stream_libsimpleio Send Test
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH errno;
 WITH libIPV4;
-WITH Message64.Stream;
+WITH Message64.Stream_libsimpleio;
 
 PROCEDURE test_message64_stream_sender IS
 
@@ -48,7 +48,7 @@ BEGIN
 
   -- Create a Message64.Messenger object
 
-  msg := Message64.Stream.Create(fd);
+  msg := Message64.Stream_libsimpleio.Create(fd);
 
   -- Send messages to the receiver
 

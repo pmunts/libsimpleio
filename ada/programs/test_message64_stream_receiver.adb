@@ -1,4 +1,4 @@
--- Message64.Stream Receive Test
+-- Message64.Stream_libsimpleio Receive Test
 
 -- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
@@ -22,7 +22,7 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH Message64.Stream;
+WITH Message64.Stream_libsimpleio;
 WITH Messaging;
 WITH errno;
 WITH libIPV4;
@@ -51,7 +51,7 @@ BEGIN
 
   -- Create Message64.Messenger object
 
-  msg := Message64.Stream.Create(fd);
+  msg := Message64.Stream_libsimpleio.Create(fd);
 
   -- Receive messages from the sender
 

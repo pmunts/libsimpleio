@@ -1,6 +1,6 @@
 -- Remote I/O Device Information Query
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,7 +26,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH errno;
 WITH libSerial;
-WITH Message64.Stream;
+WITH Message64.Stream_libsimpleio;
 WITH RemoteIO.Client;
 
 PROCEDURE test_query_serial IS
@@ -64,7 +64,7 @@ BEGIN
 
   -- Create the messenger object
 
-  msg := Message64.Stream.Create(fd);
+  msg := Message64.Stream_libsimpleio.Create(fd);
 
   -- Create the remote I/O device
 

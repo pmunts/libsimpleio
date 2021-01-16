@@ -26,7 +26,7 @@ WITH Ada.Strings.Fixed;
 
 WITH libLinux;
 WITH Logging.libsimpleio;
-WITH Message64.Datagram;
+WITH Message64.Datagram_libsimpleio;
 WITH Messaging;
 
 USE TYPE Messaging.Byte;
