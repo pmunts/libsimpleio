@@ -29,7 +29,7 @@ WITH libSerial;
 WITH Message64.Stream_libsimpleio;
 WITH RemoteIO.Client;
 
-PROCEDURE test_query_serial IS
+PROCEDURE test_query_serial_libsimpleio IS
 
   File_Error : EXCEPTION;
 
@@ -47,7 +47,7 @@ BEGIN
   -- Check command line parameters
 
   IF Ada.Command_Line.Argument_Count /= 1 THEN
-    Put_Line("Usage: test_query_serial <device name>");
+    Put_Line("Usage: test_query_serial_libsimpleio <device name>");
     New_Line;
     RETURN;
   END IF;
@@ -196,4 +196,4 @@ BEGIN
       New_Line;
     END IF;
   END IF;
-END test_query_serial;
+END test_query_serial_libsimpleio;
