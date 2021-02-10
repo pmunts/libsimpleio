@@ -76,6 +76,7 @@
       <NamespaceSummaryItem name="IO.Interfaces.Servo" isDocumented="True">Abstract Interface for Servo Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Temperature" isDocumented="True">Abstract Interface for Temperature Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Watchdog" isDocumented="True">Abstract Interface for Watchdog Timers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.GPIO.PWM" isDocumented="True">PWM Controlled GPIO Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Services over UDP</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>

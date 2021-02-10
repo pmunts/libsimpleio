@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>libremoteio</id>
+    <version>2.2021.41.1</version>
+    <title>Munts Technologies Remote I/O Library for .Net Standard 2.0</title>
+    <authors>Philip Munts</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">doc/COPYING</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
+    <description>Munts Technologies Remote I/O Library for .Net Standard 2.0</description>
+    <releaseNotes>Added support for GPIO outputs implemented using PWM outputs. This is useful
+for controlling an ON/OFF thing like an LED or a solenoid value driven by a
+PWM output.</releaseNotes>
+    <copyright>Copyright (C)2017-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
+    <tags>Linux USB HID Remote I/O ADC DAC GPIO I2C PWM Servo SPI</tags>
+    <repository type="git" url="https://github.com/pmunts/libsimpleio" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="hidsharp" version="2.1.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
