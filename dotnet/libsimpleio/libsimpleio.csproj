@@ -8,7 +8,7 @@
     <Title>Munts Technologies Linux Simple I/O Library for .Net Standard 2.0</Title>
     <Description>Munts Technologies Linux Simple I/O Library for .Net Standard 2.0</Description>
     <Authors>Philip Munts</Authors>
-    <Copyright>Copyright (C)2017-2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
+    <Copyright>Copyright (C)2017-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageLicenseFile>doc/COPYING</PackageLicenseFile>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageTags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
