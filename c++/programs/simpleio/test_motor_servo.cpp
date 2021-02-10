@@ -60,7 +60,7 @@ int main(void)
   // Create a motor object
 
   Interfaces::Motor::Output Motor0 =
-    new Interfaces::Motor::Servo::Output_Class(Servo0);
+    new Motor::Servo::Output_Class(Servo0);
 
   // Sweep the motor velocity back and forth
 

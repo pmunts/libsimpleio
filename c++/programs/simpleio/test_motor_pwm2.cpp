@@ -76,7 +76,7 @@ int main(void)
     new libsimpleio::PWM::Output_Class(chipCCW, chanCCW, 100);
 
   Interfaces::Motor::Output Motor0 =
-    new Interfaces::Motor::PWM::Output_Class(PWM0, PWM1);
+    new Motor::PWM::Output_Class(PWM0, PWM1);
 
   // Sweep the motor velocity up and down
 

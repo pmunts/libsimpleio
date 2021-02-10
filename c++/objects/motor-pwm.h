@@ -27,7 +27,7 @@
 #include <motor-interface.h>
 #include <pwm-interface.h>
 
-namespace Interfaces::Motor::PWM
+namespace Motor::PWM
 {
   struct Output_Class: public Interfaces::Motor::Output_Interface
   {

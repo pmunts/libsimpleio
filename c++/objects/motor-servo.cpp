@@ -23,7 +23,7 @@
 #include <exception-raisers.h>
 #include <motor-servo.h>
 
-using namespace Interfaces::Motor::Servo;
+using namespace Motor::Servo;
 
 // Motor output constructor
 

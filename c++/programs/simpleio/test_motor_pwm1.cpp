@@ -78,7 +78,7 @@ int main(void)
     Interfaces::GPIO::OUTPUT);
 
   Interfaces::Motor::Output Motor0 =
-    new Interfaces::Motor::PWM::Output_Class(PWM0, GPIO0);
+    new Motor::PWM::Output_Class(PWM0, GPIO0);
 
   // Sweep the motor velocity up and down
 

@@ -23,7 +23,7 @@
 #include <exception-raisers.h>
 #include <motor-pwm.h>
 
-using namespace Interfaces::Motor::PWM;
+using namespace Motor::PWM;
 
 // Type 1 motor control systems:
 

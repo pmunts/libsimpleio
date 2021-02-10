@@ -26,7 +26,7 @@
 #include <motor-interface.h>
 #include <servo-interface.h>
 
-namespace Interfaces::Motor::Servo
+namespace Motor::Servo
 {
   struct Output_Class: public Interfaces::Motor::Output_Interface
   {
