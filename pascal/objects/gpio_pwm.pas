@@ -40,7 +40,7 @@ INTERFACE
       CONSTRUCTOR Create
        (pwmoutput    : PWM.Output;
         initialstate : Boolean = False;
-        dutycycleon  : Real = PWM.DUTYCYCLE_MAX);
+        dutycycle  : Real = PWM.DUTYCYCLE_MAX);
 
       FUNCTION Read : Boolean;
 
@@ -60,11 +60,14 @@ IMPLEMENTATION
   CONSTRUCTOR PinSubclass.Create
    (pwmoutput    : PWM.Output;
     initialstate : Boolean = False;
-    dutycycleon  : Real = PWM.DUTYCYCLE_MAX);
+    dutycycle    : Real = PWM.DUTYCYCLE_MAX);
 
   BEGIN
+    IF (dutycycle < PWM.DUTYCYCLE_MIN) OR (dutycycle > PWM.DUTYCYCLE_MAX) THEN
+      RAISE PWM.Error.Create('ERROR: Invalid duty cycle parameter');
+
     Self.myoutput := pwmoutput;
-    Self.myduty   := dutycycleon;
+    Self.myduty   := dutycycle;
     Self.state    := initialstate;
   END;
 
