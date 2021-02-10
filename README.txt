@@ -44,7 +44,7 @@
 Quick Setup Instructions for the Impatient
 
    Instructions for installing libsimpleio are found in [6]UserManual.pdf,
-   on page 4.
+   on pages 5 and 6.
 
 News
 

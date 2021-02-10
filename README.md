@@ -56,7 +56,7 @@ Quick Setup Instructions for the Impatient
 
 Instructions for installing **libsimpleio** are found in
 [UserManual.pdf](http://git.munts.com/libsimpleio/doc/UserManual.pdf),
-on page 4.
+on pages 5 and 6.
 
 News
 ----
