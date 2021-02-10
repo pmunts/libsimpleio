@@ -45,107 +45,15 @@ and <b><tt>bool</tt></b> arguments.</li>
 modules are provided for Ada, C#, Java, and Free Pascal. Additional source code
 libraries are provided for Ada, C++, C#, Java, and Free Pascal that define OOP
 (Object Oriented Programming) classes for <b>libsimpleio</b>.</p>
+<h2>Quick Setup Instructions for the Impatient</h2>
+<p>Instructions for installing <b>libsimpleio</b> are found in <a href=
+"http://git.munts.com/libsimpleio/doc/UserManual.pdf">UserManual.pdf</a>, on
+page 4.</p>
 <h2>News</h2>
 <ul>
-<li>8 January 2020 -- Added <b><tt>LINUX_errno()</tt></b>. Added <a href=
-"https://libmodbus.org">libmodbus</a> bindings and objects for Ada.</li>
-<li>31 January 2020 -- Added .gpr project files to
-<b><tt>ada/programs/libsimpleio/</tt></b>,
-<b><tt>ada/programs/libsimpleio/mcp2221/</tt></b>, and
-<b><tt>ada/programs/libsimpleio/remoteio</tt></b> to allow building native
-programs with just <b><tt>gprbuild</tt></b>, using a command like:
-<pre><b>
-gprbuild libsimpleio.gpr -p test_userled
-</b></pre>
-Reworked Ada make files to allow building Windows applications in <a href=
-"https://docs.microsoft.com/en-us/windows/wsl/faq">Windows Subsystem for
-Linux</a>. Until now, using the make files on Windows required using <a href=
-"https://www.cygwin.com">Cygwin</a>.</li>
-<li>1 February 2020 -- Added links to <a href=
-"https://www.makewithada.org">Make With Ada</a> projects.</li>
-<li>2 February 2020 -- Flattened the <b><tt>csharp/</tt></b> directory
-tree.</li>
-<li>7 February 2020 -- Added .Net Core 3.1 project templates for both
-<b>libsimpleio</b> and <b>libremoteio</b>. Install these from <a href=
-"https://www.nuget.org">NuGet</a> with the following commands:
-<pre><b>
-dotnet new -i libsimpleio-templates
-dotnet new -i libremoteio-templates
-</b></pre></li>
-<li>10 February 2020 -- Renamed NuGet package <b>libsimpleio-standard</b> to
-<b>libsimpleio</b>. Renamed NuGet package <b>libremoteio-standard</b> to
-<b>libremoteio</b>. Dropped support for building .Net Framework applications
-with <b><tt>csc.exe</tt></b>.</li>
-<li>12 February 2020 -- Added Visual Studio project templates for
-<b>libsimpleio</b> and <b>libremoteio</b> for C# console applications for .Net
-Core and .Net Framework.</li>
-<li>25 February 2020 -- Added support for building NuGet C# .Net Core
-application packages.</li>
-<li>3 March 2020 -- Modified <b><tt>libsimpleio.dll</tt></b> to use
-<b><tt>IO.Objects.libsimpleio.Device.Designator</tt></b> instead of chip and
-channel to select ADC inputs, DAC outputs, GPIO pins, I<sup>2</sup>C buses, PWM
-outputs, and SPI slave selects.</li>
-<li>30 April 2020 -- Added <b><tt>popen()</tt></b> wrappers
-<b><tt>LINUX_popen_read()</tt></b>, <b><tt>LINUX_popen_write()</tt></b> and
-<b><tt>LINUX_pclose()</tt></b>. Added Ada packages
-<b><tt>Email_Sendmail</tt></b> and <b><tt>Email_Mail</tt></b>, for sending
-email messages via <b><tt>/usr/sbin/sendmail</tt></b> and
-<b><tt>/usr/bin/mail</tt></b> respectively.</li>
-<li>15 May 2020 -- Autogenerate API documentation <b><tt>.pdf</tt></b> files
-from <b><tt>libremoteio.dll.chm</tt></b> and
-<b><tt>libsimpleio.dll.chm</tt></b>. Include API documentation files (both
-<b><tt>.chm</tt></b> and <b><tt>.pdf</tt></b>) in the NuGet packages.</li>
-<li>12 September 2020 -- Added or refined email services for Ada, C#, and Free
-Pascal. This work resulted from a lengthy period of experimentation with
-sending email from a Linux embedded system.</li>
-<li>18 September 2020 -- Modified udev rule handling for native Linux systems.
-The rules and their helper scripts are now installed to
-<b><tt>/usr/local/share/libsimpleio/udev/</tt></b>. If you install from a
-source checkout, you now need to do <b><tt>make install_udev_rules</tt></b>
-after <b><tt>make install</tt></b> in order to install some symbolic links in
-<b><tt>/etc/udev/rules.d</tt></b>.<br>
-Added a <a href="https://www.nuget.org">NuGet</a> <a href=
-"https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds">local
-package feed</a> to <b>libsimpleio</b>. You need to manually add an entry to
-the <b><tt>packageSources</tt></b> block in <b><tt>NuGet.Config</tt></b> (found
-at <b><tt>.config/NuGet/NuGet.Config</tt></b> on Linux or
-<b><tt>%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\NuGet\NuGet.Config</tt></b> on
-Windows) in order to use the local package feed. You should also comment out
-the entry for <b><tt>nuget.org</tt></b>, especially if you need to build .Net
-applications offline from the Internet.</li>
-<li>30 October 2020 -- Added initial support for the <a href=
-"https://golang.org">Go</a> programming language, including a build framework
-using <a href="https://golang.org/doc/install/gccgo">gccgo</a> and enough
-packages to support GPIO pins.</li>
-<li>13 November 2020 -- Overhauled the C++ code base. Started implementing C++
-Remote I/O support. Upgraded from .Net Core 3.1 to .Net 5.0.</li>
-<li>24 November 2020 -- Made many improvements, cleanups, and reorganizations
-of the Remote I/O Protocol client implementations for Ada, C++, and Free
-Pascal.</li>
-<li>5 December 2020 -- More improvements to the Remote I/O Protocol client
-implementations. Modified <tt>libhdraw</tt> to rename <tt>HIDRAW_open()</tt> to
-<tt>HIDRAW_open1()</tt>, <tt>HIDRAW_open_id()</tt> to <tt>HIDRAW_open()2</tt>,
-and add <tt>HIDRAW_open3()</tt>, which accepts as USB device serial number
-string in addition to the vendor and product ID's.</li>
-<li>18 December 2020 -- Added Ada packages <tt>Posix</tt> and
-<tt>HID.Posix</tt>. These make it possible to build Ada Remote I/O Protocol
-client programs on <a href="https://www.freebsd.org">FreeBSD</a> and <a href=
-"https://www.openbsd.org">OpenBSD</a>. The <tt>HID.Posix</tt> package very
-nearly works on Linux as well, except that the <i><b>utterly braindead</b></i>
-GNU implementation of <tt>strerror_r()</tt> doesn't work properly: The
-<tt>buf</tt> and <tt>buflen</tt> arguments are usually (<i>but not always!</i>)
-ignored. This is indefensible, but the <tt>glibc</tt> maintainers don't seem
-inclined to fix it. Seamless use of <tt>HID.Posix</tt> requires some operating
-system hotplug magic. Some implementations of same are now in
-<tt>hotplug/</tt>. Accordingly, <tt>udev/</tt> has been moved to
-<tt>hotplug/linux/</tt>.</li>
-<li>22 December 2020 -- Reworked the Linux hotplug scheme for raw HID devices
-again. Now it reuses code from the OpenBSD hotplug scheme. This allows
-selecting devices you want to create symbolic links for in
-<tt>/etc/hidraw.conf</tt>, just like MuntsOS, FreeBSD, and OpenBSD.
-<tt>udev</tt> rules are now installed directly to <tt>/etc/udev/rules.d/</tt>
-and helper programs and scripts are installed directly to
-<tt>/usr/local/libexec/</tt>.</li>
+<li>10 February 2021 -- Added support for GPIO output pins implemented using
+PWM outputs. This is useful for controlling an ON/OFF device such as an LED or
+solenoid valve driven by PWM output.</li>
 </ul>
 <h2>Documentation</h2>
 <p>The user manual for <b>libsimpleio</b> is available at <a href=

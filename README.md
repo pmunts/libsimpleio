@@ -51,110 +51,19 @@ Java, and Free Pascal. Additional source code libraries are provided for
 Ada, C++, C\#, Java, and Free Pascal that define OOP (Object Oriented
 Programming) classes for **libsimpleio**.
 
+Quick Setup Instructions for the Impatient
+------------------------------------------
+
+Instructions for installing **libsimpleio** are found in
+[UserManual.pdf](http://git.munts.com/libsimpleio/doc/UserManual.pdf),
+on page 4.
+
 News
 ----
 
--   8 January 2020 -- Added **`LINUX_errno()`**. Added
-    [libmodbus](https://libmodbus.org) bindings and objects for Ada.
--   31 January 2020 -- Added .gpr project files to
-    **`ada/programs/libsimpleio/`**,
-    **`ada/programs/libsimpleio/mcp2221/`**, and
-    **`ada/programs/libsimpleio/remoteio`** to allow building native
-    programs with just **`gprbuild`**, using a command like:
-
-        gprbuild libsimpleio.gpr -p test_userled
-
-    Reworked Ada make files to allow building Windows applications in
-    [Windows Subsystem for
-    Linux](https://docs.microsoft.com/en-us/windows/wsl/faq). Until now,
-    using the make files on Windows required using
-    [Cygwin](https://www.cygwin.com).
-
--   1 February 2020 -- Added links to [Make With
-    Ada](https://www.makewithada.org) projects.
--   2 February 2020 -- Flattened the **`csharp/`** directory tree.
--   7 February 2020 -- Added .Net Core 3.1 project templates for both
-    **libsimpleio** and **libremoteio**. Install these from
-    [NuGet](https://www.nuget.org) with the following commands:
-
-        dotnet new -i libsimpleio-templates
-        dotnet new -i libremoteio-templates
-
--   10 February 2020 -- Renamed NuGet package **libsimpleio-standard**
-    to **libsimpleio**. Renamed NuGet package **libremoteio-standard**
-    to **libremoteio**. Dropped support for building .Net Framework
-    applications with **`csc.exe`**.
--   12 February 2020 -- Added Visual Studio project templates for
-    **libsimpleio** and **libremoteio** for C\# console applications for
-    .Net Core and .Net Framework.
--   25 February 2020 -- Added support for building NuGet C\# .Net Core
-    application packages.
--   3 March 2020 -- Modified **`libsimpleio.dll`** to use
-    **`IO.Objects.libsimpleio.Device.Designator`** instead of chip and
-    channel to select ADC inputs, DAC outputs, GPIO pins, I<sup>2</sup>C
-    buses, PWM outputs, and SPI slave selects.
--   30 April 2020 -- Added **`popen()`** wrappers
-    **`LINUX_popen_read()`**, **`LINUX_popen_write()`** and
-    **`LINUX_pclose()`**. Added Ada packages **`Email_Sendmail`** and
-    **`Email_Mail`**, for sending email messages via
-    **`/usr/sbin/sendmail`** and **`/usr/bin/mail`** respectively.
--   15 May 2020 -- Autogenerate API documentation **`.pdf`** files from
-    **`libremoteio.dll.chm`** and **`libsimpleio.dll.chm`**. Include API
-    documentation files (both **`.chm`** and **`.pdf`**) in the NuGet
-    packages.
--   12 September 2020 -- Added or refined email services for Ada, C\#,
-    and Free Pascal. This work resulted from a lengthy period of
-    experimentation with sending email from a Linux embedded system.
--   18 September 2020 -- Modified udev rule handling for native Linux
-    systems. The rules and their helper scripts are now installed to
-    **`/usr/local/share/libsimpleio/udev/`**. If you install from a
-    source checkout, you now need to do **`make install_udev_rules`**
-    after **`make install`** in order to install some symbolic links in
-    **`/etc/udev/rules.d`**.  
-    Added a [NuGet](https://www.nuget.org) [local package
-    feed](https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds)
-    to **libsimpleio**. You need to manually add an entry to the
-    **`packageSources`** block in **`NuGet.Config`** (found at
-    **`.config/NuGet/NuGet.Config`** on Linux or
-    **`%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\NuGet\NuGet.Config`** on
-    Windows) in order to use the local package feed. You should also
-    comment out the entry for **`nuget.org`**, especially if you need to
-    build .Net applications offline from the Internet.
--   30 October 2020 -- Added initial support for the
-    [Go](https://golang.org) programming language, including a build
-    framework using [gccgo](https://golang.org/doc/install/gccgo) and
-    enough packages to support GPIO pins.
--   13 November 2020 -- Overhauled the C++ code base. Started
-    implementing C++ Remote I/O support. Upgraded from .Net Core 3.1 to
-    .Net 5.0.
--   24 November 2020 -- Made many improvements, cleanups, and
-    reorganizations of the Remote I/O Protocol client implementations
-    for Ada, C++, and Free Pascal.
--   5 December 2020 -- More improvements to the Remote I/O Protocol
-    client implementations. Modified `libhdraw` to rename
-    `HIDRAW_open()` to `HIDRAW_open1()`, `HIDRAW_open_id()` to
-    `HIDRAW_open()2`, and add `HIDRAW_open3()`, which accepts as USB
-    device serial number string in addition to the vendor and product
-    ID's.
--   18 December 2020 -- Added Ada packages `Posix` and `HID.Posix`.
-    These make it possible to build Ada Remote I/O Protocol client
-    programs on [FreeBSD](https://www.freebsd.org) and
-    [OpenBSD](https://www.openbsd.org). The `HID.Posix` package very
-    nearly works on Linux as well, except that the ***utterly
-    braindead*** GNU implementation of `strerror_r()` doesn't work
-    properly: The `buf` and `buflen` arguments are usually (*but not
-    always!*) ignored. This is indefensible, but the `glibc` maintainers
-    don't seem inclined to fix it. Seamless use of `HID.Posix` requires
-    some operating system hotplug magic. Some implementations of same
-    are now in `hotplug/`. Accordingly, `udev/` has been moved to
-    `hotplug/linux/`.
--   22 December 2020 -- Reworked the Linux hotplug scheme for raw HID
-    devices again. Now it reuses code from the OpenBSD hotplug scheme.
-    This allows selecting devices you want to create symbolic links for
-    in `/etc/hidraw.conf`, just like MuntsOS, FreeBSD, and OpenBSD.
-    `udev` rules are now installed directly to `/etc/udev/rules.d/` and
-    helper programs and scripts are installed directly to
-    `/usr/local/libexec/`.
+-   10 February 2021 -- Added support for GPIO output pins implemented
+    using PWM outputs. This is useful for controlling an ON/OFF device
+    such as an LED or solenoid valve driven by PWM output.
 
 Documentation
 -------------

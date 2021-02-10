@@ -41,108 +41,29 @@
    C++, C#, Java, and Free Pascal that define OOP (Object Oriented
    Programming) classes for libsimpleio.
 
+Quick Setup Instructions for the Impatient
+
+   Instructions for installing libsimpleio are found in [6]UserManual.pdf,
+   on page 4.
+
 News
 
-     * 8 January 2020 -- Added LINUX_errno(). Added [6]libmodbus bindings
-       and objects for Ada.
-     * 31 January 2020 -- Added .gpr project files to
-       ada/programs/libsimpleio/, ada/programs/libsimpleio/mcp2221/, and
-       ada/programs/libsimpleio/remoteio to allow building native programs
-       with just gprbuild, using a command like:
-
-       gprbuild libsimpleio.gpr -p test_userled
-
-       Reworked Ada make files to allow building Windows applications in
-       [7]Windows Subsystem for Linux. Until now, using the make files on
-       Windows required using [8]Cygwin.
-     * 1 February 2020 -- Added links to [9]Make With Ada projects.
-     * 2 February 2020 -- Flattened the csharp/ directory tree.
-     * 7 February 2020 -- Added .Net Core 3.1 project templates for both
-       libsimpleio and libremoteio. Install these from [10]NuGet with the
-       following commands:
-
-       dotnet new -i libsimpleio-templates
-       dotnet new -i libremoteio-templates
-
-     * 10 February 2020 -- Renamed NuGet package libsimpleio-standard to
-       libsimpleio. Renamed NuGet package libremoteio-standard to
-       libremoteio. Dropped support for building .Net Framework
-       applications with csc.exe.
-     * 12 February 2020 -- Added Visual Studio project templates for
-       libsimpleio and libremoteio for C# console applications for .Net
-       Core and .Net Framework.
-     * 25 February 2020 -- Added support for building NuGet C# .Net Core
-       application packages.
-     * 3 March 2020 -- Modified libsimpleio.dll to use
-       IO.Objects.libsimpleio.Device.Designator instead of chip and
-       channel to select ADC inputs, DAC outputs, GPIO pins, I2C buses,
-       PWM outputs, and SPI slave selects.
-     * 30 April 2020 -- Added popen() wrappers LINUX_popen_read(),
-       LINUX_popen_write() and LINUX_pclose(). Added Ada packages
-       Email_Sendmail and Email_Mail, for sending email messages via
-       /usr/sbin/sendmail and /usr/bin/mail respectively.
-     * 15 May 2020 -- Autogenerate API documentation .pdf files from
-       libremoteio.dll.chm and libsimpleio.dll.chm. Include API
-       documentation files (both .chm and .pdf) in the NuGet packages.
-     * 12 September 2020 -- Added or refined email services for Ada, C#,
-       and Free Pascal. This work resulted from a lengthy period of
-       experimentation with sending email from a Linux embedded system.
-     * 18 September 2020 -- Modified udev rule handling for native Linux
-       systems. The rules and their helper scripts are now installed to
-       /usr/local/share/libsimpleio/udev/. If you install from a source
-       checkout, you now need to do make install_udev_rules after make
-       install in order to install some symbolic links in
-       /etc/udev/rules.d.
-       Added a [11]NuGet [12]local package feed to libsimpleio. You need
-       to manually add an entry to the packageSources block in
-       NuGet.Config (found at .config/NuGet/NuGet.Config on Linux or
-       %HOMEDRIVE%%HOMEPATH%\AppData\Roaming\NuGet\NuGet.Config on
-       Windows) in order to use the local package feed. You should also
-       comment out the entry for nuget.org, especially if you need to
-       build .Net applications offline from the Internet.
-     * 30 October 2020 -- Added initial support for the [13]Go programming
-       language, including a build framework using [14]gccgo and enough
-       packages to support GPIO pins.
-     * 13 November 2020 -- Overhauled the C++ code base. Started
-       implementing C++ Remote I/O support. Upgraded from .Net Core 3.1 to
-       .Net 5.0.
-     * 24 November 2020 -- Made many improvements, cleanups, and
-       reorganizations of the Remote I/O Protocol client implementations
-       for Ada, C++, and Free Pascal.
-     * 5 December 2020 -- More improvements to the Remote I/O Protocol
-       client implementations. Modified libhdraw to rename HIDRAW_open()
-       to HIDRAW_open1(), HIDRAW_open_id() to HIDRAW_open()2, and add
-       HIDRAW_open3(), which accepts as USB device serial number string in
-       addition to the vendor and product ID's.
-     * 18 December 2020 -- Added Ada packages Posix and HID.Posix. These
-       make it possible to build Ada Remote I/O Protocol client programs
-       on [15]FreeBSD and [16]OpenBSD. The HID.Posix package very nearly
-       works on Linux as well, except that the utterly braindead GNU
-       implementation of strerror_r() doesn't work properly: The buf and
-       buflen arguments are usually (but not always!) ignored. This is
-       indefensible, but the glibc maintainers don't seem inclined to fix
-       it. Seamless use of HID.Posix requires some operating system
-       hotplug magic. Some implementations of same are now in hotplug/.
-       Accordingly, udev/ has been moved to hotplug/linux/.
-     * 22 December 2020 -- Reworked the Linux hotplug scheme for raw HID
-       devices again. Now it reuses code from the OpenBSD hotplug scheme.
-       This allows selecting devices you want to create symbolic links for
-       in /etc/hidraw.conf, just like MuntsOS, FreeBSD, and OpenBSD. udev
-       rules are now installed directly to /etc/udev/rules.d/ and helper
-       programs and scripts are installed directly to /usr/local/libexec/.
+     * 10 February 2021 -- Added support for GPIO output pins implemented
+       using PWM outputs. This is useful for controlling an ON/OFF device
+       such as an LED or solenoid valve driven by PWM output.
 
 Documentation
 
-   The user manual for libsimpleio is available at [17]UserManual.pdf.
+   The user manual for libsimpleio is available at [7]UserManual.pdf.
 
    The man pages specifying the libsimpleio API are available at
-   [18]libsimpleio.html.
+   [8]libsimpleio.html.
 
 Git Repository
 
    The source code is available at:
 
-   [19]https://github.com/pmunts/libsimpleio
+   [9]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -150,16 +71,16 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [20]Debian Linux are available at:
-   [21]http://repo.munts.com/debian10
+   Prebuilt packages for [10]Debian Linux are available at:
+   [11]http://repo.munts.com/debian10
 
-[22]Make With Ada Projects
+[12]Make With Ada Projects
 
-     * 2017 [23]Ada Embedded Linux Framework
-     * 2019 [24]Modbus RTU Framework for Ada (Prize Winner!)
+     * 2017 [13]Ada Embedded Linux Framework
+     * 2019 [14]Modbus RTU Framework for Ada (Prize Winner!)
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [25]phil@munts.net
+   Questions or comments to Philip Munts [15]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -171,23 +92,13 @@ References
    3. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
    4. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
    5. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
-   6. https://libmodbus.org/
-   7. https://docs.microsoft.com/en-us/windows/wsl/faq
-   8. https://www.cygwin.com/
-   9. https://www.makewithada.org/
-  10. https://www.nuget.org/
-  11. https://www.nuget.org/
-  12. https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds
-  13. https://golang.org/
-  14. https://golang.org/doc/install/gccgo
-  15. https://www.freebsd.org/
-  16. https://www.openbsd.org/
-  17. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  18. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  19. https://github.com/pmunts/libsimpleio
-  20. http://www.debian.org/
-  21. http://repo.munts.com/debian10
-  22. https://www.makewithada.org/
-  23. https://www.makewithada.org/entry/ada_linux_sensor_framework
-  24. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
-  25. mailto:phil@munts.net
+   6. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   7. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   8. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+   9. https://github.com/pmunts/libsimpleio
+  10. http://www.debian.org/
+  11. http://repo.munts.com/debian10
+  12. https://www.makewithada.org/
+  13. https://www.makewithada.org/entry/ada_linux_sensor_framework
+  14. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
+  15. mailto:phil@munts.net
