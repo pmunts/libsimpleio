@@ -124,7 +124,12 @@ endif
 
 $(PKGDIR):
 	mkdir -p				$(PKGDIR)/DEBIAN
+ifeq ($(BOARDNAME),)
 	install -cm 0644 control		$(PKGDIR)/DEBIAN
+else
+	install -cm 0644 control.muntsos	$(PKGDIR)/DEBIAN/control
+	sed -i s/@@BOARDNAME@@/$(BOARDBASE)/g	$(PKGDIR)/DEBIAN/control
+endif
 	sed -i s/@@ARCH@@/$(PKGARCH)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
