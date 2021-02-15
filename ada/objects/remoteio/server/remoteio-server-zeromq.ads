@@ -28,7 +28,7 @@ PACKAGE RemoteIO.Server.ZeroMQ IS
   -- Constructors
 
   FUNCTION Create
-   (exec      : RemoteIO.Executive.Executor;
+   (exec      : NOT NULL RemoteIO.Executive.Executor;
     name      : String;
     ctx       : Standard.ZeroMQ.Context.Context := Standard.ZeroMQ.Context.Default;
     addr      : String   := "*";

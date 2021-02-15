@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for GPIO commands
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -35,7 +35,7 @@ PACKAGE RemoteIO.GPIO IS
   TYPE Kinds IS (InputOnly, OutputOnly, InputOutput);
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   -- Register GPIO pin by device designator
 
@@ -50,7 +50,7 @@ PACKAGE RemoteIO.GPIO IS
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    pin  : Standard.GPIO.Pin;
+    pin  : NOT NULL Standard.GPIO.Pin;
     kind : Kinds := InputOutput);
 
   PROCEDURE Dispatch

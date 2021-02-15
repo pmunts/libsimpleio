@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for DAC commands
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -35,7 +35,7 @@ PACKAGE RemoteIO.DAC IS
   TYPE Dispatcher IS ACCESS DispatcherSubclass;
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   -- Register DAC output by device designator
 
@@ -50,7 +50,7 @@ PACKAGE RemoteIO.DAC IS
   PROCEDURE Register
    (Self   : IN OUT DispatcherSubclass;
     num    : ChannelNumber;
-    output : Analog.Output);
+    output : NOT NULL Analog.Output);
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;

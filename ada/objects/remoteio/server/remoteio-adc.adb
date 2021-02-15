@@ -31,7 +31,7 @@ USE TYPE Messaging.Byte;
 PACKAGE BODY RemoteIO.ADC IS
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher IS
 
     Self : Dispatcher;
 
@@ -71,7 +71,7 @@ PACKAGE BODY RemoteIO.ADC IS
   PROCEDURE Register
    (Self  : IN OUT DispatcherSubclass;
     num   : ChannelNumber;
-    input : Analog.Input) IS
+    input : NOT NULL Analog.Input) IS
 
   BEGIN
     IF Self.inputs(num).registered THEN

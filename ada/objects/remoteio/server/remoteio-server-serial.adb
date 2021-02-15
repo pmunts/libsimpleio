@@ -29,7 +29,7 @@ WITH RemoteIO.Server.Message64;
 PACKAGE BODY RemoteIO.Server.Serial IS
 
   FUNCTION Create
-   (exec      : RemoteIO.Executive.Executor;
+   (exec      : NOT NULL RemoteIO.Executive.Executor;
     name      : String;
     devname   : String;
     baudrate  : Natural := 115200;

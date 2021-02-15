@@ -28,7 +28,7 @@ WITH RemoteIO.Server.Message64;
 PACKAGE BODY RemoteIO.Server.Dev IS
 
   FUNCTION Create
-   (exec      : RemoteIO.Executive.Executor;
+   (exec      : NOT NULL RemoteIO.Executive.Executor;
     name      : String;
     devname   : String;
     timeoutms : Natural := 1000) RETURN Instance IS

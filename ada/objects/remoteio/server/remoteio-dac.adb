@@ -31,7 +31,7 @@ USE TYPE Messaging.Byte;
 PACKAGE BODY RemoteIO.DAC IS
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher IS
 
     Self : Dispatcher;
 
@@ -71,7 +71,7 @@ PACKAGE BODY RemoteIO.DAC IS
   PROCEDURE Register
    (Self   : IN OUT DispatcherSubclass;
     num    : ChannelNumber;
-    output : Analog.Output) IS
+    output : NOT NULL Analog.Output) IS
 
   BEGIN
     IF Self.outputs(num).registered THEN

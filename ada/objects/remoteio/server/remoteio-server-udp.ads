@@ -1,6 +1,6 @@
 -- Remote I/O Server Services using Message64.UDP transport
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ PACKAGE RemoteIO.Server.UDP IS
   -- Constructors
 
   FUNCTION Create
-   (exec      : RemoteIO.Executive.Executor;
+   (exec      : NOT NULL RemoteIO.Executive.Executor;
     name      : String;
     addr      : String  := "0.0.0.0";
     port      : Natural := 8087;

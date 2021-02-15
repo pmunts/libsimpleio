@@ -30,7 +30,7 @@ WITH Logging.libsimpleio;
 PACKAGE BODY RemoteIO.Server.ZeroMQ IS
 
   FUNCTION Create
-   (exec      : RemoteIO.Executive.Executor;
+   (exec      : NOT NULL RemoteIO.Executive.Executor;
     name      : String;
     ctx       : Standard.ZeroMQ.Context.Context := Standard.ZeroMQ.Context.Default;
     addr      : String   := "*";

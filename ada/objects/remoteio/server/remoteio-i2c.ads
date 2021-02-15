@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for I2C commands
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -35,7 +35,7 @@ PACKAGE RemoteIO.I2C IS
   TYPE Dispatcher IS ACCESS DispatcherSubclass;
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   -- Register I2C bus by device designator
 
@@ -49,7 +49,7 @@ PACKAGE RemoteIO.I2C IS
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    bus  : Standard.I2C.Bus);
+    bus  : NOT NULL Standard.I2C.Bus);
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;

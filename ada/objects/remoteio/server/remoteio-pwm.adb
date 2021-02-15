@@ -32,7 +32,7 @@ PACKAGE BODY RemoteIO.PWM IS
   TYPE Unsigned32 IS MOD 2**32;
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher IS
 
     Self : Dispatcher;
 
@@ -72,7 +72,7 @@ PACKAGE BODY RemoteIO.PWM IS
   PROCEDURE Register
    (Self   : IN OUT DispatcherSubclass;
     num    : ChannelNumber;
-    output : Standard.PWM.Output;
+    output : NOT NULL Standard.PWM.Output;
     freq   : Positive) IS
 
   BEGIN

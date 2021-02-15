@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for common commands
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@ PACKAGE RemoteIO.Common IS
   TYPE Dispatcher IS ACCESS DispatcherSubclass;
 
   FUNCTION Create
-   (executor     : IN OUT RemoteIO.Executive.Executor;
+   (executor     : NOT NULL RemoteIO.Executive.Executor;
     version      : RemoteIO.Server.ResponseString;
     capabilities : RemoteIO.Server.ResponseString)
     RETURN Dispatcher;

@@ -32,7 +32,7 @@ USE TYPE Messaging.Byte;
 PACKAGE BODY RemoteIO.GPIO IS
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher IS
 
     Self : Dispatcher;
 
@@ -91,7 +91,7 @@ PACKAGE BODY RemoteIO.GPIO IS
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    pin  : Standard.GPIO.Pin;
+    pin  : NOT NULL Standard.GPIO.Pin;
     kind : Kinds := InputOutput) IS
 
   BEGIN

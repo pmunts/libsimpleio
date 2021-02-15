@@ -31,7 +31,7 @@ USE TYPE Messaging.Byte;
 PACKAGE BODY RemoteIO.I2C IS
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher IS
 
     Self : Dispatcher;
 
@@ -70,7 +70,7 @@ PACKAGE BODY RemoteIO.I2C IS
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    bus  : Standard.I2C.Bus) IS
+    bus  : NOT NULL Standard.I2C.Bus) IS
 
   BEGIN
     IF Self.buses(num).registered THEN

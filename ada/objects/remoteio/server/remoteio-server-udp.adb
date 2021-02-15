@@ -81,7 +81,7 @@ PACKAGE BODY RemoteIO.Server.UDP IS
   END MessageHandlerTask;
 
   FUNCTION Create
-   (exec      : RemoteIO.Executive.Executor;
+   (exec      : NOT NULL RemoteIO.Executive.Executor;
     name      : String;
     addr      : String  := "0.0.0.0";
     port      : Natural := 8087;

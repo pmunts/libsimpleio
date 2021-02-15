@@ -81,9 +81,9 @@ PACKAGE BODY RemoteIO.Server.Message64 IS
   END MessageHandlerTask;
 
   FUNCTION Create
-   (exec : RemoteIO.Executive.Executor;
+   (exec : NOT NULL RemoteIO.Executive.Executor;
     name : String;
-    msg  : Standard.Message64.Messenger) RETURN Instance IS
+    msg  : NOT NULL Standard.Message64.Messenger) RETURN Instance IS
 
     srv : InstanceSubclass;
 

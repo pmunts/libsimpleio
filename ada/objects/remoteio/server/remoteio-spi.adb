@@ -31,7 +31,7 @@ USE TYPE Messaging.Byte;
 PACKAGE BODY RemoteIO.SPI IS
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher IS
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher IS
 
     Self : Dispatcher;
 
@@ -70,7 +70,7 @@ PACKAGE BODY RemoteIO.SPI IS
   PROCEDURE Register
    (Self : IN OUT DispatcherSubclass;
     num  : ChannelNumber;
-    dev  : Standard.SPI.Device) IS
+    dev  : NOT NULL Standard.SPI.Device) IS
 
   BEGIN
     IF Self.devices(num).registered THEN

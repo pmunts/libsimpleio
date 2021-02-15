@@ -29,7 +29,7 @@ USE TYPE Messaging.Byte;
 PACKAGE BODY RemoteIO.Common IS
 
   FUNCTION Create
-   (executor     : IN OUT RemoteIO.Executive.Executor;
+   (executor     : NOT NULL RemoteIO.Executive.Executor;
     version      : RemoteIO.Server.ResponseString;
     capabilities : RemoteIO.Server.ResponseString)
     RETURN Dispatcher IS

@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for ADC commands
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -35,7 +35,7 @@ PACKAGE RemoteIO.ADC IS
   TYPE Dispatcher IS ACCESS DispatcherSubclass;
 
   FUNCTION Create
-   (executor : IN OUT RemoteIO.Executive.Executor) RETURN Dispatcher;
+   (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   -- Register ADC input by device designator
 
@@ -50,7 +50,7 @@ PACKAGE RemoteIO.ADC IS
   PROCEDURE Register
    (Self  : IN OUT DispatcherSubclass;
     num   : ChannelNumber;
-    input : Analog.Input);
+    input : NOT NULL Analog.Input);
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;
