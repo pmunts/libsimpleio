@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika HTU21D Click
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ PACKAGE ClickBoard.HTU21D IS
   -- (e.g. if the I2C bus is shared with another device)
 
   FUNCTION Create
-   (bus     : I2C.Bus;
+   (bus     : NOT NULL I2C.Bus;
     stretch : Boolean := False) RETURN Standard.HTU21D.Device IS
    (Standard.HTU21D.Create(bus, stretch));
 

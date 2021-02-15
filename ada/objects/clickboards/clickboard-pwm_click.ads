@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika PWM Click
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -31,7 +31,7 @@ PACKAGE ClickBoard.PWM_Click IS
   -- (e.g. if the I2C bus is shared with another device)
 
   FUNCTION Create
-   (bus       : I2C.Bus;
+   (bus       : NOT NULL I2C.Bus;
     addr      : I2C.Address := DefaultAddress;
     frequency : Positive := 50) RETURN PCA9685.Device IS
      (PCA9685.Create(bus, addr, frequency));

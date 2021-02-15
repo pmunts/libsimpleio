@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika 7seg Click
 
--- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -69,18 +69,18 @@ PACKAGE BODY ClickBoard.SevenSegment IS
     16#7F#, 16#6F#, 16#77#, 16#7C#, 16#39#, 16#5E#, 16#79#, 16#71#);
 
   FUNCTION Create
-   (spidev : SPI.Device;
-    pwmpin : GPIO.PIN;
-    rstpin : GPIO.Pin) RETURN Display IS
+   (spidev : NOT NULL SPI.Device;
+    pwmpin : NOT NULL GPIO.PIN;
+    rstpin : NOT NULL GPIO.Pin) RETURN Display IS
 
   BEGIN
     RETURN Display'(spidev, pwmpin, null, rstpin);
   END Create;
 
   FUNCTION Create
-   (spidev : SPI.Device;
-    pwmout : Standard.PWM.Output;
-    rstpin : GPIO.Pin) RETURN Display IS
+   (spidev : NOT NULL SPI.Device;
+    pwmout : NOT NULL Standard.PWM.Output;
+    rstpin : NOT NULL GPIO.Pin) RETURN Display IS
 
   BEGIN
     RETURN Display'(spidev, null, pwmout, rstpin);

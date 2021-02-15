@@ -1,6 +1,6 @@
 -- Mikroelecktronika ADC Click services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@ PACKAGE BODY ClickBoard.ADC IS
   -- Create an array of MCP3204 analog voltage inputs
 
   FUNCTION Create
-   (dev       : SPI.Device;
+   (dev       : NOT NULL SPI.Device;
     reference : Voltage.Volts := 3.3) RETURN Inputs IS
 
     vins : Inputs;

@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika 7seg Click
 
--- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -70,14 +70,14 @@ PACKAGE ClickBoard.SevenSegment IS
   FEATURES_7SEG_LDP : CONSTANT Features := 16#08#; -- Left decimal point
 
   FUNCTION Create
-   (spidev : SPI.Device;
-    pwmpin : GPIO.PIN;
-    rstpin : GPIO.Pin) RETURN Display;
+   (spidev : NOT NULL SPI.Device;
+    pwmpin : NOT NULL GPIO.PIN;
+    rstpin : NOT NULL GPIO.Pin) RETURN Display;
 
   FUNCTION Create
-   (spidev : SPI.Device;
-    pwmout : Standard.PWM.Output;
-    rstpin : GPIO.Pin) RETURN Display;
+   (spidev : NOT NULL SPI.Device;
+    pwmout : NOT NULL Standard.PWM.Output;
+    rstpin : NOT NULL GPIO.Pin) RETURN Display;
 
   PROCEDURE Write
    (self : Display;

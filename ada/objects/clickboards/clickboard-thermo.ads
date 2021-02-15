@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Thermo Click
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@ PACKAGE ClickBoard.Thermo IS
 
   -- Create MAX31855 sensor object from SPI device object
 
-  FUNCTION Create(spidev : SPI.Device) RETURN MAX31855.Device IS
+  FUNCTION Create(spidev : NOT NULL SPI.Device) RETURN MAX31855.Device IS
    (MAX31855.Create(spidev));
 
 END ClickBoard.Thermo;
