@@ -1,6 +1,6 @@
 -- Seeed Studio Grove Temperature and Humdity Sensor (TH02) Services.
 
--- Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,17 +29,17 @@ PACKAGE Grove_Temperature_Humidity IS
 
   -- Create a humidity sensor object
 
-  FUNCTION Create(bus : I2C.Bus) RETURN Humidity.Input IS
+  FUNCTION Create(bus : NOT NULL I2C.Bus) RETURN Humidity.Input IS
    (Humidity.Input(TH02.Create(bus)));
 
   -- Create a temperature sensor object
 
-  FUNCTION Create(bus : I2C.Bus) RETURN Temperature.Input IS
+  FUNCTION Create(bus : NOT NULL I2C.Bus) RETURN Temperature.Input IS
    (Temperature.Input(TH02.Create(bus)));
 
   -- Create a TH02 temperature and humidity sensor object
 
-  FUNCTION Create(bus : I2C.Bus) RETURN TH02.Device IS
+  FUNCTION Create(bus : NOT NULL I2C.Bus) RETURN TH02.Device IS
    (TH02.Create(bus));
 
 END Grove_Temperature_Humidity;

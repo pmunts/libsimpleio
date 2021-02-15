@@ -29,7 +29,7 @@ PACKAGE BODY MCP2221.I2C IS
 
   -- Constructor
 
-  FUNCTION Create(dev : Device) RETURN Standard.I2C.Bus IS
+  FUNCTION Create(dev : NOT NULL Device) RETURN Standard.I2C.Bus IS
 
   BEGIN
     RETURN NEW BusSubclass'(dev => dev);

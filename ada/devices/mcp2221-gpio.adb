@@ -32,7 +32,7 @@ PACKAGE BODY MCP2221.GPIO IS
   -- GPIO pin constructor
 
   FUNCTION Create
-   (dev       : Device;
+   (dev       : NOT NULL Device;
     num       : PinNumber;
     direction : Standard.GPIO.Direction;
     state     : Boolean := False) RETURN Standard.GPIO.Pin IS

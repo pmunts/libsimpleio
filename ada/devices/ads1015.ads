@@ -1,6 +1,6 @@
 -- ADS1015 Analog to Digital Converter services
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -53,7 +53,7 @@ PACKAGE ADS1015 IS
 
   -- Analog input constructor
 
-  FUNCTION Create(bus : I2C.Bus; addr : I2C.Address; chan : Channel;
+  FUNCTION Create(bus : NOT NULL I2C.Bus; addr : I2C.Address; chan : Channel;
     fsr : FullScaleRange) RETURN Analog.Input;
 
   -- Analog input method

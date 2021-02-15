@@ -1,6 +1,6 @@
 -- MAX31855 thermocouple converter services
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@ PACKAGE BODY MAX31855 IS
 
   -- Object constructor
 
-  FUNCTION Create(dev : SPI.Device) RETURN Device IS
+  FUNCTION Create(dev : NOT NULL SPI.Device) RETURN Device IS
 
   BEGIN
     RETURN NEW DeviceSubclass'(dev => dev);

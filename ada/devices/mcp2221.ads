@@ -53,7 +53,7 @@ PACKAGE MCP2221 IS
   -- Create an MCP2221 device object instance
 
   FUNCTION Create
-   (msg      : Message64.Messenger;
+   (msg      : NOT NULL Message64.Messenger;
     pinmodes : PinModeArray := AllGPIO) RETURN Device;
 
   -- Configure MCP2221 GPIO pin mux

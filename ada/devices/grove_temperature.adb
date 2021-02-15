@@ -1,6 +1,6 @@
 -- Seeed Studio Grove Temperature Sensor Module services
 
--- Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@ PACKAGE BODY Grove_Temperature IS
 
   -- Constructor
 
-  FUNCTION Create(input : Voltage.Input)
+  FUNCTION Create(input : NOT NULL Voltage.Input)
     RETURN Temperature.Input IS
 
   BEGIN

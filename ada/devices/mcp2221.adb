@@ -33,7 +33,7 @@ PACKAGE BODY MCP2221 IS
   -- Create an MCP2221 device object instance
 
   FUNCTION Create
-   (msg       : Message64.Messenger;
+   (msg       : NOT NULL Message64.Messenger;
     pinmodes  : PinModeArray := AllGPIO) RETURN Device IS
 
     dev : DeviceClass := DeviceClass'(msg => msg);

@@ -1,6 +1,6 @@
 -- MCP2221 I2C Bus Controller Services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ PACKAGE MCP2221.I2C IS
 
   -- Constructor
 
-  FUNCTION Create(dev : Device) RETURN Standard.I2C.Bus;
+  FUNCTION Create(dev : NOT NULL Device) RETURN Standard.I2C.Bus;
 
   -- Read only I2C bus cycle method
 

@@ -1,6 +1,6 @@
 -- MCP4822 Digital to Analog Converter services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -44,7 +44,7 @@ PACKAGE MCP4822 IS
   -- Constructors
 
   FUNCTION Create
-   (spidev : SPI.Device;
+   (spidev : NOT NULL SPI.Device;
     chan   : Channel;
     gain   : OutputGains := 1) RETURN Analog.Output;
 

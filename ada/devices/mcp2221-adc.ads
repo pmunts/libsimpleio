@@ -1,6 +1,6 @@
 -- MCP2221 A/D Converter Input Services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -34,7 +34,7 @@ PACKAGE MCP2221.ADC IS
 
   -- Constructor
 
-  FUNCTION Create(dev : Device; num : Channel) RETURN Analog.Input;
+  FUNCTION Create(dev : NOT NULL Device; num : Channel) RETURN Analog.Input;
 
   -- Methods
 

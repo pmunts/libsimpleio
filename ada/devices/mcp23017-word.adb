@@ -1,6 +1,6 @@
 -- MCP23017 I2C GPIO expander 16-bit parallel port services
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,7 +24,7 @@ PACKAGE BODY MCP23017.Word IS
 
   -- Parallel port constructor
 
-  FUNCTION Create(dev : MCP23017.Device) RETURN Port IS
+  FUNCTION Create(dev : NOT NULL MCP23017.Device) RETURN Port IS
 
   BEGIN
     RETURN NEW PortClass'(dev => dev);

@@ -1,6 +1,6 @@
 -- HTU21D temperature and humidity sensor services
 
--- Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -35,7 +35,7 @@ PACKAGE HTU21D IS
 
   -- Object constructor
 
-  FUNCTION Create(bus : I2C.Bus;
+  FUNCTION Create(bus : NOT NULL I2C.Bus;
     clockstretch : Boolean := False) RETURN Device;
 
   -- Get Celsius temperature

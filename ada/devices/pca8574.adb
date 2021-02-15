@@ -1,6 +1,6 @@
 -- PCA8574 I2C GPIO expander device services
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@ PACKAGE BODY PCA8574 IS
   -- PCA8574 device object constructor
 
   FUNCTION Create
-   (bus    : I2C.Bus;
+   (bus    : NOT NULL I2C.Bus;
     addr   : I2C.Address;
     states : Byte := 16#FF#) RETURN Device IS
 

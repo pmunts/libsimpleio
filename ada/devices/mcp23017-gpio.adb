@@ -1,6 +1,6 @@
 -- MCP23017 GPIO pin services
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -48,7 +48,7 @@ PACKAGE BODY MCP23017.GPIO IS
   -- GPIO pin constructor
 
   FUNCTION Create
-   (device    : MCP23017.Device;
+   (device    : NOT NULL MCP23017.Device;
     number    : PinNumber;
     direction : Standard.GPIO.Direction;
     state     : Boolean := False;

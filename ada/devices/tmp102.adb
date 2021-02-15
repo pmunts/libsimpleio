@@ -1,6 +1,6 @@
 -- TMP102 temperature sensor services
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -46,7 +46,7 @@ PACKAGE BODY TMP102 IS
   -- Object constructor
 
   FUNCTION Create
-   (bus  : I2C.Bus;
+   (bus  : NOT NULL I2C.Bus;
     addr : I2C.Address) RETURN Device IS
 
     d : Device;

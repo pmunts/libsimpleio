@@ -1,6 +1,6 @@
 -- PCA9685 PWM controller device services
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@ PACKAGE BODY PCA9685 IS
   -- PCA9685 device object constructor
 
   FUNCTION Create
-   (bus   : I2C.Bus;
+   (bus   : NOT NULL I2C.Bus;
     addr  : I2C.Address;
     freq  : Positive := 50;
     clock : ClockFrequency := 0) RETURN Device IS

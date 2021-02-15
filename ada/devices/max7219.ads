@@ -1,6 +1,6 @@
 -- MAX7219 LED driver services
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,7 @@ PACKAGE MAX7219 IS
 
   -- MAX7219 device object constructors
 
-  FUNCTION Create(dev : SPI.Device) RETURN DeviceClass;
+  FUNCTION Create(dev : NOT NULL SPI.Device) RETURN DeviceClass;
 
   -- Reset the MAX7219 device
 

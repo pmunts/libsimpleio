@@ -1,6 +1,6 @@
 -- PCA9534 GPIO pin services
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@ PACKAGE BODY PCA9534.GPIO IS
   -- GPIO pin constructor
 
   FUNCTION Create
-   (device    : PCA9534.Device;
+   (device    : NOT NULL PCA9534.Device;
     number    : PinNumber;
     direction : Standard.GPIO.Direction;
     state     : Boolean := False) RETURN Standard.GPIO.Pin IS
