@@ -31,7 +31,7 @@ PACKAGE BODY Messaging.Fixed.ZeroMQ IS
   -- Create a messenger object
 
   FUNCTION Create
-   (sock : Standard.ZeroMQ.Sockets.Socket) RETURN Messaging.Fixed.Messenger IS
+   (sock : NOT NULL Standard.ZeroMQ.Sockets.Socket) RETURN Messaging.Fixed.Messenger IS
 
   BEGIN
     RETURN NEW MessengerSubclass'(sock => sock);
@@ -41,7 +41,7 @@ PACKAGE BODY Messaging.Fixed.ZeroMQ IS
 
   PROCEDURE Initialize
    (Self : IN OUT MessengerSubclass;
-    sock : Standard.ZeroMQ.Sockets.Socket) IS
+    sock : NOT NULL Standard.ZeroMQ.Sockets.Socket) IS
 
   BEGIN
     Self.Destroy;

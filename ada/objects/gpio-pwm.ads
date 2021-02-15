@@ -38,7 +38,7 @@ PACKAGE GPIO.PWM IS
   -- GPIO pin object constructor
 
   FUNCTION Create
-   (outp  : Standard.PWM.Output;
+   (outp  : NOT NULL Standard.PWM.Output;
     state : Boolean := False;
     duty  : Standard.PWM.DutyCycle := Standard.PWM.MaximumDutyCycle) RETURN Pin;
 
@@ -46,7 +46,7 @@ PACKAGE GPIO.PWM IS
 
   PROCEDURE Initialize
    (Self  : IN OUT PinSubclass;
-    outp  : Standard.PWM.Output;
+    outp  : NOT NULL Standard.PWM.Output;
     state : Boolean := False;
     duty  : Standard.PWM.DutyCycle := Standard.PWM.MaximumDutyCycle);
 

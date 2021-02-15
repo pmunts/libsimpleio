@@ -1,6 +1,6 @@
 -- Motor services for continuous rotation servos
 
--- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,7 +23,7 @@
 PACKAGE BODY Motor.Servo IS
 
   FUNCTION Create
-   (output : Standard.Servo.Output;
+   (output : NOT NULL Standard.Servo.Output;
     velo   : Velocity := 0.0) RETURN Motor.Output IS
 
   BEGIN

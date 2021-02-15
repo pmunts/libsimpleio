@@ -32,13 +32,13 @@ PACKAGE Messaging.Fixed.ZeroMQ IS
   -- Create a messenger object
 
   FUNCTION Create
-   (sock : Standard.ZeroMQ.Sockets.Socket) RETURN Messaging.Fixed.Messenger;
+   (sock : NOT NULL Standard.ZeroMQ.Sockets.Socket) RETURN Messaging.Fixed.Messenger;
 
   -- Initialize a messenger object
 
   PROCEDURE Initialize
    (Self : IN OUT MessengerSubclass;
-    sock : Standard.ZeroMQ.Sockets.Socket);
+    sock : NOT NULL Standard.ZeroMQ.Sockets.Socket);
 
   -- Destroy a messenger object
 

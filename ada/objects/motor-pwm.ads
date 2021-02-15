@@ -1,6 +1,6 @@
 -- Motor services using PWM and GPIO outputs
 
--- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -31,8 +31,8 @@ PACKAGE Motor.PWM IS
   TYPE OutputSubclass1 IS NEW Motor.OutputInterface WITH PRIVATE;
 
   FUNCTION Create
-   (pwmout : Standard.PWM.Output;
-    dirout : GPIO.Pin;
+   (pwmout : NOT NULL Standard.PWM.Output;
+    dirout : NOT NULL GPIO.Pin;
     velo   : Velocity := 0.0) RETURN Motor.Output;
 
   PROCEDURE Put
@@ -45,8 +45,8 @@ PACKAGE Motor.PWM IS
   TYPE OutputSubclass2 IS NEW Motor.OutputInterface WITH PRIVATE;
 
   FUNCTION Create
-   (cwout  : Standard.PWM.Output;
-    ccwout : Standard.PWM.Output;
+   (cwout  : NOT NULL Standard.PWM.Output;
+    ccwout : NOT NULL Standard.PWM.Output;
     velo   : Velocity := 0.0) RETURN Motor.Output;
 
   PROCEDURE Put

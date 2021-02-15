@@ -34,7 +34,7 @@ PACKAGE BODY Messaging.Fixed.Ada_Streams IS
   -- Constructor
 
   FUNCTION Create
-   (stream    : Ada.Streams.Stream_IO.Stream_Access;
+   (stream    : NOT NULL Ada.Streams.Stream_IO.Stream_Access;
     trimzeros : Boolean := True) RETURN Messenger IS
 
   BEGIN

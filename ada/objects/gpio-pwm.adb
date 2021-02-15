@@ -36,7 +36,7 @@ PACKAGE BODY GPIO.PWM IS
   -- GPIO pin object constructor
 
   FUNCTION Create
-   (outp  : Standard.PWM.Output;
+   (outp  : NOT NULL Standard.PWM.Output;
     state : Boolean := False;
     duty  : Standard.PWM.DutyCycle := Standard.PWM.MaximumDutyCycle) RETURN Pin IS
 
@@ -51,16 +51,12 @@ PACKAGE BODY GPIO.PWM IS
 
   PROCEDURE Initialize
    (Self  : IN OUT PinSubclass;
-    outp  : Standard.PWM.Output;
+    outp  : NOT NULL Standard.PWM.Output;
     state : Boolean := False;
     duty  : Standard.PWM.DutyCycle := Standard.PWM.MaximumDutyCycle) IS
 
   BEGIN
     Self.Destroy;
-
-    IF outp = NULL THEN
-      RAISE GPIO_Error WITH "PWM output parameter is NULL";
-    END IF;
 
     Self.outp := outp;
     Self.duty := duty;
