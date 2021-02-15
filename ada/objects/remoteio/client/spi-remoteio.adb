@@ -30,7 +30,7 @@ PACKAGE BODY SPI.RemoteIO IS
   -- SPI device object constructor
 
   FUNCTION Create
-   (dev      : Standard.RemoteIO.Client.Device;
+   (dev      : NOT NULL Standard.RemoteIO.Client.Device;
     num      : Standard.RemoteIO.ChannelNumber;
     mode     : Natural;
     wordsize : Natural;

@@ -32,7 +32,7 @@ PACKAGE BODY RemoteIO.Abstract_Device IS
   -- Abstract device object constructor
 
   FUNCTION Create
-   (remdev  : RemoteIO.Client.Device;
+   (remdev  : NOT NULL RemoteIO.Client.Device;
     channel : RemoteIO.ChannelNumber) RETURN Device IS
 
     dev : Device := NEW DeviceClass'(remdev, channel);

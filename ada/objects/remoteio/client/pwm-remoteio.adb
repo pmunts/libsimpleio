@@ -30,7 +30,7 @@ PACKAGE BODY PWM.RemoteIO IS
   -- Configure PWM output
 
   FUNCTION Create
-   (dev  : Standard.RemoteIO.Client.Device;
+   (dev  : NOT NULL Standard.RemoteIO.Client.Device;
     num  : Standard.RemoteIO.ChannelNumber;
     freq : Positive := 50;
     duty : DutyCycle := MinimumDutyCycle) RETURN PWM.Output IS

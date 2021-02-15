@@ -30,7 +30,7 @@ PACKAGE BODY GPIO.RemoteIO IS
   -- GPIO pin object constructor
 
   FUNCTION Create
-   (dev   : Standard.RemoteIO.Client.Device;
+   (dev   : NOT NULL Standard.RemoteIO.Client.Device;
     num   : Standard.RemoteIO.ChannelNumber;
     dir   : Direction;
     state : Boolean := False) RETURN Pin IS

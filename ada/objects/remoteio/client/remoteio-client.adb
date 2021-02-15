@@ -32,7 +32,7 @@ PACKAGE BODY RemoteIO.Client IS
 
   -- Constructors
 
-  FUNCTION Create(msg : Message64.Messenger) RETURN Device IS
+  FUNCTION Create(msg : NOT NULL Message64.Messenger) RETURN Device IS
 
   BEGIN
     RETURN NEW DeviceClass'(msg, 0);

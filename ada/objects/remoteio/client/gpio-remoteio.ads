@@ -1,6 +1,6 @@
 -- GPIO pin services using the Remote I/O Protocol
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ PACKAGE GPIO.RemoteIO IS
   -- GPIO pin object constructor
 
   FUNCTION Create
-   (dev   : Standard.RemoteIO.Client.Device;
+   (dev   : NOT NULL Standard.RemoteIO.Client.Device;
     num   : Standard.RemoteIO.ChannelNumber;
     dir   : Direction;
     state : Boolean := False) RETURN Pin;

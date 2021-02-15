@@ -33,7 +33,7 @@ PACKAGE BODY ADC.RemoteIO IS
   -- A/D input pin object constructor
 
   FUNCTION Create
-   (dev  : Standard.RemoteIO.Client.Device;
+   (dev  : NOT NULL Standard.RemoteIO.Client.Device;
     num  : Standard.RemoteIO.ChannelNumber) RETURN Analog.Input IS
 
     cmd  : Message64.Message;

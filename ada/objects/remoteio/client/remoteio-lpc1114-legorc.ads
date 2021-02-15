@@ -1,4 +1,6 @@
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- LPC1114 I/O Processor LEGO(R) Power Functions Remote Control  output services
+
+-- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,7 +31,7 @@ PACKAGE RemoteIO.LPC1114.LEGORC IS
   -- Constructors
 
   FUNCTION Create
-   (dev  : Abstract_Device.Device;
+   (dev  : NOT NULL Abstract_Device.Device;
     pin  : Interfaces.Unsigned_32) RETURN Standard.LEGORC.Output;
 
   -- Methods

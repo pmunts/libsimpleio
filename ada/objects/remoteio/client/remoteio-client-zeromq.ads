@@ -23,7 +23,7 @@ WITH ZeroMQ.Sockets;
 
 PACKAGE RemoteIO.Client.ZeroMQ IS
 
-  FUNCTION Create(sock : Standard.ZeroMQ.Sockets.Socket) RETURN Device IS
+  FUNCTION Create(sock : NOT NULL Standard.ZeroMQ.Sockets.Socket) RETURN Device IS
    (Create(Message64.ZMQ.Create(sock)));
 
 END RemoteIO.Client.ZeroMQ;

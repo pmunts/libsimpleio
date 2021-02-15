@@ -32,7 +32,7 @@ PACKAGE BODY DAC.RemoteIO IS
   -- DAC output pin object constructor
 
   FUNCTION Create
-   (dev  : Standard.RemoteIO.Client.Device;
+   (dev  : NOT NULL Standard.RemoteIO.Client.Device;
     num  : Standard.RemoteIO.ChannelNumber) RETURN Analog.Output IS
 
     cmd  : Message64.Message;

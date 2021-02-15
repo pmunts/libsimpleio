@@ -36,7 +36,7 @@ PACKAGE RemoteIO.Client IS
 
   -- Constructors
 
-  FUNCTION Create(msg : Message64.Messenger) RETURN Device;
+  FUNCTION Create(msg : NOT NULL Message64.Messenger) RETURN Device;
 
   -- Perform a Remote I/O operation
 

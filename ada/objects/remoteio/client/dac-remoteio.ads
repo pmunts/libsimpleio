@@ -1,6 +1,6 @@
 -- DAC output services using the Remote I/O Protocol
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ PACKAGE DAC.RemoteIO IS
   -- DAC output pin object constructor
 
   FUNCTION Create
-   (dev  : Standard.RemoteIO.Client.Device;
+   (dev  : NOT NULL Standard.RemoteIO.Client.Device;
     num  : Standard.RemoteIO.ChannelNumber) RETURN Analog.Output;
 
   -- Write DAC output pin

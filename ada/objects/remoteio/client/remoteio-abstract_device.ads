@@ -1,6 +1,6 @@
 -- Abstract device services using the Remote I/O Protocol
 
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@ PACKAGE RemoteIO.Abstract_Device IS
   -- Abstract device object constructor
 
   FUNCTION Create
-   (remdev  : RemoteIO.Client.Device;
+   (remdev  : NOT NULL RemoteIO.Client.Device;
     channel : RemoteIO.ChannelNumber) RETURN Device;
 
   -- Get abstract device information string

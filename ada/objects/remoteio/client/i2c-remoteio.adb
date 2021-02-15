@@ -28,7 +28,7 @@ PACKAGE BODY I2C.RemoteIO IS
   -- I2C bus object constructor
 
   FUNCTION Create
-   (dev   : Standard.RemoteIO.Client.Device;
+   (dev   : NOT NULL Standard.RemoteIO.Client.Device;
     num   : Standard.RemoteIO.ChannelNumber;
     speed : Positive := I2C.SpeedStandard) RETURN I2C.Bus IS
 

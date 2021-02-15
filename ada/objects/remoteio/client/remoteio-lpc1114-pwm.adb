@@ -1,6 +1,6 @@
 -- LPC1114 I/O Processor PWM output services
 
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@ PACKAGE BODY RemoteIO.LPC1114.PWM IS
   -- Configure PWM output with SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT
 
   FUNCTION Create
-   (absdev : RemoteIO.LPC1114.Abstract_Device.Device;
+   (absdev : NOT NULL RemoteIO.LPC1114.Abstract_Device.Device;
     desg   : Interfaces.Unsigned_32;
     freq   : Positive := 50;
     duty   : Standard.PWM.DutyCycle := Standard.PWM.MinimumDutyCycle)
