@@ -1,6 +1,6 @@
 -- Abstract Analog to Digital Converter interface definitions
 
--- Copyright (C)2017-2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ PACKAGE BODY ADC IS
   -- Constructor
 
   FUNCTION Create
-   (input     : Analog.Input;
+   (input     : NOT NULL Analog.Input;
     reference : Voltage.Volts;
     gain      : Voltage.Volts := 1.0) RETURN Voltage.Input IS
 

@@ -1,7 +1,7 @@
 -- Template for servos controlled by a variable width control pulse
 -- realized with an underlying PWM output
 
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@ PACKAGE Servo.PWM_Template IS
   -- Servo output object constructor
 
   FUNCTION Create
-   (output   : PWM.Output;
+   (output   : NOT NULL PWM.Output;
     position : Servo.Position := Servo.NeutralPosition)
     RETURN Servo.Output;
 
