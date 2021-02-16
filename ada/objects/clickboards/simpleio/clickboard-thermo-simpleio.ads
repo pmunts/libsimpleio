@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Thermo Click, using libsimpleio
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@ PACKAGE ClickBoard.Thermo.SimpleIO IS
 
   -- Create MAX31855 sensor object from socket object
 
-  FUNCTION Create(socket : ClickBoard.SimpleIO.Socket) RETURN MAX31855.Device IS
+  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN MAX31855.Device IS
    (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
       SPI_Frequency, socket.GPIO(ClickBoard.CS))));
 

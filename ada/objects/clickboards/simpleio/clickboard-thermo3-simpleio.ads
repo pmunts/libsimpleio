@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Thermo3 Click, using libsimpleio
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ PACKAGE ClickBoard.Thermo3.SimpleIO IS
   -- Create TMP102 sensor object from socket
 
   FUNCTION Create
-   (socket : ClickBoard.SimpleIO.Socket;
+   (socket : NOT NULL ClickBoard.SimpleIO.Socket;
     addr   : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
     (Create(I2C.libsimpleio.Create(socket.I2C), addr));
 

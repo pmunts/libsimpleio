@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Altitude Click, using libsimpleio
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ PACKAGE ClickBoard.Altitude.SimpleIO IS
   -- Create MPL3115A2 sensor object from a socket object
 
   FUNCTION Create
-   (socket : ClickBoard.SimpleIO.Socket;
+   (socket : NOT NULL ClickBoard.SimpleIO.Socket;
     addr   : I2C.Address := DefaultAddress) RETURN MPL3115A2.Device IS
      (Create(I2C.libsimpleio.Create(socket.I2C), addr));
 
