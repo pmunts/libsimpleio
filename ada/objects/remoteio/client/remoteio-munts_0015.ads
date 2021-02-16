@@ -1,4 +1,4 @@
--- Remote I/O Resources available from the MUNTS-0015 USB Remote I/O Adapter
+-- Remote I/O Resources available from the MUNTS-0015 USB Flexible I/O Adapter
 
 -- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
@@ -19,6 +19,10 @@
 -- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
+
+-- NOTE: The MUNTS-0015 USB Flexible I/O Adapter is available for purchase at:
+--
+-- https://www.tindie.com/products/pmunts/usb-flexible-io-adapter
 
 PACKAGE RemoteIO.MUNTS_0015 IS
 

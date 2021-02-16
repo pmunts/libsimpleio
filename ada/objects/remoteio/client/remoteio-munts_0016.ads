@@ -20,6 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- NOTE: The MUNTS-0016 USB Grove Adapter is available for purchase at:
+--
+-- https://www.tindie.com/products/pmunts/usb-grove-adapter
+
 PACKAGE RemoteIO.MUNTS_0016 IS
 
   -- Analog inputs (10 bit resolution)
