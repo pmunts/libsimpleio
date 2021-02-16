@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services interface template
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,16 +30,11 @@ GENERIC
   TYPE SPI_Designator(<>)    IS PRIVATE;
   TYPE UART_Designator(<>)   IS PRIVATE;
 
-PACKAGE ClickBoard.Interface_Template IS
+PACKAGE ClickBoard.Template IS
 
   -- Define an abstract interface for Click Board sockets
 
   TYPE SocketInterface IS INTERFACE;
-
-  -- Define an access type compatible with any subclass implementing
-  -- SocketInterface
-
-  TYPE Socket IS ACCESS ALL SocketInterface'Class;
 
   -- Click Board socket services
 
@@ -68,4 +63,4 @@ PACKAGE ClickBoard.Interface_Template IS
   FUNCTION UART
    (Self : SocketInterface) RETURN UART_Designator IS ABSTRACT;
 
-END ClickBoard.Interface_Template;
+END ClickBoard.Template;

@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services, using libsimpleio
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,14 +21,25 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.Shields;
-WITH ClickBoard.Interface_SimpleIO;
+WITH ClickBoard.Template;
 WITH Device;
 
 PACKAGE ClickBoard.SimpleIO IS
 
+  PACKAGE SockIF IS NEW ClickBoard.Template
+   (Kind_Designator   => ClickBoard.Shields.Kind,
+    Analog_Designator => Device.Designator,
+    GPIO_Designator   => Device.Designator,
+    I2C_Designator    => Device.Designator,
+    PWM_Designator    => Device.Designator,
+    SPI_Designator    => Device.Designator,
+    UART_Designator   => String);
+
   -- Define an object class for Click Board shield sockets
 
-  TYPE Socket IS NEW ClickBoard.Interface_SimpleIO.SocketInterface WITH PRIVATE;
+  TYPE SocketSubclass IS NEW SockIF.SocketInterface WITH PRIVATE;
+
+  TYPE Socket IS ACCESS SocketSubclass;
 
   -- Socket object constructor
 
@@ -39,43 +50,43 @@ PACKAGE ClickBoard.SimpleIO IS
 
   -- Retrieve the type of shield
 
-  FUNCTION Kind(self : socket) RETURN ClickBoard.Shields.Kind;
+  FUNCTION Kind(Self : SocketSubclass) RETURN ClickBoard.Shields.Kind;
 
   -- Retrieve the socket number
 
-  FUNCTION Number(self : socket) RETURN Positive;
+  FUNCTION Number(Self : SocketSubclass) RETURN Positive;
 
   -- Map Click Board socket to A/D input designator
 
-  FUNCTION AIN(self : socket) RETURN Device.Designator;
+  FUNCTION AIN(Self : SocketSubclass) RETURN Device.Designator;
 
   -- Map Click Board socket GPIO pin to Linux GPIO pin designator
 
-  FUNCTION GPIO(self : socket; pin : ClickBoard.Pins) RETURN Device.Designator;
+  FUNCTION GPIO(Self : SocketSubclass; pin : ClickBoard.Pins) RETURN Device.Designator;
 
   -- Map Click Board socket to I2C bus controller device name
 
-  FUNCTION I2C(self : socket) RETURN Device.Designator;
+  FUNCTION I2C(Self : SocketSubclass) RETURN Device.Designator;
 
   -- Map Click Board socket to PWM output device name
 
-  FUNCTION PWM(self : socket) RETURN Device.Designator;
+  FUNCTION PWM(Self : SocketSubclass) RETURN Device.Designator;
 
   -- Map Click Board socket to SPI device name
 
-  FUNCTION SPI(self : socket) RETURN Device.Designator;
+  FUNCTION SPI(Self : SocketSubclass) RETURN Device.Designator;
 
   -- Map Click Board socket to serial port device name
 
-  FUNCTION UART(self : socket) RETURN String;
+  FUNCTION UART(Self : SocketSubclass) RETURN String;
 
   -- Does platform support I2C clock stretching?
 
-  FUNCTION I2C_Clock_Stretch(self : socket) RETURN Boolean;
+  FUNCTION I2C_Clock_Stretch(Self : SocketSubclass) RETURN Boolean;
 
 PRIVATE
 
-  TYPE Socket IS NEW ClickBoard.Interface_SimpleIO.SocketInterface WITH RECORD
+  TYPE SocketSubclass IS NEW SockIF.SocketInterface WITH RECORD
     index : Positive;
   END RECORD;
 

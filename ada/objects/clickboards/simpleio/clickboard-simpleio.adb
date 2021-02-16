@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services, using libsimpleio
 
--- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -290,7 +290,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
 
     FOR i IN SocketTable'Range LOOP
       IF kind = SocketTable(i).kind AND socknum = SocketTable(i).socknum THEN
-        RETURN Socket'(index => i);
+        RETURN NEW SocketSubclass'(index => i);
       END IF;
     END LOOP;
 
@@ -299,91 +299,91 @@ PACKAGE BODY ClickBoard.SimpleIO IS
 
   -- Retrieve the type of shield
 
-  FUNCTION Kind(self : socket) RETURN ClickBoard.Shields.Kind IS
+  FUNCTION Kind(Self : SocketSubclass) RETURN ClickBoard.Shields.Kind IS
 
   BEGIN
-    RETURN SocketTable(self.index).Kind;
+    RETURN SocketTable(Self.index).Kind;
   END Kind;
 
   -- Retrieve the socket number
 
-  FUNCTION Number(self : socket) RETURN Positive IS
+  FUNCTION Number(Self : SocketSubclass) RETURN Positive IS
 
   BEGIN
-    RETURN SocketTable(self.index).SockNum;
+    RETURN SocketTable(Self.index).SockNum;
   END Number;
 
   -- Map Click Board socket to A/D input designator
 
-  FUNCTION AIN(self : socket) RETURN Device.Designator IS
+  FUNCTION AIN(Self : SocketSubclass) RETURN Device.Designator IS
 
   BEGIN
-    IF SocketTable(self.index).AIN = Device.Unavailable THEN
+    IF SocketTable(Self.index).AIN = Device.Unavailable THEN
       RAISE ClickBoard.SocketError WITH "AIN is unavailable for this socket";
     END IF;
 
-    RETURN SocketTable(self.index).AIN;
+    RETURN SocketTable(Self.index).AIN;
   END AIN;
 
   -- Map Click Board socket GPIO pin to Linux GPIO pin designator
 
-  FUNCTION GPIO(self : socket; pin : ClickBoard.Pins) RETURN Device.Designator IS
+  FUNCTION GPIO(Self : SocketSubclass; pin : ClickBoard.Pins) RETURN Device.Designator IS
 
   BEGIN
-    RETURN SocketTable(self.index).PinList(pin);
+    RETURN SocketTable(Self.index).PinList(pin);
   END GPIO;
 
   -- Map Click Board socket to I2C bus controller device name
 
-  FUNCTION I2C(self : socket) RETURN Device.Designator IS
+  FUNCTION I2C(Self : SocketSubclass) RETURN Device.Designator IS
 
   BEGIN
-    IF SocketTable(self.index).I2C = Device.Unavailable THEN
+    IF SocketTable(Self.index).I2C = Device.Unavailable THEN
       RAISE ClickBoard.SocketError WITH "I2C is unavailable for this socket";
     END IF;
 
-    RETURN SocketTable(self.index).I2C;
+    RETURN SocketTable(Self.index).I2C;
   END I2C;
 
   -- Map Click Board socket to PWM output device name
 
-  FUNCTION PWM(self : socket) RETURN Device.Designator IS
+  FUNCTION PWM(Self : SocketSubclass) RETURN Device.Designator IS
 
   BEGIN
-    IF SocketTable(self.index).PWM = Device.Unavailable THEN
+    IF SocketTable(Self.index).PWM = Device.Unavailable THEN
       RAISE ClickBoard.SocketError WITH "PWM is unavailable for this socket";
     END IF;
 
-    RETURN SocketTable(self.index).PWM;
+    RETURN SocketTable(Self.index).PWM;
   END PWM;
 
   -- Map Click Board socket to SPI device name
 
-  FUNCTION SPI(self : socket) RETURN Device.Designator IS
+  FUNCTION SPI(Self : SocketSubclass) RETURN Device.Designator IS
 
   BEGIN
-    IF SocketTable(self.index).SPI = Device.Unavailable THEN
+    IF SocketTable(Self.index).SPI = Device.Unavailable THEN
       RAISE ClickBoard.SocketError WITH "SPI is unavailable for this socket";
     END IF;
 
-    RETURN SocketTable(self.index).SPI;
+    RETURN SocketTable(Self.index).SPI;
   END SPI;
 
   -- Map Click Board socket to serial port device name
 
-  FUNCTION UART(self : socket) RETURN String IS
+  FUNCTION UART(Self : SocketSubclass) RETURN String IS
 
   BEGIN
-    IF SocketTable(self.index).UART = DeviceUnavailable THEN
+    IF SocketTable(Self.index).UART = DeviceUnavailable THEN
       RAISE ClickBoard.SocketError WITH "UART is unavailable for this socket";
     END IF;
 
-    RETURN To_DeviceName(SocketTable(self.index).UART);
+    RETURN To_DeviceName(SocketTable(Self.index).UART);
   END UART;
 
   -- Does platform support I2C clock stretching?
 
-  FUNCTION I2C_Clock_Stretch(self : socket) RETURN Boolean IS
+  FUNCTION I2C_Clock_Stretch(Self : SocketSubclass) RETURN Boolean IS
 
   BEGIN
     RETURN False;
