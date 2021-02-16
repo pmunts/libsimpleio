@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika PWM Click, using RemoteIO
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,8 +30,8 @@ PACKAGE ClickBoard.PWM_Click.RemoteIO IS
   -- Create PCA9685 device object from socket
 
   FUNCTION Create
-   (remdev    : Standard.RemoteIO.Client.Device;
-    socket    : ClickBoard.RemoteIO.Socket;
+   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
+    socket    : NOT NULL ClickBoard.RemoteIO.Socket;
     addr      : I2C.Address := DefaultAddress;
     speed     : Positive := PCA9685.MaxSpeed;
     frequency : Positive := 50) RETURN PCA9685.Device IS
@@ -40,7 +40,7 @@ PACKAGE ClickBoard.PWM_Click.RemoteIO IS
   -- Create PCA9685 device object from socket number
 
   FUNCTION Create
-   (remdev    : Standard.RemoteIO.Client.Device;
+   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
     socknum   : Positive;
     addr      : I2C.Address := DefaultAddress;
     speed     : Positive := PCA9685.MaxSpeed;

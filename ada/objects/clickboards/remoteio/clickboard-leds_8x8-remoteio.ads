@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika 8x8 LED Click
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -34,15 +34,15 @@ PACKAGE ClickBoard.LEDs_8x8.RemoteIO IS
   -- Create display object from socket object
 
   FUNCTION Create
-   (remdev  : Standard.RemoteIO.Client.Device;
-    socket  : ClickBoard.RemoteIO.Socket) RETURN TrueColor.Display IS
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : NOT NULL ClickBoard.RemoteIO.Socket) RETURN TrueColor.Display IS
    (Create(SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode, SPI_WordSize,
       SPI_Frequency)));
 
   -- Create display object from socket number
 
   FUNCTION Create
-   (remdev  : Standard.RemoteIO.Client.Device;
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
     socknum : Positive) RETURN TrueColor.Display IS
    (Create(remdev, ClickBoard.RemoteIO.Create(socknum)));
 END ClickBoard.LEDs_8x8.RemoteIO;

@@ -1,6 +1,6 @@
 -- Mikroelecktronika ADC Click services using Remote I/O
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,8 +30,8 @@ PACKAGE ClickBoard.ADC.RemoteIO IS
   -- Create an array of analog voltage inputs from Socket object
 
   FUNCTION Create
-   (remdev    : Standard.RemoteIO.Client.Device;
-    socket    : ClickBoard.RemoteIO.Socket;
+   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
+    socket    : NOT NULL ClickBoard.RemoteIO.Socket;
     reference : Voltage.Volts := 3.3) RETURN Inputs IS
    (Create(SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode,
       SPI_WordSize, SPI_Frequency), reference));
@@ -39,7 +39,7 @@ PACKAGE ClickBoard.ADC.RemoteIO IS
   -- Create an array of analog voltage inputs from socket number
 
   FUNCTION Create
-   (remdev    : Standard.RemoteIO.Client.Device;
+   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
     socknum   : Positive;
     reference : Voltage.Volts := 3.3) RETURN Inputs IS
    (Create(remdev, ClickBoard.RemoteIO.Create(socknum), reference));
