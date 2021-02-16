@@ -1,6 +1,6 @@
 -- I/O Resources available from an Arduino compatible Remote I/O server
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,9 +21,8 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 -- The following I/O resource definitions are for the Arduino Uno Rev 3 and
--- compatible boards such as the ST Microelectronics Nucleo-64 family and
--- the GHI FEZ board.  Not all boards will necessarily provide all of the
--- following I/O resources.
+-- compatible boards such as those in ST Microelectronics Nucleo-64 family.
+-- Not all boards will necessarily provide all of the following I/O resources.
 
 PACKAGE RemoteIO.Arduino IS
 
