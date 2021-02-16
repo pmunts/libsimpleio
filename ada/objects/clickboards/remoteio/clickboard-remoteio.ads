@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services using Remote I/O
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,15 +20,26 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.Interface_RemoteIO;
 WITH ClickBoard.Servers;
+WITH ClickBoard.Template;
 WITH RemoteIO;
 
 PACKAGE ClickBoard.RemoteIO IS
 
+  PACKAGE SockIF IS NEW ClickBoard.Template
+   (Kind_Designator   => ClickBoard.Servers.Kind,
+    Analog_Designator => Standard.RemoteIO.ChannelNumber,
+    GPIO_Designator   => Standard.RemoteIO.ChannelNumber,
+    I2C_Designator    => Standard.RemoteIO.ChannelNumber,
+    PWM_Designator    => Standard.RemoteIO.ChannelNumber,
+    SPI_Designator    => Standard.RemoteIO.ChannelNumber,
+    UART_Designator   => Standard.RemoteIO.ChannelNumber);
+
   -- Define an object class for Click Board shield sockets
 
-  TYPE Socket IS NEW ClickBoard.Interface_RemoteIO.SocketInterface WITH PRIVATE;
+  TYPE SocketSubclass IS NEW SockIF.SocketInterface WITH PRIVATE;
+
+  TYPE Socket IS ACCESS SocketSubclass;
 
   -- Socket object constructor
 
@@ -39,40 +50,40 @@ PACKAGE ClickBoard.RemoteIO IS
 
   -- Retrieve the type of shield on the remote I/O server
 
-  FUNCTION Kind(self : socket) RETURN ClickBoard.Servers.Kind;
+  FUNCTION Kind(Self : SocketSubclass) RETURN ClickBoard.Servers.Kind;
 
   -- Retrieve the socket number
 
-  FUNCTION Number(self : socket) RETURN Positive;
+  FUNCTION Number(Self : SocketSubclass) RETURN Positive;
 
   -- Map Click Board socket to A/D input designator
 
-  FUNCTION AIN(self : socket) RETURN Standard.RemoteIO.ChannelNumber;
+  FUNCTION AIN(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber;
 
   -- Map Click Board socket GPIO pin to Linux GPIO pin designator
 
-  FUNCTION GPIO(self : socket; pin : ClickBoard.Pins)
+  FUNCTION GPIO(Self : SocketSubclass; pin : ClickBoard.Pins)
     RETURN Standard.RemoteIO.ChannelNumber;
 
   -- Map Click Board socket to I2C bus controller device name
 
-  FUNCTION I2C(self : socket) RETURN Standard.RemoteIO.ChannelNumber;
+  FUNCTION I2C(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber;
 
   -- Map Click Board socket to PWM output device name
 
-  FUNCTION PWM(self : socket) RETURN Standard.RemoteIO.ChannelNumber;
+  FUNCTION PWM(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber;
 
   -- Map Click Board socket to SPI device name
 
-  FUNCTION SPI(self : socket) RETURN Standard.RemoteIO.ChannelNumber;
+  FUNCTION SPI(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber;
 
   -- Map Click Board socket to serial port device name
 
-  FUNCTION UART(self : socket) RETURN Standard.RemoteIO.ChannelNumber;
+  FUNCTION UART(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber;
 
 PRIVATE
 
-  TYPE Socket IS NEW ClickBoard.Interface_RemoteIO.SocketInterface WITH RECORD
+  TYPE SocketSubclass IS NEW SockIF.SocketInterface WITH RECORD
     index : Natural;
   END RECORD;
 

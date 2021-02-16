@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services using Remote I/O
 
--- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -205,7 +205,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
     FOR i IN SocketTable'Range LOOP
       IF (socknum = SocketTable(i).num) AND (kind = SocketTable(i).Kind) THEN
-        RETURN Socket'(index => i);
+        RETURN NEW SocketSubclass'(index => i);
       END IF;
     END LOOP;
 
@@ -214,7 +214,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Retrieve the type of shield on the Remote I/O server
 
-  FUNCTION Kind(Self : socket) RETURN ClickBoard.Servers.Kind IS
+  FUNCTION Kind(Self : SocketSubclass) RETURN ClickBoard.Servers.Kind IS
 
   BEGIN
     RETURN SocketTable(Self.index).kind;
@@ -222,7 +222,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Retrieve the socket number
 
-  FUNCTION Number(Self : socket) RETURN Positive IS
+  FUNCTION Number(Self : SocketSubclass) RETURN Positive IS
 
   BEGIN
     RETURN SocketTable(Self.index).num;
@@ -230,7 +230,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Map Click Board socket to A/D input designator
 
-  FUNCTION AIN(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION AIN(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
     IF SocketTable(Self.index).AIN = Unavailable THEN
@@ -242,7 +242,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Map Click Board socket GPIO pin to Linux GPIO pin designator
 
-  FUNCTION GPIO(Self : socket; pin : ClickBoard.Pins)
+  FUNCTION GPIO(Self : SocketSubclass; pin : ClickBoard.Pins)
     RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
@@ -256,7 +256,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Map Click Board socket to I2C bus controller device
 
-  FUNCTION I2C(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION I2C(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
     IF SocketTable(Self.index).I2C = Unavailable THEN
@@ -268,7 +268,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Map Click Board socket to PWM output device
 
-  FUNCTION PWM(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION PWM(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
     IF SocketTable(Self.index).PWM = Unavailable THEN
@@ -280,7 +280,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Map Click Board socket to SPI device
 
-  FUNCTION SPI(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION SPI(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
     IF SocketTable(Self.index).SPI = Unavailable THEN
@@ -292,7 +292,7 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   -- Map Click Board socket to serial port device
 
-  FUNCTION UART(Self : socket) RETURN Standard.RemoteIO.ChannelNumber IS
+  FUNCTION UART(Self : SocketSubclass) RETURN Standard.RemoteIO.ChannelNumber IS
 
   BEGIN
     IF SocketTable(Self.index).UART = Unavailable THEN
