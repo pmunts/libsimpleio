@@ -1,6 +1,6 @@
 # Makefile for building Go programs with gccgo
 
-# Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -40,6 +40,6 @@ default:
 clean: go_mk_clean
 	for F in *.go ; do rm -f `basename $$F .go` ; done
 
-reallyclean: go_mk_reallyclean
+reallyclean: clean go_mk_reallyclean
 
-distclean: go_mk_distclean
+distclean: reallyclean go_mk_distclean
