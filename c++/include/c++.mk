@@ -1,6 +1,6 @@
 # Makefile definitions for building C++ example programs
 
-# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -43,7 +43,23 @@ CXX		?= g++
 STRIP		?= strip
 endif
 
+LIBFILE		:= subordinates.a
+OBJDIR		:= subordinates.obj
+
+CXXDEPS		+= $(LIBFILE)
+
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
+CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
+CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
+
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
+CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
+
+LDFLAGS		+= $(LIBFILE)
 
 # Define a pattern rule to compile a C++ program
 
@@ -56,11 +72,20 @@ CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
 
 cxx_mk_default: default
 
+# Build the C++ class library
+
+$(LIBFILE):
+	mkdir -p $(OBJDIR)
+	for F in $(CXXSRCS) ; do $(CXX) $(CXXFLAGS) -c -o $(OBJDIR)/`basename $$F .c`.o $$F ; done
+	$(AR) rcs $@ $(OBJDIR)/*.o
+	rm -rf $(OBJDIR)
+
 # Remove working files
 
 cxx_mk_clean:
-	rm -rf *.a *.o *.core
+	rm -rf *.o *.core
 
 cxx_mk_reallyclean: cxx_mk_clean
+	rm -f $(CXXDEPS)
 
 cxx_mk_distclean: cxx_mk_reallyclean

@@ -1,4 +1,4 @@
-# C++ make definitions for libsimpleio
+# C++ make definitions for building programs using libsimpleio
 
 # Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
@@ -20,40 +20,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBFILE		:= subordinates.a
-OBJDIR		:= subordinates.obj
-
-CXXDEPS		+= $(LIBFILE)
-
-CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/simpleio
-
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/*.cpp
-
-LDFLAGS		+= -L. $(LIBFILE) -lsimpleio
-
-# Build the C++ class library
-
-$(LIBFILE):
-	mkdir -p $(OBJDIR)
-	for F in $(CXXSRCS) ; do $(CXX) $(CXXFLAGS) -c -o $(OBJDIR)/`basename $$F .c`.o $$F ; done
-	$(AR) rcs $@ $(OBJDIR)/*.o
-	rm -rf $(OBJDIR)
-
-libsimpleio_mk_lib: $(LIBFILE)
-
-# Remove working files
-
-libsimpleio_mk_clean:
-	rm -rf $(LIBFILE) $(OBJDIR)
-
-libsimpleio_mk_reallyclean: libsimpleio_mk_clean
-
-libsimpleio_mk_distclean: libsimpleio_mk_reallyclean
+LDFLAGS		+= -lsimpleio

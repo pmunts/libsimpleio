@@ -20,23 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBFILE		:= subordinates.a
-OBJDIR		:= subordinates.obj
-
-CXXDEPS		+= $(LIBFILE)
-
-CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects/remoteio
-
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
-CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/remoteio/*.cpp
-
-LDFLAGS		+= -L. $(LIBFILE)
 
 # Different targets need different HID implementations
 
@@ -79,22 +64,3 @@ endif
 else ifeq ($(HID_USE), posix)
 CXXFLAGS	+= -DHID_USE_POSIX
 endif
-
-# Build the C++ class library
-
-$(LIBFILE):
-	mkdir -p $(OBJDIR)
-	for F in $(CXXSRCS) ; do $(CXX) $(CXXFLAGS) -c -o $(OBJDIR)/`basename $$F .c`.o $$F ; done
-	$(AR) rcs $@ $(OBJDIR)/*.o
-	rm -rf $(OBJDIR)
-
-remoteio_mk_lib: $(LIBFILE)
-
-# Remove working files
-
-remoteio_mk_clean:
-	rm -rf $(LIBFILE) $(OBJDIR)
-
-remoteio_mk_reallyclean: remoteio_mk_clean
-
-remoteio_mk_distclean: remoteio_mk_reallyclean

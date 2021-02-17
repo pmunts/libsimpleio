@@ -1,4 +1,4 @@
-# Makefile for building C++ Remote I/O Protocol example programs using hidapi
+# Makefile for building C++ Remote I/O Protocol test programs
 
 # Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
 #
@@ -39,9 +39,9 @@ default:
 
 # Remove working files
 
-clean: cxx_mk_clean remoteio_mk_clean
+clean: cxx_mk_clean
 	for F in *.cpp ; do rm -f `basename $$F .cpp` ; done
 
-reallyclean: clean cxx_mk_reallyclean remoteio_mk_reallyclean
+reallyclean: clean cxx_mk_reallyclean
 
-distclean: reallyclean cxx_mk_distclean remoteio_mk_distclean
+distclean: reallyclean cxx_mk_distclean

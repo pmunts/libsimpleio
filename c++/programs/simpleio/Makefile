@@ -1,4 +1,4 @@
-# Makefile for building C++ libsimpleio example programs
+# Makefile for building C++ libsimpleio test programs
 
 # Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 #
@@ -39,9 +39,9 @@ default:
 
 # Remove working files
 
-clean: cxx_mk_clean libsimpleio_mk_clean
+clean: cxx_mk_clean
 	for F in *.cpp ; do rm -f `basename $$F .cpp` ; done
 
-reallyclean: clean cxx_mk_reallyclean libsimpleio_mk_reallyclean
+reallyclean: clean cxx_mk_reallyclean
 
-distclean: reallyclean cxx_mk_distclean libsimpleio_mk_distclean
+distclean: reallyclean cxx_mk_distclean
