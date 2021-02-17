@@ -1,6 +1,6 @@
 # C++ make definitions for libsimpleio
 
-# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,9 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBNAME		:= simpleio++
-LIBFILE		:= lib$(LIBNAME).a
-OBJDIR		:= lib$(LIBNAME).obj
+LIBFILE		:= subordinates.a
+OBJDIR		:= subordinates.obj
 
 CXXDEPS		+= $(LIBFILE)
 
@@ -38,7 +37,7 @@ CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/simpleio/*.cpp
 
-LDFLAGS		+= -L. -l$(LIBNAME) -lsimpleio
+LDFLAGS		+= -L. $(LIBFILE) -lsimpleio
 
 # Build the C++ class library
 
