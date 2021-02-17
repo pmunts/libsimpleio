@@ -20,10 +20,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+# Override the following macros to build out of tree
 
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 GO_SRC		?= $(LIBSIMPLEIO)/go
-GO_LIB		?= $(shell pwd)/subordinates
 
 include $(GO_SRC)/include/gccgo.mk
 
