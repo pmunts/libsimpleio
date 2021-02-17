@@ -38,6 +38,7 @@ RANLIB		?= ranlib
 STRIP		?= strip
 endif
 
+GO_LIB		?= $(shell pwd)/subordinates
 LIBSUBORDINATES	:= $(GO_LIB)/subordinates.a
 
 CFLAGS		+= -Wall -I$(GO_LIB)
@@ -57,6 +58,7 @@ go_mk_default: default
 # Compile subordinate packages
 
 $(LIBSUBORDINATES):
+	mkdir -p $(GO_LIB)
 	$(MAKE) -C $(GO_SRC)/interfaces       GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB)
 	$(MAKE) -C $(GO_SRC)/objects          GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB)
 	$(MAKE) -C $(GO_SRC)/objects/simpleio GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB)
@@ -69,8 +71,8 @@ go_mk_subordinates: $(LIBSUBORDINATES)
 # Remove working files
 
 go_mk_clean:
-	rm -rf $(GO_LIB)
 
 go_mk_reallyclean: go_mk_clean
+	rm -rf $(GO_LIB)
 
 go_mk_distclean: go_mk_reallyclean
