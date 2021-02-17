@@ -1,6 +1,6 @@
-# Makefile for building Go programs with gccgo
+# gccgo definitions for libsimpleio
 
-# Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,28 +20,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Override the following macros to build out of tree
+SUBORDINATEDIRS += $(GO_SRC)/objects/simpleio
 
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-GO_SRC		?= $(LIBSIMPLEIO)/go
-
-# Include subordinate makefiles
-
-include $(GO_SRC)/include/gccgo.mk
-include $(GO_SRC)/include/libsimpleio.mk
-
-LDFLAGS		+= -static
-
-# Compile the test programs
-
-default:
-	for F in *.go ; do $(MAKE) `basename $$F .go` ; done
-
-# Remove working files
-
-clean: go_mk_clean
-	for F in *.go ; do rm -f `basename $$F .go` ; done
-
-reallyclean: clean go_mk_reallyclean
-
-distclean: reallyclean go_mk_distclean
+LDFLAGS		+= -lsimpleio

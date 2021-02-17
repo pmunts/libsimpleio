@@ -44,6 +44,9 @@ LIBSUBORDINATES	:= $(GO_LIB)/subordinates.a
 CFLAGS		+= -Wall -I$(GO_LIB)
 LDFLAGS		+= $(LIBSUBORDINATES)
 
+SUBORDINATEDIRS += $(GO_SRC)/interfaces
+SUBORDINATEDIRS += $(GO_SRC)/objects
+
 # Define a pattern rule for compiling a Go program
 
 %: %.go
@@ -59,9 +62,7 @@ go_mk_default: default
 
 $(LIBSUBORDINATES):
 	mkdir -p $(GO_LIB)
-	$(MAKE) -C $(GO_SRC)/interfaces       GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB)
-	$(MAKE) -C $(GO_SRC)/objects          GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB)
-	$(MAKE) -C $(GO_SRC)/objects/simpleio GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB)
+	for D in $(SUBORDINATEDIRS) ; do $(MAKE) -C $$D GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB) ; done
 	$(AR) rc $(LIBSUBORDINATES) $(GO_LIB)/*.o
 	rm -f $(GO_LIB)/*.o
 	$(RANLIB) $(LIBSUBORDINATES)
