@@ -20,6 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+.PHONY: default clean reallyclean distclean
+
 ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
 MUNTSOS		?= $(HOME)/muntsos
