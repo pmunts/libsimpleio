@@ -23,7 +23,7 @@
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
 GO_SRC		?= $(LIBSIMPLEIO)/go
-GO_LIB		?= $(shell pwd)/lib
+GO_LIB		?= $(shell pwd)/subordinates
 
 include $(GO_SRC)/include/gccgo.mk
 
