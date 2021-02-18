@@ -113,7 +113,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       OTHERS         => Device.Unavailable),
       AIN     => Device.Unavailable,
       I2C     => RaspberryPi.I2C1,
-      PWM     => RaspberryPi.PWM0_0, -- Requires device tree overlay
+      PWM     => RaspberryPi.PWM0, -- Requires device tree overlay
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
@@ -126,7 +126,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       OTHERS         => Device.Unavailable),
       AIN     => Device.Unavailable,
       I2C     => RaspberryPi.I2C1,
-      PWM     => RaspberryPi.PWM0_0, -- Requires device tree overlay
+      PWM     => RaspberryPi.PWM0, -- Requires device tree overlay
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
@@ -152,7 +152,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       OTHERS         => Device.Unavailable),
       AIN     => RaspberryPi.AIN0,          -- Switch AN1 must be in LEFT position
       I2C     => RaspberryPi.I2C1,
-      PWM     => RaspberryPi.PWM0_0, -- Requires device tree overlay
+      PWM     => RaspberryPi.PWM0, -- Requires device tree overlay
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),

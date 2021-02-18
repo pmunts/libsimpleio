@@ -1,6 +1,6 @@
 -- Raspberry Pi Device Definitions
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,8 +27,8 @@ PACKAGE RaspberryPi IS
   -- The following analog inputs are only available if the Mikroelektronika
   -- Pi 3 Click Shield (MIKROE-2756) and its device tree overlay are installed
 
-  AIN0   : CONSTANT Device.Designator := (0,  0);
-  AIN1   : CONSTANT Device.Designator := (0,  1);
+  AIN0   : CONSTANT Device.Designator := (0,  0);  -- 12-bit, 0.0 to 4.096V range
+  AIN1   : CONSTANT Device.Designator := (0,  1);  -- 12-bit, 0.0 to 4.096V range
 
   -- The following GPIO pins are available on all Raspberry Pi Models
 
@@ -42,8 +42,8 @@ PACKAGE RaspberryPi IS
   GPIO11 : CONSTANT Device.Designator := (0, 11);  -- SPI0 SCLK
   GPIO14 : CONSTANT Device.Designator := (0, 14);  -- UART0 TXD
   GPIO15 : CONSTANT Device.Designator := (0, 15);  -- UART0 RXD
-  GPIO17 : CONSTANT Device.Designator := (0, 17);
-  GPIO18 : CONSTANT Device.Designator := (0, 18);  -- PWM0 channel 0
+  GPIO17 : CONSTANT Device.Designator := (0, 17);  -- SPI1 SS1
+  GPIO18 : CONSTANT Device.Designator := (0, 18);  -- PWM0, SPI1 SS0
   GPIO22 : CONSTANT Device.Designator := (0, 22);
   GPIO23 : CONSTANT Device.Designator := (0, 23);
   GPIO24 : CONSTANT Device.Designator := (0, 24);
@@ -55,23 +55,22 @@ PACKAGE RaspberryPi IS
 
   GPIO5  : CONSTANT Device.Designator := (0,  5);
   GPIO6  : CONSTANT Device.Designator := (0,  6);
-  GPIO12 : CONSTANT Device.Designator := (0, 12);
-  GPIO13 : CONSTANT Device.Designator := (0, 13);
-  GPIO16 : CONSTANT Device.Designator := (0, 16);  -- SPI1 SS0
+  GPIO12 : CONSTANT Device.Designator := (0, 12);  -- PWM0
+  GPIO13 : CONSTANT Device.Designator := (0, 13);  -- PWM1
+  GPIO16 : CONSTANT Device.Designator := (0, 16);  -- SPI1 SS2
   GPIO19 : CONSTANT Device.Designator := (0, 19);  -- SPI1 MISO, PWM1
   GPIO20 : CONSTANT Device.Designator := (0, 20);  -- SPI1 MOSI
   GPIO21 : CONSTANT Device.Designator := (0, 21);  -- SPI1 SCLK
   GPIO26 : CONSTANT Device.Designator := (0, 26);
 
+  -- All of the following subsystems require the proper device tree overlays
+
   I2C1   : CONSTANT Device.Designator := (0,  1);  -- GPIO2 and GPIO3
 
-  -- The following PWM outputs are only available if the proper
-  -- device tree overlay(s) are installed
+  PWM0   : CONSTANT Device.Designator := (0,  0);  -- GPIO12 or GPIO18
+  PWM1   : CONSTANT Device.Designator := (0,  1);  -- GPIO13 or GPIO19
 
-  PWM0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO18
-  PWM0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO19
-
-  SPI0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO8
-  SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO7
+  SPI0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO8, GPIO9, GPIO10, and GPIO11
+  SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPOO7, GPIO9, GPIO10, and GPIO11
 
 END RaspberryPi;
