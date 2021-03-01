@@ -19,10 +19,11 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Streams.Stream_IO;
+WITH Message64.Stream;
 
 PACKAGE RemoteIO.Client.Stream IS
 
   FUNCTION Create(stream : NOT NULL Ada.Streams.Stream_IO.Stream_Access) RETURN Device IS
-   (Message64.Stream.Create(stream));
+   (Create(Message64.Stream.Create(stream)));
 
 END RemoteIO.Client.Stream;
