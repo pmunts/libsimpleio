@@ -26,13 +26,11 @@ WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH GNAT.Serial_Communications; USE GNAT.Serial_Communications;
 
-WITH Message64.Stream;
-WITH RemoteIO.Client;
+WITH RemoteIO.Client.Stream;
 
 PROCEDURE test_query_serial IS
 
   port     : ALIASED Serial_Port;
-  msg      : Message64.Messenger;
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
 
@@ -54,13 +52,9 @@ BEGIN
   Open(port, Port_Name(Ada.Command_Line.Argument(1)));
   Set(port, B115200);
 
-  -- Create the messenger object
-
-  msg := Message64.Stream.Create(port'Unchecked_Access);
-
   -- Create the remote I/O device
 
-  remdev := RemoteIO.Client.Create(msg);
+  remdev := RemoteIO.Client.Stream.Create(port'Unchecked_Access);
 
   -- Query the firmware version
 
