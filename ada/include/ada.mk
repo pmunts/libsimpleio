@@ -105,7 +105,7 @@ GPRBUILD	?= $(GNAT)/bin/gprbuild$(EXESUFFIX)
 else
 GPRBUILD	?= gprbuild$(EXESUFFIX)
 endif
-GPRBUILDFLAGS	= -p $(GPRBUILDCONFIG) $(GPRBUILDTARGET) $(GPRBUILDPROJECTS)
+GPRBUILDFLAGS	= -p $(GPRBUILDCONFIG)
 
 # Define pattern rules for building Ada programs
 
