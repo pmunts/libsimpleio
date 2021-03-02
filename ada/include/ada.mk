@@ -113,14 +113,14 @@ ifneq ($(GPRBUILD), no)
 # Build with explicit Ada program project file
 %: %.gpr
 	$(GPRBUILD) -P$< $(GPRBUILDFLAGS) $@
-	$(GNATSTRIP) $@$(EXESUFFIX)
+	-$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 
 ifneq ($(wildcard default.gpr),)
 # Build with default Ada program project file
 %:
 	$(GPRBUILD) $(GPRBUILDFLAGS) $@
-	$(GNATSTRIP) $@$(EXESUFFIX)
+	-$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 endif
 else
@@ -128,7 +128,7 @@ else
 %: %.adb
 	mkdir -p $(ADA_OBJ)
 	$(GNATMAKE) $(GNATMAKEFLAGS) $@ -cargs $(GNATMAKECFLAGS) -largs $(GNATMAKELDFLAGS)
-	$(GNATSTRIP) $@$(EXESUFFIX)
+	-$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 endif
 
