@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-.PHONY: default clean reallyclean distclean
+.PHONY: build default clean reallyclean distclean
 
 ifneq ($(BOARDNAME),)
 # Cross compile for MuntsOS
@@ -34,15 +34,17 @@ endif
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/remoteio.mk
 
-# Compile the test programs
+default: build
 
-default:
-	for F in *.adb ; do $(MAKE) `basename $$F .adb` ; done
+# Build the test programs
+
+build:
+	for F in test_*.adb ; do $(MAKE) `basename $$F .adb` ; done
 
 # Remove working files
 
 clean: ada_mk_clean
-	for F in *.adb ; do rm -f `basename $$F .adb` ; done
+	for F in test_*.adb ; do rm -f `basename $$F .adb` ; done
 
 reallyclean: clean ada_mk_reallyclean
 
