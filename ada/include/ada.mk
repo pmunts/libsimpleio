@@ -78,6 +78,14 @@ endif
 ifneq ($(GNAT),)
 GNATPREFIX	= $(GNAT)/bin/
 endif
+
+# Check for overriding MuntsOS cross-compilation default.cgpr
+
+ifeq ($(shell uname), Linux)
+ifneq ($(shell grep -s muntsos default.cgpr),)
+GNATSTRIP	:= $(shell awk '/for Driver \("C"\)/ { print substr($$0, 29, length($$0)-33); }' default.cgpr)strip
+endif
+endif
 endif
 
 # General toolchain definitions
