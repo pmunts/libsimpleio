@@ -1,6 +1,6 @@
 { GPIO Interrupt Button and LED Test using libsimpleio }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -36,7 +36,7 @@ BEGIN
 
   { Configure the button input and LED output }
 
-  button := GPIO_libsimpleio.PinSubclass.Create(0, 19, GPIO.Input, False,
+  button := GPIO_libsimpleio.PinSubclass.Create(0, 6, GPIO.Input, False,
     GPIO_libsimpleio.PushPull, GPIO_libsimpleio.ActiveHigh,
     GPIO_libsimpleio.Both);
 

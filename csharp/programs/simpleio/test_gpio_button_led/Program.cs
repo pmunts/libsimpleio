@@ -1,6 +1,6 @@
 // GPIO Button and LED Test
 
-// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@ namespace test_gpio_button_led
             // Create GPIO pin objects
 
             IO.Objects.libsimpleio.Device.Designator desg_Button =
-                new IO.Objects.libsimpleio.Device.Designator(0, 19);
+                new IO.Objects.libsimpleio.Device.Designator(0, 6);
 
             IO.Interfaces.GPIO.Pin Button =
                 new IO.Objects.libsimpleio.GPIO.Pin(desg_Button,

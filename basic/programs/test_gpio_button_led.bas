@@ -1,6 +1,6 @@
 ' GPIO Button and LED Test
 
-' Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+' Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 '
 ' Redistribution and use in source and binary forms, with or without
 ' modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@ print "GPIO Button and LED Test";;
 ' Open the GPIO pins
 
 Button = new(GPIO_Pin)
-Button.Open(0, 19, 0, false)
+Button.Open(0, 6, 0, false)
 
 LED    = new(GPIO_Pin)
 LED.Open(0, 26, 1, false)

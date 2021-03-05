@@ -1,6 +1,6 @@
 -- GPIO Button and LED Test using libsimpleio
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,7 @@ BEGIN
 
   -- Configure button and LED GPIO's
 
-  Button := GPIO.libsimpleio.Create((0, 19), GPIO.Input);
+  Button := GPIO.libsimpleio.Create((0, 6), GPIO.Input);
 
   LED := GPIO.libsimpleio.Create((0, 26), GPIO.Output);
 

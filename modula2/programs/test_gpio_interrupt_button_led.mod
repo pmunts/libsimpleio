@@ -1,4 +1,4 @@
-(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(* Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.             *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -43,7 +43,7 @@ BEGIN
 
   (* Configure button and LED GPIO's *)
 
-  gpio_libsimpleio.OpenChannel(RaspberryPi.GPIO19,
+  gpio_libsimpleio.OpenChannel(RaspberryPi.GPIO6,
     gpio_libsimpleio.Input, FALSE, gpio_libsimpleio.PushPull,
     gpio_libsimpleio.Both, gpio_libsimpleio.ActiveHigh, Button, error);
   CheckError(error, "gpio_libsimpleio.Open() failed");

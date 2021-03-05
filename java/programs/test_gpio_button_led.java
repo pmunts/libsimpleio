@@ -1,6 +1,6 @@
 // GPIO Button and LED Test
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -35,7 +35,7 @@ public class test_gpio_button_led
 
     // Configure button and LED GPIO's
 
-    b = new Builder(0, 19);
+    b = new Builder(0, 6);
     b.SetDirection(Direction.Input);
     Pin Button = b.Create();
 

@@ -1,6 +1,6 @@
 // GPIO Button and LED Test using libsimpleio
 
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@ int main(void)
   // Configure GPIO pins for a button input and an LED output
 
   Interfaces::GPIO::Pin Button =
-    new libsimpleio::GPIO::Pin_Class(0, 19, Interfaces::GPIO::INPUT);
+    new libsimpleio::GPIO::Pin_Class(0, 6, Interfaces::GPIO::INPUT);
 
   Interfaces::GPIO::Pin LED =
     new libsimpleio::GPIO::Pin_Class(0, 26, Interfaces::GPIO::OUTPUT);
