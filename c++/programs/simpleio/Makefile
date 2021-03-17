@@ -22,14 +22,7 @@
 
 .PHONY: default clean reallyclean distclean
 
-ifneq ($(BOARDNAME),)
-# Cross compile for MuntsOS
-MUNTSOS		?= $(HOME)/muntsos
-include $(MUNTSOS)/include/$(BOARDNAME).mk
-else
-# Native compile for Linux
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-endif
 
 include $(LIBSIMPLEIO)/c++/include/c++.mk
 include $(LIBSIMPLEIO)/c++/include/libsimpleio.mk

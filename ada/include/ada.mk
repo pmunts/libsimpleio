@@ -36,10 +36,6 @@ MUNTSOS		?= $(HOME)/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 endif
 else
-# Definitions for native compile
-
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-
 # Definitions for FreeBSD
 
 ifeq ($(shell uname), FreeBSD)

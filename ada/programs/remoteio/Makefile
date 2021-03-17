@@ -22,14 +22,7 @@
 
 .PHONY: build default clean reallyclean distclean
 
-ifneq ($(BOARDNAME),)
-# Cross compile for MuntsOS
-MUNTSOS		?= $(HOME)/muntsos
-include $(MUNTSOS)/include/$(BOARDNAME).mk
-else
-# Native compile for Linux
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-endif
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/remoteio.mk

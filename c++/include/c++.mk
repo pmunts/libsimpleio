@@ -26,6 +26,9 @@
 
 ifneq ($(BOARDNAME),)
 # Cross-compile for MuntsOS
+MUNTSOS		?= $(HOME)/muntsos
+include $(MUNTSOS)/include/$(BOARDNAME).mk
+
 CXX	 	:= $(CROSS_COMPILE)g++
 STRIP		:= $(CROSS_COMPILE)strip
 else
