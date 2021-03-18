@@ -5,3 +5,4 @@ Maintainer: Philip Munts <phil@munts.net>
 Architecture: @@ARCH@@
 Version: @@VERSION@@
 Description: GCC cross-toolchain Linux Simple I/O library for @@BOARDNAME@@
+Depends: munts-libsimpleio

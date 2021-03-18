@@ -1,3 +1,0 @@
-#!/bin/sh
-
-ln -s -f ../share/libsimpleio/include @@GCCSYSROOT@@/usr/include/libsimpleio

@@ -85,11 +85,28 @@ libsimpleio.so: compile.done
 # Install headers and library files
 
 install: libsimpleio.a libsimpleio.so
-	mkdir -p				$(DESTDIR)/include
+	mkdir -p				$(DESTDIR)/include/libsimpleio
 	mkdir -p				$(DESTDIR)/lib
-	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
+	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
+ifneq ($(BOARDNAME),)
+	mkdir -p				$(DESTDIR)/share/doc/libsimpleio
+	install -cm 0644 COPYING		$(DESTDIR)/share/doc/libsimpleio
+else
+	mkdir -p				$(ETCDIR)/udev/rules.d
+	mkdir -p				$(DESTDIR)/libexec
+	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
+	mkdir -p				$(DESTDIR)/share/man/man2
+	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
+	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
+	install -cm 0755 hotplug/linux/*helper*	$(DESTDIR)/libexec
+	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-attach hotplug/linux/usb-hid-hotplug-attach.c
+	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-detach hotplug/linux/usb-hid-hotplug-detach.c
+	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
+	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
+	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc
+	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p basic			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
@@ -100,25 +117,10 @@ install: libsimpleio.a libsimpleio.so
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
-ifeq ($(BOARDNAME),)
-	mkdir -p				$(ETCDIR)/udev/rules.d
-	mkdir -p				$(DESTDIR)/libexec
-	mkdir -p				$(DESTDIR)/share/man/man2
-	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
-	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
-	install -cm 0755 hotplug/linux/*helper*	$(DESTDIR)/libexec
-	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-attach hotplug/linux/usb-hid-hotplug-attach.c
-	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-detach hotplug/linux/usb-hid-hotplug-detach.c
-	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p nuget			$(DESTDIR)/share/libsimpleio
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 endif
-	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
-	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc/README
-	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
-	install -cm 0644 c/*.h			$(DESTDIR)/share/libsimpleio/include
-	rm					$(DESTDIR)/share/libsimpleio/include/specfile.template
 
 # Create Debian package file
 
@@ -142,10 +144,6 @@ ifeq ($(BOARDNAME),)
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local ETCDIR=$(PKGDIR)/etc
 else
 # Cross-compiled package for MuntsOS embedded Linux
-	install -cm 0755 postinst.muntsos	$(PKGDIR)/DEBIAN/postinst
-	install -cm 0755 postrm.muntsos		$(PKGDIR)/DEBIAN/postrm
-	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/postinst
-	sed -i 's#@@GCCSYSROOT@@#$(GCCSYSROOT)#g' $(PKGDIR)/DEBIAN/postrm
 	$(MAKE) install DESTDIR=$(PKGDIR)$(GCCSYSROOT)/usr
 endif
 
