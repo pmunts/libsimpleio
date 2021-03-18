@@ -64,10 +64,23 @@ News
 -   10 February 2021 -- Added support for GPIO output pins implemented
     using PWM outputs. This is useful for controlling an ON/OFF device
     such as an LED or solenoid valve driven by PWM output.
--   17 March 2021 -- Modified the package building procedure to only
+-   18 March 2021 -- Modified the package building procedure to only
     install the absolute minimum files for the MuntsOS cross-compiled
-    packages.
--   
+    packages. An issue with `dpkg` installation script execution order
+    may require you to run the following commands after upgrading to
+    this version of **libsimpleio**:
+
+        sudo find /usr/local -name '*-tmp' -exec rm {} ";"
+        sudo apt install --reinstall munts-libsimpleio
+
+    If you have previously installed the MuntsOS cross-compiled
+    packages, you will also need to run one or more of the following
+    commands:
+
+        sudo apt install --reinstall gcc-aarch64-linux-gnu-muntsos-crosstool
+        sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-BeagleBone-crosstool
+        sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-RaspberryPi1-crosstool
+        sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-RaspberryPi2-crosstool
 
 Documentation
 -------------
