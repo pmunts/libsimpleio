@@ -64,6 +64,10 @@ News
 -   10 February 2021 -- Added support for GPIO output pins implemented
     using PWM outputs. This is useful for controlling an ON/OFF device
     such as an LED or solenoid valve driven by PWM output.
+-   17 March 2021 -- Modified the package building procedure to only
+    install the absolute minimum files for the MuntsOS cross-compiled
+    packages.
+-   
 
 Documentation
 -------------
