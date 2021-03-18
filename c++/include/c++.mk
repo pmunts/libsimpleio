@@ -46,11 +46,6 @@ CXX		?= g++
 STRIP		?= strip
 endif
 
-LIBFILE		:= subordinates.a
-OBJDIR		:= subordinates.obj
-
-CXXDEPS		+= $(LIBFILE)
-
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
 CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
@@ -61,14 +56,7 @@ CXXSRCS		+= $(LIBSIMPLEIO)/c++/devices/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/interfaces/*.cpp
 CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
 
-LDFLAGS		+= $(LIBFILE)
-
-# Define a pattern rule to compile a C++ program
-
-%: %.cpp
-	$(MAKE) $(CXXDEPS)
-	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
-	$(STRIP) $@
+LDFLAGS		+= subordinates.a
 
 # Default make target
 
@@ -76,11 +64,20 @@ cxx_mk_default: default
 
 # Build the C++ class library
 
-$(LIBFILE):
-	mkdir -p $(OBJDIR)
-	for F in $(CXXSRCS) ; do $(CXX) $(CXXFLAGS) -c -o $(OBJDIR)/`basename $$F .c`.o $$F ; done
-	$(AR) rcs $@ $(OBJDIR)/*.o
-	rm -rf $(OBJDIR)
+subordinates.a:
+	mkdir -p subordinates.obj
+	for F in $(CXXSRCS) ; do $(CXX) $(CXXFLAGS) -c -o subordinates.obj/`basename $$F .c`.o $$F ; done
+	$(AR) rcs $@ subordinates.obj/*.o
+	rm -rf subordinates.obj
+
+cxx_mk_subordinates: subordinates.a
+
+# Define a pattern rule to compile a C++ program
+
+%: %.cpp
+	$(MAKE) cxx_mk_subordinates
+	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
+	$(STRIP) $@
 
 # Remove working files
 
@@ -88,6 +85,6 @@ cxx_mk_clean:
 	rm -rf *.o *.core
 
 cxx_mk_reallyclean: cxx_mk_clean
-	rm -rf $(CXXDEPS) $(OBJDIR)
+	rm -rf subordinates.a subordinates.obj
 
 cxx_mk_distclean: cxx_mk_reallyclean
