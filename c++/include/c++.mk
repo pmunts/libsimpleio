@@ -88,6 +88,6 @@ cxx_mk_clean:
 	rm -rf *.o *.core
 
 cxx_mk_reallyclean: cxx_mk_clean
-	rm -f $(CXXDEPS) $(OBJDIR)
+	rm -rf $(CXXDEPS) $(OBJDIR)
 
 cxx_mk_distclean: cxx_mk_reallyclean
