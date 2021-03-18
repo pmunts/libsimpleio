@@ -20,18 +20,24 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+# The following targets are not files
+
+.PHONY: go_mk_default go_mk_subordinates go_mk_clean go_mk_reallyclean go_mk_distclean
+
+# Do not remove intermediate files
+
+.SECONDARY:
+
 ifneq ($(BOARDNAME),)
-ifeq ($(BOARDBASE),)
-# Definitions for MuntsOS cross-compile
+# Cross-compile for MuntsOS
 MUNTSOS		?= $(HOME)/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 GCCGO		:= $(CROSS_COMPILE)gccgo
 AR		:= $(CROSS_COMPILE)ar
 RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
-endif
 else
-# Definitions for native compile
+# Native compile for Unix
 GCCGO		?= gccgo
 AR		?= ar
 RANLIB		?= ranlib
@@ -39,41 +45,40 @@ STRIP		?= strip
 endif
 
 GO_LIB		?= $(shell pwd)/subordinates
-LIBSUBORDINATES	:= $(GO_LIB)/subordinates.a
+GO_SRC		?= $(LIBSIMPLEIO)/go
 
-CFLAGS		+= -Wall -I$(GO_LIB)
-LDFLAGS		+= $(LIBSUBORDINATES)
+CFLAGS		+= -Wall $(DEBUGFLAGS) $(EXTRAFLAGS) -I$(GO_LIB)
+LDFLAGS		+= subordinates.a
 
 SUBORDINATEDIRS += $(GO_SRC)/interfaces
 SUBORDINATEDIRS += $(GO_SRC)/objects
 
-# Define a pattern rule for compiling a Go program
+# Define a pattern rule to compile a Go program
 
-%: %.go
-	$(MAKE) go_mk_subordinates
-	$(GCCGO) $(CFLAGS) -o$@ $^ $(LDFLAGS)
+%: go_mk_subordinates %.go
+	$(GCCGO) $(CFLAGS) -o $@ $*.go $(LDFLAGS)
 	$(STRIP) $@
 
 # Default make target
 
 go_mk_default: default
 
-# Compile subordinate packages
+# Compile subordinate modules
 
-$(LIBSUBORDINATES):
+subordinates.a:
 	mkdir -p $(GO_LIB)
 	for D in $(SUBORDINATEDIRS) ; do $(MAKE) -C $$D GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB) ; done
-	$(AR) rc $(LIBSUBORDINATES) $(GO_LIB)/*.o
+	$(AR) rcs $@ $(GO_LIB)/*.o
 	rm -f $(GO_LIB)/*.o
-	$(RANLIB) $(LIBSUBORDINATES)
+	$(RANLIB) subordinates.a
 
-go_mk_subordinates: $(LIBSUBORDINATES)
+go_mk_subordinates: subordinates.a
 
 # Remove working files
 
 go_mk_clean:
 
 go_mk_reallyclean: go_mk_clean
-	rm -rf $(GO_LIB)
+	rm -rf $(GO_LIB) subordinates.a
 
 go_mk_distclean: go_mk_reallyclean

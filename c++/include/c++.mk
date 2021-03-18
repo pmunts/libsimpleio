@@ -20,6 +20,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+# The following targets are not files
+
+.PHONY: cxx_mk_default cxx_mk_subordinates cxx_mk_clean cxx_mk_reallyclean cxx_mk_distclean
+
 # Do not remove intermediate files
 
 .SECONDARY:
@@ -28,8 +32,9 @@ ifneq ($(BOARDNAME),)
 # Cross-compile for MuntsOS
 MUNTSOS		?= $(HOME)/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
-
 CXX	 	:= $(CROSS_COMPILE)g++
+AR		:= $(CROSS_COMPILE)ar
+RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
 else
 # Native compile for Unix
@@ -43,6 +48,8 @@ CXXFLAGS	+= -I/usr/local/include
 STRIP		:= strip
 endif
 CXX		?= g++
+AR		?= ar
+RANLIB		?= ranlib
 STRIP		?= strip
 endif
 
@@ -58,26 +65,26 @@ CXXSRCS		+= $(LIBSIMPLEIO)/c++/objects/*.cpp
 
 LDFLAGS		+= subordinates.a
 
+# Define a pattern rule to compile a C++ program
+
+%: cxx_mk_subordinates %.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $*.cpp $(LDFLAGS)
+	$(STRIP) $@
+
 # Default make target
 
 cxx_mk_default: default
 
-# Build the C++ class library
+# Compile subordinate modules
 
 subordinates.a:
 	mkdir -p subordinates.obj
 	for F in $(CXXSRCS) ; do $(CXX) $(CXXFLAGS) -c -o subordinates.obj/`basename $$F .c`.o $$F ; done
 	$(AR) rcs $@ subordinates.obj/*.o
 	rm -rf subordinates.obj
+	$(RANLIB) subordinates.a
 
 cxx_mk_subordinates: subordinates.a
-
-# Define a pattern rule to compile a C++ program
-
-%: %.cpp
-	$(MAKE) cxx_mk_subordinates
-	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
-	$(STRIP) $@
 
 # Remove working files
 
