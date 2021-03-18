@@ -53,7 +53,6 @@ CXXDEPS		+= $(LIBFILE)
 
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
 CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
-CXXFLAGS	+= -I$(LIBSIMPLEIO)/c
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
@@ -89,6 +88,6 @@ cxx_mk_clean:
 	rm -rf *.o *.core
 
 cxx_mk_reallyclean: cxx_mk_clean
-	rm -f $(CXXDEPS)
+	rm -f $(CXXDEPS) $(OBJDIR)
 
 cxx_mk_distclean: cxx_mk_reallyclean
