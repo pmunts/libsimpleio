@@ -65,9 +65,9 @@ News
        commands:
 
        sudo apt install --reinstall gcc-aarch64-linux-gnu-muntsos-crosstool-libsimpleio
-       sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-BeagleBone-crosstool-libsimpleio
-       sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-RaspberryPi1-crosstool-libsimpleio
-       sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-RaspberryPi2-crosstool-libsimpleio
+       sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-beaglebone-crosstool-libsimpleio
+       sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-raspberrypi1-crosstool-libsimpleio
+       sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-raspberrypi2-crosstool-libsimpleio
 
 Documentation
 
