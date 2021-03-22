@@ -20,8 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Environment_Variables;
 WITH Ada.Text_IO; USE Ada.Text_IO;
-WITH Ada.Strings.Unbounded;
+WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 
 WITH AWS.Client;
 WITH AWS.Response;
@@ -32,14 +33,14 @@ PACKAGE BODY Email_HTTP IS
   -- Mail relay object constructor
 
   FUNCTION Create
-   (URL      : String := "https://mailrelay.munts.net/mailrelay.cgi";
-    Username : String;
-    Password : String) RETURN Messaging.Text.Relay IS
+   (Server   : String := DefaultServer;
+    Username : String := "";
+    Password : String := "") RETURN Messaging.Text.Relay IS
 
     relay : RelaySubclass;
 
   BEGIN
-    relay.Initialize(URL, Username, Password);
+    relay.Initialize(Server, Username, Password);
     RETURN NEW RelaySubclass'(relay);
   END Create;
 
@@ -47,15 +48,26 @@ PACKAGE BODY Email_HTTP IS
 
   PROCEDURE Initialize
    (Self : IN OUT RelaySubclass;
-    URL      : String := "https://mailrelay.munts.net/mailrelay.cgi";
-    Username : String;
-    Password : String) IS
+    Server   : String := DefaultServer;
+    Username : String := "";
+    Password : String := "") IS
 
   BEGIN
     Self.Destroy;
-    Self.URL  := Ada.Strings.Unbounded.To_Unbounded_String(URL);
-    Self.User := Ada.Strings.Unbounded.To_Unbounded_String(Username);
-    Self.Pass := Ada.Strings.Unbounded.To_Unbounded_String(Password);
+
+    Self.server := To_Unbounded_String(Server);
+
+    IF username = "" THEN
+      Self.username := To_Unbounded_String(Ada.Environment_Variables.Value("MAILUSER"));
+    ELSE
+      Self.username := To_Unbounded_String(username);
+    END IF;
+
+    IF password = "" THEN
+      Self.password := To_Unbounded_String(Ada.Environment_Variables.Value("MAILPASS"));
+    ELSE
+      Self.password := To_Unbounded_String(password);
+    END IF;
   END Initialize;
 
   -- Mail relay object destroyer
@@ -90,10 +102,10 @@ PACKAGE BODY Email_HTTP IS
   BEGIN
     Self.CheckDestroyed;
 
-    resp := AWS.Client.Post(Ada.Strings.Unbounded.To_String(Self.URL),
+    resp := AWS.Client.Post(Ada.Strings.Unbounded.To_String(Self.server),
       Content_Type => "application/x-www-form-urlencoded",
-      User         => Ada.Strings.Unbounded.To_String(Self.User),
-      Pwd          => Ada.Strings.Unbounded.To_String(Self.Pass),
+      User         => Ada.Strings.Unbounded.To_String(Self.Username),
+      Pwd          => Ada.Strings.Unbounded.To_String(Self.Password),
       Data         =>
         "SENDER="    & AWS.URL.Encode(SENDER)    & "&" &
         "RECIPIENT=" & AWS.URL.Encode(RECIPIENT) & "&" &

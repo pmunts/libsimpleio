@@ -32,20 +32,22 @@ PACKAGE Email_HTTP IS
 
   Destroyed : CONSTANT RelaySubclass;
 
+  DefaultServer : CONSTANT String := "https://mailrelay.munts.net/mailrelay.cgi";
+
   -- Mail relay object constructor
 
   FUNCTION Create
-   (URL      : String := "https://mailrelay.munts.net/mailrelay.cgi";
-    Username : String;
-    Password : String) RETURN Messaging.Text.Relay;
+   (Server   : String := DefaultServer;
+    Username : String := "";
+    Password : String := "") RETURN Messaging.Text.Relay;
 
   -- Mail relay object initializer
 
   PROCEDURE Initialize
    (Self     : IN OUT RelaySubclass;
-    URL      : String := "https://mailrelay.munts.net/mailrelay.cgi";
-    Username : String;
-    Password : String);
+    Server   : String := DefaultServer;
+    Username : String := "";
+    Password : String := "");
 
   -- Mail relay object destroyer
 
@@ -66,13 +68,10 @@ PACKAGE Email_HTTP IS
 
 PRIVATE
 
-  Null_String : CONSTANT Ada.Strings.Unbounded.Unbounded_String :=
-    Ada.Strings.Unbounded.Null_Unbounded_String;
-
   TYPE RelaySubclass IS NEW Messaging.Text.RelayInterface WITH RECORD
-    URL  : Ada.Strings.Unbounded.Unbounded_String := Null_String;
-    user : Ada.Strings.Unbounded.Unbounded_String := Null_String;
-    pass : Ada.Strings.Unbounded.Unbounded_String := Null_String;
+    server   : Ada.Strings.Unbounded.Unbounded_String := Null_String;
+    username : Ada.Strings.Unbounded.Unbounded_String := Null_String;
+    password : Ada.Strings.Unbounded.Unbounded_String := Null_String;
   END RECORD;
 
   Destroyed : CONSTANT RelaySubclass :=
