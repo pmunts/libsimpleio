@@ -1,6 +1,6 @@
--- MBlox SMS messaging service (https://www.mblox.com)
+-- SMS messaging services using Sinch (https://www.sinch.com)
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Environment_Variables;
 WITH Ada.Strings.Unbounded;
 
@@ -29,36 +30,65 @@ WITH AWS.URL;
 
 USE ALL TYPE Ada.Strings.Unbounded.Unbounded_String;
 
-PACKAGE BODY SMS_MBlox IS
+PACKAGE BODY SMS_Sinch IS
 
   -- SMS relay object constructor
 
   FUNCTION Create
-   (server    : String := SMS1SSL;
-    username  : String := "";
-    password  : String := "") RETURN Messaging.Text.Relay IS
+   (server   : String := SMS1;
+    username : String := "";
+    password : String := "") RETURN Messaging.Text.Relay IS
 
-    s : Ada.Strings.Unbounded.Unbounded_String;
-    u : Ada.Strings.Unbounded.Unbounded_String;
-    p : Ada.Strings.Unbounded.Unbounded_String;
+    relay : RelaySubclass;
 
   BEGIN
-    s := To_Unbounded_String(server);
+    relay.Initialize(server, username, password);
+    RETURN NEW RelaySubclass'(relay);
+  END Create;
+
+  -- SMS relay object initializer
+
+  PROCEDURE Initialize
+   (Self : IN OUT RelaySubclass;
+    Server   : String := SMS1;
+    Username : String := "";
+    Password : String := "") IS
+
+  BEGIN
+    Self.Destroy;
+
+    Self.server := To_Unbounded_String(Server);
 
     IF username = "" THEN
-      u := To_Unbounded_String(Ada.Environment_Variables.Value("MBLOXUSER"));
+      Self.username := To_Unbounded_String(Ada.Environment_Variables.Value("SMSUSER"));
     ELSE
-      u := To_Unbounded_String(username);
+      Self.username := To_Unbounded_String(username);
     END IF;
 
     IF password = "" THEN
-      p := To_Unbounded_String(Ada.Environment_Variables.Value("MBLOXPASS"));
+      Self.password := To_Unbounded_String(Ada.Environment_Variables.Value("SMSPASS"));
     ELSE
-      p := To_Unbounded_String(password);
+      Self.password := To_Unbounded_String(password);
     END IF;
+  END Initialize;
 
-    RETURN NEW RelaySubclass'(server => s, username => u, password => p);
-  END Create;
+  -- SMS relay object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT RelaySubclass) IS
+
+  BEGIN
+    Self := Destroyed;
+  END Destroy;
+
+  -- Check whether SMS relay object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : RelaySubclass) IS
+
+  BEGIN
+    IF Self = Destroyed THEN
+      RAISE Messaging.Text.RelayError WITH "Mail relay object has been destroyed";
+    END IF;
+  END CheckDestroyed;
 
   -- Method for sending an SMS
 
@@ -73,19 +103,22 @@ PACKAGE BODY SMS_MBlox IS
     response  : Ada.Strings.Unbounded.Unbounded_String;
 
   BEGIN
+    Self.CheckDestroyed;
 
-    -- Build the SMS request URL
+    -- Build the SMS relay request URL
 
-    URL := Self.server & "/HTTPSMS?S=H" &
-      "&UN=" & AWS.URL.Encode(To_String(Self.username)) &
-      "&P="  & AWS.URL.Encode(To_String(Self.password)) &
-      "&SA=" & AWS.URL.Encode(sender) &
-      "&DA=" & AWS.URL.Encode(recipient) &
-      "&M="  & (IF subject = "" THEN AWS.URL.Encode(message) ELSE AWS.URL.Encode(subject) & "%0D%0A" & AWS.URL.Encode(message));
+    URL := Self.server & "/sendsms?" &
+      "username=" & AWS.URL.Encode(To_String(Self.username)) &
+      "&password=" & AWS.URL.Encode(To_String(Self.password)) &
+      "&from="     & AWS.URL.Encode(sender) &
+      "&to="       & AWS.URL.Encode(recipient) &
+      "&text="     & (IF subject = "" THEN AWS.URL.Encode(message) ELSE AWS.URL.Encode(subject) & "%0D%0A" & AWS.URL.Encode(message));
+Put_Line("DEBUG: URL => " & To_String(URL));
 
     -- Dispatch the SMS request URL
 
     response := To_Unbounded_String(AWS.Response.Message_Body(AWS.Client.Get(To_String(URL))));
+Put_Line("DEBUG: Response => " & To_String(response));
 
     -- Check the HTTP response message
 
@@ -108,4 +141,4 @@ PACKAGE BODY SMS_MBlox IS
     END IF;
   END Send;
 
-END SMS_MBlox;
+END SMS_Sinch;

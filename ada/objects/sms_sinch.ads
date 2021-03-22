@@ -1,6 +1,6 @@
--- MBlox SMS messaging service (https://www.mblox.com)
+-- SMS messaging services using Sinch (https://www.sinch.com)
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,29 +24,40 @@ WITH Messaging.Text;
 
 PRIVATE WITH Ada.Strings.Unbounded;
 
-PACKAGE SMS_MBlox IS
+PACKAGE SMS_Sinch IS
 
   -- SMS relay object type
 
   TYPE RelaySubclass IS NEW Messaging.Text.RelayInterface WITH PRIVATE;
 
-  -- MBlox SMS servers
+  Destroyed : CONSTANT RelaySubclass;
 
-  SMS1    : CONSTANT String := "http://sms1.mblox.com:9001";
-  SMS2    : CONSTANT String := "http://sms2.mblox.com:9001";
-  SMS3    : CONSTANT String := "http://sms3.mblox.com:9001";
-  SMS5    : CONSTANT String := "http://sms5.mblox.com:9001";
-  SMS1SSL : CONSTANT String := "https://sms1.mblox.com:9444";
-  SMS2SSL : CONSTANT String := "https://sms2.mblox.com:9444";
-  SMS3SSL : CONSTANT String := "https://sms3.mblox.com:9444";
-  SMS5SSL : CONSTANT String := "https://sms5.mblox.com:9444";
+  -- SMS servers
+
+  SMS1    : CONSTANT String := "http://sms1.clxnetworks.net:3800";
 
   -- SMS relay object constructor
 
   FUNCTION Create
-   (server    : String := SMS1SSL;
+   (server    : String := SMS1;
     username  : String := "";
     password  : String := "") RETURN Messaging.Text.Relay;
+
+  -- SMS relay object initializer
+
+  PROCEDURE Initialize
+   (Self     : IN OUT RelaySubclass;
+    Server   : String := SMS1;
+    Username : String := "";
+    Password : String := "");
+
+  -- SMS relay object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT RelaySubclass);
+
+  -- Check whether SMS relay object has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : RelaySubclass);
 
   -- Method for sending an SMS
 
@@ -65,4 +76,9 @@ PRIVATE
     password  : Ada.Strings.UnBounded.Unbounded_String;
   END RECORD;
 
-END SMS_MBlox;
+  Destroyed : CONSTANT RelaySubclass :=
+    RelaySubclass'(Ada.Strings.Unbounded.Null_Unbounded_String,
+      Ada.Strings.Unbounded.Null_Unbounded_String,
+      Ada.Strings.Unbounded.Null_Unbounded_String);
+
+END SMS_Sinch;

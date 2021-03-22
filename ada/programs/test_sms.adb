@@ -24,7 +24,7 @@ WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Messaging.Text;
-WITH SMS_MBlox;
+WITH SMS_Sinch;
 
 PROCEDURE test_sms IS
 
@@ -43,7 +43,7 @@ BEGIN
 
   -- Create a message relay object
 
-  relay := SMS_MBlox.Create;
+  relay := SMS_Sinch.Create;
 
   -- Send the message
 
