@@ -69,12 +69,14 @@ PACKAGE Email_HTTP IS
 PRIVATE
 
   TYPE RelaySubclass IS NEW Messaging.Text.RelayInterface WITH RECORD
-    server   : Ada.Strings.Unbounded.Unbounded_String := Null_String;
-    username : Ada.Strings.Unbounded.Unbounded_String := Null_String;
-    password : Ada.Strings.Unbounded.Unbounded_String := Null_String;
+    server   : Ada.Strings.Unbounded.Unbounded_String := Ada.Strings.Unbounded.Null_Unbounded_String;
+    username : Ada.Strings.Unbounded.Unbounded_String := Ada.Strings.Unbounded.Null_Unbounded_String;
+    password : Ada.Strings.Unbounded.Unbounded_String := Ada.Strings.Unbounded.Null_Unbounded_String;
   END RECORD;
 
   Destroyed : CONSTANT RelaySubclass :=
-    RelaySubclass'(Null_String, Null_String, Null_String);
+    RelaySubclass'(Ada.Strings.Unbounded.Null_Unbounded_String,
+      Ada.Strings.Unbounded.Null_Unbounded_String,
+      Ada.Strings.Unbounded.Null_Unbounded_String);
 
 END Email_HTTP;
