@@ -43,7 +43,7 @@ BEGIN
 
   -- Create a mail relay object
 
-  relay := Email_HTTP.Create(Username => "tutorial", Password => "cLeJy(D[2{!7B.Bx");
+  relay := Email_HTTP.Create;
 
   -- Send the email message
 
