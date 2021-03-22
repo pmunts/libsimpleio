@@ -1,6 +1,6 @@
 -- Ada email test client using GNAT AWS SMTP
 
--- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -41,11 +41,11 @@ BEGIN
     RETURN;
   END IF;
 
-  -- Create a mail relay object
+  -- Create a message relay object
 
   relay := Email_SMTP.Create;
 
-  -- Send the email message
+  -- Send the message
 
   relay.Send
    (sender    => Ada.Command_Line.Argument(1),

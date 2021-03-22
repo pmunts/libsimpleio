@@ -41,11 +41,11 @@ BEGIN
     RETURN;
   END IF;
 
-  -- Create a mail relay object
+  -- Create a message relay object
 
   relay := Email_HTTP.Create;
 
-  -- Send the email message
+  -- Send the message
 
   relay.Send
    (sender    => Ada.Command_Line.Argument(1),
