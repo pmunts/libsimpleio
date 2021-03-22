@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Environment_Variables;
-WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 
 WITH AWS.Client;
