@@ -77,7 +77,7 @@ PACKAGE BODY Email_HTTP IS
     Self := Destroyed;
   END Destroy;
 
-  -- Check whether Mail relay object has been destroyed
+  -- Check whether mail relay object has been destroyed
 
   PROCEDURE CheckDestroyed(Self : RelaySubclass) IS
 
