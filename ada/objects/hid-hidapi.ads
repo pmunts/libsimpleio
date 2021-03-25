@@ -152,6 +152,6 @@ PRIVATE
   PRAGMA Import(C, hid_get_product_string);
   PRAGMA Import(C, hid_get_serial_number_string);
 
-  PRAGMA Link_With("-lhidapi");
+--  PRAGMA Link_With("-lhidapi");
 
 END HID.hidapi;
