@@ -25,20 +25,19 @@ WITH Interfaces.C.Strings;
 WITH HID.hidapi;
 WITH RemoteIO.Client.hidapi;
 
-USE TYPE Interfaces.C.int;
 USE TYPE RemoteIO.Client.Device;
 
 PACKAGE BODY libRemoteIO IS
 
-  NextAdapter : Interfaces.C.int := AdapterRange'First;
+  NextAdapter : Natural := AdapterRange'First;
 
   PROCEDURE Open
-   (VID     : Interfaces.C.int;
-    PID     : Interfaces.C.int;
+   (VID     : Integer;
+    PID     : Integer;
     serial  : Interfaces.C.Strings.chars_ptr;
-    timeout : Interfaces.C.int;
-    handle  : OUT Interfaces.C.int;
-    error   : OUT Interfaces.C.int) IS
+    timeout : Integer;
+    handle  : OUT Integer;
+    error   : OUT Integer) IS
 
   BEGIN
     handle := -1;
@@ -67,7 +66,7 @@ PACKAGE BODY libRemoteIO IS
     handle := NextAdapter;
 
     AdapterTable(handle).dev := RemoteIO.Client.Create(HID.HIDAPI.Create(HID.Vendor(VID),
-      HID.Product(PID), Interfaces.C.Strings.Value(serial), Integer(timeout)));
+      HID.Product(PID), Interfaces.C.Strings.Value(serial), timeout));
 
     NextAdapter := NextAdapter + 1;
 

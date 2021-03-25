@@ -38,12 +38,12 @@ PACKAGE libRemoteIO IS
   -- Open a connection to a USB Raw HID Remote I/O Protocol Server
 
   PROCEDURE Open
-   (VID       : Interfaces.C.int;
-    PID       : Interfaces.C.int;
+   (VID       : Integer;
+    PID       : Integer;
     serial    : Interfaces.C.Strings.chars_ptr;
-    timeout   : Interfaces.C.int;
-    handle    : OUT Interfaces.C.int;
-    error     : OUT Interfaces.C.int);
+    timeout   : Integer;
+    handle    : OUT Integer;
+    error     : OUT Integer);
 
 PRIVATE
 
@@ -59,7 +59,7 @@ PRIVATE
     SPI_channels  : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
   END RECORD;
 
-  SUBTYPE AdapterRange IS Interfaces.C.int RANGE 0 .. 15;
+  SUBTYPE AdapterRange IS Integer RANGE 0 .. 15;
 
   AdapterTable : ARRAY (AdapterRange) OF AdapterItem;
 

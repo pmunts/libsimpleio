@@ -21,21 +21,21 @@
 PACKAGE libRemoteIO.ADC IS
 
   PROCEDURE ADC_Configure
-   (handle     : Interfaces.C.int;
-    channel    : Interfaces.C.int;
-    resolution : OUT Interfaces.C.int;
-    error      : OUT Interfaces.C.int);
+   (handle     : Integer;
+    channel    : Integer;
+    resolution : OUT Integer;
+    error      : OUT Integer);
 
   PROCEDURE ADC_Read
-   (handle     : Interfaces.C.int;
-    channel    : Interfaces.C.int;
-    sample     : OUT Interfaces.C.int;
-    error      : OUT Interfaces.C.int);
+   (handle     : Integer;
+    channel    : Integer;
+    sample     : OUT Integer;
+    error      : OUT Integer);
 
   PROCEDURE ADC_Channels
-   (handle    : Interfaces.C.int;
+   (handle    : Integer;
     channels  : OUT ChannelArray;
-    error     : OUT Interfaces.C.int);
+    error     : OUT Integer);
 
 PRIVATE
 

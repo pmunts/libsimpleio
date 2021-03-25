@@ -21,28 +21,28 @@
 PACKAGE libRemoteIO.GPIO IS
 
   PROCEDURE GPIO_Configure
-   (handle    : Interfaces.C.int;
-    channel   : Interfaces.C.int;
-    direction : Interfaces.C.int;
-    state     : Interfaces.C.int;
-    error     : OUT Interfaces.C.int);
+   (handle    : Integer;
+    channel   : Integer;
+    direction : Integer;
+    state     : Integer;
+    error     : OUT Integer);
 
   PROCEDURE GPIO_Read
-   (handle    : Interfaces.C.int;
-    channel   : Interfaces.C.int;
-    state     : OUT Interfaces.C.int;
-    error     : OUT Interfaces.C.int);
+   (handle    : Integer;
+    channel   : Integer;
+    state     : OUT Integer;
+    error     : OUT Integer);
 
   PROCEDURE GPIO_Write
-   (handle    : Interfaces.C.int;
-    channel   : Interfaces.C.int;
-    state     : Interfaces.C.int;
-    error     : OUT Interfaces.C.int);
+   (handle    : Integer;
+    channel   : Integer;
+    state     : Integer;
+    error     : OUT Integer);
 
   PROCEDURE GPIO_Channels
-   (handle    : Interfaces.C.int;
+   (handle    : Integer;
     channels  : OUT ChannelArray;
-    error     : OUT Interfaces.C.int);
+    error     : OUT Integer);
 
 PRIVATE
 

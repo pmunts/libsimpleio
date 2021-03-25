@@ -19,15 +19,13 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Exceptions;
-WITH Ada.Strings.Fixed;
-WITH Interfaces.C.Strings;
+WITH Interfaces;
 
 WITH Analog;
 WITH Message64;
 WITH Messaging;
 WITH RemoteIO.Client.hidapi;
 
-USE TYPE Interfaces.C.int;
 USE TYPE Interfaces.Unsigned_32;
 USE TYPE Messaging.Byte;
 USE TYPE RemoteIO.Client.Device;
@@ -35,10 +33,10 @@ USE TYPE RemoteIO.Client.Device;
 PACKAGE BODY libRemoteIO.ADC IS
 
   PROCEDURE ADC_Configure
-   (handle     : Interfaces.C.int;
-    channel    : Interfaces.C.int;
-    resolution : OUT Interfaces.C.int;
-    error      : OUT Interfaces.C.int) IS
+   (handle     : Integer;
+    channel    : Integer;
+    resolution : OUT Integer;
+    error      : OUT Integer) IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -58,12 +56,12 @@ PACKAGE BODY libRemoteIO.ADC IS
       error := ENODEV;
     END IF;
 
-    IF (channel < 0) OR (Integer(channel) > RemoteIO.ChannelNumber'Last) THEN
+    IF (channel < 0) OR (channel > RemoteIO.ChannelNumber'Last) THEN
       error := EINVAL;
       RETURN;
     END IF;
 
-    IF NOT AdapterTable(handle).ADC_Channels.Contains(Integer(channel)) THEN
+    IF NOT AdapterTable(handle).ADC_Channels.Contains(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;
@@ -76,7 +74,7 @@ PACKAGE BODY libRemoteIO.ADC IS
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
 
-    resolution := Interfaces.C.int(resp(3));
+    resolution := Integer(resp(3));
 
   EXCEPTION
     WHEN e : OTHERS =>
@@ -84,10 +82,10 @@ PACKAGE BODY libRemoteIO.ADC IS
   END ADC_Configure;
 
   PROCEDURE ADC_Read
-   (handle    : Interfaces.C.int;
-    channel   : Interfaces.C.int;
-    sample    : OUT Interfaces.C.int;
-    error     : OUT Interfaces.C.int) IS
+   (handle    : Integer;
+    channel   : Integer;
+    sample    : OUT Integer;
+    error     : OUT Integer) IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -107,12 +105,12 @@ PACKAGE BODY libRemoteIO.ADC IS
       error := ENODEV;
     END IF;
 
-    IF (channel < 0) OR (Integer(channel) > RemoteIO.ChannelNumber'Last) THEN
+    IF (channel < 0) OR (channel > RemoteIO.ChannelNumber'Last) THEN
       error := EINVAL;
       RETURN;
     END IF;
 
-    IF NOT AdapterTable(handle).ADC_Channels.Contains(Integer(channel)) THEN
+    IF NOT AdapterTable(handle).ADC_Channels.Contains(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;
@@ -123,7 +121,7 @@ PACKAGE BODY libRemoteIO.ADC IS
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
 
-    sample := Interfaces.C.int
+    sample := Integer
      (Interfaces.Shift_Left(Interfaces.Unsigned_32(resp(3)), 24) +
       Interfaces.Shift_Left(Interfaces.Unsigned_32(resp(4)), 16) +
       Interfaces.Shift_Left(Interfaces.Unsigned_32(resp(5)),  8) +
@@ -136,9 +134,9 @@ PACKAGE BODY libRemoteIO.ADC IS
   END ADC_Read;
 
   PROCEDURE ADC_channels
-   (handle   : Interfaces.C.int;
+   (handle   : Integer;
     channels : OUT ChannelArray;
-    error    : OUT Interfaces.C.int) IS
+    error    : OUT Integer) IS
 
   BEGIN
     channels := (OTHERS => False);

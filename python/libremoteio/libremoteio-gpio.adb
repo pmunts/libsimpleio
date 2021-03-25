@@ -18,28 +18,23 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO; USE Ada.Text_IO;
-
 WITH Ada.Exceptions;
-WITH Ada.Strings.Fixed;
-WITH Interfaces.C.Strings;
 
 WITH Message64;
 WITH Messaging;
 WITH RemoteIO.Client.hidapi;
 
-USE TYPE Interfaces.C.int;
 USE TYPE Messaging.Byte;
 USE TYPE RemoteIO.Client.Device;
 
 PACKAGE BODY libRemoteIO.GPIO IS
 
   PROCEDURE GPIO_Configure
-   (handle    : Interfaces.C.int;
-    channel   : Interfaces.C.int;
-    direction : Interfaces.C.int;
-    state     : Interfaces.C.int;
-    error     : OUT Interfaces.C.int) IS
+   (handle    : Integer;
+    channel   : Integer;
+    direction : Integer;
+    state     : Integer;
+    error     : OUT Integer) IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -58,12 +53,12 @@ PACKAGE BODY libRemoteIO.GPIO IS
       error := ENODEV;
     END IF;
 
-    IF (channel < 0) OR (Integer(channel) > RemoteIO.ChannelNumber'Last) THEN
+    IF (channel < 0) OR (channel > RemoteIO.ChannelNumber'Last) THEN
       error := EINVAL;
       RETURN;
     END IF;
 
-    IF NOT AdapterTable(handle).GPIO_Channels.Contains(Integer(channel)) THEN
+    IF NOT AdapterTable(handle).GPIO_Channels.Contains(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;
@@ -82,10 +77,10 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
     cmd := (OTHERS => 0);
     cmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.GPIO_CONFIGURE_REQUEST));
-    cmd(2 + Integer(channel) / 8) := 2**(7 - Integer(channel) MOD 8);
+    cmd(2 + channel / 8) := 2**(7 - channel MOD 8);
 
     IF direction = 1 THEN
-      cmd(18 + Integer(channel) / 8) := 2**(7 - Integer(channel) MOD 8);
+      cmd(18 + channel / 8) := 2**(7 - channel MOD 8);
     END IF;
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
@@ -95,10 +90,10 @@ PACKAGE BODY libRemoteIO.GPIO IS
     IF direction = 1 THEN
       cmd := (OTHERS => 0);
       cmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.GPIO_WRITE_REQUEST));
-      cmd(2 + Integer(channel) / 8) := 2**(7 - Integer(channel) MOD 8);
+      cmd(2 + channel / 8) := 2**(7 - channel MOD 8);
 
       IF state = 1 THEN
-        cmd(18 + Integer(channel) / 8) := 2**(7 - Integer(channel) MOD 8);
+        cmd(18 + channel / 8) := 2**(7 - channel MOD 8);
       END IF;
 
       AdapterTable(handle).dev.Transaction(cmd, resp);
@@ -110,10 +105,10 @@ PACKAGE BODY libRemoteIO.GPIO IS
   END GPIO_Configure;
 
   PROCEDURE GPIO_Read
-   (handle    : Interfaces.C.int;
-    channel   : Interfaces.C.int;
-    state     : OUT Interfaces.C.int;
-    error     : OUT Interfaces.C.int) IS
+   (handle    : Integer;
+    channel   : Integer;
+    state     : OUT Integer;
+    error     : OUT Integer) IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -133,23 +128,23 @@ PACKAGE BODY libRemoteIO.GPIO IS
       error := ENODEV;
     END IF;
 
-    IF (channel < 0) OR (Integer(channel) > RemoteIO.ChannelNumber'Last) THEN
+    IF (channel < 0) OR (channel > RemoteIO.ChannelNumber'Last) THEN
       error := EINVAL;
       RETURN;
     END IF;
 
-    IF NOT AdapterTable(handle).GPIO_Channels.Contains(Integer(channel)) THEN
+    IF NOT AdapterTable(handle).GPIO_Channels.Contains(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;
 
     cmd := (OTHERS => 0);
     cmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.GPIO_READ_REQUEST));
-    cmd(2 + Integer(channel) / 8) := 2**(7 - Integer(channel) MOD 8);
+    cmd(2 + channel / 8) := 2**(7 - channel MOD 8);
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
 
-    IF (resp(3 + Integer(channel) / 8) AND 2**(7 - Integer(channel) MOD 8)) = 0 THEN
+    IF (resp(3 + channel / 8) AND 2**(7 - channel MOD 8)) = 0 THEN
       state := 0;
     ELSE
       state := 1;
@@ -162,10 +157,10 @@ PACKAGE BODY libRemoteIO.GPIO IS
   END GPIO_Read;
 
   PROCEDURE GPIO_Write
-   (handle    : Interfaces.C.int;
-    channel   : Interfaces.C.int;
-    state     : Interfaces.C.int;
-    error     : OUT Interfaces.C.int) IS
+   (handle    : Integer;
+    channel   : Integer;
+    state     : Integer;
+    error     : OUT Integer) IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
@@ -184,12 +179,12 @@ PACKAGE BODY libRemoteIO.GPIO IS
       error := ENODEV;
     END IF;
 
-    IF (channel < 0) OR (Integer(channel) > RemoteIO.ChannelNumber'Last) THEN
+    IF (channel < 0) OR (channel > RemoteIO.ChannelNumber'Last) THEN
       error := EINVAL;
       RETURN;
     END IF;
 
-    IF NOT AdapterTable(handle).GPIO_Channels.Contains(Integer(channel)) THEN
+    IF NOT AdapterTable(handle).GPIO_Channels.Contains(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;
@@ -201,10 +196,10 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
     cmd := (OTHERS => 0);
     cmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.GPIO_WRITE_REQUEST));
-    cmd(2 + Integer(channel) / 8) := 2**(7 - Integer(channel) MOD 8);
+    cmd(2 + channel / 8) := 2**(7 - channel MOD 8);
 
     IF state = 1 THEN
-      cmd(18 + Integer(channel) / 8) := 2**(7 - Integer(channel) MOD 8);
+      cmd(18 + channel / 8) := 2**(7 - channel MOD 8);
     END IF;
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
@@ -214,9 +209,9 @@ PACKAGE BODY libRemoteIO.GPIO IS
   END GPIO_Write;
 
   PROCEDURE GPIO_channels
-   (handle   : Interfaces.C.int;
+   (handle   : Integer;
     channels : OUT ChannelArray;
-    error    : OUT Interfaces.C.int) IS
+    error    : OUT Integer) IS
 
   BEGIN
     channels := (OTHERS => False);
