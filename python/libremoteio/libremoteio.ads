@@ -59,7 +59,7 @@ PRIVATE
     SPI_channels  : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
   END RECORD;
 
-  SUBTYPE AdapterRange IS Integer RANGE 0 .. 15;
+  SUBTYPE AdapterRange IS Natural RANGE 0 .. 15;
 
   AdapterTable : ARRAY (AdapterRange) OF AdapterItem;
 
