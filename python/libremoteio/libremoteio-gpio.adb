@@ -44,7 +44,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
     -- Validate parameters
 
-    IF (handle < AdapterRange'First) OR (handle > AdapterRange'Last) THEN
+    IF (handle NOT IN AdapterRange) THEN
       error := EINVAL;
       RETURN;
     END IF;
@@ -53,7 +53,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
       error := ENODEV;
     END IF;
 
-    IF (channel < 0) OR (channel > RemoteIO.ChannelNumber'Last) THEN
+    IF channel NOT IN RemoteIO.ChannelNumber THEN
       error := EINVAL;
       RETURN;
     END IF;
@@ -119,7 +119,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
     -- Validate parameters
 
-    IF (handle < AdapterRange'First) OR (handle > AdapterRange'Last) THEN
+    IF (handle NOT IN AdapterRange) THEN
       error := EINVAL;
       RETURN;
     END IF;
@@ -128,7 +128,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
       error := ENODEV;
     END IF;
 
-    IF (channel < 0) OR (channel > RemoteIO.ChannelNumber'Last) THEN
+    IF channel NOT IN RemoteIO.ChannelNumber THEN
       error := EINVAL;
       RETURN;
     END IF;
@@ -170,7 +170,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
     -- Validate parameters
 
-    IF (handle < AdapterRange'First) OR (handle > AdapterRange'Last) THEN
+    IF (handle NOT IN AdapterRange) THEN
       error := EINVAL;
       RETURN;
     END IF;
@@ -179,7 +179,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
       error := ENODEV;
     END IF;
 
-    IF (channel < 0) OR (channel > RemoteIO.ChannelNumber'Last) THEN
+    IF channel NOT IN RemoteIO.ChannelNumber THEN
       error := EINVAL;
       RETURN;
     END IF;
@@ -219,7 +219,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
     -- Validate parameters
 
-    IF (handle < AdapterRange'First) OR (handle > AdapterRange'Last) THEN
+    IF (handle NOT IN AdapterRange) THEN
       error := EINVAL;
       RETURN;
     END IF;
