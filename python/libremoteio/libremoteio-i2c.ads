@@ -18,41 +18,39 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-LIBRARY PROJECT libremoteio IS
+WITH Interfaces.C.Strings;
 
-  LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
-  OS          := external("OS", external("OSNAME", "unknown"));
+WITH I2C;
+WITH Messaging;
 
-  FOR Source_Dirs USE (".",
-    LIBSIMPLEIO & "/ada/bindings",
-    LIBSIMPLEIO & "/ada/devices",
-    LIBSIMPLEIO & "/ada/interfaces",
-    LIBSIMPLEIO & "/ada/objects/**");
+PACKAGE libRemoteIO.I2C IS
 
-  FOR Languages USE ("Ada", "C");
-  FOR Library_Auto_Init USE "True";
-  FOR Library_Dir USE "./obj/lib";
-  FOR Library_Kind USE "Dynamic";
-  FOR Library_Name USE "remoteio";
-  FOR Library_Standalone USE "Encapsulated";
-  FOR Object_Dir  USE "./obj";
+  PROCEDURE I2C_Configure
+   (handle    : Integer;
+    channel   : Integer;
+    frequency : Integer;
+    error     : OUT Integer);
 
-  FOR Library_Interface USE
-   ("libRemoteIO",
-    "libRemoteIO.ADC",
-    "libRemoteIO.GPIO",
-    "libRemoteIO.I2C");
+  PROCEDURE I2C_Transaction
+   (handle    : Integer;
+    channel   : Integer;
+    addr      : Standard.I2C.Address;
+    cmd       : IN OUT Messaging.Buffer;
+    cmdlen    : Integer;
+    resp      : IN OUT Messaging.Buffer;
+    resplen   : Integer;
+    delayus   : Integer;
+    error     : OUT Integer);
 
-  CASE OS IS
-    WHEN "Linux" =>
-      FOR Excluded_Source_Files USE ("hid-windows.c");
+  PROCEDURE I2C_Channels
+   (handle    : Integer;
+    channels  : OUT ChannelArray;
+    error     : OUT Integer);
 
-    WHEN "Windows_NT" =>
-      FOR Excluded_Source_Files USE ("hid-linux.c");
-      FOR Library_Options USE ("-Wl,--export-all-symbols", "-lsetupapi");
+PRIVATE
 
-    WHEN OTHERS =>
-      NULL;
-  END CASE;
+  PRAGMA Export(Convention => C, Entity => I2C_Configure,   External_Name => "i2c_configure");
+  PRAGMA Export(Convention => C, Entity => I2C_Transaction, External_Name => "i2c_transaction");
+  PRAGMA Export(Convention => C, Entity => I2C_Channels,    External_Name => "i2c_channels");
 
-END libremoteio;
+END libRemoteIO.I2C;
