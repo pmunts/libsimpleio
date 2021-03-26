@@ -69,18 +69,29 @@ News
        sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-raspberrypi1-crosstool-libsimpleio
        sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-raspberrypi2-crosstool-libsimpleio
 
+     * 25 March 2021 -- Added some rudimentary Python client support for
+       the [7]Remote I/O Protocol for raw HID servers (like [8]this or
+       [9]this), in response to a request from a customer who wants to
+       develop a Python Remote I/O Protocol client program that can run on
+       Windows 10 64-bit. Accomplishing this requires a new Windows shared
+       library, libremoteio.dll, which has been added to win/win64/. The
+       shared library, which is written in the Ada programming language,
+       and also contains the latest [10]hidapi code, can also be built for
+       Linux. A few "proof of concept" Python3 programs are now in
+       python/.
+
 Documentation
 
-   The user manual for libsimpleio is available at [7]UserManual.pdf.
+   The user manual for libsimpleio is available at [11]UserManual.pdf.
 
    The man pages specifying the libsimpleio API are available at
-   [8]libsimpleio.html.
+   [12]libsimpleio.html.
 
 Git Repository
 
    The source code is available at:
 
-   [9]https://github.com/pmunts/libsimpleio
+   [13]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -88,16 +99,16 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [10]Debian Linux are available at:
-   [11]http://repo.munts.com/debian10
+   Prebuilt packages for [14]Debian Linux are available at:
+   [15]http://repo.munts.com/debian10
 
-[12]Make With Ada Projects
+[16]Make With Ada Projects
 
-     * 2017 [13]Ada Embedded Linux Framework
-     * 2019 [14]Modbus RTU Framework for Ada (Prize Winner!)
+     * 2017 [17]Ada Embedded Linux Framework
+     * 2019 [18]Modbus RTU Framework for Ada (Prize Winner!)
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [15]phil@munts.net
+   Questions or comments to Philip Munts [19]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -110,12 +121,16 @@ References
    4. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
    5. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
    6. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-   7. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-   8. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-   9. https://github.com/pmunts/libsimpleio
-  10. http://www.debian.org/
-  11. http://repo.munts.com/debian10
-  12. https://www.makewithada.org/
-  13. https://www.makewithada.org/entry/ada_linux_sensor_framework
-  14. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
-  15. mailto:phil@munts.net
+   7. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
+   8. https://www.tindie.com/products/pmunts/usb-flexible-io-adapter
+   9. https://www.tindie.com/products/pmunts/usb-grove-adapter
+  10. https://github.com/libusb/hidapi
+  11. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  12. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  13. https://github.com/pmunts/libsimpleio
+  14. http://www.debian.org/
+  15. http://repo.munts.com/debian10
+  16. https://www.makewithada.org/
+  17. https://www.makewithada.org/entry/ada_linux_sensor_framework
+  18. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
+  19. mailto:phil@munts.net

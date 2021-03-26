@@ -82,6 +82,23 @@ News
         sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-raspberrypi1-crosstool-libsimpleio
         sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-raspberrypi2-crosstool-libsimpleio
 
+-   25 March 2021 -- Added some rudimentary Python client support for
+    the [Remote I/O
+    Protocol](http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf)
+    for raw HID servers (like
+    [this](https://www.tindie.com/products/pmunts/usb-flexible-io-adapter)
+    or
+    [this](https://www.tindie.com/products/pmunts/usb-grove-adapter)),
+    in response to a request from a customer who wants to develop a
+    Python Remote I/O Protocol client program that can run on Windows 10
+    64-bit. Accomplishing this requires a new Windows shared library,
+    **`libremoteio.dll`**, which has been added to **`win/win64/`**. The
+    shared library, which is written in the Ada programming language,
+    and also contains the latest
+    [hidapi](https://github.com/libusb/hidapi) code, can also be built
+    for Linux. A few "proof of concept" Python3 programs are now in
+    **`python/`.**
+
 Documentation
 -------------
 
