@@ -78,6 +78,10 @@ PACKAGE BODY libRemoteIO.I2C IS
     cmdmsg(6) := Messaging.Byte(frequency MOD 256);
 
     AdapterTable(handle).dev.Transaction(cmdmsg, respmsg);
+
+  EXCEPTION
+    WHEN e: OTHERS =>
+      error  := EIO;
   END I2C_Configure;
 
   PROCEDURE I2C_Transaction
@@ -146,7 +150,12 @@ PACKAGE BODY libRemoteIO.I2C IS
 
     FOR i IN 1 .. Natural(respmsg(3)) LOOP
       resp(i - 1) := respmsg(i + 3);
-    END LOOP;  END I2C_Transaction;
+    END LOOP;
+
+  EXCEPTION
+    WHEN e: OTHERS =>
+      error  := EIO;
+  END I2C_Transaction;
 
   PROCEDURE I2C_Channels
    (handle    : Integer;
@@ -172,6 +181,7 @@ PACKAGE BODY libRemoteIO.I2C IS
 
     FOR c OF AdapterTable(handle).I2C_Channels LOOP
       channels(c) := True;
-    END LOOP;  END I2C_Channels;
+    END LOOP;
+  END I2C_Channels;
 
 END libRemoteIO.I2C;
