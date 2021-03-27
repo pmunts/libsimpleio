@@ -25,6 +25,7 @@ WITH Interfaces.C.Strings;
 WITH HID.hidapi;
 WITH RemoteIO.Client.hidapi;
 
+USE TYPE Interfaces.C.Strings.chars_ptr;
 USE TYPE RemoteIO.Client.Device;
 
 PACKAGE BODY libRemoteIO IS
@@ -65,8 +66,13 @@ PACKAGE BODY libRemoteIO IS
 
     handle := NextAdapter;
 
-    AdapterTable(handle).dev := RemoteIO.Client.Create(HID.HIDAPI.Create(HID.Vendor(VID),
-      HID.Product(PID), Interfaces.C.Strings.Value(serial), timeout));
+    IF serial = Interfaces.C.Strings.Null_Ptr THEN
+      AdapterTable(handle).dev := RemoteIO.Client.Create(HID.HIDAPI.Create(HID.Vendor(VID),
+        HID.Product(PID), "", timeout));
+    ELSE
+      AdapterTable(handle).dev := RemoteIO.Client.Create(HID.HIDAPI.Create(HID.Vendor(VID),
+        HID.Product(PID), Interfaces.C.Strings.Value(serial), timeout));
+    END IF;
 
     NextAdapter := NextAdapter + 1;
 
