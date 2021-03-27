@@ -39,7 +39,6 @@ elif os.name == 'posix':
 
 handle   = ctypes.c_int()
 error    = ctypes.c_int()
-channels = ctypes.create_string_buffer(128)
 state    = ctypes.c_int()
 
 # Open USB Raw HID Remote I/O Protocol Server
@@ -52,19 +51,25 @@ if error.value != 0:
 
 # Probe available GPIO pins
 
+channels = ctypes.create_string_buffer(128)
+
 libremoteio.gpio_channels(handle, channels, ctypes.byref(error))
 
 if error.value != 0:
   print("ERROR: gpio_channels() failed, error=" + str(error.value))
   quit()
 
-print('Available GPIO channels: ', end='')
+# Convert byte array to set
+
+pins = set()
 
 for c in range(len(channels)):
   if channels[c] == b'\x01':
-    print(c, end=' ')
+    pins.add(c);
 
-print()
+del channels
+
+print('Available GPIO pins: ' + str(pins))
 
 # Configure GPIO0 as an output
 

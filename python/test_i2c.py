@@ -10,7 +10,7 @@
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 #
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
 # ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
@@ -25,53 +25,58 @@
 import ctypes
 import os
 
-print("\nPython Remote I/O Protocol I2C Test\n")
+print('\nPython Remote I/O Protocol I2C Test\n')
 
 # Select the OS appropriate shared library file
 
 if os.name == 'nt':
-  libremoteio = ctypes.cdll.LoadLibrary(os.environ.get("LIBSIMPLEIO") + "/win/win64/libremoteio.dll")
+  libremoteio = ctypes.cdll.LoadLibrary(os.environ.get('LIBSIMPLEIO') + '/win/win64/libremoteio.dll')
 elif os.name == 'posix':
-  libremoteio = ctypes.cdll.LoadLibrary("/usr/local/lib/libremoteio.so")
+  libremoteio = ctypes.cdll.LoadLibrary('/usr/local/lib/libremoteio.so')
 
-# Declare some variables
+# Declare some C interface variables
 
 handle   = ctypes.c_int()
 error    = ctypes.c_int()
-channels = ctypes.create_string_buffer(128)
 cmd      = ctypes.create_string_buffer(12)
 resp     = ctypes.create_string_buffer(16)
 
 # Open USB Raw HID Remote I/O Protocol Server
 
-libremoteio.open(0x16D0, 0x0AFA, "".encode(encoding='UTF-8'), 1000, ctypes.byref(handle), ctypes.byref(error))
+libremoteio.open(0x16D0, 0x0AFA, ''.encode(encoding='UTF-8'), 1000, ctypes.byref(handle), ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: open() failed, error=" + str(error.value))
+  print('ERROR: open() failed, error=' + str(error.value))
   quit()
 
 # Probe available I2C buses
 
+channels = ctypes.create_string_buffer(128)
+
 libremoteio.i2c_channels(handle, channels, ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: i2c_channels() failed, error=" + str(error.value))
+  print('ERROR: i2c_channels() failed, error=' + str(error.value))
   quit()
 
-print('Available I2C buses: ', end='')
+# Convert byte array to set
+
+buses = set()
 
 for c in range(len(channels)):
   if channels[c] == b'\x01':
-    print(c, end=' ')
+    buses.add(c);
 
-print()
+del channels
+
+print('Available I2C buses: ' + str(buses))
 
 # Configure bus I2C0
 
 libremoteio.i2c_configure(handle, 0, 100000, ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: i2c_configure() failed, error=" + str(error.value))
+  print('ERROR: i2c_configure() failed, error=' + str(error.value))
   quit()
 
 # Perform an I2C bus transaction
@@ -79,9 +84,9 @@ if error.value != 0:
 libremoteio.i2c_transaction(handle, 0, 0x44, cmd, len(cmd), resp, len(resp), 100, ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: i2c_transaction() failed, error=" + str(error.value))
+  print('ERROR: i2c_transaction() failed, error=' + str(error.value))
   quit()
 
 version = ord(resp[8]) + ord(resp[9])*256 + ord(resp[10])*65536 + ord(resp[11])*16777216
 
-print("LPC1114 Firmware Version is " + str(version))
+print('LPC1114 Firmware Version is ' + str(version))

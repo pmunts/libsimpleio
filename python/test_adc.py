@@ -39,7 +39,6 @@ elif os.name == 'posix':
 
 handle      = ctypes.c_int()
 error       = ctypes.c_int()
-channels    = ctypes.create_string_buffer(128)
 resolution  = ctypes.c_int()
 sample      = ctypes.c_int()
 
@@ -53,19 +52,25 @@ if error.value != 0:
 
 # Probe available ADC channels
 
+channels    = ctypes.create_string_buffer(128)
+
 libremoteio.adc_channels(handle, channels, ctypes.byref(error))
 
 if error.value != 0:
   print("ERROR: adc_channels() failed, error=" + str(error.value))
   quit()
 
-print('Available ADC channels: ', end='')
+# Convert byte array to set
+
+adcinputs = set()
 
 for c in range(len(channels)):
   if channels[c] == b'\x01':
-    print(c, end=' ')
+    adcinputs.add(c);
 
-print()
+del channels
+
+print('Available ADC inputs: ' + str(adcinputs))
 
 # Configure ADC1
 
