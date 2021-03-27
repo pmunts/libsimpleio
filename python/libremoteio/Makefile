@@ -18,6 +18,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+LIBSIMPLEIO ?= /usr/local/share/libsimpleio
+
 .PHONY: build install clean
 
 ifneq ($(GNAT),)
@@ -38,10 +40,12 @@ INSTALL  := install -cm 0644 $(LIBFILE) $(LIBDIR)
 endif
 
 build:
-	OS=$(OS) $(GPRBUILD) -p
+	sed -i 's/  PRAGMA Link_With/--PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
+	LIBSIMPLEIO=$(LIBSIMPLEIO) OS=$(OS) $(GPRBUILD) -p
 
 install: build
 	$(INSTALL)
 
 clean:
+	sed -i 's/--PRAGMA Link_With/  PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
 	rm -rf obj
