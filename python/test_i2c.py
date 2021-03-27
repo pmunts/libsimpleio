@@ -39,14 +39,8 @@ elif os.name == 'posix':
 handle   = ctypes.c_int()
 error    = ctypes.c_int()
 channels = ctypes.create_string_buffer(128)
-channel  = ctypes.c_int()
-freq     = ctypes.c_int()
-addr     = ctypes.c_int()
 cmd      = ctypes.create_string_buffer(12)
-cmdlen   = ctypes.c_int()
 resp     = ctypes.create_string_buffer(16)
-resplen  = ctypes.c_int()
-delayus  = ctypes.c_int()
 
 # Open USB Raw HID Remote I/O Protocol Server
 
@@ -74,10 +68,7 @@ print()
 
 # Configure bus I2C0
 
-channel.value = 0
-freq.value = 100000
-
-libremoteio.i2c_configure(handle, channel, freq, ctypes.byref(error))
+libremoteio.i2c_configure(handle, 0, 100000, ctypes.byref(error))
 
 if error.value != 0:
   print("ERROR: i2c_configure() failed, error=" + str(error.value))
@@ -85,12 +76,7 @@ if error.value != 0:
 
 # Perform an I2C bus transaction
 
-addr.value = 0x44
-cmdlen.value = len(cmd)
-resplen.value = len(resp)
-delayus.value = 100
-
-libremoteio.i2c_transaction(handle, channel, addr, cmd, cmdlen, resp, resplen, delayus, ctypes.byref(error))
+libremoteio.i2c_transaction(handle, 0, 0x44, cmd, len(cmd), resp, len(resp), 100, ctypes.byref(error))
 
 if error.value != 0:
   print("ERROR: i2c_transaction() failed, error=" + str(error.value))
