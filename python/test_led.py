@@ -26,14 +26,14 @@ import ctypes
 import os
 import time
 
-print("\nPython Remote I/O Protocol LED Test\n")
+print('\nPython Remote I/O Protocol LED Test\n')
 
 # Select the OS appropriate shared library file
 
 if os.name == 'nt':
-  libremoteio = ctypes.cdll.LoadLibrary(os.environ.get("LIBSIMPLEIO") + "/win/win64/libremoteio.dll")
+  libremoteio = ctypes.cdll.LoadLibrary(os.environ.get('LIBSIMPLEIO') + '/win/win64/libremoteio.dll')
 elif os.name == 'posix':
-  libremoteio = ctypes.cdll.LoadLibrary("/usr/local/lib/libremoteio.so")
+  libremoteio = ctypes.cdll.LoadLibrary('/usr/local/lib/libremoteio.so')
 
 # Declare some C library interface variables
 
@@ -46,7 +46,7 @@ state    = ctypes.c_int()
 libremoteio.open(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: open() failed, error=" + str(error.value))
+  print('ERROR: open() failed, error=' + str(error.value))
   quit()
 
 # Probe available GPIO pins
@@ -56,7 +56,7 @@ channels = ctypes.create_string_buffer(128)
 libremoteio.gpio_channels(handle, channels, ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: gpio_channels() failed, error=" + str(error.value))
+  print('ERROR: gpio_channels() failed, error=' + str(error.value))
   quit()
 
 # Convert byte array to set
@@ -76,7 +76,7 @@ print('Available GPIO pins: ' + str(pins))
 libremoteio.gpio_configure(handle, 0, 1, 0, ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: gpio_configure() failed, error=" + str(error.value))
+  print('ERROR: gpio_configure() failed, error=' + str(error.value))
   quit()
 
 # Toggle GPIO0
@@ -85,7 +85,7 @@ while True:
   libremoteio.gpio_read(handle, 0, ctypes.byref(state), ctypes.byref(error))
 
   if error.value != 0:
-    print("ERROR: gpio_read() failed, error=" + str(error.value))
+    print('ERROR: gpio_read() failed, error=' + str(error.value))
     quit()
 
   state.value ^= 1
@@ -93,7 +93,7 @@ while True:
   libremoteio.gpio_write(handle, 0, state, ctypes.byref(error))
 
   if error.value != 0:
-    print("ERROR: gpio_write() failed, error=" + str(error.value))
+    print('ERROR: gpio_write() failed, error=' + str(error.value))
     quit()
 
   time.sleep(0.5)

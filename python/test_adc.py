@@ -26,14 +26,14 @@ import ctypes
 import os
 import time
 
-print("\nPython Remote I/O Protocol Analog Input Test\n")
+print('\nPython Remote I/O Protocol Analog Input Test\n')
 
 # Select the OS appropriate shared library file
 
 if os.name == 'nt':
-  libremoteio = ctypes.cdll.LoadLibrary(os.environ.get("LIBSIMPLEIO") + "/win/win64/libremoteio.dll")
+  libremoteio = ctypes.cdll.LoadLibrary(os.environ.get('LIBSIMPLEIO') + '/win/win64/libremoteio.dll')
 elif os.name == 'posix':
-  libremoteio = ctypes.cdll.LoadLibrary("/usr/local/lib/libremoteio.so")
+  libremoteio = ctypes.cdll.LoadLibrary('/usr/local/lib/libremoteio.so')
 
 # Declare some C library interface variables
 
@@ -47,7 +47,7 @@ sample      = ctypes.c_int()
 libremoteio.open(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: open() failed, error=" + str(error.value))
+  print('ERROR: open() failed, error=' + str(error.value))
   quit()
 
 # Probe available ADC channels
@@ -57,7 +57,7 @@ channels    = ctypes.create_string_buffer(128)
 libremoteio.adc_channels(handle, channels, ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: adc_channels() failed, error=" + str(error.value))
+  print('ERROR: adc_channels() failed, error=' + str(error.value))
   quit()
 
 # Convert byte array to set
@@ -77,10 +77,10 @@ print('Available ADC inputs: ' + str(adcinputs))
 libremoteio.adc_configure(handle, 1, ctypes.byref(resolution), ctypes.byref(error))
 
 if error.value != 0:
-  print("ERROR: adc_configure() failed, error=" + str(error.value))
+  print('ERROR: adc_configure() failed, error=' + str(error.value))
   quit()
 
-print("Resolution: " + str(resolution.value) + " bits")
+print('Resolution: ' + str(resolution.value) + ' bits')
 
 # Read from ADC1
 
@@ -88,7 +88,7 @@ while True:
   libremoteio.adc_read(handle, 1, ctypes.byref(sample), ctypes.byref(error))
 
   if error.value != 0:
-    print("ERROR: adc_read() failed, error=" + str(error.value))
+    print('ERROR: adc_read() failed, error=' + str(error.value))
     quit()
 
   print(sample.value)
