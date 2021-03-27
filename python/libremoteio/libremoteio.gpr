@@ -46,6 +46,7 @@ LIBRARY PROJECT libremoteio IS
   CASE OS IS
     WHEN "Linux" =>
       FOR Excluded_Source_Files USE ("hid-windows.c");
+      FOR Library_Options USE ("-ludev");
 
     WHEN "Windows_NT" =>
       FOR Excluded_Source_Files USE ("hid-linux.c");
