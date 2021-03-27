@@ -35,7 +35,7 @@ if os.name == 'nt':
 elif os.name == 'posix':
   libremoteio = ctypes.cdll.LoadLibrary("/usr/local/lib/libremoteio.so")
 
-# Declare some variables
+# Declare some C library interface variables
 
 handle      = ctypes.c_int()
 error       = ctypes.c_int()
@@ -44,7 +44,7 @@ sample      = ctypes.c_int()
 
 # Open USB Raw HID Remote I/O Protocol Server
 
-libremoteio.open(0x16D0, 0x0AFA, "".encode(encoding='UTF-8'), 1000, ctypes.byref(handle), ctypes.byref(error))
+libremoteio.open(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
 
 if error.value != 0:
   print("ERROR: open() failed, error=" + str(error.value))
