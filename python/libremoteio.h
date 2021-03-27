@@ -51,7 +51,7 @@ void adc_read(int handle, int channel, int *sample, int *error);
 
 # Fetch available A/D converter analog input channels
 #
-# The actual parameter for channels *MUNTS* be 128 bytes.  A 1 will be
+# The actual parameter for channels *MUST* be 128 bytes.  A 1 will be
 # returned in each element of channels corresponding to a valid A/D input.
 # For example, if an adapter has 4 analog inputs (AIN0, AIN1, AIN2, and AIN3),
 # channels will be set to 1, 1, 1, 1, 0, 0, 0...
