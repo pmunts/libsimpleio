@@ -20,7 +20,8 @@
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void open(int vid, int pid, char *serial, int timeout, int *error);
+extern "C" void open(int vid, int pid, char *serial, int timeout, int *handle,
+  int *error);
 
 //=============================================================================
 
@@ -34,7 +35,8 @@ void open(int vid, int pid, char *serial, int timeout, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void adc_configure(int handle, int channel, int *resolution, int *error);
+extern "C" void adc_configure(int handle, int channel, int *resolution,
+  int *error);
 
 //=============================================================================
 
@@ -47,7 +49,7 @@ void adc_configure(int handle, int channel, int *resolution, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void adc_read(int handle, int channel, int *sample, int *error);
+extern "C" void adc_read(int handle, int channel, int *sample, int *error);
 
 //=============================================================================
 
@@ -60,7 +62,7 @@ void adc_read(int handle, int channel, int *sample, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void adc_channels(int handle, uint8_t *channels, int *error);
+extern "C" void adc_channels(int handle, uint8_t *channels, int *error);
 
 //=============================================================================
 
@@ -76,8 +78,8 @@ void adc_channels(int handle, uint8_t *channels, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void gpio_configure(int handle, int channel, int direction, int state,
-  int *error);
+extern "C" void gpio_configure(int handle, int channel, int direction,
+  int state, int *error);
 
 //=============================================================================
 
@@ -90,7 +92,7 @@ void gpio_configure(int handle, int channel, int direction, int state,
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void gpio_read(int handle, int channel, int *sample, int *error);
+extern "C" void gpio_read(int handle, int channel, int *sample, int *error);
 
 //=============================================================================
 
@@ -104,7 +106,7 @@ void gpio_read(int handle, int channel, int *sample, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void gpio_write(int handle, int channel, int state, int *error);
+extern "C" void gpio_write(int handle, int channel, int state, int *error);
 
 //=============================================================================
 
@@ -117,7 +119,7 @@ void gpio_write(int handle, int channel, int state, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void gpio_channels(int handle, uint8_t *channels, int *error);
+extern "C" void gpio_channels(int handle, uint8_t *channels, int *error);
 
 //=============================================================================
 
@@ -134,7 +136,8 @@ void gpio_channels(int handle, uint8_t *channels, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void i2c_configure(int handle, int channel, int frequency, int *error);
+extern "C" void i2c_configure(int handle, int channel, int frequency,
+  int *error);
 
 //=============================================================================
 
@@ -166,8 +169,9 @@ void i2c_configure(int handle, int channel, int frequency, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void i2c_transaction(int handle, int channel, int addr, uint8_t *cmd,
-  int cmdlen, uint8_t *resp, int resplen, int delayus, int *error);
+extern "C" void i2c_transaction(int handle, int channel, int addr,
+  uint8_t *cmd, int cmdlen, uint8_t *resp, int resplen, int delayus,
+  int *error);
 
 //=============================================================================
 
@@ -180,4 +184,4 @@ void i2c_transaction(int handle, int channel, int addr, uint8_t *cmd,
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-void i2c_channels(int handle, uint8_t *channels, int *error);
+extern "C" void i2c_channels(int handle, uint8_t *channels, int *error);
