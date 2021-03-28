@@ -92,7 +92,7 @@ extern "C" void gpio_configure(int handle, int channel, int direction,
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void gpio_read(int handle, int channel, int *sample, int *error);
+extern "C" void gpio_read(int handle, int channel, int *state, int *error);
 
 //=============================================================================
 
