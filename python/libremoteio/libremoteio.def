@@ -1,0 +1,12 @@
+EXPORTS 
+open
+adc_configure
+adc_read
+adc_channels
+gpio_configure
+gpio_read
+gpio_write
+gpio_channels
+i2c_configure
+i2c_transaction
+i2c_channels

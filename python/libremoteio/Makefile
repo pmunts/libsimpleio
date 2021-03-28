@@ -18,34 +18,40 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO ?= /usr/local/share/libsimpleio
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
 .PHONY: build install clean
 
 ifneq ($(GNAT),)
-GPRBUILD := $(GNAT)/bin/gprbuild
+GPRBUILD	:= $(GNAT)/bin/gprbuild
 else
-GPRBUILD := gprbuild
+GPRBUILD	:= gprbuild
 endif
 
-ifeq ($(shell uname), Linux)
-OS       := Linux
-LIBFILE  := obj/lib/libremoteio.so
-LIBDIR   := /usr/local/lib
-INSTALL  := sudo install -cm 0555 $(LIBFILE) $(LIBDIR) && sudo ldconfig
+ifeq ($(OS), Windows_NT)
+LIBFILE		:= libremoteio.dll
+LIBDIR		:= $(LIBSIMPLEIO)/win/win64
+INSTALL		:= install -cm 0644 libremoteio.h libremoteio.dll libremoteio.lib $(LIBDIR)
+VSTOOLS		:= C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/bin/HostX64/x64
+VSLIB		:= $(VSTOOLS)/lib
 else
-LIBFILE  := obj/lib/libremoteio.dll
-LIBDIR   := $(LIBSIMPLEIO)/win/win64
-INSTALL  := install -cm 0644 $(LIBFILE) $(LIBDIR)
+OS		:= Linux
+LIBFILE		:= libremoteio.so
+LIBDIR		:= /usr/local/lib
+INSTALL		:= sudo install -cm 0555 $(LIBFILE) $(LIBDIR) && sudo ldconfig
 endif
 
 build:
 	sed -i 's/  PRAGMA Link_With/--PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
 	LIBSIMPLEIO=$(LIBSIMPLEIO) OS=$(OS) $(GPRBUILD) -p
+	cp obj/lib/$(LIBFILE) .
+ifeq ($(OS), Windows_NT)
+	"$(VSLIB)" /def:libremoteio.def /out:libremoteio.lib /machine:x64
+endif
 
 install: build
 	$(INSTALL)
 
 clean:
 	sed -i 's/--PRAGMA Link_With/  PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
-	rm -rf obj
+	rm -rf obj *.dll *.exp *.lib
