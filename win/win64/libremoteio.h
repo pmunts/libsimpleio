@@ -20,8 +20,28 @@
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void open(int vid, int pid, char *serial, int timeout, int *handle,
-  int *error);
+extern "C" void open(int vid, int pid, const char *serial, int timeout,
+  int *handle, int *error);
+
+//=============================================================================
+
+// Send a 64-byte message (aka report) to a USB Raw HID device.
+//
+// *cmd *MUST* be a 64-byte buffer.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void send(int handle, uint8_t *cmd, int *error);
+
+//=============================================================================
+
+// Receive a 64-byte message (aka report) from a USB Raw HID device.
+//
+// *resp *MUST* be a 64-byte buffer.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void receive(int handle, uint8_t *resp, int *error);
 
 //=============================================================================
 
