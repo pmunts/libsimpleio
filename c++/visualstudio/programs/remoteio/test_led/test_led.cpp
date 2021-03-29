@@ -1,6 +1,6 @@
-// Remote I/O Protocol LED Test
+// Remote I/O LED Toggle Test
 
-// Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,84 +20,32 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <cstdint>
+#include <chrono>
 #include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <windows.h>
+#include <thread>
 
-#include <libremoteio.h>
+#include <gpio-interface.h>
+#include <remoteio-client.h>
+#include <remoteio-gpio.h>
 
-int main()
+int main(void)
 {
-    int handle;
-    int error;
-    uint8_t channels[128];
-    int i;
-    int state;
+  puts("\nRemote I/O LED Toggle Test\n");
 
-    puts("\nRemote I/O Protocol LED Test\n");
+  // Create a Remote I/O client object
 
-    // Open the raw HID Remote I/O Protocol server
+  RemoteIO::Client::Device_Class dev;
 
-    open(0x16D0, 0x0AFA, NULL, 1000, &handle, &error);
+  // Create a GPIO output pin object
 
-    if (error != 0)
-    {
-        fprintf(stderr, "ERROR: open() failed, %d\n", error);
-        exit(1);
-    }
+  Interfaces::GPIO::Pin LED = new RemoteIO::GPIO::Pin_Class(&dev, 0,
+    Interfaces::GPIO::OUTPUT, false);
 
-    // Query available GPIO pins
+  // Flash the LED
 
-    gpio_channels(handle, channels, &error);
-
-    if (error != 0)
-    {
-        fprintf(stderr, "ERROR: gpio_channels() failed, %d\n", error);
-        exit(1);
-    }
-
-    printf("Available GPIO channels:");
-
-    for (i = 0; i < 128; i++)
-        if (channels[i])
-            printf(" %d", i);
-
-    putchar('\n');
-
-    // Configure an LED
-
-    gpio_configure(handle, 0, 1, 0, &error);
-
-    if (error != 0)
-    {
-        fprintf(stderr, "ERROR: gpio_configure() failed, %d\n", error);
-        exit(1);
-    }
-
-    // Flash the LED
-
-    for (;;)
-    {
-        gpio_read(handle, 0, &state, &error);
-
-        if (error != 0)
-        {
-            fprintf(stderr, "ERROR: gpio_read() failed, %d\n", error);
-            exit(1);
-        }
-
-        state ^= 1;
-
-        gpio_write(handle, 0, state, &error);
-
-        if (error != 0)
-        {
-            fprintf(stderr, "ERROR: gpio_write() failed, %d\n", error);
-            exit(1);
-        }
-
-        Sleep(500);
-    }
+  for (;;)
+  {
+    *LED = !*LED;
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+  }
 }
