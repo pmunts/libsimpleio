@@ -63,4 +63,6 @@ LDFLAGS		+= -lusb-1.0
 endif
 else ifeq ($(HID_USE), posix)
 CXXFLAGS	+= -DHID_USE_POSIX
+else ifeq ($(HID_USE), libremoteio)
+CXXFLAGS	+= -DHID_USE_LIBREMOTEIO
 endif

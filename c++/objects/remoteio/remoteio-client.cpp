@@ -37,8 +37,10 @@
 #include <hid-libusb.h>
 #elif defined(HID_USE_POSIX)
 #include <hid-posix.h>
+#elif defined(HID_USE_LIBREMOTEIO)
+#include <hid-libremoteio.h>
 #else
-#error Must define one of HID_USE_HIDAPI, HID_USE_LIBSIMPLEIO, HID_USE_LIBUSB or HID_USE_POSIX.
+#error Must define one of HID_USE_HIDAPI, HID_USE_LIBSIMPLEIO, HID_USE_LIBUSB, HID_USE_POSIX or HID_USE_LIBREMOTEIO.
 #endif
 
 #include <hid-munts.h>
@@ -58,6 +60,8 @@ Device_Class::Device_Class(uint16_t VID, uint16_t PID, const char *serial,
   this->msg = new HID::libusb::Messenger_Class(VID, PID, serial, timeoutms);
 #elif defined(HID_USE_POSIX)
   this->msg = new HID::Posix::Messenger_Class(VID, PID, serial, timeoutms);
+#elif defined(HID_USE_LIBREMOTEIO)
+  this->msg = new HID::libremoteio::Messenger_Class(VID, PID, serial, timeoutms);
 #endif
 
   this->num = 0;
