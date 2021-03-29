@@ -74,11 +74,13 @@ News
        [9]this), in response to a request from a customer who wants to
        develop a Python Remote I/O Protocol client program that can run on
        Windows 10 64-bit. Accomplishing this requires a new Windows shared
-       library, libremoteio.dll, which has been added to win/win64/. The
-       shared library, which is written in the Ada programming language,
-       and also contains the latest [10]hidapi code, can also be built for
-       Linux. A few "proof of concept" Python3 programs are now in
-       python/.
+       library libremoteio.dll, which was written in the Ada programming
+       language. It also contains the latest [10]hidapi code. Precompiled
+       library files have been added to win/win64/. A few "proof of
+       concept" Python3 programs are in python/.
+     * 29 March 2021 -- The new libremoteio.dll also works with Visual
+       Studio C++ programs. Added some Visual Studio C++ projects for
+       creating Remote I/O Protocol client programs for 64-Bit Windows 10.
 
 Documentation
 

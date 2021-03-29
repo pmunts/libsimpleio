@@ -77,12 +77,14 @@ Protocol</a> for raw HID servers (like <a href=
 <a href="https://www.tindie.com/products/pmunts/usb-grove-adapter">this</a>),
 in response to a request from a customer who wants to develop a Python Remote
 I/O Protocol client program that can run on Windows 10 64-bit. Accomplishing
-this requires a new Windows shared library, <b><tt>libremoteio.dll</tt></b>,
-which has been added to <b><tt>win/win64/</tt></b>. The shared library, which
-is written in the Ada programming language, and also contains the latest
-<a href="https://github.com/libusb/hidapi">hidapi</a> code, can also be built
-for Linux. A few "proof of concept" Python3 programs are now in
-<b><tt>python/</tt>.</b></li>
+this requires a new Windows shared library <b><tt>libremoteio.dll</tt></b>,
+which was written in the Ada programming language. It also contains the latest
+<a href="https://github.com/libusb/hidapi">hidapi</a> code. Precompiled library
+files have been added to <b><tt>win/win64/</tt></b>. A few "proof of concept"
+Python3 programs are in <b><tt>python/</tt>.</b></li>
+<li>29 March 2021 -- The new <b><tt>libremoteio.dll</tt></b> also works with
+Visual Studio C++ programs. Added some Visual Studio C++ projects for creating
+Remote I/O Protocol client programs for 64-Bit Windows 10.</li>
 </ul>
 <h2>Documentation</h2>
 <p>The user manual for <b>libsimpleio</b> is available at <a href=
