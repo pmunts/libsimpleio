@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="devices">
+      <UniqueIdentifier>{e2db0103-c85c-46ae-80ea-93cc8f5a6f01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interfaces">
+      <UniqueIdentifier>{718f18ba-61c4-4b3e-9911-4917169a7a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="objects">
+      <UniqueIdentifier>{f10eea6b-8dca-4ebb-abdf-20c4ecffcde0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="objects/remoteio">
+      <UniqueIdentifier>{a959fc0f-643b-4e4b-a675-7f7f0911100c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/ads1015.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/hdc1080.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp3202.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp3204.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp3208.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp3424.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp4822.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/pca9685.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/th02.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/adc-interface.cpp">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/dac-interface.cpp">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/gpio-interface.cpp">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/message64-interface.cpp">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/motor-interface.cpp">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/pressure-interface.cpp">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/pwm-interface.cpp">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/servo-interface.cpp">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/temperature-interface.cpp">
+      <Filter>interfaces</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/exception-raisers.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/gpio-pwm.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/hid-libremoteio.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/hid-munts.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/motor-pwm.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/motor-servo.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/remoteio/remoteio-client.cpp">
+      <Filter>objects/remoteio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/remoteio/remoteio-gpio.cpp">
+      <Filter>objects/remoteio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/remoteio/remoteio-pwm.cpp">
+      <Filter>objects/remoteio</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

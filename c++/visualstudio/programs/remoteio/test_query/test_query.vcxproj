@@ -160,9 +160,41 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="test_query.cpp" />
-    <ClCompile Include="..\..\..\..\objects\exception-raisers.cpp" />
-    <ClCompile Include="..\..\..\..\objects\hid-libremoteio.cpp" />
-    <ClCompile Include="..\..\..\..\objects\remoteio\remoteio-client.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/ads1015.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/hdc1080.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp3202.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp3204.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp3208.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp3424.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/mcp4822.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/pca9685.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/th02.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/adc-interface.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/dac-interface.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/gpio-interface.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/message64-interface.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/motor-interface.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/pressure-interface.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/pwm-interface.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/servo-interface.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/interfaces/temperature-interface.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/exception-raisers.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/gpio-pwm.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/hid-libremoteio.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/hid-munts.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/motor-pwm.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/motor-servo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/remoteio/remoteio-client.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/remoteio/remoteio-gpio.cpp" />
+    <ClCompile Include="$(LIBSIMPLEIO)/c++/objects/remoteio/remoteio-pwm.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
