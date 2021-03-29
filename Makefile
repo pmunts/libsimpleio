@@ -110,6 +110,7 @@ else
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p basic			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
+	rm -rf					$(DESTDIR)/share/libsimpleio/c++/visualstudio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p dotnet			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p elements			$(DESTDIR)/share/libsimpleio
