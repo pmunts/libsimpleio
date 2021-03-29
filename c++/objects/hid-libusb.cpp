@@ -20,6 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#ifdef HID_USE_LIBUSB
+
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -267,3 +269,5 @@ std::string Messenger_Class::SerialNumber(void)
   GetString(this->handle, SERIALNUMBER, buf, sizeof(buf));
   return std::string(buf);
 }
+
+#endif

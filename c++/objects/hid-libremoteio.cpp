@@ -20,6 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#ifdef HID_USE_LIBREMOTEIO
+
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -105,3 +107,5 @@ void Messenger_Class::Transaction(Interfaces::Message64::Message cmd,
   this->Send(cmd);
   this->Receive(resp);
 }
+
+#endif

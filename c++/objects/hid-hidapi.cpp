@@ -1,6 +1,6 @@
 // Raw HID device services using libhidapi
 
-// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -19,6 +19,8 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+
+#ifdef HID_USE_HIDAPI
 
 #include <cstdint>
 #include <cstring>
@@ -173,3 +175,5 @@ std::string Messenger_Class::SerialNumber(void)
   wcstombs(buf, wbuf, 256);
   return std::string(buf);
 }
+
+#endif
