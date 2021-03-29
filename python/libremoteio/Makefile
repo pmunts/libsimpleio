@@ -46,6 +46,8 @@ build:
 	LIBSIMPLEIO=$(LIBSIMPLEIO) OS=$(OS) $(GPRBUILD) -p
 	cp obj/lib/$(LIBFILE) .
 ifeq ($(OS), Windows_NT)
+	echo "EXPORTS" >libremoteio.def
+	awk -F '[ (]' '/extern/ { print $$4 }' libremoteio.h >>libremoteio.def
 	"$(VSLIB)" /def:libremoteio.def /out:libremoteio.lib /machine:x64
 endif
 
@@ -54,4 +56,4 @@ install: build
 
 clean:
 	sed -i 's/--PRAGMA Link_With/  PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
-	rm -rf obj *.dll *.exp *.lib
+	rm -rf obj *.def *.dll *.exp *.lib
