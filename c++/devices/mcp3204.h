@@ -71,7 +71,7 @@ namespace Devices::MCP3204
 
     Interfaces::SPI::Device dev;
 
-    friend class Sample_Class;
+    friend struct Sample_Class;
   };
 }
 

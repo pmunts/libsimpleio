@@ -82,7 +82,7 @@ namespace Devices::MCP3424
     Interfaces::I2C::Bus bus;
     unsigned addr;
 
-    friend class Input_Class;
+    friend struct Input_Class;
   };
 }
 
