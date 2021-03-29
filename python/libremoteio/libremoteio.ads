@@ -19,6 +19,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Interfaces.C.Strings;
+WITH Message64;
 WITH RemoteIO.Client;
 
 PRIVATE WITH Ada.Strings.Unbounded;
@@ -38,12 +39,26 @@ PACKAGE libRemoteIO IS
   -- Open a connection to a USB Raw HID Remote I/O Protocol Server
 
   PROCEDURE Open
-   (VID       : Integer;
-    PID       : Integer;
-    serial    : Interfaces.C.Strings.chars_ptr;
-    timeout   : Integer;
-    handle    : OUT Integer;
-    error     : OUT Integer);
+   (VID     : Integer;
+    PID     : Integer;
+    serial  : Interfaces.C.Strings.chars_ptr;
+    timeout : Integer;
+    handle  : OUT Integer;
+    error   : OUT Integer);
+
+  -- Send a 64-byte message (aka report) to a USB Raw HID device.
+
+  PROCEDURE Send
+   (handle  : Integer;
+    cmd     : IN Message64.Message;
+    error   : OUT Integer);
+
+  -- Receive a 64-byte message (aka report) from a USB Raw HID device.
+
+  PROCEDURE Receive
+   (handle  : Integer;
+    resp    : OUT Message64.Message;
+    error   : OUT Integer);
 
 PRIVATE
 
@@ -63,6 +78,8 @@ PRIVATE
 
   AdapterTable : ARRAY (AdapterRange) OF AdapterItem;
 
-  PRAGMA Export(Convention => C, Entity => Open, External_Name => "open");
+  PRAGMA Export(Convention => C, Entity => Open,    External_Name => "open");
+  PRAGMA Export(Convention => C, Entity => Send,    External_Name => "send");
+  PRAGMA Export(Convention => C, Entity => Receive, External_Name => "receive");
 
 END libRemoteIO;

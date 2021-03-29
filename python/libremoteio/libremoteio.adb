@@ -113,4 +113,60 @@ PACKAGE BODY libRemoteIO IS
       error  := EIO;
   END Open;
 
+-- Send a 64-byte message (aka report) to a USB Raw HID device.
+
+  PROCEDURE Send
+   (handle  : Integer;
+    cmd     : IN Message64.Message;
+    error   : OUT Integer) IS
+
+  BEGIN
+    error := EOK;
+
+    -- Validate parameters
+
+    IF (handle NOT IN AdapterRange) THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    IF AdapterTable(handle).dev = NULL THEN
+      error := ENODEV;
+    END IF;
+
+    AdapterTable(handle).dev.GetMessenger.Send(cmd);
+
+  EXCEPTION
+    WHEN e : OTHERS =>
+      error := EIO;
+  END Send;
+
+  -- Receive a 64-byte message (aka report) from a USB Raw HID device.
+
+  PROCEDURE Receive
+   (handle  : Integer;
+    resp    : OUT Message64.Message;
+    error   : OUT Integer) IS
+
+  BEGIN
+    error := EOK;
+
+    -- Validate parameters
+
+    IF (handle NOT IN AdapterRange) THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    IF AdapterTable(handle).dev = NULL THEN
+      error := ENODEV;
+    END IF;
+
+    AdapterTable(handle).dev.GetMessenger.Receive(resp);
+
+  EXCEPTION
+    WHEN e : OTHERS =>
+      error := EIO;
+  END Receive;
+
 END libRemoteIO;
