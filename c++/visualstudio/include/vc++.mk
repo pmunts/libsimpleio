@@ -23,6 +23,7 @@
 CONFIGURATION	?= Release
 
 MSBUILD		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
+MSBUILDARCH	?= x64
 MSBUILDTARGET	?= /t:Build
 MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION)
 MSBUILDPROJECT	?=
@@ -35,6 +36,7 @@ vscpp_mk_default: default
 
 vscpp_mk_build:
 	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
+	xcopy $(MSBUILDARCH)\\$(CONFIGURATION)\\*.exe .
 
 vscpp_mk_clean:
 	rm -rf Debug Release x64 *.dll *.exe *.user .vs
