@@ -59,6 +59,10 @@ PACKAGE RemoteIO.Client IS
    (Self    : IN OUT DeviceClass;
     service : ChannelTypes) RETURN ChannelSets.Set;
 
+  -- Return the underlying Message64.Messenger object
+
+  FUNCTION GetMessenger(Self : IN OUT DeviceClass) RETURN Message64.Messenger;
+
 PRIVATE
 
   TYPE DeviceClass IS TAGGED RECORD

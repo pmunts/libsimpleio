@@ -175,4 +175,12 @@ PACKAGE BODY RemoteIO.Client IS
     RETURN chanset;
   END GetAvailableChannels;
 
+  -- Return the underlying Message64.Messenger object
+
+  FUNCTION GetMessenger(Self : IN OUT DeviceClass) RETURN Message64.Messenger IS
+
+  BEGIN
+    RETURN Self.msg;
+  END GetMessenger;
+
 END RemoteIO.Client;
