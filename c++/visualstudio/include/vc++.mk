@@ -36,7 +36,8 @@ vscpp_mk_default: default
 
 vscpp_mk_build:
 	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
-	xcopy $(MSBUILDARCH)\\$(CONFIGURATION)\\*.exe .
+	cp $(MSBUILDARCH)/$(CONFIGURATION)/*.dll .
+	cp $(MSBUILDARCH)/$(CONFIGURATION)/*.exe .
 
 vscpp_mk_clean:
 	rm -rf Debug Release x64 *.dll *.exe *.user .vs
