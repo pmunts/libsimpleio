@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>vs2019_c++_libremoteio_console</Name>
-    <Description>Windows C++ Remote I/O Protocol Client Console Application</Description>
+    <Name>C++ console application for Windows 64-bit using libremoteio</Name>
+    <Description>A project for building a C++ console application for Windows 64-bit using libremoteio.dll.</Description>
     <LanguageTag>C++</LanguageTag>
     <PlatformTag>Windows</PlatformTag>
     <ProjectType>VC</ProjectType>
