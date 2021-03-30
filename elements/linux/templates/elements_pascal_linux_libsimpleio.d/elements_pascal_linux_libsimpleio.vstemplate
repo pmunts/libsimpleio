@@ -17,7 +17,7 @@
     <PlatformTag>Linux</PlatformTag>
     <ProjectTypeTag>console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Techonlogies Linux Simple I/O Library client</ProjectTypeTag>
+    <ProjectTypeTag>Munts Technologies Linux Simple I/O Library client</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
