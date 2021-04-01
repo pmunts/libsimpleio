@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>RemObjects Elements Swift console application for .Net Core using libsimpleio</Name>
-    <Description>A project for building a Swift console application for .Net Core using libsimpleio.</Description>
+    <Name>RemObjects Elements Swift console application for .Net 5 using libsimpleio</Name>
+    <Description>A project for building a Swift console application for .Net 5 using libsimpleio.</Description>
     <Icon>elements_dotnet_swift_console_libsimpleio.ico</Icon>
     <ProjectType>Oxygene</ProjectType>
     <Elements:Type>Oxygene.Echoes</Elements:Type>
@@ -10,8 +10,8 @@
     <DefaultName>elements_dotnet_swift_console_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>Swift</LanguageTag>
-    <LanguageTag>RemObjects Swift</LanguageTag>
-    <PlatformTag>.Net Core</PlatformTag>
+    <LanguageTag>RemObjects Elements</LanguageTag>
+    <PlatformTag>.Net 5</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
     <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>
