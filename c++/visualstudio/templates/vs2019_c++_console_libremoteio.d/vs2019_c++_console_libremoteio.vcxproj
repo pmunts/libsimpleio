@@ -64,12 +64,6 @@
       <AdditionalLibraryDirectories>$(LIBSIMPLEIO)/win/win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libremoteio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>cp $(LIBSIMPLEIO)/win/win64/libremoteio.dll $(OutDir)</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Copy libremoteio.dll</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -90,16 +84,13 @@
       <AdditionalLibraryDirectories>$(LIBSIMPLEIO)/win/win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libremoteio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>cp $(LIBSIMPLEIO)/win/win64/libremoteio.dll $(OutDir)</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Copy libremoteio.dll</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Content Include="Makefile" />
     <ClCompile Include="$safeprojectname$.cpp" />
+    <Content Include="$(LIBSIMPLEIO)/win/win64/libremoteio.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(LIBSIMPLEIO)/c++/devices/ads1015.cpp" />
