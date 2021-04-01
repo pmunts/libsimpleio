@@ -111,15 +111,12 @@ packall:
 # Install all template archives
 
 ifeq ($(shell uname), Darwin)
-installfire: packall
+install: packall
 	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installfire ; done
 endif
 
 ifeq ($(OS), Windows_NT)
 install: packall
-	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installvs ; done
-
-installvs: packall
 	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installvs ; done
 endif
 
