@@ -2,12 +2,12 @@
   <TemplateData>
     <Name>RemObjects Elements Swift console application for .Net Core using libsimpleio</Name>
     <Description>A project for building a Swift console application for .Net Core using libsimpleio.</Description>
-    <Icon>elements_swift_coreapp_libsimpleio.ico</Icon>
+    <Icon>elements_dotnet_dotnet_swift_console_libsimpleio.ico</Icon>
     <ProjectType>Oxygene</ProjectType>
     <Elements:Type>Oxygene.Echoes</Elements:Type>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>elements_swift_coreapp_libsimpleio</DefaultName>
+    <DefaultName>elements_dotnet_dotnet_swift_console_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>Swift</LanguageTag>
     <LanguageTag>RemObjects Swift</LanguageTag>
@@ -20,7 +20,7 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="elements_swift_coreapp_libsimpleio.elements" File="elements_swift_coreapp_libsimpleio.elements" ReplaceParameters="true">
+    <Project TargetFileName="elements_dotnet_dotnet_swift_console_libsimpleio.elements" File="elements_dotnet_dotnet_swift_console_libsimpleio.elements" ReplaceParameters="true">
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="false" TargetFileName="App.ico">App.ico</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.swift">AssemblyInfo.swift</ProjectItem>
