@@ -4,6 +4,7 @@
     <Description>A project for building a C++ console application for Windows 64-bit using libremoteio.dll.</Description>
     <LanguageTag>C++</LanguageTag>
     <PlatformTag>Windows</PlatformTag>
+    <PlatformTag>Win64</PlatformTag>
     <ProjectType>VC</ProjectType>
     <ProjectTypeTag>console</ProjectTypeTag>
     <ProjectTypeTag>libremoteio</ProjectTypeTag>
