@@ -25,22 +25,22 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 # Include subordinate makefiles
 
 include $(LIBSIMPLEIO)/csharp/include/csharp.mk
-include $(LIBSIMPLEIO)/csharp/include/coreapp.mk
+include $(LIBSIMPLEIO)/csharp/include/console.mk
 
 # Build the project
 
-default: coreapp_mk_build
+default: console_mk_build
 
 # Build an application distribution package
 
-deb: coreapp_mk_deb
+deb: console_mk_deb
 
-nupkg: coreapp_mk_nupkg
+nupkg: console_mk_nupkg
 
-rpm: coreapp_mk_rpm
+rpm: console_mk_rpm
 
-tarball: coreapp_mk_tarball
+tarball: console_mk_tarball
 
 # Remove working files
 
-clean: coreapp_mk_clean
+clean: console_mk_clean
