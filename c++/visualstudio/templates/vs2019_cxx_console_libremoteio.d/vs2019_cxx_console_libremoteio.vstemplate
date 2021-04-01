@@ -12,17 +12,17 @@
     </ProjectSubType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>vs2019_c++_libremoteio_console</DefaultName>
+    <DefaultName>vs2019_cxx_libremoteio_console</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
-    <Icon>vs2019_c++_console_libremoteio</Icon>
+    <Icon>vs2019_cxx_console_libremoteio</Icon>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="$projectname$.vcxproj" File="vs2019_c++_console_libremoteio.vcxproj" ReplaceParameters="true">
+    <Project TargetFileName="$projectname$.vcxproj" File="vs2019_cxx_console_libremoteio.vcxproj" ReplaceParameters="true">
       <ProjectItem>Makefile</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="$projectname$.cpp">main.cpp</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="$projectname$.vcxproj.filters">vs2019_c++_console_libremoteio.vcxproj.filters</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$projectname$.vcxproj.filters">vs2019_cxx_console_libremoteio.vcxproj.filters</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>
