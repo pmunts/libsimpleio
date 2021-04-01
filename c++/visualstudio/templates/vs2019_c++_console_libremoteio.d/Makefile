@@ -1,4 +1,5 @@
-# Generic Makefile template for building C++ applications with Visual Studio
+# Generic Makefile for building Visual Studio C++ applications using
+# libremoteio.dll.
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
