@@ -1,15 +1,15 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>C# console application for .Net Core using libremoteio</Name>
-    <Description>A project for building a C# console application for .Net Core using libremoteio.</Description>
+    <Name>C# console application for .Net 5 using libremoteio</Name>
+    <Description>A project for building a C# console application for .Net 5 using libremoteio.</Description>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <CreateInPlace>true</CreateInPlace>
     <DefaultName>vs2019_dotnet_csharp_console_libremoteio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
-    <LanguageTag>CSharp</LanguageTag>
-    <PlatformTag>.Net Core</PlatformTag>
+    <LanguageTag>C#</LanguageTag>
+    <PlatformTag>.Net 5</PlatformTag>
     <ProjectTypeTag>console</ProjectTypeTag>
     <ProjectTypeTag>libremoteio</ProjectTypeTag>
     <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
