@@ -1,5 +1,5 @@
 Package: @@NAME@@
-Description: .Net Core Application
+Description: .Net 5 Application
 Architecture: all
 Version: @@VERSION@@
 Maintainer: Somebody

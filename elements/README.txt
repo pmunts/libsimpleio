@@ -7,7 +7,7 @@
    native Windows platforms.
 
    Here are some Visual Studio 2019 project templates and example projects
-   for developing platform neutral .Net Core applications using the
+   for developing platform neutral .Net 5 applications using the
    libsimpleio and libremoteio library packages published on [2]NuGet.
 
    The simplest way to begin developing such an applications is to
