@@ -2,12 +2,12 @@
   <TemplateData>
     <Name>RemObjects Elements Pascal console application for Linux using libsimpleio</Name>
     <Description>A project for building a Pascal console application for Linux using libsimpleio.</Description>
-    <Icon>elements_pascal_linux_libsimpleio.ico</Icon>
+    <Icon>elements_linux_pascal_console_libsimpleio.ico</Icon>
     <ProjectType>Oxygene</ProjectType>
     <Elements:Type>Oxygene.Island</Elements:Type>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>elements_pascal_linux_libsimpleio</DefaultName>
+    <DefaultName>elements_linux_pascal_console_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>Oxygene</LanguageTag>
     <LanguageTag>Pascal</LanguageTag>
@@ -22,7 +22,7 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="elements_pascal_linux_libsimpleio.elements" File="elements_pascal_linux_libsimpleio.elements" ReplaceParameters="true">
+    <Project TargetFileName="elements_linux_pascal_console_libsimpleio.elements" File="elements_linux_pascal_console_libsimpleio.elements" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="false" TargetFileName="Makefile">Makefile</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.pas">Program.pas</ProjectItem>
     </Project>
