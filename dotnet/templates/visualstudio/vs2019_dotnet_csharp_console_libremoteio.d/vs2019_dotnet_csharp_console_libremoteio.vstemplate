@@ -1,24 +1,23 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>C# console application for .Net Core using libsimpleio</Name>
-    <Description>A project for building a C# console application for .Net Core using libsimpleio.</Description>
+    <Name>C# console application for .Net Core using libremoteio</Name>
+    <Description>A project for building a C# console application for .Net Core using libremoteio.</Description>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <CreateInPlace>true</CreateInPlace>
-    <DefaultName>vs2019_csharp_console_libsimpleio</DefaultName>
+    <DefaultName>vs2019_dotnet_csharp_console_libremoteio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>CSharp</LanguageTag>
-    <PlatformTag>Linux</PlatformTag>
     <PlatformTag>.Net Core</PlatformTag>
     <ProjectTypeTag>console</ProjectTypeTag>
-    <ProjectTypeTag>libsimpleio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Linux Simple I/O Library client</ProjectTypeTag>
+    <ProjectTypeTag>libremoteio</ProjectTypeTag>
+    <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
   <TemplateContent>
-    <Project File="vs2019_csharp_console_libsimpleio.csproj" ReplaceParameters="true">
+    <Project File="vs2019_dotnet_csharp_console_libremoteio.csproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" OpenInEditor="true">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">Makefile</ProjectItem>
     </Project>
