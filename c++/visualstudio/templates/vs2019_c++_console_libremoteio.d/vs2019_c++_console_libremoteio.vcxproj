@@ -86,10 +86,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Content Include="Makefile" />
+    <None Include="Makefile" />
     <ClCompile Include="$safeprojectname$.cpp" />
     <Content Include="$(LIBSIMPLEIO)/win/win64/libremoteio.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

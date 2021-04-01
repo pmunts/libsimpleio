@@ -20,9 +20,9 @@
   </TemplateData>
   <TemplateContent>
     <Project TargetFileName="$projectname$.vcxproj" File="vs2019_c++_console_libremoteio.vcxproj" ReplaceParameters="true">
-      <ProjectItem ReplaceParameters="true" TargetFileName="$projectname$.vcxproj.filters">vs2019_c++_console_libremoteio.vcxproj.filters</ProjectItem>
+      <ProjectItem>Makefile</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="$projectname$.cpp">main.cpp</ProjectItem>
-      <ProjectItem ReplaceParameters="true">Makefile</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="$projectname$.vcxproj.filters">vs2019_c++_console_libremoteio.vcxproj.filters</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>
