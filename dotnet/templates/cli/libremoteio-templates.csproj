@@ -4,8 +4,8 @@
     <PackageType>Template</PackageType>
     <PackageVersion>$(BUILDVERSION)</PackageVersion>
     <PackageId>libremoteio-templates</PackageId>
-    <Title>Templates for .Net Core console applications using libremoteio.</Title>
-    <Description>Templates for .Net Core console applications using libremoteio.</Description>
+    <Title>Templates for .Net 5 console applications using libremoteio.</Title>
+    <Description>Templates for .Net 5 console applications using libremoteio.</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>

@@ -4,8 +4,8 @@
     <PackageType>Template</PackageType>
     <PackageVersion>$(BUILDVERSION)</PackageVersion>
     <PackageId>libsimpleio-templates</PackageId>
-    <Title>Templates for .Net Core console applications using libsimpleio.</Title>
-    <Description>Templates for .Net Core console applications using libsimpleio.</Description>
+    <Title>Templates for .Net 5 console applications using libsimpleio.</Title>
+    <Description>Templates for .Net 5 console applications using libsimpleio.</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
