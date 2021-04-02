@@ -1,4 +1,4 @@
-# Generic Makefile template for building C# .Net Core applications
+# Makefile template for building a C# .Net 5 application
 
 # Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
@@ -25,22 +25,22 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 # Include subordinate makefiles
 
 include $(LIBSIMPLEIO)/csharp/include/csharp.mk
-include $(LIBSIMPLEIO)/csharp/include/console.mk
+include $(LIBSIMPLEIO)/csharp/include/coreapp.mk
 
 # Build the project
 
-default: console_mk_build
+default: coreapp_mk_build
 
 # Build an application distribution package
 
-deb: console_mk_deb
+deb: coreapp_mk_deb
 
-nupkg: console_mk_nupkg
+nupkg: coreapp_mk_nupkg
 
-rpm: console_mk_rpm
+rpm: coreapp_mk_rpm
 
-tarball: console_mk_tarball
+tarball: coreapp_mk_tarball
 
 # Remove working files
 
-clean: console_mk_clean
+clean: coreapp_mk_clean
