@@ -1,4 +1,4 @@
-# Generic Makefile template for building C# .Net Core applications
+# Makefile template for building a C# .Net 5 application
 
 # Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
