@@ -112,9 +112,6 @@ else
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	rm -rf					$(DESTDIR)/share/libsimpleio/c++/visualstudio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p elements			$(DESTDIR)/share/libsimpleio
-	rm -rf					$(DESTDIR)/share/libsimpleio/elements/dotnet/templates
-	rm -rf					$(DESTDIR)/share/libsimpleio/elements/linux/templates
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
