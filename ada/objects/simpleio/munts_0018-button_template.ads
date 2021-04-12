@@ -20,6 +20,14 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH MUNTS_0018.Servo_Template;
+WITH GPIO.libsimpleio;
 
-PACKAGE MUNTS_0018.Servo IS NEW MUNTS_0018.Servo_Template(50);
+GENERIC
+
+  edge : GPIO.libsimpleio.Edge := GPIO.libsimpleio.None;
+
+PACKAGE MUNTS_0018.Button_Template IS
+
+  Input : CONSTANT GPIO.Pin := GPIO.libsimpleio.Create(MUNTS_0018.SW1, GPIO.Input, Edge => edge);
+
+END MUNTS_0018.Button_Template;

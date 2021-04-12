@@ -21,13 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH GPIO.libsimpleio;
+WITH MUNTS_0018.Button_Template;
 
-GENERIC
-
-  edge : GPIO.libsimpleio.Edge := GPIO.libsimpleio.None;
-
-PACKAGE MUNTS_0018.Button IS
-
-  Input : CONSTANT GPIO.Pin := GPIO.libsimpleio.Create(MUNTS_0018.SW1, GPIO.Input, Edge => edge);
-
-END MUNTS_0018.Button;
+PACKAGE MUNTS_0018.Button IS NEW MUNTS_0018.Button_Template(GPIO.libsimpleio.None);

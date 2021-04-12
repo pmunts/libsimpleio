@@ -28,12 +28,12 @@ GENERIC
 
   frequency : Positive;
 
-PACKAGE MUNTS_0018.Motor IS
+PACKAGE MUNTS_0018.Motor_Template IS
 
-  Outputs : CONSTANT ARRAY (0 .. 1) OF Standard.Motor.Output :=
+  Outputs : CONSTANT ARRAY (1 .. 2) OF Standard.Motor.Output :=
    (Standard.Motor.PWM.Create(PWM.libsimpleio.Create(MUNTS_0018.J6PWM, frequency),
       GPIO.libsimpleio.Create(MUNTS_0018.J6DIR, GPIO.Output)),
     Standard.Motor.PWM.Create(PWM.libsimpleio.Create(MUNTS_0018.J7PWM, frequency),
       GPIO.libsimpleio.Create(MUNTS_0018.J7DIR, GPIO.Output)));
 
-END MUNTS_0018.Motor;
+END MUNTS_0018.Motor_Template;

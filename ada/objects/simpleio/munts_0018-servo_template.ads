@@ -20,6 +20,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH MUNTS_0018.Servo_Template;
+WITH PWM.libsimpleio;
+WITH Servo.PWM;
 
-PACKAGE MUNTS_0018.Servo IS NEW MUNTS_0018.Servo_Template(50);
+GENERIC
+
+  frequency : Positive;
+
+PACKAGE MUNTS_0018.Servo_Template IS
+
+  Outputs : CONSTANT ARRAY (1 .. 2) OF Servo.Output :=
+   (Servo.PWM.Create(PWM.libsimpleio.Create(MUNTS_0018.J2PWM, frequency)),
+    Servo.PWM.Create(PWM.libsimpleio.Create(MUNTS_0018.J3PWM, frequency)));
+
+END MUNTS_0018.Servo_Template;
