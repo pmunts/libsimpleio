@@ -1,5 +1,7 @@
 //                API Specification for libremoteio.dll
 
+// See also: http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
+
 //=============================================================================
 
 // Open Raw HID Adapter.
@@ -127,6 +129,72 @@ extern "C" void gpio_read(int handle, int channel, int *state, int *error);
 // Zero on success, or an errno value on failure will be returned in *error.
 
 extern "C" void gpio_write(int handle, int channel, int state, int *error);
+
+//=============================================================================
+
+// Configure multiple GPIO pins at once
+//
+// *mask, *direction, and *state *MUST* be 128-byte buffers.  Each byte of
+// *mask, *direction, and *state corresponds to a single GPIO channel.
+// (mask[0], direction[0], and state[0] all correspond to GPIO0, etc.)
+//
+// A 1 in an element of *mask selects the corresponding GPIO channel to be
+// configured.  Invalid GPIO channels are silently ignored.
+//
+// A 1 in an element of *direction indicates the corresponding GPIO channel
+// should be configured as an output.  Unselected, invalid, or input only GPIO
+// channels are silently ignored.
+
+// The elements of *state indicate the initial state for each GPIO output
+// channel.  Unselected or invalid or GPIO input channels are silently ignored.
+//
+// Valid state values are 0 (off, sinking current) and 1 (on, sourcing current).
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void gpio_configure_all(int handle, uint8_t *mask,
+  uint8_t *direction, uint8_t *state, int *error);
+
+//=============================================================================
+
+// Read from multiple GPIO pins at once
+//
+// *mask and *state *MUST* be 128-byte buffers.  Each byte of *mask and *state
+// corresponds to a GPIO channel.  (mask[0] and state[0] both correspond to
+// GPIO0, etc.)
+//
+// A 1 in an element of *mask selects the corresponding GPIO channel to be
+// read from.  Invalid GPIO channels are silently ignored.
+//
+// Each element of *state will be set to 0 or 1 to indicate what was read from
+// the corresponding GPIO channel.  Unselected or invalid GPIO channels are
+// silently ignored and their corresponding elements of *state set to 0.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void gpio_read_all(int handle, uint8_t *mask, uint8_t *state,
+  int *error);
+
+//=============================================================================
+
+// Write to multiple GPIO pins at once
+//
+// *mask and *state *MUST* be 128-byte buffers.  Each byte of *mask and *state
+// corresponds to a GPIO channel.  (mask[0] and state[0] both correspond to
+// GPIO0, etc.)
+//
+// A 1 in an element of *mask selects the corresponding GPIO channel to be
+// written to.  Invalid GPIO channels are silently ignored.
+//
+// The elements of *state indicate what should be written to each GPIO channel.
+// Unselected or invalid or input only GPIO channels are silently ignored.
+//
+// Valid state values are 0 (off, sinking current) and 1 (on, sourcing current).
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void gpio_write_all(int handle, uint8_t *mask, uint8_t *state,
+  int *error);
 
 //=============================================================================
 

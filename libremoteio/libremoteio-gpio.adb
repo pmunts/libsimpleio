@@ -203,10 +203,195 @@ PACKAGE BODY libRemoteIO.GPIO IS
     END IF;
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
+
   EXCEPTION
     WHEN e : OTHERS =>
       error := EIO;
   END GPIO_Write;
+
+  PROCEDURE GPIO_Configure_All
+   (handle    : Integer;
+    mask      : ChannelArray;
+    direction : ChannelArray;
+    state     : ChannelArray;
+    error     : OUT Integer) IS
+
+    cmd  : Message64.Message;
+    resp : Message64.Message;
+
+  BEGIN
+    error := EOK;
+
+    -- Validate parameters
+
+    IF (handle NOT IN AdapterRange) THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    IF AdapterTable(handle).dev = NULL THEN
+      error := ENODEV;
+    END IF;
+
+    -- Build the command message
+
+    cmd := (OTHERS => 0);
+    cmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.GPIO_CONFIGURE_REQUEST));
+
+    -- Marshal the GPIO pin mask
+
+    FOR channel IN mask'Range LOOP
+      IF mask(channel) THEN
+        cmd(2 + channel / 8) := cmd(2 + channel / 8) OR 2**(7 - channel MOD 8);
+      END IF;
+    END LOOP;
+
+    -- Marshal the GPIO pin data directions
+
+    FOR channel IN direction'Range LOOP
+      IF direction(channel) THEN
+        cmd(18 + channel / 8) := cmd(18 + channel / 8) OR 2**(7 - channel MOD 8);
+      END IF;
+    END LOOP;
+
+    -- Execute the command
+
+    AdapterTable(handle).dev.Transaction(cmd, resp);
+
+    -- Build the command message
+
+    cmd := (OTHERS => 0);
+    cmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.GPIO_WRITE_REQUEST));
+
+    -- Marshal the GPIO pin mask
+
+    FOR channel IN mask'Range LOOP
+      IF mask(channel) THEN
+        cmd(2 + channel / 8) := cmd(2 + channel / 8) OR 2**(7 - channel MOD 8);
+      END IF;
+    END LOOP;
+
+    -- Marshal the GPIO pin states
+
+    FOR channel IN state'Range LOOP
+      IF state(channel) THEN
+        cmd(18 + channel / 8) := cmd(18 + channel / 8) OR 2**(7 - channel MOD 8);
+      END IF;
+    END LOOP;
+
+    -- Execute the command
+
+    AdapterTable(handle).dev.Transaction(cmd, resp);
+
+
+  EXCEPTION
+    WHEN e : OTHERS =>
+      error := EIO;
+  END GPIO_Configure_All;
+
+  PROCEDURE GPIO_Read_All
+   (handle    : Integer;
+    mask      : ChannelArray;
+    state     : OUT ChannelArray;
+    error     : OUT Integer) IS
+
+    cmd  : Message64.Message;
+    resp : Message64.Message;
+
+  BEGIN
+    error := EOK;
+
+    -- Validate parameters
+
+    IF (handle NOT IN AdapterRange) THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    IF AdapterTable(handle).dev = NULL THEN
+      error := ENODEV;
+    END IF;
+
+    -- Build the command message
+
+    cmd := (OTHERS => 0);
+    cmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.GPIO_READ_REQUEST));
+
+    -- Marshal the GPIO pin mask
+
+    FOR channel IN mask'Range LOOP
+      IF mask(channel) THEN
+        cmd(2 + channel / 8) := cmd(2 + channel / 8) OR 2**(7 - channel MOD 8);
+      END IF;
+    END LOOP;
+
+    -- Execute the command
+
+    AdapterTable(handle).dev.Transaction(cmd, resp);
+
+    -- Extract the results from the response message
+
+    FOR channel IN state'Range LOOP
+      state(channel) := (resp(3 + channel / 8) AND 2**(7 - channel MOD 8)) /= 0;
+    END LOOP;
+
+  EXCEPTION
+    WHEN e : OTHERS =>
+      error := EIO;
+  END GPIO_Read_All;
+
+  PROCEDURE GPIO_Write_All
+   (handle    : Integer;
+    mask      : ChannelArray;
+    state     : ChannelArray;
+    error     : OUT Integer) IS
+
+    cmd  : Message64.Message;
+    resp : Message64.Message;
+
+  BEGIN
+    error := EOK;
+
+    -- Validate parameters
+
+    IF (handle NOT IN AdapterRange) THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    IF AdapterTable(handle).dev = NULL THEN
+      error := ENODEV;
+    END IF;
+
+    -- Build the command message
+
+    cmd := (OTHERS => 0);
+    cmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.GPIO_WRITE_REQUEST));
+
+    -- Marshal the GPIO pin mask
+
+    FOR channel IN mask'Range LOOP
+      IF mask(channel) THEN
+        cmd(2 + channel / 8) := cmd(2 + channel / 8) OR 2**(7 - channel MOD 8);
+      END IF;
+    END LOOP;
+
+    -- Marshal the GPIO pin states
+
+    FOR channel IN state'Range LOOP
+      IF state(channel) THEN
+        cmd(18 + channel / 8) := cmd(18 + channel / 8) OR 2**(7 - channel MOD 8);
+      END IF;
+    END LOOP;
+
+    -- Execute the command
+
+    AdapterTable(handle).dev.Transaction(cmd, resp);
+
+  EXCEPTION
+    WHEN e : OTHERS =>
+      error := EIO;
+  END GPIO_Write_All;
 
   PROCEDURE GPIO_channels
    (handle   : Integer;

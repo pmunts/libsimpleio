@@ -39,6 +39,25 @@ PACKAGE libRemoteIO.GPIO IS
     state     : Integer;
     error     : OUT Integer);
 
+  PROCEDURE GPIO_Configure_All
+   (handle    : Integer;
+    mask      : ChannelArray;
+    direction : ChannelArray;
+    state     : ChannelArray;
+    error     : OUT Integer);
+
+  PROCEDURE GPIO_Read_All
+   (handle    : Integer;
+    mask      : ChannelArray;
+    state     : OUT ChannelArray;
+    error     : OUT Integer);
+
+  PROCEDURE GPIO_Write_All
+   (handle    : Integer;
+    mask      : ChannelArray;
+    state     : ChannelArray;
+    error     : OUT Integer);
+
   PROCEDURE GPIO_Channels
    (handle    : Integer;
     channels  : OUT ChannelArray;
@@ -46,9 +65,12 @@ PACKAGE libRemoteIO.GPIO IS
 
 PRIVATE
 
-  PRAGMA Export(Convention => C, Entity => GPIO_Configure, External_Name => "gpio_configure");
-  PRAGMA Export(Convention => C, Entity => GPIO_Read,      External_Name => "gpio_read");
-  PRAGMA Export(Convention => C, Entity => GPIO_Write,     External_Name => "gpio_write");
-  PRAGMA Export(Convention => C, Entity => GPIO_Channels,  External_Name => "gpio_channels");
+  PRAGMA Export(Convention => C, Entity => GPIO_Configure,     External_Name => "gpio_configure");
+  PRAGMA Export(Convention => C, Entity => GPIO_Read,          External_Name => "gpio_read");
+  PRAGMA Export(Convention => C, Entity => GPIO_Write,         External_Name => "gpio_write");
+  PRAGMA Export(Convention => C, Entity => GPIO_Configure_All, External_Name => "gpio_configure_all");
+  PRAGMA Export(Convention => C, Entity => GPIO_Read_All,      External_Name => "gpio_read_all");
+  PRAGMA Export(Convention => C, Entity => GPIO_Write_All,     External_Name => "gpio_write_all");
+  PRAGMA Export(Convention => C, Entity => GPIO_Channels,      External_Name => "gpio_channels");
 
 END libRemoteIO.GPIO;
