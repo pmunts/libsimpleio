@@ -1,6 +1,6 @@
 -- Ada subprogram bindings for Linux libmodbus library (https://libmodbus.org)
 
--- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -19,6 +19,8 @@
 -- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
+
+-- String actual parameters *MUST* be NUL terminated, e.g. "FOO" & ASCII.NUL
 
 WITH Interfaces.C.Strings;
 WITH libLinux;

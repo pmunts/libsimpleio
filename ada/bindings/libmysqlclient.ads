@@ -1,6 +1,6 @@
 -- Super-thin binding to MySQL Connector/C client library
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -19,6 +19,8 @@
 -- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
+
+-- String actual parameters *MUST* be NUL terminated, e.g. "FOO" & ASCII.NUL
 
 -- NOTE: This is incomplete, but there is enough here to insert rows into
 -- a MySQL database table.
