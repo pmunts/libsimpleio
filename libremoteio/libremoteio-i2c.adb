@@ -51,6 +51,7 @@ PACKAGE BODY libRemoteIO.I2C IS
 
     IF AdapterTable(handle).dev = NULL THEN
       error := ENODEV;
+      RETURN;
     END IF;
 
     IF channel NOT IN RemoteIO.ChannelNumber THEN
@@ -110,6 +111,7 @@ PACKAGE BODY libRemoteIO.I2C IS
 
     IF AdapterTable(handle).dev = NULL THEN
       error := ENODEV;
+      RETURN;
     END IF;
 
     IF channel NOT IN RemoteIO.ChannelNumber THEN
@@ -180,6 +182,7 @@ PACKAGE BODY libRemoteIO.I2C IS
 
     IF AdapterTable(handle).dev = NULL THEN
       error := ENODEV;
+      RETURN;
     END IF;
 
     -- Copy available channels to boolean array
