@@ -19,7 +19,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Exceptions;
-WITH Interfaces.C.Strings;
 
 WITH Message64;
 WITH Messaging;
