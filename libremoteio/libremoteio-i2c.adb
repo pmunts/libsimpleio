@@ -122,12 +122,17 @@ PACKAGE BODY libRemoteIO.I2C IS
       RETURN;
     END IF;
 
-    IF cmdlen < 0 OR resplen < 0 OR delayus < 0 THEN
+    IF cmdlen < 0 OR resplen < 0 THEN
       error := EINVAL;
       RETURN;
     END IF;
 
     IF cmdlen = 0 AND resplen = 0 THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    IF delayus < 0 OR delayus > 65535 THEN
       error := EINVAL;
       RETURN;
     END IF;
