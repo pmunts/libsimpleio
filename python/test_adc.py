@@ -66,11 +66,12 @@ adcinputs = set()
 
 for c in range(len(channels)):
   if channels[c] == b'\x01':
-    adcinputs.add(c);
+    adcinputs.add(c)
 
 del channels
 
-print('Available ADC inputs: ' + str(adcinputs))
+print('Available ADC input channels: ' + str(adcinputs))
+print()
 
 # Configure ADC1
 
@@ -80,7 +81,8 @@ if error.value != 0:
   print('ERROR: adc_configure() failed, error=' + str(error.value))
   quit()
 
-print('Resolution: ' + str(resolution.value) + ' bits')
+print('Channel 1 Resolution: ' + str(resolution.value) + ' bits')
+print()
 
 # Read from ADC1
 

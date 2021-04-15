@@ -65,11 +65,12 @@ pins = set()
 
 for c in range(len(channels)):
   if channels[c] == b'\x01':
-    pins.add(c);
+    pins.add(c)
 
 del channels
 
-print('Available GPIO pins: ' + str(pins))
+print('Available GPIO pin channels: ' + str(pins))
+print()
 
 # Configure GPIO0 as an output
 
@@ -80,6 +81,9 @@ if error.value != 0:
   quit()
 
 # Toggle GPIO0
+
+print('Toggling LED on GPIO0')
+print()
 
 while True:
   libremoteio.gpio_read(handle, 0, ctypes.byref(state), ctypes.byref(error))

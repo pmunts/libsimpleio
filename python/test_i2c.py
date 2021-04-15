@@ -65,11 +65,12 @@ buses = set()
 
 for c in range(len(channels)):
   if channels[c] == b'\x01':
-    buses.add(c);
+    buses.add(c)
 
 del channels
 
-print('Available I2C buses: ' + str(buses))
+print('Available I2C bus channels: ' + str(buses))
+print()
 
 # Configure bus I2C0
 

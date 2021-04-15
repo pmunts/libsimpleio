@@ -71,7 +71,8 @@ for c in range(len(channels)):
 
 del channels
 
-print('Available GPIO pins: ' + str(pins))
+print('Available GPIO pin channels: ' + str(pins))
+print()
 
 # Configure all GPIO pins as outputs initially off
 
@@ -87,6 +88,9 @@ if error.value != 0:
   quit()
 
 # Toggle all GPIO outputs
+
+print('Toggling all GPIO outputs')
+print()
 
 while True:
   libremoteio.gpio_read_all(handle, mask, state, ctypes.byref(error))
