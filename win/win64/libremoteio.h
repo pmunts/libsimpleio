@@ -277,8 +277,8 @@ extern "C" void i2c_configure(int handle, int channel, int frequency,
 // operation.
 //
 // The delayus parameter indicates how many microseconds to wait between
-// write and read phases of an atomic write/read operation.  Ignored for
-// read-only or write-only operations.
+// write and read phases of an atomic write/read operation.  Allowed values are
+// 0 to 65535 microseconds.  Ignored for read-only or write-only operations.
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
@@ -298,3 +298,69 @@ extern "C" void i2c_transaction(int handle, int channel, int addr,
 // Zero on success, or an errno value on failure will be returned in *error.
 
 extern "C" void i2c_channels(int handle, uint8_t *channels, int *error);
+
+//=============================================================================
+
+// Configure an SPI slave device.
+//
+// Valid channel numbers are 0 to 127.  Any given adapter will only support a
+// small subset of these values.
+//
+// Valid SPI clock mode numbers are 0 to 3.
+//
+// Valid word size values are typically 8, 16, and 32 bits.  0 is also allowed
+// as a synonym for 8 bits.  Microcontroller based adapters often have byte
+// oriented SPI hardware implementations and may not support any word size
+// except 8 bits.
+//
+// Valid clock frequency values depend on the adapter hardware implementation.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void spi_configure(int handle, int channel, int mode, int wordsize,
+  int frequency, int *error);
+
+//=============================================================================
+
+// Perform an SPI bus transaction.  This can be a read, a write, or an atomic
+// read/write operation.
+//
+// Valid channel numbers are 0 to 127.  Any given adapter will only support a
+// small subset of these values.
+//
+// The cmd parameter must be the address of a byte array.  NULL is not
+// allowed.
+//
+// The cmdlen parameter must be set to the number of bytes in the command
+// byte array.  Valid values are 0 to 56.  Zero indicates a read-only
+// operation.
+//
+// The resp parameter must be the address of a byte array.  NULL is not
+// allowed.
+//
+// The resplen parameter must be set to the number of bytes in the response
+// byte array.  Valid values are 0 to 60.  Zero indicates a write-only
+// operation.
+//
+// The delayus parameter indicates how many microseconds to wait between
+// write and read phases of an atomic write/read operation.  Allowed values are
+// 0 to 65535 microseconds.  Ignored for read-only or write-only operations.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void spi_transaction(int handle, int channel, int addr,
+  uint8_t *cmd, int cmdlen, uint8_t *resp, int resplen, int delayus,
+  int *error);
+
+//=============================================================================
+
+// Fetch available SPI slave device channels.
+//
+// The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
+// returned in each element of channels corresponding to a valid SPI slave
+// device. For example, if an adapter has 2 SPI slave devices (SPI0 and SPI1),
+// *channels will be set to 1, 1, 0, 0, 0...
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void spi_channels(int handle, uint8_t *channels, int *error);
