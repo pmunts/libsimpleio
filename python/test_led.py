@@ -49,6 +49,31 @@ if error.value != 0:
   print('ERROR: open() failed, error=' + str(error.value))
   quit()
 
+# Display version information
+
+vers = ctypes.create_string_buffer(64)
+
+libremoteio.get_version(handle, vers, len(vers), ctypes.byref(error))
+
+if error.value != 0:
+  print('ERROR: get_version() failed, error=' + str(error.value))
+  quit()
+
+print(vers.raw.decode())
+
+# Display capabilities
+
+caps = ctypes.create_string_buffer(64)
+
+libremoteio.get_capability(handle, caps, len(caps), ctypes.byref(error))
+
+if error.value != 0:
+  print('ERROR: get_capability() failed, error=' + str(error.value))
+  quit()
+
+print(caps.raw.decode())
+print()
+
 # Probe available GPIO pins
 
 channels = ctypes.create_string_buffer(128)
