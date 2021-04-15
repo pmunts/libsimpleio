@@ -47,6 +47,31 @@ extern "C" void receive(int handle, uint8_t *resp, int *error);
 
 //=============================================================================
 
+// Fetch the adapter version information string
+//
+// *buf *MUST* be a buffer of at least 64 bytes.
+//
+// On success, the NUL terminated version information string will be copied to
+// *buf.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void get_version(int handle, char *buf, int bufsize, int *error);
+
+//=============================================================================
+
+// Fetch the adapter capability string
+//
+// *buf *MUST* be a buffer of at least 64 bytes.
+//
+// On success, the NUL terminated capability string will be copied to *buf.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void get_capability(int handle, char *buf, int bufsize, int *error);
+
+//=============================================================================
+
 // Configure an A/D converter analog input.
 //
 // Valid channel numbers are 0 to 127.  Any given adapter will only support a
