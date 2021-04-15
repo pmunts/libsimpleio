@@ -132,6 +132,7 @@ PACKAGE BODY libRemoteIO IS
 
     IF AdapterTable(handle).dev = NULL THEN
       error := ENODEV;
+      RETURN;
     END IF;
 
     AdapterTable(handle).dev.GetMessenger.Send(cmd);
@@ -160,6 +161,7 @@ PACKAGE BODY libRemoteIO IS
 
     IF AdapterTable(handle).dev = NULL THEN
       error := ENODEV;
+      RETURN;
     END IF;
 
     AdapterTable(handle).dev.GetMessenger.Receive(resp);
@@ -168,5 +170,70 @@ PACKAGE BODY libRemoteIO IS
     WHEN e : OTHERS =>
       error := EIO;
   END Receive;
+
+  PROCEDURE GetVersion
+   (handle  : Integer;
+    buf     : OUT String;
+    bufsize : Integer;
+    error   : OUT Integer) IS
+
+  BEGIN
+    error := EOK;
+
+    -- Validate parameters
+
+    IF (handle NOT IN AdapterRange) THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    IF AdapterTable(handle).dev = NULL THEN
+      error := ENODEV;
+      RETURN;
+    END IF;
+
+    IF bufsize < 61 THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    DECLARE
+
+      v : String := Ada.Strings.Unbounded.To_String(AdapterTable(handle).version);
+
+    BEGIN
+      buf(1 .. v'Length) := v;
+    END;
+  END GetVersion;
+
+  PROCEDURE GetCapability
+   (handle  : Integer;
+    buf     : OUT String;
+    bufsize : Integer;
+    error   : OUT Integer) IS
+
+  BEGIN
+    error := EOK;
+
+    -- Validate parameters
+
+    IF (handle NOT IN AdapterRange) THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    IF AdapterTable(handle).dev = NULL THEN
+      error := ENODEV;
+      RETURN;
+    END IF;
+
+    DECLARE
+
+      v : String := Ada.Strings.Unbounded.To_String(AdapterTable(handle).capability);
+
+    BEGIN
+      buf(1 .. v'Length) := v;
+    END;
+  END GetCapability;
 
 END libRemoteIO;

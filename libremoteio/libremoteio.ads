@@ -60,6 +60,22 @@ PACKAGE libRemoteIO IS
     resp    : OUT Message64.Message;
     error   : OUT Integer);
 
+  -- Fetch the version information string
+
+  PROCEDURE GetVersion
+   (handle  : Integer;
+    buf     : OUT String;
+    bufsize : Integer;
+    error   : OUT Integer);
+
+  -- Fetch the capability string
+
+  PROCEDURE GetCapability
+   (handle  : Integer;
+    buf     : OUT String;
+    bufsize : Integer;
+    error   : OUT Integer);
+
 PRIVATE
 
   TYPE AdapterItem IS RECORD
@@ -78,8 +94,10 @@ PRIVATE
 
   AdapterTable : ARRAY (AdapterRange) OF AdapterItem;
 
-  PRAGMA Export(Convention => C, Entity => Open,    External_Name => "open");
-  PRAGMA Export(Convention => C, Entity => Send,    External_Name => "send");
-  PRAGMA Export(Convention => C, Entity => Receive, External_Name => "receive");
+  PRAGMA Export(Convention => C, Entity => Open,          External_Name => "open");
+  PRAGMA Export(Convention => C, Entity => Send,          External_Name => "send");
+  PRAGMA Export(Convention => C, Entity => Receive,       External_Name => "receive");
+  PRAGMA Export(Convention => C, Entity => GetVersion,    External_Name => "get_version");
+  PRAGMA Export(Convention => C, Entity => GetCapability, External_Name => "get_capability");
 
 END libRemoteIO;
