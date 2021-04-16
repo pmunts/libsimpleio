@@ -56,4 +56,4 @@ install: build
 
 clean:
 	sed -i 's/--PRAGMA Link_With/  PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
-	rm -rf obj *.def *.dll *.exp *.lib
+	rm -rf obj *.def *.dll *.exp *.lib *.so
