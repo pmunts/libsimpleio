@@ -18,44 +18,29 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-LIBRARY PROJECT libremoteio IS
+PACKAGE libRemoteIO.DAC IS
 
-  LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
-  OS          := external("OS", external("OSNAME", "unknown"));
+  PROCEDURE DAC_Configure
+   (handle     : Integer;
+    channel    : Integer;
+    resolution : OUT Integer;
+    error      : OUT Integer);
 
-  FOR Source_Dirs USE (".",
-    LIBSIMPLEIO & "/ada/bindings",
-    LIBSIMPLEIO & "/ada/devices",
-    LIBSIMPLEIO & "/ada/interfaces",
-    LIBSIMPLEIO & "/ada/objects/**");
+  PROCEDURE DAC_Write
+   (handle     : Integer;
+    channel    : Integer;
+    sample     : Integer;
+    error      : OUT Integer);
 
-  FOR Languages USE ("Ada", "C");
-  FOR Library_Auto_Init USE "True";
-  FOR Library_Dir USE "./obj/lib";
-  FOR Library_Kind USE "Dynamic";
-  FOR Library_Name USE "remoteio";
-  FOR Library_Standalone USE "Encapsulated";
-  FOR Object_Dir  USE "./obj";
+  PROCEDURE DAC_Channels
+   (handle    : Integer;
+    channels  : OUT ChannelArray;
+    error     : OUT Integer);
 
-  FOR Library_Interface USE
-   ("libRemoteIO",
-    "libRemoteIO.ADC",
-    "libRemoteIO.DAC",
-    "libRemoteIO.GPIO",
-    "libRemoteIO.I2C",
-    "libRemoteIO.SPI");
+PRIVATE
 
-  CASE OS IS
-    WHEN "Linux" =>
-      FOR Excluded_Source_Files USE ("hid-windows.c");
-      FOR Library_Options USE ("-ludev");
+  PRAGMA Export(Convention => C, Entity => DAC_Configure, External_Name => "dac_configure");
+  PRAGMA Export(Convention => C, Entity => DAC_Write,     External_Name => "dac_write");
+  PRAGMA Export(Convention => C, Entity => DAC_Channels,  External_Name => "dac_channels");
 
-    WHEN "Windows_NT" =>
-      FOR Excluded_Source_Files USE ("hid-linux.c");
-      FOR Library_Options USE ("-Wl,--export-all-symbols", "-lsetupapi");
-
-    WHEN OTHERS =>
-      NULL;
-  END CASE;
-
-END libremoteio;
+END libRemoteIO.DAC;
