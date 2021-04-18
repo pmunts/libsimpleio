@@ -290,6 +290,13 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
 
+    -- Mark the configured GPIO pins
+
+    FOR channel IN mask'Range LOOP
+      IF mask(channel) THEN
+        AdapterTable(handle).GPIO_config(channel) := True;
+      END IF;
+    END LOOP;
 
   EXCEPTION
     WHEN e : OTHERS =>
@@ -328,7 +335,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
     -- Marshal the GPIO pin mask
 
     FOR channel IN mask'Range LOOP
-      IF mask(channel) THEN
+      IF mask(channel) AND AdapterTable(handle).GPIO_config(channel) THEN
         cmd(2 + channel / 8) := cmd(2 + channel / 8) OR 2**(7 - channel MOD 8);
       END IF;
     END LOOP;
@@ -380,7 +387,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
     -- Marshal the GPIO pin mask
 
     FOR channel IN mask'Range LOOP
-      IF mask(channel) THEN
+      IF mask(channel) AND AdapterTable(handle).GPIO_config(channel) THEN
         cmd(2 + channel / 8) := cmd(2 + channel / 8) OR 2**(7 - channel MOD 8);
       END IF;
     END LOOP;
@@ -388,7 +395,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
     -- Marshal the GPIO pin states
 
     FOR channel IN state'Range LOOP
-      IF state(channel) THEN
+      IF state(channel) AND AdapterTable(handle).GPIO_config(channel) THEN
         cmd(18 + channel / 8) := cmd(18 + channel / 8) OR 2**(7 - channel MOD 8);
       END IF;
     END LOOP;
