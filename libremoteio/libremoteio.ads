@@ -27,6 +27,7 @@ PRIVATE WITH Ada.Strings.Unbounded;
 PACKAGE libRemoteIO IS
 
   TYPE ChannelArray IS ARRAY (RemoteIO.ChannelNumber) OF Boolean;
+  TYPE PeriodArray  IS ARRAY (RemoteIO.ChannelNumber) OF Integer;
 
   -- errno values
 
@@ -95,6 +96,7 @@ PRIVATE
     I2C_config    : ChannelArray := (OTHERS => False);
     PWM_channels  : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
     PWM_config    : ChannelArray := (OTHERS => False);
+    PWM_periods   : PeriodArray  := (OTHERS => 0);
     SPI_channels  : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
     SPI_config    : ChannelArray := (OTHERS => False);
   END RECORD;
