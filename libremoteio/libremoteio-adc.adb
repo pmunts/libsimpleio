@@ -74,6 +74,7 @@ PACKAGE BODY libRemoteIO.ADC IS
     cmd(2) := Messaging.Byte(channel);
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
+    AdapterTable(handle).ADC_config(channel) := True;
 
     resolution := Integer(resp(3));
 
@@ -113,6 +114,11 @@ PACKAGE BODY libRemoteIO.ADC IS
     END IF;
 
     IF NOT AdapterTable(handle).ADC_Channels.Contains(channel) THEN
+      error := ENODEV;
+      RETURN;
+    END IF;
+
+    IF NOT AdapterTable(handle).ADC_config(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;

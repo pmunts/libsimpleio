@@ -78,6 +78,7 @@ PACKAGE BODY libRemoteIO.DAC IS
     cmd(2) := Messaging.Byte(channel);
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
+    AdapterTable(handle).DAC_config(channel) := True;
 
     resolution := Integer(resp(3));
 
@@ -116,6 +117,11 @@ PACKAGE BODY libRemoteIO.DAC IS
     END IF;
 
     IF NOT AdapterTable(handle).DAC_Channels.Contains(channel) THEN
+      error := ENODEV;
+      RETURN;
+    END IF;
+
+    IF NOT AdapterTable(handle).DAC_config(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;

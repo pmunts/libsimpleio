@@ -92,6 +92,7 @@ PACKAGE BODY libRemoteIO.SPI IS
     cmdmsg(8) := Messaging.Byte(frequency MOD 256);
 
     AdapterTable(handle).dev.Transaction(cmdmsg, respmsg);
+    AdapterTable(handle).SPI_config(channel) := True;
 
   EXCEPTION
     WHEN e: OTHERS =>
@@ -132,6 +133,11 @@ PACKAGE BODY libRemoteIO.SPI IS
     END IF;
 
     IF NOT AdapterTable(handle).SPI_Channels.Contains(channel) THEN
+      error := ENODEV;
+      RETURN;
+    END IF;
+
+    IF NOT AdapterTable(handle).SPI_config(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;

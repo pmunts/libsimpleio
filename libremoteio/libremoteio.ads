@@ -78,16 +78,25 @@ PACKAGE libRemoteIO IS
 
 PRIVATE
 
+  -- This record contains all of the persistent state necessary for each
+  -- Remote I/O Protocol adapter.
+
   TYPE AdapterItem IS RECORD
     dev           : RemoteIO.Client.Device := Null;
     version       : Ada.Strings.Unbounded.Unbounded_String := Ada.Strings.Unbounded.Null_Unbounded_String;
     capability    : Ada.Strings.Unbounded.Unbounded_String := Ada.Strings.Unbounded.Null_Unbounded_String;
     ADC_channels  : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
+    ADC_config    : ChannelArray := (OTHERS => False);
     DAC_channels  : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
+    DAC_config    : ChannelArray := (OTHERS => False);
     GPIO_channels : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
+    GPIO_config   : ChannelArray := (OTHERS => False);
     I2C_channels  : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
+    I2C_config    : ChannelArray := (OTHERS => False);
     PWM_channels  : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
+    PWM_config    : ChannelArray := (OTHERS => False);
     SPI_channels  : RemoteIO.ChannelSets.Set := RemoteIO.ChannelSets.Empty_Set;
+    SPI_config    : ChannelArray := (OTHERS => False);
   END RECORD;
 
   SUBTYPE AdapterRange IS Natural RANGE 0 .. 15;

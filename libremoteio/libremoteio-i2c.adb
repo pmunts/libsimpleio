@@ -78,6 +78,7 @@ PACKAGE BODY libRemoteIO.I2C IS
     cmdmsg(6) := Messaging.Byte(frequency MOD 256);
 
     AdapterTable(handle).dev.Transaction(cmdmsg, respmsg);
+    AdapterTable(handle).I2C_config(channel) := True;
 
   EXCEPTION
     WHEN e: OTHERS =>
@@ -119,6 +120,11 @@ PACKAGE BODY libRemoteIO.I2C IS
     END IF;
 
     IF NOT AdapterTable(handle).I2C_Channels.Contains(channel) THEN
+      error := ENODEV;
+      RETURN;
+    END IF;
+
+    IF NOT AdapterTable(handle).I2C_config(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;

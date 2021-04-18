@@ -85,19 +85,12 @@ PACKAGE BODY libRemoteIO.GPIO IS
     END IF;
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
+    AdapterTable(handle).GPIO_config(channel) := True;
 
     -- Write initial state for output pin
 
     IF direction = 1 THEN
-      cmd := (OTHERS => 0);
-      cmd(0) := Messaging.Byte(RemoteIO.MessageTypes'Pos(RemoteIO.GPIO_WRITE_REQUEST));
-      cmd(2 + channel / 8) := 2**(7 - channel MOD 8);
-
-      IF state = 1 THEN
-        cmd(18 + channel / 8) := 2**(7 - channel MOD 8);
-      END IF;
-
-      AdapterTable(handle).dev.Transaction(cmd, resp);
+      GPIO_Write(handle, channel, state, error);
     END IF;
 
   EXCEPTION
@@ -136,6 +129,11 @@ PACKAGE BODY libRemoteIO.GPIO IS
     END IF;
 
     IF NOT AdapterTable(handle).GPIO_Channels.Contains(channel) THEN
+      error := ENODEV;
+      RETURN;
+    END IF;
+
+    IF NOT AdapterTable(handle).GPIO_config(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;
@@ -188,6 +186,11 @@ PACKAGE BODY libRemoteIO.GPIO IS
     END IF;
 
     IF NOT AdapterTable(handle).GPIO_Channels.Contains(channel) THEN
+      error := ENODEV;
+      RETURN;
+    END IF;
+
+    IF NOT AdapterTable(handle).GPIO_config(channel) THEN
       error := ENODEV;
       RETURN;
     END IF;
