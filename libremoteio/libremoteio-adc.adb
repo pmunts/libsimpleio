@@ -80,6 +80,7 @@ PACKAGE BODY libRemoteIO.ADC IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END ADC_Configure;
 
@@ -137,6 +138,7 @@ PACKAGE BODY libRemoteIO.ADC IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       sample := 0;
       error  := EIO;
   END ADC_Read;

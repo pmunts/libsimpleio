@@ -95,6 +95,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END GPIO_Configure;
 
@@ -152,6 +153,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       state := -1;
       error := EIO;
   END GPIO_Read;
@@ -212,6 +214,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END GPIO_Write;
 
@@ -300,6 +303,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END GPIO_Configure_All;
 
@@ -352,6 +356,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END GPIO_Read_All;
 
@@ -406,6 +411,7 @@ PACKAGE BODY libRemoteIO.GPIO IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END GPIO_Write_All;
 

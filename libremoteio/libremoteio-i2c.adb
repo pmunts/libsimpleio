@@ -82,6 +82,7 @@ PACKAGE BODY libRemoteIO.I2C IS
 
   EXCEPTION
     WHEN e: OTHERS =>
+      Debug.Put(e);
       error  := EIO;
   END I2C_Configure;
 
@@ -166,6 +167,7 @@ PACKAGE BODY libRemoteIO.I2C IS
 
   EXCEPTION
     WHEN e: OTHERS =>
+      Debug.Put(e);
       error  := EIO;
   END I2C_Transaction;
 

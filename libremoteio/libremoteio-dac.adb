@@ -84,6 +84,7 @@ PACKAGE BODY libRemoteIO.DAC IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END DAC_Configure;
 
@@ -138,6 +139,7 @@ PACKAGE BODY libRemoteIO.DAC IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error  := EIO;
   END DAC_Write;
 

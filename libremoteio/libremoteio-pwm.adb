@@ -99,6 +99,7 @@ PACKAGE BODY libRemoteIO.PWM IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END PWM_Configure;
 
@@ -162,6 +163,7 @@ PACKAGE BODY libRemoteIO.PWM IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error  := EIO;
   END PWM_Write;
 

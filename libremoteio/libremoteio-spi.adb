@@ -96,6 +96,7 @@ PACKAGE BODY libRemoteIO.SPI IS
 
   EXCEPTION
     WHEN e: OTHERS =>
+      Debug.Put(e);
       error  := EIO;
   END SPI_Configure;
 
@@ -178,6 +179,7 @@ PACKAGE BODY libRemoteIO.SPI IS
 
   EXCEPTION
     WHEN e: OTHERS =>
+      Debug.Put(e);
       error  := EIO;
   END SPI_Transaction;
 
