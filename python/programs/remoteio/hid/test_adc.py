@@ -98,21 +98,21 @@ del channels
 print('Available ADC input channels: ' + str(adcinputs))
 print()
 
-# Configure ADC1
+# Configure ADC0
 
-libremoteio.adc_configure(handle, 1, ctypes.byref(resolution), ctypes.byref(error))
+libremoteio.adc_configure(handle, 0, ctypes.byref(resolution), ctypes.byref(error))
 
 if error.value != 0:
   print('ERROR: adc_configure() failed, error=' + str(error.value))
   quit()
 
-print('Channel 1 Resolution: ' + str(resolution.value) + ' bits')
+print('Resolution: ' + str(resolution.value) + ' bits')
 print()
 
-# Read from ADC1
+# Read from ADC0
 
 while True:
-  libremoteio.adc_read(handle, 1, ctypes.byref(sample), ctypes.byref(error))
+  libremoteio.adc_read(handle, 0, ctypes.byref(sample), ctypes.byref(error))
 
   if error.value != 0:
     print('ERROR: adc_read() failed, error=' + str(error.value))

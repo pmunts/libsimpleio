@@ -106,7 +106,7 @@ if error.value != 0:
   print('ERROR: adc_configure() failed, error=' + str(error.value))
   quit()
 
-print('Channel 0 Resolution: ' + str(resolution.value) + ' bits')
+print('Resolution: ' + str(resolution.value) + ' bits')
 print()
 
 # Read from ADC0
