@@ -38,7 +38,7 @@ else
 OS		:= Linux
 LIBFILE		:= libremoteio.so
 LIBDIR		:= /usr/local/lib
-INSTALL		:= sudo install -cm 0555 $(LIBFILE) $(LIBDIR) && sudo ldconfig
+INSTALL		:= sudo install -cm 0644 libremoteio.h /usr/local/include && sudo install -cm 0555 $(LIBFILE) $(LIBDIR) && sudo ldconfig
 endif
 
 build:
