@@ -4,7 +4,7 @@
 
 //=============================================================================
 
-// Open Raw HID Adapter.
+// Open a Raw HID Remote I/O Protocol Adapter.
 //
 // Valid Vendor ID and Product ID values are 0 to 65536.
 // Munts Technology Raw HID devices are always 16D0:0AFA.
@@ -22,7 +22,52 @@
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void open(int vid, int pid, const char *serial, int timeout,
+extern "C" void open_hid(int vid, int pid, const char *serial, int timeout,
+  int *handle, int *error);
+
+//=============================================================================
+
+// Open a Serial Port Remote I/O Protocol Adapter.
+//
+// The portname parameter is operating system dependent and typically something
+// like "/dev/ttyS0" for Linux and "COM1:" for Windows.
+//
+// The allowed values for the baudrate parameter are those supported by the
+// GNAT.Serial_Communications package the shared library was built from.
+//
+// Allowed values for the timeout parameter:
+//  0 => Receive operation never blocks at all.
+// >0 => Receive operation blocks for the indicated number of milliseconds.
+// Recommended timeout value is 1000, for a one-second timeout.
+//
+// On success, an adapter handle number will be returned in *handle.  This
+// handle must be passed to all other functions.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void open_serial(char *portname, int baudrate, int timeout,
+  int *handle, int *error);
+
+//=============================================================================
+
+// Open a UDP Port Remote I/O Protocol Adapter.
+//
+// The server parameter can either be an IPv4 address like "10.0.0.1" or a
+// domain name like "usbgadget.munts.net".
+//
+// The allowed values for the port parameter are 1 to 65535.
+//
+// Allowed values for the timeout parameter:
+//  0 => Receive operation never blocks at all.
+// >0 => Receive operation blocks for the indicated number of milliseconds.
+// Recommended timeout value is 1000, for a one-second timeout.
+//
+// On success, an adapter handle number will be returned in *handle.  This
+// handle must be passed to all other functions.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void open_udp(char *server, int port, int timeout,
   int *handle, int *error);
 
 //=============================================================================
