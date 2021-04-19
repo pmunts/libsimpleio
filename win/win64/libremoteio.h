@@ -35,10 +35,8 @@ extern "C" void open_hid(int vid, int pid, const char *serial, int timeout,
 // The allowed values for the baudrate parameter are those supported by the
 // GNAT.Serial_Communications package the shared library was built from.
 //
-// Allowed values for the timeout parameter:
-//  0 => Receive operation never blocks at all.
-// >0 => Receive operation blocks for the indicated number of milliseconds.
-// Recommended timeout value is 1000, for a one-second timeout.
+// The timeout parameter indicates the number of milliseconds to wait for each
+// serial port I/O operation to complete.
 //
 // On success, an adapter handle number will be returned in *handle.  This
 // handle must be passed to all other functions.
@@ -57,10 +55,8 @@ extern "C" void open_serial(char *portname, int baudrate, int timeout,
 //
 // The allowed values for the port parameter are 1 to 65535.
 //
-// Allowed values for the timeout parameter:
-//  0 => Receive operation never blocks at all.
-// >0 => Receive operation blocks for the indicated number of milliseconds.
-// Recommended timeout value is 1000, for a one-second timeout.
+// The timeout parameter indicates the number of milliseconds to wait for each
+// network I/O operation to complete.
 //
 // On success, an adapter handle number will be returned in *handle.  This
 // handle must be passed to all other functions.
@@ -117,7 +113,7 @@ extern "C" void get_capability(int handle, char *buf, int bufsize, int *error);
 
 //=============================================================================
 
-// Configure an A/D converter analog input.
+// Configure an A/D converter input.
 //
 // Valid channel numbers are 0 to 127.  Any given adapter will only support a
 // small subset of these values.
@@ -132,7 +128,7 @@ extern "C" void adc_configure(int handle, int channel, int *resolution,
 
 //=============================================================================
 
-// Read from an A/D converter analog input.
+// Read from an A/D converter input.
 //
 // Valid channel numbers are 0 to 127.  Any given adapter will only support a
 // small subset of these values.
@@ -145,16 +141,57 @@ extern "C" void adc_read(int handle, int channel, int *sample, int *error);
 
 //=============================================================================
 
-// Fetch available A/D converter analog input channels.
+// Fetch available A/D converter input channels.
 //
 // The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
 // returned in each element of channels corresponding to a valid A/D input.
-// For example, if an adapter has 4 analog inputs (AIN1, AIN2, AIN3, and AIN4),
+// For example, if an adapter has 4 analog inputs (ADC1, ADC2, ADC3, and ADC4),
 // *channels will be set to 0, 1, 1, 1, 1, 0, 0...
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
 extern "C" void adc_channels(int handle, uint8_t *channels, int *error);
+
+//=============================================================================
+
+// Configure an D/A converter output.
+//
+// Valid channel numbers are 0 to 127.  Any given adapter will only support a
+// small subset of these values.
+//
+// On success, the resolution of the analog output in bits will be returned in
+// *resolution.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void dac_configure(int handle, int channel, int *resolution,
+  int *error);
+
+//=============================================================================
+
+// Write to a D/A converter output.
+//
+// Valid channel numbers are 0 to 127.  Any given adapter will only support a
+// small subset of these values.
+//
+// A raw data sample must be passed in sample.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void dac_write(int handle, int channel, int sample, int *error);
+
+//=============================================================================
+
+// Fetch available D/A converter output channels.
+//
+// The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
+// returned in each element of channels corresponding to a valid D/A output.
+// For example, if an adapter has 4 analog outputs (DAC1, DAC2, DAC3, and DAC4),
+// *channels will be set to 0, 1, 1, 1, 1, 0, 0...
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void dac_channels(int handle, uint8_t *channels, int *error);
 
 //=============================================================================
 
@@ -343,6 +380,47 @@ extern "C" void i2c_transaction(int handle, int channel, int addr,
 // Zero on success, or an errno value on failure will be returned in *error.
 
 extern "C" void i2c_channels(int handle, uint8_t *channels, int *error);
+
+//=============================================================================
+
+// Configure a PWM output.
+//
+// Valid channel numbers are 0 to 127.  Any given adapter will only support a
+// small subset of these values.
+//
+// Allowed values for the frequency parameter are 1 to some hardware defined
+// limit.
+//
+// Allowed values for the duty parameter are 0.0 to 100.0 percent.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void dac_configure(int handle, int channel, int *resolution,
+  int *error);
+
+//=============================================================================
+
+// Write to a PWM output.
+//
+// Valid channel numbers are 0 to 127.  Any given adapter will only support a
+// small subset of these values.
+//
+// Allowed values for the duty parameter are 0.0 to 100.0 percent.
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void pwm_write(int handle, int channel, float duty, int *error);
+
+//=============================================================================
+
+// Fetch available PWM output channels.
+//
+// The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
+// returned in each element of channels corresponding to a valid PWM output.
+// For example, if an adapter has 2 PWM outputs (PWM0 and PWM1), *channels will
+// be set to 1, 1, 0, 0, 0...
+//
+// Zero on success, or an errno value on failure will be returned in *error.
 
 //=============================================================================
 
