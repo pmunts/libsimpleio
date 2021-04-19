@@ -40,51 +40,60 @@ PACKAGE libRemoteIO IS
   -- Open a connection to a USB Raw HID Remote I/O Protocol Server
 
   PROCEDURE OpenHID
-   (VID     : Integer;
-    PID     : Integer;
-    serial  : Interfaces.C.Strings.chars_ptr;
-    timeout : Integer;
-    handle  : OUT Integer;
-    error   : OUT Integer);
+   (VID      : Integer;
+    PID      : Integer;
+    serial   : Interfaces.C.Strings.chars_ptr;
+    timeout  : Integer;
+    handle   : OUT Integer;
+    error    : OUT Integer);
+
+  -- Open a connection to a serial port Remote I/O Protocol Server
+
+  PROCEDURE OpenSerial
+   (portname : Interfaces.C.Strings.chars_ptr;
+    baudrate : Integer;
+    timeout  : Integer;
+    handle   : OUT Integer;
+    error    : OUT Integer);
 
   -- Open a connection to a UDP Remote I/O Protocol Server
 
   PROCEDURE OpenUDP
-   (server  : Interfaces.C.Strings.chars_ptr;
-    port    : Integer;
-    timeout : Integer;
-    handle  : OUT Integer;
-    error   : OUT Integer);
+   (server   : Interfaces.C.Strings.chars_ptr;
+    port     : Integer;
+    timeout  : Integer;
+    handle   : OUT Integer;
+    error    : OUT Integer);
 
   -- Send a 64-byte message (aka report) to a USB Raw HID device.
 
   PROCEDURE Send
-   (handle  : Integer;
-    cmd     : IN Message64.Message;
-    error   : OUT Integer);
+   (handle   : Integer;
+    cmd      : IN Message64.Message;
+    error    : OUT Integer);
 
   -- Receive a 64-byte message (aka report) from a USB Raw HID device.
 
   PROCEDURE Receive
-   (handle  : Integer;
-    resp    : OUT Message64.Message;
-    error   : OUT Integer);
+   (handle   : Integer;
+    resp     : OUT Message64.Message;
+    error    : OUT Integer);
 
   -- Fetch the version information string
 
   PROCEDURE GetVersion
-   (handle  : Integer;
-    buf     : OUT String;
-    bufsize : Integer;
-    error   : OUT Integer);
+   (handle   : Integer;
+    buf      : OUT String;
+    bufsize  : Integer;
+    error    : OUT Integer);
 
   -- Fetch the capability string
 
   PROCEDURE GetCapability
-   (handle  : Integer;
-    buf     : OUT String;
-    bufsize : Integer;
-    error   : OUT Integer);
+   (handle   : Integer;
+    buf      : OUT String;
+    bufsize  : Integer;
+    error    : OUT Integer);
 
 PRIVATE
 
@@ -115,6 +124,7 @@ PRIVATE
   AdapterTable : ARRAY (AdapterRange) OF AdapterItem;
 
   PRAGMA Export(Convention => C, Entity => OpenHID,       External_Name => "open_hid");
+  PRAGMA Export(Convention => C, Entity => OpenSerial,    External_Name => "open_serial");
   PRAGMA Export(Convention => C, Entity => OpenUDP,       External_Name => "open_udp");
   PRAGMA Export(Convention => C, Entity => Send,          External_Name => "send");
   PRAGMA Export(Convention => C, Entity => Receive,       External_Name => "receive");

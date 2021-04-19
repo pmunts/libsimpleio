@@ -24,6 +24,7 @@ WITH Interfaces.C.Strings;
 WITH Debug;
 WITH HID.hidapi;
 WITH RemoteIO.Client.hidapi;
+WITH RemoteIO.Client.Serial;
 WITH RemoteIO.Client.UDP;
 
 USE TYPE Interfaces.C.Strings.chars_ptr;
@@ -124,6 +125,44 @@ PACKAGE BODY libRemoteIO IS
       handle := -1;
       error  := EIO;
   END OpenHID;
+
+  -- Open a connection to a serial port Remote I/O Protocol Server
+
+  PROCEDURE OpenSerial
+   (portname : Interfaces.C.Strings.chars_ptr;
+    baudrate : Integer;
+    timeout  : Integer;
+    handle   : OUT Integer;
+    error    : OUT Integer) IS
+
+  BEGIN
+    error  := EOK;
+
+    -- Validate parameters
+
+    IF timeout < 0 THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    -- Open Remote I/O client device
+
+    handle := NextAdapter;
+
+    AdapterTable(handle).dev :=
+      RemoteIO.Client.Serial.Create(Interfaces.C.Strings.Value(portname),
+        baudrate, timeout);
+
+    NextAdapter := NextAdapter + 1;
+
+    QueryServer(handle);
+
+  EXCEPTION
+    WHEN e: OTHERS =>
+      Debug.Put(e);
+      handle := -1;
+      error  := EIO;
+  END OpenSerial;
 
   -- Open a connection to a UDP Remote I/O Protocol Server
 
