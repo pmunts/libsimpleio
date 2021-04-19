@@ -114,10 +114,11 @@ else
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p nuget			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p pascal			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p python			$(DESTDIR)/share/libsimpleio
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 endif
 
