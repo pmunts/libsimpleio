@@ -47,7 +47,7 @@ build:
 	cp obj/lib/$(LIBFILE) .
 ifeq ($(OS), Windows_NT)
 	echo "EXPORTS" >libremoteio.def
-	awk -F '[ (]' '/extern/ { print $$4 }' $(LIBDIR)/libremoteio.h >>libremoteio.def
+	awk -F '[ (]' '/extern/ { print $$4 }' libremoteio.h >>libremoteio.def
 	"$(VSLIB)" /def:libremoteio.def /out:libremoteio.lib /machine:x64
 endif
 
