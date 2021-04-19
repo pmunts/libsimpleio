@@ -51,10 +51,10 @@ Messenger_Class::Messenger_Class(uint16_t VID, uint16_t PID, const char *serial,
 
   // Open device
 
-  open(VID, PID, serial, timeoutms, &h, &error);
+  open_hid(VID, PID, serial, timeoutms, &h, &error);
 
   if (error != 0)
-    THROW_MSG("libremoteio.open() failed");
+    THROW_MSG("libremoteio.open_hid() failed");
 
   this->handle = h;
 }
