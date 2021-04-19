@@ -98,7 +98,7 @@ del channels
 print('Available ADC input channels: ' + str(adcinputs))
 print()
 
-# Configure ADC0
+# Configure ADC input
 
 inp = list(adcinputs)[0]
 
@@ -111,7 +111,7 @@ if error.value != 0:
 print('Resolution: ' + str(resolution.value) + ' bits')
 print()
 
-# Read from ADC0
+# Read from ADC input
 
 while True:
   libremoteio.adc_read(handle, inp, ctypes.byref(sample), ctypes.byref(error))
