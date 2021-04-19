@@ -39,7 +39,7 @@ elif os.name == 'posix':
 handle   = ctypes.c_int()
 error    = ctypes.c_int()
 
-# Open USB Raw HID Remote I/O Protocol Server
+# Open Remote I/O Protocol Server
 
 libremoteio.open_hid(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
 
