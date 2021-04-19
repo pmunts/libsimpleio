@@ -141,6 +141,7 @@ PACKAGE BODY libRemoteIO IS
     -- Validate parameters
 
     IF timeout < 0 THEN
+      handle := -1;
       error := EINVAL;
       RETURN;
     END IF;
