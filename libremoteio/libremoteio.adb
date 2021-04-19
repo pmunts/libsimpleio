@@ -18,12 +18,13 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Exceptions;
 WITH Ada.Strings.Fixed;
 WITH Interfaces.C.Strings;
 
+WITH Debug;
 WITH HID.hidapi;
 WITH RemoteIO.Client.hidapi;
+WITH RemoteIO.Client.UDP;
 
 USE TYPE Interfaces.C.Strings.chars_ptr;
 USE TYPE RemoteIO.Client.Device;
@@ -32,7 +33,47 @@ PACKAGE BODY libRemoteIO IS
 
   NextAdapter : Natural := AdapterRange'First;
 
-  PROCEDURE Open
+  -- Query version, capabilities, and channels from a Remote I/O Protocol Server
+
+  PROCEDURE QueryServer(handle : Integer) IS
+
+  BEGIN
+
+    -- Get the version and capability strings
+
+    AdapterTable(handle).version    := Ada.Strings.Unbounded.To_Unbounded_String(AdapterTable(handle).dev.GetVersion);
+    AdapterTable(handle).capability := Ada.Strings.Unbounded.To_Unbounded_String(AdapterTable(handle).dev.GetCapability);
+
+    -- Query the channels available for each hardware subsystem
+
+    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "ADC") > 0 THEN
+      AdapterTable(handle).ADC_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_ADC);
+    END IF;
+
+    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "DAC") > 0 THEN
+      AdapterTable(handle).DAC_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_DAC);
+    END IF;
+
+    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "GPIO") > 0 THEN
+      AdapterTable(handle).GPIO_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_GPIO);
+    END IF;
+
+    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "I2C") > 0 THEN
+      AdapterTable(handle).I2C_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_I2C);
+    END IF;
+
+    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "PWM") > 0 THEN
+      AdapterTable(handle).PWM_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_PWM);
+    END IF;
+
+    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "SPI") > 0 THEN
+      AdapterTable(handle).SPI_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_SPI);
+    END IF;
+  END QueryServer;
+
+  -- Open a connection to a USB Raw HID Remote I/O Protocol Server
+
+  PROCEDURE OpenHID
    (VID     : Integer;
     PID     : Integer;
     serial  : Interfaces.C.Strings.chars_ptr;
@@ -41,7 +82,6 @@ PACKAGE BODY libRemoteIO IS
     error   : OUT Integer) IS
 
   BEGIN
-    handle := -1;
     error  := EOK;
 
     -- Validate parameters
@@ -76,44 +116,60 @@ PACKAGE BODY libRemoteIO IS
 
     NextAdapter := NextAdapter + 1;
 
-    -- Get version and capability strings from the Remote I/O Protocol adapter
-
-    AdapterTable(handle).version    := Ada.Strings.Unbounded.To_Unbounded_String(AdapterTable(handle).dev.GetVersion);
-    AdapterTable(handle).capability := Ada.Strings.Unbounded.To_Unbounded_String(AdapterTable(handle).dev.GetCapability);
-
-    -- Query the channels available for each hardware subsystem
-
-    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "ADC") > 0 THEN
-      AdapterTable(handle).ADC_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_ADC);
-    END IF;
-
-    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "DAC") > 0 THEN
-      AdapterTable(handle).DAC_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_DAC);
-    END IF;
-
-    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "GPIO") > 0 THEN
-      AdapterTable(handle).GPIO_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_GPIO);
-    END IF;
-
-    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "I2C") > 0 THEN
-      AdapterTable(handle).I2C_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_I2C);
-    END IF;
-
-    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "PWM") > 0 THEN
-      AdapterTable(handle).PWM_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_PWM);
-    END IF;
-
-    IF Ada.Strings.Unbounded.Index(AdapterTable(handle).capability, "SPI") > 0 THEN
-      AdapterTable(handle).SPI_channels := AdapterTable(handle).dev.GetAvailableChannels(RemoteIO.Channel_SPI);
-    END IF;
+    QueryServer(handle);
 
   EXCEPTION
     WHEN e: OTHERS =>
+      Debug.Put(e);
       handle := -1;
       error  := EIO;
-  END Open;
+  END OpenHID;
 
--- Send a 64-byte message (aka report) to a USB Raw HID device.
+  -- Open a connection to a UDP Remote I/O Protocol Server
+
+  PROCEDURE OpenUDP
+   (server  : Interfaces.C.Strings.chars_ptr;
+    port    : Integer;
+    timeout : Integer;
+    handle  : OUT Integer;
+    error   : OUT Integer) IS
+
+  BEGIN
+    error  := EOK;
+
+    -- Validate parameters
+
+    IF port < 1 OR port > 65535 THEN
+      handle := -1;
+      error := EINVAL;
+      RETURN;
+    END IF;
+
+    IF NextAdapter > AdapterRange'Last THEN
+      handle := -1;
+      error  := ENOMEM;
+      RETURN;
+    END IF;
+
+    -- Open Remote I/O client device
+
+    handle := NextAdapter;
+
+    AdapterTable(handle).dev :=
+      RemoteIO.Client.UDP.Create(Interfaces.C.Strings.Value(server), port, timeout);
+
+    NextAdapter := NextAdapter + 1;
+
+    QueryServer(handle);
+
+  EXCEPTION
+    WHEN e: OTHERS =>
+      Debug.Put(e);
+      handle := -1;
+      error  := EIO;
+  END OpenUDP;
+
+  -- Send a 64-byte message (aka report) to a USB Raw HID device.
 
   PROCEDURE Send
    (handle  : Integer;
@@ -139,6 +195,7 @@ PACKAGE BODY libRemoteIO IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END Send;
 
@@ -168,6 +225,7 @@ PACKAGE BODY libRemoteIO IS
 
   EXCEPTION
     WHEN e : OTHERS =>
+      Debug.Put(e);
       error := EIO;
   END Receive;
 
@@ -198,9 +256,7 @@ PACKAGE BODY libRemoteIO IS
     END IF;
 
     DECLARE
-
       v : String := Ada.Strings.Unbounded.To_String(AdapterTable(handle).version);
-
     BEGIN
       buf(1 .. v'Length) := v;
     END;
@@ -227,10 +283,13 @@ PACKAGE BODY libRemoteIO IS
       RETURN;
     END IF;
 
+    IF bufsize < 61 THEN
+      error := EINVAL;
+      RETURN;
+    END IF;
+
     DECLARE
-
       v : String := Ada.Strings.Unbounded.To_String(AdapterTable(handle).capability);
-
     BEGIN
       buf(1 .. v'Length) := v;
     END;

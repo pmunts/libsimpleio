@@ -39,10 +39,19 @@ PACKAGE libRemoteIO IS
 
   -- Open a connection to a USB Raw HID Remote I/O Protocol Server
 
-  PROCEDURE Open
+  PROCEDURE OpenHID
    (VID     : Integer;
     PID     : Integer;
     serial  : Interfaces.C.Strings.chars_ptr;
+    timeout : Integer;
+    handle  : OUT Integer;
+    error   : OUT Integer);
+
+  -- Open a connection to a UDP Remote I/O Protocol Server
+
+  PROCEDURE OpenUDP
+   (server  : Interfaces.C.Strings.chars_ptr;
+    port    : Integer;
     timeout : Integer;
     handle  : OUT Integer;
     error   : OUT Integer);
@@ -105,7 +114,8 @@ PRIVATE
 
   AdapterTable : ARRAY (AdapterRange) OF AdapterItem;
 
-  PRAGMA Export(Convention => C, Entity => Open,          External_Name => "open");
+  PRAGMA Export(Convention => C, Entity => OpenHID,       External_Name => "open_hid");
+  PRAGMA Export(Convention => C, Entity => OpenUDP,       External_Name => "open_udp");
   PRAGMA Export(Convention => C, Entity => Send,          External_Name => "send");
   PRAGMA Export(Convention => C, Entity => Receive,       External_Name => "receive");
   PRAGMA Export(Convention => C, Entity => GetVersion,    External_Name => "get_version");
