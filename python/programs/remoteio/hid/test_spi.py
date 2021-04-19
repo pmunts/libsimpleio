@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# Python Remote I/O Protocol I2C Test
+# Python Remote I/O Protocol SPI Test
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
@@ -25,7 +25,7 @@
 import ctypes
 import os
 
-print('\nPython Remote I/O Protocol I2C Test\n')
+print('\nPython Remote I/O Protocol SPI Test\n')
 
 # Select the OS appropriate shared library file
 
@@ -38,15 +38,13 @@ elif os.name == 'posix':
 
 handle   = ctypes.c_int()
 error    = ctypes.c_int()
-cmd      = ctypes.create_string_buffer(12)
-resp     = ctypes.create_string_buffer(16)
 
 # Open USB Raw HID Remote I/O Protocol Server
 
-libremoteio.open(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
+libremoteio.open_hid(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: open() failed, error=' + str(error.value))
+  print('ERROR: open_hid() failed, error=' + str(error.value))
   quit()
 
 # Display version information
@@ -74,45 +72,47 @@ if error.value != 0:
 print(caps.raw.decode())
 print()
 
-# Probe available I2C buses
+# Probe available SPI slave devices
 
 channels = ctypes.create_string_buffer(128)
 
-libremoteio.i2c_channels(handle, channels, ctypes.byref(error))
+libremoteio.spi_channels(handle, channels, ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: i2c_channels() failed, error=' + str(error.value))
+  print('ERROR: spi_channels() failed, error=' + str(error.value))
   quit()
 
 # Convert byte array to set
 
-buses = set()
+devices = set()
 
 for c in range(len(channels)):
   if channels[c] == b'\x01':
-    buses.add(c)
+    devices.add(c)
 
 del channels
 
-print('Available I2C bus channels: ' + str(buses))
+print('Available SPI slave device channels: ' + str(devices))
 print()
 
-# Configure bus I2C0
+# Configure SPI slave device SPI0
 
-libremoteio.i2c_configure(handle, 0, 100000, ctypes.byref(error))
-
-if error.value != 0:
-  print('ERROR: i2c_configure() failed, error=' + str(error.value))
-  quit()
-
-# Perform an I2C bus transaction
-
-libremoteio.i2c_transaction(handle, 0, 0x44, cmd, len(cmd), resp, len(resp), 100, ctypes.byref(error))
+libremoteio.spi_configure(handle, 0, 0, 8, 750000, ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: i2c_transaction() failed, error=' + str(error.value))
+  print('ERROR: spi_configure() failed, error=' + str(error.value))
   quit()
 
-version = ord(resp[8]) + ord(resp[9])*256 + ord(resp[10])*65536 + ord(resp[11])*16777216
+# Perform an SPI bus transaction
 
-print('LPC1114 Firmware Version is ' + str(version))
+cmd      = ctypes.create_string_buffer(2)
+resp     = ctypes.create_string_buffer(2)
+
+libremoteio.spi_transaction(handle, 0, cmd, len(cmd), resp, len(resp), 100, ctypes.byref(error))
+
+if error.value != 0:
+  print('ERROR: spi_transaction() failed, error=' + str(error.value))
+  quit()
+
+for b in resp:
+  print(ord(b))

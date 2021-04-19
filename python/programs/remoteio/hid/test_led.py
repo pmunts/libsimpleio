@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# Python Remote I/O Protocol SPI Test
+# Python Remote I/O Protocol LED Test
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
@@ -24,8 +24,9 @@
 
 import ctypes
 import os
+import time
 
-print('\nPython Remote I/O Protocol SPI Test\n')
+print('\nPython Remote I/O Protocol LED Test\n')
 
 # Select the OS appropriate shared library file
 
@@ -38,13 +39,14 @@ elif os.name == 'posix':
 
 handle   = ctypes.c_int()
 error    = ctypes.c_int()
+state    = ctypes.c_int()
 
 # Open USB Raw HID Remote I/O Protocol Server
 
-libremoteio.open(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
+libremoteio.open_hid(0x16D0, 0x0AFA, '0015-000000', 1000, ctypes.byref(handle), ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: open() failed, error=' + str(error.value))
+  print('ERROR: open_hid() failed, error=' + str(error.value))
   quit()
 
 # Display version information
@@ -72,47 +74,55 @@ if error.value != 0:
 print(caps.raw.decode())
 print()
 
-# Probe available SPI slave devices
+# Probe available GPIO pins
 
 channels = ctypes.create_string_buffer(128)
 
-libremoteio.spi_channels(handle, channels, ctypes.byref(error))
+libremoteio.gpio_channels(handle, channels, ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: spi_channels() failed, error=' + str(error.value))
+  print('ERROR: gpio_channels() failed, error=' + str(error.value))
   quit()
 
 # Convert byte array to set
 
-devices = set()
+pins = set()
 
 for c in range(len(channels)):
   if channels[c] == b'\x01':
-    devices.add(c)
+    pins.add(c)
 
 del channels
 
-print('Available SPI slave device channels: ' + str(devices))
+print('Available GPIO pin channels: ' + str(pins))
 print()
 
-# Configure SPI slave device SPI0
+# Configure GPIO0 as an output
 
-libremoteio.spi_configure(handle, 0, 0, 8, 750000, ctypes.byref(error))
-
-if error.value != 0:
-  print('ERROR: spi_configure() failed, error=' + str(error.value))
-  quit()
-
-# Perform an SPI bus transaction
-
-cmd      = ctypes.create_string_buffer(2)
-resp     = ctypes.create_string_buffer(2)
-
-libremoteio.spi_transaction(handle, 0, cmd, len(cmd), resp, len(resp), 100, ctypes.byref(error))
+libremoteio.gpio_configure(handle, 0, 1, 0, ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: spi_transaction() failed, error=' + str(error.value))
+  print('ERROR: gpio_configure() failed, error=' + str(error.value))
   quit()
 
-for b in resp:
-  print(ord(b))
+# Toggle GPIO0
+
+print('Toggling LED on GPIO0')
+print()
+
+while True:
+  libremoteio.gpio_read(handle, 0, ctypes.byref(state), ctypes.byref(error))
+
+  if error.value != 0:
+    print('ERROR: gpio_read() failed, error=' + str(error.value))
+    quit()
+
+  state.value ^= 1
+
+  libremoteio.gpio_write(handle, 0, state, ctypes.byref(error))
+
+  if error.value != 0:
+    print('ERROR: gpio_write() failed, error=' + str(error.value))
+    quit()
+
+  time.sleep(0.5)

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# Python Remote I/O Protocol LED Test
+# Python Remote I/O Protocol I2C Test
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
@@ -24,9 +24,8 @@
 
 import ctypes
 import os
-import time
 
-print('\nPython Remote I/O Protocol LED Test\n')
+print('\nPython Remote I/O Protocol I2C Test\n')
 
 # Select the OS appropriate shared library file
 
@@ -39,14 +38,15 @@ elif os.name == 'posix':
 
 handle   = ctypes.c_int()
 error    = ctypes.c_int()
-state    = ctypes.c_int()
+cmd      = ctypes.create_string_buffer(12)
+resp     = ctypes.create_string_buffer(16)
 
 # Open USB Raw HID Remote I/O Protocol Server
 
-libremoteio.open(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
+libremoteio.open_hid(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: open() failed, error=' + str(error.value))
+  print('ERROR: open_hid() failed, error=' + str(error.value))
   quit()
 
 # Display version information
@@ -74,55 +74,45 @@ if error.value != 0:
 print(caps.raw.decode())
 print()
 
-# Probe available GPIO pins
+# Probe available I2C buses
 
 channels = ctypes.create_string_buffer(128)
 
-libremoteio.gpio_channels(handle, channels, ctypes.byref(error))
+libremoteio.i2c_channels(handle, channels, ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: gpio_channels() failed, error=' + str(error.value))
+  print('ERROR: i2c_channels() failed, error=' + str(error.value))
   quit()
 
 # Convert byte array to set
 
-pins = set()
+buses = set()
 
 for c in range(len(channels)):
   if channels[c] == b'\x01':
-    pins.add(c)
+    buses.add(c)
 
 del channels
 
-print('Available GPIO pin channels: ' + str(pins))
+print('Available I2C bus channels: ' + str(buses))
 print()
 
-# Configure GPIO0 as an output
+# Configure bus I2C0
 
-libremoteio.gpio_configure(handle, 0, 1, 0, ctypes.byref(error))
+libremoteio.i2c_configure(handle, 0, 100000, ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: gpio_configure() failed, error=' + str(error.value))
+  print('ERROR: i2c_configure() failed, error=' + str(error.value))
   quit()
 
-# Toggle GPIO0
+# Perform an I2C bus transaction
 
-print('Toggling LED on GPIO0')
-print()
+libremoteio.i2c_transaction(handle, 0, 0x44, cmd, len(cmd), resp, len(resp), 100, ctypes.byref(error))
 
-while True:
-  libremoteio.gpio_read(handle, 0, ctypes.byref(state), ctypes.byref(error))
+if error.value != 0:
+  print('ERROR: i2c_transaction() failed, error=' + str(error.value))
+  quit()
 
-  if error.value != 0:
-    print('ERROR: gpio_read() failed, error=' + str(error.value))
-    quit()
+version = ord(resp[8]) + ord(resp[9])*256 + ord(resp[10])*65536 + ord(resp[11])*16777216
 
-  state.value ^= 1
-
-  libremoteio.gpio_write(handle, 0, state, ctypes.byref(error))
-
-  if error.value != 0:
-    print('ERROR: gpio_write() failed, error=' + str(error.value))
-    quit()
-
-  time.sleep(0.5)
+print('LPC1114 Firmware Version is ' + str(version))

@@ -45,10 +45,10 @@ state     = ctypes.create_string_buffer(128)
 
 # Open USB Raw HID Remote I/O Protocol Server
 
-libremoteio.open(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
+libremoteio.open_hid(0x16D0, 0x0AFA, None, 1000, ctypes.byref(handle), ctypes.byref(error))
 
 if error.value != 0:
-  print('ERROR: open() failed, error=' + str(error.value))
+  print('ERROR: open_hid() failed, error=' + str(error.value))
   quit()
 
 # Display version information
