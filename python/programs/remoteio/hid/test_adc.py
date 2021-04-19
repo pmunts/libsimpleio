@@ -100,7 +100,9 @@ print()
 
 # Configure ADC0
 
-libremoteio.adc_configure(handle, 0, ctypes.byref(resolution), ctypes.byref(error))
+inp = list(adcinputs)[0]
+
+libremoteio.adc_configure(handle, inp, ctypes.byref(resolution), ctypes.byref(error))
 
 if error.value != 0:
   print('ERROR: adc_configure() failed, error=' + str(error.value))
@@ -112,7 +114,7 @@ print()
 # Read from ADC0
 
 while True:
-  libremoteio.adc_read(handle, 0, ctypes.byref(sample), ctypes.byref(error))
+  libremoteio.adc_read(handle, inp, ctypes.byref(sample), ctypes.byref(error))
 
   if error.value != 0:
     print('ERROR: adc_read() failed, error=' + str(error.value))
