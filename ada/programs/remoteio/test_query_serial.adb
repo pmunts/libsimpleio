@@ -21,16 +21,13 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Command_Line;
-WITH Ada.Streams.Stream_IO;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
-WITH GNAT.Serial_Communications; USE GNAT.Serial_Communications;
 
-WITH RemoteIO.Client.Stream;
+WITH RemoteIO.Client.Serial;
 
 PROCEDURE test_query_serial IS
 
-  port     : ALIASED Serial_Port;
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
 
@@ -47,14 +44,10 @@ BEGIN
     RETURN;
   END IF;
 
-  -- Open serial device
-
-  Open(port, Port_Name(Ada.Command_Line.Argument(1)));
-  Set(port, B115200);
-
   -- Create the remote I/O device
 
-  remdev := RemoteIO.Client.Stream.Create(port'Unchecked_Access);
+  remdev := RemoteIO.Client.Serial.Create (Ada.Command_Line.Argument(1),
+    115200, 1000);
 
   -- Query the firmware version
 
