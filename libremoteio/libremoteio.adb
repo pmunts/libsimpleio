@@ -298,7 +298,7 @@ PACKAGE BODY libRemoteIO IS
     DECLARE
       v : String := Ada.Strings.Unbounded.To_String(AdapterTable(handle).version);
     BEGIN
-      buf(1 .. v'Length) := v;
+      buf(buf'First .. buf'First + v'Length) := v;
     END;
   END GetVersion;
 
@@ -329,9 +329,9 @@ PACKAGE BODY libRemoteIO IS
     END IF;
 
     DECLARE
-      v : String := Ada.Strings.Unbounded.To_String(AdapterTable(handle).capability);
+      c : String := Ada.Strings.Unbounded.To_String(AdapterTable(handle).capability);
     BEGIN
-      buf(1 .. v'Length) := v;
+      buf(buf'First .. buf'First + c'Length) := c;
     END;
   END GetCapability;
 
