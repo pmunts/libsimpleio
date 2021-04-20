@@ -170,6 +170,7 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
 
   cfmakeraw(&cfg);
 
+  cfg.c_cflag &= ~HUPCL;
   cfg.c_iflag = 0;
   cfg.c_oflag = 0;
   cfg.c_lflag = 0;
