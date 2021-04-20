@@ -97,7 +97,7 @@ extern "C" void receive(int handle, uint8_t *resp, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void get_version(int handle, char *buf, int bufsize, int *error);
+extern "C" void get_version(int handle, char *buf, int *error);
 
 //=============================================================================
 
@@ -109,7 +109,7 @@ extern "C" void get_version(int handle, char *buf, int bufsize, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void get_capability(int handle, char *buf, int bufsize, int *error);
+extern "C" void get_capability(int handle, char *buf, int *error);
 
 //=============================================================================
 

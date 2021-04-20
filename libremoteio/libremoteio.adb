@@ -271,8 +271,7 @@ PACKAGE BODY libRemoteIO IS
 
   PROCEDURE GetVersion
    (handle  : Integer;
-    buf     : OUT String;
-    bufsize : Integer;
+    buf     : Interfaces.C.Strings.chars_ptr;
     error   : OUT Integer) IS
 
   BEGIN
@@ -290,22 +289,18 @@ PACKAGE BODY libRemoteIO IS
       RETURN;
     END IF;
 
-    IF bufsize < 61 THEN
-      error := EINVAL;
-      RETURN;
-    END IF;
+    Interfaces.C.Strings.Update(buf, 0,
+      Ada.Strings.Unbounded.To_String(AdapterTable(handle).version), False);
 
-    DECLARE
-      v : String := Ada.Strings.Unbounded.To_String(AdapterTable(handle).version);
-    BEGIN
-      buf(buf'First .. buf'First + v'Length) := v;
-    END;
+  EXCEPTION
+    WHEN e : OTHERS =>
+      Debug.Put(e);
+      error := EIO;
   END GetVersion;
 
   PROCEDURE GetCapability
    (handle  : Integer;
-    buf     : OUT String;
-    bufsize : Integer;
+    buf     : Interfaces.C.Strings.chars_ptr;
     error   : OUT Integer) IS
 
   BEGIN
@@ -323,16 +318,13 @@ PACKAGE BODY libRemoteIO IS
       RETURN;
     END IF;
 
-    IF bufsize < 61 THEN
-      error := EINVAL;
-      RETURN;
-    END IF;
+    Interfaces.C.Strings.Update(buf, 0,
+      Ada.Strings.Unbounded.To_String(AdapterTable(handle).capability), False);
 
-    DECLARE
-      c : String := Ada.Strings.Unbounded.To_String(AdapterTable(handle).capability);
-    BEGIN
-      buf(buf'First .. buf'First + c'Length) := c;
-    END;
+  EXCEPTION
+    WHEN e : OTHERS =>
+      Debug.Put(e);
+      error := EIO;
   END GetCapability;
 
 END libRemoteIO;

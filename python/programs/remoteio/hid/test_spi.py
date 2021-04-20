@@ -51,7 +51,7 @@ if error.value != 0:
 
 vers = ctypes.create_string_buffer(64)
 
-libremoteio.get_version(handle, vers, len(vers), ctypes.byref(error))
+libremoteio.get_version(handle, vers, ctypes.byref(error))
 
 if error.value != 0:
   print('ERROR: get_version() failed, error=' + str(error.value))
@@ -63,7 +63,7 @@ print(vers.raw.decode())
 
 caps = ctypes.create_string_buffer(64)
 
-libremoteio.get_capability(handle, caps, len(caps), ctypes.byref(error))
+libremoteio.get_capability(handle, caps, ctypes.byref(error))
 
 if error.value != 0:
   print('ERROR: get_capability() failed, error=' + str(error.value))

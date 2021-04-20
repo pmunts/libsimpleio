@@ -83,16 +83,14 @@ PACKAGE libRemoteIO IS
 
   PROCEDURE GetVersion
    (handle   : Integer;
-    buf      : OUT String;
-    bufsize  : Integer;
+    buf      : Interfaces.C.Strings.chars_ptr;
     error    : OUT Integer);
 
   -- Fetch the capability string
 
   PROCEDURE GetCapability
    (handle   : Integer;
-    buf      : OUT String;
-    bufsize  : Integer;
+    buf      : Interfaces.C.Strings.chars_ptr;
     error    : OUT Integer);
 
 PRIVATE
