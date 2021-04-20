@@ -31,7 +31,8 @@
 #include "errmsg.inc"
 #include "libserial.h"
 
-void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t databits, int32_t stopbits, int32_t *fd, int32_t *error)
+void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
+  int32_t databits, int32_t stopbits, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
@@ -89,6 +90,27 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
 #ifdef B1000000
     case 1000000 :
 #endif
+#ifdef B1152000
+    case 1152000 :
+#endif
+#ifdef B1500000
+    case 1500000 :
+#endif
+#ifdef B2000000
+    case 2000000 :
+#endif
+#ifdef B2500000
+    case 2500000 :
+#endif
+#ifdef B3000000
+    case 3000000 :
+#endif
+#ifdef B3500000
+    case 3500000 :
+#endif
+#ifdef B4000000
+    case 4000000 :
+#endif
       break;
 
     default :
@@ -144,11 +166,17 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
     return;
   }
 
-  cfg.c_cflag = 0;
+  // Put serial port into raw mode
 
   cfmakeraw(&cfg);
 
-  cfg.c_cflag &= ~CS8;
+  cfg.c_iflag = 0;
+  cfg.c_oflag = 0;
+  cfg.c_lflag = 0;
+
+  // Set baud rate
+
+  cfg.c_cflag &= ~CBAUD;
 
   switch (baudrate)
   {
@@ -253,12 +281,62 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
       cfg.c_cflag |= B1000000;
       break;
 #endif
+
+#ifdef B1152000
+    case 1152000:
+      cfg.c_cflag |= B1152000;
+      break;
+#endif
+
+#ifdef B1500000
+    case 1500000:
+      cfg.c_cflag |= B1500000;
+      break;
+#endif
+
+#ifdef B2000000
+    case 2000000:
+      cfg.c_cflag |= B2000000;
+      break;
+#endif
+
+#ifdef B2500000
+    case 2500000:
+      cfg.c_cflag |= B2500000;
+      break;
+#endif
+
+#ifdef B3000000
+    case 3000000:
+      cfg.c_cflag |= B3000000;
+      break;
+#endif
+
+#ifdef B350000
+    case 3500000:
+      cfg.c_cflag |= B3500000;
+      break;
+#endif
+
+#ifdef B4000000
+    case 4000000:
+      cfg.c_cflag |= B4000000;
+      break;
+#endif
   }
+
+  // Set parity mode
 
   switch (parity)
   {
+    case SERIAL_PARITY_NONE :
+      cfg.c_cflag &= ~PARENB;
+      cfg.c_cflag &= ~PARODD;
+      break;
+
     case SERIAL_PARITY_EVEN :
       cfg.c_cflag |= PARENB;
+      cfg.c_cflag &= ~PARODD;
       break;
 
     case SERIAL_PARITY_ODD :
@@ -266,6 +344,10 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
       cfg.c_cflag |= PARODD;
       break;
   }
+
+  // Set data bits
+
+  cfg.c_cflag &= ~CSIZE;
 
   switch (databits)
   {
@@ -284,8 +366,9 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity, int32_t dat
     case 8 :
       cfg.c_cflag |= CS8;
       break;
-
   }
+
+  // Set stop bits
 
   switch (stopbits)
   {

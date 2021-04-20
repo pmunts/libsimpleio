@@ -101,6 +101,9 @@ News
     Visual Studio C++ programs. Added some Visual Studio C++ projects
     for creating Remote I/O Protocol client programs for 64-Bit
     Windows 10.
+-   20 April 2021 -- Added support to **`SERIAL_open()`** for more baud
+    rates above 1000000 bps. Fixed issue with raw mode on Raspberry Pi
+    serial ports.
 
 Documentation
 -------------
