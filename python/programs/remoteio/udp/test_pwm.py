@@ -35,13 +35,10 @@ if os.name == 'nt':
 elif os.name == 'posix':
   libremoteio = ctypes.cdll.LoadLibrary('/usr/local/lib/libremoteio.so')
 
-# Declare some C library interface variables
+# Open Remote I/O Protocol Server
 
 handle = ctypes.c_int()
 error  = ctypes.c_int()
-duty   = ctypes.c_float(0.0)
-
-# Open Remote I/O Protocol Server
 
 libremoteio.open_udp('usbgadget.munts.net'.encode(), 8087, 1000, ctypes.byref(handle), ctypes.byref(error))
 
@@ -101,13 +98,15 @@ print()
 
 outp = list(pwmoutputs)[0]
 
-libremoteio.pwm_configure(handle, outp, 1000, duty, ctypes.byref(error))
+libremoteio.pwm_configure(handle, outp, 1000, ctypes.byref(error))
 
 if error.value != 0:
   print('ERROR: pwm_configure() failed, error=' + str(error.value))
   quit()
 
 # Write to PWM output
+
+duty = ctypes.c_float(0.0)
 
 while True:
   for s in range(3000):
