@@ -63,8 +63,8 @@ extern "C" void open_serial(char *portname, int baudrate, int timeout,
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void open_udp(char *server, int port, int timeout,
-  int *handle, int *error);
+extern "C" void open_udp(char *server, int port, int timeout, int *handle,
+  int *error);
 
 //=============================================================================
 
@@ -239,7 +239,7 @@ extern "C" void gpio_write(int handle, int channel, int state, int *error);
 
 //=============================================================================
 
-// Configure multiple GPIO pins at once
+// Configure multiple GPIO pins at once.
 //
 // *mask, *direction, and *state *MUST* be 128-byte buffers.  Each byte of
 // *mask, *direction, and *state corresponds to a single GPIO channel.
@@ -264,7 +264,7 @@ extern "C" void gpio_configure_all(int handle, uint8_t *mask,
 
 //=============================================================================
 
-// Read from multiple GPIO pins at once
+// Read from multiple GPIO pins at once.
 //
 // *mask and *state *MUST* be 128-byte buffers.  Each byte of *mask and *state
 // corresponds to a GPIO channel.  (mask[0] and state[0] both correspond to
@@ -284,7 +284,7 @@ extern "C" void gpio_read_all(int handle, uint8_t *mask, uint8_t *state,
 
 //=============================================================================
 
-// Write to multiple GPIO pins at once
+// Write to multiple GPIO pins at once.
 //
 // *mask and *state *MUST* be 128-byte buffers.  Each byte of *mask and *state
 // corresponds to a GPIO channel.  (mask[0] and state[0] both correspond to
@@ -337,7 +337,7 @@ extern "C" void i2c_configure(int handle, int channel, int frequency,
 //=============================================================================
 
 // Perform an I2C bus transaction.  This can be a read, a write, or an atomic
-// read/write operation.
+// write/read operation.
 //
 // Valid channel numbers are 0 to 127.  Any given adapter will only support a
 // small subset of these values.
@@ -391,11 +391,9 @@ extern "C" void i2c_channels(int handle, uint8_t *channels, int *error);
 // Allowed values for the frequency parameter are 1 to some hardware defined
 // limit.
 //
-// Allowed values for the duty parameter are 0.0 to 100.0 percent.
-//
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void dac_configure(int handle, int channel, int *resolution,
+extern "C" void pwm_configure(int handle, int channel, int frequency,
   int *error);
 
 //=============================================================================
@@ -422,6 +420,8 @@ extern "C" void pwm_write(int handle, int channel, float duty, int *error);
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
+extern "C" void pwm_channels(int handle, uint8_t *channels, int *error);
+
 //=============================================================================
 
 // Configure an SPI slave device.
@@ -446,7 +446,7 @@ extern "C" void spi_configure(int handle, int channel, int mode, int wordsize,
 //=============================================================================
 
 // Perform an SPI bus transaction.  This can be a read, a write, or an atomic
-// read/write operation.
+// write/read operation.
 //
 // Valid channel numbers are 0 to 127.  Any given adapter will only support a
 // small subset of these values.
