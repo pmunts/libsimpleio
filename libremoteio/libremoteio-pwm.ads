@@ -24,7 +24,6 @@ PACKAGE libRemoteIO.PWM IS
    (handle     : Integer;
     channel    : Integer;
     frequency  : Integer;
-    duty       : Float;
     error      : OUT Integer);
 
   PROCEDURE PWM_Write

@@ -38,7 +38,6 @@ PACKAGE BODY libRemoteIO.PWM IS
    (handle     : Integer;
     channel    : Integer;
     frequency  : Integer;
-    duty       : Float;
     error      : OUT Integer) IS
 
     cmd    : Message64.Message;
@@ -74,12 +73,6 @@ PACKAGE BODY libRemoteIO.PWM IS
       RETURN;
     END IF;
 
-    IF duty < Float(Standard.PWM.MinimumDutyCycle) OR
-       duty > Float(Standard.PWM.MaximumDutyCycle) THEN
-      error := EINVAL;
-      RETURN;
-    END IF;
-
     AdapterTable(handle).PWM_periods(channel) := 1000000000/frequency;
 
     -- Configure the PWM output channel
@@ -94,8 +87,6 @@ PACKAGE BODY libRemoteIO.PWM IS
 
     AdapterTable(handle).dev.Transaction(cmd, resp);
     AdapterTable(handle).PWM_config(channel) := True;
-
-    PWM_Write(handle, channel, duty, error);
 
   EXCEPTION
     WHEN e : OTHERS =>
