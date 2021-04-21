@@ -65,4 +65,5 @@ else ifeq ($(HID_USE), posix)
 CXXFLAGS	+= -DHID_USE_POSIX
 else ifeq ($(HID_USE), libremoteio)
 CXXFLAGS	+= -DHID_USE_LIBREMOTEIO
+LDFLAGS		+= -lremoteio
 endif
