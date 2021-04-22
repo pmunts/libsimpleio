@@ -89,5 +89,5 @@ PACKAGE RemoteIO.MUNTS_0018 IS
 
   J7PWM  : RemoteIO.ChannelNumber RENAMES PWM1;
   J7DIR  : RemoteIO.ChannelNumber RENAMES GPIO18;
-  
+
 END RemoteIO.MUNTS_0018;
