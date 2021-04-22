@@ -39,7 +39,7 @@ BEGIN
   Put_Line("Serial Port Receive Test");
   New_Line;
 
-  -- Customize the parameters to Open as necessary for a particular teset run
+  -- Customize the parameters to Open as necessary for a particular test run
 
   libSerial.Open("/dev/ttyS0" & ASCII.NUL, 115200, libSerial.PARITY_NONE, 8, 1, fd, error);
 
