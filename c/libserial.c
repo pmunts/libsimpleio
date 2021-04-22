@@ -333,16 +333,19 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
     case SERIAL_PARITY_NONE :
       cfg.c_cflag &= ~PARENB;
       cfg.c_cflag &= ~PARODD;
+      cfg.c_iflag &= ~INPCK;
       break;
 
     case SERIAL_PARITY_EVEN :
       cfg.c_cflag |= PARENB;
       cfg.c_cflag &= ~PARODD;
+      cfg.c_iflag |= INPCK;
       break;
 
     case SERIAL_PARITY_ODD :
       cfg.c_cflag |= PARENB;
       cfg.c_cflag |= PARODD;
+      cfg.c_iflag |= INPCK;
       break;
   }
 
