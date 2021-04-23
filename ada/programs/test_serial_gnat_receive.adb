@@ -41,9 +41,9 @@ BEGIN
   GNAT.Serial_Communications.Open(port, "/dev/ttyS0");
   GNAT.Serial_Communications.Set(port,
     Rate      => GNAT.Serial_Communications.B115200,
-    Parity    => GNAT.Serial_Communications.None);
+    Parity    => GNAT.Serial_Communications.None,
     Bits      => GNAT.Serial_Communications.CS8,
-    Stop_Bits => GNAT.Serial_Communications.One,
+    Stop_Bits => GNAT.Serial_Communications.One);
 
   LOOP
     GNAT.Serial_Communications.Read(port, inbuf, last);
