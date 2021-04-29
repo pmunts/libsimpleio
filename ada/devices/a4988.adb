@@ -22,7 +22,7 @@
 
 -- NOTE: This package bit-bangs the step signal to the A4988 driver.  For more
 -- accurate timing, you should generate the step signal from some kind of
--- dedicated hardware, such as a microcontroller.
+-- dedicated real-time hardware, such as a microcontroller.
 
 WITH Ada.Numerics;
 
@@ -32,10 +32,12 @@ WITH Stepper;
 
 USE TYPE Angle.Radians;
 USE TYPE GPIO.Pin;
+USE TYPE Stepper.Steps;
 
 PACKAGE BODY A4988 IS
 
   microseconds : CONSTANT Duration := 1.0E-6;
+  milliseconds : CONSTANT Duration := 1.0E-3;
 
   -- A4988 device object constructors
 
@@ -102,15 +104,22 @@ PACKAGE BODY A4988 IS
     period : CONSTANT Duration := 1.0/Duration(Freq);
 
   BEGIN
-    Self.stepsize   := Angle.Radians(2.0*Ada.Numerics.Pi/Float(NumSteps));
-    Self.ontime     := 2.0*microseconds;
-    Self.offtime    := period - Self.ontime;
+    Step.Put(False);
+    Dir.Put(False);
+
     Self.step_pin   := Step;
+    Self.dir_pin    := Dir;
     Self.enable_pin := Enable;
     Self.reset_pin  := Reset;
     Self.sleep_pin  := Sleep;
 
+    Self.stepsize   := Angle.Radians(2.0*Ada.Numerics.Pi/Float(NumSteps));
+    Self.ontime     := 2.0*microseconds;
+    Self.offtime    := period - Self.ontime;
+
     Self.Reset;
+    Self.Disable;
+    Self.Sleep;
     Self.Wakeup;
     Self.Enable;
   END Initialize;
@@ -132,7 +141,18 @@ PACKAGE BODY A4988 IS
     numsteps : Stepper.Steps) IS
 
   BEGIN
-    FOR n IN 1 .. numsteps LOOP
+    IF numsteps > 0 THEN
+      Self.dir_pin.Put(True);  -- Forward (nominal, depends on motor wiring)
+    ELSIF numsteps < 0 THEN
+      Self.dir_pin.Put(False); -- Reverse (nominal, depends on motor wiring)
+    ELSE
+      RETURN;
+    END IF;
+
+    -- NOTE: Exact timing for the step pulse train will be determined by the
+    -- resolution of the DELAY statement on the target platform.
+
+    FOR n IN 1 .. ABS numsteps LOOP
       Self.step_pin.Put(True);
       DELAY Self.ontime;
       Self.step_pin.Put(False);
@@ -182,6 +202,7 @@ PACKAGE BODY A4988 IS
   BEGIN
     IF Self.sleep_pin /= NULL THEN
       Self.sleep_pin.Put(True);
+      DELAY 1.0*milliseconds; -- Wait for charge pump to stabilize
     END IF;
   END Wakeup;
 

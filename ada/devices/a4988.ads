@@ -22,7 +22,7 @@
 
 -- NOTE: This package bit-bangs the step signal to the A4988 driver.  For more
 -- accurate timing, you should generate the step signal from some kind of
--- dedicated hardware, such as a microcontroller.
+-- dedicated real-time hardware, such as a microcontroller.
 
 WITH Angle;
 WITH GPIO;
