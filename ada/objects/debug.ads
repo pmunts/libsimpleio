@@ -29,6 +29,10 @@ PACKAGE Debug IS
 
   FUNCTION Level RETURN Natural;
 
+  -- Indicate if debug is enabled
+
+  FUNCTION Enabled RETURN Boolean;
+
   -- Print a string if DEBUGLEVEL > 0
 
   PROCEDURE Put(s : String);

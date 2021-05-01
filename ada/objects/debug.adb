@@ -38,6 +38,14 @@ PACKAGE BODY Debug IS
       RETURN 0;
   END Level;
 
+  -- Indicate if debug is enabled
+
+  FUNCTION Enabled RETURN Boolean IS
+
+  BEGIN
+    RETURN Level > 0;
+  END Enabled;
+
   -- Print a string if DEBUGLEVEL > 0
 
   PROCEDURE Put(s : String) IS
