@@ -74,7 +74,7 @@ PACKAGE A4988 IS
   PROCEDURE Put
    (Self     : IN OUT DeviceClass;
     steps    : Stepper.Steps;
-    slew     : Stepper.Rate);
+    rate     : Stepper.Rate);
 
   FUNCTION StepsPerRotation(Self : IN OUT DeviceClass) RETURN Stepper.Steps;
 
