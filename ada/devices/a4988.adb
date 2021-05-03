@@ -24,12 +24,15 @@
 -- accurate timing, you should generate the step signal from some kind of
 -- dedicated real-time hardware, such as a microcontroller.
 
+WITH Ada.Calendar;
 WITH Ada.Numerics;
 
 WITH GPIO;
 WITH Stepper;
 
+USE TYPE Ada.Calendar.Time;
 USE TYPE GPIO.Pin;
+USE TYPE Stepper.Rate;
 USE TYPE Stepper.Steps;
 
 PACKAGE BODY A4988 IS
@@ -129,9 +132,10 @@ PACKAGE BODY A4988 IS
   PROCEDURE Put
    (Self     : IN OUT DeviceClass;
     steps    : Stepper.Steps;
-    slew     : Stepper.Rate) IS
+    rate     : Stepper.Rate) IS
 
-    period : CONSTANT Duration := 1.0/Duration(slew);
+    interval : CONSTANT Duration := 1.0/Duration(rate);
+    nexttime : Ada.Calendar.Time := Ada.Calendar.Clock;
 
   BEGIN
     IF steps > 0 THEN
@@ -147,9 +151,11 @@ PACKAGE BODY A4988 IS
 
     FOR n IN 1 .. ABS steps LOOP
       Self.step_pin.Put(True);
-      DELAY period/2.0;
+      DELAY 2.0*microseconds;  -- Datasheet typical minimum is 1 microsecond
       Self.step_pin.Put(False);
-      DELAY period/2.0;
+
+      nexttime := nexttime + interval;
+      DELAY nexttime - Ada.Calendar.Clock;
     END LOOP;
   END Put;
 
