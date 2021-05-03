@@ -25,11 +25,16 @@ WITH IO_Interfaces;
 
 PACKAGE Stepper IS
 
-  TYPE Steps IS NEW Integer;  -- Forward is positive and reverse is negative
+  Error : EXCEPTION;
 
-  -- Instantiate text I/O package
+  TYPE Steps IS NEW Integer; -- Forward is positive and reverse is negative
+  TYPE Rate  IS NEW Float RANGE 0.0 .. Float'Last; -- Hertz
+
+  -- Instantiate text I/O packages
 
   PACKAGE Steps_IO IS NEW Ada.Text_IO.Integer_IO(Steps);
+
+  PACKAGE Rate_IO IS NEW Ada.Text_IO.Float_IO(Rate);
 
   -- Instantiate abstract interfaces package
 
@@ -42,5 +47,15 @@ PACKAGE Stepper IS
   -- Define an access type for stepper motor outputs
 
   TYPE OUTPUT IS ACCESS ALL OutputInterface'Class;
+
+  -- Additional methods aka primitive operations
+
+  PROCEDURE Put
+   (Self   : IN OUT OutputInterface;
+    nsteps : Steps;
+    slew   : Rate) IS ABSTRACT;
+
+  FUNCTION StepsPerRotation
+   (Self   : IN OUT OutputInterface) RETURN Steps IS ABSTRACT;
 
 END Stepper;

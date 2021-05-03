@@ -30,8 +30,8 @@ WITH Stepper;
 
 PROCEDURE test_stepper_a4988 IS
 
-  nsteps   : Stepper.Steps;
-  freq     : Positive;
+  steps    : Stepper.Steps RANGE 1 .. Stepper.Steps'Last;
+  rate     : Stepper.Rate;
   StepDesg : Device.Designator;
   DirDesg  : Device.Designator;
   StepPin  : GPIO.Pin;
@@ -44,10 +44,10 @@ BEGIN
   New_Line;
 
   Put("Enter the number of steps per rotation: ");
-  Stepper.Steps_IO.Get(nsteps);
+  Stepper.Steps_IO.Get(steps);
 
-  Put("Enter STEP signal pulse frequency:      ");
-  Ada.Integer_Text_IO.Get(freq);
+  Put("Enter the default step rate:            ");
+  Stepper.Rate_IO.Get(rate);
 
   Put("Enter STEP signal GPIO chip number:     ");
   Ada.Integer_Text_IO.Get(StepDesg.chip);
@@ -64,11 +64,11 @@ BEGIN
 
   StepPin := GPIO.libsimpleio.Create(StepDesg, GPIO.Output, False);
   DirPin  := GPIO.libsimpleio.Create(DirDesg,  GPIO.Output, False);
-  outp    := A4988.Create(nsteps, freq, StepPin, DirPin, NULL, NULL, NULL);
+  outp    := A4988.Create(steps, rate, StepPin, DirPin);
 
   LOOP
     Put("Steps: ");
-    Stepper.Steps_IO.Get(nsteps);
-    outp.Put(nsteps);
+    Stepper.Steps_IO.Get(steps);
+    outp.Put(steps);
   END LOOP;
 END test_stepper_a4988;

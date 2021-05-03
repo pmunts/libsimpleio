@@ -24,68 +24,59 @@
 -- accurate timing, you should generate the step signal from some kind of
 -- dedicated real-time hardware, such as a microcontroller.
 
-WITH Angle;
 WITH GPIO;
 WITH Stepper;
 
 PACKAGE A4988 IS
 
-  TYPE DeviceClass IS NEW Angle.OutputInterface AND Stepper.OutputInterface WITH PRIVATE;
+  TYPE DeviceClass IS NEW Stepper.OutputInterface WITH PRIVATE;
 
   TYPE Device IS ACCESS ALL DeviceClass'Class;
 
   -- A4988 device object constructors
 
   FUNCTION Create
-   (NumSteps : Positive;
-    Freq     : Positive;
-    Step     : GPIO.Pin;
-    Dir      : GPIO.Pin;
-    Enable   : GPIO.Pin := NULL;
-    Reset    : GPIO.Pin := NULL;
-    Sleep    : GPIO.Pin := NULL) RETURN Device;
+   (Steps  : Stepper.Steps; -- Number of steps per rotation
+    Rate   : Stepper.Rate;  -- Default step rate (Hertz)
+    Step   : GPIO.Pin;
+    Dir    : GPIO.Pin;
+    Enable : GPIO.Pin := NULL;
+    Reset  : GPIO.Pin := NULL;
+    Sleep  : GPIO.Pin := NULL) RETURN Device;
 
   FUNCTION Create
-   (NumSteps : Positive;
-    Freq     : Positive;
-    Step     : GPIO.Pin;
-    Dir      : GPIO.Pin;
-    Enable   : GPIO.Pin := NULL;
-    Reset    : GPIO.Pin := NULL;
-    Sleep    : GPIO.Pin := NULL) RETURN Angle.Output;
-
-  FUNCTION Create
-   (NumSteps : Positive;
-    Freq     : Positive;
-    Step     : GPIO.Pin;
-    Dir      : GPIO.Pin;
-    Enable   : GPIO.Pin := NULL;
-    Reset    : GPIO.Pin := NULL;
-    Sleep    : GPIO.Pin := NULL) RETURN Stepper.Output;
+   (Steps  : Stepper.Steps; -- Number of steps per rotation
+    Rate   : Stepper.Rate;  -- Default step rate (Hertz)
+    Step   : GPIO.Pin;
+    Dir    : GPIO.Pin;
+    Enable : GPIO.Pin := NULL;
+    Reset  : GPIO.Pin := NULL;
+    Sleep  : GPIO.Pin := NULL) RETURN Stepper.Output;
 
   -- A4988 device object initializer
 
   PROCEDURE Initialize
-   (Self     : IN OUT DeviceClass;
-    NumSteps : Positive;
-    Freq     : Positive;
-    Step     : GPIO.Pin;
-    Dir      : GPIO.Pin;
-    Enable   : GPIO.Pin := NULL;
-    Reset    : GPIO.Pin := NULL;
-    Sleep    : GPIO.Pin := NULL);
+   (Self   : IN OUT DeviceClass;
+    Steps  : Stepper.Steps; -- Number of steps per rotation
+    Rate   : Stepper.Rate;  -- Default step rate (Hertz)
+    Step   : GPIO.Pin;
+    Dir    : GPIO.Pin;
+    Enable : GPIO.Pin := NULL;
+    Reset  : GPIO.Pin := NULL;
+    Sleep  : GPIO.Pin := NULL);
 
-  -- Angle methods
-
-  PROCEDURE Put
-   (Self     : IN OUT DeviceClass;
-    theta    : Angle.Radians);
-
-  -- Stepper methods
+  -- Stepper interface methods
 
   PROCEDURE Put
    (Self     : IN OUT DeviceClass;
-    numsteps : Stepper.Steps);
+    steps    : Stepper.Steps);
+
+  PROCEDURE Put
+   (Self     : IN OUT DeviceClass;
+    steps    : Stepper.Steps;
+    slew     : Stepper.Rate);
+
+  FUNCTION StepsPerRotation(Self : IN OUT DeviceClass) RETURN Stepper.Steps;
 
   -- Other methods
 
@@ -101,10 +92,9 @@ PACKAGE A4988 IS
 
 PRIVATE
 
-  TYPE DeviceClass IS NEW Angle.OutputInterface AND Stepper.OutputInterface WITH RECORD
-    stepsize   : Angle.Radians;
-    ontime     : Duration;
-    offtime    : Duration;
+  TYPE DeviceClass IS NEW Stepper.OutputInterface WITH RECORD
+    numsteps   : Stepper.Steps RANGE 1 .. Stepper.Steps'Last;
+    steprate   : Stepper.Rate;
     step_pin   : GPIO.Pin;
     dir_pin    : GPIO.Pin;
     enable_pin : GPIO.Pin;

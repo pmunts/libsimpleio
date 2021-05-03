@@ -26,11 +26,9 @@
 
 WITH Ada.Numerics;
 
-WITH Angle;
 WITH GPIO;
 WITH Stepper;
 
-USE TYPE Angle.Radians;
 USE TYPE GPIO.Pin;
 USE TYPE Stepper.Steps;
 
@@ -42,80 +40,74 @@ PACKAGE BODY A4988 IS
   -- A4988 device object constructors
 
   FUNCTION Create
-   (NumSteps : Positive;
-    Freq     : Positive;
-    Step     : GPIO.Pin;
-    Dir      : GPIO.Pin;
-    Enable   : GPIO.Pin := NULL;
-    Reset    : GPIO.Pin := NULL;
-    Sleep    : GPIO.Pin := NULL) RETURN Device IS
+   (Steps  : Stepper.Steps; -- Number of steps per rotation
+    Rate   : Stepper.Rate;  -- Default step rate (Hertz)
+    Step   : GPIO.Pin;
+    Dir    : GPIO.Pin;
+    Enable : GPIO.Pin := NULL;
+    Reset  : GPIO.Pin := NULL;
+    Sleep  : GPIO.Pin := NULL) RETURN Device IS
 
     dev : DeviceClass;
 
   BEGIN
-    Initialize(dev, NumSteps, Freq, Step, Dir, Enable, Reset, Sleep);
+    Initialize(dev, Steps, Rate, Step, Dir, Enable, Reset, Sleep);
     RETURN NEW DeviceClass'(dev);
   END Create;
 
   FUNCTION Create
-   (NumSteps : Positive;
-    Freq     : Positive;
-    Step     : GPIO.Pin;
-    Dir      : GPIO.Pin;
-    Enable   : GPIO.Pin := NULL;
-    Reset    : GPIO.Pin := NULL;
-    Sleep    : GPIO.Pin := NULL) RETURN Angle.Output IS
+   (Steps  : Stepper.Steps; -- Number of steps per rotation
+    Rate   : Stepper.Rate;  -- Default step rate (Hertz)
+    Step   : GPIO.Pin;
+    Dir    : GPIO.Pin;
+    Enable : GPIO.Pin := NULL;
+    Reset  : GPIO.Pin := NULL;
+    Sleep  : GPIO.Pin := NULL) RETURN Stepper.Output IS
 
     dev : DeviceClass;
 
   BEGIN
-    Initialize(dev, NumSteps, Freq, Step, Dir, Enable, Reset, Sleep);
-    RETURN NEW DeviceClass'(dev);
-  END Create;
-
-  FUNCTION Create
-   (NumSteps : Positive;
-    Freq     : Positive;
-    Step     : GPIO.Pin;
-    Dir      : GPIO.Pin;
-    Enable   : GPIO.Pin := NULL;
-    Reset    : GPIO.Pin := NULL;
-    Sleep    : GPIO.Pin := NULL) RETURN Stepper.Output IS
-
-    dev : DeviceClass;
-
-  BEGIN
-    Initialize(dev, NumSteps, Freq, Step, Dir, Enable, Reset, Sleep);
+    Initialize(dev, Steps, Rate, Step, Dir, Enable, Reset, Sleep);
     RETURN NEW DeviceClass'(dev);
   END Create;
 
   -- A4988 device object initializer
 
   PROCEDURE Initialize
-   (Self     : IN OUT DeviceClass;
-    NumSteps : Positive;
-    Freq     : Positive;
-    Step     : GPIO.Pin;
-    Dir      : GPIO.Pin;
-    Enable   : GPIO.Pin := NULL;
-    Reset    : GPIO.Pin := NULL;
-    Sleep    : GPIO.Pin := NULL) IS
-
-    period : CONSTANT Duration := 1.0/Duration(Freq);
+   (Self   : IN OUT DeviceClass;
+    Steps  : Stepper.Steps; -- Number of steps per rotation
+    Rate   : Stepper.Rate;  -- Default step rate (Hertz)
+    Step   : GPIO.Pin;
+    Dir    : GPIO.Pin;
+    Enable : GPIO.Pin := NULL;
+    Reset  : GPIO.Pin := NULL;
+    Sleep  : GPIO.Pin := NULL) IS
 
   BEGIN
+    -- Validate parameters
+
+    IF Steps < 1 THEN
+      RAISE Stepper.Error WITH "Invalid number of steps per rotation";
+    END IF;
+
+    IF Step = NULL THEN
+      RAISE Stepper.Error WITH "Step parameter is NULL";
+    END IF;
+
+    IF Dir = NULL THEN
+      RAISE Stepper.Error WITH "Dir parameter is NULL";
+    END IF;
+
     Step.Put(False);
     Dir.Put(False);
 
+    Self.numsteps   := Steps;
+    Self.steprate   := Rate;
     Self.step_pin   := Step;
     Self.dir_pin    := Dir;
     Self.enable_pin := Enable;
     Self.reset_pin  := Reset;
     Self.sleep_pin  := Sleep;
-
-    Self.stepsize   := Angle.Radians(2.0*Ada.Numerics.Pi/Float(NumSteps));
-    Self.ontime     := 2.0*microseconds;
-    Self.offtime    := period - Self.ontime;
 
     Self.Reset;
     Self.Disable;
@@ -124,26 +116,27 @@ PACKAGE BODY A4988 IS
     Self.Enable;
   END Initialize;
 
-  -- Angle methods
+  -- Stepper interface methods
 
   PROCEDURE Put
    (Self     : IN OUT DeviceClass;
-    theta    : Angle.Radians) IS
+    steps    : Stepper.Steps) IS
 
   BEGIN
-    Self.Put(Stepper.Steps(theta/Self.stepsize + 0.5));
+    Put(Self, steps, Self.steprate);
   END Put;
 
-  -- Stepper methods
-
   PROCEDURE Put
    (Self     : IN OUT DeviceClass;
-    numsteps : Stepper.Steps) IS
+    steps    : Stepper.Steps;
+    slew     : Stepper.Rate) IS
+
+    period : CONSTANT Duration := 1.0/Duration(slew);
 
   BEGIN
-    IF numsteps > 0 THEN
+    IF steps > 0 THEN
       Self.dir_pin.Put(True);  -- Forward (nominal, depends on motor wiring)
-    ELSIF numsteps < 0 THEN
+    ELSIF steps < 0 THEN
       Self.dir_pin.Put(False); -- Reverse (nominal, depends on motor wiring)
     ELSE
       RETURN;
@@ -152,13 +145,19 @@ PACKAGE BODY A4988 IS
     -- NOTE: Exact timing for the step pulse train will be determined by the
     -- resolution of the DELAY statement on the target platform.
 
-    FOR n IN 1 .. ABS numsteps LOOP
+    FOR n IN 1 .. ABS steps LOOP
       Self.step_pin.Put(True);
-      DELAY Self.ontime;
+      DELAY period/2.0;
       Self.step_pin.Put(False);
-      DELAY Self.offtime;
+      DELAY period/2.0;
     END LOOP;
   END Put;
+
+  FUNCTION StepsPerRotation(Self : IN OUT DeviceClass) RETURN Stepper.Steps IS
+
+  BEGIN
+    RETURN Self.numsteps;
+  END StepsPerRotation;
 
   -- Other methods
 
