@@ -30,7 +30,7 @@ WITH Stepper;
 
 PROCEDURE test_stepper_a4988 IS
 
-  steps    : Stepper.Steps RANGE 1 .. Stepper.Steps'Last;
+  steps    : Stepper.Steps;
   rate     : Stepper.Rate;
   StepDesg : Device.Designator;
   DirDesg  : Device.Designator;
