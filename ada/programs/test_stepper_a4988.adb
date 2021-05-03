@@ -28,6 +28,8 @@ WITH Device;
 WITH GPIO.libsimpleio;
 WITH Stepper;
 
+USE TYPE Stepper.Steps;
+
 PROCEDURE test_stepper_a4988 IS
 
   steps    : Stepper.Steps;
@@ -69,6 +71,7 @@ BEGIN
   LOOP
     Put("Steps: ");
     Stepper.Steps_IO.Get(steps);
+    EXIT WHEN steps = 0;
     outp.Put(steps);
   END LOOP;
 END test_stepper_a4988;
