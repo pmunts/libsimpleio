@@ -159,14 +159,6 @@ PACKAGE BODY A4988 IS
     END LOOP;
   END Put;
 
-  PROCEDURE Spin
-   (Self     : IN OUT DeviceClass;
-    rate     : Stepper.Rate) IS
-
-  BEGIN
-    RAISE Stepper.Error WITH "Continuous rotation mode is not available.";
-  END Spin;
-
   FUNCTION StepsPerRotation(Self : IN OUT DeviceClass) RETURN Stepper.Steps IS
 
   BEGIN

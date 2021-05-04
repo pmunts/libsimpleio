@@ -55,12 +55,6 @@ PACKAGE Stepper IS
     nsteps : Steps;
     slew   : Rate) IS ABSTRACT;
 
-  -- Not all hardware supports continuous rotation
-
-  PROCEDURE Spin
-   (Self   : IN OUT OutputInterface;
-    slew   : Rate) IS ABSTRACT;
-
   FUNCTION StepsPerRotation
    (Self   : IN OUT OutputInterface) RETURN Steps IS ABSTRACT;
 
