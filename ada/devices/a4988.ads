@@ -38,8 +38,8 @@ PACKAGE A4988 IS
   FUNCTION Create
    (Steps  : Stepper.Steps; -- Number of steps per rotation
     Rate   : Stepper.Rate;  -- Default step rate (Hertz)
-    Step   : GPIO.Pin;
-    Dir    : GPIO.Pin;
+    Step   : NOT NULL GPIO.Pin;
+    Dir    : NOT NULL GPIO.Pin;
     Enable : GPIO.Pin := NULL;
     Reset  : GPIO.Pin := NULL;
     Sleep  : GPIO.Pin := NULL) RETURN Device;
@@ -47,8 +47,8 @@ PACKAGE A4988 IS
   FUNCTION Create
    (Steps  : Stepper.Steps; -- Number of steps per rotation
     Rate   : Stepper.Rate;  -- Default step rate (Hertz)
-    Step   : GPIO.Pin;
-    Dir    : GPIO.Pin;
+    Step   : NOT NULL GPIO.Pin;
+    Dir    : NOT NULL GPIO.Pin;
     Enable : GPIO.Pin := NULL;
     Reset  : GPIO.Pin := NULL;
     Sleep  : GPIO.Pin := NULL) RETURN Stepper.Output;
@@ -59,8 +59,8 @@ PACKAGE A4988 IS
    (Self   : IN OUT DeviceClass;
     Steps  : Stepper.Steps; -- Number of steps per rotation
     Rate   : Stepper.Rate;  -- Default step rate (Hertz)
-    Step   : GPIO.Pin;
-    Dir    : GPIO.Pin;
+    Step   : NOT NULL GPIO.Pin;
+    Dir    : NOT NULL GPIO.Pin;
     Enable : GPIO.Pin := NULL;
     Reset  : GPIO.Pin := NULL;
     Sleep  : GPIO.Pin := NULL);

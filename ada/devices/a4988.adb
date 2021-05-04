@@ -45,8 +45,8 @@ PACKAGE BODY A4988 IS
   FUNCTION Create
    (Steps  : Stepper.Steps; -- Number of steps per rotation
     Rate   : Stepper.Rate;  -- Default step rate (Hertz)
-    Step   : GPIO.Pin;
-    Dir    : GPIO.Pin;
+    Step   : NOT NULL GPIO.Pin;
+    Dir    : NOT NULL GPIO.Pin;
     Enable : GPIO.Pin := NULL;
     Reset  : GPIO.Pin := NULL;
     Sleep  : GPIO.Pin := NULL) RETURN Device IS
@@ -61,8 +61,8 @@ PACKAGE BODY A4988 IS
   FUNCTION Create
    (Steps  : Stepper.Steps; -- Number of steps per rotation
     Rate   : Stepper.Rate;  -- Default step rate (Hertz)
-    Step   : GPIO.Pin;
-    Dir    : GPIO.Pin;
+    Step   : NOT NULL GPIO.Pin;
+    Dir    : NOT NULL GPIO.Pin;
     Enable : GPIO.Pin := NULL;
     Reset  : GPIO.Pin := NULL;
     Sleep  : GPIO.Pin := NULL) RETURN Stepper.Output IS
@@ -80,8 +80,8 @@ PACKAGE BODY A4988 IS
    (Self   : IN OUT DeviceClass;
     Steps  : Stepper.Steps; -- Number of steps per rotation
     Rate   : Stepper.Rate;  -- Default step rate (Hertz)
-    Step   : GPIO.Pin;
-    Dir    : GPIO.Pin;
+    Step   : NOT NULL GPIO.Pin;
+    Dir    : NOT NULL GPIO.Pin;
     Enable : GPIO.Pin := NULL;
     Reset  : GPIO.Pin := NULL;
     Sleep  : GPIO.Pin := NULL) IS
@@ -91,14 +91,6 @@ PACKAGE BODY A4988 IS
 
     IF Steps < 1 THEN
       RAISE Stepper.Error WITH "Invalid number of steps per rotation";
-    END IF;
-
-    IF Step = NULL THEN
-      RAISE Stepper.Error WITH "Step parameter is NULL";
-    END IF;
-
-    IF Dir = NULL THEN
-      RAISE Stepper.Error WITH "Dir parameter is NULL";
     END IF;
 
     Step.Put(False);
