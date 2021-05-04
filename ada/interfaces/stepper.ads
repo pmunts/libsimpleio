@@ -50,16 +50,14 @@ PACKAGE Stepper IS
 
   -- Additional methods aka primitive operations
 
-  -- Step finite number of steps at given rate
-
   PROCEDURE Put
    (Self   : IN OUT OutputInterface;
     nsteps : Steps;
     slew   : Rate) IS ABSTRACT;
 
-  -- Step forever (continuous rotation) at given rate
+  -- Not all hardware supports continuous rotation
 
-  PROCEDURE Put
+  PROCEDURE Spin
    (Self   : IN OUT OutputInterface;
     slew   : Rate) IS ABSTRACT;
 

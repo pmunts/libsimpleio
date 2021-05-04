@@ -76,7 +76,7 @@ PACKAGE A4988 IS
     steps    : Stepper.Steps;
     rate     : Stepper.Rate);
 
-  PROCEDURE Put
+  PROCEDURE Spin
    (Self     : IN OUT DeviceClass;
     rate     : Stepper.Rate);
 
