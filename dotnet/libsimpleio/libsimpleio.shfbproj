@@ -71,6 +71,7 @@
       <NamespaceSummaryItem name="IO.Interfaces.PWM" isDocumented="True">Abstract Interface for PWM (Pulse Width Modulated) Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.SPI" isDocumented="True">Abstract Interface for SPI (Serial Peripheral Interconnect) Slave Devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Servo" isDocumented="True">Abstract Interface for Servo Outputs</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.Stepper" isDocumented="True">Abstract Interface for Stepper Motor Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Temperature" isDocumented="True">Abstract Interface for Temperature Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Watchdog" isDocumented="True">Abstract Interface for Watchdog Timers</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Email.Mail" isDocumented="True">Email Sending Services using <c>/usr/bin/mail</c></NamespaceSummaryItem>
