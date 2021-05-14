@@ -93,6 +93,10 @@ PACKAGE BODY A4988 IS
       RAISE Stepper.Error WITH "Invalid number of steps per rotation";
     END IF;
 
+    IF Rate <= 0.0 THEN
+      RAISE Standard.Stepper.Error WITH "Invalid value for rate";
+    END IF;
+
     Step.Put(False);
     Dir.Put(False);
 
@@ -130,6 +134,12 @@ PACKAGE BODY A4988 IS
     nexttime : Ada.Calendar.Time := Ada.Calendar.Clock;
 
   BEGIN
+    -- Validate parameters
+
+    IF Rate <= 0.0 THEN
+      RAISE Standard.Stepper.Error WITH "Invalid value for rate";
+    END IF;
+
     IF steps > 0 THEN
       Self.dir_pin.Put(True);  -- Forward (nominal, depends on motor wiring)
     ELSIF steps < 0 THEN
