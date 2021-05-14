@@ -38,7 +38,7 @@ namespace IO.Interfaces.Stepper
         void Move(int steps);
 
         /// <summary>
-        /// Move the stepper motor a specified number of steps at a 
+        /// Move the stepper motor a specified number of steps at a
         /// specified rate.
         /// </summary>
         /// <param name="steps">Number of steps to move.  Negative values
