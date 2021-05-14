@@ -28,8 +28,6 @@ WITH I2C.libsimpleio;
 WITH Grove_TB6612.Stepper;
 WITH Stepper;
 
-USE TYPE Stepper.Steps;
-
 PROCEDURE test_grove_tb6612_stepper_spin IS
 
   bus   : I2C.Bus;
