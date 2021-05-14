@@ -1,4 +1,4 @@
--- Test a stepper motor driven with a Grove TB6612 Motor Driver
+-- Test a DC motor driven with a Grove TB6612 Motor Driver
 
 -- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
@@ -24,27 +24,23 @@ WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
+WITH Grove_TB6612.Motor;
 WITH I2C.libsimpleio;
-WITH Grove_TB6612.Stepper;
-WITH Stepper;
+WITH Motor;
 
-USE TYPE Stepper.Steps;
+PROCEDURE test_grove_tb6612_dcmotor IS
 
-PROCEDURE test_stepper_grove_tb6612_move IS
-
-  bus   : I2C.Bus;
-  dev   : Grove_TB6612.Device;
-  steps : Stepper.Steps;
-  rate  : Stepper.Rate;
-  outp  : Stepper.Output;
+  bus  : I2C.Bus;
+  dev  : Grove_TB6612.Device;
+  outp : Motor.Output;
 
 BEGIN
   New_Line;
-  Put_Line("Grove TB6612 Stepper Motor Move Test");
+  Put_Line("Grove TB6612 DC Motor Test");
   New_Line;
 
   IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_stepper_grove_tb6612_move <bus> <addr>");
+    Put_Line("Usage: test_grove_tb6612_dcmotor <bus> <addr>");
     New_Line;
     RETURN;
   END IF;
@@ -57,20 +53,24 @@ BEGIN
 
   dev := Grove_TB6612.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
 
-  -- Create stepper motor output object
+  -- Create motor output object
 
-  Put("Enter the number of steps per rotation: ");
-  Stepper.Steps_IO.Get(steps);
+  outp := Grove_TB6612.Motor.Create(dev, Grove_TB6612.Motor.ChannelA);
 
-  Put("Enter the default step rate:            ");
-  Stepper.Rate_IO.Get(rate);
+  -- Ramp the motor speed up and down
 
-  outp := Grove_TB6612.Stepper.Create(dev, steps, rate);
-
-  LOOP
-    Put("Steps: ");
-    Stepper.Steps_IO.Get(steps);
-    EXIT WHEN steps = 0;
-    outp.Put(steps);
+  FOR d IN Integer RANGE 0 .. 255 LOOP
+    outp.Put(Motor.Velocity(Float(d)/255.0));
+    DELAY 0.05;
   END LOOP;
-END test_stepper_grove_tb6612_move;
+
+  FOR d IN REVERSE Integer RANGE -255 .. 255 LOOP
+    outp.Put(Motor.Velocity(Float(d)/255.0));
+    DELAY 0.05;
+  END LOOP;
+
+  FOR d IN Integer RANGE -255 .. 0 LOOP
+    outp.Put(Motor.Velocity(Float(d)/255.0));
+    DELAY 0.05;
+  END LOOP;
+END test_grove_tb6612_dcmotor;

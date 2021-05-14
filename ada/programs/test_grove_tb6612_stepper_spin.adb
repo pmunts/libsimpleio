@@ -1,4 +1,4 @@
--- Test a DC motor driven with a Grove TB6612 Motor Driver
+-- Test a stepper motor driven with a Grove TB6612 Motor Driver
 
 -- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
@@ -24,23 +24,26 @@ WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
-WITH Grove_TB6612.Motor;
 WITH I2C.libsimpleio;
-WITH Motor;
+WITH Grove_TB6612.Stepper;
+WITH Stepper;
 
-PROCEDURE test_dcmotor_grove_tb6612 IS
+USE TYPE Stepper.Steps;
 
-  bus  : I2C.Bus;
-  dev  : Grove_TB6612.Device;
-  outp : Motor.Output;
+PROCEDURE test_grove_tb6612_stepper_spin IS
+
+  bus   : I2C.Bus;
+  dev   : Grove_TB6612.Device;
+  outp  : Grove_TB6612.Stepper.OutputClass;
+  rate  : Stepper.Rate;
 
 BEGIN
   New_Line;
-  Put_Line("Grove TB6612 DC Motor Test");
+  Put_Line("Grove TB6612 Stepper Motor Spin Test");
   New_Line;
 
   IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_dcmotor_grove_tb6612 <bus> <addr>");
+    Put_Line("Usage: test_grove_tb6612_stepper_spin <bus> <addr>");
     New_Line;
     RETURN;
   END IF;
@@ -53,24 +56,13 @@ BEGIN
 
   dev := Grove_TB6612.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
 
-  -- Create motor output object
+  -- Initialize Grove TB6612 stepper motor object
 
-  outp := Grove_TB6612.Motor.Create(dev, Grove_TB6612.Motor.ChannelA);
+  outp.Initialize(dev, 100, 100.0);
 
-  -- Ramp the motor speed up and down
-
-  FOR d IN Integer RANGE 0 .. 255 LOOP
-    outp.Put(Motor.Velocity(Float(d)/255.0));
-    DELAY 0.05;
+  LOOP
+    Put("Rate: ");
+    Stepper.Rate_IO.Get(rate);
+    outp.Spin(rate);
   END LOOP;
-
-  FOR d IN REVERSE Integer RANGE -255 .. 255 LOOP
-    outp.Put(Motor.Velocity(Float(d)/255.0));
-    DELAY 0.05;
-  END LOOP;
-
-  FOR d IN Integer RANGE -255 .. 0 LOOP
-    outp.Put(Motor.Velocity(Float(d)/255.0));
-    DELAY 0.05;
-  END LOOP;
-END test_dcmotor_grove_tb6612;
+END test_grove_tb6612_stepper_spin;

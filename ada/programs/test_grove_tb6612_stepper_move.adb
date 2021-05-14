@@ -30,20 +30,21 @@ WITH Stepper;
 
 USE TYPE Stepper.Steps;
 
-PROCEDURE test_stepper_grove_tb6612_spin IS
+PROCEDURE test_grove_tb6612_stepper_move IS
 
   bus   : I2C.Bus;
   dev   : Grove_TB6612.Device;
-  outp  : Grove_TB6612.Stepper.OutputClass;
+  steps : Stepper.Steps;
   rate  : Stepper.Rate;
+  outp  : Stepper.Output;
 
 BEGIN
   New_Line;
-  Put_Line("Grove TB6612 Stepper Motor Spin Test");
+  Put_Line("Grove TB6612 Stepper Motor Move Test");
   New_Line;
 
   IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_stepper_grove_tb6612_spin <bus> <addr>");
+    Put_Line("Usage: test_grove_tb6612_stepper_move <bus> <addr>");
     New_Line;
     RETURN;
   END IF;
@@ -56,13 +57,20 @@ BEGIN
 
   dev := Grove_TB6612.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
 
-  -- Initialize Grove TB6612 stepper motor object
+  -- Create stepper motor output object
 
-  outp.Initialize(dev, 100, 100.0);
+  Put("Enter the number of steps per rotation: ");
+  Stepper.Steps_IO.Get(steps);
+
+  Put("Enter the default step rate:            ");
+  Stepper.Rate_IO.Get(rate);
+
+  outp := Grove_TB6612.Stepper.Create(dev, steps, rate);
 
   LOOP
-    Put("Rate: ");
-    Stepper.Rate_IO.Get(rate);
-    outp.Spin(rate);
+    Put("Steps: ");
+    Stepper.Steps_IO.Get(steps);
+    EXIT WHEN steps = 0;
+    outp.Put(steps);
   END LOOP;
-END test_stepper_grove_tb6612_spin;
+END test_grove_tb6612_stepper_move;
