@@ -1,6 +1,6 @@
 -- Abstract interface for I2C bus controllers
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -79,5 +79,17 @@ PACKAGE I2C IS
     resp    : OUT Response;
     resplen : Natural;
     delayus : MicroSeconds := 0) IS ABSTRACT;
+
+  -- Dump a command buffer in hexadecimal format
+
+  PROCEDURE Dump
+   (cmd     : Command;
+    cmdlen  : Natural := Natural'Last);
+
+  -- Dump a response buffer in hexadecimal format
+
+  PROCEDURE Dump
+   (resp    : Response;
+    resplen : Natural := Natural'Last);
 
 END I2C;
