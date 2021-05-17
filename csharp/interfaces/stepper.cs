@@ -28,26 +28,19 @@ namespace IO.Interfaces.Stepper
     public interface Output
     {
         /// <summary>
-        /// Move the stepper motor a specified number of steps.
-        /// </summary>
-        /// <param name="steps">Number of steps to move.  Negative values
-        /// indicate reverse motion and positive values indicate forward
-        /// motion.  (The directions are nominal and depend on how the stepper
-        /// motor coils are wired).  Zero indicates the stepper motor should
-        /// be stopped.</param>
-        void Move(int steps);
-
-        /// <summary>
         /// Move the stepper motor a specified number of steps at a
         /// specified rate.
         /// </summary>
-        /// <param name="steps">Number of steps to move.  Negative values
-        /// indicate reverse motion and positive values indicate forward
-        /// motion.  (The directions are nominal and depend on how the stepper
-        /// motor coils are wired).  Zero indicates the stepper motor should
-        /// be stopped.</param>
+        /// <param name="steps">Number of steps to move.
+        /// Negative values indicate reverse motion and positive values
+        /// indicate forward motion.  (The directions are nominal and depend on
+        /// how the stepper motor coils are wired).  Zero indicates the stepper
+        /// motor should be stopped.</param>
         /// <param name="rate">The rate of movement, in steps per second.
-        /// Must be greater than 0.0.</param>
+        /// Negative values indicate reverse motion and positive values
+        /// indicate forward motion.  (The directions are nominal and depend on
+        /// how the stepper motor coils are wired).  Zero indicates the stepper
+        /// motor should be stopped.</param>
         void Move(int steps, float rate);
 
         /// <summary>
