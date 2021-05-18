@@ -24,8 +24,8 @@
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-include $(LIBSIMPLEIO)/freefreepascal/include/pascal.mk
-include $(LIBSIMPLEIO)/freefreepascal/include/libsimpleio.mk
+include $(LIBSIMPLEIO)/freepascal/include/freepascal.mk
+include $(LIBSIMPLEIO)/freepascal/include/libsimpleio.mk
 
 # Compile the test programs
 
@@ -34,9 +34,9 @@ default:
 
 # Remove working files
 
-clean: pascal_mk_clean
+clean: freepascal_mk_clean
 	for F in *.pas ; do rm -f `basename $$F .pas` ; done
 
-reallyclean: pascal_mk_reallyclean clean
+reallyclean: freepascal_mk_reallyclean clean
 
-distclean: pascal_mk_distclean reallyclean
+distclean: freepascal_mk_distclean reallyclean

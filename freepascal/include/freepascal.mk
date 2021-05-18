@@ -103,15 +103,15 @@ endif
 
 # Define default target placeholder
 
-pascal_mk_default: default
+freepascal_mk_default: default
 
 ###############################################################################
 
 # Clean out working files
 
-pascal_mk_clean:
+freepascal_mk_clean:
 	if [ "$(OBJ)" != "." ]; then rm -rf $(OBJ) ; fi
 
-pascal_mk_reallyclean: pascal_mk_clean
+freepascal_mk_reallyclean: freepascal_mk_clean
 
-pascal_mk_distclean: pascal_mk_reallyclean
+freepascal_mk_distclean: freepascal_mk_reallyclean
