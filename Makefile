@@ -112,10 +112,10 @@ else
 	rm -rf					$(DESTDIR)/share/libsimpleio/c++/visualstudio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p freepascal			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p gm2				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p modula2			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p mybasic			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p nuget			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p python			$(DESTDIR)/share/libsimpleio
