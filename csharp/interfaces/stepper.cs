@@ -36,12 +36,24 @@ namespace IO.Interfaces.Stepper
         /// indicate forward motion.  (The directions are nominal and depend on
         /// how the stepper motor coils are wired).  Zero indicates the stepper
         /// motor should be stopped.</param>
-        /// <param name="rate">The rate of movement, in steps per second.
+        /// <param name="rate">The rate of motion, in steps per second.
         /// Negative values indicate reverse motion and positive values
         /// indicate forward motion.  (The directions are nominal and depend on
         /// how the stepper motor coils are wired).  Zero indicates the stepper
         /// motor should be stopped.</param>
         void Move(int steps, float rate);
+
+        /// <summary>
+        /// Spin (i.e. continuous rotation) the stepper moter at a specified rate.
+        /// </summary>
+        /// <param name="rate">The rate of motion, in steps per second.
+        /// Negative values indicate reverse motion and positive values
+        /// indicate forward motion.  (The directions are nominal and depend on
+        /// how the stepper motor coils are wired).  Zero indicates the stepper
+        /// motor should be stopped.</param>
+        /// <remarks>Not all stepper motor drivers support continuous
+        /// rotation.</remarks>
+        void Spin(float rate);
 
         /// <summary>
         /// Read-only property returning the number of steps a stepper motor
