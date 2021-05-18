@@ -1,6 +1,6 @@
-# Makefile for building Pascal Remote I/O example programs
+# Free Pascal definitions for building Remote I/O Protocol applications
 
-# Copyright (C)2013-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2020, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,23 +20,14 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-.PHONY: default clean reallyclean distclean
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/bindings
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/devices
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/interfaces
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/objects
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/objects/remoteio
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/objects/simpleio
 
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-
-include $(LIBSIMPLEIO)/pascal/include/pascal.mk
-include $(LIBSIMPLEIO)/pascal/include/remoteio.mk
-
-# Compile the test programs
-
-default:
-	for F in *.pas ; do $(MAKE) `basename $$F .pas` ; done
-
-# Remove working files
-
-clean: pascal_mk_clean
-	for F in *.pas ; do rm -f `basename $$F .pas` ; done
-
-reallyclean: pascal_mk_reallyclean clean
-
-distclean: pascal_mk_distclean reallyclean
+ifeq ($(OS), Windows_NT)
+WINARCH		?= win64
+FPC_FLAGS	+= -Fl$(LIBSIMPLEIO)/win/$(WINARCH)
+endif

@@ -1,4 +1,4 @@
-# Makefile for building Pascal libsimpleio example programs
+# Makefile for building Pascal Remote I/O example programs
 
 # Copyright (C)2013-2021, Philip Munts, President, Munts AM Corp.
 #
@@ -24,8 +24,8 @@
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-include $(LIBSIMPLEIO)/pascal/include/pascal.mk
-include $(LIBSIMPLEIO)/pascal/include/libsimpleio.mk
+include $(LIBSIMPLEIO)/freepascal/include/pascal.mk
+include $(LIBSIMPLEIO)/freepascal/include/remoteio.mk
 
 # Compile the test programs
 

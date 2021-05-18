@@ -55,10 +55,10 @@ test_compile_programs:
 	-$(MAKE) -C ../c++/programs clean
 	-$(MAKE) -C ../java/programs default
 	-$(MAKE) -C ../java/programs clean
-	-$(MAKE) -C ../pascal/programs default
-	-$(MAKE) -C ../pascal/programs clean
-	-$(MAKE) -C ../pascal/programs/remoteio default
-	-$(MAKE) -C ../pascal/programs/remoteio clean
+	-$(MAKE) -C ../freepascal/programs default
+	-$(MAKE) -C ../freepascal/programs clean
+	-$(MAKE) -C ../freepascal/programs/remoteio default
+	-$(MAKE) -C ../freepascal/programs/remoteio clean
 
 test_compile_csharp:
 	for D in ../csharp/programs/*/* ; do $(MAKE) -C $$D default clean ; done

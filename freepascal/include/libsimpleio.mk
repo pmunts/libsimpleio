@@ -20,9 +20,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/bindings
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/devices
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/interfaces
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/objects
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/objects/remoteio
-FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/pascal/objects/simpleio
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/bindings
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/devices
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/interfaces
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/objects
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/objects/remoteio
+FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/objects/simpleio
