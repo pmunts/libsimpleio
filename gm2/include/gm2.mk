@@ -1,6 +1,6 @@
 # Common make definitons for compiling GNU Modula-2 programs
 
-# Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -41,23 +41,23 @@ GM2_FLAGS	+= -ftarget-ar=$(AR) -ftarget-ranlib=$(RANLIB)
 
 # Default target placeholder
 
-modula2_mk_default: default
+gm2_mk_default: default
 
 ##############################################################################
 
 # Compile subordinate implementation modules
 
 subordinates.a:
-	$(MODULA2_SRC)/include/subordinates.py $(GM2) $(AR) "$(GM2_FLAGS)"
+	$(LIBSIMPLEIO)/gm2/include/subordinates.py $(GM2) $(AR) "$(GM2_FLAGS)"
 
 ###############################################################################
 
 # Clean out working files
 
-modula2_mk_clean:
+gm2_mk_clean:
 	rm -f *.s *.o
 
-modula2_mk_reallyclean: modula2_mk_clean
+gm2_mk_reallyclean: gm2_mk_clean
 	rm -rf subordinates.a
 
-modula2_mk_distclean: modula2_mk_reallyclean
+gm2_mk_distclean: gm2_mk_reallyclean

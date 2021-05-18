@@ -1,6 +1,6 @@
 # Makefile definitions for building GNU Modula-2 libsimpleio example programs
 
-# Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -22,16 +22,15 @@
 
 .PHONY: default clean reallyclean distclean
 
-# Override the following macros to build out of tree:
+# Override the following macro to build out of tree:
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-MODULA2_SRC	?= $(LIBSIMPLEIO)/modula2
 
-include $(MODULA2_SRC)/include/modula2.mk
+include $(LIBSIMPLEIO)/gm2/include/gm2.mk
 
-GM2_FLAGS	+= -I$(MODULA2_SRC)/bindings
-GM2_FLAGS	+= -I$(MODULA2_SRC)/devices
-GM2_FLAGS	+= -I$(MODULA2_SRC)/modules
+GM2_FLAGS	+= -I$(LIBSIMPLEIO)/gm2/bindings
+GM2_FLAGS	+= -I$(LIBSIMPLEIO)/gm2/devices
+GM2_FLAGS	+= -I$(LIBSIMPLEIO)/gm2/modules
 GM2_LIBS	+= -lsimpleio
 
 # Compile the test programs
@@ -41,9 +40,9 @@ default:
 
 # Remove working files
 
-clean: modula2_mk_clean
+clean: gm2_mk_clean
 	for F in *.mod ; do rm -f `basename $$F .mod` ; done
 
-reallyclean: modula2_mk_reallyclean clean
+reallyclean: gm2_mk_reallyclean clean
 
-distclean: modula2_mk_distclean reallyclean
+distclean: gm2_mk_distclean reallyclean
