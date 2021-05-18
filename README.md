@@ -104,6 +104,9 @@ News
 -   20 April 2021 -- Added support to **`SERIAL_open()`** for more baud
     rates above 1000000 bps. Fixed issue with raw mode on Raspberry Pi
     serial ports.
+-   18 May 2021 -- Added support for stepper motors to Ada and .Net.
+    Renamed **`basic/`** to **`mybasic/`** and **`pascal/`** to
+    **`freepascal/`**.
 
 Documentation
 -------------
