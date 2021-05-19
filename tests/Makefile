@@ -41,24 +41,23 @@ test_compile:
 test_compile_boards:
 	-$(MAKE) test_compile_programs BOARDNAME=
 	-$(MAKE) test_compile_programs BOARDNAME=BeagleBone
-	-$(MAKE) test_compile_programs BOARDNAME=RaspberryPi
+	-$(MAKE) test_compile_programs BOARDNAME=RaspberryPi1
 	-$(MAKE) test_compile_programs BOARDNAME=RaspberryPi2
+	-$(MAKE) test_compile_programs BOARDNAME=RaspberryPi3
 
 test_compile_programs:
-	-$(MAKE) -C ../ada/programs default
-	-$(MAKE) -C ../ada/programs clean
-	-$(MAKE) -C ../ada/programs/mcp2221 default
-	-$(MAKE) -C ../ada/programs/mcp2221 clean
-	-$(MAKE) -C ../ada/programs/remoteio default
-	-$(MAKE) -C ../ada/programs/remoteio clean
-	-$(MAKE) -C ../c++/programs default
-	-$(MAKE) -C ../c++/programs clean
-	-$(MAKE) -C ../java/programs default
-	-$(MAKE) -C ../java/programs clean
-	-$(MAKE) -C ../freepascal/programs default
-	-$(MAKE) -C ../freepascal/programs clean
-	-$(MAKE) -C ../freepascal/programs/remoteio default
-	-$(MAKE) -C ../freepascal/programs/remoteio clean
+	-$(MAKE) -C ../ada/programs default clean
+	-$(MAKE) -C ../ada/programs/mcp2221 default clean
+	-$(MAKE) -C ../ada/programs/remoteio default clean
+	-$(MAKE) -C ../c++/programs/remoteio default reallyclean
+	-$(MAKE) -C ../c++/programs/simpleio default reallyclean
+	-$(MAKE) -C ../freepascal/programs/remoteio default clean
+	-$(MAKE) -C ../freepascal/programs/simpleio default clean
+ifeq ($(BOARDNAME),)
+	-$(MAKE) -C ../gm2/programs default reallyclean
+endif
+	-$(MAKE) -C ../go/programs/simpleio default reallyclean
+	-$(MAKE) -C ../java/programs default clean
 
 test_compile_csharp:
 	for D in ../csharp/programs/*/* ; do $(MAKE) -C $$D default clean ; done
