@@ -1,6 +1,6 @@
 # Makefile for building and running Linux Simple I/O Library unit tests
 
-# Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -34,29 +34,35 @@ test_parameter_checks: test_parameter_checks.c
 test_compile:
 	-$(MAKE) test_compile_boards >test_compile.log 2>&1
 	-$(MAKE) test_compile_csharp >>test_compile.log 2>&1
+ifeq ($(OS), Windows_NT)
 	-$(MAKE) test_compile_elements >>test_compile.log 2>&1
+endif
 	-grep -i error test_compile.log | cat
 	-grep -i warn test_compile.log | grep -v 'did you forget' | cat
 
 test_compile_boards:
 	-$(MAKE) test_compile_programs BOARDNAME=
+ifeq ($(shell uname), Linux)
 	-$(MAKE) test_compile_programs BOARDNAME=BeagleBone
 	-$(MAKE) test_compile_programs BOARDNAME=RaspberryPi1
 	-$(MAKE) test_compile_programs BOARDNAME=RaspberryPi2
 	-$(MAKE) test_compile_programs BOARDNAME=RaspberryPi3
+endif
 
 test_compile_programs:
+ifeq ($(shell uname), Linux)
 	-$(MAKE) -C ../ada/programs default clean
-	-$(MAKE) -C ../ada/programs/mcp2221 default clean
-	-$(MAKE) -C ../ada/programs/remoteio default clean
-	-$(MAKE) -C ../c++/programs/remoteio default reallyclean
 	-$(MAKE) -C ../c++/programs/simpleio default reallyclean
-	-$(MAKE) -C ../freepascal/programs/remoteio default clean
 	-$(MAKE) -C ../freepascal/programs/simpleio default clean
 ifeq ($(BOARDNAME),)
 	-$(MAKE) -C ../gm2/programs default reallyclean
 endif
 	-$(MAKE) -C ../go/programs/simpleio default reallyclean
+endif
+	-$(MAKE) -C ../ada/programs/mcp2221 default clean
+	-$(MAKE) -C ../ada/programs/remoteio default clean
+	-$(MAKE) -C ../c++/programs/remoteio default reallyclean
+	-$(MAKE) -C ../freepascal/programs/remoteio default clean
 	-$(MAKE) -C ../java/programs default clean
 
 test_compile_csharp:
