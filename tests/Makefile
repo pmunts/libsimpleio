@@ -37,6 +37,7 @@ test_compile:
 ifeq ($(OS), Windows_NT)
 	-$(MAKE) test_compile_elements >>test_compile.log 2>&1
 endif
+	-$(MAKE) test_compile_java >>test_compile.log 2>&1
 	-grep -i error test_compile.log | cat
 	-grep -i warn test_compile.log | grep -v 'did you forget' | cat
 
@@ -63,13 +64,15 @@ endif
 	-$(MAKE) -C ../ada/programs/remoteio default clean
 	-$(MAKE) -C ../c++/programs/remoteio default reallyclean
 	-$(MAKE) -C ../freepascal/programs/remoteio default clean
-	-$(MAKE) -C ../java/programs default clean
 
 test_compile_csharp:
 	for D in ../csharp/programs/*/* ; do $(MAKE) -C $$D default clean ; done
 
 test_compile_elements:
 	for D in ../elements/dotnet/programs/*/* ; do $(MAKE) -C $$D default clean ; done
+
+test_compile_java:
+	-$(MAKE) -C ../java/programs default clean
 
 clean:
 	rm -rf $(PROGRAMS) *.log
