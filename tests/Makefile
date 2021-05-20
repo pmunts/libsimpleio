@@ -69,7 +69,7 @@ test_compile_csharp:
 	for D in ../csharp/programs/*/* ; do $(MAKE) -C $$D default clean ; done
 
 test_compile_elements:
-	for D in ../elements/dotnet/programs/*/* ; do $(MAKE) -C $$D default clean ; done
+	for D in ../elements/dotnet/programs/*/*/* ; do $(MAKE) -C $$D default clean ; done
 
 test_compile_java:
 	-$(MAKE) -C ../java/programs default clean
