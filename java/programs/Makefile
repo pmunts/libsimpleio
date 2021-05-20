@@ -26,7 +26,11 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
 include $(LIBSIMPLEIO)/java/include/java.mk
 
+ifeq ($(OS), Windows_NT)
+JAVAC_CLASSPATH	:= ".;$(LIBSIMPLEIO)/java/classes"
+else
 JAVAC_CLASSPATH	:= .:$(LIBSIMPLEIO)/java/classes
+endif
 
 JAR_COMPONENTS	+= com
 
