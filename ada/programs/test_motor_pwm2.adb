@@ -29,6 +29,9 @@ WITH PWM.libsimpleio;
 
 PROCEDURE test_motor_pwm2 IS
 
+  FREQ       : CONSTANT Natural := 10000;
+  VELOCITIES : CONSTANT Integer := 500;
+
   desgCW  : Device.Designator;
   desgCCW : Device.Designator;
   motor0  : Motor.Output;
@@ -51,23 +54,23 @@ BEGIN
 
   -- Create motor output object
 
-  motor0 := Motor.PWM.Create(PWM.libsimpleio.Create(desgCW, 50),
-    PWM.libsimpleio.Create(desgCCW, 50));
+  motor0 := Motor.PWM.Create(PWM.libsimpleio.Create(desgCW, FREQ),
+    PWM.libsimpleio.Create(desgCCW, FREQ));
 
   -- Sweep the motor velocity up and down
 
-  FOR d IN Integer RANGE 0 .. 100 LOOP
-    motor0.Put(Motor.Velocity(Float(d)/100.0));
+  FOR v IN Integer RANGE 0 .. VELOCITIES LOOP
+    motor0.Put(Motor.Velocity(Float(v)/Float(VELOCITIES)));
     DELAY 0.05;
   END LOOP;
 
-  FOR d IN REVERSE Integer RANGE -100 .. 100 LOOP
-    motor0.Put(Motor.Velocity(Float(d)/100.0));
+  FOR v IN REVERSE Integer RANGE -VELOCITIES .. VELOCITIES LOOP
+    motor0.Put(Motor.Velocity(Float(v)/Float(VELOCITIES)));
     DELAY 0.05;
   END LOOP;
 
-  FOR d IN Integer RANGE -100 .. 0 LOOP
-    motor0.Put(Motor.Velocity(Float(d)/100.0));
+  FOR v IN Integer RANGE -VELOCITIES .. 0 LOOP
+    motor0.Put(Motor.Velocity(Float(v)/Float(VELOCITIES)));
     DELAY 0.05;
   END LOOP;
 END test_motor_pwm2;
