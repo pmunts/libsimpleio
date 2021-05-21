@@ -1,6 +1,6 @@
 -- Motor Output Test using PWM (speed) and GPIO (direction) outputs
 
--- Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -55,14 +55,19 @@ BEGIN
   motor0 := Motor.PWM.Create(PWM.libsimpleio.Create(desg_pwm, 50),
     GPIO.libsimpleio.Create(desg_dir, GPIO.Output));
 
-  -- Sweep the pulse width back and forth
+  -- Sweep the motor velocity up and down
 
-  FOR d IN Integer RANGE -100 .. 100 LOOP
+  FOR d IN Integer RANGE 0 .. 100 LOOP
     motor0.Put(Motor.Velocity(Float(d)/100.0));
     DELAY 0.05;
   END LOOP;
 
   FOR d IN REVERSE Integer RANGE -100 .. 100 LOOP
+    motor0.Put(Motor.Velocity(Float(d)/100.0));
+    DELAY 0.05;
+  END LOOP;
+
+  FOR d IN Integer RANGE -100 .. 0 LOOP
     motor0.Put(Motor.Velocity(Float(d)/100.0));
     DELAY 0.05;
   END LOOP;
