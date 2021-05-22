@@ -51,6 +51,12 @@ PACKAGE Grove_TB6612 IS
 
   PROCEDURE Enable(Self : IN OUT DeviceClass);
 
+  -- Change the I2C address
+
+  PROCEDURE ChangeAddress
+   (Self : IN OUT DeviceClass;
+    addr : I2C.Address);
+
 PRIVATE
 
   -- Execute a command

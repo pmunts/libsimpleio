@@ -72,6 +72,20 @@ PACKAGE BODY Grove_TB6612 IS
     Self.bus.Write(Self.addr, cmd, cmd'Length);
   END Enable;
 
+  -- Change the I2C address
+
+  PROCEDURE ChangeAddress
+   (Self : IN OUT DeviceClass;
+    addr : I2C.Address) IS
+
+    cmd : I2C.Command(0 .. 1);
+
+  BEGIN
+    cmd(0) := CMD_SET_ADDR;
+    cmd(1) := I2C.Byte(addr);
+    Self.bus.Write(Self.addr, cmd, cmd'Length);
+  END ChangeAddress;
+
   -- Execute a command
 
   PROCEDURE Command
