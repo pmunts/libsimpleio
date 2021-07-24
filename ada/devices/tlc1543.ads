@@ -1,6 +1,6 @@
 -- TLC1543 Analog to Digital Converter services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Analog;
-WITH Device;
 WITH GPIO;
 
 PACKAGE TLC1543 IS
@@ -43,9 +42,9 @@ PACKAGE TLC1543 IS
   -- Constructors
 
   FUNCTION Create
-   (clk  : Standard.Device.Designator;
-    addr : Standard.Device.Designator;
-    data : Standard.Device.Designator) RETURN Device;
+   (clk  : GPIO.Pin;
+    addr : GPIO.Pin;
+    data : GPIO.Pin) RETURN Device;
 
   FUNCTION Create
    (dev  : DeviceClass;

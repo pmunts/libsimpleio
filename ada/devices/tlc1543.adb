@@ -1,6 +1,6 @@
 -- TLC1543 Analog to Digital Converter services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,8 +29,6 @@
 
 WITH Interfaces;
 
-WITH GPIO.libsimpleio;
-
 USE TYPE Interfaces.Unsigned_16;
 
 PACKAGE BODY TLC1543 IS
@@ -38,14 +36,12 @@ PACKAGE BODY TLC1543 IS
   -- Constructors
 
   FUNCTION Create
-   (clk  : Standard.Device.Designator;
-    addr : Standard.Device.Designator;
-    data : Standard.Device.Designator) RETURN Device IS
+   (clk  : GPIO.Pin;
+    addr : GPIO.Pin;
+    data : GPIO.Pin) RETURN Device IS
 
   BEGIN
-    RETURN NEW DeviceClass'(GPIO.libsimpleio.Create(clk, GPIO.Output, False),
-      GPIO.libsimpleio.Create(addr, GPIO.Output, False),
-      GPIO.libsimpleio.Create(data, GPIO.Input));
+    RETURN NEW DeviceClass'(clk, addr, data);
   END Create;
 
   FUNCTION Create
