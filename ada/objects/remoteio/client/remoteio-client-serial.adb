@@ -51,19 +51,19 @@ PACKAGE BODY RemoteIO.Client.Serial IS
       WHEN 38400   => baud := GNAT.Serial_Communications.B38400;
       WHEN 57600   => baud := GNAT.Serial_Communications.B57600;
       WHEN 115200  => baud := GNAT.Serial_Communications.B115200;
-      WHEN 230400  => baud := GNAT.Serial_Communications.B230400;
-      WHEN 460800  => baud := GNAT.Serial_Communications.B460800;
-      WHEN 500000  => baud := GNAT.Serial_Communications.B500000;
-      WHEN 576000  => baud := GNAT.Serial_Communications.B576000;
-      WHEN 921600  => baud := GNAT.Serial_Communications.B921600;
-      WHEN 1000000 => baud := GNAT.Serial_Communications.B1000000;
-      WHEN 1152000 => baud := GNAT.Serial_Communications.B1152000;
-      WHEN 1500000 => baud := GNAT.Serial_Communications.B1500000;
-      WHEN 2000000 => baud := GNAT.Serial_Communications.B2000000;
-      WHEN 2500000 => baud := GNAT.Serial_Communications.B2500000;
-      WHEN 3000000 => baud := GNAT.Serial_Communications.B3000000;
-      WHEN 3500000 => baud := GNAT.Serial_Communications.B3500000;
-      WHEN 4000000 => baud := GNAT.Serial_Communications.B4000000;
+--    WHEN 230400  => baud := GNAT.Serial_Communications.B230400;
+--    WHEN 460800  => baud := GNAT.Serial_Communications.B460800;
+--    WHEN 500000  => baud := GNAT.Serial_Communications.B500000;
+--    WHEN 576000  => baud := GNAT.Serial_Communications.B576000;
+--    WHEN 921600  => baud := GNAT.Serial_Communications.B921600;
+--    WHEN 1000000 => baud := GNAT.Serial_Communications.B1000000;
+--    WHEN 1152000 => baud := GNAT.Serial_Communications.B1152000;
+--    WHEN 1500000 => baud := GNAT.Serial_Communications.B1500000;
+--    WHEN 2000000 => baud := GNAT.Serial_Communications.B2000000;
+--    WHEN 2500000 => baud := GNAT.Serial_Communications.B2500000;
+--    WHEN 3000000 => baud := GNAT.Serial_Communications.B3000000;
+--    WHEN 3500000 => baud := GNAT.Serial_Communications.B3500000;
+--    WHEN 4000000 => baud := GNAT.Serial_Communications.B4000000;
 
       WHEN OTHERS => RAISE GNAT.Serial_Communications.Serial_Error WITH
         "Unsupported baud rate";
