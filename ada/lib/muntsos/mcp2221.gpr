@@ -1,6 +1,4 @@
--- Project for building an Ada program using an MCP2221 USB I/O adapter
-
--- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,9 +18,24 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH "mcp2221";
+WITH "aws";
 
-PROJECT Default IS
-  FOR Object_Dir USE "./obj";
-  FOR Exec_Dir   USE ".";
-END Default;
+LIBRARY PROJECT MCP2221 IS
+  LIBDIR := "@@GCCLIBDIR@@/ada/";
+  SRCDIR := "@@GCCINCDIR@@/ada/";
+
+  FOR Externally_Built USE "true";
+
+  FOR Languages    USE ("Ada");
+
+  FOR Library_Name USE "mcp2221";
+
+  FOR Library_Dir  USE LIBDIR & "mcp2221.lib";
+
+  FOR Source_Dirs  USE
+   (SRCDIR & "bindings",
+    SRCDIR & "devices",
+    SRCDIR & "interfaces",
+    SRCDIR & "objects",
+    SRCDIR & "objects/hid");
+END MCP2221;

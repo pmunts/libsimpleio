@@ -10,4 +10,8 @@ if [ -e ${MULTIARCHLIBDIR}/libhidapi-hidraw.so ]; then
   ln -s -f ${MULTIARCHLIBDIR}/libhidapi-hidraw.so  /usr/local/lib/libhidapi.so
 fi
 
+ln -s -f /usr/local/share/libsimpleio/ada/lib/libsimpleio.gpr /usr/share/gpr/libsimpleio.gpr
+ln -s -f /usr/local/share/libsimpleio/ada/lib/mcp2221.gpr     /usr/share/gpr/mcp2221.gpr
+ln -s -f /usr/local/share/libsimpleio/ada/lib/remoteio.gpr    /usr/share/gpr/remoteio.gpr
+
 ldconfig

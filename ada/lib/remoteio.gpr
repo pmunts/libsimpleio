@@ -1,0 +1,103 @@
+-- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+--
+-- Redistribution and use in source and binary forms, with or without
+-- modification, are permitted provided that the following conditions are met:
+--
+-- * Redistributions of source code must retain the above copyright notice,
+--   this list of conditions and the following disclaimer.
+--
+-- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+-- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+-- IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+-- ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+-- LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+-- CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+-- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+-- INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+-- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+-- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+-- POSSIBILITY OF SUCH DAMAGE.
+
+WITH "aws";
+
+LIBRARY PROJECT RemoteIO IS
+  LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
+  LIBNAME     := "remoteio";
+  OS          := external("OS", external("OSNAME", "unknown"));
+  WINARCH     := external("WINARCH", "win64");
+
+  FOR Externally_Built USE "false";
+
+  FOR Languages    USE ("Ada");
+
+  FOR Library_Name USE LIBNAME;
+
+  FOR Library_Dir  USE LIBSIMPLEIO & "/ada/lib/" & LIBNAME & ".lib";
+
+  FOR Object_Dir   USE LIBSIMPLEIO & "/ada/lib/" & LIBNAME & ".obj";
+
+  CASE OS IS
+    WHEN "Darwin" | "Windows_NT" =>
+      FOR Source_Dirs  USE
+       (LIBSIMPLEIO & "/ada/bindings",
+        LIBSIMPLEIO & "/ada/devices",
+        LIBSIMPLEIO & "/ada/interfaces",
+        LIBSIMPLEIO & "/ada/objects",
+        LIBSIMPLEIO & "/ada/objects/clickboards",
+        LIBSIMPLEIO & "/ada/objects/clickboards/remoteio",
+        LIBSIMPLEIO & "/ada/objects/hid",
+        LIBSIMPLEIO & "/ada/objects/remoteio",
+        LIBSIMPLEIO & "/ada/objects/remoteio/client");
+
+    WHEN OTHERS =>
+      FOR Source_Dirs  USE
+       (LIBSIMPLEIO & "/ada/bindings",
+        LIBSIMPLEIO & "/ada/devices",
+        LIBSIMPLEIO & "/ada/interfaces",
+        LIBSIMPLEIO & "/ada/objects",
+        LIBSIMPLEIO & "/ada/objects/clickboards",
+        LIBSIMPLEIO & "/ada/objects/clickboards/remoteio",
+        LIBSIMPLEIO & "/ada/objects/hid",
+        LIBSIMPLEIO & "/ada/objects/remoteio",
+        LIBSIMPLEIO & "/ada/objects/remoteio/client",
+        LIBSIMPLEIO & "/ada/objects/remoteio/server",
+        LIBSIMPLEIO & "/ada/objects/simpleio");
+  END CASE;
+
+  -- Exclude MCP2221 stuff
+
+  FOR Excluded_Source_Files USE
+   ("mcp2221.adb",
+    "mcp2221-adc.adb",
+    "mcp2221-adc.ads",
+    "mcp2221.ads",
+    "mcp2221-gpio.adb",
+    "mcp2221-gpio.ads",
+    "mcp2221-hidapi.adb",
+    "mcp2221-hidapi.ads",
+    "mcp2221-i2c.adb",
+    "mcp2221-i2c.ads",
+    "mcp2221-libsimpleio.adb",
+    "mcp2221-libsimpleio.ads",
+    "mcp2221-libusb.adb",
+    "mcp2221-libusb.ads");
+
+  -- Linker goop to find hidapi.dll or libhidapi.so
+
+  PACKAGE Linker IS
+    CASE OS IS
+      WHEN "Darwin" =>
+        FOR Default_Switches ("ada") USE
+          ("-L/usr/local/lib",
+           "-L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib");
+
+      WHEN "Windows_NT" =>
+        FOR Default_Switches ("ada") USE
+          ("-L" & LIBSIMPLEIO & "/win/" & WINARCH);
+
+      WHEN OTHERS =>
+        NULL;
+    END CASE;
+  END Linker;
+
+END RemoteIO;

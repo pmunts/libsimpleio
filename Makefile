@@ -82,17 +82,37 @@ libsimpleio.a: compile.done
 libsimpleio.so: compile.done
 	$(CC) -shared -o $@ obj/*.o
 
+# Precompile Ada library projects
+
+adalibs.done:
+	$(MAKE) -C ada/lib BOARDNAME=$(BOARDNAME)
+	touch $@
+
 # Install headers and library files
 
-install: libsimpleio.a libsimpleio.so
+install: libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(DESTDIR)/include/libsimpleio
 	mkdir -p				$(DESTDIR)/lib
 	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 ifneq ($(BOARDNAME),)
-	mkdir -p				$(DESTDIR)/share/doc/libsimpleio
-	install -cm 0644 COPYING		$(DESTDIR)/share/doc/libsimpleio
+	mkdir -p				$(DESTDIR)/../../include
+	cp -R -P -p ada				$(DESTDIR)/../../include
+	rm -rf					$(DESTDIR)/../../include/ada/include
+	rm -rf					$(DESTDIR)/../../include/ada/lib
+	rm -rf					$(DESTDIR)/../../include/ada/programs
+	mkdir -p				$(DESTDIR)/../../lib/ada
+	cp ada/lib/muntsos/*.gpr		$(DESTDIR)/../../lib/ada
+	sed -i 's:@@GCCINCDIR@@:$(GCCINCDIR):g'	$(DESTDIR)/../../lib/ada/*.gpr
+	sed -i 's:@@GCCLIBDIR@@:$(GCCLIBDIR):g'	$(DESTDIR)/../../lib/ada/*.gpr
+	cp -R -P -p ada/lib/*.lib		$(DESTDIR)/../../lib/ada
+	mkdir -p				$(DESTDIR)/share/libsimpleio
+	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio
+	mkdir -p				$(DESTDIR)/../../../share/gpr
+	ln -s ../../$(CONFIGURE_NAME)/lib/ada/libsimpleio.gpr $(DESTDIR)/../../../share/gpr/libsimpleio.gpr
+	ln -s ../../$(CONFIGURE_NAME)/lib/ada/mcp2221.gpr     $(DESTDIR)/../../../share/gpr/mcp2221.gpr
+	ln -s ../../$(CONFIGURE_NAME)/lib/ada/remoteio.gpr    $(DESTDIR)/../../../share/gpr/remoteio.gpr
 else
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	mkdir -p				$(DESTDIR)/libexec
@@ -108,6 +128,12 @@ else
 	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
+	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/Makefile
+	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/muntsos
+	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.done
+	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.obj
+	sed -i 's/false/true/g'			$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
+	sed -i '/Object_Dir/,+1 d'		$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	rm -rf					$(DESTDIR)/share/libsimpleio/c++/visualstudio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
@@ -152,6 +178,7 @@ package.deb: $(DEBFILE)
 # Remove working files
 
 clean:
+	$(MAKE) -C ada/lib clean
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean
