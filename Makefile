@@ -46,6 +46,8 @@ else
 MUNTSOS		?= $(HOME)/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 
+LIBDIR		:= $(shell basename $(GCCLIBDIR))
+
 OSNAME		?= unknown
 PKGNAME		:= gcc-$(TOOLCHAIN_NAME)-libsimpleio
 PKGVERSION	:= $(shell date +%Y.%j).$(BUILDNUM)
@@ -102,17 +104,17 @@ ifneq ($(BOARDNAME),)
 	rm -rf					$(DESTDIR)/../../include/ada/include
 	rm -rf					$(DESTDIR)/../../include/ada/lib
 	rm -rf					$(DESTDIR)/../../include/ada/programs
-	mkdir -p				$(DESTDIR)/../../lib/ada
-	cp ada/lib/muntsos/*.gpr		$(DESTDIR)/../../lib/ada
-	sed -i 's:@@GCCINCDIR@@:$(GCCINCDIR):g'	$(DESTDIR)/../../lib/ada/*.gpr
-	sed -i 's:@@GCCLIBDIR@@:$(GCCLIBDIR):g'	$(DESTDIR)/../../lib/ada/*.gpr
-	cp -R -P -p ada/lib/*.lib		$(DESTDIR)/../../lib/ada
+	mkdir -p				$(DESTDIR)/../../$(LIBDIR)/ada
+	cp ada/lib/muntsos/*.gpr		$(DESTDIR)/../../$(LIBDIR)/ada
+	sed -i 's:@@GCCINCDIR@@:$(GCCINCDIR):g'	$(DESTDIR)/../../$(LIBDIR)/ada/*.gpr
+	sed -i 's:@@GCCLIBDIR@@:$(GCCLIBDIR):g'	$(DESTDIR)/../../$(LIBDIR)/ada/*.gpr
+	cp -R -P -p ada/lib/*.lib		$(DESTDIR)/../../$(LIBDIR)/ada
 	mkdir -p				$(DESTDIR)/share/libsimpleio
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio
 	mkdir -p				$(DESTDIR)/../../../share/gpr
-	ln -s ../../$(CONFIGURE_NAME)/lib/ada/libsimpleio.gpr $(DESTDIR)/../../../share/gpr/libsimpleio.gpr
-	ln -s ../../$(CONFIGURE_NAME)/lib/ada/mcp2221.gpr     $(DESTDIR)/../../../share/gpr/mcp2221.gpr
-	ln -s ../../$(CONFIGURE_NAME)/lib/ada/remoteio.gpr    $(DESTDIR)/../../../share/gpr/remoteio.gpr
+	ln -s ../../$(CONFIGURE_NAME)/$(LIBDIR)/ada/libsimpleio.gpr $(DESTDIR)/../../../share/gpr/libsimpleio.gpr
+	ln -s ../../$(CONFIGURE_NAME)/$(LIBDIR)/ada/mcp2221.gpr     $(DESTDIR)/../../../share/gpr/mcp2221.gpr
+	ln -s ../../$(CONFIGURE_NAME)/$(LIBDIR)/ada/remoteio.gpr    $(DESTDIR)/../../../share/gpr/remoteio.gpr
 else
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	mkdir -p				$(DESTDIR)/libexec
