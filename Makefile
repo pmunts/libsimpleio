@@ -99,22 +99,18 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
 ifneq ($(BOARDNAME),)
-	mkdir -p				$(DESTDIR)/../../include
-	cp -R -P -p ada				$(DESTDIR)/../../include
-	rm -rf					$(DESTDIR)/../../include/ada/include
-	rm -rf					$(DESTDIR)/../../include/ada/lib
-	rm -rf					$(DESTDIR)/../../include/ada/programs
 	mkdir -p				$(DESTDIR)/../../$(LIBDIR)/ada
-	cp ada/lib/muntsos/*.gpr		$(DESTDIR)/../../$(LIBDIR)/ada
-	sed -i 's:@@GCCINCDIR@@:$(GCCINCDIR):g'	$(DESTDIR)/../../$(LIBDIR)/ada/*.gpr
-	sed -i 's:@@GCCLIBDIR@@:$(GCCLIBDIR):g'	$(DESTDIR)/../../$(LIBDIR)/ada/*.gpr
+	cp ada/lib/muntsos/libsimpleio.gpr	$(DESTDIR)/../../$(LIBDIR)/ada
+	sed -i 's:@@GCCLIBDIR@@:$(GCCLIBDIR):g'	$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.gpr
 	cp -R -P -p ada/lib/*.lib		$(DESTDIR)/../../$(LIBDIR)/ada
+	cp -R -P -p ada				$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src
+	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/include
+	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/lib
+	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/programs
 	mkdir -p				$(DESTDIR)/share/libsimpleio
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio
 	mkdir -p				$(DESTDIR)/../../../share/gpr
 	ln -s ../../$(CONFIGURE_NAME)/$(LIBDIR)/ada/libsimpleio.gpr $(DESTDIR)/../../../share/gpr/libsimpleio.gpr
-	ln -s ../../$(CONFIGURE_NAME)/$(LIBDIR)/ada/mcp2221.gpr     $(DESTDIR)/../../../share/gpr/mcp2221.gpr
-	ln -s ../../$(CONFIGURE_NAME)/$(LIBDIR)/ada/remoteio.gpr    $(DESTDIR)/../../../share/gpr/remoteio.gpr
 else
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	mkdir -p				$(DESTDIR)/libexec

@@ -22,7 +22,7 @@ WITH "aws";
 
 LIBRARY PROJECT libsimpleio IS
   LIBDIR := "@@GCCLIBDIR@@/ada/";
-  SRCDIR := "@@GCCINCDIR@@/ada/";
+  SRCDIR := LIBDIR & "libsimpleio.src/";
 
   FOR Externally_Built USE "true";
 
