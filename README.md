@@ -107,6 +107,8 @@ News
 -   18 May 2021 -- Added support for stepper motors to Ada and .Net.
     Renamed **`basic/`** to **`mybasic/`**, **`modula2/`** to
     **`gm2/`**, and **`pascal/`** to **`freepascal/`**.
+-   25 July 2021 -- Prebuild Ada library projects for Simple I/O, Remote
+    I/O, and MCP2221 support.
 
 Documentation
 -------------
