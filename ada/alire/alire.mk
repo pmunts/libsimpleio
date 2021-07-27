@@ -70,7 +70,7 @@ alire_mk_pack:
 
 # Publish the crate
 
-alire_mk_publish: alire_mk_pack
+alire_mk_publish:
 	test -f $(ARCHIVE_TARBALL)
 	test "$(SERVERSCP)" != "undefined"
 	test "$(SERVERURL)" != "undefined"
@@ -84,6 +84,7 @@ alire_mk_publish: alire_mk_pack
 # Build the crate
 
 alire_mk_build:
+	test -d $(CRATE_DIR)
 	cd $(CRATE_DIR) && $(ALR) build
 
 # Remove working files
