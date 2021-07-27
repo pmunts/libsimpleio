@@ -32,7 +32,7 @@ CRATE_VERSION	:= 1.$(REVISION).$(BUILDNUM)
 
 default: pack
 
-include $(ADA_SRC)/alire/alire.mk
+include $(ADA_SRC)/include/alire.mk
 
 # Load the crate
 
