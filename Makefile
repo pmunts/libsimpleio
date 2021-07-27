@@ -129,6 +129,7 @@ else
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/alire
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/Makefile
+	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/gnat-gpl
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/muntsos
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.done
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.obj
