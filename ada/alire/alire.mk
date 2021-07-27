@@ -1,4 +1,4 @@
-# Build an Alire crate contain the Ada libsimpleio binding
+# Make definitions and rules for building Alire crates
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
@@ -20,47 +20,46 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+# The following macros must be defined *before* including this file:
+#
+# CRATE_NAME
+# CRATE_VERSION
+# LIBRARY_NAME
+
 ALR		?= alr
 GNATPP		?= /usr/local/gnat-gpl-2021/bin/gnatpp
 
-CRATE_NAME	:= munts_libsimpleio
+CRATE_VERSION	?= undefined
+
 CRATE_DIR	:= $(CRATE_NAME)
-CRATE_VERSION	?= 1.0.0
 CRATE_MANIFEST	:= $(CRATE_NAME)-$(CRATE_VERSION).toml
 
 ARCHIVE_DIR	:= $(CRATE_NAME)-$(CRATE_VERSION)
 ARCHIVE_TARBALL := $(CRATE_NAME)-$(CRATE_VERSION).tbz2
 
-SERVERSCP	?= private
-SERVERURL	?= private
+SERVERSCP	?= undefined
+SERVERURL	?= undefined
 
 INDEX_CHECKOUT	:= $(HOME)/alire-index
 INDEX_SUBDIR	:= index/$(shell echo $(CRATE_NAME) | cut -c '1-2')/$(CRATE_NAME)
 
-default: archive.done
+# Initialize the crate workspace directory
 
-# Populate the crate
-
-populate.done:
+alire_mk_init:
+	rm -rf						$(CRATE_DIR)
 	mkdir -p					$(CRATE_DIR)
 	$(ALR) init --lib				$(CRATE_DIR)
-	-diff libsimpleio.gpr				$(CRATE_DIR)/$(CRATE_NAME).gpr
 	rm						$(CRATE_DIR)/$(CRATE_NAME).gpr
-	cp libsimpleio.gpr				$(CRATE_DIR)
-	-diff libsimpleio.toml				$(CRATE_DIR)/alire.toml
-	cp libsimpleio.toml				$(CRATE_DIR)/alire.toml
-	sed -i 's/@@VERSION@@/$(CRATE_VERSION)/g'	$(CRATE_DIR)/*.toml $(CRATE_DIR)/*.gpr
-	cp -R ../bindings				$(CRATE_DIR)/src
-	cp -R ../devices				$(CRATE_DIR)/src
-	cp -R ../interfaces				$(CRATE_DIR)/src
-	cp -R ../objects				$(CRATE_DIR)/src
 	rm						$(CRATE_DIR)/src/$(CRATE_NAME).ads
-	cd $(CRATE_DIR)/src && find * -type f -exec $(GNATPP) {} ";"
-	touch $@
+	cp $(LIBRARY_NAME).gpr				$(CRATE_DIR)
+	cp $(LIBRARY_NAME).toml				$(CRATE_DIR)/alire.toml
+	sed -i 's/@@VERSION@@/$(CRATE_VERSION)/g'	$(CRATE_DIR)/*.toml $(CRATE_DIR)/*.gpr
 
-# Build the crate archive
+# Pack the crate
 
-archive.done: populate.done
+alire_mk_pack:
+	test -d $(CRATE_DIR)
+	rm -rf						$(ARCHIVE_DIR)
 	mkdir -p					$(ARCHIVE_DIR)
 	cp -R $(CRATE_DIR)/*				$(ARCHIVE_DIR)
 	rm -rf						$(ARCHIVE_DIR)/alire
@@ -68,31 +67,31 @@ archive.done: populate.done
 	rm -rf						$(ARCHIVE_DIR)/obj
 	rm -rf						$(ARCHIVE_DIR)/.gitignore
 	tar cjf $(ARCHIVE_TARBALL)			$(ARCHIVE_DIR)
-	touch $@
 
-# Publish the crate archive
+# Publish the crate
 
-publish.done: archive.done
+alire_mk_publish: alire_mk_pack
+	test -f $(ARCHIVE_TARBALL)
+	test "$(SERVERSCP)" != "undefined"
+	test "$(SERVERURL)" != "undefined"
 	test -d $(INDEX_CHECKOUT)
 	scp $(ARCHIVE_TARBALL) $(SERVERSCP)
 	alr publish $(SERVERURL)/$(ARCHIVE_TARBALL)
 	cp alire/releases/$(CRATE_MANIFEST) $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)
 	cd $(INDEX_CHECKOUT) && git add $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)/$(CRATE_MANIFEST)
-	-cd $(INDEX_CHECKOUT) && git commit -m "munts-libsimpleio release $(CRATE_VERSION)"
-	touch $@
+	-cd $(INDEX_CHECKOUT) && git commit -m "$(CRATE_NAME) release $(CRATE_VERSION)"
 
 # Build the crate
 
-build.done: populate.done
+alire_mk_build:
 	cd $(CRATE_DIR) && $(ALR) build
-	touch $@
 
 # Remove working files
 
-clean:
-	rm -rf *.done *.tbz2 $(CRATE_DIR) $(ARCHIVE_DIR)
+alire_mk_clean:
+	rm -rf $(CRATE_DIR) $(ARCHIVE_DIR) $(ARCHIVE_TARBALL)
 
-reallyclean: clean
+alire_mk_reallyclean: alire_mk_clean
 	rm -rf alire
 
-distclean: reallyclean
+alire_mk_distclean: alire_mk_reallyclean
