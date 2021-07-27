@@ -8,3 +8,7 @@ maintainers-logins = ["pmunts"]
 website = "https://github.com/pmunts/libsimpleio"
 tags = ["embedded", "linux", "adc", "dac", "gpio", "i2c", "motor", "pwm", "serial", "servo", "spi", "stepper", "watchdog"]
 project-files = ["libsimpleio.gpr"]
+
+[available."case(os)"]
+'linux' = true
+"..." = false
