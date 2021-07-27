@@ -37,7 +37,7 @@ include $(ADA_SRC)/alire/alire.mk
 
 # Load the crate
 
-populate.done: alire_mk_init
+populate.done: alire_mk_init_lib
 	cp -R $(ADA_SRC)/bindings	$(CRATE_DIR)/src
 	cp -R $(ADA_SRC)/devices	$(CRATE_DIR)/src
 	cp -R $(ADA_SRC)/interfaces	$(CRATE_DIR)/src

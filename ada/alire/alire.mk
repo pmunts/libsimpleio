@@ -43,9 +43,9 @@ SERVERURL	?= undefined
 INDEX_CHECKOUT	:= $(HOME)/alire-index
 INDEX_SUBDIR	:= index/$(shell echo $(CRATE_NAME) | cut -c '1-2')/$(CRATE_NAME)
 
-# Initialize the crate workspace directory
+# Initialize the crate workspace directory for a library project
 
-alire_mk_init:
+alire_mk_init_lib:
 	rm -rf						$(CRATE_DIR)
 	mkdir -p					$(CRATE_DIR)
 	$(ALR) init --lib				$(CRATE_DIR)
