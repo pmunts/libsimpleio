@@ -1,4 +1,4 @@
--- Simplest "Hello, world" Ada program
+-- Simplest "Hello, world" Ada program using libsimpleio
 
 -- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
@@ -22,8 +22,11 @@
 
 WITH Text_IO; USE Text_IO;
 
+WITH Logging.libsimpleio;
+
 PROCEDURE test_hello IS
 
 BEGIN
-  Put_Line("Hello, world");
+  Put_Line("Hello, world!");
+  Logging.libsimpleio.Note("Hello, world!");
 END test_hello;
