@@ -24,10 +24,9 @@
 #
 # CRATE_NAME
 # CRATE_VERSION
-# LIBRARY_NAME
+# PROJECT_NAME
 
 ALR		?= alr
-GNATPP		?= /usr/local/gnat-gpl-2021/bin/gnatpp
 
 CRATE_VERSION	?= undefined
 
@@ -51,8 +50,20 @@ alire_mk_init_lib:
 	$(ALR) init --lib				$(CRATE_DIR)
 	rm						$(CRATE_DIR)/$(CRATE_NAME).gpr
 	rm						$(CRATE_DIR)/src/$(CRATE_NAME).ads
-	cp $(LIBRARY_NAME).gpr				$(CRATE_DIR)
-	cp $(LIBRARY_NAME).toml				$(CRATE_DIR)/alire.toml
+	cp $(PROJECT_NAME).gpr				$(CRATE_DIR)
+	cp $(PROJECT_NAME).toml				$(CRATE_DIR)/alire.toml
+	sed -i 's/@@VERSION@@/$(CRATE_VERSION)/g'	$(CRATE_DIR)/*.toml $(CRATE_DIR)/*.gpr
+
+# Initialize the crate workspace directory for a program project
+
+alire_mk_init_prog:
+	rm -rf						$(CRATE_DIR)
+	mkdir -p					$(CRATE_DIR)
+	$(ALR) init --bin				$(CRATE_DIR)
+	rm						$(CRATE_DIR)/$(CRATE_NAME).gpr
+	rm						$(CRATE_DIR)/src/$(CRATE_NAME).adb
+	cp $(PROJECT_NAME).gpr				$(CRATE_DIR)
+	cp $(PROJECT_NAME).toml				$(CRATE_DIR)/alire.toml
 	sed -i 's/@@VERSION@@/$(CRATE_VERSION)/g'	$(CRATE_DIR)/*.toml $(CRATE_DIR)/*.gpr
 
 # Pack the crate
@@ -76,7 +87,7 @@ alire_mk_publish:
 	test "$(ALIRE_REPO_URL)" != "undefined"
 	test -d $(INDEX_CHECKOUT)
 	scp $(ARCHIVE_TARBALL) $(ALIRE_REPO_SCP)
-	alr publish $(ALIRE_REPO_URL)/$(ARCHIVE_TARBALL)
+	$(ALR) publish $(ALIRE_REPO_URL)/$(ARCHIVE_TARBALL)
 	mkdir -p $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)
 	cp alire/releases/$(CRATE_MANIFEST) $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)
 	cd $(INDEX_CHECKOUT) && git add $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)/$(CRATE_MANIFEST)
