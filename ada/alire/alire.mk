@@ -37,8 +37,8 @@ CRATE_MANIFEST	:= $(CRATE_NAME)-$(CRATE_VERSION).toml
 ARCHIVE_DIR	:= $(CRATE_NAME)-$(CRATE_VERSION)
 ARCHIVE_TARBALL := $(CRATE_NAME)-$(CRATE_VERSION).tbz2
 
-SERVERSCP	?= undefined
-SERVERURL	?= undefined
+ALIRE_REPO_SCP	?= undefined
+ALIRE_REPO_URL	?= undefined
 
 INDEX_CHECKOUT	:= $(HOME)/alire-index
 INDEX_SUBDIR	:= index/$(shell echo $(CRATE_NAME) | cut -c '1-2')/$(CRATE_NAME)
@@ -72,11 +72,11 @@ alire_mk_pack:
 
 alire_mk_publish:
 	test -f $(ARCHIVE_TARBALL)
-	test "$(SERVERSCP)" != "undefined"
-	test "$(SERVERURL)" != "undefined"
+	test "$(ALIRE_REPO_SCP)" != "undefined"
+	test "$(ALIRE_REPO_URL)" != "undefined"
 	test -d $(INDEX_CHECKOUT)
-	scp $(ARCHIVE_TARBALL) $(SERVERSCP)
-	alr publish $(SERVERURL)/$(ARCHIVE_TARBALL)
+	scp $(ARCHIVE_TARBALL) $(ALIRE_REPO_SCP)
+	alr publish $(ALIRE_REPO_URL)/$(ARCHIVE_TARBALL)
 	cp alire/releases/$(CRATE_MANIFEST) $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)
 	cd $(INDEX_CHECKOUT) && git add $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)/$(CRATE_MANIFEST)
 	-cd $(INDEX_CHECKOUT) && git commit -m "$(CRATE_NAME) release $(CRATE_VERSION)"
