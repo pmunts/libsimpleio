@@ -1,4 +1,4 @@
-# Build an Alire crate contain the Ada libsimpleio binding
+# Build an Alire crate to contain the Ada libsimpleio binding
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
@@ -20,7 +20,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ADA_SRC		?= ../..
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+ADA_SRC		?= $(LIBSIMPLEIO)/ada
+
 
 REVISION	?= $(shell svn log -l 1 $(ADA_SRC) | awk '/svn/ { print substr($$1, 2) }' | head -n 1)
 BUILDNUM	?= 1
