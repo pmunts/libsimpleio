@@ -37,7 +37,7 @@ SERVERURL	?= private
 INDEX_CHECKOUT	:= $(HOME)/alire-index
 INDEX_SUBDIR	:= index/$(shell echo $(CRATE_NAME) | cut -c '1-2')/$(CRATE_NAME)
 
-default: publish.done
+default: archive.done
 
 # Populate the crate
 
