@@ -77,9 +77,10 @@ alire_mk_publish:
 	test -d $(INDEX_CHECKOUT)
 	scp $(ARCHIVE_TARBALL) $(ALIRE_REPO_SCP)
 	alr publish $(ALIRE_REPO_URL)/$(ARCHIVE_TARBALL)
+	mkdir -p $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)
 	cp alire/releases/$(CRATE_MANIFEST) $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)
 	cd $(INDEX_CHECKOUT) && git add $(INDEX_CHECKOUT)/$(INDEX_SUBDIR)/$(CRATE_MANIFEST)
-	-cd $(INDEX_CHECKOUT) && git commit -m "$(CRATE_NAME) release $(CRATE_VERSION)"
+	cd $(INDEX_CHECKOUT) && git commit -m "$(CRATE_NAME) release $(CRATE_VERSION)"
 
 # Build the crate
 
