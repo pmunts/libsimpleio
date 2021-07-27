@@ -20,8 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-ADA_SRC		?= $(LIBSIMPLEIO)/ada
+ADA_SRC		?= ../..
 
 REVISION	?= $(shell svn log -l 1 $(ADA_SRC) | awk '/svn/ { print substr($$1, 2) }' | head -n 1)
 BUILDNUM	?= 1
