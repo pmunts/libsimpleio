@@ -27,7 +27,7 @@ BUILDNUM	?= 1
 
 LIBRARY_NAME	:= libsimpleio
 
-CRATE_NAME	:= munts_$(LIBRARY_NAME)
+CRATE_NAME	:= $(LIBRARY_NAME)
 CRATE_VERSION	:= 1.$(REVISION).$(BUILDNUM)
 
 default: pack

@@ -1,4 +1,4 @@
-name = "munts_libsimpleio"
+name = "libsimpleio"
 description = "Linux Simple I/O Library bindings for GNAT Ada"
 version = "@@VERSION@@"
 licenses = "BSD-1-Clause"
