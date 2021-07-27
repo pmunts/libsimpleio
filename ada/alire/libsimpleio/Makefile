@@ -23,10 +23,13 @@
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 ADA_SRC		?= $(LIBSIMPLEIO)/ada
 
-CRATE_NAME	:= munts_libsimpleio
-CRATE_VERSION	:= 1.0.$(shell svn log -l 1 $(ADA_SRC) | awk '/svn/ { print substr($$1, 2) }' | head -n 1)
+REVISION	?= $(shell svn log -l 1 $(ADA_SRC) | awk '/svn/ { print substr($$1, 2) }' | head -n 1)
+BUILDNUM	?= 1
 
 LIBRARY_NAME	:= libsimpleio
+
+CRATE_NAME	:= munts_$(LIBRARY_NAME)
+CRATE_VERSION	:= 1.$(REVISION).$(BUILDNUM)
 
 default: pack
 
