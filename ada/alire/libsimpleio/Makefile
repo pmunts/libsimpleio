@@ -25,9 +25,9 @@ ADA_SRC		?= ../..
 REVISION	?= $(shell svn log -l 1 $(ADA_SRC) | awk '/svn/ { print substr($$1, 2) }' | head -n 1)
 BUILDNUM	?= 1
 
-LIBRARY_NAME	:= libsimpleio
+PROJECT_NAME	:= libsimpleio
 
-CRATE_NAME	:= $(LIBRARY_NAME)
+CRATE_NAME	:= $(PROJECT_NAME)
 CRATE_VERSION	:= 1.$(REVISION).$(BUILDNUM)
 
 default: pack
@@ -41,7 +41,9 @@ populate.done: alire_mk_init_lib
 	cp -R $(ADA_SRC)/devices	$(CRATE_DIR)/src
 	cp -R $(ADA_SRC)/interfaces	$(CRATE_DIR)/src
 	cp -R $(ADA_SRC)/objects	$(CRATE_DIR)/src
+ifneq ($(GNATPP),)
 	cd $(CRATE_DIR)/src && find * -type f -exec $(GNATPP) {} ";"
+endif
 	touch $@
 
 # Pack the crate
