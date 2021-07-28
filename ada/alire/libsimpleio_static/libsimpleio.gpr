@@ -1,6 +1,7 @@
 with "aws";
 
 project libsimpleio is
+   for Languages use ("Ada", "C");
 
    for Library_Name use "libsimpleio";
    for Library_Version use "@@VERSION@@";

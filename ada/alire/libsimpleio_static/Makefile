@@ -21,13 +21,14 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 ADA_SRC		?= ../..
+C_SRC		?= ../../../c
 
 REVISION	?= $(shell svn log -l 1 $(ADA_SRC) | awk '/svn/ { print substr($$1, 2) }' | head -n 1)
 BUILDNUM	?= 1
 
 PROJECT_NAME	:= libsimpleio
 
-CRATE_NAME	:= $(PROJECT_NAME)
+CRATE_NAME	:= $(PROJECT_NAME)_static
 CRATE_VERSION	:= 1.$(REVISION).$(BUILDNUM)
 
 default: pack
@@ -41,6 +42,11 @@ populate.done: alire_mk_init_lib
 	cp -R $(ADA_SRC)/devices	$(CRATE_DIR)/src
 	cp -R $(ADA_SRC)/interfaces	$(CRATE_DIR)/src
 	cp -R $(ADA_SRC)/objects	$(CRATE_DIR)/src
+	sed -i '/Link_With/d'		$(CRATE_DIR)/src/bindings/*
+	sed -i '/Link_With/d'		$(CRATE_DIR)/src/objects/hid/*
+	cp -R $(C_SRC)			$(CRATE_DIR)/src
+	cd $(CRATE_DIR)/src/c && for F in *.c ; do mv $${F} c_$${F} ; done
+	sed -i 's:libsimpleio/::g'	$(CRATE_DIR)/src/c/*
 ifneq ($(GNATPP),)
 	cd $(CRATE_DIR)/src && find * -type f -exec $(GNATPP) {} ";"
 endif
