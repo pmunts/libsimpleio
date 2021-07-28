@@ -23,10 +23,10 @@
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 ADA_SRC		?= $(LIBSIMPLEIO)/ada
 
-CRATE_NAME	:= libsimpleio_static_test_hello
-CRATE_VERSION	:= 1.0.0
-
 PROJECT_NAME	:= test_hello
+
+CRATE_NAME	:= libsimpleio_static_$(PROJECT_NAME)
+CRATE_VERSION	:= 1.0.0
 
 default: pack
 
@@ -35,8 +35,9 @@ include $(ADA_SRC)/include/alire.mk
 # Load the crate
 
 populate.done: alire_mk_init_prog
-	install -cm 0644 $(ADA_SRC)/programs/test_hello.adb $(CRATE_DIR)/src
+	install -cm 0644 $(ADA_SRC)/programs/$(PROJECT_NAME).adb $(CRATE_DIR)/src
 	cd $(CRATE_DIR) && alr with libsimpleio_static
+	sed -i -e '1,4d' $(CRATE_DIR)/$(PROJECT_NAME).gpr
 ifneq ($(GNATPP),)
 	cd $(CRATE_DIR)/src && find * -type f -exec $(GNATPP) {} ";"
 endif
