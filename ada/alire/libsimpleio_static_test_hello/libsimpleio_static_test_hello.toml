@@ -1,0 +1,15 @@
+name = "libsimpleio_static_test_hello"
+description = "Hello, World test program using libsimpleio static library crate"
+version = "@@VERSION@@"
+licenses = "BSD-1-Clause"
+website = "https://github.com/pmunts/libsimpleio"
+
+authors = ["Philip Munts"]
+maintainers = ["Philip Munts <phil@munts.net>"]
+maintainers-logins = ["pmunts"]
+
+project-files = ["test_hello.gpr"]
+
+executables = ["test_hello"]
+
+tags = ["embedded", "linux", "libsimpleio", "beaglebone", "pocketbeagle", "raspberrypi"]
