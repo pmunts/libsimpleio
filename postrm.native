@@ -12,7 +12,5 @@ if [ -e ${MULTIARCHLIBDIR}/libhidapi-hidraw.so -a -h /usr/local/lib/libhidapi.so
 fi
 
 rm -f /usr/share/gpr/libsimpleio.gpr
-rm -f /usr/share/gpr/mcp2221.gpr
-rm -f /usr/share/gpr/remoteio.gpr
 
 ldconfig
