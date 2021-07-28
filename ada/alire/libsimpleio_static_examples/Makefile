@@ -1,4 +1,5 @@
-# Build an Alire crate to contain the Ada libsimpleio Hello, World program
+# Build an Alire program crate to contain example programs using the
+# libsimpleio_static library crate
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
@@ -25,7 +26,7 @@ ADA_SRC		?= $(LIBSIMPLEIO)/ada
 
 PROJECT_NAME	:= test_hello
 
-CRATE_NAME	:= libsimpleio_static_$(PROJECT_NAME)
+CRATE_NAME	:= libsimpleio_static_examples
 CRATE_VERSION	:= 1.0.0
 
 default: pack
