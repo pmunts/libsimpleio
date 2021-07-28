@@ -28,7 +28,7 @@ BUILDNUM	?= 1
 
 PROJECT_NAME	:= libsimpleio
 
-CRATE_NAME	:= $(PROJECT_NAME)_static
+CRATE_NAME	:= $(PROJECT_NAME)_standalone
 CRATE_VERSION	:= 1.$(REVISION).$(BUILDNUM)
 
 default: pack
