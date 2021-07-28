@@ -74,6 +74,7 @@ alire_mk_pack:
 	mkdir -p					$(ARCHIVE_DIR)
 	cp -R $(CRATE_DIR)/*				$(ARCHIVE_DIR)
 	rm -rf						$(ARCHIVE_DIR)/alire
+	rm -rf						$(ARCHIVE_DIR)/bin
 	rm -rf						$(ARCHIVE_DIR)/lib
 	rm -rf						$(ARCHIVE_DIR)/obj
 	rm -rf						$(ARCHIVE_DIR)/.gitignore
