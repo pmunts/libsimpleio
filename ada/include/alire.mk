@@ -51,7 +51,7 @@ alire_mk_init_lib:
 	rm						$(CRATE_DIR)/$(CRATE_NAME).gpr
 	rm						$(CRATE_DIR)/src/$(CRATE_NAME).ads
 	cp $(PROJECT_NAME).gpr				$(CRATE_DIR)
-	cp $(PROJECT_NAME).toml				$(CRATE_DIR)/alire.toml
+	cp $(CRATE_NAME).toml				$(CRATE_DIR)/alire.toml
 	sed -i 's/@@VERSION@@/$(CRATE_VERSION)/g'	$(CRATE_DIR)/*.toml $(CRATE_DIR)/*.gpr
 
 # Initialize the crate workspace directory for a program project
@@ -63,7 +63,7 @@ alire_mk_init_prog:
 	rm						$(CRATE_DIR)/$(CRATE_NAME).gpr
 	rm						$(CRATE_DIR)/src/$(CRATE_NAME).adb
 	cp $(PROJECT_NAME).gpr				$(CRATE_DIR)
-	cp $(PROJECT_NAME).toml				$(CRATE_DIR)/alire.toml
+	cp $(CRATE_NAME).toml				$(CRATE_DIR)/alire.toml
 	sed -i 's/@@VERSION@@/$(CRATE_VERSION)/g'	$(CRATE_DIR)/*.toml $(CRATE_DIR)/*.gpr
 
 # Pack the crate
