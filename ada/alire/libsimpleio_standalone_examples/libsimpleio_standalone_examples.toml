@@ -1,5 +1,5 @@
-name = "libsimpleio_static_examples"
-description = "Example programs using the libsimpleio_static library crate"
+name = "libsimpleio_standalone_examples"
+description = "Example programs using the libsimpleio_standalone library crate"
 version = "@@VERSION@@"
 licenses = "BSD-1-Clause"
 website = "https://github.com/pmunts/libsimpleio"

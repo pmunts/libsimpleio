@@ -1,5 +1,5 @@
 # Build an Alire program crate to contain example programs using the
-# libsimpleio_static library crate
+# libsimpleio_standalone library crate
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
@@ -26,7 +26,7 @@ ADA_SRC		?= $(LIBSIMPLEIO)/ada
 
 PROJECT_NAME	:= test_hello
 
-CRATE_NAME	:= libsimpleio_static_examples
+CRATE_NAME	:= libsimpleio_standalone_examples
 CRATE_VERSION	:= 1.0.0
 
 default: pack
@@ -37,7 +37,7 @@ include $(ADA_SRC)/include/alire.mk
 
 populate.done: alire_mk_init_prog
 	install -cm 0644 $(ADA_SRC)/programs/$(PROJECT_NAME).adb $(CRATE_DIR)/src
-	cd $(CRATE_DIR) && alr with libsimpleio_static
+	cd $(CRATE_DIR) && alr with libsimpleio_standalone
 	sed -i -e '1,4d' $(CRATE_DIR)/$(PROJECT_NAME).gpr
 ifneq ($(GNATPP),)
 	cd $(CRATE_DIR)/src && find * -type f -exec $(GNATPP) {} ";"
