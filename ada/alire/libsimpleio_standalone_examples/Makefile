@@ -21,13 +21,15 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-ADA_SRC		?= $(LIBSIMPLEIO)/ada
+ADA_SRC		?= ../..
+
+REVISION	?= $(shell svn log -l 1 $(ADA_SRC) | awk '/svn/ { print substr($$1, 2) }' | head -n 1)
+BUILDNUM	?= 1
 
 PROJECT_NAME	:= test_hello
 
 CRATE_NAME	:= libsimpleio_standalone_examples
-CRATE_VERSION	:= 1.0.0
+CRATE_VERSION	:= 1.$(REVISION).$(BUILDNUM)
 
 default: pack
 
