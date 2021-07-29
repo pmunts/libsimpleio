@@ -13,3 +13,7 @@ project-files = ["test_hello.gpr"]
 executables = ["test_hello"]
 
 tags = ["embedded", "linux", "libsimpleio", "beaglebone", "pocketbeagle", "raspberrypi"]
+
+[available."case(os)"]
+'linux' = true
+"..." = false
