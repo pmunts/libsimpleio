@@ -104,7 +104,6 @@ ifneq ($(BOARDNAME),)
 	sed -i 's:@@GCCLIBDIR@@:$(GCCLIBDIR):g'	$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.gpr
 	cp -R -P -p ada/lib/*.lib		$(DESTDIR)/../../$(LIBDIR)/ada
 	cp -R -P -p ada				$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src
-	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/alire
 	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/include
 	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/lib
 	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/programs
@@ -127,7 +126,6 @@ else
 	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
-	rm -rf					$(DESTDIR)/share/libsimpleio/ada/alire
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/Makefile
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/gnat-gpl
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/muntsos
