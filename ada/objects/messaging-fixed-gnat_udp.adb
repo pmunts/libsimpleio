@@ -80,6 +80,10 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     END LOOP;
 
     GNAT.Sockets.Send_Socket(Self.socket, Data, Last, Self.peer);
+
+    IF Natural(Last) + 1 /= Message'Length THEN
+      RAISE GNAT.Sockets.Socket_Error WITH "Short write";
+    END IF;
   END Send;
 
   -- UDP client (initiator) receive service
@@ -97,6 +101,10 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
 
     GNAT.Sockets.Receive_Socket(Self.socket, Data, Last, From);
 
+    IF Natural(Last) + 1 /= Message'Length THEN
+      RAISE GNAT.Sockets.Socket_Error WITH "Short read";
+    END IF;
+
     IF From /= Self.peer THEN
       RAISE GNAT.Sockets.Socket_Error WITH "Message not from server node";
     END IF;
@@ -111,9 +119,6 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
       ELSE
         RAISE;
       END IF;
-
-    WHEN OTHERS =>
-      RAISE;
   END Receive;
 
   -- UDP server (responder) constructor
@@ -167,6 +172,10 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
     END LOOP;
 
     GNAT.Sockets.Send_Socket(Self.socket, Data, Last, To);
+
+    IF Natural(Last) + 1 /= Message'Length THEN
+      RAISE GNAT.Sockets.Socket_Error WITH "Short write";
+    END IF;
   END Send_Server;
 
   -- UDP server (responder) receive service
@@ -183,6 +192,10 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
   BEGIN
     GNAT.Sockets.Receive_Socket(Self.socket, Data, Last, From);
 
+    IF Natural(Last) + 1 /= Message'Length THEN
+      RAISE GNAT.Sockets.Socket_Error WITH "Short read";
+    END IF;
+
     FOR i IN Data'Range LOOP
       msg(Integer(i)) := Messaging.Byte(Data(i));
     END LOOP;
@@ -195,9 +208,6 @@ PACKAGE BODY Messaging.Fixed.GNAT_UDP IS
       ELSE
         RAISE;
       END IF;
-
-    WHEN OTHERS =>
-      RAISE;
   END Receive_Server;
 
   -- Retrieve the underlying Linux file descriptor
