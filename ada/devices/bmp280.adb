@@ -96,7 +96,7 @@ PACKAGE BODY BMP280 IS
 
   FUNCTION Create(bus : NOT NULL I2C.Bus; addr : I2C.Address) RETURN Device IS
 
-    Self    : Device := NEW DeviceSubclass'(bus, addr,
+    Self    : CONSTANT Device := NEW DeviceSubclass'(bus, addr,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     status  : I2C.Response(0 .. 0);
     caldata : I2C.Response(0 .. 25);

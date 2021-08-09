@@ -96,7 +96,7 @@ PACKAGE BODY HID.libusb IS
     -- and serial number.
 
     DECLARE
-      devlist   : DeviceArray := DevicePointers.Value(devlistp);
+      devlist   : CONSTANT DeviceArray := DevicePointers.Value(devlistp);
       devdesc   : DeviceDescriptor;
       devvid    : HID.Vendor;
       devpid    : HID.Product;

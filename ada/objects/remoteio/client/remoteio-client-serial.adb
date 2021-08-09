@@ -28,7 +28,7 @@ PACKAGE BODY RemoteIO.Client.Serial IS
     baudrate : Natural := 115200;
     timeout  : Natural := 1000) RETURN Device IS
 
-    port : ACCESS GNAT.Serial_Communications.Serial_Port :=
+    port : CONSTANT ACCESS GNAT.Serial_Communications.Serial_Port :=
       NEW GNAT.Serial_Communications.Serial_Port;
 
     baud : GNAT.Serial_Communications.Data_Rate;

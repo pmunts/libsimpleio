@@ -24,8 +24,6 @@
 
 WITH Motor;
 
-USE TYPE Motor.Velocity;
-
 PACKAGE Grove_TB6612.Motor IS
 
   -- Grove TB6612 DC motor output channels

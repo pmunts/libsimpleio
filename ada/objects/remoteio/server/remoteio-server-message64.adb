@@ -20,13 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Directories;
 WITH Ada.Exceptions;
 WITH Ada.Strings.Fixed;
 
-WITH libLinux;
 WITH Logging.libsimpleio;
-WITH Message64.Datagram_libsimpleio;
 WITH Messaging;
 
 USE TYPE Messaging.Byte;

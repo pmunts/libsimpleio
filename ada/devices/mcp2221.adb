@@ -24,7 +24,6 @@ WITH Ada.Characters.Conversions;
 WITH Ada.Strings.Fixed;
 
 WITH Messaging;
-WITH Message64;
 
 USE TYPE Messaging.Byte;
 
@@ -36,7 +35,7 @@ PACKAGE BODY MCP2221 IS
    (msg       : NOT NULL Message64.Messenger;
     pinmodes  : PinModeArray := AllGPIO) RETURN Device IS
 
-    dev : DeviceClass := DeviceClass'(msg => msg);
+    dev : CONSTANT DeviceClass := DeviceClass'(msg => msg);
 
   BEGIN
     dev.SetPinModes(pinmodes);
@@ -92,7 +91,7 @@ PACKAGE BODY MCP2221 IS
 
   FUNCTION Revision(Self : DeviceClass) RETURN String IS
 
-    cmd  : Message64.Message := (0 => CMD_SET_PARM, OTHERS => 0);
+    cmd  : CONSTANT Message64.Message := (0 => CMD_SET_PARM, OTHERS => 0);
     resp : Message64.Message;
 
   BEGIN
@@ -106,7 +105,7 @@ PACKAGE BODY MCP2221 IS
 
   FUNCTION Manufacturer(Self : DeviceClass) RETURN String IS
 
-    cmd    : Message64.Message := (0 => CMD_READ_FLASH, 1 => 2, OTHERS => 0);
+    cmd    : CONSTANT Message64.Message := (0 => CMD_READ_FLASH, 1 => 2, OTHERS => 0);
     resp   : Message64.Message;
     len    : Natural;
     code   : Natural;
@@ -134,7 +133,7 @@ PACKAGE BODY MCP2221 IS
 
   FUNCTION Product(Self : DeviceClass) RETURN String IS
 
-    cmd    : Message64.Message := (0 => CMD_READ_FLASH, 1 => 3, OTHERS => 0);
+    cmd    : CONSTANT Message64.Message := (0 => CMD_READ_FLASH, 1 => 3, OTHERS => 0);
     resp   : Message64.Message;
     len    : Natural;
     code   : Natural;
@@ -162,7 +161,7 @@ PACKAGE BODY MCP2221 IS
 
   FUNCTION SerialNumber(Self : DeviceClass) RETURN String IS
 
-    cmd    : Message64.Message := (0 => CMD_READ_FLASH, 1 => 4, OTHERS => 0);
+    cmd    : CONSTANT Message64.Message := (0 => CMD_READ_FLASH, 1 => 4, OTHERS => 0);
     resp   : Message64.Message;
     len    : Natural;
     code   : Natural;

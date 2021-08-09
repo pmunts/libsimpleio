@@ -88,7 +88,7 @@ PACKAGE BODY MCP2221.GPIO IS
   FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
 
     offset : CONSTANT Natural := 2 + 2*Natural(Self.num);
-    cmd    : Message64.Message := (0 => CMD_GET_GPIO, OTHERS => 0);
+    cmd    : CONSTANT Message64.Message := (0 => CMD_GET_GPIO, OTHERS => 0);
     resp   : Message64.Message;
 
   BEGIN

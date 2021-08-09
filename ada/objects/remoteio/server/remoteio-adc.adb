@@ -23,7 +23,6 @@
 WITH Analog;
 WITH errno;
 WITH Messaging;
-WITH Message64;
 
 USE TYPE Analog.Sample;
 USE TYPE Messaging.Byte;

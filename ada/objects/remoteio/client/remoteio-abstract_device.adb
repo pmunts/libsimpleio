@@ -23,7 +23,6 @@
 WITH Ada.Strings.Fixed;
 
 WITH Messaging;
-WITH Message64;
 
 USE TYPE Messaging.Byte;
 
@@ -35,10 +34,8 @@ PACKAGE BODY RemoteIO.Abstract_Device IS
    (remdev  : NOT NULL RemoteIO.Client.Device;
     channel : RemoteIO.ChannelNumber) RETURN Device IS
 
-    dev : Device := NEW DeviceClass'(remdev, channel);
-
   BEGIN
-    RETURN dev;
+    RETURN NEW DeviceClass'(remdev, channel);
   END Create;
 
   -- Get abstract device information string

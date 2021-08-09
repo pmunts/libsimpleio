@@ -22,8 +22,6 @@
 
 -- See http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
 
-WITH Ada.Strings.Fixed;
-WITH Ada.Text_IO;
 WITH Interfaces; USE Interfaces;
 WITH Messaging;
 
@@ -62,7 +60,7 @@ PACKAGE BODY Stream_Framing_Protocol IS
     dst    : OUT FrameBuffer;
     dstlen : OUT FrameSize) IS
 
-    crc  : Unsigned_16 := CRC16(src, srclen);
+    crc  : CONSTANT Unsigned_16 := CRC16(src, srclen);
     didx : Positive := 1;
 
   BEGIN

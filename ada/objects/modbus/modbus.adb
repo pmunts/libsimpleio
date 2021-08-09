@@ -136,7 +136,7 @@ PACKAGE BODY Modbus IS
 
   BEGIN
     Self.Destroy;
-    Self := Create(host, service);
+    Self := Create(host, service, debug);
   END Initialize;
 
   -- Bus object destructor

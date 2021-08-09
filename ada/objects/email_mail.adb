@@ -27,7 +27,6 @@ WITH System;
 
 WITH errno;
 WITH libLinux;
-WITH Messaging.Text;
 
 PACKAGE BODY Email_Mail IS
 
@@ -77,6 +76,8 @@ PACKAGE BODY Email_Mail IS
     file   : Ada.Text_IO.File_Type;
 
   BEGIN
+    Self.CheckDestroyed;
+
     libLinux.POpenWrite(MailProg & " " & parms & ASCII.NUL, stream, error);
 
     IF error /= 0 THEN
@@ -159,6 +160,8 @@ PACKAGE BODY Email_Mail IS
     attachment : String) IS
 
   BEGIN
+    Self.CheckDestroyed;
+
     Self.Dispatch(PackSender(sender) & PackSubject(subject) &
       PackAttachment(attachment) & PackRecipient(recipient), message);
   END Send;
@@ -171,6 +174,8 @@ PACKAGE BODY Email_Mail IS
     subject   : String := "") IS
 
   BEGIN
+    Self.CheckDestroyed;
+
     Self.Dispatch(PackSender(sender) & PackSubject(subject) &
       PackRecipient(recipient), message);
   END Send;

@@ -22,14 +22,10 @@
 
 WITH errno;
 WITH Messaging;
-WITH Message64;
-WITH PWM.libsimpleio;
 
 USE TYPE Messaging.Byte;
 
 PACKAGE BODY RemoteIO.PWM IS
-
-  TYPE Unsigned32 IS MOD 2**32;
 
   FUNCTION Create
    (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher IS

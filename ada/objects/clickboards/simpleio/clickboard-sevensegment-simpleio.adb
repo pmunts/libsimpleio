@@ -20,7 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.SimpleIO;
 WITH GPIO.libsimpleio;
 WITH PWM.libsimpleio;
 WITH SPI.libsimpleio;
@@ -44,9 +43,6 @@ PACKAGE BODY ClickBoard.SevenSegment.SimpleIO IS
       EXCEPTION
         WHEN ClickBoard.SocketError =>
           NULL;
-
-        WHEN OTHERS =>
-          RAISE;
       END;
     END IF;
 

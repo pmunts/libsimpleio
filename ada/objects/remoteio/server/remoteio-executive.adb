@@ -25,7 +25,6 @@ WITH Ada.Exceptions;
 WITH errno;
 WITH Logging.libsimpleio;
 WITH Messaging;
-WITH Message64;
 WITH RemoteIO.Dispatch;
 
 USE TYPE Messaging.Byte;

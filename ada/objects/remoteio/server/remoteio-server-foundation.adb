@@ -20,7 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Directories;
 WITH Ada.Strings.Fixed;
 
 WITH libLinux;
@@ -29,10 +28,6 @@ WITH RemoteIO.Common;
 WITH RemoteIO.Server;
 
 PACKAGE BODY RemoteIO.Server.Foundation IS
-
-  -- Filename constants
-
-  Gadget_Device_Serial : CONSTANT String := "/dev/ttyGS0";
 
   -- Persistent variables
 

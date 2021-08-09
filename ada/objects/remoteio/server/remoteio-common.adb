@@ -22,7 +22,6 @@
 
 WITH Logging.libsimpleio;
 WITH Messaging;
-WITH Message64;
 
 USE TYPE Messaging.Byte;
 

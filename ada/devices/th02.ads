@@ -53,8 +53,6 @@ PACKAGE TH02 IS
 
 PRIVATE
 
-  USE TYPE Humidity.Relative;
-
   TYPE DeviceSubclass IS NEW Temperature.InputInterface AND
     Humidity.InputInterface WITH RECORD
     bus     : I2C.Bus;

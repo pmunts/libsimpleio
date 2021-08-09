@@ -23,7 +23,6 @@
 WITH Device;
 WITH GPIO.libsimpleio;
 WITH Messaging;
-WITH Message64;
 
 USE TYPE Device.Designator;
 USE TYPE GPIO.libsimpleio.PinSubclass;

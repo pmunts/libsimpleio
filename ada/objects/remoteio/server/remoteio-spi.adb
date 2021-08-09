@@ -23,7 +23,6 @@
 WITH errno;
 WITH SPI;
 WITH Messaging;
-WITH Message64;
 
 USE TYPE SPI.Microseconds;
 USE TYPE Messaging.Byte;

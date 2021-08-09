@@ -25,7 +25,6 @@
 -- dedicated real-time hardware, such as a microcontroller.
 
 WITH Ada.Calendar;
-WITH Ada.Numerics;
 
 WITH GPIO;
 WITH Stepper;

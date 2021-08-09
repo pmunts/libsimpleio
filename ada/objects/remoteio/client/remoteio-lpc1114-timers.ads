@@ -22,8 +22,6 @@
 
 WITH Interfaces;
 
-WITH RemoteIO.Client;
-
 PACKAGE RemoteIO.LPC1114.Timers IS
 
   Timer_Error : EXCEPTION;

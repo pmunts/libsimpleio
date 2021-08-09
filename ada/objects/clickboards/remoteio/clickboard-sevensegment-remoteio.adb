@@ -20,10 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.RemoteIO;
 WITH GPIO.RemoteIO;
 WITH PWM.RemoteIO;
-WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
 
 PACKAGE BODY ClickBoard.SevenSegment.RemoteIO IS
@@ -50,9 +48,6 @@ PACKAGE BODY ClickBoard.SevenSegment.RemoteIO IS
       EXCEPTION
         WHEN ClickBoard.SocketError =>
           NULL;
-
-        WHEN Others =>
-          RAISE;
       END;
     END IF;
 

@@ -23,7 +23,6 @@
 WITH errno;
 WITH I2C;
 WITH Messaging;
-WITH Message64;
 
 USE TYPE I2C.Microseconds;
 USE TYPE Messaging.Byte;

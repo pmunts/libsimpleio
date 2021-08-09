@@ -21,7 +21,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH libSerial;
 WITH Logging.libsimpleio;
 WITH Message64.Stream_libsimpleio;
 WITH RemoteIO.Server.Message64;

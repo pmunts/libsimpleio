@@ -26,7 +26,6 @@ WITH Interfaces; USE Interfaces;
 
 WITH Message64;
 WITH RemoteIO.Abstract_Device;
-WITH RemoteIO.Client;
 
 PACKAGE RemoteIO.LPC1114 IS
 

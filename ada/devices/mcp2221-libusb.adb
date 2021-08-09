@@ -1,6 +1,6 @@
 -- MCP2221 Device Services using HID.libusb
 
--- Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -31,7 +31,7 @@ PACKAGE BODY MCP2221.libusb IS
     timeoutms : Natural      := 1000;
     pinmodes  : PinModeArray := AllGPIO) RETURN Device IS
 
-    dev : DeviceClass :=
+    dev : CONSTANT DeviceClass :=
       DeviceClass'(msg => HID.libusb.Create(vid, pid, serial, timeoutms, 2,
         16#83#, 16#03#));
 

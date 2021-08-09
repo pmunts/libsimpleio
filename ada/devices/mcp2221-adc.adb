@@ -39,7 +39,7 @@ PACKAGE BODY MCP2221.ADC IS
 
   FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample IS
 
-    cmd    : Message64.Message := (0 => CMD_SET_PARM, OTHERS => 0);
+    cmd    : CONSTANT Message64.Message := (0 => CMD_SET_PARM, OTHERS => 0);
     resp   : Message64.Message;
     offset : CONSTANT Natural := 48 + 2*Natural(Self.num);
 

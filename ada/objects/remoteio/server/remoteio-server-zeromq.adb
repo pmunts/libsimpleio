@@ -22,10 +22,8 @@
 
 WITH Message64.ZMQ;
 WITH RemoteIO.Server.Message64;
-WITH ZeroMQ.Context;
 WITH ZeroMQ.Sockets;
 WITH libLinux;
-WITH Logging.libsimpleio;
 
 PACKAGE BODY RemoteIO.Server.ZeroMQ IS
 
@@ -43,8 +41,7 @@ PACKAGE BODY RemoteIO.Server.ZeroMQ IS
     error  : Integer;
 
   BEGIN
-    s := Standard.ZeroMQ.Sockets.Create(Standard.ZeroMQ.Context.Default,
-      Standard.ZeroMQ.Sockets.Rep, 1000);
+    s := Standard.ZeroMQ.Sockets.Create(ctx, Standard.ZeroMQ.Sockets.Rep, 1000);
 
     s.Bind(Standard.ZeroMQ.Sockets.To_Endpoint(addr, port));
 

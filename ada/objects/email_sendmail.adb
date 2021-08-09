@@ -26,7 +26,6 @@ WITH System;
 
 WITH errno;
 WITH libLinux;
-WITH Messaging.Text;
 
 PACKAGE BODY Email_Sendmail IS
 

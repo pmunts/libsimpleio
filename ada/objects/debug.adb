@@ -23,7 +23,6 @@
 
 WITH Ada.Text_IO;
 WITH Ada.Environment_Variables;
-WITH Ada.Exceptions;
 
 PACKAGE BODY Debug IS
 
