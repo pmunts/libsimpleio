@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO	?= .
+LIBSIMPLEIO	?= $(shell pwd)
 
 AR		= $(CROSS_COMPILE)ar
 CC		= $(CROSS_COMPILE)gcc
@@ -87,7 +87,7 @@ libsimpleio.so: compile.done
 # Precompile Ada library projects
 
 adalibs.done:
-	$(MAKE) -C ada/lib BOARDNAME=$(BOARDNAME)
+	$(MAKE) -C ada/lib BOARDNAME=$(BOARDNAME) LIBSIMPLEIO=$(LIBSIMPLEIO)
 	touch $@
 
 # Install headers and library files
