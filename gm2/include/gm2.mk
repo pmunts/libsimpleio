@@ -20,10 +20,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-GM2		?= gm2
-AR		?= ar
-RANLIB		?= ranlib
-STRIP		?= strip
+GM2		?= $(CROSS_COMPILE)gm2
+AR		?= $(CROSS_COMPILE)ar
+RANLIB		?= $(CROSS_COMPILE)ranlib
+STRIP		?= $(CROSS_COMPILE)strip
 
 GM2_DIALECT	?= iso
 GM2_FLAGS	+= -f$(GM2_DIALECT) -fsoft-check-all -Wpedantic -Wstudents
