@@ -177,7 +177,7 @@ package.deb: $(DEBFILE)
 # Remove working files
 
 clean:
-	$(MAKE) -C ada/lib clean
+	$(MAKE) -C ada/lib clean LIBSIMPLEIO=$(LIBSIMPLEIO)
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean
