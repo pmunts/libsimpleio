@@ -20,6 +20,11 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+undefine AR
+undefine CXX
+undefine RANLIB
+undefine STRIP
+
 # The following targets are not files
 
 .PHONY: cxx_mk_default cxx_mk_subordinates cxx_mk_clean cxx_mk_reallyclean cxx_mk_distclean
@@ -39,18 +44,23 @@ STRIP		:= $(CROSS_COMPILE)strip
 else
 # Native compile for Unix
 ifeq ($(shell uname), FreeBSD)
+AR		:= ar
 CXX		:= g++10
+RANLIB		:= ranlib
 STRIP		:= strip
 endif
 ifeq ($(shell uname), OpenBSD)
+AR		:= ar
 CXX		:= eg++
-CXXFLAGS	+= -I/usr/local/include
+RANLIB		:= ranlib
 STRIP		:= strip
+CXXFLAGS	+= -I/usr/local/include
 endif
-CXX		?= g++
-AR		?= ar
-RANLIB		?= ranlib
-STRIP		?= strip
+CXX		?= $(CROSS_COMPILE)g++
+AR		?= $(CROSS_COMPILE)ar
+RANLIB		?= $(CROSS_COMPILE)ranlib
+STRIP		?= $(CROSS_COMPILE)strip
+CXXFLAGS	+= -I/usr/local/include
 endif
 
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
