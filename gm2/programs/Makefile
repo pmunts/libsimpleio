@@ -31,7 +31,6 @@ include $(LIBSIMPLEIO)/gm2/include/gm2.mk
 GM2_FLAGS	+= -I$(LIBSIMPLEIO)/gm2/bindings
 GM2_FLAGS	+= -I$(LIBSIMPLEIO)/gm2/devices
 GM2_FLAGS	+= -I$(LIBSIMPLEIO)/gm2/modules
-GM2_LIBS	+= -lsimpleio
 
 # Compile the test programs
 

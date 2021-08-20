@@ -28,6 +28,7 @@ STRIP		?= $(CROSS_COMPILE)strip
 GM2_DIALECT	?= iso
 GM2_FLAGS	+= -f$(GM2_DIALECT) -fsoft-check-all -Wpedantic -Wstudents
 GM2_FLAGS	+= -ftarget-ar=$(AR) -ftarget-ranlib=$(RANLIB)
+GM2_LIBS	+= -l:libm2iso.a -l:libm2pim.a -l:libsimpleio.a
 
 ###############################################################################
 
