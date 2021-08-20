@@ -40,6 +40,7 @@ BEGIN
   WriteString("Linux Shell Command Test");
   WriteLn;
   WriteLn;
+  FlushOutErr;
 
   (* Show usage *)
 
@@ -58,6 +59,8 @@ BEGIN
   (* Execute the command string *)
 
   command(cmd, status, error);
+  WriteLn;
+  FlushOutErr;
 
   (* Display results *)
 
