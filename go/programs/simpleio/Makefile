@@ -32,8 +32,6 @@ GO_SRC		?= $(LIBSIMPLEIO)/go
 include $(GO_SRC)/include/gccgo.mk
 include $(GO_SRC)/include/libsimpleio.mk
 
-LDFLAGS		+= -static
-
 # Compile the test programs
 
 default:
