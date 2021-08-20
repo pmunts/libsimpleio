@@ -72,7 +72,11 @@ ADA_LDFLAGS	+= -L/usr/local/lib
 endif
 
 ifneq ($(GNAT),)
-GNATPREFIX	= $(GNAT)/bin/
+GNATPREFIX	:= $(GNAT)/bin/
+endif
+
+ifneq ($(CROSS_COMPILE),)
+GNATPREFIX	:= $(CROSS_COMPILE)
 endif
 
 # Check for overriding MuntsOS cross-compilation default.cgpr
