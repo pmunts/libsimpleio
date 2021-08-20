@@ -22,8 +22,8 @@
 
 LIBSIMPLEIO	?= $(shell pwd)
 
-AR		= $(CROSS_COMPILE)ar
-CC		= $(CROSS_COMPILE)gcc
+AR		= ar
+CC		= gcc
 CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
 
 BUILDNUM	?= 1
