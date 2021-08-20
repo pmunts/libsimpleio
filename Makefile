@@ -22,39 +22,22 @@
 
 LIBSIMPLEIO	?= $(shell pwd)
 
-AR		= ar
-CC		= gcc
-CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
+AR		?= ar
+CC		?= gcc
+RANLIB		?= ranlib
 
-BUILDNUM	?= 1
+CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
 
 DESTDIR		?= /usr/local
 ETCDIR		?= /etc
 
-ifeq ($(BOARDNAME),)
-# Definitions for compiling for native Linux
-
+BUILDNUM	?= 1
 OSNAME		?= unknown
 PKGNAME		:= munts-libsimpleio
 PKGVERSION	:= $(shell date +%Y.%j).$(BUILDNUM)
 PKGARCH		:= $(shell dpkg --print-architecture)
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
-DEBFILE		:= $(PKGDIR).deb
-else
-# Definitions for cross-compiling for MuntsOS embedded Linux
-
-MUNTSOS		?= $(HOME)/muntsos
-include $(MUNTSOS)/include/$(BOARDNAME).mk
-
-LIBDIR		:= $(shell basename $(GCCLIBDIR))
-
-OSNAME		?= unknown
-PKGNAME		:= gcc-$(TOOLCHAIN_NAME)-libsimpleio
-PKGVERSION	:= $(shell date +%Y.%j).$(BUILDNUM)
-PKGARCH		:= all
-PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
-DEBFILE		:= $(PKGDIR).deb
-endif
+PKGFILE		:= $(PKGDIR).deb
 
 include include/dpkg.mk
 
@@ -93,38 +76,20 @@ adalibs.done:
 # Install headers and library files
 
 install: libsimpleio.a libsimpleio.so adalibs.done
-	mkdir -p				$(DESTDIR)/include/libsimpleio
-	mkdir -p				$(DESTDIR)/lib
-	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
-	install -cm 0644 *.a			$(DESTDIR)/lib
-	install -cm 0755 *.so			$(DESTDIR)/lib
-ifneq ($(BOARDNAME),)
-	mkdir -p				$(DESTDIR)/../../$(LIBDIR)/ada
-	cp ada/lib/muntsos/libsimpleio.gpr	$(DESTDIR)/../../$(LIBDIR)/ada
-	sed -i 's:@@GCCLIBDIR@@:$(GCCLIBDIR):g'	$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.gpr
-	cp -R -P -p ada/lib/*.lib		$(DESTDIR)/../../$(LIBDIR)/ada
-	cp -R -P -p ada				$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src
-	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/include
-	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/lib
-	rm -rf					$(DESTDIR)/../../$(LIBDIR)/ada/libsimpleio.src/programs
-	mkdir -p				$(DESTDIR)/share/libsimpleio
-	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio
-	mkdir -p				$(DESTDIR)/../../../share/gpr
-	ln -s ../../$(CONFIGURE_NAME)/$(LIBDIR)/ada/libsimpleio.gpr $(DESTDIR)/../../../share/gpr/libsimpleio.gpr
-else
 	mkdir -p				$(ETCDIR)/udev/rules.d
-	mkdir -p				$(DESTDIR)/libexec
-	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
-	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
+	mkdir -p				$(DESTDIR)/include/libsimpleio
+	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
+	mkdir -p				$(DESTDIR)/lib
+	install -cm 0644 *.a			$(DESTDIR)/lib
+	install -cm 0755 *.so			$(DESTDIR)/lib
+	mkdir -p				$(DESTDIR)/libexec
 	install -cm 0755 hotplug/linux/*helper*	$(DESTDIR)/libexec
 	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-attach hotplug/linux/usb-hid-hotplug-attach.c
 	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-detach hotplug/linux/usb-hid-hotplug-detach.c
 	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
-	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
-	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc
-	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
+	mkdir -p				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/Makefile
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/gnat-gpl
@@ -144,35 +109,27 @@ else
 	cp -R -P -p mybasic			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p nuget			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p python			$(DESTDIR)/share/libsimpleio
+	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
+	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
+	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc
+	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
+	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
-endif
 
 # Create Debian package file
 
 $(PKGDIR):
 	mkdir -p				$(PKGDIR)/DEBIAN
-ifeq ($(BOARDNAME),)
 	install -cm 0644 control		$(PKGDIR)/DEBIAN
-else
-	install -cm 0644 control.muntsos	$(PKGDIR)/DEBIAN/control
-	sed -i s/@@BOARDNAME@@/$(BOARDBASE)/g	$(PKGDIR)/DEBIAN/control
-endif
 	sed -i s/@@ARCH@@/$(PKGARCH)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
-ifeq ($(BOARDNAME),)
-# Native package for Debian Linux et al
 	echo "/etc/hidraw.conf" >>		$(PKGDIR)/DEBIAN/conffiles
-	echo "Depends: libhidapi-dev, libusb-1.0-0-dev" >> $(PKGDIR)/DEBIAN/control
 	install -cm 0755 postinst.native	$(PKGDIR)/DEBIAN/postinst
 	install -cm 0755 postrm.native		$(PKGDIR)/DEBIAN/postrm
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local ETCDIR=$(PKGDIR)/etc
-else
-# Cross-compiled package for MuntsOS embedded Linux
-	$(MAKE) install DESTDIR=$(PKGDIR)$(GCCSYSROOT)/usr
-endif
 
-package.deb: $(DEBFILE)
+package.deb: $(PKGFILE)
 
 # Remove working files
 
