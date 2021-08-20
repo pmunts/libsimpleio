@@ -1,6 +1,7 @@
-# Makefile to build Linux Simple I/O Library
+# Makefile to build the Linux Simple I/O Library, cross-compiled by a Debian
+# cross-toolcian
 
-# Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -24,9 +25,9 @@ CROSS_COMPILE	?= unknown-
 
 LIBSIMPLEIO	:= $(shell pwd)
 CONFIGURE_NAME	:= $(shell echo aarch64-linux-gnu- | sed 's/.$$//')
-INSTALLDIR	:= /usr/local/lib/$(CONFIGURE_NAME)
 AR		:= $(CROSS_COMPILE)ar
 CC		:= $(CROSS_COMPILE)gcc
+RANLIB		:= $(CROSS_COMPILE)ranlib
 
 CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
 
@@ -60,6 +61,7 @@ compile.done:
 
 libsimpleio.a: compile.done
 	$(AR) rcs $@ obj/*.o
+	$(RANLIB) $@
 
 # Create shared library
 
@@ -75,9 +77,9 @@ $(PKGDIR): libsimpleio.a libsimpleio.so
 	sed -i s/@@ARCH@@/$(PKGARCH)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
-	mkdir -p				$(PKGDIR)$(INSTALLDIR)
-	install -cm 0644 *.a			$(PKGDIR)$(INSTALLDIR)
-	install -cm 0755 *.so			$(PKGDIR)$(INSTALLDIR)
+	mkdir -p				$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
+	install -cm 0644 *.a			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
+	install -cm 0755 *.so			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
 
 package.deb: $(PKGFILE)
 
