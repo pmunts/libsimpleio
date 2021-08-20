@@ -20,17 +20,13 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-CROSS_ARCH	?= unknown
-LIBSIMPLEIO	?= $(shell pwd)
+CROSS_COMPILE	?= unknown-
 
-ifeq ($(CROSS_ARCH), arm64)
-# Cross compile using Debian AArch64 cross-toolchain
-CONFIGURE_NAME	:= aarch64-linux-gnu
-CROSS_COMPILE	:= $(CONFIGURE_NAME)-
+LIBSIMPLEIO	:= $(shell pwd)
+CONFIGURE_NAME	:= $(shell echo aarch64-linux-gnu- | sed 's/.$$//')
 INSTALLDIR	:= /usr/local/lib/$(CONFIGURE_NAME)
-AR		:= $(CROSS_COMPILE)gcc-ar-10
-CC		:= $(CROSS_COMPILE)gcc-10
-endif
+AR		:= $(CROSS_COMPILE)ar
+CC		:= $(CROSS_COMPILE)gcc
 
 CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
 

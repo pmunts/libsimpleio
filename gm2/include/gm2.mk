@@ -20,16 +20,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifeq ($(CROSS_ARCH),)
-# Build with Debian native gm2
-GM2		?= gm2
-AR		?= ar
-RANLIB		?= ranlib
-STRIP		?= strip
-else
-# Build with Debian cross gm2
-include $(LIBSIMPLEIO)/gm2/include/$(CROSS_ARCH).mk
-endif
+GM2		?= $(CROSS_COMPILE)gm2
+AR		?= $(CROSS_COMPILE)ar
+RANLIB		?= $(CROSS_COMPILE)ranlib
+STRIP		?= $(CROSS_COMPILE)strip
 
 GM2_DIALECT	?= iso
 GM2_FLAGS	+= -f$(GM2_DIALECT) -fsoft-check-all -Wpedantic -Wstudents
