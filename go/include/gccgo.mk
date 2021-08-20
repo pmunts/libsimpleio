@@ -38,10 +38,10 @@ RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
 else
 # Native compile for Unix
-GCCGO		?= gccgo
-AR		?= ar
-RANLIB		?= ranlib
-STRIP		?= strip
+GCCGO		?= $(CROSS_COMPILE)gccgo
+AR		?= $(CROSS_COMPILE)ar
+RANLIB		?= $(CROSS_COMPILE)ranlib
+STRIP		?= $(CROSS_COMPILE)strip
 endif
 
 GO_LIB		?= $(shell pwd)/subordinates
