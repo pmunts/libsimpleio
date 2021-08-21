@@ -75,8 +75,17 @@ ifneq ($(GNAT),)
 GNATPREFIX	:= $(GNAT)/bin/
 endif
 
+# Definitions for Debian cross-toolchain
+
+ifeq ($(shell uname), Linux)
 ifneq ($(CROSS_COMPILE),)
+ifeq ($(BOARDNAME),)
+DEBIAN_CROSS	:= yes
+CONFIGURE_NAME	:= $(shell echo $(CROSS_COMPILE) | sed 's/.$$//')
 GNATPREFIX	:= $(CROSS_COMPILE)
+GPRBUILDFLAGS	+= --target=$(CONFIGURE_NAME)
+endif
+endif
 endif
 
 # Check for overriding MuntsOS cross-compilation default.cgpr
@@ -113,7 +122,7 @@ GPRBUILD	?= $(GNAT)/bin/gprbuild$(EXESUFFIX)
 else
 GPRBUILD	?= gprbuild$(EXESUFFIX)
 endif
-GPRBUILDFLAGS	= -p $(GPRBUILDCONFIG)
+GPRBUILDFLAGS	+= -p $(GPRBUILDCONFIG)
 
 # Define pattern rules for building Ada programs
 
