@@ -96,8 +96,12 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	install -cm 0644 *.a			$(PKGDIR)$(GCCSYSROOT)/usr/lib
 	install -cm 0755 *.so			$(PKGDIR)$(GCCSYSROOT)/usr/lib
 	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada
-	cp ada/lib/muntsos/libsimpleio.gpr.install $(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
-	sed -i 's:@@GCCLIBDIR@@:$(GCCLIBDIR):g'	$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
+	cp ada/lib/muntsos/libsimpleio.gpr	$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada
+	sed -i '/LIBSIMPLEIO :=/,+1 d'		$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
+	sed -i '/Object_Dir/,+1 d'		$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
+	sed -i 's:false:true:g'			$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada/lib:"$(GCCLIBDIR)/ada:g' $(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada:"$(GCCLIBDIR)/ada/libsimpleio.src:g' $(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
 	cp -R -P -p ada/lib/*.lib		$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada
 	cp -R -P -p ada				$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src
 	rm -rf					$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src/include
