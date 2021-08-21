@@ -41,9 +41,13 @@
    C++, C#, Java, and Free Pascal that define OOP (Object Oriented
    Programming) classes for libsimpleio.
 
+Alire Crates
+
+   [6][libsimpleio.json] [7]libsimpleio.pdf
+
 Quick Setup Instructions for the Impatient
 
-   Instructions for installing libsimpleio are found in [6]UserManual.pdf,
+   Instructions for installing libsimpleio are found in [8]UserManual.pdf,
    on pages 5 and 6.
 
 News
@@ -70,12 +74,12 @@ News
        sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-raspberrypi2-crosstool-libsimpleio
 
      * 25 March 2021 -- Added some rudimentary Python client support for
-       the [7]Remote I/O Protocol for raw HID servers (like [8]this or
-       [9]this), in response to a request from a customer who wants to
+       the [9]Remote I/O Protocol for raw HID servers (like [10]this or
+       [11]this), in response to a request from a customer who wants to
        develop a Python Remote I/O Protocol client program that can run on
        Windows 10 64-bit. Accomplishing this requires a new Windows shared
        library libremoteio.dll, which was written in the Ada programming
-       language. It also contains the latest [10]hidapi code. Precompiled
+       language. It also contains the latest [12]hidapi code. Precompiled
        library files have been added to win/win64/. A few "proof of
        concept" Python3 programs are in python/.
      * 29 March 2021 -- The new libremoteio.dll also works with Visual
@@ -87,21 +91,39 @@ News
      * 18 May 2021 -- Added support for stepper motors to Ada and .Net.
        Renamed basic/ to mybasic/, modula2/ to gm2/, and pascal/ to
        freepascal/.
-     * 25 July 2021 -- Prebuild an Ada library projects for Linux Simple
-       I/O.
+     * 25 July 2021 -- Prebuild an Ada library project for the Linux
+       Simple I/O Library Ada binding.
+     * 20 August 2021 -- An [13]Alire library crate for libsimpleio has
+       been [14]published. Some more library crates for the [15]Remote I/O
+       Protocol and the [16]MCP2221 USB I/O Expander are also forthcoming.
+     * 21 August 2021 -- Added experimental support for cross-compiling
+       libsimpleio programs with cross-toolchains from the Debian package
+       repository. You can cross-compile Ada, C++, and Go (and on Debian
+       11 Modula-2) programs, with certain limitations: No support for
+       [17]AWS, [18]hidapi, or [19]libusb. Just set the CROSS_COMPILE
+       environment variable to select a cross-toolchain instead of a
+       native compile:
+
+       cd libsimpleio/ada/programs
+       export CROSS_COMPILE=aarch64-linux-gnu-
+       make test_hello
+
+       Select cross-compiled libsimpleio packages have been added to the
+       Munts Technologies Debian Package Repositories for [20]Debian 10
+       (Buster) and [21]Debian 11 (Bullseye).
 
 Documentation
 
-   The user manual for libsimpleio is available at [11]UserManual.pdf.
+   The user manual for libsimpleio is available at [22]UserManual.pdf.
 
    The man pages specifying the libsimpleio API are available at
-   [12]libsimpleio.html.
+   [23]libsimpleio.html.
 
 Git Repository
 
    The source code is available at:
 
-   [13]https://github.com/pmunts/libsimpleio
+   [24]https://github.com/pmunts/libsimpleio
 
    Use the following command to clone it:
 
@@ -109,16 +131,19 @@ Git Repository
 
 Package Repository
 
-   Prebuilt packages for [14]Debian Linux are available at:
-   [15]http://repo.munts.com/debian10
+   Prebuilt packages for [25]Debian Linux are available at:
 
-[16]Make With Ada Projects
+   [26]http://repo.munts.com/debian10
 
-     * 2017 [17]Ada Embedded Linux Framework
-     * 2019 [18]Modbus RTU Framework for Ada (Prize Winner!)
+   [27]http://repo.munts.com/debian11
+
+[28]Make With Ada Projects
+
+     * 2017 [29]Ada Embedded Linux Framework
+     * 2019 [30]Modbus RTU Framework for Ada (Prize Winner!)
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [19]phil@munts.net
+   Questions or comments to Philip Munts [31]phil@munts.net
 
    I am available for custom system development (hardware and software) of
    products using ARM Linux or other microcomputers.
@@ -130,17 +155,29 @@ References
    3. https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start
    4. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
    5. http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
-   6. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-   7. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
-   8. https://www.tindie.com/products/pmunts/usb-flexible-io-adapter
-   9. https://www.tindie.com/products/pmunts/usb-grove-adapter
-  10. https://github.com/libusb/hidapi
-  11. http://git.munts.com/libsimpleio/doc/UserManual.pdf
-  12. http://git.munts.com/libsimpleio/doc/libsimpleio.html
-  13. https://github.com/pmunts/libsimpleio
-  14. http://www.debian.org/
-  15. http://repo.munts.com/debian10
-  16. https://www.makewithada.org/
-  17. https://www.makewithada.org/entry/ada_linux_sensor_framework
-  18. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
-  19. mailto:phil@munts.net
+   6. https://alire.ada.dev/crates/libsimpleio.html
+   7. http://repo.munts.com/alire/libsimpleio.pdf
+   8. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+   9. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
+  10. https://www.tindie.com/products/pmunts/usb-flexible-io-adapter
+  11. https://www.tindie.com/products/pmunts/usb-grove-adapter
+  12. https://github.com/libusb/hidapi
+  13. https://alire.ada.dev/
+  14. https://alire.ada.dev/crates/libsimpleio.html
+  15. http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
+  16. https://www.microchip.com/en-us/product/MCP2221A
+  17. https://docs.adacore.com/aws-docs/aws/
+  18. https://github.com/libusb/hidapi
+  19. https://github.com/libusb/libusb
+  20. http://repo.munts.com/debian10
+  21. http://repo.munts.com/debian11
+  22. http://git.munts.com/libsimpleio/doc/UserManual.pdf
+  23. http://git.munts.com/libsimpleio/doc/libsimpleio.html
+  24. https://github.com/pmunts/libsimpleio
+  25. http://www.debian.org/
+  26. http://repo.munts.com/debian10
+  27. http://repo.munts.com/debian11
+  28. https://www.makewithada.org/
+  29. https://www.makewithada.org/entry/ada_linux_sensor_framework
+  30. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
+  31. mailto:phil@munts.net

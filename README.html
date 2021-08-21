@@ -45,6 +45,15 @@ and <b><tt>bool</tt></b> arguments.</li>
 modules are provided for Ada, C#, Java, and Free Pascal. Additional source code
 libraries are provided for Ada, C++, C#, Java, and Free Pascal that define OOP
 (Object Oriented Programming) classes for <b>libsimpleio</b>.</p>
+<h2>Alire Crates</h2>
+<table>
+<tr>
+<td><a href="https://alire.ada.dev/crates/libsimpleio.html"><img src=
+"https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/libsimpleio.json"></a></td>
+<td><a href=
+"http://repo.munts.com/alire/libsimpleio.pdf">libsimpleio.pdf</a></td>
+</tr>
+</table>
 <h2>Quick Setup Instructions for the Impatient</h2>
 <p>Instructions for installing <b>libsimpleio</b> are found in <a href=
 "http://git.munts.com/libsimpleio/doc/UserManual.pdf">UserManual.pdf</a>, on
@@ -92,7 +101,34 @@ ports.</li>
 <b><tt>basic/</tt></b> to <b><tt>mybasic/</tt></b>, <b><tt>modula2/</tt></b> to
 <b><tt>gm2/</tt></b>, and <b><tt>pascal/</tt></b> to
 <b><tt>freepascal/</tt></b>.</li>
-<li>25 July 2021 -- Prebuild an Ada library projects for Linux Simple I/O.</li>
+<li>25 July 2021 -- Prebuild an Ada library project for the Linux Simple I/O
+Library Ada binding.</li>
+<li>20 August 2021 -- An <a href="https://alire.ada.dev">Alire</a> library
+crate for <b>libsimpleio</b> has been <a href=
+"https://alire.ada.dev/crates/libsimpleio.html">published</a>. Some more
+library crates for the <a href=
+"http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
+Protocol</a> and the <a href=
+"https://www.microchip.com/en-us/product/MCP2221A">MCP2221 USB I/O Expander</a>
+are also forthcoming.</li>
+<li>21 August 2021 -- Added experimental support for cross-compiling
+<b>libsimpleio</b> programs with cross-toolchains from the Debian package
+repository. You can cross-compile Ada, C++, and Go (and on Debian 11 Modula-2)
+programs, with certain limitations: No support for <a href=
+"https://docs.adacore.com/aws-docs/aws/">AWS</a>, <a href=
+"https://github.com/libusb/hidapi">hidapi</a>, or <a href=
+"https://github.com/libusb/libusb">libusb</a>. Just set the
+<b><tt>CROSS_COMPILE</tt></b> environment variable to select a cross-toolchain
+instead of a native compile:
+<pre>
+cd libsimpleio/ada/programs
+export CROSS_COMPILE=aarch64-linux-gnu-
+make test_hello
+</pre>
+Select cross-compiled <b>libsimpleio</b> packages have been added to the Munts
+Technologies Debian Package Repositories for <a href=
+"http://repo.munts.com/debian10">Debian 10</a> (Buster) and <a href=
+"http://repo.munts.com/debian11">Debian 11</a> (Bullseye).</li>
 </ul>
 <h2>Documentation</h2>
 <p>The user manual for <b>libsimpleio</b> is available at <a href=
@@ -110,7 +146,10 @@ git clone https://github.com/pmunts/libsimpleio.git
 <h2>Package Repository</h2>
 <p>Prebuilt packages for <a href="http://www.debian.org">Debian</a> Linux are
 available at:</p>
-<a href="http://repo.munts.com/debian10">http://repo.munts.com/debian10</a>
+<p><a href=
+"http://repo.munts.com/debian10">http://repo.munts.com/debian10</a></p>
+<p><a href=
+"http://repo.munts.com/debian11">http://repo.munts.com/debian11</a></p>
 <h2><a href="https://www.makewithada.org/">Make With Ada</a> Projects</h2>
 <ul>
 <li>2017 <a href=

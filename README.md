@@ -51,6 +51,13 @@ Java, and Free Pascal. Additional source code libraries are provided for
 Ada, C++, C\#, Java, and Free Pascal that define OOP (Object Oriented
 Programming) classes for **libsimpleio**.
 
+Alire Crates
+------------
+
+|                                                                                                                                         |                                                                |
+|-----------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| [![](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/libsimpleio.json)](https://alire.ada.dev/crates/libsimpleio.html) | [libsimpleio.pdf](http://repo.munts.com/alire/libsimpleio.pdf) |
+
 Quick Setup Instructions for the Impatient
 ------------------------------------------
 
@@ -107,8 +114,34 @@ News
 -   18 May 2021 -- Added support for stepper motors to Ada and .Net.
     Renamed **`basic/`** to **`mybasic/`**, **`modula2/`** to
     **`gm2/`**, and **`pascal/`** to **`freepascal/`**.
--   25 July 2021 -- Prebuild an Ada library projects for Linux Simple
-    I/O.
+-   25 July 2021 -- Prebuild an Ada library project for the Linux Simple
+    I/O Library Ada binding.
+-   20 August 2021 -- An [Alire](https://alire.ada.dev) library crate
+    for **libsimpleio** has been
+    [published](https://alire.ada.dev/crates/libsimpleio.html). Some
+    more library crates for the [Remote I/O
+    Protocol](http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf)
+    and the [MCP2221 USB I/O
+    Expander](https://www.microchip.com/en-us/product/MCP2221A) are also
+    forthcoming.
+-   21 August 2021 -- Added experimental support for cross-compiling
+    **libsimpleio** programs with cross-toolchains from the Debian
+    package repository. You can cross-compile Ada, C++, and Go (and on
+    Debian 11 Modula-2) programs, with certain limitations: No support
+    for [AWS](https://docs.adacore.com/aws-docs/aws/),
+    [hidapi](https://github.com/libusb/hidapi), or
+    [libusb](https://github.com/libusb/libusb). Just set the
+    **`CROSS_COMPILE`** environment variable to select a cross-toolchain
+    instead of a native compile:
+
+        cd libsimpleio/ada/programs
+        export CROSS_COMPILE=aarch64-linux-gnu-
+        make test_hello
+
+    Select cross-compiled **libsimpleio** packages have been added to
+    the Munts Technologies Debian Package Repositories for [Debian
+    10](http://repo.munts.com/debian10) (Buster) and [Debian
+    11](http://repo.munts.com/debian11) (Bullseye).
 
 Documentation
 -------------
@@ -137,6 +170,8 @@ Prebuilt packages for [Debian](http://www.debian.org) Linux are
 available at:
 
 <http://repo.munts.com/debian10>
+
+<http://repo.munts.com/debian11>
 
 [Make With Ada](https://www.makewithada.org/) Projects
 ------------------------------------------------------
