@@ -78,7 +78,7 @@ libsimpleio.so: compile.done
 # Precompile Ada library projects
 
 adalibs.done:
-	$(MAKE) -C ada/lib BOARDNAME=$(BOARDNAME) LIBSIMPLEIO=$(LIBSIMPLEIO)
+	$(MAKE) -C ada/lib/muntsos BOARDNAME=$(BOARDNAME) LIBSIMPLEIO=$(LIBSIMPLEIO)
 	touch $@
 
 # Create Debian package file
@@ -96,7 +96,7 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	install -cm 0644 *.a			$(PKGDIR)$(GCCSYSROOT)/usr/lib
 	install -cm 0755 *.so			$(PKGDIR)$(GCCSYSROOT)/usr/lib
 	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada
-	cp ada/lib/muntsos/libsimpleio.gpr	$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada
+	cp ada/lib/muntsos/libsimpleio.gpr.install $(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
 	sed -i 's:@@GCCLIBDIR@@:$(GCCLIBDIR):g'	$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
 	cp -R -P -p ada/lib/*.lib		$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada
 	cp -R -P -p ada				$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src
@@ -113,7 +113,7 @@ package.deb: $(PKGFILE)
 # Remove working files
 
 clean:
-	$(MAKE) -C ada/lib clean LIBSIMPLEIO=$(LIBSIMPLEIO)
+	$(MAKE) -C ada/lib/muntsos clean LIBSIMPLEIO=$(LIBSIMPLEIO)
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean

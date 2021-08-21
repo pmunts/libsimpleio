@@ -70,7 +70,7 @@ libsimpleio.so: compile.done
 # Precompile Ada library projects
 
 adalibs.done:
-	$(MAKE) -C ada/lib BOARDNAME=$(BOARDNAME) LIBSIMPLEIO=$(LIBSIMPLEIO)
+	$(MAKE) -C ada/lib/native LIBSIMPLEIO=$(LIBSIMPLEIO)
 	touch $@
 
 # Install headers and library files
@@ -91,9 +91,10 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
 	mkdir -p				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
-	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/Makefile
+	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/cross-gpl
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/gnat-gpl
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/muntsos
+	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/native
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.done
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.obj
 	sed -i 's/false/true/g'			$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
@@ -134,7 +135,7 @@ package.deb: $(PKGFILE)
 # Remove working files
 
 clean:
-	$(MAKE) -C ada/lib clean LIBSIMPLEIO=$(LIBSIMPLEIO)
+	$(MAKE) -C ada/lib/native clean LIBSIMPLEIO=$(LIBSIMPLEIO)
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean

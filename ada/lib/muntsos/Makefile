@@ -1,4 +1,4 @@
-# Makefile for building Ada library projects
+# Makefile for building an Ada library project
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
@@ -22,33 +22,18 @@
 
 .PHONY: default build clean
 
-ifneq ($(BOARDNAME),)
-ifeq ($(BOARDBASE),)
-# Definitions for MuntsOS cross-compile
-MUNTSOS ?= $(HOME)/muntsos
-include $(MUNTSOS)/include/$(BOARDNAME).mk
-endif
-else
-# Definitions for native compile
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-endif
+LIBSIMPLEIO	?= ../../..
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 
 default: build
 
-# Define a pattern rule for building a single library project
-
-%.done: %.gpr
-	LIBSIMPLEIO=../.. $(GPRBUILD) -P$< $(GPRBUILDFLAGS)
-	touch $@
-
-# Build all library projects
+# Build the library project
 
 build:
-	for F in *.gpr ; do $(MAKE) `basename $$F .gpr`.done ; done
+	LIBSIMPLEIO=$(LIBSIMPLEIO) $(GPRBUILD) -P libsimpleio $(GPRBUILDFLAGS)
 
 # Remove working files
 
 clean:
-	rm -rf *.done *.lib *.obj
+	rm -rf *.done ../*.lib ../*.obj

@@ -22,7 +22,6 @@ WITH "aws";
 
 LIBRARY PROJECT libsimpleio IS
   LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
-  LIBNAME     := "libsimpleio";
 
   FOR Externally_Built USE "false";
 
@@ -30,9 +29,9 @@ LIBRARY PROJECT libsimpleio IS
 
   FOR Library_Name USE "libsimpleio";
 
-  FOR Library_Dir  USE LIBSIMPLEIO & "/ada/lib/" & LIBNAME & ".lib";
+  FOR Library_Dir  USE LIBSIMPLEIO & "/ada/lib/libsimpleio.lib";
 
-  FOR Object_Dir   USE LIBSIMPLEIO & "/ada/lib/" & LIBNAME & ".obj";
+  FOR Object_Dir   USE LIBSIMPLEIO & "/ada/lib/libsimpleio.obj";
 
   FOR Source_Dirs  USE
    (LIBSIMPLEIO & "/ada/bindings",

@@ -21,21 +21,17 @@
 WITH "aws";
 
 LIBRARY PROJECT libsimpleio IS
-  LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
-
-  FOR Externally_Built USE "false";
+  FOR Externally_Built USE "true";
 
   FOR Languages    USE ("Ada");
 
   FOR Library_Name USE "libsimpleio";
 
-  FOR Library_Dir  USE LIBSIMPLEIO & "/ada/lib/libsimpleio.lib";
-
-  FOR Object_Dir   USE LIBSIMPLEIO & "/ada/lib/libsimpleio.obj";
+  FOR Library_Dir  USE "@@GCCLIBDIR@@/ada/libsimpleio.lib";
 
   FOR Source_Dirs  USE
-   (LIBSIMPLEIO & "/ada/bindings",
-    LIBSIMPLEIO & "/ada/devices",
-    LIBSIMPLEIO & "/ada/interfaces",
-    LIBSIMPLEIO & "/ada/objects/**");
+   ("@@GCCLIBDIR@@/ada/libsimpleio.src/bindings",
+    "@@GCCLIBDIR@@/ada/libsimpleio.src/devices",
+    "@@GCCLIBDIR@@/ada/libsimpleio.src/interfaces",
+    "@@GCCLIBDIR@@/ada/libsimpleio.src/objects/**");
 END libsimpleio;
