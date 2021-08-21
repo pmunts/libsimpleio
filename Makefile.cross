@@ -24,7 +24,7 @@
 CROSS_COMPILE	?= unknown-
 
 LIBSIMPLEIO	:= $(shell pwd)
-CONFIGURE_NAME	:= $(shell echo aarch64-linux-gnu- | sed 's/.$$//')
+CONFIGURE_NAME	:= $(shell echo $(CROSS_COMPILE) | sed 's/.$$//')
 AR		:= $(CROSS_COMPILE)ar
 CC		:= $(CROSS_COMPILE)gcc
 RANLIB		:= $(CROSS_COMPILE)ranlib
@@ -68,9 +68,15 @@ libsimpleio.a: compile.done
 libsimpleio.so: compile.done
 	$(CC) -shared -o $@ obj/*.o
 
+# Precompile Ada library projects
+
+adalibs.done:
+	$(MAKE) -C ada/lib/cross CONFIGURE_NAME=$(CONFIGURE_NAME) LIBSIMPLEIO=$(LIBSIMPLEIO)
+	touch $@
+
 # Create Debian package file
 
-$(PKGDIR): libsimpleio.a libsimpleio.so
+$(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(PKGDIR)/DEBIAN
 	install -cm 0644 control.cross		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@TARGET@@/$(CONFIGURE_NAME)/g	$(PKGDIR)/DEBIAN/control
@@ -80,12 +86,26 @@ $(PKGDIR): libsimpleio.a libsimpleio.so
 	mkdir -p				$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
 	install -cm 0644 *.a			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
 	install -cm 0755 *.so			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
+	mkdir -p				$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)
+	cp COPYING				$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)
+	cp ada/lib/cross/libsimpleio.gpr	$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)
+	sed -i '/LIBSIMPLEIO :=/,+1 d'		$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
+	sed -i '/Object_Dir/,+1 d'		$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
+	sed -i 's:false:true:g'			$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada/lib:"/usr/local/share/libsimpleio-$(CONFIGURE_NAME):g' $(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada:"/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src:g' $(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
+	cp -R -P -p ada/lib/libsimpleio.lib	$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)
+	cp -R -P -p ada				$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src
+	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/include
+	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/lib
+	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/programs
 
 package.deb: $(PKGFILE)
 
 # Remove working files
 
 clean:
+	$(MAKE) -C ada/lib/muntsos clean LIBSIMPLEIO=$(LIBSIMPLEIO)
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean

@@ -91,7 +91,8 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
 	mkdir -p				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
-	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/cross-gpl
+	cp ada/lib/native/libsimpleio.gpr	$(DESTDIR)/share/libsimpleio/ada/lib
+	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/cross
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/gnat-gpl
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/muntsos
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/native
