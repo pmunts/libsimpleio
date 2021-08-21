@@ -60,15 +60,15 @@ GPRBUILD	:= no
 LIBSIMPLEIO	:= $(shell cygpath $(LIBSIMPLEIO))
 else
 WINARCH		?= win64
-ADA_LDFLAGS	+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
+LDFLAGS		+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
 endif
 endif
 
 # Definitions for MacOS X
 
 ifeq ($(shell uname), Darwin)
-ADA_LDFLAGS	+= -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
-ADA_LDFLAGS	+= -L/usr/local/lib
+LDFLAGS		+= -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
+LDFLAGS		+= -L/usr/local/lib
 endif
 
 ifneq ($(GNAT),)
@@ -98,7 +98,7 @@ ADA_OBJ		?= $(shell pwd)/obj
 GNATMAKE	?= $(GNATPREFIX)gnatmake$(EXESUFFIX)
 GNATMAKEFLAGS	= -D $(ADA_OBJ)
 GNATMAKECFLAGS	+= $(ADA_CFLAGS) $(ADA_INCLUDES)
-GNATMAKELDFLAGS	+= $(ADA_LDFLAGS)
+GNATMAKELDFLAGS	+= $(LDFLAGS)
 
 # Definitions for other GNAT programs
 
