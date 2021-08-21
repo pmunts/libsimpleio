@@ -90,14 +90,14 @@ endif
 
 # General toolchain definitions
 
-ADA_CFLAGS	+= -g -gnat2012
+CFLAGS		+= -g -gnat2012
 ADA_OBJ		?= $(shell pwd)/obj
 
 # Definitions for gnatmake
 
 GNATMAKE	?= $(GNATPREFIX)gnatmake$(EXESUFFIX)
 GNATMAKEFLAGS	= -D $(ADA_OBJ)
-GNATMAKECFLAGS	+= $(ADA_CFLAGS) $(ADA_INCLUDES)
+GNATMAKECFLAGS	+= $(CFLAGS)
 GNATMAKELDFLAGS	+= $(LDFLAGS)
 
 # Definitions for other GNAT programs
