@@ -108,6 +108,7 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	rm -rf					$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src/include
 	rm -rf					$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src/lib
 	rm -rf					$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src/programs
+	rm -rf					$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src/projects
 	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/usr/share/libsimpleio
 	install -cm 0644 COPYING		$(PKGDIR)$(GCCSYSROOT)/usr/share/libsimpleio
 	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/../../share/gpr

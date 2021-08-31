@@ -99,6 +99,7 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/include
 	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/lib
 	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/programs
+	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/projects
 
 package.deb: $(PKGFILE)
 

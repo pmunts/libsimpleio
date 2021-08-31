@@ -27,7 +27,7 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 
-PROGRAMS	+= @@PROGRAM@@
+PROGRAMS	+= @@YOURPROGRAMS@@
 
 default: build
 
