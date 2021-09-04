@@ -57,6 +57,8 @@ Alire Crates
 |                                                                                                                                         |                                                                |
 |-----------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
 | [![](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/libsimpleio.json)](https://alire.ada.dev/crates/libsimpleio.html) | [libsimpleio.pdf](http://repo.munts.com/alire/libsimpleio.pdf) |
+| [![](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mcp2221.json)](https://alire.ada.dev/crates/mcp2221.html)         | [mcp2221.pdf](http://repo.munts.com/alire/mcp2221.pdf)         |
+| [![](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/remoteio.json)](https://alire.ada.dev/crates/remoteio.html)       | [remoteio.pdf](http://repo.munts.com/alire/remoteio.pdf)       |
 
 Quick Setup Instructions for the Impatient
 ------------------------------------------
@@ -142,6 +144,11 @@ News
     the Munts Technologies Debian Package Repositories for [Debian
     10](http://repo.munts.com/debian10) (Buster) and [Debian
     11](http://repo.munts.com/debian11) (Bullseye).
+
+-   3 September 2021 -- The Alire crates
+    [mcp2221](https://alire.ada.dev/crates/mcp2221.html) and
+    [remoteio](https://alire.ada.dev/crates/remoteio.html) have now been
+    published.
 
 Documentation
 -------------
