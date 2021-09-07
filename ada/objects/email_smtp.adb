@@ -20,23 +20,59 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH AWS.SMTP.Authentication.Plain;
+
 PACKAGE BODY Email_SMTP IS
 
   -- Mail relay object constructor
 
-  FUNCTION Create RETURN Messaging.Text.Relay IS
+  FUNCTION Create
+   (server   : String  := "localhost";
+    port     : Natural := 25;
+    secure   : Boolean := False;
+    username : String  := "";
+    password : String  := "") RETURN Messaging.Text.Relay IS
+
+    Self : RelaySubclass := Destroyed;
 
   BEGIN
-    RETURN NEW RelaySubclass'(mailrelay => AWS.SMTP.Client.Initialize("localhost"));
+    Self.Initialize(server, port, secure, username, password);
+    RETURN NEW RelaySubclass'(Self);
   END Create;
 
   -- Mail relay object initializer
 
-  PROCEDURE Initialize(Self : IN OUT RelaySubclass) IS
+  PROCEDURE Initialize
+   (Self     : IN OUT RelaySubclass;
+    server   : String  := "localhost";
+    port     : Natural := 25;
+    secure   : Boolean := False;
+    username : String  := "";
+    password : String  := "") IS
+
+    creds : ACCESS AWS.SMTP.Authentication.Plain.Credential := NULL;
 
   BEGIN
     Self.Destroy;
-    Self.mailrelay := AWS.SMTP.Client.Initialize("localhost");
+
+    -- Validate parameters
+
+    IF username = "" AND password /= "" THEN
+      RAISE Message.Text.RelayError WITH "Username required.";
+    END IF;
+
+    IF username /= "" AND password = "" THEN
+      RAISE Message.Text.RelayError WITH "Password required.";
+    END IF;
+
+    -- Build credentials
+
+    IF username /= "" AND password /= "" THEN
+      creds := NEW AWS.SMTP.Authentication.Plain.Credential'(AWS.SMTP.Authentication.Plain.Initialize(username, password));
+    END IF;
+
+    Self.mailrelay := AWS.SMTP.Client.Initialize(server, port, secure,
+      Credential => creds);
   END Initialize;
 
   -- Mail relay object destroyer

@@ -34,11 +34,22 @@ PACKAGE Email_SMTP IS
 
   -- Mail relay object constructor
 
-  FUNCTION Create RETURN Messaging.Text.Relay;
+  FUNCTION Create
+   (server   : String  := "localhost";
+    port     : Natural := 25;
+    secure   : Boolean := False;
+    username : String  := "";
+    password : String  := "") RETURN Messaging.Text.Relay;
 
   -- Mail relay object initializer
 
-  PROCEDURE Initialize(Self : IN OUT RelaySubclass);
+  PROCEDURE Initialize
+   (Self     : IN OUT RelaySubclass;
+    server   : String  := "localhost";
+    port     : Natural := 25;
+    secure   : Boolean := False;
+    username : String  := "";
+    password : String  := "");
 
   -- Mail relay object destroyer
 
