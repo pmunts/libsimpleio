@@ -58,11 +58,11 @@ PACKAGE BODY Email_SMTP IS
     -- Validate parameters
 
     IF username = "" AND password /= "" THEN
-      RAISE Message.Text.RelayError WITH "Username required.";
+      RAISE Messaging.Text.RelayError WITH "Username required.";
     END IF;
 
     IF username /= "" AND password = "" THEN
-      RAISE Message.Text.RelayError WITH "Password required.";
+      RAISE Messaging.Text.RelayError WITH "Password required.";
     END IF;
 
     -- Build credentials
