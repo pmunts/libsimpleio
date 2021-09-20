@@ -1,4 +1,5 @@
--- Project for building an Ada program using the libsimpleio prebuilt library
+-- Project for building an Ada program for Linux using the libsimpleio
+-- prebuilt library
 
 -- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
 --
