@@ -1,4 +1,4 @@
-# GNAT Ada definitions for Remote I/O
+# GNAT Ada definitions for building Remote I/O Protocol programs
 
 # Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
