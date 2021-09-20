@@ -1,4 +1,4 @@
-# Makefile for building Ada MCP2221 I/O Expander test programs
+# GNAT Ada definitions for building MCP2221 programs
 
 # Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
@@ -20,25 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-.PHONY: build default clean reallyclean distclean
-
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-
-include $(LIBSIMPLEIO)/ada/include/ada.mk
-include $(LIBSIMPLEIO)/ada/include/mcp2221.mk
-
-default: build
-
-# Build the test programs
-
-build:
-	for F in test_*.adb ; do $(MAKE) `basename $$F .adb` ; done
-
-# Remove working files
-
-clean: ada_mk_clean
-	for F in test_*.adb ; do rm -f `basename $$F .adb` ; done
-
-reallyclean: clean ada_mk_reallyclean
-
-distclean: reallyclean ada_mk_distclean
+CFLAGS += -I$(LIBSIMPLEIO)/ada/bindings
+CFLAGS += -I$(LIBSIMPLEIO)/ada/devices
+CFLAGS += -I$(LIBSIMPLEIO)/ada/interfaces
+CFLAGS += -I$(LIBSIMPLEIO)/ada/objects
+CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/hid
