@@ -1,4 +1,4 @@
-# Makefile for building Ada libsimpleio example programs
+# Makefile for building Ada Linux Simple I/O Library example programs
 
 # Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #

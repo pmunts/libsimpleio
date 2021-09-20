@@ -1,4 +1,4 @@
-# Makefile for building Ada Remote I/O example programs
+# Makefile for building Ada Remote I/O Protocol test programs
 
 # Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 #
