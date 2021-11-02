@@ -29,10 +29,11 @@ PACKAGE GPIO.RemoteIO IS
   -- GPIO pin object constructor
 
   FUNCTION Create
-   (dev   : NOT NULL Standard.RemoteIO.Client.Device;
-    num   : Standard.RemoteIO.ChannelNumber;
-    dir   : Direction;
-    state : Boolean := False) RETURN Pin;
+   (dev      : NOT NULL Standard.RemoteIO.Client.Device;
+    num      : Standard.RemoteIO.ChannelNumber;
+    dir      : Direction;
+    state    : Boolean := False;
+    readback : Boolean := True) RETURN Pin;
 
   -- Read GPIO pin state
 
@@ -45,8 +46,10 @@ PACKAGE GPIO.RemoteIO IS
 PRIVATE
 
   TYPE PinSubclass IS NEW PinInterface WITH RECORD
-    dev : Standard.RemoteIO.Client.Device;
-    num : Standard.RemoteIO.ChannelNumber;
+    dev      : Standard.RemoteIO.Client.Device;
+    num      : Standard.RemoteIO.ChannelNumber;
+    readback : Boolean;
+    latch    : Boolean;
   END RECORD;
 
 END GPIO.RemoteIO;

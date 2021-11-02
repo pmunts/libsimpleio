@@ -30,15 +30,19 @@ PACKAGE BODY GPIO.RemoteIO IS
   -- GPIO pin object constructor
 
   FUNCTION Create
-   (dev   : NOT NULL Standard.RemoteIO.Client.Device;
-    num   : Standard.RemoteIO.ChannelNumber;
-    dir   : Direction;
-    state : Boolean := False) RETURN Pin IS
+   (dev      : NOT NULL Standard.RemoteIO.Client.Device;
+    num      : Standard.RemoteIO.ChannelNumber;
+    dir      : Direction;
+    state    : Boolean := False;
+    readback : Boolean := True) RETURN Pin IS
 
     cmd  : Message64.Message;
     resp : Message64.Message;
 
   BEGIN
+    IF dir = GPIO.Input AND NOT readback THEN
+      RAISE GPIO_Error WITH "Cannot disable readback for an input pin";
+    END IF;
 
     -- Configure the GPIO pin as input or output
 
@@ -68,7 +72,7 @@ PACKAGE BODY GPIO.RemoteIO IS
       dev.Transaction(cmd, resp);
     END IF;
 
-    RETURN NEW PinSubclass'(dev, num);
+    RETURN NEW PinSubclass'(dev, num, readback, state);
   END Create;
 
   -- Read GPIO pin state
@@ -79,6 +83,10 @@ PACKAGE BODY GPIO.RemoteIO IS
     resp : Message64.Message;
 
   BEGIN
+    IF NOT Self.readback THEN
+      RETURN Self.latch;
+    END IF;
+
     cmd := (OTHERS => 0);
     cmd(0) := Messaging.Byte(Standard.RemoteIO.MessageTypes'Pos(
       Standard.RemoteIO.GPIO_READ_REQUEST));
@@ -111,6 +119,7 @@ PACKAGE BODY GPIO.RemoteIO IS
     END IF;
 
     Self.dev.Transaction(cmd, resp);
+    Self.latch := state;
   END Put;
 
 END GPIO.RemoteIO;
