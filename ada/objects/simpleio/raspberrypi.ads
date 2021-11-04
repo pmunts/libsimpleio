@@ -66,6 +66,10 @@ PACKAGE RaspberryPi IS
   -- All of the following subsystems require the proper device tree overlays
 
   I2C1   : CONSTANT Device.Designator := (0,  1);  -- GPIO2 and GPIO3
+  I2C3   : CONSTANT Device.Designator := (0,  3);  -- Raspberry Pi 4 only
+  I2C4   : CONSTANT Device.Designator := (0,  4);  -- Raspberry Pi 4 only
+  I2C5   : CONSTANT Device.Designator := (0,  5);  -- Raspberry Pi 4 only
+  I2C6   : CONSTANT Device.Designator := (0,  6);  -- Raspberry Pi 4 only
 
   PWM0   : CONSTANT Device.Designator := (0,  0);  -- GPIO12 or GPIO18
   PWM1   : CONSTANT Device.Designator := (0,  1);  -- GPIO13 or GPIO19
