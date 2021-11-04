@@ -69,12 +69,13 @@ PACKAGE MUNTS_0018 IS
   J7PWM  : Device.Designator RENAMES RaspberryPi.PWM1;
   J7DIR  : Device.Designator RENAMES J7D1;
 
-  -- UART on Grove UART Connector J8
+  -- Serial ports
 
   J8UART : CONSTANT String := "/dev/ttyAMA0";
 
-  -- I2C bus on Grove Connector J9
+  -- I2C buses
 
+  J5I2C  : Device.Designator RENAMES RaspberryPi.I2C3; -- Raspberry Pi 4 only
   J9I2C  : Device.Designator RENAMES RaspberryPi.I2C1;
 
   -- Grove ADC Connector J10
