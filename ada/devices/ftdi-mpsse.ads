@@ -18,37 +18,28 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH GPIO;
+PRIVATE WITH Interfaces.C.Strings;
+PRIVATE WITH System;
 
-PACKAGE FTDI_MPSSE.GPIO IS
+PACKAGE FTDI.MPSSE IS
 
-  TYPE PinName IS (D0, D1, D2, D3, D4, D5, D6, D7, C0, C1, C2, C3, C4, C5, C6, C7, UNDEFINED);
+  TYPE DeviceSubclass IS NEW DeviceBaseClass WITH PRIVATE;
 
-  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
-
- -- GPIO pin object constructor
+  -- FTDI MPSSE Device object constructor
 
   FUNCTION Create
-   (dev   : NOT NULL Device;
-    name  : PinName;
-    dir   : Standard.GPIO.Direction;
-    state : Boolean := False) RETURN Standard.GPIO.Pin;
-
-  -- Read GPIO pin state
-
-  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
-
-  -- Write GPIO pin state
-
-  PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean);
+   (Vendor  : Integer;
+    Product : Integer) RETURN Device;
 
 PRIVATE
 
-  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
-    dev     : Device := NULL;
-    name    : PinName;
-    bitmask : Byte;
-    dir     : Standard.GPIO.Direction;
+  TYPE DeviceSubclass IS NEW DeviceBaseClass WITH RECORD
+    gpiodirslo : Byte    := 0;
+    gpiodirshi : Byte    := 0;
+    gpiobitslo : Byte    := 0;
+    gpiobitshi : Byte    := 0;
   END RECORD;
 
-END FTDI_MPSSE.GPIO;
+  TYPE DeviceMPSSE IS ACCESS ALL DeviceSubclass;
+
+END FTDI.MPSSE;

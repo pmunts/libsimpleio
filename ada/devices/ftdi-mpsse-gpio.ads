@@ -1,5 +1,3 @@
--- FTDI MPSSE GPIO Output Toggle Test
-
 -- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
@@ -20,48 +18,37 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO; USE Ada.Text_IO;
-
-WITH FTDI_MPSSE.GPIO;
 WITH GPIO;
 
-PROCEDURE test_gpio IS
+PACKAGE FTDI.MPSSE.GPIO IS
 
-  dev  : FTDI_MPSSE.Device;
-  name : FTDI_MPSSE.GPIO.PinName;
-  outp : GPIO.Pin;
+  TYPE PinName IS (D0, D1, D2, D3, D4, D5, D6, D7, C0, C1, C2, C3, C4, C5, C6, C7, UNDEFINED);
 
-  PACKAGE PinNameIO IS NEW Enumeration_IO(FTDI_MPSSE.GPIO.PinName);
+  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
 
-BEGIN
-  New_Line;
-  Put_Line("FTDI MPSSE GPIO Output Toggle Test");
-  New_Line;
+ -- GPIO pin object constructor
 
-  -- Display the libftdi1 version
+  FUNCTION Create
+   (dev   : NOT NULL Device;
+    name  : PinName;
+    dir   : Standard.GPIO.Direction;
+    state : Boolean := False) RETURN Standard.GPIO.Pin;
 
-  Put_Line("Library version: " & FTDI_MPSSE.LibraryVersion);
+  -- Read GPIO pin state
 
-  -- Create an FTDI device object
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
 
-  dev := FTDI_MPSSE.Create(16#0403#, 16#6014#);
+  -- Write GPIO pin state
 
-  -- Display the FTDI device chip ID
+  PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean);
 
-  Put_Line("Chip ID:         " & dev.ChipID);
-  New_Line;
+PRIVATE
 
-  -- Create a GPIO output pin object
+  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
+    dev     : Device := NULL;
+    name    : PinName;
+    bitmask : Byte;
+    dir     : Standard.GPIO.Direction;
+  END RECORD;
 
-  Put("Enter GPIO pin name (D0-7, C0-7): ");
-  PinNameIO.Get(name);
-  New_Line;
-
-  outp := FTDI_MPSSE.GPIO.Create(dev, name, GPIO.Output);
-
-  -- Toggle the GPIO output pin
-
-  LOOP
-    outp.Put(NOT outp.Get);
-  END LOOP;
-END test_gpio;
+END FTDI.MPSSE.GPIO;

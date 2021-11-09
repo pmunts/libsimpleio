@@ -1,4 +1,4 @@
--- FTDI MPSSE GPIO Button and LED Test
+-- FTDI MPSSE GPIO Output Toggle Test
 
 -- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
@@ -22,60 +22,37 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH FTDI_MPSSE.GPIO;
+WITH FTDI.MPSSE.GPIO;
 WITH GPIO;
 
-PROCEDURE test_gpio_button_led IS
+PROCEDURE test_gpio IS
 
-  dev      : FTDI_MPSSE.Device;
-  name     : FTDI_MPSSE.GPIO.PinName;
-  Button   : GPIO.Pin;
-  LED      : GPIO.Pin;
-  newstate : Boolean;
-  oldstate : Boolean;
+  dev  : FTDI.Device;
+  name : FTDI.MPSSE.GPIO.PinName;
+  outp : GPIO.Pin;
 
-  PACKAGE PinNameIO IS NEW Enumeration_IO(FTDI_MPSSE.GPIO.PinName);
+  PACKAGE PinNameIO IS NEW Enumeration_IO(FTDI.MPSSE.GPIO.PinName);
 
 BEGIN
   New_Line;
-  Put_Line("FTDI MPSSE GPIO Button and LED Test");
+  Put_Line("FTDI MPSSE GPIO Output Toggle Test");
   New_Line;
 
   -- Create an FTDI device object
 
-  dev := FTDI_MPSSE.Create(16#0403#, 16#6014#);
+  dev := FTDI.MPSSE.Create(16#0403#, 16#6014#);
 
-  -- Configure button and LED GPIO's
+  -- Create a GPIO output pin object
 
-  Put("Enter button input GPIO pin name (D0-7, C0-7): ");
+  Put("Enter GPIO pin name (D0-7, C0-7): ");
   PinNameIO.Get(name);
   New_Line;
-  
-  Button := FTDI_MPSSE.GPIO.Create(dev, name, GPIO.Input);
 
-  Put("Enter LED output GPIO pin name (D0-7, C0-7):   ");
-  PinNameIO.Get(name);
-  New_Line;
-  
-  LED := FTDI_MPSSE.GPIO.Create(dev, name, GPIO.Output);
+  outp := FTDI.MPSSE.GPIO.Create(dev, name, GPIO.Output);
 
-  -- Force initial detection
-
-  oldstate := NOT Button.Get;
+  -- Toggle the GPIO output pin
 
   LOOP
-    newstate := Button.Get;
-
-    IF newstate /= oldstate THEN
-      IF newstate THEN
-        Put_Line("PRESSED");
-        LED.Put(True);
-      ELSE
-        Put_Line("RELEASED");
-        LED.Put(False);
-      END IF;
-
-      oldstate := newstate;
-    END IF;
+    outp.Put(NOT outp.Get);
   END LOOP;
-END test_gpio_button_led;
+END test_gpio;

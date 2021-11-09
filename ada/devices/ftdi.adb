@@ -26,7 +26,7 @@ WITH Interfaces.C.Strings;
 USE TYPE Interfaces.C.int;
 USE TYPE Interfaces.C.unsigned;
 
-PACKAGE BODY FTDI_MPSSE IS
+PACKAGE BODY FTDI IS
 
   -- Fetch last error message string
 
@@ -42,71 +42,30 @@ PACKAGE BODY FTDI_MPSSE IS
    (Vendor  : Integer;
     Product : Integer) RETURN Device IS
 
-    Self : DeviceClass := DeviceClass'(ftdi_new, 0, 0, 0, 0);
+    ctx : Context := ftdi_new;
 
   BEGIN
-    IF Self.ctx = NullContext THEN
+    IF ctx = NullContext THEN
       RAISE Error WITH "ftdi_new() failed";
     END IF;
 
-    IF ftdi_usb_open(Self.ctx, Interfaces.C.int(Vendor), Interfaces.C.int(Product)) /= 0 THEN
+    IF ftdi_usb_open(ctx, Interfaces.C.int(Vendor), Interfaces.C.int(Product)) /= 0 THEN
       DECLARE
-        msg : String := ErrorString(Self.ctx);
+        msg : String := ErrorString(ctx);
 
       BEGIN
-        ftdi_free(Self.ctx);
+        ftdi_free(ctx);
         RAISE Error WITH "ftdi_usb_open() failed, " & msg;
       END;
     END IF;
 
-    IF ftdi_usb_reset(Self.ctx) /= 0 THEN
-      DECLARE
-        msg : String := ErrorString(Self.ctx);
-
-      BEGIN
-        ftdi_free(Self.ctx);
-        RAISE Error WITH "ftdi_usb_reset() failed, " & msg;
-      END;
-    END IF;
-
-    IF ftdi_set_interface(Self.ctx, INTERFACE_ANY) /= 0 THEN
-      DECLARE
-        msg : String := ErrorString(Self.ctx);
-
-      BEGIN
-        ftdi_free(Self.ctx);
-        RAISE Error WITH "ftdi_set_interface() failed, " & msg;
-      END;
-    END IF;
-
-    IF ftdi_set_bitmode(Self.ctx, 0, 0) /= 0 THEN
-      DECLARE
-        msg : String := ErrorString(Self.ctx);
-
-      BEGIN
-        ftdi_free(Self.ctx);
-        RAISE Error WITH "ftdi_set_bitmode() failed, " & msg;
-      END;
-    END IF;
-
-    IF ftdi_set_bitmode(Self.ctx, 0, 2) /= 0 THEN
-      DECLARE
-        msg : String := ErrorString(Self.ctx);
-
-      BEGIN
-        ftdi_free(Self.ctx);
-        RAISE Error WITH "ftdi_set_bitmode() failed, " & msg;
-      END;
-    END IF;
-
-    DELAY 0.05;  -- Sleep 50 ms for setup to complete
-    RETURN NEW DeviceClass'(Self);
+    RETURN NEW DeviceBaseClass'(ctx => ctx);
   END Create;
 
   -- Read data from a FTDI device
 
   PROCEDURE Read
-   (Self    : IN OUT DeviceClass;
+   (Self    : IN OUT DeviceBaseClass;
     inbuf   : OUT Data;
     len     : Positive) IS
 
@@ -114,7 +73,7 @@ PACKAGE BODY FTDI_MPSSE IS
 
   BEGIN
     IF Self.ctx = NullContext THEN
-      RAISE Error WITH "This DeviceClass instance has not been created properly";
+      RAISE Error WITH "This object instance has not been created properly";
     END IF;
 
     LOOP
@@ -134,13 +93,13 @@ PACKAGE BODY FTDI_MPSSE IS
   -- Write data to a FTDI device
 
   PROCEDURE Write
-   (Self    : IN OUT DeviceClass;
+   (Self    : IN OUT DeviceBaseClass;
     outbuf  : Data;
     len     : Positive) IS
 
   BEGIN
     IF Self.ctx = NullContext THEN
-      RAISE Error WITH "This DeviceClass instance has not been created properly";
+      RAISE Error WITH "This object instance has not been created properly";
     END IF;
 
     IF ftdi_write_data(Self.ctx, outbuf'Address, Interfaces.C.int(len)) /= Interfaces.C.int(len) THEN
@@ -150,14 +109,14 @@ PACKAGE BODY FTDI_MPSSE IS
 
   -- Get FTDI device chip ID as hexadecimal string
 
-  FUNCTION ChipID(Self : IN OUT DeviceClass) RETURN String IS
+  FUNCTION ChipID(Self : IN OUT DeviceBaseClass) RETURN String IS
 
     id       : Interfaces.C.unsigned;
     hexchars : CONSTANT String := "0123456789ABCDEF";
 
   BEGIN
     IF Self.ctx = NullContext THEN
-      RAISE Error WITH "This DeviceClass instance has not been created properly";
+      RAISE Error WITH "This object instance has not been created properly";
     END IF;
 
     IF ftdi_read_chipid(Self.ctx, id) /= 0 THEN
@@ -208,4 +167,4 @@ PACKAGE BODY FTDI_MPSSE IS
     Ada.Text_IO.New_Line;
   END Dump;
 
-END FTDI_MPSSE;
+END FTDI;

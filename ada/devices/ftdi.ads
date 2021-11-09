@@ -21,14 +21,14 @@
 PRIVATE WITH Interfaces.C.Strings;
 PRIVATE WITH System;
 
-PACKAGE FTDI_MPSSE IS
+PACKAGE FTDI IS
 
   Error : EXCEPTION;
 
-  TYPE Byte        IS MOD 256;
-  TYPE Data        IS ARRAY (Natural RANGE <>) OF Byte;
-  TYPE DeviceClass IS TAGGED PRIVATE;
-  TYPE Device      IS ACCESS DeviceClass;
+  TYPE Byte            IS MOD 256;
+  TYPE Data            IS ARRAY (Natural RANGE <>) OF Byte;
+  TYPE DeviceBaseClass IS TAGGED PRIVATE;
+  TYPE Device          IS ACCESS ALL DeviceBaseClass'Class;
 
   -- Query FTDI library (libftdi1) version
 
@@ -43,20 +43,20 @@ PACKAGE FTDI_MPSSE IS
   -- Read data from a FTDI device
 
   PROCEDURE Read
-   (Self    : IN OUT DeviceClass;
+   (Self    : IN OUT DeviceBaseClass;
     inbuf   : OUT Data;
     len     : Positive);
 
   -- Write data to a FTDI device
 
   PROCEDURE Write
-   (Self    : IN OUT DeviceClass;
+   (Self    : IN OUT DeviceBaseClass;
     outbuf  : Data;
     len     : Positive);
 
   -- Get FTDI device chip ID as hexadecimal string
 
-  FUNCTION ChipID(Self : IN OUT DeviceClass) RETURN String;
+  FUNCTION ChipID(Self : IN OUT DeviceBaseClass) RETURN String;
 
   -- Dump a data buffer in hexadecimal format
 
@@ -68,13 +68,13 @@ PRIVATE
 
   NullContext : CONSTANT Context := Context(System.Null_Address);
 
-  TYPE DeviceClass IS TAGGED RECORD
-    ctx        : Context := NullContext;
-    gpiodirslo : Byte    := 0;
-    gpiodirshi : Byte    := 0;
-    gpiobitslo : Byte    := 0;
-    gpiobitshi : Byte    := 0;
+  TYPE DeviceBaseClass IS TAGGED RECORD
+    ctx : Context := NullContext;
   END RECORD;
+
+  -- Fetch last error message string
+
+  FUNCTION ErrorString(ctx : Context) RETURN String;
 
   -- Minimal thin binding to libftdi1.so follows
 
@@ -147,4 +147,4 @@ PRIVATE
     size    : Interfaces.C.int) RETURN Interfaces.C.int
     WITH Import => True, Convention => C;
 
-END FTDI_MPSSE;
+END FTDI;
