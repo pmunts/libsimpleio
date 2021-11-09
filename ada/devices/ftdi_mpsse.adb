@@ -99,16 +99,6 @@ PACKAGE BODY FTDI_MPSSE IS
       END;
     END IF;
 
-    IF ftdi_usb_purge_buffers(Self.ctx) /= 0 THEN
-      DECLARE
-        msg : String := ErrorString(Self.ctx);
-
-      BEGIN
-        ftdi_free(Self.ctx);
-        RAISE Error WITH "ftdi_usb_purge_buffers() failed, " & msg;
-      END;
-    END IF;
-
     DELAY 0.05;  -- Sleep 50 ms for setup to complete
     RETURN NEW DeviceClass'(Self);
   END Create;
@@ -140,10 +130,6 @@ PACKAGE BODY FTDI_MPSSE IS
   BEGIN
     IF Self.ctx = NullContext THEN
       RAISE Error WITH "This DeviceClass instance has not been created properly";
-    END IF;
-
-    IF ftdi_usb_purge_buffers(Self.ctx) /= 0 THEN
-      RAISE Error WITH "ftdi_usb_purge_buffers() failed, " & ErrorString(Self.ctx);
     END IF;
 
     IF ftdi_write_data(Self.ctx, outbuf'Address, Interfaces.C.int(len)) /= Interfaces.C.int(len) THEN

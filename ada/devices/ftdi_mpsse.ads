@@ -116,9 +116,6 @@ PRIVATE
   FUNCTION ftdi_usb_close(ctx : Context) RETURN Interfaces.C.int
     WITH Import => True, Convention => C;
 
-  FUNCTION ftdi_usb_purge_buffers(ctx : Context) RETURN Interfaces.C.int
-    WITH Import => True, Convention => C;
-
   FUNCTION ftdi_usb_reset(ctx : Context) RETURN Interfaces.C.int
     WITH Import => True, Convention => C;
 
