@@ -110,12 +110,23 @@ PACKAGE BODY FTDI_MPSSE IS
     inbuf   : OUT Data;
     len     : Positive) IS
 
+    ret : Interfaces.C.int;
+
   BEGIN
     IF Self.ctx = NullContext THEN
       RAISE Error WITH "This DeviceClass instance has not been created properly";
     END IF;
 
-    IF ftdi_read_data(Self.ctx, inbuf'Address, Interfaces.C.int(len)) /= Interfaces.C.int(len) THEN
+    LOOP
+      -- For some reason and on some targets, ftdi_read_data() sometimes
+      -- returns a zero byte count.  So keep reading until we get a nonzero
+      -- byte count.
+      ret := ftdi_read_data(Self.ctx, inbuf'Address, Interfaces.C.int(len));
+      EXIT WHEN ret /= 0;
+    END LOOP;
+
+    IF ret /= Interfaces.C.int(len) THEN
+      Ada.Text_IO.Put_Line("DEBUG: ret =>" & Interfaces.C.int'Image(ret));
       RAISE Error WITH "ftdi_read_data() failed, " & ErrorString(Self.ctx);
     END IF;
   END Read;
