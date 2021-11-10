@@ -1,4 +1,4 @@
-# Makefile to build Linux Simple I/O Library
+# Makefile to build the Linux Simple I/O Library
 
 # Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 #
@@ -27,17 +27,13 @@ undefine RANLIB
 LIBSIMPLEIO	?= $(shell pwd)
 MUNTSOS		?= $(HOME)/muntsos
 
-CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
-
-# Definitions for cross-compiling for MuntsOS embedded Linux
-
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 
 AR		:= $(CROSS_COMPILE)ar
 CC		:= $(CROSS_COMPILE)gcc
 RANLIB		:= $(CROSS_COMPILE)ranlib
 
-LIBDIR		:= $(shell basename $(GCCLIBDIR))
+CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
 
 BUILDNUM	?= 1
 OSNAME		?= unknown
@@ -46,6 +42,8 @@ PKGVERSION	:= $(shell date +%Y.%j).$(BUILDNUM)
 PKGARCH		:= all
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
+
+SHARE		:= /usr/local/share/libsimpleio-$(TOOLCHAIN_NAME)
 
 include include/dpkg.mk
 
@@ -92,27 +90,21 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
 	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/usr/include/libsimpleio
-	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/usr/lib
 	install -cm 0644 c/*.h			$(PKGDIR)$(GCCSYSROOT)/usr/include/libsimpleio
+	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/usr/lib
 	install -cm 0644 *.a			$(PKGDIR)$(GCCSYSROOT)/usr/lib
 	install -cm 0755 *.so			$(PKGDIR)$(GCCSYSROOT)/usr/lib
-	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada
-	cp ada/lib/muntsos/libsimpleio.gpr	$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada
-	sed -i '/LIBSIMPLEIO :=/,+1 d'		$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
-	sed -i '/Object_Dir/,+1 d'		$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
-	sed -i 's:false:true:g'			$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
-	sed -i 's:LIBSIMPLEIO & "/ada/lib:"$(GCCLIBDIR)/ada:g' $(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
-	sed -i 's:LIBSIMPLEIO & "/ada:"$(GCCLIBDIR)/ada/libsimpleio.src:g' $(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.gpr
-	cp -R -P -p ada/lib/*.lib		$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada
-	cp -R -P -p ada				$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src
-	rm -rf					$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src/include
-	rm -rf					$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src/lib
-	rm -rf					$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src/programs
-	rm -rf					$(PKGDIR)$(GCCSYSROOT)/../$(LIBDIR)/ada/libsimpleio.src/projects
-	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/usr/share/libsimpleio
-	install -cm 0644 COPYING		$(PKGDIR)$(GCCSYSROOT)/usr/share/libsimpleio
+	mkdir -p				$(PKGDIR)$(SHARE)
+	cp COPYING				$(PKGDIR)$(SHARE)
+	cp ada/lib/muntsos/libsimpleio.gpr	$(PKGDIR)$(SHARE)
+	sed -i '/LIBSIMPLEIO :=/,+1 d'		$(PKGDIR)$(SHARE)/libsimpleio.gpr
+	sed -i '/Object_Dir/,+1 d'		$(PKGDIR)$(SHARE)/libsimpleio.gpr
+	sed -i 's:false:true:g'			$(PKGDIR)$(SHARE)/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada/lib:"$(SHARE):g' $(PKGDIR)$(SHARE)/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada:"/usr/local/share/libsimpleio/ada:g' $(PKGDIR)$(SHARE)/libsimpleio.gpr
+	cp -R -P -p ada/lib/libsimpleio.lib	$(PKGDIR)$(SHARE)
 	mkdir -p				$(PKGDIR)$(GCCSYSROOT)/../../share/gpr
-	ln -s ../../$(CONFIGURE_NAME)/$(LIBDIR)/ada/libsimpleio.gpr $(PKGDIR)$(GCCSYSROOT)/../../share/gpr/libsimpleio.gpr
+	ln -s ../../../share/libsimpleio-$(TOOLCHAIN_NAME)/libsimpleio.gpr $(PKGDIR)$(GCCSYSROOT)/../../share/gpr/libsimpleio.gpr
 
 package.deb: $(PKGFILE)
 

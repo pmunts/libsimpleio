@@ -1,5 +1,4 @@
-# Makefile to build the Linux Simple I/O Library, cross-compiled by a Debian
-# cross-toolcian
+# Makefile to build the Linux Simple I/O Library
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
@@ -38,6 +37,8 @@ PKGVERSION	:= $(shell date +%Y.%j).$(BUILDNUM)
 PKGARCH		:= all
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
+
+SHARE		:= /usr/local/share/libsimpleio-$(CONFIGURE_NAME)
 
 include include/dpkg.mk
 
@@ -86,20 +87,15 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
 	install -cm 0644 *.a			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
 	install -cm 0755 *.so			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
-	mkdir -p				$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)
-	cp COPYING				$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)
-	cp ada/lib/cross/libsimpleio.gpr	$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)
-	sed -i '/LIBSIMPLEIO :=/,+1 d'		$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
-	sed -i '/Object_Dir/,+1 d'		$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
-	sed -i 's:false:true:g'			$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
-	sed -i 's:LIBSIMPLEIO & "/ada/lib:"/usr/local/share/libsimpleio-$(CONFIGURE_NAME):g' $(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
-	sed -i 's:LIBSIMPLEIO & "/ada:"/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src:g' $(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.gpr
-	cp -R -P -p ada/lib/libsimpleio.lib	$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)
-	cp -R -P -p ada				$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src
-	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/include
-	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/lib
-	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/programs
-	rm -rf					$(PKGDIR)/usr/local/share/libsimpleio-$(CONFIGURE_NAME)/libsimpleio.src/projects
+	mkdir -p				$(PKGDIR)$(SHARE)
+	cp COPYING				$(PKGDIR)$(SHARE)
+	cp ada/lib/cross/libsimpleio.gpr	$(PKGDIR)$(SHARE)
+	sed -i '/LIBSIMPLEIO :=/,+1 d'		$(PKGDIR)$(SHARE)/libsimpleio.gpr
+	sed -i '/Object_Dir/,+1 d'		$(PKGDIR)$(SHARE)/libsimpleio.gpr
+	sed -i 's:false:true:g'			$(PKGDIR)$(SHARE)/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada/lib:"$(SHARE):g' $(PKGDIR)$(SHARE)/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada:"/usr/local/share/libsimpleio/ada:g' $(PKGDIR)$(SHARE)/libsimpleio.gpr
+	cp -R -P -p ada/lib/libsimpleio.lib	$(PKGDIR)$(SHARE)
 
 package.deb: $(PKGFILE)
 
