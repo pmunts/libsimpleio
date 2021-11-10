@@ -1,4 +1,4 @@
-# Makefile to build Linux Simple I/O Library
+# Makefile to build the Linux Simple I/O Library
 
 # Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 #
