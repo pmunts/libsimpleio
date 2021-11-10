@@ -38,6 +38,7 @@ PKGARCH		:= all
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
 
+CROSSLIB	:= /usr/lib/gcc-cross/$(CONFIGURE_NAME)/10/adalib
 SHARE		:= /usr/local/share/libsimpleio-$(CONFIGURE_NAME)
 
 include include/dpkg.mk
@@ -87,6 +88,8 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
 	install -cm 0644 *.a			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
 	install -cm 0755 *.so			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
+	ln -s $(CROSSLIB)/libgnat.a		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnat-10.a
+	ln -s $(CROSSLIB)/libgnat.so		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnat-10.so
 	mkdir -p				$(PKGDIR)$(SHARE)
 	cp COPYING				$(PKGDIR)$(SHARE)
 	cp ada/lib/cross/libsimpleio.gpr	$(PKGDIR)$(SHARE)
