@@ -35,5 +35,5 @@ CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/remoteio/server
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/simpleio
 
 ifeq ($(DEBIAN_CROSS), yes)
-GPRBUILDFLAGS += -aP/usr/local/share/libsimpleio-$(CONFIGURE_NAME)
+GPRBUILDFLAGS += -aP/usr/local/lib/$(CONFIGURE_NAME)
 endif
