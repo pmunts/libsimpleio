@@ -32,14 +32,13 @@ CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
 
 BUILDNUM	?= 1
 OSNAME		?= unknown
-PKGNAME		:= munts-libsimpleio-$(CONFIGURE_NAME)
+PKGNAME		:= $(CONFIGURE_NAME)-libsimpleio
 PKGVERSION	:= $(shell date +%Y.%j).$(BUILDNUM)
 PKGARCH		:= all
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
 PKGFILE		:= $(PKGDIR).deb
 
 CROSSLIB	:= /usr/lib/gcc-cross/$(CONFIGURE_NAME)/10/adalib
-SHARE		:= /usr/local/share/libsimpleio-$(CONFIGURE_NAME)
 
 include include/dpkg.mk
 
@@ -85,20 +84,23 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	sed -i s/@@ARCH@@/$(PKGARCH)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
-	mkdir -p				$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
-	install -cm 0644 *.a			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
-	install -cm 0755 *.so			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)
+	mkdir -p				$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio
+	install -cm 0644 COPYING		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio
+	install -cm 0644 libsimpleio.a		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio
+	install -cm 0755 libsimpleio.so		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio
+	install -cm 0644  ada/lib/cross/libsimpleio.gpr	$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio
+	sed -i '/LIBSIMPLEIO :=/,+1 d'		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio/libsimpleio.gpr
+	sed -i '/Object_Dir/,+1 d'		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio/libsimpleio.gpr
+	sed -i 's:false:true:g'			$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada/lib:"/usr/local/lib/$(CONFIGURE_NAME):g' $(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio/libsimpleio.gpr
+	sed -i 's:LIBSIMPLEIO & "/ada:"/usr/local/share/libsimpleio/ada:g' $(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio/libsimpleio.gpr
+	cp -R -P -p ada/lib/libsimpleio.lib	$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio
 	ln -s $(CROSSLIB)/libgnat.a		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnat-10.a
 	ln -s $(CROSSLIB)/libgnat.so		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnat-10.so
-	mkdir -p				$(PKGDIR)$(SHARE)
-	cp COPYING				$(PKGDIR)$(SHARE)
-	cp ada/lib/cross/libsimpleio.gpr	$(PKGDIR)$(SHARE)
-	sed -i '/LIBSIMPLEIO :=/,+1 d'		$(PKGDIR)$(SHARE)/libsimpleio.gpr
-	sed -i '/Object_Dir/,+1 d'		$(PKGDIR)$(SHARE)/libsimpleio.gpr
-	sed -i 's:false:true:g'			$(PKGDIR)$(SHARE)/libsimpleio.gpr
-	sed -i 's:LIBSIMPLEIO & "/ada/lib:"$(SHARE):g' $(PKGDIR)$(SHARE)/libsimpleio.gpr
-	sed -i 's:LIBSIMPLEIO & "/ada:"/usr/local/share/libsimpleio/ada:g' $(PKGDIR)$(SHARE)/libsimpleio.gpr
-	cp -R -P -p ada/lib/libsimpleio.lib	$(PKGDIR)$(SHARE)
+	ln -s libsimpleio/libsimpleio.a		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio.a
+	ln -s libsimpleio/libsimpleio.gpr	$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio.gpr
+	ln -s libsimpleio/libsimpleio.lib	$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio.lib
+	ln -s libsimpleio/libsimpleio.so	$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio.so
 
 package.deb: $(PKGFILE)
 
