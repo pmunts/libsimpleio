@@ -95,6 +95,8 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	sed -i 's:LIBSIMPLEIO & "/ada/lib:"/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio:g' $(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio/libsimpleio.gpr
 	sed -i 's:LIBSIMPLEIO & "/ada:"/usr/local/share/libsimpleio/ada:g' $(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio/libsimpleio.gpr
 	cp -R -P -p ada/lib/libsimpleio.lib	$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio
+	ln -s $(CROSSLIB)/libgnarl.a		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnarl-10.a
+	ln -s $(CROSSLIB)/libgnarl.so		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnarl-10.so
 	ln -s $(CROSSLIB)/libgnat.a		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnat-10.a
 	ln -s $(CROSSLIB)/libgnat.so		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnat-10.so
 	ln -s libsimpleio/libsimpleio.a		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio.a
