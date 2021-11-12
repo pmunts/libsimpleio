@@ -31,6 +31,8 @@ LIBRARY PROJECT libsimpleio IS
 
   FOR Library_Name USE "libsimpleio";
 
+  FOR Library_Kind USE "static";
+
   FOR Library_Dir  USE LIBDIR;
 
   FOR Source_Dirs  USE
