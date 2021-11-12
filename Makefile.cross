@@ -100,8 +100,9 @@ $(PKGDIR): libsimpleio.a libsimpleio.so adalibs.done
 	ln -s $(CROSSLIB)/libgnat.a		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnat-10.a
 	ln -s $(CROSSLIB)/libgnat.so		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libgnat-10.so
 	ln -s libsimpleio/libsimpleio.a		$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio.a
-	ln -s libsimpleio/libsimpleio.gpr	$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio.gpr
 	ln -s libsimpleio/libsimpleio.so	$(PKGDIR)/usr/local/lib/$(CONFIGURE_NAME)/libsimpleio.so
+	mkdir -p				$(PKGDIR)/usr/$(CONFIGURE_NAME)/share/gpr
+	ln -s /usr/local/lib/$(CONFIGURE_NAME)/libsimpleio/libsimpleio.gpr $(PKGDIR)/usr/$(CONFIGURE_NAME)/share/gpr
 
 package.deb: $(PKGFILE)
 
