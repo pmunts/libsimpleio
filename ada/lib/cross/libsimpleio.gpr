@@ -18,6 +18,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH "aws";
+
 LIBRARY PROJECT libsimpleio IS
   LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
 
@@ -36,19 +38,5 @@ LIBRARY PROJECT libsimpleio IS
     LIBSIMPLEIO & "/ada/devices",
     LIBSIMPLEIO & "/ada/interfaces",
     LIBSIMPLEIO & "/ada/objects/**");
-
-  FOR Excluded_Source_Files USE
-   ("email_http.adb",
-    "email_http.ads",
-    "email_smtp.adb",
-    "email_smtp.ads",
-    "gpio-http.adb",
-    "gpio-http.ads",
-    "sms_sinch.adb",
-    "sms_sinch.ads",
-    "webclient.adb",
-    "webclient.ads",
-    "webserver-hashtable.adb",
-    "webserver-hashtable.ads");
 
 END libsimpleio;
