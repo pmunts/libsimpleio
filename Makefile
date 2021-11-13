@@ -117,6 +117,8 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
+	mkdir -p				$(PKGDIR)/usr/share/gpr
+	ln -s /usr/local/share/libsimpleio/ada/lib/libsimpleio.gpr $(PKGDIR)/usr/share/gpr/libsimpleio.gpr 
 
 # Create Debian package file
 
@@ -127,8 +129,8 @@ $(PKGDIR):
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
 	echo "/etc/hidraw.conf" >>		$(PKGDIR)/DEBIAN/conffiles
-	install -cm 0755 postinst.native	$(PKGDIR)/DEBIAN/postinst
-	install -cm 0755 postrm.native		$(PKGDIR)/DEBIAN/postrm
+	install -cm 0755 postinst		$(PKGDIR)/DEBIAN/postinst
+	install -cm 0755 postrm			$(PKGDIR)/DEBIAN/postrm
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local ETCDIR=$(PKGDIR)/etc
 
 package.deb: $(PKGFILE)
