@@ -50,13 +50,13 @@ BEGIN
   Put("Enter button input GPIO pin name (D0-7, C0-7): ");
   PinNameIO.Get(name);
   New_Line;
-  
+
   Button := FTDI.MPSSE.GPIO.Create(dev, name, GPIO.Input);
 
   Put("Enter LED output GPIO pin name (D0-7, C0-7):   ");
   PinNameIO.Get(name);
   New_Line;
-  
+
   LED := FTDI.MPSSE.GPIO.Create(dev, name, GPIO.Output);
 
   -- Force initial detection

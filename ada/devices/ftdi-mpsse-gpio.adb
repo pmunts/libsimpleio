@@ -30,7 +30,7 @@ PACKAGE BODY FTDI.MPSSE.GPIO IS
   SET_BITS_HIGH  : CONSTANT Byte := 16#82#;
   READ_BITS_LOW  : CONSTANT Byte := 16#81#;
   READ_BITS_HIGH : CONSTANT Byte := 16#83#;
- 
+
   -- GPIO pin object constructor
 
   FUNCTION Create
