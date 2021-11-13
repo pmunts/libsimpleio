@@ -83,7 +83,7 @@ ifeq ($(BOARDNAME),)
 DEBIAN_CROSS	:= yes
 CONFIGURE_NAME	:= $(shell echo $(CROSS_COMPILE) | sed 's/.$$//')
 GNATPREFIX	:= $(CROSS_COMPILE)
-GPRBUILDFLAGS	+= --target=$(CONFIGURE_NAME)
+GPRBUILDFLAGS	+= --config=$(LIBSIMPLEIO)/ada/projects/$(CONFIGURE_NAME).cgpr
 endif
 endif
 endif
