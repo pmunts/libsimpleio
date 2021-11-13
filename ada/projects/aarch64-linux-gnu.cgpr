@@ -148,6 +148,7 @@ configuration project Default is
       for Objects_Path_File     ("Ada") use "ADA_PRJ_OBJECTS_FILE";
       for Driver         ("Ada") use
           "/usr/lib/gprbuild/gprbind";
+      for Switches ("Ada") use ("-static");
    end Binder;
 
    package Linker is
