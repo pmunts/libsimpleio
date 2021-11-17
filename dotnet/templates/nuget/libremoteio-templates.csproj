@@ -4,18 +4,19 @@
     <PackageType>Template</PackageType>
     <PackageVersion>$(BUILDVERSION)</PackageVersion>
     <PackageId>libremoteio-templates</PackageId>
-    <Title>Templates for .Net 5 console applications using libremoteio.</Title>
-    <Description>Templates for .Net 5 console applications using libremoteio.</Description>
+    <Title>Templates for .Net 6 console applications using libremoteio.</Title>
+    <Description>Templates for .Net 6 console applications using libremoteio.</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI;</PackageTags>
     <PackageReleaseNotes>
+Updated for .Net 6.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>

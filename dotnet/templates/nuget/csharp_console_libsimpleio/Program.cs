@@ -1,12 +1,3 @@
-using System;
+using static System.Console;
 
-namespace test_libsimpleio
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
-    }
-}
+WriteLine("Hello World!");
