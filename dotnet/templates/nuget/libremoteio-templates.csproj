@@ -9,7 +9,7 @@
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
-    <PackageLicenseUrl>http://git.munts.com/libsimpleio/COPYING</PackageLicenseUrl>
+    <PackageLicenseExpression>BSD-1-Clause</PackageLicenseExpression>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI;</PackageTags>
     <PackageReleaseNotes>
 Updated for .Net 6.
