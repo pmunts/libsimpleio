@@ -24,6 +24,9 @@ VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
 CONFIGURATION	= Release
 NUGETDIR	= ../../../nuget
 
+FIND		?= find
+MAKE		?= make
+
 # Build all NuGet packages
 
 default:
