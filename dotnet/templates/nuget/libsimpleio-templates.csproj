@@ -25,8 +25,8 @@
   <ItemGroup>
     <None    Include="../../../COPYING" Pack="true" PackagePath="/"/>
     <None    Include="obj/libsimpleio-templates.md" Pack="true" PackagePath="/"/>
-    <Content Include="csharp_console_libsimpleio\**\*" />
-    <Compile Remove="**\*" />
+    <Content Include="csharp_console_libsimpleio\**\*"/>
+    <Compile Remove="**\*"/>
   </ItemGroup>
 
 </Project>
