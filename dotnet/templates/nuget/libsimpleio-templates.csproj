@@ -13,7 +13,6 @@
     <PackageReadmeFile>libsimpleio-templates.md</PackageReadmeFile>
     <PackageTags>CLI; NuGet; Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
-Removed "Net 5" from Makefile.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>

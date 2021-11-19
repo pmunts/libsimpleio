@@ -13,7 +13,6 @@
     <PackageReadmeFile>libremoteio-templates.md</PackageReadmeFile>
     <PackageTags>CLI; NuGet; Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI</PackageTags>
     <PackageReleaseNotes>
-Removed "Net 5" from Makefile.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
