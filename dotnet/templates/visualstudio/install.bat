@@ -1,8 +1,8 @@
 @ECHO OFF
 
-REM Install Visual Studio 2019 project templates
+REM Install Visual Studio 2022 project templates
 
-REM Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.
+REM Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 REM
 REM Redistribution and use in source and binary forms, with or without
 REM modification, are permitted provided that the following conditions are met:
@@ -22,4 +22,4 @@ REM CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 REM ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 REM POSSIBILITY OF SUCH DAMAGE.
 
-XCOPY /Y *.zip "%HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 2019\Templates\ProjectTemplates"
+XCOPY /Y *.zip "%HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 2022\Templates\ProjectTemplates"

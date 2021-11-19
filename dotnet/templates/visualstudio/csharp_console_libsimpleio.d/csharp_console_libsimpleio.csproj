@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <!-- Disable internationalization to eliminate requirement for iconv -->
@@ -11,20 +13,16 @@
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
   </ItemGroup>
 
-  <!-- Reference NuGet package libremoteio (https://www.nuget.org/packages/libremoteio) -->
+  <!-- Reference NuGet package libsimpleio (https://www.nuget.org/packages/libsimpleio) -->
 
   <ItemGroup>
-    <PackageReference Include="libremoteio" Version="2.*" />
+    <PackageReference Include="libsimpleio" Version="2.*" />
   </ItemGroup>
 
   <!-- Include all necessary library assemblies in the package -->
 
   <ItemGroup>
-    <Content Include="$(BaseOutputPath)/$(Configuration)/$(TargetFramework)/libremoteio.dll">
-      <Pack>true</Pack>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
-    </Content>
-    <Content Include="$(BaseOutputPath)/$(Configuration)/$(TargetFramework)/HidSharp.dll">
+    <Content Include="$(BaseOutputPath)/$(Configuration)/$(TargetFramework)/libsimpleio.dll">
       <Pack>true</Pack>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </Content>
