@@ -10,7 +10,7 @@
     <Copyright>Copyright (C)2016-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>COPYING</PackageLicenseFile>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>libsimpleio-templates.md</PackageReadmeFile>
     <PackageTags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <None    Include="../../../COPYING" Pack="true" PackagePath="/"/>
-    <None    Include="obj/README.md"    Pack="true" PackagePath="/"/>
+    <None    Include="obj/libsimpleio-templates.md" Pack="true" PackagePath="/"/>
     <Content Include="csharp_console_libsimpleio\**\*" />
     <Compile Remove="**\*" />
   </ItemGroup>
