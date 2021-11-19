@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>libsimpleio-templates</id>
+    <version>2.2021.322.1</version>
+    <title>Templates for .Net 6 console applications using libsimpleio.</title>
+    <authors>Philip Munts</authors>
+    <license type="file">COPYING</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <readme>libsimpleio-templates.md</readme>
+    <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
+    <description>Templates for .Net 6 console applications using libsimpleio.</description>
+    <releaseNotes>Updated for .Net 6.</releaseNotes>
+    <copyright>Copyright (C)2016-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
+    <tags>Linux I/O ADC DAC GPIO I2C PWM Serial Servo SPI USB Raw HID Watchdog</tags>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+    <repository type="git" url="https://github.com/pmunts/libsimpleio" />
+    <dependencies>
+      <group targetFramework="net6.0" />
+    </dependencies>
+  </metadata>
+</package>
