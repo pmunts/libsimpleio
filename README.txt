@@ -115,6 +115,7 @@ News
        (Buster) and [25]Debian 11 (Bullseye).
      * 3 September 2021 -- The Alire crates [26]mcp2221 and [27]remoteio
        have now been published.
+     * 18 November 2021 -- Updated C# projects and templates for .Net 6.
 
 Documentation
 
