@@ -2,17 +2,17 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>libremoteio-templates</id>
-    <version>2.2021.322.1</version>
-    <title>Templates for .Net 6 console applications using libremoteio.</title>
+    <version>2.2021.323.1</version>
+    <title>Project templates for .Net 6 console applications using libremoteio.</title>
     <authors>Philip Munts</authors>
     <license type="file">COPYING</license>
     <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
     <readme>libremoteio-templates.md</readme>
     <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
-    <description>Templates for .Net 6 console applications using libremoteio.</description>
-    <releaseNotes>Updated for .Net 6.</releaseNotes>
+    <description>Project templates for .Net 6 console applications using libremoteio.</description>
+    <releaseNotes>Removed "Net 5" from Makefile.  Added CLI and NuGet tags.</releaseNotes>
     <copyright>Copyright (C)2016-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
-    <tags>Linux USB HID Remote I/O ADC DAC GPIO I2C PWM Servo SPI</tags>
+    <tags>CLI NuGet Linux USB HID Remote I/O ADC DAC GPIO I2C PWM Servo SPI</tags>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
