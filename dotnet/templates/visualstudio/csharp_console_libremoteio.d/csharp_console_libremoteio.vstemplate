@@ -10,10 +10,11 @@
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>C#</LanguageTag>
     <PlatformTag>.Net 6</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <PlatformTag>Windows</PlatformTag>
     <ProjectTypeTag>VS</ProjectTypeTag>
-    <ProjectTypeTag>console</ProjectTypeTag>
+    <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libremoteio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>

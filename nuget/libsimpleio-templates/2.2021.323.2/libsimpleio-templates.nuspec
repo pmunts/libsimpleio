@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>libsimpleio-templates</id>
-    <version>2.2021.323.1</version>
+    <version>2.2021.323.2</version>
     <title>Project templates for .Net 6 console applications using libsimpleio.</title>
     <authors>Philip Munts</authors>
     <license type="file">COPYING</license>
@@ -10,7 +10,7 @@
     <readme>libsimpleio-templates.md</readme>
     <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
     <description>Project templates for .Net 6 console applications using libsimpleio.</description>
-    <releaseNotes>Removed "Net 5" from Makefile.  Added CLI and NuGet tags.</releaseNotes>
+    <releaseNotes>Fixed up template metadata.</releaseNotes>
     <copyright>Copyright (C)2016-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
     <tags>CLI NuGet Linux I/O ADC DAC GPIO I2C PWM Serial Servo SPI USB Raw HID Watchdog</tags>
     <packageTypes>

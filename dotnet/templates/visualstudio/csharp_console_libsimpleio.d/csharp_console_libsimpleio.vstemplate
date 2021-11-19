@@ -9,12 +9,11 @@
     <DefaultName>csharp_console_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>C#</LanguageTag>
-    <PlatformTag>Linux</PlatformTag>
     <PlatformTag>.Net 6</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
     <ProjectTypeTag>VS</ProjectTypeTag>
-    <ProjectTypeTag>console</ProjectTypeTag>
+    <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Linux Simple I/O Library client</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
