@@ -6,10 +6,12 @@
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <CreateInPlace>true</CreateInPlace>
+    <DefaultName>csharp_console_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>C#</LanguageTag>
     <PlatformTag>Linux</PlatformTag>
     <PlatformTag>.Net 6</PlatformTag>
+    <ProjectTypeTag>VS</ProjectTypeTag>
     <ProjectTypeTag>console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>
     <ProjectTypeTag>Munts Technologies Linux Simple I/O Library client</ProjectTypeTag>
@@ -17,6 +19,7 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
   <TemplateContent>
+    <Project File="csharp_console_libsimpleio.csproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" OpenInEditor="true">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">Makefile</ProjectItem>
     </Project>

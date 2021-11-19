@@ -10,6 +10,7 @@
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>C#</LanguageTag>
     <PlatformTag>.Net 6</PlatformTag>
+    <ProjectTypeTag>VS</ProjectTypeTag>
     <ProjectTypeTag>console</ProjectTypeTag>
     <ProjectTypeTag>libremoteio</ProjectTypeTag>
     <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
