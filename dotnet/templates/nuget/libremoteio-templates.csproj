@@ -24,10 +24,9 @@
 
   <ItemGroup>
     <None    Include="../../../COPYING" Pack="true" PackagePath="/"/>
-    <None    Include="obj/libremoteio-templates.md"    Pack="true" PackagePath="/"/>
+    <None    Include="obj/libremoteio-templates.md" Pack="true" PackagePath="/"/>
     <Content Include="csharp_console_libremoteio\**\*" />
     <Compile Remove="**\*" />
   </ItemGroup>
 
 </Project>
-
