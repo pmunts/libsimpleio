@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>C# console application for .Net 6 using libremoteio</Name>
-    <Description>A project for building a C# console application for .Net 6 using libremoteio.</Description>
+    <Name>Project templates for .Net 6 console applications using libremoteio.</Name>
+    <Description>Project templates for .Net 6 console applications using libremoteio.</Description>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
