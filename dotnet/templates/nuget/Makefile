@@ -36,6 +36,8 @@ default:
 # Build a NuGet package containing the specified project templates
 
 build:
+	mkdir -p obj
+	pandoc -f html -t markdown $(LIBNAME).html >obj/README.md
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	rm -rf $(NUGETDIR)/$(LIBNAME)
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)

@@ -7,12 +7,12 @@
     <Title>Templates for .Net 6 console applications using libremoteio.</Title>
     <Description>Templates for .Net 6 console applications using libremoteio.</Description>
     <Authors>Philip Munts</Authors>
-    <Copyright>Copyright (C)2020 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
+    <Copyright>Copyright (C)2016-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
-    <PackageLicenseExpression>BSD-1-Clause</PackageLicenseExpression>
+    <PackageLicenseFile>COPYING</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI;</PackageTags>
     <PackageReleaseNotes>
-Updated for .Net 6.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
@@ -23,6 +23,8 @@ Updated for .Net 6.
   </PropertyGroup>
 
   <ItemGroup>
+    <None    Include="../../../COPYING" Pack="true" PackagePath="/"/>
+    <None    Include="obj/README.md"    Pack="true" PackagePath="/"/>
     <Content Include="csharp_console_libremoteio\**\*" />
     <Compile Remove="**\*" />
   </ItemGroup>
