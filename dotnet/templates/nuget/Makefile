@@ -37,7 +37,7 @@ default:
 
 build:
 	mkdir -p obj
-	pandoc -f html -t markdown $(LIBNAME).html >obj/README.md
+	pandoc --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	rm -rf $(NUGETDIR)/$(LIBNAME)
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
