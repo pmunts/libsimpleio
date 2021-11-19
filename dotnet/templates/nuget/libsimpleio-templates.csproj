@@ -4,15 +4,16 @@
     <PackageType>Template</PackageType>
     <PackageVersion>$(BUILDVERSION)</PackageVersion>
     <PackageId>libsimpleio-templates</PackageId>
-    <Title>Templates for .Net 6 console applications using libsimpleio.</Title>
-    <Description>Templates for .Net 6 console applications using libsimpleio.</Description>
+    <Title>Project templates for .Net 6 console applications using libsimpleio.</Title>
+    <Description>Project templates for .Net 6 console applications using libsimpleio.</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2016-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>COPYING</PackageLicenseFile>
     <PackageReadmeFile>libsimpleio-templates.md</PackageReadmeFile>
-    <PackageTags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
+    <PackageTags>CLI; NuGet; Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
+Removed "Net 5" from Makefile.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
