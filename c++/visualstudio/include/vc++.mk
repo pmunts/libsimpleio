@@ -22,7 +22,7 @@
 
 CONFIGURATION	?= Release
 
-MSBUILD		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
+MSBUILD		?= C:/PROGRA~1/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe
 MSBUILDARCH	?= x64
 MSBUILDTARGET	?= /t:Build
 MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION)

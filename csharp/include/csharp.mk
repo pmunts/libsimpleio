@@ -37,8 +37,8 @@ CONFIGURATION	?= Release
 # Pick Visual Studio or Mono tools
 
 ifeq ($(OS), Windows_NT)
-CSC		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/Roslyn/csc.exe
-MSBUILD		?= C:/PROGRA~2/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
+CSC		?= C:/PROGRA~1/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/Roslyn/csc.exe
+MSBUILD		?= C:/PROGRA~1/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe
 MSBUILDTARGET	?= /t:Build
 MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION)
 MSBUILDPROJECT	?=
