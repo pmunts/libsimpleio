@@ -13,7 +13,6 @@
     <RootNamespace>libsimpleio</RootNamespace>
     <Name>libsimpleio</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>libsimpleio</HtmlHelpName>
     <Language>en-US</Language>
