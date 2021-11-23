@@ -13,7 +13,6 @@
     <RootNamespace>libremoteio</RootNamespace>
     <Name>libremoteio</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>libremoteio</HtmlHelpName>
     <Language>en-US</Language>
