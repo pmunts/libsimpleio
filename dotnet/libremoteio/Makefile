@@ -1,6 +1,6 @@
 # Makefile for building libremoteio.dll for .Net Standard 2.0
 
-# Copyright (C)2014-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2014-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -54,7 +54,7 @@ default:
 	install -cm 0644 Help/$(LIBNAME).dll.chm ../../doc
 	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
-	rm -rf $(NUGETDIR)/$(LIBNAME)
+	rm -rf $(NUGETDIR)/$(LIBNAME)/$(VERSION)
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
