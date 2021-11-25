@@ -149,6 +149,36 @@ namespace IO.Bindings
         /// </summary>
         public const int LOG_DEBUG = 7;
 
+        // Options -- Extracted from syslog.h
+
+        /// <summary>
+        /// Write directly to the system console if there is an error while
+        /// sending to the system logger.
+        /// </summary>
+        public const int LOG_CONS   = 0x02;
+        /// <summary>
+        /// Open the connection immediately.
+        /// </summary>
+        public const int LOG_NDELAY = 0x08;
+        /// <summary>
+        /// Don't  wait for child processes that may have been created while 
+        /// logging the message.  (Not applicable to <c>glibc</c>.)
+        /// </summary>
+        public const int LOG_NOWAIT = 0x10;
+        /// <summary>
+        /// The converse of <c>LOG_NDELAY</c>; opening of the connection is
+        /// delayed until <c>syslog()</c> is called.  (Not applicable to <c>glibc</c>.)
+        /// </summary>
+        public const int LOG_ODELAY = 0x04;
+        /// <summary>
+        /// Also log the message to <c>stderr</c>.
+        /// </summary>
+        public const int LOG_PERROR = 0x20;
+        /// <summary>
+        /// Include the caller's PID (process ID) with each message.
+        /// </summary>
+        public const int LOG_PID    = 0x01;
+
         /// <summary>
         /// Detach the process and run it in the background.
         /// </summary>
