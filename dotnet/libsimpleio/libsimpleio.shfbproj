@@ -65,6 +65,7 @@
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Output) Pins</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Humidity" isDocumented="True">Abstract Interface for Humidity Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.Log" isDocumented="True">Abstract Interface for Error Logging Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Message.Text" isDocumented="True">Abstract Interface for Text Message Relays</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Message64" isDocumented="True">Abstract Interface for 64-Byte Message Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Motor" isDocumented="True">Abstract Interface For Variable Speed Motor Outputs</NamespaceSummaryItem>
@@ -94,6 +95,7 @@
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Servo" isDocumented="True">Servo Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.Watchdog" isDocumented="True">Watchdog Timer Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.libsimpleio.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Shield and Socket Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.libsimpleio.syslog" isDocumented="True">Error Logging Services Using the <c>syslog</c> Subsystem</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Remote.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Remote I/O protocol Server and Socket Services</NamespaceSummaryItem>
     </NamespaceSummaries>
