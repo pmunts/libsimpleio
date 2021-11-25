@@ -67,6 +67,7 @@
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Output) Pins</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Humidity" isDocumented="True">Abstract Interface for Humidity Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.Log" isDocumented="True">Abstract Interface for Error Logging Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Message.Text" isDocumented="True">Abstract Interface for Text Message Relays</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Message64" isDocumented="True">Abstract Interface for 64-Byte Message Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Motor" isDocumented="True">Abstract Interface For Variable Speed Motor Outputs</NamespaceSummaryItem>
