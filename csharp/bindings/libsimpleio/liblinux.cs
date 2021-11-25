@@ -1,6 +1,6 @@
 // C# binding for system call wrappers in libsimpleio.so
 
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -114,6 +114,37 @@ namespace IO.Bindings
         /// </summary>
         public const int LOG_LOCAL7 = (23 << 3);
 
+        // Options -- Extracted from syslog.h
+
+        /// <summary>
+        /// Write directly to the system console if there is an error while
+        /// sending to the system logger.
+        /// </summary>
+        public const int LOG_CONS = 0x02;
+        /// <summary>
+        /// Open the connection immediately.  Do not wait until <c>syslog()</c>
+        /// is called for the first time.
+        /// </summary>
+        public const int LOG_NDELAY = 0x08;
+        /// <summary>
+        /// Don't  wait for child processes that may have been created while 
+        /// logging the message.  (Not applicable to <c>glibc</c>.)
+        /// </summary>
+        public const int LOG_NOWAIT = 0x10;
+        /// <summary>
+        /// Do not open the connection immediately.  Wait until <c>syslog()</c>
+        /// is called for the first time.
+        /// </summary>
+        public const int LOG_ODELAY = 0x04;
+        /// <summary>
+        /// Also log the message to <c>stderr</c>.
+        /// </summary>
+        public const int LOG_PERROR = 0x20;
+        /// <summary>
+        /// Include the caller's PID (process ID) with each message.
+        /// </summary>
+        public const int LOG_PID = 0x01;
+
         // Priorities -- Extracted from syslog.h
 
         /// <summary>
@@ -148,36 +179,6 @@ namespace IO.Bindings
         /// Debug message.
         /// </summary>
         public const int LOG_DEBUG = 7;
-
-        // Options -- Extracted from syslog.h
-
-        /// <summary>
-        /// Write directly to the system console if there is an error while
-        /// sending to the system logger.
-        /// </summary>
-        public const int LOG_CONS   = 0x02;
-        /// <summary>
-        /// Open the connection immediately.
-        /// </summary>
-        public const int LOG_NDELAY = 0x08;
-        /// <summary>
-        /// Don't  wait for child processes that may have been created while 
-        /// logging the message.  (Not applicable to <c>glibc</c>.)
-        /// </summary>
-        public const int LOG_NOWAIT = 0x10;
-        /// <summary>
-        /// The converse of <c>LOG_NDELAY</c>; opening of the connection is
-        /// delayed until <c>syslog()</c> is called.  (Not applicable to <c>glibc</c>.)
-        /// </summary>
-        public const int LOG_ODELAY = 0x04;
-        /// <summary>
-        /// Also log the message to <c>stderr</c>.
-        /// </summary>
-        public const int LOG_PERROR = 0x20;
-        /// <summary>
-        /// Include the caller's PID (process ID) with each message.
-        /// </summary>
-        public const int LOG_PID    = 0x01;
 
         /// <summary>
         /// Detach the process and run it in the background.
