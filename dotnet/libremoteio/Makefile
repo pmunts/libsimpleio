@@ -46,6 +46,8 @@ include ../../csharp/include/csharp.mk
 # Build the projects
 
 default:
+	mkdir -p obj
+	pandoc --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
 	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
 	$(CONVERT) Help/$(LIBNAME).chm Help/$(LIBNAME).pdf $(CONVERTFLAGS)
