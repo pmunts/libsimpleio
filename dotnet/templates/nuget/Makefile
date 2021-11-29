@@ -26,6 +26,7 @@ NUGETDIR	= ../../../nuget
 
 FIND		?= find
 MAKE		?= make
+PANDOC		?= pandoc
 
 # Build all NuGet packages
 
@@ -37,7 +38,7 @@ default:
 
 build:
 	mkdir -p obj
-	pandoc --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
+	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	rm -rf $(NUGETDIR)/$(LIBNAME)
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)

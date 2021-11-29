@@ -28,6 +28,9 @@ VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
 CONFIGURATION	= Release
 NUGETDIR	= ../../nuget
 
+FIND		?= find
+PANDOC		?= pandoc
+
 # Definitions for Calibre ebook-convert program
 CONVERT		?= C:/Progra~1/Calibre2/ebook-convert
 CONVERTFLAGS	+= --paper-size letter
@@ -47,7 +50,7 @@ include ../../csharp/include/csharp.mk
 
 default:
 	mkdir -p obj
-	pandoc --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
+	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
 	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
 	$(CONVERT) Help/$(LIBNAME).chm Help/$(LIBNAME).pdf $(CONVERTFLAGS)
