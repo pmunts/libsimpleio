@@ -135,11 +135,14 @@ namespace IO.Objects.libsimpleio.syslog
         /// <param name="errnum"><c>errno</c> error number.</param>
         public void Error(string message, int errnum)
         {
+            System.Text.StringBuilder errmsg = new System.Text.StringBuilder(256);
             int error;
+
+            IO.Bindings.libsimpleio.LINUX_strerror(errnum, errmsg, errmsg.Capacity);
 
             IO.Bindings.libsimpleio.LINUX_syslog
                 (IO.Bindings.libsimpleio.LOG_ERR,
-                message,
+                message + ", " + errmsg,
                 out error);
         }
 
