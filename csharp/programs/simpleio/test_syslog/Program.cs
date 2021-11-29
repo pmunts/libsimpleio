@@ -28,6 +28,8 @@ IO.Interfaces.Log.Logger syslog =
     new IO.Objects.libsimpleio.syslog.Logger("test_syslog",
         IO.Objects.libsimpleio.syslog.Logger.LOG_LOCAL0);
 
-syslog.Note("This is a test.");
-syslog.Warning("This is a test WARNING message.");
-syslog.Error("This is a test ERROR message.");
+syslog.Note("This is a test");
+syslog.Warning("This is a test WARNING message");
+syslog.Error("This is a test ERROR message");
+syslog.Error("This is a test ERROR message", errno.EINVAL);
+syslog.Error("This is a test ERROR message", 999);
