@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>libremoteio</id>
+    <version>2.2021.332.1</version>
+    <title>Munts Technologies Remote I/O Library for .Net Standard 2.0</title>
+    <authors>Philip Munts</authors>
+    <license type="file">doc/COPYING</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <readme>doc/libremoteio.md</readme>
+    <projectUrl>https://github.com/pmunts/libsimpleio</projectUrl>
+    <description>Munts Technologies Remote I/O Library for .Net Standard 2.0</description>
+    <releaseNotes>Added README file.</releaseNotes>
+    <copyright>Copyright (C)2017-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
+    <tags>Linux USB HID Remote I/O ADC DAC GPIO I2C PWM Servo SPI Stepper</tags>
+    <repository type="git" url="https://github.com/pmunts/libsimpleio" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="hidsharp" version="2.1.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
