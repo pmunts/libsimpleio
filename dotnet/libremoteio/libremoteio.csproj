@@ -11,7 +11,7 @@
     <Copyright>Copyright (C)2017-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
     <PackageProjectUrl>https://github.com/pmunts/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>doc/COPYING</PackageLicenseFile>
-    <PackageReadmeFile>doc/libsimpleio.md</PackageReadmeFile>
+    <PackageReadmeFile>doc/libremoteio.md</PackageReadmeFile>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI; Stepper;</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
