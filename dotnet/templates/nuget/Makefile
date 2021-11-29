@@ -1,4 +1,4 @@
-# Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -31,8 +31,8 @@ PANDOC		?= pandoc
 # Build all NuGet packages
 
 default:
-	$(MAKE) build LIBNAME=libremoteio-templates && rm -rf bin obj
-	$(MAKE) build LIBNAME=libsimpleio-templates && rm -rf bin obj
+	$(MAKE) build clean LIBNAME=libremoteio-templates
+	$(MAKE) build clean LIBNAME=libsimpleio-templates
 
 # Build a NuGet package containing the specified project templates
 
@@ -40,10 +40,12 @@ build:
 	mkdir -p obj
 	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
-	rm -rf $(NUGETDIR)/$(LIBNAME)
+	-rm -rf $(NUGETDIR)/$(LIBNAME)/$(VERSION)
+	-svn rm $(NUGETDIR)/$(LIBNAME)/*
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
+	-svn add $(NUGETDIR)/$(LIBNAME)/$(VERSION)
 	cp bin/$(CONFIGURATION)/*.nupkg .
 
 # Remove working files
