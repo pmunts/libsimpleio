@@ -1,9 +1,11 @@
-<p>This package contains project templates for developing cross-platform .Net 6
-application programs for Windows or Linux using <b><a href=
-"https://www.nuget.org/packages/libremoteio">libremoteio</a></b>, a .Net
-Standard 2.0 library assembly that provides a .Net client implementation of the
-<b><a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote
-I/O Protocol</a></b>.</p>
+<p>This package provides a .Net 6 project template for developing
+cross-platform .Net 6 application programs for Windows or Linux using
+<b><a href="https://www.nuget.org/packages/libremoteio">libremoteio</a></b>, a
+.Net Standard 2.0 library assembly that provides a .Net client implementation
+of the <b><a href=
+"http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
+Protocol</a></b>.</p>
+<p><b>Introduction</b></p>
 <p><b>libremoteio</b> provides services to control ADC (Analog to Digital
 Converter) inputs, DAC (Digital to Analog) outputs, GPIO (General Purpose I/O)
 pins, I2C devices, PWM (Pulse Width Modulated) outputs, servo outputs, motor
@@ -17,22 +19,24 @@ systems.</p>
 <p>The API documentation for <b>libremoteio</b> is available as a Windows
 <a href="http://git.munts.com/libremoteio/doc/libremoteio.dll.chm">help
 file</a>.</p>
-<p><b>Remote I/O Protocol Servers</b></p>
-<p>A free and open source <b>Remote I/O Protocol</b> server framework written
-in Ada for Linux is part of the <b><a href=
-"https://github.com/pmunts/libsimpleio">Linux Simple I/O Library</a></b>. See
-<a href=
-"https://github.com/pmunts/libsimpleio/blob/master/ada/programs/remoteio/test_server_dummy.adb">
-test_server_dummy.adb</a>. Some board specific example <b>Remote I/O
-Protocol</b> server programs for <b><a href=
-"https://github.com/pmunts/muntsos">MuntsOS Embedded Linux</a></b> using that
-framework are available <a href=
-"https://github.com/pmunts/muntsos/tree/master/examples/ada/programs">here</a>.
-The <b>MuntsOS Embedded Linux</b> GPIO <a href=
-"http://repo.munts.com/muntsos/thinservers">Thin Servers</a> for BeagleBone,
-PocketBeagle, and Raspberry Pi boards include <b>Remote I/O Protocol</b>
-support.</p>
-<p>Two commercial USB HID <b>Remote I/O Protocol</b> server products available
-for purchase on <a href=
-"https://www.tindie.com/search/?q=Munts+Remote+I%2FO+Protocol">tindie.com</a>,
-both of which use reprogrammed Adafruit MCP2221A breakout boards.</p>
+<p><b>Usage</b></p>
+<p>Install this template package by running the following command from a Linux
+or Windows command line:</p>
+<pre><b>
+dotnet new -i libremoteio-templates
+
+</b></pre>
+<p>The above command will install a .Net 6 application program project template
+called <b><tt>csharp_console_libremoteio</tt></b>. You can then create a
+project using it with commands like the following:</p>
+<pre><b>
+mkdir myprogram
+cd myprogram
+dotnet new csharp_console_libremoteio
+
+</b></pre>
+<p>On Windows, after you have run the <b><tt>dotnet new -i</tt></b> command
+above, <b>Visual Studio 2022</b> will automatically pick up the
+<b><tt>csharp_console_libremoteio</tt></b> <tt>project template</tt>. You can
+then create a project using it with <b><tt>File</tt> → <tt>New</tt> →
+<tt>Project...</tt></b> and then search for <b><tt>libremoteio</tt></b>.</p>
