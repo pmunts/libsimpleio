@@ -59,10 +59,12 @@ default:
 	install -cm 0644 Help/$(LIBNAME).dll.chm ../../doc
 	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
-	rm -rf $(NUGETDIR)/$(LIBNAME)/$(VERSION)
+	-rm -rf $(NUGETDIR)/$(LIBNAME)/$(VERSION)
+	-svn rm $(NUGETDIR)/$(LIBNAME)/*
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
+	-svn add $(NUGETDIR)/$(LIBNAME)/$(VERSION)
 	cp bin/$(CONFIGURATION)/*.nupkg .
 
 # Remove working files
