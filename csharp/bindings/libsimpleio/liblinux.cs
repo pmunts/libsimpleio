@@ -127,7 +127,7 @@ namespace IO.Bindings
         /// </summary>
         public const int LOG_NDELAY = 0x08;
         /// <summary>
-        /// Don't  wait for child processes that may have been created while 
+        /// Don't  wait for child processes that may have been created while
         /// logging the message.  (Not applicable to <c>glibc</c>.)
         /// </summary>
         public const int LOG_NOWAIT = 0x10;
@@ -222,6 +222,14 @@ namespace IO.Bindings
         [DllImport("simpleio")]
         public static extern void LINUX_syslog(int priority, string msg,
             out int error);
+
+        /// <summary>
+        /// Close the connection to the <c>syslog</c> service.
+        /// </summary>
+        /// <param name="error">Error code.  Zero upon success or an
+        /// <c>errno</c> value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void LINUX_closelog(out int error);
 
         /// <summary>
         /// Fetch the value of <c>errno</c>.
