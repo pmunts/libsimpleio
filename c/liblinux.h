@@ -1,7 +1,7 @@
 /* Linux syscall wrappers.  These are primarily for the benefit of other */
 /* programming languages, such as Ada, Pascal, Java, etc.                */
 
-// Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -49,6 +49,10 @@ extern void LINUX_openlog(const char *id, int32_t options, int32_t facility,
 // Post syslog message
 
 extern void LINUX_syslog(int32_t priority, const char *msg, int32_t *error);
+
+// Close syslog connection
+
+extern void LINUX_closelog(int32_t *error);
 
 // Retrieve errno value
 

@@ -89,11 +89,15 @@ PACKAGE libLinux IS
     error    : OUT Integer);
   PRAGMA Import(C, OpenLog, "LINUX_openlog");
 
-  PROCEDURE Syslog
+  PROCEDURE WriteLog
    (priority : Integer;
     message  : String;
     error    : OUT Integer);
-  PRAGMA Import(C, Syslog, "LINUX_syslog");
+  PRAGMA Import(C, WriteLog, "LINUX_syslog");
+
+  PROCEDURE CloseLog
+   (error    : OUT Integer);
+  PRAGMA Import(C, CloseLog, "LINUX_closelog");
 
   FUNCTION ErrNo RETURN Integer;
   PRAGMA Import(C, ErrNo, "LINUX_errno");

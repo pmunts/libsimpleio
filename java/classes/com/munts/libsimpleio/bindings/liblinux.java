@@ -1,4 +1,4 @@
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -84,8 +84,7 @@ public class liblinux
   public static native void LINUX_openlog(String ident, int options,
     int facility, IntByReference error);
 
-  public static native void LINUX_syslog(int priority, String message,
-    IntByReference error);
+  public static native void LINUX_closelog(IntByReference error);
 
   public static native int LINUX_errno();
 

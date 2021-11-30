@@ -1,6 +1,6 @@
 -- Log messages with syslog using libsimpleio
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -49,6 +49,7 @@ PACKAGE BODY Logging.libsimpleio IS
   BEGIN
     Self := Destroyed;
 
+    libLinux.CloseLog(error);
     libLinux.OpenLog(sender, options, facility, error);
 
     IF error /= 0 THEN
@@ -61,10 +62,14 @@ PACKAGE BODY Logging.libsimpleio IS
 
   PROCEDURE Destroy(Self : IN OUT LoggerSubclass) IS
 
+    error : Integer;
+
   BEGIN
     IF Self = Destroyed THEN
       RETURN;
     END IF;
+
+    libLinux.CloseLog(error);
 
     Self := Destroyed;
   END Destroy;
@@ -76,7 +81,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_ERR, message & ASCII.NUL, err);
+    libLinux.WriteLog(libLinux.LOG_ERR, message & ASCII.NUL, err);
   END Error;
 
   -- Log an error event, with errno value
@@ -86,7 +91,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_ERR, message & ", " & errno.strerror(errnum) &
+    libLinux.WriteLog(libLinux.LOG_ERR, message & ", " & errno.strerror(errnum) &
       ASCII.NUL, err);
   END Error;
 
@@ -97,7 +102,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_WARNING, message & ASCII.NUL,
+    libLinux.WriteLog(libLinux.LOG_WARNING, message & ASCII.NUL,
       err);
   END Warning;
 
@@ -108,7 +113,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_INFO, message & ASCII.NUL, err);
+    libLinux.WriteLog(libLinux.LOG_INFO, message & ASCII.NUL, err);
   END Note;
 
   -- The following subprograms are analogous to classwide static methods.
@@ -118,7 +123,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_ERR, message & ASCII.NUL, err);
+    libLinux.WriteLog(libLinux.LOG_ERR, message & ASCII.NUL, err);
   END Error;
 
   PROCEDURE Error(message : String; errnum : Integer) IS
@@ -126,7 +131,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_ERR, message & ", " &
+    libLinux.WriteLog(libLinux.LOG_ERR, message & ", " &
       errno.strerror(errnum) & ASCII.NUL, err);
   END Error;
 
@@ -135,7 +140,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_WARNING, message & ASCII.NUL,
+    libLinux.WriteLog(libLinux.LOG_WARNING, message & ASCII.NUL,
       err);
   END Warning;
 
@@ -144,7 +149,7 @@ PACKAGE BODY Logging.libsimpleio IS
     err : Integer;
 
   BEGIN
-    libLinux.Syslog(libLinux.LOG_INFO, message & ASCII.NUL, err);
+    libLinux.WriteLog(libLinux.LOG_INFO, message & ASCII.NUL, err);
   END Note;
 
 END Logging.libsimpleio;

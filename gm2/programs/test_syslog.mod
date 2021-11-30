@@ -1,4 +1,4 @@
-(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(* Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.             *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -40,7 +40,9 @@ BEGIN
   liblinux.openlog(liblinux.LOG_PROGNAME, liblinux.LOG_PID + liblinux.LOG_PERROR,
     liblinux.LOG_LOCAL0, error);
 
-  liblinux.syslog(liblinux.LOG_NOTICE, "This is a test.", error);
+  liblinux.writelog(liblinux.LOG_NOTICE, "This is a test.", error);
+
+  liblinux.closelog(error);
 
   WriteLn;
   FlushOutErr;

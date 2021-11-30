@@ -1,6 +1,6 @@
 .\" man page for Munts Technologies Linux Simple I/O Library
 .\"
-.\" Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+.\" Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH liblinux 2 "30 April 2020" "version 1" "Linux Simple I/O Library"
+.TH liblinux 2 "30 November 2021" "version 1" "Linux Simple I/O Library"
 .SH NAME
 .B liblinux
 \-\- Linux Simple I/O Library: Linux System Call Wrapper Module
@@ -36,6 +36,8 @@
 .BI "  int32_t *" error ");"
 
 .BI "void LINUX_syslog(int32_t " priority ", const char *" msg ", int32_t *" error ");"
+
+.BI "void LINUX_closelog(int32_t *" error ");"
 
 .BI "int32_t LINUX_errno(void);"
 
@@ -102,6 +104,11 @@ message logger. The
 parameter accepts the same values as the
 .B syslog()
 system library function.
+.PP
+.B LINUX_closelog()
+closes the connection to the
+.B syslog
+message logger.
 .PP
 .B LINUX_errno()
 returns the current value of the

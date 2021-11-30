@@ -1,6 +1,6 @@
 { FreePascal bindings for libsimpleio (http://git.munts.com/libsimpleio)      }
 
-{ Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.             }
+{ Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.             }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -100,10 +100,15 @@ INTERFACE
 
   { Log a message to syslog facility }
 
-  PROCEDURE Syslog
+  PROCEDURE WriteLog
    (priority  : Integer;
     msg       : PChar;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_syslog';
+
+  { Open connection to syslog facility }
+
+  PROCEDURE CloseLog
+   (VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_closelog';
 
   { Retrieve errno }
 
