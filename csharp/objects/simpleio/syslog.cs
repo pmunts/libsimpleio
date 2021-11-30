@@ -25,8 +25,25 @@ namespace IO.Objects.libsimpleio.syslog
     /// <summary>
     /// Encapsulates system logging services using <c>libsimpleio</c>.
     /// </summary>
-    public class Logger : IO.Interfaces.Log.Logger
+    /// <remarks>An instance of this class can be used either standalone or
+    /// as a <c>System.Diagnostics.TraceListener</c>.  The static methods
+    /// <c>Systems.Diagnostics.Trace.Write()</c> and
+    /// <c>Systems.Diagnostics.Trace.WriteIf()</c> most naturally fit the
+    /// Linux <c>syslog</c> facility.</remarks>
+    /// <example>
+    /// <code>
+    /// using static System.Diagnostics.Trace;
+    ///
+    /// Listeners.RemoveAt(0);
+    /// Listeners.Add(new IO.Objects.libsimpleio.syslog.Logger("HelloWorld"));
+    ///
+    /// Write("Hello, World!");
+    /// </code>
+    /// </example>
+    public class Logger : System.Diagnostics.TraceListener
     {
+        private int severity;
+
         // <c>syslog</c> options (can be added together):
 
         /// <summary>
@@ -99,6 +116,41 @@ namespace IO.Objects.libsimpleio.syslog
         /// </summary>
         public const int LOG_LOCAL7 = IO.Bindings.libsimpleio.LOG_LOCAL7;
 
+        // <c>syslog</c> severity levels
+
+        /// <summary>
+        /// Emergency condition message.
+        /// </summary>
+        public const int LOG_EMERG = IO.Bindings.libsimpleio.LOG_EMERG;
+        /// <summary>
+        /// Alert condition message.
+        /// </summary>
+        public const int LOG_ALERT = IO.Bindings.libsimpleio.LOG_ALERT;
+        /// <summary>
+        /// Critical condition message.
+        /// </summary>
+        public const int LOG_CRIT = IO.Bindings.libsimpleio.LOG_CRIT;
+        /// <summary>
+        /// Error message.
+        /// </summary>
+        public const int LOG_ERR = IO.Bindings.libsimpleio.LOG_ERR;
+        /// <summary>
+        /// Warning message.
+        /// </summary>
+        public const int LOG_WARNING = IO.Bindings.libsimpleio.LOG_WARNING;
+        /// <summary>
+        /// Normal condition message.
+        /// </summary>
+        public const int LOG_NOTICE = IO.Bindings.libsimpleio.LOG_NOTICE;
+        /// <summary>
+        /// Informational message.
+        /// </summary>
+        public const int LOG_INFO = IO.Bindings.libsimpleio.LOG_INFO;
+        /// <summary>
+        /// Debug message.
+        /// </summary>
+        public const int LOG_DEBUG = IO.Bindings.libsimpleio.LOG_DEBUG;
+
         /// <summary>
         /// Constructor for a logging object that uses the Linux
         /// <c>syslog</c> subsystem.
@@ -106,12 +158,13 @@ namespace IO.Objects.libsimpleio.syslog
         /// <param name="id">Program identifier string.</param>
         /// <param name="options"><c>syslog</c> options.</param>
         /// <param name="facility"><c>syslog</c> facility.</param>
-        public Logger(string id, int facility,
-            int options = LOG_PERROR + LOG_PID)
+        /// <param name="severity"><c>syslog</c> severity level.</param>
+        public Logger(string id, int facility = LOG_LOCAL0,
+            int options = LOG_PERROR + LOG_PID, int severity = LOG_INFO)
         {
             int error;
-
             IO.Bindings.libsimpleio.LINUX_openlog(id, options, facility, out error);
+            this.severity = severity;
         }
 
         /// <summary>
@@ -161,7 +214,6 @@ namespace IO.Objects.libsimpleio.syslog
         }
 
         /// <summary>
-        /// 
         /// Log a notification message.
         /// </summary>
         /// <param name="message">Notification message.</param>
@@ -172,6 +224,32 @@ namespace IO.Objects.libsimpleio.syslog
             IO.Bindings.libsimpleio.LINUX_syslog
                 (IO.Bindings.libsimpleio.LOG_NOTICE,
                 message,
+                out error);
+        }
+
+        /// <summary>
+        /// Trace interface method for posting a message.
+        /// This method implementation is identical to <c>WriteLine()</c>,
+        /// because <c>syslog</c> is not a stream oriented service.
+        /// </summary>
+        /// <param name="message">Trace message.</param>
+        public override void Write(string message)
+        {
+            int error;
+
+            IO.Bindings.libsimpleio.LINUX_syslog(this.severity, message,
+                out error);
+        }
+
+        /// <summary>
+        /// Trace interface method for posting a message.
+        /// </summary>
+        /// <param name="message">Trace message.</param>
+        public override void WriteLine(string message)
+        {
+            int error;
+
+            IO.Bindings.libsimpleio.LINUX_syslog(this.severity, message,
                 out error);
         }
     }

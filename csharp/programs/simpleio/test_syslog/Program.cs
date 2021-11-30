@@ -1,4 +1,4 @@
-// System Logging Subsystem Test
+// Linux syslog Test
 
 // Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 //
@@ -20,16 +20,43 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using static System.Console;
+using static System.Diagnostics.Trace;
 
-WriteLine("\nSystem Logging Subsystem Test\n");
+System.Console.WriteLine("\nLinux syslog Test\n");
 
-IO.Interfaces.Log.Logger syslog =
-    new IO.Objects.libsimpleio.syslog.Logger("test_syslog",
-        IO.Objects.libsimpleio.syslog.Logger.LOG_LOCAL0);
+// Create a Logger instance
 
-syslog.Note("This is a test");
-syslog.Warning("This is a test WARNING message");
-syslog.Error("This is a test ERROR message");
-syslog.Error("This is a test ERROR message", errno.EINVAL);
-syslog.Error("This is a test ERROR message", 999);
+var log = new IO.Objects.libsimpleio.syslog.Logger("test_syslog");
+
+// Replace the default trace listener
+
+Listeners.RemoveAt(0);
+Listeners.Add(log);
+
+// Test Logger methods
+
+log.Note("This is a test NOTIFICATION message");
+log.Warning("This is a test WARNING message");
+log.Error("This is a test ERROR message");
+log.Error("This is a test ERROR message", errno.EINVAL);
+log.Error("This is a test ERROR message", 999);
+
+// Test Trace... methods
+
+TraceInformation("This is TraceInformation()");
+TraceWarning("This is TraceWarning()");
+TraceError("This is TraceError()");
+
+// Test Write()
+
+Write("This is Write()");
+Write(123456789);
+Write("This is Write()", "ALERT");
+Write(123456789, "INFO");
+
+// Test WriteIf()
+
+WriteIf(true, "This is WriteIf()");
+WriteIf(true, 123456789);
+WriteIf(true, "This is WriteIf()", "ALERT");
+WriteIf(true, 123456789, "INFO");
