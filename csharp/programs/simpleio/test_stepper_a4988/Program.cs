@@ -22,7 +22,7 @@
 
 using System;
 
-namespace test_a4988
+namespace test_stepper_a4988
 {
     class Program
     {
