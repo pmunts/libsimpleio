@@ -118,7 +118,7 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 	mkdir -p				$(PKGDIR)/usr/share/gpr
-	ln -s /usr/local/share/libsimpleio/ada/lib/libsimpleio.gpr $(PKGDIR)/usr/share/gpr/libsimpleio.gpr 
+	ln -s /usr/local/share/libsimpleio/ada/lib/libsimpleio.gpr $(PKGDIR)/usr/share/gpr/libsimpleio.gpr
 
 # Create Debian package file
 
