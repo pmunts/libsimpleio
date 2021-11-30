@@ -20,64 +20,55 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
-namespace test_stepper_a4988
+WriteLine("\nA4988 Stepper Motor Driver Test\n");
+
+// Get the number of descrete steps the motor under test has
+
+Write("Number of steps?                 ");
+int numsteps = int.Parse(ReadLine());
+
+// Create STEP signal GPIO pin object
+
+IO.Objects.libsimpleio.Device.Designator desg;
+
+Write("STEP signal GPIO chip number?    ");
+desg.chip = uint.Parse(ReadLine());
+
+Write("STEP signal GPIO channel number? ");
+desg.chan = uint.Parse(ReadLine());
+
+IO.Interfaces.GPIO.Pin Step_Pin =
+    new IO.Objects.libsimpleio.GPIO.Pin(desg,
+        IO.Interfaces.GPIO.Direction.Output, false);
+
+// Create DIR signal GPIO pin object
+
+Write("DIR signal GPIO chip number?     ");
+desg.chip = uint.Parse(ReadLine());
+
+Write("DIR signal GPIO channel number?  ");
+desg.chan = uint.Parse(ReadLine());
+
+WriteLine();
+
+IO.Interfaces.GPIO.Pin Dir_Pin =
+    new IO.Objects.libsimpleio.GPIO.Pin(desg,
+        IO.Interfaces.GPIO.Direction.Output, false);
+
+// Create A4988 device object
+
+IO.Interfaces.Stepper.Output outp =
+    new IO.Devices.A4988.Device(numsteps, Step_Pin, Dir_Pin);
+
+for (;;)
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("\nA4988 Stepper Motor Driver Test\n");
+    Write("Steps? ");
+    int steps = int.Parse(ReadLine());
 
-            // Get the number of descrete steps the motor under test has
+    Write("Rate?  ");
+    float rate = float.Parse(ReadLine());
 
-            Console.Write("Number of steps?                 ");
-            int numsteps = int.Parse(Console.ReadLine());
-
-            // Create STEP signal GPIO pin object
-
-            IO.Objects.libsimpleio.Device.Designator desg;
-
-            Console.Write("STEP signal GPIO chip number?    ");
-            desg.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("STEP signal GPIO channel number? ");
-            desg.chan = uint.Parse(Console.ReadLine());
-
-            IO.Interfaces.GPIO.Pin Step_Pin =
-                new IO.Objects.libsimpleio.GPIO.Pin(desg,
-                    IO.Interfaces.GPIO.Direction.Output, false);
-
-            // Create DIR signal GPIO pin object
-
-            Console.Write("DIR signal GPIO chip number?     ");
-            desg.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("DIR signal GPIO channel number?  ");
-            desg.chan = uint.Parse(Console.ReadLine());
-
-            Console.WriteLine();
-
-            IO.Interfaces.GPIO.Pin Dir_Pin =
-                new IO.Objects.libsimpleio.GPIO.Pin(desg,
-                    IO.Interfaces.GPIO.Direction.Output, false);
-
-            // Create A4988 device object
-
-            IO.Interfaces.Stepper.Output outp =
-                new IO.Devices.A4988.Device(numsteps, Step_Pin, Dir_Pin);
-
-            for (;;)
-            {
-                Console.Write("Steps? ");
-                int steps = int.Parse(Console.ReadLine());
-
-                Console.Write("Rate?  ");
-                float rate = float.Parse(Console.ReadLine());
-
-                outp.Move(steps, rate);
-            }
-        }
-    }
+    outp.Move(steps, rate);
 }
