@@ -53,11 +53,12 @@ default:
 	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
 	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
-	$(CONVERT) Help/$(LIBNAME).chm Help/$(LIBNAME).pdf $(CONVERTFLAGS)
 	mv Help/$(LIBNAME).chm Help/$(LIBNAME).dll.chm
-	mv Help/$(LIBNAME).pdf Help/$(LIBNAME).dll.pdf
 	install -cm 0644 Help/$(LIBNAME).dll.chm ../../doc
+ifneq ($(NOPDF), yes)
+	$(CONVERT) Help/$(LIBNAME).dll.chm Help/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
 	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
+endif
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	-rm -rf $(NUGETDIR)/$(LIBNAME)/$(VERSION)
 	-svn rm $(NUGETDIR)/$(LIBNAME)/*
