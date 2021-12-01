@@ -261,7 +261,7 @@ namespace IO.Objects.libsimpleio.syslog
         public enum Registration
         {
             /// <summary>
-            /// Append an instance to the <c>TraceListener</c> list.
+            /// Add to the <c>TraceListener</c> list.
             /// </summary>
             Append,
             /// <summary>
