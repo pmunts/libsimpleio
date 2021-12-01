@@ -2,8 +2,6 @@ using static System.Console;
 
 WriteLine("\nHello, World!\n");
 
-IO.Interfaces.Log.Logger syslog =
-    new IO.Objects.libsimpleio.syslog.Logger("test_syslog",
-        IO.Objects.libsimpleio.syslog.Logger.LOG_LOCAL0);
+var log = new IO.Objects.libsimpleio.syslog.Logger("HelloWorld");
 
-syslog.Note("Hello, World!");
+log.Note("Hello, World!");
