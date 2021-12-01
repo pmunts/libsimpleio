@@ -47,17 +47,17 @@ namespace IO.Objects.libsimpleio.syslog
         // <c>syslog</c> options (can be added together):
 
         /// <summary>
-        /// Open the connection to the <c>syslog</c> subsystem immediately.
+        /// Open the connection to the <c>syslog</c> service immediately.
         /// Recommended.
         /// </summary>
         public const int LOG_NDELAY = IO.Bindings.libsimpleio.LOG_NDELAY;
         /// <summary>
-        /// Do not open the connection to the <c>syslog</c> subsystem before
+        /// Do not open the connection to the <c>syslog</c> service before
         /// logging the first message.  Not recommended.
         /// </summary>
         public const int LOG_ODELAY = IO.Bindings.libsimpleio.LOG_NDELAY;
         /// <summary>
-        /// Write message to both <c>syslog</c> subsystem AND <c>stderr</c>.
+        /// Write message to both <c>syslog</c> service AND <c>stderr</c>.
         /// </summary>
         public const int LOG_PERROR = IO.Bindings.libsimpleio.LOG_PERROR;
         /// <summary>
@@ -153,17 +153,18 @@ namespace IO.Objects.libsimpleio.syslog
 
         /// <summary>
         /// Constructor for a logging object that uses the Linux
-        /// <c>syslog</c> subsystem.
+        /// <c>syslog</c> service.
         /// </summary>
         /// <param name="id">Program identifier string.</param>
-        /// <param name="options"><c>syslog</c> options.</param>
         /// <param name="facility"><c>syslog</c> facility.</param>
+        /// <param name="options"><c>syslog</c> options.</param>
         /// <param name="severity"><c>syslog</c> severity level.</param>
         public Logger(string id, int facility = LOG_LOCAL0,
-            int options = LOG_PERROR + LOG_PID, int severity = LOG_INFO)
+            int options = LOG_PERROR, int severity = LOG_INFO)
         {
             int error;
-            IO.Bindings.libsimpleio.LINUX_openlog(id, options, facility, out error);
+            IO.Bindings.libsimpleio.LINUX_openlog(id, options, facility,
+                out error);
             this.severity = severity;
         }
 
@@ -191,7 +192,8 @@ namespace IO.Objects.libsimpleio.syslog
             System.Text.StringBuilder errmsg = new System.Text.StringBuilder(256);
             int error;
 
-            IO.Bindings.libsimpleio.LINUX_strerror(errnum, errmsg, errmsg.Capacity);
+            IO.Bindings.libsimpleio.LINUX_strerror(errnum, errmsg,
+                errmsg.Capacity);
 
             IO.Bindings.libsimpleio.LINUX_syslog
                 (IO.Bindings.libsimpleio.LOG_ERR,
@@ -251,6 +253,51 @@ namespace IO.Objects.libsimpleio.syslog
 
             IO.Bindings.libsimpleio.LINUX_syslog(this.severity, message,
                 out error);
+        }
+
+        /// <summary>
+        /// <c>TraceListener</c> registration options.
+        /// </summary>
+        public enum Registration
+        {
+            /// <summary>
+            /// Append an instance to the <c>TraceListener</c> list.
+            /// </summary>
+            Append,
+            /// <summary>
+            /// Replace all <c>TraceListener</c> list items.
+            /// </summary>
+            Replace
+        }
+
+        /// <summary>
+        /// Register a new <c>Logger</c> instance as a <c>TraceListener</c>.
+        /// </summary>
+        /// <param name="id">Program identifier string.</param>
+        /// <param name="facility"><c>syslog</c> facility.</param>
+        /// <param name="options"><c>syslog</c> options.</param>
+        /// <param name="severity"><c>syslog</c> severity level.</param>
+        /// <param name="reghow">How to register the <c>TraceListener</c>
+        /// instance.</param>
+        /// <example>
+        /// <code>
+        /// using static System.Diagnostics.Trace;
+        /// 
+        /// IO.Objects.libsimpleio.syslog.Logger.Register("HelloWorld");
+        /// 
+        /// Write("Hello, World!");
+        /// </code>
+        /// </example>
+        public static void Register(string id, int facility = LOG_LOCAL0,
+            int options = LOG_PERROR, int severity = LOG_INFO,
+            Registration reghow = Registration.Replace)
+        {
+            while ((reghow == Registration.Replace) &&
+                (System.Diagnostics.Trace.Listeners.Count > 0))
+                System.Diagnostics.Trace.Listeners.RemoveAt(0);
+
+            System.Diagnostics.Trace.Listeners.Add(new Logger(id, facility,
+                options, severity));
         }
     }
 }
