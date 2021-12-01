@@ -52,12 +52,14 @@ default:
 	mkdir -p obj
 	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
+ifneq ($(NOCHM), yes)
 	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
 	mv Help/$(LIBNAME).chm Help/$(LIBNAME).dll.chm
 	install -cm 0644 Help/$(LIBNAME).dll.chm ../../doc
 ifneq ($(NOPDF), yes)
 	$(CONVERT) Help/$(LIBNAME).dll.chm Help/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
 	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
+endif
 endif
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	-rm -rf $(NUGETDIR)/$(LIBNAME)/$(VERSION)
