@@ -29,7 +29,7 @@ include $(LIBSIMPLEIO)/csharp/include/coreapp.mk
 
 # Build the project
 
-default: coreapp_mk_build
+default: coreapp_mk_single
 
 # Build an application distribution package
 
