@@ -1,3 +1,7 @@
 using static System.Console;
 
-WriteLine("Hello World!");
+WriteLine("\nHello, World!\n");
+
+var log = new IO.Objects.libsimpleio.syslog.Logger("HelloWorld");
+
+log.Note("Hello, World!");

@@ -21,7 +21,8 @@
   <TemplateContent>
     <Project File="csharp_console_libremoteio.csproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" OpenInEditor="true">Program.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true">Makefile</ProjectItem>
+      <ProjectItem>Makefile</ProjectItem>
+      <ProjectItem>.vscode\tasks.json</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>

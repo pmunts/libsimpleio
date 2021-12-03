@@ -28,7 +28,7 @@ VSTEMPLATES	?= $(HOME)/"Documents/Visual Studio 2022/Templates/ProjectTemplates"
 
 %.zip: %.d
 	rm -f $@
-	cd $< ; zip -r ../$@ *
+	cd $< ; zip -r ../$@ * .vscode
 
 # Define a pattern rule for installing a template for Windows Visual Studio
 
