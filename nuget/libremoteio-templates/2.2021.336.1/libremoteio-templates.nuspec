@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>libsimpleio-templates</id>
-    <version>2.2021.334.1</version>
-    <title>Project templates for .Net 6 console applications using libsimpleio.</title>
+    <id>libremoteio-templates</id>
+    <version>2.2021.336.1</version>
+    <title>Project templates for .Net 6 console applications using libremoteio.</title>
     <authors>Philip Munts</authors>
     <license type="file">COPYING</license>
     <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
-    <readme>libsimpleio-templates.md</readme>
+    <readme>libremoteio-templates.md</readme>
     <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
-    <description>Project templates for .Net 6 console applications using libsimpleio.</description>
-    <releaseNotes>Reimplemented IO.Objects.libsimpleio.syslog.logger as a System.Diagnostics.TraceListener.</releaseNotes>
+    <description>Project templates for .Net 6 console applications using libremoteio.</description>
+    <releaseNotes>Include .vscode/tasks_json, for Visual Studio Code.</releaseNotes>
     <copyright>Copyright (C)2016-2021 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
-    <tags>CLI NuGet Linux I/O ADC DAC GPIO I2C PWM Serial Servo SPI USB Raw HID Watchdog</tags>
+    <tags>CLI NuGet Linux USB HID Remote I/O ADC DAC GPIO I2C Motor PWM Servo SPI Stepper</tags>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
