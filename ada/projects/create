@@ -31,18 +31,24 @@ if [ "${1}" = "-allcaps" ]; then
   shift 1
 fi
 
-if [ $# -lt 1 -o $# -gt 2 ]; then
+if [ $# -lt 2 -o $# -gt 3 ]; then
   echo ''
-  echo 'Ada Application Program Project Builder'
+  echo 'Ada Program Project Creator'
   echo ''
-  echo 'Usage: <name> [libsimpleio|remoteio|mcp2221|ftdi_mpsse]'
+  echo 'Usage: <name> <kind> [<target>]'
+  echo ''
+  echo '<kind> may be any of: libsimpleio remoteio mcp2221 ftdi_mpsse'
+  echo ''
+  echo '<target> may be any of: BeagleBone RaspberryPi1 RaspberryPi2'
+  echo '  RaspberryPi3 RaspberryPi4 aarch64-linux-gnu aarch64-linux-gnu'
   echo ''
   exit 1
 fi
 
 LIBSIMPLEIO=${LIBSIMPLEIO:-/usr/local/share/libsimpleio}
 NAME=${1}
-KIND=${2:-libsimpleio}
+KIND=${2}
+TARGET=${3:-NONE}
 DSTDIR=./${NAME}
 
 # Populate the project skeleton
@@ -59,6 +65,10 @@ begin
    null;
 end @@NAME@@;
 EOD
+
+if [ "${TARGET}" != "NONE" ]; then
+  cp ${LIBSIMPLEIO}/ada/projects/${TARGET}.cgpr	${DSTDIR}/default.cgpr
+fi
 
 # Expand @@NAME@@ and @@KIND@@ in the project files
 
