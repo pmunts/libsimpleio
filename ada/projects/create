@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Script for creating an Ada program project
+# Create an Ada program project using the Linux Simple I/O Library
 
 # Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 #
