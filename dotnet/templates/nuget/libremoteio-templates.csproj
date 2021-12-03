@@ -11,7 +11,7 @@
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>COPYING</PackageLicenseFile>
     <PackageReadmeFile>libremoteio-templates.md</PackageReadmeFile>
-    <PackageTags>CLI; NuGet; Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI</PackageTags>
+    <PackageTags>CLI; NuGet; Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; Motor; PWM; Servo; SPI; Stepper</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>

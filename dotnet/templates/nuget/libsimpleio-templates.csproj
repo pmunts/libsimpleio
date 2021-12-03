@@ -11,7 +11,7 @@
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>COPYING</PackageLicenseFile>
     <PackageReadmeFile>libsimpleio-templates.md</PackageReadmeFile>
-    <PackageTags>CLI; NuGet; Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; USB Raw HID; Watchdog</PackageTags>
+    <PackageTags>CLI; NuGet; Linux; I/O; ADC; DAC; GPIO; I2C; Motor, PWM; Serial; Servo; SPI; Stepper; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
