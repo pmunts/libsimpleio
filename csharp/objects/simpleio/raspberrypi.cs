@@ -101,8 +101,20 @@ namespace IO.Objects.libsimpleio.Platforms
 
         // The following I2C buses are available on all Raspberry Pi Models
 
-        /// <summary>I2C bus designator for GPIO2 and GPIO3</summary>:
+        /// <summary>I2C bus designator for <c>/dev/i2c-1</c> on GPIO2 and GPIO3</summary>:
         public static readonly Designator I2C1 = new Designator(0, 1);     // GPIO2 and GPIO3
+        /// <summary>I2C bus designator for <c>/dev/i2c-3</c> (Raspberry Pi 4 only,
+        /// with device tree overlay)</summary>:
+        public static readonly Designator I2C3 = new Designator(0, 3);
+        /// <summary>I2C bus designator for <c>/dev/i2c-4</c> (Raspberry Pi 4 only,
+        /// with device tree overlay)</summary>:
+        public static readonly Designator I2C4 = new Designator(0, 4);
+        /// <summary>I2C bus designator for <c>/dev/i2c-5</c> (Raspberry Pi 4 only,
+        /// with device tree overlay)</summary>:
+        public static readonly Designator I2C5 = new Designator(0, 5);
+        /// <summary>I2C bus designator for <c>/dev/i2c-6</c> (Raspberry Pi 4 only,
+        /// with device tree overlay)</summary>:
+        public static readonly Designator I2C6 = new Designator(0, 6);
 
         // The following PWM outputs are only available if the proper
         // device tree overlay(s) are installed
