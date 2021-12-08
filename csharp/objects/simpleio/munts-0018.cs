@@ -25,54 +25,164 @@ using static IO.Objects.libsimpleio.Platforms.RaspberryPi;
 
 namespace IO.Objects.libsimpleio.Platforms
 {
-  public static class MUNTS_0018
-  {
-    // On board LED
+    /// <summary>
+    /// This class provides <c>Designator</c>s for I/O resources available on the
+    /// <a href="http://tech.munts.com/manuals/MUNTS-0018.pdf">MUNTS-0018</a>
+    /// Tutorial I/O Board.
+    /// </summary>
+    public static class MUNTS_0018
+    {
+        // On board LED
 
-    public static readonly Designator D1 = GPIO26;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for the on board LED.
+        /// </summary>
+        public static readonly Designator D1 = GPIO26;
 
-    // On board pushbutton switch
+        // On board pushbutton switch
 
-    public static readonly Designator SW1 = GPIO6;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for the on-board push-button
+        /// momentary switch.
+        /// </summary>
+        public static readonly Designator SW1 = GPIO6;
 
-    // Grove GPIO Connectors
+        // Grove GPIO Connectors
 
-    public static readonly Designator J4D0 = GPIO23;
-    public static readonly Designator J4D1 = GPIO24;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for Grove Connector J4 D0.
+        /// </summary>
+        public static readonly Designator J4D0 = GPIO23;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for Grove Connector J4 D1.
+        /// </summary>
+        public static readonly Designator J4D1 = GPIO24;
 
-    public static readonly Designator J5D0 = GPIO5;
-    public static readonly Designator J5D1 = GPIO4;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for Grove Connector J5 D0.
+        /// </summary>
+        public static readonly Designator J5D0 = GPIO5;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for Grove Connector J5 D1.
+        /// </summary>
+        public static readonly Designator J5D1 = GPIO4;
 
-    public static readonly Designator J6D0 = GPIO12;
-    public static readonly Designator J6D1 = GPIO13;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for Grove Connector J6 D0.
+        /// </summary>
+        /// <remarks>
+        /// This Raspberry Pi I/O pin is normally mapped to <c>PWM0</c>
+        /// and cannot be used for GPIO.
+        /// </remarks>
+        public static readonly Designator J6D0 = GPIO12;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for Grove Connector J6 D1.
+        /// </summary>
+        public static readonly Designator J6D1 = GPIO13;
 
-    public static readonly Designator J7D0 = GPIO19;
-    public static readonly Designator J7D1 = GPIO18;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for Grove Connector J7 D0.
+        /// </summary>
+        /// <remarks>
+        /// This Raspberry Pi I/O pin is normally mapped to <c>PWM1</c>
+        /// and cannot be used for GPIO.
+        /// </remarks>
+        public static readonly Designator J7D0 = GPIO19;
+        /// <summary>
+        /// GPIO pin <c>Designator</c> for Grove Connector J70 D1.
+        /// </summary>
+        public static readonly Designator J7D1 = GPIO18;
 
-    // Servo headers
+        // Servo headers
 
-    public static readonly Designator J2PWM = PWM0_0;
-    public static readonly Designator J3PWM = PWM0_1;
+        /// <summary>
+        /// PWM output <c>Designator</c> at servo header J2.
+        /// </summary>
+        public static readonly Designator J2PWM = PWM0_0;
+        /// <summary>
+        /// PWM output <c>Designator</c> at servo header J3.
+        /// </summary>
+        public static readonly Designator J3PWM = PWM0_1;
 
-    // DC motor control outputs (PWM and direction)
+        // DC motor control outputs (PWM and direction)
 
-    public static readonly Designator J6PWM = J2PWM;
-    public static readonly Designator J6DIR = J6D1;
+        /// <summary>
+        /// PWM output <c>Designator</c> at Grove Connector J6 D0.
+        /// </summary>
+        /// <remarks>
+        /// This is the <b>speed</b> output for DC motor control.
+        /// </remarks>
+        public static readonly Designator J6PWM = J2PWM;
+        /// <summary>
+        /// GPIO <c>Designator</c> at Grove Connector J6 D1.
+        /// </summary>
+        /// <remarks>
+        /// This is the <b>direction</b> output for DC motor control.
+        /// </remarks>
+        public static readonly Designator J6DIR = J6D1;
 
-    public static readonly Designator J7PWM = J3PWM;
-    public static readonly Designator J7DIR = J7D1;
+        /// <summary>
+        /// PWM output <c>Designator</c> at Grove Connector J7 D0.
+        /// </summary>
+        /// <remarks>
+        /// This is the <b>speed</b> output for DC motor control.
+        /// </remarks>
+        public static readonly Designator J7PWM = J3PWM;
+        /// <summary>
+        /// GPIO <c>Designator</c> at Grove Connector J7 D1.
+        /// </summary>
+        /// <remarks>
+        /// This is the <b>direction</b> output for DC motor control.
+        /// </remarks>
+        public static readonly Designator J7DIR = J7D1;
 
-    // I2C buses
+        // I2C buses
 
-    public static readonly Designator J5I2C = I2C3;
-    public static readonly Designator J9I2C = I2C1;
+        /// <summary>
+        /// I<sup>2</sup>C bus <c>Designator</c> for <c>/dev/i2c3</c>
+        /// on J5.
+        /// </summary>
+        /// <remarks>
+        /// This optional I<sup>2</sup>C bus is only available on a Raspberry
+        /// Pi 4, and only if the following is added to <c>config.txt</c>:
+        /// <code>
+        /// dtoverlay=i2c3
+        /// </code>
+        /// You may also need to install I<sup>2</sup>C bus pull-up resistors
+        /// (4.7 K) at positions <c>R5</c> and <c>R6</c>.
+        /// </remarks>
+        public static readonly Designator J5I2C = I2C3;
+        /// <summary>
+        /// I<sup>2</sup>C bus <c>Designator</c> for <c>/dev/-i2c1</c>
+        /// on J9.
+        /// </summary>
+        /// <remarks>
+        /// This is the normal Raspberry Pi I<sup>2</sup>C bus.
+        /// </remarks>
+        public static readonly Designator J9I2C = I2C1;
 
-    // Analog inputs (on board MCP3204)
+        // Analog inputs (on board MCP3204)
 
-    public static readonly Designator J10A0 = new Designator(0, 2);
-    public static readonly Designator J10A1 = new Designator(0, 3);
+        /// <summary>
+        /// Analog input <c>Designator</c> for Grove Connector J10 A0
+        /// (MCP3204 input <c>CH2</c>.
+        /// </summary>
+        public static readonly Designator J10A0 = new Designator(0, 2);
+        /// <summary>
+        /// Analog input <c>Designator</c> for Grove Connector J10 A1
+        /// (MCP3204 input <c>CH3</c>.
+        /// </summary>
+        public static readonly Designator J10A1 = new Designator(0, 3);
 
-    public static readonly Designator J11A0 = new Designator(0, 0);
-    public static readonly Designator J11A1 = new Designator(0, 1);
-  }
+        /// <summary>
+        /// Analog input <c>Designator</c> for Grove Connector J11 A0
+        /// (MCP3204 input <c>CH0</c>.
+        /// </summary>
+        public static readonly Designator J11A0 = new Designator(0, 0);
+        /// <summary>
+        /// Analog input <c>Designator</c> for Grove Connector J11 A1
+        /// (MCP3204 input <c>CH1</c>.
+        /// </summary>
+        public static readonly Designator J11A1 = new Designator(0, 1);
+    }
 }
