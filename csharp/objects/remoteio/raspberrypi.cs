@@ -23,8 +23,8 @@
 namespace IO.Remote.Platforms
 {
     /// <summary>
-    /// I/O resources (Remote I/O Protocol channel numbers) available on a
-    /// Raspberry Pi Remote I/O Server
+    /// I/O resources (channel numbers) available on a Raspberry Pi Remote I/O
+    /// Server
     /// </summary>
     public static class RaspberryPi
     {
