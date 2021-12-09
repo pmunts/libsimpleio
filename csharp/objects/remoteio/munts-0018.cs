@@ -25,8 +25,19 @@ using static IO.Remote.Platforms.RaspberryPi;
 namespace IO.Remote.Platforms
 {
     /// <summary>
-    /// Foo
+    /// I/O resources (channel numbers) available on a
+    /// <a href="http://tech.munts.com/manuals/MUNTS-0018.pdf">
+    /// MUNTS-0018 Tutorial I/O Board</a> Remote I/O Protocol Server.
     /// </summary>
+    /// <remarks>
+    /// The following device tree overlay commands must be added to
+    /// <c>config.txt</c> on the Raspberr Pi hosting the MUNTS-0018 Tutorial
+    /// I/O Board Remote I/O Protocol Server:
+    /// <code>
+    /// dtoverlay=anyspi,spi0-1,dev="microchip,mcp3204",speed=1000000
+    /// dtoverlay=pwm-2chan,pin=12,func=4,pin2=19,func2=2
+    /// </code>
+    /// </remarks>
     public static class MUNTS_0018
     {
         /// <summary>
@@ -40,11 +51,17 @@ namespace IO.Remote.Platforms
         /// <summary>
         /// GPIO channel number for the on-board LED <c>D1</c>.
         /// </summary>
+        /// <remarks>
+        /// This GPIO pin cannot be configured as an input.
+        /// </remarks>
         public const int D1 = GPIO26;
 
         /// <summary>
         /// GPIO channel number for the on-board momentary switch <c>SW1</c>.
         /// </summary>
+        /// <remarks>
+        /// This GPIO pin cannot be configured as an output.
+        /// </remarks>
         public const int SW1 = GPIO6;
 
         /// <summary>
