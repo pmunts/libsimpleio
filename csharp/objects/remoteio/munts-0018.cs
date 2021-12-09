@@ -1,0 +1,167 @@
+// MUNTS-0018 Tutorial I/O Board I/O resource definitions
+
+// Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+// * Redistributions of source code must retain the above copyright notice,
+//   this list of conditions and the following disclaimer.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
+using static IO.Remote.Platforms.RaspberryPi;
+
+namespace IO.Remote.Platforms
+{
+    /// <summary>
+    /// Foo
+    /// </summary>
+    public static class MUNTS_0018
+    {
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi user LED.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO pin cannot be configured as an input.
+        /// </remarks>
+        public const int USERLED = 0;
+
+        /// <summary>
+        /// GPIO channel number for the on-board LED <c>D1</c>.
+        /// </summary>
+        public const int D1 = GPIO26;
+
+        /// <summary>
+        /// GPIO channel number for the on-board momentary switch <c>SW1</c>.
+        /// </summary>
+        public const int SW1 = GPIO6;
+
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J4</c> pin <c>D0</c>.
+        /// </summary>
+        public const int J4D0 = GPIO23;
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J4</c> pin <c>D1</c>.
+        /// </summary>
+        public const int J4D1 = GPIO24;
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J5</c> pin <c>D0</c>.
+        /// </summary>
+        public const int J5D0 = GPIO5;
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J5</c> pin <c>D1</c>.
+        /// </summary>
+        public const int J5D1 = GPIO4;
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J6</c> pin <c>D0</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO12</c> is
+        /// mapped to PWM output <c>PWM0</c>.
+        /// </remarks>
+        public const int J6D0 = GPIO12;
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J6</c> pin <c>D1</c>.
+        /// </summary>
+        public const int J6D1 = GPIO13;
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J7</c> pin <c>D0</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO19</c> is
+        /// mapped to PWM output <c>PWM1</c>.
+        /// </remarks>
+        public const int J7D0 = GPIO19;
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J7</c> pin <c>D1</c>.
+        /// </summary>
+        public const int J7D1 = GPIO18;
+
+        /// <summary>
+        /// PWM channel number for servo header <c>J2</c>.
+        /// </summary>
+        public const int J2PWM = GPIO12;
+        /// <summary>
+        /// PWM channel number for servo header <c>J3</c>.
+        /// </summary>
+        public const int J3PWM = GPIO19;
+
+        /// <summary>
+        /// PWM channel number for Grove Connector <c>J6</c> pin <c>D0</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>J6PWM</c> controls the <b>speed</b> for a DC motor driver.
+        /// </remarks>
+        public const int J6PWM = PWM0;
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J6</c> pin <c>D1</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>J6DIR</c> controls the <b>direction</b> for a DC motor driver.
+        /// </remarks>
+        public const int J6DIR = GPIO13;
+        /// <summary>
+        /// PWM channel number for Grove Connector <c>J7</c> pin <c>D0</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>J7PWM</c> controls the <b>speed</b> for a DC motor driver.
+        /// </remarks>
+        public const int J7PWM = PWM1;
+        /// <summary>
+        /// GPIO channel number for Grove Connector <c>J6</c> pin <c>D1</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>J7DIR</c> controls the <b>direction</b> for a DC motor driver.
+        /// </remarks>
+        public const int J7DIR = GPIO18;
+
+        /// <summary>
+        /// I<sup>2</sup>C bus channel number for Grove Connector <c>J9</c>.
+        /// </summary>
+        public const int J9I2C = I2C1;
+
+        /// <summary>
+        /// Analog input channel number for Grove Connector <c>J10</c> pin
+        /// <c>A0</c>.
+        /// </summary>
+        /// <remarks>
+        /// MCP3204 input <c>CH2</c>.
+        /// </remarks>
+        public const int J10A0 = 2;
+        /// <summary>
+        /// Analog input channel number for Grove Connector <c>J10</c> pin
+        /// <c>A1</c>.
+        /// </summary>
+        /// <remarks>
+        /// MCP3204 input <c>CH3</c>.
+        /// </remarks>
+        public const int J10A1 = 3;
+        /// <summary>
+        /// Analog input channel number for Grove Connector <c>J11</c> pin
+        /// <c>A0</c>.
+        /// </summary>
+        /// <remarks>
+        /// MCP3204 input <c>CH0</c>.
+        /// </remarks>
+        public const int J11A0 = 0;
+        /// <summary>
+        /// Analog input channel number for Grove Connector <c>J11</c> pin
+        /// <c>A1</c>.
+        /// </summary>
+        /// <remarks>
+        /// MCP3204 input <c>CH1</c>.
+        /// </remarks>
+        public const int J11A1 = 1;
+    }
+}
