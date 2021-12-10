@@ -282,9 +282,9 @@ namespace IO.Objects.libsimpleio.syslog
         /// <example>
         /// <code>
         /// using static System.Diagnostics.Trace;
-        /// 
+        ///
         /// IO.Objects.libsimpleio.syslog.Logger.Register("HelloWorld");
-        /// 
+        ///
         /// Write("Hello, World!");
         /// </code>
         /// </example>
