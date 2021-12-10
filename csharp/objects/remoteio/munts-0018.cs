@@ -31,7 +31,7 @@ namespace IO.Remote.Platforms
     /// </summary>
     /// <remarks>
     /// The following device tree overlay commands must be added to
-    /// <c>config.txt</c> on the Raspberr Pi hosting the MUNTS-0018 Tutorial
+    /// <c>config.txt</c> on the Raspberry Pi hosting the MUNTS-0018 Tutorial
     /// I/O Board Remote I/O Protocol Server:
     /// <code>
     /// dtoverlay=anyspi,spi0-1,dev="microchip,mcp3204",speed=1000000
