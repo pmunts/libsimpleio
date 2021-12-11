@@ -65,23 +65,28 @@ namespace IO.Remote.Platforms
         public const int SW1 = GPIO6;
 
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J4</c> pin <c>D0</c>.
+        /// GPIO channel number for Digital I/O Grove Connector <c>J4</c> pin
+        /// <c>D0</c>.
         /// </summary>
         public const int J4D0 = GPIO23;
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J4</c> pin <c>D1</c>.
+        /// GPIO channel number for Digital I/O Grove Connector <c>J4</c> pin
+        /// <c>D1</c>.
         /// </summary>
         public const int J4D1 = GPIO24;
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J5</c> pin <c>D0</c>.
+        /// GPIO channel number for Digital I/O Grove Connector <c>J5</c> pin
+        /// <c>D0</c>.
         /// </summary>
         public const int J5D0 = GPIO5;
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J5</c> pin <c>D1</c>.
+        /// GPIO channel number for Digital I/O Grove Connector <c>J5</c> pin
+        /// <c>D1</c>.
         /// </summary>
         public const int J5D1 = GPIO4;
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J6</c> pin <c>D0</c>.
+        /// GPIO channel number for DC Motor Driver Grove Connector <c>J6</c>
+        /// pin <c>D0</c>.
         /// </summary>
         /// <remarks>
         /// This GPIO channel is normally unusable because <c>GPIO12</c> is
@@ -89,11 +94,13 @@ namespace IO.Remote.Platforms
         /// </remarks>
         public const int J6D0 = GPIO12;
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J6</c> pin <c>D1</c>.
+        /// GPIO channel number for DC Motor Driver Grove Connector <c>J6</c>
+        /// pin <c>D1</c>.
         /// </summary>
         public const int J6D1 = GPIO13;
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J7</c> pin <c>D0</c>.
+        /// GPIO channel number for DC Motor Driver Grove Connector <c>J7</c>
+        /// pin <c>D0</c>.
         /// </summary>
         /// <remarks>
         /// This GPIO channel is normally unusable because <c>GPIO19</c> is
@@ -101,45 +108,50 @@ namespace IO.Remote.Platforms
         /// </remarks>
         public const int J7D0 = GPIO19;
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J7</c> pin <c>D1</c>.
+        /// GPIO channel number for DC Motor Driver Grove Connector <c>J7</c>
+        /// pin <c>D1</c>.
         /// </summary>
         public const int J7D1 = GPIO18;
 
         /// <summary>
-        /// PWM channel number for servo header <c>J2</c>.
+        /// PWM channel number for Servo Header <c>J2</c>.
         /// </summary>
-        public const int J2PWM = GPIO12;
+        public const int J2PWM = PWM0;
         /// <summary>
-        /// PWM channel number for servo header <c>J3</c>.
+        /// PWM channel number for Servo Header <c>J3</c>.
         /// </summary>
-        public const int J3PWM = GPIO19;
+        public const int J3PWM = PWM1;
 
         /// <summary>
-        /// PWM channel number for Grove Connector <c>J6</c> pin <c>D0</c>.
+        /// PWM channel number for DC Motor Driver Grove Connector <c>J6</c>
+        /// pin <c>D0</c>.
         /// </summary>
         /// <remarks>
-        /// <c>J6PWM</c> controls the <b>speed</b> for a DC motor driver.
+        /// <c>J6PWM</c> controls the motor <b>speed</b>.
         /// </remarks>
         public const int J6PWM = PWM0;
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J6</c> pin <c>D1</c>.
+        /// GPIO channel number for DC Motor Driver Grove Connector <c>J6</c>
+        /// pin <c>D1</c>.
         /// </summary>
         /// <remarks>
-        /// <c>J6DIR</c> controls the <b>direction</b> for a DC motor driver.
+        /// <c>J6DIR</c> controls the motor <b>direction</b>.
         /// </remarks>
         public const int J6DIR = GPIO13;
         /// <summary>
-        /// PWM channel number for Grove Connector <c>J7</c> pin <c>D0</c>.
+        /// PWM channel number for DC Motor Driver Grove Connector <c>J7</c>
+        /// pin <c>D0</c>.
         /// </summary>
         /// <remarks>
-        /// <c>J7PWM</c> controls the <b>speed</b> for a DC motor driver.
+        /// <c>J7PWM</c> controls the motor <b>speed</b>.
         /// </remarks>
         public const int J7PWM = PWM1;
         /// <summary>
-        /// GPIO channel number for Grove Connector <c>J6</c> pin <c>D1</c>.
+        /// GPIO channel number for DC Motor Driver Grove Connector <c>J6</c>
+        /// pin <c>D1</c>.
         /// </summary>
         /// <remarks>
-        /// <c>J7DIR</c> controls the <b>direction</b> for a DC motor driver.
+        /// <c>J7DIR</c> controls the motor <b>direction</b>.
         /// </remarks>
         public const int J7DIR = GPIO18;
 

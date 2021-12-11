@@ -24,7 +24,7 @@ namespace IO.Remote.Platforms
 {
     /// <summary>
     /// I/O resources (channel numbers) available on a Raspberry Pi Remote I/O
-    /// Server
+    /// Protocol Server
     /// </summary>
     public static class RaspberryPi
     {
@@ -130,7 +130,7 @@ namespace IO.Remote.Platforms
         /// </summary>
         /// <remarks>
         /// This GPIO channel is normally unusable because <c>GPIO14</c> is
-        /// mapped to UART signal <c>TXD0</c>.
+        /// mapped to UART signal <c>UART0_TXD</c>.
         /// </remarks>
         public const int GPIO14 = 14;
         /// <summary>
@@ -138,7 +138,7 @@ namespace IO.Remote.Platforms
         /// </summary>
         /// <remarks>
         /// This GPIO channel is normally unusable because <c>GPIO15</c> is
-        /// mapped to UART signal <c>RXD0</c>.
+        /// mapped to UART signal <c>UART0_RXD</c>.
         /// </remarks>
         public const int GPIO15 = 15;
         /// <summary>
