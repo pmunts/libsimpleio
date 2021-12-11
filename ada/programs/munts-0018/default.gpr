@@ -1,4 +1,7 @@
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Project for building an Ada program for Linux using the libsimpleio
+-- prebuilt library
+
+-- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -18,19 +21,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH GPIO.libsimpleio;
-WITH MUNTS_0018.Analog;
-WITH MUNTS_0018.Button;
-WITH MUNTS_0018.Button_Interrupt;
-WITH MUNTS_0018.I2C;
-WITH MUNTS_0018.LED;
-WITH MUNTS_0018.Motor_Template;
-WITH MUNTS_0018.Servo;
+WITH "libsimpleio";
 
-PROCEDURE test_munts_0018 IS
-
-  PACKAGE M1 IS NEW MUNTS_0018.Motor_Template(1000);
-
-BEGIN
-  NULL;
-END test_munts_0018;
+PROJECT Default IS
+  FOR Object_Dir USE "./obj";
+  FOR Exec_Dir   USE ".";
+END Default;
