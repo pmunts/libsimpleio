@@ -1,6 +1,6 @@
--- MUNTS-0018 Tutorial I/O Board LED Test
+-- Button and LED Test using libsimpleio
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,19 +20,48 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Text_IO; USE Text_IO;
+-- NOTE: The button input has the internal pullup resistor enabled, so the
+-- switch should be connected from GPIO0 to ground.
 
-WITH MUNTS_0018.LED;
+WITH Ada.Text_IO; USE Ada.Text_IO;
 
-PROCEDURE test_munts_0018_led IS
+WITH GPIO.libsimpleio;
+
+PROCEDURE test_button_led IS
+
+  Button   : GPIO.Pin;
+  LED      : GPIO.Pin;
+  newstate : Boolean;
+  oldstate : Boolean;
 
 BEGIN
   New_Line;
-  Put_Line("MUNTS-0018 Tutorial I/O Board LED Test");
+  Put_Line("Button and LED Test using libsimpleio");
   New_Line;
 
+  -- Configure button and LED GPIO's
+
+  Button := GPIO.libsimpleio.Create((0, 6), GPIO.Input);
+
+  LED := GPIO.libsimpleio.Create((0, 26), GPIO.Output);
+
+  -- Force initial detection
+
+  oldstate := NOT Button.Get;
+
   LOOP
-    MUNTS_0018.LED.Output.Put(NOT MUNTS_0018.LED.Output.Get);
-    DELAY 0.5;
+    newstate := Button.Get;
+
+    IF newstate /= oldstate THEN
+      IF newstate THEN
+        Put_Line("PRESSED");
+        LED.Put(True);
+      ELSE
+        Put_Line("RELEASED");
+        LED.Put(False);
+      END IF;
+
+      oldstate := newstate;
+    END IF;
   END LOOP;
-END test_munts_0018_led;
+END test_button_led;

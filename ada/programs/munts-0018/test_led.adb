@@ -1,4 +1,4 @@
--- MUNTS-0018 Tutorial I/O Board Interrupt Button and LED Test
+-- MUNTS-0018 Tutorial I/O Board LED Test
 
 -- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
@@ -20,29 +20,19 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH Text_IO; USE Text_IO;
 
-WITH GPIO;
 WITH MUNTS_0018.LED;
-WITH MUNTS_0018.Button_Interrupt;
 
-PROCEDURE test_munts_0018_button_led IS
-
-  Button : GPIO.PIN RENAMES MUNTS_0018.Button_Interrupt.Input;
-  LED    : GPIO.PIN RENAMES MUNTS_0018.LED.Output;
+PROCEDURE test_led IS
 
 BEGIN
   New_Line;
-  Put_Line("MUNTS-0018 Tutorial I/O Board Interrupt Button and LED Test");
+  Put_Line("MUNTS-0018 Tutorial I/O Board LED Test");
   New_Line;
 
   LOOP
-    IF Button.Get THEN
-      Put_Line("PRESSED");
-      LED.Put(True);
-    ELSE
-      Put_Line("RELEASED");
-      LED.Put(False);
-    END IF;
+    MUNTS_0018.LED.Output.Put(NOT MUNTS_0018.LED.Output.Get);
+    DELAY 0.5;
   END LOOP;
-END test_munts_0018_button_led;
+END test_led;

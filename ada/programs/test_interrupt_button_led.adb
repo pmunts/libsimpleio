@@ -1,4 +1,4 @@
--- GPIO Interrupt Button and LED Test using libsimpleio
+-- Interrupt Button and LED Test using libsimpleio
 
 -- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
 --
@@ -27,14 +27,14 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO.libsimpleio;
 
-PROCEDURE test_gpio_interrupt_button_led IS
+PROCEDURE test_interrupt_button_led IS
 
   Button   : GPIO.Pin;
   LED      : GPIO.Pin;
 
 BEGIN
   New_Line;
-  Put_Line("GPIO Interrupt Button and LED Test using libsimpleio");
+  Put_Line("Interrupt Button and LED Test using libsimpleio");
   New_Line;
 
   -- Configure button and LED GPIO's
@@ -53,4 +53,4 @@ BEGIN
       LED.Put(False);
     END IF;
   END LOOP;
-END test_gpio_interrupt_button_led;
+END test_interrupt_button_led;
