@@ -28,14 +28,31 @@
 
 .PHONY: ada_mk_default ada_mk_clean ada_mk_reallyclean ada_mk_distclean
 
+# Definitions for Linux
+
+ifeq ($(shell uname), Linux)
 ifneq ($(BOARDNAME),)
 ifeq ($(BOARDBASE),)
-# Definitions for MuntsOS cross-compile
-
+# Using MuntsOS cross-toolchain
 MUNTSOS		?= $(HOME)/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 endif
 else
+ifneq ($(CROSS_COMPILE),)
+# Using Debian cross-toolchain
+DEBIAN_CROSS	:= yes
+CONFIGURE_NAME	:= $(shell echo $(shell basename $(CROSS_COMPILE)) | sed 's/.$$//')
+GNATPREFIX	:= $(CROSS_COMPILE)
+GPRBUILDFLAGS	+= --config=$(LIBSIMPLEIO)/ada/projects/$(CONFIGURE_NAME).cgpr
+else
+ifneq ($(wildcard default.cgpr),)
+# Using default.cgpr
+GNATPREFIX	:= $(shell awk '/for Driver *\("C"\)/ { print substr($$5, 2, length($$5)-6) }' default.cgpr)
+endif
+endif
+endif
+endif
+
 # Definitions for FreeBSD
 
 ifeq ($(shell uname), FreeBSD)
@@ -73,28 +90,6 @@ endif
 
 ifneq ($(GNAT),)
 GNATPREFIX	:= $(GNAT)/bin/
-endif
-
-# Definitions for Debian cross-toolchain
-
-ifeq ($(shell uname), Linux)
-ifneq ($(CROSS_COMPILE),)
-ifeq ($(BOARDNAME),)
-DEBIAN_CROSS	:= yes
-CONFIGURE_NAME	:= $(shell echo $(CROSS_COMPILE) | sed 's/.$$//')
-GNATPREFIX	:= $(CROSS_COMPILE)
-GPRBUILDFLAGS	+= --config=$(LIBSIMPLEIO)/ada/projects/$(CONFIGURE_NAME).cgpr
-endif
-endif
-endif
-
-# Check for overriding MuntsOS cross-compilation default.cgpr
-
-ifeq ($(shell uname), Linux)
-ifneq ($(shell grep -s muntsos default.cgpr),)
-GNATSTRIP	:= $(shell awk '/for Driver \("C"\)/ { print substr($$0, 29, length($$0)-33); }' default.cgpr)strip
-endif
-endif
 endif
 
 # General toolchain definitions
