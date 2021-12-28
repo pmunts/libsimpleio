@@ -35,8 +35,8 @@ PROCEDURE test_motor_pwm3 IS
 
   desg_pwm : Device.Designator;
   desg_dir : Device.Designator;
- 
-  enable0  : GPIO.Pin; 
+
+  enable0  : GPIO.Pin;
   motor0   : Motor.Output;
 
 BEGIN
