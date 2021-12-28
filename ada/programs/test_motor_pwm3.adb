@@ -1,4 +1,4 @@
--- Motor Output Test using PWM (speed, locked antiphase) and GPIO (enable) outputs
+-- Motor Output Test Using Locked Antiphase PWM
 
 -- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
 --
@@ -34,13 +34,10 @@ PROCEDURE test_motor_pwm3 IS
   VELOCITIES : CONSTANT Integer := 500;
 
   desg_pwm : Device.Designator;
-  desg_dir : Device.Designator;
-
-  enable0  : GPIO.Pin;
   motor0   : Motor.Output;
 
 BEGIN
-  Put_Line("Motor Output Test");
+  Put_Line("Motor Output Test Using Locked Antiphase PWM");
   New_Line;
 
   Put("Enter PWM chip number:     ");
@@ -48,16 +45,6 @@ BEGIN
 
   Put("Enter PWM channel number:  ");
   Get(desg_pwm.chan);
-
-  Put("Enter GPIO chip number:    ");
-  Get(desg_dir.chip);
-
-  Put("Enter GPIO line number:    ");
-  Get(desg_dir.chan);
-
-  -- Create enable output object
-
-  enable0 := GPIO.libsimpleio.Create(desg_dir, GPIO.Output, True);
 
   -- Create motor output object
 
