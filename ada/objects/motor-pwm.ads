@@ -53,6 +53,19 @@ PACKAGE Motor.PWM IS
    (Self : IN OUT OutputSubclass2;
     velo : Velocity);
 
+  -- Type 3 motor outputs: Consisting of one PWM output, driving a locked
+  -- antiphase motor driver
+
+  TYPE OutputSubclass3 IS NEW Motor.OutputInterface WITH PRIVATE;
+
+  FUNCTION Create
+   (pwmout : NOT NULL Standard.PWM.Output;
+    velo : Velocity := 0.0) RETURN Motor.Output;
+
+  PROCEDURE Put
+   (Self : IN OUT OutputSubclass3;
+    velo : Velocity);
+
 PRIVATE
 
   TYPE OutputSubclass1 IS NEW Motor.OutputInterface WITH RECORD
@@ -63,6 +76,10 @@ PRIVATE
   TYPE OutputSubclass2 IS NEW Motor.OutputInterface WITH RECORD
     cwout  : Standard.PWM.Output;
     ccwout : Standard.PWM.Output;
+  END RECORD;
+
+  TYPE OutputSubclass3 IS NEW Motor.OutputInterface WITH RECORD
+    pwmout : Standard.PWM.Output;
   END RECORD;
 
 END Motor.PWM;

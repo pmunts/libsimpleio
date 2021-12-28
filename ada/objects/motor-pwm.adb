@@ -86,4 +86,27 @@ PACKAGE BODY Motor.PWM IS
     END IF;
   END Put;
 
+  -- Type 3 motor outputs: Consisting of one PWM output, driving a locked
+  -- antiphase motor driver
+
+  FUNCTION Create
+   (pwmout : NOT NULL Standard.PWM.Output;
+    velo : Velocity := 0.0) RETURN Motor.Output IS
+
+    dev : Motor.Output;
+
+  BEGIN
+    dev := NEW OutputSubclass3'(pwmout => pwmout);
+    dev.Put(velo);
+    RETURN dev;
+  END Create;
+
+  PROCEDURE Put
+   (Self : IN OUT OutputSubclass3;
+    velo : Velocity) IS
+
+  BEGIN
+    Self.pwmout.Put(Standard.PWM.Dutycycle(50.0 + 50.0*velo));
+  END Put;
+
 END Motor.PWM;
