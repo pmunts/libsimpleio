@@ -42,6 +42,10 @@ WITH RaspberryPi;
 
 PACKAGE MUNTS_0018 IS
 
+  Error : EXCEPTION;
+
+  TYPE ConnectorID IS (J2, J3, J4, J5, J6, J7, J8, J9, J10, J11);
+
   -- Servo headers
 
   J2PWM  : Device.Designator RENAMES RaspberryPi.PWM0;
@@ -96,37 +100,14 @@ PACKAGE MUNTS_0018 IS
 
   D1    : Device.Designator RENAMES RaspberryPi.GPIO26;
 
-  -- Connector to Device.Designator maps
+PRIVATE
 
-  TYPE ConnectorID IS (J2, J3, J4, J5, J6, J7, J8, J9, J10, J11);
+  -- Map a connector to a Device.Designator
 
   TYPE ConnectorMap IS ARRAY (ConnectorID) OF Device.Designator;
 
-  PWM_Designators : CONSTANT ConnectorMap :=
-   (J2     => J2PWM,
-    J3     => J3PWM,
-    J6     => J6PWM,
-    J7     => J7PWM,
-    OTHERS => Device.Unavailable);
-
-  Motor_PWM_Designators : CONSTANT ConnectorMap :=
-   (J6     => J6PWM,
-    J7     => J7PWM,
-    OTHERS => Device.Unavailable);
-
-  Motor_Direction_Designators : CONSTANT ConnectorMap :=
-   (J6     => J6DIR,
-    J7     => J7DIR,
-    OTHERS => Device.Unavailable);
-
-  Motor_Enable_Designators : CONSTANT ConnectorMap :=
-   (J6     => J6DIR,
-    J7     => J7DIR,
-    OTHERS => Device.Unavailable);
-
-  Servo_Designators : CONSTANT ConnectorMap :=
-   (J2     => J2PWM,
-    J3     => J3PWM,
-    OTHERS => Device.Unavailable);
+  PROCEDURE CheckConnector
+   (map       : ConnectorMap;
+    connector : ConnectorID);
 
 END MUNTS_0018;

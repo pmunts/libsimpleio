@@ -20,31 +20,20 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH PWM;
-WITH Motor;
-WITH Servo;
+WITH Device;
 
-PACKAGE MUNTS_0018.PWM IS
+USE TYPE Device.Designator;
 
-  FUNCTION Create_PWM_Output
-   (connector : ConnectorID;
-    frequency : Positive;
-    dutycycle : Standard.PWM.DutyCycle := Standard.PWM.MinimumDutyCycle)
-    RETURN Standard.PWM.Output;
+PACKAGE BODY MUNTS_0018 IS
 
-  FUNCTION Create_Motor_Output
-   (connector : ConnectorID;
-    frequency : Positive;
-    velocity  : Motor.Velocity := 0.0) RETURN Motor.Output;
+  PROCEDURE CheckConnector
+   (map       : ConnectorMap;
+    connector : ConnectorID) IS
 
-  FUNCTION Create_MD13S_Output
-   (connector : ConnectorID;
-    frequency : Positive;
-    velocity  : Motor.Velocity := 0.0) RETURN Motor.Output;
+  BEGIN
+    IF map(connector) = Device.Unavailable THEN
+      RAISE Error WITH "Invalid connector ID";
+    END IF;
+  END CheckConnector;
 
-  FUNCTION Create_Servo_Output
-   (connector : ConnectorID;
-    frequency : Positive := 50;
-    position  : Servo.Position := Servo.NeutralPosition) RETURN Servo.Output;
-
-END MUNTS_0018.PWM;
+END MUNTS_0018;
