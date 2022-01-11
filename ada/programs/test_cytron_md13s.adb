@@ -36,7 +36,7 @@ PROCEDURE test_cytron_md13s IS
 
   desg_pwm    : Device.Designator;
   desg_enable : Device.Designator;
- 
+
   motor0      : Motor.Output;
 
 BEGIN
@@ -59,7 +59,7 @@ BEGIN
 
   motor0 := Cytron_MD13S.Create(PWM.libsimpleio.Create(desg_pwm, FREQ),
     GPIO.libsimpleio.Create(desg_enable, GPIO.Output));
-      
+
   -- Sweep the motor velocity up and down
 
   FOR v IN Integer RANGE 0 .. VELOCITIES LOOP
