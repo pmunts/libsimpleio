@@ -1,6 +1,6 @@
 # Makefile definitions for RemObjects Elements programming
 
-# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2022, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -24,8 +24,8 @@ include $(LIBSIMPLEIO)/include/common.mk
 
 CONFIGURATION	?= Release
 ifeq ($(OS), Windows_NT)
-EBUILD		?= C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild
-MSBUILD		?= C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe
+EBUILD		?= C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild.exe
+MSBUILD		?= C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe
 else
 EBUILD		?= /usr/local/bin/ebuild
 MSBUILD		?= msbuild
