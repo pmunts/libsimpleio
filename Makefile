@@ -112,7 +112,6 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	cp -R -P -p python			$(DESTDIR)/share/libsimpleio
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
-	install -cm 0644 README.txt		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
