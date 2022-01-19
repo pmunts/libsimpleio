@@ -1,6 +1,6 @@
 // LED Toggle Test using PWM Output
 
-// Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2021-2021, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,6 +22,7 @@
 
 #include <chrono>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <thread>
 
