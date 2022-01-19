@@ -1,6 +1,6 @@
-# Makefile for creating Visual Studio 2019 project templates
+# Makefile for creating Visual Studio 2022 project templates
 
-# Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2019-2022, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ SWIFTTEMPLATES	:= $(FIRETEMPLATES)/Silver/Echoes/Projects/Core
 endif
 
 ifeq ($(OS), Windows_NT)
-VSTEMPLATES	?= $(HOME)/"Documents/Visual Studio 2019/Templates/ProjectTemplates"
+VSTEMPLATES	?= $(HOME)/"Documents/Visual Studio 2022/Templates/ProjectTemplates"
 WATERTEMPLATES	?= $(HOME)/"Application Data/RemObjects Software/Elements/Templates"
 CSHARPTEMPLATES	:= $(WATERTEMPLATES)/Hydrogene/Echoes/Projects/Core
 JAVATEMPLATES	:= $(WATERTEMPLATES)/Iodine/Echoes/Projects/Core

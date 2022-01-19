@@ -1,6 +1,6 @@
-# Makefile for creating Visual Studio 2019 C++ project templates
+# Makefile for creating Visual Studio 2022 C++ project templates
 
-# Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2021-2022, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-VSTEMPLATES	?= $(HOME)/"Documents/Visual Studio 2019/Templates/ProjectTemplates"
+VSTEMPLATES	?= $(HOME)/"Documents/Visual Studio 2022/Templates/ProjectTemplates"
 
 ###############################################################################
 

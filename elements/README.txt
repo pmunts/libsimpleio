@@ -6,16 +6,16 @@
    code, .Net, and Web Assembly as well as native Linux, native MacOS and
    native Windows platforms.
 
-   Here are some Visual Studio 2019 project templates and example projects
-   for developing platform neutral .Net 5 applications using the
+   Here are some Visual Studio 2022 project templates and example projects
+   for developing platform neutral .Net 6 applications using the
    libsimpleio and libremoteio library packages published on [2]NuGet.
 
    The simplest way to begin developing such an applications is to
    download one or more of the project templates and copy it to
 
-   %HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 2019\Templates.
+   %HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 2022\Templates.
 
-   Then you can create a new project within Visual Studio 2019 using one
+   Then you can create a new project within Visual Studio 2022 using one
    of the templates.
    _______________________________________________________________________
 

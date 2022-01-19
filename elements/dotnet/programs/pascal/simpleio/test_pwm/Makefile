@@ -1,4 +1,4 @@
-# Makefile for building RemObjects Elements .Net 5 applications
+# Makefile for building RemObjects Elements .Net 6 applications
 
 # Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
 #
