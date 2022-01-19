@@ -18,7 +18,7 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-MODULE test_hidraw_led_toggle;
+MODULE test_hid_led_toggle;
 
 IMPORT
   message64,
@@ -58,4 +58,4 @@ BEGIN
 
     usleep(500000, error);
   END;
-END test_hidraw_led_toggle.
+END test_hid_led_toggle.

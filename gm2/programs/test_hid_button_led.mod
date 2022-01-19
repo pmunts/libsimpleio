@@ -1,4 +1,4 @@
-(* Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             *)
+(* Copyright (C)2018-2022, Philip Munts, President, Munts AM Corp.             *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -18,7 +18,7 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-MODULE test_hidraw_led_toggle;
+MODULE test_hid_button_led;
 
 IMPORT
   message64,
@@ -66,4 +66,4 @@ BEGIN
     hid_libsimpleio.Send(dev, LEDCommand, error);
     CheckError(error, "hid_libsimpleio.Send() failed");
   END;
-END test_hidraw_led_toggle.
+END test_hid_button_led.
