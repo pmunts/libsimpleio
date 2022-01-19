@@ -32,11 +32,9 @@
 
 ifeq ($(shell uname), Linux)
 ifneq ($(BOARDNAME),)
-ifeq ($(BOARDBASE),)
 # Using MuntsOS cross-toolchain
 MUNTSOS		?= $(HOME)/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
-endif
 else
 ifneq ($(CROSS_COMPILE),)
 # Using Debian cross-toolchain
