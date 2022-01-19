@@ -41,6 +41,7 @@ CXX	 	:= $(CROSS_COMPILE)g++
 AR		:= $(CROSS_COMPILE)ar
 RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
+CXXFLAGS	+= -I/usr/local/include
 else
 # Native compile for Unix
 ifeq ($(shell uname), FreeBSD)
@@ -60,12 +61,10 @@ CXX		?= $(CROSS_COMPILE)g++
 AR		?= $(CROSS_COMPILE)ar
 RANLIB		?= $(CROSS_COMPILE)ranlib
 STRIP		?= $(CROSS_COMPILE)strip
-CXXFLAGS	+= -I/usr/local/include
 endif
 
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
 CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
-CXXFLAGS	+= -I/usr/local/include
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
