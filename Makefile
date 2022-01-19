@@ -1,6 +1,6 @@
 # Makefile to build the Linux Simple I/O Library
 
-# Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -107,7 +107,6 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	cp -R -P -p gm2				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p mybasic			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p nuget			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p python			$(DESTDIR)/share/libsimpleio

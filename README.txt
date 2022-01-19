@@ -10,7 +10,7 @@
        Devices
      * GPIO (General Purpose Input/Output) Pins
      * Raw HID (Human Interface Device) Devices
-     * I^2C (Inter-Integrated Circuit) Bus Devices
+     * I2C (Inter-Integrated Circuit) Bus Devices
      * [3]Labview LINX Remote I/O Devices
      * PWM (Pulse Width Modulated) Output Devices
      * [4]Remote I/O Protocol Devices
@@ -36,10 +36,10 @@
      * int32_t is used wherever possible for int and bool arguments.
 
    All of the C wrapper functions are declared between _BEGIN_STD_C and
-   _END_STD_C for C++. Binding modules are provided for Ada, C#, Java, and
-   Free Pascal. Additional source code libraries are provided for Ada,
-   C++, C#, Java, and Free Pascal that define OOP (Object Oriented
-   Programming) classes for libsimpleio.
+   _END_STD_C for C++. Binding modules are provided for Ada, C#, and Free
+   Pascal. Additional source code libraries are provided for Ada, C++, C#,
+   and Free Pascal that define OOP (Object Oriented Programming) classes
+   for libsimpleio.
 
 Documentation
 
