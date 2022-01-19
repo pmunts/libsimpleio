@@ -65,6 +65,7 @@ endif
 
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
 CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
+CXXFLAGS	+= -I/usr/local/include
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/objects
