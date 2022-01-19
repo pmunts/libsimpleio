@@ -44,7 +44,7 @@
 Documentation
 
    The user manual for libsimpleio is available at [6]UserManual.pdf.
-   Installation instructions are on pages 5 and 6.
+   Installation instructions are on pages 6 and 7.
 
    The man pages specifying the libsimpleio API are available at
    [7]libsimpleio.html.

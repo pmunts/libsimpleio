@@ -56,7 +56,7 @@ Documentation
 
 The user manual for **libsimpleio** is available at
 [UserManual.pdf](http://git.munts.com/libsimpleio/doc/UserManual.pdf).
-Installation instructions are on pages 5 and 6.
+Installation instructions are on pages 6 and 7.
 
 The man pages specifying the **libsimpleio** API are available at
 [libsimpleio.html](http://git.munts.com/libsimpleio/doc/libsimpleio.html).
