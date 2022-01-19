@@ -45,7 +45,24 @@ and <b><tt>bool</tt></b> arguments.</li>
 modules are provided for Ada, C#, Java, and Free Pascal. Additional source code
 libraries are provided for Ada, C++, C#, Java, and Free Pascal that define OOP
 (Object Oriented Programming) classes for <b>libsimpleio</b>.</p>
-<h2>Alire Crates</h2>
+<h2>Documentation</h2>
+<p>The user manual for <b>libsimpleio</b> is available at <a href=
+"http://git.munts.com/libsimpleio/doc/UserManual.pdf">UserManual.pdf</a>.
+Installation instructions are on pages 5 and 6.</p>
+<p>The man pages specifying the <b>libsimpleio</b> API are available at
+<a href="http://git.munts.com/libsimpleio/doc/libsimpleio.html">libsimpleio.html</a>.</p>
+<h2>Git Repository</h2>
+<p>The <b>libsimpleio</b> source code tree is available at:</p>
+<p><a href=
+"https://github.com/pmunts/libsimpleio">https://github.com/pmunts/libsimpleio</a></p>
+<p>Use the following command to clone it:</p>
+<p><b><tt>git clone https://github.com/pmunts/libsimpleio.git</tt></b></p>
+<h2>Debian Package Repository</h2>
+<p>Prebuilt <b><tt>libsimpleio</tt></b> packages for <a href=
+"http://www.debian.org">Debian</a> Linux are available at:</p>
+<p><a href=
+"http://repo.munts.com/debian11">http://repo.munts.com/debian11</a></p>
+<h2><a href="https://alire.ada.dev">Alire</a> Crates</h2>
 <table>
 <tr>
 <td><a href="https://alire.ada.dev/crates/libsimpleio.html"><img src=
@@ -64,107 +81,6 @@ libraries are provided for Ada, C++, C#, Java, and Free Pascal that define OOP
 <td><a href="http://repo.munts.com/alire/remoteio.pdf">remoteio.pdf</a></td>
 </tr>
 </table>
-<h2>Quick Setup Instructions for the Impatient</h2>
-<p>Instructions for installing <b>libsimpleio</b> are found in <a href=
-"http://git.munts.com/libsimpleio/doc/UserManual.pdf">UserManual.pdf</a>, on
-pages 5 and 6.</p>
-<h2>News</h2>
-<ul>
-<li>10 February 2021 -- Added support for GPIO output pins implemented using
-PWM outputs. This is useful for controlling an ON/OFF device such as an LED or
-solenoid valve driven by PWM output.</li>
-<li>18 March 2021 -- Modified the package building procedure to only install
-the absolute minimum files for the MuntsOS cross-compiled packages. An issue
-with <tt>dpkg</tt> installation script execution order may require you to run
-the following commands after upgrading to this version of <b>libsimpleio</b>:
-<pre>
-sudo find /usr/local -name '*-tmp' -exec rm {} ";"
-sudo apt install --reinstall munts-libsimpleio
-</pre>
-If you have previously installed the MuntsOS cross-compiled packages, you will
-also need to run one or more of the following commands:
-<pre>
-sudo apt install --reinstall gcc-aarch64-linux-gnu-muntsos-crosstool-libsimpleio
-sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-beaglebone-crosstool-libsimpleio
-sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-raspberrypi1-crosstool-libsimpleio
-sudo apt install --reinstall gcc-arm-linux-gnueabihf-muntsos-raspberrypi2-crosstool-libsimpleio
-</pre></li>
-<li>25 March 2021 -- Added some rudimentary Python client support for the
-<a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
-Protocol</a> for raw HID servers (like <a href=
-"https://www.tindie.com/products/pmunts/usb-flexible-io-adapter">this</a> or
-<a href="https://www.tindie.com/products/pmunts/usb-grove-adapter">this</a>),
-in response to a request from a customer who wants to develop a Python Remote
-I/O Protocol client program that can run on Windows 10 64-bit. Accomplishing
-this requires a new Windows shared library <b><tt>libremoteio.dll</tt></b>,
-which was written in the Ada programming language. It also contains the latest
-<a href="https://github.com/libusb/hidapi">hidapi</a> code. Precompiled library
-files have been added to <b><tt>win/win64/</tt></b>. A few "proof of concept"
-Python3 programs are in <b><tt>python/</tt>.</b></li>
-<li>29 March 2021 -- The new <b><tt>libremoteio.dll</tt></b> also works with
-Visual Studio C++ programs. Added some Visual Studio C++ projects for creating
-Remote I/O Protocol client programs for 64-Bit Windows 10.</li>
-<li>20 April 2021 -- Added support to <b><tt>SERIAL_open()</tt></b> for more
-baud rates above 1000000 bps. Fixed issue with raw mode on Raspberry Pi serial
-ports.</li>
-<li>18 May 2021 -- Added support for stepper motors to Ada and .Net. Renamed
-<b><tt>basic/</tt></b> to <b><tt>mybasic/</tt></b>, <b><tt>modula2/</tt></b> to
-<b><tt>gm2/</tt></b>, and <b><tt>pascal/</tt></b> to
-<b><tt>freepascal/</tt></b>.</li>
-<li>25 July 2021 -- Prebuild an Ada library project for the Linux Simple I/O
-Library Ada binding.</li>
-<li>20 August 2021 -- An <a href="https://alire.ada.dev">Alire</a> library
-crate for <b>libsimpleio</b> has been <a href=
-"https://alire.ada.dev/crates/libsimpleio.html">published</a>. Some more
-library crates for the <a href=
-"http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
-Protocol</a> and the <a href=
-"https://www.microchip.com/en-us/product/MCP2221A">MCP2221 USB I/O Expander</a>
-are also forthcoming.</li>
-<li>21 August 2021 -- Added experimental support for cross-compiling
-<b>libsimpleio</b> programs with cross-toolchains from the Debian package
-repository. You can cross-compile Ada, C++, and Go (and on Debian 11 Modula-2)
-programs, with certain limitations: No support for <a href=
-"https://docs.adacore.com/aws-docs/aws/">AWS</a>, <a href=
-"https://github.com/libusb/hidapi">hidapi</a>, or <a href=
-"https://github.com/libusb/libusb">libusb</a>. Just set the
-<b><tt>CROSS_COMPILE</tt></b> environment variable to select a cross-toolchain
-instead of a native compile:
-<pre>
-cd libsimpleio/ada/programs
-export CROSS_COMPILE=aarch64-linux-gnu-
-make test_hello
-</pre>
-Select cross-compiled <b>libsimpleio</b> packages have been added to the Munts
-Technologies Debian Package Repositories for <a href=
-"http://repo.munts.com/debian10">Debian 10</a> (Buster) and <a href=
-"http://repo.munts.com/debian11">Debian 11</a> (Bullseye).</li>
-<li>3 September 2021 -- The Alire crates <a href=
-"https://alire.ada.dev/crates/mcp2221.html">mcp2221</a> and <a href=
-"https://alire.ada.dev/crates/remoteio.html">remoteio</a> have now been
-published.</li>
-<li>18 November 2021 -- Updated C# projects and templates for .Net 6.</li>
-</ul>
-<h2>Documentation</h2>
-<p>The user manual for <b>libsimpleio</b> is available at <a href=
-"http://git.munts.com/libsimpleio/doc/UserManual.pdf">UserManual.pdf</a>.</p>
-<p>The man pages specifying the <b>libsimpleio</b> API are available at
-<a href="http://git.munts.com/libsimpleio/doc/libsimpleio.html">libsimpleio.html</a>.</p>
-<h2>Git Repository</h2>
-<p>The source code is available at:</p>
-<p><a href=
-"https://github.com/pmunts/libsimpleio">https://github.com/pmunts/libsimpleio</a></p>
-<p>Use the following command to clone it:</p>
-<pre><b>
-git clone https://github.com/pmunts/libsimpleio.git
-</b></pre>
-<h2>Package Repository</h2>
-<p>Prebuilt packages for <a href="http://www.debian.org">Debian</a> Linux are
-available at:</p>
-<p><a href=
-"http://repo.munts.com/debian10">http://repo.munts.com/debian10</a></p>
-<p><a href=
-"http://repo.munts.com/debian11">http://repo.munts.com/debian11</a></p>
 <h2><a href="https://www.makewithada.org/">Make With Ada</a> Projects</h2>
 <ul>
 <li>2017 <a href=
