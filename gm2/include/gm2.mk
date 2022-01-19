@@ -24,7 +24,7 @@
 
 # Definitions for MuntsOS Embedded Linux
 
-ifeq ($(BOARDNAME),)
+ifneq ($(BOARDNAME),)
 MUNTSOS		?= $(HOME)/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 endif
