@@ -1,6 +1,6 @@
 # Makefile definitions for building C++ example programs
 
-# Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2022, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,6 @@ CXX	 	:= $(CROSS_COMPILE)g++
 AR		:= $(CROSS_COMPILE)ar
 RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
-CXXFLAGS	+= -I/usr/local/include
 else
 # Native compile for Unix
 ifeq ($(shell uname), FreeBSD)
