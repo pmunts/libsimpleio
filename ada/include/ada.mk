@@ -1,6 +1,6 @@
 # Makefile definitions for building GNAT Ada application programs
 
-# Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -32,9 +32,11 @@
 
 ifeq ($(shell uname), Linux)
 ifneq ($(BOARDNAME),)
+ifeq ($(BOARDBASE),)
 # Using MuntsOS cross-toolchain
 MUNTSOS		?= $(HOME)/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
+endif
 else
 ifneq ($(CROSS_COMPILE),)
 # Using Debian cross-toolchain
