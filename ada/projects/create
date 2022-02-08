@@ -2,7 +2,7 @@
 
 # Create an Ada program project using the Linux Simple I/O Library
 
-# Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2021-2022, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -39,8 +39,8 @@ if [ $# -lt 2 -o $# -gt 3 ]; then
   echo ''
   echo '<kind> may be any of: libsimpleio remoteio mcp2221 ftdi_mpsse'
   echo ''
-  echo '<target> may be any of: BeagleBone RaspberryPi1 RaspberryPi2'
-  echo '  RaspberryPi3 RaspberryPi4 arm-linux-gnueabihf aarch64-linux-gnu'
+  echo '<target> may be any of: BeagleBone PocketBeagle RaspberryPi1'
+  echo '  RaspberryPi2 RaspberryPi3 RaspberryPi4'
   echo ''
   exit 1
 fi
@@ -66,9 +66,31 @@ begin
 end @@NAME@@;
 EOD
 
-if [ "${TARGET}" != "NONE" ]; then
-  cp ${LIBSIMPLEIO}/ada/projects/${TARGET}.cgpr	${DSTDIR}/default.cgpr
-fi
+case ${TARGET} in
+  BeagleBone)
+    cp /usr/local/gcc-arm-linux-gnueabihf-muntsos-beaglebone/share/gpr/BeagleBone.cgpr ${DSTDIR}/default.cgpr
+  ;;
+
+  PocketBeagle)
+    cp /usr/local/gcc-arm-linux-gnueabihf-muntsos-beaglebone/share/gpr/BeagleBone.cgpr ${DSTDIR}/default.cgpr
+  ;;
+
+  RaspberryPi1)
+    cp /usr/local/gcc-arm-linux-gnueabihf-muntsos-raspberrypi1/share/gpr/${TARGET}.cgpr ${DSTDIR}/default.cgpr
+  ;;
+
+  RaspberryPi2)
+    cp /usr/local/gcc-arm-linux-gnueabihf-muntsos-raspberrypi2/share/gpr/${TARGET}.cgpr ${DSTDIR}/default.cgpr
+  ;;
+
+  RaspberryPi3)
+    cp /usr/local/gcc-aarch64-linux-gnu-muntsos/share/gpr/${TARGET}.cgpr ${DSTDIR}/default.cgpr
+  ;;
+
+  RaspberryPi4)
+    cp /usr/local/gcc-aarch64-linux-gnu-muntsos/share/gpr/${TARGET}.cgpr ${DSTDIR}/default.cgpr
+  ;;
+esac
 
 # Expand @@NAME@@ and @@KIND@@ in the project files
 
