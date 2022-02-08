@@ -38,17 +38,9 @@ MUNTSOS		?= $(HOME)/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 endif
 else
-ifneq ($(CROSS_COMPILE),)
-# Using Debian cross-toolchain
-DEBIAN_CROSS	:= yes
-CONFIGURE_NAME	:= $(shell echo $(shell basename $(CROSS_COMPILE)) | sed 's/.$$//')
-GNATPREFIX	:= $(CROSS_COMPILE)
-GPRBUILDFLAGS	+= --config=$(LIBSIMPLEIO)/ada/projects/$(CONFIGURE_NAME).cgpr
-else
 ifneq ($(wildcard default.cgpr),)
 # Using default.cgpr
 GNATPREFIX	:= $(shell awk '/for Driver *\("C"\)/ { print substr($$5, 2, length($$5)-6) }' default.cgpr)
-endif
 endif
 endif
 endif
