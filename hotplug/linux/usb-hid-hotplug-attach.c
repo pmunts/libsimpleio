@@ -1,6 +1,6 @@
 // USB Raw HID Hotplug Helper
 
-// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020-2022, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -89,6 +89,30 @@ int main(int argc, char **argv)
   // Validate command line arguments
 
   if (argc != 2) exit(0);
+
+  if (getenv("PRODUCT") && getenv("ID_BUS") && getenv("DEVPATH"))
+  {
+    int VID;
+    int PID;
+
+    // Try to match vendor and product ID
+
+    sscanf(getenv("PRODUCT"), "%x/%x", &VID, &PID);
+    SearchConfig(VID, PID);
+
+    // Override USB power limit, if necessary
+
+    char bcv[MAXPATHLEN];
+    snprintf(bcv, sizeof(bcv) - 1, "/sys%s/bConfigurationValue", getenv("DEVPATH"));
+
+    char cmdbuf[16384];
+    snprintf(cmdbuf, sizeof(cmdbuf) - 1,
+      "read <%s INBUF ; test -z \"$INBUF\" && echo 1 >%s", bcv, bcv);
+
+    system(cmdbuf);
+    exit(0);
+  }
+
   if (strncmp(DEVNAME, "hidraw", 6)) exit(0);
 
   snprintf(devname, sizeof(devname) - 1, "/dev/%s", DEVNAME);
