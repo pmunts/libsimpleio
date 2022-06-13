@@ -153,7 +153,7 @@ void LINUX_syslog(int32_t priority, const char *msg, int32_t *error)
     return;
   }
 
-  syslog(priority, msg);
+  syslog(priority, "%s", msg);
   *error = 0;
 }
 
