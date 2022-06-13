@@ -173,7 +173,7 @@ void PWM_configure(int32_t chip, int32_t channel, int32_t period,
     return;
   }
 
-  write(fd, "0\n", 2); // Don't care if write() fails here...
+  len = write(fd, "0\n", 2); // Don't care if write() fails here...
   close(fd);
 
   // Write to period
