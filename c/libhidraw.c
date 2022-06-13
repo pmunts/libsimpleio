@@ -75,6 +75,7 @@ void HIDRAW_open3(int32_t VID, int32_t PID, const char *serial, int32_t *fd,
   int32_t b, v, p, e;
   char serialpath[MAXPATHLEN];
   char devserial[256];
+  ssize_t len;
 
   // Search raw HID devices, looking for matching VID and PID
 
@@ -128,8 +129,16 @@ void HIDRAW_open3(int32_t VID, int32_t PID, const char *serial, int32_t *fd,
     }
 
     memset(devserial, 0, sizeof(0));
-    read(serialfd, devserial, sizeof(devserial)-1);
+    len = read(serialfd, devserial, sizeof(devserial)-1);
     close(serialfd);
+
+    // Check for successful read
+
+    if (len < 1)
+    {
+      close(*fd);
+      continue;
+    }
 
     // Check whether we found a serial number
 
