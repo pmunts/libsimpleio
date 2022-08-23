@@ -1,16 +1,16 @@
---- my_basic/shell/main.c.orig	2021-05-16 20:32:44.463903496 -0700
-+++ my_basic/shell/main.c	2021-05-16 20:32:44.475903669 -0700
-@@ -979,6 +979,9 @@
+--- my_basic/shell/main.c.orig	2022-08-23 13:03:27.427908586 -0700
++++ my_basic/shell/main.c	2022-08-23 13:04:47.865850436 -0700
+@@ -980,6 +980,9 @@
  	_printf("MY-BASIC Interpreter Shell - %s\n", mb_ver_string());
- 	_printf("Copyright (C) 2011 - 2021 Tony Wang. All Rights Reserved.\n");
+ 	_printf("Copyright (C) 2011 - 2022 Tony Wang. All Rights Reserved.\n");
  	_printf("For more information, see https://github.com/paladin-t/my_basic/.\n");
 +	_printf("\nIncludes bindings for the Linux Simple I/O Library\n");
 +	_printf("http://git.munts.com/libsimpleio\n"); 
-+	_printf("Copyright (C)2018, Philip Munts, President, Munts AM Corp.\n\n");
- 	_printf("Input HELP and hint enter to view help information.\n");
++	_printf("Copyright (C)2018-2022, Philip Munts, President, Munts AM Corp.\n\n");
+ 	_printf("Input HELP and hint enter to view the help information.\n");
  }
  
-@@ -1581,6 +1584,10 @@
+@@ -1595,6 +1598,10 @@
  
  	_on_startup();
  
