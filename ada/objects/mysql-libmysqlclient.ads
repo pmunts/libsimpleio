@@ -1,6 +1,6 @@
 -- MySQL database system services
 
--- Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,36 +28,56 @@ PACKAGE MySQL.libmysqlclient IS
 
   TYPE Server IS NEW Ada.Finalization.Controlled WITH PRIVATE;
 
-  -- Connect to a MySQL server, as specified by parameters
+  -- Connect to the specified MySQL server
 
   PROCEDURE Connect
-   (Self   : IN OUT Server;
-    dbhost : String;
-    dbuser : String;
-    dbpass : String;
-    dbname : String  := "";
-    dbport : Integer := 3306);
-
-  -- Connect to a server, as specified by DBHOST, DBUSER, DBPASS, DBNAME,
-  -- and DBPORT environment variables
-
-  PROCEDURE Connect(Self : IN OUT Server);
+   (Self    : IN OUT Server;
+    dbhost  : String; -- Domain name or Internet address
+    dbuser  : String;
+    dbpass  : String;
+    dbname  : String   := "";
+    dbport  : Positive := 3306;
+    dbflags : Natural  := 0);
 
   -- Disconnect from a MySQL server
 
   PROCEDURE Disconnect(Self : IN OUT Server);
 
-  -- Issue a query command to the database server
+  -- Dispatch SQL to the server for execution
 
-  PROCEDURE Command(Self : Server; cmd : String);
+  PROCEDURE Dispatch(Self : Server; cmd : String);
 
   -- Call a stored procedure
 
   PROCEDURE Call(Self : Server; proc : String; parms : String := "");
 
-  -- Retrieve MySQL error code
+  -- Fetch result set
 
-  FUNCTION error(Self : Server) RETURN Integer;
+  PROCEDURE FetchResults(Self : IN OUT Server);
+
+  -- Try to fetch another result set
+
+  PROCEDURE NextResults(Self : IN OUT Server);
+
+  -- Discard result set
+
+  PROCEDURE FreeResults(Self : IN OUT Server);
+
+  -- Return number of rows in the result set
+
+  FUNCTION Rows(Self : Server) RETURN Natural;
+
+  -- Return number of columns in the result set
+
+  FUNCTION Columns(Self : Server) RETURN Natural;
+
+  -- Fetch the next row from the result set
+
+  PROCEDURE FetchRow(Self : IN OUT Server);
+
+  -- Fetch a column from the current row
+
+  FUNCTION FetchColumn(Self : Server; index : Positive) RETURN String;
 
   -- Initialize a server connection object
 
@@ -67,10 +87,24 @@ PACKAGE MySQL.libmysqlclient IS
 
   PROCEDURE Finalize(Self : IN OUT Server);
 
+  -- Possible exception messages
+
+  ERROR_ALREADY_CONNECTED : CONSTANT String := "Already connected to a database server.";
+  ERROR_MUST_FREE_RESULTS : CONSTANT String := "Must free previous result set.";
+  ERROR_NO_CONNECTION     : CONSTANT String := "Not connected to a database server.";
+  ERROR_NO_RESULTS        : CONSTANT String := "No results are available.";
+  ERROR_NO_ROWS           : CONSTANT String := "No more rows are available.";
+
 PRIVATE
 
+  USE Standard.libmysqlclient;
+
   TYPE Server IS NEW Ada.Finalization.Controlled WITH RECORD
-    handle : Standard.libmysqlclient.MYSQL;
+    handle  : pMYSQL     := NullMYSQL;
+    results : pMYSQL_RES := NullMYSQL_RES;
+    thisrow : pMYSQL_ROW := NullMYSQL_ROW;
+    nrows   : Integer    := 0;
+    ncols   : Integer    := 0;
   END RECORD;
 
 END MySQL.libmysqlclient;

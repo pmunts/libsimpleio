@@ -1,6 +1,6 @@
 -- MySQL database system services using libmysqlclient
 
--- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,64 +20,36 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Environment_Variables; USE Ada.Environment_Variables;
-WITH libmysqlclient;
-
-USE TYPE libmysqlclient.MYSQL;
+WITH libmysqlclient; USE libmysqlclient;
 
 PACKAGE BODY MySQL.libmysqlclient IS
 
-  -- Connect to a MySQL server, as specified by parameters
+  -- Connect to the specified MySQL server
 
   PROCEDURE Connect
-   (Self   : IN OUT Server;
-    dbhost : String;
-    dbuser : String;
-    dbpass : String;
-    dbname : String  := "";
-    dbport : Integer := 3306) IS
-
-    error : Integer;
+   (Self    : IN OUT Server;
+    dbhost  : String; -- Domain name or Internet address
+    dbuser  : String;
+    dbpass  : String;
+    dbname  : String   := "";
+    dbport  : Positive := 3306;
+    dbflags : Natural  := 0) IS
 
   BEGIN
-    Self.Disconnect;
-    Self.handle := Standard.libmysqlclient.Init;
-
-    IF Standard.libmysqlclient.Connect(Self.handle, dbhost, dbuser, dbpass,
-      dbname, dbport) = Standard.libmysqlclient.NullMYSQL THEN
-      error := Standard.libmysqlclient.errno(Self.handle);
-
-      Self.Disconnect;
-
-      RAISE MySQL.Error WITH "Connect() failed, error" &
-        Integer'Image(error);
+    IF Self.handle /= NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_ALREADY_CONNECTED;
     END IF;
-  END Connect;
 
-  -- Connect to a server, as specified by DBHOST, DBUSER, DBPASS, DBNAME,
-  -- and DBPORT environment variables
+    Self.handle := MySQL_Init;
 
-  PROCEDURE Connect(Self : IN OUT Server) IS
-
-    error : Integer;
-
-  BEGIN
-    Self.Disconnect;
-    Self.handle := Standard.libmysqlclient.Init;
-
-    IF Standard.libmysqlclient.Connect(Self.handle,
-      Value("DBHOST") & ASCII.NUL,
-      Value("DBUSER") & ASCII.NUL,
-      Value("DBPASS") & ASCII.NUL,
-      (IF Exists("DBNAME") THEN Value("DBNAME") ELSE "") & ASCII.NUL,
-      (IF Exists("DBPORT") THEN Integer'Value(Value("DBPORT")) ELSE 3306)) =
-        Standard.libmysqlclient.NullMYSQL THEN
-      error := Standard.libmysqlclient.errno(Self.handle);
-
-      Self.Disconnect;
-
-      RAISE MySQL.Error WITH "Connect() failed, error" &
-        Integer'Image(error);
+    IF MySQL_Connect
+     (Self.handle,
+      dbhost & ASCII.NUL,
+      dbuser & ASCII.NUL,
+      dbpass & ASCII.NUL,
+      dbname & ASCII.NUL,
+      dbport, dbflags => dbflags) = NullMYSQL THEN
+      RAISE MySQL.Error WITH ToString(MySQL_ErrorMessage(Self.handle));
     END IF;
   END Connect;
 
@@ -87,45 +59,183 @@ PACKAGE BODY MySQL.libmysqlclient IS
    (Self   : IN OUT Server) IS
 
   BEGIN
-    IF Self.handle /= Standard.libmysqlclient.NullMYSQL THEN
-      Standard.libmysqlclient.Disconnect(Self.handle);
-      Self.handle := Standard.libmysqlclient.NullMYSQL;
+    IF Self.handle = NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_NO_CONNECTION;
     END IF;
+
+    MySQL_Disconnect(Self.handle);
+    Self.Initialize;
   END Disconnect;
 
-  -- Issue a query command to the database server
+  -- Dispatch SQL to the server for execution
 
-  PROCEDURE Command(Self : Server; cmd : String) IS
+  PROCEDURE Dispatch(Self : Server; cmd : String) IS
 
   BEGIN
-    IF Standard.libmysqlclient.Query(Self.handle, cmd & ASCII.NUL) /= 0 THEN
-      RAISE MySQL.Error WITH "Query() failed, error" &
-        Integer'Image(Self.error);
+    IF Self.handle = NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_NO_CONNECTION;
     END IF;
-  END Command;
+
+    IF Self.results /= NullMYSQL_RES THEN
+      RAISE MySQL.Error WITH ERROR_MUST_FREE_RESULTS;
+    END IF;
+
+    IF MySQL_Query(Self.handle, cmd & ASCII.NUL) /= 0 THEN
+      RAISE MySQL.Error WITH ToString(MySQL_ErrorMessage(Self.handle));
+    END IF;
+  END Dispatch;
 
   -- Call a stored procedure
 
   PROCEDURE Call(Self : Server; proc : String; parms : String := "") IS
 
   BEGIN
-    Self.Command("CALL " & proc & "(" & parms & ")");
+    Self.Dispatch("CALL " & proc & "(" & parms & ")");
   END Call;
 
-  -- Retrieve MySQL error code
+  -- Fetch result set
 
-  FUNCTION error(Self : Server) RETURN Integer IS
+  PROCEDURE FetchResults(Self : IN OUT Server) IS
 
   BEGIN
-    RETURN Standard.libmysqlclient.errno(Self.handle);
-  END error;
+    IF Self.handle = NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_NO_CONNECTION;
+    END IF;
+
+    IF Self.results /= NullMYSQL_RES THEN
+      RAISE MySQL.Error WITH ERROR_MUST_FREE_RESULTS;
+    END IF;
+
+    Self.results := MySQL_FetchResults(Self.handle);
+
+    IF Self.results = NullMYSQL_RES THEN
+      Self.nrows   := 0;
+      Self.ncols   := 0;
+      Self.thisrow := NullMYSQL_ROW;
+
+      IF MySQL_errno(Self.handle) /= 0 THEN
+        RAISE MySQL.Error WITH ToString(MySQL_ErrorMessage(Self.handle));
+      END IF;
+    ELSE
+      Self.nrows   := MySQL_NumRows(Self.results);
+      Self.ncols   := MySQL_NumColumns(Self.results);
+      Self.thisrow := NullMYSQL_ROW;
+    END IF;
+  END FetchResults;
+
+  -- Try to fetch another result set
+
+  PROCEDURE NextResults(Self : IN OUT Server) IS
+
+  BEGIN
+    IF Self.handle = NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_NO_CONNECTION;
+    END IF;
+
+    IF Self.results = NullMYSQL_RES THEN
+      RAISE MySQL.Error WITH ERROR_NO_RESULTS;
+    END IF;
+
+    Self.FreeResults;
+
+    IF MySQL_NextResults(Self.handle) = 0 THEN
+      Self.FetchResults;
+    END IF;
+  END NextResults;
+
+  -- Discard result set
+
+  PROCEDURE FreeResults(Self : IN OUT Server) IS
+
+  BEGIN
+    IF Self.handle = NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_NO_CONNECTION;
+    END IF;
+
+    IF Self.results = NullMYSQL_RES THEN
+      RAISE MySQL.Error WITH ERROR_NO_RESULTS;
+    END IF;
+
+    MySQL_FreeResults(Self.Results);
+
+    Self.results := NullMySQL_RES;
+    Self.thisrow := NullMYSQL_ROW;
+    Self.nrows   := 0;
+    Self.ncols   := 0;
+  END FreeResults;
+
+  FUNCTION Rows(Self : Server) RETURN Natural IS
+
+  BEGIN
+    IF Self.handle = NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_NO_CONNECTION;
+    END IF;
+
+    RETURN Self.nrows;
+  END Rows;
+
+  -- Return number of columns in the result set
+
+  FUNCTION Columns(Self : Server) RETURN Natural IS
+
+  BEGIN
+    IF Self.handle = NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_NO_CONNECTION;
+    END IF;
+
+    RETURN Self.ncols;
+  END Columns;
+
+  -- Fetch the next row from the result set
+
+  PROCEDURE FetchRow(Self : IN OUT Server) IS
+
+  BEGIN
+    IF Self.handle = NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_NO_CONNECTION;
+    END IF;
+
+    IF Self.results = NullMYSQL_RES THEN
+      RAISE MySQL.Error WITH ERROR_NO_RESULTS;
+    END IF;
+
+    Self.thisrow := MySQL_FetchRow(Self.results);
+
+    IF Self.thisrow = NullMYSQL_ROW THEN
+      RAISE MySQL.Error WITH ERROR_NO_ROWS;
+    END IF;
+  END FetchRow;
+
+  -- Fetch a column from the current row
+
+  FUNCTION FetchColumn(Self : Server; index : Positive) RETURN String IS
+
+  BEGIN
+    IF Self.handle = NullMYSQL THEN
+      RAISE MySQL.Error WITH ERROR_NO_CONNECTION;
+    END IF;
+
+    IF Self.results = NullMYSQL_RES THEN
+      RAISE MySQL.Error WITH ERROR_NO_RESULTS;
+    END IF;
+
+    IF Self.thisrow = NullMYSQL_ROW THEN
+      RAISE MySQL.Error WITH ERROR_NO_ROWS;
+    END IF;
+
+    RETURN ToString(MySQL_FetchColumn(Self.thisrow, index - 1));
+  END FetchColumn;
 
   -- Initialize a server connection object
 
   PROCEDURE Initialize(Self : IN OUT Server) IS
 
   BEGIN
-    Self.handle := Standard.libmysqlclient.NullMYSQL;
+    Self.handle  := NullMYSQL;
+    Self.results := NullMYSQL_RES;
+    Self.thisrow := NullMYSQL_ROW;
+    Self.nrows   := 0;
+    Self.ncols   := 0;
   END Initialize;
 
   -- Destroy a server connection object
@@ -133,7 +243,9 @@ PACKAGE BODY MySQL.libmysqlclient IS
   PROCEDURE Finalize(Self : IN OUT Server) IS
 
   BEGIN
-    Self.Disconnect;
+    IF Self.handle /= NullMYSQL THEN
+      Self.Disconnect;
+    END IF;
   END Finalize;
 
 END MySQL.libmysqlclient;
