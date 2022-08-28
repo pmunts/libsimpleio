@@ -1146,6 +1146,27 @@ START_TEST(test_liblinux)
   LINUX_close(fd, &error);
   ck_assert(error == 0);
   fd = -1;
+
+  char *p[] = { "Hello", "there!", NULL, "This is a test" };
+  char *q;
+
+  q = LINUX_indexpp(NULL, 0);
+  ck_assert(q == NULL);
+
+  q = LINUX_indexpp(p, -1);
+  ck_assert(q == NULL);
+
+  q = LINUX_indexpp(p, 0);
+  ck_assert(!strcmp(q, "Hello"));
+
+  q = LINUX_indexpp(p, 1);
+  ck_assert(!strcmp(q, "there!"));
+
+  q = LINUX_indexpp(p, 2);
+  ck_assert(q == NULL);
+
+  q = LINUX_indexpp(p, 3);
+  ck_assert(!strcmp(q, "This is a test"));
 }
 END_TEST
 

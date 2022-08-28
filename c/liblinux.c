@@ -740,6 +740,15 @@ void LINUX_pclose(void *stream, int32_t *error)
   *error = 0;
 }
 
+// It is hard to index a C pointer to pointer(s) in Ada
+
+char *LINUX_indexpp(char **p, int i)
+{
+  if (p == NULL) return NULL;
+  if (i < 0) return NULL;
+  return p[i];
+}
+
 // Function aliases
 
 #define ALIAS(orig) __attribute__((weak, alias(orig)))
