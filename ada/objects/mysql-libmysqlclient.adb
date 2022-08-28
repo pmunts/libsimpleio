@@ -23,7 +23,7 @@
 WITH Ada.Environment_Variables; USE Ada.Environment_Variables;
 WITH libmysqlclient;
 
-USE TYPE libmysqlclient.Pointer;
+USE TYPE libmysqlclient.MYSQL;
 
 PACKAGE BODY MySQL.libmysqlclient IS
 
@@ -44,7 +44,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
     Self.handle := Standard.libmysqlclient.Init;
 
     IF Standard.libmysqlclient.Connect(Self.handle, dbhost, dbuser, dbpass,
-      dbname, dbport) = Standard.libmysqlclient.NullPointer THEN
+      dbname, dbport) = Standard.libmysqlclient.NullMYSQL THEN
       error := Standard.libmysqlclient.errno(Self.handle);
 
       Self.Disconnect;
@@ -71,7 +71,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
       Value("DBPASS") & ASCII.NUL,
       (IF Exists("DBNAME") THEN Value("DBNAME") ELSE "") & ASCII.NUL,
       (IF Exists("DBPORT") THEN Integer'Value(Value("DBPORT")) ELSE 3306)) =
-        Standard.libmysqlclient.NullPointer THEN
+        Standard.libmysqlclient.NullMYSQL THEN
       error := Standard.libmysqlclient.errno(Self.handle);
 
       Self.Disconnect;
@@ -87,9 +87,9 @@ PACKAGE BODY MySQL.libmysqlclient IS
    (Self   : IN OUT Server) IS
 
   BEGIN
-    IF Self.handle /= Standard.libmysqlclient.NullPointer THEN
+    IF Self.handle /= Standard.libmysqlclient.NullMYSQL THEN
       Standard.libmysqlclient.Disconnect(Self.handle);
-      Self.handle := Standard.libmysqlclient.NullPointer;
+      Self.handle := Standard.libmysqlclient.NullMYSQL;
     END IF;
   END Disconnect;
 
@@ -125,7 +125,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
   PROCEDURE Initialize(Self : IN OUT Server) IS
 
   BEGIN
-    Self.handle := Standard.libmysqlclient.NullPointer;
+    Self.handle := Standard.libmysqlclient.NullMYSQL;
   END Initialize;
 
   -- Destroy a server connection object

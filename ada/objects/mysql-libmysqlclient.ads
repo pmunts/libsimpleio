@@ -70,7 +70,7 @@ PACKAGE MySQL.libmysqlclient IS
 PRIVATE
 
   TYPE Server IS NEW Ada.Finalization.Controlled WITH RECORD
-    handle : Standard.libmysqlclient.Pointer;
+    handle : Standard.libmysqlclient.MYSQL;
   END RECORD;
 
 END MySQL.libmysqlclient;
