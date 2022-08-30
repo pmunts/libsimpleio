@@ -59,11 +59,10 @@ BEGIN
       cmd : String := Get_Line;
 
     BEGIN
+      New_Line;
       EXIT WHEN cmd = "quit";
-      server.Dispatch(Get_Line);
+      server.Dispatch(cmd);
     END;
-
-    New_Line;
 
     -- Fetch results (if any)
   
@@ -86,6 +85,8 @@ BEGIN
 
         New_Line;
       END LOOP;
+  
+      New_Line;
 
       server.NextResults;
     END LOOP;
