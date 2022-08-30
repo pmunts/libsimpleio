@@ -24,10 +24,27 @@ WITH libmysqlclient; USE libmysqlclient;
 
 PACKAGE BODY MySQL.libmysqlclient IS
 
+  -- Create a MySQL server object
+
+  FUNCTION Create
+   (dbhost  : String; -- Domain name or Internet address
+    dbuser  : String;
+    dbpass  : String;
+    dbname  : String   := "";
+    dbport  : Positive := 3306;
+    dbflags : Natural  := 0) RETURN Server IS
+
+    s : ServerClass;
+
+  BEGIN
+    s.Connect(dbhost, dbuser, dbpass, dbname, dbport, dbflags);
+    RETURN NEW ServerClass'(s);
+  END Create;
+
   -- Connect to the specified MySQL server
 
   PROCEDURE Connect
-   (Self    : IN OUT Server;
+   (Self    : IN OUT ServerClass;
     dbhost  : String; -- Domain name or Internet address
     dbuser  : String;
     dbpass  : String;
@@ -40,6 +57,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
       RAISE MySQL.Error WITH ERROR_ALREADY_CONNECTED;
     END IF;
 
+    Self := DestroyedServer;
     Self.handle := MySQL_Init;
 
     IF MySQL_Connect
@@ -56,7 +74,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
   -- Disconnect from a MySQL server
 
   PROCEDURE Disconnect
-   (Self   : IN OUT Server) IS
+   (Self : IN OUT ServerClass) IS
 
   BEGIN
     IF Self.handle = NullMYSQL THEN
@@ -64,12 +82,12 @@ PACKAGE BODY MySQL.libmysqlclient IS
     END IF;
 
     MySQL_Disconnect(Self.handle);
-    Self.Initialize;
+    Self := DestroyedServer;
   END Disconnect;
 
   -- Dispatch SQL to the server for execution
 
-  PROCEDURE Dispatch(Self : Server; cmd : String) IS
+  PROCEDURE Dispatch(Self : ServerClass; cmd : String) IS
 
   BEGIN
     IF Self.handle = NullMYSQL THEN
@@ -85,17 +103,9 @@ PACKAGE BODY MySQL.libmysqlclient IS
     END IF;
   END Dispatch;
 
-  -- Call a stored procedure
-
-  PROCEDURE Call(Self : Server; proc : String; parms : String := "") IS
-
-  BEGIN
-    Self.Dispatch("CALL " & proc & "(" & parms & ")");
-  END Call;
-
   -- Fetch result set
 
-  PROCEDURE FetchResults(Self : IN OUT Server) IS
+  PROCEDURE FetchResults(Self : IN OUT ServerClass) IS
 
   BEGIN
     IF Self.handle = NullMYSQL THEN
@@ -125,7 +135,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
 
   -- Try to fetch another result set
 
-  PROCEDURE NextResults(Self : IN OUT Server) IS
+  PROCEDURE NextResults(Self : IN OUT ServerClass) IS
 
   BEGIN
     IF Self.handle = NullMYSQL THEN
@@ -145,7 +155,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
 
   -- Discard result set
 
-  PROCEDURE FreeResults(Self : IN OUT Server) IS
+  PROCEDURE FreeResults(Self : IN OUT ServerClass) IS
 
   BEGIN
     IF Self.handle = NullMYSQL THEN
@@ -164,7 +174,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
     Self.ncols   := 0;
   END FreeResults;
 
-  FUNCTION Rows(Self : Server) RETURN Natural IS
+  FUNCTION Rows(Self : ServerClass) RETURN Natural IS
 
   BEGIN
     IF Self.handle = NullMYSQL THEN
@@ -176,7 +186,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
 
   -- Return number of columns in the result set
 
-  FUNCTION Columns(Self : Server) RETURN Natural IS
+  FUNCTION Columns(Self : ServerClass) RETURN Natural IS
 
   BEGIN
     IF Self.handle = NullMYSQL THEN
@@ -188,7 +198,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
 
   -- Fetch the next row from the result set
 
-  PROCEDURE FetchRow(Self : IN OUT Server) IS
+  PROCEDURE FetchRow(Self : IN OUT ServerClass) IS
 
   BEGIN
     IF Self.handle = NullMYSQL THEN
@@ -208,7 +218,7 @@ PACKAGE BODY MySQL.libmysqlclient IS
 
   -- Fetch a column from the current row
 
-  FUNCTION FetchColumn(Self : Server; index : Positive) RETURN String IS
+  FUNCTION FetchColumn(Self : ServerClass; index : Positive) RETURN String IS
 
   BEGIN
     IF Self.handle = NullMYSQL THEN
@@ -225,27 +235,5 @@ PACKAGE BODY MySQL.libmysqlclient IS
 
     RETURN ToString(MySQL_FetchColumn(Self.thisrow, index - 1));
   END FetchColumn;
-
-  -- Initialize a server connection object
-
-  PROCEDURE Initialize(Self : IN OUT Server) IS
-
-  BEGIN
-    Self.handle  := NullMYSQL;
-    Self.results := NullMYSQL_RES;
-    Self.thisrow := NullMYSQL_ROW;
-    Self.nrows   := 0;
-    Self.ncols   := 0;
-  END Initialize;
-
-  -- Destroy a server connection object
-
-  PROCEDURE Finalize(Self : IN OUT Server) IS
-
-  BEGIN
-    IF Self.handle /= NullMYSQL THEN
-      Self.Disconnect;
-    END IF;
-  END Finalize;
 
 END MySQL.libmysqlclient;

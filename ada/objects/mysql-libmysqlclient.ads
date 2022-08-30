@@ -20,18 +20,28 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Finalization;
-
 PRIVATE WITH libmysqlclient;
 
 PACKAGE MySQL.libmysqlclient IS
 
-  TYPE Server IS NEW Ada.Finalization.Controlled WITH PRIVATE;
+  TYPE ServerClass IS TAGGED PRIVATE;
+
+  TYPE Server IS ACCESS ALL ServerClass'Class;
+
+  -- Create a MySQL server object
+
+  FUNCTION Create
+   (dbhost  : String; -- Domain name or Internet address
+    dbuser  : String;
+    dbpass  : String;
+    dbname  : String   := "";
+    dbport  : Positive := 3306;
+    dbflags : Natural  := 0) RETURN Server;
 
   -- Connect to the specified MySQL server
 
   PROCEDURE Connect
-   (Self    : IN OUT Server;
+   (Self    : IN OUT ServerClass;
     dbhost  : String; -- Domain name or Internet address
     dbuser  : String;
     dbpass  : String;
@@ -41,51 +51,39 @@ PACKAGE MySQL.libmysqlclient IS
 
   -- Disconnect from a MySQL server
 
-  PROCEDURE Disconnect(Self : IN OUT Server);
+  PROCEDURE Disconnect(Self : IN OUT ServerClass);
 
   -- Dispatch SQL to the server for execution
 
-  PROCEDURE Dispatch(Self : Server; cmd : String);
-
-  -- Call a stored procedure
-
-  PROCEDURE Call(Self : Server; proc : String; parms : String := "");
+  PROCEDURE Dispatch(Self : ServerClass; cmd : String);
 
   -- Fetch result set
 
-  PROCEDURE FetchResults(Self : IN OUT Server);
+  PROCEDURE FetchResults(Self : IN OUT ServerClass);
 
   -- Try to fetch another result set
 
-  PROCEDURE NextResults(Self : IN OUT Server);
+  PROCEDURE NextResults(Self : IN OUT ServerClass);
 
   -- Discard result set
 
-  PROCEDURE FreeResults(Self : IN OUT Server);
+  PROCEDURE FreeResults(Self : IN OUT ServerClass);
 
   -- Return number of rows in the result set
 
-  FUNCTION Rows(Self : Server) RETURN Natural;
+  FUNCTION Rows(Self : ServerClass) RETURN Natural;
 
   -- Return number of columns in the result set
 
-  FUNCTION Columns(Self : Server) RETURN Natural;
+  FUNCTION Columns(Self : ServerClass) RETURN Natural;
 
   -- Fetch the next row from the result set
 
-  PROCEDURE FetchRow(Self : IN OUT Server);
+  PROCEDURE FetchRow(Self : IN OUT ServerClass);
 
   -- Fetch a column from the current row
 
-  FUNCTION FetchColumn(Self : Server; index : Positive) RETURN String;
-
-  -- Initialize a server connection object
-
-  PROCEDURE Initialize(Self : IN OUT Server);
-
-  -- Destroy a server connection object
-
-  PROCEDURE Finalize(Self : IN OUT Server);
+  FUNCTION FetchColumn(Self : ServerClass; index : Positive) RETURN String;
 
   -- Possible exception messages
 
@@ -99,12 +97,14 @@ PRIVATE
 
   USE Standard.libmysqlclient;
 
-  TYPE Server IS NEW Ada.Finalization.Controlled WITH RECORD
+  TYPE ServerClass IS TAGGED RECORD
     handle  : pMYSQL     := NullMYSQL;
     results : pMYSQL_RES := NullMYSQL_RES;
     thisrow : pMYSQL_ROW := NullMYSQL_ROW;
     nrows   : Integer    := 0;
     ncols   : Integer    := 0;
   END RECORD;
+
+  DestroyedServer : CONSTANT ServerClass := (NullMYSQL, NullMYSQL_RES, NullMYSQL_ROW, 0, 0);
 
 END MySQL.libmysqlclient;
