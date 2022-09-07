@@ -42,7 +42,7 @@ BEGIN
   END IF;
 
   -- Connect to the database server
- 
+
   server := MySQL.libmysqlclient.Create
    (Ada.Command_Line.Argument(1),
     Ada.Command_Line.Argument(2),
@@ -65,7 +65,7 @@ BEGIN
     END;
 
     -- Fetch results (if any)
-  
+
     server.FetchResults;
 
     LOOP
@@ -85,7 +85,7 @@ BEGIN
 
         New_Line;
       END LOOP;
-  
+
       New_Line;
 
       server.NextResults;
