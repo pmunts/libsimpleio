@@ -35,7 +35,7 @@ undefine STRIP
 
 ifneq ($(BOARDNAME),)
 # Cross-compile for MuntsOS
-MUNTSOS		?= $(HOME)/muntsos
+MUNTSOS		?= /usr/local/share/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 CXX	 	:= $(CROSS_COMPILE)g++
 AR		:= $(CROSS_COMPILE)ar

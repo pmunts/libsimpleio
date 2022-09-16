@@ -34,7 +34,7 @@ ifeq ($(shell uname), Linux)
 ifneq ($(BOARDNAME),)
 ifeq ($(BOARDBASE),)
 # Using MuntsOS cross-toolchain
-MUNTSOS		?= $(HOME)/muntsos
+MUNTSOS		?= /usr/local/share/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 endif
 else
