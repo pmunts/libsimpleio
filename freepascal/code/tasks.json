@@ -4,13 +4,33 @@
     "version": "2.0.0",
     "tasks": [
          {
-            "label": "compile",
+            "label": "make <program>",
             "type": "shell",
             "command": "make ${fileBasenameNoExtension}"
             "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+         }
+         {
+            "label": "make default",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+         }
+         {
+            "label": "make clean",
+            "type": "shell",
+            "command": "make clean",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
             }
          }
          {
@@ -26,15 +46,5 @@
                 "isDefault": false
             }
          }
-         {
-            "label": "clean",
-            "type": "shell",
-            "command": "make clean",
-            "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
-        }
     ]
 }

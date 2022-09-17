@@ -4,9 +4,9 @@
     "version": "2.0.0",
     "tasks": [
          {
-            "label": "gprbuild",
+            "label": "make <program>",
             "type": "shell",
-            "command": "gprbuild -p ${fileBasenameNoExtension}",
+            "command": "make ${fileBasenameNoExtension}"
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -14,22 +14,9 @@
             }
          }
          {
-            "label": "run",
+            "label": "make default",
             "type": "shell",
-            "command": "./${fileBasenameNoExtension}",
-            "windows": {
-               "command": ".\${fileBasenameNoExtension}"
-            },
-            "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
-         }
-         {
-            "label": "make build",
-            "type": "shell",
-            "command": "make build",
+            "command": "make",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -45,6 +32,19 @@
                 "kind": "build",
                 "isDefault": false
             }
-        }
+         }
+         {
+            "label": "run",
+            "type": "shell",
+            "command": "./${fileBasenameNoExtension}",
+            "windows": {
+               "command": ".\${fileBasenameNoExtension}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+         }
     ]
 }
