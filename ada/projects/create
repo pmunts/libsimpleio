@@ -167,6 +167,11 @@ fi
 sed -i "s/@@NAME@@/${NAME}/g" ${DSTDIR}/*
 sed -i "s/@@KIND@@/${KIND}/g" ${DSTDIR}/*
 
+# Fixup permissions
+
+find ${NAME} -type d -exec chmod 755 {} ";"
+find ${NAME} -type f -exec chmod 644 {} ";"
+
 # Create git repository, if desired
 
 hash git >/dev/null 2>&1
