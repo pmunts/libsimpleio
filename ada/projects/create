@@ -31,6 +31,12 @@ if [ "${1}" = "--allcaps" ]; then
   shift 1
 fi
 
+if [ "${1}" = "--nogit" ]; then
+  # Do not create git repository
+  NOGIT=yes
+  shift 1
+fi
+
 if [ $# -lt 2 -o $# -gt 3 ]; then
   echo ""
   echo "Ada Program Project Creator"
@@ -160,3 +166,14 @@ fi
 
 sed -i "s/@@NAME@@/${NAME}/g" ${DSTDIR}/*
 sed -i "s/@@KIND@@/${KIND}/g" ${DSTDIR}/*
+
+# Create git repository, if desired
+
+hash git >/dev/null 2>&1
+
+if [ $? -eq 0 -a "$NOGIT" != "yes" ]; then
+  cd ${NAME}
+  git init -q
+  git add .
+  git commit -q -m "Initial project skeleton."
+fi
