@@ -24,24 +24,24 @@
 
 # Validate parameters
 
-if [ "${1}" = "-allcaps" ]; then
-  # Render Ada keywords in all capital letters.  Most people won't want
+if [ "${1}" = "--allcaps" ]; then
+  # Render Ada keywords in all capital letters.  Most people won"t want
   # this, but I prefer it.
   ALLCAPS=yes
   shift 1
 fi
 
 if [ $# -lt 2 -o $# -gt 3 ]; then
-  echo ''
-  echo 'Ada Program Project Creator'
-  echo ''
-  echo 'Usage: <name> <kind> [<target>]'
-  echo ''
-  echo '<kind> may be any of: libsimpleio remoteio mcp2221 ftdi_mpsse'
-  echo ''
-  echo '<target> may be any of: BeagleBone PocketBeagle RaspberryPi1'
-  echo '  RaspberryPi2 RaspberryPi3 RaspberryPi4'
-  echo ''
+  echo ""
+  echo "Ada Program Project Creator"
+  echo ""
+  echo "Usage: <name> <kind> [<target>]"
+  echo ""
+  echo "<kind> may be any of: libsimpleio remoteio mcp2221 ftdi/mpsse"
+  echo ""
+  echo "<target> may be any of: BeagleBone PocketBeagle RaspberryPi1"
+  echo "  RaspberryPi2 RaspberryPi3 RaspberryPi4"
+  echo ""
   exit 1
 fi
 
@@ -51,20 +51,62 @@ KIND=${2}
 TARGET=${3:-NONE}
 DSTDIR=./${NAME}
 
+# Validate parameters
+
+if [ -d ${DSTDIR} ]; then
+  echo ""
+  echo "ERROR: project directory already exists.";
+  echo ""
+  exit 1
+fi
+
+case ${KIND} in
+  libsimpleio|remoteio|mcp2221|ftdi_mpsse)
+  ;;
+
+  *)
+    echo ""
+    echo "ERROR: Invalid project kind."
+    echo ""
+    exit 1
+  ;;
+esac
+
+case ${TARGET} in
+  BeagleBone|PocketBeagle|RaspberryPi1|RaspberryPi2|RaspberryPi3|RaspberryPi4|NONE)
+  ;;
+
+  *)
+    echo ""
+    echo "ERROR: Invalid target value."
+    echo ""
+    exit 1
+  ;;
+esac
+
 # Populate the project skeleton
 
 mkdir -p					${DSTDIR}/.vscode
 cp ${LIBSIMPLEIO}/ada/projects/Makefile		${DSTDIR}
-cp ${LIBSIMPLEIO}/ada/projects/libsimpleio.gpr	${DSTDIR}/default.gpr
 cp ${LIBSIMPLEIO}/ada/code/tasks.json		${DSTDIR}/.vscode
 
-cat <<EOD >					${DSTDIR}/${NAME}.adb
-procedure @@NAME@@ is
+# Copy applicable default.gpr
 
-begin
-   null;
-end @@NAME@@;
-EOD
+case ${KIND} in
+  libsimpleio)
+    sed "1,23d" < ${LIBSIMPLEIO}/ada/programs/default.gpr > ${DSTDIR}/default.gpr
+  ;;
+
+  remoteio|mcp2221)
+    sed "1,23d" < ${LIBSIMPLEIO}/ada/programs/${KIND}/default.gpr > ${DSTDIR}/default.gpr
+  ;;
+
+  ftdi_mpsse)
+    sed "1,23d" < ${LIBSIMPLEIO}/ada/programs/ftdi/mpsse/default.gpr > ${DSTDIR}/default.gpr
+  ;;
+esac
+
+# Copy applicable default.cgpr
 
 case ${TARGET} in
   BeagleBone)
@@ -92,17 +134,29 @@ case ${TARGET} in
   ;;
 esac
 
-# Expand @@NAME@@ and @@KIND@@ in the project files
-
-sed -i "s/@@NAME@@/${NAME}/g"			${DSTDIR}/*
-sed -i "s/@@KIND@@/${KIND}/g"			${DSTDIR}/*
-
-# Make Ada keywords all caps and indentation 2 spaces
+# Copy stub main program file
 
 if [ "$ALLCAPS" = "yes" ]; then
-  sed -i 's/^procedure/PROCEDURE/g'		${DSTDIR}/${NAME}.adb
-  sed -i 's/ is$/ IS/g'				${DSTDIR}/${NAME}.adb
-  sed -i 's/^begin/BEGIN/g'			${DSTDIR}/${NAME}.adb
-  sed -i 's/^   null/  NULL/g'			${DSTDIR}/${NAME}.adb
-  sed -i 's/^end/END/g'				${DSTDIR}/${NAME}.adb
+  # Phil"s preference: Keywords are all caps and indentation is 2 spaces
+  cat <<EOD > ${DSTDIR}/${NAME}.adb
+PROCEDURE @@NAME@@ IS
+
+BEGIN
+  NULL;
+END @@NAME@@;
+EOD
+else
+  # AdaCore"s preference: Keywords are lower case and indentation is 3 spaces
+  cat <<EOD > ${DSTDIR}/${NAME}.adb
+procedure @@NAME@@ is
+
+begin
+   null;
+end @@NAME@@;
+EOD
 fi
+
+# Expand @@NAME@@ and @@KIND@@ in the project files
+
+sed -i "s/@@NAME@@/${NAME}/g" ${DSTDIR}/*
+sed -i "s/@@KIND@@/${KIND}/g" ${DSTDIR}/*
