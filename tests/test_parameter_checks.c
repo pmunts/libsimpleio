@@ -1147,8 +1147,8 @@ START_TEST(test_liblinux)
   ck_assert(error == 0);
   fd = -1;
 
-  char *p[] = { "Hello", "there!", NULL, "This is a test" };
-  char *q;
+  void *p[] = { "Hello", "there!", NULL, "This is a test" };
+  void *q;
 
   q = LINUX_indexpp(NULL, 0);
   ck_assert(q == NULL);

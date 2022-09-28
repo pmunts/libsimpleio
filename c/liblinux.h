@@ -125,7 +125,7 @@ extern void LINUX_pclose(void *stream, int32_t *error);
 
 // It is hard to index a C pointer to pointer(s) in Ada
 
-extern char *LINUX_indexpp(char **p, int i);
+extern void *LINUX_indexpp(void **p, int i);
 
 _END_STD_C
 
