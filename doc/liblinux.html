@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of liblinux</TITLE>
 </HEAD><BODY>
 <H1>liblinux</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 18 January 2022<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 28 September 2022<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -44,6 +44,8 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 18 January 2022<BR><A HREF="#i
 <B>void LINUX_popen_write(const char *</B><I>cmd</I><B>, void **</B><I>stream</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void LINUX_pclose(void *</B><I>stream</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void *LINUX_indexpp(void **</B><I>p</I><B>, int32_t </B><I>i</I><B>);</B>
 
 </PRE>
 
@@ -257,6 +259,25 @@ pointer for the pipe must be passed in the
 <I>stream</I>
 
 parameter.
+<P>
+
+<B>LINUX_indexpp()</B>
+
+is a helper function that indexes a C pointer to pointer(s).  It returns either
+the selected element or
+<B>NULL</B>
+
+if either the
+<I>p</I>
+
+parameter is
+<B>NULL</B>
+
+or if the
+<I>i</I>
+
+parameter
+is less than zero.
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -289,6 +310,6 @@ Philip Munts, President, Munts AM Corp dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 05:32:38 GMT, January 19, 2022
+Time: 22:00:29 GMT, September 28, 2022
 </BODY>
 </HTML>
