@@ -742,7 +742,7 @@ void LINUX_pclose(void *stream, int32_t *error)
 
 // It is hard to index a C pointer to pointer(s) in Ada
 
-void *LINUX_indexpp(void **p, int i)
+void *LINUX_indexpp(void **p, int32_t i)
 {
   if (p == NULL) return NULL;
   if (i < 0) return NULL;
