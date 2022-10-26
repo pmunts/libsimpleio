@@ -1,6 +1,6 @@
 # Makefile for building a .Net Core application package or tarball
 
-# Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2022, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -57,34 +57,46 @@ ifeq ($(OS), Windows_NT)
 DOTNETARCH	?= win-x64
 endif
 
-# Compile the application
+# dotnet command line flags for the various kinds of deliverables
+
+COREAPP_BUILD_FLAGS		?= -c $(CONFIGURATION) 
+COREAPP_SINGLE_FLAGS		?= -c $(CONFIGURATION) -r $(DOTNETARCH) -p:PublishSingleFile=true --self-contained false $(DOTNETFLAGS)
+COREAPP_SELFCONTAINED_FLAGS	?= -c $(CONFIGURATION) -r $(DOTNETARCH) -p:PublishSingleFile=true --self-contained true  $(DOTNETFLAGS)
+
+# Build architecture independent deliverables (i.e. dotnet run myapp.dll).
 
 coreapp_mk_build:
-	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) $(COREAPPPROJ)
+	dotnet publish $(COREAPP_BUILD_FLAGS) $(COREAPPPROJ)
 	cp $(COREAPPPUB)/*.dll .
 	cp $(COREAPPPUB)/*.runtimeconfig.json .
 
-# Build a single file deliverable without runtime included
+# Build a single file deliverable without runtime.  Interesting values for
+# DOTNETFLAGS include: -p:PublishReadyToRun
 
 coreapp_mk_single:
-	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) -r $(DOTNETARCH) /p:PublishSingleFile=true --self-contained false $(COREAPPPROJ)
+	dotnet publish $(COREAPP_SINGLE_FLAGS) $(COREAPPPROJ)
 	cp bin/$(CONFIGURATION)/net6.0/$(DOTNETARCH)/publish/$(COREAPPNAME) .
 
-# Build a single file deliverable with runtime include
+# Build a single file deliverable including runtime.  Interesting values for
+# DOTNETFLAGS include: -p:PublishReadyToRun -p:PublishTrimmed
 
 coreapp_mk_selfcontained:
-	dotnet publish -c $(CONFIGURATION) $(DOTNETFLAGS) -r $(DOTNETARCH) /p:PublishSingleFile=true --self-contained true $(COREAPPPROJ)
+	dotnet publish $(COREAPP_SELFCONTAINED_FLAGS) $(COREAPPPROJ)
 	cp bin/$(CONFIGURATION)/net6.0/$(DOTNETARCH)/publish/$(COREAPPNAME) .
 
-# Build a NuGet application package file
+# Build an architecture independent NuGet package file (mostly useful for
+# MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
 
 coreapp_mk_nupkg:
 	dotnet pack -c $(CONFIGURATION) $(DOTNETFLAGS) $(COREAPPPROJ)
 	cp bin/$(CONFIGURATION)/*.nupkg .
 
-# Build a Debian package file
+# Build an architecture independent Debian package file (mostly useful for
+# MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
 
-$(PKGDIR): coreapp_mk_build
+$(PKGDIR):
+	$(MAKE) coreapp_mk_build
+	echo DEBUG: $@ $^ $* $(MAKECMDGOALS)
 	mkdir -p						$(PKGDIR)/DEBIAN
 	install -cm 0644 $(LIBSIMPLEIO)/csharp/include/coreapp.control	$(PKGDIR)/DEBIAN/control
 	$(SED) -i s/@@NAME@@/$(PKGNAME)/g			$(PKGDIR)/DEBIAN/control
@@ -109,13 +121,14 @@ include $(LIBSIMPLEIO)/include/dpkg.mk
 
 coreapp_mk_deb: $(DEBFILE)
 
-# Build an RPM package file
+# Build an architecture independent RPM package file (mostly useful for
+# MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
 
 include $(LIBSIMPLEIO)/include/rpm.mk
 
 coreapp_mk_rpm: $(RPMFILE)
 
-# Build an application tarball file
+# Build an architecture independent tarball file
 
 include $(LIBSIMPLEIO)/include/tarball.mk
 
