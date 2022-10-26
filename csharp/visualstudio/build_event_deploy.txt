@@ -1,0 +1,8 @@
+  <!-- Add the following to your .Net application project file -->
+
+  <!-- Deploy architecture independent application (i.e. dotnet myapp.dll) -->
+  <!-- deliverables to a target computer via scp after a successful build. -->
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="scp bin/$(ConfigurationName)/$(TargetFramework)/*.dll bin/$(ConfigurationName)/$(TargetFramework)/*runtimeconfig.json root@usbgadget.munts.net:." />
+  </Target>
