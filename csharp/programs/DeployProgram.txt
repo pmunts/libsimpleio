@@ -1,0 +1,10 @@
+Add the following to your application program project file to automatically
+deploy your application deliverables to a target computer.  You will need to
+edit the destination user and host name.
+
+  <!-- Deploy architecture independent application (i.e. dotnet myapp.dll) -->
+  <!-- deliverables to a target computer via scp after a successful build. -->
+
+  <Target Name="DeploySCP" AfterTargets="Build">
+    <Exec Command="scp bin/$(Configuration)/$(TargetFramework)/*.dll bin/$(Configuration)/$(TargetFramework)/*runtimeconfig.json MYUSER@MYHOST:." />
+  </Target>

@@ -1,18 +1,16 @@
-  <!-- Add the following goop to the bottom of a Linux Island project file -->
-  <!-- to automatically deploy the application program file to the         -->
-  <!-- specified MuntsOS Embedded Linux target board.                      -->
-  <!-- CUT HERE                                                            -->
+Add the following to your application program project file to automatically
+deploy your application deliverables to a target computer.  You will need to
+edit the destination user and host name.
 
-  <!-- Define the target host -->
+  <!-- Define Linux target computer characteristics -->
 
   <PropertyGroup>
     <TargetDist>Ubuntu</TargetDist>
     <TargetArch>aarch64</TargetArch>
-    <TargetHost>hostname.domain</TargetHost>
   </PropertyGroup>
 
-  <!-- Deploy the application program file to the target host (MSBuild/Visual Studio) -->
+  <!-- Deploy Linux application program to the target computer -->
 
-  <Target Name="DeployMuntsOS" AfterTargets="Build">
-    <exec command="scp $(OutputPath.Replace('\', '/'))/$(TargetDist)/$(TargetArch)/$(RootNameSpace) root@$(TargetHost):." />
+  <Target Name="DeploySCP" AfterTargets="Build">
+    <Exec Command="scp Bin/$(Configuration)/$(TargetDist)/$(TargetArch)/$(RootNameSpace) MYUSER@MYHOST:." />
   </Target>
