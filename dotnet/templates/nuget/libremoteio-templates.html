@@ -1,6 +1,6 @@
 <p><b>Introduction</b></p>
-<p>This package provides a .Net 6 project template for developing
-cross-platform .Net 6 application programs for Windows or Linux using
+<p>This package provides a .Net 7 project template for developing
+cross-platform .Net 7 application programs for Windows or Linux using
 <b><a href="https://www.nuget.org/packages/libremoteio">libremoteio</a></b>, a
 .Net Standard 2.0 library assembly that provides a .Net client implementation
 of the <b><a href=
@@ -11,7 +11,7 @@ Converter) inputs, DAC (Digital to Analog) outputs, GPIO (General Purpose I/O)
 pins, I2C devices, PWM (Pulse Width Modulated) outputs, servo outputs, motor
 outputs, and SPI (Serial Peripheral Interface) devices connected to a <b>Remote
 I/O Protocol</b> server.</p>
-<p>With <b>libremoteio</b> you can develop .Net 6 application programs for
+<p>With <b>libremoteio</b> you can develop .Net 7 application programs for
 Windows or Linux target computers that control I/O devices connected to a
 <b>Remote I/O Protocol</b> server. Such programs may be used for physical
 computing, test fixtures, instrumentation, and other kinds of embedded
@@ -23,10 +23,10 @@ file</a>.</p>
 <p>Install this template package by running the following command from a Linux
 or Windows command line:</p>
 <pre><b>
-dotnet new -i libremoteio-templates
+dotnet new install libremoteio-templates
 
 </b></pre>
-<p>The above command will install a .Net 6 application program project template
+<p>The above command will install a .Net 7 application program project template
 called <b><tt>csharp_console_libremoteio</tt></b>. You can then create a
 project using it with commands like the following:</p>
 <pre><b>
@@ -35,7 +35,7 @@ cd myprogram
 dotnet new csharp_console_libremoteio
 
 </b></pre>
-<p>On Windows, after you have run the <b><tt>dotnet new -i</tt></b> command
+<p>On Windows, after you have run the <b><tt>dotnet new install</tt></b> command
 above, <b>Visual Studio 2022</b> will automatically pick up the
 <b><tt>csharp_console_libremoteio</tt></b> <tt>project template</tt>. You can
 then create a project using it with <b><tt>File</tt> → <tt>New</tt> →

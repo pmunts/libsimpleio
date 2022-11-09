@@ -56,5 +56,5 @@ clean:
 # Install templates from libsimpleio installation or source checkout
 
 install:
-	dotnet new -i ./csharp_console_libremoteio.d
-	dotnet new -i ./csharp_console_libsimpleio.d
+	dotnet new install ./csharp_console_libremoteio.d
+	dotnet new install ./csharp_console_libsimpleio.d

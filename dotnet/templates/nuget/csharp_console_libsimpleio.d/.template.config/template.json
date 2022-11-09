@@ -2,12 +2,12 @@
   "$schema":         "http://json.schemastore.org/template",
   "classifications": [ "CLI", "Console", "libsimpleio"],
   "identity":        "csharp_console_libsimpleio",
-  "name":            "Project templates for .Net 6 console applications using libsimpleio.",
+  "name":            "Project templates for .Net 7 console applications using libsimpleio.",
   "shortName":       "csharp_console_libsimpleio",
   "sourceName":      "csharp_console_libsimpleio",
   "tags": {
     "language": "C#",
     "type":     "project",
-    "platform": [".Net 6", "Linux"]
+    "platform": [".Net 7", "Linux"]
   }
 }

@@ -22,5 +22,5 @@ REM CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 REM ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 REM POSSIBILITY OF SUCH DAMAGE.
 
-dotnet new -i ./csharp_console_libremoteio
-dotnet new -i ./csharp_console_libsimpleio
+dotnet new install ./csharp_console_libremoteio
+dotnet new install ./csharp_console_libsimpleio

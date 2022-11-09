@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>Project templates for .Net 6 console applications using libsimpleio.</Name>
-    <Description>Project templates for .Net 6 console applications using libsimpleio.</Description>
+    <Name>Project templates for .Net 7 console applications using libsimpleio.</Name>
+    <Description>Project templates for .Net 7 console applications using libsimpleio.</Description>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
@@ -9,7 +9,7 @@
     <DefaultName>csharp_console_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>C#</LanguageTag>
-    <PlatformTag>.Net 6</PlatformTag>
+    <PlatformTag>.Net 7</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
     <ProjectTypeTag>VS</ProjectTypeTag>
     <ProjectTypeTag>Console</ProjectTypeTag>

@@ -2,12 +2,12 @@
   "$schema":         "http://json.schemastore.org/template",
   "classifications": [ "CLI", "Console", "libremoteio" ],
   "identity":        "csharp_console_libremoteio",
-  "name":            "Project templates for .Net 6 console applications using libremoteio.",
+  "name":            "Project templates for .Net 7 console applications using libremoteio.",
   "shortName":       "csharp_console_libremoteio",
   "sourceName":      "csharp_console_libremoteio",
   "tags": {
     "language": "C#",
     "type":     "project",
-    "platform": [".Net 6", "Linux", "Windows"]
+    "platform": [".Net 7", "Linux", "Windows"]
   }
 }
