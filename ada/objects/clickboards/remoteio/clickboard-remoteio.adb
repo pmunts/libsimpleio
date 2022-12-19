@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services using Remote I/O
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.Servers;
-WITH RemoteIO.Arduino;
 WITH RemoteIO.PocketBeagle;
 WITH RemoteIO.RaspberryPi;
 
@@ -49,44 +48,6 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   SocketTable : CONSTANT ARRAY (Natural RANGE <>) OF SocketRec :=
    (
-    -- Any server with an Arduino Click Shield
-    SocketRec'(ClickBoard.Servers.ArduinoClick, 1,
-     (ClickBoard.AN   => Standard.RemoteIO.Arduino.A0,
-      ClickBoard.RST  => Standard.RemoteIO.Arduino.A3,
-      ClickBoard.CS   => Standard.RemoteIO.Arduino.D10,
-      ClickBoard.SCK  => Standard.RemoteIO.Arduino.D13,
-      ClickBoard.MISO => Standard.RemoteIO.Arduino.D12,
-      ClickBoard.MOSI => Standard.RemoteIO.Arduino.D11,
-      ClickBoard.PWM  => Standard.RemoteIO.Arduino.D6,
-      ClickBoard.INT  => Standard.RemoteIO.Arduino.D2,
-      ClickBoard.RX   => Standard.RemoteIO.Arduino.D0,
-      ClickBoard.TX   => Standard.RemoteIO.Arduino.D1,
-      ClickBoard.SCL  => Standard.RemoteIO.Arduino.A5,
-      ClickBoard.SDA  => Standard.RemoteIO.Arduino.A4),
-      AIN    => Standard.RemoteIO.Arduino.AIN0,
-      I2C    => Standard.RemoteIO.Arduino.I2C0,
-      SPI    => Standard.RemoteIO.Arduino.SPI0,
-      OTHERS => Unavailable),
-
-    -- Any server with an Arduino Click Shield
-    SocketRec'(ClickBoard.Servers.ArduinoClick, 2,
-     (ClickBoard.AN   => Standard.RemoteIO.Arduino.A1,
-      ClickBoard.RST  => Standard.RemoteIO.Arduino.A2,
-      ClickBoard.CS   => Standard.RemoteIO.Arduino.D9,
-      ClickBoard.SCK  => Standard.RemoteIO.Arduino.D13,
-      ClickBoard.MISO => Standard.RemoteIO.Arduino.D12,
-      ClickBoard.MOSI => Standard.RemoteIO.Arduino.D11,
-      ClickBoard.PWM  => Standard.RemoteIO.Arduino.D5,
-      ClickBoard.INT  => Standard.RemoteIO.Arduino.D3,
-      ClickBoard.RX   => Standard.RemoteIO.Arduino.D0,
-      ClickBoard.TX   => Standard.RemoteIO.Arduino.D1,
-      ClickBoard.SCL  => Standard.RemoteIO.Arduino.A5,
-      ClickBoard.SDA  => Standard.RemoteIO.Arduino.A4),
-      AIN    => Standard.RemoteIO.Arduino.AIN1,
-      I2C    => Standard.RemoteIO.Arduino.I2C0,
-      SPI    => Standard.RemoteIO.Arduino.SPI1,
-      OTHERS => Unavailable),
-
     SocketRec'(ClickBoard.Servers.PiClick1, 1,
      (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO22,
       ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO4,

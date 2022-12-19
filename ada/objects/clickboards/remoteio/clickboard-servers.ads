@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board Remote I/O server kind definitions
 
--- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,7 +24,6 @@ PACKAGE ClickBoard.Servers IS
 
   TYPE Kind IS
    (None,
-    ArduinoClick,
     PiClick1,
     PiClick2,
     PiClick3,

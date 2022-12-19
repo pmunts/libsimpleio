@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board shield services, using libsimpleio
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,6 @@ PACKAGE ClickBoard.Shields IS
 
   TYPE Kind IS
   (None,              -- No shield installed
-   ArduinoClick,      -- RPi Arduino Shield Add-On plus Arduino Uno Click Shield
    PiClick1,          -- Raspberry Pi with MIKROE-1513/1512, with 1 socket
    PiClick2,          -- Raspberry Pi with MIKROE-1879, with 2 sockets
    PiClick3,          -- Raspberry Pi with MIKROE-2756, with 2 sockets
