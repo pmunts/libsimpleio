@@ -30,7 +30,7 @@ PACKAGE ClickBoard.Relay.SimpleIO IS
   -- Create relay object from socket instance
 
   FUNCTION Create
-   (socket   : NOT NULL ClickBoard.SimpleIO.Socket;
+   (socket   : ClickBoard.SimpleIO.SocketSubclass;
     relaynum : RelayNumber) RETURN GPIO.Pin;
 
   -- Create relay object from socket number

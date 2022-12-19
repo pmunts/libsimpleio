@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika 7seg Click
+-- Services for the Mikroelektronika Thermo Click, using libsimpleio
 
 -- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 --
@@ -20,50 +20,34 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH GPIO.libsimpleio;
-WITH PWM.libsimpleio;
+WITH ClickBoard.SimpleIO;
+WITH MAX31855;
 WITH SPI.libsimpleio;
 
-PACKAGE BODY ClickBoard.SevenSegment.SimpleIO IS
+PACKAGE BODY ClickBoard.Thermo.SimpleIO IS
 
-  -- Create display object from socket object
+  -- Create MAX31855 sensor object from socket object
 
-  FUNCTION Create
-   (socket  : ClickBoard.SimpleIO.SocketSubclass;
-    pwmfreq : Natural := 100) RETURN Display IS
+  FUNCTION Create(socket : ClickBoard.SimpleIO.SocketSubclass) RETURN MAX31855.Device IS
+
+    spidev : SPI.Device;
 
   BEGIN
-    IF (pwmfreq > 0) THEN
-      BEGIN
-        RETURN Display'(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-         SPI_Frequency, socket.GPIO(ClickBoard.CS)), NULL,
-         Standard.PWM.libsimpleio.Create(socket.PWM, pwmfreq,
-         Standard.PWM.MaximumDutyCycle),
-         GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST), GPIO.Output, True));
-      EXCEPTION
-        WHEN ClickBoard.SocketError =>
-          NULL;
-      END;
-    END IF;
+    spidev := SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+      SPI_Frequency, socket.GPIO(ClickBoard.CS));
 
-    RETURN Display'(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-     SPI_Frequency, socket.GPIO(ClickBoard.CS)),
-     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.PWM), GPIO.Output, True),
-     NULL,
-     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST), GPIO.Output, True));
+    RETURN MAX31855.Create(spidev);
   END Create;
 
-  -- Create display object from socket number
+  -- Create MAX31855 sensor object from socket number
 
-  FUNCTION Create
-   (socknum : Positive;
-    pwmfreq : Natural := 100) RETURN Display IS
+  FUNCTION Create(socknum : Positive) RETURN MAX31855.Device IS
 
     socket : ClickBoard.SimpleIO.SocketSubclass;
 
   BEGIN
     socket.Initialize(socknum);
-    RETURN Create(socket, pwmfreq);
+    RETURN Create(socket);
   END Create;
 
-END ClickBoard.SevenSegment.SimpleIO;
+END ClickBoard.Thermo.SimpleIO;

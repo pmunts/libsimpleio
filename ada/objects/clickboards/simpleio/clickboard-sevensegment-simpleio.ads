@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika 7seg Click
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@ PACKAGE ClickBoard.SevenSegment.SimpleIO IS
   -- Create display object from socket object
 
   FUNCTION Create
-   (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
+   (socket  : ClickBoard.SimpleIO.SocketSubclass;
     pwmfreq : Natural := 100) RETURN Display;
 
   -- Create display object from socket number
