@@ -79,37 +79,61 @@ PACKAGE BODY ClickBoard.SimpleIO IS
 
   SocketTable : CONSTANT ARRAY (Positive RANGE <>) OF SocketRec :=
    (SocketRec'(ClickBoard.Shields.PiClick1, 1,
-     (ClickBoard.AN  => RaspberryPi.GPIO22,
-      ClickBoard.RST => RaspberryPi.GPIO4,
-      ClickBoard.INT => RaspberryPi.GPIO17,
-      ClickBoard.PWM => RaspberryPi.GPIO18,
-      OTHERS         => Device.Unavailable),
+     (ClickBoard.AN   => RaspberryPi.GPIO22,
+      ClickBoard.RST  => RaspberryPi.GPIO4,
+      ClickBoard.CS   => RaspberryPi.GPIO8,  -- Conflicts with SPI0
+      ClickBoard.SCK  => RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => RaspberryPi.GPIO17,
+      ClickBoard.PWM  => RaspberryPi.GPIO18, -- Conflicts with PWM0
+      OTHERS          => Device.Unavailable),
       AIN     => Device.Unavailable,
       I2C     => RaspberryPi.I2C1,
-      PWM     => RaspberryPi.PWM0, -- Requires device tree overlay
+      PWM     => RaspberryPi.PWM0,
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
-    SocketRec'(ClickBoard.Shields.PiClick2, 1,
-     (ClickBoard.AN  => RaspberryPi.GPIO4,
-      ClickBoard.RST => RaspberryPi.GPIO5,
-      ClickBoard.INT => RaspberryPi.GPIO6,
-      ClickBoard.PWM => RaspberryPi.GPIO18,
-      OTHERS         => Device.Unavailable),
+    SocketRec'(ClickBoard.Shields.PiClick2, 1, 
+     (ClickBoard.AN   => RaspberryPi.GPIO4,
+      ClickBoard.RST  => RaspberryPi.GPIO5,
+      ClickBoard.CS   => RaspberryPi.GPIO8,  -- Conflicts with SPI0
+      ClickBoard.SCK  => RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => RaspberryPi.GPIO6,
+      ClickBoard.PWM  => RaspberryPi.GPIO18, -- Conflicts with PWM0
+      OTHERS          => Device.Unavailable),
       AIN     => Device.Unavailable,
       I2C     => RaspberryPi.I2C1,
-      PWM     => RaspberryPi.PWM0, -- Requires device tree overlay
+      PWM     => RaspberryPi.PWM0,
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.PiClick2, 2,
-     (ClickBoard.AN  => RaspberryPi.GPIO13,
-      ClickBoard.RST => RaspberryPi.GPIO19,
-      ClickBoard.INT => RaspberryPi.GPIO26,
-      ClickBoard.PWM => RaspberryPi.GPIO17,
-      OTHERS         => Device.Unavailable),
+     (ClickBoard.AN   => RaspberryPi.GPIO13,
+      ClickBoard.RST  => RaspberryPi.GPIO19,
+      ClickBoard.CS   => RaspberryPi.GPIO7,  -- Conflicts with SPI0
+      ClickBoard.SCK  => RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => RaspberryPi.GPIO26,
+      ClickBoard.PWM  => RaspberryPi.GPIO17,
+      OTHERS          => Device.Unavailable),
       AIN     => Device.Unavailable,
       I2C     => RaspberryPi.I2C1,
       PWM     => Device.Unavailable,
@@ -118,25 +142,41 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.PiClick3, 1,
-     (ClickBoard.AN  => RaspberryPi.GPIO4,  -- Switch AN1 must be in RIGHT position
-      ClickBoard.RST => RaspberryPi.GPIO5,
-      ClickBoard.INT => RaspberryPi.GPIO6,
-      ClickBoard.PWM => RaspberryPi.GPIO18,
-      OTHERS         => Device.Unavailable),
-      AIN     => RaspberryPi.AIN0,          -- Switch AN1 must be in LEFT position
+     (ClickBoard.AN   => RaspberryPi.GPIO4,  -- Switch AN1 must be in the RIGHT position
+      ClickBoard.RST  => RaspberryPi.GPIO5,
+      ClickBoard.CS   => RaspberryPi.GPIO8,  -- Conflicts with SPI0
+      ClickBoard.SCK  => RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => RaspberryPi.GPIO6,
+      ClickBoard.PWM  => RaspberryPi.GPIO18, -- Conflicts with PWM0
+      OTHERS          => Device.Unavailable),
+      AIN     => RaspberryPi.AIN0, -- Switch AN1 must be in the LEFT position
       I2C     => RaspberryPi.I2C1,
-      PWM     => RaspberryPi.PWM0, -- Requires device tree overlay
+      PWM     => RaspberryPi.PWM0,
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
     SocketRec'(ClickBoard.Shields.PiClick3, 2,
-     (ClickBoard.AN  => RaspberryPi.GPIO13, -- Switch AN2 must be in RIGHT position
-      ClickBoard.RST => RaspberryPi.GPIO12,
-      ClickBoard.INT => RaspberryPi.GPIO26,
-      ClickBoard.PWM => RaspberryPi.GPIO17,
-      OTHERS         => Device.Unavailable),
-      AIN     => RaspberryPi.AIN1,          -- Switch AN2 must  be in LEFT position
+     (ClickBoard.AN   => RaspberryPi.GPIO13, -- Switch AN2 must be in the RIGHT position
+      ClickBoard.RST  => RaspberryPi.GPIO12,
+      ClickBoard.CS   => RaspberryPi.GPIO7,  -- Conflicts with SPI0
+      ClickBoard.SCK  => RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => RaspberryPi.GPIO26,
+      ClickBoard.PWM  => RaspberryPi.GPIO17,
+      OTHERS          => Device.Unavailable),
+      AIN     => RaspberryPi.AIN1, -- Switch AN2 must be in the LEFT position
       I2C     => RaspberryPi.I2C1,
       PWM     => Device.Unavailable,
       SPI     => RaspberryPi.SPI0_1,
