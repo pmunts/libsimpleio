@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services, using libsimpleio
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -47,6 +47,14 @@ PACKAGE ClickBoard.SimpleIO IS
    (socknum : Positive;
     kind    : ClickBoard.Shields.Kind :=
       ClickBoard.Shields.Detect) RETURN Socket;
+
+  -- Socket object initializer
+
+  PROCEDURE Initialize
+   (Self    : IN OUT SocketSubclass;
+    socknum : Positive;
+    kind    : ClickBoard.Shields.Kind :=
+      ClickBoard.Shields.Detect);
 
   -- Retrieve the type of shield
 
