@@ -72,17 +72,21 @@ PACKAGE ClickBoard.SimpleIO IS
 
   FUNCTION GPIO(Self : SocketSubclass; pin : ClickBoard.Pins) RETURN Device.Designator;
 
-  -- Map Click Board socket to I2C bus controller device name
+  -- Map Click Board socket to I2C bus controller device designator
 
   FUNCTION I2C(Self : SocketSubclass) RETURN Device.Designator;
 
-  -- Map Click Board socket to PWM output device name
+  -- Map Click Board socket to PWM output device designator
 
   FUNCTION PWM(Self : SocketSubclass) RETURN Device.Designator;
 
-  -- Map Click Board socket to SPI device name
+  -- Map Click Board socket to SPI device designator
 
   FUNCTION SPI(Self : SocketSubclass) RETURN Device.Designator;
+
+  -- Map Click Board socket to SPI slave select device designator
+
+  FUNCTION SPISS(Self : SocketSubclass) RETURN Device.Designator;
 
   -- Map Click Board socket to serial port device name
 

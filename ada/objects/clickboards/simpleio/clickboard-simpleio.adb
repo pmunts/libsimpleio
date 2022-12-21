@@ -43,6 +43,10 @@ PACKAGE BODY ClickBoard.SimpleIO IS
 
   DeviceUnavailable : CONSTANT DeviceString := "UNAVAILABLE!";
 
+  -- This constant selects hardware SPI slave select
+
+  Hardware : CONSTANT Device.Designator := Device.Unavailable;
+
   -- Transform a String to DeviceString
 
   FUNCTION To_DeviceString(s : String) RETURN DeviceString IS
@@ -73,12 +77,191 @@ PACKAGE BODY ClickBoard.SimpleIO IS
     I2C     : Device.Designator;
     PWM     : Device.Designator;
     SPI     : Device.Designator;
+    SPISS   : Device.Designator;
     UART    : DeviceString;
     Stretch : Boolean;
   END RECORD;
 
   SocketTable : CONSTANT ARRAY (Positive RANGE <>) OF SocketRec :=
-   (SocketRec'(ClickBoard.Shields.PiClick1, 1,
+   (SocketRec'(ClickBoard.Shields.BeagleBoneClick2, 1,
+     (ClickBoard.RST  => BeagleBone.GPIO45,
+      ClickBoard.CS   => BeagleBone.GPIO44,
+      ClickBoard.SCK  => BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => BeagleBone.GPIO15,  -- Conflicts with UART1
+      ClickBoard.RX   => BeagleBone.GPIO14,  -- Conflicts with UART1
+      ClickBoard.INT  => BeagleBone.GPIO27,
+      ClickBoard.PWM  => BeagleBone.GPIO50,  -- Conflicts with EHRPWM1A
+      OTHERS          => Device.Unavailable),
+      AIN     => BeagleBone.AIN0,
+      I2C     => BeagleBone.I2C2,
+      PWM     => BeagleBone.EHRPWM1A,
+      SPI     => BeagleBone.SPI1_0,
+      SPISS   => BeagleBone.GPIO44,
+      UART    => To_DeviceString("ttyS1"),
+      Stretch => True),
+
+    SocketRec'(ClickBoard.Shields.BeagleBoneClick2, 2,
+     (ClickBoard.RST  => BeagleBone.GPIO47,
+      ClickBoard.CS   => BeagleBone.GPIO46,
+      ClickBoard.SCK  => BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => BeagleBone.GPIO3,   -- Conflicts with UART2
+      ClickBoard.RX   => BeagleBone.GPIO2,   -- Conflicts with UART2
+      ClickBoard.INT  => BeagleBone.GPIO65,
+      ClickBoard.PWM  => BeagleBone.GPIO22,  -- Conflicts with EHRPWM2A
+      OTHERS          => Device.Unavailable),
+      AIN     => BeagleBone.AIN1,
+      I2C     => BeagleBone.I2C2,
+      PWM     => BeagleBone.EHRPWM2A,
+      SPI     => BeagleBone.SPI1_1,
+      SPISS   => BeagleBone.GPIO46,
+      UART    => To_DeviceString("ttyS2"),
+      Stretch => True),
+
+    SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 1,
+     (ClickBoard.AN   => BeagleBone.GPIO61,  -- Conflicts with AIN3
+      ClickBoard.RST  => BeagleBone.GPIO60,
+      ClickBoard.CS   => BeagleBone.GPIO113, -- Conflicts with SPI1
+      ClickBoard.SCK  => BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => BeagleBone.GPIO3,   -- Conflicts with SPI1, UART2
+      ClickBoard.RX   => BeagleBone.GPIO2,   -- Conflicts with SPI1, UART2
+      ClickBoard.INT  => BeagleBone.GPIO48,
+      ClickBoard.PWM  => BeagleBone.GPIO50,  -- Conflicts with EHRPWM1A
+      OTHERS          => Device.Unavailable),
+      AIN     => BeagleBone.AIN3,
+      I2C     => BeagleBone.I2C2,
+      PWM     => BeagleBone.EHRPWM1A,
+      SPI     => BeagleBone.SPI1_0,
+      SPISS   => Hardware,
+      UART    => To_DeviceString("ttyS2"),
+      Stretch => True),
+
+    SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 2,
+     (ClickBoard.AN   => BeagleBone.GPIO47,  -- Conflicts with AIN2
+      ClickBoard.RST  => BeagleBone.GPIO49,
+      ClickBoard.CS   => BeagleBone.GPIO7,   -- Conflicts with SPI1
+      ClickBoard.SCK  => BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => BeagleBone.GPIO15,  -- Conflicts with UART1
+      ClickBoard.RX   => BeagleBone.GPIO14,  -- Conflicts with UART1
+      ClickBoard.INT  => BeagleBone.GPIO20,
+      ClickBoard.PWM  => BeagleBone.GPIO51,  -- Conflicts with EHRPWM1B
+      OTHERS          => Device.Unavailable),
+      AIN     => BeagleBone.AIN2,
+      I2C     => BeagleBone.I2C2,
+      PWM     => BeagleBone.EHRPWM1B,
+      SPI     => BeagleBone.SPI1_1,
+      SPISS   => Hardware,
+      UART    => To_DeviceString("ttyS1"),
+      Stretch => True),
+
+    SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 3,
+     (ClickBoard.AN   => BeagleBone.GPIO44,  -- Conflicts with AIN1
+      ClickBoard.RST  => BeagleBone.GPIO26,
+      ClickBoard.CS   => BeagleBone.GPIO5,
+      ClickBoard.SCK  => BeagleBone.GPIO2,   -- Conflicts with UART2
+      ClickBoard.MISO => BeagleBone.GPIO3,   -- Conflicts with UART2
+      ClickBoard.MOSI => BeagleBone.GPIO4,
+      ClickBoard.SDA  => BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => BeagleBone.GPIO15,  -- Conflicts with UART1
+      ClickBoard.RX   => BeagleBone.GPIO14,  -- Conflicts with UART1
+      ClickBoard.INT  => BeagleBone.GPIO65,
+      ClickBoard.PWM  => BeagleBone.GPIO22,  -- Conflicts with EHRPWM2A
+      OTHERS          => Device.Unavailable),
+      AIN     => BeagleBone.AIN1,
+      I2C     => BeagleBone.I2C2,
+      PWM     => BeagleBone.EHRPWM2A,
+      SPI     => Device.Unavailable,
+      SPISS   => Device.Unavailable,
+      UART    => To_DeviceString("ttyS1"),
+      Stretch => True),
+
+    SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 4,
+     (ClickBoard.AN   => BeagleBone.GPIO45,  -- Conflicts with AIN0
+      ClickBoard.RST  => BeagleBone.GPIO46,
+      ClickBoard.CS   => BeagleBone.GPIO68,
+      ClickBoard.SCK  => BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => BeagleBone.GPIO31,  -- Conflicts with UART4
+      ClickBoard.RX   => BeagleBone.GPIO30,  -- Conflicts with UART4
+      ClickBoard.INT  => BeagleBone.GPIO27,
+      ClickBoard.PWM  => BeagleBone.GPIO23,  -- Conflicts with EHRPWM2B
+      OTHERS          => Device.Unavailable),
+      AIN     => BeagleBone.AIN0,
+      I2C     => BeagleBone.I2C2,
+      PWM     => BeagleBone.EHRPWM2B,
+      SPI     => Device.Unavailable,
+      SPISS   => Device.Unavailable,
+      UART    => To_DeviceString("ttyS4"),
+      Stretch => True),
+
+    -- Socket 1 is over the micro USB connector (up or left)
+
+    SocketRec'(ClickBoard.Shields.PocketBeagle, 1,
+     (ClickBoard.AN   => PocketBeagle.GPIO87,  -- Conflicts with AIN6
+      ClickBoard.RST  => PocketBeagle.GPIO89,
+      ClickBoard.CS   => PocketBeagle.GPIO5,   -- Conflicts with SPI0
+      ClickBoard.SCK  => PocketBeagle.GPIO2,   -- Conflicts with SPI0
+      ClickBoard.MISO => PocketBeagle.GPIO3,   -- Conflicts with SPI0
+      ClickBoard.MOSI => PocketBeagle.GPIO4,   -- Conflicts with SPI0
+      ClickBoard.SDA  => PocketBeagle.GPIO14,  -- Conflicts with I2C1
+      ClickBoard.SCL  => PocketBeagle.GPIO15,  -- Conflicts with I2C1
+      ClickBoard.TX   => PocketBeagle.GPIO31,  -- Conflicts with UART4
+      ClickBoard.RX   => PocketBeagle.GPIO30,  -- Conflicts with UART4
+      ClickBoard.INT  => PocketBeagle.GPIO23,
+      ClickBoard.PWM  => PocketBeagle.GPIO50,  -- Conflicts with PWM2:0
+      OTHERS          => Device.Unavailable),
+      AIN     => PocketBeagle.AIN6,
+      I2C     => PocketBeagle.I2C1,
+      PWM     => PocketBeagle.PWM2_0,
+      SPI     => PocketBeagle.SPI0_0,
+      SPISS   => Hardware,
+      UART    => To_DeviceString("ttyS4"),
+      Stretch => True),
+
+    -- Socket 2 is over the micro-SDHC card socket (down or right)
+
+    SocketRec'(ClickBoard.Shields.PocketBeagle, 2,
+     (ClickBoard.AN   => PocketBeagle.GPIO86,  -- Conflicts with AIN5
+      ClickBoard.RST  => PocketBeagle.GPIO45,
+      ClickBoard.CS   => PocketBeagle.GPIO19,  -- Conflicts with SPI1
+      ClickBoard.SCK  => PocketBeagle.GPIO7,   -- Conflicts with SPI1
+      ClickBoard.MISO => PocketBeagle.GPIO40,  -- Conflicts with SPI1
+      ClickBoard.MOSI => PocketBeagle.GPIO41,  -- Conflicts with SPI1
+      ClickBoard.SDA  => PocketBeagle.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => PocketBeagle.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => PocketBeagle.GPIO43,  -- Conflicts with UART0
+      ClickBoard.RX   => PocketBeagle.GPIO42,  -- Conflicts with UART0
+      ClickBoard.INT  => PocketBeagle.GPIO26,
+      ClickBoard.PWM  => PocketBeagle.GPIO110, -- Conflicts with PWM0:0
+      OTHERS          => Device.Unavailable),
+      AIN     => PocketBeagle.AIN5,
+      I2C     => PocketBeagle.I2C2,
+      PWM     => PocketBeagle.PWM0_0,
+      SPI     => PocketBeagle.SPI1_1,
+      SPISS   => Hardware,
+      UART    => To_DeviceString("ttyS0"),
+      Stretch => True),
+
+    SocketRec'(ClickBoard.Shields.PiClick1, 1,
      (ClickBoard.AN   => RaspberryPi.GPIO22,
       ClickBoard.RST  => RaspberryPi.GPIO4,
       ClickBoard.CS   => RaspberryPi.GPIO8,  -- Conflicts with SPI0
@@ -96,10 +279,11 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => RaspberryPi.PWM0,
       SPI     => RaspberryPi.SPI0_0,
+      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
-    SocketRec'(ClickBoard.Shields.PiClick2, 1, 
+    SocketRec'(ClickBoard.Shields.PiClick2, 1,
      (ClickBoard.AN   => RaspberryPi.GPIO4,
       ClickBoard.RST  => RaspberryPi.GPIO5,
       ClickBoard.CS   => RaspberryPi.GPIO8,  -- Conflicts with SPI0
@@ -117,6 +301,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => RaspberryPi.PWM0,
       SPI     => RaspberryPi.SPI0_0,
+      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
@@ -138,6 +323,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => Device.Unavailable,
       SPI     => RaspberryPi.SPI0_1,
+      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
@@ -159,6 +345,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => RaspberryPi.PWM0,
       SPI     => RaspberryPi.SPI0_0,
+      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
@@ -180,114 +367,9 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => Device.Unavailable,
       SPI     => RaspberryPi.SPI0_1,
+      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
-      Stretch => False),
-
-    SocketRec'(ClickBoard.Shields.BeagleBoneClick2, 1,
-     (ClickBoard.RST => BeagleBone.GPIO45,
-      ClickBoard.CS  => BeagleBone.GPIO44,
-      ClickBoard.INT => BeagleBone.GPIO27,
-      ClickBoard.PWM => BeagleBone.GPIO50,
-      OTHERS         => Device.Unavailable),
-      AIN     => BeagleBone.AIN0,
-      I2C     => BeagleBone.I2C2,
-      PWM     => Device.Unavailable,
-      SPI     => BeagleBone.SPI2_0,
-      UART    => To_DeviceString("ttyS1"),
-      Stretch => True),
-
-    SocketRec'(ClickBoard.Shields.BeagleBoneClick2, 2,
-     (ClickBoard.RST => BeagleBone.GPIO47,
-      ClickBoard.CS  => BeagleBone.GPIO46,
-      ClickBoard.INT => BeagleBone.GPIO65,
-      ClickBoard.PWM => BeagleBone.GPIO22,
-      OTHERS         => Device.Unavailable),
-      AIN     => BeagleBone.AIN1,
-      I2C     => BeagleBone.I2C2,
-      PWM     => Device.Unavailable,
-      SPI     => BeagleBone.SPI2_1,
-      UART    => To_DeviceString("ttyS2"),
-      Stretch => True),
-
-    SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 1,
-     (ClickBoard.RST => BeagleBone.GPIO60,
-      ClickBoard.INT => BeagleBone.GPIO48,
-      ClickBoard.PWM => BeagleBone.GPIO50,
-      OTHERS         => Device.Unavailable),
-      AIN     => BeagleBone.AIN3,
-      I2C     => BeagleBone.I2C2,
-      PWM     => Device.Unavailable,
-      SPI     => BeagleBone.SPI2_0,
-      UART    => To_DeviceString("ttyS2"),
-      Stretch => True),
-
-    SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 2,
-     (ClickBoard.RST => BeagleBone.GPIO49,
-      ClickBoard.INT => BeagleBone.GPIO20,
-      ClickBoard.PWM => BeagleBone.GPIO51,
-      OTHERS         => Device.Unavailable),
-      AIN     => BeagleBone.AIN2,
-      I2C     => BeagleBone.I2C2,
-      PWM     => Device.Unavailable,
-      SPI     => BeagleBOne.SPI2_1,
-      UART    => To_DeviceString("ttyS1"),
-      Stretch => True),
-
-    SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 3,
-     (ClickBoard.RST => BeagleBone.GPIO26,
-      ClickBoard.CS  => BeagleBone.GPIO5,
-      ClickBoard.INT => BeagleBone.GPIO65,
-      ClickBoard.PWM => BeagleBone.GPIO22,
-      OTHERS         => Device.Unavailable),
-      AIN     => BeagleBone.AIN1,
-      I2C     => BeagleBone.I2C2,
-      PWM     => Device.Unavailable,
-      SPI     => Device.Unavailable,
-      UART    => To_DeviceString("ttyS1"),
-      Stretch => True),
-
-    SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 4,
-     (ClickBoard.RST => BeagleBone.GPIO46,
-      ClickBoard.CS  => BeagleBone.GPIO68,
-      ClickBoard.INT => BeagleBone.GPIO27,
-      ClickBoard.PWM => BeagleBone.GPIO23,
-      OTHERS         => Device.Unavailable),
-      AIN     => BeagleBone.AIN0,
-      I2C     => BeagleBone.I2C2,
-      PWM     => Device.Unavailable,
-      SPI     => Device.Unavailable,
-      UART    => To_DeviceString("ttyS4"),
-      Stretch => True),
-
-    -- Socket 1 is over the micro USB connector (up or left)
-
-    SocketRec'(ClickBoard.Shields.PocketBeagle, 1,
-     (ClickBoard.AN  => PocketBeagle.GPIO87,
-      ClickBoard.RST => PocketBeagle.GPIO89,
-      ClickBoard.INT => PocketBeagle.GPIO23,
-      ClickBoard.PWM => PocketBeagle.GPIO50,
-      OTHERS         => Device.Unavailable),
-      AIN     => PocketBeagle.AIN6,
-      I2C     => PocketBeagle.I2C1,
-      PWM     => PocketBeagle.PWM2_0,
-      SPI     => PocketBeagle.SPI0_0,
-      UART    => To_DeviceString("ttyS4"),
-      Stretch => True),
-
-    -- Socket 2 is over the micro-SDHC card socket (down or right)
-
-    SocketRec'(ClickBoard.Shields.PocketBeagle, 2,
-     (ClickBoard.AN  => PocketBeagle.GPIO86,
-      ClickBoard.RST => PocketBeagle.GPIO45,
-      ClickBoard.INT => PocketBeagle.GPIO26,
-      ClickBoard.PWM => PocketBeagle.GPIO110,
-      OTHERS         => Device.Unavailable),
-      AIN     => PocketBeagle.AIN5,
-      I2C     => PocketBeagle.I2C2,
-      PWM     => PocketBeagle.PWM0_0,
-      SPI     => PocketBeagle.SPI1_1,
-      UART    => To_DeviceString("ttyS0"),
-      Stretch => True));
+      Stretch => False));
 
   -- Socket object constructor
 
@@ -403,6 +485,18 @@ PACKAGE BODY ClickBoard.SimpleIO IS
 
     RETURN SocketTable(Self.index).SPI;
   END SPI;
+
+  -- Map Click Board socket to SPI slave select device designator
+
+  FUNCTION SPISS(Self : SocketSubclass) RETURN Device.Designator IS
+
+  BEGIN
+    IF SocketTable(Self.index).SPI = Device.Unavailable THEN
+      RAISE ClickBoard.SocketError WITH "SPI is unavailable for this socket";
+    END IF;
+
+    RETURN SocketTable(Self.index).SPISS;
+  END SPISS;
 
   -- Map Click Board socket to serial port device name
 
