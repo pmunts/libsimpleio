@@ -34,7 +34,7 @@ PACKAGE ClickBoard.LEDs_8x8.SimpleIO IS
 
   FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN TrueColor.Display IS
    (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.GPIO(ClickBoard.CS))));
+      SPI_Frequency, socket.SPISS)));
 
   -- Create display object from socket number
 

@@ -34,7 +34,7 @@ PACKAGE BODY ClickBoard.Thermo.SimpleIO IS
 
   BEGIN
     spidev := SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.GPIO(ClickBoard.CS));
+      SPI_Frequency, socket.SPISS);
 
     RETURN MAX31855.Create(spidev);
   END Create;
