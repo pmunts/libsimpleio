@@ -32,25 +32,27 @@ PACKAGE BODY ClickBoard.SevenSegment.SimpleIO IS
    (socket  : ClickBoard.SimpleIO.SocketSubclass;
     pwmfreq : Natural := 100) RETURN Display IS
 
-  BEGIN
-    IF (pwmfreq > 0) THEN
-      BEGIN
-        RETURN Display'(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-         SPI_Frequency, socket.GPIO(ClickBoard.CS)), NULL,
-         Standard.PWM.libsimpleio.Create(socket.PWM, pwmfreq,
-         Standard.PWM.MaximumDutyCycle),
-         GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST), GPIO.Output, True));
-      EXCEPTION
-        WHEN ClickBoard.SocketError =>
-          NULL;
-      END;
-    END IF;
+    spidev : SPI.Device;
+    pwmpin : GPIO.Pin;
+    pwmout : Standard.PWM.output;
+    rstpin : GPIO.Pin;
 
-    RETURN Display'(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-     SPI_Frequency, socket.GPIO(ClickBoard.CS)),
-     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.PWM), GPIO.Output, True),
-     NULL,
-     GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST), GPIO.Output, True));
+  BEGIN
+    spidev := SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+      SPI_Frequency, socket.SPISS);
+
+    rstpin := GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST),
+      GPIO.Output, True);
+
+    IF (pwmfreq > 0) THEN
+      pwmout := Standard.PWM.libsimpleio.Create(socket.PWM, pwmfreq,
+        Standard.PWM.MaximumDutyCycle);
+      RETURN ClickBoard.SevenSegment.Create(spidev, pwmout, rstpin);
+    ELSE
+      pwmpin := GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.PWM),
+        GPIO.Output, True);
+      RETURN ClickBoard.SevenSegment.Create(spidev, pwmpin, rstpin);
+    END IF;
   END Create;
 
   -- Create display object from socket number
