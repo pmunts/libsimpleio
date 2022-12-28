@@ -25,13 +25,13 @@ WITH HDC1080;
 
 PACKAGE ClickBoard.PmodHygro.SimpleIO IS
 
-  -- Create HDC1080 sensor object from socket instance
+  -- Create HDC1080 sensor object from static socket instance
 
   FUNCTION Create(socket : ClickBoard.SimpleIO.SocketSubclass) RETURN HDC1080.Device;
 
   -- Create HDC1080 sensor object from socket object
 
-  --FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN HDC1080.Device;
+  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN HDC1080.Device;
 
   -- Create HDC1080 sensor object from socket number
 

@@ -24,7 +24,7 @@ WITH I2C.libsimpleio;
 
 PACKAGE BODY ClickBoard.PmodHygro.SimpleIO IS
 
-  -- Create HDC1080 sensor object from socket instance
+  -- Create HDC1080 sensor object from static socket instance
 
   FUNCTION Create(socket : ClickBoard.SimpleIO.SocketSubclass) RETURN HDC1080.Device IS
 
