@@ -20,13 +20,11 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.SimpleIO;
-WITH MAX31855;
 WITH SPI.libsimpleio;
 
 PACKAGE BODY ClickBoard.Thermo.SimpleIO IS
 
-  -- Create MAX31855 sensor object from socket object
+  -- Create MAX31855 sensor object from socket socket instance
 
   FUNCTION Create(socket : ClickBoard.SimpleIO.SocketSubclass) RETURN MAX31855.Device IS
 
@@ -37,6 +35,14 @@ PACKAGE BODY ClickBoard.Thermo.SimpleIO IS
       SPI_Frequency, socket.SPISS);
 
     RETURN MAX31855.Create(spidev);
+  END Create;
+
+  -- Create MAX31855 sensor object from socket object
+
+  FUNCTION Create(socket : ClickBoard.SimpleIO.Socket) RETURN MAX31855.Device IS
+
+  BEGIN
+    RETURN Create(socket.ALL);
   END Create;
 
   -- Create MAX31855 sensor object from socket number

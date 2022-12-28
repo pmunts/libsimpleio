@@ -25,9 +25,13 @@ WITH MAX31855;
 
 PACKAGE ClickBoard.Thermo.SimpleIO IS
 
+  -- Create MAX31855 sensor object from static socket instance
+
+  FUNCTION Create(socket : ClickBoard.Simpleio.SocketSubclass) RETURN MAX31855.Device;
+
   -- Create MAX31855 sensor object from socket object
 
-  FUNCTION Create(socket : ClickBoard.SimpleIO.SocketSubclass) RETURN MAX31855.Device;
+  FUNCTION Create(socket : ClickBoard.SimpleIO.Socket) RETURN MAX31855.Device;
 
   -- Create MAX31855 sensor object from socket number
 
