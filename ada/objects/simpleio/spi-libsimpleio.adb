@@ -1,6 +1,6 @@
 -- SPI device services using libsimpleio
 
--- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -115,11 +115,12 @@ PACKAGE BODY SPI.libsimpleio IS
     speed    : Natural;
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) IS
 
+    name : CONSTANT String := "/dev/spidev" & 
+      Trim(Natural'Image(desg.chip)) & "." & Trim(Natural'Image(desg.chan));
+
   BEGIN
     Self.Destroy;
-
-    Initialize(Self, "/dev/spidev" & Trim(Natural'Image(desg.chip)) & "." &
-      Trim(Natural'Image(desg.chan)), mode, wordsize, speed, cspin);
+    Initialize(Self, name, mode, wordsize, speed, cspin);
   END Initialize;
 
   -- SPI device object destroyer
