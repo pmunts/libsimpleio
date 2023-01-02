@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika Thermo3 Click, using libsimpleio
+-- Services for the Mikroelektronika PWM Click, using libsimpleio
 
 -- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
@@ -22,20 +22,50 @@
 
 WITH ClickBoard.SimpleIO;
 WITH I2C.libsimpleio;
-WITH TMP102;
+WITH PCA9685;
 
-PACKAGE ClickBoard.Thermo3.SimpleIO IS
+PACKAGE BODY ClickBoard.PWM_Click.SimpleIO IS
 
-  -- Create TMP102 sensor object from socket number
-
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device;
-
-  -- Create TMP102 sensor object from socket object
+  -- Create PCA9685 device object from static socket instance, I2C address,
+  -- and PWM frequency
 
   FUNCTION Create
-   (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device;
+   (socket    : ClickBoard.SimpleIO.SocketSubclass;
+    addr      : I2C.Address;
+    frequency : Positive) RETURN PCA9685.Device IS
 
-END ClickBoard.Thermo3.SimpleIO;
+    bus : I2C.Bus;
+
+  BEGIN
+    bus := I2C.libsimpleio.Create(socket.I2C);
+    RETURN Create(bus, addr, frequency);
+  END Create;
+
+  -- Create PCA9685 device object from socket number, I2C address,
+  -- and PWM frequency
+
+  FUNCTION Create
+   (socknum   : Positive;
+    addr      : I2C.Address := DefaultAddress;
+    frequency : Positive := 50) RETURN PCA9685.Device IS
+
+    socket : ClickBoard.SimpleIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(socket, addr, frequency);
+  END Create;
+
+  -- Create PCA9685 device object from socket object, I2C address,
+  -- and PWM frequency
+
+  FUNCTION Create
+   (socket    : NOT NULL ClickBoard.SimpleIO.Socket;
+    addr      : I2C.Address := DefaultAddress;
+    frequency : Positive := 50) RETURN PCA9685.Device IS
+
+  BEGIN
+    RETURN Create(socket.ALL, addr, frequency);
+  END Create;
+
+END ClickBoard.PWM_Click.SimpleIO;

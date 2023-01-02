@@ -26,7 +26,7 @@ WITH SPI.libsimpleio;
 
 PACKAGE BODY ClickBoard.SevenSegment.SimpleIO IS
 
-  -- Create display object from socket object
+  -- Create display object from static socket instance
 
   FUNCTION Create
    (socket  : ClickBoard.SimpleIO.SocketSubclass;
@@ -66,6 +66,16 @@ PACKAGE BODY ClickBoard.SevenSegment.SimpleIO IS
   BEGIN
     socket.Initialize(socknum);
     RETURN Create(socket, pwmfreq);
+  END Create;
+
+  -- Create display object from socket object
+
+  FUNCTION Create
+   (socket  : ClickBoard.SimpleIO.Socket;
+    pwmfreq : Natural := 100) RETURN Display IS
+
+  BEGIN
+    RETURN Create(socket.ALL);
   END Create;
 
 END ClickBoard.SevenSegment.SimpleIO;

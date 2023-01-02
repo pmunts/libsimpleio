@@ -35,14 +35,6 @@ PACKAGE BODY ClickBoard.PmodHygro.SimpleIO IS
     RETURN ClickBoard.PmodHygro.Create(bus);
   END Create;
 
-  -- Create HDC1080 sensor object from socket object
-
-  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN HDC1080.Device IS
-
-  BEGIN
-    RETURN Create(socket.ALL);
-  END Create;
-
   -- Create HDC1080 sensor object from socket number
 
   FUNCTION Create(socknum : Positive) RETURN HDC1080.Device IS
@@ -52,6 +44,14 @@ PACKAGE BODY ClickBoard.PmodHygro.SimpleIO IS
   BEGIN
     socket.Initialize(socknum);
     RETURN Create(socket);
+  END Create;
+
+  -- Create HDC1080 sensor object from socket object
+
+  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN HDC1080.Device IS
+
+  BEGIN
+    RETURN Create(socket.ALL);
   END Create;
 
 END ClickBoard.PmodHygro.SimpleIO;

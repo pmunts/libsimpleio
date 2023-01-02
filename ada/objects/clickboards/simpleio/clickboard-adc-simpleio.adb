@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Thermo3 Click, using libsimpleio
+-- Mikroelecktronika ADC Click services
 
--- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,21 +21,46 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.SimpleIO;
-WITH I2C.libsimpleio;
-WITH TMP102;
+WITH SPI.libsimpleio;
+WITH Voltage;
 
-PACKAGE ClickBoard.Thermo3.SimpleIO IS
+PACKAGE BODY ClickBoard.ADC.SimpleIO IS
 
-  -- Create TMP102 sensor object from socket number
-
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device;
-
-  -- Create TMP102 sensor object from socket object
+  -- Create an array of analog voltage inputs from static socket instance
 
   FUNCTION Create
-   (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device;
+   (socket    : ClickBoard.SimpleIO.SocketSubclass;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
 
-END ClickBoard.Thermo3.SimpleIO;
+    spidev : SPI.Device;
+
+  BEGIN
+    spidev := SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_Wordsize,
+      SPI_Frequency, socket.SPISS);
+    RETURN Create(spidev, reference);
+  END Create;
+
+  -- Create an array of analog voltage inputs from socket number
+
+  FUNCTION Create
+   (socknum   : Positive;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
+
+    socket : ClickBoard.SimpleIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(socket, reference);
+  END Create;
+
+  -- Create an array of analog voltage inputs from Socket object
+
+  FUNCTION Create
+   (socket    : NOT NULL ClickBoard.SimpleIO.Socket;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
+
+  BEGIN
+    RETURN Create(socket.ALL, reference);
+  END Create;
+
+END ClickBoard.ADC.SimpleIO;

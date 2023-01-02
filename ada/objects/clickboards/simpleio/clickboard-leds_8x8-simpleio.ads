@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika 8x8 LED Click
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,14 +30,12 @@ WITH SPI.libsimpleio;
 
 PACKAGE ClickBoard.LEDs_8x8.SimpleIO IS
 
-  -- Create display object from socket object
-
-  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN TrueColor.Display IS
-   (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.SPISS)));
-
   -- Create display object from socket number
 
-  FUNCTION Create(socknum : Positive) RETURN TrueColor.Display IS
-   (Create(ClickBoard.SimpleIO.Create(socknum)));
+  FUNCTION Create(socknum : Positive) RETURN TrueColor.Display;
+
+  -- Create display object from socket object
+
+  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN TrueColor.Display;
+
 END ClickBoard.LEDs_8x8.SimpleIO;

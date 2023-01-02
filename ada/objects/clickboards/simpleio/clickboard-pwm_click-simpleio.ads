@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika PWM Click, using libsimpleio
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,22 +26,20 @@ WITH PCA9685;
 
 PACKAGE ClickBoard.PWM_Click.SimpleIO IS
 
-  -- Create PCA9685 device object from socket, I2C address,
-  -- and PWM frequency
-
-  FUNCTION Create
-   (socket    : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr      : I2C.Address := DefaultAddress;
-    frequency : Positive := 50) RETURN PCA9685.Device IS
-     (Create(I2C.libsimpleio.Create(socket.I2C), addr, frequency));
-
   -- Create PCA9685 device object from socket number, I2C address,
   -- and PWM frequency
 
   FUNCTION Create
    (socknum   : Positive;
     addr      : I2C.Address := DefaultAddress;
-    frequency : Positive := 50) RETURN PCA9685.Device IS
-     (Create(ClickBoard.SimpleIO.Create(socknum), addr, frequency));
+    frequency : Positive := 50) RETURN PCA9685.Device;
+
+  -- Create PCA9685 device object from socket object, I2C address,
+  -- and PWM frequency
+
+  FUNCTION Create
+   (socket    : NOT NULL ClickBoard.SimpleIO.Socket;
+    addr      : I2C.Address := DefaultAddress;
+    frequency : Positive := 50) RETURN PCA9685.Device;
 
 END ClickBoard.PWM_Click.SimpleIO;

@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Thermo3 Click, using libsimpleio
+-- Services for the Mikroelektronika Expand2 Click, using libsimpleio
 
--- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,20 +22,44 @@
 
 WITH ClickBoard.SimpleIO;
 WITH I2C.libsimpleio;
-WITH TMP102;
+WITH MCP23017;
 
-PACKAGE ClickBoard.Thermo3.SimpleIO IS
+PACKAGE BODY ClickBoard.Expand2.SimpleIO IS
 
-  -- Create TMP102 sensor object from socket number
+  -- Create MCP23017 I/O expander object from a static socket instance
+
+  FUNCTION Create
+   (socket  : ClickBoard.SimpleIO.SocketSubclass;
+    addr    : I2C.Address) RETURN MCP23017.Device IS
+
+    bus : I2C.Bus;
+
+  BEGIN
+    bus := I2C.libsimpleio.Create(socket.I2C);
+    RETURN Create(bus, addr);
+  END Create;
+
+  -- Create MCP23017 I/O expander object from a socket number
 
   FUNCTION Create
    (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device;
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
 
-  -- Create TMP102 sensor object from socket object
+    socket : ClickBoard.SimpleIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(socket, addr);
+  END Create;
+
+  -- Create MCP23017 I/O expander object from a socket object
 
   FUNCTION Create
    (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device;
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
 
-END ClickBoard.Thermo3.SimpleIO;
+  BEGIN
+    RETURN Create(socket.ALL, addr);
+  END Create;
+
+END ClickBoard.Expand2.SimpleIO;

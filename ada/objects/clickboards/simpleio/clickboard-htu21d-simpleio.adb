@@ -1,6 +1,6 @@
--- Services for the Digilent Pmod HYGRO, using libsimpleio
+-- Services for the Mikroelektronika HTU21D Click, using libsimpleio
 
--- Copyright (C)2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,16 +21,41 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.SimpleIO;
-WITH HDC1080;
+WITH HTU21D;
+WITH I2C.libsimpleio;
 
-PACKAGE ClickBoard.PmodHygro.SimpleIO IS
+PACKAGE BODY ClickBoard.HTU21D.SimpleIO IS
 
-  -- Create HDC1080 sensor object from socket number
+  -- Create HTU21D sensor object from static socket instance
 
-  FUNCTION Create(socknum : Positive) RETURN HDC1080.Device;
+  FUNCTION Create
+   (socket : ClickBoard.SimpleIO.SocketSubclass) RETURN Standard.HTU21D.Device IS
 
-  -- Create HDC1080 sensor object from socket object
+    bus : I2C.Bus;
 
-  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN HDC1080.Device;
+  BEGIN
+    bus := I2C.libsimpleio.Create(socket.I2C);
+    RETURN Create(bus, socket.I2C_Clock_Stretch);
+  END Create;
 
-END ClickBoard.PmodHygro.SimpleIO;
+  -- Create HTU21D sensor object from a socket number
+
+  FUNCTION Create(socknum : Positive) RETURN Standard.HTU21D.Device IS
+
+    socket : ClickBoard.SimpleIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(socket);
+  END Create;
+
+  -- Create HTU21D sensor object from a socket object
+
+  FUNCTION Create
+   (socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN Standard.HTU21D.Device IS
+
+  BEGIN
+    RETURN Create(socket.ALL);
+  END Create;
+
+END ClickBoard.HTU21D.SimpleIO;

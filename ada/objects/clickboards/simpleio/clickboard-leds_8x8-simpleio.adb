@@ -1,6 +1,6 @@
--- Services for the Digilent Pmod HYGRO, using libsimpleio
+-- Services for the Mikroelektronika 8x8 LED Click
 
--- Copyright (C)2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,17 +20,42 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- 8 by 8 LED Display layout:
+
+-- Top left LED     is row 0 column 0
+-- Bottom right LED is row 7 column 7
+
 WITH ClickBoard.SimpleIO;
-WITH HDC1080;
+WITH SPI.libsimpleio;
 
-PACKAGE ClickBoard.PmodHygro.SimpleIO IS
+PACKAGE BODY ClickBoard.LEDs_8x8.SimpleIO IS
 
-  -- Create HDC1080 sensor object from socket number
+  -- Create display object from static socket instance
 
-  FUNCTION Create(socknum : Positive) RETURN HDC1080.Device;
+  FUNCTION Create(socket : ClickBoard.SimpleIO.SocketSubclass) RETURN TrueColor.Display IS
 
-  -- Create HDC1080 sensor object from socket object
+  BEGIN
+    RETURN Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+      SPI_Frequency, socket.SPISS));
+  END Create;
 
-  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN HDC1080.Device;
+  -- Create display object from socket number
 
-END ClickBoard.PmodHygro.SimpleIO;
+  FUNCTION Create(socknum : Positive) RETURN TrueColor.Display IS
+
+    socket : ClickBoard.SimpleIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(socket);
+  END Create;
+
+  -- Create display object from socket object
+
+  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN TrueColor.Display IS
+
+  BEGIN
+    RETURN Create(socket.ALL);
+  END Create;
+
+END ClickBoard.LEDs_8x8.SimpleIO;

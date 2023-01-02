@@ -1,6 +1,6 @@
 -- Mikroelecktronika ADC Click services
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,19 +26,16 @@ WITH Voltage;
 
 PACKAGE ClickBoard.ADC.SimpleIO IS
 
-  -- Create an array of analog voltage inputs from Socket object
-
-  FUNCTION Create
-   (socket: NOT NULL ClickBoard.SimpleIO.Socket;
-    reference : Voltage.Volts := 3.3) RETURN Inputs IS
-   (Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.SPISS), reference));
-
   -- Create an array of analog voltage inputs from socket number
 
   FUNCTION Create
    (socknum   : Positive;
-    reference : Voltage.Volts := 3.3) RETURN Inputs IS
-   (Create(ClickBoard.SimpleIO.Create(socknum), reference));
+    reference : Voltage.Volts := 3.3) RETURN Inputs;
+
+  -- Create an array of analog voltage inputs from Socket object
+
+  FUNCTION Create
+   (socket    : NOT NULL ClickBoard.SimpleIO.Socket;
+    reference : Voltage.Volts := 3.3) RETURN Inputs;
 
 END ClickBoard.ADC.SimpleIO;

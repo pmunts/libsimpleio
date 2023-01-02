@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika HTU21D Click, using libsimpleio
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,15 +26,13 @@ WITH I2C.libsimpleio;
 
 PACKAGE ClickBoard.HTU21D.SimpleIO IS
 
+  -- Create HTU21D sensor object from a socket number
+
+  FUNCTION Create(socknum : Positive) RETURN Standard.HTU21D.Device;
+
   -- Create HTU21D sensor object from a socket object
 
   FUNCTION Create
-   (socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN Standard.HTU21D.Device IS
-   (Create(I2C.libsimpleio.Create(socket.I2C), socket.I2C_Clock_Stretch));
-
-  -- Create HTU21D sensor object from a socket number
-
-  FUNCTION Create(socknum : Positive) RETURN Standard.HTU21D.Device IS
-   (Create(ClickBoard.SimpleIO.Create(socknum)));
+   (socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN Standard.HTU21D.Device;
 
 END ClickBoard.HTU21D.SimpleIO;

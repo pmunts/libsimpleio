@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Expand2 Click, using libsimpleio
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,18 +26,16 @@ WITH MCP23017;
 
 PACKAGE ClickBoard.Expand2.SimpleIO IS
 
-  -- Create MCP23017 I/O expander object from a socket object
-
-  FUNCTION Create
-   (socket : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr   : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
-    (Create(I2C.libsimpleio.Create(socket.I2C), addr));
-
   -- Create MCP23017 I/O expander object from a socket number
 
   FUNCTION Create
    (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
-    (Create(ClickBoard.SimpleIO.Create(socknum), addr));
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device;
+
+  -- Create MCP23017 I/O expander object from a socket object
+
+  FUNCTION Create
+   (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device;
 
 END ClickBoard.Expand2.SimpleIO;

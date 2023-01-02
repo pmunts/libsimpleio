@@ -24,7 +24,7 @@ WITH SPI.libsimpleio;
 
 PACKAGE BODY ClickBoard.Thermo.SimpleIO IS
 
-  -- Create MAX31855 sensor object from socket socket instance
+  -- Create MAX31855 sensor object from static socket instance
 
   FUNCTION Create(socket : ClickBoard.SimpleIO.SocketSubclass) RETURN MAX31855.Device IS
 
@@ -37,14 +37,6 @@ PACKAGE BODY ClickBoard.Thermo.SimpleIO IS
     RETURN MAX31855.Create(spidev);
   END Create;
 
-  -- Create MAX31855 sensor object from socket object
-
-  FUNCTION Create(socket : ClickBoard.SimpleIO.Socket) RETURN MAX31855.Device IS
-
-  BEGIN
-    RETURN Create(socket.ALL);
-  END Create;
-
   -- Create MAX31855 sensor object from socket number
 
   FUNCTION Create(socknum : Positive) RETURN MAX31855.Device IS
@@ -54,6 +46,14 @@ PACKAGE BODY ClickBoard.Thermo.SimpleIO IS
   BEGIN
     socket.Initialize(socknum);
     RETURN Create(socket);
+  END Create;
+
+  -- Create MAX31855 sensor object from socket object
+
+  FUNCTION Create(socket : ClickBoard.SimpleIO.Socket) RETURN MAX31855.Device IS
+
+  BEGIN
+    RETURN Create(socket.ALL);
   END Create;
 
 END ClickBoard.Thermo.SimpleIO;

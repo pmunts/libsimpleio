@@ -1,6 +1,6 @@
--- Services for the Digilent Pmod HYGRO, using libsimpleio
+-- Services for the Mikroelektronika Thermo3 Click, using libsimpleio
 
--- Copyright (C)2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,16 +21,45 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.SimpleIO;
-WITH HDC1080;
+WITH I2C.libsimpleio;
+WITH TMP102;
 
-PACKAGE ClickBoard.PmodHygro.SimpleIO IS
+PACKAGE BODY ClickBoard.Thermo3.SimpleIO IS
 
-  -- Create HDC1080 sensor object from socket number
+  -- Create TMP102 sensor object from static socket instance
 
-  FUNCTION Create(socknum : Positive) RETURN HDC1080.Device;
+  FUNCTION Create
+   (socket  : ClickBoard.SimpleIO.SocketSubclass;
+    addr    : I2C.Address) RETURN TMP102.Device IS
 
-  -- Create HDC1080 sensor object from socket object
+    bus : I2C.Bus;
 
-  FUNCTION Create(socket : NOT NULL ClickBoard.SimpleIO.Socket) RETURN HDC1080.Device;
+  BEGIN
+    bus := I2C.libsimpleio.Create(socket.I2C);
+    RETURN Create(bus, addr);
+  END Create;
 
-END ClickBoard.PmodHygro.SimpleIO;
+  -- Create TMP102 sensor object from socket number
+
+  FUNCTION Create
+   (socknum : Positive;
+    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
+
+    socket : ClickBoard.SimpleIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(socket, addr);
+  END Create;
+
+  -- Create TMP102 sensor object from socket object
+
+  FUNCTION Create
+   (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
+    addr    : I2C.Address := DefaultAddress) RETURN TMP102.Device IS
+
+  BEGIN
+    RETURN Create(socket.ALL, addr);
+  END Create;
+
+END ClickBoard.Thermo3.SimpleIO;

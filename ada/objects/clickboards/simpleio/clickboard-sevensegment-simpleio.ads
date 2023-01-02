@@ -24,16 +24,16 @@ WITH ClickBoard.SimpleIO;
 
 PACKAGE ClickBoard.SevenSegment.SimpleIO IS
 
-  -- Create display object from socket object
-
-  FUNCTION Create
-   (socket  : ClickBoard.SimpleIO.SocketSubclass;
-    pwmfreq : Natural := 100) RETURN Display;
-
   -- Create display object from socket number
 
   FUNCTION Create
    (socknum : Positive;
+    pwmfreq : Natural := 100) RETURN Display;
+
+  -- Create display object from socket object
+
+  FUNCTION Create
+   (socket  : ClickBoard.SimpleIO.Socket;
     pwmfreq : Natural := 100) RETURN Display;
 
 END ClickBoard.SevenSegment.SimpleIO;
