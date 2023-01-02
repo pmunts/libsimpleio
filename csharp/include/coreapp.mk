@@ -1,6 +1,6 @@
 # Makefile for building a .Net Core application package or tarball
 
-# Copyright (C)2018-2022, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -59,7 +59,7 @@ endif
 
 # dotnet command line flags for the various kinds of deliverables
 
-COREAPP_BUILD_FLAGS		?= -c $(CONFIGURATION) 
+COREAPP_BUILD_FLAGS		?= -c $(CONFIGURATION)
 COREAPP_SINGLE_FLAGS		?= -c $(CONFIGURATION) -r $(DOTNETARCH) -p:PublishSingleFile=true --self-contained false $(DOTNETFLAGS)
 COREAPP_SELFCONTAINED_FLAGS	?= -c $(CONFIGURATION) -r $(DOTNETARCH) -p:PublishSingleFile=true --self-contained true  $(DOTNETFLAGS)
 
