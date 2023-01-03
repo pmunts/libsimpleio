@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Expand2 Click
 
--- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,19 +20,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH GPIO;
-WITH I2C;
-WITH MCP23017;
-
-PACKAGE ClickBoard.Expand2 IS
-
-  DefaultAddress : CONSTANT I2C.Address := 16#20#;
+PACKAGE BODY ClickBoard.Expand2 IS
 
   -- Create MCP23017 I/O expander object from GPIO pin and I2C bus objects
 
   FUNCTION Create
    (rstpin : NOT NULL GPIO.Pin;
     bus    : NOT NULL I2C.Bus;
-    addr   : I2C.Address := DefaultAddress) RETURN MCP23017.Device;
+    addr   : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+
+  BEGIN
+    RETURN MCP23017.Create(rstpin, bus, addr);
+  END Create;
 
 END ClickBoard.Expand2;

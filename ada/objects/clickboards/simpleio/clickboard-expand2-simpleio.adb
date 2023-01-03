@@ -21,6 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.SimpleIO;
+WITH GPIO.libsimpleio;
 WITH I2C.libsimpleio;
 WITH MCP23017;
 
@@ -32,11 +33,13 @@ PACKAGE BODY ClickBoard.Expand2.SimpleIO IS
    (socket  : ClickBoard.SimpleIO.SocketSubclass;
     addr    : I2C.Address) RETURN MCP23017.Device IS
 
+    rst : GPIO.Pin;
     bus : I2C.Bus;
 
   BEGIN
+    rst := GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST), GPIO.Output, True);
     bus := I2C.libsimpleio.Create(socket.I2C);
-    RETURN Create(bus, addr);
+    RETURN Create(rst, bus, addr);
   END Create;
 
   -- Create MCP23017 I/O expander object from a socket number
