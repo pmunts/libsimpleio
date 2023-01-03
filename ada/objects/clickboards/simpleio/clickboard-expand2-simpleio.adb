@@ -23,7 +23,7 @@
 WITH ClickBoard.SimpleIO;
 WITH GPIO.libsimpleio;
 WITH I2C.libsimpleio;
-WITH MCP23017;
+WITH MCP23x17;
 
 PACKAGE BODY ClickBoard.Expand2.SimpleIO IS
 
@@ -31,7 +31,7 @@ PACKAGE BODY ClickBoard.Expand2.SimpleIO IS
 
   FUNCTION Create
    (socket  : ClickBoard.SimpleIO.SocketSubclass;
-    addr    : I2C.Address) RETURN MCP23017.Device IS
+    addr    : I2C.Address) RETURN MCP23x17.Device IS
 
     rst : GPIO.Pin;
     bus : I2C.Bus;
@@ -46,7 +46,7 @@ PACKAGE BODY ClickBoard.Expand2.SimpleIO IS
 
   FUNCTION Create
    (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23x17.Device IS
 
     socket : ClickBoard.SimpleIO.SocketSubclass;
 
@@ -59,7 +59,7 @@ PACKAGE BODY ClickBoard.Expand2.SimpleIO IS
 
   FUNCTION Create
    (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device IS
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23x17.Device IS
 
   BEGIN
     RETURN Create(socket.ALL, addr);

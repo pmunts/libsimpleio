@@ -24,12 +24,12 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ClickBoard.Expand2.SimpleIO;
 WITH GPIO;
-WITH MCP23017.GPIO;
+WITH MCP23x17.GPIO;
 
 PROCEDURE test_clickboard_expand2 IS
 
-  dev   : MCP23017.Device;
-  pins  : ARRAY (MCP23017.GPIO.PinNumber) OF GPIO.Pin;
+  dev   : MCP23x17.Device;
+  pins  : ARRAY (MCP23x17.GPIO.PinNumber) OF GPIO.Pin;
 
 BEGIN
   New_Line;
@@ -43,7 +43,7 @@ BEGIN
   -- Configure GPIO pins
 
   FOR n IN pins'Range LOOP
-    pins(n) := MCP23017.GPIO.Create(dev, n, GPIO.Output);
+    pins(n) := MCP23x17.GPIO.Create(dev, n, GPIO.Output);
   END LOOP;
 
   -- Toggle GPIO pins

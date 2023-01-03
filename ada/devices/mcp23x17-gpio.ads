@@ -1,4 +1,4 @@
--- MCP23017 I2C GPIO expander 16-bit parallel port services
+-- MCP23x17 GPIO pin services
 
 -- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
@@ -20,50 +20,36 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE BODY MCP23017.Word IS
+WITH GPIO;
 
-  -- Parallel port constructor
+PACKAGE MCP23x17.GPIO IS
 
-  FUNCTION Create(dev : NOT NULL MCP23017.Device) RETURN Port IS
+  TYPE PinNumber IS NEW Natural RANGE 0 .. 15;
 
-  BEGIN
-    RETURN NEW PortClass'(dev => dev);
-  END Create;
+  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
 
-  -- Parallel port configuration methods
+  -- GPIO pin constructor
 
-  PROCEDURE SetDirections(Self : PortClass; data : Word) IS
+  FUNCTION Create
+   (device    : NOT NULL MCP23x17.Device;
+    number    : PinNumber;
+    direction : Standard.GPIO.Direction;
+    state     : Boolean := False;
+    pullup    : Boolean := False) RETURN Standard.GPIO.Pin;
 
-  -- data: 1=output, 0=input
+  -- GPIO pin read method
 
-  BEGIN
-    Self.dev.WriteRegister16(IODIR, NOT RegisterData16(data));
-  END SetDirections;
+  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
 
-  PROCEDURE SetPullups(Self : PortClass; data : Word) IS
+  -- GPIO pin write method
 
-  -- data: 1=pullup enabled, 0=pullup disabled
+  PROCEDURE Put(Self : IN OUT PinSubclass; state: Boolean);
 
-  BEGIN
-    Self.dev.WriteRegister16(GPPU, RegisterData16(data));
-  END SetPullups;
+PRIVATE
 
-  -- Parallel port I/O methods
+  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
+    device : MCP23x17.Device;
+    number : MCP23x17.GPIO.PinNumber;
+  END RECORD;
 
-  PROCEDURE Put(Self : PortClass; data : Word) IS
-
-  BEGIN
-    Self.dev.WriteRegister16(GPIOLAT, RegisterData16(data));
-  END Put;
-
-  FUNCTION Get(Self : PortClass) RETURN Word IS
-
-    data : RegisterData16;
-
-  BEGIN
-    Self.dev.ReadRegister16(GPIODAT, data);
-
-    RETURN Word(data);
-  END Get;
-
-END MCP23017.Word;
+END MCP23x17.GPIO;

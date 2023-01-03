@@ -1,4 +1,4 @@
--- MCP23017 GPIO pin services
+-- MCP23x17 GPIO pin services
 
 -- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
@@ -25,7 +25,7 @@ WITH GPIO;
 USE TYPE GPIO.Direction;
 USE TYPE GPIO.Pin;
 
-PACKAGE BODY MCP23017.GPIO IS
+PACKAGE BODY MCP23x17.GPIO IS
 
   PinMasks : CONSTANT ARRAY (PinNumber) OF RegisterData16 :=
    (2**0,
@@ -48,7 +48,7 @@ PACKAGE BODY MCP23017.GPIO IS
   -- GPIO pin constructor
 
   FUNCTION Create
-   (device    : NOT NULL MCP23017.Device;
+   (device    : NOT NULL MCP23x17.Device;
     number    : PinNumber;
     direction : Standard.GPIO.Direction;
     state     : Boolean := False;
@@ -126,4 +126,4 @@ PACKAGE BODY MCP23017.GPIO IS
     Self.device.WriteRegister16(GPIOLAT, data);
   END Put;
 
-END MCP23017.GPIO;
+END MCP23x17.GPIO;

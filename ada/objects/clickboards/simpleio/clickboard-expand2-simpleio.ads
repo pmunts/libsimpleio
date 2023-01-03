@@ -22,7 +22,7 @@
 
 WITH ClickBoard.SimpleIO;
 WITH I2C.libsimpleio;
-WITH MCP23017;
+WITH MCP23x17;
 
 PACKAGE ClickBoard.Expand2.SimpleIO IS
 
@@ -30,12 +30,12 @@ PACKAGE ClickBoard.Expand2.SimpleIO IS
 
   FUNCTION Create
    (socknum : Positive;
-    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device;
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23x17.Device;
 
   -- Create MCP23017 I/O expander object from a socket object
 
   FUNCTION Create
    (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr    : I2C.Address := DefaultAddress) RETURN MCP23017.Device;
+    addr    : I2C.Address := DefaultAddress) RETURN MCP23x17.Device;
 
 END ClickBoard.Expand2.SimpleIO;

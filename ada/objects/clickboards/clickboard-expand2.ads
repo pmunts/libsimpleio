@@ -22,7 +22,7 @@
 
 WITH GPIO;
 WITH I2C;
-WITH MCP23017;
+WITH MCP23x17;
 
 PACKAGE ClickBoard.Expand2 IS
 
@@ -33,6 +33,6 @@ PACKAGE ClickBoard.Expand2 IS
   FUNCTION Create
    (rstpin : NOT NULL GPIO.Pin;
     bus    : NOT NULL I2C.Bus;
-    addr   : I2C.Address := DefaultAddress) RETURN MCP23017.Device;
+    addr   : I2C.Address := DefaultAddress) RETURN MCP23x17.Device;
 
 END ClickBoard.Expand2;

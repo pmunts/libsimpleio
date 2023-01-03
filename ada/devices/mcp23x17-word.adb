@@ -1,4 +1,4 @@
--- MCP23017 GPIO pin services
+-- MCP23x17 I2C GPIO expander 16-bit parallel port services
 
 -- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
@@ -20,36 +20,50 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH GPIO;
+PACKAGE BODY MCP23x17.Word IS
 
-PACKAGE MCP23017.GPIO IS
+  -- Parallel port constructor
 
-  TYPE PinNumber IS NEW Natural RANGE 0 .. 15;
+  FUNCTION Create(dev : NOT NULL MCP23x17.Device) RETURN Port IS
 
-  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
+  BEGIN
+    RETURN NEW PortClass'(dev => dev);
+  END Create;
 
-  -- GPIO pin constructor
+  -- Parallel port configuration methods
 
-  FUNCTION Create
-   (device    : NOT NULL MCP23017.Device;
-    number    : PinNumber;
-    direction : Standard.GPIO.Direction;
-    state     : Boolean := False;
-    pullup    : Boolean := False) RETURN Standard.GPIO.Pin;
+  PROCEDURE SetDirections(Self : PortClass; data : Word) IS
 
-  -- GPIO pin read method
+  -- data: 1=output, 0=input
 
-  FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean;
+  BEGIN
+    Self.dev.WriteRegister16(IODIR, NOT RegisterData16(data));
+  END SetDirections;
 
-  -- GPIO pin write method
+  PROCEDURE SetPullups(Self : PortClass; data : Word) IS
 
-  PROCEDURE Put(Self : IN OUT PinSubclass; state: Boolean);
+  -- data: 1=pullup enabled, 0=pullup disabled
 
-PRIVATE
+  BEGIN
+    Self.dev.WriteRegister16(GPPU, RegisterData16(data));
+  END SetPullups;
 
-  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
-    device : MCP23017.Device;
-    number : MCP23017.GPIO.PinNumber;
-  END RECORD;
+  -- Parallel port I/O methods
 
-END MCP23017.GPIO;
+  PROCEDURE Put(Self : PortClass; data : Word) IS
+
+  BEGIN
+    Self.dev.WriteRegister16(GPIOLAT, RegisterData16(data));
+  END Put;
+
+  FUNCTION Get(Self : PortClass) RETURN Word IS
+
+    data : RegisterData16;
+
+  BEGIN
+    Self.dev.ReadRegister16(GPIODAT, data);
+
+    RETURN Word(data);
+  END Get;
+
+END MCP23x17.Word;

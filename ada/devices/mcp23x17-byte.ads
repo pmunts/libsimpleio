@@ -1,4 +1,4 @@
--- MCP23017 16-bit parallel port services
+-- MCP23x17 8-bit parallel port services
 
 -- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
@@ -20,9 +20,11 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE MCP23017.Word IS
+PACKAGE MCP23x17.Byte IS
 
-  TYPE Word IS MOD 2**16;
+  TYPE Byte IS MOD 2**8;
+
+  TYPE PortNames IS (GPA, GPB);
 
   TYPE PortClass IS TAGGED PRIVATE;
 
@@ -30,24 +32,25 @@ PACKAGE MCP23017.Word IS
 
   -- Parallel port constructor
 
-  FUNCTION Create(dev : NOT NULL MCP23017.Device) RETURN Port;
+  FUNCTION Create(dev : NOT NULL MCP23x17.Device; which : PortNames) RETURN Port;
 
   -- Parallel port configuration methods
 
-  PROCEDURE SetDirections(Self : PortClass; data : Word); -- 1=output, 0=input
+  PROCEDURE SetDirections(Self : PortClass; data : Byte); -- 1=output, 0=input
 
-  PROCEDURE SetPullups(Self : PortClass; data : Word); -- 1=enabled, 0=disabled
+  PROCEDURE SetPullups(Self : PortClass; data : Byte); -- 1enabled, 0=disabled
 
   -- Parallel port I/O methods
 
-  FUNCTION Get(Self : PortClass) RETURN Word;
+  FUNCTION Get(Self : PortClass) RETURN Byte;
 
-  PROCEDURE Put(Self : PortClass; data : Word);
+  PROCEDURE Put(Self : PortClass; data : Byte);
 
 PRIVATE
 
   TYPE PortClass IS TAGGED RECORD
-    dev : MCP23017.Device;
+    dev   : MCP23x17.Device;
+    which : PortNames;
   END RECORD;
 
-END MCP23017.Word;
+END MCP23x17.Byte;

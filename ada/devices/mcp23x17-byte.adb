@@ -1,4 +1,4 @@
--- MCP23017 8-bit parallel port services
+-- MCP23x17 8-bit parallel port services
 
 -- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
 --
@@ -20,11 +20,11 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE BODY MCP23017.Byte IS
+PACKAGE BODY MCP23x17.Byte IS
 
   -- Parallel port constructor
 
-  FUNCTION Create(dev : NOT NULL MCP23017.Device; which : PortNames) RETURN Port IS
+  FUNCTION Create(dev : NOT NULL MCP23x17.Device; which : PortNames) RETURN Port IS
 
   BEGIN
     RETURN NEW PortClass'(dev, which);
@@ -82,4 +82,4 @@ PACKAGE BODY MCP23017.Byte IS
     END IF;
   END Put;
 
-END MCP23017.Byte;
+END MCP23x17.Byte;
