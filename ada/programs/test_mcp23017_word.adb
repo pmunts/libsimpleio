@@ -1,6 +1,6 @@
 -- Test an MCP23017 as 1 16-bit parallel port
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,44 +23,50 @@
 -- Test with Mikroelektronika Expand 2 Click: https://www.mikroe.com/expand-2-click
 -- Default I2C address is 0x20
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Device;
+WITH GPIO.libsimpleio;
 WITH I2C.libsimpleio;
-WITH MCP23017.Word;
+WITH MCP23x17.Word;
 
-USE TYPE MCP23017.Word.Word;
+USE TYPE MCP23x17.Word.Word;
 
 PROCEDURE test_mcp23017_word IS
 
-  PACKAGE Word_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.Word.Word);
+  PACKAGE Word_IO IS NEW Ada.Text_IO.Modular_IO(MCP23x17.Word.Word);
   USE Word_IO;
 
-  bus   : I2C.Bus;
-  dev   : MCP23017.Device;
-  port  : MCP23017.Word.Port;
+  rstdesg : Device.Designator;
+  rstpin  : GPIO.Pin;
+  i2cdesg : Device.Designator;
+  i2cbus  : I2C.Bus;
+  dev     : MCP23x17.Device;
+  port    : MCP23x17.Word.Port;
 
 BEGIN
   Put_Line("MCP23017 Word I/O Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_mcp23017_byte <bus> <addr>");
-    New_Line;
-    RETURN;
-  END IF;
+  -- Create GPIO pin for RST
+
+  rstdesg := Device.GetDesignator("Enter RST pin");
+  rstpin  := GPIO.libsimpleio.Create(rstdesg, GPIO.Output, True);
+  New_Line;
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  i2cdesg := Device.GetDesignator("Enter I2C bus");
+  i2cbus  := I2C.libsimpleio.Create(i2cdesg);
+  New_Line;
 
   -- Create MCP23017 device object
 
-  dev := MCP23017.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
+  dev := MCP23x17.Create(rstpin, i2cbus);
 
   -- Create 16-bit port object
 
-  port := MCP23017.Word.Create(dev);
+  port := MCP23x17.Word.Create(dev);
 
   -- Configure port pins, alternating inputs and outputs
 
@@ -70,7 +76,7 @@ BEGIN
   -- Toggle outputs and read inputs
 
   LOOP
-    FOR n IN MCP23017.Word.Word LOOP
+    FOR n IN MCP23x17.Word.Word LOOP
       port.Put(n);
       Put(port.Get AND 16#5555#, 0, 16);
       Put(ASCII.CR);

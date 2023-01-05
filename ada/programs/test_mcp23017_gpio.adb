@@ -1,6 +1,6 @@
 -- Test an MCP23017 as 16 individual GPIO pins
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,42 +23,47 @@
 -- Test with Mikroelektronika Expand 2 Click: https://www.mikroe.com/expand-2-click
 -- Default I2C address is 0x20
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH GPIO;
+WITH Device;
+WITH GPIO.libsimpleio;
 WITH I2C.libsimpleio;
-WITH MCP23017.GPIO;
+WITH MCP23x17.GPIO;
 
 PROCEDURE test_mcp23017_gpio IS
 
-  bus   : I2C.Bus;
-  dev   : MCP23017.Device;
-  pins  : ARRAY (MCP23017.GPIO.PinNumber) OF GPIO.Pin;
+  rstdesg : Device.Designator;
+  rstpin  : GPIO.Pin;
+  i2cdesg : Device.Designator;
+  i2cbus  : I2C.Bus;
+  dev     : MCP23x17.Device;
+  pins    : ARRAY (MCP23x17.GPIO.PinNumber) OF GPIO.Pin;
 
 BEGIN
   New_Line;
   Put_Line("MCP23017 GPIO Toggle Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_mcp23017_byte <bus> <addr>");
-    New_Line;
-    RETURN;
-  END IF;
+  -- Create GPIO pin for RST
+
+  rstdesg := Device.GetDesignator("Enter RST pin");
+  rstpin  := GPIO.libsimpleio.Create(rstdesg, GPIO.Output, True);
+  New_Line;
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  i2cdesg := Device.GetDesignator("Enter I2C bus");
+  i2cbus  := I2C.libsimpleio.Create(i2cdesg);
+  New_Line;
 
   -- Create MCP23017 device object
 
-  dev := MCP23017.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
+  dev := MCP23x17.Create(rstpin, i2cbus);
 
   -- Configure GPIO pins
 
   FOR n IN pins'Range LOOP
-    pins(n) := MCP23017.GPIO.Create(dev, n, GPIO.Output);
+    pins(n) := MCP23x17.GPIO.Create(dev, n, GPIO.Output);
   END LOOP;
 
   -- Toggle GPIO pins
