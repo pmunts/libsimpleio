@@ -56,14 +56,14 @@ PACKAGE MCP23x17 IS
    (Self   : OUT DeviceClass;
     rstpin : NOT NULL GPIO.Pin;
     bus    : NOT NULL I2C.Bus;
-    addr   : Address);
+    addr   : Address := DefaultAddress);
 
   -- MCP23017 I2C device object constructor
 
   FUNCTION Create
    (rstpin : NOT NULL GPIO.Pin;
     bus    : NOT NULL I2C.Bus;
-    addr   : Address) RETURN Device;
+    addr   : Address := DefaultAddress) RETURN Device;
 
   -- MCP23S17 SPI device initializer
 
@@ -71,14 +71,14 @@ PACKAGE MCP23x17 IS
    (Self   : OUT DeviceClass;
     rstpin : NOT NULL GPIO.Pin;
     spidev : NOT NULL SPI.Device;
-    addr   : Address);
+    addr   : Address := DefaultAddress);
 
   -- MCP23S17 SPI device object constructor
 
   FUNCTION Create
    (rstpin : NOT NULL GPIO.Pin;
     spidev : NOT NULL SPI.Device;
-    addr   : Address) RETURN Device;
+    addr   : Address := DefaultAddress) RETURN Device;
 
 PRIVATE
 

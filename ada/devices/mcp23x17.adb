@@ -63,7 +63,7 @@ PACKAGE BODY MCP23x17 IS
    (Self   : OUT DeviceClass;
     rstpin : NOT NULL GPIO.Pin;
     bus    : NOT NULL I2C.Bus;
-    addr   : Address) IS
+    addr   : Address := DefaultAddress) IS
 
   BEGIN
     Self.rstpin := rstpin;
@@ -78,7 +78,7 @@ PACKAGE BODY MCP23x17 IS
   FUNCTION Create
    (rstpin : NOT NULL GPIO.Pin;
     bus    : NOT NULL I2C.Bus;
-    addr   : Address) RETURN Device IS
+    addr   : Address := DefaultAddress) RETURN Device IS
 
     dev : DeviceClass;
 
@@ -93,7 +93,7 @@ PACKAGE BODY MCP23x17 IS
    (Self   : OUT DeviceClass;
     rstpin : NOT NULL GPIO.Pin;
     spidev : NOT NULL SPI.Device;
-    addr   : Address) IS
+    addr   : Address := DefaultAddress) IS
 
   BEGIN
     Self.rstpin := rstpin;
@@ -108,7 +108,7 @@ PACKAGE BODY MCP23x17 IS
   FUNCTION Create
    (rstpin : NOT NULL GPIO.Pin;
     spidev : NOT NULL SPI.Device;
-    addr   : Address) RETURN Device IS
+    addr   : Address := DefaultAddress) RETURN Device IS
 
     dev : DeviceClass;
 
