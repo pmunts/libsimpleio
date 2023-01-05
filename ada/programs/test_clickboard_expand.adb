@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Expand2 Click, using libsimpleio
+-- Mikroelektronika Expand Click GPIO Toggle Test
 
--- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,21 +20,39 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.SimpleIO;
-WITH MCP23x17;
+WITH Ada.Text_IO; USE Ada.Text_IO;
 
-PACKAGE ClickBoard.Expand2.SimpleIO IS
+WITH ClickBoard.Expand.SimpleIO;
+WITH GPIO;
+WITH MCP23x17.GPIO;
 
-  -- Create MCP23017 I/O expander object from a socket number
+PROCEDURE test_clickboard_expand IS
 
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device;
+  dev   : MCP23x17.Device;
+  pins  : ARRAY (MCP23x17.GPIO.PinNumber) OF GPIO.Pin;
 
-  -- Create MCP23017 I/O expander object from a socket object
+BEGIN
+  New_Line;
+  Put_Line("Mikroelektronika Expand Click GPIO Toggle Test");
+  New_Line;
 
-  FUNCTION Create
-   (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr    : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device;
+  -- Create MCP23S17 device object
 
-END ClickBoard.Expand2.SimpleIO;
+  dev := ClickBoard.Expand.SimpleIO.Create(socknum => 1);
+
+  -- Configure GPIO pins
+
+  FOR n IN pins'Range LOOP
+    pins(n) := MCP23x17.GPIO.Create(dev, n, GPIO.Output);
+  END LOOP;
+
+  -- Toggle GPIO pins
+
+  Put_Line("Toggling pins...");
+
+  LOOP
+    FOR p OF pins LOOP
+      p.Put(NOT p.Get);
+    END LOOP;
+  END LOOP;
+END test_clickboard_expand;

@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Expand2 Click, using libsimpleio
+-- Services for the Mikroelektronika Expand Click, using libsimpleio
 
--- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,20 +21,51 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.SimpleIO;
+WITH GPIO.libsimpleio;
+WITH SPI.libsimpleio;
 WITH MCP23x17;
 
-PACKAGE ClickBoard.Expand2.SimpleIO IS
+PACKAGE BODY ClickBoard.Expand.SimpleIO IS
 
-  -- Create MCP23017 I/O expander object from a socket number
+  -- Create MCP23S17 I/O expander object from a static socket instance
+
+  FUNCTION Create
+   (socket  : ClickBoard.SimpleIO.SocketSubclass;
+    addr    : MCP23x17.Address) RETURN MCP23x17.Device IS
+
+    rstpin : GPIO.Pin;
+    spidev : SPI.Device;
+
+  BEGIN
+    rstpin := GPIO.libsimpleio.Create(socket.GPIO(RST), GPIO.Output, True);
+
+    spidev := SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
+      SPI_Frequency, socket.SPISS);
+
+    RETURN Create(rstpin, spidev, addr);
+  END Create;
+
+  -- Create MCP23S17 I/O expander object from a socket number
 
   FUNCTION Create
    (socknum : Positive;
-    addr    : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device;
+    addr    : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device IS
 
-  -- Create MCP23017 I/O expander object from a socket object
+    socket : ClickBoard.SimpleIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(socket, addr);
+  END Create;
+
+  -- Create MCP23S17 I/O expander object from a socket object
 
   FUNCTION Create
    (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr    : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device;
+    addr    : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device IS
 
-END ClickBoard.Expand2.SimpleIO;
+  BEGIN
+    RETURN Create(socket.ALL, addr);
+  END Create;
+
+END ClickBoard.Expand.SimpleIO;

@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika Expand2 Click, using libsimpleio
+-- Services for the Mikroelektronika Expand Click
 
--- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,21 +20,21 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.SimpleIO;
+WITH GPIO;
+WITH SPI;
 WITH MCP23x17;
 
-PACKAGE ClickBoard.Expand2.SimpleIO IS
+PACKAGE BODY ClickBoard.Expand IS
 
-  -- Create MCP23017 I/O expander object from a socket number
-
-  FUNCTION Create
-   (socknum : Positive;
-    addr    : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device;
-
-  -- Create MCP23017 I/O expander object from a socket object
+  -- Create MCP23S17 I/O expander object from SPI device object
 
   FUNCTION Create
-   (socket  : NOT NULL ClickBoard.SimpleIO.Socket;
-    addr    : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device;
+   (rstpin : NOT NULL GPIO.Pin;
+    spidev : NOT NULL SPI.Device;
+    addr   : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device IS
 
-END ClickBoard.Expand2.SimpleIO;
+  BEGIN
+    RETURN MCP23x17.Create(rstpin, spidev, addr);
+  END Create;
+
+END ClickBoard.Expand;

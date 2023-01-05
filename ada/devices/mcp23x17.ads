@@ -1,4 +1,4 @@
--- MCP23017 I2C / MCP23S10 SPI GPIO expander device services
+-- MCP23017 I2C / MCP23S17 SPI GPIO expander device services
 
 -- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
@@ -20,7 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH GPIO;
 WITH I2C;
+WITH SPI;
 
 PACKAGE MCP23x17 IS
 
@@ -30,13 +32,53 @@ PACKAGE MCP23x17 IS
 
   TYPE Device IS ACCESS DeviceClass;
 
+  SUBTYPE Address IS I2C.Address RANGE 16#20# .. 16#27#;
+
+  DefaultAddress : CONSTANT Address := Address'First;
+
+  -- MCP23017 I2C interface characteristics
+
   MaxSpeed : CONSTANT := I2C.SpeedFastPlus;
 
-  -- MCP23017 device object constructor
+  -- MCP23S17 SPI interface characteristics
+
+  SPI_Mode      : CONSTANT Natural := 0;
+  SPI_WordSize  : CONSTANT Natural := 8;
+  SPI_Frequency : CONSTANT Natural := 10_000_000;
+
+  -- MCP23x17 hardware reset
+
+  PROCEDURE Reset(Self : IN DeviceClass);
+
+  -- MCP23017 I2C device initializer
+
+  PROCEDURE Initialize
+   (Self   : OUT DeviceClass;
+    rstpin : NOT NULL GPIO.Pin;
+    bus    : NOT NULL I2C.Bus;
+    addr   : Address);
+
+  -- MCP23017 I2C device object constructor
 
   FUNCTION Create
-   (bus   : NOT NULL I2C.Bus;
-    addr  : I2C.Address) RETURN Device;
+   (rstpin : NOT NULL GPIO.Pin;
+    bus    : NOT NULL I2C.Bus;
+    addr   : Address) RETURN Device;
+
+  -- MCP23S17 SPI device initializer
+
+  PROCEDURE Initialize
+   (Self   : OUT DeviceClass;
+    rstpin : NOT NULL GPIO.Pin;
+    spidev : NOT NULL SPI.Device;
+    addr   : Address);
+
+  -- MCP23S17 SPI device object constructor
+
+  FUNCTION Create
+   (rstpin : NOT NULL GPIO.Pin;
+    spidev : NOT NULL SPI.Device;
+    addr   : Address) RETURN Device;
 
 PRIVATE
 
@@ -46,7 +88,7 @@ PRIVATE
   TYPE RegisterData8 IS MOD 2**8;
   TYPE RegisterData16 IS MOD 2**16;
 
-  -- Define MCP23x17 register address constants
+  -- Define register address constants
 
   IODIRA   : CONSTANT RegisterAddress8 := 16#00#;
   IODIRB   : CONSTANT RegisterAddress8 := 16#01#;
@@ -114,8 +156,10 @@ PRIVATE
   -- Complete the definition for MCP23x17.DeviceClass
 
   TYPE DeviceClass IS TAGGED RECORD
-    bus       : I2C.Bus;
-    address   : I2C.Address;
+    rstpin : GPIO.Pin;
+    i2cbus : I2C.Bus;     -- MCP23017 I2C
+    spidev : SPI.Device;  -- MCP23S17 SPI
+    addr   : Address;
   END RECORD;
 
 END MCP23x17;

@@ -27,7 +27,7 @@ PACKAGE BODY ClickBoard.Expand2 IS
   FUNCTION Create
    (rstpin : NOT NULL GPIO.Pin;
     bus    : NOT NULL I2C.Bus;
-    addr   : I2C.Address := DefaultAddress) RETURN MCP23x17.Device IS
+    addr   : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device IS
 
   BEGIN
     RETURN MCP23x17.Create(rstpin, bus, addr);

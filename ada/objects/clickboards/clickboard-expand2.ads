@@ -26,13 +26,11 @@ WITH MCP23x17;
 
 PACKAGE ClickBoard.Expand2 IS
 
-  DefaultAddress : CONSTANT I2C.Address := 16#20#;
-
   -- Create MCP23017 I/O expander object from GPIO pin and I2C bus objects
 
   FUNCTION Create
    (rstpin : NOT NULL GPIO.Pin;
     bus    : NOT NULL I2C.Bus;
-    addr   : I2C.Address := DefaultAddress) RETURN MCP23x17.Device;
+    addr   : MCP23x17.Address := MCP23x17.DefaultAddress) RETURN MCP23x17.Device;
 
 END ClickBoard.Expand2;
