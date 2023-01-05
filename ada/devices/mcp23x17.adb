@@ -1,6 +1,6 @@
--- MCP23017 I2C GPIO expander device services
+-- MCP23017 I2C / MCP23S10 SPI GPIO expander device services
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE BODY MCP23017 IS
+PACKAGE BODY MCP23x17 IS
 
   -- MCP23017 device object constructor
 
@@ -112,4 +112,4 @@ PACKAGE BODY MCP23017 IS
     Self.bus.Write(Self.address, cmd, cmd'Length);
   END WriteRegister16;
 
-END MCP23017;
+END MCP23x17;

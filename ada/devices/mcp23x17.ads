@@ -1,6 +1,6 @@
--- MCP23017 I2C GPIO expander device services
+-- MCP23017 I2C / MCP23S10 SPI GPIO expander device services
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,9 +22,9 @@
 
 WITH I2C;
 
-PACKAGE MCP23017 IS
+PACKAGE MCP23x17 IS
 
-  MCP23017_Error : EXCEPTION;
+  Error : EXCEPTION;
 
   TYPE DeviceClass IS TAGGED PRIVATE;
 
@@ -46,7 +46,7 @@ PRIVATE
   TYPE RegisterData8 IS MOD 2**8;
   TYPE RegisterData16 IS MOD 2**16;
 
-  -- Define MCP23017 register address constants
+  -- Define MCP23x17 register address constants
 
   IODIRA   : CONSTANT RegisterAddress8 := 16#00#;
   IODIRB   : CONSTANT RegisterAddress8 := 16#01#;
@@ -111,11 +111,11 @@ PRIVATE
     reg   : RegisterAddress16;
     data  : RegisterData16);
 
-  -- Complete the definition for MCP23017.DeviceClass
+  -- Complete the definition for MCP23x17.DeviceClass
 
   TYPE DeviceClass IS TAGGED RECORD
     bus       : I2C.Bus;
     address   : I2C.Address;
   END RECORD;
 
-END MCP23017;
+END MCP23x17;
