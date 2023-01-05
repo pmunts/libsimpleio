@@ -20,17 +20,22 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE Device IS
+WITH Ada.Text_IO;
 
-  -- Many kernel device subsystems are organized by chip and channel
+PACKAGE BODY Device IS
 
-  TYPE Designator IS RECORD
-    chip : Natural;
-    chan : Natural;
-  END RECORD;
+  PACKAGE NaturalIO IS NEW Ada.Text_IO.Integer_IO(Natural);
 
-  Unavailable : CONSTANT Designator := (Natural'Last, Natural'Last);
+  FUNCTION GetDesignator(prompt : String) RETURN Designator IS
 
-  FUNCTION GetDesignator(prompt : String) RETURN Designator;
+    desg : Designator := Unavailable;
+
+  BEGIN
+    Ada.Text_IO.Put(prompt & " chip:    ");
+    NaturalIO.Get(desg.chip);
+    Ada.Text_IO.Put(prompt & " channel: ");
+    NaturalIO.Get(desg.chan);
+    RETURN Desg;
+  END GetDesignator;
 
 END Device;
