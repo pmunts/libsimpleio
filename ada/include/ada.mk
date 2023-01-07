@@ -63,13 +63,16 @@ endif
 
 ifeq ($(OS), Windows_NT)
 EXESUFFIX	= .exe
-ifeq ($(WINARCH), cygwin)
-GNAT		:=
-GPRBUILD	:= no
-LIBSIMPLEIO	:= $(shell cygpath $(LIBSIMPLEIO))
-else
+ifneq ($(GNAT),)
+# Gnat Community or Alire or similar msys toolchain
 WINARCH		?= win64
 LDFLAGS		+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
+else
+ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+# Cygwin toolchain (no gprbuild available)
+GPRBUILD	:= no
+LIBSIMPLEIO	:= $(shell cygpath $(LIBSIMPLEIO))
+endif
 endif
 endif
 
