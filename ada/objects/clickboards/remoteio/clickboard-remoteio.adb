@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services using Remote I/O
 
--- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -135,13 +135,12 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   FUNCTION Create
    (socknum : Positive;
-    kind    : ClickBoard.Servers.kind := ClickBoard.Servers.Detect)
+    kind    : ClickBoard.Servers.Kind := ClickBoard.Servers.Detect)
    RETURN Socket IS
 
   BEGIN
-
-    -- Search the socket table, looking for a matching shield
-    -- and socket number
+    -- Search the socket table, looking for a matching server kind and
+    -- socket number
 
     FOR i IN SocketTable'Range LOOP
       IF (socknum = SocketTable(i).num) AND (kind = SocketTable(i).Kind) THEN
@@ -149,15 +148,37 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       END IF;
     END LOOP;
 
-    RAISE ClickBoard.SocketError WITH "Unable to find matching shield and socket";
+    RAISE ClickBoard.SocketError WITH "Unable to find matching server kind and socket number";
   END Create;
+
+  -- Socket object initializer
+
+  PROCEDURE Initialize
+   (Self    : IN OUT SocketSubclass;
+    socknum : Positive;
+    kind    : ClickBoard.Servers.Kind :=
+      ClickBoard.Servers.Detect) IS
+
+  BEGIN
+    -- Search the socket table, looking for a matching server kind and
+    -- socket number
+
+    FOR i IN SocketTable'Range LOOP
+      IF (socknum = SocketTable(i).num) AND (kind = SocketTable(i).Kind) THEN
+        Self.index := i;
+        RETURN;
+      END IF;
+    END LOOP;
+
+    RAISE ClickBoard.SocketError WITH "Unable to find matching server kind and socket number";
+  END Initialize;
 
   -- Retrieve the type of shield on the Remote I/O server
 
   FUNCTION Kind(Self : SocketSubclass) RETURN ClickBoard.Servers.Kind IS
 
   BEGIN
-    RETURN SocketTable(Self.index).kind;
+    RETURN SocketTable(Self.index).Kind;
   END Kind;
 
   -- Retrieve the socket number

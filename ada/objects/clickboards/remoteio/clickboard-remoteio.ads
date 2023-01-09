@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services using Remote I/O
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -45,8 +45,16 @@ PACKAGE ClickBoard.RemoteIO IS
 
   FUNCTION Create
    (socknum : Positive;
-    kind    : ClickBoard.Servers.kind := ClickBoard.Servers.Detect)
+    kind    : ClickBoard.Servers.Kind := ClickBoard.Servers.Detect)
    RETURN Socket;
+
+  -- Socket object initializer
+
+  PROCEDURE Initialize
+   (Self    : IN OUT SocketSubclass;
+    socknum : Positive;
+    kind    : ClickBoard.Servers.Kind :=
+      ClickBoard.Servers.Detect);
 
   -- Retrieve the type of shield on the remote I/O server
 
