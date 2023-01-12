@@ -115,7 +115,7 @@ PACKAGE BODY SPI.libsimpleio IS
     speed    : Natural;
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) IS
 
-    name : CONSTANT String := "/dev/spidev" & 
+    name : CONSTANT String := "/dev/spidev" &
       Trim(Natural'Image(desg.chip)) & "." & Trim(Natural'Image(desg.chan));
 
   BEGIN
