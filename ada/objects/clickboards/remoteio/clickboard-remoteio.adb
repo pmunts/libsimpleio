@@ -21,6 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.Servers;
+WITH RemoteIO.BeagleBone;
 WITH RemoteIO.PocketBeagle;
 WITH RemoteIO.RaspberryPi;
 
