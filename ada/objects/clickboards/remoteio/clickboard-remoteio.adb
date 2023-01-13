@@ -49,68 +49,21 @@ PACKAGE BODY ClickBoard.RemoteIO IS
 
   SocketTable : CONSTANT ARRAY (Natural RANGE <>) OF SocketRec :=
    (
-    SocketRec'(ClickBoard.Servers.PiClick1, 1,
-     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO22,
-      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO4,
-      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18,
-      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO17,
-      OTHERS          => Unavailable),
-      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
-      PWM    => Standard.RemoteIO.RaspberryPi.PWM0, -- PWM0 channel 0
-      SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
-      OTHERS => Unavailable),
-
-    SocketRec'(ClickBoard.Servers.PiClick2, 1,
-     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO4,
-      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO5,
-      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18,
-      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO6,
-      OTHERS          => Unavailable),
-      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
-      PWM    => Standard.RemoteIO.RaspberryPi.PWM0, -- PWM0 channel 0
-      SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
-      OTHERS => Unavailable),
-
-    SocketRec'(ClickBoard.Servers.PiClick2, 2,
-     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO13,
-      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO19,
-      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO17,
-      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO26,
-      OTHERS          => Unavailable),
-      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
-      SPI    => Standard.RemoteIO.RaspberryPi.SPI1, -- SPI0 SS1
-      OTHERS => Unavailable),
-
-    SocketRec'(ClickBoard.Servers.PiClick3, 1,
-     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO4,
-      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO5,
-      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18,
-      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO6,
-      OTHERS          => Unavailable),
-      AIN    => Standard.RemoteIO.RaspberryPi.AIN0,
-      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
-      PWM    => Standard.RemoteIO.RaspberryPi.PWM0, -- PWM0 channel 0
-      SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
-      OTHERS => Unavailable),
-
-    SocketRec'(ClickBoard.Servers.PiClick3, 2,
-     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO13,
-      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO12,
-      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO17,
-      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO26,
-      OTHERS          => Unavailable),
-      AIN    => Standard.RemoteIO.RaspberryPi.AIN1,
-      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
-      SPI    => Standard.RemoteIO.RaspberryPi.SPI1, -- SPI0 SS1
-      OTHERS => Unavailable),
-
     -- Socket 1 is over the micro USB connector (left)
 
     SocketRec'(ClickBoard.Servers.PocketBeagle, 1,
-     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.GPIO87,
+     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.GPIO87,  -- Conflicts with AIN6
       ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.GPIO89,
-      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO50,
+      ClickBoard.CS   => Standard.RemoteIO.PocketBeagle.GPIO5,   -- Conflicts with SPI0
+      ClickBoard.SCK  => Standard.RemoteIO.PocketBeagle.GPIO2,   -- Conflicts with SPI0
+      ClickBoard.MISO => Standard.RemoteIO.PocketBeagle.GPIO3,   -- Conflicts with SPI0
+      ClickBoard.MOSI => Standard.RemoteIO.PocketBeagle.GPIO4,   -- Conflicts with SPI0
+      ClickBoard.SDA  => Standard.RemoteIO.PocketBeagle.GPIO14,  -- Conflicts with I2C1
+      ClickBoard.SCL  => Standard.RemoteIO.PocketBeagle.GPIO15,  -- Conflicts with I2C1
+      ClickBoard.TX   => Standard.RemoteIO.PocketBeagle.GPIO31,  -- Conflicts with UART4
+      ClickBoard.RX   => Standard.RemoteIO.PocketBeagle.GPIO30,  -- Conflicts with UART4
       ClickBoard.INT  => Standard.RemoteIO.PocketBeagle.GPIO23,
+      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO50,  -- Conflicts with PWM2:0
       OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN6,
       I2C    => Standard.RemoteIO.PocketBeagle.I2C0, -- I2C1
@@ -121,15 +74,118 @@ PACKAGE BODY ClickBoard.RemoteIO IS
     -- Socket 2 is over the micro-SDHC card socket (right)
 
     SocketRec'(ClickBoard.Servers.PocketBeagle, 2,
-     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.GPIO86,
+     (ClickBoard.AN   => Standard.RemoteIO.PocketBeagle.GPIO86,  -- Conflicts with AIN5
       ClickBoard.RST  => Standard.RemoteIO.PocketBeagle.GPIO45,
-      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO110,
+      ClickBoard.CS   => Standard.RemoteIO.PocketBeagle.GPIO19,  -- Conflicts with SPI1
+      ClickBoard.SCK  => Standard.RemoteIO.PocketBeagle.GPIO7,   -- Conflicts with SPI1
+      ClickBoard.MISO => Standard.RemoteIO.PocketBeagle.GPIO40,  -- Conflicts with SPI1
+      ClickBoard.MOSI => Standard.RemoteIO.PocketBeagle.GPIO41,  -- Conflicts with SPI1
+      ClickBoard.SDA  => Standard.RemoteIO.PocketBeagle.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => Standard.RemoteIO.PocketBeagle.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => Standard.RemoteIO.PocketBeagle.GPIO43,  -- Conflicts with UART0
+      ClickBoard.RX   => Standard.RemoteIO.PocketBeagle.GPIO42,  -- Conflicts with UART0
       ClickBoard.INT  => Standard.RemoteIO.PocketBeagle.GPIO26,
+      ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO110, -- Conflicts with PWM0:0
       OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN5,
       I2C    => Standard.RemoteIO.PocketBeagle.I2C1, -- I2C2
       PWM    => Standard.RemoteIO.PocketBeagle.PWM0, -- PWM0 channel 0
       SPI    => Standard.RemoteIO.PocketBeagle.SPI1, -- SPI2 CS1
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.PiClick1, 1,
+     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO22,
+      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO4,
+      ClickBoard.CS   => Standard.RemoteIO.RaspberryPi.GPIO8,  -- Conflicts with SPI0
+      ClickBoard.SCK  => Standard.RemoteIO.RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => Standard.RemoteIO.RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => Standard.RemoteIO.RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => Standard.RemoteIO.RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => Standard.RemoteIO.RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => Standard.RemoteIO.RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => Standard.RemoteIO.RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO17,
+      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18, -- Conflicts with PWM0
+      OTHERS          => Unavailable),
+      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
+      PWM    => Standard.RemoteIO.RaspberryPi.PWM0, -- PWM0 channel 0
+      SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.PiClick2, 1,
+     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO4,
+      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO5,
+      ClickBoard.CS   => Standard.RemoteIO.RaspberryPi.GPIO8,  -- Conflicts with SPI0
+      ClickBoard.SCK  => Standard.RemoteIO.RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => Standard.RemoteIO.RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => Standard.RemoteIO.RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => Standard.RemoteIO.RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => Standard.RemoteIO.RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => Standard.RemoteIO.RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => Standard.RemoteIO.RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO6,
+      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18, -- Conflicts with PWM0
+      OTHERS          => Unavailable),
+      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
+      PWM    => Standard.RemoteIO.RaspberryPi.PWM0, -- PWM0 channel 0
+      SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.PiClick2, 2,
+     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO13,
+      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO19,
+      ClickBoard.CS   => Standard.RemoteIO.RaspberryPi.GPIO7,  -- Conflicts with SPI0
+      ClickBoard.SCK  => Standard.RemoteIO.RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => Standard.RemoteIO.RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => Standard.RemoteIO.RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => Standard.RemoteIO.RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => Standard.RemoteIO.RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => Standard.RemoteIO.RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => Standard.RemoteIO.RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO26,
+      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO17,
+      OTHERS          => Unavailable),
+      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
+      SPI    => Standard.RemoteIO.RaspberryPi.SPI1, -- SPI0 SS1
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.PiClick3, 1,
+     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO4,  -- Switch AN1 must be in the RIGHT position
+      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO5,
+      ClickBoard.CS   => Standard.RemoteIO.RaspberryPi.GPIO8,  -- Conflicts with SPI0
+      ClickBoard.SCK  => Standard.RemoteIO.RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => Standard.RemoteIO.RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => Standard.RemoteIO.RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => Standard.RemoteIO.RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => Standard.RemoteIO.RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => Standard.RemoteIO.RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => Standard.RemoteIO.RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO6,
+      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO18, -- Conflicts with PWM0
+      OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.RaspberryPi.AIN0, -- Switch AN1 must be in the LEFT position
+      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
+      PWM    => Standard.RemoteIO.RaspberryPi.PWM0, -- PWM0 channel 0
+      SPI    => Standard.RemoteIO.RaspberryPi.SPI0, -- SPI0 SS0
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.PiClick3, 2,
+     (ClickBoard.AN   => Standard.RemoteIO.RaspberryPi.GPIO13, -- Switch AN2 must be in the RIGHT position
+      ClickBoard.RST  => Standard.RemoteIO.RaspberryPi.GPIO12,
+      ClickBoard.CS   => Standard.RemoteIO.RaspberryPi.GPIO7,  -- Conflicts with SPI0
+      ClickBoard.SCK  => Standard.RemoteIO.RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => Standard.RemoteIO.RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => Standard.RemoteIO.RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => Standard.RemoteIO.RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => Standard.RemoteIO.RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => Standard.RemoteIO.RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => Standard.RemoteIO.RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => Standard.RemoteIO.RaspberryPi.GPIO26,
+      ClickBoard.PWM  => Standard.RemoteIO.RaspberryPi.GPIO17,
+      OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.RaspberryPi.AIN1, -- Switch AN2 must be in the LEFT position
+      I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
+      SPI    => Standard.RemoteIO.RaspberryPi.SPI1, -- SPI0 SS1
       OTHERS => Unavailable));
 
   -- Socket object constructor
