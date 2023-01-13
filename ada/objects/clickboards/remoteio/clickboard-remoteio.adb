@@ -48,7 +48,124 @@ PACKAGE BODY ClickBoard.RemoteIO IS
   END RECORD;
 
   SocketTable : CONSTANT ARRAY (Natural RANGE <>) OF SocketRec :=
-   (
+   (SocketRec'(ClickBoard.Servers.BeagleBoneClick2, 1,
+     (ClickBoard.RST  => Standard.RemoteIO.BeagleBone.GPIO45,
+      ClickBoard.CS   => Standard.RemoteIO.BeagleBone.GPIO44,
+      ClickBoard.SCK  => Standard.RemoteIO.BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => Standard.RemoteIO.BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => Standard.RemoteIO.BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => Standard.RemoteIO.BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => Standard.RemoteIO.BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => Standard.RemoteIO.BeagleBone.GPIO15,  -- Conflicts with UART1
+      ClickBoard.RX   => Standard.RemoteIO.BeagleBone.GPIO14,  -- Conflicts with UART1
+      ClickBoard.INT  => Standard.RemoteIO.BeagleBone.GPIO27,
+      ClickBoard.PWM  => Standard.RemoteIO.BeagleBone.GPIO50,  -- Conflicts with EHRPWM1A
+      OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.BeagleBone.AIN0,
+      I2C    => Standard.RemoteIO.BeagleBone.I2C2,
+      PWM    => Standard.RemoteIO.BeagleBone.EHRPWM1A,
+      SPI    => Standard.RemoteIO.BeagleBone.SPI1_0,
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.BeagleBoneClick2, 2,
+     (ClickBoard.RST  => Standard.RemoteIO.BeagleBone.GPIO47,
+      ClickBoard.CS   => Standard.RemoteIO.BeagleBone.GPIO46,
+      ClickBoard.SCK  => Standard.RemoteIO.BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => Standard.RemoteIO.BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => Standard.RemoteIO.BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => Standard.RemoteIO.BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => Standard.RemoteIO.BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => Standard.RemoteIO.BeagleBone.GPIO3,   -- Conflicts with UART2
+      ClickBoard.RX   => Standard.RemoteIO.BeagleBone.GPIO2,   -- Conflicts with UART2
+      ClickBoard.INT  => Standard.RemoteIO.BeagleBone.GPIO65,
+      ClickBoard.PWM  => Standard.RemoteIO.BeagleBone.GPIO22,  -- Conflicts with EHRPWM2A
+      OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.BeagleBone.AIN1,
+      I2C    => Standard.RemoteIO.BeagleBone.I2C2,
+      PWM    => Standard.RemoteIO.BeagleBone.EHRPWM2A,
+      SPI    => Standard.RemoteIO.BeagleBone.SPI1_1,
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.BeagleBoneClick4, 1,
+     (ClickBoard.AN   => Standard.RemoteIO.BeagleBone.GPIO61,  -- Conflicts with AIN3
+      ClickBoard.RST  => Standard.RemoteIO.BeagleBone.GPIO60,
+      ClickBoard.CS   => Standard.RemoteIO.BeagleBone.GPIO113, -- Conflicts with SPI1
+      ClickBoard.SCK  => Standard.RemoteIO.BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => Standard.RemoteIO.BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => Standard.RemoteIO.BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => Standard.RemoteIO.BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => Standard.RemoteIO.BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => Standard.RemoteIO.BeagleBone.GPIO3,   -- Conflicts with SPI1, UART2
+      ClickBoard.RX   => Standard.RemoteIO.BeagleBone.GPIO2,   -- Conflicts with SPI1, UART2
+      ClickBoard.INT  => Standard.RemoteIO.BeagleBone.GPIO48,
+      ClickBoard.PWM  => Standard.RemoteIO.BeagleBone.GPIO50,  -- Conflicts with EHRPWM1A
+      OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.BeagleBone.AIN3,
+      I2C    => Standard.RemoteIO.BeagleBone.I2C2,
+      PWM    => Standard.RemoteIO.BeagleBone.EHRPWM1A,
+      SPI    => Standard.RemoteIO.BeagleBone.SPI1_0,
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.BeagleBoneClick4, 2,
+     (ClickBoard.AN   => Standard.RemoteIO.BeagleBone.GPIO47,  -- Conflicts with AIN2
+      ClickBoard.RST  => Standard.RemoteIO.BeagleBone.GPIO49,
+      ClickBoard.CS   => Standard.RemoteIO.BeagleBone.GPIO7,   -- Conflicts with SPI1
+      ClickBoard.SCK  => Standard.RemoteIO.BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => Standard.RemoteIO.BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => Standard.RemoteIO.BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => Standard.RemoteIO.BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => Standard.RemoteIO.BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => Standard.RemoteIO.BeagleBone.GPIO15,  -- Conflicts with UART1
+      ClickBoard.RX   => Standard.RemoteIO.BeagleBone.GPIO14,  -- Conflicts with UART1
+      ClickBoard.INT  => Standard.RemoteIO.BeagleBone.GPIO20,
+      ClickBoard.PWM  => Standard.RemoteIO.BeagleBone.GPIO51,  -- Conflicts with EHRPWM1B
+      OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.BeagleBone.AIN2,
+      I2C    => Standard.RemoteIO.BeagleBone.I2C2,
+      PWM    => Standard.RemoteIO.BeagleBone.EHRPWM1B,
+      SPI    => Standard.RemoteIO.BeagleBone.SPI1_1,
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.BeagleBoneClick4, 3,
+     (ClickBoard.AN   => Standard.RemoteIO.BeagleBone.GPIO44,  -- Conflicts with AIN1
+      ClickBoard.RST  => Standard.RemoteIO.BeagleBone.GPIO26,
+      ClickBoard.CS   => Standard.RemoteIO.BeagleBone.GPIO5,
+      ClickBoard.SCK  => Standard.RemoteIO.BeagleBone.GPIO2,   -- Conflicts with UART2
+      ClickBoard.MISO => Standard.RemoteIO.BeagleBone.GPIO3,   -- Conflicts with UART2
+      ClickBoard.MOSI => Standard.RemoteIO.BeagleBone.GPIO4,
+      ClickBoard.SDA  => Standard.RemoteIO.BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => Standard.RemoteIO.BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => Standard.RemoteIO.BeagleBone.GPIO15,  -- Conflicts with UART1
+      ClickBoard.RX   => Standard.RemoteIO.BeagleBone.GPIO14,  -- Conflicts with UART1
+      ClickBoard.INT  => Standard.RemoteIO.BeagleBone.GPIO65,
+      ClickBoard.PWM  => Standard.RemoteIO.BeagleBone.GPIO22,  -- Conflicts with EHRPWM2A
+      OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.BeagleBone.AIN1,
+      I2C    => Standard.RemoteIO.BeagleBone.I2C2,
+      PWM    => Standard.RemoteIO.BeagleBone.EHRPWM2A,
+      SPI    => Unavailable,
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.BeagleBoneClick4, 4,
+     (ClickBoard.AN   => Standard.RemoteIO.BeagleBone.GPIO45,  -- Conflicts with AIN0
+      ClickBoard.RST  => Standard.RemoteIO.BeagleBone.GPIO46,
+      ClickBoard.CS   => Standard.RemoteIO.BeagleBone.GPIO68,
+      ClickBoard.SCK  => Standard.RemoteIO.BeagleBone.GPIO110, -- Conflicts with SPI1
+      ClickBoard.MISO => Standard.RemoteIO.BeagleBone.GPIO111, -- Conflicts with SPI1
+      ClickBoard.MOSI => Standard.RemoteIO.BeagleBone.GPIO112, -- Conflicts with SPI1
+      ClickBoard.SDA  => Standard.RemoteIO.BeagleBone.GPIO12,  -- Conflicts with I2C2
+      ClickBoard.SCL  => Standard.RemoteIO.BeagleBone.GPIO13,  -- Conflicts with I2C2
+      ClickBoard.TX   => Standard.RemoteIO.BeagleBone.GPIO31,  -- Conflicts with UART4
+      ClickBoard.RX   => Standard.RemoteIO.BeagleBone.GPIO30,  -- Conflicts with UART4
+      ClickBoard.INT  => Standard.RemoteIO.BeagleBone.GPIO27,
+      ClickBoard.PWM  => Standard.RemoteIO.BeagleBone.GPIO23,  -- Conflicts with EHRPWM2B
+      OTHERS          => Unavailable),
+      AIN    => Standard.RemoteIO.BeagleBone.AIN0,
+      I2C    => Standard.RemoteIO.BeagleBone.I2C2,
+      PWM    => Standard.RemoteIO.BeagleBone.EHRPWM2B,
+      SPI    => Unavailable,
+      OTHERS => Unavailable),
+
     -- Socket 1 is over the micro USB connector (left)
 
     SocketRec'(ClickBoard.Servers.PocketBeagle, 1,
