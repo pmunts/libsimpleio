@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika 7seg Click
+-- Services for the Mikroelektronika Altitude Click
 
--- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,65 +20,50 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH GPIO.RemoteIO;
-WITH PWM.RemoteIO;
-WITH SPI.RemoteIO;
+WITH ClickBoard.RemoteIO;
+WITH I2C.RemoteIO;
+WITH MPL3115A2;
+WITH RemoteIO.Client;
 
-PACKAGE BODY ClickBoard.SevenSegment.RemoteIO IS
+PACKAGE BODY ClickBoard.Altitude.RemoteIO IS
 
-  -- Create display object from static socket instance
+  -- Create MPL3115A2 sensor object from a static socket instance
 
   FUNCTION Create
    (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
     socket  : ClickBoard.RemoteIO.SocketSubclass;
-    pwmfreq : Natural := 100) RETURN Display IS
-
-    spidev : SPI.Device;
-    pwmpin : GPIO.Pin;
-    pwmout : Standard.PWM.output;
-    rstpin : GPIO.Pin;
+    addr    : I2C.Address;
+    speed   : Positive) RETURN MPL3115A2.Device IS
 
   BEGIN
-    spidev := SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency);
-
-    rstpin := GPIO.RemoteIO.Create(remdev, socket.GPIO(ClickBoard.RST),
-      GPIO.Output, True);
-
-    IF (pwmfreq > 0) THEN
-      pwmout := Standard.PWM.RemoteIO.Create(remdev, socket.PWM, pwmfreq,
-        Standard.PWM.MaximumDutyCycle);
-      RETURN ClickBoard.SevenSegment.Create(spidev, pwmout, rstpin);
-    ELSE
-      pwmpin := GPIO.RemoteIO.Create(remdev, socket.GPIO(ClickBoard.PWM),
-        GPIO.Output, True);
-      RETURN ClickBoard.SevenSegment.Create(spidev, pwmpin, rstpin);
-    END IF;
+    RETURN Create(I2C.RemoteIO.Create(remdev, socket.I2C, speed), addr);
   END Create;
 
-  -- Create display object from socket number
+  -- Create MPL3115A2 sensor object from a socket number
 
   FUNCTION Create
    (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
     socknum : Positive;
-    pwmfreq : Natural := 100) RETURN Display IS
+    addr    : I2C.Address := DefaultAddress;
+    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device IS
 
     socket : ClickBoard.RemoteIO.SocketSubclass;
 
   BEGIN
     socket.Initialize(socknum);
-    RETURN Create(remdev, socket, pwmfreq);
+    RETURN Create(remdev, socket, addr, speed);
   END Create;
 
-  -- Create display object from socket object
+  -- Create MPL3115A2 sensor object from a socket object
 
   FUNCTION Create
    (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
     socket  : NOT NULL ClickBoard.RemoteIO.Socket;
-    pwmfreq : Natural := 100) RETURN Display IS
+    addr    : I2C.Address := DefaultAddress;
+    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device IS
 
   BEGIN
-    RETURN Create(remdev, socket.ALL, pwmfreq);
+    RETURN Create(remdev, socket.ALL, addr, speed);
   END Create;
 
-END ClickBoard.SevenSegment.RemoteIO;
+END ClickBoard.Altitude.RemoteIO;

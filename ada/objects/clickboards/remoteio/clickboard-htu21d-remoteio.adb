@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika PWM Click, using RemoteIO
+-- Services for the Mikroelektronika HTU21D Click, using RemoteIO
 
 -- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
@@ -21,28 +21,44 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.RemoteIO;
-WITH I2C;
-WITH PCA9685;
+WITH HTU21D;
+WITH I2C.RemoteIO;
 WITH RemoteIO.Client;
 
-PACKAGE ClickBoard.PWM_Click.RemoteIO IS
-
-  -- Create PCA9685 device object from socket number
+PACKAGE BODY ClickBoard.HTU21D.RemoteIO IS
 
   FUNCTION Create
-   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
-    socknum   : Positive;
-    addr      : I2C.Address := DefaultAddress;
-    speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : ClickBoard.RemoteIO.SocketSubclass;
+    speed   : Positive) RETURN Standard.HTU21D.Device IS
 
-  -- Create PCA9685 device object from socket
+  BEGIN
+    RETURN Create(I2C.RemoteIO.Create(remdev, socket.I2C, speed));
+  END Create;
+
+  -- Create HTU21D sensor object from a socket number
 
   FUNCTION Create
-   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
-    socket    : NOT NULL ClickBoard.RemoteIO.Socket;
-    addr      : I2C.Address := DefaultAddress;
-    speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socknum : Positive;
+    speed   : Positive := Standard.HTU21D.MaxSpeed) RETURN Standard.HTU21D.Device IS
 
-END ClickBoard.PWM_Click.RemoteIO;
+    socket : ClickBoard.RemoteIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(remdev, socket, speed);
+  END Create;
+
+  -- Create HTU21D sensor object from a socket object
+
+  FUNCTION Create
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : NOT NULL ClickBoard.RemoteIO.Socket;
+    speed   : Positive := Standard.HTU21D.MaxSpeed) RETURN Standard.HTU21D.Device IS
+
+  BEGIN
+    RETURN Create(remdev, socket.ALL, speed);
+  END Create;
+
+END ClickBoard.HTU21D.RemoteIO;

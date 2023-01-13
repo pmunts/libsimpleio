@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika PWM Click, using RemoteIO
+-- Services for the Mikroelektronika Thermo Click, using RemoteIO
 
 -- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
@@ -21,28 +21,46 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.RemoteIO;
-WITH I2C;
-WITH PCA9685;
+WITH MAX31855;
 WITH RemoteIO.Client;
+WITH SPI.RemoteIO;
 
-PACKAGE ClickBoard.PWM_Click.RemoteIO IS
+PACKAGE BODY ClickBoard.Thermo.RemoteIO IS
 
-  -- Create PCA9685 device object from socket number
-
-  FUNCTION Create
-   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
-    socknum   : Positive;
-    addr      : I2C.Address := DefaultAddress;
-    speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
-
-  -- Create PCA9685 device object from socket
+  -- Create MAX31855 sensor object from static socket instance
 
   FUNCTION Create
-   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
-    socket    : NOT NULL ClickBoard.RemoteIO.Socket;
-    addr      : I2C.Address := DefaultAddress;
-    speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : ClickBoard.RemoteIO.SocketSubclass) RETURN MAX31855.Device IS
 
-END ClickBoard.PWM_Click.RemoteIO;
+    spidev : SPI.Device := SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode,
+               SPI_WordSize, SPI_Frequency);
+
+  BEGIN
+    RETURN Create(spidev);
+  END Create;
+
+  -- Create MAX31855 sensor object from socket number
+
+  FUNCTION Create
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socknum : Positive) RETURN MAX31855.Device IS
+
+    socket : ClickBoard.RemoteIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(remdev, socket);
+  END Create;
+
+  -- Create MAX31855 sensor object from socket object
+
+  FUNCTION Create
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : NOT NULL ClickBoard.RemoteIO.Socket) RETURN MAX31855.Device IS
+
+  BEGIN
+    RETURN Create(remdev, socket.ALL);
+  END Create;
+
+END ClickBoard.Thermo.RemoteIO;

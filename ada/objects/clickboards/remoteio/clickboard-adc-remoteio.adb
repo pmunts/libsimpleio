@@ -1,6 +1,6 @@
--- Services for the Mikroelektronika PWM Click, using RemoteIO
+-- Mikroelecktronika ADC Click services using Remote I/O
 
--- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,28 +21,51 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.RemoteIO;
-WITH I2C;
-WITH PCA9685;
 WITH RemoteIO.Client;
+WITH SPI.RemoteIO;
+WITH Voltage;
 
-PACKAGE ClickBoard.PWM_Click.RemoteIO IS
+PACKAGE BODY ClickBoard.ADC.RemoteIO IS
 
-  -- Create PCA9685 device object from socket number
+  -- Create an array of analog voltage inputs from a static socket instance
+
+  FUNCTION Create
+   (remdev    : Standard.RemoteIO.Client.Device;
+    socket    : ClickBoard.RemoteIO.SocketSubclass;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
+
+    spidev : SPI.Device;
+
+  BEGIN
+    spidev := SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode, SPI_WordSize,
+                SPI_Frequency);
+
+    RETURN Create(spidev, reference);
+  END Create;
+
+  -- Create an array of analog voltage inputs from socket number
 
   FUNCTION Create
    (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
     socknum   : Positive;
-    addr      : I2C.Address := DefaultAddress;
-    speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
 
-  -- Create PCA9685 device object from socket
+    socket : ClickBoard.RemoteIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(remdev, socket, reference);
+  END Create;
+
+  -- Create an array of analog voltage inputs from Socket object
 
   FUNCTION Create
    (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
     socket    : NOT NULL ClickBoard.RemoteIO.Socket;
-    addr      : I2C.Address := DefaultAddress;
-    speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
+    reference : Voltage.Volts := 3.3) RETURN Inputs IS
 
-END ClickBoard.PWM_Click.RemoteIO;
+  BEGIN
+    RETURN Create(remdev, socket.ALL, reference);
+  END Create;
+
+END ClickBoard.ADC.RemoteIO;

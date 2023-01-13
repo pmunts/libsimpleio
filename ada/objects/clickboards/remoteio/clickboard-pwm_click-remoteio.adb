@@ -21,11 +21,26 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.RemoteIO;
-WITH I2C;
+WITH I2C.RemoteIO;
 WITH PCA9685;
 WITH RemoteIO.Client;
 
-PACKAGE ClickBoard.PWM_Click.RemoteIO IS
+PACKAGE BODY ClickBoard.PWM_Click.RemoteIO IS
+
+  -- Create PCA9685 device object from static socket instance
+
+  FUNCTION Create
+   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
+    socket    : ClickBoard.RemoteIO.SocketSubclass;
+    addr      : I2C.Address;
+    speed     : Positive;
+    frequency : Positive) RETURN PCA9685.Device IS
+
+    bus : I2C.Bus := I2C.RemoteIO.Create(remdev, socket.I2C, speed);
+
+  BEGIN
+    RETURN Create(bus, addr, frequency);
+  END Create;
 
   -- Create PCA9685 device object from socket number
 
@@ -34,7 +49,14 @@ PACKAGE ClickBoard.PWM_Click.RemoteIO IS
     socknum   : Positive;
     addr      : I2C.Address := DefaultAddress;
     speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
+    frequency : Positive := 50) RETURN PCA9685.Device IS
+
+    socket : ClickBoard.RemoteIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(remdev, socket, addr, speed, frequency);
+  END Create;
 
   -- Create PCA9685 device object from socket
 
@@ -43,6 +65,10 @@ PACKAGE ClickBoard.PWM_Click.RemoteIO IS
     socket    : NOT NULL ClickBoard.RemoteIO.Socket;
     addr      : I2C.Address := DefaultAddress;
     speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
+    frequency : Positive := 50) RETURN PCA9685.Device IS
+
+  BEGIN
+    RETURN Create(remdev, socket.ALL, addr, speed, frequency);
+  END Create;
 
 END ClickBoard.PWM_Click.RemoteIO;

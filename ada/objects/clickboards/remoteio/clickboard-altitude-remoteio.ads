@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Altitude Click
 
--- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,20 +21,11 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.RemoteIO;
-WITH I2C.RemoteIO;
+WITH I2C;
 WITH MPL3115A2;
 WITH RemoteIO.Client;
 
 PACKAGE ClickBoard.Altitude.RemoteIO IS
-
-  -- Create MPL3115A2 sensor object from a socket object
-
-  FUNCTION Create
-   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
-    socket  : NOT NULL ClickBoard.RemoteIO.Socket;
-    addr    : I2C.Address := DefaultAddress;
-    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device IS
-     (Create(I2C.RemoteIO.Create(remdev, socket.I2C, speed), addr));
 
   -- Create MPL3115A2 sensor object from a socket number
 
@@ -42,7 +33,14 @@ PACKAGE ClickBoard.Altitude.RemoteIO IS
    (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
     socknum : Positive;
     addr    : I2C.Address := DefaultAddress;
-    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device IS
-     (Create(remdev, ClickBoard.RemoteIO.Create(socknum), addr, speed));
+    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device;
+
+  -- Create MPL3115A2 sensor object from a socket object
+
+  FUNCTION Create
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : NOT NULL ClickBoard.RemoteIO.Socket;
+    addr    : I2C.Address := DefaultAddress;
+    speed   : Positive := MPL3115A2.MaxSpeed) RETURN MPL3115A2.Device;
 
 END ClickBoard.Altitude.RemoteIO;

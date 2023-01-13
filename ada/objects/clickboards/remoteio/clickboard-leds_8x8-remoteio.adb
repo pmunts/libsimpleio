@@ -1,4 +1,4 @@
--- Services for the Mikroelektronika PWM Click, using RemoteIO
+-- Services for the Mikroelektronika 8x8 LED Click
 
 -- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
@@ -20,29 +20,49 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- 8 by 8 LED Display layout:
+
+-- Top left LED     is row 0 column 0
+-- Bottom right LED is row 7 column 7
+
 WITH ClickBoard.RemoteIO;
-WITH I2C;
-WITH PCA9685;
 WITH RemoteIO.Client;
+WITH SPI.RemoteIO;
 
-PACKAGE ClickBoard.PWM_Click.RemoteIO IS
+PACKAGE BODY ClickBoard.LEDs_8x8.RemoteIO IS
 
-  -- Create PCA9685 device object from socket number
-
-  FUNCTION Create
-   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
-    socknum   : Positive;
-    addr      : I2C.Address := DefaultAddress;
-    speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
-
-  -- Create PCA9685 device object from socket
+  -- Create display object from static socket instance
 
   FUNCTION Create
-   (remdev    : NOT NULL Standard.RemoteIO.Client.Device;
-    socket    : NOT NULL ClickBoard.RemoteIO.Socket;
-    addr      : I2C.Address := DefaultAddress;
-    speed     : Positive := PCA9685.MaxSpeed;
-    frequency : Positive := 50) RETURN PCA9685.Device;
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : ClickBoard.RemoteIO.SocketSubclass) RETURN TrueColor.Display IS
 
-END ClickBoard.PWM_Click.RemoteIO;
+  BEGIN
+    RETURN Create(SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode,
+      SPI_WordSize, SPI_Frequency));
+  END Create;
+
+  -- Create display object from socket number
+
+  FUNCTION Create
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socknum : Positive) RETURN TrueColor.Display IS
+
+    socket : ClickBoard.RemoteIO.SocketSubclass;
+
+  BEGIN
+    socket.Initialize(socknum);
+    RETURN Create(remdev, socket);
+  END Create;
+
+  -- Create display object from socket object
+
+  FUNCTION Create
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : NOT NULL ClickBoard.RemoteIO.Socket) RETURN TrueColor.Display IS
+
+  BEGIN
+    RETURN Create(remdev, socket.ALL);
+  END Create;
+
+END ClickBoard.LEDs_8x8.RemoteIO;

@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika 7seg Click
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,18 +25,18 @@ WITH RemoteIO.Client;
 
 PACKAGE ClickBoard.SevenSegment.RemoteIO IS
 
-  -- Create display object from socket object
-
-  FUNCTION Create
-   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
-    socket  : NOT NULL ClickBoard.RemoteIO.Socket;
-    pwmfreq : Natural := 100) RETURN Display;
-
   -- Create display object from socket number
 
   FUNCTION Create
    (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
     socknum : Positive;
+    pwmfreq : Natural := 100) RETURN Display;
+
+  -- Create display object from socket object
+
+  FUNCTION Create
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : NOT NULL ClickBoard.RemoteIO.Socket;
     pwmfreq : Natural := 100) RETURN Display;
 
 END ClickBoard.SevenSegment.RemoteIO;

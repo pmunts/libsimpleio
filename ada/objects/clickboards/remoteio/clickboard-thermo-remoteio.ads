@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Thermo Click, using RemoteIO
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,23 +23,20 @@
 WITH ClickBoard.RemoteIO;
 WITH MAX31855;
 WITH RemoteIO.Client;
-WITH SPI.RemoteIO;
+WITH SPI;
 
 PACKAGE ClickBoard.Thermo.RemoteIO IS
-
-  -- Create MAX31855 sensor object from socket object
-
-  FUNCTION Create
-   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
-    socket  : NOT NULL ClickBoard.RemoteIO.Socket) RETURN MAX31855.Device IS
-   (Create(SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency)));
 
   -- Create MAX31855 sensor object from socket number
 
   FUNCTION Create
    (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
-    socknum : Positive) RETURN MAX31855.Device IS
-   (Create(remdev, ClickBoard.RemoteIO.Create(socknum)));
+    socknum : Positive) RETURN MAX31855.Device;
+
+  -- Create MAX31855 sensor object from socket object
+
+  FUNCTION Create
+   (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
+    socket  : NOT NULL ClickBoard.RemoteIO.Socket) RETURN MAX31855.Device;
 
 END ClickBoard.Thermo.RemoteIO;
