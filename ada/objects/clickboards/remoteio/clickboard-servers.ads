@@ -24,6 +24,8 @@ PACKAGE ClickBoard.Servers IS
 
   TYPE Kind IS
    (None,
+    BeagleBoneClick2, -- aka BeagleBone click SHIELD, MIKROE-1596, 2 sockets
+    BeagleBoneClick4, -- aka mikroBus Cape, MIKROE-1857, 4 sockets
     PiClick1,
     PiClick2,
     PiClick3,
