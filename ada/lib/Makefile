@@ -22,7 +22,7 @@
 
 .PHONY: default build clean
 
-LIBSIMPLEIO	?= ../../..
+LIBSIMPLEIO	?= ../..
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 
@@ -36,4 +36,4 @@ build:
 # Remove working files
 
 clean:
-	rm -rf *.done ../*.lib ../*.obj
+	rm -rf *.done *.lib *.obj
