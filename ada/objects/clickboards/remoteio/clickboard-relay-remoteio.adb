@@ -22,7 +22,6 @@
 
 -- NOTES: RELAY1 is driven by PWM and RELAY2 is driven by CS.
 
-WITH ClickBoard.RemoteIO;
 WITH GPIO.RemoteIO;
 
 PACKAGE BODY ClickBoard.Relay.RemoteIO IS

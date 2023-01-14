@@ -1,6 +1,6 @@
 -- LPS25H temperature and barometric pressure sensor services
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@
 WITH Ada.Unchecked_Conversion;
 
 PACKAGE BODY LPS25H IS
+  PRAGMA Warnings (Off, "constant ""*"" is not referenced");
 
   -- Define 16-bit signed and unsigned values
 

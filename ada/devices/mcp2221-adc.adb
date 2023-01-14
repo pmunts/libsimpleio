@@ -1,6 +1,6 @@
 -- MCP2221 A/D Converter Input Services
 
--- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -49,10 +49,14 @@ PACKAGE BODY MCP2221.ADC IS
     RETURN Analog.Sample(resp(offset)) + Analog.Sample(resp(offset + 1))*256;
   END;
 
+  PRAGMA Warnings(Off, "formal parameter ""Self"" is not referenced");
+
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN Resolution;
   END GetResolution;
+
+  PRAGMA Warnings(On, "formal parameter ""Self"" is not referenced");
 
 END MCP2221.ADC;

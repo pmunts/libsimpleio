@@ -47,6 +47,8 @@ PACKAGE BODY ClickBoard.RemoteIO IS
     UART : Integer;
   END RECORD;
 
+  PRAGMA Warnings(Off, "there are no others");
+
   SocketTable : CONSTANT ARRAY (Natural RANGE <>) OF SocketRec :=
    (SocketRec'(ClickBoard.Servers.BeagleBoneClick2, 1,
      (ClickBoard.RST  => Standard.RemoteIO.BeagleBone.GPIO45,
@@ -304,6 +306,8 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       I2C    => Standard.RemoteIO.RaspberryPi.I2C1, -- I2C1
       SPI    => Standard.RemoteIO.RaspberryPi.SPI1, -- SPI0 SS1
       OTHERS => Unavailable));
+
+  PRAGMA Warnings(On, "there are no others");
 
   -- Socket object constructor
 

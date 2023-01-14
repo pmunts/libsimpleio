@@ -1,6 +1,6 @@
 -- Log messages with syslog using libsimpleio
 
--- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,8 @@
 WITH errno;
 
 PACKAGE BODY Logging.libsimpleio IS
+  PRAGMA Warnings(Off, """err"" modified by call, but value might not be referenced");
+  PRAGMA Warnings(Off, """err"" modified by call, but value overwritten at line 55");
 
   FUNCTION Create
    (sender   : String := libLinux.LOG_PROGNAME;
@@ -44,17 +46,17 @@ PACKAGE BODY Logging.libsimpleio IS
       libLinux.LOG_PERROR;
     facility : Integer := libLinux.LOG_SYSLOG) IS
 
-    error : Integer;
+    err : Integer;
 
   BEGIN
     Self := Destroyed;
 
-    libLinux.CloseLog(error);
-    libLinux.OpenLog(sender, options, facility, error);
+    libLinux.CloseLog(err);
+    libLinux.OpenLog(sender, options, facility, err);
 
-    IF error /= 0 THEN
+    IF err /= 0 THEN
       RAISE Logging_Error WITH "libLinux.OpenLog() failed, " &
-        errno.strerror(error);
+        errno.strerror(err);
     END IF;
 
     Self := LoggerSubclass'(NULL RECORD);
@@ -62,14 +64,14 @@ PACKAGE BODY Logging.libsimpleio IS
 
   PROCEDURE Destroy(Self : IN OUT LoggerSubclass) IS
 
-    error : Integer;
+    err : Integer;
 
   BEGIN
     IF Self = Destroyed THEN
       RETURN;
     END IF;
 
-    libLinux.CloseLog(error);
+    libLinux.CloseLog(err);
 
     Self := Destroyed;
   END Destroy;

@@ -25,8 +25,6 @@
 -- Top left LED     is row 0 column 0
 -- Bottom right LED is row 7 column 7
 
-WITH ClickBoard.RemoteIO;
-WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
 
 PACKAGE BODY ClickBoard.LEDs_8x8.RemoteIO IS

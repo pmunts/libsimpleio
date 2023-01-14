@@ -1,6 +1,6 @@
 -- ADS1015 Analog to Digital Converter services
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,6 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE BODY ADS1015 IS
+  PRAGMA Warnings(Off, "literal ""*"" is not referenced");
 
   TYPE RegAddr IS (Conversion, Config, LowThreshold, HighThreshold);
 
@@ -120,11 +121,15 @@ PACKAGE BODY ADS1015 IS
 
   -- Retrieve resolution
 
+  PRAGMA Warnings(Off, "formal parameter ""Self"" is not referenced");
+
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN Resolution - 1;
   END GetResolution;
+
+  PRAGMA Warnings(On, "formal parameter ""Self"" is not referenced");
 
   -- Retrieve PGA gain
 

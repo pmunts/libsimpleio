@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika HTU21D Click, using libsimpleio
 
--- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,8 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.SimpleIO;
-WITH HTU21D;
 WITH I2C.libsimpleio;
 
 PACKAGE BODY ClickBoard.HTU21D.SimpleIO IS

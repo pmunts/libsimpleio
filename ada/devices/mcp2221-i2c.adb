@@ -1,6 +1,6 @@
 -- MCP2221 I2C Bus Controller Services
 
--- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,6 +26,7 @@ WITH Message64;
 USE TYPE Messaging.Byte;
 
 PACKAGE BODY MCP2221.I2C IS
+  PRAGMA Warnings(Off, """respmsg"" modified by call, but value *");
 
   -- Constructor
 

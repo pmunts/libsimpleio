@@ -1,6 +1,6 @@
 -- Grove I2C Motor Driver TB6612 Stepper Motor Services
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,11 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 -- See also: https://wiki.seeedstudio.com/Grove-I2C_Motor_Driver-TB6612FNG
-
-WITH Stepper;
-
-USE TYPE Stepper.Rate;
-USE TYPE Stepper.Steps;
 
 PACKAGE BODY Grove_TB6612.Stepper IS
 

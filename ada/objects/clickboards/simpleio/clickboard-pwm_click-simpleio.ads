@@ -21,7 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.SimpleIO;
-WITH I2C.libsimpleio;
+WITH I2C;
 WITH PCA9685;
 
 PACKAGE ClickBoard.PWM_Click.SimpleIO IS

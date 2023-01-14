@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika 7seg Click
 
--- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ PACKAGE BODY ClickBoard.SevenSegment.SimpleIO IS
 
   FUNCTION Create
    (socket  : ClickBoard.SimpleIO.SocketSubclass;
-    pwmfreq : Natural := 100) RETURN Display IS
+    pwmfreq : Natural) RETURN Display IS
 
     spidev : SPI.Device;
     pwmpin : GPIO.Pin;
@@ -75,7 +75,7 @@ PACKAGE BODY ClickBoard.SevenSegment.SimpleIO IS
     pwmfreq : Natural := 100) RETURN Display IS
 
   BEGIN
-    RETURN Create(socket.ALL);
+    RETURN Create(socket.ALL, pwmfreq);
   END Create;
 
 END ClickBoard.SevenSegment.SimpleIO;

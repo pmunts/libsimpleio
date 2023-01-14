@@ -21,7 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.SimpleIO;
-WITH I2C.libsimpleio;
+WITH I2C;
 WITH TMP102;
 
 PACKAGE ClickBoard.Thermo3.SimpleIO IS

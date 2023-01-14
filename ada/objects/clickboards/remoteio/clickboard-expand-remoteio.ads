@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.RemoteIO;
-WITH I2C.RemoteIO;
 WITH MCP23x17;
 WITH RemoteIO.Client;
 

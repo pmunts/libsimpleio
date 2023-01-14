@@ -1,6 +1,6 @@
 -- MCP3202 Analog to Digital Converter services
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -59,10 +59,14 @@ PACKAGE BODY MCP3202 IS
       Standard.Interfaces.Shift_Right(Standard.Interfaces.Unsigned_32(resp(1)), 4));
   END Get;
 
+  PRAGMA Warnings(Off, "formal parameter ""Self"" is not referenced");
+
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN Resolution;
   END GetResolution;
+
+  PRAGMA Warnings(On, "formal parameter ""Self"" is not referenced");
 
 END MCP3202;

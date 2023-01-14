@@ -20,9 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.RemoteIO;
-WITH MAX31855;
-WITH RemoteIO.Client;
 WITH SPI.RemoteIO;
 
 PACKAGE BODY ClickBoard.Thermo.RemoteIO IS
@@ -33,8 +30,8 @@ PACKAGE BODY ClickBoard.Thermo.RemoteIO IS
    (remdev  : NOT NULL Standard.RemoteIO.Client.Device;
     socket  : ClickBoard.RemoteIO.SocketSubclass) RETURN MAX31855.Device IS
 
-    spidev : SPI.Device := SPI.RemoteIO.Create(remdev, socket.SPI, SPI_Mode,
-               SPI_WordSize, SPI_Frequency);
+    spidev : CONSTANT SPI.Device := SPI.RemoteIO.Create(remdev, socket.SPI,
+               SPI_Mode, SPI_WordSize, SPI_Frequency);
 
   BEGIN
     RETURN Create(spidev);

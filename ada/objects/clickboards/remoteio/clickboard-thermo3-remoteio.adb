@@ -20,10 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.RemoteIO;
 WITH I2C.RemoteIO;
-WITH RemoteIO.Client;
-WITH TMP102;
 
 PACKAGE BODY ClickBoard.Thermo3.RemoteIO IS
 
@@ -35,7 +32,7 @@ PACKAGE BODY ClickBoard.Thermo3.RemoteIO IS
     addr    : I2C.Address;
     speed   : Positive) RETURN TMP102.Device IS
 
-    bus : I2C.Bus := I2C.RemoteIO.Create(remdev, socket.I2C, speed);
+    bus : CONSTANT I2C.Bus := I2C.RemoteIO.Create(remdev, socket.I2C, speed);
 
   BEGIN
     RETURN Create(bus, addr);

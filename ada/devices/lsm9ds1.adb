@@ -1,6 +1,6 @@
 -- LSM9DS1 acceleration/gyroscope/magnetometer sensor services
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,6 +29,7 @@ USE TYPE Accelerometer.Gravities;
 USE TYPE Magnetometer.Gauss;
 
 PACKAGE BODY LSM9DS1 IS
+  PRAGMA Warnings (Off, "constant ""*"" is not referenced");
 
   -- Define 16-bit signed and unsigned values
 

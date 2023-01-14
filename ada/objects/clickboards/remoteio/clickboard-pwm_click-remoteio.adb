@@ -20,10 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ClickBoard.RemoteIO;
 WITH I2C.RemoteIO;
-WITH PCA9685;
-WITH RemoteIO.Client;
 
 PACKAGE BODY ClickBoard.PWM_Click.RemoteIO IS
 
@@ -36,7 +33,7 @@ PACKAGE BODY ClickBoard.PWM_Click.RemoteIO IS
     speed     : Positive;
     frequency : Positive) RETURN PCA9685.Device IS
 
-    bus : I2C.Bus := I2C.RemoteIO.Create(remdev, socket.I2C, speed);
+    bus : CONSTANT I2C.Bus := I2C.RemoteIO.Create(remdev, socket.I2C, speed);
 
   BEGIN
     RETURN Create(bus, addr, frequency);

@@ -23,7 +23,6 @@
 WITH ClickBoard.RemoteIO;
 WITH MAX31855;
 WITH RemoteIO.Client;
-WITH SPI;
 
 PACKAGE ClickBoard.Thermo.RemoteIO IS
 

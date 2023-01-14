@@ -1,6 +1,6 @@
 -- TLC1543 Analog to Digital Converter services
 
--- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -98,10 +98,14 @@ PACKAGE BODY TLC1543 IS
     RETURN Analog.Sample(sr);
   END Get;
 
+  PRAGMA Warnings(Off, "formal parameter ""Self"" is not referenced");
+
   FUNCTION GetResolution(self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN TLC1543.Resolution;
   END GetResolution;
+
+  PRAGMA Warnings(On, "formal parameter ""Self"" is not referenced");
 
 END TLC1543;

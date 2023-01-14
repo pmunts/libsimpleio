@@ -1,6 +1,6 @@
 -- HTU21D temperature and humidity sensor services
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,6 +21,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE BODY HTU21D IS
+  PRAGMA Warnings(Off, "named number ""*"" is not referenced");
 
   -- Per datasheet, maximum reset time is 15 ms
   ResetTime : CONSTANT Duration := 20.0/1000.0;

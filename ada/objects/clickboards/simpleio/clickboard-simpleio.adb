@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services, using libsimpleio
 
--- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -81,6 +81,8 @@ PACKAGE BODY ClickBoard.SimpleIO IS
     UART    : DeviceString;
     Stretch : Boolean;
   END RECORD;
+
+  PRAGMA Warnings(Off, "there are no others");
 
   SocketTable : CONSTANT ARRAY (Positive RANGE <>) OF SocketRec :=
    (SocketRec'(ClickBoard.Shields.BeagleBoneClick2, 1,
@@ -370,6 +372,8 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False));
+
+  PRAGMA Warnings(On, "there are no others");
 
   -- Socket object constructor
 

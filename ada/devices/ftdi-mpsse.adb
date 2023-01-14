@@ -1,4 +1,4 @@
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -42,7 +42,7 @@ PACKAGE BODY FTDI.MPSSE IS
 
     IF ftdi_usb_open(ctx, Interfaces.C.int(Vendor), Interfaces.C.int(Product)) /= 0 THEN
       DECLARE
-        msg : String := ErrorString(ctx);
+        msg : CONSTANT String := ErrorString(ctx);
 
       BEGIN
         ftdi_free(ctx);
@@ -52,7 +52,7 @@ PACKAGE BODY FTDI.MPSSE IS
 
     IF ftdi_usb_reset(ctx) /= 0 THEN
       DECLARE
-        msg : String := ErrorString(ctx);
+        msg : CONSTANT String := ErrorString(ctx);
 
       BEGIN
         ftdi_free(ctx);
@@ -62,7 +62,7 @@ PACKAGE BODY FTDI.MPSSE IS
 
     IF ftdi_set_interface(ctx, INTERFACE_ANY) /= 0 THEN
       DECLARE
-        msg : String := ErrorString(ctx);
+        msg : CONSTANT String := ErrorString(ctx);
 
       BEGIN
         ftdi_free(ctx);
@@ -72,7 +72,7 @@ PACKAGE BODY FTDI.MPSSE IS
 
     IF ftdi_set_bitmode(ctx, 0, 0) /= 0 THEN
       DECLARE
-        msg : String := ErrorString(ctx);
+        msg : CONSTANT String := ErrorString(ctx);
 
       BEGIN
         ftdi_free(ctx);
@@ -82,7 +82,7 @@ PACKAGE BODY FTDI.MPSSE IS
 
     IF ftdi_set_bitmode(ctx, 0, 2) /= 0 THEN
       DECLARE
-        msg : String := ErrorString(ctx);
+        msg : CONSTANT String := ErrorString(ctx);
 
       BEGIN
         ftdi_free(ctx);

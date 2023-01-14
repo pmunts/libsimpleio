@@ -1,6 +1,6 @@
 -- Mikroelecktronika ADC Click services
 
--- Copyright (C)2017-2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH ClickBoard.SimpleIO;
-WITH SPI.libsimpleio;
 WITH Voltage;
 
 PACKAGE ClickBoard.ADC.SimpleIO IS

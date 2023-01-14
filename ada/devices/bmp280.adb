@@ -1,6 +1,6 @@
 -- BMP280 pressure and temperature sensor services
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,6 +27,7 @@ WITH I2C;
 USE TYPE I2C.Byte;
 
 PACKAGE BODY BMP280 IS
+  PRAGMA Warnings (Off, "constant ""*"" is not referenced");
 
   -- BMP280 Registers
 

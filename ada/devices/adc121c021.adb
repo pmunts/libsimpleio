@@ -1,6 +1,6 @@
 -- ADC121C021 Analog to Digital Converter services
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,6 +21,9 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE BODY ADC121C021 IS
+  PRAGMA Warnings (Off, "constant ""*"" is not referenced");
+  PRAGMA Warnings (Off, "function ""*"" is not referenced");
+  PRAGMA Warnings (Off, "procedure ""*"" is not referenced");
 
   -- ADC121C021 register types
 
@@ -126,10 +129,14 @@ PACKAGE BODY ADC121C021 IS
     RETURN Analog.Sample(ReadRegister16(Self, ConversionResult) AND SAMPLE_MASK);
   END Get;
 
+  PRAGMA Warnings(Off, "formal parameter ""Self"" is not referenced");
+
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN resolution;
   END GetResolution;
+
+  PRAGMA Warnings(On, "formal parameter ""Self"" is not referenced");
 
 END ADC121C021;

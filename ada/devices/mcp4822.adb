@@ -1,6 +1,6 @@
 -- MCP4822 Digital to Analog Converter services
 
--- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -58,11 +58,15 @@ PACKAGE BODY MCP4822 IS
 
   -- Methods
 
+  PRAGMA Warnings(Off, "formal parameter ""Self"" is not referenced");
+
   FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN Resolution;
   END GetResolution;
+
+  PRAGMA Warnings(On, "formal parameter ""Self"" is not referenced");
 
   PROCEDURE Put(Self : IN OUT OutputSubclass; value : Analog.Sample) IS
 

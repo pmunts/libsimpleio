@@ -1,6 +1,6 @@
 -- Minimal Ada wrapper for GNU ncurses
 
--- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,6 +26,7 @@ WITH System;
 
 PACKAGE ncurses IS
   PRAGMA Link_With("-lncurses");
+  PRAGMA Warnings (Off, """keypad.enable"" is an 8-bit Ada Boolean");
 
   -- Constants
 

@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Relay Click (MIKROE-1370)
 
--- Copyright (C)2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2022-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,6 @@
 
 -- NOTES: RELAY1 is driven by PWM and RELAY2 is driven by CS.
 
-WITH ClickBoard.SimpleIO;
 WITH GPIO.libsimpleio;
 
 PACKAGE BODY ClickBoard.Relay.SimpleIO IS

@@ -1,6 +1,6 @@
 -- MCP2221 Device Services
 
--- Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,6 +28,7 @@ WITH Messaging;
 USE TYPE Messaging.Byte;
 
 PACKAGE BODY MCP2221 IS
+  PRAGMA Warnings(Off, """*"" modified by call, but value might not be referenced");
 
   -- Create an MCP2221 device object instance
 
