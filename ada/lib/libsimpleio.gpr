@@ -46,8 +46,10 @@ LIBRARY PROJECT libsimpleio IS
      ("-O3",
       "-ffunction-sections",
       "-fdata-sections",
-      "-gnatn",
-      "-gnatwa"
+      "-gnato1",
+      "-gnatwa",
+      "-gnatVa",
+      "-gnat2012"
      );
 
   END Compiler;
