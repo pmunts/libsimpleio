@@ -91,7 +91,6 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
 	mkdir -p				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
-	cp ada/lib/libsimpleio.gpr		$(DESTDIR)/share/libsimpleio/ada/lib
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.done
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.obj
 	sed -i 's/false/true/g'			$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
