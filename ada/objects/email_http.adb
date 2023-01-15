@@ -1,6 +1,6 @@
 -- Send email via https://mailrelay.munts.net
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -89,6 +89,8 @@ PACKAGE BODY Email_HTTP IS
 
   -- Send an email
 
+  PRAGMA Warnings(Off, "variable ""resp"" is assigned but never read");
+
   PROCEDURE Send
    (Self      : RelaySubclass;
     sender    : String;
@@ -111,5 +113,7 @@ PACKAGE BODY Email_HTTP IS
         "SUBJECT="   & AWS.URL.Encode(SUBJECT)   & "&" &
         "MESSAGE="   & AWS.URL.Encode(MESSAGE));
   END Send;
+
+  PRAGMA Warnings(On, "variable ""resp"" is assigned but never read");
 
 END Email_HTTP;

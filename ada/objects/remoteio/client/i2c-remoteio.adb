@@ -1,6 +1,6 @@
 -- I2C bus controller services using the Remote I/O Protocol
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -67,6 +67,8 @@ PACKAGE BODY I2C.RemoteIO IS
 
   -- Write only I2C bus cycle method
 
+  PRAGMA Warnings(Off, """resp"" modified by call, but value might not be referenced");
+
   PROCEDURE Write
    (Self   : BusSubclass;
     addr   : Address;
@@ -78,6 +80,8 @@ PACKAGE BODY I2C.RemoteIO IS
   BEGIN
     Transaction(Self, addr, cmd, cmdlen, resp, 0);
   END Write;
+
+  PRAGMA Warnings(Off, """resp"" modified by call, but value might not be referenced");
 
   -- Combined Write/Read I2C bus cycle method
 

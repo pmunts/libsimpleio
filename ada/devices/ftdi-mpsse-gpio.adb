@@ -1,4 +1,4 @@
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -39,7 +39,7 @@ PACKAGE BODY FTDI.MPSSE.GPIO IS
     dir   : Standard.GPIO.Direction;
     state : Boolean := False) RETURN Standard.GPIO.Pin IS
 
-    mydev   : DeviceMPSSE := DeviceMPSSE(dev);
+    mydev   : CONSTANT DeviceMPSSE := DeviceMPSSE(dev);
     bitmask : Byte;
     Self    : Standard.GPIO.Pin;
 
@@ -77,7 +77,7 @@ PACKAGE BODY FTDI.MPSSE.GPIO IS
 
   FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
 
-    mydev : DeviceMPSSE := DeviceMPSSE(Self.dev);
+    mydev : CONSTANT DeviceMPSSE := DeviceMPSSE(Self.dev);
     cmd   : Data(0 .. 0);
     resp  : Data(0 .. 0);
 
@@ -109,7 +109,7 @@ PACKAGE BODY FTDI.MPSSE.GPIO IS
 
   PROCEDURE Put(Self : IN OUT PinSubclass; state : Boolean) IS
 
-    mydev : DeviceMPSSE := DeviceMPSSE(Self.dev);
+    mydev : CONSTANT DeviceMPSSE := DeviceMPSSE(Self.dev);
     cmd   : Data(0 .. 2);
 
   BEGIN

@@ -1,6 +1,6 @@
 -- LPC1114 I/O Processor analog input services
 
--- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -64,10 +64,14 @@ PACKAGE BODY RemoteIO.LPC1114.ADC IS
 
   -- Retrieve analog input resolution
 
+  PRAGMA Warnings(Off, "formal parameter ""Self"" is not referenced");
+
   FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
 
   BEGIN
     RETURN 10;
   END GetResolution;
+
+  PRAGMA Warnings(On, "formal parameter ""Self"" is not referenced");
 
 END RemoteIO.LPC1114.ADC;

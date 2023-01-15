@@ -1,4 +1,4 @@
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,8 +20,7 @@
 
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO;
-WITH System;
-WITH Interfaces.C.Strings;
+WITH Interfaces.C;
 
 USE TYPE Interfaces.C.int;
 USE TYPE Interfaces.C.unsigned;
@@ -42,7 +41,7 @@ PACKAGE BODY FTDI IS
    (Vendor  : Integer;
     Product : Integer) RETURN Device IS
 
-    ctx : Context := ftdi_new;
+    ctx : CONSTANT Context := ftdi_new;
 
   BEGIN
     IF ctx = NullContext THEN
@@ -51,7 +50,7 @@ PACKAGE BODY FTDI IS
 
     IF ftdi_usb_open(ctx, Interfaces.C.int(Vendor), Interfaces.C.int(Product)) /= 0 THEN
       DECLARE
-        msg : String := ErrorString(ctx);
+        msg : CONSTANT String := ErrorString(ctx);
 
       BEGIN
         ftdi_free(ctx);
