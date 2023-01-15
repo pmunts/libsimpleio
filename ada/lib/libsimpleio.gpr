@@ -1,3 +1,5 @@
+-- Project file for building the precompiled Ada package library
+
 -- Copyright (C)2021-2023, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
@@ -23,35 +25,30 @@ WITH "aws";
 LIBRARY PROJECT libsimpleio IS
   LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
 
+  Ada_Compiler_Switches :=
+   ("-O3",
+    "-ffunction-sections",
+    "-fdata-sections",
+    "-gnato1",
+    "-gnatwa",
+    "-gnatVa",
+    "-gnat2012"
+   );
+
   FOR Externally_Built USE "false";
-
-  FOR Languages    USE ("Ada");
-
-  FOR Library_Name USE "libsimpleio";
-
-  FOR Library_Kind USE "static";
-
-  FOR Library_Dir  USE LIBSIMPLEIO & "/ada/lib/libsimpleio.lib";
-
-  FOR Object_Dir   USE LIBSIMPLEIO & "/ada/lib/libsimpleio.obj";
-
-  FOR Source_Dirs  USE
+  FOR Languages        USE ("Ada");
+  FOR Library_Name     USE "libsimpleio";
+  FOR Library_Kind     USE "static";
+  FOR Library_Dir      USE LIBSIMPLEIO & "/ada/lib/libsimpleio.lib";
+  FOR Source_Dirs      USE
    (LIBSIMPLEIO & "/ada/bindings",
     LIBSIMPLEIO & "/ada/devices",
     LIBSIMPLEIO & "/ada/interfaces",
     LIBSIMPLEIO & "/ada/objects/**");
+-- CUT HERE
+  FOR Object_Dir       USE LIBSIMPLEIO & "/ada/lib/libsimpleio.obj";
 
   PACKAGE Compiler IS
-    FOR Default_Switches ("Ada") USE
-     ("-O3",
-      "-ffunction-sections",
-      "-fdata-sections",
-      "-gnato1",
-      "-gnatwa",
-      "-gnatVa",
-      "-gnat2012"
-     );
-
+    FOR Default_Switches("Ada") USE Ada_Compiler_Switches;
   END Compiler;
-
 END libsimpleio;

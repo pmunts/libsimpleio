@@ -1,6 +1,6 @@
 # Makefile to build the Linux Simple I/O Library
 
-# Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -93,8 +93,9 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.done
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.obj
+	sed -i 's/building/using/g'		$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
 	sed -i 's/false/true/g'			$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
-	sed -i '/Object_Dir/,+1 d'		$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
+	sed -i '/CUT HERE/,+5 d'		$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	rm -rf					$(DESTDIR)/share/libsimpleio/c++/visualstudio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
