@@ -29,6 +29,25 @@ WITH SPI.libsimpleio;
 
 PACKAGE BODY ClickBoard.LEDs_8x8.SimpleIO IS
 
+-- STRANGE GNAT BUG WORKAROUND:
+--
+-- Without the otherwise meaningless function rename at source code line #49,
+-- compiling this package body with an Alire compiler fails with an GNAT
+-- internal error:
+--
+-- +===========================GNAT BUG DETECTED==============================+
+-- | 12.2.0 (x86_64-pc-linux-gnu) Storage_Error stack overflow or erroneous memory access|
+-- | Error detected at clickboard-leds_8x8-simpleio.adb:56:5                  |
+-- | Compiling clickboard-leds_8x8-simpleio.adb                               |
+-- | Please submit a bug report; see https://gcc.gnu.org/bugs/ .              |
+-- | Use a subject line meaningful to you and us to track the bug.            |
+-- | Include the entire contents of this bug box in the report.               |
+-- | Include the exact command that you entered.                              |
+-- | Also include sources listed below.                                       |
+-- +==========================================================================+
+
+  FUNCTION Create(dev : SPI.Device) RETURN TrueColor.Display RENAMES ClickBoard.LEDs_8x8.Create;
+
   -- Create display object from static socket instance
 
   FUNCTION Create(socket : ClickBoard.SimpleIO.SocketSubclass) RETURN TrueColor.Display IS
