@@ -1,0 +1,11 @@
+name = "test_simpleio_led"
+description = "Linux Simple I/O Library LED Test"
+version = "0.1.0-dev"
+
+authors = ["Philip Munts"]
+maintainers = ["Philip Munts <phil@munts.net>"]
+maintainers-logins = ["pmunts"]
+
+executables = ["test_simpleio_led"]
+[[depends-on]]
+libsimpleio = "^1.20506.1"
