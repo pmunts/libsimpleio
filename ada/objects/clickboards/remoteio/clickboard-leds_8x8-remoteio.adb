@@ -29,6 +29,36 @@ WITH SPI.RemoteIO;
 
 PACKAGE BODY ClickBoard.LEDs_8x8.RemoteIO IS
 
+-- STRANGE GNAT BUG WORKAROUND:
+--
+-- Without the otherwise meaningless function rename at source code line #60,
+-- compiling this package body with an Alire compiler fails with an GNAT
+-- internal error:
+--
+-- +===========================GNAT BUG DETECTED==============================+
+-- | 12.2.0 (x86_64-w64-mingw32) Program_Error EXCEPTION_ACCESS_VIOLATION     |
+-- | Error detected at clickboard-leds_8x8-remoteio.adb:41:5                  |
+-- | Compiling clickboard-leds_8x8-remoteio.adb                               |
+-- | Please submit a bug report; see https://gcc.gnu.org/bugs/ .              |
+-- | Use a subject line meaningful to you and us to track the bug.            |
+-- | Include the entire contents of this bug box in the report.               |
+-- | Include the exact command that you entered.                              |
+-- | Also include sources listed below.                                       |
+-- +==========================================================================+
+--
+-- +===========================GNAT BUG DETECTED==============================+
+-- | 12.2.0 (x86_64-pc-linux-gnu) Storage_Error stack overflow or erroneous memory access|
+-- | Error detected at clickboard-leds_8x8-remoteio.adb:39:5                  |
+-- | Compiling clickboard-leds_8x8-remoteio.adb                               |
+-- | Please submit a bug report; see https://gcc.gnu.org/bugs/ .              |
+-- | Use a subject line meaningful to you and us to track the bug.            |
+-- | Include the entire contents of this bug box in the report.               |
+-- | Include the exact command that you entered.                              |
+-- | Also include sources listed below.                                       |
+-- +==========================================================================+
+
+  FUNCTION Create(dev : SPI.Device) RETURN TrueColor.Display RENAMES ClickBoard.LEDs_8x8.Create;
+
   -- Create display object from static socket instance
 
   FUNCTION Create
