@@ -1,0 +1,17 @@
+name = "test_remoteio_led"
+description = "Remote I/O Protocol LED Test"
+version = "0.1.0-dev"
+
+authors = ["Philip Munts"]
+maintainers = ["Philip Munts <phil@munts.net>"]
+maintainers-logins = ["pmunts"]
+
+executables = ["test_remoteio_led"]
+[[depends-on]]
+remoteio = "^1.20650.1"
+
+# On Windows, copy .DLL files to ./bin
+
+[[actions."case(os)".windows]]
+type = "post-build"
+command = ["sh", "-c", "cp alire/cache/dependencies/remoteio_*/src/win64/*.dll ./bin"]
