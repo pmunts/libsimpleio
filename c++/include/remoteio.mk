@@ -1,6 +1,6 @@
 # C++ make definitions for building Remote I/O Protocol clients
 
-# Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2020-2023, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -31,6 +31,9 @@ HID_USE		?= libsimpleio
 else
 # Native compile for Unix
 ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+HID_USE		?= hidapi
+endif
+ifeq ($(shell uname), Darwin)
 HID_USE		?= hidapi
 endif
 ifeq ($(shell uname), Linux)
