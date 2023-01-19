@@ -1,6 +1,6 @@
 # Makefile definitions for building Free Pascal application programs
 
-# Copyright (C)2013-2022, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2013-2023, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -41,11 +41,11 @@ PTOP_FLAGS	= -i 2 -c $(PTOP_CFG)
 
 ###############################################################################
 
-# Check for 64-bit MacOS X
+# Check for MacOS X
 
 ifeq ($(shell uname -s), Darwin)
-ifeq ($(shell uname -m), x86_64)
-FPC_FLAGS	+= -Px86_64
+ifeq ($(wildcard /opt/homebrew), /opt/homebrew)
+FPC_FLAGS	+= -Fl/opt/homebrew/lib
 endif
 endif
 
