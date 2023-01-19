@@ -28,11 +28,6 @@
 
 .SECONDARY:
 
-#undefine AR
-#undefine CXX
-#undefine RANLIB
-#undefine STRIP
-
 ifneq ($(BOARDNAME),)
 # Cross-compile for MuntsOS
 MUNTSOS		?= /usr/local/share/muntsos
@@ -43,7 +38,7 @@ RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
 else
 # Native compile for Unix
-ifeq ($(shell uname -s), Darwin)
+ifeq ($(shell uname), Darwin)
 CXX		:= g++
 AR		:= ar
 RANLIB		:= ranlib
@@ -61,6 +56,12 @@ CXX		:= g++10
 RANLIB		:= ranlib
 STRIP		:= strip
 endif
+ifeq ($(shell uname), Linux)
+CXX		:= $(CROSS_COMPILE)g++
+AR		:= $(CROSS_COMPILE)ar
+RANLIB		:= $(CROSS_COMPILE)ranlib
+STRIP		:= $(CROSS_COMPILE)strip
+endif
 ifeq ($(shell uname), OpenBSD)
 AR		:= ar
 CXX		:= eg++
@@ -68,10 +69,6 @@ RANLIB		:= ranlib
 STRIP		:= strip
 CXXFLAGS	+= -I/usr/local/include
 endif
-CXX		?= $(CROSS_COMPILE)g++
-AR		?= $(CROSS_COMPILE)ar
-RANLIB		?= $(CROSS_COMPILE)ranlib
-STRIP		?= $(CROSS_COMPILE)strip
 endif
 
 CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++17
