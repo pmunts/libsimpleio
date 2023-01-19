@@ -38,7 +38,11 @@ TARFILE		= $(PKGDIR).tgz
 # Set a reasonable default architecture for single file deliverables
 
 ifeq ($(shell uname), Darwin)
+ifeq ($(shell uname -m), arm64)
+DOTNETARCH	?= osx-arm64
+else
 DOTNETARCH	?= osx-x64
+endif
 endif
 
 ifeq ($(shell uname), Linux)
