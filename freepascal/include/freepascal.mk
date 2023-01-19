@@ -43,7 +43,7 @@ PTOP_FLAGS	= -i 2 -c $(PTOP_CFG)
 
 # Check for MacOS X
 
-ifeq ($(shell uname -s), Darwin)
+ifeq ($(shell uname), Darwin)
 ifeq ($(shell uname -m), arm64)
 FPC_FLAGS	+= -Paarch64
 ifeq ($(wildcard /opt/homebrew), /opt/homebrew)
