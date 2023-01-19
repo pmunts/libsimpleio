@@ -20,11 +20,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-undefine AR
-undefine CXX
-undefine RANLIB
-undefine STRIP
-
 # The following targets are not files
 
 .PHONY: cxx_mk_default cxx_mk_subordinates cxx_mk_clean cxx_mk_reallyclean cxx_mk_distclean
@@ -32,6 +27,11 @@ undefine STRIP
 # Do not remove intermediate files
 
 .SECONDARY:
+
+#undefine AR
+#undefine CXX
+#undefine RANLIB
+#undefine STRIP
 
 ifneq ($(BOARDNAME),)
 # Cross-compile for MuntsOS
@@ -43,6 +43,18 @@ RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
 else
 # Native compile for Unix
+ifeq ($(shell uname -s), Darwin)
+CXX		:= g++
+AR		:= ar
+RANLIB		:= ranlib
+STRIP		:= strip
+ifeq ($(shell uname -m), arm64)
+ifeq ($(wildcard /opt/homebrew), /opt/homebrew)
+CXXFLAGS	+= -I/opt/homebrew/include
+LDFLAGS		+= -L/opt/homebrew/lib
+endif
+endif
+endif
 ifeq ($(shell uname), FreeBSD)
 AR		:= ar
 CXX		:= g++10
@@ -62,7 +74,7 @@ RANLIB		?= $(CROSS_COMPILE)ranlib
 STRIP		?= $(CROSS_COMPILE)strip
 endif
 
-CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++11
+CXXFLAGS	+= -Wall $(CFLAGS) $(DEBUGFLAGS) $(EXTRAFLAGS) -std=c++17
 CXXFLAGS	+= -DWITH_ASSIGNMENT_OPERATORS
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/devices
 CXXFLAGS	+= -I$(LIBSIMPLEIO)/c++/interfaces
