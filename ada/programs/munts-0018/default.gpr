@@ -1,5 +1,4 @@
--- Project for building an Ada program for Linux using the libsimpleio
--- prebuilt library
+-- Project for building Ada programs for Linux, MacOS, or Windows
 
 -- Copyright (C)2020-2023, Philip Munts, President, Munts AM Corp.
 --
@@ -21,13 +20,48 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH "libsimpleio";
-
 PROJECT Default IS
-  FOR Object_Dir USE "./obj";
-  FOR Exec_Dir   USE ".";
+  LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
+
+  FOR Source_Dirs USE (".",
+    LIBSIMPLEIO & "/ada/bindings",
+    LIBSIMPLEIO & "/ada/devices",
+    LIBSIMPLEIO & "/ada/interfaces",
+    LIBSIMPLEIO & "/ada/objects/**");
+
+  FOR Object_Dir  USE "./obj";
+
+  FOR Exec_Dir    USE ".";
 
   PACKAGE Compiler IS
-    FOR Default_Switches ("Ada") USE libsimpleio.Ada_Compiler_Switches;
+    FOR Default_Switches ("Ada") USE
+     ("-O3",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-gnato1",
+      "-gnatwa",
+      "-gnatVa",
+      "-gnat2012"
+     );
   END Compiler;
+
+  -- Linker goop to find hidapi.dll or libhidapi.so
+
+  OS      := external("OS", external("OSNAME", "unknown"));
+  WINARCH := external("WINARCH", "win64");
+
+  PACKAGE Linker IS
+    CASE OS IS
+      WHEN "Windows_NT" =>
+        FOR Default_Switches ("ada") USE
+          ("-L" & LIBSIMPLEIO & "/win/" & WINARCH);
+
+      WHEN "Darwin" =>
+        FOR Default_Switches ("ada") USE
+          ("-L/opt/homebrew/lib");
+
+      WHEN OTHERS =>
+        NULL;
+    END CASE;
+  END Linker;
 END Default;

@@ -79,8 +79,9 @@ endif
 # Definitions for MacOS X
 
 ifeq ($(shell uname), Darwin)
-LDFLAGS		+= -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
-LDFLAGS		+= -L/usr/local/lib
+ifeq ($(wildcard /opt/homebrew), /opt/homebrew)
+LDFLAGS		+= -L/opt/homebrew/lib
+endif
 endif
 
 ifneq ($(GNAT),)

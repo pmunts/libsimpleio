@@ -20,8 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH "aws";
-
 PROJECT Default IS
   LIBSIMPLEIO := external("LIBSIMPLEIO", "/usr/local/share/libsimpleio");
 
@@ -60,8 +58,7 @@ PROJECT Default IS
 
       WHEN "Darwin" =>
         FOR Default_Switches ("ada") USE
-          ("-L/usr/local/lib",
-           "-L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib");
+          ("-L/opt/homebrew/lib");
 
       WHEN OTHERS =>
         NULL;
