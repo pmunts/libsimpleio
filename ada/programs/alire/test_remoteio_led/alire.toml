@@ -8,7 +8,7 @@ maintainers-logins = ["pmunts"]
 
 executables = ["test_remoteio_led"]
 [[depends-on]]
-remoteio = "^1.20650.1"
+remoteio = "^1.20671.1"
 
 # On Windows, copy .DLL files to ./bin
 
