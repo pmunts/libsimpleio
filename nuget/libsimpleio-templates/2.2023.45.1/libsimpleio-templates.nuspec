@@ -10,7 +10,10 @@
     <readme>libsimpleio-templates.md</readme>
     <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
     <description>Project templates for .Net 7 console applications using libsimpleio.</description>
-    <releaseNotes>Removed the value for the id argument.</releaseNotes>
+    <releaseNotes>Set the default value for the id argument to
+IO.Objects.libsimpleio.syslog.Logger() and IO.Objects.libsimpleio.syslog.Register()
+to "@@APPNAME@@", which is expanded at run time to
+System.AppDomain.CurrentDomain.FriendlyName.</releaseNotes>
     <copyright>Copyright (C)2016-2023 Philip Munts</copyright>
     <tags>CLI NuGet Linux I/O ADC DAC GPIO I2C Motor, PWM Serial Servo SPI Stepper USB Raw HID Watchdog</tags>
     <packageTypes>
