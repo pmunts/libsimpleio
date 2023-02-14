@@ -1,6 +1,6 @@
 // Linux syslog Test
 
-// Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2021-23, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -26,7 +26,7 @@ System.Console.WriteLine("\nLinux syslog Test\n");
 
 // Create a Logger instance
 
-var log = new IO.Objects.libsimpleio.syslog.Logger("test_syslog");
+var log = new IO.Objects.libsimpleio.syslog.Logger();
 
 // Replace the default trace listener
 

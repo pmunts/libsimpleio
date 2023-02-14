@@ -1,4 +1,4 @@
-// Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2021-2023, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -159,12 +159,16 @@ namespace IO.Objects.libsimpleio.syslog
         /// <param name="facility"><c>syslog</c> facility.</param>
         /// <param name="options"><c>syslog</c> options.</param>
         /// <param name="severity"><c>syslog</c> severity level.</param>
-        public Logger(string id, int facility = LOG_LOCAL0,
+        public Logger(string id = "@@APPNAME@@", int facility = LOG_LOCAL0,
             int options = LOG_PERROR, int severity = LOG_INFO)
         {
-            int error;
+            if (id == "@@APPNAME@@")
+            {
+                id = System.AppDomain.CurrentDomain.FriendlyName;
+            }
+
             IO.Bindings.libsimpleio.LINUX_openlog(id, options, facility,
-                out error);
+                out int error);
             this.severity = severity;
         }
 
@@ -174,12 +178,10 @@ namespace IO.Objects.libsimpleio.syslog
         /// <param name="message">Error message.</param>
         public void Error(string message)
         {
-            int error;
-
             IO.Bindings.libsimpleio.LINUX_syslog
                 (IO.Bindings.libsimpleio.LOG_ERR,
                 message,
-                out error);
+                out int error);
         }
 
         /// <summary>
@@ -190,7 +192,6 @@ namespace IO.Objects.libsimpleio.syslog
         public void Error(string message, int errnum)
         {
             System.Text.StringBuilder errmsg = new System.Text.StringBuilder(256);
-            int error;
 
             IO.Bindings.libsimpleio.LINUX_strerror(errnum, errmsg,
                 errmsg.Capacity);
@@ -198,7 +199,7 @@ namespace IO.Objects.libsimpleio.syslog
             IO.Bindings.libsimpleio.LINUX_syslog
                 (IO.Bindings.libsimpleio.LOG_ERR,
                 message + ", " + errmsg,
-                out error);
+                out int error);
         }
 
         /// <summary>
@@ -207,12 +208,10 @@ namespace IO.Objects.libsimpleio.syslog
         /// <param name="message">Warning message.</param>
         public void Warning(string message)
         {
-            int error;
-
             IO.Bindings.libsimpleio.LINUX_syslog
                 (IO.Bindings.libsimpleio.LOG_WARNING,
                 message,
-                out error);
+                out int error);
         }
 
         /// <summary>
@@ -221,12 +220,10 @@ namespace IO.Objects.libsimpleio.syslog
         /// <param name="message">Notification message.</param>
         public void Note(string message)
         {
-            int error;
-
             IO.Bindings.libsimpleio.LINUX_syslog
                 (IO.Bindings.libsimpleio.LOG_NOTICE,
                 message,
-                out error);
+                out int error);
         }
 
         /// <summary>
@@ -237,10 +234,8 @@ namespace IO.Objects.libsimpleio.syslog
         /// <param name="message">Trace message.</param>
         public override void Write(string message)
         {
-            int error;
-
             IO.Bindings.libsimpleio.LINUX_syslog(this.severity, message,
-                out error);
+                out int error);
         }
 
         /// <summary>
@@ -249,10 +244,8 @@ namespace IO.Objects.libsimpleio.syslog
         /// <param name="message">Trace message.</param>
         public override void WriteLine(string message)
         {
-            int error;
-
             IO.Bindings.libsimpleio.LINUX_syslog(this.severity, message,
-                out error);
+                out int error);
         }
 
         /// <summary>
@@ -288,10 +281,15 @@ namespace IO.Objects.libsimpleio.syslog
         /// Write("Hello, World!");
         /// </code>
         /// </example>
-        public static void Register(string id, int facility = LOG_LOCAL0,
+        public static void Register(string id = "@@APPNAME@@", int facility = LOG_LOCAL0,
             int options = LOG_PERROR, int severity = LOG_INFO,
             Registration reghow = Registration.Replace)
         {
+            if (id == "@@APPNAME@@")
+            {
+                id = System.AppDomain.CurrentDomain.FriendlyName;
+            }
+
             while ((reghow == Registration.Replace) &&
                 (System.Diagnostics.Trace.Listeners.Count > 0))
                 System.Diagnostics.Trace.Listeners.RemoveAt(0);
