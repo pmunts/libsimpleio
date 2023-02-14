@@ -7,7 +7,7 @@
     <Title>Project templates for .Net 7 console applications using libsimpleio.</Title>
     <Description>Project templates for .Net 7 console applications using libsimpleio.</Description>
     <Authors>Philip Munts</Authors>
-    <Copyright>Copyright (C)2016-2022 Philip Munts, President, Munts AM Corp dba Munts Technologies</Copyright>
+    <Copyright>Copyright (C)2016-2023 Philip Munts</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>COPYING</PackageLicenseFile>
     <PackageReadmeFile>libsimpleio-templates.md</PackageReadmeFile>
