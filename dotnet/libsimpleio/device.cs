@@ -32,9 +32,9 @@ namespace IO.Objects.RemoteIO
         /// Create a Remote I/O device object for a Munts Technologies
         /// USB raw HID (VID=0x16D0, PID=0x0AFA) device Remote I/O Server.
         /// </summary>
-        public Device()
+        public Device(int VID = 0x16D0, int PID = 0x0AFA)
         {
-            transport = new IO.Objects.SimpleIO.HID.Messenger();
+            transport = new IO.Objects.SimpleIO.HID.Messenger(VID, PID);
 
             Message cmd = new Message(0);
             Message resp = new Message();
