@@ -32,14 +32,20 @@
     <Compile Include="..\..\csharp\bindings\libsimpleio\*.cs">
       <Link>IO.Bindings\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\..\csharp\clickboards\remoteio\*.cs">
-      <Link>IO.Devices.Clickboards.RemoteIO\%(FileName)</Link>
-    </Compile>
-    <Compile Include="..\..\csharp\clickboards\simpleio\*.cs">
-      <Link>IO.Devices.Clickboards.SimpleIO\%(FileName)</Link>
-    </Compile>
     <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\devices\clickboards\remoteio\*.cs">
+      <Link>IO.Devices.Clickboards.RemoteIO\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\devices\clickboards\simpleio\*.cs">
+      <Link>IO.Devices.Clickboards.SimpleIO\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\devices\grove\*.cs">
+      <Link>IO.Devices.Grove\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\devices\pmod\*.cs">
+      <Link>IO.Devices.Pmod\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\interfaces\*.cs">
       <Link>IO.Interfaces\%(FileName)</Link>
@@ -48,10 +54,10 @@
       <Link>IO.Objects\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\remoteio\*.cs">
-      <Link>IO.Remote\%(FileName)</Link>
+      <Link>IO.Objects.RemoteIO\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\simpleio\*.cs">
-      <Link>IO.Objects\%(FileName)</Link>
+      <Link>IO.Objects.SimpleIO\%(FileName)</Link>
     </Compile>
     <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
     <None Include="obj/libsimpleio.md" Pack="true" PackagePath="doc"/>

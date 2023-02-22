@@ -1,6 +1,6 @@
 # Makefile for building libremoteio.dll for .Net Standard 2.0
 
-# Copyright (C)2014-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2014-2023, Philip Munts.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,13 +20,12 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO	?= ../..
-
 BUILDNUM	?= 1
-LIBNAME		= libremoteio
-VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
-CONFIGURATION	= Release
-NUGETDIR	= ../../nuget
+LIBSIMPLEIO	:= ../..
+LIBNAME		:= libremoteio
+VERSION		:= $(shell date '+2.%Y.%j.$(BUILDNUM)' | sed 's/\.0/./g')
+CONFIGURATION	:= Release
+NUGETDIR	:= $(LIBSIMPLEIO)/nuget
 
 FIND		?= find
 PANDOC		?= pandoc
@@ -49,20 +48,13 @@ include ../../csharp/include/csharp.mk
 # Build the projects
 
 default:
-	mkdir -p obj
-	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
-ifeq ($(OS), Windows_NT)
-ifneq ($(NOCHM), yes)
-	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
+	BUILDVERSION=$(VERSION) "$(MSBUILD)" help.shfbproj
 	mv Help/$(LIBNAME).chm Help/$(LIBNAME).dll.chm
-	install -cm 0644 Help/$(LIBNAME).dll.chm ../../doc
-ifneq ($(NOPDF), yes)
 	$(CONVERT) Help/$(LIBNAME).dll.chm Help/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
+	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
+	install -cm 0644 Help/$(LIBNAME).dll.chm ../../doc
 	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
-endif
-endif
-endif
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	-rm -rf $(NUGETDIR)/$(LIBNAME)/$(VERSION)
 	-svn rm $(NUGETDIR)/$(LIBNAME)/*
@@ -70,7 +62,6 @@ endif
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
 	-svn add $(NUGETDIR)/$(LIBNAME)/$(VERSION)
-	cp bin/$(CONFIGURATION)/*.nupkg .
 
 # Remove working files
 

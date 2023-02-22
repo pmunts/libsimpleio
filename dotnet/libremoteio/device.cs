@@ -1,4 +1,4 @@
-// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020-2023, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,7 @@
 using System;
 using IO.Interfaces.Message64;
 
-namespace IO.Remote
+namespace IO.Objects.RemoteIO
 {
     /// <summary>
     /// Encasulates a remote I/O device.

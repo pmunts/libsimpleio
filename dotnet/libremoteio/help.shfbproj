@@ -77,15 +77,17 @@
       <NamespaceSummaryItem name="IO.Interfaces.Stepper" isDocumented="True">Abstract Interface for Stepper Motor Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Temperature" isDocumented="True">Abstract Interface for Temperature Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Watchdog" isDocumented="True">Abstract Interface for Watchdog Timers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Email.Mail" isDocumented="True">Email Sending Services using &lt;c&gt;/usr/bin/mail&lt;/c&gt;</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Email.SMTP" isDocumented="True">Email Sending Services using SMTP to &lt;c&gt;localhost:25&lt;/c&gt;</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.GPIO.PWM" isDocumented="True">PWM Controlled GPIO Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Services over UDP</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Servo.PWM" isDocumented="True">PWM Controlled Servo Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.USB.HID" isDocumented="True">USB Raw HID (Human Interface Device) Transport Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Remote" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Remote.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Remote I/O protocol Server and Socket Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Remote.Platforms" isDocumented="True">I/O Resource Definitions for particular Remote I/O Protocol Server Platforms</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.RemoteIO" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.RemoteIO.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Remote I/O protocol Server and Socket Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.RemoteIO.Platforms" isDocumented="True">I/O Resource Definitions for particular Remote I/O Protocol Server Platforms</NamespaceSummaryItem>
     </NamespaceSummaries>
     <HelpTitle>Munts Technologies Remote I/O Library for .Net Standard 2.0</HelpTitle>
     <HelpFileVersion>$(BUILDVERSION)</HelpFileVersion>
@@ -112,18 +114,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Win32' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
   <!-- Import the SHFB build targets -->
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
