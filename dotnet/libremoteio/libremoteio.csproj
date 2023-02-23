@@ -48,7 +48,7 @@
       <Link>IO.Objects\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\remoteio\*.cs">
-      <Link>IO.Remote\%(FileName)</Link>
+      <Link>IO.Objects.RemoteIO\%(FileName)</Link>
     </Compile>
     <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
     <None Include="obj/libremoteio.md" Pack="true" PackagePath="doc"/>
