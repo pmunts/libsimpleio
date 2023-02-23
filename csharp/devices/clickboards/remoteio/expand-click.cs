@@ -35,17 +35,17 @@ namespace IO.Devices.ClickBoards.RemoteIO.Expand
         /// </summary>
         /// <param name="socknum">mikroBUS socket number.</param>
         /// <param name="remdev">Remote I/O server device object.</param>
-        public Board(int socknum, IO.Remote.Device remdev = null)
+        public Board(int socknum, IO.Objects.RemoteIO.Device remdev = null)
         {
             // Create Remote I/O server device object, if one wasn't supplied
 
             if (remdev == null)
-                remdev = new IO.Remote.Device();
+                remdev = new IO.Objects.RemoteIO.Device();
 
             // Create a mikroBUS socket object
 
-            IO.Remote.mikroBUS.Socket S =
-                new IO.Remote.mikroBUS.Socket(socknum);
+            IO.Objects.RemoteIO.mikroBUS.Socket S =
+                new IO.Objects.RemoteIO.mikroBUS.Socket(socknum);
 
             // Configure hardware reset GPIO pin
 

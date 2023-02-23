@@ -157,17 +157,17 @@ namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
         /// <param name="remdev">Remote I/O server device object.</param>
         public Board(int socket, Base radix = Base.Decimal,
             ZeroBlanking blanking = ZeroBlanking.None, int pwmfreq = 100,
-            IO.Remote.Device remdev = null)
+            IO.Objects.RemoteIO.Device remdev = null)
         {
             // Create Remote I/O server device object, if one wasn't supplied
 
             if (remdev == null)
-                remdev = new IO.Remote.Device();
+                remdev = new IO.Objects.RemoteIO.Device();
 
             // Create a mikroBUS socket object
 
-            IO.Remote.mikroBUS.Socket S =
-                new IO.Remote.mikroBUS.Socket(socket);
+            IO.Objects.RemoteIO.mikroBUS.Socket S =
+                new IO.Objects.RemoteIO.mikroBUS.Socket(socket);
 
             // Configure hardware reset GPIO pin
 
@@ -184,11 +184,11 @@ namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
             myPWMgpio = null;
             myPWMout = null;
 
-            if ((pwmfreq > 0) && (S.PWMOut != IO.Remote.Device.Unavailable))
+            if ((pwmfreq > 0) && (S.PWMOut != IO.Objects.RemoteIO.Device.Unavailable))
             {
                 myPWMout = remdev.PWM_Create(S.PWMOut, pwmfreq, 100.0);
             }
-            else if (S.PWM != IO.Remote.Device.Unavailable)
+            else if (S.PWM != IO.Objects.RemoteIO.Device.Unavailable)
             {
                 myPWMgpio = remdev.GPIO_Create(S.PWM,
                     IO.Interfaces.GPIO.Direction.Output, true);

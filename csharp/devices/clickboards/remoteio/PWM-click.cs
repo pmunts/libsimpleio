@@ -44,24 +44,24 @@ namespace IO.Devices.ClickBoards.RemoteIO.PWM
         /// <param name="addr">I<sup>2</sup>C slave address.</param>
         /// <param name="remdev">Remote I/O device object.</param>
         public Board(int socknum, int freq, int addr = DefaultAddress,
-            IO.Remote.Device remdev = null)
+            IO.Objects.RemoteIO.Device remdev = null)
         {
             // Create Remote I/O server device object, if one wasn't supplied
 
             if (remdev == null)
-                remdev = new IO.Remote.Device();
+                remdev = new IO.Objects.RemoteIO.Device();
 
             // Create a mikroBUS socket object
 
-            IO.Remote.mikroBUS.Socket S =
-                new IO.Remote.mikroBUS.Socket(socknum);
+            IO.Objects.RemoteIO.mikroBUS.Socket S =
+                new IO.Objects.RemoteIO.mikroBUS.Socket(socknum);
 
             IO.Interfaces.I2C.Bus bus;
 
-            if (IO.Remote.mikroBUS.Shield.I2CBus is null)
+            if (IO.Objects.RemoteIO.mikroBUS.Shield.I2CBus is null)
                 bus = remdev.I2C_Create(S.I2CBus);
             else
-                bus = IO.Remote.mikroBUS.Shield.I2CBus;
+                bus = IO.Objects.RemoteIO.mikroBUS.Shield.I2CBus;
 
             mydev = new IO.Devices.PCA9685.Device(bus, addr, freq);
         }

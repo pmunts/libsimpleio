@@ -21,7 +21,7 @@
 using System;
 using IO.Interfaces.Message64;
 
-namespace IO.Remote
+namespace IO.Objects.RemoteIO
 {
     public partial class Device
     {

@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using IO.Interfaces.Message64;
 
-namespace IO.Remote
+namespace IO.Objects.RemoteIO
 {
     /// <summary>
     /// Types of remote peripherals
