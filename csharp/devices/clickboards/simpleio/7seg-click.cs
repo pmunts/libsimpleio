@@ -1,7 +1,7 @@
 // Mikroelektronika 7seg Click MIKROE-1201 (https://www.mikroe.com/7seg-click)
 // Services
 
-// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020-2023, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -88,7 +88,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
         private readonly IO.Interfaces.GPIO.Pin myPWMgpio;
         private readonly IO.Interfaces.PWM.Output myPWMout;
         private readonly IO.Devices.SN74HC595.Device mychain;
-        private Base mybase;
+        private Base myradix;
         private ZeroBlanking myblanking;
         private bool myleftdp = false;
         private bool myrightdp = false;
@@ -158,13 +158,19 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
             ZeroBlanking blanking = ZeroBlanking.None,
             int pwmfreq = 100)
         {
+            // Create a mikroBUS socket object
+
             IO.Objects.SimpleIO.mikroBUS.Socket S =
                 new IO.Objects.SimpleIO.mikroBUS.Socket(socket);
 
-            // Configure RST pin
+            // Configure hardware reset GPIO pin
 
             myRSTgpio = new IO.Objects.SimpleIO.GPIO.Pin(S.RST,
                 IO.Interfaces.GPIO.Direction.Output, true);
+
+            // Issue hardware reset
+
+            Reset();
 
             // Configure PWM pin -- Prefer PWM over GPIO, if possible, and
             // assume full brightness until otherwise changed.
@@ -191,7 +197,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
                 S.CS.available ? new IO.Objects.SimpleIO.GPIO.Pin(S.CS,
                 IO.Interfaces.GPIO.Direction.Output, true) : null), 2);
 
-            mybase = radix;
+            myradix = radix;
             myblanking = blanking;
             Clear();
         }
@@ -204,12 +210,12 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
         {
             get
             {
-                return mybase;
+                return myradix;
             }
 
             set
             {
-                mybase = value;
+                myradix = value;
             }
         }
 
@@ -260,7 +266,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
         {
             set
             {
-                switch (mybase)
+                switch (myradix)
                 {
                     case Base.Decimal:
 
@@ -337,6 +343,16 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
                 myrightdp = value;
                 Post();
             }
+        }
+
+        /// <summary>
+        /// Issue hardware reset to the 74HC595 shift register chain.
+        /// </summary>
+        public void Reset()
+        {
+            myRSTgpio.state = false;
+            System.Threading.Thread.Sleep(1);
+            myRSTgpio.state = true;
         }
 
         /// <summary>
