@@ -1,4 +1,4 @@
-// I2C bus controller services using IO.Objects.libsimpleio
+// I2C bus controller services using IO.Objects.SimpleIO
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.I2C
+namespace IO.Objects.SimpleIO.I2C
 {
     /// <summary>
     /// Encapsulates Linux I<sup>2</sup>C bus controllers using
@@ -52,13 +52,13 @@ namespace IO.Objects.libsimpleio.I2C
         /// Constructor for a single I<sup>2</sup>C bus controller.
         /// </summary>
         /// <param name="desg">I<sup>2</sup> bus designator.</param>
-        public Bus(IO.Objects.libsimpleio.Device.Designator desg)
+        public Bus(IO.Objects.SimpleIO.Device.Designator desg)
         {
             // Validate the I2C bus designator
 
-            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
+            if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
                 (desg.chip != 0) ||
-                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
+                (desg.chan == IO.Objects.SimpleIO.Device.Designator.Unavailable.chan))
             {
                 throw new Exception("Invalid designator");
             }

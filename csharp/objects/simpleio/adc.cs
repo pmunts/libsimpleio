@@ -1,4 +1,4 @@
-// PWM output services using IO.Objects.libsimpleio
+// PWM output services using IO.Objects.SimpleIO
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.ADC
+namespace IO.Objects.SimpleIO.ADC
 {
     /// <summary>
     /// Encapsulates Linux Industrial I/O Subsystem ADC inputs usingi
@@ -61,15 +61,15 @@ namespace IO.Objects.libsimpleio.ADC
         /// </summary>
         /// <param name="desg">ADC input designator.</param>
         /// <param name="resolution">Bits of resolution.</param>
-        public Sample(IO.Objects.libsimpleio.Device.Designator desg,
+        public Sample(IO.Objects.SimpleIO.Device.Designator desg,
             int resolution)
         {
             int error;
 
             // Validate the ADC input designator
 
-            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
-                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
+            if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.SimpleIO.Device.Designator.Unavailable.chan))
             {
                 throw new Exception("Invalid designator");
             }

@@ -1,4 +1,4 @@
-// PWM output services using IO.Objects.libsimpleio
+// PWM output services using IO.Objects.SimpleIO
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.DAC
+namespace IO.Objects.SimpleIO.DAC
 {
     /// <summary>
     /// Encapsulates Linux Industrial I/O Subsystem DAC outputs using
@@ -62,15 +62,15 @@ namespace IO.Objects.libsimpleio.DAC
         /// <param name="desg">DAC output designator.</param>
         /// <param name="resolution">Bits of resolution.</param>
         /// <param name="sample">Initial DAC output sample.</param>
-        public Sample(IO.Objects.libsimpleio.Device.Designator desg,
+        public Sample(IO.Objects.SimpleIO.Device.Designator desg,
             int resolution, int sample = 0)
         {
             int error;
 
             // Validate the DAC output designator
 
-            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
-                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
+            if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.SimpleIO.Device.Designator.Unavailable.chan))
             {
                 throw new Exception("Invalid designator");
             }

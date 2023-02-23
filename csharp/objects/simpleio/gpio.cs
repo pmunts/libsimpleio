@@ -1,4 +1,4 @@
-// GPIO pin services using IO.Objects.libsimpleio
+// GPIO pin services using IO.Objects.SimpleIO
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.GPIO
+namespace IO.Objects.SimpleIO.GPIO
 {
     /// <summary>
     /// Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
@@ -214,15 +214,15 @@ namespace IO.Objects.libsimpleio.GPIO
         /// <param name="driver">Output driver setting.</param>
         /// <param name="edge">Interrupt edge setting.</param>
         /// <param name="polarity">Polarity setting.</param>
-        public Pin(IO.Objects.libsimpleio.Device.Designator desg,
+        public Pin(IO.Objects.SimpleIO.Device.Designator desg,
             IO.Interfaces.GPIO.Direction dir, bool state = false,
             Driver driver = Driver.PushPull, Edge edge = Edge.None,
             Polarity polarity = Polarity.ActiveHigh)
         {
             // Validate the GPIO pin designator
 
-            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
-                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
+            if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.SimpleIO.Device.Designator.Unavailable.chan))
             {
                 throw new Exception("Invalid designator");
             }

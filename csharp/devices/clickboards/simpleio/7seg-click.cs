@@ -158,12 +158,12 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
             ZeroBlanking blanking = ZeroBlanking.None,
             int pwmfreq = 100)
         {
-            IO.Objects.libsimpleio.mikroBUS.Socket S =
-                new IO.Objects.libsimpleio.mikroBUS.Socket(socket);
+            IO.Objects.SimpleIO.mikroBUS.Socket S =
+                new IO.Objects.SimpleIO.mikroBUS.Socket(socket);
 
             // Configure RST pin
 
-            myRSTgpio = new IO.Objects.libsimpleio.GPIO.Pin(S.RST,
+            myRSTgpio = new IO.Objects.SimpleIO.GPIO.Pin(S.RST,
                 IO.Interfaces.GPIO.Direction.Output, true);
 
             // Configure PWM pin -- Prefer PWM over GPIO, if possible, and
@@ -174,21 +174,21 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
 
             if ((pwmfreq > 0) && (S.PWMOut.available))
             {
-                myPWMout = new IO.Objects.libsimpleio.PWM.Output(S.PWMOut,
+                myPWMout = new IO.Objects.SimpleIO.PWM.Output(S.PWMOut,
                     pwmfreq, 100.0);
             }
             else if (S.PWM.available)
             {
-                myPWMgpio = new IO.Objects.libsimpleio.GPIO.Pin(S.PWM,
+                myPWMgpio = new IO.Objects.SimpleIO.GPIO.Pin(S.PWM,
                     IO.Interfaces.GPIO.Direction.Output, true);
             }
 
             // Configure 74HC595 shift register chain
 
-            mychain = new SN74HC595.Device(new IO.Objects.libsimpleio.SPI.Device(S.SPIDev,
+            mychain = new SN74HC595.Device(new IO.Objects.SimpleIO.SPI.Device(S.SPIDev,
                 IO.Devices.SN74HC595.Device.SPI_Mode, 8,
                 IO.Devices.SN74HC595.Device.SPI_MaxFreq,
-                S.CS.available ? new IO.Objects.libsimpleio.GPIO.Pin(S.CS,
+                S.CS.available ? new IO.Objects.SimpleIO.GPIO.Pin(S.CS,
                 IO.Interfaces.GPIO.Direction.Output, true) : null), 2);
 
             mybase = radix;

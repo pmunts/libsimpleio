@@ -1,4 +1,4 @@
-// Watchdog timer services using IO.Objects.libsimpleio
+// Watchdog timer services using IO.Objects.SimpleIO
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.Watchdog
+namespace IO.Objects.SimpleIO.Watchdog
 {
     /// <summary>
     /// Encapsulates Linux watchdog timers using <c>libsimpleio</c>.

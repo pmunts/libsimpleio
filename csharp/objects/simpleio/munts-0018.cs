@@ -20,10 +20,10 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Device;
-using static IO.Objects.libsimpleio.Platforms.RaspberryPi;
+using IO.Objects.SimpleIO.Device;
+using static IO.Objects.SimpleIO.Platforms.RaspberryPi;
 
-namespace IO.Objects.libsimpleio.Platforms
+namespace IO.Objects.SimpleIO.Platforms
 {
     /// <summary>
     /// This class provides <c>Designator</c>s for I/O resources available on the

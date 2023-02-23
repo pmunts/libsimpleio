@@ -1,4 +1,4 @@
-// Raw HID device services using IO.Objects.libsimpleio
+// Raw HID device services using IO.Objects.SimpleIO
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.HID
+namespace IO.Objects.SimpleIO.HID
 {
     /// <summary>
     /// Encapsulates Linux raw HID devices using <c>libsimpleio</c>.

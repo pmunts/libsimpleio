@@ -1,4 +1,4 @@
-// PWM output services using IO.Objects.libsimpleio
+// PWM output services using IO.Objects.SimpleIO
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.PWM
+namespace IO.Objects.SimpleIO.PWM
 {
     /// <summary>
     /// Encapsulates Linux PWM outputs using <c>libsimpleio</c>.
@@ -40,14 +40,14 @@ namespace IO.Objects.libsimpleio.PWM
         /// <param name="dutycycle">Initial PWM output duty cycle.
         /// Allowed values are 0.0 to 100.0 percent.</param>
         /// <param name="polarity">PWM output polarity.</param>
-        public Output(IO.Objects.libsimpleio.Device.Designator desg,
+        public Output(IO.Objects.SimpleIO.Device.Designator desg,
             int frequency, double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum,
             int polarity = IO.Bindings.libsimpleio.PWM_POLARITY_ACTIVEHIGH)
         {
             // Validate the PWM output designator
 
-            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
-                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
+            if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.SimpleIO.Device.Designator.Unavailable.chan))
             {
                 throw new Exception("Invalid designator");
             }

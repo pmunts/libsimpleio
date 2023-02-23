@@ -44,15 +44,15 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         /// <param name="addr">I<sup>2</sup>C slave address.</param>
         public Board(int socknum, int freq, int addr = DefaultAddress)
         {
-            IO.Objects.libsimpleio.mikroBUS.Socket S =
-                new IO.Objects.libsimpleio.mikroBUS.Socket(socknum);
+            IO.Objects.SimpleIO.mikroBUS.Socket S =
+                new IO.Objects.SimpleIO.mikroBUS.Socket(socknum);
 
             IO.Interfaces.I2C.Bus bus;
 
-            if (IO.Objects.libsimpleio.mikroBUS.Shield.I2CBus is null)
-                bus = new IO.Objects.libsimpleio.I2C.Bus(S.I2CBus);
+            if (IO.Objects.SimpleIO.mikroBUS.Shield.I2CBus is null)
+                bus = new IO.Objects.SimpleIO.I2C.Bus(S.I2CBus);
             else
-                bus = IO.Objects.libsimpleio.mikroBUS.Shield.I2CBus;
+                bus = IO.Objects.SimpleIO.mikroBUS.Shield.I2CBus;
 
             mydev = new IO.Devices.PCA9685.Device(bus, addr, freq);
         }

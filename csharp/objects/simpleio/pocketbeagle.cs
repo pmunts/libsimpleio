@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.libsimpleio.Device;
+using IO.Objects.SimpleIO.Device;
 
-namespace IO.Objects.libsimpleio.Platforms
+namespace IO.Objects.SimpleIO.Platforms
 {
     /// <summary>
     /// This class defines identifiers for the devices provided by the

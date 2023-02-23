@@ -20,7 +20,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.syslog
+namespace IO.Objects.SimpleIO.syslog
 {
     /// <summary>
     /// Encapsulates system logging services using <c>libsimpleio</c>.
@@ -35,7 +35,7 @@ namespace IO.Objects.libsimpleio.syslog
     /// using static System.Diagnostics.Trace;
     ///
     /// Listeners.RemoveAt(0);
-    /// Listeners.Add(new IO.Objects.libsimpleio.syslog.Logger("HelloWorld"));
+    /// Listeners.Add(new IO.Objects.SimpleIO.syslog.Logger("HelloWorld"));
     ///
     /// Write("Hello, World!");
     /// </code>
@@ -276,7 +276,7 @@ namespace IO.Objects.libsimpleio.syslog
         /// <code>
         /// using static System.Diagnostics.Trace;
         ///
-        /// IO.Objects.libsimpleio.syslog.Logger.Register("HelloWorld");
+        /// IO.Objects.SimpleIO.syslog.Logger.Register("HelloWorld");
         ///
         /// Write("Hello, World!");
         /// </code>

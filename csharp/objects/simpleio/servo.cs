@@ -1,4 +1,4 @@
-// Servo output services using IO.Objects.libsimpleio
+// Servo output services using IO.Objects.SimpleIO
 
 // Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.Servo
+namespace IO.Objects.SimpleIO.Servo
 {
     /// <summary>
     /// Encapsulates Linux servo outputs using <c>libsimpleio</c>.
@@ -37,13 +37,13 @@ namespace IO.Objects.libsimpleio.Servo
         /// <param name="desg">PWM output designator.</param>
         /// <param name="frequency">PWM pulse frequency.</param>
         /// <param name="position">Initial servo position.</param>
-        public Output(IO.Objects.libsimpleio.Device.Designator desg, int frequency = 50,
+        public Output(IO.Objects.SimpleIO.Device.Designator desg, int frequency = 50,
             double position = IO.Interfaces.Servo.Positions.Neutral)
         {
             // Validate the PWM output designator
 
-            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
-                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
+            if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.SimpleIO.Device.Designator.Unavailable.chan))
             {
                 throw new Exception("Invalid designator");
             }

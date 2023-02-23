@@ -38,12 +38,12 @@ namespace IO.Devices.ClickBoards.SimpleIO.Expand
         {
             // Create a mikroBUS socket object
 
-            IO.Objects.libsimpleio.mikroBUS.Socket S =
-                new IO.Objects.libsimpleio.mikroBUS.Socket(socknum);
+            IO.Objects.SimpleIO.mikroBUS.Socket S =
+                new IO.Objects.SimpleIO.mikroBUS.Socket(socknum);
 
             // Configure hardware reset GPIO pin
 
-            myrst = new IO.Objects.libsimpleio.GPIO.Pin(S.RST,
+            myrst = new IO.Objects.SimpleIO.GPIO.Pin(S.RST,
                 IO.Interfaces.GPIO.Direction.Output, true);
 
             // Issue hardware reset
@@ -53,7 +53,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.Expand
             // Create MCP23S17 device object
 
             mydev = new IO.Devices.MCP23S17.Device(
-                new IO.Objects.libsimpleio.SPI.Device(S.SPIDev,
+                new IO.Objects.SimpleIO.SPI.Device(S.SPIDev,
                 IO.Devices.MCP23S17.Device.SPI_Mode,
                 IO.Devices.MCP23S17.Device.SPI_WordSize,
                 IO.Devices.MCP23S17.Device.SPI_Frequency));

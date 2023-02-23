@@ -1,4 +1,4 @@
-// SPI device services using IO.Objects.libsimpleio
+// SPI device services using IO.Objects.SimpleIO
 
 // Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
 //
@@ -22,7 +22,7 @@
 
 using System;
 
-namespace IO.Objects.libsimpleio.SPI
+namespace IO.Objects.SimpleIO.SPI
 {
     /// <summary>
     /// Encapsulates Linux SPI devices using <c>libsimpleio</c>.
@@ -32,7 +32,7 @@ namespace IO.Objects.libsimpleio.SPI
         /// <summary>
         /// Use hardware slave select.
         /// </summary>
-        public const IO.Objects.libsimpleio.GPIO.Pin AUTOCHIPSELECT = null;
+        public const IO.Objects.SimpleIO.GPIO.Pin AUTOCHIPSELECT = null;
 
         private int myfd;
         private int myfdcs;
@@ -47,7 +47,7 @@ namespace IO.Objects.libsimpleio.SPI
         /// <param name="cspin">SPI slave select GPIO pin number, or
         /// <c>AUTOCHIPSELECT</c>.</param>
         public Device(string devname, int mode, int wordsize,
-            int speed, IO.Objects.libsimpleio.GPIO.Pin cspin = AUTOCHIPSELECT)
+            int speed, IO.Objects.SimpleIO.GPIO.Pin cspin = AUTOCHIPSELECT)
         {
             IO.Bindings.libsimpleio.SPI_open(devname, mode, wordsize,
                 speed, out this.myfd, out int error);
@@ -73,14 +73,14 @@ namespace IO.Objects.libsimpleio.SPI
         /// <param name="speed">SPI transfer speed.</param>
         /// <param name="cspin">SPI slave select GPIO pin number, or
         /// <c>AUTOCHIPSELECT</c>.</param>
-        public Device(IO.Objects.libsimpleio.Device.Designator desg, int mode,
+        public Device(IO.Objects.SimpleIO.Device.Designator desg, int mode,
             int wordsize, int speed,
-            IO.Objects.libsimpleio.GPIO.Pin cspin = AUTOCHIPSELECT)
+            IO.Objects.SimpleIO.GPIO.Pin cspin = AUTOCHIPSELECT)
         {
             // Validate the I2C bus designator
 
-            if ((desg.chip == IO.Objects.libsimpleio.Device.Designator.Unavailable.chip) ||
-                (desg.chan == IO.Objects.libsimpleio.Device.Designator.Unavailable.chan))
+            if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
+                (desg.chan == IO.Objects.SimpleIO.Device.Designator.Unavailable.chan))
             {
                 throw new Exception("Invalid designator");
             }
