@@ -64,8 +64,8 @@ namespace IO.Interfaces.ADC
     /// </summary>
     public class Input: Voltage
     {
-        private Sample input;
-        private double stepsize;
+        private readonly Sample input;
+        private readonly double stepsize;
 
         /// <summary>
         /// Create an ADC voltage input.

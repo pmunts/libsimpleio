@@ -104,7 +104,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
     /// </summary>
     public class Socket
     {
-        private struct SocketEntry
+        private readonly struct SocketEntry
         {
             public readonly Shield.Kinds shield;
             public readonly int num;

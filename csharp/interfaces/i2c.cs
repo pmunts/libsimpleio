@@ -83,8 +83,8 @@ namespace IO.Interfaces.I2C
     /// </summary>
     public class Device
     {
-        private Bus bus;
-        private int addr;
+        private readonly Bus bus;
+        private readonly int addr;
 
         /// <summary>
         /// Create an I<sup>2</sup>C slave device.

@@ -57,8 +57,8 @@ namespace IO.Objects.RemoteIO
     /// </summary>
     public class SPI: IO.Interfaces.SPI.Device
     {
-        private Device device;
-        private int num;
+        private readonly Device device;
+        private readonly int num;
 
         /// <summary>
         /// Create a remote SPI slave device.

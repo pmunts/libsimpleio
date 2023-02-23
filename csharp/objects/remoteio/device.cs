@@ -60,9 +60,9 @@ namespace IO.Objects.RemoteIO
     /// </summary>
     public partial class Device
     {
-        private Messenger transport;
-        private String Version_string;
-        private String Capability_string;
+        private readonly Messenger transport;
+        private readonly String Version_string;
+        private readonly String Capability_string;
         private byte msgnum = 0;
 
         /// <summary>

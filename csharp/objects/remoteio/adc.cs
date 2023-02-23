@@ -50,9 +50,9 @@ namespace IO.Objects.RemoteIO
     /// </summary>
     public class ADC: IO.Interfaces.ADC.Sample
     {
-        private Device device;
-        private int num;
-        private int nbits;
+        private readonly Device device;
+        private readonly int num;
+        private readonly int nbits;
 
         /// <summary>
         /// Create a remote A/D input.

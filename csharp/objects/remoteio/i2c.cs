@@ -52,8 +52,8 @@ namespace IO.Objects.RemoteIO
     /// </summary>
     public class I2C : IO.Interfaces.I2C.Bus
     {
-        private Device device;
-        private int num;
+        private readonly Device device;
+        private readonly int num;
 
         /// <summary>
         /// Create a remote I<sup>2</sup>C bus controller.

@@ -65,8 +65,8 @@ namespace IO.Interfaces.DAC
     /// </summary>
     public class Output : Voltage
     {
-        private Sample output;
-        private double stepsize;
+        private readonly Sample output;
+        private readonly double stepsize;
 
         /// <summary>
         /// Create an DAC voltage output.

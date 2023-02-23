@@ -52,8 +52,8 @@ namespace IO.Objects.RemoteIO
     /// </summary>
     public class GPIO: IO.Interfaces.GPIO.Pin
     {
-        private Device device;
-        private int num;
+        private readonly Device device;
+        private readonly int num;
 
         /// <summary>
         /// Create a remote GPIO pin.
