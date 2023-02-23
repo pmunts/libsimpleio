@@ -201,7 +201,7 @@ namespace IO.Objects.SimpleIO.HID
         }
 
         /// <summary>
-        /// Read-only property returning the bus type identifierfor a raw HID
+        /// Read-only property returning the bus type identifier for a raw HID
         /// device.
         /// </summary>
         public int bustype
@@ -227,7 +227,7 @@ namespace IO.Objects.SimpleIO.HID
         }
 
         /// <summary>
-        /// Read-only property returning the bus type identifierfor a raw HID
+        /// Read-only property returning the vendor identifier for a raw HID
         /// device.
         /// </summary>
         public int vendor
@@ -253,7 +253,7 @@ namespace IO.Objects.SimpleIO.HID
         }
 
         /// <summary>
-        /// Read-only property returning the vendor identifierfor a raw HID
+        /// Read-only property returning the product identifier for a raw HID
         /// device.
         /// </summary>
         public int product
