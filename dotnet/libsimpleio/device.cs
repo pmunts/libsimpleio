@@ -32,11 +32,17 @@ namespace IO.Objects.RemoteIO
         /// Create a Remote I/O Device object instance for the specified
         /// USB Raw HID Remote I/O Server.
         /// </summary>
-        public Device(int VID = 0x16D0, int PID = 0x0AFA, string serial = null,
-            int timeoutms = 1000)
+        /// <param name="VID">Vendor ID</param>
+        /// <param name="PID">Product</param>
+        /// <param name="serialnumber">Serial number</param>
+        /// <param name="timeoutms">Time in milliseconds to wait for
+        /// read and write operations to complete.  Zero means wait
+        /// forever.</param>
+        public Device(int VID = 0x16D0, int PID = 0x0AFA,
+            string serialnumber = null, int timeoutms = 1000)
         {
-            transport = new IO.Objects.SimpleIO.HID.Messenger(VID, PID, serial,
-                timeoutms);
+            transport = new IO.Objects.SimpleIO.HID.Messenger(VID, PID, 
+                serialnumber, timeoutms);
 
             Message cmd = new Message(0);
             Message resp = new Message();
