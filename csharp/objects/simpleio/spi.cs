@@ -34,8 +34,8 @@ namespace IO.Objects.SimpleIO.SPI
         /// </summary>
         public const IO.Objects.SimpleIO.GPIO.Pin AUTOCHIPSELECT = null;
 
-        private int myfd;
-        private int myfdcs;
+        private readonly int myfd;
+        private readonly int myfdcs;
 
         /// <summary>
         /// Constructor for a single SPI device.
@@ -115,11 +115,8 @@ namespace IO.Objects.SimpleIO.SPI
                 throw new Exception("Invalid response length");
             }
 
-            byte[] cmd = new byte[1];
-            int error;
-
             IO.Bindings.libsimpleio.SPI_transaction(this.myfd,
-                this.myfdcs, null, 0, 0, resp, resp.Length, out error);
+                this.myfdcs, null, 0, 0, resp, resp.Length, out int error);
 
             if (error != 0)
             {
@@ -140,11 +137,8 @@ namespace IO.Objects.SimpleIO.SPI
                 throw new Exception("Invalid command length");
             }
 
-            byte[] resp = new byte[1];
-            int error;
-
             IO.Bindings.libsimpleio.SPI_transaction(this.myfd,
-                this.myfdcs, cmd, cmdlen, 0, null, 0, out error);
+                this.myfdcs, cmd, cmdlen, 0, null, 0, out int error);
 
             if (error != 0)
             {
@@ -194,11 +188,9 @@ namespace IO.Objects.SimpleIO.SPI
             if ((delayus < 0) || (delayus > 65535))
                 throw new Exception("Invalid delay parameter");
 
-            int error;
-
             IO.Bindings.libsimpleio.SPI_transaction(this.myfd,
                 this.myfdcs, cmd, cmdlen, delayus, resp, resplen,
-                out error);
+                out int error);
 
             if (error != 0)
             {

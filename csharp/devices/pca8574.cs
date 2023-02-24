@@ -25,7 +25,7 @@ namespace IO.Devices.PCA8574
     /// </summary>
     public class Device
     {
-        private IO.Interfaces.I2C.Device dev;
+        private readonly IO.Interfaces.I2C.Device dev;
         private byte latch;
         private byte[] buf = { 0 };
 

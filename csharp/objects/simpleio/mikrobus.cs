@@ -1,7 +1,7 @@
 // Mikroelektronika mikroBUS (https://www.mikroe.com/mikrobus)
 // Shield and Socket Services
 
-// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020-2023, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -130,7 +130,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
     /// </summary>
     public class Socket
     {
-        private struct SocketEntry
+        private readonly struct SocketEntry
         {
             public readonly Shield.Kinds shield;
             public readonly int num;

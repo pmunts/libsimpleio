@@ -102,8 +102,6 @@ namespace IO.Devices.HDC1080
 
             if ((reg == RegTemperature) || (reg == RegHumidity))
                 delayus = 10000;
-            else
-                delayus = 0;
 
             this.cmd[0] = reg;
             this.dev.Transaction(cmd, 1, resp, 2, delayus);

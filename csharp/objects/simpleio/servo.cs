@@ -29,7 +29,7 @@ namespace IO.Objects.SimpleIO.Servo
     /// </summary>
     public class Output: IO.Interfaces.Servo.Output
     {
-        private int myfd;
+        private readonly int myfd;
 
         /// <summary>
         /// Constructor for a single servo output.
@@ -64,11 +64,10 @@ namespace IO.Objects.SimpleIO.Servo
 
             int period = (int)(1E9 / frequency + 0.5);
             int ontime = (int)(1500000.0 + 500000.0 * position);
-            int error;
 
             IO.Bindings.libsimpleio.PWM_configure((int)desg.chip,
                 (int)desg.chan, period, ontime,
-                IO.Bindings.libsimpleio.PWM_POLARITY_ACTIVEHIGH, out error);
+                IO.Bindings.libsimpleio.PWM_POLARITY_ACTIVEHIGH, out int error);
 
             if (error != 0)
             {
@@ -101,10 +100,9 @@ namespace IO.Objects.SimpleIO.Servo
                 }
 
                 int ontime = (int)(1500000.0 + 500000.0 * value);
-                int error;
 
                 IO.Bindings.libsimpleio.PWM_write(this.myfd,
-                    ontime, out error);
+                    ontime, out int error);
 
                 if (error != 0)
                 {

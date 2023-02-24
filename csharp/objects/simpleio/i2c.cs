@@ -30,7 +30,7 @@ namespace IO.Objects.SimpleIO.I2C
     /// </summary>
     public class Bus : IO.Interfaces.I2C.Bus
     {
-        private int myfd;
+        private readonly int myfd;
 
         /// <summary>
         /// Constructor for a single I<sup>2</sup>C bus controller.
@@ -93,10 +93,8 @@ namespace IO.Objects.SimpleIO.I2C
                 throw new Exception("Invalid response length");
             }
 
-            int error;
-
             IO.Bindings.libsimpleio.I2C_transaction(this.myfd,
-                slaveaddr, null, 0, resp, resplen, out error);
+                slaveaddr, null, 0, resp, resplen, out int error);
 
             if (error != 0)
             {
@@ -123,10 +121,8 @@ namespace IO.Objects.SimpleIO.I2C
                 throw new Exception("Invalid command length");
             }
 
-            int error;
-
             IO.Bindings.libsimpleio.I2C_transaction(this.myfd,
-                slaveaddr, cmd, cmdlen, null, 0, out error);
+                slaveaddr, cmd, cmdlen, null, 0, out int error);
 
             if (error != 0)
             {

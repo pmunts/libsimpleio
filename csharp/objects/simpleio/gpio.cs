@@ -227,16 +227,12 @@ namespace IO.Objects.SimpleIO.GPIO
                 throw new Exception("Invalid designator");
             }
 
-            int flags;
-            int events;
-            int error;
-
-            CalculateFlags(dir, driver, edge, polarity, out flags, out events,
+            CalculateFlags(dir, driver, edge, polarity, out int flags, out int events,
                 out this.kind);
 
             IO.Bindings.libsimpleio.GPIO_line_open((int)desg.chip,
                 (int)desg.chan, flags, events, state ? 1 : 0, out this.myfd,
-                out error);
+                out int error);
 
             if (error != 0)
             {
@@ -281,7 +277,7 @@ namespace IO.Objects.SimpleIO.GPIO
                         break;
                 }
 
-                return (value == 0) ? false : true;
+                return value != 0;
             }
 
             set

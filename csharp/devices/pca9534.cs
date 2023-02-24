@@ -25,7 +25,7 @@ namespace IO.Devices.PCA9534
     /// </summary>
     public class Device
     {
-        private IO.Interfaces.I2C.Device dev;
+        private readonly IO.Interfaces.I2C.Device dev;
         private byte config;
         private byte latch;
         private byte[] cmd = { 0, 0 };  // I2C command buffer

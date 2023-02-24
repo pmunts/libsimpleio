@@ -27,9 +27,9 @@ namespace IO.Devices.PCA9534.GPIO
     /// </summary>
     public class Pin : IO.Interfaces.GPIO.Pin
     {
-        private Device dev;
-        private byte mask;
-        private IO.Interfaces.GPIO.Direction dir;
+        private readonly Device dev;
+        private readonly byte mask;
+        private readonly IO.Interfaces.GPIO.Direction dir;
 
         /// <summary>
         /// Constructor for a single GPIO pin.

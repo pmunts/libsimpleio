@@ -1,6 +1,6 @@
 // Raw HID device services using IO.Objects.SimpleIO
 
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2023, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -29,8 +29,8 @@ namespace IO.Objects.SimpleIO.HID
     /// </summary>
     public class Messenger : IO.Interfaces.Message64.Messenger
     {
-        private int myfd;
-        private int timeout;
+        private readonly int myfd;
+        private readonly int timeout;
 
         /// <summary>
         /// Constructor for a single raw HID device.
@@ -48,10 +48,8 @@ namespace IO.Objects.SimpleIO.HID
                 throw new Exception("Invalid timeout");
             }
 
-            int error;
-
             IO.Bindings.libsimpleio.HIDRAW_open1(devname,
-                out this.myfd, out error);
+                out this.myfd, out int error);
 
             if (error != 0)
             {
@@ -92,10 +90,8 @@ namespace IO.Objects.SimpleIO.HID
                 throw new Exception("Invalid timeout");
             }
 
-            int error;
-
             IO.Bindings.libsimpleio.HIDRAW_open3(VID, PID,
-                serial, out this.myfd, out error);
+                serial, out this.myfd, out int error);
 
             if (error != 0)
             {
@@ -112,12 +108,9 @@ namespace IO.Objects.SimpleIO.HID
         /// <param name="cmd">64-byte command message.</param>
         public void Send(IO.Interfaces.Message64.Message cmd)
         {
-            int error;
-            int count;
-
             IO.Bindings.libsimpleio.HIDRAW_send(this.myfd,
-                cmd.payload, IO.Interfaces.Message64.Message.Size, out count,
-                out error);
+                cmd.payload, IO.Interfaces.Message64.Message.Size, out int count,
+                out int error);
 
             if (error != 0)
             {
@@ -133,7 +126,6 @@ namespace IO.Objects.SimpleIO.HID
         public void Receive(IO.Interfaces.Message64.Message resp)
         {
             int error;
-            int count;
 
             if (this.timeout > 0)
             {
@@ -153,7 +145,7 @@ namespace IO.Objects.SimpleIO.HID
 
             IO.Bindings.libsimpleio.HIDRAW_receive(this.myfd,
                 resp.payload, IO.Interfaces.Message64.Message.Size,
-                out count, out error);
+                out int count, out error);
 
             if (error != 0)
             {
@@ -185,10 +177,9 @@ namespace IO.Objects.SimpleIO.HID
             {
                 System.Text.StringBuilder buf =
                     new System.Text.StringBuilder(256);
-                int error;
 
                 IO.Bindings.libsimpleio.HIDRAW_get_name(this.fd, buf,
-                    buf.Capacity, out error);
+                    buf.Capacity, out int error);
 
                 if (error != 0)
                 {
@@ -208,13 +199,8 @@ namespace IO.Objects.SimpleIO.HID
         {
             get
             {
-                int error;
-                int bus;
-                int vid;
-                int pid;
-
                 IO.Bindings.libsimpleio.HIDRAW_get_info(this.fd,
-                    out bus, out vid, out pid, out error);
+                    out int bus, out int vid, out int pid, out int error);
 
                 if (error != 0)
                 {
@@ -234,13 +220,8 @@ namespace IO.Objects.SimpleIO.HID
         {
             get
             {
-                int error;
-                int bus;
-                int vid;
-                int pid;
-
                 IO.Bindings.libsimpleio.HIDRAW_get_info(this.fd,
-                    out bus, out vid, out pid, out error);
+                    out int bus, out int vid, out int pid, out int error);
 
                 if (error != 0)
                 {
@@ -260,13 +241,8 @@ namespace IO.Objects.SimpleIO.HID
         {
             get
             {
-                int error;
-                int bus;
-                int vid;
-                int pid;
-
                 IO.Bindings.libsimpleio.HIDRAW_get_info(this.fd,
-                    out bus, out vid, out pid, out error);
+                    out int bus, out int vid, out int pid, out int error);
 
                 if (error != 0)
                 {

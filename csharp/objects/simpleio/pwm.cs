@@ -29,8 +29,8 @@ namespace IO.Objects.SimpleIO.PWM
     /// </summary>
     public class Output: IO.Interfaces.PWM.Output
     {
-        private int period;
-        private int myfd;
+        private readonly int period;
+        private readonly int myfd;
 
         /// <summary>
         /// Constructor for a single PWM output.
@@ -73,10 +73,9 @@ namespace IO.Objects.SimpleIO.PWM
 
             this.period = (int)(1.0E9 / frequency);
             int ontime =(int)(dutycycle / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
-            int error;
 
             IO.Bindings.libsimpleio.PWM_configure((int)desg.chip,
-                (int)desg.chan, period, ontime, (int)polarity, out error);
+                (int)desg.chan, period, ontime, (int)polarity, out int error);
 
             if (error != 0)
             {
@@ -109,10 +108,9 @@ namespace IO.Objects.SimpleIO.PWM
                 }
 
                 int ontime = (int)(value / IO.Interfaces.PWM.DutyCycles.Maximum * this.period);
-                int error;
 
                 IO.Bindings.libsimpleio.PWM_write(this.myfd,
-                    ontime, out error);
+                    ontime, out int error);
 
                 if (error != 0)
                 {

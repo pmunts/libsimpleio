@@ -28,7 +28,7 @@ namespace IO.Objects.Motor.Servo
     /// </summary>
     public class Output : IO.Interfaces.Motor.Output
     {
-        private IO.Interfaces.Servo.Output servo;
+        private readonly IO.Interfaces.Servo.Output servo;
 
         /// <summary>
         /// Constructor for a single motor output.

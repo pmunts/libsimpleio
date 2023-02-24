@@ -27,8 +27,8 @@ namespace IO.Devices.MCP23S17.GPIO
     /// </summary>
     public class Pin : IO.Interfaces.GPIO.Pin
     {
-        private IO.Devices.MCP23S17.Device dev;
-        private uint mask;
+        private readonly IO.Devices.MCP23S17.Device dev;
+        private readonly uint mask;
 
         /// <summary>
         /// Create a single MCP23S17 GPIO pin.

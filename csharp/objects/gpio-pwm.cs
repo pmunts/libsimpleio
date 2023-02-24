@@ -38,8 +38,8 @@ namespace IO.Objects.GPIO.PWM
     /// </remarks>
     public class Pin : IO.Interfaces.GPIO.Pin
     {
-        private IO.Interfaces.PWM.Output myoutput;
-        private double myduty;
+        private readonly IO.Interfaces.PWM.Output myoutput;
+        private readonly double myduty;
         private bool mystate;
 
         /// <summary>

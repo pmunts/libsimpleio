@@ -25,8 +25,8 @@ namespace IO.Objects.Servo.PWM
     /// </summary>
     public class Output : IO.Interfaces.Servo.Output
     {
-        private IO.Interfaces.PWM.Output pwm;
-        private int period;
+        private readonly IO.Interfaces.PWM.Output pwm;
+        private readonly int period;
 
         /// <summary>
         /// Constructor for a single servo output.

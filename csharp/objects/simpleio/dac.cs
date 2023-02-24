@@ -43,7 +43,6 @@ namespace IO.Objects.SimpleIO.DAC
         {
             System.Text.StringBuilder name =
                 new System.Text.StringBuilder(256);
-            int error;
 
             if (chip < 0)
             {
@@ -51,7 +50,13 @@ namespace IO.Objects.SimpleIO.DAC
             }
 
             IO.Bindings.libsimpleio.DAC_get_name(chip, name,
-                name.Capacity, out error);
+                name.Capacity, out int error);
+
+            if (error != 0)
+            {
+                throw new Exception("DAC_get_name() failed, " +
+                    errno.strerror(error));
+            }
 
             return name.ToString();
         }
@@ -65,8 +70,6 @@ namespace IO.Objects.SimpleIO.DAC
         public Sample(IO.Objects.SimpleIO.Device.Designator desg,
             int resolution, int sample = 0)
         {
-            int error;
-
             // Validate the DAC output designator
 
             if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
@@ -76,7 +79,7 @@ namespace IO.Objects.SimpleIO.DAC
             }
 
             IO.Bindings.libsimpleio.DAC_open((int)desg.chip, (int)desg.chan,
-                out this.myfd, out error);
+                out this.myfd, out int error);
 
             if (error != 0)
             {
@@ -96,10 +99,8 @@ namespace IO.Objects.SimpleIO.DAC
         {
             set
             {
-                int error;
-
                 IO.Bindings.libsimpleio.DAC_write(this.myfd,
-                    value, out error);
+                    value, out int error);
 
                 if (error != 0)
                 {

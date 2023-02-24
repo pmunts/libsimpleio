@@ -39,7 +39,7 @@ namespace IO.Objects.SimpleIO.Watchdog
         /// </summary>
         public const int DefaultTimeout = 0;
 
-        private int myfd;
+        private readonly int myfd;
 
         /// <summary>
         /// Constructor for a single watchdog timer.
@@ -54,10 +54,8 @@ namespace IO.Objects.SimpleIO.Watchdog
                 throw new Exception("Invalid timeout");
             }
 
-            int error;
-
             IO.Bindings.libsimpleio.WATCHDOG_open(devname,
-                out this.myfd, out error);
+                out this.myfd, out int error);
 
             if (error != 0)
             {
@@ -67,10 +65,8 @@ namespace IO.Objects.SimpleIO.Watchdog
 
             if (timeout != DefaultTimeout)
             {
-                int newtimeout;
-
                 IO.Bindings.libsimpleio.WATCHDOG_set_timeout(this.myfd,
-                    timeout, out newtimeout, out error);
+                    timeout, out int newtimeout, out error);
 
                 if (error != 0)
                 {
@@ -85,10 +81,8 @@ namespace IO.Objects.SimpleIO.Watchdog
         /// </summary>
         public void Kick()
         {
-            int error;
-
             IO.Bindings.libsimpleio.WATCHDOG_kick(this.myfd,
-                out error);
+                out int error);
 
             if (error != 0)
             {
@@ -106,11 +100,8 @@ namespace IO.Objects.SimpleIO.Watchdog
         {
             get
             {
-                int error;
-                int value;
-
                 IO.Bindings.libsimpleio.WATCHDOG_get_timeout(this.myfd,
-                    out value, out error);
+                    out int value, out int error);
 
                 if (error != 0)
                 {
@@ -128,11 +119,8 @@ namespace IO.Objects.SimpleIO.Watchdog
                     throw new Exception("Invalid timeout");
                 }
 
-                int newtimeout;
-                int error;
-
                 IO.Bindings.libsimpleio.WATCHDOG_set_timeout(this.myfd,
-                    value, out newtimeout, out error);
+                    value, out int newtimeout, out int error);
 
                 if (error != 0)
                 {

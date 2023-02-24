@@ -1,6 +1,6 @@
 // PWM output services using IO.Objects.SimpleIO
 
-// Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2017-2023, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -30,8 +30,8 @@ namespace IO.Objects.SimpleIO.ADC
     /// </summary>
     public class Sample : IO.Interfaces.ADC.Sample
     {
-        private int myfd;
-        private int nbits;
+        private readonly int myfd;
+        private readonly int nbits;
 
         /// <summary>
         /// Retrieve the subsystem name string for a Linux Industrial
@@ -43,7 +43,6 @@ namespace IO.Objects.SimpleIO.ADC
         {
             System.Text.StringBuilder name =
                 new System.Text.StringBuilder(256);
-            int error;
 
             if (chip < 0)
             {
@@ -51,7 +50,13 @@ namespace IO.Objects.SimpleIO.ADC
             }
 
             IO.Bindings.libsimpleio.ADC_get_name(chip, name,
-                name.Capacity, out error);
+                name.Capacity, out int error);
+
+            if (error != 0)
+            {
+                throw new Exception("ADC_get_name() failed, " +
+                    errno.strerror(error));
+            }
 
             return name.ToString();
         }
@@ -64,8 +69,6 @@ namespace IO.Objects.SimpleIO.ADC
         public Sample(IO.Objects.SimpleIO.Device.Designator desg,
             int resolution)
         {
-            int error;
-
             // Validate the ADC input designator
 
             if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
@@ -75,7 +78,7 @@ namespace IO.Objects.SimpleIO.ADC
             }
 
             IO.Bindings.libsimpleio.ADC_open((int)desg.chip, (int)desg.chan,
-                out this.myfd, out error);
+                out this.myfd, out int error);
 
             if (error != 0)
             {
@@ -94,11 +97,8 @@ namespace IO.Objects.SimpleIO.ADC
         {
             get
             {
-                int rawdata;
-                int error;
-
                 IO.Bindings.libsimpleio.ADC_read(this.myfd,
-                    out rawdata, out error);
+                    out int rawdata, out int error);
 
                 if (error != 0)
                 {

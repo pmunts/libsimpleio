@@ -27,9 +27,9 @@ namespace IO.Objects.Motor.PWM
     /// </summary>
     public class Output : IO.Interfaces.Motor.Output
     {
-        private IO.Interfaces.GPIO.Pin dirpin;
-        private IO.Interfaces.PWM.Output pwm0; // CW
-        private IO.Interfaces.PWM.Output pwm1; // CCW
+        private readonly IO.Interfaces.GPIO.Pin dirpin;
+        private readonly IO.Interfaces.PWM.Output pwm0; // CW
+        private readonly IO.Interfaces.PWM.Output pwm1; // CCW
 
         // Type 1 motor drivers, using one GPIO output for direction,
         // and one PWM output for speed

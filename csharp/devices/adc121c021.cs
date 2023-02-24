@@ -1,4 +1,4 @@
-// Copyright (C)2018, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2023, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -34,8 +34,8 @@ namespace IO.Devices.ADC121C021
 
         // Private state variables
 
-        private IO.Interfaces.I2C.Bus bus;
-        private int addr;
+        private readonly IO.Interfaces.I2C.Bus bus;
+        private readonly int addr;
 
         // Private methods
 

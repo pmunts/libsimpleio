@@ -62,7 +62,7 @@ namespace IO.Devices.MCP23017
         private const byte GPIODAT = GPIOA;
         private const byte GPIOLAT = OLATA;
 
-        private IO.Interfaces.I2C.Device dev;
+        private readonly IO.Interfaces.I2C.Device dev;
 
         // Preallocate I2C transaction buffers
         private byte[] outbuf = { 0, 0, 0 };

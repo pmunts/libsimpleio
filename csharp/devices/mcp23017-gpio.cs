@@ -1,6 +1,6 @@
 // MCP23017 I2C GPIO Expander Services.
 
-// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020-2023, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -27,8 +27,8 @@ namespace IO.Devices.MCP23017.GPIO
     /// </summary>
     public class Pin : IO.Interfaces.GPIO.Pin
     {
-        private IO.Devices.MCP23017.Device dev;
-        private uint mask;
+        private readonly IO.Devices.MCP23017.Device dev;
+        private readonly uint mask;
 
         /// <summary>
         /// Create a single MCP23017 GPIO pin.

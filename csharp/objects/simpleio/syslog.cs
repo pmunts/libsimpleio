@@ -42,7 +42,7 @@ namespace IO.Objects.SimpleIO.syslog
     /// </example>
     public class Logger : System.Diagnostics.TraceListener
     {
-        private int severity;
+        private readonly int severity;
 
         // <c>syslog</c> options (can be added together):
 
