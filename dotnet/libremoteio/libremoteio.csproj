@@ -39,7 +39,7 @@
       <Link>IO.Devices.Grove\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\devices\pmod\*.cs">
-      <Link>IO.Devices.Grove\%(FileName)</Link>
+      <Link>IO.Devices.Pmod\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\interfaces\*.cs">
       <Link>IO.Interfaces\%(FileName)</Link>
