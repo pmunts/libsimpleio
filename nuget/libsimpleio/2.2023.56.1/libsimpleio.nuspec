@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>libsimpleio</id>
+    <version>2.2023.56.1</version>
+    <title>Munts Technologies Linux Simple I/O Library for .Net Standard 2.0</title>
+    <authors>Philip Munts</authors>
+    <license type="file">doc/COPYING</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <readme>doc/libsimpleio.md</readme>
+    <projectUrl>https://github.com/pmunts/libsimpleio</projectUrl>
+    <description>Munts Technologies Linux Simple I/O Library for .Net Standard 2.0</description>
+    <releaseNotes>Made some changes after a review of the .Net library codebase:
+
+Resolved or suppressed all Intellisense suggestions.
+
+Fixed some minor bugs in code and documentation comments.
+
+Renamed namespace IO.Remote to IO.Objects.RemoteIO.
+Sorry, this is an API breaking change.
+
+Renamed namespace IO.libsimpleio to IO.Objects.SimpleIO.
+Sorry, this is an API breaking change.</releaseNotes>
+    <copyright>Copyright (C)2017-2023 Philip Munts</copyright>
+    <tags>Linux I/O ADC DAC GPIO I2C PWM Serial Servo SPI Stepper USB Raw HID Watchdog</tags>
+    <repository type="git" url="https://github.com/pmunts/libsimpleio" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+</package>

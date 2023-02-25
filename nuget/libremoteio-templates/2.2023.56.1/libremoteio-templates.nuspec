@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>libremoteio-templates</id>
+    <version>2.2023.56.1</version>
+    <title>Project templates for .Net 7 console applications using libremoteio.</title>
+    <authors>Philip Munts</authors>
+    <license type="file">COPYING</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <readme>libremoteio-templates.md</readme>
+    <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
+    <description>Project templates for .Net 7 console applications using libremoteio.</description>
+    <copyright>Copyright (C)2016-2022 Philip Munts, President, Munts AM Corp dba Munts Technologies</copyright>
+    <tags>CLI NuGet Linux USB HID Remote I/O ADC DAC GPIO I2C Motor PWM Servo SPI Stepper</tags>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+    <repository type="git" url="https://github.com/pmunts/libsimpleio" />
+    <dependencies>
+      <group targetFramework="net7.0" />
+    </dependencies>
+  </metadata>
+</package>
