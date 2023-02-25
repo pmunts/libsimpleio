@@ -21,9 +21,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using IO.Objects.SimpleIO.Device;
-using static IO.Objects.SimpleIO.Platforms.RaspberryPi;
+using static IO.Objects.SimpleIO.RaspberryPi;
 
-namespace IO.Objects.SimpleIO.Platforms
+namespace IO.Objects.SimpleIO
 {
     /// <summary>
     /// This class provides <c>Designator</c>s for I/O resources available on the
