@@ -20,9 +20,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using static IO.Objects.RemoteIO.Platforms.RaspberryPi;
+using static IO.Objects.RemoteIO.RaspberryPi;
 
-namespace IO.Objects.RemoteIO.Platforms
+namespace IO.Objects.RemoteIO
 {
     /// <summary>
     /// I/O resources (channel numbers) available on a
