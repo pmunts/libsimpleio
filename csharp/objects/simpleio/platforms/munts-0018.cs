@@ -21,7 +21,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using IO.Objects.SimpleIO.Device;
-using static IO.Objects.SimpleIO.RaspberryPi;
+using static IO.Objects.SimpleIO.Platforms.RaspberryPi;
 
 namespace IO.Objects.SimpleIO.Platforms
 {
