@@ -1,4 +1,4 @@
-# Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2020-2023, Philip Munts, President.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -18,11 +18,11 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBNAME		= UNDEFINEND
+LIBNAME		?= UNDEFINEND
 BUILDNUM	?= 1
-VERSION		?= 2.`date '+%Y.%j'`.$(BUILDNUM)
-CONFIGURATION	= Release
-NUGETDIR	= ../../../nuget
+VERSION		:= $(shell date '+2.%Y.%j.$(BUILDNUM)' | sed 's/\.0/./g')
+CONFIGURATION	:= Release
+NUGETDIR	:= ../../../nuget
 
 FIND		?= find
 MAKE		?= make
