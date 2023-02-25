@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Objects.RemoteIO
+namespace IO.Objects.RemoteIO.Platforms
 {
     /// <summary>
     /// I/O resources (channel numbers) available on a Raspberry Pi Remote I/O

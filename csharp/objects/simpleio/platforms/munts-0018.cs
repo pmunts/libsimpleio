@@ -23,7 +23,7 @@
 using IO.Objects.SimpleIO.Device;
 using static IO.Objects.SimpleIO.RaspberryPi;
 
-namespace IO.Objects.SimpleIO
+namespace IO.Objects.SimpleIO.Platforms
 {
     /// <summary>
     /// This class provides <c>Designator</c>s for I/O resources available on the
