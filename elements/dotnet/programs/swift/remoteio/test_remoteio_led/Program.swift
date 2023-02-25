@@ -22,8 +22,8 @@
 
 print("\nLED Toggle Test\n")
 
-var dev : IO.Remote.Device =
-    IO.Remote.Device(IO.Objects.USB.HID.Messenger())
+var dev : IO.Objects.RemoteIO.Device =
+    IO.Objects.RemoteIO.Device(IO.Objects.USB.HID.Messenger())
 
 var LED : IO.Interfaces.GPIO.Pin =
     dev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output)

@@ -28,7 +28,7 @@ namespace test_gpio
     {
         static void Main(string[] args)
         {
-            IO.Objects.libsimpleio.Device.Designator desg;
+            IO.Objects.SimpleIO.Device.Designator desg;
 
             Console.WriteLine("\nGPIO Pin Toggle Test using libsimpleio\n");
 
@@ -41,7 +41,7 @@ namespace test_gpio
             desg.chan = uint.Parse(Console.ReadLine());
 
             IO.Interfaces.GPIO.Pin Output =
-                new IO.Objects.libsimpleio.GPIO.Pin(desg,
+                new IO.Objects.SimpleIO.GPIO.Pin(desg,
                     IO.Interfaces.GPIO.Direction.Output, false);
 
             // Toggle the GPIO output

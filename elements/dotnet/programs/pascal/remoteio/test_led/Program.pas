@@ -31,8 +31,8 @@ namespace test_led;
 
     { Create remote device object }
 
-    var dev : IO.Remote.Device :=
-      new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+    var dev : IO.Objects.RemoteIO.Device :=
+      new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger());
 
     { Create GPIO pin object }
 

@@ -30,7 +30,7 @@ namespace test_motor_servo
         {
             Console.WriteLine("\nContinuous Rotation Servo Test\n");
 
-            IO.Objects.libsimpleio.Device.Designator desg_PWM;
+            IO.Objects.SimpleIO.Device.Designator desg_PWM;
 
             Console.Write("PWM chip:            ");
             desg_PWM.chip = uint.Parse(Console.ReadLine());
@@ -41,7 +41,7 @@ namespace test_motor_servo
             // Create servo object
 
             IO.Interfaces.Servo.Output Servo0 =
-                new IO.Objects.libsimpleio.Servo.Output(desg_PWM, 50);
+                new IO.Objects.SimpleIO.Servo.Output(desg_PWM, 50);
 
             // Create motor object
 

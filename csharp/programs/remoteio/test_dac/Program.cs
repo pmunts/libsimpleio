@@ -31,7 +31,7 @@ namespace test_dac
         {
             Console.WriteLine("\nRemote I/O Analog Output Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             Console.Write("Channels:    ");
 
@@ -43,7 +43,7 @@ namespace test_dac
             ArrayList S = new ArrayList();
 
             foreach (int c in remdev.DAC_Available())
-                S.Add(new IO.Remote.DAC(remdev, c));
+                S.Add(new IO.Objects.RemoteIO.DAC(remdev, c));
 
             Console.Write("Resolutions: ");
 

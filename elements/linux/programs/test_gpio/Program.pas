@@ -38,7 +38,7 @@ namespace test_gpio;
     var outp : IO.Interfaces.GPIO.Pin;
 
     try
-      outp := new IO.Objects.libsimpleio.GPIO.Pin(chip, chan,
+      outp := new IO.Objects.SimpleIO.GPIO.Pin(chip, chan,
         IO.Interfaces.GPIO.Direction.Output, False);
 
     except

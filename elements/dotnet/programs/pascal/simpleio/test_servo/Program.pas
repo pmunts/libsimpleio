@@ -31,7 +31,7 @@ namespace test_servo;
 
     { Create a servo output object }
 
-    var desg : IO.Objects.libsimpleio.Device.Designator;
+    var desg : IO.Objects.SimpleIO.Device.Designator;
 
     write('PWM chip number?     ');
     desg.chip := Integer.Parse(readLn());
@@ -39,7 +39,7 @@ namespace test_servo;
     write('PWM channel number?  ');
     desg.chan := Integer.Parse(readLn());
 
-    var outp := new IO.Objects.libsimpleio.Servo.Output(desg, 50);
+    var outp := new IO.Objects.SimpleIO.Servo.Output(desg, 50);
 
     { Sweep the servo position }
 

@@ -37,7 +37,7 @@ namespace test_pmod_hygro
             }
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
 
             IO.Devices.Pmod.HYGRO.Device dev =
                 new IO.Devices.Pmod.HYGRO.Device(bus);

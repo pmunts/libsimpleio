@@ -1,7 +1,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
-    <RootNamespace>IO.Objects.libsimpleio</RootNamespace>
+    <RootNamespace>IO.Objects.SimpleIO</RootNamespace>
     <ProjectGuid>{5599598E-09CC-482C-B509-D57BE7EB82E5}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
     <AssemblyName>libsimpleio_objects</AssemblyName>

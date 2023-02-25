@@ -39,7 +39,7 @@ namespace test_query_remoteio_udp
             IO.Interfaces.Message64.Messenger m =
                 new IO.Objects.Message64.UDP.Messenger(args[0], 8087);
 
-            var remdev = new IO.Remote.Device(m);
+            var remdev = new IO.Objects.RemoteIO.Device(m);
 
             Console.WriteLine(remdev.Version);
             Console.WriteLine(remdev.Capabilities);

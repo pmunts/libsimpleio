@@ -31,7 +31,7 @@ namespace test_query
             Console.WriteLine("\nRemote I/O Device Information Query Test\n");
 
             IO.Objects.USB.HID.Messenger m = new IO.Objects.USB.HID.Messenger();
-            var remdev = new IO.Remote.Device(m);
+            var remdev = new IO.Objects.RemoteIO.Device(m);
 
             // Display some device information
 

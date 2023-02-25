@@ -31,7 +31,7 @@ namespace test_adc
         {
             Console.WriteLine("\nRemote I/O Analog Input Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             Console.Write("Channels:    ");
 
@@ -43,7 +43,7 @@ namespace test_adc
             ArrayList S = new ArrayList();
 
             foreach (int c in remdev.ADC_Available())
-                S.Add(new IO.Remote.ADC(remdev, c));
+                S.Add(new IO.Objects.RemoteIO.ADC(remdev, c));
 
             Console.Write("Resolutions: ");
 

@@ -30,7 +30,7 @@ namespace test_adc
         {
             Console.WriteLine("\nADC Input Test\n");
 
-            IO.Objects.libsimpleio.Device.Designator desg;
+            IO.Objects.SimpleIO.Device.Designator desg;
 
             Console.Write("ADC chip:       ");
             desg.chip = uint.Parse(Console.ReadLine());
@@ -44,7 +44,7 @@ namespace test_adc
             // Create ADC input object
 
             IO.Interfaces.ADC.Sample ADC0 =
-                new IO.Objects.libsimpleio.ADC.Sample(desg, resolution);
+                new IO.Objects.SimpleIO.ADC.Sample(desg, resolution);
 
             // Sample ADC input
 

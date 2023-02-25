@@ -30,7 +30,7 @@ namespace test_pwm
         {
             Console.WriteLine("\nPWM Output Test\n");
 
-            IO.Objects.libsimpleio.Device.Designator desg_PWM;
+            IO.Objects.SimpleIO.Device.Designator desg_PWM;
 
             Console.Write("PWM chip:            ");
             desg_PWM.chip = uint.Parse(Console.ReadLine());
@@ -44,7 +44,7 @@ namespace test_pwm
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-                new IO.Objects.libsimpleio.PWM.Output(desg_PWM, freq);
+                new IO.Objects.SimpleIO.PWM.Output(desg_PWM, freq);
 
             // Sweep PWM pulse width back and forth
 

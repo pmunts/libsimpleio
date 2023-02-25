@@ -31,7 +31,7 @@ namespace test_led;
 
     { Create GPIO output object }
 
-    var outp := new IO.Objects.libsimpleio.GPIO.Pin(0, 26,
+    var outp := new IO.Objects.SimpleIO.GPIO.Pin(0, 26,
                   IO.Interfaces.GPIO.Direction.Output, false);
 
     writeLn;

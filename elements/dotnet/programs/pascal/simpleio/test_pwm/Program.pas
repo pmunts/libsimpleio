@@ -31,7 +31,7 @@ namespace test_pwm;
 
     { Create a PWM output object }
 
-    var desg : IO.Objects.libsimpleio.Device.Designator;
+    var desg : IO.Objects.SimpleIO.Device.Designator;
 
     write('PWM chip number?     ');
     desg.chip := Integer.Parse(readLn());
@@ -42,7 +42,7 @@ namespace test_pwm;
     write('PWM pulse frequency? ');
     var freq := Integer.Parse(readLn());
 
-    var outp := new IO.Objects.libsimpleio.PWM.Output(desg, freq);
+    var outp := new IO.Objects.SimpleIO.PWM.Output(desg, freq);
 
     { Sweep the PWM output duty cycle }
 

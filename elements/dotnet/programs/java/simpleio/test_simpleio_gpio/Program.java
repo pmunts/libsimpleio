@@ -30,7 +30,7 @@ public class Program
 
         // Create GPIO pin object
 
-        IO.Objects.libsimpleio.Device.Designator desg;
+        IO.Objects.SimpleIO.Device.Designator desg;
 
         Console.Write("GPIO chip number? ");
         desg.chip = int.Parse(Console.ReadLine());
@@ -39,7 +39,7 @@ public class Program
         desg.chan = int.Parse(Console.ReadLine());
 
         IO.Interfaces.GPIO.Pin Output =
-            new IO.Objects.libsimpleio.GPIO.Pin(desg,
+            new IO.Objects.SimpleIO.GPIO.Pin(desg,
                 IO.Interfaces.GPIO.Direction.Output, false);
 
         for (;;)

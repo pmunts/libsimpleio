@@ -37,8 +37,8 @@ namespace test_mikrobus_adc
 
             // Create objects
 
-            var S = new IO.Objects.libsimpleio.mikroBUS.Socket(num);
-            var AIN = new IO.Objects.libsimpleio.ADC.Sample(S.AIN, 32);
+            var S = new IO.Objects.SimpleIO.mikroBUS.Socket(num);
+            var AIN = new IO.Objects.SimpleIO.ADC.Sample(S.AIN, 32);
 
             // Display analog input samples
 

@@ -37,8 +37,8 @@ namespace test_mikrobus_adc
 
             // Create objects
 
-            var socket = new IO.Remote.mikroBUS.Socket(num);
-            var remdev = new IO.Remote.Device();
+            var socket = new IO.Objects.RemoteIO.mikroBUS.Socket(num);
+            var remdev = new IO.Objects.RemoteIO.Device();
             IO.Interfaces.ADC.Sample AIN = remdev.ADC_Create(socket.AIN);
 
             Console.WriteLine("\nADC Resolution => " + AIN.resolution.ToString() +

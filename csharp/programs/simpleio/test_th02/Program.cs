@@ -37,7 +37,7 @@ namespace test_th02
             }
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
 
             IO.Devices.TH02.Device dev = new IO.Devices.TH02.Device(bus);
 

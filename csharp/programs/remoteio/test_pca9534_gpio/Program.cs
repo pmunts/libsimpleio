@@ -30,9 +30,9 @@ namespace test_pca9534_gpio
         {
             Console.WriteLine("\nRemote I/O PCA9534 GPIO Pin Toggle Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
-            IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
+            IO.Interfaces.I2C.Bus bus = new IO.Objects.RemoteIO.I2C(remdev, 0);
 
             IO.Devices.PCA9534.Device dev = new IO.Devices.PCA9534.Device(bus, 0x27);
 

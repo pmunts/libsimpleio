@@ -30,7 +30,7 @@ namespace test_query_remoteio_hid
         {
             Console.WriteLine("\nRemote I/O Device Information Query Test\n");
 
-            var remdev = new IO.Remote.Device();
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             // Display some device information
 

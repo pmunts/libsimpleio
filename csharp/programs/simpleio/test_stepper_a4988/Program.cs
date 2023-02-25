@@ -31,7 +31,7 @@ int numsteps = int.Parse(ReadLine());
 
 // Create STEP signal GPIO pin object
 
-IO.Objects.libsimpleio.Device.Designator desg;
+IO.Objects.SimpleIO.Device.Designator desg;
 
 Write("STEP signal GPIO chip number?    ");
 desg.chip = uint.Parse(ReadLine());
@@ -40,7 +40,7 @@ Write("STEP signal GPIO channel number? ");
 desg.chan = uint.Parse(ReadLine());
 
 IO.Interfaces.GPIO.Pin Step_Pin =
-    new IO.Objects.libsimpleio.GPIO.Pin(desg,
+    new IO.Objects.SimpleIO.GPIO.Pin(desg,
         IO.Interfaces.GPIO.Direction.Output, false);
 
 // Create DIR signal GPIO pin object
@@ -54,7 +54,7 @@ desg.chan = uint.Parse(ReadLine());
 WriteLine();
 
 IO.Interfaces.GPIO.Pin Dir_Pin =
-    new IO.Objects.libsimpleio.GPIO.Pin(desg,
+    new IO.Objects.SimpleIO.GPIO.Pin(desg,
         IO.Interfaces.GPIO.Direction.Output, false);
 
 // Create A4988 device object

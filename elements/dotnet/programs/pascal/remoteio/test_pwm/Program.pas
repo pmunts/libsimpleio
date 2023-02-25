@@ -37,7 +37,7 @@ namespace test_pwm;
     write('PWM pulse frequency? ');
     var freq := Integer.Parse(readLn());
 
-    var remdev := new IO.Remote.Device();
+    var remdev := new IO.Objects.RemoteIO.Device();
     var outp := remdev.PWM_Create(num, freq);
 
     { Sweep the PWM output duty cycle }

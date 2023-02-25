@@ -33,7 +33,7 @@ namespace test_servo;
 
     write('PWM channel number?  ');
     var num := Integer.Parse(readLn());
-    var remdev := new IO.Remote.Device();
+    var remdev := new IO.Objects.RemoteIO.Device();
     var outp := new IO.Objects.Servo.PWM.Output(remdev.PWM_Create(num, 50), 50);
 
     { Sweep the servo position }

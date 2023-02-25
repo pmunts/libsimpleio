@@ -31,7 +31,7 @@ namespace test_adc;
 
     { Create an ADC input object }
 
-    var desg : IO.Objects.libsimpleio.Device.Designator;
+    var desg : IO.Objects.SimpleIO.Device.Designator;
 
     write('ADC chip number?             ');
     desg.chip := Integer.Parse(readLn());
@@ -49,7 +49,7 @@ namespace test_adc;
     var gain : Real := Real.Parse(readLn());
 
     var samp : IO.Interfaces.ADC.Sample :=
-      new IO.Objects.libsimpleio.ADC.Sample(desg, res);
+      new IO.Objects.SimpleIO.ADC.Sample(desg, res);
 
     var volts : IO.Interfaces.ADC.Input :=
       new IO.Interfaces.ADC.Input(samp, Vref, gain);

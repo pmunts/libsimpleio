@@ -40,8 +40,8 @@ namespace test_mikrobus_pwm
 
             // Create objects
 
-            var socket = new IO.Remote.mikroBUS.Socket(num);
-            var remdev = new IO.Remote.Device();
+            var socket = new IO.Objects.RemoteIO.mikroBUS.Socket(num);
+            var remdev = new IO.Objects.RemoteIO.Device();
             IO.Interfaces.PWM.Output outp = remdev.PWM_Create(socket.PWMOut, freq);
 
             // Sweep PWM output pulse width

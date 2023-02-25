@@ -30,9 +30,9 @@ namespace test_pmod_hygro
         {
             Console.WriteLine("\nRemote I/O Digilent Pmod-HYGRO Temperature/Humidity Sensor Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
-            IO.Interfaces.I2C.Bus bus = new IO.Remote.I2C(remdev, 0);
+            IO.Interfaces.I2C.Bus bus = new IO.Objects.RemoteIO.I2C(remdev, 0);
 
             IO.Devices.Pmod.HYGRO.Device dev =
                 new IO.Devices.Pmod.HYGRO.Device(bus);

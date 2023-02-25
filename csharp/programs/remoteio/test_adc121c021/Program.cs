@@ -30,10 +30,10 @@ namespace test_adc121c021
         {
             Console.WriteLine("\nRemote I/O ADC121C021 A/D Converter Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Remote.I2C(remdev, 0);
+                new IO.Objects.RemoteIO.I2C(remdev, 0);
 
             IO.Devices.ADC121C021.Sample ain =
                 new IO.Devices.ADC121C021.Sample(bus, 0x50);

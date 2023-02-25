@@ -30,7 +30,7 @@ namespace test_a4988
         {
             Console.WriteLine("\nA4988 Stepper Motor Driver Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             // Get the number of descrete steps the motor under test has
 
@@ -42,7 +42,7 @@ namespace test_a4988
             Console.Write("STEP signal GPIO pin number? ");
 
             IO.Interfaces.GPIO.Pin Step_Pin =
-                new IO.Remote.GPIO(remdev, int.Parse(Console.ReadLine()),
+                new IO.Objects.RemoteIO.GPIO(remdev, int.Parse(Console.ReadLine()),
                 IO.Interfaces.GPIO.Direction.Output);
 
             // Create DIR signal GPIO pin object
@@ -50,7 +50,7 @@ namespace test_a4988
             Console.Write("DIR signal GPIO pin number?  ");
 
             IO.Interfaces.GPIO.Pin Dir_Pin =
-                new IO.Remote.GPIO(remdev, int.Parse(Console.ReadLine()),
+                new IO.Objects.RemoteIO.GPIO(remdev, int.Parse(Console.ReadLine()),
                 IO.Interfaces.GPIO.Direction.Output);
 
             Console.WriteLine();

@@ -32,7 +32,7 @@ namespace test_grove_temperature
 
             // Get ADC hardware parameters
 
-            IO.Objects.libsimpleio.Device.Designator desg;
+            IO.Objects.SimpleIO.Device.Designator desg;
 
             Console.Write("ADC chip:       ");
             desg.chip = uint.Parse(Console.ReadLine());
@@ -51,7 +51,7 @@ namespace test_grove_temperature
             // Create objects
 
             IO.Interfaces.ADC.Sample S =
-                new IO.Objects.libsimpleio.ADC.Sample(desg, resolution);
+                new IO.Objects.SimpleIO.ADC.Sample(desg, resolution);
 
             IO.Interfaces.ADC.Input V = new IO.Interfaces.ADC.Input(S, reference);
 

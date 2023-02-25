@@ -32,11 +32,11 @@ namespace test_led
 
             // Create GPIO output object
 
-            IO.Objects.libsimpleio.Device.Designator desg_LED =
-                new IO.Objects.libsimpleio.Device.Designator(0, 26);
+            IO.Objects.SimpleIO.Device.Designator desg_LED =
+                new IO.Objects.SimpleIO.Device.Designator(0, 26);
 
             IO.Interfaces.GPIO.Pin LED =
-                new IO.Objects.libsimpleio.GPIO.Pin(desg_LED,
+                new IO.Objects.SimpleIO.GPIO.Pin(desg_LED,
                     IO.Interfaces.GPIO.Direction.Output, false);
 
             Console.WriteLine("\nPress CONTROL-C to exit");

@@ -31,7 +31,7 @@ namespace test_servo
         {
             Console.WriteLine("\nRemote I/O Servo Output Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             Console.Write("Channels:");
 
@@ -43,7 +43,7 @@ namespace test_servo
             ArrayList S = new ArrayList();
 
             foreach (int c in remdev.PWM_Available())
-                S.Add(new IO.Objects.Servo.PWM.Output(new IO.Remote.PWM(remdev, c, 50), 50));
+                S.Add(new IO.Objects.Servo.PWM.Output(new IO.Objects.RemoteIO.PWM(remdev, c, 50), 50));
 
             for (;;)
             {

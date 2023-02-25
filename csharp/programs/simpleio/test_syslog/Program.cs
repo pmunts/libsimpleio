@@ -26,7 +26,7 @@ System.Console.WriteLine("\nLinux syslog Test\n");
 
 // Create a Logger instance
 
-var log = new IO.Objects.libsimpleio.syslog.Logger();
+var log = new IO.Objects.SimpleIO.syslog.Logger();
 
 // Replace the default trace listener
 

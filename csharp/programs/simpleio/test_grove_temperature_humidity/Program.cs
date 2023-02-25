@@ -37,7 +37,7 @@ namespace test_grove_temperature_humidity
             }
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
 
             IO.Devices.Grove.Temperature_Humidity.Device dev =
                 new IO.Devices.Grove.Temperature_Humidity.Device(bus);

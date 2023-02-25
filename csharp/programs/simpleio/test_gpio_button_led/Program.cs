@@ -32,18 +32,18 @@ namespace test_gpio_button_led
 
             // Create GPIO pin objects
 
-            IO.Objects.libsimpleio.Device.Designator desg_Button =
-                new IO.Objects.libsimpleio.Device.Designator(0, 6);
+            IO.Objects.SimpleIO.Device.Designator desg_Button =
+                new IO.Objects.SimpleIO.Device.Designator(0, 6);
 
             IO.Interfaces.GPIO.Pin Button =
-                new IO.Objects.libsimpleio.GPIO.Pin(desg_Button,
+                new IO.Objects.SimpleIO.GPIO.Pin(desg_Button,
                     IO.Interfaces.GPIO.Direction.Input);
 
-            IO.Objects.libsimpleio.Device.Designator desg_LED =
-                new IO.Objects.libsimpleio.Device.Designator(0, 26);
+            IO.Objects.SimpleIO.Device.Designator desg_LED =
+                new IO.Objects.SimpleIO.Device.Designator(0, 26);
 
             IO.Interfaces.GPIO.Pin LED =
-                new IO.Objects.libsimpleio.GPIO.Pin(desg_LED,
+                new IO.Objects.SimpleIO.GPIO.Pin(desg_LED,
                     IO.Interfaces.GPIO.Direction.Output, false);
 
             // Force initial state change

@@ -31,7 +31,7 @@ namespace test_pwm
         {
             Console.WriteLine("\nRemote I/O PWM Output Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             Console.Write("Channels:");
 
@@ -43,7 +43,7 @@ namespace test_pwm
             ArrayList S = new ArrayList();
 
             foreach (int c in remdev.PWM_Available())
-                S.Add(new IO.Remote.PWM(remdev, c, 1000));
+                S.Add(new IO.Objects.RemoteIO.PWM(remdev, c, 1000));
 
             for (;;)
             {

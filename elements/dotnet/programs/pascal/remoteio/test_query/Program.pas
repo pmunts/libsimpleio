@@ -42,7 +42,7 @@ begin
   var msg : IO.Objects.USB.HID.Messenger :=
   new IO.Objects.USB.HID.Messenger();
 
-  var dev : IO.Remote.Device := new IO.Remote.Device(msg);
+  var dev : IO.Objects.RemoteIO.Device := new IO.Objects.RemoteIO.Device(msg);
 
   writeLn(msg.Info);
   writeLn(dev.Version);

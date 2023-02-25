@@ -30,7 +30,7 @@ namespace test_led_pwm
         {
             Console.WriteLine("\nLED Toggle Test Using PWM Output\n");
 
-            IO.Objects.libsimpleio.Device.Designator desg;
+            IO.Objects.SimpleIO.Device.Designator desg;
 
             Console.Write("PWM chip:              ");
             desg.chip = uint.Parse(Console.ReadLine());
@@ -47,7 +47,7 @@ namespace test_led_pwm
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-                new IO.Objects.libsimpleio.PWM.Output(desg, freq);
+                new IO.Objects.SimpleIO.PWM.Output(desg, freq);
 
             // Create GPIO pin object
 

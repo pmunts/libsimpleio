@@ -30,17 +30,17 @@ namespace test_gpio_button_led
         {
             Console.WriteLine("\nRemote I/O GPIO Button and LED Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             // Configure LED output
 
             IO.Interfaces.GPIO.Pin LD1 =
-                new IO.Remote.GPIO(remdev, 0, IO.Interfaces.GPIO.Direction.Output);
+                new IO.Objects.RemoteIO.GPIO(remdev, 0, IO.Interfaces.GPIO.Direction.Output);
 
             // Configure button input
 
             IO.Interfaces.GPIO.Pin SW1 =
-                new IO.Remote.GPIO(remdev, 1, IO.Interfaces.GPIO.Direction.Input);
+                new IO.Objects.RemoteIO.GPIO(remdev, 1, IO.Interfaces.GPIO.Direction.Input);
 
             bool OldState = !SW1.state;
             bool NewState = OldState;

@@ -30,7 +30,7 @@ namespace test_servo_pwm
         {
             Console.WriteLine("\nServo Output Test\n");
 
-            IO.Objects.libsimpleio.Device.Designator desg;
+            IO.Objects.SimpleIO.Device.Designator desg;
 
             Console.Write("PWM chip:            ");
             desg.chip = uint.Parse(Console.ReadLine());
@@ -41,7 +41,7 @@ namespace test_servo_pwm
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-                new IO.Objects.libsimpleio.PWM.Output(desg, 50);
+                new IO.Objects.SimpleIO.PWM.Output(desg, 50);
 
             // Create servo output object
 

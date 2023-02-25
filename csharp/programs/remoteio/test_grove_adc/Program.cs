@@ -30,10 +30,10 @@ namespace test_grove_adc
         {
             Console.WriteLine("\nRemote I/O Grove ADC Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Remote.I2C(remdev, 0);
+                new IO.Objects.RemoteIO.I2C(remdev, 0);
 
             IO.Devices.Grove.ADC.Device ain =
                 new IO.Devices.Grove.ADC.Device(bus);

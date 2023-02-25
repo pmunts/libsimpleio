@@ -33,7 +33,7 @@ namespace test_adc;
 
     write('ADC input channel number? ');
     var num := Integer.Parse(readLn());
-    var remdev := new IO.Remote.Device();
+    var remdev := new IO.Objects.RemoteIO.Device();
     var inp := remdev.ADC_Create(num);
 
     loop begin

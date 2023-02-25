@@ -30,14 +30,14 @@ namespace test_gpio
         {
             Console.WriteLine("\nRemote I/O GPIO Pin Toggle Test\n");
 
-            IO.Remote.Device remdev = new IO.Remote.Device();
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             // Create GPIO pin object
 
             Console.Write("GPIO channel number? ");
 
             IO.Interfaces.GPIO.Pin Output =
-                new IO.Remote.GPIO(remdev, int.Parse(Console.ReadLine()),
+                new IO.Objects.RemoteIO.GPIO(remdev, int.Parse(Console.ReadLine()),
                 IO.Interfaces.GPIO.Direction.Output);
 
             // Toggle the GPIO output

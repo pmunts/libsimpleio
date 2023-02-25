@@ -30,7 +30,7 @@ namespace test_motor_pwm2
         {
             Console.WriteLine("\nMotor Output Test Using Two PWM outputs (CW and CCW)\n");
 
-            IO.Objects.libsimpleio.Device.Designator desg_CW;
+            IO.Objects.SimpleIO.Device.Designator desg_CW;
 
             Console.Write("PWM chip:            ");
             desg_CW.chip = uint.Parse(Console.ReadLine());
@@ -38,7 +38,7 @@ namespace test_motor_pwm2
             Console.Write("PWM channel:         ");
             desg_CW.chan = uint.Parse(Console.ReadLine());
 
-            IO.Objects.libsimpleio.Device.Designator desg_CCW;
+            IO.Objects.SimpleIO.Device.Designator desg_CCW;
 
             Console.Write("PWM chip:            ");
             desg_CCW.chip = uint.Parse(Console.ReadLine());
@@ -49,10 +49,10 @@ namespace test_motor_pwm2
             // Create PWM output objects
 
             IO.Interfaces.PWM.Output PWMCW =
-                new IO.Objects.libsimpleio.PWM.Output(desg_CW, 100);
+                new IO.Objects.SimpleIO.PWM.Output(desg_CW, 100);
 
             IO.Interfaces.PWM.Output PWMCCW =
-                new IO.Objects.libsimpleio.PWM.Output(desg_CCW, 100);
+                new IO.Objects.SimpleIO.PWM.Output(desg_CCW, 100);
 
             // Create motor object
 

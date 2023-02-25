@@ -20,7 +20,7 @@
 
 { Implement GPIO pin services using libsimpleio }
 
-namespace IO.Objects.libsimpleio.GPIO;
+namespace IO.Objects.SimpleIO.GPIO;
 
 interface
 

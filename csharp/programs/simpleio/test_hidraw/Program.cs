@@ -30,8 +30,8 @@ namespace test_hidraw
         {
             Console.WriteLine("\nRaw HID Query Test\n");
 
-            IO.Objects.libsimpleio.HID.Messenger m =
-                new IO.Objects.libsimpleio.HID.Messenger();
+            IO.Objects.SimpleIO.HID.Messenger m =
+                new IO.Objects.SimpleIO.HID.Messenger();
 
             Console.WriteLine("Device Name: " + m.name);
             Console.WriteLine("Bus type:    " + m.bustype.ToString());

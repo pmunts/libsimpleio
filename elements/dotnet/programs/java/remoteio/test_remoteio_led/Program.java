@@ -28,8 +28,8 @@ public class Program
     {
         Console.WriteLine("\nLED Toggle Test\n");
 
-        IO.Remote.Device dev =
-            new IO.Remote.Device(new IO.Objects.USB.HID.Messenger());
+        IO.Objects.RemoteIO.Device dev =
+            new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger());
 
         IO.Interfaces.GPIO.Pin LED =
             dev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);

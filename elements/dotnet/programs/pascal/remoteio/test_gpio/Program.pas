@@ -33,7 +33,7 @@ namespace test_gpio;
 
     write('GPIO pin number? ');
     var num := Integer.Parse(readLn());
-    var remdev := new IO.Remote.Device();
+    var remdev := new IO.Objects.RemoteIO.Device();
     var outp := remdev.GPIO_Create(num, IO.Interfaces.GPIO.Direction.Output);
 
     loop begin

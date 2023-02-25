@@ -32,7 +32,7 @@ namespace test_watchdog;
     { Create watchdog timer device instance }
 
     var wd : IO.Interfaces.Watchdog.Timer :=
-      new IO.Objects.libsimpleio.Watchdog.Timer;
+      new IO.Objects.SimpleIO.Watchdog.Timer;
 
     { Display the default watchdog timeout period }
 

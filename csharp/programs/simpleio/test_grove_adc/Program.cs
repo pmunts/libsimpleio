@@ -37,7 +37,7 @@ namespace test_grove_adc
             }
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.libsimpleio.I2C.Bus(args[0]);
+                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
 
             IO.Devices.Grove.ADC.Device ain =
                 new IO.Devices.Grove.ADC.Device(bus);

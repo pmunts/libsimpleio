@@ -30,7 +30,7 @@ namespace test_dac
         {
             Console.WriteLine("\nDAC Output Test\n");
 
-            IO.Objects.libsimpleio.Device.Designator desg;
+            IO.Objects.SimpleIO.Device.Designator desg;
 
             Console.Write("DAC chip:       ");
             desg.chip = uint.Parse(Console.ReadLine());
@@ -44,7 +44,7 @@ namespace test_dac
             // Create DAC output object
 
             IO.Interfaces.DAC.Sample DAC0 =
-                new IO.Objects.libsimpleio.DAC.Sample(desg, resolution);
+                new IO.Objects.SimpleIO.DAC.Sample(desg, resolution);
 
             // Generate sawtooth wave
 

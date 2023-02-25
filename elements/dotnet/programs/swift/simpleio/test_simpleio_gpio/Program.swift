@@ -24,7 +24,7 @@ print("\nGPIO Pin Toggle Test using libsimpleio\n")
 
 // Create GPIO pin object
 
-var desg : IO.Objects.libsimpleio.Device.Designator;
+var desg : IO.Objects.SimpleIO.Device.Designator;
 
 print("GPIO chip number? ", terminator:"")
 desg.chip = readLine().toInt()
@@ -32,7 +32,7 @@ desg.chip = readLine().toInt()
 print("GPIO line number? ", terminator:"")
 desg.chan = readLine().toInt()
 
-var Output : IO.Interfaces.GPIO.Pin = IO.Objects.libsimpleio.GPIO.Pin(desg,
+var Output : IO.Interfaces.GPIO.Pin = IO.Objects.SimpleIO.GPIO.Pin(desg,
   IO.Interfaces.GPIO.Direction.Output, false)
 
 // Toggle the GPIO output

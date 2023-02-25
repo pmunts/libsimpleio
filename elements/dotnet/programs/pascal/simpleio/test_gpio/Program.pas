@@ -31,7 +31,7 @@ namespace test_gpio;
 
     // Create GPIO pin object
 
-    var desg : IO.Objects.libsimpleio.Device.Designator;
+    var desg : IO.Objects.SimpleIO.Device.Designator;
 
     write('GPIO chip number?    ');
     desg.chip := Integer.Parse(readLn());
@@ -40,7 +40,7 @@ namespace test_gpio;
     desg.chan := Integer.Parse(readLn());
 
     var Output : IO.Interfaces.GPIO.Pin :=
-      new IO.Objects.libsimpleio.GPIO.Pin(desg,
+      new IO.Objects.SimpleIO.GPIO.Pin(desg,
       IO.Interfaces.GPIO.Direction.Output, false);
 
     // Toggle the GPIO output

@@ -40,8 +40,8 @@ namespace test_mikrobus_pwm
 
             // Create objects
 
-            var S = new IO.Objects.libsimpleio.mikroBUS.Socket(num);
-            var outp = new IO.Objects.libsimpleio.PWM.Output(S.PWMOut, freq);
+            var S = new IO.Objects.SimpleIO.mikroBUS.Socket(num);
+            var outp = new IO.Objects.SimpleIO.PWM.Output(S.PWMOut, freq);
 
             // Sweep PWM output pulse width
 
