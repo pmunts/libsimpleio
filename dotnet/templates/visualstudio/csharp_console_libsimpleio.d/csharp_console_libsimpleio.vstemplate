@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>Project templates for .Net 7 console applications using libsimpleio.</Name>
-    <Description>Project templates for .Net 7 console applications using libsimpleio.</Description>
+    <Name>C# console application for .Net 7 using libsimpleio</Name>
+    <Description>A project for building a C# console application for .Net 7 using libsimpleio.</Description>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
@@ -11,9 +11,9 @@
     <LanguageTag>C#</LanguageTag>
     <PlatformTag>.Net 7</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
-    <ProjectTypeTag>VS</ProjectTypeTag>
     <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>
+    <ProjectTypeTag>Linux Simple I/O Library</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
