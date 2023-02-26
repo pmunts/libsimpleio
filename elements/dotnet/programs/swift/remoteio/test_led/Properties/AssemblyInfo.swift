@@ -5,11 +5,11 @@ import System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-@assembly:AssemblyTitle("_led")
+@assembly:AssemblyTitle("test_led")
 @assembly:AssemblyDescription("")
 @assembly:AssemblyConfiguration("")
 @assembly:AssemblyCompany("")
-@assembly:AssemblyProduct("_led")
+@assembly:AssemblyProduct("test_led")
 @assembly:AssemblyCopyright("")
 @assembly:AssemblyTrademark("")
 @assembly:AssemblyCulture("")

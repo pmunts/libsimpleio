@@ -1,15 +1,15 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
-    <RootNamespace>_led</RootNamespace>
+    <RootNamespace>test_led</RootNamespace>
     <ProjectGuid>{c792917f-e701-4182-a2a7-c518a775e910}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AssemblyName>_led</AssemblyName>
+    <AssemblyName>test_led</AssemblyName>
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <TargetFramework>.NETCore</TargetFramework>
     <Mode>Echoes</Mode>
-    <Name>_led</Name>
+    <Name>test_led</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>
