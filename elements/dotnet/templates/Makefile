@@ -1,6 +1,6 @@
 # Makefile for creating Visual Studio 2022 project templates
 
-# Copyright (C)2019-2022, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2019-2023, Philip Munts.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,22 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifeq ($(shell uname), Darwin)
-FIRETEMPLATES	?= $(HOME)/"Library/Application Support/RemObjects Software/Elements/Templates"
-CSHARPTEMPLATES	:= $(FIRETEMPLATES)/Hydrogene/Echoes/Projects/Core
-JAVATEMPLATES	:= $(FIRETEMPLATES)/Iodine/Echoes/Projects/Core
-PASCALTEMPLATES	:= $(FIRETEMPLATES)/Oxygene/Echoes/Projects/Core
-SWIFTTEMPLATES	:= $(FIRETEMPLATES)/Silver/Echoes/Projects/Core
-endif
-
-ifeq ($(OS), Windows_NT)
-VSTEMPLATES	?= $(HOME)/"Documents/Visual Studio 2022/Templates/ProjectTemplates"
-WATERTEMPLATES	?= $(HOME)/"Application Data/RemObjects Software/Elements/Templates"
-CSHARPTEMPLATES	:= $(WATERTEMPLATES)/Hydrogene/Echoes/Projects/Core
-JAVATEMPLATES	:= $(WATERTEMPLATES)/Iodine/Echoes/Projects/Core
-PASCALTEMPLATES	:= $(WATERTEMPLATES)/Oxygene/Echoes/Projects/Core
-SWIFTTEMPLATES	:= $(WATERTEMPLATES)/Silver/Echoes/Projects/Core
-endif
+VSTEMPLATES1	?= $(HOME)/"Documents/Visual Studio 2022/Templates/ProjectTemplates"
+VSTEMPLATES2	?= $(HOME)/AppData/Roaming/Microsoft/VisualStudio/17*/ProjectTemplatesCache
 
 ###############################################################################
 
@@ -45,61 +31,12 @@ endif
 	rm -f $@
 	cd $< ; zip -r ../$@ *
 
-# Define pattern rules for installing a template for MacOS Fire
-
-ifeq ($(shell uname), Darwin)
-elements_csharp%.installfire: elements_csharp%.zip
-	rm -rf $(CSHARPTEMPLATES)/`basename $@ .installfire`
-	mkdir -p $(CSHARPTEMPLATES)/`basename $@ .installfire`
-	unzip $< -d $(CSHARPTEMPLATES)/`basename $@ .installfire`
-
-elements_java%.installfire: elements_java%.zip
-	rm -rf $(JAVATEMPLATES)/`basename $@ .installfire`
-	mkdir -p $(JAVATEMPLATES)/`basename $@ .installfire`
-	unzip $< -d $(JAVATEMPLATES)/`basename $@ .installfire`
-
-elements_pascal%.installfire: elements_pascal%.zip
-	rm -rf $(PASCALTEMPLATES)/`basename $@ .installfire`
-	mkdir -p $(PASCALTEMPLATES)/`basename $@ .installfire`
-	unzip $< -d $(PASCALTEMPLATES)/`basename $@ .installfire`
-
-elements_swift%.installfire: elements_swift%.zip
-	rm -rf $(SWIFTTEMPLATES)/`basename $@ .installfire`
-	mkdir -p $(SWIFTTEMPLATES)/`basename $@ .installfire`
-	unzip $< -d $(SWIFTTEMPLATES)/`basename $@ .installfire`
-endif
-
 # Define a pattern rule for installing a template for Windows Visual Studio
 
-ifeq ($(OS), Windows_NT)
-%.installvs: %.zip
-	mkdir -p $(VSTEMPLATES)
-	install -cm 0644 $< $(VSTEMPLATES)
-endif
-
-# Define pattern rules for installing a template for Windows water
-
-ifeq ($(OS), Windows_NT)
-elements_csharp%.installwater: elements_csharp%.zip
-	rm -rf $(CSHARPTEMPLATES)/`basename $@ .installwater`
-	mkdir -p $(CSHARPTEMPLATES)/`basename $@ .installwater`
-	unzip $< -d $(CSHARPTEMPLATES)/`basename $@ .installwater`
-
-elements_java%.installwater: elements_java%.zip
-	rm -rf $(JAVATEMPLATES)/`basename $@ .installwater`
-	mkdir -p $(JAVATEMPLATES)/`basename $@ .installwater`
-	unzip $< -d $(JAVATEMPLATES)/`basename $@ .installwater`
-
-elements_pascal%.installwater: elements_pascal%.zip
-	rm -rf $(PASCALTEMPLATES)/`basename $@ .installwater`
-	mkdir -p $(PASCALTEMPLATES)/`basename $@ .installwater`
-	unzip $< -d $(PASCALTEMPLATES)/`basename $@ .installwater`
-
-elements_swift%.installwater: elements_swift%.zip
-	rm -rf $(SWIFTTEMPLATES)/`basename $@ .installwater`
-	mkdir -p $(SWIFTTEMPLATES)/`basename $@ .installwater`
-	unzip $< -d $(SWIFTTEMPLATES)/`basename $@ .installwater`
-endif
+%.install: %.zip
+	mkdir -p $(VSTEMPLATES1)
+	install -cm 0644 $< $(VSTEMPLATES1)
+	rm -rf $(VSTEMPLATES2)/$^
 
 ###############################################################################
 
@@ -110,18 +47,8 @@ packall:
 
 # Install all template archives
 
-ifeq ($(shell uname), Darwin)
 install: packall
-	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installfire ; done
-endif
-
-ifeq ($(OS), Windows_NT)
-install: packall
-	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installvs ; done
-
-installwater: packall
-	for A in *.zip ; do $(MAKE) `basename $$A .zip`.installwater ; done
-endif
+	for A in *.zip ; do $(MAKE) `basename $$A .zip`.install ; done
 
 # Remove working files
 
