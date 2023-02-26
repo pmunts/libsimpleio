@@ -1,4 +1,4 @@
-namespace test_remoteio_led
+namespace test_led
 {
 
 /* The .Designer.cs file will be automatically generated when the parent file changes.

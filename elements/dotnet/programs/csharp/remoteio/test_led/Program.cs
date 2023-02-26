@@ -1,6 +1,6 @@
-// LED Toggle Test
+// Remote I/O LED Toggle Test
 
-// Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,18 +28,17 @@ namespace test_led
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nLED Toggle Test\n");
+            Console.WriteLine("\nRemote I/O LED Toggle Test\n");
 
-            IO.Objects.RemoteIO.Device dev =
-                new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger());
+            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
             IO.Interfaces.GPIO.Pin LED =
-                dev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);
+                remdev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);
 
             for (;;)
             {
                 LED.state = !LED.state;
-                RemObjects.Elements.RTL.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(500);
             }
         }
     }

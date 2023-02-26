@@ -1,15 +1,15 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
-    <RootNamespace>test_remoteio_led</RootNamespace>
+    <RootNamespace>test_led</RootNamespace>
     <ProjectGuid>{e8db1481-06cb-4539-bd75-44242400955a}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AssemblyName>test_remoteio_led</AssemblyName>
+    <AssemblyName>test_led</AssemblyName>
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <TargetFramework>.NETCore</TargetFramework>
     <Mode>Echoes</Mode>
-    <Name>test_remoteio_led</Name>
+    <Name>test_led</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>

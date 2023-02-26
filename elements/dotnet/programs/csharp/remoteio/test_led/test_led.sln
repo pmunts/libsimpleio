@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_remoteio_led", "test_remoteio_led.elements", "{E8DB1481-06CB-4539-BD75-44242400955A}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_led", "test_led.elements", "{E8DB1481-06CB-4539-BD75-44242400955A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
