@@ -3,7 +3,8 @@ namespace $safeprojectname$;
   procedure Main(args: array of String);
 
   begin
-    writeLn('Hello, World!');
+    var log := new IO.Objects.SimpleIO.syslog.Logger();
+    log.Note('Hello, World!');
   end;
 
 end.
