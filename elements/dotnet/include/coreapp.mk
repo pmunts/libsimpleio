@@ -26,7 +26,7 @@ endif
 
 COREAPPNAME	?= $(shell basename *.elements .elements)
 COREAPPPROJ	?= $(COREAPPNAME).elements
-COREAPPPUB	?= Bin/Release
+COREAPPPUB	?= Bin/$(CONFIGURATION)
 COREAPPDEST	?= /usr/local
 COREAPPLIB	?= $(COREAPPDEST)/lib/$(COREAPPNAME)
 COREAPPBIN	?= $(COREAPPDEST)/bin
@@ -47,7 +47,7 @@ coreapp_mk_build: elements_mk_build
 
 # Pack the application into a Debian package file
 
-$(PKGDIR): coreapp_mk_build
+$(PKGDIR): elements_mk_build
 	mkdir -p						$(PKGDIR)/DEBIAN
 	install -cm 0644 $(ELEMENTSSRC)/dotnet/include/coreapp.control	$(PKGDIR)/DEBIAN/control
 	$(SED) -i s/@@NAME@@/$(PKGNAME)/g			$(PKGDIR)/DEBIAN/control
