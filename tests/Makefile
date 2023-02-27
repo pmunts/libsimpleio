@@ -1,6 +1,6 @@
 # Makefile for building and running Linux Simple I/O Library unit tests
 
-# Copyright (C)2017-2022, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2017-2023, Philip Munts.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -68,7 +68,7 @@ test_compile_csharp:
 	for D in ../csharp/programs/*/* ; do $(MAKE) -C $$D default clean ; done
 
 test_compile_elements:
-	for D in ../elements/dotnet/programs/*/*/* ; do $(MAKE) -C $$D default clean ; done
+	for D in ../elements/dotnet/programs/*/* ; do $(MAKE) -C $$D default clean ; done
 
 clean:
 	rm -rf $(PROGRAMS) *.log
