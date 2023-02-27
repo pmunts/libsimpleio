@@ -40,8 +40,8 @@ build:
 	mkdir -p obj
 	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
-	-rm -rf $(NUGETDIR)/$(LIBNAME)/$(VERSION)
-	-svn rm $(NUGETDIR)/$(LIBNAME)/*
+	-svn revert -R $(NUGETDIR)/$(LIBNAME)
+	-svn rm --force $(NUGETDIR)/$(LIBNAME)/*
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
