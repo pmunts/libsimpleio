@@ -1,10 +1,10 @@
-using static System.Console;
+System.Console.WriteLine("\nRemote I/O Protocol Client\n");
 
-WriteLine("\nConsole Application using the Remote I/O Protocol\n");
+// Create Remote I/O Protocol server object instance
 
-IO.Objects.RemoteIO.Device remdev = new();
+var remdev = new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger());
 
-// Display some device information
+// Query the Remote I/O Protocol server
 
-WriteLine(remdev.Version);
-WriteLine(remdev.Capabilities);
+System.Console.WriteLine(remdev.Version);
+System.Console.WriteLine(remdev.Capabilities);
