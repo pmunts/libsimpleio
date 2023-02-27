@@ -4,14 +4,14 @@
     <PackageType>Template</PackageType>
     <PackageVersion>$(BUILDVERSION)</PackageVersion>
     <PackageId>libremoteio-templates</PackageId>
-    <Title>Project templates for .Net 7 console applications using libremoteio.</Title>
-    <Description>Project templates for .Net 7 console applications using libremoteio.</Description>
+    <Title>C# console application for .Net 7 using libremoteio</Title>
+    <Description>A project for building a C# console application for .Net 7 using the Remote I/O Protocol.</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2016-2023 Philip Munts</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>COPYING</PackageLicenseFile>
     <PackageReadmeFile>libremoteio-templates.md</PackageReadmeFile>
-    <PackageTags>CLI; NuGet; Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; Motor; PWM; Servo; SPI; Stepper</PackageTags>
+    <PackageTags>NuGet; C#; Linux; macOS; Windows; Remote I/O Protocol; ADC; DAC; GPIO; I2C; Motor; PWM; Servo; SPI; Stepper; USB HID</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
