@@ -6,8 +6,7 @@ public class Program
   {
     Console.WriteLine("\nRemote I/O Protocol Client\n");
 
-    IO.Objects.RemoteIO.Device remdev =
-      new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger());
+    IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
 
     Console.WriteLine(remdev.Version);
     Console.WriteLine(remdev.Capabilities);

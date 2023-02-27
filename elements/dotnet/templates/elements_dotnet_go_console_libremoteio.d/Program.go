@@ -7,7 +7,7 @@ func main() {
 
   // Create Remote I/O Protocol server object instance
 
-  var remdev = IO.Objects.RemoteIO.Device { IO.Objects.USB.HID.Messenger {} }
+  var remdev = IO.Objects.RemoteIO.Device {}
 
   // Query the Remote I/O Protocol server
 

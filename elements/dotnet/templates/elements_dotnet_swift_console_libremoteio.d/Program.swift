@@ -1,6 +1,6 @@
 print("Remote I/O Protocol Client")
 
-var remdev = IO.Objects.RemoteIO.Device(IO.Objects.USB.HID.Messenger())
+var remdev = IO.Objects.RemoteIO.Device()
 
 print(remdev.Version)
 print(remdev.Capabilities)
