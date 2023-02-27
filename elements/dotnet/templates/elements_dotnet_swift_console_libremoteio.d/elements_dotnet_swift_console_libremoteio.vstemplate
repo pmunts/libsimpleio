@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>RemObjects Elements Swift console application for .Net 6 using libremoteio</Name>
-    <Description>A project for building a Swift console application for .Net 6 using libremoteio.</Description>
+    <Name>RemObjects Elements Swift console application for .Net 7 using libremoteio</Name>
+    <Description>A project for building a Swift console application for .Net 7 using the Remote I/O Protocol.</Description>
     <Icon>elements_dotnet_swift_console_libremoteio.ico</Icon>
     <ProjectType>Oxygene</ProjectType>
     <Elements:Type>Oxygene.Echoes</Elements:Type>
@@ -10,24 +10,18 @@
     <DefaultName>elements_dotnet_swift_console_libremoteio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>Swift</LanguageTag>
-    <LanguageTag>RemObjects Elements</LanguageTag>
-    <PlatformTag>.Net 6</PlatformTag>
+    <PlatformTag>.Net 7</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <PlatformTag>macOS</PlatformTag>
+    <PlatformTag>Windows</PlatformTag>
     <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libremoteio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
+    <ProjectTypeTag>Remote I/O Protocol</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
   <TemplateContent>
     <Project TargetFileName="elements_dotnet_swift_console_libremoteio.elements" File="elements_dotnet_swift_console_libremoteio.elements" ReplaceParameters="true">
-      <Folder Name="Properties" TargetFolderName="Properties">
-        <ProjectItem ReplaceParameters="false" TargetFileName="App.ico">App.ico</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.swift">AssemblyInfo.swift</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.swift">Resources.Designer.swift</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.swift">Settings.Designer.swift</ProjectItem>
-      </Folder>
       <ProjectItem ReplaceParameters="false" TargetFileName="Makefile">Makefile</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.swift">Program.swift</ProjectItem>
     </Project>

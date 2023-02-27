@@ -1,20 +1,11 @@
-using System;
+System.Console.WriteLine("\nRemote I/O Protocol Client\n");
 
-namespace $safeprojectname$
-{
-  static class Program
-  {
-    public static Int32 Main(string[] args)
-    {
-      Console.WriteLine("\nRemote I/O Protocol Client\n");
+// Create Remote I/O Protocol server object instance
 
-      IO.Objects.RemoteIO.Device dev =
-        new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger());
+IO.Objects.RemoteIO.Device remdev =
+  new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger());
 
-      Console.WriteLine(dev.Version);
-      Console.WriteLine(dev.Capabilities);
+// Query the Remote I/O Protocol server
 
-      return 0;
-    }
-  }
-}
+System.Console.WriteLine(remdev.Version);
+System.Console.WriteLine(remdev.Capabilities);
