@@ -7,11 +7,10 @@ namespace $safeprojectname$;
     writeLn('Remote I/O Protocol Client');
     writeLn;
 
-    var dev : IO.Objects.RemoteIO.Device :=
-      new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger);
+    var remdev := new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger);
 
-    writeLn(dev.Version);
-    writeLn(dev.Capabilities);
+    writeLn(remdev.Version);
+    writeLn(remdev.Capabilities);
   end;
 
 end.
