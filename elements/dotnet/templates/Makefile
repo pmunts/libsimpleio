@@ -1,4 +1,4 @@
-# Makefile for creating Visual Studio 2022 project templates
+# Makefile for creating and installing Visual Studio 2022 project templates
 
 # Copyright (C)2019-2023, Philip Munts.
 #
