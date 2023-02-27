@@ -1,6 +1,6 @@
 # Makefile for creating and installing Visual Studio 2022 project templates
 
-# Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2019-2023, Philip Munts.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-VSTEMPLATES	?= $(HOME)/"Documents/Visual Studio 2022/Templates/ProjectTemplates"
+VSTEMPLATES1	?= $(HOME)/"Documents/Visual Studio 2022/Templates/ProjectTemplates"
+VSTEMPLATES2	?= $(HOME)/AppData/Roaming/Microsoft/VisualStudio/17*/ProjectTemplatesCache
 
 ###############################################################################
 
@@ -33,8 +34,9 @@ VSTEMPLATES	?= $(HOME)/"Documents/Visual Studio 2022/Templates/ProjectTemplates"
 # Define a pattern rule for installing a template for Windows Visual Studio
 
 %.install: %.zip
-	mkdir -p $(VSTEMPLATES)
-	install -cm 0644 $< $(VSTEMPLATES)
+	mkdir -p $(VSTEMPLATES1)
+	install -cm 0644 $< $(VSTEMPLATES1)
+	rm -rf $(VSTEMPLATES2)/$^
 
 ###############################################################################
 
