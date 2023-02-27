@@ -1,6 +1,6 @@
 { LED Toggle Test }
 
-{ Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.             }
+{ Copyright (C)2019-2023, Philip Munts.                                       }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -31,13 +31,13 @@ namespace test_led;
 
     { Create remote device object }
 
-    var dev : IO.Objects.RemoteIO.Device :=
-      new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger());
+    var remdev : IO.Objects.RemoteIO.Device :=
+      new IO.Objects.RemoteIO.Device();
 
     { Create GPIO pin object }
 
     var LED : IO.Interfaces.GPIO.Pin :=
-      dev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);
+      remdev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);
 
     { Flash the LED }
 
