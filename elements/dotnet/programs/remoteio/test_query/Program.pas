@@ -1,4 +1,4 @@
-{ Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.             }
+{ Copyright (C)2018-2023, Philip Munts.                                       }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -40,19 +40,20 @@ begin
   writeLn;
 
   var msg : IO.Objects.USB.HID.Messenger :=
-  new IO.Objects.USB.HID.Messenger();
+    new IO.Objects.USB.HID.Messenger();
 
-  var dev : IO.Objects.RemoteIO.Device := new IO.Objects.RemoteIO.Device(msg);
+  var remdev : IO.Objects.RemoteIO.Device :=
+    new IO.Objects.RemoteIO.Device(msg);
 
   writeLn(msg.Info);
-  writeLn(dev.Version);
-  writeLn(dev.Capabilities);
+  writeLn(remdev.Version);
+  writeLn(remdev.Capabilities);
   writeLn;
 
-  ShowAvailable('ADC Channels:', dev.ADC_Available);
-  ShowAvailable('GPIO Pins:   ', dev.GPIO_Available);
-  ShowAvailable('I2C Buses:   ', dev.I2C_Available);
-  ShowAvailable('SPI Devices: ', dev.SPI_Available);
+  ShowAvailable('ADC Channels:', remdev.ADC_Available);
+  ShowAvailable('GPIO Pins:   ', remdev.GPIO_Available);
+  ShowAvailable('I2C Buses:   ', remdev.I2C_Available);
+  ShowAvailable('SPI Devices: ', remdev.SPI_Available);
 end;
 
 end.
