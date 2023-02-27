@@ -8,10 +8,10 @@ namespace $safeprojectname$;
     writeLn;
 
     var dev : IO.Objects.RemoteIO.Device :=
-      new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger());
+      new IO.Objects.RemoteIO.Device(new IO.Objects.USB.HID.Messenger);
 
     writeLn(dev.Version);
-    writeln(dev.Capabilities);
+    writeLn(dev.Capabilities);
   end;
 
 end.

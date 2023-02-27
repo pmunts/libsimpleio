@@ -10,25 +10,16 @@
     <DefaultName>elements_dotnet_java_console_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>Java</LanguageTag>
-    <LanguageTag>RemObjects Elements</LanguageTag>
     <PlatformTag>.Net 7</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
     <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Linux Simple I/O Library client</ProjectTypeTag>
+    <ProjectTypeTag>Linux Simple I/O Library</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
   <TemplateContent>
     <Project TargetFileName="elements_dotnet_java_console_libsimpleio.elements" File="elements_dotnet_java_console_libsimpleio.elements" ReplaceParameters="true">
-      <Folder Name="Properties" TargetFolderName="Properties">
-        <ProjectItem ReplaceParameters="false" TargetFileName="App.ico">App.ico</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.java">AssemblyInfo.java</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.java">Resources.Designer.java</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.java">Settings.Designer.java</ProjectItem>
-      </Folder>
       <ProjectItem ReplaceParameters="false" TargetFileName="Makefile">Makefile</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.java">Program.java</ProjectItem>
     </Project>

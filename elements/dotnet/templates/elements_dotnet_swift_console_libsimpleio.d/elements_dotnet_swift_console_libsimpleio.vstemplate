@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
     <Name>RemObjects Elements Swift console application for .Net 7 using libsimpleio</Name>
-    <Description>A project for building a Swift console application for .Net 7 using libsimpleio.</Description>
+    <Description>A project for building a Swift console application for .Net 7 using the Linux Simple I/O Library.</Description>
     <Icon>elements_dotnet_swift_console_libsimpleio.ico</Icon>
     <ProjectType>Oxygene</ProjectType>
     <Elements:Type>Oxygene.Echoes</Elements:Type>
@@ -10,25 +10,16 @@
     <DefaultName>elements_dotnet_swift_console_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>Swift</LanguageTag>
-    <LanguageTag>RemObjects Elements</LanguageTag>
     <PlatformTag>.Net 7</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
     <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Linux Simple I/O Library client</ProjectTypeTag>
+    <ProjectTypeTag>Linux Simple I/O Library</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
   <TemplateContent>
     <Project TargetFileName="elements_dotnet_swift_console_libsimpleio.elements" File="elements_dotnet_swift_console_libsimpleio.elements" ReplaceParameters="true">
-      <Folder Name="Properties" TargetFolderName="Properties">
-        <ProjectItem ReplaceParameters="false" TargetFileName="App.ico">App.ico</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.swift">AssemblyInfo.swift</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.swift">Resources.Designer.swift</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.swift">Settings.Designer.swift</ProjectItem>
-      </Folder>
       <ProjectItem ReplaceParameters="false" TargetFileName="Makefile">Makefile</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.swift">Program.swift</ProjectItem>
     </Project>

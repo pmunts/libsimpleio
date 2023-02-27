@@ -4,7 +4,10 @@ public class Program
 {
   public static int Main(String []args)
   {
-    Console.WriteLine("Hello, World!");
+    IO.Objects.SimpleIO.syslog.Logger log =
+      new IO.Objects.SimpleIO.syslog.Logger();
+
+    log.Note("Hello, World!");
     return 0;
   }
 }
