@@ -1,21 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>test_adac_click_dac</RootNamespace>
-    <ProjectGuid>{1106ab4a-e8c6-444d-b4a9-82f555019861}</ProjectGuid>
+    <ProjectGuid>1106ab4a-e8c6-444d-b4a9-82f555019861</ProjectGuid>
     <OutputType>Exe</OutputType>
+    <Name>test_adac_click_dac</Name>
     <AssemblyName>test_adac_click_dac</AssemblyName>
-    <ApplicationIcon>Properties\App.ico</ApplicationIcon>
+    <BinaryName>test_adac_click_dac</BinaryName>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <TargetFramework>.NETCore</TargetFramework>
     <Mode>Echoes</Mode>
-    <Name>test_adac_click_dac</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>
     <OutputPath>.\Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <ConditionalDefines>DEBUG;TRACE;</ConditionalDefines>
     <GeneratePDB>True</GeneratePDB>
     <GenerateMDB>True</GenerateMDB>
     <EnableAsserts>True</EnableAsserts>
@@ -41,20 +40,7 @@
   <ItemGroup>
     <Content Include="Makefile" />
     <Compile Include="Program.pas" />
-    <Compile Include="Properties\AssemblyInfo.pas" />
-    <Content Include="Properties\App.ico" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.pas" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-    </None>
-    <Compile Include="Properties\Settings.Designer.pas" />
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Echoes.targets" />
 </Project>
