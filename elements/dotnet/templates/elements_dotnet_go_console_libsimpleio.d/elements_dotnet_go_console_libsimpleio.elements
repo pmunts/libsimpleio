@@ -4,11 +4,12 @@
     <RootNamespace>$safeprojectname$</RootNamespace>
     <ProjectGuid>$guid1$</ProjectGuid>
     <OutputType>Exe</OutputType>
+    <Name>$safeprojectname$</Name>
+    <AssemblyName>$safeprojectname$</AssemblyName>
     <BinaryName>$safeprojectname$</BinaryName>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <TargetFramework>.NETCore</TargetFramework>
     <Mode>Echoes</Mode>
-    <Name>$safeprojectname$</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>
