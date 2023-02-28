@@ -28,8 +28,8 @@ WITH MUNTS_0018.Button;
 
 PROCEDURE test_button_led IS
 
-  Button : GPIO.PIN RENAMES MUNTS_0018.Button.Input;
-  LED    : GPIO.PIN RENAMES MUNTS_0018.LED.Output;
+  Button : GPIO.Pin RENAMES MUNTS_0018.Button.Input;
+  LED    : GPIO.Pin RENAMES MUNTS_0018.LED.Output;
 
   newstate : Boolean;
   oldstate : Boolean;

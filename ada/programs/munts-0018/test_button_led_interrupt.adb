@@ -28,8 +28,8 @@ WITH MUNTS_0018.Button_Interrupt;
 
 PROCEDURE test_button_led_interrupt IS
 
-  Button : GPIO.PIN RENAMES MUNTS_0018.Button_Interrupt.Input;
-  LED    : GPIO.PIN RENAMES MUNTS_0018.LED.Output;
+  Button : GPIO.Pin RENAMES MUNTS_0018.Button_Interrupt.Input;
+  LED    : GPIO.Pin RENAMES MUNTS_0018.LED.Output;
 
 BEGIN
   New_Line;
