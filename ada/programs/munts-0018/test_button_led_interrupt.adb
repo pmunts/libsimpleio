@@ -1,6 +1,6 @@
--- MUNTS-0018 Tutorial I/O Board Interrupt Button and LED Test
+-- MUNTS-0018 Tutorial I/O Board Button and LED Test using interrupts
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,14 +26,14 @@ WITH GPIO;
 WITH MUNTS_0018.LED;
 WITH MUNTS_0018.Button_Interrupt;
 
-PROCEDURE test_interrupt_button_led IS
+PROCEDURE test_button_led_interrupt IS
 
   Button : GPIO.PIN RENAMES MUNTS_0018.Button_Interrupt.Input;
   LED    : GPIO.PIN RENAMES MUNTS_0018.LED.Output;
 
 BEGIN
   New_Line;
-  Put_Line("MUNTS-0018 Tutorial I/O Board Interrupt Button and LED Test");
+  Put_Line("MUNTS-0018 Tutorial I/O Board Button and LED Test");
   New_Line;
 
   LOOP
@@ -45,4 +45,4 @@ BEGIN
       LED.Put(False);
     END IF;
   END LOOP;
-END test_interrupt_button_led;
+END test_button_led_interrupt;
