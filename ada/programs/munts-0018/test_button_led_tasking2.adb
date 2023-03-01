@@ -58,11 +58,10 @@ BEGIN
   Put_Line("MUNTS-0018 Tutorial I/O Board Button and LED Test");
   New_Line;
 
-DELAY 10.0;
   LOOP
     SELECT
       ButtonHandler.GetState(state);
-      Put_Line(Boolean'Image(state));
+      Put_Line(IF state THEN "PRESSED" ELSE "RELEASED");
     OR
       DELAY 1.0;
       Put_Line("Tick...");
