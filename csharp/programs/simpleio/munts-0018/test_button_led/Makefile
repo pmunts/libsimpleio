@@ -22,7 +22,7 @@
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-BOARDNAME	?= RaspberryPi1
+BOARDNAME	?= RaspberryPi3
 HOSTNAME	?= root@usbgadget.munts.net
 PROGNAME	:= $(shell basename $(shell pwd))
 
