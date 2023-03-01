@@ -21,7 +21,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using IO.Objects.SimpleIO.Device;
-using static IO.Objects.SimpleIO.GPIO.Pin;
+using IO.Objects.SimpleIO.GPIO;
 using static IO.Objects.SimpleIO.Platforms.RaspberryPi;
 
 namespace IO.Objects.SimpleIO.Platforms
@@ -222,9 +222,9 @@ namespace IO.Objects.SimpleIO.Platforms
         /// </summary>
         /// <param name="edge">Interrupt edge setting.</param>
         /// <returns>GPIO input pin object.</returns>
-        public static IO.Interfaces.GPIO.Pin ButtonInputFactory(IO.Objects.SimpleIO.GPIO.Pin.Edge edge = IO.Objects.SimpleIO.GPIO.Pin.Edge.None)
+        public static IO.Interfaces.GPIO.Pin ButtonInputFactory(IO.Objects.SimpleIO.GPIO.Edge edge = IO.Objects.SimpleIO.GPIO.Edge.None)
         {
-            return new IO.Objects.SimpleIO.GPIO.Pin(SW1, IO.Interfaces.GPIO.Direction.Input, false, IO.Objects.SimpleIO.GPIO.Pin.Driver.PushPull, edge);
+            return new IO.Objects.SimpleIO.GPIO.Pin(SW1, IO.Interfaces.GPIO.Direction.Input, false, IO.Objects.SimpleIO.GPIO.Driver.PushPull, edge);
         }
 
         /// <summary>

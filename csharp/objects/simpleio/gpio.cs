@@ -25,75 +25,75 @@ using System;
 namespace IO.Objects.SimpleIO.GPIO
 {
     /// <summary>
+    /// GPIO output driver settings.
+    /// </summary>
+    public enum Driver
+    {
+        /// <summary>
+        /// Push Pull (current source/sink) output driver.
+        /// </summary>
+        PushPull,
+
+        /// <summary>
+        /// Open Drain (current sink) output driver.
+        /// </summary>
+        OpenDrain,
+
+        /// <summary>
+        /// Open Source (current source) output driver.
+        /// </summary>
+        OpenSource
+    };
+
+    /// <summary>
+    /// GPIO input interrupt edge settings.
+    /// </summary>
+    public enum Edge
+    {
+        /// <summary>
+        /// Configure GPIO input pin with interrupt disabled.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Configure GPIO input pin to interrupt on rising edge.
+        /// </summary>
+        Rising,
+
+        /// <summary>
+        /// Configure GPIO pin to interrupt on falling edge.
+        /// </summary>
+        Falling,
+
+        /// <summary>
+        /// Configure GPIO pin to interrupt on both edges.
+        /// </summary>
+        Both
+    };
+
+    /// <summary>
+    /// GPIO polarity settings
+    /// </summary>
+    public enum Polarity
+    {
+        /// <summary>
+        /// Configure GPIO pin as active low (inverted logic).
+        /// </summary>
+        ActiveLow,
+
+        /// <summary>
+        /// Configure GPIO pin as active high (normal logic).
+        /// </summary>
+        ActiveHigh
+    };
+
+    /// <summary>
     /// Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
     /// </summary>
     public class Pin : IO.Interfaces.GPIO.Pin
     {
         private readonly int myfd;
         private readonly Kinds kind;
-
-        /// <summary>
-        /// GPIO output driver settings.
-        /// </summary>
-        public enum Driver
-        {
-            /// <summary>
-            /// Push Pull (current source/sink) output driver.
-            /// </summary>
-            PushPull,
-
-            /// <summary>
-            /// Open Drain (current sink) output driver.
-            /// </summary>
-            OpenDrain,
-
-            /// <summary>
-            /// Open Source (current source) output driver.
-            /// </summary>
-            OpenSource
-        };
-
-        /// <summary>
-        /// GPIO input interrupt edge settings.
-        /// </summary>
-        public enum Edge
-        {
-            /// <summary>
-            /// Configure GPIO input pin with interrupt disabled.
-            /// </summary>
-            None,
-
-            /// <summary>
-            /// Configure GPIO input pin to interrupt on rising edge.
-            /// </summary>
-            Rising,
-
-            /// <summary>
-            /// Configure GPIO pin to interrupt on falling edge.
-            /// </summary>
-            Falling,
-
-            /// <summary>
-            /// Configure GPIO pin to interrupt on both edges.
-            /// </summary>
-            Both
-        };
-
-        /// <summary>
-        /// GPIO polarity settings
-        /// </summary>
-        public enum Polarity
-        {
-            /// <summary>
-            /// Configure GPIO pin as active low (inverted logic).
-            /// </summary>
-            ActiveLow,
-
-            /// <summary>
-            /// Configure GPIO pin as active high (normal logic).
-            /// </summary>
-            ActiveHigh
-        };
 
         private enum Kinds
         {
