@@ -37,13 +37,8 @@ PROCEDURE test_button_led_tasking1 IS
 
   BEGIN
     LOOP
-      IF Button.Get THEN
-        Put_Line("PRESSED");
-        LED.Put(True);
-      ELSE
-        Put_Line("RELEASED");
-        LED.Put(False);
-      END IF;
+      LED.Put(Button.Get); -- Blocks until press or release!
+      Put_Line(IF Led.Get THEN "PRESSED" ELSE "RELEASED");
     END LOOP;
   END ButtonHandler;
 
