@@ -65,10 +65,13 @@ endif
 endif
 
 test_compile_csharp:
-	for D in ../csharp/programs/*/* ; do $(MAKE) -C $$D default clean ; done
+	for D in ../csharp/programs/remoteio/test*            ; do $(MAKE) -C $$D default clean ; done
+	for D in ../csharp/programs/simpleio/test*            ; do $(MAKE) -C $$D default clean ; done
+	for D in ../csharp/programs/simpleio/munts-0018/test* ; do $(MAKE) -C $$D default clean ; done
 
 test_compile_elements:
-	for D in ../elements/dotnet/programs/*/* ; do $(MAKE) -C $$D default clean ; done
+	for D in ../elements/dotnet/programs/remoteio/test*   ; do $(MAKE) -C $$D default clean ; done
+	for D in ../elements/dotnet/programs/simpleio/test*   ; do $(MAKE) -C $$D default clean ; done
 
 clean:
 	rm -rf $(PROGRAMS) *.log
