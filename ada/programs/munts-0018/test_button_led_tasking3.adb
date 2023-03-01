@@ -48,7 +48,7 @@ PROCEDURE test_button_led_tasking3 IS
 
   BEGIN
     LOOP
-      LED.Put(Button.Get);
+      LED.Put(Button.Get); -- Blocks until press or release!
       mqueue.Enqueue(LED.Get);
     END LOOP;
   END ButtonHandler;
