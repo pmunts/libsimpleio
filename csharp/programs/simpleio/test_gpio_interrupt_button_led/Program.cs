@@ -38,8 +38,8 @@ namespace test_gpio_interrupt_button_led
             IO.Interfaces.GPIO.Pin Button =
                 new IO.Objects.SimpleIO.GPIO.Pin(desg_Button,
                     IO.Interfaces.GPIO.Direction.Input, false,
-                    IO.Objects.SimpleIO.GPIO.Pin.Driver.PushPull,
-                    IO.Objects.SimpleIO.GPIO.Pin.Edge.Both);
+                    IO.Objects.SimpleIO.GPIO.Driver.PushPull,
+                    IO.Objects.SimpleIO.GPIO.Edge.Both);
 
             IO.Objects.SimpleIO.Device.Designator desg_LED =
                 new IO.Objects.SimpleIO.Device.Designator(0, 26);

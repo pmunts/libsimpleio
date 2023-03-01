@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using static IO.Objects.SimpleIO.GPIO.Pin;
+using static IO.Objects.SimpleIO.GPIO.Edge;
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
 using static System.Console;
 using static System.Threading.Thread;
@@ -30,13 +30,13 @@ using System.Collections.Concurrent;
 // Create a message queue for the background task to send state transitions
 // to the foreground task.
 
-BlockingCollection<bool> mqueue = new BlockingCollection<bool>();
+var mqueue = new BlockingCollection<bool>();
 
 void ButtonHandler()
 {
   // Create GPIO pin objects
 
-  var Button = ButtonInputFactory(Edge.Both);
+  var Button = ButtonInputFactory(Both);
   var LED    = LEDOutputFactory(false);
 
   // button event loop

@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using static IO.Objects.SimpleIO.GPIO.Pin;
+using static IO.Objects.SimpleIO.GPIO.Edge;
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
 using static System.Console;
 
@@ -28,7 +28,7 @@ WriteLine("\nMUNTS-0018 Button and LED Test using interrupts\n");
 
 // Create GPIO pin objects
 
-var Button = ButtonInputFactory(Edge.Both);
+var Button = ButtonInputFactory(Both);
 var LED    = LEDOutputFactory(false);
 
 // Main event loop
