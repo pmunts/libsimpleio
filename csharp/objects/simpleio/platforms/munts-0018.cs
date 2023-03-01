@@ -205,8 +205,8 @@ namespace IO.Objects.SimpleIO.Platforms
         public static readonly Designator J11A1 = new Designator(0, 1);
 
         /// <summary>
-        /// Analog input factory for the on-board analog inputs at <c>J10</c>
-        /// and <c>J11</c>.
+        /// Analog input object factory for the on-board analog inputs at
+        /// connectors <c>J10</c> and <c>J11</c>.
         /// </summary>
         /// <param name="desg">Device designator for one of the on-board
         /// analog inputs (<c>J10A0</c>, <c>J10A1</c>, <c>J11A0</c>, or
@@ -228,7 +228,7 @@ namespace IO.Objects.SimpleIO.Platforms
         }
 
         /// <summary>
-        /// GPIO pin factory for the on-board LED at <c>D1</c>.
+        /// GPIO pin object factory for the on-board LED at <c>D1</c>.
         /// </summary>
         /// <param name="state">Initial GPIO output state.</param>
         /// <returns>GPIO output pin object.</returns>
@@ -238,7 +238,8 @@ namespace IO.Objects.SimpleIO.Platforms
         }
 
         /// <summary>
-        /// GPIO pin factory for GPIO pins at <c>J4</c> to <c>J6</c>.
+        /// GPIO pin object factory for GPIO pins at connectors <c>J4</c> to
+        /// <c>J7</c>.
         /// </summary>
         /// <param name="desg">Device designator for one of the on-board GPIO
         /// pins (<c>J4D0</c> to <c>J7D1</c>.</param>
@@ -258,7 +259,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
         /// <summary>
         /// I<sup>2</sup>C bus object factory for the on-board I<sup>2</sup>C
-        /// buses at <c>J5</c> and <c>J9</c>.
+        /// buses at connectors <c>J5</c> and <c>J9</c>.
         /// </summary>
         /// <param name="desg">Device designator for one of the on-board
         /// I<sup>2</sup>C buses (<c>J5I2C</c> or <c>J9I2C</c>).</param>
@@ -270,7 +271,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
         /// <summary>
         /// Motor output object factory for the on-board motor outputs
-        /// at <c>J6</c> and <c>J7</c>.
+        /// at connectors <c>J6</c> and <c>J7</c>.
         /// </summary>
         /// <param name="speed">Device designator for the motor speed PWM
         /// output (<c>J6PWM</c> or <c>J7PWM</c>).</param>
@@ -290,7 +291,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
         /// <summary>
         /// Servo output object factory for the on-board servo outputs
-        /// at <c>J2</c> and <c>J3</c>.
+        /// at headers <c>J2</c> and <c>J3</c>.
         /// </summary>
         /// <param name="desg">Device designator for one of the on-board
         /// PWM outputs (<c>J2PWM</c> or <c>J3PWM</c>).</param>
