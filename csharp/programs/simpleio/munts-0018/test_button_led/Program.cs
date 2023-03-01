@@ -20,14 +20,15 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.SimpleIO.Platforms;
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
+using static System.Console;
 
-System.Console.WriteLine("\nMUNTS-0018 Button and LED Test\n");
+WriteLine("\nMUNTS-0018 Button and LED Test\n");
 
 // Create GPIO pin objects
 
-var Button = MUNTS_0018.ButtonInputFactory();
-var LED    = MUNTS_0018.LEDOutputFactory(false);
+var Button = ButtonInputFactory();
+var LED    = LEDOutputFactory(false);
 
 // Force initial state change
 
@@ -44,7 +45,7 @@ for (;;)
 
   if (ButtonNew != ButtonOld)
   {
-    System.Console.WriteLine(ButtonNew ? "PRESSED" : "RELEASED");
+    WriteLine(ButtonNew ? "PRESSED" : "RELEASED");
     LED.state = ButtonNew;
     ButtonOld = ButtonNew;
   }
