@@ -23,39 +23,43 @@
 using static IO.Objects.SimpleIO.GPIO.Pin;
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
 using static System.Console;
+using static System.Threading.Thread;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
-namespace test_button_led_task
+// Create a message queue for the background task to send state transitions
+// to the foreground task.
+
+BlockingCollection<bool> mqueue = new BlockingCollection<bool>();
+
+void ButtonHandler()
 {
-  class Program
+  // Create GPIO pin objects
+
+  var Button = ButtonInputFactory(Edge.Both);
+  var LED    = LEDOutputFactory(false);
+
+  // button event loop
+
+  for (;;)
   {
-    private static void ButtonHandler()
-    {
-      // Create GPIO pin objects
-
-      var Button = ButtonInputFactory(Edge.Both);
-      var LED    = LEDOutputFactory(false);
-
-      // Main event loop
-
-      for (;;)
-      {
-        LED.state = Button.state;
-        WriteLine(LED.state ? "PRESSED" : "RELEASED");
-      }
-    }
-
-    static void Main()
-    {
-      WriteLine("\nMUNTS-0018 Button and LED Test using interrupts\n");
-
-      var ButtonHandlerTask = Task.Run(ButtonHandler);
-
-      for (;;)
-      {
-        System.Threading.Thread.Sleep(1000);
-        WriteLine("Tick...");
-      }
-    }
+    LED.state = Button.state;
+    mqueue.Add(LED.state);
   }
+}
+
+WriteLine("\nMUNTS-0018 Button and LED Test using interrupts\n");
+
+// Spawn background task
+
+var ButtonHandlerTask = Task.Run(ButtonHandler);
+
+// Main event loop
+
+for (;;)
+{
+  if (mqueue.TryTake(out bool state, 1000))
+    WriteLine(state ? "PRESSED" : "RELEASED");
+  else
+    WriteLine("Tick...");
 }
