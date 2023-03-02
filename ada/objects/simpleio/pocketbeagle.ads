@@ -1,6 +1,6 @@
 -- PocketBeagle device definitions
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -38,13 +38,13 @@ PACKAGE PocketBeagle IS
   GPIO2   : CONSTANT Device.Designator := (0,  2);  -- P1.8   SPI0 SCLK
   GPIO3   : CONSTANT Device.Designator := (0,  3);  -- P1.10  SPI0 MISO
   GPIO4   : CONSTANT Device.Designator := (0,  4);  -- P1.12  SPI0 MOSI
-  GPIO5   : CONSTANT Device.Designator := (0,  5);  -- P1.6   SPI0 CS
+  GPIO5   : CONSTANT Device.Designator := (0,  5);  -- P1.6   SPI0 CS0
   GPIO7   : CONSTANT Device.Designator := (0,  7);  -- P2.29  SPI1 SCLK
   GPIO12  : CONSTANT Device.Designator := (0, 12);  -- P1.26  I2C2 SDA
   GPIO13  : CONSTANT Device.Designator := (0, 13);  -- P1.28  I2C2 SCL
   GPIO14  : CONSTANT Device.Designator := (0, 14);  -- P2.11  I2C1 SDA
   GPIO15  : CONSTANT Device.Designator := (0, 15);  -- P2.9   I2C1 SCL
-  GPIO19  : CONSTANT Device.Designator := (0, 19);  -- P2.31  SPI1 CS
+  GPIO19  : CONSTANT Device.Designator := (0, 19);  -- P2.31  SPI1 CS1
   GPIO20  : CONSTANT Device.Designator := (0, 20);  -- P1.20
   GPIO23  : CONSTANT Device.Designator := (0, 23);  -- P2.3
   GPIO26  : CONSTANT Device.Designator := (0, 26);  -- P1.34
@@ -80,8 +80,8 @@ PACKAGE PocketBeagle IS
   GPIO116 : CONSTANT Device.Designator := (3, 20);  -- P2.28
   GPIO117 : CONSTANT Device.Designator := (3, 21);  -- P1.29
 
-  I2C1    : CONSTANT Device.Designator := (0,  1);  -- P1.26 and P1.28
-  I2C2    : CONSTANT Device.Designator := (0,  2);  -- P2.9  and P2.11
+  I2C1    : CONSTANT Device.Designator := (0,  1);  -- P2.9  and P2.11
+  I2C2    : CONSTANT Device.Designator := (0,  2);  -- P1.26 and P1.28
 
   PWM0_0  : CONSTANT Device.Designator := (0,  0);  -- P1.36
   PWM2_0  : CONSTANT Device.Designator := (2,  0);  -- P2.1
