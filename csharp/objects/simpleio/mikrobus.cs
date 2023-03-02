@@ -224,7 +224,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN0,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
                 PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI2_0,
+                SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI1_0,
                 UART:   "/dev/ttyS1"),
 
             new SocketEntry(Shield.Kinds.BeagleBoneClick2, 2, true,
@@ -245,7 +245,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN1,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
                 PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI2_1,
+                SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI1_1,
                 UART:   "/dev/ttyS2"),
 
             new SocketEntry(Shield.Kinds.BeagleBoneClick4, 1, true,
@@ -266,7 +266,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN3,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
                 PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI2_0,
+                SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI1_0,
                 UART:   "/dev/ttyS2"),
 
             new SocketEntry(Shield.Kinds.BeagleBoneClick4, 2, true,
@@ -287,7 +287,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN2,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
                 PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI2_1,
+                SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI1_1,
                 UART:   "/dev/ttyS1"),
 
             new SocketEntry(Shield.Kinds.BeagleBoneClick4, 3, true,
