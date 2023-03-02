@@ -1,4 +1,4 @@
-// MUNTS-0018 Tutoral Board Definitions
+// MUNTS-0018 Raspberry Pi Tutorial I/O Board Definitions
 
 // Copyright (C)2021-2023, Philip Munts.
 //
