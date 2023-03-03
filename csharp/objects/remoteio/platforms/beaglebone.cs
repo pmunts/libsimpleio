@@ -588,8 +588,7 @@ namespace IO.Objects.RemoteIO.Platforms
 
         /// <summary>
         /// I<sup>2</sup>C bus channel number for the remote BeagleBone
-        /// I<sup>2</sup>C bus <c>I<sup>2</sup>C</c> at pins <c>P9.19</c> and
-        /// <c>P9.20</c>.
+        /// I<sup>2</sup>C bus at pins <c>P9.19</c> and <c>P9.20</c>.
         /// </summary>
         /// <remarks>
         /// Conflicts with <c>GPIO12</c> and <c>GPIO13</c>.
