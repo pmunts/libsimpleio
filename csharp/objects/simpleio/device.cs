@@ -23,7 +23,7 @@
 namespace IO.Objects.SimpleIO.Device
 {
     /// <summary>
-    /// Linux kernel I/O device designator..
+    /// Linux kernel I/O device designator.
     /// </summary>
     /// <remarks>
     /// Many Linux kernel I/O devices, including ADC inputs, DAC outputs,
