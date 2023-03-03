@@ -1,6 +1,6 @@
 -- I/O Resources available from a PocketBeagle Remote I/O Server
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,8 +29,8 @@ PACKAGE RemoteIO.PocketBeagle IS
   AIN2    : CONSTANT RemoteIO.ChannelNumber :=   2;  -- P1.23 1.8V
   AIN3    : CONSTANT RemoteIO.ChannelNumber :=   3;  -- P1.24 1.8V
   AIN4    : CONSTANT RemoteIO.ChannelNumber :=   4;  -- P1.25 1.8V
-  AIN5    : CONSTANT RemoteIO.ChannelNumber :=   5;  -- P2.35 3.3V
-  AIN6    : CONSTANT RemoteIO.ChannelNumber :=   6;  -- P1.2  3.3V
+  AIN5    : CONSTANT RemoteIO.ChannelNumber :=   5;  -- P2.35 3.6V
+  AIN6    : CONSTANT RemoteIO.ChannelNumber :=   6;  -- P1.2  3.6V
   AIN7    : CONSTANT RemoteIO.ChannelNumber :=   7;  -- P2.36 1.8V
 
   -- Digital GPIO pins
