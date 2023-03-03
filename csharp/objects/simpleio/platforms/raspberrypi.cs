@@ -107,7 +107,7 @@ namespace IO.Objects.SimpleIO.Platforms
         public static readonly Designator GPIO18 = new Designator(0,18);
 
         /// <summary>GPIO pin designator (0,19).  Conflicts with
-        /// <c>SPI1 MISO</c> or <c>PWM1</c>.  Not available on early boards
+        /// <c>PWM1</c> or <c>SPI1 MISO</c>.  Not available on early boards
         /// with 26 pin expansion headers.</summary>
         public static readonly Designator GPIO19 = new Designator(0, 19);
 
