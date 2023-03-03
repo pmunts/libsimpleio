@@ -42,6 +42,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// </code>
         /// </remarks>
         public const int AIN0 = 0;
+
         /// <summary>
         /// Analog input channel number for the remote Raspberry Pi analog
         /// input <c>AIN1</c>.
@@ -61,7 +62,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// GPIO channel number for the remote Raspberry Pi user LED.
         /// </summary>
         /// <remarks>
-        /// This GPIO pin cannot be configured as an input.
+        /// This GPIO channel cannot be configured as an input.
         /// </remarks>
         public const int USERLED = 0;
 
@@ -73,6 +74,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// mapped to I<sup>2</sup>C signal <c>SDA1</c>.
         /// </remarks>
         public const int GPIO2 = 2;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO3</c>.
         /// </summary>
@@ -81,98 +83,11 @@ namespace IO.Objects.RemoteIO.Platforms
         /// mapped to to I<sup>2</sup>C signal <c>SCL1</c>.
         /// </remarks>
         public const int GPIO3 = 3;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO4</c>.
         /// </summary>
         public const int GPIO4 = 4;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO7</c>.
-        /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO7</c> is
-        /// mapped to SPI signal <c>SPI0_CE1</c>.
-        /// </remarks>
-        public const int GPIO7 = 7;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO8</c>.
-        /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO8</c> is
-        /// mapped to SPI signal <c>SPI0_CE0</c>.
-        /// </remarks>
-        public const int GPIO8 = 8;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO9</c>.
-        /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO9</c> is
-        /// mapped to SPI signal <c>SPI0_MISO</c>.
-        /// </remarks>
-        public const int GPIO9 = 9;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO10</c>.
-        /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO10</c> is
-        /// mapped to SPI signal <c>SPI0_MOSI</c>.
-        /// </remarks>
-        public const int GPIO10 = 10;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO11</c>.
-        /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO11</c> is
-        /// mapped to SPI signal <c>SPI0_SCLK</c>.
-        /// </remarks>
-        public const int GPIO11 = 11;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO14</c>.
-        /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO14</c> is
-        /// mapped to UART signal <c>UART0_TXD</c>.
-        /// </remarks>
-        public const int GPIO14 = 14;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO15</c>.
-        /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO15</c> is
-        /// mapped to UART signal <c>UART0_RXD</c>.
-        /// </remarks>
-        public const int GPIO15 = 15;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO17</c>.
-        /// </summary>
-        public const int GPIO17 = 17;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO18</c>.
-        /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO18</c> is
-        /// mapped to PWM output <c>PWM0</c>.
-        /// </remarks>
-        public const int GPIO18 = 18;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO22</c>.
-        /// </summary>
-        public const int GPIO22 = 22;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO23</c>.
-        /// </summary>
-        public const int GPIO23 = 23;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO24</c>.
-        /// </summary>
-        public const int GPIO24 = 24;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO25</c>.
-        /// </summary>
-        public const int GPIO25 = 25;
-        /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO27</c>.
-        /// </summary>
-        public const int GPIO27 = 27;
 
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO5</c>.
@@ -183,6 +98,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// expansion header.
         /// </remarks>
         public const int GPIO5 = 5;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO6</c>.
         /// </summary>
@@ -192,6 +108,52 @@ namespace IO.Objects.RemoteIO.Platforms
         /// expansion header.
         /// </remarks>
         public const int GPIO6 = 6;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO7</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO7</c> is
+        /// mapped to SPI signal <c>SPI0_CE1</c>.
+        /// </remarks>
+        public const int GPIO7 = 7;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO8</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO8</c> is
+        /// mapped to SPI signal <c>SPI0_CE0</c>.
+        /// </remarks>
+        public const int GPIO8 = 8;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO9</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO9</c> is
+        /// mapped to SPI signal <c>SPI0_MISO</c>.
+        /// </remarks>
+        public const int GPIO9 = 9;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO10</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO10</c> is
+        /// mapped to SPI signal <c>SPI0_MOSI</c>.
+        /// </remarks>
+        public const int GPIO10 = 10;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO11</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO11</c> is
+        /// mapped to SPI signal <c>SPI0_SCLK</c>.
+        /// </remarks>
+        public const int GPIO11 = 11;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO12</c>.
         /// </summary>
@@ -201,6 +163,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// expansion header.
         /// </remarks>
         public const int GPIO12 = 12;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO13</c>.
         /// </summary>
@@ -210,6 +173,25 @@ namespace IO.Objects.RemoteIO.Platforms
         /// expansion header.
         /// </remarks>
         public const int GPIO13 = 13;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO14</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO14</c> is
+        /// mapped to UART signal <c>UART0_TXD</c>.
+        /// </remarks>
+        public const int GPIO14 = 14;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO15</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO15</c> is
+        /// mapped to UART signal <c>UART0_RXD</c>.
+        /// </remarks>
+        public const int GPIO15 = 15;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO16</c>.
         /// </summary>
@@ -219,6 +201,21 @@ namespace IO.Objects.RemoteIO.Platforms
         /// expansion header.
         /// </remarks>
         public const int GPIO16 = 16;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO17</c>.
+        /// </summary>
+        public const int GPIO17 = 17;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO18</c>.
+        /// </summary>
+        /// <remarks>
+        /// This GPIO channel is normally unusable because <c>GPIO18</c> is
+        /// mapped to PWM output <c>PWM0</c>.
+        /// </remarks>
+        public const int GPIO18 = 18;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO19</c>.
         /// </summary>
@@ -228,6 +225,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// expansion header.
         /// </remarks>
         public const int GPIO19 = 19;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO20</c>.
         /// </summary>
@@ -237,6 +235,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// expansion header.
         /// </remarks>
         public const int GPIO20 = 20;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO21</c>.
         /// </summary>
@@ -246,6 +245,27 @@ namespace IO.Objects.RemoteIO.Platforms
         /// expansion header.
         /// </remarks>
         public const int GPIO21 = 21;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO22</c>.
+        /// </summary>
+        public const int GPIO22 = 22;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO23</c>.
+        /// </summary>
+        public const int GPIO23 = 23;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO24</c>.
+        /// </summary>
+        public const int GPIO24 = 24;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO25</c>.
+        /// </summary>
+        public const int GPIO25 = 25;
+
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO26</c>.
         /// </summary>
@@ -255,6 +275,11 @@ namespace IO.Objects.RemoteIO.Platforms
         /// expansion header.
         /// </remarks>
         public const int GPIO26 = 26;
+
+        /// <summary>
+        /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO27</c>.
+        /// </summary>
+        public const int GPIO27 = 27;
 
         /// <summary>
         /// I<sup>2</sup>C bus channel number for the remote Raspberry Pi
@@ -283,6 +308,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// </code>
         /// </remarks>
         public const int PWM0 = 0;
+
         /// <summary>
         /// PWM output channel number for the remote Raspberry Pi PWM output
         /// <c>PWM1</c>.
@@ -309,6 +335,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// </code>
         /// </remarks>
         public const int SPI0 = 0;
+
         /// <summary>
         /// SPI slave device channel number for the remote Raspberry Pi SPI
         /// slave device <c>/dev/spidev0.1</c>.
