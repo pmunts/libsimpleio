@@ -1,4 +1,4 @@
-// Raspberry Pi I/O resource definitions
+// I/O Resources available from a Raspberry Pi Remote I/O Server
 
 // Copyright (C)2021-2023, Philip Munts.
 //
