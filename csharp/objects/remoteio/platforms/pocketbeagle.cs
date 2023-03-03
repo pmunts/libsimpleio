@@ -285,6 +285,9 @@ namespace IO.Objects.RemoteIO.Platforms
         /// GPIO channel number for the remote PocketBeagle GPIO pin
         /// <c>GPIO50</c> at pin <c>P2.1</c>.
         /// </summary>
+        /// <remarks>
+        /// Conflicts with <c>PWM2:0</c>.
+        /// </remarks>
         public const int GPIO50 = 50;
 
         /// <summary>
@@ -363,6 +366,9 @@ namespace IO.Objects.RemoteIO.Platforms
         /// GPIO channel number for the remote PocketBeagle GPIO pin
         /// <c>GPIO110</c> at pin <c>P1.36</c>.
         /// </summary>
+        /// <remarks>
+        /// Conflicts with <c>PWM0:0</c>.
+        /// </remarks>
         public const int GPIO110 = 110;
 
         /// <summary>
