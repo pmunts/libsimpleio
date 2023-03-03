@@ -409,21 +409,21 @@ namespace IO.Objects.RemoteIO.Platforms
 
         /// <summary>
         /// I<sup>2</sup>C bus channel number for the remote BeagleBone
-        /// I<sup>2</sup>C bus <c>I<sup>2</sup>C</c> at pins <c>P1.26</c> and
-        /// <c>P1.28</c>.
-        /// </summary>
-        /// <remarks>
-        /// Conflicts with <c>GPIO12</c> and <c>GPIO13</c>.
-        /// </remarks>
-        public const int I2C1 = 1;
-
-        /// <summary>
-        /// I<sup>2</sup>C bus channel number for the remote BeagleBone
         /// I<sup>2</sup>C bus <c>I<sup>2</sup>C</c> at pins <c>P2.9</c> and
         /// <c>P2.11</c>.
         /// </summary>
         /// <remarks>
         /// Conflicts with <c>GPIO14</c> and <c>GPIO15</c>.
+        /// </remarks>
+        public const int I2C1 = 1;
+
+        /// <summary>
+        /// I<sup>2</sup>C bus channel number for the remote BeagleBone
+        /// I<sup>2</sup>C bus <c>I<sup>2</sup>C</c> at pins <c>P1.26</c> and
+        /// <c>P1.28</c>.
+        /// </summary>
+        /// <remarks>
+        /// Conflicts with <c>GPIO12</c> and <c>GPIO13</c>.
         /// </remarks>
         public const int I2C2 = 2;
 
