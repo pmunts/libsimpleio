@@ -61,7 +61,7 @@ PACKAGE RemoteIO.PocketBeagle IS
   GPIO45  : CONSTANT RemoteIO.ChannelNumber :=  45;  -- P2.33
   GPIO46  : CONSTANT RemoteIO.ChannelNumber :=  46;  -- P2.22
   GPIO47  : CONSTANT RemoteIO.ChannelNumber :=  47;  -- P2.18
-  GPIO50  : CONSTANT RemoteIO.ChannelNumber :=  50;  -- P2.1
+  GPIO50  : CONSTANT RemoteIO.ChannelNumber :=  50;  -- P2.1   PWM2:0
   GPIO52  : CONSTANT RemoteIO.ChannelNumber :=  52;  -- P2.10
   GPIO57  : CONSTANT RemoteIO.ChannelNumber :=  57;  -- P2.6
   GPIO58  : CONSTANT RemoteIO.ChannelNumber :=  58;  -- P2.4
@@ -73,7 +73,7 @@ PACKAGE RemoteIO.PocketBeagle IS
   GPIO87  : CONSTANT RemoteIO.ChannelNumber :=  87;  -- P1.2   AIN6 3.3V
   GPIO88  : CONSTANT RemoteIO.ChannelNumber :=  88;  -- P1.35
   GPIO89  : CONSTANT RemoteIO.ChannelNumber :=  89;  -- P1.4
-  GPIO110 : CONSTANT RemoteIO.ChannelNumber := 110;  -- P1.36
+  GPIO110 : CONSTANT RemoteIO.ChannelNumber := 110;  -- P1.36  PWM0:0
   GPIO111 : CONSTANT RemoteIO.ChannelNumber := 111;  -- P1.33
   GPIO112 : CONSTANT RemoteIO.ChannelNumber := 112;  -- P2.32
   GPIO113 : CONSTANT RemoteIO.ChannelNumber := 113;  -- P2.30
