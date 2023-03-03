@@ -84,17 +84,17 @@ PACKAGE RemoteIO.PocketBeagle IS
 
   -- I2C bus controllers
 
-  I2C0    : CONSTANT RemoteIO.ChannelNumber :=   0;  -- I2C1 P2.9,11
-  I2C1    : CONSTANT RemoteIO.ChannelNumber :=   1;  -- I2C2 P1.26,28
+  I2C1    : CONSTANT RemoteIO.ChannelNumber :=   1;  -- P2.9,11
+  I2C2    : CONSTANT RemoteIO.ChannelNumber :=   2;  -- P1.26,28
 
   -- PWM outputs
 
-  PWM0    : CONSTANT RemoteIO.ChannelNumber :=   0;  -- PWM0:0 P1.36
-  PWM1    : CONSTANT RemoteIO.ChannelNumber :=   1;  -- PWM2:0 P2.1
+  PWM0_0  : CONSTANT RemoteIO.ChannelNumber :=   0;  -- PWM0:0 P1.36
+  PWM2_0  : CONSTANT RemoteIO.ChannelNumber :=   1;  -- PWM2:0 P2.1
 
   -- SPI slave devices
 
-  SPI0    : CONSTANT RemoteIO.ChannelNumber :=   0;  -- SPI0 CS0 P1.6,8,10,12
-  SPI1    : CONSTANT RemoteIO.ChannelNumber :=   1;  -- SPI1 CS1 P2.25,27,29,31
+  SPI0_0  : CONSTANT RemoteIO.ChannelNumber :=   0;  -- SPI0 CS0 P1.6,8,10,12
+  SPI1_1  : CONSTANT RemoteIO.ChannelNumber :=   1;  -- SPI1 CS1 P2.25,27,29,31
 
 END RemoteIO.PocketBeagle;
