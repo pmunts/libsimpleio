@@ -48,7 +48,7 @@ void ButtonHandler()
   }
 }
 
-WriteLine("\nMUNTS-0018 Button and LED Test using interrupts\n");
+WriteLine("\nMUNTS-0018 Button and LED Test using tasking\n");
 
 // Spawn background task
 
