@@ -40,13 +40,13 @@ PACKAGE RemoteIO.PocketBeagle IS
   GPIO2   : CONSTANT RemoteIO.ChannelNumber :=   2;  -- P1.8   SPI0 SCLK
   GPIO3   : CONSTANT RemoteIO.ChannelNumber :=   3;  -- P1.10  SPI0 MISO
   GPIO4   : CONSTANT RemoteIO.ChannelNumber :=   4;  -- P1.12  SPI0 MOSI
-  GPIO5   : CONSTANT RemoteIO.ChannelNumber :=   5;  -- P1.6   SPI0 CS
+  GPIO5   : CONSTANT RemoteIO.ChannelNumber :=   5;  -- P1.6   SPI0 CS0
   GPIO7   : CONSTANT RemoteIO.ChannelNumber :=   7;  -- P2.29  SPI1 SCLK
   GPIO12  : CONSTANT RemoteIO.ChannelNumber :=  12;  -- P1.26  I2C2 SDA
   GPIO13  : CONSTANT RemoteIO.ChannelNumber :=  13;  -- P1.28  I2C2 SCL
   GPIO14  : CONSTANT RemoteIO.ChannelNumber :=  14;  -- P2.11  I2C1 SDA
   GPIO15  : CONSTANT RemoteIO.ChannelNumber :=  15;  -- P2.9   I2C1 SCL
-  GPIO19  : CONSTANT RemoteIO.ChannelNumber :=  19;  -- P2.31  SPI1 CS
+  GPIO19  : CONSTANT RemoteIO.ChannelNumber :=  19;  -- P2.31  SPI1 CS1
   GPIO20  : CONSTANT RemoteIO.ChannelNumber :=  20;  -- P1.20
   GPIO23  : CONSTANT RemoteIO.ChannelNumber :=  23;  -- P2.3
   GPIO26  : CONSTANT RemoteIO.ChannelNumber :=  26;  -- P1.34
