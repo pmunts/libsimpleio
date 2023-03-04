@@ -26,7 +26,7 @@ WITH System;
 
 PACKAGE ncurses IS
   PRAGMA Link_With("-lncurses");
-  PRAGMA Warnings (Off, """keypad.enable"" is an 8-bit Ada Boolean");
+  PRAGMA Warnings(Off, """keypad.enable"" is an 8-bit Ada Boolean");
 
   -- Constants
 

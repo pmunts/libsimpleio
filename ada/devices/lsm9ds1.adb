@@ -29,7 +29,7 @@ USE TYPE Accelerometer.Gravities;
 USE TYPE Magnetometer.Gauss;
 
 PACKAGE BODY LSM9DS1 IS
-  PRAGMA Warnings (Off, "constant ""*"" is not referenced");
+  PRAGMA Warnings(Off, "constant ""*"" is not referenced");
 
   -- Define 16-bit signed and unsigned values
 

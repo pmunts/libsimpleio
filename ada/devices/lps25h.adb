@@ -23,7 +23,7 @@
 WITH Ada.Unchecked_Conversion;
 
 PACKAGE BODY LPS25H IS
-  PRAGMA Warnings (Off, "constant ""*"" is not referenced");
+  PRAGMA Warnings(Off, "constant ""*"" is not referenced");
 
   -- Define 16-bit signed and unsigned values
 

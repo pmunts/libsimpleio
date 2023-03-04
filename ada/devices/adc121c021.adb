@@ -21,9 +21,9 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 PACKAGE BODY ADC121C021 IS
-  PRAGMA Warnings (Off, "constant ""*"" is not referenced");
-  PRAGMA Warnings (Off, "function ""*"" is not referenced");
-  PRAGMA Warnings (Off, "procedure ""*"" is not referenced");
+  PRAGMA Warnings(Off, "constant ""*"" is not referenced");
+  PRAGMA Warnings(Off, "function ""*"" is not referenced");
+  PRAGMA Warnings(Off, "procedure ""*"" is not referenced");
 
   -- ADC121C021 register types
 

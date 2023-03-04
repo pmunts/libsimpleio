@@ -27,7 +27,7 @@ WITH I2C;
 USE TYPE I2C.Byte;
 
 PACKAGE BODY BMP280 IS
-  PRAGMA Warnings (Off, "constant ""*"" is not referenced");
+  PRAGMA Warnings(Off, "constant ""*"" is not referenced");
 
   -- BMP280 Registers
 

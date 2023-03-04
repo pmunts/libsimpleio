@@ -25,7 +25,7 @@ WITH I2C;
 USE TYPE I2C.Byte;
 
 PACKAGE BODY TCS3472 IS
-  PRAGMA Warnings (Off, "constant ""*"" is not referenced");
+  PRAGMA Warnings(Off, "constant ""*"" is not referenced");
 
   -- TCS3472 register addresses
 
