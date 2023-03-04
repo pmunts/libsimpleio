@@ -1,4 +1,4 @@
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,6 +27,8 @@ PACKAGE BODY RemoteIO.Client.Serial IS
    (portname : String;
     baudrate : Natural := 115200;
     timeout  : Natural := 1000) RETURN Device IS
+
+    PRAGMA Warnings(Off, "use of an anonymous access type allocator");
 
     port : CONSTANT ACCESS GNAT.Serial_Communications.Serial_Port :=
       NEW GNAT.Serial_Communications.Serial_Port;

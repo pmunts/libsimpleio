@@ -1,6 +1,6 @@
 -- Foundation for a Remote I/O Server
 
--- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,6 +28,7 @@ WITH RemoteIO.Common;
 WITH RemoteIO.Server;
 
 PACKAGE BODY RemoteIO.Server.Foundation IS
+  PRAGMA Warnings(Off, "variable ""disp"" is assigned but never read");
 
   -- Persistent variables
 
@@ -41,6 +42,8 @@ PACKAGE BODY RemoteIO.Server.Foundation IS
     caps   : RemoteIO.Server.ResponseString;
 
   BEGIN
+    PRAGMA Warnings(Off, """error"" modified by call, but value overwritten *");
+
     libLinux.OpenLog(title, liblinux.LOG_NDELAY + libLinux.LOG_PID +
       libLinux.LOG_PERROR, libLinux.LOG_DAEMON, error);
 

@@ -1,6 +1,6 @@
 -- LPC1114 I/O Processor GPIO pin services
 
--- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -78,7 +78,7 @@ PACKAGE BODY RemoteIO.LPC1114.GPIO IS
 
     -- Write output pin initial state
 
-    IF (mode >= Output_PushPull) AND (mode <= Output_OpenDrain) THEN
+    IF mode >= Output_PushPull THEN
       cmd.Command := SPIAGENT_CMD_PUT_GPIO;
       cmd.Pin     := desg;
       cmd.Data    := Boolean'Pos(state);

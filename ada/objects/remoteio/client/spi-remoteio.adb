@@ -1,6 +1,6 @@
 -- SPI device services using the Remote I/O Protocol
 
--- Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -82,6 +82,8 @@ PACKAGE BODY SPI.RemoteIO IS
     resp : Response(0 .. 0);
 
   BEGIN
+    PRAGMA Warnings(Off, """resp"" modified by call, but value might not be referenced");
+
     Transaction(Self, cmd, cmdlen, resp, 0);
   END Write;
 
