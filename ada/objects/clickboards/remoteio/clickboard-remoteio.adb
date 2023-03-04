@@ -185,9 +185,9 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO50,  -- Conflicts with PWM2:0
       OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN6,
-      I2C    => Standard.RemoteIO.PocketBeagle.I2C0, -- I2C1
-      PWM    => Standard.RemoteIO.PocketBeagle.PWM1, -- PWM2 channel 0
-      SPI    => Standard.RemoteIO.PocketBeagle.SPI0, -- SPI0 CS0
+      I2C    => Standard.RemoteIO.PocketBeagle.I2C1,
+      PWM    => Standard.RemoteIO.PocketBeagle.PWM2_0,
+      SPI    => Standard.RemoteIO.PocketBeagle.SPI0_0,
       OTHERS => Unavailable),
 
     -- Socket 2 is over the micro-SDHC card socket (right)
@@ -207,9 +207,9 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       ClickBoard.PWM  => Standard.RemoteIO.PocketBeagle.GPIO110, -- Conflicts with PWM0:0
       OTHERS          => Unavailable),
       AIN    => Standard.RemoteIO.PocketBeagle.AIN5,
-      I2C    => Standard.RemoteIO.PocketBeagle.I2C1, -- I2C2
-      PWM    => Standard.RemoteIO.PocketBeagle.PWM0, -- PWM0 channel 0
-      SPI    => Standard.RemoteIO.PocketBeagle.SPI1, -- SPI2 CS1
+      I2C    => Standard.RemoteIO.PocketBeagle.I2C2,
+      PWM    => Standard.RemoteIO.PocketBeagle.PWM0_0,
+      SPI    => Standard.RemoteIO.PocketBeagle.SPI1_1,
       OTHERS => Unavailable),
 
     SocketRec'(ClickBoard.Servers.PiClick1, 1,
