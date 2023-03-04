@@ -1,6 +1,6 @@
 -- File Descriptor to Stream_Access Test
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,14 +28,11 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Command_Line;
 WITH Ada.IO_Exceptions;
 WITH Ada.Streams.Stream_IO.C_Streams;
-WITH Ada.Text_IO.Text_Streams;
 WITH Interfaces.C_Streams;
-WITH System;
 
 WITH errno;
 WITH libLinux;
 
-USE TYPE Ada.Streams.Stream_Element_Offset;
 USE TYPE Interfaces.C_Streams.FILEs;
 
 PROCEDURE test_fd_to_stream IS
@@ -93,6 +90,8 @@ BEGIN
       Put(Character'Input(s));
     EXCEPTION
       WHEN Ada.IO_Exceptions.End_Error => EXIT;
+
+      PRAGMA Warnings(Off, "useless handler contains only a reraise statement");
 
       WHEN OTHERS => RAISE;
     END;

@@ -1,6 +1,6 @@
 -- Seeed Studio Grove ADC Test
 
--- Copyright (C)2017-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,6 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Command_Line;
-WITH Ada.Strings.Fixed;
 
 WITH Grove_ADC;
 WITH I2C;

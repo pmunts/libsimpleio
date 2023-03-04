@@ -1,6 +1,6 @@
 -- MySQL Client Test
 
--- Copyright (C)2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2022-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
-WITH Ada.Calendar.Formatting;
 WITH Ada.Command_Line;
 
 WITH MySQL.libmysqlclient;
@@ -56,7 +55,7 @@ BEGIN
 
     DECLARE
 
-      cmd : String := Get_Line;
+      cmd : CONSTANT String := Get_Line;
 
     BEGIN
       New_Line;

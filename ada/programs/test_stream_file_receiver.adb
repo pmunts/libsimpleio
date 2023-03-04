@@ -1,6 +1,6 @@
 -- Ada Stream Framing Protocol file receiver test
 
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -150,6 +150,8 @@ BEGIN
       RETURN;
     END IF;
   END LOOP;
+
+  PRAGMA Warnings(Off, "* modified by call, but value *");
 
   libIPv4.TCP_Close(streamfd, error);
   libLinux.close(filefd, error);

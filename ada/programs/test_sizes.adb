@@ -1,6 +1,6 @@
 -- Primitive Datatype Size Test
 
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,11 +25,11 @@ WITH System;
 
 PROCEDURE test_sizes IS
 
-  a : Boolean          := True;
-  b : Character        := ' ';
-  c : Integer          := 0;
-  d : Natural          := 0;
-  e : ACCESS Character := NULL;
+  a : CONSTANT Boolean          := True;
+  b : CONSTANT Character        := ' ';
+  c : CONSTANT Integer          := 0;
+  d : CONSTANT Natural          := 0;
+  e : CONSTANT ACCESS Character := NULL;
 
 BEGIN
   New_Line;

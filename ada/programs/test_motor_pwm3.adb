@@ -1,6 +1,6 @@
 -- Motor Output Test Using Locked Antiphase PWM
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,7 +24,6 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH Device;
-WITH GPIO.libsimpleio;
 WITH Motor.PWM;
 WITH PWM.libsimpleio;
 

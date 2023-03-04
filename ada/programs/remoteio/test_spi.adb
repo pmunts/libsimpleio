@@ -1,6 +1,6 @@
 -- USB HID remote I/O SPI test
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -34,7 +34,7 @@ PROCEDURE test_spi IS
   wordsize : Natural;
   speed    : Natural;
   slave    : SPI.Device;
-  outbuf   : SPI.Command(0 .. 31) := (OTHERS => 16#AA#);
+  outbuf   : CONSTANT SPI.Command(0 .. 31) := (OTHERS => 16#AA#);
 
 BEGIN
   New_Line;

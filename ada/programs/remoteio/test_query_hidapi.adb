@@ -1,6 +1,6 @@
 -- Remote I/O Device Information Query
 
--- Copyright (C)2019-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH HID.Munts;
 WITH HID.hidapi;
-WITH RemoteIO.Client.hidapi;
+WITH RemoteIO.Client;
 
 PROCEDURE test_query_hidapi IS
 

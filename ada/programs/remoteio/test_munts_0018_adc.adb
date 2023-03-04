@@ -1,6 +1,6 @@
 -- MUNTS-0018 Raspberry Pi Tutorial I/O Board A/D Converter Test
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,7 +23,6 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ADC.RemoteIO;
-WITH Analog;
 WITH RemoteIO.Client.hidapi;
 WITH RemoteIO.MUNTS_0018;
 WITH Voltage;

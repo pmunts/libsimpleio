@@ -1,6 +1,6 @@
 -- Remote I/O Protocol Dummy Server
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -37,6 +37,9 @@ PROCEDURE test_server_dummy IS
   title  : CONSTANT String := "Remote I/O Protocol Dummy Server";
   caps   : CONSTANT String := "ADC DAC GPIO I2C PWM SPI";
   exec   : RemoteIO.Executive.Executor;
+
+  PRAGMA Warnings(Off, "* assigned but never read");
+
   srvh   : RemoteIO.Server.Instance;
   srvs   : RemoteIO.Server.Instance;
   srvu   : RemoteIO.Server.Instance;
@@ -53,11 +56,15 @@ BEGIN
 
   -- Initialize server subsystem tasks
 
+  PRAGMA Warnings(Off, "possibly useless assignment to *");
+
   srvh := RemoteIO.Server.Dev.Create(exec, "Raw HID", "/dev/hidg0");
   srvs := RemoteIO.Server.Serial.Create(exec, "Serial Port", "/dev/ttyGS0");
   srvu := RemoteIO.Server.UDP.Create(exec, "UDP");
 
   -- Create I/O subsystem objects
+
+  PRAGMA Warnings(Off, "possibly useless assignment to *");
 
   adc  := RemoteIO.ADC.Create(exec);
   dac  := RemoteIO.DAC.Create(exec);

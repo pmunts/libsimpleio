@@ -1,6 +1,6 @@
 -- Mikroelektronika Relay Click (MIKROE-1370) Toggle Test
 
--- Copyright (C)2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,11 +28,15 @@ WITH GPIO;
 
 PROCEDURE test_clickboard_relay IS
 
-  remdev : RemoteIO.Client.Device := RemoteIO.Client.hidapi.Create;
+  remdev : CONSTANT RemoteIO.Client.Device := RemoteIO.Client.hidapi.Create;
   Relay1 : CONSTANT GPIO.Pin := ClickBoard.Relay.RemoteIO.Create(remdev, socknum => 1, relaynum => 1);
   Relay2 : CONSTANT GPIO.Pin := ClickBoard.Relay.RemoteIO.Create(remdev, socknum => 1, relaynum => 2);
 
 BEGIN
+  New_Line;
+  Put_Line("Mikroelektronika Relay Click (MIKROE-1370) Toggle Test");
+  New_Line;
+
   LOOP
     Relay1.Put(True);
     Relay2.Put(False);

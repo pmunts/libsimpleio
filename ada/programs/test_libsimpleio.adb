@@ -1,6 +1,6 @@
 -- Linux Simple I/O Library regression test
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -40,11 +40,15 @@ PROCEDURE test_libsimpleio IS
   error : Integer;
   epfd  : Integer;
   fd    : Integer;
+
+  PRAGMA Warnings(Off, "variable * is assigned but never read");
+
   b     : I2C.Bus;
   d     : SPI.Device;
   p     : GPIO.Pin;
 
 BEGIN
+
   Put_Line("Linux Simple I/O Library Regression Test");
   New_Line;
 
@@ -97,6 +101,8 @@ BEGIN
   IF error /= 0 THEN
     Put_Line("ERROR: SPI.Close() failed, " & errno.strerror(error));
   END IF;
+
+  PRAGMA Warnings(Off, "possibly useless assignment to *");
 
   b := I2C.libsimpleio.Create("/dev/i2c-1");
 
