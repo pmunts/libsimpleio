@@ -1,6 +1,6 @@
 -- Test an MCP23017 as 2 8-bit parallel ports
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,39 +24,60 @@
 -- Default I2C address is 0x20
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH Ada.Integer_Text_IO;
 
+WITH GPIO.RemoteIO;
 WITH I2C.RemoteIO;
-WITH MCP23017;
-WITH MCP23017.Byte;
+WITH MCP23x17;
+WITH MCP23x17.Byte;
 WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_mcp23017_byte IS
 
-  PACKAGE Byte_IO IS NEW Ada.Text_IO.Modular_IO(MCP23017.Byte.Byte);
+  PACKAGE Byte_IO IS NEW Ada.Text_IO.Modular_IO(MCP23x17.Byte.Byte);
   USE Byte_IO;
 
-  bus   : I2C.Bus;
-  dev   : MCP23017.Device;
-  PortA : MCP23017.Byte.Port;
-  PortB : MCP23017.Byte.Port;
+  remdev  : RemoteIO.Client.Device;
+  rstchan : RemoteIO.ChannelNumber;
+  i2cchan : RemoteIO.ChannelNumber;
+  rstpin  : GPIO.Pin;
+  i2cbus  : I2C.Bus;
+  dev     : MCP23x17.Device;
+  PortA   : MCP23x17.Byte.Port;
+  PortB   : MCP23x17.Byte.Port;
 
 BEGIN
   Put_Line("MCP23017 Byte I/O Test");
   New_Line;
 
+  -- Create Remote I/O Protocol server device
+
+  remdev := RemoteIO.Client.hidapi.Create;
+
+  -- Create reset pin
+
+  Put("Enter reset pin channel number: ");
+  Ada.Integer_Text_IO.Get(rstchan);
+  New_Line;
+
+  rstpin := GPIO.RemoteIO.Create(remdev, rstchan, GPIO.Output, False);
+
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0,
-    MCP23017.MaxSpeed);
+  Put("Enter I2C bus   channel number: ");
+  Ada.Integer_Text_IO.Get(i2cchan);
+  New_Line;
+
+  i2cbus := I2C.RemoteIO.Create(remdev, i2cchan, MCP23x17.MaxSpeed);
 
   -- Create MCP23017 device object
 
-  dev   := MCP23017.Create(bus, 16#20#);
+  dev := MCP23x17.Create(rstpin, i2cbus, 16#20#);
 
   -- Create 8-bit port objects
 
-  PortA := MCP23017.Byte.Create(dev, MCP23017.Byte.GPA);
-  PortB := MCP23017.Byte.Create(dev, MCP23017.Byte.GPB);
+  PortA := MCP23x17.Byte.Create(dev, MCP23x17.Byte.GPA);
+  PortB := MCP23x17.Byte.Create(dev, MCP23x17.Byte.GPB);
 
   -- Configure all port A pins as outputs
 
@@ -71,7 +92,7 @@ BEGIN
   -- Toggle port A outputs and read port B inputs
 
   LOOP
-    FOR n IN MCP23017.Byte.Byte LOOP
+    FOR n IN MCP23x17.Byte.Byte LOOP
       PortA.Put(n);
       Put("PortB => ");
       Put(PortB.Get, 0, 16);

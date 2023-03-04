@@ -1,6 +1,6 @@
 -- Test an MCP23017 as 16 individual GPIO pins
 
--- Copyright (C)2017-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,37 +24,57 @@
 -- Default I2C address is 0x20
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH Ada.Integer_Text_IO;
 
-WITH GPIO;
+WITH GPIO.RemoteIO;
 WITH I2C.RemoteIO;
-WITH MCP23017;
-WITH MCP23017.GPIO;
+WITH MCP23x17;
+WITH MCP23x17.GPIO;
 WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_mcp23017_gpio IS
 
-  bus   : I2C.Bus;
-  dev   : MCP23017.Device;
-  pins  : ARRAY (MCP23017.GPIO.PinNumber) OF GPIO.Pin;
+  remdev  : RemoteIO.Client.Device;
+  rstchan : RemoteIO.ChannelNumber;
+  i2cchan : RemoteIO.ChannelNumber;
+  rstpin  : GPIO.Pin;
+  i2cbus  : I2C.Bus;
+  dev     : MCP23x17.Device;
+  pins    : ARRAY (MCP23x17.GPIO.PinNumber) OF GPIO.Pin;
 
 BEGIN
   New_Line;
   Put_Line("MCP23017 GPIO Toggle Test");
   New_Line;
 
+  -- Create Remote I/O Protocol server device
+
+  remdev := RemoteIO.Client.hidapi.Create;
+
+  -- Create reset pin
+
+  Put("Enter reset pin channel number: ");
+  Ada.Integer_Text_IO.Get(rstchan);
+  New_Line;
+
+  rstpin := GPIO.RemoteIO.Create(remdev, rstchan, GPIO.Output, False);
+
   -- Create I2C bus object
 
-  bus := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0,
-    MCP23017.MaxSpeed);
+  Put("Enter I2C bus   channel number: ");
+  Ada.Integer_Text_IO.Get(i2cchan);
+  New_Line;
+
+  i2cbus := I2C.RemoteIO.Create(remdev, i2cchan, MCP23x17.MaxSpeed);
 
   -- Create MCP23017 device object
 
-  dev   := MCP23017.Create(bus, 16#20#);
+  dev := MCP23x17.Create(rstpin, i2cbus, 16#20#);
 
   -- Configure GPIO pins
 
   FOR n IN pins'Range LOOP
-    pins(n) := MCP23017.GPIO.Create(dev, n, GPIO.Output);
+    pins(n) := MCP23x17.GPIO.Create(dev, n, GPIO.Output);
   END LOOP;
 
   -- Toggle GPIO pins
