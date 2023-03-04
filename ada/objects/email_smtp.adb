@@ -1,6 +1,6 @@
 -- Send email via SMTP to localhost:25
 
--- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -66,6 +66,8 @@ PACKAGE BODY Email_SMTP IS
     END IF;
 
     -- Build credentials
+
+    PRAGMA Warnings(Off, "use of an anonymous access type allocator");
 
     IF username /= "" AND password /= "" THEN
       creds := NEW AWS.SMTP.Authentication.Plain.Credential'(AWS.SMTP.Authentication.Plain.Initialize(username, password));

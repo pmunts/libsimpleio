@@ -1,6 +1,6 @@
 -- Remote I/O Server Services using Message64.ZMQ transport
 
--- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,7 @@ PACKAGE BODY RemoteIO.Server.ZeroMQ IS
     error  : Integer;
 
   BEGIN
-    s := Standard.ZeroMQ.Sockets.Create(ctx, Standard.ZeroMQ.Sockets.Rep, 1000);
+    s := Standard.ZeroMQ.Sockets.Create(ctx, Standard.ZeroMQ.Sockets.Rep, timeoutms);
 
     s.Bind(Standard.ZeroMQ.Sockets.To_Endpoint(addr, port));
 

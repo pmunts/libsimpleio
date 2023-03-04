@@ -1,6 +1,6 @@
 -- Webserver, serving pages from a hash table of request/response pairs
 
--- Copyright (C)2016-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -98,7 +98,7 @@ PACKAGE BODY Webserver.HashTable IS
   -- Wrapper for glibc system() function
 
   FUNCTION system(cmd : String) RETURN Integer;
-  PRAGMA Import(C, system, "system");
+    PRAGMA Import(C, system, "system");
 
   server : AWS.Server.HTTP;
 
@@ -106,9 +106,13 @@ PACKAGE BODY Webserver.HashTable IS
 
   PROCEDURE Start(port : Natural := 80) IS
 
+    PRAGMA Warnings(Off, "variable ""error"" is assigned but never read");
+
     error : Integer;
 
   BEGIN
+    PRAGMA Warnings(Off, "possibly useless assignment to ""error""");
+
     error := system("iptables -A INPUT -p tcp -m conntrack --ctstate NEW --dport " &
       Natural'Image(port) & " -j ACCEPT" & ASCII.NUL);
 
