@@ -406,17 +406,17 @@ namespace IO.Objects.SimpleIO.Platforms
         public static readonly Designator EHRPWM2B = new Designator(6, 1);
 
         /// <summary>SPI slave designator (0,0) for P9.17.  Conflicts with
-        /// <c>SPI0 SS0</c> or <c>GPIO5</c>.</summary>
+        /// <c>GPIO5</c>.</summary>
         /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator SPI0_0 = new Designator(0, 0);
 
         /// <summary>SPI slave designator (1,0) for P9.28.  Conflicts with
-        /// <c>SP1 SS0</c> or <c>GPIO113</c>.</summary>
+        /// <c>GPIO113</c>.</summary>
         /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator SPI1_0 = new Designator(1, 0);
 
         /// <summary>SPI slave designator (1,1) for P9.42.  Conflicts with
-        /// <c>SPI1 SS1</c> or <c>GPIO7</c>.</summary>
+        /// <c>GPIO7</c>.</summary>
         /// <remarks>Requires the <c>BB-GPIO</c> device tree overlay.</remarks>
         public static readonly Designator SPI1_1 = new Designator(1, 1);
     }
