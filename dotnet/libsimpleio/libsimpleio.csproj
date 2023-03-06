@@ -66,8 +66,8 @@
       <Link>IO.Objects.SimpleIO\Platforms\%(FileName)</Link>
     </Compile>
     <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
-    <None Include="README.pdf" Pack="true" PackagePath="doc"/>
-    <None Include="Help/*.pdf" Pack="true" PackagePath="doc"/>
+    <None Include="obj\README.md" Pack="true" PackagePath="doc"/>
+    <None Include="Help\*.pdf" Pack="true" PackagePath="doc"/>
   </ItemGroup>
 
 </Project>
