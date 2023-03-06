@@ -1,11 +1,13 @@
-<p><b>Introduction</b></p>
-<p>This package provides <b><tt>libsimpleio.dll</tt></b>, a .Net Standard 2.0
-library assembly that provides a .Net binding to the <b><a href=
+<h1>Introduction</h1>
+<p>This package provides <b><a href=
+"https://www.nuget.org/packages/libsimpleio">libsimpleio</a></b>, a .Net
+Standard 2.0 library package that provides <b><tt>libsimpleio.dll</tt></b>,
+a .Net binding to the <b><a href=
 "https://github.com/pmunts/libsimpleio">Linux Simple I/O Library</a></b>.</p>
-<p><b>libsimpleio</b> provides services to control ADC (Analog to Digital
-Converter) inputs, DAC (Digital to Analog) outputs, GPIO (General Purpose I/O)
-pins, I2C bus controllers, PWM (Pulse Width Modulated) outputs, servo outputs,
-motor outputs, SPI (Serial Peripheral Interface) devices, and watchdog
+<p>It provides services to control ADC (Analog to Digital Converter) inputs,
+DAC (Digital to Analog) outputs, GPIO (General Purpose I/O) pins,
+I<sup>2</sup>C bus controllers, PWM (Pulse Width Modulated) outputs, servo
+outputs, motor outputs, SPI (Serial Peripheral Interface) devices, and watchdog
 timers.</p>
 <p>With <b>libsimpleio</b> you can develop .Net application programs for Linux
 target computers, including microcomputers like the <a href=
@@ -13,29 +15,28 @@ target computers, including microcomputers like the <a href=
 "https://www.raspberrypi.com">Raspberry Pi</a>, that control I/O devices. Such
 programs may be used for physical computing, test fixtures, instrumentation,
 and other kinds of embedded systems.</p>
-<p>The API documentation for <b>libsimpleio</b> is available as a Windows
-<a href="http://git.munts.com/libsimpleio/doc/libsimpleio.dll.chm">help
-file</a>.</p>
 <p><b>Usage</b></p>
-<p>The easiest and best way to use <b><tt>libsimpleio</tt></b> is to install
-the .Net templates package <b><a href=
-"https://www.nuget.org/packages/libsimpleio-templates/">libsimpleio-templates</a></b>,
+<p>The easiest and best way to use <b>libsimpleio</b> is to install the .Net
+templates package <b><a href=
+"https://www.nuget.org/packages/libsimpleio-templates">libsimpleio-templates</a></b>,
 by running the following command from a Linux or Windows command line:</p>
-<pre><b>
+<b>
+<pre>
 dotnet new install libsimpleio-templates
-
-</b></pre>
+</pre>
+</b>
 <p>The above command will install a .Net application program project template
 called <b><tt>csharp_console_libsimpleio</tt></b>. You can then create a
 project using it with commands like the following:</p>
-<pre><b>
+<b>
+<pre>
 mkdir myprogram
 cd myprogram
 dotnet new csharp_console_libsimpleio
-
-</b></pre>
-<p>On Windows, after you have run the <b><tt>dotnet new install</tt></b> command
-above, <b>Visual Studio 2022</b> will automatically pick up the
+</pre>
+</b>
+<p>On Windows, after you have run the <b><tt>dotnet new install</tt></b>
+command above, <b>Visual Studio 2022</b> will automatically pick up the
 <b><tt>csharp_console_libsimpleio</tt></b> <tt>project template</tt>. You can
 then create a project using it with <b><tt>File</tt> → <tt>New</tt> →
-<tt>Project...</tt></b> and then search for <b><tt>libsimpleio</tt></b>.</p>
+<tt>Project...</tt></b> and then search for <b><tt>libremoteio</tt></b>.</p>
