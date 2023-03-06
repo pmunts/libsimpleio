@@ -33,13 +33,7 @@ PANDOC		?= pandoc
 # Definitions for Calibre ebook-convert program
 CONVERT		?= C:/Progra~1/Calibre2/ebook-convert
 CONVERTFLAGS	+= --paper-size letter
-CONVERTFLAGS	+= --pdf-add-toc
-CONVERTFLAGS	+= --pdf-page-margin-top 54
-CONVERTFLAGS	+= --pdf-page-margin-bottom 54
-CONVERTFLAGS	+= --pdf-page-margin-right 54
-CONVERTFLAGS	+= --pdf-page-margin-left 54
 CONVERTFLAGS	+= --pdf-page-numbers
-CONVERTFLAGS	+= --toc-title "Index"
 
 # Include subordinate makefiles
 
@@ -49,11 +43,9 @@ include ../../csharp/include/csharp.mk
 
 default:
 	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
-	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
-	mv Help/$(LIBNAME).chm Help/$(LIBNAME).dll.chm
-	$(CONVERT) Help/$(LIBNAME).dll.chm Help/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
-	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
-	install -cm 0644 Help/$(LIBNAME).dll.chm ../../doc
+	BUILDVERSION=$(VERSION) "$(MSBUILD)" help.shfbproj
+	$(CONVERT) Help/$(LIBNAME).docx Help/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
+	$(PANDOC) --wrap=none -f html -t markdown README.html >obj/README.md
 	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	-svn revert -R $(NUGETDIR)/$(LIBNAME)

@@ -11,7 +11,7 @@
     <Copyright>Copyright (C)2017-2023 Philip Munts</Copyright>
     <PackageProjectUrl>https://github.com/pmunts/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>doc/COPYING</PackageLicenseFile>
-    <PackageReadmeFile>doc/libremoteio.md</PackageReadmeFile>
+    <PackageReadmeFile>doc/README.md</PackageReadmeFile>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI; Stepper;</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
@@ -54,9 +54,8 @@
       <Link>IO.Objects.RemoteIO\Platforms\%(FileName)</Link>
     </Compile>
     <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
-    <None Include="obj/libremoteio.md" Pack="true" PackagePath="doc"/>
-    <None Include="Help/*.chm" Pack="true" PackagePath="doc"/>
-    <None Include="Help/*.pdf" Pack="true" PackagePath="doc"/>
+    <None Include="obj\README.md" Pack="true" PackagePath="doc"/>
+    <None Include="Help\*.pdf" Pack="true" PackagePath="doc"/>
   </ItemGroup>
 
   <ItemGroup>
