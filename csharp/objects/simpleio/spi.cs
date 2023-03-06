@@ -20,34 +20,75 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+using static IO.Objects.SimpleIO.mikroBUS.Shield;
+
 using System;
 
 namespace IO.Objects.SimpleIO.SPI
 {
     /// <summary>
-    /// Encapsulates Linux SPI devices using <c>libsimpleio</c>.
+    /// Encapsulates Linux SPI slave devices using <c>libsimpleio</c>.
     /// </summary>
     public class Device: IO.Interfaces.SPI.Device
     {
-        /// <summary>
-        /// Use hardware slave select.
-        /// </summary>
-        public const IO.Objects.SimpleIO.GPIO.Pin AUTOCHIPSELECT = null;
-
         private readonly int myfd;
         private readonly int myfdcs;
 
+        private static int SlaveSelect(string devname,
+            IO.Objects.SimpleIO.Device.Designator? cspin)
+        {
+            // Special processing for the Mikroelektronika BeagleBone click
+            // SHIELD (MIKROE-1596):  Socket 1 has CS connected to GPIO44
+            // instead of SPI1 CS0, so we have to do software slave select.
+
+            if ((kind == Kinds.BeagleBoneClick2) && (devname.Equals("/dev/spidev1.0")))
+            {
+                var SSS = new IO.Objects.SimpleIO.GPIO.Pin
+                    (IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO44,
+                     IO.Interfaces.GPIO.Direction.Output, true);
+
+                return SSS.fd;
+            }
+
+            // Special processing for the Mikroelektronika BeagleBone click
+            // SHIELD (MIKROE-1596):  Socket 2 has CS connected to GPIO46
+            // instead of SPI1 CS1, so we have to do software slave select.
+
+            if ((kind == Kinds.BeagleBoneClick2) && (devname.Equals("/dev/spidev1.1")))
+            {
+                var SSS = new IO.Objects.SimpleIO.GPIO.Pin
+                    (IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO46,
+                     IO.Interfaces.GPIO.Direction.Output, true);
+
+                return SSS.fd;
+            }
+
+            // Explicit software slave select.
+
+            if (cspin is IO.Objects.SimpleIO.Device.Designator desg)
+            {
+                var SSS = new IO.Objects.SimpleIO.GPIO.Pin(desg,
+                    IO.Interfaces.GPIO.Direction.Output, true);
+
+                return SSS.fd;
+            }
+
+            // Implicit hardware slave select
+
+            return IO.Bindings.libsimpleio.SPI_AUTO_CS;
+        }
+
         /// <summary>
-        /// Constructor for a single SPI device.
+        /// Constructor for a single SPI slave device.
         /// </summary>
-        /// <param name="devname">SPI device node name.</param>
+        /// <param name="devname">SPI slave device node name.</param>
         /// <param name="mode">SPI clock mode.</param>
         /// <param name="wordsize">SPI transfer word size.</param>
         /// <param name="speed">SPI transfer speed.</param>
-        /// <param name="cspin">SPI slave select GPIO pin number, or
-        /// <c>AUTOCHIPSELECT</c>.</param>
+        /// <param name="cspin">SPI software slave select GPIO pin designator,
+        /// or <c>null</c>.</param>
         public Device(string devname, int mode, int wordsize,
-            int speed, IO.Objects.SimpleIO.GPIO.Pin cspin = AUTOCHIPSELECT)
+            int speed, IO.Objects.SimpleIO.Device.Designator? cspin = null)
         {
             IO.Bindings.libsimpleio.SPI_open(devname, mode, wordsize,
                 speed, out this.myfd, out int error);
@@ -58,26 +99,23 @@ namespace IO.Objects.SimpleIO.SPI
                     errno.strerror(error));
             }
 
-            if (cspin == AUTOCHIPSELECT)
-                this.myfdcs = IO.Bindings.libsimpleio.SPI_AUTO_CS;
-            else
-                this.myfdcs = cspin.fd;
+            this.myfdcs = SlaveSelect(devname, cspin);
         }
 
         /// <summary>
         /// Constructor for a single SPI device.
         /// </summary>
-        /// <param name="desg">SPI device designator.</param>
+        /// <param name="desg">SPI slave device designator.</param>
         /// <param name="mode">SPI clock mode.</param>
         /// <param name="wordsize">SPI transfer word size.</param>
         /// <param name="speed">SPI transfer speed.</param>
-        /// <param name="cspin">SPI slave select GPIO pin number, or
-        /// <c>AUTOCHIPSELECT</c>.</param>
+        /// <param name="cspin">SPI software slave select GPIO pin designator,
+        /// or <c>null</c>.</param>
         public Device(IO.Objects.SimpleIO.Device.Designator desg, int mode,
             int wordsize, int speed,
-            IO.Objects.SimpleIO.GPIO.Pin cspin = AUTOCHIPSELECT)
+            IO.Objects.SimpleIO.Device.Designator? cspin = null)
         {
-            // Validate the I2C bus designator
+            // Validate the SPI slave designator
 
             if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
                 (desg.chan == IO.Objects.SimpleIO.Device.Designator.Unavailable.chan))
@@ -97,10 +135,7 @@ namespace IO.Objects.SimpleIO.SPI
                     errno.strerror(error));
             }
 
-            if (cspin == AUTOCHIPSELECT)
-                this.myfdcs = IO.Bindings.libsimpleio.SPI_AUTO_CS;
-            else
-                this.myfdcs = cspin.fd;
+            this.myfdcs = SlaveSelect(devname, cspin);
         }
 
         /// <summary>
