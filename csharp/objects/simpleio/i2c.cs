@@ -30,6 +30,10 @@ namespace IO.Objects.SimpleIO.I2C
     /// </summary>
     public class Bus : IO.Interfaces.I2C.Bus
     {
+        private static int[] fdtable =
+            { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+              -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 };
+
         private readonly int myfd;
 
         /// <summary>
@@ -63,15 +67,40 @@ namespace IO.Objects.SimpleIO.I2C
                 throw new Exception("Invalid designator");
             }
 
-            System.String devname = System.String.Format("/dev/i2c-{0}", desg.chan);
+            // Unlike almost any I/O resource, an I2C bus can be shared among
+            // two or more I2C slave devices.  We save open file descriptors in
+            // fdtable so we can reuse them if the program attempts to create
+            // multiple instances of the same I2C bus.  An important use case
+            // is a mikroBUS shield with multiple sockets all sharing the
+            // same I2C bus.  We want to avoid opening a new I2C bus file
+            // descriptor for each socket.
 
-            IO.Bindings.libsimpleio.I2C_open(devname, out this.myfd,
-                out int error);
+            // Resuse an existing open file descriptor, if possible
 
-            if (error != 0)
+            if ((desg.chan < fdtable.Length) && (fdtable[desg.chan] > 0))
             {
-                throw new Exception("I2C_open() failed, " +
-                    errno.strerror(error));
+                this.myfd = fdtable[desg.chan];
+            }
+            else
+            {
+                System.String devname = System.String.Format("/dev/i2c-{0}",
+                    desg.chan);
+
+                IO.Bindings.libsimpleio.I2C_open(devname, out this.myfd,
+                    out int error);
+
+                if (error != 0)
+                {
+                    throw new Exception("I2C_open() failed, " +
+                        errno.strerror(error));
+                }
+
+                // Save the new open file descriptor to fdtable, if possible
+
+                if (desg.chan < fdtable.Length)
+                {
+                    fdtable[desg.chan] = this.myfd;
+                }
             }
         }
 
