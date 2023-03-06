@@ -49,7 +49,7 @@ include ../../csharp/include/csharp.mk
 
 default:
 	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
-	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
+	BUILDVERSION=$(VERSION) "$(MSBUILD)" help.shfbproj
 	mv Help/$(LIBNAME).chm Help/$(LIBNAME).dll.chm
 	$(CONVERT) Help/$(LIBNAME).dll.chm Help/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
 	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
