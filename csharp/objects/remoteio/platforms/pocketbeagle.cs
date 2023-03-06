@@ -79,8 +79,9 @@ namespace IO.Objects.RemoteIO.Platforms
         /// <summary>
         /// Analog input channel number for the remote PocketBeagle 1.8V analog
         /// input <c>AIN7</c> at pin <c>P2.36</c>.
-        /// </summary>
+        /// </summary/c/Users/pmunts/src/libsimpleio/ada/objects/simpleio/pocketbeagle.ads>
         public const int AIN7 = 7;
+
         /// <summary>
         /// GPIO channel number for the remote PocketBeagle user LED.
         /// </summary>
