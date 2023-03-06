@@ -208,6 +208,8 @@ public static class errno
   /// <summary>
   /// Return the error message text for a given <c>errno</c> value.
   /// </summary>
+  /// <param name="errno">Unix <c>errno</c> value.</param>
+  /// <returns>Error message string.</returns>
   public static string strerror(int errno)
   {
     switch (errno)
