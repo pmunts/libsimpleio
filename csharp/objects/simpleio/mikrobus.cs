@@ -134,7 +134,6 @@ namespace IO.Objects.SimpleIO.mikroBUS
         {
             public readonly Shield.Kinds shield;
             public readonly int num;
-            public readonly bool ShareI2C;
             // mikroBUS GPIO pins
             public readonly IO.Objects.SimpleIO.Device.Designator AN;
             public readonly IO.Objects.SimpleIO.Device.Designator RST;
@@ -158,7 +157,6 @@ namespace IO.Objects.SimpleIO.mikroBUS
             public SocketEntry(
                 Shield.Kinds shield,
                 int num,
-                bool ShareI2C,
                 // mikroBUS GPIO pins
                 IO.Objects.SimpleIO.Device.Designator AN,
                 IO.Objects.SimpleIO.Device.Designator RST,
@@ -181,7 +179,6 @@ namespace IO.Objects.SimpleIO.mikroBUS
             {
                 this.shield = shield;
                 this.num = num;
-                this.ShareI2C = ShareI2C;
                 // mikroBUS GPIO pins
                 this.AN = AN;
                 this.RST = RST;
@@ -206,133 +203,133 @@ namespace IO.Objects.SimpleIO.mikroBUS
 
         private static readonly SocketEntry[] SocketTable =
         {
-            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 1, true,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 1,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
                 RST:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO45,
                 CS:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO44,
-                SCK:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MISO:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MOSI:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SDA:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SCL:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                TX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                RX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                SCK:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO110, // Conflicts with SPI1
+                MISO:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO111, // Conflicts with SPI1
+                MOSI:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO112, // Conflicts with SPI1
+                SDA:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO12,  // Conflicts with I2C2
+                SCL:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO13,  // Conflicts with I2C2
+                TX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO15,  // Conflicts with UART1
+                RX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO14,  // Conflicts with UART1
                 INT:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO27,
-                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO50,
+                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO50,  // Conflicts with EHRPWM1A
                 // mikroBUS devices
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN0,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
-                PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                PWMOut: IO.Objects.SimpleIO.Platforms.BeagleBone.EHRPWM1A,
                 SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI1_0,
                 UART:   "/dev/ttyS1"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 2, true,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 2,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
                 RST:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO47,
                 CS:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO46,
-                SCK:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MISO:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MOSI:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SDA:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SCL:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                TX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                RX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                SCK:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO110, // Conflicts with SPI1
+                MISO:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO111, // Conflicts with SPI1
+                MOSI:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO112, // Conflicts with SPI1
+                SDA:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO12,  // Conflicts with I2C2
+                SCL:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO13,  // Conflicts with I2C2
+                TX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO3,   // Conflicts with UART2
+                RX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO2,   // Conflicts with UART2
                 INT:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO65,
-                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO22,
+                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO22,  // Conflicts with EHRPWM2A
                 // mikroBUS devices
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN1,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
-                PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                PWMOut: IO.Objects.SimpleIO.Platforms.BeagleBone.EHRPWM2A,
                 SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI1_1,
                 UART:   "/dev/ttyS2"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 1, true,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 1,
                 // mikroBUS GPIO pins
-                AN:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                AN:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO61,  // Conflicts with AIN3
                 RST:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO60,
-                CS:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SCK:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MISO:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MOSI:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SDA:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SCL:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                TX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                RX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                CS:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO113, // Conflicts with SPI1
+                SCK:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO110, // Conflicts with SPI1
+                MISO:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO111, // Conflicts with SPI1
+                MOSI:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO112, // Conflicts with SPI1
+                SDA:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO12,  // Conflicts with I2C2
+                SCL:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO13,  // Conflicts with I2C2
+                TX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO3,   // Conflicts with SPI0, UART2
+                RX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO2,   // Conflicts with SPI0, UART2
                 INT:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO48,
-                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO50,
+                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO50,  // Conflicts with EHRPWM1A
                 // mikroBUS devices
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN3,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
-                PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                PWMOut: IO.Objects.SimpleIO.Platforms.BeagleBone.EHRPWM1A,
                 SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI1_0,
                 UART:   "/dev/ttyS2"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 2, true,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 2,
                 // mikroBUS GPIO pins
-                AN:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                AN:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO47,  // Conflicts with AIN2
                 RST:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO49,
-                CS:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SCK:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MISO:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MOSI:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SDA:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SCL:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                TX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                RX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                CS:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO7,   // Conflicts with SPI1
+                SCK:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO110, // Conflicts with SPI1
+                MISO:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO111, // Conflicts with SPI1
+                MOSI:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO112, // Conflicts with SPI1
+                SDA:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO12,  // Conflicts with I2C2
+                SCL:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO13,  // Conflicts with I2C2
+                TX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO15,  // Conflicts with UART1
+                RX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO14,  // Conflicts with UART1
                 INT:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO20,
-                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO51,
+                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO51,  // Conflicts with EHRPWM1B
                 // mikroBUS devices
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN2,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
-                PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                PWMOut: IO.Objects.SimpleIO.Platforms.BeagleBone.EHRPWM1B,
                 SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI1_1,
                 UART:   "/dev/ttyS1"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 3, true,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 3,
                 // mikroBUS GPIO pins
-                AN:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                AN:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO44,  // Conflicts with AIN1
                 RST:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO26,
-                CS:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO5,
-                SCK:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MISO:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MOSI:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SDA:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SCL:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                TX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                RX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                CS:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO5,   // Conflicts with SPI0
+                SCK:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO2,   // Conflicts with SPI0, UART2
+                MISO:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO3,   // Conflicts with SPI0, UART2
+                MOSI:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO4,   // Conflicts with SPI0
+                SDA:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO12,  // Conflicts with I2C2
+                SCL:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO13,  // Conflicts with I2C2
+                TX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO15,  // Conflicts with UART1
+                RX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO14,  // Conflicts with UART1
                 INT:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO65,
-                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO22,
+                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO22,  // Conflicts with EHRPWM2A
                 // mikroBUS devices
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN1,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
-                PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SPIDev: IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                PWMOut: IO.Objects.SimpleIO.Platforms.BeagleBone.EHRPWM2A,
+                SPIDev: IO.Objects.SimpleIO.Platforms.BeagleBone.SPI0_0,
                 UART:   "/dev/ttyS1"),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 4, true,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 4,
                 // mikroBUS GPIO pins
-                AN:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                AN:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO45,  // Conflicts with AIN0
                 RST:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO46,
                 CS:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO68,
-                SCK:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MISO:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                MOSI:   IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SDA:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                SCL:    IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                TX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
-                RX:     IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                SCK:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO110, // Conflicts with SPI1
+                MISO:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO111, // Conflicts with SPI1
+                MOSI:   IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO112, // Conflicts with SPI1
+                SDA:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO12,  // Conflicts with I2C2
+                SCL:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO13,  // Conflicts with I2C2
+                TX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO31,  // Conflicts with UART4
+                RX:     IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO30,  // Conflicts with UART4
                 INT:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO27,
-                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO23,
+                PWM:    IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO23,  // Conflicts with EHRPWM2B
                 // mikroBUS devices
                 AIN:    IO.Objects.SimpleIO.Platforms.BeagleBone.AIN0,
                 I2CBus: IO.Objects.SimpleIO.Platforms.BeagleBone.I2C2,
-                PWMOut: IO.Objects.SimpleIO.Device.Designator.Unavailable,
+                PWMOut: IO.Objects.SimpleIO.Platforms.BeagleBone.EHRPWM2B,
                 SPIDev: IO.Objects.SimpleIO.Device.Designator.Unavailable,
                 UART:   "/dev/ttyS4"),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 1, false, // Over the micro USB socket
+            new SocketEntry(Shield.Kinds.PocketBeagle, 1, // Over the micro USB socket
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.SimpleIO.Platforms.PocketBeagle.GPIO87,
                 RST:    IO.Objects.SimpleIO.Platforms.PocketBeagle.GPIO89,
@@ -353,7 +350,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 SPIDev: IO.Objects.SimpleIO.Platforms.PocketBeagle.SPI0_0,
                 UART:   "/dev/ttyS4"),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 2, false, // Over the micro SDHC socket
+            new SocketEntry(Shield.Kinds.PocketBeagle, 2, // Over the micro SDHC socket
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.SimpleIO.Platforms.PocketBeagle.GPIO86,
                 RST:    IO.Objects.SimpleIO.Platforms.PocketBeagle.GPIO45,
@@ -374,7 +371,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 SPIDev: IO.Objects.SimpleIO.Platforms.PocketBeagle.SPI1_1,
                 UART:   "/dev/ttyS0"),
 
-            new SocketEntry(Shield.Kinds.PiClick1, 1, false,
+            new SocketEntry(Shield.Kinds.PiClick1, 1,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO22,
                 RST:    IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO4,
@@ -395,7 +392,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 SPIDev: IO.Objects.SimpleIO.Platforms.RaspberryPi.SPI0_0,
                 UART:   "/dev/ttyAMA0"),
 
-            new SocketEntry(Shield.Kinds.PiClick2, 1, true,
+            new SocketEntry(Shield.Kinds.PiClick2, 1,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO4,
                 RST:    IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO5,
@@ -416,7 +413,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 SPIDev: IO.Objects.SimpleIO.Platforms.RaspberryPi.SPI0_0,
                 UART:   "/dev/ttyAMA0"),
 
-            new SocketEntry(Shield.Kinds.PiClick2, 2, true,
+            new SocketEntry(Shield.Kinds.PiClick2, 2,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO13,
                 RST:    IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO19,
@@ -437,7 +434,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 SPIDev: IO.Objects.SimpleIO.Platforms.RaspberryPi.SPI0_1,
                 UART:   "/dev/ttyAMA0"),
 
-            new SocketEntry(Shield.Kinds.PiClick3, 1, true,
+            new SocketEntry(Shield.Kinds.PiClick3, 1,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO4,
                 RST:    IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO5,
@@ -458,7 +455,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 SPIDev: IO.Objects.SimpleIO.Platforms.RaspberryPi.SPI0_0,
                 UART:   "/dev/ttyAMA0"),
 
-            new SocketEntry(Shield.Kinds.PiClick3, 2, true,
+            new SocketEntry(Shield.Kinds.PiClick3, 2,
                 // mikroBUS GPIO pins
                 AN:     IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO13,
                 RST:    IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO12,
@@ -501,15 +498,6 @@ namespace IO.Objects.SimpleIO.mikroBUS
                     (SocketTable[i].num == num))
                 {
                     myInfo = SocketTable[i];
-
-                    if (myInfo.ShareI2C && (Shield.I2CBus == null))
-                    {
-                        // Initialize the shared I2C bus object
-
-                        Shield.I2CBus =
-                            new IO.Objects.SimpleIO.I2C.Bus(myInfo.I2CBus);
-                    }
-
                     return;
                 }
             }
