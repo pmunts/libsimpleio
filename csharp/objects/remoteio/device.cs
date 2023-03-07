@@ -75,28 +75,47 @@ namespace IO.Objects.RemoteIO
         /// </summary>
         public const int Unavailable = -1;
 
-        /// <summary>
-        /// Create a Remote I/O device object.
-        /// </summary>
-        /// <param name="m">Message transport object</param>
-        public Device(Messenger m)
-        {
-            transport = m;
+        // Fetch version and capability strings
 
+        private void FetchStrings()
+        {
             Message cmd = new Message(0);
             Message resp = new Message();
 
             cmd.payload[0] = (byte)MessageTypes.VERSION_REQUEST;
             cmd.payload[1] = 1;
 
-            m.Transaction(cmd, resp);
-            Version_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
+            this.transport.Transaction(cmd, resp);
+            this.Version_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
 
             cmd.payload[0] = (byte)MessageTypes.CAPABILITY_REQUEST;
             cmd.payload[1] = 2;
 
-            m.Transaction(cmd, resp);
-            Capability_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
+            this.transport.Transaction(cmd, resp);
+            this.Capability_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
+        }
+
+        /// <summary>
+        /// Create a Remote I/O server device object using a <c>Messenger</c> transport object.
+        /// </summary>
+        /// <param name="m"><c>Messenger</c> transport object.</param>
+        public Device(Messenger m)
+        {
+            transport = m;
+            FetchStrings();
+        }
+
+        /// <summary>
+        /// Create a Remote I/O server device object using UDP transport.
+        /// </summary>
+        /// <param name="host">UDP server domain name or IP address.</param>
+        /// <param name="port">UDP server port number.</param>
+        /// <param name="timeoutms">Receive timeout in milliseconds.  Zero
+        /// indicates wait forever.</param>
+        public Device(string host, int port = 8087, int timeoutms = 1000)
+        {
+            transport = IO.Objects.Message64.UDP.Messenger(host, port, timeoutms);
+            FetchStrings();
         }
 
         /// <summary>
