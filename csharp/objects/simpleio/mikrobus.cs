@@ -112,7 +112,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                     return Kinds.BeagleBoneClick4;
 
                 if (board.StartsWith("raspberrypi", System.StringComparison.InvariantCultureIgnoreCase))
-                    return Kinds.PiClick2;
+                    return Kinds.PiClick3;
 
                 return Kinds.Unknown;
             }
