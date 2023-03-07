@@ -20,11 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- NOTE: These declarations can be used for the MUNTS-0008 USB Grove Adapter
---       as well.  The only difference between the two is the voltage levels
---       at the Grove connectors: 5V for the MUNTS-0008 and 3.3V for the
---       MUNTS-0009.
-
 PACKAGE RemoteIO.MUNTS_0009 IS
 
   -- Analog inputs (10 bit resolution)
