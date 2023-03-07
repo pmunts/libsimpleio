@@ -75,9 +75,9 @@ namespace IO.Objects.RemoteIO
         /// </summary>
         public const int Unavailable = -1;
 
-        // Fetch version and capability strings
+        // Fetch version string
 
-        private void FetchStrings()
+        private string FetchVersion()
         {
             Message cmd = new Message(0);
             Message resp = new Message();
@@ -86,13 +86,21 @@ namespace IO.Objects.RemoteIO
             cmd.payload[1] = 1;
 
             this.transport.Transaction(cmd, resp);
-            this.Version_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
+            return System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
+        }
+
+        // Fetch capability string
+
+        private string FetchCapabilities()
+        {
+            Message cmd = new Message(0);
+            Message resp = new Message();
 
             cmd.payload[0] = (byte)MessageTypes.CAPABILITY_REQUEST;
             cmd.payload[1] = 2;
 
             this.transport.Transaction(cmd, resp);
-            this.Capability_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
+            return System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
         }
 
         /// <summary>
@@ -102,7 +110,8 @@ namespace IO.Objects.RemoteIO
         public Device(Messenger m)
         {
             transport = m;
-            FetchStrings();
+            Version_string = FetchVersion();
+            Capability_string = FetchCapabilities();
         }
 
         /// <summary>
@@ -114,8 +123,9 @@ namespace IO.Objects.RemoteIO
         /// indicates wait forever.</param>
         public Device(string host, int port = 8087, int timeoutms = 1000)
         {
-            transport = IO.Objects.Message64.UDP.Messenger(host, port, timeoutms);
-            FetchStrings();
+            transport = new IO.Objects.Message64.UDP.Messenger(host, port, timeoutms);
+            Version_string = FetchVersion();
+            Capability_string = FetchCapabilities();
         }
 
         /// <summary>

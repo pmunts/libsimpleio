@@ -41,7 +41,8 @@ namespace IO.Objects.RemoteIO
             string serialnumber = null, int timeoutms = 1000)
         {
             transport = new IO.Objects.RemoteIO.HID.Messenger(VID, PID, serialnumber, timeoutms);
-            FetchStrings();
+            Version_string = FetchVersion();
+            Capability_string = FetchCapabilities();
         }
     }
 }
