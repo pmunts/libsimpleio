@@ -25,7 +25,7 @@ using static IO.Objects.RemoteIO.Platforms.RaspberryPi;
 namespace IO.Objects.RemoteIO.Platforms
 {
     /// <summary>
-    /// I/O resources (channel numbers) available on a
+    /// I/O resources (channel numbers) available from a
     /// <a href="http://tech.munts.com/manuals/MUNTS-0018.pdf">
     /// MUNTS-0018 Tutorial I/O Board</a> Remote I/O Protocol Server.
     /// </summary>
