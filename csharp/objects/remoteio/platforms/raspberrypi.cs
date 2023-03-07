@@ -350,5 +350,31 @@ namespace IO.Objects.RemoteIO.Platforms
         /// </code>
         /// </remarks>
         public const int SPI0_1 = 1;
+
+        /// <summary>
+        /// SPI slave device channel number for the remote Raspberry Pi SPI
+        /// slave device <c>/dev/spidev1.0</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>/dev/spidev1.0</c> uses <c>GPIO18</c> for slave select.
+        /// </remarks>
+        public const int SPI1_0 = 2;
+
+        /// <summary>
+        /// SPI slave device channel number for the remote Raspberry Pi SPI
+        /// slave device <c>/dev/spidev1.1</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>/dev/spidev1.1</c> uses <c>GPIO17</c> for slave select.
+        /// </remarks>
+        public const int SPI1_1 = 3;
+
+        /// <summary>
+        /// SPI slave device channel number for the remote Raspberry Pi SPI
+        /// slave device <c>/dev/spidev1.2</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>/dev/spidev1.2</c> uses <c>GPIO16</c> for slave select.
+        public const int SPI1_2 = 4;
     }
 }
