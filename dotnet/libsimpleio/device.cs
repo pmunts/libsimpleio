@@ -24,13 +24,12 @@ using IO.Interfaces.Message64;
 namespace IO.Objects.RemoteIO
 {
     /// <summary>
-    /// Encasulates a remote I/O device.
+    /// Encasulates a Remote I/O Protocol server device.
     /// </summary>
     public partial class Device
     {
         /// <summary>
-        /// Create a Remote I/O Device object instance for the specified
-        /// USB Raw HID Remote I/O Server.
+        /// Create a Remote I/O server device object using USB Raw HID transport.
         /// </summary>
         /// <param name="VID">Vendor ID</param>
         /// <param name="PID">Product</param>
@@ -42,21 +41,7 @@ namespace IO.Objects.RemoteIO
             string serialnumber = null, int timeoutms = 1000)
         {
             transport = new IO.Objects.SimpleIO.HID.Messenger(VID, PID, serialnumber, timeoutms);
-
-            Message cmd = new Message(0);
-            Message resp = new Message();
-
-            cmd.payload[0] = (byte)MessageTypes.VERSION_REQUEST;
-            cmd.payload[1] = 1;
-
-            transport.Transaction(cmd, resp);
-            Version_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
-
-            cmd.payload[0] = (byte)MessageTypes.CAPABILITY_REQUEST;
-            cmd.payload[1] = 2;
-
-            transport.Transaction(cmd, resp);
-            Capability_string = System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
+            FetchStrings();
         }
     }
 }

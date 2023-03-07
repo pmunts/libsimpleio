@@ -56,7 +56,7 @@ namespace IO.Objects.RemoteIO
     }
 
     /// <summary>
-    /// Encasulates a remote I/O device.
+    /// Encasulates a Remote I/O Protocol server device.
     /// </summary>
     public partial class Device
     {
