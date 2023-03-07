@@ -1,6 +1,6 @@
 // UDP Remote I/O Device Information Query Test
 
-// Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2023, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -30,16 +30,7 @@ namespace test_query_udp
         {
             Console.WriteLine("\nUDP Remote I/O Device Information Query Test\n");
 
-            if (args.Length != 1)
-            {
-                Console.WriteLine("Usage: test_query_udp <hostname>");
-                Environment.Exit(1);
-            }
-
-            IO.Interfaces.Message64.Messenger m =
-                new IO.Objects.Message64.UDP.Messenger(args[0], 8087);
-
-            var remdev = new IO.Objects.RemoteIO.Device(m);
+            var remdev = new IO.Objects.RemoteIO.Device("usbgadget.munts.net");
 
             Console.WriteLine(remdev.Version);
             Console.WriteLine(remdev.Capabilities);
