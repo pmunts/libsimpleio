@@ -75,7 +75,10 @@ PACKAGE RemoteIO.RaspberryPi IS
 
   -- SPI slave devices
 
-  SPI0    : CONSTANT RemoteIO.ChannelNumber :=  0;  -- GPIO8
-  SPI1    : CONSTANT RemoteIO.ChannelNumber :=  1;  -- GPIO7
+  SPI0    : CONSTANT RemoteIO.ChannelNumber :=  0;  -- SPI0_0 aka GPIO8
+  SPI1    : CONSTANT RemoteIO.ChannelNumber :=  1;  -- SPI0_1 aka GPIO7
+  SPI2    : CONSTANT RemoteIO.ChannelNumber :=  2;  -- SPI1_0 aka GPIO18
+  SPI3    : CONSTANT RemoteIO.ChannelNumber :=  3;  -- SPI1_1 aka GPIO17
+  SPI4    : CONSTANT RemoteIO.ChannelNumber :=  4;  -- SPI1_2 aka GPIO16
 
 END RemoteIO.RaspberryPi;
