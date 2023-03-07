@@ -27,7 +27,6 @@ namespace IO.Objects.RemoteIO.Platforms
     /// I/O resources (channel numbers) available from a
     /// <a href="https://www.tindie.com/products/pmunts/usb-flexible-io-adapter">
     /// MUNTS-0015 USB Remote I/O Protocol Adapter</a>.
-    /// 
     /// </summary>
     public static class MUNTS_0015
     {
