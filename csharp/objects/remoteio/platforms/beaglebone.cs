@@ -1,4 +1,4 @@
-// I/O Resources available from a Raspberry Pi Remote I/O Server
+// I/O Resources available from a BeagleBone Remote I/O Server
 
 // Copyright (C)2023, Philip Munts.
 //
