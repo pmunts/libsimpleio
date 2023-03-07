@@ -30,11 +30,13 @@ namespace IO.Objects.SimpleIO.Platforms
     /// </summary>
     public static class RaspberryPi
     {
-        /// <summary>Analog input designator (0,0).  Requires the Mikroelektronika Pi 3 Click Shield and the
+        /// <summary>Analog input designator (0,0).  Requires the
+        /// Mikroelektronika Pi 3 Click Shield and the
         /// <c>Pi3ClickShield.dtbo</c> device tree overlay.</summary>
         public static readonly Designator AIN0 = new Designator(0,0);
 
-        /// <summary>Analog input designator (0,1).  Requires the Mikroelektronika Pi 3 Click Shield and the
+        /// <summary>Analog input designator (0,1).  Requires the
+        /// Mikroelektronika Pi 3 Click Shield and the
         /// <c>Pi3ClickShield.dtbo</c> device tree overlay.</summary>
         public static readonly Designator AIN1 = new Designator(0,1);
 
