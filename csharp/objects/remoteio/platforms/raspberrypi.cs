@@ -334,7 +334,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// dtparam=spi=on
         /// </code>
         /// </remarks>
-        public const int SPI0 = 0;
+        public const int SPI0_0 = 0;
 
         /// <summary>
         /// SPI slave device channel number for the remote Raspberry Pi SPI
@@ -349,6 +349,6 @@ namespace IO.Objects.RemoteIO.Platforms
         /// dtparam=spi=on
         /// </code>
         /// </remarks>
-        public const int SPI1 = 1;
+        public const int SPI0_1 = 1;
     }
 }
