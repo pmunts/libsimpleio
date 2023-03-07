@@ -41,8 +41,7 @@ namespace IO.Objects.RemoteIO
         public Device(int VID = 0x16D0, int PID = 0x0AFA,
             string serialnumber = null, int timeoutms = 1000)
         {
-            transport = new IO.Objects.SimpleIO.HID.Messenger(VID, PID,
-                serialnumber, timeoutms);
+            transport = new IO.Objects.SimpleIO.HID.Messenger(VID, PID, serialnumber, timeoutms);
 
             Message cmd = new Message(0);
             Message resp = new Message();
