@@ -375,6 +375,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// </summary>
         /// <remarks>
         /// <c>/dev/spidev1.2</c> uses <c>GPIO16</c> for slave select.
+        /// </remarks>
         public const int SPI1_2 = 4;
     }
 }
