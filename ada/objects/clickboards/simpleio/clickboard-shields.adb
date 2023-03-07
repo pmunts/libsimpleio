@@ -54,21 +54,17 @@ PACKAGE BODY ClickBoard.Shields IS
       WHEN OTHERS => NULL;
     END;
 
+    -- In the absence of SHIELDNAME, assume the mikroBUS Cape (MIKROE-1596)
+    -- for all BeagleBone boards
+
+    IF matchenv("BOARDNAME", "beaglebone") OR matchenv("OSNAME", "beagle") THEN
+      RETURN ClickBoard.Shields.BeagleBoneClick4;
+    END IF;
+
     -- The nifty PocketBeagle doesn't need a shield!
 
     IF matchenv("BOARDNAME", "pocketbeagle") THEN
       RETURN ClickBoard.Shields.PocketBeagle;
-    END IF;
-
-    -- In the absence of SHIELDNAME, assume the Beagle Bone Click Shield
-    -- (MIKROE-1596) for all BeagleBone boards
-
-    -- TODO: The Beagle Bone Click Shield (MIKROE-1596) has been replaced
-    -- by the Mikrobus Cape (MIKROE-1857).  At some point we may want to
-    -- change the default shield from BeagleBoneClick2 to BeagleBoneClick4.
-
-    IF matchenv("BOARDNAME", "beaglebone") OR matchenv("OSNAME", "beagle") THEN
-      RETURN ClickBoard.Shields.BeagleBoneClick2;
     END IF;
 
     -- In the absence of SHIELDNAME, assume the Pi 3 Click Shield
