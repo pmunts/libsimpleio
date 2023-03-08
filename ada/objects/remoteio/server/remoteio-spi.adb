@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for SPI commands
 
--- Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,13 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH BeagleBone;
-WITH ClickBoard.Shields;
 WITH errno;
 WITH SPI;
 WITH Messaging;
 
-USE TYPE ClickBoard.Shields.Kind;
 USE TYPE SPI.Microseconds;
 USE TYPE Messaging.Byte;
 
@@ -147,21 +144,7 @@ PACKAGE BODY RemoteIO.SPI IS
     speed    := Natural(cmd(5))*2**24 + Natural(cmd(6))*2**16 +
       Natural(cmd(7))*2**8 + Natural(cmd(8));
 
-    -- Special hack for BeagleBone Click Shield: The hardware slave select pin
-    -- is not routed to CS at either mikroBUS socket, so we have to supply a
-    -- GPIO pin designator for software slave select.
-
-    IF ClickBoard.Shields.Detect = ClickBoard.Shields.BeagleBoneClick2 AND num = 0 THEN
-      Self.devices(num).obj.Initialize(Self.devices(num).desg, mode, wordsize,
-        speed, BeagleBone.GPIO44);
-    ELSIF ClickBoard.Shields.Detect = ClickBoard.Shields.BeagleBoneClick2 AND num = 1 THEN
-      Self.devices(num).obj.Initialize(Self.devices(num).desg, mode, wordsize,
-        speed, BeagleBone.GPIO46);
-    ELSE
-      Self.devices(num).obj.Initialize(Self.devices(num).desg, mode, wordsize,
-        speed);
-    END IF;
-
+    Self.devices(num).obj.Initialize(Self.devices(num).desg, mode, wordsize, speed);
     Self.devices(num).configured := True;
 
   EXCEPTION
