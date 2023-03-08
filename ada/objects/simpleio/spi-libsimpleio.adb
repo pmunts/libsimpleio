@@ -1,6 +1,6 @@
 -- SPI device services using libsimpleio
 
--- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,11 +23,15 @@
 WITH Ada.Strings.Fixed;
 WITH System;
 
+WITH BeagleBone;
+WITH ClickBoard.Shields;
 WITH Device;
 WITH errno;
+WITH GPIO.libsimpleio;
 WITH libGPIO;
 WITH libSPI;
 
+USE TYPE ClickBoard.Shields.Kind;
 USE TYPE Device.Designator;
 
 PACKAGE BODY SPI.libsimpleio IS
@@ -78,8 +82,8 @@ PACKAGE BODY SPI.libsimpleio IS
     cspin    : Standard.Device.Designator := AUTOCHIPSELECT) IS
 
     fd       : Integer;
-    fdcs     : Integer;
     error    : Integer;
+    ss       : GPIO.libsimpleio.PinSubclass;
 
   BEGIN
     Self.Destroy;
@@ -91,20 +95,23 @@ PACKAGE BODY SPI.libsimpleio IS
         errno.strerror(error);
     END IF;
 
-    IF cspin = AUTOCHIPSELECT THEN
-      fdcs := libSPI.SPI_AUTO_CS;
-    ELSE
-      libGPIO.LineOpen(cspin.chip, cspin.chan, libGPIO.LINE_REQUEST_OUTPUT +
-        libGPIO.LINE_REQUEST_ACTIVE_HIGH + libGPIO.LINE_REQUEST_PUSH_PULL,
-        libGPIO.EVENT_REQUEST_NONE, 1, fdcs, error);
-
-      IF error /= 0 THEN
-        RAISE SPI_Error WITH "libGPIO.LineOpen() failed, " &
-          errno.strerror(error);
+    IF cspin /= AUTOCHIPSELECT THEN
+      ss.Initialize(cspin, GPIO.Output, True);
+    ELSIF ClickBoard.Shields.Detect = ClickBoard.Shields.BeagleBoneClick2 THEN
+      -- Special hack for BeagleBone Click Shield (MIKROE-1596):
+      -- Neither socket has the correct hardware slave select signal connected
+      -- to the mikroBUS CS pin, so we have to force software slave select
+      -- using the GPIO that is connected to CS instead.
+      IF name = "/dev/spidev1.0" THEN
+        ss.Initialize(BeagleBone.GPIO44, GPIO.Output, True);
+      ELSIF name = "/dev/spidev1.1" THEN
+        ss.Initialize(BeagleBone.GPIO46, GPIO.Output, True);
       END IF;
+    ELSE
+      ss.Destroy;
     END IF;
 
-    Self := DeviceSubclass'(fd => fd, fdcs => fdcs);
+    Self := DeviceSubclass'(fd => fd, fdcs => ss.fd);
   END Initialize;
 
   PROCEDURE Initialize
