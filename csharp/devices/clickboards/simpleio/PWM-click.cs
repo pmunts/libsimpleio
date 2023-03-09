@@ -1,7 +1,7 @@
 // Mikroelektronika PWM Click MIKROE-1898 (https://www.mikroe.com/pwm-click)
 // Services
 
-// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2020-2023, Philip Munts.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -49,10 +49,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
 
             IO.Interfaces.I2C.Bus bus;
 
-            if (IO.Objects.SimpleIO.mikroBUS.Shield.I2CBus is null)
-                bus = new IO.Objects.SimpleIO.I2C.Bus(S.I2CBus);
-            else
-                bus = IO.Objects.SimpleIO.mikroBUS.Shield.I2CBus;
+            bus = new IO.Objects.SimpleIO.I2C.Bus(S.I2CBus);
 
             mydev = new IO.Devices.PCA9685.Device(bus, addr, freq);
         }
