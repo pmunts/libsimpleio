@@ -92,8 +92,10 @@ PACKAGE BODY Reference_Counted_Table IS
           IF x.count = 0 THEN
             Destroy_Element(e, error);
             x := Null_Item;
+            RETURN;
           END IF;
 
+          error := 0;
           RETURN;
         END IF;
       END LOOP;
@@ -102,7 +104,7 @@ PACKAGE BODY Reference_Counted_Table IS
     END Destroy;
   END ProtectedItems;
 
-  -- Wrapper subprograms than can be called from any thread
+  -- Wrapper subprograms that can be called from any thread
 
   PROCEDURE Create(k : Key; e : OUT Element; error : OUT Integer) IS
 
