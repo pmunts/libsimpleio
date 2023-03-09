@@ -56,6 +56,7 @@ PACKAGE BODY I2C.libsimpleio IS
     IF desg = Device.Unavailable OR desg.chip /= 0 THEN
       fd    := -1;
       error := errno.EINVAL;
+      RETURN;
     END IF;
 
     libI2C.Open("/dev/i2c-" & Trim(Natural'Image(desg.chan)) & ASCII.NUL, fd, error);
@@ -66,6 +67,7 @@ PACKAGE BODY I2C.libsimpleio IS
   BEGIN
     IF fd < 0 THEN
       error := errno.EINVAL;
+      RETURN;
     END IF;
 
     libI2C.Close(fd, error);
