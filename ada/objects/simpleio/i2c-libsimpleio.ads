@@ -1,6 +1,6 @@
 -- I2C bus controller services using libsimpleio
 
--- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,15 +30,11 @@ PACKAGE I2C.libsimpleio IS
 
   Destroyed : CONSTANT BusSubclass;
 
-  -- I2C bus controller object constructors
-
-  FUNCTION Create(name : String) RETURN I2C.Bus;
+  -- I2C bus controller object constructor
 
   FUNCTION Create(desg : Device.Designator) RETURN I2C.Bus;
 
-  -- I2C bus controller object initializers
-
-  PROCEDURE Initialize(Self : IN OUT BusSubclass; name : String);
+  -- I2C bus controller object initializer
 
   PROCEDURE Initialize(Self : IN OUT BusSubclass; desg : Device.Designator);
 
@@ -84,9 +80,10 @@ PRIVATE
   PROCEDURE CheckDestroyed(Self : BusSubclass);
 
   TYPE BusSubclass IS NEW I2C.BusInterface WITH RECORD
-    fd : Integer := -1;
+    desg : Device.Designator := Device.Unavailable;
+    fd   : Integer           := -1;
   END RECORD;
 
-  Destroyed : CONSTANT BusSubclass := BusSubclass'(fd => -1);
+  Destroyed : CONSTANT BusSubclass := BusSubclass'(Device.Unavailable, -1);
 
 END I2C.libsimpleio;

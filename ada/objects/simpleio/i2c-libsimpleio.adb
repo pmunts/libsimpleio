@@ -1,6 +1,6 @@
 -- I2C bus controller services using libsimpleio
 
--- Copyright (C)2016-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,12 +20,25 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- I2C buses are almost unique among Linux I/O resources in that many
+-- peripheral devices may share the same I2C bus.  For example, the Pi 3 Click
+-- Shield routes the same I2C bus to both mikroBUS sockets.  If Click Boards
+-- using I2C are plugged into both sockets, then the software drivers for
+-- each board will open the I2C device node /dev/i2c-1.  If that happens, we
+-- want both software drivers to receive the same file descriptor for the I2C
+-- bus.  The following code achieves this requirement in a thread safe manor
+-- by embedding a table of I2C bus file descriptors inside a protected object.
+
 WITH Ada.Strings.Fixed;
 WITH System;
 
+WITH Device;
 WITH errno;
 WITH libI2C;
 WITH libLinux;
+WITH Reference_Counted_Table;
+
+USE TYPE Device.Designator;
 
 PACKAGE BODY I2C.libsimpleio IS
 
@@ -34,16 +47,40 @@ PACKAGE BODY I2C.libsimpleio IS
     Side   : IN Ada.Strings.Trim_End :=
       Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
-  -- I2C bus controller object constructors
-
-  FUNCTION Create(name : String) RETURN I2C.Bus IS
-
-    Self : BusSubclass;
+  PROCEDURE Create_fd
+   (desg  : Device.Designator;
+    fd    : OUT Integer;
+    error : OUT Integer) IS
 
   BEGIN
-    Self.Initialize(name);
-    RETURN NEW BusSubclass'(Self);
-  END Create;
+    IF desg = Device.Unavailable OR desg.chip /= 0 THEN
+      fd    := -1;
+      error := errno.EINVAL;
+    END IF;
+
+    libI2C.Open("/dev/i2c-" & Trim(Natural'Image(desg.chan)) & ASCII.NUL, fd, error);
+  END Create_fd;
+
+  PROCEDURE Destroy_fd(fd : integer; error : OUT Integer) IS
+
+  BEGIN
+    IF fd < 0 THEN
+      error := errno.EINVAL;
+    END IF;
+
+    libI2C.Close(fd, error);
+  END Destroy_fd;
+
+  PACKAGE fdtable IS NEW Reference_Counted_Table
+   (Element => Integer,
+    Key             => Device.Designator,
+    Null_Element    => -1,
+    Null_Key        => Device.Unavailable,
+    Max_Elements    => 100,
+    Create_Element  => Create_fd,
+    Destroy_Element => Destroy_fd);
+
+  -- I2C bus controller object constructor
 
   FUNCTION Create(desg : Device.Designator) RETURN I2C.Bus IS
 
@@ -54,35 +91,25 @@ PACKAGE BODY I2C.libsimpleio IS
     RETURN NEW BusSubclass'(Self);
   END Create;
 
-  -- I2C bus controller object initializers
+  -- I2C bus controller object initializer
 
-  PROCEDURE Initialize(Self : IN OUT BusSubclass; name : String) IS
+  PROCEDURE Initialize(Self : IN OUT BusSubclass; desg : Device.Designator) IS
 
-    fd    : Integer;
     error : Integer;
 
   BEGIN
     Self.Destroy;
 
-    libI2C.Open(name & ASCII.NUL, fd, error);
-
-    IF error /= 0 THEN
-      RAISE I2C_Error WITH "libI2C.Open() failed, " & errno.strerror(error);
-    END IF;
-
-    Self := I2C.libsimpleio.BusSubclass'(fd => fd);
-  END Initialize;
-
-  PROCEDURE Initialize(Self : IN OUT BusSubclass; desg : Device.Designator) IS
-
-  BEGIN
-    Self.Destroy;
-
-    IF desg.chip /= 0 THEN
+    IF desg = Device.Unavailable OR desg.chip /= 0 THEN
       RAISE I2C_Error WITH "Invalid designator for I2C bus controller";
     END IF;
 
-    Initialize(Self, "/dev/i2c-" & Trim(Natural'Image(desg.chan)));
+    fdtable.Create(desg, Self.fd, error);
+
+    IF error /= 0 THEN
+      Self.Destroy;
+      RAISE I2C_Error WITH "libI2C.Open() failed, " & errno.strerror(error);
+    END IF;
   END Initialize;
 
   -- I2C bus controller object destroyer
@@ -96,7 +123,7 @@ PACKAGE BODY I2C.libsimpleio IS
       RETURN;
     END IF;
 
-    libI2C.Close(Self.fd, error);
+    fdtable.Destroy(Self.fd, error);
 
     Self := Destroyed;
 
