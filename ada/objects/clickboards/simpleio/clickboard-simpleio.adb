@@ -165,10 +165,10 @@ PACKAGE BODY ClickBoard.SimpleIO IS
     SocketRec'(ClickBoard.Shields.BeagleBoneClick4, 3,
      (ClickBoard.AN   => BeagleBone.GPIO44,  -- Conflicts with AIN1
       ClickBoard.RST  => BeagleBone.GPIO26,
-      ClickBoard.CS   => BeagleBone.GPIO5,
-      ClickBoard.SCK  => BeagleBone.GPIO2,   -- Conflicts with UART2
-      ClickBoard.MISO => BeagleBone.GPIO3,   -- Conflicts with UART2
-      ClickBoard.MOSI => BeagleBone.GPIO4,
+      ClickBoard.CS   => BeagleBone.GPIO5,   -- Conflicts with SPI0
+      ClickBoard.SCK  => BeagleBone.GPIO2,   -- Conflicts with SPI0, UART2
+      ClickBoard.MISO => BeagleBone.GPIO3,   -- Conflicts with SPI0, UART2
+      ClickBoard.MOSI => BeagleBone.GPIO4,   -- Conflicts with SPI0
       ClickBoard.SDA  => BeagleBone.GPIO12,  -- Conflicts with I2C2
       ClickBoard.SCL  => BeagleBone.GPIO13,  -- Conflicts with I2C2
       ClickBoard.TX   => BeagleBone.GPIO15,  -- Conflicts with UART1
@@ -179,7 +179,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       AIN     => BeagleBone.AIN1,
       I2C     => BeagleBone.I2C2,
       PWM     => BeagleBone.EHRPWM2A,
-      SPI     => Device.Unavailable,
+      SPI     => BeagleBone.SPI0_0,
       UART    => To_DeviceString("ttyS1"),
       Stretch => True),
 
