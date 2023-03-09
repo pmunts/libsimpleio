@@ -39,22 +39,6 @@ namespace IO.Objects.SimpleIO.I2C
         /// <summary>
         /// Constructor for a single I<sup>2</sup>C bus controller.
         /// </summary>
-        /// <param name="devname">Device node name.</param>
-        public Bus(string devname)
-        {
-            IO.Bindings.libsimpleio.I2C_open(devname, out this.myfd,
-                out int error);
-
-            if (error != 0)
-            {
-                throw new Exception("I2C_open() failed, " +
-                    errno.strerror(error));
-            }
-        }
-
-        /// <summary>
-        /// Constructor for a single I<sup>2</sup>C bus controller.
-        /// </summary>
         /// <param name="desg">I<sup>2</sup> bus designator.</param>
         public Bus(IO.Objects.SimpleIO.Device.Designator desg)
         {

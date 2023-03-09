@@ -35,34 +35,6 @@ namespace IO.Objects.SimpleIO.HID
         /// <summary>
         /// Constructor for a single raw HID device.
         /// </summary>
-        /// <param name="devname">Device node name.</param>
-        /// <param name="timeoutms">Time in milliseconds to wait for
-        /// read and write operations to complete.  Zero means wait
-        /// forever.</param>
-        public Messenger(string devname, int timeoutms = 1000)
-        {
-            // Validate parameters
-
-            if (timeoutms < 0)
-            {
-                throw new Exception("Invalid timeout");
-            }
-
-            IO.Bindings.libsimpleio.HIDRAW_open1(devname,
-                out this.myfd, out int error);
-
-            if (error != 0)
-            {
-                throw new Exception("HIDRAW_open1() failed, " +
-                    errno.strerror(error));
-            }
-
-            this.timeout = timeoutms;
-        }
-
-        /// <summary>
-        /// Constructor for a single raw HID device.
-        /// </summary>
         /// <param name="VID">Vendor ID.</param>
         /// <param name="PID">Product ID.</param>
         /// <param name="serial">Serial Number.</param>

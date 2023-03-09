@@ -79,30 +79,6 @@ namespace IO.Objects.SimpleIO.SPI
         }
 
         /// <summary>
-        /// Constructor for a single SPI slave device.
-        /// </summary>
-        /// <param name="devname">SPI slave device node name.</param>
-        /// <param name="mode">SPI clock mode.</param>
-        /// <param name="wordsize">SPI transfer word size.</param>
-        /// <param name="speed">SPI transfer speed.</param>
-        /// <param name="cspin">SPI software slave select GPIO pin designator,
-        /// or <c>null</c>.</param>
-        public Device(string devname, int mode, int wordsize,
-            int speed, IO.Objects.SimpleIO.Device.Designator? cspin = null)
-        {
-            IO.Bindings.libsimpleio.SPI_open(devname, mode, wordsize,
-                speed, out this.myfd, out int error);
-
-            if (error != 0)
-            {
-                throw new Exception("SPI_open() failed, " +
-                    errno.strerror(error));
-            }
-
-            this.myfdcs = SlaveSelect(devname, cspin);
-        }
-
-        /// <summary>
         /// Constructor for a single SPI device.
         /// </summary>
         /// <param name="desg">SPI slave device designator.</param>
