@@ -115,7 +115,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// <summary>
         /// PWM output <c>Designator</c> for Servo Header <c>J2</c>.
         /// </summary>
-        public static readonly Designator J2PWM = PWM0_0;
+        public static readonly Designator J2PWM = PWM0;
         /// <summary>
         /// PWM output <c>Designator</c> for Servo Header <c>J3</c>.
         /// </summary>
@@ -130,7 +130,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// <remarks>
         /// <c>J6PWM</c> controls the motor <b>speed</b>.
         /// </remarks>
-        public static readonly Designator J6PWM = PWM0_0;
+        public static readonly Designator J6PWM = PWM0;
         /// <summary>
         /// GPIO pin <c>Designator</c> for DC Motor Driver Grove Connector
         /// <c>J6</c> pin <c>D1</c>.
