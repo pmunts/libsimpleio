@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services, using libsimpleio
 
--- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -42,10 +42,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
   -- specified MikroBus socket.
 
   DeviceUnavailable : CONSTANT DeviceString := "UNAVAILABLE!";
-
-  -- This constant selects hardware SPI slave select
-
-  Hardware : CONSTANT Device.Designator := Device.Unavailable;
 
   -- Transform a String to DeviceString
 
