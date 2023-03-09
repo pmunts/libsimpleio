@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika 7seg Click
 
--- Copyright (C)2016-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -39,7 +39,7 @@ PACKAGE BODY ClickBoard.SevenSegment.SimpleIO IS
 
   BEGIN
     spidev := SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.SPISS);
+      SPI_Frequency);
 
     rstpin := GPIO.libsimpleio.Create(socket.GPIO(ClickBoard.RST),
       GPIO.Output, True);

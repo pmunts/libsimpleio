@@ -84,10 +84,6 @@ PACKAGE ClickBoard.SimpleIO IS
 
   FUNCTION SPI(Self : SocketSubclass) RETURN Device.Designator;
 
-  -- Map Click Board socket to SPI slave select device designator
-
-  FUNCTION SPISS(Self : SocketSubclass) RETURN Device.Designator;
-
   -- Map Click Board socket to serial port device name
 
   FUNCTION UART(Self : SocketSubclass) RETURN String;

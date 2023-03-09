@@ -77,7 +77,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
     I2C     : Device.Designator;
     PWM     : Device.Designator;
     SPI     : Device.Designator;
-    SPISS   : Device.Designator;
     UART    : DeviceString;
     Stretch : Boolean;
   END RECORD;
@@ -102,7 +101,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => BeagleBone.I2C2,
       PWM     => BeagleBone.EHRPWM1A,
       SPI     => BeagleBone.SPI1_0,
-      SPISS   => BeagleBone.GPIO44,
       UART    => To_DeviceString("ttyS1"),
       Stretch => True),
 
@@ -123,7 +121,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => BeagleBone.I2C2,
       PWM     => BeagleBone.EHRPWM2A,
       SPI     => BeagleBone.SPI1_1,
-      SPISS   => BeagleBone.GPIO46,
       UART    => To_DeviceString("ttyS2"),
       Stretch => True),
 
@@ -145,7 +142,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => BeagleBone.I2C2,
       PWM     => BeagleBone.EHRPWM1A,
       SPI     => BeagleBone.SPI1_0,
-      SPISS   => Hardware,
       UART    => To_DeviceString("ttyS2"),
       Stretch => True),
 
@@ -167,7 +163,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => BeagleBone.I2C2,
       PWM     => BeagleBone.EHRPWM1B,
       SPI     => BeagleBone.SPI1_1,
-      SPISS   => Hardware,
       UART    => To_DeviceString("ttyS1"),
       Stretch => True),
 
@@ -189,7 +184,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => BeagleBone.I2C2,
       PWM     => BeagleBone.EHRPWM2A,
       SPI     => Device.Unavailable,
-      SPISS   => Device.Unavailable,
       UART    => To_DeviceString("ttyS1"),
       Stretch => True),
 
@@ -211,7 +205,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => BeagleBone.I2C2,
       PWM     => BeagleBone.EHRPWM2B,
       SPI     => Device.Unavailable,
-      SPISS   => Device.Unavailable,
       UART    => To_DeviceString("ttyS4"),
       Stretch => True),
 
@@ -235,7 +228,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => PocketBeagle.I2C1,
       PWM     => PocketBeagle.PWM2_0,
       SPI     => PocketBeagle.SPI0_0,
-      SPISS   => Hardware,
       UART    => To_DeviceString("ttyS4"),
       Stretch => True),
 
@@ -259,7 +251,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => PocketBeagle.I2C2,
       PWM     => PocketBeagle.PWM0_0,
       SPI     => PocketBeagle.SPI1_1,
-      SPISS   => Hardware,
       UART    => To_DeviceString("ttyS0"),
       Stretch => True),
 
@@ -281,7 +272,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => RaspberryPi.PWM0,
       SPI     => RaspberryPi.SPI0_0,
-      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
@@ -303,7 +293,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => RaspberryPi.PWM0,
       SPI     => RaspberryPi.SPI0_0,
-      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
@@ -325,7 +314,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => Device.Unavailable,
       SPI     => RaspberryPi.SPI0_1,
-      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
@@ -347,7 +335,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => RaspberryPi.PWM0,
       SPI     => RaspberryPi.SPI0_0,
-      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
 
@@ -369,7 +356,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       I2C     => RaspberryPi.I2C1,
       PWM     => Device.Unavailable,
       SPI     => RaspberryPi.SPI0_1,
-      SPISS   => Hardware,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False));
 
@@ -489,18 +475,6 @@ PACKAGE BODY ClickBoard.SimpleIO IS
 
     RETURN SocketTable(Self.index).SPI;
   END SPI;
-
-  -- Map Click Board socket to SPI slave select device designator
-
-  FUNCTION SPISS(Self : SocketSubclass) RETURN Device.Designator IS
-
-  BEGIN
-    IF SocketTable(Self.index).SPI = Device.Unavailable THEN
-      RAISE ClickBoard.SocketError WITH "SPI is unavailable for this socket";
-    END IF;
-
-    RETURN SocketTable(Self.index).SPISS;
-  END SPISS;
 
   -- Map Click Board socket to serial port device name
 

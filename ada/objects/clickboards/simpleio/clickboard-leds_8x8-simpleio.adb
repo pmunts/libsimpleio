@@ -54,7 +54,7 @@ PACKAGE BODY ClickBoard.LEDs_8x8.SimpleIO IS
 
   BEGIN
     RETURN Create(SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.SPISS));
+      SPI_Frequency));
   END Create;
 
   -- Create display object from socket number

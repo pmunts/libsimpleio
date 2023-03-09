@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Thermo Click, using libsimpleio
 
--- Copyright (C)2016-2022, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@ PACKAGE BODY ClickBoard.Thermo.SimpleIO IS
 
   BEGIN
     spidev := SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.SPISS);
+      SPI_Frequency);
 
     RETURN MAX31855.Create(spidev);
   END Create;

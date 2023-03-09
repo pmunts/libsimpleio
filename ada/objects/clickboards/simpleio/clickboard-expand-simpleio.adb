@@ -1,6 +1,6 @@
 -- Services for the Mikroelektronika Expand Click, using libsimpleio
 
--- Copyright (C)2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2023, Philip Munts, President.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ PACKAGE BODY ClickBoard.Expand.SimpleIO IS
     rstpin := GPIO.libsimpleio.Create(socket.GPIO(RST), GPIO.Output, True);
 
     spidev := SPI.libsimpleio.Create(socket.SPI, SPI_Mode, SPI_WordSize,
-      SPI_Frequency, socket.SPISS);
+      SPI_Frequency);
 
     RETURN Create(rstpin, spidev, addr);
   END Create;
