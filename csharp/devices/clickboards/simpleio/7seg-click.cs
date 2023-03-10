@@ -193,7 +193,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
 
             mychain = new SN74HC595.Device(new IO.Objects.SimpleIO.SPI.Device(S.SPIDev,
                 IO.Devices.SN74HC595.Device.SPI_Mode, 8,
-                IO.Devices.SN74HC595.Device.SPI_MaxFreq));
+                IO.Devices.SN74HC595.Device.SPI_MaxFreq), 2);
 
             myradix = radix;
             myblanking = blanking;
