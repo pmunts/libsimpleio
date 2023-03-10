@@ -30,9 +30,17 @@ namespace IO.Objects.SimpleIO.I2C
     /// </summary>
     public class Bus : IO.Interfaces.I2C.Bus
     {
+        // If you have system with more than 64 I2C buses, my condolences.
+        // You will need to increase the size of fdtable and rebuild the
+        // library.
+
         private static int[] fdtable =
-            { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-              -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 };
+        {
+            -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+        };
 
         private readonly int myfd;
 
@@ -44,48 +52,58 @@ namespace IO.Objects.SimpleIO.I2C
         {
             // Validate the I2C bus designator
 
-            if ((desg.chip == IO.Objects.SimpleIO.Device.Designator.Unavailable.chip) ||
-                (desg.chip != 0) ||
-                (desg.chan == IO.Objects.SimpleIO.Device.Designator.Unavailable.chan))
+            if (desg.Equals(IO.Objects.SimpleIO.Device.Designator.Unavailable))
             {
                 throw new Exception("Invalid designator");
             }
 
-            // Unlike almost any I/O resource, an I2C bus can be shared among
-            // two or more I2C slave devices.  We save open file descriptors in
-            // fdtable so we can reuse them if the program attempts to create
-            // multiple instances of the same I2C bus.  An important use case
-            // is a mikroBUS shield with multiple sockets all sharing the
-            // same I2C bus.  We want to avoid opening a new I2C bus file
-            // descriptor for each socket.
+            if (desg.chip != 0)
+            {
+                throw new Exception("Invalid designator");
+            }
+
+            // Unlike almost any Linux I/O resource, an I2C bus can be shared
+            // among two or more I2C slave devices.  We save open file
+            // descriptors in fdtable so we can reuse them if the program
+            // attempts to create multiple instances of the same I2C bus.
+            // An important use case is a mikroBUS shield with multiple sockets
+            // all sharing the same I2C bus.  We want to avoid opening a new
+            // I2C bus file descriptor for each socket.
+
+            if (desg.chan > fdtable.Length - 1)
+            {
+                throw new Exception("Too many I2C buses");
+            }
+
+            string devname = String.Format("/dev/i2c-{0}", desg.chan);
+
+            System.Threading.Monitor.Enter(fdtable);
 
             // Resuse an existing open file descriptor, if possible
 
-            if ((desg.chan < fdtable.Length) && (fdtable[desg.chan] > 0))
+            if (fdtable[desg.chan] >= 0)
             {
                 this.myfd = fdtable[desg.chan];
             }
             else
             {
-                System.String devname = System.String.Format("/dev/i2c-{0}",
-                    desg.chan);
-
                 IO.Bindings.libsimpleio.I2C_open(devname, out this.myfd,
                     out int error);
 
                 if (error != 0)
                 {
+                    System.Threading.Monitor.Exit(fdtable);
+
                     throw new Exception("I2C_open() failed, " +
                         errno.strerror(error));
                 }
 
                 // Save the new open file descriptor to fdtable, if possible
 
-                if (desg.chan < fdtable.Length)
-                {
-                    fdtable[desg.chan] = this.myfd;
-                }
+                fdtable[desg.chan] = this.myfd;
             }
+
+            System.Threading.Monitor.Exit(fdtable);
         }
 
         /// <summary>
