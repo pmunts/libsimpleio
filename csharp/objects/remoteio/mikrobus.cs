@@ -21,6 +21,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+using IO.Objects.RemoteIO;
+using IO.Objects.RemoteIO.Platforms;
+
 namespace IO.Objects.RemoteIO.mikroBUS
 {
     /// <summary>
@@ -35,11 +38,17 @@ namespace IO.Objects.RemoteIO.mikroBUS
         public enum Kinds
         {
             /// <summary>
-            /// <a href="https://www.mikroe.com/clicker-stm32f4">
-            /// Mikroelektronika STM32F4 Clicker</a> with MUNTS-0011 Remote I/O
-            /// Server firmware, with one mikroBUS socket.
+            /// Mikroelektronika BeagleBone Click Shield
+            /// <a href="https://www.mikroe.com/beaglebone">MIKROE-1596</a>,
+            /// with two mikroBUS sockets.  (Obsolete, but still useful.)
             /// </summary>
-            Clicker,
+            BeagleBoneClick2,
+            /// <summary>
+            /// Mikroelektronika mikroBUS Cape
+            /// <a href="https://www.mikroe.com/beaglebone-mikrobus-cape">
+            /// MIKROE-1857</a> with four mikroBUS sockets.
+            /// </summary>
+            BeagleBoneClick4,
             /// <summary>
             /// Raspberry Pi with Mikroelektronika Pi Click Shield
             /// <a href="https://www.mikroe.com/pi-click-shield-connectors-soldered">
@@ -108,7 +117,6 @@ namespace IO.Objects.RemoteIO.mikroBUS
         {
             public readonly Shield.Kinds shield;
             public readonly int num;
-            public readonly bool ShareI2C;
             // mikroBUS GPIO pins
             public readonly int AN;
             public readonly int RST;
@@ -131,7 +139,6 @@ namespace IO.Objects.RemoteIO.mikroBUS
             public SocketEntry(
                 Shield.Kinds shield,
                 int num,
-                bool ShareI2C,
                 // mikroBUS GPIO pins
                 int AN,
                 int RST,
@@ -153,7 +160,6 @@ namespace IO.Objects.RemoteIO.mikroBUS
             {
                 this.shield = shield;
                 this.num = num;
-                this.ShareI2C = ShareI2C;
                 // mikroBUS GPIO pins
                 this.AN = AN;
                 this.RST = RST;
@@ -177,165 +183,265 @@ namespace IO.Objects.RemoteIO.mikroBUS
 
         private static readonly SocketEntry[] SocketTable =
         {
-            new SocketEntry(Shield.Kinds.Clicker, 1, false,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 1,
                 // mikroBUS GPIO pins
-                AN:     12,
-                RST:    13,
-                CS:     14,
-                SCK:    15,
-                MISO:   16,
-                MOSI:   17,
-                SDA:    23,
-                SCL:    22,
-                TX:     21,
-                RX:     20,
-                INT:    19,
-                PWM:    18,
+                AN:     Device.Unavailable,
+                RST:    BeagleBone.GPIO45,
+                CS:     BeagleBone.GPIO44,
+                SCK:    BeagleBone.GPIO110,   // Conflicts with SPI1
+                MISO:   BeagleBone.GPIO111,   // Conflicts with SPI1
+                MOSI:   BeagleBone.GPIO112,   // Conflicts with SPI1
+                SDA:    BeagleBone.GPIO12,    // Conflicts with I2C2
+                SCL:    BeagleBone.GPIO13,    // Conflicts with I2C2
+                TX:     BeagleBone.GPIO15,    // Conflicts with UART1
+                RX:     BeagleBone.GPIO14,    // Conflicts with UART1
+                INT:    BeagleBone.GPIO27,
+                PWM:    BeagleBone.GPIO50,    // Conflicts with EHRPWM1A
                 // mikroBUS devices
-                AIN:    0,
-                I2CBus: 0,
-                PWMOut: 0,
-                SPIDev: 0),
+                AIN:    BeagleBone.AIN0,
+                I2CBus: BeagleBone.I2C2,
+                PWMOut: BeagleBone.EHRPWM1A,
+                SPIDev: BeagleBone.SPI1_0),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 1, false, // Over the micro USB socket
+            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 2,
                 // mikroBUS GPIO pins
-                AN:     87,
-                RST:    89,
-                CS:     IO.Objects.RemoteIO.Device.Unavailable,
-                SCK:    IO.Objects.RemoteIO.Device.Unavailable,
-                MISO:   IO.Objects.RemoteIO.Device.Unavailable,
-                MOSI:   IO.Objects.RemoteIO.Device.Unavailable,
-                SDA:    IO.Objects.RemoteIO.Device.Unavailable,
-                SCL:    IO.Objects.RemoteIO.Device.Unavailable,
-                TX:     IO.Objects.RemoteIO.Device.Unavailable,
-                RX:     IO.Objects.RemoteIO.Device.Unavailable,
-                INT:    23,
-                PWM:    50,
+                AN:     Device.Unavailable,
+                RST:    BeagleBone.GPIO47,
+                CS:     BeagleBone.GPIO46,
+                SCK:    BeagleBone.GPIO110,   // Conflicts with SPI1
+                MISO:   BeagleBone.GPIO111,   // Conflicts with SPI1
+                MOSI:   BeagleBone.GPIO112,   // Conflicts with SPI1
+                SDA:    BeagleBone.GPIO12,    // Conflicts with I2C2
+                SCL:    BeagleBone.GPIO13,    // Conflicts with I2C2
+                TX:     BeagleBone.GPIO3,     // Conflicts with UART2
+                RX:     BeagleBone.GPIO2,     // Conflicts with UART2
+                INT:    BeagleBone.GPIO65,
+                PWM:    BeagleBone.GPIO22,    // Conflicts with EHRPWM2A
                 // mikroBUS devices
-                AIN:    6,
-                I2CBus: 0,
-                PWMOut: 1,
-                SPIDev: 0),
+                AIN:    BeagleBone.AIN1,
+                I2CBus: BeagleBone.I2C2,
+                PWMOut: BeagleBone.EHRPWM2A,
+                SPIDev: BeagleBone.SPI1_1),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 2, false, // Over the micro SDHC socket
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 1,
                 // mikroBUS GPIO pins
-                AN:     86,
-                RST:    45,
-                CS:     IO.Objects.RemoteIO.Device.Unavailable,
-                SCK:    IO.Objects.RemoteIO.Device.Unavailable,
-                MISO:   IO.Objects.RemoteIO.Device.Unavailable,
-                MOSI:   IO.Objects.RemoteIO.Device.Unavailable,
-                SDA:    IO.Objects.RemoteIO.Device.Unavailable,
-                SCL:    IO.Objects.RemoteIO.Device.Unavailable,
-                TX:     IO.Objects.RemoteIO.Device.Unavailable,
-                RX:     IO.Objects.RemoteIO.Device.Unavailable,
-                INT:    26,
-                PWM:    110,
+                AN:     BeagleBone.GPIO61,    // Conflicts with AIN3
+                RST:    BeagleBone.GPIO60,
+                CS:     BeagleBone.GPIO113,   // Conflicts with SPI1
+                SCK:    BeagleBone.GPIO110,   // Conflicts with SPI1
+                MISO:   BeagleBone.GPIO111,   // Conflicts with SPI1
+                MOSI:   BeagleBone.GPIO112,   // Conflicts with SPI1
+                SDA:    BeagleBone.GPIO12,    // Conflicts with I2C2
+                SCL:    BeagleBone.GPIO13,    // Conflicts with I2C2
+                TX:     BeagleBone.GPIO3,     // Conflicts with SPI0, UART2
+                RX:     BeagleBone.GPIO2,     // Conflicts with SPI0, UART2
+                INT:    BeagleBone.GPIO48,
+                PWM:    BeagleBone.GPIO50,    // Conflicts with EHRPWM1A
                 // mikroBUS devices
-                AIN:    5,
-                I2CBus: 1,
-                PWMOut: 0,
-                SPIDev: 1),
+                AIN:    BeagleBone.AIN3,
+                I2CBus: BeagleBone.I2C2,
+                PWMOut: BeagleBone.EHRPWM1A,
+                SPIDev: BeagleBone.SPI1_0),
 
-            new SocketEntry(Shield.Kinds.PiClick1, 1, false,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 2,
                 // mikroBUS GPIO pins
-                AN:     22,
-                RST:    4,
-                CS:     IO.Objects.RemoteIO.Device.Unavailable,
-                SCK:    IO.Objects.RemoteIO.Device.Unavailable,
-                MISO:   IO.Objects.RemoteIO.Device.Unavailable,
-                MOSI:   IO.Objects.RemoteIO.Device.Unavailable,
-                SDA:    IO.Objects.RemoteIO.Device.Unavailable,
-                SCL:    IO.Objects.RemoteIO.Device.Unavailable,
-                TX:     IO.Objects.RemoteIO.Device.Unavailable,
-                RX:     IO.Objects.RemoteIO.Device.Unavailable,
-                INT:    17,
-                PWM:    18,
+                AN:     BeagleBone.GPIO47,    // Conflicts with AIN2
+                RST:    BeagleBone.GPIO49,
+                CS:     BeagleBone.GPIO7,     // Conflicts with SPI1
+                SCK:    BeagleBone.GPIO110,   // Conflicts with SPI1
+                MISO:   BeagleBone.GPIO111,   // Conflicts with SPI1
+                MOSI:   BeagleBone.GPIO112,   // Conflicts with SPI1
+                SDA:    BeagleBone.GPIO12,    // Conflicts with I2C2
+                SCL:    BeagleBone.GPIO13,    // Conflicts with I2C2
+                TX:     BeagleBone.GPIO15,    // Conflicts with UART1
+                RX:     BeagleBone.GPIO14,    // Conflicts with UART1
+                INT:    BeagleBone.GPIO20,
+                PWM:    BeagleBone.GPIO51,    // Conflicts with EHRPWM1B
                 // mikroBUS devices
-                AIN:    IO.Objects.RemoteIO.Device.Unavailable,
-                I2CBus: 0,
-                PWMOut: 0,
-                SPIDev: 0),
+                AIN:    BeagleBone.AIN2,
+                I2CBus: BeagleBone.I2C2,
+                PWMOut: BeagleBone.EHRPWM1B,
+                SPIDev: BeagleBone.SPI1_1),
 
-            new SocketEntry(Shield.Kinds.PiClick2, 1, true,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 3,
                 // mikroBUS GPIO pins
-                AN:     4,
-                RST:    5,
-                CS:     IO.Objects.RemoteIO.Device.Unavailable,
-                SCK:    IO.Objects.RemoteIO.Device.Unavailable,
-                MISO:   IO.Objects.RemoteIO.Device.Unavailable,
-                MOSI:   IO.Objects.RemoteIO.Device.Unavailable,
-                SDA:    IO.Objects.RemoteIO.Device.Unavailable,
-                SCL:    IO.Objects.RemoteIO.Device.Unavailable,
-                TX:     IO.Objects.RemoteIO.Device.Unavailable,
-                RX:     IO.Objects.RemoteIO.Device.Unavailable,
-                INT:    6,
-                PWM:    18,
+                AN:     BeagleBone.GPIO44,    // Conflicts with AIN1
+                RST:    BeagleBone.GPIO26,
+                CS:     BeagleBone.GPIO5,     // Conflicts with SPI0
+                SCK:    BeagleBone.GPIO2,     // Conflicts with SPI0, UART2
+                MISO:   BeagleBone.GPIO3,     // Conflicts with SPI0, UART2
+                MOSI:   BeagleBone.GPIO4,     // Conflicts with SPI0
+                SDA:    BeagleBone.GPIO12,    // Conflicts with I2C2
+                SCL:    BeagleBone.GPIO13,    // Conflicts with I2C2
+                TX:     BeagleBone.GPIO15,    // Conflicts with UART1
+                RX:     BeagleBone.GPIO14,    // Conflicts with UART1
+                INT:    BeagleBone.GPIO65,
+                PWM:    BeagleBone.GPIO22,    // Conflicts with EHRPWM2A
                 // mikroBUS devices
-                AIN:    IO.Objects.RemoteIO.Device.Unavailable,
-                I2CBus: 0,
-                PWMOut: 0,
-                SPIDev: 0),
+                AIN:    BeagleBone.AIN1,
+                I2CBus: BeagleBone.I2C2,
+                PWMOut: BeagleBone.EHRPWM2A,
+                SPIDev: BeagleBone.SPI0_0),
 
-            new SocketEntry(Shield.Kinds.PiClick2, 2, true,
+            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 4,
                 // mikroBUS GPIO pins
-                AN:     13,
-                RST:    19,
-                CS:     IO.Objects.RemoteIO.Device.Unavailable,
-                SCK:    IO.Objects.RemoteIO.Device.Unavailable,
-                MISO:   IO.Objects.RemoteIO.Device.Unavailable,
-                MOSI:   IO.Objects.RemoteIO.Device.Unavailable,
-                SDA:    IO.Objects.RemoteIO.Device.Unavailable,
-                SCL:    IO.Objects.RemoteIO.Device.Unavailable,
-                TX:     IO.Objects.RemoteIO.Device.Unavailable,
-                RX:     IO.Objects.RemoteIO.Device.Unavailable,
-                INT:    26,
-                PWM:    17,
+                AN:     BeagleBone.GPIO45,    // Conflicts with AIN0
+                RST:    BeagleBone.GPIO46,
+                CS:     BeagleBone.GPIO68,
+                SCK:    BeagleBone.GPIO110,   // Conflicts with SPI1
+                MISO:   BeagleBone.GPIO111,   // Conflicts with SPI1
+                MOSI:   BeagleBone.GPIO112,   // Conflicts with SPI1
+                SDA:    BeagleBone.GPIO12,    // Conflicts with I2C2
+                SCL:    BeagleBone.GPIO13,    // Conflicts with I2C2
+                TX:     BeagleBone.GPIO31,    // Conflicts with UART4
+                RX:     BeagleBone.GPIO30,    // Conflicts with UART4
+                INT:    BeagleBone.GPIO27,
+                PWM:    BeagleBone.GPIO23,    // Conflicts with EHRPWM2B
                 // mikroBUS devices
-                AIN:    IO.Objects.RemoteIO.Device.Unavailable,
-                I2CBus: 0,
-                PWMOut: IO.Objects.RemoteIO.Device.Unavailable,
-                SPIDev: 1),
+                AIN:    BeagleBone.AIN0,
+                I2CBus: BeagleBone.I2C2,
+                PWMOut: BeagleBone.EHRPWM2B,
+                SPIDev: Device.Unavailable),
 
-            new SocketEntry(Shield.Kinds.PiClick3, 1, true,
+            new SocketEntry(Shield.Kinds.PocketBeagle, 1, // Over the micro USB socket
                 // mikroBUS GPIO pins
-                AN:     4,
-                RST:    5,
-                CS:     IO.Objects.RemoteIO.Device.Unavailable,
-                SCK:    IO.Objects.RemoteIO.Device.Unavailable,
-                MISO:   IO.Objects.RemoteIO.Device.Unavailable,
-                MOSI:   IO.Objects.RemoteIO.Device.Unavailable,
-                SDA:    IO.Objects.RemoteIO.Device.Unavailable,
-                SCL:    IO.Objects.RemoteIO.Device.Unavailable,
-                TX:     IO.Objects.RemoteIO.Device.Unavailable,
-                RX:     IO.Objects.RemoteIO.Device.Unavailable,
-                INT:    6,
-                PWM:    18,
+                AN:     PocketBeagle.GPIO87,  // Conflicts with AIN6
+                RST:    PocketBeagle.GPIO89,
+                CS:     PocketBeagle.GPIO5,   // Conflicts with SPI0
+                SCK:    PocketBeagle.GPIO2,   // Conflicts with SPI0
+                MISO:   PocketBeagle.GPIO3,   // Conflicts with SPI0
+                MOSI:   PocketBeagle.GPIO4,   // Conflicts with SPI0
+                SDA:    PocketBeagle.GPIO14,  // Conflicts with I2C1
+                SCL:    PocketBeagle.GPIO15,  // Conflicts with I2C1
+                TX:     PocketBeagle.GPIO31,  // Conflicts with UART4
+                RX:     PocketBeagle.GPIO30,  // Conflicts with UART4
+                INT:    PocketBeagle.GPIO23,
+                PWM:    PocketBeagle.GPIO50,  // Conflicts wtih PWM2:0
                 // mikroBUS devices
-                AIN:    0,
-                I2CBus: 0,
-                PWMOut: 0,
-                SPIDev: 0),
+                AIN:    PocketBeagle.AIN6,
+                I2CBus: PocketBeagle.I2C1,
+                PWMOut: PocketBeagle.PWM2_0,
+                SPIDev: PocketBeagle.SPI0_0),
 
-            new SocketEntry(Shield.Kinds.PiClick3, 2, true,
+            new SocketEntry(Shield.Kinds.PocketBeagle, 2, // Over the micro SDHC socket
                 // mikroBUS GPIO pins
-                AN:     13,
-                RST:    12,
-                CS:     IO.Objects.RemoteIO.Device.Unavailable,
-                SCK:    IO.Objects.RemoteIO.Device.Unavailable,
-                MISO:   IO.Objects.RemoteIO.Device.Unavailable,
-                MOSI:   IO.Objects.RemoteIO.Device.Unavailable,
-                SDA:    IO.Objects.RemoteIO.Device.Unavailable,
-                SCL:    IO.Objects.RemoteIO.Device.Unavailable,
-                TX:     IO.Objects.RemoteIO.Device.Unavailable,
-                RX:     IO.Objects.RemoteIO.Device.Unavailable,
-                INT:    26,
-                PWM:    17,
+                AN:     PocketBeagle.GPIO86,  // Conflicts with AIN5
+                RST:    PocketBeagle.GPIO45,
+                CS:     PocketBeagle.GPIO19,  // Conflicts with SPI1
+                SCK:    PocketBeagle.GPIO7,   // Conflicts with SPI1
+                MISO:   PocketBeagle.GPIO40,  // Conflicts with SPI1
+                MOSI:   PocketBeagle.GPIO41,  // Conflicts with SPI1
+                SDA:    PocketBeagle.GPIO12,  // Conflicts with I2C2
+                SCL:    PocketBeagle.GPIO13,  // Conflicts with I2C2
+                TX:     PocketBeagle.GPIO43,  // Conflicts with UART0
+                RX:     PocketBeagle.GPIO42,  // Conflicts with UART0
+                INT:    PocketBeagle.GPIO26,
+                PWM:    PocketBeagle.GPIO110, // Conflicts with PWM0:0
                 // mikroBUS devices
-                AIN:    1,
-                I2CBus: 0,
-                PWMOut: IO.Objects.RemoteIO.Device.Unavailable,
-                SPIDev: 1),
+                AIN:    PocketBeagle.AIN5,
+                I2CBus: PocketBeagle.I2C2,
+                PWMOut: PocketBeagle.PWM0_0,
+                SPIDev: PocketBeagle.SPI1_1),
+
+            new SocketEntry(Shield.Kinds.PiClick1, 1,
+                // mikroBUS GPIO pins
+                AN:     RaspberryPi.GPIO22,
+                RST:    RaspberryPi.GPIO4,
+                CS:     RaspberryPi.GPIO8,    // Conflicts with SPI0
+                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
+                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0
+                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0
+                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1
+                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1
+                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
+                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
+                INT:    RaspberryPi.GPIO17,
+                PWM:    RaspberryPi.GPIO18,   // Conflicts with PWM0
+                // mikroBUS devices
+                AIN:    Device.Unavailable,
+                I2CBus: RaspberryPi.I2C1,
+                PWMOut: RaspberryPi.PWM0,
+                SPIDev: RaspberryPi.SPI0_0),
+
+            new SocketEntry(Shield.Kinds.PiClick2, 1,
+                // mikroBUS GPIO pins
+                AN:     RaspberryPi.GPIO4,
+                RST:    RaspberryPi.GPIO5,
+                CS:     RaspberryPi.GPIO8,    // Conflicts with SPI0
+                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
+                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0
+                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0
+                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1
+                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1
+                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
+                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
+                INT:    RaspberryPi.GPIO6,
+                PWM:    RaspberryPi.GPIO18,   // Conflicts with PWM0
+                // mikroBUS devices
+                AIN:    Device.Unavailable,
+                I2CBus: RaspberryPi.I2C1,
+                PWMOut: RaspberryPi.PWM0,
+                SPIDev: RaspberryPi.SPI0_0),
+
+            new SocketEntry(Shield.Kinds.PiClick2, 2,
+                // mikroBUS GPIO pins
+                AN:     RaspberryPi.GPIO13,
+                RST:    RaspberryPi.GPIO19,
+                CS:     RaspberryPi.GPIO7,    // Conflicts with SPI0
+                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
+                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0
+                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0
+                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1
+                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1
+                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
+                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
+                INT:    RaspberryPi.GPIO26,
+                PWM:    RaspberryPi.GPIO17,
+                // mikroBUS devices
+                AIN:    Device.Unavailable,
+                I2CBus: RaspberryPi.I2C1,
+                PWMOut: Device.Unavailable,
+                SPIDev: RaspberryPi.SPI0_1),
+
+            new SocketEntry(Shield.Kinds.PiClick3, 1,
+                // mikroBUS GPIO pins
+                AN:     RaspberryPi.GPIO4,    // Switch AN1 must be in the RIGHT position
+                RST:    RaspberryPi.GPIO5,
+                CS:     RaspberryPi.GPIO8,    // Conflicts with SPI0
+                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
+                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0
+                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0
+                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1
+                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1
+                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
+                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
+                INT:    RaspberryPi.GPIO6,
+                PWM:    RaspberryPi.GPIO18,   // Conflicts with PWM0
+                // mikroBUS devices
+                AIN:    RaspberryPi.AIN0,     // Switch AN1 must be in the LEFT position
+                I2CBus: RaspberryPi.I2C1,
+                PWMOut: RaspberryPi.PWM0,
+                SPIDev: RaspberryPi.SPI0_0),
+
+            new SocketEntry(Shield.Kinds.PiClick3, 2,
+                // mikroBUS GPIO pins
+                AN:     RaspberryPi.GPIO13,   // Switch AN2 must be in the RIGHT position
+                RST:    RaspberryPi.GPIO12,
+                CS:     RaspberryPi.GPIO7,    // Conflicts with SPI0
+                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
+                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0
+                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0
+                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1
+                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1
+                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
+                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
+                INT:    RaspberryPi.GPIO26,
+                PWM:    RaspberryPi.GPIO17,
+                // mikroBUS devices
+                AIN:    RaspberryPi.AIN1,     // Switch AN2 must be in the LEFT position
+                I2CBus: RaspberryPi.I2C1,
+                PWMOut: Device.Unavailable,
+                SPIDev: RaspberryPi.SPI0_1),
         };
 
         private readonly SocketEntry myInfo;
