@@ -84,6 +84,7 @@ PACKAGE BODY SPI.libsimpleio IS
     fd       : Integer;
     error    : Integer;
     ss       : GPIO.libsimpleio.PinSubclass;
+    fdcs     : Integer := libSPI.SPI_AUTO_CS;
 
   BEGIN
     Self.Destroy;
@@ -97,6 +98,7 @@ PACKAGE BODY SPI.libsimpleio IS
 
     IF cspin /= AUTOCHIPSELECT THEN
       ss.Initialize(cspin, GPIO.Output, True);
+      fdcs := ss.fd;
     ELSIF ClickBoard.Shields.Detect = ClickBoard.Shields.BeagleBoneClick2 THEN
       -- Special hack for BeagleBone Click Shield (MIKROE-1596):
       -- Neither socket has the correct hardware slave select signal connected
@@ -104,14 +106,14 @@ PACKAGE BODY SPI.libsimpleio IS
       -- using the GPIO that is connected to CS instead.
       IF name = "/dev/spidev1.0" THEN
         ss.Initialize(BeagleBone.GPIO44, GPIO.Output, True);
+        fdcs := ss.fd;
       ELSIF name = "/dev/spidev1.1" THEN
         ss.Initialize(BeagleBone.GPIO46, GPIO.Output, True);
+        fdcs := ss.fd;
       END IF;
-    ELSE
-      ss.Destroy;
     END IF;
 
-    Self := DeviceSubclass'(fd => fd, fdcs => ss.fd);
+    Self := DeviceSubclass'(fd => fd, fdcs => fdcs);
   END Initialize;
 
   PROCEDURE Initialize
