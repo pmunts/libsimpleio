@@ -84,10 +84,10 @@
       <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.RemoteIO" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.RemoteIO.HID" isDocumented="True">USB Raw HID (Human Interface Device) Transport Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.RemoteIO.Platforms" isDocumented="True">I/O Resource Definitions for particular Remote I/O Protocol Server Platforms</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.RemoteIO.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Remote I/O protocol Server and Socket Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Servo.PWM" isDocumented="True">PWM Controlled Servo Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Objects.USB.HID" isDocumented="True">USB Raw HID (Human Interface Device) Transport Services</NamespaceSummaryItem>
     </NamespaceSummaries>
     <HelpTitle>Munts Technologies Remote I/O Library for .Net Standard 2.0</HelpTitle>
     <HelpFileVersion>$(BUILDVERSION)</HelpFileVersion>
