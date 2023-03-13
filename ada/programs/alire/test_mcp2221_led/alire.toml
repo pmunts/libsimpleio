@@ -9,9 +9,3 @@ maintainers-logins = ["pmunts"]
 executables = ["test_mcp2221_led"]
 [[depends-on]]
 mcp2221 = "^1.20871.1"
-
-# On Windows, copy .DLL files to ./bin
-
-[[actions."case(os)".windows]]
-type = "post-build"
-command = ["sh", "-c", "cp alire/cache/dependencies/remoteio_*/src/win64/*.dll ./bin"]
