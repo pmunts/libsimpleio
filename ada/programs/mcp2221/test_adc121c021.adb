@@ -31,7 +31,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH ADC121C021;
 WITH Analog;
 WITH I2C;
-WITH MCP2221.libusb;
+WITH MCP2221.hidapi;
 WITH MCP2221.I2C;
 
 PROCEDURE test_adc121c021 IS
@@ -46,7 +46,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := MCP2221.I2C.Create(MCP2221.libusb.Create);
+  bus := MCP2221.I2C.Create(MCP2221.hidapi.Create);
 
   -- Create ADC121C021 input object
 

@@ -25,7 +25,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Grove_TB6612.Motor;
 WITH I2C;
 WITH MCP2221.I2C;
-WITH MCP2221.libusb;
+WITH MCP2221.hidapi;
 WITH Motor;
 
 PROCEDURE test_grove_tb6612_dcmotor IS
@@ -41,7 +41,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := MCP2221.I2C.Create(MCP2221.libusb.Create);
+  bus := MCP2221.I2C.Create(MCP2221.hidapi.Create);
 
   -- Create Grove TB6612 device object
 

@@ -29,7 +29,7 @@ WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 WITH HDC1080;
 WITH Humidity;
 WITH I2C;
-WITH MCP2221.libusb;
+WITH MCP2221.hidapi;
 WITH MCP2221.I2C;
 WITH Temperature;
 
@@ -44,7 +44,7 @@ BEGIN
   Put_Line("HDC1080 Temperature/Humidity Sensor Test");
   New_Line;
 
-  dev    := MCP2221.libusb.Create;
+  dev    := MCP2221.hidapi.Create;
   bus    := MCP2221.I2C.Create(dev);
   sensor := HDC1080.Create(bus);
 

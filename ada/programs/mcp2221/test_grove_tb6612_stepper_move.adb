@@ -25,7 +25,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Grove_TB6612.Stepper;
 WITH I2C;
 WITH MCP2221.I2C;
-WITH MCP2221.libusb;
+WITH MCP2221.hidapi;
 WITH Stepper;
 
 USE TYPE Stepper.Steps;
@@ -45,7 +45,7 @@ BEGIN
 
   -- Create I2C bus object
 
-  bus := MCP2221.I2C.Create(MCP2221.libusb.Create);
+  bus := MCP2221.I2C.Create(MCP2221.hidapi.Create);
 
   -- Create Grove TB6612 device object
 

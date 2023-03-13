@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Analog;
 WITH MCP2221.ADC;
-WITH MCP2221.libusb;
+WITH MCP2221.hidapi;
 
 PROCEDURE test_adc IS
 
@@ -36,7 +36,7 @@ BEGIN
   Put_Line("MCP2221 A/D Converter Test");
   New_Line;
 
-  dev := MCP2221.libusb.Create;
+  dev := MCP2221.hidapi.Create;
 
   dev.SetPinModes((0 => MCP2221.MODE_GPIO, OTHERS => MCP2221.MODE_ADC));
 

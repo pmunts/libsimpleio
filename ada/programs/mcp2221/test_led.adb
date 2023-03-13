@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO;
 WITH MCP2221.GPIO;
-WITH MCP2221.libusb;
+WITH MCP2221.hidapi;
 
 PROCEDURE test_led IS
 
@@ -38,7 +38,7 @@ BEGIN
 
   -- Open the MCP2221 device
 
-  dev := MCP2221.libusb.Create;
+  dev := MCP2221.hidapi.Create;
 
   -- Create GPIO pin object
 
