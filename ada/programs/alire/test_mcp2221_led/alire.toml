@@ -1,0 +1,11 @@
+name = "test_mcp2221_led"
+description = "Shiny new project"
+version = "0.1.0-dev"
+
+authors = ["Philip Munts"]
+maintainers = ["Philip Munts <phil@munts.net>"]
+maintainers-logins = ["pmunts"]
+
+executables = ["test_mcp2221_led"]
+[[depends-on]]
+mcp2221 = "^1.20871.1"
