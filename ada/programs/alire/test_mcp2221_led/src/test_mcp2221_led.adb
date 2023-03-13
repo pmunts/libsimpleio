@@ -1,6 +1,6 @@
 -- MCP2221 LED toggle test
 
--- Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2018-2023, Philip Munts.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO;
 WITH MCP2221.GPIO;
-WITH MCP2221.libusb;
+WITH MCP2221.hidapi;
 
 PROCEDURE test_mcp2221_led IS
 
@@ -38,7 +38,7 @@ BEGIN
 
   -- Open the MCP2221 device
 
-  dev := MCP2221.libusb.Create;
+  dev := MCP2221.hidapi.Create;
 
   -- Create GPIO pin object
 
