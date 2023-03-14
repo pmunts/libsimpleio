@@ -1,6 +1,6 @@
 name = "test_mcp2221_led"
 description = "MCP2221 LED Test"
-version = "0.1.0-dev"
+version = "1.0.0"
 
 authors = ["Philip Munts"]
 maintainers = ["Philip Munts <phil@munts.net>"]
@@ -8,4 +8,4 @@ maintainers-logins = ["pmunts"]
 
 executables = ["test_mcp2221_led"]
 [[depends-on]]
-mcp2221 = "^1.20871.1"
+mcp2221 = "^1.0.0"

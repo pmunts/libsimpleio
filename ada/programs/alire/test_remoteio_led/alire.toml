@@ -1,6 +1,6 @@
 name = "test_remoteio_led"
 description = "Remote I/O Protocol LED Test"
-version = "0.1.0-dev"
+version = "1.0.0"
 
 authors = ["Philip Munts"]
 maintainers = ["Philip Munts <phil@munts.net>"]
@@ -8,4 +8,4 @@ maintainers-logins = ["pmunts"]
 
 executables = ["test_remoteio_led"]
 [[depends-on]]
-remoteio = "^1.20946.1"
+remoteio = "^1.0.0"
