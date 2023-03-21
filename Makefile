@@ -28,6 +28,7 @@ RANLIB		?= ranlib
 
 CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
 
+LIBARCH		?= $(shell gcc -dumpmachine)
 DESTDIR		?= /usr/local
 ETCDIR		?= /etc
 
@@ -84,6 +85,8 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(DESTDIR)/lib
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
+	ln -s /usr/lib/$(LIBARCH)/libhidapi-hidraw.a $(DESTDIR)/lib/libhidapi.a
+	ln -s /usr/lib/$(LIBARCH)/libhidapi-hidraw.so $(DESTDIR)/lib/libhidapi.so
 	mkdir -p				$(DESTDIR)/libexec
 	install -cm 0755 hotplug/linux/*helper*	$(DESTDIR)/libexec
 	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-attach hotplug/linux/usb-hid-hotplug-attach.c
@@ -123,8 +126,6 @@ $(PKGDIR):
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
 	echo "/etc/hidraw.conf" >>		$(PKGDIR)/DEBIAN/conffiles
-	install -cm 0755 postinst		$(PKGDIR)/DEBIAN/postinst
-	install -cm 0755 postrm			$(PKGDIR)/DEBIAN/postrm
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local ETCDIR=$(PKGDIR)/etc
 
 package.deb: $(PKGFILE)
