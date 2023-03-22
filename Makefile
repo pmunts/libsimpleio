@@ -127,8 +127,8 @@ $(PKGDIR):
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
 	echo "/etc/hidraw.conf" >>		$(PKGDIR)/DEBIAN/conffiles
-	echo "!# /bin/sh\n/sbin/ldconfig" >	$(PKGDIR)/DEBIAN/postinstall
-	chmod 755				$(PKGDIR)/DEBIAN/postinstall
+	echo "!# /bin/sh\n/sbin/ldconfig" >	$(PKGDIR)/DEBIAN/postinst
+	chmod 755				$(PKGDIR)/DEBIAN/postinst
 	echo "!# /bin/sh\n/sbin/ldconfig" >	$(PKGDIR)/DEBIAN/postrm
 	chmod 755				$(PKGDIR)/DEBIAN/postrm
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local ETCDIR=$(PKGDIR)/etc
