@@ -78,6 +78,7 @@ adalibs.done:
 
 install: libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
+	install -cm 0644 /etc/hidraw.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
 	mkdir -p				$(DESTDIR)/include/libsimpleio
@@ -89,8 +90,8 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	ln -s /usr/lib/$(LIBARCH)/libhidapi-hidraw.so $(DESTDIR)/lib/libhidapi.so
 	mkdir -p				$(DESTDIR)/libexec
 	install -cm 0755 hotplug/linux/*helper*	$(DESTDIR)/libexec
-	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-attach hotplug/linux/usb-hid-hotplug-attach.c
-	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-detach hotplug/linux/usb-hid-hotplug-detach.c
+	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-attach hotplug/linux/usb-hid-hotplug-attach.c -static
+	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-detach hotplug/linux/usb-hid-hotplug-detach.c -static
 	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
 	mkdir -p				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
@@ -126,6 +127,10 @@ $(PKGDIR):
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
 	echo "/etc/hidraw.conf" >>		$(PKGDIR)/DEBIAN/conffiles
+	echo "!# /bin/sh\n/sbin/ldconfig" >	$(PKGDIR)/DEBIAN/postinstall
+	chmod 755				$(PKGDIR)/DEBIAN/postinstall
+	echo "!# /bin/sh\n/sbin/ldconfig" >	$(PKGDIR)/DEBIAN/postrm
+	chmod 755				$(PKGDIR)/DEBIAN/postrm
 	$(MAKE) install DESTDIR=$(PKGDIR)/usr/local ETCDIR=$(PKGDIR)/etc
 
 package.deb: $(PKGFILE)
