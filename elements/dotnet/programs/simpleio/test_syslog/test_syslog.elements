@@ -1,0 +1,47 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>3.5</ProductVersion>
+    <RootNamespace>test_syslog</RootNamespace>
+    <ProjectGuid>105108e0-8e3c-4658-b8be-ffb5f27528a7</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <Name>test_syslog</Name>
+    <AssemblyName>test_syslog</AssemblyName>
+    <BinaryName>test_syslog</BinaryName>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <TargetFramework>.NETCore</TargetFramework>
+    <Mode>Echoes</Mode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>False</Optimize>
+    <OutputPath>.\Bin\Debug</OutputPath>
+    <ConditionalDefines>DEBUG;TRACE;</ConditionalDefines>
+    <GeneratePDB>True</GeneratePDB>
+    <GenerateMDB>True</GenerateMDB>
+    <EnableAsserts>True</EnableAsserts>
+    <CpuType>anycpu</CpuType>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>.\Bin\Release</OutputPath>
+    <ConditionalDefines>TRACE;</ConditionalDefines>
+    <CpuType>anycpu</CpuType>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Echoes">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elements">
+      <Private>True</Private>
+    </Reference>
+    <NuGetReference Include="libsimpleio:*">
+      <Private>True</Private>
+    </NuGetReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Makefile" />
+    <Compile Include="Program.pas" />
+    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Echoes.targets" />
+</Project>
