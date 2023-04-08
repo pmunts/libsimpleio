@@ -24,6 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>.\Bin\Release</OutputPath>
     <ConditionalDefines>TRACE;</ConditionalDefines>
+    <ConditionalDefines>TRACE;</ConditionalDefines>
     <CpuType>anycpu</CpuType>
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
   </PropertyGroup>
