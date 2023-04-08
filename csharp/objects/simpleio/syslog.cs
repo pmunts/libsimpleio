@@ -32,12 +32,12 @@ namespace IO.Objects.SimpleIO.syslog
     /// Linux <c>syslog</c> facility.</remarks>
     /// <example>
     /// <code>
-    /// using static System.Diagnostics.Trace;
-    ///
-    /// Listeners.RemoveAt(0);
-    /// Listeners.Add(new IO.Objects.SimpleIO.syslog.Logger("HelloWorld"));
-    ///
-    /// Write("Hello, World!");
+    /// var log = new IO.Objects.SimpleIO.syslog.Logger();
+    /// log.Note("Hello, Syslog!");
+    /// 
+    /// System.Diagnostics.Trace.Listeners.Clear();
+    /// System.Diagnostics.Trace.Listeners.Add(log);
+    /// System.Diagnostics.Trace.Write("Hello, Trace!");
     /// </code>
     /// </example>
     public class Logger : System.Diagnostics.TraceListener
@@ -160,7 +160,7 @@ namespace IO.Objects.SimpleIO.syslog
         /// <param name="options"><c>syslog</c> options.</param>
         /// <param name="severity"><c>syslog</c> severity level.</param>
         public Logger(string id = "@@APPNAME@@", int facility = LOG_LOCAL0,
-            int options = LOG_PERROR, int severity = LOG_INFO)
+            int options = LOG_NDELAY, int severity = LOG_INFO)
         {
             if (id == "@@APPNAME@@")
             {
@@ -173,15 +173,33 @@ namespace IO.Objects.SimpleIO.syslog
         }
 
         /// <summary>
+        /// Log a notification message.
+        /// </summary>
+        /// <param name="message">Notification message.</param>
+        public void Note(string message)
+        {
+            IO.Bindings.libsimpleio.LINUX_syslog
+                (IO.Bindings.libsimpleio.LOG_NOTICE, message, out int error);
+        }
+
+        /// <summary>
+        /// Log a warning message.
+        /// </summary>
+        /// <param name="message">Warning message.</param>
+        public void Warning(string message)
+        {
+            IO.Bindings.libsimpleio.LINUX_syslog
+                (IO.Bindings.libsimpleio.LOG_WARNING, message, out int error);
+        }
+
+        /// <summary>
         /// Log an error message.
         /// </summary>
         /// <param name="message">Error message.</param>
         public void Error(string message)
         {
             IO.Bindings.libsimpleio.LINUX_syslog
-                (IO.Bindings.libsimpleio.LOG_ERR,
-                message,
-                out int error);
+                (IO.Bindings.libsimpleio.LOG_ERR, message, out int error);
         }
 
         /// <summary>
@@ -203,33 +221,7 @@ namespace IO.Objects.SimpleIO.syslog
         }
 
         /// <summary>
-        /// Log a warning message.
-        /// </summary>
-        /// <param name="message">Warning message.</param>
-        public void Warning(string message)
-        {
-            IO.Bindings.libsimpleio.LINUX_syslog
-                (IO.Bindings.libsimpleio.LOG_WARNING,
-                message,
-                out int error);
-        }
-
-        /// <summary>
-        /// Log a notification message.
-        /// </summary>
-        /// <param name="message">Notification message.</param>
-        public void Note(string message)
-        {
-            IO.Bindings.libsimpleio.LINUX_syslog
-                (IO.Bindings.libsimpleio.LOG_NOTICE,
-                message,
-                out int error);
-        }
-
-        /// <summary>
         /// Trace interface method for posting a message.
-        /// This method implementation is identical to <c>WriteLine()</c>,
-        /// because <c>syslog</c> is not a stream oriented service.
         /// </summary>
         /// <param name="message">Trace message.</param>
         public override void Write(string message)
@@ -242,60 +234,14 @@ namespace IO.Objects.SimpleIO.syslog
         /// Trace interface method for posting a message.
         /// </summary>
         /// <param name="message">Trace message.</param>
+        /// <remarks>
+        /// This method implementation is identical to <c>Write()</c>,
+        /// because <c>syslog</c> is not a line oriented service.
+        /// </remarks>
         public override void WriteLine(string message)
         {
             IO.Bindings.libsimpleio.LINUX_syslog(this.severity, message,
                 out int error);
-        }
-
-        /// <summary>
-        /// <c>TraceListener</c> registration options.
-        /// </summary>
-        public enum Registration
-        {
-            /// <summary>
-            /// Add to the <c>TraceListener</c> list.
-            /// </summary>
-            Append,
-            /// <summary>
-            /// Replace all <c>TraceListener</c> list items.
-            /// </summary>
-            Replace
-        }
-
-        /// <summary>
-        /// Register a new <c>Logger</c> instance as a <c>TraceListener</c>.
-        /// </summary>
-        /// <param name="id">Program identifier string.</param>
-        /// <param name="facility"><c>syslog</c> facility.</param>
-        /// <param name="options"><c>syslog</c> options.</param>
-        /// <param name="severity"><c>syslog</c> severity level.</param>
-        /// <param name="reghow">How to register the <c>TraceListener</c>
-        /// instance.</param>
-        /// <example>
-        /// <code>
-        /// using static System.Diagnostics.Trace;
-        ///
-        /// IO.Objects.SimpleIO.syslog.Logger.Register("HelloWorld");
-        ///
-        /// Write("Hello, World!");
-        /// </code>
-        /// </example>
-        public static void Register(string id = "@@APPNAME@@", int facility = LOG_LOCAL0,
-            int options = LOG_PERROR, int severity = LOG_INFO,
-            Registration reghow = Registration.Replace)
-        {
-            if (id == "@@APPNAME@@")
-            {
-                id = System.AppDomain.CurrentDomain.FriendlyName;
-            }
-
-            while ((reghow == Registration.Replace) &&
-                (System.Diagnostics.Trace.Listeners.Count > 0))
-                System.Diagnostics.Trace.Listeners.RemoveAt(0);
-
-            System.Diagnostics.Trace.Listeners.Add(new Logger(id, facility,
-                options, severity));
         }
     }
 }
