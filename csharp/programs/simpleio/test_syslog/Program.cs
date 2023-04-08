@@ -20,18 +20,11 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using static System.Diagnostics.Trace;
-
 System.Console.WriteLine("\nLinux syslog Test\n");
 
 // Create a Logger instance
 
 var log = new IO.Objects.SimpleIO.syslog.Logger();
-
-// Replace the default trace listener
-
-Listeners.RemoveAt(0);
-Listeners.Add(log);
 
 // Test Logger methods
 
@@ -41,22 +34,27 @@ log.Error("This is a test ERROR message");
 log.Error("This is a test ERROR message", errno.EINVAL);
 log.Error("This is a test ERROR message", 999);
 
-// Test Trace... methods
+// Register trace listener
 
-TraceInformation("This is TraceInformation()");
-TraceWarning("This is TraceWarning()");
-TraceError("This is TraceError()");
+System.Diagnostics.Trace.Listeners.Clear();
+System.Diagnostics.Trace.Listeners.Add(log);
+
+// Test Trace methods
+
+System.Diagnostics.Trace.TraceInformation("This is TraceInformation()");
+System.Diagnostics.Trace.TraceWarning("This is TraceWarning()");
+System.Diagnostics.Trace.TraceError("This is TraceError()");
 
 // Test Write()
 
-Write("This is Write()");
-Write(123456789);
-Write("This is Write()", "ALERT");
-Write(123456789, "INFO");
+System.Diagnostics.Trace.Write("This is Write()");
+System.Diagnostics.Trace.Write(123456789);
+System.Diagnostics.Trace.Write("This is Write()", "ALERT");
+System.Diagnostics.Trace.Write(123456789, "INFO");
 
 // Test WriteIf()
 
-WriteIf(true, "This is WriteIf()");
-WriteIf(true, 123456789);
-WriteIf(true, "This is WriteIf()", "ALERT");
-WriteIf(true, 123456789, "INFO");
+System.Diagnostics.Trace.WriteIf(true, "This is WriteIf()");
+System.Diagnostics.Trace.WriteIf(true, 123456789);
+System.Diagnostics.Trace.WriteIf(true, "This is WriteIf()", "ALERT");
+System.Diagnostics.Trace.WriteIf(true, 123456789, "INFO");
