@@ -34,7 +34,7 @@ namespace IO.Objects.SimpleIO.syslog
     /// <code>
     /// var log = new IO.Objects.SimpleIO.syslog.Logger();
     /// log.Note("Hello, Syslog!");
-    /// 
+    ///
     /// System.Diagnostics.Trace.Listeners.Clear();
     /// System.Diagnostics.Trace.Listeners.Add(log);
     /// System.Diagnostics.Trace.Write("Hello, Trace!");
