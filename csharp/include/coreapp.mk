@@ -1,6 +1,6 @@
-# Makefile for building a .Net Core application package or tarball
+# Makefile for building a .Net Core application program
 
-# Copyright (C)2018-2023, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2018-2023, Philip Munts.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,20 +20,12 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-COREAPPNAME	?= $(shell basename *.csproj .csproj)
-COREAPPPROJ	?= $(COREAPPNAME).csproj
-COREAPPPUB	?= bin/$(CONFIGURATION)/net7.0/publish
-COREAPPDEST	?= /usr/local
-COREAPPLIB	?= $(COREAPPDEST)/lib/$(COREAPPNAME)
-COREAPPBIN	?= $(COREAPPDEST)/bin
-
-PKGNAME		= $(shell echo $(COREAPPNAME) | tr '[_]' '[\-]')
-PKGVERSION	= $(shell date +%Y.%j)
-PKGARCH		= all
-PKGDIR		= $(PKGNAME)-$(PKGVERSION)-$(PKGARCH)
-DEBFILE		= $(PKGDIR).deb
-RPMFILE		= $(PKGDIR).rpm
-TARFILE		= $(PKGDIR).tgz
+COREAPPNAME	:= $(shell basename *.csproj .csproj)
+COREAPPPROJ	:= $(COREAPPNAME).csproj
+COREAPPPUB	:= bin/$(CONFIGURATION)/net7.0/publish
+COREAPPDEST	:= /usr/local
+COREAPPLIB	:= $(COREAPPDEST)/lib/$(COREAPPNAME)
+COREAPPBIN	:= $(COREAPPDEST)/bin
 
 # Set a reasonable default architecture for single file deliverables
 
@@ -74,6 +66,24 @@ coreapp_mk_build:
 	cp $(COREAPPPUB)/*.dll .
 	cp $(COREAPPPUB)/*.runtimeconfig.json .
 
+# Install architecture independent deliverables
+
+coreapp_mk_install: coreapp_mk_build
+ifneq ($(wildcard S[0-9][0-9]$(COREAPPNAME)),)
+	mkdir -p						$(DESTDIR)/etc/rc.d
+	install -cm 0755 S[0-9][0-9]$(COREAPPNAME)		$(DESTDIR)/etc/rc.d
+endif
+	mkdir -p 						$(DESTDIR)/$(COREAPPBIN)
+	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(DESTDIR)/$(COREAPPBIN)/$(COREAPPNAME)
+	chmod 755						$(DESTDIR)/$(COREAPPBIN)/$(COREAPPNAME)
+	mkdir -p 						$(DESTDIR)/$(COREAPPLIB)
+	cp -R -P -p $(COREAPPPUB)/*.dll				$(DESTDIR)/$(COREAPPLIB)
+	cp -R -P -p $(COREAPPPUB)/*.json			$(DESTDIR)/$(COREAPPLIB)
+	rm -f							$(DESTDIR)/$(COREAPPLIB)/*deps.json
+	rm -f							$(DESTDIR)/$(COREAPPLIB)/*dev.json
+	$(FIND) $(DESTDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
+	$(FIND) $(DESTDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
+
 # Build a single file deliverable without runtime.  Interesting values for
 # DOTNETFLAGS include: -p:PublishReadyToRun
 
@@ -95,50 +105,62 @@ coreapp_mk_nupkg:
 	dotnet pack -c $(CONFIGURATION) $(DOTNETFLAGS) $(COREAPPPROJ)
 	cp bin/$(CONFIGURATION)/*.nupkg .
 
+ifeq ($(shell uname), Linux)
 # Build an architecture independent Debian package file (mostly useful for
 # MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
 
-$(PKGDIR):
-	$(MAKE) coreapp_mk_build
-	echo DEBUG: $@ $^ $* $(MAKECMDGOALS)
-	mkdir -p						$(PKGDIR)/DEBIAN
-	install -cm 0644 $(LIBSIMPLEIO)/csharp/include/coreapp.control	$(PKGDIR)/DEBIAN/control
-	$(SED) -i s/@@NAME@@/$(PKGNAME)/g			$(PKGDIR)/DEBIAN/control
-	$(SED) -i s/@@VERSION@@/$(PKGVERSION)/g			$(PKGDIR)/DEBIAN/control
-ifneq ($(wildcard S[0-9][0-9]$(COREAPPNAME)),)
-	mkdir -p						$(PKGDIR)/etc/rc.d
-	install -cm 0755 S[0-9][0-9]$(COREAPPNAME)		$(PKGDIR)/etc/rc.d
-endif
-	mkdir -p 						$(PKGDIR)/$(COREAPPBIN)
-	echo exec dotnet $(COREAPPLIB)/$(COREAPPNAME).dll '"$$@"' >$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
-	chmod 755						$(PKGDIR)/$(COREAPPBIN)/$(COREAPPNAME)
-	mkdir -p 						$(PKGDIR)/$(COREAPPLIB)
-	cp -R -P -p $(COREAPPPUB)/*.dll				$(PKGDIR)/$(COREAPPLIB)
-	cp -R -P -p $(COREAPPPUB)/*.json			$(PKGDIR)/$(COREAPPLIB)
-	rm -f							$(PKGDIR)/$(COREAPPLIB)/*deps.json
-	rm -f							$(PKGDIR)/$(COREAPPLIB)/*dev.json
-	$(FIND) $(PKGDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
-	$(FIND) $(PKGDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
-	touch $@
-
 include $(LIBSIMPLEIO)/include/dpkg.mk
 
+DEBNAME		:= $(shell echo $(COREAPPNAME) | tr '[_]' '[\-]')
+DEBVERSION	:= $(shell date +%Y.%j)
+DEBARCH		:= all
+DEBDIR		:= $(DEBNAME)-$(DEBARCH)
+DEBFILE		:= $(DEBDIR).deb
+
+$(DEBDIR):
+	$(MAKE) coreapp_mk_install DESTDIR=$(DEBDIR)
+	mkdir -p							$(DEBDIR)/DEBIAN
+	install -cm 0644 $(LIBSIMPLEIO)/csharp/include/coreapp.control	$(DEBDIR)/DEBIAN/control
+	$(SED) -i s/@@NAME@@/$(DEBNAME)/g				$(DEBDIR)/DEBIAN/control
+	$(SED) -i s/@@VERSION@@/$(DEBVERSION)/g				$(DEBDIR)/DEBIAN/control
+	touch $@
+
 coreapp_mk_deb: $(DEBFILE)
+endif
 
 # Build an architecture independent RPM package file (mostly useful for
 # MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
 
 include $(LIBSIMPLEIO)/include/rpm.mk
 
+RPMNAME		:= $(shell echo $(COREAPPNAME) | tr '[_]' '[\-]')
+RPMVERSION	:= $(shell date +%Y.%j)
+RPMARCH		:= noarch
+RPMDIR		:= $(RPMNAME)-$(RPMARCH)
+RPMFILE		:= $(RPMDIR).rpm
+
+$(RPMDIR):
+	$(MAKE) coreapp_mk_install DESTDIR=$(RPMDIR)
+	touch $@
+
 coreapp_mk_rpm: $(RPMFILE)
 
-# Build an architecture independent tarball file
+# Build an architecture independent tarball file (mostly useful for
+# MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
 
 include $(LIBSIMPLEIO)/include/tarball.mk
+
+TARNAME		:= $(COREAPPNAME)
+TARDIR		:= $(TARNAME)
+TARFILE		:= $(TARDIR).tgz
+
+$(TARDIR):
+	$(MAKE) coreapp_mk_install DESTDIR=$(TARDIR)
+	touch $@
 
 coreapp_mk_tarball: $(TARFILE)
 
 # Remove working files
 
 coreapp_mk_clean: csharp_mk_clean
-	rm -rf $(COREAPPNAME) $(PKGDIR) rpmbuild specfile *.deb *.rpm *.tgz
+	rm -rf $(COREAPPNAME) $(DEBDIR) $(RPMDIR) $(TARDIR) rpmbuild specfile *.deb *.rpm *.tgz
