@@ -22,21 +22,20 @@
 
 include $(LIBSIMPLEIO)/include/common.mk
 
-BUILDARCH	?= noarch
-GROUP		?= Applications
-LICENSE		?= Unknown
+RPMGROUP	?= Applications
+RPMLICENSE	?= Unknown
 
 # Define a pattern rule for building RPM packages
 
 %.rpm: %
 	cp $(LIBSIMPLEIO)/include/specfile.template specfile
 	chmod 644 specfile
-	$(SED) -i 's/@@NAME@@/$(PKGNAME)/g' specfile
-	$(SED) -i 's/@@SUMMARY@@/$(PKGNAME)/g' specfile
-	$(SED) -i 's/@@VERSION@@/$(PKGVERSION)/g' specfile
-	$(SED) -i 's/@@BUILDARCH@@/$(BUILDARCH)/g' specfile
-	$(SED) -i 's/@@GROUP@@/$(GROUP)/g' specfile
-	$(SED) -i 's/@@LICENSE@@/$(LICENSE)/g' specfile
+	$(SED) -i 's/@@NAME@@/$(RPMNAME)/g' specfile
+	$(SED) -i 's/@@SUMMARY@@/$(RPMNAME)/g' specfile
+	$(SED) -i 's/@@VERSION@@/$(RPMVERSION)/g' specfile
+	$(SED) -i 's/@@BUILDARCH@@/$(RPMARCH)/g' specfile
+	$(SED) -i 's/@@GROUP@@/$(RPMGROUP)/g' specfile
+	$(SED) -i 's/@@LICENSE@@/$(RPMLICENSE)/g' specfile
 	cd $? && $(FIND) * -type d -exec echo "%dir /{}" ";" >>../specfile
 	cd $? && $(FIND) * -type f -exec echo "/{}" ";"      >>../specfile
 	rpmbuild --buildroot=`pwd`/$? --define="_topdir `pwd`/rpmbuild" -bb specfile
