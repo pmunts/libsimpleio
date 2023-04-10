@@ -1,6 +1,6 @@
 # gmake rule for building an RPM package
 
-# Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2019-2023, Philip Munts.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@ LICENSE		?= Unknown
 	$(SED) -i 's/@@BUILDARCH@@/$(BUILDARCH)/g' specfile
 	$(SED) -i 's/@@GROUP@@/$(GROUP)/g' specfile
 	$(SED) -i 's/@@LICENSE@@/$(LICENSE)/g' specfile
-	cd $? && $(FIND) * -type d -exec echo "%dir /{}" ";" | grep -v DEBIAN >>../specfile
-	cd $? && $(FIND) * -type f -exec echo "/{}" ";" | grep -v DEBIAN >>../specfile
+	cd $? && $(FIND) * -type d -exec echo "%dir /{}" ";" >>../specfile
+	cd $? && $(FIND) * -type f -exec echo "/{}" ";"      >>../specfile
 	rpmbuild --buildroot=`pwd`/$? --define="_topdir `pwd`/rpmbuild" -bb specfile
-	cp rpmbuild/RPMS/*/*.rpm .
+	cp rpmbuild/RPMS/*/*.rpm $@

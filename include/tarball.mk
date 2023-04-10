@@ -1,6 +1,6 @@
 # gmake rule for building an application tarball
 
-# Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2019-2023, Philip Munts.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
 
 include $(LIBSIMPLEIO)/include/common.mk
 
-TARFLAGS	?= --owner=root --group=root --mode=ugo-w --exclude=DEBIAN
+TARFLAGS	?= --owner=root --group=root --mode=ugo-w
 
 # Define a pattern rule for an application tarball
 
