@@ -38,13 +38,17 @@ PACKAGE GPIB.Slave IS
    (master : Controller;
     slave  : Address) RETURN Device;
 
-  -- Issue a text command to the most recently selected IEEE-488 slave device
+  -- Issue a text command to this slave device
 
   PROCEDURE Put(Self : DeviceClass; cmd : String);
 
-  -- Issue a binary command to the most recently selected IEEE-488 slave device
+  -- Issue a binary command to this slave device
 
   PROCEDURE Put(Self : DeviceClass; cmd : ByteArray);
+
+  -- Get a text response from this slave device
+
+  FUNCTION Get(Self : DeviceClass) RETURN String;
 
 PRIVATE
 

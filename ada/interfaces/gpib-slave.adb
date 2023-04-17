@@ -47,7 +47,7 @@ PACKAGE BODY GPIB.Slave IS
     RETURN NEW DeviceClass'(Self);
   END Create;
 
-  -- Issue a text command to the most recently selected IEEE-488 slave device
+  -- Issue a text command to this slave device
 
   PROCEDURE Put(Self : DeviceClass; cmd : String) IS
 
@@ -56,7 +56,7 @@ PACKAGE BODY GPIB.Slave IS
     Self.master.Put(cmd);
   END Put;
 
-  -- Issue a binary command to the most recently selected IEEE-488 slave device
+  -- Issue a binary command to this slave device
 
   PROCEDURE Put(Self : DeviceClass; cmd : ByteArray) IS
 
@@ -64,5 +64,14 @@ PACKAGE BODY GPIB.Slave IS
     Self.master.SelectSlave(Self.slave);
     Self.master.Put(cmd);
   END Put;
+
+  -- Get a text response from this slave device
+
+  FUNCTION Get(Self : DeviceClass) RETURN String IS
+
+  BEGIN
+    Self.master.SelectSlave(Self.slave);
+    RETURN Self.master.Get;
+  END Get;
 
 END GPIB.Slave;
