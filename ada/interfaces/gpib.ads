@@ -22,6 +22,8 @@
 
 PACKAGE GPIB IS
 
+  Error : EXCEPTION;
+
   TYPE Address             IS NEW Natural RANGE 0 .. 30;
 
   TYPE Byte                IS MOD 256;
@@ -42,6 +44,8 @@ PACKAGE GPIB IS
 
   PROCEDURE Put(Self : IN OUT ControllerInterface; cmd : ByteArray) IS ABSTRACT;
 
-  -- TODO: Get()
+  -- Fetch a text response from the most recently selected IEEE-488 slave device
+
+  FUNCTION Get(Self : IN OUT ControllerInterface) RETURN String IS ABSTRACT;
 
 END GPIB;
