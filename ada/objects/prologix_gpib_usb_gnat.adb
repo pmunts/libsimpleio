@@ -21,7 +21,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Streams;
+WITH GNAT.Serial_Communications;
 
 PACKAGE BODY Prologix_GPIB_USB_GNAT IS
 
@@ -29,20 +29,26 @@ PACKAGE BODY Prologix_GPIB_USB_GNAT IS
 
   PROCEDURE Initialize(Self : OUT ControllerSubclass; name : String) IS
 
+    p : ACCESS GNAT.Serial_Communications.Serial_Port :=
+      NEW GNAT.Serial_Communications.Serial_Port;
+
   BEGIN
-    Self.port := NEW Standard.GNAT.Serial_Communications.Serial_Port;
+    GNAT.Serial_Communications.Open(p.ALL,
+      GNAT.Serial_Communications.Port_Name(name));
 
-    Standard.GNAT.Serial_Communications.Open(Self.port.ALL,
-      Standard.GNAT.Serial_Communications.Port_Name(name));
+    GNAT.Serial_Communications.Set(p.ALL,
+      Rate      => GNAT.Serial_Communications.B115200,
+      Parity    => GNAT.Serial_Communications.None,
+      Bits      => GNAT.Serial_Communications.CS8,
+      Stop_Bits => GNAT.Serial_Communications.One,
+      Block     => False,
+      Timeout   => 1.0);
 
-    Standard.GNAT.Serial_Communications.Set(Self.port.ALL,
-      Rate      => Standard.GNAT.Serial_Communications.B115200,
-      Parity    => Standard.GNAT.Serial_Communications.None,
-      Bits      => Standard.GNAT.Serial_Communications.CS8,
-      Stop_Bits => Standard.GNAT.Serial_Communications.One);
+    Self.stream := Ada.Streams.Stream_IO.Stream_Access(p);
 
     Self.Put("++mode 1"); -- Controller mode
     Self.Put("++eos 3");  -- No line terminators
+    Self.Put("++auto 1");
   END Initialize;
 
   -- IEEE-488 bus controller object constructor
@@ -67,58 +73,40 @@ PACKAGE BODY Prologix_GPIB_USB_GNAT IS
     END IF;
   END SelectSlave;
 
-  -- Send a single character to the most recently selected slave device
-
-  PROCEDURE Put(Self : IN OUT ControllerSubclass; c : Character) IS
-
-    outbuf : Ada.Streams.Stream_Element_Array(0 .. 0);
-
-  BEGIN
-    outbuf(0) := Character'Pos(c);
-    Standard.GNAT.Serial_Communications.Write(Self.port.ALL, outbuf);
-  END Put;
-
-  -- Send a single byte to the most recently selected slave device
-
-  PROCEDURE Put(Self : IN OUT ControllerSubclass; b : GPIB.Byte) IS
-
-    outbuf : Ada.Streams.Stream_Element_Array(0 .. 0);
-
-  BEGIN
-    CASE b IS
-      WHEN 10|13|27|43 =>
-        outbuf(0) := 27;
-        Standard.GNAT.Serial_Communications.Write(Self.port.ALL, outbuf);
-
-      WHEN OTHERS =>
-        NULL;
-    END CASE;
-
-    outbuf(0) := Ada.Streams.Stream_Element(b);
-    Standard.GNAT.Serial_Communications.Write(Self.port.ALL, outbuf);
-  END Put;
-
  -- Issue a text command to the most recently selected IEEE-488 slave device
 
   PROCEDURE Put(Self : IN OUT ControllerSubclass; cmd : String) IS
 
   BEGIN
-    FOR c OF cmd LOOP
-      Self.Put(c);
-    END LOOP;
-
-    Self.Put(ASCII.CR);
-    Self.Put(ASCII.LF);
+    String'Write(Self.stream, cmd & ASCII.CR & ASCII.LF);
   END Put;
 
- -- Issue a binary command to the most recently selected IEEE-488 slave device
+  -- Fetch a text response from the most recently selected IEEE-488 slave device
 
-  PROCEDURE Put(Self : IN OUT ControllerSubclass; cmd : GPIB.ByteArray) IS
+  FUNCTION Get(Self : IN OUT ControllerSubclass) RETURN String IS
+
+    inbuf : String(1 .. 1024) := (OTHERS => ASCII.NUL);
+    count : Natural := 0;
 
   BEGIN
-    FOR b OF cmd LOOP
-      Self.Put(b);
+    LOOP
+      IF count = inbuf'Length THEN
+        RAISE GPIB.Error WITH "Response buffer overrrun.";
+      END IF;
+
+      Character'Read(Self.stream, inbuf(count + 1));
+      EXIT WHEN inbuf(count + 1) = ASCII.LF;
+
+      count := count + 1;
     END LOOP;
-  END Put;
+
+    -- Strip trailing CR, if any
+
+    IF inbuf(count) = ASCII.CR THEN
+      count := count - 1;
+    END IF;
+
+    RETURN inbuf(1 .. count);
+  END Get;
 
 END Prologix_GPIB_USB_GNAT;

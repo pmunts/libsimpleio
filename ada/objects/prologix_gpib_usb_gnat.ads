@@ -23,7 +23,7 @@
 
 WITH GPIB;
 
-PRIVATE WITH GNAT.Serial_Communications;
+PRIVATE WITH Ada.Streams.Stream_IO;
 
 PACKAGE Prologix_GPIB_USB_GNAT IS
 
@@ -45,16 +45,14 @@ PACKAGE Prologix_GPIB_USB_GNAT IS
 
   PROCEDURE Put(Self : IN OUT ControllerSubclass; cmd : String);
 
-  -- Issue a binary command to the most recently selected IEEE-488 slave device
+  -- Fetch a text response from the most recently selected IEEE-488 slave device
 
-  PROCEDURE Put(Self : IN OUT ControllerSubclass; cmd : GPIB.ByteArray);
+  FUNCTION Get(Self : IN OUT ControllerSubclass) RETURN String;
 
 PRIVATE
 
-  TYPE PortAccess IS ACCESS Standard.GNAT.Serial_Communications.Serial_Port;
-
   TYPE ControllerSubclass IS NEW GPIB.ControllerInterface WITH RECORD
-    port      : PortAccess;
+    stream    : Ada.Streams.Stream_IO.Stream_Access;
     lastslave : Natural := 31;
   END RECORD;
 
