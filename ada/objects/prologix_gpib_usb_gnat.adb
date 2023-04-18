@@ -25,12 +25,14 @@ WITH GNAT.Serial_Communications;
 
 PACKAGE BODY Prologix_GPIB_USB_GNAT IS
 
+  TYPE Serial_Port_Access IS ACCESS GNAT.Serial_Communications.Serial_Port;
+
   -- IEEE-488 bus controller object initializer
 
   PROCEDURE Initialize(Self : OUT ControllerSubclass; name : String) IS
+    PRAGMA Warnings(Off, """*"" is not modified, could be declared constant");
 
-    p : ACCESS GNAT.Serial_Communications.Serial_Port :=
-      NEW GNAT.Serial_Communications.Serial_Port;
+    p : Serial_Port_Access := NEW GNAT.Serial_Communications.Serial_Port;
 
   BEGIN
     GNAT.Serial_Communications.Open(p.ALL,
