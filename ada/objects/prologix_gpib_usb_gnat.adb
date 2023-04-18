@@ -48,7 +48,7 @@ PACKAGE BODY Prologix_GPIB_USB_GNAT IS
 
     Self.Put("++mode 1"); -- Controller mode
     Self.Put("++eos 3");  -- No line terminators
-    Self.Put("++auto 1");
+    Self.Put("++auto 1"); -- Enable read after write
   END Initialize;
 
   -- IEEE-488 bus controller object constructor
