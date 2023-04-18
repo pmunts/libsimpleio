@@ -40,12 +40,10 @@ PACKAGE GPIB IS
 
   PROCEDURE Put(Self : IN OUT ControllerInterface; cmd : String) IS ABSTRACT;
 
-  -- Issue a binary command to the most recently selected IEEE-488 slave device
-
-  PROCEDURE Put(Self : IN OUT ControllerInterface; cmd : ByteArray) IS ABSTRACT;
-
   -- Fetch a text response from the most recently selected IEEE-488 slave device
 
   FUNCTION Get(Self : IN OUT ControllerInterface) RETURN String IS ABSTRACT;
+
+  -- TODO: Added binary Get and Put methods
 
 END GPIB;

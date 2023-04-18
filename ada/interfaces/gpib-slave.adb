@@ -56,15 +56,6 @@ PACKAGE BODY GPIB.Slave IS
     Self.master.Put(cmd);
   END Put;
 
-  -- Issue a binary command to this slave device
-
-  PROCEDURE Put(Self : DeviceClass; cmd : ByteArray) IS
-
-  BEGIN
-    Self.master.SelectSlave(Self.slave);
-    Self.master.Put(cmd);
-  END Put;
-
   -- Get a text response from this slave device
 
   FUNCTION Get(Self : DeviceClass) RETURN String IS

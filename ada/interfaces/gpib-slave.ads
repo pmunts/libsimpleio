@@ -42,10 +42,6 @@ PACKAGE GPIB.Slave IS
 
   PROCEDURE Put(Self : DeviceClass; cmd : String);
 
-  -- Issue a binary command to this slave device
-
-  PROCEDURE Put(Self : DeviceClass; cmd : ByteArray);
-
   -- Get a text response from this slave device
 
   FUNCTION Get(Self : DeviceClass) RETURN String;
