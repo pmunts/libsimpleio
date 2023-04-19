@@ -29,7 +29,7 @@ PACKAGE BODY Prologix_GPIB_USB IS
 
   -- IEEE-488 bus controller object initializer
 
-  PROCEDURE Initialize(Self : OUT ControllerSubclass; name : String) IS
+  PROCEDURE Initialize(Self : OUT ControllerSubclass; name : String := DefaultDeviceNode) IS
 
     error : Integer;
 
@@ -47,7 +47,7 @@ PACKAGE BODY Prologix_GPIB_USB IS
 
   -- IEEE-488 bus controller object constructor
 
-  FUNCTION Create(name : String) RETURN GPIB.Controller IS
+  FUNCTION Create(name : String := DefaultDeviceNode) RETURN GPIB.Controller IS
 
     Self : ControllerSubclass;
 

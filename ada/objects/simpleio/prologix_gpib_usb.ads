@@ -27,13 +27,15 @@ PACKAGE Prologix_GPIB_USB IS
 
   TYPE ControllerSubclass IS NEW GPIB.ControllerInterface WITH PRIVATE;
 
+  DefaultDeviceNode : CONSTANT String := "/dev/ttyUSB0";
+
   -- IEEE-488 bus controller object initializer
 
-  PROCEDURE Initialize(Self : OUT ControllerSubclass; name : String);
+  PROCEDURE Initialize(Self : OUT ControllerSubclass; name : String := DefaultDeviceNode);
 
   -- IEEE-488 bus controller object constructor
 
-  FUNCTION Create(name : String) RETURN GPIB.Controller;
+  FUNCTION Create(name : String := DefaultDeviceNode) RETURN GPIB.Controller;
 
  -- Select a particular slave device for the next operation(s)
 
