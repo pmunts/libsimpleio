@@ -22,21 +22,21 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH GPIB.Slave;
 WITH Prologix_GPIB_USB;
+WITH HP9872A;
 
 PROCEDURE test_hp9872a_plot IS
 
-  bus : GPIB.Controller;
-  dev : GPIB.Slave.Device;
+  dev : HP9872A.Device;
 
 BEGIN
   New_Line;
   Put_Line("HP9872A HP-GL Plotter Test");
   New_Line;
 
-  bus := Prologix_GPIB_USB.Create("/dev/ttyUSB0");
-  dev := GPIB.Slave.Create(bus, 5);
+  dev.Initialize(Prologix_GPIB_USB.Create, HP9872A.DefaultAddress);
+
+  -- Copy HP-GL command strings from standard input to the plotter
 
   LOOP
     EXIT WHEN End_Of_File;

@@ -22,17 +22,14 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH GPIB.Slave;
 WITH Prologix_GPIB_USB;
+WITH HP9872A;
 
 PROCEDURE test_hp9872a_digitize IS
 
   TYPE StatusByte IS MOD 256;
 
-  DataAvailable : CONSTANT StatusByte := 16#04#;
-
-  bus    : GPIB.Controller;
-  dev    : GPIB.Slave.Device;
+  dev    : HP9872A.Device;
   status : StatusByte;
 
 BEGIN
@@ -40,8 +37,7 @@ BEGIN
   Put_Line("HP9872A HP-GL Digitize Test");
   New_Line;
 
-  bus := Prologix_GPIB_USB.Create("/dev/ttyUSB0");
-  dev := GPIB.Slave.Create(bus, 5);
+  dev.Initialize(Prologix_GPIB_USB.Create, HP9872A.DefaultAddress);
 
   dev.Put("IN;");
   DELAY 10.0; -- Wait for plotter to settle
@@ -54,7 +50,7 @@ BEGIN
     LOOP
       dev.Put("OS;");
       status := StatusByte'Value(dev.Get);
-      EXIT WHEN (status AND DataAvailable) /= 0;
+      EXIT WHEN (status AND HP9872A.OS_DIGITIZED_POINT_AVAILABLE) /= 0;
     END LOOP;
 
     dev.Put("OD;");
