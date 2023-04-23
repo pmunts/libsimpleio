@@ -93,7 +93,7 @@ PRIVATE
 
   -- Check whether GPIO pin object has been destroyed
 
-  PROCEDURE CheckDestroyed(Self : Pinsubclass);
+  PROCEDURE CheckDestroyed(Self : PinSubclass);
 
   TYPE Kinds IS (input, output, interrupt);
 

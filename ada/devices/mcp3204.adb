@@ -36,10 +36,10 @@ PACKAGE BODY MCP3204 IS
   BEGIN
     CASE config IS
       WHEN SingleEnded =>
-        RETURN NEW InputSubClass'(spidev, SPI.Byte(16#60# + Natural(chan)*4));
+        RETURN NEW InputSubclass'(spidev, SPI.Byte(16#60# + Natural(chan)*4));
 
       WHEN Differential =>
-        RETURN NEW InputSubClass'(spidev, SPI.Byte(16#40# + Natural(chan)*4));
+        RETURN NEW InputSubclass'(spidev, SPI.Byte(16#40# + Natural(chan)*4));
     END CASE;
   END Create;
 

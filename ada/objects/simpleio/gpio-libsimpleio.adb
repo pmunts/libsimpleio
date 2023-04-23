@@ -191,7 +191,7 @@ PACKAGE BODY GPIO.libsimpleio IS
 
   -- Check whether GPIO pin has been destroyed
 
-  PROCEDURE CheckDestroyed(Self : Pinsubclass) IS
+  PROCEDURE CheckDestroyed(Self : PinSubclass) IS
 
   BEGIN
     IF Self = Destroyed THEN

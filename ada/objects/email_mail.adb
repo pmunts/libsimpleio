@@ -58,7 +58,7 @@ PACKAGE BODY Email_Mail IS
 
   -- Check whether mail relay object has been destroyed
 
-  PROCEDURE CheckDestroyed(Self : Relaysubclass) IS
+  PROCEDURE CheckDestroyed(Self : RelaySubclass) IS
 
   BEGIN
     IF Self = Destroyed THEN

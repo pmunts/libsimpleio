@@ -61,7 +61,7 @@ PRIVATE
 
   -- Check whether GPIO pin has been destroyed
 
-  PROCEDURE CheckDestroyed(Self : Pinsubclass);
+  PROCEDURE CheckDestroyed(Self : PinSubclass);
 
   NullString : CONSTANT Ada.Strings.UnBounded.Unbounded_String :=
     Ada.Strings.Unbounded.Null_Unbounded_String;

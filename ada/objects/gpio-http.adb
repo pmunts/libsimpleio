@@ -172,7 +172,7 @@ PACKAGE BODY GPIO.HTTP IS
 
   -- Check whether GPIO pin object has been destroyed
 
-  PROCEDURE CheckDestroyed(Self : Pinsubclass) IS
+  PROCEDURE CheckDestroyed(Self : PinSubclass) IS
 
   BEGIN
     IF Self = Destroyed THEN

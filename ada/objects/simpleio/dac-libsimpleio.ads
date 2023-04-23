@@ -74,6 +74,6 @@ PRIVATE
     maxsample  : Analog.Sample := 0;
   END RECORD;
 
-  Destroyed : CONSTANT OutputSubclass := OutputSubClass'(-1, 0, 0);
+  Destroyed : CONSTANT OutputSubclass := OutputSubclass'(-1, 0, 0);
 
 END DAC.libsimpleio;
