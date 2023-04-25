@@ -41,7 +41,9 @@ PACKAGE BODY Prologix_GPIB_USB IS
     END IF;
 
     Self.Put("++mode 1"); -- Controller mode
-    Self.Put("++eos 3");  -- No implicit line terminators
+    Self.Put("++ifc");    -- Seize control of the bus
+    Self.Put("++eoi 1");  -- Enable assertion of EOI on the last byte of a command
+    Self.Put("++eos 3");  -- No line terminators
     Self.Put("++auto 1"); -- Enable read after write
   END Initialize;
 
