@@ -65,4 +65,13 @@ PACKAGE BODY GPIB.Slave IS
     RETURN Self.master.Get;
   END Get;
 
+  -- Issue Device Clear (DCL) command to this slave device
+
+  PROCEDURE Clear(Self : DeviceClass) IS
+
+  BEGIN
+    Self.master.SelectSlave(Self.slave);
+    Self.master.Clear;
+  END Clear;
+
 END GPIB.Slave;

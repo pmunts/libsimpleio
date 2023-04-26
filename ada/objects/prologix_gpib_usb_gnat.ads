@@ -49,6 +49,10 @@ PACKAGE Prologix_GPIB_USB_GNAT IS
 
   FUNCTION Get(Self : IN OUT ControllerSubclass) RETURN String;
 
+  -- Issue Device Clear (DCL) command to the most recently selected IEEE-488 slave device
+
+  PROCEDURE Clear(Self : IN OUT ControllerSubclass);
+
 PRIVATE
 
   TYPE ControllerSubclass IS NEW GPIB.ControllerInterface WITH RECORD

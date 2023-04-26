@@ -113,4 +113,12 @@ PACKAGE BODY Prologix_GPIB_USB_GNAT IS
     RETURN inbuf(1 .. count);
   END Get;
 
+  -- Issue Device Clear (DCL) command to the most recently selected IEEE-488 slave device
+
+  PROCEDURE Clear(Self : IN OUT ControllerSubclass) IS
+
+  BEGIN
+    Self.Put("++clr");
+  END Clear;
+
 END Prologix_GPIB_USB_GNAT;

@@ -46,6 +46,10 @@ PACKAGE GPIB.Slave IS
 
   FUNCTION Get(Self : DeviceClass) RETURN String;
 
+  -- Issue Device Clear (DCL) command to this slave device
+
+  PROCEDURE Clear(Self : DeviceClass);
+
 PRIVATE
 
   TYPE DeviceClass IS TAGGED RECORD

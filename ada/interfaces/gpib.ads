@@ -44,6 +44,10 @@ PACKAGE GPIB IS
 
   FUNCTION Get(Self : IN OUT ControllerInterface) RETURN String IS ABSTRACT;
 
+  -- Issue Device Clear (DCL) command to the most recently selected IEEE-488 slave device
+
+  PROCEDURE Clear(Self : IN OUT ControllerInterface) IS ABSTRACT;
+
   -- TODO: Added binary Get and Put methods
 
 END GPIB;
