@@ -1,7 +1,7 @@
 -- Motor services for LEGO Power Functions Remote Control motors, using
 -- "Single Output Mode".
 
--- Copyright (C)2019-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2023, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:

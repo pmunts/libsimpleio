@@ -1,6 +1,6 @@
 -- I/O Resources provided by the MUNTS-0018 Raspberry Pi Tutorial I/O Board
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:

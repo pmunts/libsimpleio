@@ -1,6 +1,6 @@
 -- MCP23017 I2C / MCP23S17 SPI GPIO expander device services
 
--- Copyright (C)2017-2023, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:

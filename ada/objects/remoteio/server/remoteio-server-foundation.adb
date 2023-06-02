@@ -1,6 +1,6 @@
 -- Foundation for a Remote I/O Server
 
--- Copyright (C)2020-2023, Philip Munts.
+-- Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:

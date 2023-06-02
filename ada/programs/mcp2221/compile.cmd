@@ -2,7 +2,7 @@
 
 REM Command script to compile an Ada program for Windows without make et al
 
-REM Copyright (C)2018-2020, Philip Munts, President, Munts AM Corp.
+REM Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
 REM
 REM Redistribution and use in source and binary forms, with or without
 REM modification, are permitted provided that the following conditions are met:

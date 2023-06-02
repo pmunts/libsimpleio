@@ -1,7 +1,7 @@
 -- Fixed length message services implementing using ZeroMQ messaging services
 -- Must be instantiated for each message size.
 
--- Copyright (C)2020-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:

@@ -2,7 +2,7 @@
 
 REM Create an Ada program project using the Linux Simple I/O Library
 
-REM Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+REM Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
 REM
 REM Redistribution and use in source and binary forms, with or without
 REM modification, are permitted provided that the following conditions are met:

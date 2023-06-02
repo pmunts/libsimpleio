@@ -1,7 +1,7 @@
 -- Simple debugging services.  Print something if the "DEBUGLEVEL" environment
 -- variable is set to an integer value greater than zero.
 
--- Copyright (C)2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:

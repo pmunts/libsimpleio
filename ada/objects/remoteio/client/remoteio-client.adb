@@ -1,6 +1,6 @@
 -- Remote I/O Client Services using Message64 transport (e.g. raw HID)
 
--- Copyright (C)2016-2021, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:

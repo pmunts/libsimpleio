@@ -1,6 +1,6 @@
 -- Instantiate Servo.PWM_Template for standard RC Servo outputs
 
--- Copyright (C)2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2019-2023, Philip Munts dba Munts Technologies.
 --
 
 -- Redistribution and use in source and binary forms, with or without
