@@ -1,6 +1,6 @@
 -- Temperature measurement definitions
 
--- Copyright (C)2016-2019, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,15 +25,29 @@ WITH IO_Interfaces;
 
 PACKAGE Temperature IS
 
-  TYPE Kelvins    IS NEW Float RANGE 0.0 .. Float'Large;
-  TYPE Celsius    IS NEW Float RANGE -273.16 .. Float'Large;
+  TYPE Kelvins    IS NEW Float RANGE     0.0 .. Float'Large;
+  TYPE Celsius    IS NEW Float RANGE -273.15 .. Float'Large;
   TYPE Fahrenheit IS NEW Float RANGE -459.67 .. Float'Large;
 
-  -- Define some temperature constants
+  -- Define some Celsius temperature constants
 
-  AbsoluteZero  : CONSTANT Celsius := -273.16;
+  AbsoluteZero  : CONSTANT Celsius := -273.15;
   FreezingPoint : CONSTANT Celsius := 0.0;
   BoilingPoint  : CONSTANT Celsius := 100.0;
+
+  -- Define some conversion functions
+
+  FUNCTION To_Celsius(T : Kelvins) RETURN Celsius IS
+   (Celsius(T) + AbsoluteZero);
+
+  FUNCTION To_Kelvins(T : Celsius) RETURN Kelvins IS
+   (Kelvins(T - AbsoluteZero));
+
+  FUNCTION To_Celsius(T: Fahrenheit) RETURN Celsius IS
+   ((Celsius(T - 32.0)*5.0/9.0));
+
+  FUNCTION To_Fahrenheit(T : Celsius) RETURN Fahrenheit IS
+   (Fahrenheit(T*9.0/5.0 + 32.0));
 
   -- Instantiate text I/O packages
 
