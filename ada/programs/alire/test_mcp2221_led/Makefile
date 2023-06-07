@@ -37,8 +37,8 @@ default: build
 
 build:
 	alr build $(ALRFLAGS)
-ifneq ($(TARGET),)
-	scp $(SCPFLAGS) bin/* $(TARGET)
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) bin/* $(TARGETCOMPUTER)
 endif
 
 ###############################################################################
