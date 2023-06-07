@@ -22,7 +22,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-MUNTSOS		?= /usr/local/share/muntsos
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 
