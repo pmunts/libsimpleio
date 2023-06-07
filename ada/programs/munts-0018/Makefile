@@ -25,6 +25,7 @@
 
 BOARDNAME	?= RaspberryPi1
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+TARGETCOMPUTER	?= root@usbgadget.munts.net:.
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
@@ -33,11 +34,9 @@ default: build
 
 # Define a pattern rule to build and deploy a test program
 
-TARGETCOMPUTER	?= usbgadget.munts.net
-
 %.deploy: %.adb
 	$(MAKE) clean $*
-	scp $* root@$(TARGETCOMPUTER):.
+	scp $* $(TARGETCOMPUTER)
 
 # Build the test programs
 
