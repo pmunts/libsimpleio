@@ -25,10 +25,6 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 
-ifneq ($(BOARDNAME),)
-ALRFLAGS += -- $(GPRBUILDCONFIG)
-endif
-
 default: build
 
 ###############################################################################
