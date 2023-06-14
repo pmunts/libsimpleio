@@ -21,9 +21,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-
-include $(LIBSIMPLEIO)/ada/include/ada.mk
+ifneq ($(BOARDNAME),)
+MUNTSOS	?= /usr/local/share/muntsos
+include $(MUNTSOS)/include/$(BOARDNAME).mk
+endif
 
 default: build
 
@@ -44,9 +45,8 @@ endif
 clean:
 	rm -rf bin/* obj/* share
 
-reallyclean:
+reallyclean: clean
 	alr clean
-	rm -rf bin/* obj/* share
 
 distclean:
 	rm -rf alire bin config obj share
