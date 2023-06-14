@@ -1,7 +1,6 @@
-# Makefile for building Ada Linux Simple I/O Library example programs
-# for the MUNTS-0018 Raspberry Pi Tutorial I/O Board
+# Makefile for building program(s) that use the prebuilt libsimpleio library
 
-# Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2023, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -23,30 +22,23 @@
 
 .PHONY: build default clean reallyclean distclean
 
-BOARDNAME	?= RaspberryPi1
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-TARGETCOMPUTER	?= root@usbgadget.munts.net:.
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 
+PROGRAMS	:= $(shell ls test*.adb | awk '{ printf("basename %s .adb\n", $$1); }' | sh)
+
 default: build
 
-# Define a pattern rule to build and deploy a test program
+# Build program(s)
 
-%.deploy: %.adb
-	$(MAKE) clean $*
-	scp $* $(TARGETCOMPUTER)
-
-# Build the test programs
-
-build:
-	for F in test_*.adb ; do $(MAKE) `basename $$F .adb` ; done
+build: $(PROGRAMS)
 
 # Remove working files
 
 clean: ada_mk_clean
-	for F in test_*.adb ; do rm -f `basename $$F .adb` ; done
+	rm -f $(PROGRAMS)
 
 reallyclean: clean ada_mk_reallyclean
 
