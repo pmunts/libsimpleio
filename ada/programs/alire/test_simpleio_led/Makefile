@@ -42,4 +42,11 @@ endif
 # Clean the Alire project
 
 clean:
+	rm -rf bin/* obj/* share
+
+reallyclean:
+	alr clean
+	rm -rf bin/* obj/* share
+
+distclean:
 	rm -rf alire bin config obj share
