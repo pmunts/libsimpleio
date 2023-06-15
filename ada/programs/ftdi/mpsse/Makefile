@@ -1,6 +1,6 @@
-# Makefile for building Ada FTDI MPSSE USB I/O Expander test programs
+# Makefile for building program(s) that use libsimpleio
 
-# Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2023, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,19 +25,20 @@
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
-include $(LIBSIMPLEIO)/ada/include/ftdi_mpsse.mk
+include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
+
+PROGRAMS	:= $(shell ls test*.adb | awk '{ printf("basename %s .adb\n", $$1); }' | sh)
 
 default: build
 
-# Build the test programs
+# Build program(s)
 
-build:
-	for F in test_*.adb ; do $(MAKE) `basename $$F .adb` ; done
+build: $(PROGRAMS)
 
 # Remove working files
 
 clean: ada_mk_clean
-	for F in test_*.adb ; do rm -f `basename $$F .adb` ; done
+	@rm -f $(PROGRAMS)
 
 reallyclean: clean ada_mk_reallyclean
 

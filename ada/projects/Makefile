@@ -1,6 +1,6 @@
-# GNAT Ada definitions for building FTDI MPSSE USB I/O Expander programs
+# Makefile for building program(s) that use libsimpleio
 
-# Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2023, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,24 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-CFLAGS += -I$(LIBSIMPLEIO)/ada/bindings
-CFLAGS += -I$(LIBSIMPLEIO)/ada/devices
-CFLAGS += -I$(LIBSIMPLEIO)/ada/interfaces
-CFLAGS += -I$(LIBSIMPLEIO)/ada/objects
+.PHONY: build default clean reallyclean distclean
+
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+
+include $(LIBSIMPLEIO)/ada/include/ada.mk
+include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
+
+default: build
+
+# Build program(s)
+
+build: $(PROGRAMS)
+
+# Remove working files
+
+clean: ada_mk_clean
+	@rm -f $(PROGRAMS)
+
+reallyclean: clean ada_mk_reallyclean
+
+distclean: reallyclean ada_mk_distclean

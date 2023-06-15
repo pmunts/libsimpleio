@@ -1,4 +1,4 @@
-# Makefile for building program(s) that use the prebuilt libsimpleio library
+# Makefile for building program(s) that use libsimpleio
 
 # Copyright (C)2023, Philip Munts dba Munts Technologies.
 #
@@ -38,7 +38,7 @@ build: $(PROGRAMS)
 # Remove working files
 
 clean: ada_mk_clean
-	rm -f $(PROGRAMS)
+	@rm -f $(PROGRAMS)
 
 reallyclean: clean ada_mk_reallyclean
 
