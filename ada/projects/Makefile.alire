@@ -30,6 +30,7 @@ STRIP	:= $(CROSS_COMPILE)strip
 endif
 
 FIND	?= /usr/bin/find
+STRIP	?= strip
 
 ###############################################################################
 

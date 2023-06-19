@@ -21,12 +21,16 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+default: build
+
 ifneq ($(BOARDNAME),)
 MUNTSOS	?= /usr/local/share/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
+STRIP	:= $(CROSS_COMPILE)strip
 endif
 
-default: build
+FIND	?= /usr/bin/find
+STRIP	?= strip
 
 ###############################################################################
 
@@ -34,6 +38,9 @@ default: build
 
 build:
 	alr build $(ALRFLAGS)
+ifneq ($(STRIP),)
+	$(STRIP) bin/*
+endif
 ifneq ($(TARGETCOMPUTER),)
 	scp $(SCPFLAGS) bin/* $(TARGETCOMPUTER)
 endif
@@ -43,7 +50,7 @@ endif
 # Clean the Alire project
 
 clean:
-	rm -rf bin/* obj/* share
+	-$(FIND) bin obj -type f -not -name '*.dll' -delete
 
 reallyclean: clean
 	alr clean
