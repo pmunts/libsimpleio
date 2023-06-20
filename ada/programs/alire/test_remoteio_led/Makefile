@@ -29,7 +29,7 @@ include $(MUNTSOS)/include/$(BOARDNAME).mk
 STRIP	:= $(CROSS_COMPILE)strip
 endif
 
-FIND	?= /usr/bin/find
+FIND	?= find
 STRIP	?= strip
 
 ###############################################################################
@@ -39,7 +39,7 @@ STRIP	?= strip
 build:
 	alr build $(ALRFLAGS)
 ifneq ($(STRIP),)
-	$(STRIP) bin/*
+	$(FIND) bin -type f -not -name '*.dll' -exec $(STRIP) {} ";"
 endif
 ifneq ($(TARGETCOMPUTER),)
 	scp $(SCPFLAGS) bin/* $(TARGETCOMPUTER)
@@ -50,7 +50,8 @@ endif
 # Clean the Alire project
 
 clean:
-	-$(FIND) bin obj -type f -not -name '*.dll' -delete
+	-$(FIND) bin -type f -not -name '*.dll' -delete
+	rm -rf obj/*
 
 reallyclean: clean
 	alr clean
