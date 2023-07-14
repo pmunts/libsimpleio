@@ -20,9 +20,11 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+COREAPPTARGET	?= net7.0
+
 COREAPPNAME	:= $(shell basename *.csproj .csproj)
 COREAPPPROJ	:= $(COREAPPNAME).csproj
-COREAPPPUB	:= bin/$(CONFIGURATION)/net7.0/publish
+COREAPPPUB	:= bin/$(CONFIGURATION)/$(COREAPPTARGET)/publish
 COREAPPDEST	:= /usr/local
 COREAPPLIB	:= $(COREAPPDEST)/lib/$(COREAPPNAME)
 COREAPPBIN	:= $(COREAPPDEST)/bin
@@ -89,14 +91,14 @@ endif
 
 coreapp_mk_single:
 	dotnet publish $(COREAPP_SINGLE_FLAGS) $(COREAPPPROJ)
-	cp bin/$(CONFIGURATION)/net7.0/$(DOTNETARCH)/publish/$(COREAPPNAME) .
+	cp bin/$(CONFIGURATION)/$(COREAPPTARGET)/$(DOTNETARCH)/publish/$(COREAPPNAME) .
 
 # Build a single file deliverable including runtime.  Interesting values for
 # DOTNETFLAGS include: -p:PublishReadyToRun -p:PublishTrimmed
 
 coreapp_mk_selfcontained:
 	dotnet publish $(COREAPP_SELFCONTAINED_FLAGS) $(COREAPPPROJ)
-	cp bin/$(CONFIGURATION)/net7.0/$(DOTNETARCH)/publish/$(COREAPPNAME) .
+	cp bin/$(CONFIGURATION)/$(COREAPPTARGET)/$(DOTNETARCH)/publish/$(COREAPPNAME) .
 
 # Build an architecture independent NuGet package file (mostly useful for
 # MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
