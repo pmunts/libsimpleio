@@ -52,4 +52,4 @@ csharp_mk_build:
 
 csharp_mk_clean:
 	rm -rf *.chm *.dll *.exe *.log *.mdb *.nupkg *.pdb *.runtimeconfig.json *.xml *~ Help packages
-	$(CSHARPSRC)/include/vsclean.sh
+	$(LIBSIMPLEIO)/include/vsclean.sh
