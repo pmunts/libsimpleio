@@ -1,6 +1,6 @@
-# Makefile definitions for C# programming with libsimpleio
+# Makefile definitions for C# programming
 
-# Copyright (C)2014-2022, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2014-2023, Philip Munts dba Munts Technologies
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,39 +20,16 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifneq ($(BOARDNAME),)
-# Cross compile for MuntsOS Embedded Linux
-MUNTSOS		?= /usr/local/share/muntsos
-include $(MUNTSOS)/include/$(BOARDNAME).mk
-endif
-
-include $(LIBSIMPLEIO)/include/common.mk
-
-# Don't delete intermediate files
-
-.SECONDARY:
-
 CONFIGURATION	?= Release
-
-# Pick Visual Studio or Mono tools
-
-ifeq ($(OS), Windows_NT)
 CSC		?= C:/PROGRA~1/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/Roslyn/csc.exe
 MSBUILD		?= C:/PROGRA~1/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe
 MSBUILDTARGET	?= /t:Build
 MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION)
 MSBUILDPROJECT	?=
 NUGET		?= nuget.exe
-else
-CSC		?= csc
-MSBUILD		?= msbuild
-MSBUILDTARGET	?= -t:Build
-MSBUILDFLAGS	?= -p:Configuration=$(CONFIGURATION)
-MSBUILDPROJECT	?=
-NUGET		?= nuget
-endif
 
-# Compile C# application with csc command line compiler
+# Define a pattern rule to compile a C# application with csc command line
+# compiler (obsolete, but still works).
 
 %.exe: %.cs
 	"$(CSC)" $(CSCFLAGS) $^
@@ -61,14 +38,18 @@ endif
 
 csharp_mk_default: default
 
+# Restore NuGet packages
+
+csharp_mk_restore:
+	"$(NUGET)" restore $(MSBUILDPROJECT)
+
 # Build Visual Studio C# project with MSBuild
 
 csharp_mk_build:
-	"$(NUGET)" restore $(MSBUILDPROJECT)
 	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
 
 # Clean out working files
 
 csharp_mk_clean:
 	rm -rf *.chm *.dll *.exe *.log *.mdb *.nupkg *.pdb *.runtimeconfig.json *.xml *~ Help packages
-	$(LIBSIMPLEIO)/include/vsclean.sh
+	$(CSHARPSRC)/include/vsclean.sh
