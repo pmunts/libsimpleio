@@ -29,6 +29,13 @@ COREAPPDEST	:= /usr/local
 COREAPPLIB	:= $(COREAPPDEST)/lib/$(COREAPPNAME)
 COREAPPBIN	:= $(COREAPPDEST)/bin
 
+# Use DOTNETARCH defined by MuntsOS Embedded Linux
+
+ifneq ($(BOARDNAME),)
+MUNTSOS		?= /usr/local/share/muntsos
+include $(MUNTSOS)/include/$(BOARDNAME).mk
+endif
+
 # Set a reasonable default architecture for single file deliverables
 
 ifeq ($(shell uname), Darwin)
