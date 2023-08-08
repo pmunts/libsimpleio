@@ -25,7 +25,6 @@ WITH Ada.Strings.Fixed;
 WITH libLinux;
 WITH Logging.libsimpleio;
 WITH RemoteIO.Common;
-WITH RemoteIO.Server;
 
 PACKAGE BODY RemoteIO.Server.Foundation IS
   PRAGMA Warnings(Off, "variable ""disp"" is assigned but never read");
