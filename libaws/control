@@ -1,0 +1,8 @@
+Package: @@NAME@@
+Section: misc
+Priority: extra
+Maintainer: Philip Munts <phil@munts.net>
+Architecture: @@ARCH@@
+Version: @@VERSION@@
+Description: AdaCore Ada Web Server library
+Depends: libgnatcoll21-dev
