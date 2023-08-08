@@ -1,5 +1,5 @@
-# Build Ada Web Server Library for Debian 12, who no longer includes it
-# as a system package.
+# Build the AdaCore Ada Web Server Library for Debian 12, of which it is no
+# longer a system package.
 
 # Copyright (C)2023, Philip Munts dba Munts Technologies.
 #
@@ -30,7 +30,7 @@ INSTALLDIR	:= /usr/local/libaws-$(AWS_VER)
 
 BUILDNUM	?= 1
 OSNAME		?= unknown
-PKGNAME		:= libaws-dev
+PKGNAME		:= libaws
 PKGARCH		:= $(shell dpkg --print-architecture)
 PKGVERSION	:= $(AWS_VER)-$(shell date +%Y.%j).$(BUILDNUM)
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
@@ -42,32 +42,25 @@ default: $(PKGFILE)
 
 # Checkout AWS source code
 
-src.done:
+$(AWS_SRC):
 	git clone --recursive $(AWS_URL) --branch v$(AWS_VER) --depth 1 $(AWS_SRC)
-	touch $@
-
-###############################################################################
-
-# Build AWS
-
-build.done: src.done
-	cd $(AWS_SRC) && make setup build install DESTDIR=$(AWS_DST)
+	cp makefile.conf $(AWS_SRC)
+	sed -i 's#@@INSTALLDIR@@#$(INSTALLDIR)#g' $(AWS_SRC)/makefile.conf
 	touch $@
 
 ###############################################################################
 
 # Build Debian package
 
-$(PKGFILE): build.done
+$(PKGFILE): $(AWS_SRC)
 	mkdir -p $(PKGDIR)/DEBIAN
 	install -cm 0444 control		$(PKGDIR)/DEBIAN
-	sed -i s/@@ARCH@@/$(PKGARCH)/g		$(PKGDIR)/DEBIAN/control
-	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
-	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
-	mkdir -p				$(PKGDIR)$(INSTALLDIR)
-	cp -R -P -p $(AWS_DST)/*		$(PKGDIR)$(INSTALLDIR)
-	sed -i 's@../..@$(INSTALLDIR)@g'	$(PKGDIR)$(INSTALLDIR)/share/gpr/aws.gpr
-	mkdir -p $(PKGDIR)/usr/share/gpr
+	sed -i 's/@@ARCH@@/$(PKGARCH)/g'	$(PKGDIR)/DEBIAN/control
+	sed -i 's/@@NAME@@/$(PKGNAME)/g'	$(PKGDIR)/DEBIAN/control
+	sed -i 's/@@VERSION@@/$(PKGVERSION)/g'	$(PKGDIR)/DEBIAN/control
+	cd $(AWS_SRC) && make setup build install DESTDIR=$(shell pwd)/$(PKGDIR)
+	sed -i 's@\.\./\.\.@$(INSTALLDIR)@g'	$(PKGDIR)$(INSTALLDIR)/share/gpr/aws.gpr
+	mkdir -p				$(PKGDIR)/usr/share/gpr
 	ln -s $(INSTALLDIR)/share/gpr/aws.gpr	$(PKGDIR)/usr/share/gpr/aws.gpr
 	chmod -R ugo-w $(PKGDIR)/usr
 	fakeroot dpkg-deb --build $(PKGDIR)
@@ -78,4 +71,4 @@ $(PKGFILE): build.done
 # Remove working files
 
 clean:
-	rm -rf *.done $(AWS_DST) $(AWS_SRC) $(PKGDIR) $(PKGFILE)
+	rm -rf $(AWS_DST) $(AWS_SRC) $(PKGDIR) $(PKGFILE)
