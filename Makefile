@@ -78,7 +78,6 @@ adalibs.done:
 
 install: libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
-	install -cm 0644 /etc/hidraw.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
 	mkdir -p				$(DESTDIR)/include/libsimpleio
