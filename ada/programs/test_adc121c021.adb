@@ -26,16 +26,18 @@
 -- use:  Some places state 0x50 and others state 0x55.  The module used for
 -- development of this program uses 0x50.
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH ADC121C021;
 WITH Analog;
+WITH Device;
 WITH I2C.libsimpleio;
 
 PROCEDURE test_adc121c021 IS
 
+  desg  : Device.Designator;
   bus   : I2C.Bus;
+  addr  : CONSTANT I2C.Address := 16#50#;
   input : Analog.Input;
 
 BEGIN
@@ -43,20 +45,18 @@ BEGIN
   Put_Line("ADC121C021 A/D Converter Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_adc121c021 <bus> <addr>");
-    New_Line;
-    RETURN;
-  END IF;
+  -- Get I2C bus designator
+
+  desg := Device.GetDesignator("Enter I2C bus");
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  bus := I2C.libsimpleio.Create(desg);
 
   -- Create ADC121C021 input object
 
   input :=
-    ADC121C021.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
+    ADC121C021.Create(bus, addr);
 
   -- Display analog samples
 

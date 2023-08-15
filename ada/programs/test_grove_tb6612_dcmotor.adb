@@ -20,15 +20,16 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Device;
 WITH Grove_TB6612.Motor;
 WITH I2C.libsimpleio;
 WITH Motor;
 
 PROCEDURE test_grove_tb6612_dcmotor IS
 
+  desg : Device.Designator;
   bus  : I2C.Bus;
   dev  : Grove_TB6612.Device;
   outp : Motor.Output;
@@ -38,19 +39,17 @@ BEGIN
   Put_Line("Grove TB6612 DC Motor Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_grove_tb6612_dcmotor <bus> <addr>");
-    New_Line;
-    RETURN;
-  END IF;
+  -- Get I2C bus designator
+
+  desg := Device.GetDesignator("Enter I2C bus");
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  bus := I2C.libsimpleio.Create(desg);
 
   -- Create Grove TB6612 device object
 
-  dev := Grove_TB6612.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
+  dev := Grove_TB6612.Create(bus);
 
   -- Create motor output object
 

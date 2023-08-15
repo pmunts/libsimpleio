@@ -21,15 +21,15 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
-WITH Ada.Command_Line;
 
+WITH Device;
 WITH Grove_ADC;
-WITH I2C;
 WITH I2C.libsimpleio;
 WITH Voltage;
 
 PROCEDURE test_grove_adc IS
 
+  desg  : Device.Designator;
   bus   : I2C.Bus;
   input : Voltage.Input;
 
@@ -38,13 +38,8 @@ BEGIN
   Put_Line("Seeed Studio Grove ADC Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 1 THEN
-    Put_Line("Usage: test_grove_adc <bus>");
-    New_Line;
-    RETURN;
-  END IF;
-
-  bus   := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  desg  := Device.GetDesignator("Enter I2C bus");
+  bus   := I2C.libsimpleio.Create(desg);
   input := Grove_ADC.Create(bus);
 
   Put_Line("Press CONTROL-C to exit.");
