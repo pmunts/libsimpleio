@@ -20,37 +20,38 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Device;
 WITH Grove_TB6612;
 WITH I2C.libsimpleio;
 
 PROCEDURE test_grove_tb6612_set_address IS
 
-  bus  : I2C.Bus;
-  dev  : Grove_TB6612.Device;
+  desg    : Device.Designator;
+  oldaddr : I2C.Address;
+  newaddr : I2C.Address;
+  bus     : I2C.Bus;
+  dev     : Grove_TB6612.Device;
 
 BEGIN
   New_Line;
   Put_Line("Grove TB6612 Set I2C Address");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 3 THEN
-    Put_Line("Usage: test_grove_set_address <bus> <oldaddr> <newaddr>");
-    New_Line;
-    RETURN;
-  END IF;
+  desg    := Device.GetDesignator("Enter I2C bus: ");
+  oldaddr := I2C.GetAddress("Enter old I2C address: ");
+  newaddr := I2C.GetAddress("Enter new I2C address: ");
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  bus := I2C.libsimpleio.Create(desg);
 
   -- Create Grove TB6612 device object
 
-  dev := Grove_TB6612.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
+  dev := Grove_TB6612.Create(bus, oldaddr);
 
   -- Change the I2C address
 
-  dev.ChangeAddress(I2C.Address'Value(Ada.Command_Line.Argument(3)));
+  dev.ChangeAddress(newaddr);
 END test_grove_tb6612_set_address;
