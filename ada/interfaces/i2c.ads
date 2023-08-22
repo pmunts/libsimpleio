@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Text_IO;
+
 PACKAGE I2C IS
 
   -- Define an exception for I2C errors
@@ -52,6 +54,10 @@ PACKAGE I2C IS
   SpeedStandard : CONSTANT Positive := 100_000;
   SpeedFast     : CONSTANT Positive := 400_000;
   SpeedFastPlus : CONSTANT Positive := 1_000_000;
+
+  -- Instantiate console I/O package for Address type
+
+  PACKAGE AddressIO IS NEW Ada.Text_IO.Integer_IO(Address);
 
   -- Read only I2C bus cycle method
 
@@ -91,5 +97,9 @@ PACKAGE I2C IS
   PROCEDURE Dump
    (resp    : Response;
     resplen : Natural := Natural'Last);
+
+  -- Get an I2C address value from operator
+
+  FUNCTION GetAddress(prompt : String) RETURN Address;
 
 END I2C;

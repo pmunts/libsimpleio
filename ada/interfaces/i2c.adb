@@ -89,4 +89,16 @@ PACKAGE BODY I2C IS
     New_Line;
   END Dump;
 
+  -- Get an I2C address value from operator
+
+  FUNCTION GetAddress(prompt : String) RETURN Address IS
+
+    addr : Address;
+
+  BEGIN
+    Put(prompt);
+    AddressIO.Get(addr);
+    RETURN addr;
+  END GetAddress;
+
 END I2C;
