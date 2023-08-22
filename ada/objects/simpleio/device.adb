@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO;
 
 PACKAGE BODY Device IS
@@ -28,12 +29,24 @@ PACKAGE BODY Device IS
 
   FUNCTION GetDesignator(prompt : String) RETURN Designator IS
 
-    desg : Designator := Unavailable;
+    i    : CONSTANT Natural := Ada.Strings.Fixed.Index(prompt, ": ");
+    desg : Designator       := Unavailable;
 
   BEGIN
-    Ada.Text_IO.Put(prompt & " chip:    ");
+    IF i = 0 THEN
+      Ada.Text_IO.Put(prompt & " chip:    ");
+    ELSE
+      Ada.Text_IO.Put(Ada.Strings.Fixed.Overwrite(prompt, i, " chip:    "));
+    END IF;
+
     NaturalIO.Get(desg.chip);
-    Ada.Text_IO.Put(prompt & " channel: ");
+
+    IF i = 0 THEN
+      Ada.Text_IO.Put(prompt & " channel: ");
+    ELSE
+      Ada.Text_IO.Put(Ada.Strings.Fixed.Overwrite(prompt, i, " channel: "));
+    END IF;
+
     NaturalIO.Get(desg.chan);
     RETURN Desg;
   END GetDesignator;
