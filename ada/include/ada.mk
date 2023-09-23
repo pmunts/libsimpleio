@@ -81,6 +81,7 @@ endif
 ifeq ($(shell uname), Darwin)
 ifeq ($(wildcard /opt/homebrew), /opt/homebrew)
 LDFLAGS		+= -L/opt/homebrew/lib
+LDFLAGS		+= -ld_classic
 endif
 endif
 

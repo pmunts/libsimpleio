@@ -58,7 +58,7 @@ PROJECT Default IS
 
       WHEN "Darwin" =>
         FOR Default_Switches ("ada") USE
-          ("-L/opt/homebrew/lib");
+          ("-L/opt/homebrew/lib", "-ld_classic");
 
       WHEN OTHERS =>
         NULL;
