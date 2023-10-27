@@ -56,6 +56,4 @@ BEGIN
     dev.Put("OD;");
     Put_Line(dev.Get);
   END LOOP;
-
-  dev.Put("IN;");
 END test_hp9872a_digitize;
