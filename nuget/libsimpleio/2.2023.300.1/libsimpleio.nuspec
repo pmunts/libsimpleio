@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>libsimpleio</id>
+    <version>2.2023.300.1</version>
+    <title>Munts Technologies Linux Simple I/O Library for .Net Standard 2.0</title>
+    <authors>Philip Munts</authors>
+    <license type="file">doc/COPYING</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <readme>doc/README.md</readme>
+    <projectUrl>https://github.com/pmunts/libsimpleio</projectUrl>
+    <description>Munts Technologies Linux Simple I/O Library for .Net Standard 2.0</description>
+    <releaseNotes>Added support for the Orange Pi Zero 2W Linux microcomputer board.</releaseNotes>
+    <copyright>Copyright (C)2017-2023 Philip Munts</copyright>
+    <tags>Linux I/O ADC DAC GPIO I2C PWM Serial Servo SPI Stepper USB Raw HID Watchdog</tags>
+    <repository type="git" url="https://github.com/pmunts/libsimpleio" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+</package>
