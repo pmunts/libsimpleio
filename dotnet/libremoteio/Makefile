@@ -54,6 +54,7 @@ default:
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type f -exec chmod 644 {} ";"
 	$(FIND) $(NUGETDIR)/$(LIBNAME) -type d -exec chmod 755 {} ";"
 	-svn add $(NUGETDIR)/$(LIBNAME)/$(VERSION)
+	rm -rf $(HOME)/.nuget/packages/$(LIBNAME)
 
 # Remove working files
 
