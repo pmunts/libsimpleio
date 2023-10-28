@@ -133,7 +133,7 @@ namespace IO.Objects.SimpleIO.Platforms
         public static readonly Designator J6PWM = OrangePiZero2W_RaspberryPi.PWM0;
 
         /// <summary>
-        /// GPIO output (direction) <c>Designator</c> for DC Motor Driver 
+        /// GPIO output (direction) <c>Designator</c> for DC Motor Driver
         /// Grove Connector <c>J6</c> pin <c>D1</c>.
         /// </summary>
         public static readonly Designator J6DIR = J6D1;
