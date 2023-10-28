@@ -37,7 +37,7 @@ PACKAGE OrangePiZero2W IS
   GPIO228 : CONSTANT Device.Designator := (0, 228); -- Pin 18
   GPIO231 : CONSTANT Device.Designator := (0, 231); -- Pin 19 aka SPI1 MOSI
   GPIO232 : CONSTANT Device.Designator := (0, 232); -- Pin 21 aka SPI1 MISO
-  GPIO262 : CONSTANT Device.Designator := (0, 262); -- Pin 22 aka I2C0 SDA, UART2 TXD
+  GPIO262 : CONSTANT Device.Designator := (0, 262); -- Pin 22 aka I2C0 SDA, UART2 RXD
   GPIO230 : CONSTANT Device.Designator := (0, 230); -- Pin 23 aka SPI1 CLK
   GPIO229 : CONSTANT Device.Designator := (0, 229); -- Pin 24 aka SPI1 SS0
   GPIO233 : CONSTANT Device.Designator := (0, 233); -- Pin 26 aka SPI1 SS1
