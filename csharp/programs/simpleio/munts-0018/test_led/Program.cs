@@ -22,6 +22,7 @@
 
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
 using static System.Console;
+using static System.Threading.Thread;
 
 WriteLine("\nMUNTS-0018 LED Test\n");
 
@@ -34,5 +35,5 @@ var LED = LEDOutputFactory(false);
 for (;;)
 {
   LED.state = !LED.state;
-  System.Threading.Thread.Sleep(1000);
+  Sleep(1000);
 }

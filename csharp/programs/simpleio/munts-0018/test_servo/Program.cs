@@ -22,6 +22,7 @@
 
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
 using static System.Console;
+using static System.Threading.Thread;
 
 WriteLine("\nMUNTS-0018 Servo Test\n");
 
@@ -38,12 +39,12 @@ for (;;)
   for (n = -100; n < 100; n++)
   {
     S.position = n / 100.0;
-    System.Threading.Thread.Sleep(50);
+    Sleep(50);
   }
 
   for (n = 100; n >= -100; n--)
   {
     S.position = n / 100.0;
-    System.Threading.Thread.Sleep(50);
+    Sleep(50);
   }
 }
