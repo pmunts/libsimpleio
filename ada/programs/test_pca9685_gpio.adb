@@ -20,15 +20,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Device;
 WITH GPIO;
 WITH I2C.libsimpleio;
 WITH PCA9685.GPIO;
 
 PROCEDURE test_pca9685_gpio IS
 
+  desg : Device.Designator;
+  addr : I2C.Address;
   bus  : I2C.Bus;
   dev  : PCA9685.Device;
   pins : ARRAY (PCA9685.ChannelNumber) OF GPIO.Pin;
@@ -38,20 +40,16 @@ BEGIN
   Put_Line("PCA9685 GPIO Toggle Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_pca9685_gpio <bus> <addr>");
-    New_Line;
-    RETURN;
-  END IF;
+  desg := Device.GetDesignator(0, "Enter I2C bus: ");
+  addr := I2C.GetAddress("Enter I2C dev address: ");
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  bus := I2C.libsimpleio.Create(desg);
 
   -- Create PCA9685 device object
 
-  dev := PCA9685.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)),
-    6103);
+  dev := PCA9685.Create(bus, addr, 6103);
 
   -- Configure GPIO pins
 

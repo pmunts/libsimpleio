@@ -23,10 +23,10 @@
 -- Test with Grove Temperature & Humidity Sensor (High-Accuracy & Mini):
 -- http://wiki.seeedstudio.com/Grove-TemptureAndHumidity_Sensor-High-Accuracy_AndMini-v1.0
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
+WITH Device;
 WITH I2C.libsimpleio;
 WITH Humidity;
 WITH Temperature;
@@ -34,6 +34,7 @@ WITH TH02;
 
 PROCEDURE test_th02 IS
 
+  desg   : Device.Designator;
   bus    : I2C.Bus;
   sensor : TH02.Device;
 
@@ -42,13 +43,8 @@ BEGIN
   Put_Line("TH02 Temperature/Humidity Sensor Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 1 THEN
-    Put_Line("Usage: test_th02 <bus>");
-    New_Line;
-    RETURN;
-  END IF;
-
-  bus    := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  desg   := Device.GetDesignator(0, "Enter I2C bus");
+  bus    := I2C.libsimpleio.Create(desg);
   sensor := TH02.Create(bus);
 
   Put("Device ID: ");

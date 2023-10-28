@@ -20,9 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
+WITH Device;
 WITH I2C.libsimpleio;
 WITH PCA9685.PWM;
 WITH PWM;
@@ -31,6 +32,9 @@ USE TYPE PWM.DutyCycle;
 
 PROCEDURE test_pca9685_pwm IS
 
+  desg : Device.Designator;
+  addr : I2C.Address;
+  freq : Positive;
   bus  : I2C.Bus;
   dev  : PCA9685.Device;
   pins : ARRAY (PCA9685.ChannelNumber) OF PWM.Output;
@@ -40,20 +44,19 @@ BEGIN
   Put_Line("PCA9685 PWM Output Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 3 THEN
-    Put_Line("Usage: test_pca9685_pwm <bus> <addr> <freq>");
-    New_Line;
-    RETURN;
-  END IF;
+  desg := Device.GetDesignator(0, "Enter I2C bus: ");
+  addr := I2C.GetAddress("Enter I2C dev address: ");
+
+  Put("Enter PWM frequency:   ");
+  Get(freq);
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  bus := I2C.libsimpleio.Create(desg);
 
   -- Create PCA9685 device object
 
-  dev := PCA9685.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)),
-    Positive'Value(Ada.Command_Line.Argument(3)));
+  dev := PCA9685.Create(bus, addr, freq);
 
   -- Configure PWM outputs
 
