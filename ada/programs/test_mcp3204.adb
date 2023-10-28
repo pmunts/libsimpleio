@@ -22,15 +22,16 @@
 
 -- Test with Mikroelektronika ADC Click: https://www.mikroe.com/adc-click
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Analog;
+WITH Device;
 WITH MCP3204;
 WITH SPI.libsimpleio;
 
 PROCEDURE test_mcp3204 IS
 
+  desg   : Device.Designator;
   spidev : SPI.Device;
   inputs : ARRAY (MCP3204.Channel) OF Analog.Input;
 
@@ -39,14 +40,10 @@ BEGIN
   Put_Line("MCP3204 SPI A/D Converter Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 1 THEN
-    Put_Line("Usage: test_mcp3204 <device>");
-    New_Line;
-    RETURN;
-  END IF;
+  desg   := Device.GetDesignator("Enter SPI device: ");
 
-  spidev := SPI.libsimpleio.Create(Ada.Command_Line.Argument(1),
-    MCP3204.SPI_Mode, MCP3204.SPI_WordSize, MCP3204.SPI_Frequency);
+  spidev := SPI.libsimpleio.Create(desg, MCP3204.SPI_Mode,
+    MCP3204.SPI_WordSize, MCP3204.SPI_Frequency);
 
   FOR c IN MCP3204.Channel LOOP
     inputs(c) := MCP3204.Create(spidev, c);
