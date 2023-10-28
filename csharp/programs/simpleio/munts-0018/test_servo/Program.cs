@@ -23,7 +23,7 @@
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
 using static System.Console;
 
-WriteLine("\nMUNTS-0018 Raspberry Pi Tutorial I/O Board Servo Test\n");
+WriteLine("\nMUNTS-0018 Servo Test\n");
 
 // Create a servo output object
 

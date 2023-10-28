@@ -26,7 +26,7 @@ using IO.Interfaces.ADC;
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
 using static System.Console;
 
-WriteLine("\nMUNTS-0018 Raspberry Pi Tutorial I/O Board Analog Input Test\n");
+WriteLine("\nMUNTS-0018 Analog Input Test\n");
 
 // Create a list of analog input objects
 
