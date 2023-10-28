@@ -27,6 +27,8 @@ PACKAGE BODY Device IS
 
   PACKAGE NaturalIO IS NEW Ada.Text_IO.Integer_IO(Natural);
 
+  -- Get device designator chip and channel from operator
+
   FUNCTION GetDesignator(prompt : String) RETURN Designator IS
 
     i    : CONSTANT Natural := Ada.Strings.Fixed.Index(prompt, ": ");
@@ -40,6 +42,26 @@ PACKAGE BODY Device IS
     END IF;
 
     NaturalIO.Get(desg.chip);
+
+    IF i = 0 THEN
+      Ada.Text_IO.Put(prompt & " channel: ");
+    ELSE
+      Ada.Text_IO.Put(Ada.Strings.Fixed.Overwrite(prompt, i, " channel: "));
+    END IF;
+
+    NaturalIO.Get(desg.chan);
+    RETURN Desg;
+  END GetDesignator;
+
+  -- Get device designator channel from operator
+
+  FUNCTION GetDesignator(chip : Natural; prompt : String) RETURN Designator IS
+
+    i    : CONSTANT Natural := Ada.Strings.Fixed.Index(prompt, ": ");
+    desg : Designator       := Unavailable;
+
+  BEGIN
+    desg.chip := chip;
 
     IF i = 0 THEN
       Ada.Text_IO.Put(prompt & " channel: ");

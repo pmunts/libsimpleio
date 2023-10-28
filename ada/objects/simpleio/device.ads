@@ -31,6 +31,12 @@ PACKAGE Device IS
 
   Unavailable : CONSTANT Designator := (Natural'Last, Natural'Last);
 
+  -- Get device designator chip and channel from operator
+
   FUNCTION GetDesignator(prompt : String) RETURN Designator;
+
+  -- Get device designator channel from operator
+
+  FUNCTION GetDesignator(chip : Natural; prompt : String) RETURN Designator;
 
 END Device;
