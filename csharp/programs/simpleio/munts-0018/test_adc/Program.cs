@@ -21,16 +21,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System.Collections.Generic;
-using IO.Interfaces.ADC;
 
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
 using static System.Console;
+using static System.Threading.Thread;
 
 WriteLine("\nMUNTS-0018 Analog Input Test\n");
 
 // Create a list of analog input objects
 
-var AnalogInputs = new List<Voltage>();
+var AnalogInputs = new List<IO.Interfaces.ADC.Voltage>();
 
 AnalogInputs.Add(AnalogInputFactory(J10A0));
 AnalogInputs.Add(AnalogInputFactory(J10A1));
@@ -41,11 +41,11 @@ AnalogInputs.Add(AnalogInputFactory(J11A1));
 
 for (;;)
 {
-  foreach (Voltage V in AnalogInputs)
+  foreach (var V in AnalogInputs)
   {
     Write("{0:0.000}V  ", V.voltage);
   }
 
   WriteLine();
-  System.Threading.Thread.Sleep(1000);
+  Sleep(1000);
 }
