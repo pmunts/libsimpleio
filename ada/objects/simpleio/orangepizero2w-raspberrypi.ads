@@ -30,9 +30,9 @@ PACKAGE OrangePiZero2W.RaspberryPi IS
 
   GPIO2  : Device.Designator RENAMES OrangePiZero2W.GPIO264; -- Pin 3
   GPIO3  : Device.Designator RENAMES OrangePiZero2W.GPIO263; -- Pin 5
-  GPIO4  : Device.Designator RENAMES OrangePiZero2W.GPIO260; -- Pin 7
+  GPIO4  : Device.Designator RENAMES OrangePiZero2W.GPIO269; -- Pin 7
   GPIO5  : Device.Designator RENAMES OrangePiZero2W.GPIO256; -- Pin 29
-  GPIO6  : Device.Designator RENAMES OrangePiZero2W.GPIO268; -- Pin 31
+  GPIO6  : Device.Designator RENAMES OrangePiZero2W.GPIO271; -- Pin 31
   GPIO7  : Device.Designator RENAMES OrangePiZero2W.GPIO233; -- Pin 26
   GPIO8  : Device.Designator RENAMES OrangePiZero2W.GPIO229; -- Pin 24
   GPIO9  : Device.Designator RENAMES OrangePiZero2W.GPIO232; -- Pin 21
