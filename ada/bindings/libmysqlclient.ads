@@ -26,6 +26,8 @@ WITH Interfaces.C.Strings;
 
 PACKAGE libmysqlclient IS
   PRAGMA Link_With("-lmysqlclient");
+  PRAGMA Link_With("-lssl");
+  PRAGMA Link_With("-lcrypto");
   PRAGMA Link_With("-lsimpleio");
 
   -- libmysqlclient has a myriad of pointer types
