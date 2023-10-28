@@ -47,7 +47,7 @@ BEGIN
 
   -- Get I2C bus designator
 
-  desg := Device.GetDesignator("Enter I2C bus");
+  desg := Device.GetDesignator(0, "Enter I2C bus");
 
   -- Create I2C bus object
 
@@ -55,8 +55,7 @@ BEGIN
 
   -- Create ADC121C021 input object
 
-  input :=
-    ADC121C021.Create(bus, addr);
+  input := ADC121C021.Create(bus, addr);
 
   -- Display analog samples
 

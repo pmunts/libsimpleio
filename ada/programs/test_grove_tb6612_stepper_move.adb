@@ -20,9 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Device;
 WITH I2C.libsimpleio;
 WITH Grove_TB6612.Stepper;
 WITH Stepper;
@@ -31,7 +31,9 @@ USE TYPE Stepper.Steps;
 
 PROCEDURE test_grove_tb6612_stepper_move IS
 
+  desg  : Device.Designator;
   bus   : I2C.Bus;
+  addr  : I2C.Address;
   dev   : Grove_TB6612.Device;
   steps : Stepper.Steps;
   rate  : Stepper.Rate;
@@ -42,19 +44,18 @@ BEGIN
   Put_Line("Grove TB6612 Stepper Motor Move Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_grove_tb6612_stepper_move <bus> <addr>");
-    New_Line;
-    RETURN;
-  END IF;
+  -- Get I2C bus designator and I2C slave address from operator
+
+  desg := Device.GetDesignator(0, "Enter I2C bus: ");
+  addr := I2C.GetAddress("Enter I2C dev address: ");
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  bus := I2C.libsimpleio.Create(desg);
 
   -- Create Grove TB6612 device object
 
-  dev := Grove_TB6612.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
+  dev := Grove_TB6612.Create(bus, addr);
 
   -- Create stepper motor output object
 

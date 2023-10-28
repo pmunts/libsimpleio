@@ -39,7 +39,9 @@ BEGIN
   Put_Line("Grove TB6612 Set I2C Address");
   New_Line;
 
-  desg    := Device.GetDesignator("Enter I2C bus: ");
+  -- Get I2C bus designator and I2C slave addresses from operator
+
+  desg    := Device.GetDesignator(0, "Enter I2C bus:   ");
   oldaddr := I2C.GetAddress("Enter old I2C address: ");
   newaddr := I2C.GetAddress("Enter new I2C address: ");
 

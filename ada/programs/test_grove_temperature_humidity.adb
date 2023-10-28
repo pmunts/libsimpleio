@@ -21,8 +21,8 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
-WITH Ada.Command_Line;
 
+WITH Device;
 WITH Grove_Temperature_Humidity;
 WITH Humidity;
 WITH I2C.libsimpleio;
@@ -31,6 +31,7 @@ WITH TH02;
 
 PROCEDURE test_grove_temperature_humidity IS
 
+  desg   : Device.Designator;
   bus    : I2C.Bus;
   sensor : TH02.Device;
 
@@ -39,13 +40,8 @@ BEGIN
   Put_Line("Seeed Studio Grove Temperature and Humdity Sensor (TH02) Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 1 THEN
-    Put_Line("Usage: test_grove_temperature_humidity <bus>");
-    New_Line;
-    RETURN;
-  END IF;
-
-  bus    := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  desg   := Device.GetDesignator(0, "Enter I2C bus: ");
+  bus    := I2C.libsimpleio.Create(desg);
   sensor := Grove_Temperature_Humidity.Create(bus);
 
   New_Line;

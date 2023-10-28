@@ -23,15 +23,17 @@
 -- Test with Sparkfun Qwiic GPIO: https://www.sparkfun.com/products/14716
 -- Default I2C slave address is 0x27
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Device;
 WITH GPIO;
 WITH I2C.libsimpleio;
 WITH PCA9534.GPIO;
 
 PROCEDURE test_pca9534_gpio IS
 
+  desg : Device.Designator;
+  addr : I2C.Address;
   bus  : I2C.Bus;
   dev  : PCA9534.Device;
   pins : ARRAY (PCA9534.GPIO.PinNumber) OF GPIO.Pin;
@@ -41,19 +43,16 @@ BEGIN
   Put_Line("PCA9534 GPIO Toggle Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_pca9534_gpio <bus> <addr>");
-    New_Line;
-    RETURN;
-  END IF;
+  desg := Device.GetDesignator(0, "Enter I2C bus: ");
+  addr := I2C.GetAddress("Enter I2C dev address: ");
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  bus := I2C.libsimpleio.Create(desg);
 
   -- Create PCA9534 device object
 
-  dev := PCA9534.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)));
+  dev := PCA9534.Create(bus, addr);
 
   -- Configure GPIO pins
 

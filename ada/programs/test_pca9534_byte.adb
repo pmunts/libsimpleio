@@ -23,36 +23,34 @@
 -- Test with Sparkfun Qwiic GPIO: https://www.sparkfun.com/products/14716
 -- Default I2C slave address is 0x27
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
+WITH Device;
 WITH I2C.libsimpleio;
 WITH PCA9534;
 
 PROCEDURE test_pca9534_byte IS
 
-  bus : I2C.Bus;
-  dev : PCA9534.Device;
+  desg : Device.Designator;
+  addr : I2C.Address;
+  bus  : I2C.Bus;
+  dev  : PCA9534.Device;
 
 BEGIN
   New_Line;
   Put_Line("PCA9534 Byte I/O Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 2 THEN
-    Put_Line("Usage: test_pca9534_byte <bus> <addr>");
-    New_Line;
-    RETURN;
-  END IF;
+  desg := Device.GetDesignator(0, "Enter I2C bus: ");
+  addr := I2C.GetAddress("Enter I2C dev address: ");
 
   -- Create I2C bus object
 
-  bus := I2C.libsimpleio.Create(Ada.Command_Line.Argument(1));
+  bus := I2C.libsimpleio.Create(desg);
 
   -- Create PCA9534 device object
 
-  dev := PCA9534.Create(bus, I2C.Address'Value(Ada.Command_Line.Argument(2)),
-    PCA9534.AllOutputs);
+  dev := PCA9534.Create(bus, addr);
 
   -- Write increasing values to the PCA9534
 
