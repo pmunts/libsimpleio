@@ -104,9 +104,9 @@ BEGIN
 
   PRAGMA Warnings(Off, "possibly useless assignment to *");
 
-  b := I2C.libsimpleio.Create("/dev/i2c-1");
+  b := I2C.libsimpleio.Create(RaspberryPi.I2C1);
 
-  d := SPI.libsimpleio.Create("/dev/spidev0.0", 0, 8, 100000);
+  d := SPI.libsimpleio.Create(RaspberryPi.SPI0_0, 0, 8, 100000);
 
   p := GPIO.libsimpleio.Create(RaspberryPi.GPIO21, GPIO.Input);
 
