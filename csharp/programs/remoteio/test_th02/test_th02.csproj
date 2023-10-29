@@ -36,4 +36,10 @@
     </Content>
   </ItemGroup>
 
+  <!-- Define $(BOARDNAME) as a preprocessor symbol, for conditional compilation -->
+
+  <PropertyGroup>
+    <DefineConstants Condition="'$(BOARDNAME)' != ''">$(DefineConstants);$(BOARDNAME)</DefineConstants>
+  </PropertyGroup>
+
 </Project>
