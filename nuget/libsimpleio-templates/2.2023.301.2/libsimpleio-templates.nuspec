@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>libsimpleio-templates</id>
-    <version>2.2023.301.1</version>
+    <version>2.2023.301.2</version>
     <title>C# console application for .Net 7 using libsimpleio</title>
     <authors>Philip Munts</authors>
     <license type="file">COPYING</license>
@@ -10,7 +10,7 @@
     <readme>libsimpleio-templates.md</readme>
     <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
     <description>A project for building a C# console application for .Net 7 using the Linux Simple I/O Library.</description>
-    <releaseNotes>Define RaspberryPi1 as a preprocessor symbol, for conditional compilation.</releaseNotes>
+    <releaseNotes>Define the contents of the BOARDNAME environment variable as a preprocessor symbol.</releaseNotes>
     <copyright>Copyright (C)2016-2023 Philip Munts</copyright>
     <tags>NuGet C# Linux Linux Simple I/O Library Remote I/O Protocol ADC DAC GPIO I2C Motor PWM Servo SPI Stepper USB HID</tags>
     <packageTypes>
