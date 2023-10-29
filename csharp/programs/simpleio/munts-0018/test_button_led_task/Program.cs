@@ -20,12 +20,17 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+
 using static IO.Objects.SimpleIO.GPIO.Edge;
-using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
+#if OrangePiZero2W
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.OrangePiZero2W
+#else
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.RaspberryPiZero;
+#endif
 using static System.Console;
 using static System.Threading.Thread;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
 
 // Create a message queue for the background task to send state transitions
 // to the foreground task.

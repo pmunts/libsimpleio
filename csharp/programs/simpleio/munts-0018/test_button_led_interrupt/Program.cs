@@ -21,7 +21,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using static IO.Objects.SimpleIO.GPIO.Edge;
-using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
+#if OrangePiZero2W
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.OrangePiZero2W
+#else
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.RaspberryPiZero;
+#endif
 using static System.Console;
 
 WriteLine("\nMUNTS-0018 Button and LED Test using interrupts\n");

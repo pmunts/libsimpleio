@@ -22,7 +22,11 @@
 
 using System.Collections.Generic;
 
-using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
+#if OrangePiZero2W
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.OrangePiZero2W
+#else
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.RaspberryPiZero;
+#endif
 using static System.Console;
 using static System.Threading.Thread;
 

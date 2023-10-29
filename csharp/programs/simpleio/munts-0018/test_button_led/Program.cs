@@ -20,7 +20,11 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using static IO.Objects.SimpleIO.Platforms.MUNTS_0018;
+#if OrangePiZero2W
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.OrangePiZero2W
+#else
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.RaspberryPiZero;
+#endif
 using static System.Console;
 
 WriteLine("\nMUNTS-0018 Button and LED Test\n");
