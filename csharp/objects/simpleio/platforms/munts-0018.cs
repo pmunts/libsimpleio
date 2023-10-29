@@ -35,10 +35,8 @@ namespace IO.Objects.SimpleIO.Platforms
     public static class MUNTS_0018
     {
         /// <summary>
-        /// This class provides designators specific to the 32-bit
-        /// <a href="https://www.raspberrypi.com/products/raspberry-pi-zero">Raspberry Pi Zero</a>
-        /// or the 64-Bit
-        /// <a href="https://www.raspberrypi.com/products/raspberry-pi-zero-2-w">Raspberry Pi Zero 2 W</a>
+        /// This class provides designators specific to the  64-Bit
+        /// <a href="https://www.raspberrypi.com/products/raspberry-pi-zero-2-w">Raspberry Pi Zero 2W</a>
         /// interface computer.
         /// </summary>
         /// <remarks>
@@ -49,7 +47,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// dtoverlay=pwm-2chan,pin=12,func=4,pin2=19,func2=2
         /// </code>
         /// </remarks>
-        public static class RaspberryPiZero
+        public static class RaspberryPi
         {
             // On board LED
 
@@ -367,7 +365,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
         /// <summary>
         /// This class provides designators specific to the 64-Bit
-        /// <a href="https://www.raspberrypi.com/products/raspberry-pi-zero-2-w">Orange Pi Zero 2 W</a>
+        /// <a href="https://www.raspberrypi.com/products/raspberry-pi-zero-2-w">Orange Pi Zero 2W</a>
         /// interface computer.
         /// </summary>
         /// <remarks>

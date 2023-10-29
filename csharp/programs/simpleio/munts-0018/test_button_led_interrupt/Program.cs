@@ -24,7 +24,7 @@ using static IO.Objects.SimpleIO.GPIO.Edge;
 #if OrangePiZero2W
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.OrangePiZero2W
 #else
-using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.RaspberryPiZero;
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.RaspberryPi;
 #endif
 using static System.Console;
 
