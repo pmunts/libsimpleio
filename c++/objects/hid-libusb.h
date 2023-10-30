@@ -1,6 +1,6 @@
 // Raw HID device services using libusb 1.0
 
-// Copyright (C)2020, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
