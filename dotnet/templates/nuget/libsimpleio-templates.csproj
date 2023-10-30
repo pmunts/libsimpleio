@@ -7,7 +7,7 @@
     <Title>C# console application for .Net 7 using libsimpleio</Title>
     <Description>A project for building a C# console application for .Net 7 using the Linux Simple I/O Library.</Description>
     <Authors>Philip Munts</Authors>
-    <Copyright>Copyright (C)2016-2023 Philip Munts</Copyright>
+    <Copyright>Copyright (C)2016-2023, Philip Munts dba Munts Technologies.</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>COPYING</PackageLicenseFile>
     <PackageReadmeFile>libsimpleio-templates.md</PackageReadmeFile>
