@@ -1,6 +1,6 @@
 { Linux Simple I/O Library ADC (Analog to Digital Converter) input test       }
 
-{ Copyright (C)2019, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2019-2023, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }

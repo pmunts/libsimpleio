@@ -1,6 +1,6 @@
 { MAX7328/MAX7329/PCA8574/PCA9670/PCA9672/PCA9674/PCF8574 Device Services }
 
-{ Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  }
+{ Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
