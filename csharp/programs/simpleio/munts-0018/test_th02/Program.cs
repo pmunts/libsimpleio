@@ -32,7 +32,7 @@ WriteLine("\nMUNTS-0018 TH02 Sensor Test\n");
 
 // Create I2C bus object
 
-var bus = I2CBusFactory(J9I2C);
+var bus = I2CBusFactory();
 
 // Create Grove TH02 sensor object
 
