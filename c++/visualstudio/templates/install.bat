@@ -2,7 +2,7 @@
 
 REM Install Visual Studio 2022 project templates
 
-REM Copyright (C)2019-2022, Philip Munts, President, Munts AM Corp.
+REM Copyright (C)2019-2023, Philip Munts dba Munts Technologies.
 REM
 REM Redistribution and use in source and binary forms, with or without
 REM modification, are permitted provided that the following conditions are met:
