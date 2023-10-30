@@ -1,7 +1,7 @@
 (* Many Linux kernel devices are identified by a chip, channel pair of *)
 (* cardinal values.                                                    *)
 
-(* Copyright (C)2018, Philip Munts, President, Munts AM Corp.                  *)
+(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
