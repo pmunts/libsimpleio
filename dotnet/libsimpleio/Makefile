@@ -45,8 +45,8 @@ default:
 	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
 	BUILDVERSION=$(VERSION) "$(MSBUILD)" help.shfbproj
 	$(CONVERT) Help/$(LIBNAME).docx Help/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
-	$(PANDOC) --wrap=none -f html -t markdown README.html >obj/README.md
 	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
+	$(PANDOC) --wrap=none -f html -t markdown README.html >obj/README.md
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	-svn revert -R $(NUGETDIR)/$(LIBNAME)
 	-svn rm --force $(NUGETDIR)/$(LIBNAME)/*
