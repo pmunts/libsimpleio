@@ -23,7 +23,7 @@
 using System.Collections.Generic;
 
 #if OrangePiZero2W
-using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.OrangePiZero2W
+using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.OrangePiZero2W;
 #else
 using static IO.Objects.SimpleIO.Platforms.MUNTS_0018.RaspberryPi;
 #endif
