@@ -191,51 +191,53 @@ namespace IO.Objects.SimpleIO.Platforms
         public static readonly Designator GPIO259 = new Designator(0, 259);
 
         /// <summary>
-        /// I<sup>2</sup>C bus designator for expansion header pins 15 and 22.
-        /// Conflicts with <c>GPIO261</c>, <c>GPIO262</c>, <c>UART2 TXD> and
-        /// </c>and <c>UART2 RXD</c>.
-        /// </summary>
-        public static readonly Designator I2C0 = new Designator(0, 0);
-
-        /// <summary>
         /// I<sup>2</sup>C bus designator for expansion header pins 3 and 5.
         /// Conflicts with <c>GPIO263</c> and <c>GPIO264</c>.
         /// </summary>
-        public static readonly Designator I2C1 = new Designator(0, 1);
-
-        /// <summary>
-        /// I<sup>2</sup>C bus designator for expansion header pins 27 and 28.
-        /// Conflicts with <c>GPIO265</c>, <c>GPIO266</c>, <c>UART3 TXD</c> and
-        /// <c>UART3 RXD</c>.
-        /// </summary>
         /// <remarks>
-        /// This I<sup>2</sup>C bus is reserved for Raspberry Pi expansion
-        /// board identification and configuration.
+        /// The <c>pi-i2c1</c> device tree overlay is required to enable
+        /// this I<sup>2</sup>C bus.
         /// </remarks>
-        public static readonly Designator I2C2 = new Designator(0, 2);
+        public static readonly Designator I2C1 = new Designator(0, 2);
 
         /// <summary>
         /// PWM output designator for expansion header pin 32.
         /// Conflicts with <c>GPIO267</c>.
         /// </summary>
+        /// <remarks>
+        /// The <c>pi-pwm1</c> device tree overlay is required to enable
+        /// this PWM output.
+        /// </remarks>
         public static readonly Designator PWM1 = new Designator(0, 1);
 
         /// <summary>
         /// PWM output designator for expansion header pin 33.
         /// Conflicts with <c>GPIO268</c>.
         /// </summary>
+        /// <remarks>
+        /// The <c>pi-pwm2</c> device tree overlay is required to enable
+        /// this PWM output.
+        /// </remarks>
         public static readonly Designator PWM2 = new Designator(0, 2);
 
         /// <summary>
         /// PWM output designator for expansion header pin 7.
         /// Conflicts with <c>GPIO269</c> and <c>UART4 TXD</c>.
         /// </summary>
+        /// <remarks>
+        /// The <c>pi-pwm3</c> device tree overlay is required to enable
+        /// this PWM output.
+        /// </remarks>
         public static readonly Designator PWM3 = new Designator(0, 3);
 
         /// <summary>
         /// PWM output designator for expansion header pin 16.
         /// Conflicts with <c>GPIO270</c> and <c>UART4 RXD</c>.
         /// </summary>
+        /// <remarks>
+        /// The <c>pi-pwm4</c> device tree overlay is required to enable
+        /// this PWM output.
+        /// </remarks>
         public static readonly Designator PWM4 = new Designator(0, 4);
 
         /// <summary>
