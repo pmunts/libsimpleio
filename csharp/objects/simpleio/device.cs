@@ -20,6 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+using System;
+
 namespace IO.Objects.SimpleIO.Device
 {
     /// <summary>
@@ -43,14 +45,40 @@ namespace IO.Objects.SimpleIO.Device
         public uint chan;
 
         /// <summary>
-        /// device pin designator constructor.
+        /// Linux kernel I/O device designator constructor.
         /// </summary>
         /// <param name="chip">Linux kernel I/O device chip number.</param>
         /// <param name="chan">Linux kernel I/O device channel number.</param>
-        public Designator(uint chip, uint chan)
+        public Designator(uint chip = uint.MaxValue, uint chan = uint.MaxValue)
         {
             this.chip = chip;
             this.chan = chan;
+        }
+
+        /// <summary>
+        /// Linux kernel I/O device designator constructor.  The chip and
+        /// channel numbers shall be obtained from the operator via 
+        /// <c>System.Console.ReadLine</c>
+        /// </summary>
+        /// <param name="prompt">Operator prompt string of the form
+        /// "Enter XXX channel:".</param>
+        /// <param name="chip">Linux kernel I/O device chip number.  If a
+        /// value is supplied, the operator will not be prompted for for
+        /// the chip number.</param>
+        public Designator(string prompt, uint chip = uint.MaxValue)
+        {
+            if (chip == uint.MaxValue)
+            {
+                System.Console.Write(prompt.Replace("channel: ","chip:    "));
+                this.chip = uint.Parse(System.Console.ReadLine());
+            }
+            else
+            {
+                this.chip = chip;
+            }
+
+            System.Console.Write(prompt);
+            this.chan = uint.Parse(System.Console.ReadLine());
         }
 
         /// <summary>
