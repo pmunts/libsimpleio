@@ -20,7 +20,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-CFLAGS		= -Wall -I../c $(DEBUGFLAGS)
+LIBSIMPLEIO	?= ../..
+
+CFLAGS		= -Wall -I$(LIBSIMPLEIO)/c $(DEBUGFLAGS)
 LDFLAGS		= -lcheck -lm -lrt -lpthread -lsubunit -lsimpleio
 
 PROGRAMS	= test_parameter_checks
@@ -51,27 +53,27 @@ endif
 
 test_compile_programs:
 ifeq ($(shell uname), Linux)
-	-$(MAKE) -C ../ada/programs default clean
-	-$(MAKE) -C ../ada/programs/mcp2221 default clean
-	-$(MAKE) -C ../ada/programs/remoteio default clean
-	-$(MAKE) -C ../c++/programs/remoteio default reallyclean
-	-$(MAKE) -C ../c++/programs/simpleio default reallyclean
-	-$(MAKE) -C ../freepascal/programs/simpleio default clean
-	-$(MAKE) -C ../freepascal/programs/remoteio default clean
+	-$(MAKE) -C $(LIBSIMPLEIO)/ada/programs default clean
+	-$(MAKE) -C $(LIBSIMPLEIO)/ada/programs/mcp2221 default clean
+	-$(MAKE) -C $(LIBSIMPLEIO)/ada/programs/remoteio default clean
+	-$(MAKE) -C $(LIBSIMPLEIO)/c++/programs/remoteio default reallyclean
+	-$(MAKE) -C $(LIBSIMPLEIO)/c++/programs/simpleio default reallyclean
+	-$(MAKE) -C $(LIBSIMPLEIO)/freepascal/programs/simpleio default clean
+	-$(MAKE) -C $(LIBSIMPLEIO)/freepascal/programs/remoteio default clean
 ifeq ($(BOARDNAME),)
-	-$(MAKE) -C ../gm2/programs default reallyclean
+	-$(MAKE) -C $(LIBSIMPLEIO)/gm2/programs default reallyclean
 endif
-	-$(MAKE) -C ../go/programs/simpleio default reallyclean
+	-$(MAKE) -C $(LIBSIMPLEIO)/go/programs/simpleio default reallyclean
 endif
 
 test_compile_csharp:
-	for D in ../csharp/programs/remoteio/test*            ; do $(MAKE) -C $$D default clean ; done
-	for D in ../csharp/programs/simpleio/test*            ; do $(MAKE) -C $$D default clean ; done
-	for D in ../csharp/programs/simpleio/munts-0018/test* ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/csharp/programs/remoteio/test*            ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/csharp/programs/simpleio/test*            ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/csharp/programs/simpleio/munts-0018/test* ; do $(MAKE) -C $$D default clean ; done
 
 test_compile_elements:
-	for D in ../elements/dotnet/programs/remoteio/test*   ; do $(MAKE) -C $$D default clean ; done
-	for D in ../elements/dotnet/programs/simpleio/test*   ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/elements/dotnet/programs/remoteio/test*   ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/elements/dotnet/programs/simpleio/test*   ; do $(MAKE) -C $$D default clean ; done
 
 clean:
 	rm -rf $(PROGRAMS) *.log
