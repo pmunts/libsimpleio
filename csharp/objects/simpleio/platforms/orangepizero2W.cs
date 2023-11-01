@@ -190,6 +190,35 @@ namespace IO.Objects.SimpleIO.Platforms
         /// </summary>
         public static readonly Designator GPIO259 = new Designator(0, 259);
 
+        // On the Orange Pi Zero 2W, the three I2C buses brought out to the
+        // 40-pin expansion bus are not allocated fixed and predictable
+        // device nodes.  We have to search sysfs for a matching base address
+        // to find the correct device node for each bus.
+
+        private static Designator FindI2CNode(string address)
+        {
+            // If you have more than 256 I2C buses, my condolences...
+
+            for (uint i = 0; i < 256; i++)
+            {
+                string path = "/sys/devices/platform/soc/" + address + ".i2c/i2c-" + i.ToString();
+                if (System.IO.Directory.Exists(path)) return new Designator(0, i);
+            }
+
+            return Designator.Unavailable;
+        }
+
+        /// <summary>
+        /// I<sup>2</sup>C bus designator for expansion header pins 15 and 22.
+        /// Conflicts with <c>GPIO261</c>, <c>GPIO262</c>, <c>UART2 TXD> and
+        /// </c>and <c>UART2 RXD</c>.
+        /// </summary>
+        /// <remarks>
+        /// The <c>pi-i2c0</c> device tree overlay is required to enable
+        /// this I<sup>2</sup>C bus.
+        /// </remarks>
+        public static readonly Designator I2C0 = FindI2CNode("5002000");
+
         /// <summary>
         /// I<sup>2</sup>C bus designator for expansion header pins 3 and 5.
         /// Conflicts with <c>GPIO263</c> and <c>GPIO264</c>.
@@ -198,7 +227,19 @@ namespace IO.Objects.SimpleIO.Platforms
         /// The <c>pi-i2c1</c> device tree overlay is required to enable
         /// this I<sup>2</sup>C bus.
         /// </remarks>
-        public static readonly Designator I2C1 = new Designator(0, 2);
+        public static readonly Designator I2C1 = FindI2CNode("5002400");
+
+        /// <summary>
+        /// I<sup>2</sup>C bus designator for expansion header pins 27 and 28.
+        /// Conflicts with <c>GPIO265</c>, <c>GPIO266</c>, <c>UART3 RXD</c> and
+        /// <c>UART3 TXD</c>.
+        /// </summary>
+        /// <remarks>
+        /// The <c>pi-i2c2</c> device tree overlay is required to enable
+        /// this I<sup>2</sup>C bus.  It is reserved for Raspberry Pi expansion
+        /// board identification and configuration.
+        /// </remarks>
+        public static readonly Designator I2C2 = FindI2CNode("5002800");
 
         /// <summary>
         /// PWM output designator for expansion header pin 32.
