@@ -20,29 +20,23 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
 namespace test_led_pwm
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nLED Toggle Test Using PWM Output\n");
+            WriteLine("\nLED Toggle Test Using PWM Output\n");
 
-            IO.Objects.SimpleIO.Device.Designator desg;
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter PWM output channel:    ");
 
-            Console.Write("PWM chip:              ");
-            desg.chip = uint.Parse(Console.ReadLine());
+            Write("Enter PWM pulse frequency:   ");
+            int freq = int.Parse(ReadLine());
 
-            Console.Write("PWM channel:           ");
-            desg.chan = uint.Parse(Console.ReadLine());
-
-            Console.Write("PWM pulse frequency:   ");
-            int freq = int.Parse(Console.ReadLine());
-
-            Console.Write("PWM output duty cycle: ");
-            double duty = double.Parse(Console.ReadLine());
+            Write("Enter PWM output duty cycle: ");
+            double duty = double.Parse(ReadLine());
 
             // Create PWM output object
 
@@ -56,7 +50,7 @@ namespace test_led_pwm
 
             // Toggle the LED
 
-            Console.WriteLine("\nPress CONTROL-C to exit");
+            WriteLine("\nPress CONTROL-C to exit");
 
             for (;;)
             {

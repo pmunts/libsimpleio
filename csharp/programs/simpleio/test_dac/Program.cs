@@ -20,26 +20,20 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
 namespace test_dac
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nDAC Output Test\n");
+            WriteLine("\nDAC Output Test\n");
 
-            IO.Objects.SimpleIO.Device.Designator desg;
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter DAC channel:    ");
 
-            Console.Write("DAC chip:       ");
-            desg.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("DAC channel:    ");
-            desg.chan = uint.Parse(Console.ReadLine());
-
-            Console.Write("DAC resolution: ");
-            int resolution = int.Parse(Console.ReadLine());
+            Write("Enter DAC resolution: ");
+            int resolution = int.Parse(ReadLine());
 
             // Create DAC output object
 
@@ -48,7 +42,7 @@ namespace test_dac
 
             // Generate sawtooth wave
 
-            Console.WriteLine("\nPress CONTROL-C to exit");
+            WriteLine("\nPress CONTROL-C to exit");
 
             for (;;)
             {

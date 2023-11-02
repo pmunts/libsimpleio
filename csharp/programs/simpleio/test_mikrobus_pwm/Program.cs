@@ -26,7 +26,7 @@ namespace test_mikrobus_pwm
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nmikroBUS PWM Output Test\n");
 

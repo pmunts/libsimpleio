@@ -26,25 +26,12 @@ namespace test_motor_pwm2
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nMotor Output Test Using Two PWM outputs (CW and CCW)\n");
 
-            IO.Objects.SimpleIO.Device.Designator desg_CW;
-
-            Console.Write("PWM chip:            ");
-            desg_CW.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("PWM channel:         ");
-            desg_CW.chan = uint.Parse(Console.ReadLine());
-
-            IO.Objects.SimpleIO.Device.Designator desg_CCW;
-
-            Console.Write("PWM chip:            ");
-            desg_CCW.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("PWM channel:         ");
-            desg_CCW.chan = uint.Parse(Console.ReadLine());
+            var desg_CW  = new IO.Objects.SimpleIO.Device.Designator("Enter CW  PWM output channel: ");
+            var desg_CCW = new IO.Objects.SimpleIO.Device.Designator("Enter CCW PWM output channel: ");
 
             // Create PWM output objects
 

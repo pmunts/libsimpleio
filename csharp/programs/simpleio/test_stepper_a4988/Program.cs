@@ -24,20 +24,9 @@ using static System.Console;
 
 WriteLine("\nA4988 Stepper Motor Driver Test\n");
 
-// Get the number of descrete steps the motor under test has
-
-Write("Number of steps?                 ");
-int numsteps = int.Parse(ReadLine());
-
 // Create STEP signal GPIO pin object
 
-IO.Objects.SimpleIO.Device.Designator desg;
-
-Write("STEP signal GPIO chip number?    ");
-desg.chip = uint.Parse(ReadLine());
-
-Write("STEP signal GPIO channel number? ");
-desg.chan = uint.Parse(ReadLine());
+var desg = new IO.Objects.SimpleIO.Device.Designator("Enter STEP signal GPIO pin channel: ");
 
 IO.Interfaces.GPIO.Pin Step_Pin =
     new IO.Objects.SimpleIO.GPIO.Pin(desg,
@@ -45,22 +34,23 @@ IO.Interfaces.GPIO.Pin Step_Pin =
 
 // Create DIR signal GPIO pin object
 
-Write("DIR signal GPIO chip number?     ");
-desg.chip = uint.Parse(ReadLine());
-
-Write("DIR signal GPIO channel number?  ");
-desg.chan = uint.Parse(ReadLine());
-
-WriteLine();
+desg = new IO.Objects.SimpleIO.Device.Designator("Enter DIR  signal GPIO pin channel: ");
 
 IO.Interfaces.GPIO.Pin Dir_Pin =
     new IO.Objects.SimpleIO.GPIO.Pin(desg,
         IO.Interfaces.GPIO.Direction.Output, false);
 
+// Get the number of descrete steps the motor under test has
+
+Write("Enter the number of motor steps:    ");
+int numsteps = int.Parse(ReadLine());
+
 // Create A4988 device object
 
 IO.Interfaces.Stepper.Output outp =
     new IO.Devices.A4988.Device(numsteps, Step_Pin, Dir_Pin);
+
+WriteLine();
 
 for (;;)
 {

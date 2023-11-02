@@ -20,23 +20,18 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
+using static System.Threading.Thread;
 
 namespace test_servo_pwm
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nServo Output Test\n");
+            WriteLine("\nServo Output Test\n");
 
-            IO.Objects.SimpleIO.Device.Designator desg;
-
-            Console.Write("PWM chip:            ");
-            desg.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("PWM channel:         ");
-            desg.chan = uint.Parse(Console.ReadLine());
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter PWM output channel: ");
 
             // Create PWM output object
 
@@ -50,7 +45,7 @@ namespace test_servo_pwm
 
             // Sweep servo position back and forth
 
-            Console.WriteLine("\nPress CONTROL-C to exit");
+            WriteLine("\nPress CONTROL-C to exit");
 
             for (;;)
             {
@@ -59,13 +54,13 @@ namespace test_servo_pwm
                 for (n = -100; n < 100; n++)
                 {
                     Servo0.position = n / 100.0;
-                    System.Threading.Thread.Sleep(50);
+                    Sleep(50);
                 }
 
                 for (n = 100; n >= -100; n--)
                 {
                     Servo0.position = n / 100.0;
-                    System.Threading.Thread.Sleep(50);
+                    Sleep(50);
                 }
             }
         }

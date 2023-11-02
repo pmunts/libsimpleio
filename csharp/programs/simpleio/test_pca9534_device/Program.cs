@@ -20,28 +20,20 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
 namespace test_pca9534_device
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nPCA9534 GPIO Port Toggle Test\n");
+            WriteLine("\nPCA9534 GPIO Port Toggle Test\n");
 
-            if (args.Length != 2)
-            {
-                Console.WriteLine("Usage: test_pca9534_device <bus> <addr>\n");
-                Environment.Exit(1);
-            }
-
-            IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
-
-            IO.Devices.PCA9534.Device dev =
-                new IO.Devices.PCA9534.Device(bus, int.Parse(args[1]),
-                IO.Devices.PCA9534.Device.AllOutputs);
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter I2C bus number:    ", 0);
+            var addr = IO.Interfaces.I2C.Utils.GetAddress("Enter I2C slave address: ");
+            var bus  = new IO.Objects.SimpleIO.I2C.Bus(desg);
+            var dev  = new IO.Devices.PCA9534.Device(bus, addr);
 
             for (;;)
             {

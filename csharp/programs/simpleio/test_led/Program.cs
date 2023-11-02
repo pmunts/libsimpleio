@@ -26,7 +26,7 @@ namespace test_led
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nLED Toggle Test Using GPIO Output\n");
 

@@ -20,35 +20,30 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
+using static System.Threading.Thread;
 
 namespace test_pwm
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nPWM Output Test\n");
+            WriteLine("\nPWM Output Test\n");
 
-            IO.Objects.SimpleIO.Device.Designator desg_PWM;
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter PWM output channel:    ");
 
-            Console.Write("PWM chip:            ");
-            desg_PWM.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("PWM channel:         ");
-            desg_PWM.chan = uint.Parse(Console.ReadLine());
-
-            Console.Write("PWM pulse frequency: ");
-            int freq = int.Parse(Console.ReadLine());
+            Write("Enter PWM pulse frequency:   ");
+            int freq = int.Parse(ReadLine());
 
             // Create PWM output object
 
             IO.Interfaces.PWM.Output PWM0 =
-                new IO.Objects.SimpleIO.PWM.Output(desg_PWM, freq);
+                new IO.Objects.SimpleIO.PWM.Output(desg, freq);
 
             // Sweep PWM pulse width back and forth
 
-            Console.WriteLine("\nPress CONTROL-C to exit");
+            WriteLine("\nPress CONTROL-C to exit");
 
             for (;;)
             {
@@ -57,13 +52,13 @@ namespace test_pwm
                 for (n = 0; n < 100; n++)
                 {
                     PWM0.dutycycle = n;
-                    System.Threading.Thread.Sleep(50);
+                    Sleep(50);
                 }
 
                 for (n = 100; n >= 0; n--)
                 {
                     PWM0.dutycycle = n;
-                    System.Threading.Thread.Sleep(50);
+                    Sleep(50);
                 }
             }
         }

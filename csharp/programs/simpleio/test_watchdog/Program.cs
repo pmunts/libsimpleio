@@ -26,7 +26,7 @@ namespace test_watchdog
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nWatchdog Timer Test\n");
 

@@ -20,26 +20,20 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
 namespace test_adc
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nADC Input Test\n");
+            WriteLine("\nADC Input Test\n");
 
-            IO.Objects.SimpleIO.Device.Designator desg;
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter ADC channel:    ");
 
-            Console.Write("ADC chip:       ");
-            desg.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("ADC channel:    ");
-            desg.chan = uint.Parse(Console.ReadLine());
-
-            Console.Write("ADC resolution: ");
-            int resolution = int.Parse(Console.ReadLine());
+            Write("Enter ADC resolution: ");
+            int resolution = int.Parse(ReadLine());
 
             // Create ADC input object
 
@@ -48,11 +42,11 @@ namespace test_adc
 
             // Sample ADC input
 
-            Console.WriteLine("\nPress CONTROL-C to exit\n");
+            WriteLine("\nPress CONTROL-C to exit\n");
 
             for (;;)
             {
-                Console.WriteLine("Sample: " + ADC0.sample.ToString());
+                WriteLine("Sample: " + ADC0.sample.ToString());
                 System.Threading.Thread.Sleep(1000);
             }
         }

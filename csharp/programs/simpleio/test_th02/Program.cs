@@ -20,38 +20,33 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
+using static System.Threading.Thread;
 
 namespace test_th02
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nTH02 Temperature/Humidity Sensor Test\n");
+            WriteLine("\nTH02 Temperature/Humidity Sensor Test\n");
 
-            if (args.Length != 1)
-            {
-                Console.WriteLine("Usage: test_th02 <bus>\n");
-                Environment.Exit(1);
-            }
-
-            IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter I2C bus number: ", 0);
+            var bus  = new IO.Objects.SimpleIO.I2C.Bus(desg);
 
             IO.Devices.TH02.Device dev = new IO.Devices.TH02.Device(bus);
 
-            Console.WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X2"));
-            Console.WriteLine();
+            WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X2"));
+            WriteLine();
 
             for (;;)
             {
-                Console.Write("Temperature: " + dev.Celsius.ToString("F1"));
-                Console.Write("  ");
-                Console.Write("Humidity: " + dev.Humidity.ToString("F1"));
-                Console.WriteLine();
+                Write("Temperature: " + dev.Celsius.ToString("F1"));
+                Write("  ");
+                Write("Humidity: " + dev.Humidity.ToString("F1"));
+                WriteLine();
 
-                System.Threading.Thread.Sleep(1000);
+                Sleep(1000);
             }
         }
     }

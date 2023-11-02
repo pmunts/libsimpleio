@@ -20,36 +20,34 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
+using static System.Threading.Thread;
 
 namespace test_pca9685_pwm
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nPCA9685 PWM Output Test\n");
+            WriteLine("\nPCA9685 PWM Output Test\n");
 
-            if (args.Length != 2)
-            {
-                Console.WriteLine("Usage: test_grove_i2c_adc <bus> <addr>\n");
-                Environment.Exit(1);
-            }
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter I2C bus number:    ", 0);
+            var addr = IO.Interfaces.I2C.Utils.GetAddress("Enter I2C slave address: ");
 
             // Create PWM output object
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
+                new IO.Objects.SimpleIO.I2C.Bus(desg);
 
             IO.Devices.PCA9685.Device dev =
-                new IO.Devices.PCA9685.Device(bus, int.Parse(args[1]), 1000);
+                new IO.Devices.PCA9685.Device(bus, addr, 1000);
 
             IO.Interfaces.PWM.Output PWM0 =
                 new IO.Devices.PCA9685.PWM.Output(dev, 0);
 
             // Sweep PWM pulse width back and forth
 
-            Console.WriteLine("Press CONTROL-C to exit");
+            WriteLine("Press CONTROL-C to exit");
 
             for (;;)
             {
@@ -58,13 +56,13 @@ namespace test_pca9685_pwm
                 for (n = 0; n < 100; n++)
                 {
                     PWM0.dutycycle = n;
-                    System.Threading.Thread.Sleep(50);
+                    Sleep(50);
                 }
 
                 for (n = 100; n >= 0; n--)
                 {
                     PWM0.dutycycle = n;
-                    System.Threading.Thread.Sleep(50);
+                    Sleep(50);
                 }
             }
         }

@@ -20,33 +20,28 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
+using static System.Threading.Thread;
 
 namespace test_grove_temperature
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nRemote I/O Grove Temperature Sensor (thermistor) Test\n");
+            WriteLine("\nRemote I/O Grove Temperature Sensor (thermistor) Test\n");
 
             // Get ADC hardware parameters
 
-            IO.Objects.SimpleIO.Device.Designator desg;
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter ADC channel:    ");
 
-            Console.Write("ADC chip:       ");
-            desg.chip = uint.Parse(Console.ReadLine());
+            Write("Enter ADC resolution: ");
+            int resolution = int.Parse(ReadLine());
 
-            Console.Write("ADC channel:    ");
-            desg.chan = uint.Parse(Console.ReadLine());
+            Write("Enter ADC reference:  ");
+            double reference = double.Parse(ReadLine());
 
-            Console.Write("ADC resolution: ");
-            int resolution = int.Parse(Console.ReadLine());
-
-            Console.Write("ADC reference:  ");
-            double reference = double.Parse(Console.ReadLine());
-
-            Console.WriteLine();
+            WriteLine();
 
             // Create objects
 
@@ -60,8 +55,8 @@ namespace test_grove_temperature
 
             for (;;)
             {
-                Console.WriteLine("Temperature => " + T.Celsius.ToString("F2"));
-                System.Threading.Thread.Sleep(1000);
+                WriteLine("Temperature => " + T.Celsius.ToString("F2"));
+                Sleep(1000);
             }
         }
     }

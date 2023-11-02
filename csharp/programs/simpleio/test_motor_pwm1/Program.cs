@@ -20,31 +20,19 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
+using static System.Threading.Thread;
 
 namespace test_motor_pwm1
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nMotor Output Test Using PWM (speed) and GPIO (direction) Outputs\n");
+            WriteLine("\nMotor Output Test Using PWM (speed) and GPIO (direction) Outputs\n");
 
-            IO.Objects.SimpleIO.Device.Designator desg_GPIO;
-
-            Console.Write("GPIO chip number:    ");
-            desg_GPIO.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("GPIO line number:    ");
-            desg_GPIO.chan = uint.Parse(Console.ReadLine());
-
-            IO.Objects.SimpleIO.Device.Designator desg_PWM;
-
-            Console.Write("PWM chip:            ");
-            desg_PWM.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("PWM channel:         ");
-            desg_PWM.chan = uint.Parse(Console.ReadLine());
+            var desg_GPIO = new IO.Objects.SimpleIO.Device.Designator("Enter GPIO pin channel:   ");
+            var desg_PWM  = new IO.Objects.SimpleIO.Device.Designator("Enter PWM output channel: ");
 
             // Create GPIO pin object
 
@@ -64,7 +52,7 @@ namespace test_motor_pwm1
 
             // Sweep motor velocity up and down
 
-            Console.WriteLine("\nPress CONTROL-C to exit");
+            WriteLine("\nPress CONTROL-C to exit");
 
             for (;;)
             {
@@ -73,13 +61,13 @@ namespace test_motor_pwm1
                 for (n = -100; n < 100; n++)
                 {
                     Motor0.velocity = n / 100.0;
-                    System.Threading.Thread.Sleep(50);
+                    Sleep(50);
                 }
 
                 for (n = 100; n >= -100; n--)
                 {
                     Motor0.velocity = n / 100.0;
-                    System.Threading.Thread.Sleep(50);
+                    Sleep(50);
                 }
             }
         }

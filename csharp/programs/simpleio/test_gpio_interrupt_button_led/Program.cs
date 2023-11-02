@@ -26,7 +26,7 @@ namespace test_gpio_interrupt_button_led
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nGPIO Interrupt Button and LED Test\n");
 

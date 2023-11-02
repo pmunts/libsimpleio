@@ -20,40 +20,38 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
+using static System.Threading.Thread;
 
 namespace test_hdc1080
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nHDC1080 Temperature/Humidity Sensor Test\n");
+            WriteLine("\nHDC1080 Temperature/Humidity Sensor Test\n");
 
-            if (args.Length != 1)
-            {
-                Console.WriteLine("Usage: test_hdc1080 <bus>\n");
-                Environment.Exit(1);
-            }
+            IO.Objects.SimpleIO.Device.Designator desg =
+                new IO.Objects.SimpleIO.Device.Designator("Enter I2C bus number: ", 0);
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
+                new IO.Objects.SimpleIO.I2C.Bus(desg);
 
             IO.Devices.HDC1080.Device dev = new IO.Devices.HDC1080.Device(bus);
 
-            Console.Write("Manufacturer ID: 0x" + dev.ManufacturerID.ToString("X4"));
-            Console.Write("  ");
-            Console.WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X4"));
-            Console.WriteLine();
+            Write("Manufacturer ID: 0x" + dev.ManufacturerID.ToString("X4"));
+            Write("  ");
+            WriteLine("Device ID: 0x" + dev.DeviceID.ToString("X4"));
+            WriteLine();
 
             for (;;)
             {
-                Console.Write("Temperature: " + dev.Celsius.ToString("F1"));
-                Console.Write("  ");
-                Console.Write("Humidity: " + dev.Humidity.ToString("F1"));
-                Console.WriteLine();
+                Write("Temperature: " + dev.Celsius.ToString("F1"));
+                Write("  ");
+                Write("Humidity: " + dev.Humidity.ToString("F1"));
+                WriteLine();
 
-                System.Threading.Thread.Sleep(1000);
+                Sleep(1000);
             }
         }
     }

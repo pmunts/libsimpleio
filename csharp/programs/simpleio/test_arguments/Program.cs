@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
 namespace test_arguments
 {
@@ -28,13 +28,10 @@ namespace test_arguments
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\nCommand Line Argument Test\n");
-            Console.WriteLine("Command Line Arguments:\n");
+            WriteLine("\nCommand Line Argument Test\n");
+            WriteLine("Command Line Arguments:\n");
 
-            foreach (string s in args)
-            {
-                System.Console.WriteLine(s);
-            }
+            foreach (string s in args) WriteLine(s);
         }
     }
 }

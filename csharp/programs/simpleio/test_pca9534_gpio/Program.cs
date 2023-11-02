@@ -20,27 +20,20 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
 namespace test_pca9534_gpio
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nPCA9534 GPIO Pin Toggle Test\n");
+            WriteLine("\nPCA9534 GPIO Pin Toggle Test\n");
 
-            if (args.Length != 2)
-            {
-                Console.WriteLine("Usage: test_pca9534_gpio <bus> <addr>\n");
-                Environment.Exit(1);
-            }
-
-            IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
-
-            IO.Devices.PCA9534.Device dev =
-                new IO.Devices.PCA9534.Device(bus, int.Parse(args[1]));
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter I2C bus number:    ", 0);
+            var addr = IO.Interfaces.I2C.Utils.GetAddress("Enter I2C slave address: ");
+            var bus  = new IO.Objects.SimpleIO.I2C.Bus(desg);
+            var dev  = new IO.Devices.PCA9534.Device(bus, addr);
 
             IO.Interfaces.GPIO.Pin GPIO0 = new IO.Devices.PCA9534.GPIO.Pin(dev, 0,
                 IO.Interfaces.GPIO.Direction.Output, false);

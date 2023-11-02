@@ -20,25 +20,19 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
 namespace test_gpio
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            IO.Objects.SimpleIO.Device.Designator desg;
-
-            Console.WriteLine("\nGPIO Pin Toggle Test\n");
+            WriteLine("\nGPIO Pin Toggle Test\n");
 
             // Create GPIO pin object
 
-            Console.Write("GPIO chip number?    ");
-            desg.chip = uint.Parse(Console.ReadLine());
-
-            Console.Write("GPIO channel number? ");
-            desg.chan = uint.Parse(Console.ReadLine());
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter GPIO pin channel: ");
 
             IO.Interfaces.GPIO.Pin Output =
                 new IO.Objects.SimpleIO.GPIO.Pin(desg,
@@ -46,10 +40,9 @@ namespace test_gpio
 
             // Toggle the GPIO output
 
-            Console.WriteLine("\nPress CONTROL-C to exit");
+            WriteLine("\nPress CONTROL-C to exit");
 
-            for (;;)
-                Output.state = !Output.state;
+            for (;;) Output.state = !Output.state;
         }
     }
 }

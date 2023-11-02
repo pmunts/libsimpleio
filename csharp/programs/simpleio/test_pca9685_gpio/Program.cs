@@ -20,36 +20,33 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
 namespace test_pca9685_gpio
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("\nPCA9685 GPIO Output Test\n");
+            WriteLine("\nPCA9685 GPIO Output Test\n");
 
-            if (args.Length != 2)
-            {
-                Console.WriteLine("Usage: test_pca9685_gpio <bus> <addr>\n");
-                Environment.Exit(1);
-            }
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter I2C bus number:    ", 0);
+            var addr = IO.Interfaces.I2C.Utils.GetAddress("Enter I2C slave address: ");
 
             // Create GPIO pin object
 
             IO.Interfaces.I2C.Bus bus =
-                new IO.Objects.SimpleIO.I2C.Bus(args[0]);
+                new IO.Objects.SimpleIO.I2C.Bus(desg);
 
             IO.Devices.PCA9685.Device dev =
-                new IO.Devices.PCA9685.Device(bus, int.Parse(args[1]), 5000);
+                new IO.Devices.PCA9685.Device(bus, addr, 5000);
 
             IO.Interfaces.GPIO.Pin GPIO0 =
                 new IO.Devices.PCA9685.GPIO.Pin(dev, 0, false);
 
             // Toggle the GPIO output
 
-            Console.WriteLine("Press CONTROL-C to exit");
+            WriteLine("Press CONTROL-C to exit");
 
             for (;;)
                 GPIO0.state = !GPIO0.state;
