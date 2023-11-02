@@ -57,7 +57,7 @@ namespace IO.Objects.SimpleIO.Device
 
         /// <summary>
         /// Linux kernel I/O device designator constructor.  The chip and
-        /// channel numbers shall be obtained from the operator via 
+        /// channel numbers shall be obtained from the operator via
         /// <c>System.Console.ReadLine</c>
         /// </summary>
         /// <param name="prompt">Operator prompt string of the form
