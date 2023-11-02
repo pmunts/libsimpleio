@@ -23,17 +23,12 @@
 include $(LIBSIMPLEIO)/include/common.mk
 
 CONFIGURATION	?= Release
-ifeq ($(OS), Windows_NT)
 EBUILD		?= C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild.exe
-MSBUILD		?= C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe
-else
-EBUILD		?= /usr/local/bin/ebuild
-MSBUILD		?= msbuild
-endif
 EBUILDFLAGS	+= --configuration:$(CONFIGURATION)
-MSBUILDFLAGS	+= -t:Build -p:Configuration=$(CONFIGURATION)
-PROJECTBUILDER	?= msbuild
-PROJECTNAME	?= $(shell basename "$(shell pwd)").elements
+
+ifneq ($(BOARDNAME),)
+EBUILDFLAGS	+= --setting:ExtraConditionalDefines=$(BOARDNAME)
+endif
 
 # Don't delete intermediate files
 
@@ -45,17 +40,8 @@ elements_mk_default: default
 
 # Build project using EBuild
 
-elements_mk_ebuild:
-	"$(EBUILD)" "$(PROJECTNAME)" $(EBUILDFLAGS)
-
-# Build project using MSBuild
-
-elements_mk_msbuild:
-	"$(MSBUILD)" $(MSBUILDFLAGS) "$(PROJECTNAME)"
-
-# Build project using selected project builder
-
-elements_mk_build: elements_mk_$(PROJECTBUILDER)
+elements_mk_build:
+	"$(EBUILD)" $(EBUILDFLAGS)
 
 # Fixup permissions etc.
 
