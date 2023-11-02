@@ -67,13 +67,14 @@ endif
 endif
 
 test_compile_csharp:
-	for D in $(LIBSIMPLEIO)/csharp/programs/remoteio/test*            ; do $(MAKE) -C $$D default clean ; done
-	for D in $(LIBSIMPLEIO)/csharp/programs/simpleio/test*            ; do $(MAKE) -C $$D default clean ; done
-	for D in $(LIBSIMPLEIO)/csharp/programs/simpleio/munts-0018/test* ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/csharp/programs/remoteio/test*                       ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/csharp/programs/simpleio/test*                       ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/csharp/programs/simpleio/munts-0018/test*            ; do $(MAKE) -C $$D default clean ; done
 
 test_compile_elements:
-	for D in $(LIBSIMPLEIO)/elements/dotnet/programs/remoteio/test*   ; do $(MAKE) -C $$D default clean ; done
-	for D in $(LIBSIMPLEIO)/elements/dotnet/programs/simpleio/test*   ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/elements/dotnet/programs/remoteio/test*              ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/elements/dotnet/programs/simpleio/test*              ; do $(MAKE) -C $$D default clean ; done
+	for D in $(LIBSIMPLEIO)/elements/dotnet/programs/simpleio/munts-0018/test*   ; do $(MAKE) -C $$D default clean ; done
 
 clean:
 	rm -rf $(PROGRAMS) *.log
