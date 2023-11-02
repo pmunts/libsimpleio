@@ -26,7 +26,7 @@ namespace test_mikrobus_adc
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nmikroBUS Analog Input Test\n");
 

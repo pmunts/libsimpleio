@@ -26,7 +26,7 @@ namespace test_a4988
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nA4988 Stepper Motor Driver Test\n");
 

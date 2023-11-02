@@ -26,7 +26,7 @@ namespace test_adc121c021
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O ADC121C021 A/D Converter Test\n");
 

@@ -26,7 +26,7 @@ namespace test_led
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O LED Toggle Test\n");
 

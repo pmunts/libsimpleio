@@ -26,7 +26,7 @@ namespace test_grove_temperature_humidity
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O Grove Temperature and Humidity Sensor (TH02) Test\n");
 

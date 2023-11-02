@@ -26,7 +26,7 @@ namespace test_grove_temperature
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O Grove Temperature Sensor (thermistor) Test\n");
 

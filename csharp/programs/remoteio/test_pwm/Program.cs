@@ -27,7 +27,7 @@ namespace test_pwm
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O PWM Output Test\n");
 

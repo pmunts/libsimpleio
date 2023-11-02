@@ -27,7 +27,7 @@ namespace test_dac
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O Analog Output Test\n");
 

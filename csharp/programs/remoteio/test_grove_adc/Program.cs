@@ -26,7 +26,7 @@ namespace test_grove_adc
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O Grove ADC Test\n");
 

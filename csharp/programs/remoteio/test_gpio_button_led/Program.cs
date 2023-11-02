@@ -26,7 +26,7 @@ namespace test_gpio_button_led
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O GPIO Button and LED Test\n");
 

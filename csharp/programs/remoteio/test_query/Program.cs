@@ -26,7 +26,7 @@ namespace test_query
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O Device Information Query Test\n");
 

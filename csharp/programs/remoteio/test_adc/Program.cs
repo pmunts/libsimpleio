@@ -27,7 +27,7 @@ namespace test_adc
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O Analog Input Test\n");
 

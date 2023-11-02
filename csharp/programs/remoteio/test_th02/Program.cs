@@ -26,7 +26,7 @@ namespace test_th02
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O TH02 Temperature/Humidity Sensor Test\n");
 

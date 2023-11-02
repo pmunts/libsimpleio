@@ -26,7 +26,7 @@ namespace test_hdc1080
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O HDC1080 Temperature/Humidity Sensor Test\n");
 

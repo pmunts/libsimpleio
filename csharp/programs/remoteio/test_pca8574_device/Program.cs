@@ -26,7 +26,7 @@ namespace test_pca8574_device
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O PCA8574 GPIO Port Toggle Test\n");
 

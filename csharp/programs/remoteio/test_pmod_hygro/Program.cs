@@ -26,7 +26,7 @@ namespace test_pmod_hygro
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nRemote I/O Digilent Pmod-HYGRO Temperature/Humidity Sensor Test\n");
 

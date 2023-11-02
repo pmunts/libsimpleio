@@ -26,7 +26,7 @@ namespace test_query_udp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("\nUDP Remote I/O Device Information Query Test\n");
 
