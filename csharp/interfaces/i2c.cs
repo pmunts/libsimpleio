@@ -20,6 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+using System;
+
 namespace IO.Interfaces.I2C
 {
     /// <summary>
@@ -41,6 +43,50 @@ namespace IO.Interfaces.I2C
         /// Fast Mode Plus
         /// </summary>
         public const int FastModePlus = 1000000;
+    }
+
+    /// <summary>
+    /// I<sup>2</sup>C utility functions.
+    /// </summary>
+    public static class Utils
+    {
+        /// <summary>
+        /// Prompt the operator to enter an I<sup>2</sup>C slave address,
+        /// with rigorous error checking.  Failure raises an exception.
+        /// </summary>
+        /// <param name="prompt">Prompt string.</param>
+        /// <returns>I<sup>2</sup>C slave address.</returns>
+        public static int GetAddress(string prompt)
+        {
+            System.Console.Write(prompt);
+            var inbuf = System.Console.ReadLine();
+
+            if (inbuf == null)
+            {
+                throw new Exception("prompt parameter is null");
+            }
+
+            byte addr;
+
+            try
+            {
+                if (inbuf.Substring(0, 2).ToLower().Equals("0x"))
+                    addr = System.Convert.ToByte(inbuf, 16);
+                else
+                    addr = System.Convert.ToByte(inbuf);
+            }
+            catch
+            {
+                throw new Exception("I2C slave address string is invalid");
+            }
+
+            if (addr > 127)
+            {
+                throw new Exception("I2C slave address is out of range");
+            }
+
+            return addr;
+        }
     }
 
     /// <summary>
