@@ -197,9 +197,9 @@ namespace IO.Objects.SimpleIO.Platforms
 
         private static Designator FindI2CNode(string address)
         {
-            // If you have more than 256 I2C buses, my condolences...
+            // If you have more than 64 I2C buses, my condolences.
 
-            for (uint i = 0; i < 256; i++)
+            for (uint i = 0; i < 64; i++)
             {
                 string path = "/sys/devices/platform/soc/" + address + ".i2c/i2c-" + i.ToString();
                 if (System.IO.Directory.Exists(path)) return new Designator(0, i);
