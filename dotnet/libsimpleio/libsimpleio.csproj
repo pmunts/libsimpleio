@@ -57,13 +57,13 @@
       <Link>IO.Objects.RemoteIO\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\remoteio\platforms\*.cs">
-      <Link>IO.Objects.RemoteIO\Platforms\%(FileName)</Link>
+      <Link>IO.Objects.RemoteIO.Platforms\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\simpleio\*.cs">
       <Link>IO.Objects.SimpleIO\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\simpleio\platforms\*.cs">
-      <Link>IO.Objects.SimpleIO\Platforms\%(FileName)</Link>
+      <Link>IO.Objects.SimpleIO.Platforms\%(FileName)</Link>
     </Compile>
     <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
     <None Include="obj\README.md" Pack="true" PackagePath="doc"/>
