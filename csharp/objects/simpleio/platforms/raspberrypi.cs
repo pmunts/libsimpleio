@@ -174,7 +174,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// <summary>PWM output designator (0,1).  Conflicts with
         /// <c>GPIO13</c> or <c>GPIO19</c>.  Requires the <c>pwm.dtbo</c>
         /// device tree overlay.</summary>
-        public static readonly Designator PWM0_1 = new Designator(0,1);
+        public static readonly Designator PWM1 = new Designator(0,1);
 
         /// <summary>SPI slave designator (0,0).  Conflicts with
         /// <c>GPIO8</c>.</summary>
