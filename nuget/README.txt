@@ -32,9 +32,6 @@ Linux Example NuGet.Config:
 
    Questions or comments to Philip Munts [3]phil@munts.net
 
-   I am available for custom system development (hardware and software) of
-   products using ARM Linux or other microcomputers.
-
 References
 
    1. https://www.nuget.org/

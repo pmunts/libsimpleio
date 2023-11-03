@@ -23,6 +23,3 @@ of the templates.
 ------------------------------------------------------------------------
 
 Questions or comments to Philip Munts <phil@munts.net>
-
-I am available for custom system development (hardware and software) of
-products using ARM Linux or other microcomputers.
