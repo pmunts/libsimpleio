@@ -14,7 +14,6 @@
     <PackageReadmeFile>doc/README.md</PackageReadmeFile>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI; Stepper;</PackageTags>
     <PackageReleaseNotes>
-Rebuilt to incorporate latest improvements to libsimpleio.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
@@ -52,7 +51,7 @@ Rebuilt to incorporate latest improvements to libsimpleio.
       <Link>IO.Objects.RemoteIO\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\remoteio\platforms\*.cs">
-      <Link>IO.Objects.RemoteIO\Platforms\%(FileName)</Link>
+      <Link>IO.Objects.RemoteIO.Platforms\%(FileName)</Link>
     </Compile>
     <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
     <None Include="obj\README.md" Pack="true" PackagePath="doc"/>
