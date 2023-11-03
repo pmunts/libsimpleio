@@ -39,8 +39,8 @@ begin
   writeLn('Remote I/O Device Information Query');
   writeLn;
 
-  var msg : IO.Objects.USB.HID.Messenger :=
-    new IO.Objects.USB.HID.Messenger();
+  var msg : IO.Objects.RemoteIO.HID.Messenger :=
+    new IO.Objects.RemoteIO.HID.Messenger();
 
   var remdev : IO.Objects.RemoteIO.Device :=
     new IO.Objects.RemoteIO.Device(msg);
