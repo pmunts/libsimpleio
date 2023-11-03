@@ -22,8 +22,8 @@
 
 using IO.Objects.SimpleIO.Device;
 using IO.Objects.SimpleIO.GPIO;
+using IO.Objects.SimpleIO.Platforms;
 using System.Collections.Generic;
-using static IO.Objects.SimpleIO.Platforms.RaspberryPi;
 
 namespace IO.Objects.SimpleIO.Platforms
 {
@@ -54,7 +54,8 @@ namespace IO.Objects.SimpleIO.Platforms
             /// <summary>
             /// GPIO pin <c>Designator</c> for the on-board LED <c>D1</c>.
             /// </summary>
-            public static readonly Designator D1 = GPIO26;
+            public static readonly Designator D1 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO26;
 
             // On board pushbutton switch
 
@@ -62,7 +63,8 @@ namespace IO.Objects.SimpleIO.Platforms
             /// GPIO pin <c>Designator</c> for the on-board momentary switch
             /// <c>SW1</c>.
             /// </summary>
-            public static readonly Designator SW1 = GPIO6;
+            public static readonly Designator SW1 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO6;
 
             // Grove GPIO Connectors
 
@@ -70,25 +72,29 @@ namespace IO.Objects.SimpleIO.Platforms
             /// GPIO pin <c>Designator</c> for Digital I/O Grove Connector
             /// <c>J4</c> pin <c>D0</c>.
             /// </summary>
-            public static readonly Designator J4D0 = GPIO23;
+            public static readonly Designator J4D0 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO23;
 
             /// <summary>
             /// GPIO pin <c>Designator</c> for Digital I/O Grove Connector
             /// <c>J4</c> pin <c>D1</c>.
             /// </summary>
-            public static readonly Designator J4D1 = GPIO24;
+            public static readonly Designator J4D1 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO24;
 
             /// <summary>
             /// GPIO pin <c>Designator</c> for Digital I/O Grove Connector
             /// <c>J5</c> pin <c>D0</c>.
             /// </summary>
-            public static readonly Designator J5D0 = GPIO5;
+            public static readonly Designator J5D0 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO5;
 
             /// <summary>
             /// GPIO pin <c>Designator</c> for Digital I/O Grove Connector
             /// <c>J5</c> pin <c>D1</c>.
             /// </summary>
-            public static readonly Designator J5D1 = GPIO4;
+            public static readonly Designator J5D1 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO4;
 
             /// <summary>
             /// GPIO pin <c>Designator</c> for DC Motor Driver Grove Connector
@@ -98,13 +104,15 @@ namespace IO.Objects.SimpleIO.Platforms
             /// This GPIO pin is normally unusable because <c>GPIO12</c> is
             /// mapped to PWM output <c>PWM0</c>.
             /// </remarks>
-            public static readonly Designator J6D0 = GPIO12;
+            public static readonly Designator J6D0 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO12;
 
             /// <summary>
             /// GPIO pin <c>Designator</c> for DC Motor Driver Grove Connector
             /// <c>J6</c> pin <c>D1</c>.
             /// </summary>
-            public static readonly Designator J6D1 = GPIO13;
+            public static readonly Designator J6D1 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO13;
 
             /// <summary>
             /// GPIO pin <c>Designator</c> for DC Motor Driver Grove Connector
@@ -114,63 +122,117 @@ namespace IO.Objects.SimpleIO.Platforms
             /// This GPIO pin is normally unusable because <c>GPIO19</c> is
             /// mapped to PWM output <c>PWM1</c>.
             /// </remarks>
-            public static readonly Designator J7D0 = GPIO19;
+            public static readonly Designator J7D0 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO19;
 
             /// <summary>
             /// GPIO pin <c>Designator</c> for DC Motor Driver Grove Connector
             /// <c>J7</c> pin <c>D1</c>.
             /// </summary>
-            public static readonly Designator J7D1 = GPIO18;
+            public static readonly Designator J7D1 =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO18;
 
             // Servo headers
 
             /// <summary>
-            /// PWM output <c>Designator</c> for Servo Header <c>J2</c>.
+            /// Servo position PWM output <c>Designator</c> for Servo Header
+            /// <c>J2</c>.
             /// </summary>
-            public static readonly Designator J2PWM = PWM0;
+            public static readonly Designator J2PWM =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.PWM0;
 
             /// <summary>
-            /// PWM output <c>Designator</c> for Servo Header <c>J3</c>.
+            /// Servo position PWM output <c>Designator</c> for Servo Header
+            /// <c>J3</c>.
             /// </summary>
-            public static readonly Designator J3PWM = PWM0_1;
+            public static readonly Designator J3PWM =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.PWM1;
 
             // DC motor control outputs (PWM and direction)
 
             /// <summary>
-            /// PWM output <c>Designator</c> for DC Motor Driver Grove Connector
-            /// <c>J6</c> pin <c>D0</c>.
+            /// Motor speed PWM output <c>Designator</c> for DC Motor Driver
+            /// Grove Connector <c>J6</c>.
             /// </summary>
-            /// <remarks>
-            /// <c>J6PWM</c> controls the motor <b>speed</b>.
-            /// </remarks>
-            public static readonly Designator J6PWM = PWM0;
+            public static readonly Designator J6PWM =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.PWM0;
 
             /// <summary>
-            /// GPIO pin <c>Designator</c> for DC Motor Driver Grove Connector
-            /// <c>J6</c> pin <c>D1</c>.
+            /// Motor direction GPIO output pin <c>Designator</c> for DC Motor
+            /// Driver Grove Connector <c>J6</c>.
             /// </summary>
-            /// <remarks>
-            /// <c>J6DIR</c> controls the motor <b>direction</b>.
-            /// </remarks>
             public static readonly Designator J6DIR = J6D1;
 
             /// <summary>
-            /// PWM output <c>Designator</c> for DC Motor Driver Grove Connector
-            /// <c>J7</c> pin <c>D0</c>.
+            /// Motor speed PWM output <c>Designator</c> for DC Motor Driver
+            /// Grove Connector <c>J6</c> as configured for the
+            /// <a href="https://www.cytron.io/p-13amp-6v-30v-dc-motor-driver">Cytron MD13S</a>
+            /// Grove motor driver board.
             /// </summary>
             /// <remarks>
-            /// <c>J7PWM</c> controls the motor <b>speed</b>.
+            /// The speed and direction pins need to be swapped for the MD13S.
+            /// This requires using the <c>MUNTS-0018-MD13S</c> device tree
+            /// overlay instead of <c>MUNTS-0018</c> to arrange the Raspberry
+            /// Pi expansion bus PWM and GPIO pins properly for the MD13S.
             /// </remarks>
-            public static readonly Designator J7PWM = PWM0_1;
+            public static readonly Designator J6PWM_MD13S =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.PWM1;
 
             /// <summary>
-            /// GPIO pin <c>Designator</c> for DC Motor Driver Grove Connector
-            /// <c>J7</c> pin <c>D1</c>.
+            /// Motor direction GPIO output pin <c>Designator</c> for DC Motor
+            /// Driver Grove Connector<c>J6</c> as configured for the
+            /// <a href="https://www.cytron.io/p-13amp-6v-30v-dc-motor-driver">Cytron MD13S</a>
+            /// Grove motor driver board.
             /// </summary>
             /// <remarks>
-            /// <c>J7DIR</c> controls the motor <b>direction</b>.
+            /// The speed and direction pins need to be swapped for the MD13S.
+            /// This requires using the <c>MUNTS-0018-MD13S</c> device tree
+            /// overlay instead of <c>MUNTS-0018</c> to arrange the Raspberry
+            /// Pi expansion bus PWM and GPIO pins properly for the MD13S.
             /// </remarks>
+            public static readonly Designator J6DIR_MD13S = J6D0;
+
+            /// <summary>
+            /// Motor speed PWM output <c>Designator</c> for DC Motor Driver
+            /// Grove Connector <c>J7</c>.
+            /// </summary>
+            public static readonly Designator J7PWM =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.PWM1;
+
+            /// <summary>
+            /// Motor direction GPIO output pin <c>Designator</c> for DC Motor
+            /// Driver Grove Connector <c>J6</c>.
+            /// </summary>
             public static readonly Designator J7DIR = J7D1;
+
+            /// <summary>
+            /// Motor speed PWM output <c>Designator</c> for DC Motor Driver
+            /// Grove Connector <c>J7</c> as configured for the
+            /// <a href="https://www.cytron.io/p-13amp-6v-30v-dc-motor-driver">Cytron MD13S</a>
+            /// Grove motor driver board.
+            /// </summary>
+            /// <remarks>
+            /// The speed and direction pins need to be swapped for the MD13S.
+            /// This requires using the <c>MUNTS-0018-MD13S</c> device tree
+            /// overlay instead of <c>MUNTS-0018</c> to arrange the Raspberry
+            /// Pi expansion bus PWM and GPIO pins properly for the MD13S.
+            /// </remarks>
+            public static readonly Designator J7PWM_MD13S =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.PWM0;
+
+            /// <summary>
+            /// Motor direction GPIO output pin <c>Designator</c> for DC Motor
+            /// Driver Grove Connector<c>J7</c> as configured for the
+            /// <a href="https://www.cytron.io/p-13amp-6v-30v-dc-motor-driver">Cytron MD13S</a>
+            /// Grove motor driver board.
+            /// </summary>
+            /// <remarks>
+            /// The speed and direction pins need to be swapped for the MD13S.
+            /// This requires using the <c>MUNTS-0018-MD13S</c> device tree
+            /// overlay instead of <c>MUNTS-0018</c> to arrange the Raspberry
+            /// Pi expansion bus PWM and GPIO pins properly for the MD13S.
+            /// </remarks>
+            public static readonly Designator J7DIR_MD13S = J7D0;
 
             // I2C buses
 
@@ -178,7 +240,8 @@ namespace IO.Objects.SimpleIO.Platforms
             /// I<sup>2</sup>C bus <c>Designator</c> for <c>/dev/i2c-1</c>
             /// on I<sup>2</sup>C Grove Connector <c>J9</c>.
             /// </summary>
-            public static readonly Designator J9I2C = I2C1;
+            public static readonly Designator J9I2C =
+                IO.Objects.SimpleIO.Platforms.RaspberryPi.I2C1;
 
             // Analog inputs (on board MCP3204)
 
@@ -466,16 +529,32 @@ namespace IO.Objects.SimpleIO.Platforms
             // DC motor control outputs (PWM and direction)
 
             /// <summary>
-            /// PWM output (speed) <c>Designator</c> for DC Motor Driver Grove
-            /// Connector <c>J6</c>.
+            /// Motor speed PWM output <c>Designator</c> for DC Motor Driver
+            /// Grove Connector <c>J6</c>.
             /// </summary>
             public static readonly Designator J6PWM = OrangePiZero2W_RaspberryPi.PWM0;
 
             /// <summary>
-            /// GPIO output (direction) <c>Designator</c> for DC Motor Driver
-            /// Grove Connector <c>J6</c> pin <c>D1</c>.
+            /// Motor direction GPIO output pin <c>Designator</c> for DC Motor
+            /// Driver Grove Connector <c>J6</c>.
             /// </summary>
             public static readonly Designator J6DIR = J6D1;
+
+            /// <summary>
+            /// Motor speed PWM output <c>Designator</c> for DC Motor Driver
+            /// Grove Connector <c>J6</c> as configured for the
+            /// <a href="https://www.cytron.io/p-13amp-6v-30v-dc-motor-driver">Cytron MD13S</a>
+            /// Grove motor driver board.
+            /// </summary>
+            public static readonly Designator J6PWM_MD13S = OrangePiZero2W_RaspberryPi.PWM1;
+
+            /// <summary>
+            /// Motor direction GPIO output pin <c>Designator</c> for DC Motor
+            /// Driver Grove Connector<c>J6</c> as configured for the
+            /// <a href="https://www.cytron.io/p-13amp-6v-30v-dc-motor-driver">Cytron MD13S</a>
+            /// Grove motor driver board.
+            /// </summary>
+            public static readonly Designator J6DIR_MD13S = J6D0;
 
             // I2C buses
 
@@ -521,10 +600,10 @@ namespace IO.Objects.SimpleIO.Platforms
                 new List<Designator>(new[] { J4D0, J4D1, J5D0, J5D1, J6D0, J6D1, J7D0, J7D1 });
 
             private static readonly List<Designator> ValidMotorSpeedOutputs =
-                new List<Designator>(new[] { J6DIR });
+                new List<Designator>(new[] { J6PWM, J6PWM_MD13S });
 
             private static readonly List<Designator> ValidMotorDirectionOutputs =
-                new List<Designator>(new[] { J6DIR });
+                new List<Designator>(new[] { J6DIR, J6DIR_MD13S });
 
             private static readonly List<Designator> ValidServoOutputs =
                 new List<Designator>(new[] { J2PWM });
