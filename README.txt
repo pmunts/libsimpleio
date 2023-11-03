@@ -73,14 +73,18 @@ Debian Package Repository
 
 [18]Make With Ada Projects
 
-     * 2017 [19]Ada Embedded Linux Framework
-     * 2019 [20]Modbus RTU Framework for Ada (Prize Winner!)
+   2017 [19]Ada Embedded Linux Framework
+   2019 [20]Modbus RTU Framework for Ada (Prize Winner!)
+
+[21]NuGet Packages for [22].Net
+
+   [23]libremoteio
+   [24]libremoteio-templates
+   [25]libsimpleio
+   [26]libsimpleio-templates
    _______________________________________________________________________
 
-   Questions or comments to Philip Munts [21]phil@munts.net
-
-   I am available for custom system development (hardware and software) of
-   products using ARM Linux or other microcomputers.
+   Questions or comments to Philip Munts [27]phil@munts.net
 
 References
 
@@ -104,4 +108,10 @@ References
   18. https://www.makewithada.org/
   19. https://www.makewithada.org/entry/ada_linux_sensor_framework
   20. https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6
-  21. mailto:phil@munts.net
+  21. https://nuget.org/
+  22. https://dotnet.microsoft.com/
+  23. https://www.nuget.org/packages/libremoteio
+  24. https://www.nuget.org/packages/libremoteio-templates
+  25. https://www.nuget.org/packages/libsimpleio
+  26. https://www.nuget.org/packages/libsimpleio-templates
+  27. mailto:phil@munts.net
