@@ -2,12 +2,12 @@
   "$schema":         "http://json.schemastore.org/template",
   "classifications": ["Console", "libremoteio", "Remote I/O Protocol"],
   "identity":        "csharp_console_libremoteio",
-  "name":            "C# console application for .Net 7 using libremoteio",
+  "name":            "C# console application for .Net 8 using libremoteio",
   "shortName":       "csharp_console_libremoteio",
   "sourceName":      "csharp_console_libremoteio",
   "tags": {
     "language": "C#",
     "type":     "project",
-    "platform": [".Net 7", "Linux", "macOS", "Windows"]
+    "platform": [".Net 8", "Linux", "macOS", "Windows"]
   }
 }

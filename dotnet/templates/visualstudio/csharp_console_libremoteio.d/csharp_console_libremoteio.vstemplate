@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>C# console application for .Net 7 using libremoteio</Name>
-    <Description>A project for building a C# console application for .Net 7 using the Remote I/O Protocol.</Description>
+    <Name>C# console application for .Net 8 using libremoteio</Name>
+    <Description>A project for building a C# console application for .Net 8 using the Remote I/O Protocol.</Description>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
@@ -9,7 +9,7 @@
     <DefaultName>csharp_console_libremoteio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>C#</LanguageTag>
-    <PlatformTag>.Net 7</PlatformTag>
+    <PlatformTag>.Net 8</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
     <PlatformTag>macOS</PlatformTag>
     <PlatformTag>Windows</PlatformTag>
