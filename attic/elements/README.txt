@@ -7,7 +7,7 @@
    native Windows platforms.
 
    Here are some Visual Studio 2022 project templates and example projects
-   for developing platform neutral .Net 7 applications using the
+   for developing platform neutral .Net console applications using the
    libsimpleio and libremoteio library packages published on [2]NuGet.
 
    The simplest way to begin developing such an applications is to

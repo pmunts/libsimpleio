@@ -8,7 +8,7 @@ languages, targeting Android, Java byte code, .Net, and Web Assembly as
 well as native Linux, native MacOS and native Windows platforms.
 
 Here are some *Visual Studio 2022* project templates and example
-projects for developing platform neutral .Net 7 applications using
+projects for developing platform neutral .Net console applications using
 the `libsimpleio` and `libremoteio` library packages published on
 [NuGet](https://www.nuget.org).
 

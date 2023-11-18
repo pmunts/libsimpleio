@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>RemObjects Elements Java console application for .Net 7 using libsimpleio</Name>
-    <Description>A project for building a Java console application for .Net 7 using libsimpleio.</Description>
+    <Name>RemObjects Elements Java console application for .Net using libsimpleio</Name>
+    <Description>A project for building a Java console application for .Net using libsimpleio.</Description>
     <Icon>elements_dotnet_java_console_libsimpleio.ico</Icon>
     <ProjectType>Oxygene</ProjectType>
     <Elements:Type>Oxygene.Echoes</Elements:Type>
@@ -10,7 +10,7 @@
     <DefaultName>elements_dotnet_java_console_libsimpleio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>Java</LanguageTag>
-    <PlatformTag>.Net 7</PlatformTag>
+    <PlatformTag>.Net</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
     <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>

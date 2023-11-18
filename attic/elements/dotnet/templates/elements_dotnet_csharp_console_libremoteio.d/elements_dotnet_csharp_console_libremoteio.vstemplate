@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
   <TemplateData>
-    <Name>RemObjects Elements C# console application for .Net 7 using libremoteio</Name>
-    <Description>A project for building a C# console application for .Net 7 using the Remote I/O Protocol.</Description>
+    <Name>RemObjects Elements C# console application for .Net using libremoteio</Name>
+    <Description>A project for building a C# console application for .Net using the Remote I/O Protocol.</Description>
     <Icon>elements_dotnet_csharp_console_libremoteio.ico</Icon>
     <ProjectType>Oxygene</ProjectType>
     <Elements:Type>Oxygene.Echoes</Elements:Type>
@@ -10,7 +10,7 @@
     <DefaultName>elements_dotnet_csharp_console_libremoteio</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>C#</LanguageTag>
-    <PlatformTag>.Net 7</PlatformTag>
+    <PlatformTag>.Net</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
     <PlatformTag>macOS</PlatformTag>
     <PlatformTag>Windows</PlatformTag>
