@@ -30,7 +30,7 @@ INSTALLDIR	:= /usr/local/libaws-$(AWS_VER)
 
 BUILDNUM	?= 1
 OSNAME		?= unknown
-PKGNAME		:= libaws
+PKGNAME		:= munts-libaws
 PKGARCH		:= $(shell dpkg --print-architecture)
 PKGVERSION	:= $(AWS_VER)-$(shell date +%Y.%j).$(BUILDNUM)
 PKGDIR		:= $(PKGNAME)-$(PKGVERSION)-$(OSNAME)-$(PKGARCH)
