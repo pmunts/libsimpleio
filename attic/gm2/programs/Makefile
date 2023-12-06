@@ -26,11 +26,7 @@
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-include $(LIBSIMPLEIO)/gm2/include/gm2.mk
-
-GM2_FLAGS	+= -I$(LIBSIMPLEIO)/gm2/bindings
-GM2_FLAGS	+= -I$(LIBSIMPLEIO)/gm2/devices
-GM2_FLAGS	+= -I$(LIBSIMPLEIO)/gm2/modules
+include $(LIBSIMPLEIO)/attic/gm2/include/gm2.mk
 
 # Compile the test programs
 
