@@ -31,15 +31,23 @@ endif
 
 ###############################################################################
 
-GM2		?= $(CROSS_COMPILE)gm2
 AR		?= $(CROSS_COMPILE)ar
 RANLIB		?= $(CROSS_COMPILE)ranlib
 STRIP		?= $(CROSS_COMPILE)strip
 
-GM2_DIALECT	?= iso
-GM2_FLAGS	+= -f$(GM2_DIALECT) -fsoft-check-all -Wpedantic -Wstudents
-GM2_FLAGS	+= -ftarget-ar=$(AR) -ftarget-ranlib=$(RANLIB)
-GM2_LIBS	+= -l:libm2iso.a -l:libm2pim.a -l:libsimpleio.a
+GM2		?= $(CROSS_COMPILE)gm2
+GM2_FLAGS	+= -fiso
+GM2_FLAGS	+= -fsoft-check-all
+GM2_FLAGS	+= -Wpedantic
+#GM2_FLAGS	+= -Wstudents
+GM2_FLAGS	+= -ftarget-ar=$(AR)
+GM2_FLAGS	+= -ftarget-ranlib=$(RANLIB)
+GM2_FLAGS	+= -I$(GM2_SRC)/bindings
+GM2_FLAGS	+= -I$(GM2_SRC)/devices
+GM2_FLAGS	+= -I$(GM2_SRC)/modules
+GM2_LIBS	+= -l:libm2iso.a
+GM2_LIBS	+= -l:libsimpleio.a
+GM2_SRC		?= $(LIBSIMPLEIO)/attic/gm2
 
 ###############################################################################
 
@@ -60,7 +68,7 @@ gm2_mk_default: default
 # Compile subordinate implementation modules
 
 subordinates.a:
-	$(LIBSIMPLEIO)/gm2/include/subordinates.py $(GM2) $(AR) "$(GM2_FLAGS)"
+	$(GM2_SRC)/include/subordinates.py $(GM2) $(AR) "$(GM2_FLAGS)"
 
 ###############################################################################
 
