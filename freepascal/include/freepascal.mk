@@ -31,11 +31,11 @@ endif
 
 ###############################################################################
 
-FPC		?= $(FREEPASCALPREFIX)fpc
+FPC		?= fpc
 OBJ		?= obj
 FPC_FLAGS	+= -Mobjfpc -CX -Sh -Xs -XX -g -gl -FE. -FU$(OBJ) $(FPC_EXTRAFLAGS)
 
-PTOP		?= $(FREEPASCALPREFIX)ptop
+PTOP		?= ptop
 PTOP_CFG	= $(PASCAL_SRC)/ptop.cfg
 PTOP_FLAGS	= -i 2 -c $(PTOP_CFG)
 
