@@ -45,7 +45,7 @@ STRIP		?= $(CROSS_COMPILE)strip
 endif
 
 GO_LIB		?= $(shell pwd)/subordinates
-GO_SRC		?= $(LIBSIMPLEIO)/go
+GO_SRC		?= $(LIBSIMPLEIO)/attic/go
 
 CFLAGS		+= -Wall $(DEBUGFLAGS) $(EXTRAFLAGS) -I$(GO_LIB)
 LDFLAGS		+= subordinates.a
