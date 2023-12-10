@@ -22,7 +22,7 @@
 
 # The following targets are not files
 
-.PHONY: go_mk_default go_mk_subordinates go_mk_clean go_mk_reallyclean go_mk_distclean
+.PHONY: go_mk_default go_mk_lib go_mk_clean go_mk_reallyclean go_mk_distclean
 
 # Do not remove intermediate files
 
@@ -44,18 +44,18 @@ RANLIB		?= $(CROSS_COMPILE)ranlib
 STRIP		?= $(CROSS_COMPILE)strip
 endif
 
-GO_LIB		?= $(shell pwd)/subordinates
 GO_SRC		?= $(LIBSIMPLEIO)/attic/go
+GO_LIB		:= $(GO_SRC)/lib
+GO_LIBFILE	:= $(GO_LIB)/munts.com.a
+GO_LIBSRC	+= $(GO_SRC)/interfaces
+GO_LIBSRC	+= $(GO_SRC)/objects
 
 CFLAGS		+= -Wall $(DEBUGFLAGS) $(EXTRAFLAGS) -I$(GO_LIB)
-LDFLAGS		+= subordinates.a
-
-SUBORDINATEDIRS += $(GO_SRC)/interfaces
-SUBORDINATEDIRS += $(GO_SRC)/objects
+LDFLAGS		+= $(GO_LIBFILE)
 
 # Define a pattern rule to compile a Go program
 
-%: go_mk_subordinates %.go
+%:%.go
 	$(GCCGO) $(CFLAGS) -o $@ $*.go $(LDFLAGS)
 	$(STRIP) $@
 
@@ -65,20 +65,20 @@ go_mk_default: default
 
 # Compile subordinate modules
 
-subordinates.a:
+$(GO_LIBFILE):
 	mkdir -p $(GO_LIB)
-	for D in $(SUBORDINATEDIRS) ; do $(MAKE) -C $$D GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB) ; done
+	for D in $(GO_LIBSRC) ; do $(MAKE) -C $$D GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB) ; done
 	$(AR) rcs $@ $(GO_LIB)/*.o
 	rm -f $(GO_LIB)/*.o
-	$(RANLIB) subordinates.a
+	$(RANLIB) $(GO_LIBFILE)
 
-go_mk_subordinates: subordinates.a
+go_mk_lib: $(GO_LIBFILE)
 
 # Remove working files
 
 go_mk_clean:
 
 go_mk_reallyclean: go_mk_clean
-	rm -rf $(GO_LIB) subordinates.a
 
 go_mk_distclean: go_mk_reallyclean
+	rm -rf $(GO_LIB)
