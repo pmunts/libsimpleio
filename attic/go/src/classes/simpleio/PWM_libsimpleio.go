@@ -26,7 +26,7 @@ import "fmt"
 import "syscall"
 
 import "munts.com/interfaces/PWM"
-import "munts.com/objects/simpleio/Designator"
+import "munts.com/classes/simpleio/Designator"
 
 //*****************************************************************************
 

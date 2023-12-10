@@ -22,13 +22,13 @@
 
 include $(GO_SRC)/include/gccgo.mk
 
-MYCOLLECTION	:= munts.com/objects/simpleio
+MYCOLLECTION	:= munts.com/classes/simpleio
 OBJ		:= $(GO_LIB)/$(MYCOLLECTION)
 
 # What this collection depends on
 
 CFLAGS		+= -I$(GO_LIB)/munts.com/interfaces
-CFLAGS		+= -I$(GO_LIB)/munts.com/objects
+CFLAGS		+= -I$(GO_LIB)/munts.com/classes
 
 # What to compile for this collection
 

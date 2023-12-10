@@ -47,15 +47,15 @@ endif
 GO_SRC		?= $(LIBSIMPLEIO)/attic/go
 GO_LIB		:= $(GO_SRC)/lib
 GO_LIBFILE	:= $(GO_LIB)/munts.com.a
-GO_LIBSRC	+= $(GO_SRC)/interfaces
-GO_LIBSRC	+= $(GO_SRC)/objects
+GO_LIBSRC	+= $(GO_SRC)/src/interfaces
+GO_LIBSRC	+= $(GO_SRC)/src/classes
 
 CFLAGS		+= -Wall $(DEBUGFLAGS) $(EXTRAFLAGS) -I$(GO_LIB)
 LDFLAGS		+= $(GO_LIBFILE)
 
 # Define a pattern rule to compile a Go program
 
-%:%.go
+% : %.go
 	$(GCCGO) $(CFLAGS) -o $@ $*.go $(LDFLAGS)
 	$(STRIP) $@
 

@@ -1,4 +1,4 @@
-// PWM Output Test
+// GPIO Output Toggle Test
 
 // Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
 //
@@ -24,50 +24,40 @@ package main
 
 import (
   "fmt"
-  "time"
-  "munts.com/interfaces/PWM"
-  "munts.com/objects/Error"
-  "munts.com/objects/simpleio/Designator"
-  "munts.com/objects/simpleio/PWM_libsimpleio"
+  "munts.com/interfaces/GPIO"
+  "munts.com/classes/Error"
+  "munts.com/classes/simpleio/Designator"
+  "munts.com/classes/simpleio/GPIO_libsimpleio"
 )
 
 func main() {
-  fmt.Printf("\nPWM Output Test\n\n")
+  fmt.Printf("\nGPIO Output Toggle Test\n\n")
 
   var chip int32
-  fmt.Printf("Enter PWM chip number:      ")
+  fmt.Printf("Enter GPIO chip number:    ")
   fmt.Scanln(&chip)
 
   var channel int32
-  fmt.Printf("Enter PWM channel number:   ")
+  fmt.Printf("Enter GPIO channel number: ")
   fmt.Scanln(&channel)
 
-  var freq PWM.Frequency
-  fmt.Printf("Enter PWM output frequency: ")
-  fmt.Scanln(&freq)
+  // Configure a GPIO output
 
-  // Configure a PWM output
-
-  var outp PWM.Output
+  var outp GPIO.Pin
   var err error
 
-  outp, err = PWM_libsimpleio.New(Designator.Designator { chip, channel }, freq,
-    PWM.MinimumDutyCycle, PWM_libsimpleio.ActiveHigh)
+  outp, err = GPIO_libsimpleio.NewOutput(Designator.Designator { chip, channel }, false)
   Error.Exit(err, "NewOutput() failed")
 
-  // Sweep the PWM output duty cycle
+  var state bool
 
-  var d int
+  // Toggle the GPIO output
 
   for {
-    for d = 0; d <= 100; d++ {
-      outp.Put(PWM.DutyCycle(d))
-      time.Sleep(50000000)
-    }
+    state, err = outp.Get()
+    Error.Exit(err, "outp.Get() failed")
 
-    for d = 100; d >= 0; d-- {
-      outp.Put(PWM.DutyCycle(d))
-      time.Sleep(50000000)
-    }
+    err = outp.Put(!state)
+    Error.Exit(err, "outp.Put() failed")
   }
 }

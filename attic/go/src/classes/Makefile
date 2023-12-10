@@ -22,7 +22,7 @@
 
 include $(GO_SRC)/include/gccgo.mk
 
-MYCOLLECTION	:= munts.com/objects
+MYCOLLECTION	:= munts.com/classes
 OBJ		:= $(GO_LIB)/$(MYCOLLECTION)
 
 # What this collection depends on
