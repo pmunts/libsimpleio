@@ -37,6 +37,7 @@ AR		:= $(CROSS_COMPILE)ar
 RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
 GO_LIB		:= $(GCCSYSROOT)/usr/lib/go
+LDFLAGS		+= -static
 else
 # Native compile for Unix
 GCCGO		?= $(CROSS_COMPILE)gccgo
