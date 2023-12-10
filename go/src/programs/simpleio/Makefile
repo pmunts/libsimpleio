@@ -25,7 +25,7 @@
 # Override the following macros to build out of tree
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-GO_SRC		?= $(LIBSIMPLEIO)/attic/go
+GO_SRC		?= $(LIBSIMPLEIO)/go
 
 # Include subordinate makefiles
 
