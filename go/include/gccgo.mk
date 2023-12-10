@@ -36,6 +36,7 @@ GCCGO		:= $(CROSS_COMPILE)gccgo
 AR		:= $(CROSS_COMPILE)ar
 RANLIB		:= $(CROSS_COMPILE)ranlib
 STRIP		:= $(CROSS_COMPILE)strip
+GO_LIB		:= $(GCCSYSROOT)/usr/lib/go
 else
 # Native compile for Unix
 GCCGO		?= $(CROSS_COMPILE)gccgo
@@ -45,7 +46,7 @@ STRIP		?= $(CROSS_COMPILE)strip
 endif
 
 GO_SRC		?= $(LIBSIMPLEIO)/go
-GO_LIB		:= $(GO_SRC)/lib
+GO_LIB		?= $(GO_SRC)/lib
 GO_LIBNAME	:= munts.com
 GO_LIBFILE	:= $(GO_LIB)/$(GO_LIBNAME).a
 
