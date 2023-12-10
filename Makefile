@@ -71,12 +71,16 @@ libsimpleio.so: compile.done
 # Precompile Ada library projects
 
 adalibs.done:
-	$(MAKE) -C ada/lib LIBSIMPLEIO=$(LIBSIMPLEIO)
+	$(MAKE) -C ada/lib
+	touch $@
+
+golibs.done:
+	$(MAKE) -C go/lib
 	touch $@
 
 # Install headers and library files
 
-install: libsimpleio.a libsimpleio.so adalibs.done
+install: libsimpleio.a libsimpleio.so adalibs.done golibs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
@@ -103,6 +107,8 @@ install: libsimpleio.a libsimpleio.so adalibs.done
 	rm -rf					$(DESTDIR)/share/libsimpleio/c++/visualstudio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p freepascal			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
+	rm -f					$(DESTDIR)/share/libsimpleio/go/lib/Makefile
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p nuget			$(DESTDIR)/share/libsimpleio
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
@@ -133,7 +139,8 @@ package.deb: $(PKGFILE)
 # Remove working files
 
 clean:
-	$(MAKE) -C ada/lib clean LIBSIMPLEIO=$(LIBSIMPLEIO)
+	$(MAKE) -C ada/lib clean
+	$(MAKE) -C go/lib  clean
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean

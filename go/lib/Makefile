@@ -1,4 +1,4 @@
-# gccgo definitions for libsimpleio
+# Makefile for building the Go import library for libsimpleio
 
 # Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
 #
@@ -20,4 +20,29 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LDFLAGS		+= -lsimpleio
+.PHONY: default clean reallyclean distclean
+
+LIBSIMPLEIO	:= $(shell pwd)/../..
+GO_SRC		:= $(LIBSIMPLEIO)/go
+
+include $(GO_SRC)/include/gccgo.mk
+
+GO_LIBSRC	+= $(GO_SRC)/src/interfaces
+GO_LIBSRC	+= $(GO_SRC)/src/classes
+GO_LIBSRC	+= $(GO_SRC)/src/classes/simpleio
+
+default: $(GO_LIBFILE)
+
+# Populate the import library directory
+
+$(GO_LIBFILE):
+	mkdir -p $(GO_LIB)
+	for D in $(GO_LIBSRC) ; do $(MAKE) -C $$D GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB) ; done
+	$(AR) rcs $@ $(GO_LIB)/*.o
+	rm -f $(GO_LIB)/*.o
+	$(RANLIB) $(GO_LIBFILE)
+
+# Remove working files
+
+clean:
+	rm -rf $(GO_LIBNAME) $(GO_LIBFILE)

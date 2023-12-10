@@ -22,7 +22,7 @@
 
 # The following targets are not files
 
-.PHONY: go_mk_default go_mk_lib go_mk_clean go_mk_reallyclean go_mk_distclean
+.PHONY: go_mk_default go_mk_clean go_mk_reallyclean go_mk_distclean
 
 # Do not remove intermediate files
 
@@ -46,9 +46,8 @@ endif
 
 GO_SRC		?= $(LIBSIMPLEIO)/go
 GO_LIB		:= $(GO_SRC)/lib
-GO_LIBFILE	:= $(GO_LIB)/munts.com.a
-GO_LIBSRC	+= $(GO_SRC)/src/interfaces
-GO_LIBSRC	+= $(GO_SRC)/src/classes
+GO_LIBNAME	:= munts.com
+GO_LIBFILE	:= $(GO_LIB)/$(GO_LIBNAME).a
 
 CFLAGS		+= -Wall $(DEBUGFLAGS) $(EXTRAFLAGS) -I$(GO_LIB)
 LDFLAGS		+= $(GO_LIBFILE)
@@ -63,17 +62,6 @@ LDFLAGS		+= $(GO_LIBFILE)
 
 go_mk_default: default
 
-# Compile subordinate modules
-
-$(GO_LIBFILE):
-	mkdir -p $(GO_LIB)
-	for D in $(GO_LIBSRC) ; do $(MAKE) -C $$D GO_SRC=$(GO_SRC) GO_LIB=$(GO_LIB) ; done
-	$(AR) rcs $@ $(GO_LIB)/*.o
-	rm -f $(GO_LIB)/*.o
-	$(RANLIB) $(GO_LIBFILE)
-
-go_mk_lib: $(GO_LIBFILE)
-
 # Remove working files
 
 go_mk_clean:
@@ -81,4 +69,3 @@ go_mk_clean:
 go_mk_reallyclean: go_mk_clean
 
 go_mk_distclean: go_mk_reallyclean
-	rm -rf $(GO_LIB)
