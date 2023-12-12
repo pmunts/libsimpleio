@@ -61,16 +61,21 @@ DEFINITION MODULE FOR "C" errno;
 
     ECONNRESET = 104; (* Connection reset by peer *)
 
-  (* Linux libc function for retrieving an error message *)
+  (* Retrieve latest errno value *)
 
-  PROCEDURE __xpg_strerror_r
-   (err    : CARDINAL;
-    buf    : ARRAY OF CHAR;
-    buflen : CARDINAL);
+  PROCEDURE LINUX_errno() : CARDINAL;
 
-  (* Rename to the more conventional strerror() *)
+  (* Retrieve error message for a given errno value *)
+
+  PROCEDURE LINUX_strerror
+   (error   : CARDINAL;
+    buf     : ARRAY OF CHAR;
+    bufsize : CARDINAL);
+
+  (* Define some useful procedure synonyms *)
 
   CONST
-    strerror = __xpg_strerror_r;
+    geterrno = LINUX_errno;
+    strerror = LINUX_strerror;
 
 END errno.
