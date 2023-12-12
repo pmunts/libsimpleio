@@ -37,21 +37,21 @@ STRIP		?= $(CROSS_COMPILE)strip
 
 GM2		?= $(CROSS_COMPILE)gm2
 GM2_SRC		?= $(LIBSIMPLEIO)/attic/gm2
-GM2_FLAGS	+= -fiso
-GM2_FLAGS	+= -fsoft-check-all
-#GM2_FLAGS	+= -Wpedantic
-GM2_FLAGS	+= -I$(GM2_SRC)/bindings
-GM2_FLAGS	+= -I$(GM2_SRC)/devices
-GM2_FLAGS	+= -I$(GM2_SRC)/modules
-GM2_LIBS	+= -L.
-GM2_LIBS	+= -lsimpleio -lsimpleio-gm2
+GM2_CFLAGS	+= -fiso
+GM2_CFLAGS	+= -fsoft-check-all
+#GM2_CFLAGS	+= -Wpedantic
+GM2_CFLAGS	+= -I$(GM2_SRC)/bindings
+GM2_CFLAGS	+= -I$(GM2_SRC)/devices
+GM2_CFLAGS	+= -I$(GM2_SRC)/modules
+GM2_LDFLAGS	+= -L.
+GM2_LDFLAGS	+= -lsimpleio -lsimpleio-gm2
 
 ###############################################################################
 
 # Define a rule for compiling a Modula-2 program
 
 %: %.mod libsimpleio-gm2.a
-	$(GM2) $(GM2_FLAGS) -o$@ $< $(GM2_LIBS)
+	$(GM2) $(GM2_CFLAGS) -o$@ $< $(GM2_LDFLAGS)
 	$(STRIP) $@
 
 ###############################################################################
@@ -65,7 +65,7 @@ gm2_mk_default: default
 # Compile subordinate implementation modules
 
 libsimpleio-gm2.a:
-	$(GM2_SRC)/include/libsimpleio-gm2.py $(GM2) $(AR) "$(GM2_FLAGS)"
+	$(GM2_SRC)/include/libsimpleio-gm2.py $(GM2) $(AR) "$(GM2_CFLAGS)"
 
 ###############################################################################
 
