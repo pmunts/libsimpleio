@@ -33,8 +33,8 @@ GM2 = sys.argv[1]
 AR = sys.argv[2]
 GM2_CFLAGS = sys.argv[3]
 
-OBJDIR = 'libsimpleio_gm2.d'
-LIBFILE = 'libsimpleio_gm2.a'
+OBJDIR = 'libsimpleio-gm2.d'
+LIBFILE = 'libsimpleio-gm2.a'
 
 # Create the object file directory
 

@@ -44,13 +44,13 @@ GM2_FLAGS	+= -I$(GM2_SRC)/bindings
 GM2_FLAGS	+= -I$(GM2_SRC)/devices
 GM2_FLAGS	+= -I$(GM2_SRC)/modules
 GM2_LIBS	+= -L.
-GM2_LIBS	+= -lsimpleio -lsimpleio_gm2
+GM2_LIBS	+= -lsimpleio -lsimpleio-gm2
 
 ###############################################################################
 
 # Define a rule for compiling a Modula-2 program
 
-%: %.mod libsimpleio_gm2.a
+%: %.mod libsimpleio-gm2.a
 	$(GM2) $(GM2_FLAGS) -o$@ $< $(GM2_LIBS)
 	$(STRIP) $@
 
@@ -64,8 +64,8 @@ gm2_mk_default: default
 
 # Compile subordinate implementation modules
 
-libsimpleio_gm2.a:
-	$(GM2_SRC)/include/libsimpleio_gm2.py $(GM2) $(AR) "$(GM2_FLAGS)"
+libsimpleio-gm2.a:
+	$(GM2_SRC)/include/libsimpleio-gm2.py $(GM2) $(AR) "$(GM2_FLAGS)"
 
 ###############################################################################
 
@@ -75,6 +75,6 @@ gm2_mk_clean:
 	rm -f *.s *.o
 
 gm2_mk_reallyclean: gm2_mk_clean
-	rm -rf libsimpleio_gm2.a
+	rm -rf libsimpleio-gm2.a
 
 gm2_mk_distclean: gm2_mk_reallyclean
