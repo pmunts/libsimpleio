@@ -36,25 +36,22 @@ RANLIB		?= $(CROSS_COMPILE)ranlib
 STRIP		?= $(CROSS_COMPILE)strip
 
 GM2		?= $(CROSS_COMPILE)gm2
+GM2_SRC		?= $(LIBSIMPLEIO)/attic/gm2
 GM2_FLAGS	+= -fiso
 GM2_FLAGS	+= -fsoft-check-all
-GM2_FLAGS	+= -Wpedantic
-#GM2_FLAGS	+= -Wstudents
-GM2_FLAGS	+= -ftarget-ar=$(AR)
-GM2_FLAGS	+= -ftarget-ranlib=$(RANLIB)
+#GM2_FLAGS	+= -Wpedantic
 GM2_FLAGS	+= -I$(GM2_SRC)/bindings
 GM2_FLAGS	+= -I$(GM2_SRC)/devices
 GM2_FLAGS	+= -I$(GM2_SRC)/modules
-GM2_LIBS	+= -l:libm2iso.a
-GM2_LIBS	+= -l:libsimpleio.a
-GM2_SRC		?= $(LIBSIMPLEIO)/attic/gm2
+GM2_LIBS	+= -L.
+GM2_LIBS	+= -lsimpleio subordinates.a
 
 ###############################################################################
 
 # Define a rule for compiling a Modula-2 program
 
 %: %.mod subordinates.a
-	$(GM2) $(GM2_FLAGS) -o$@ $^ $(GM2_LIBS)
+	$(GM2) $(GM2_FLAGS) -o$@ $< $(GM2_LIBS)
 	$(STRIP) $@
 
 ###############################################################################
