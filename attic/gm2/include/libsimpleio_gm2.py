@@ -33,8 +33,8 @@ GM2 = sys.argv[1]
 AR = sys.argv[2]
 GM2_CFLAGS = sys.argv[3]
 
-OBJDIR = 'subordinates.d'
-LIBFILE = 'subordinates.a'
+OBJDIR = 'libsimpleio_gm2.d'
+LIBFILE = 'libsimpleio_gm2.a'
 
 # Create the object file directory
 
