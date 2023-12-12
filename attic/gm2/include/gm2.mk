@@ -44,7 +44,8 @@ GM2_CFLAGS	+= -I$(GM2_SRC)/bindings
 GM2_CFLAGS	+= -I$(GM2_SRC)/devices
 GM2_CFLAGS	+= -I$(GM2_SRC)/modules
 GM2_LDFLAGS	+= -L.
-GM2_LDFLAGS	+= -lsimpleio -lsimpleio-gm2
+GM2_LDFLAGS	+= -lsimpleio-gm2
+GM2_LDFLAGS	+= -lsimpleio
 
 ###############################################################################
 
