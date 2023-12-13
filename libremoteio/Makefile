@@ -30,7 +30,7 @@ endif
 
 ifeq ($(OS), Windows_NT)
 LIBFILE		:= libremoteio.dll
-LIBDIR		:= $(LIBSIMPLEIO)/win/win64
+LIBDIR		:= $(LIBSIMPLEIO)/win64
 INSTALL		:= install -cm 0644 libremoteio.dll libremoteio.lib $(LIBDIR)
 VSTOOLS		:= C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.38.33130/bin/Hostx64/x64
 VSLIB		:= $(VSTOOLS)/lib

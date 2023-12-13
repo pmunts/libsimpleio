@@ -28,6 +28,5 @@ FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/objects/remoteio
 FPC_FLAGS	+= -Fu$(LIBSIMPLEIO)/freepascal/objects/simpleio
 
 ifeq ($(OS), Windows_NT)
-WINARCH		?= win64
-FPC_FLAGS	+= -Fl$(LIBSIMPLEIO)/win/$(WINARCH)
+FPC_FLAGS	+= -Fl$(LIBSIMPLEIO)/win64
 endif

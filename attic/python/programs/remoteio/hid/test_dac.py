@@ -31,7 +31,7 @@ print('\nPython Remote I/O Protocol Analog Output Test\n')
 # Select the OS appropriate shared library file
 
 if os.name == 'nt':
-  libremoteio = ctypes.cdll.LoadLibrary(os.environ.get('LIBSIMPLEIO') + '/win/win64/libremoteio.dll')
+  libremoteio = ctypes.cdll.LoadLibrary(os.environ.get('LIBSIMPLEIO') + '/win64/libremoteio.dll')
 elif os.name == 'posix':
   libremoteio = ctypes.cdll.LoadLibrary('/usr/local/lib/libremoteio.so')
 

@@ -48,13 +48,12 @@ PROJECT Default IS
   -- Linker goop to find hidapi.dll or libhidapi.so
 
   OS      := external("OS", external("OSNAME", "unknown"));
-  WINARCH := external("WINARCH", "win64");
 
   PACKAGE Linker IS
     CASE OS IS
       WHEN "Windows_NT" =>
         FOR Default_Switches ("ada") USE
-          ("-L" & LIBSIMPLEIO & "/win/" & WINARCH);
+          ("-L" & LIBSIMPLEIO & "/win64");
 
       WHEN "Darwin" =>
         FOR Default_Switches ("ada") USE

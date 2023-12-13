@@ -65,8 +65,7 @@ ifeq ($(OS), Windows_NT)
 EXESUFFIX	= .exe
 ifneq ($(GNAT),)
 # Gnat Community or Alire or similar mingw toolchain
-WINARCH		?= win64
-LDFLAGS		+= -L$(LIBSIMPLEIO)/win/$(WINARCH)
+LDFLAGS		+= -L$(LIBSIMPLEIO)/win64
 else
 ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
 # Cygwin toolchain (no gprbuild available)
