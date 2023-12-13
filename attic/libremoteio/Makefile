@@ -32,7 +32,7 @@ ifeq ($(OS), Windows_NT)
 LIBFILE		:= libremoteio.dll
 LIBDIR		:= $(LIBSIMPLEIO)/win/win64
 INSTALL		:= install -cm 0644 libremoteio.dll libremoteio.lib $(LIBDIR)
-VSTOOLS		:= C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/bin/HostX64/x64
+VSTOOLS		:= C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.38.33130/bin/Hostx64/x64
 VSLIB		:= $(VSTOOLS)/lib
 else
 OS		:= Linux
@@ -44,6 +44,7 @@ endif
 build:
 	sed -i 's/  PRAGMA Link_With/--PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
 	LIBSIMPLEIO=$(LIBSIMPLEIO) OS=$(OS) $(GPRBUILD) -p
+	sed -i 's/--PRAGMA Link_With/  PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
 	cp obj/lib/$(LIBFILE) .
 ifeq ($(OS), Windows_NT)
 	echo "EXPORTS" >libremoteio.def
