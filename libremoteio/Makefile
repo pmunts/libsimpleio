@@ -22,11 +22,7 @@ LIBSIMPLEIO	?= ..
 
 .PHONY: build install clean
 
-ifneq ($(GNAT),)
-GPRBUILD	:= $(GNAT)/bin/gprbuild
-else
-GPRBUILD	:= gprbuild
-endif
+GPRBUILD	?= gprbuild
 
 ifeq ($(OS), Windows_NT)
 LIBFILE		:= libremoteio.dll
@@ -42,10 +38,12 @@ INSTALL		:= sudo install -cm 0444 libremoteio.h /usr/local/include && sudo insta
 endif
 
 build:
+	rm -rf obj
 	sed -i 's/  PRAGMA Link_With/--PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
 	LIBSIMPLEIO=$(LIBSIMPLEIO) OS=$(OS) $(GPRBUILD) -p
 	sed -i 's/--PRAGMA Link_With/  PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
 	cp obj/lib/$(LIBFILE) .
+	rm -rf obj
 ifeq ($(OS), Windows_NT)
 	echo "EXPORTS" >libremoteio.def
 	awk -F '[ (]' '/extern/ { print $$4 }' libremoteio.h >>libremoteio.def
