@@ -32,7 +32,7 @@
 #include <sys/ioctl.h>
 #include <sys/param.h>
 
-#include "errmsg.inc"
+#include "macros.inc"
 #include "libgpio.h"
 
 void GPIO_chip_info(int32_t chip, char *name, int32_t namesize,

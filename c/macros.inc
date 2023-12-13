@@ -20,8 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <string.h>
-
 void PrintErrorMessage(const char *func, const char *file, int line, const char *msg, int err);
 
 #define ERRORMSG(msg, err, line) PrintErrorMessage(__func__, __FILE__, line, msg, err)
+
+#define ALIAS(orig) __attribute__((weak, alias(orig)))

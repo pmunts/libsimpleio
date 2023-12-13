@@ -31,7 +31,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "errmsg.inc"
+#include "macros.inc"
 #include "liblinux.h"
 
 // Detach process from the controlling terminal and run it in the background
@@ -750,8 +750,6 @@ void *LINUX_indexpp(void **p, int32_t i)
 }
 
 // Function aliases
-
-#define ALIAS(orig) __attribute__((weak, alias(orig)))
 
 void ADC_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
 void DAC_close(int32_t fd, int32_t *error) ALIAS("LINUX_close");
