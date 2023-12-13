@@ -58,12 +58,18 @@ compile.done:
 	for F in c/*.c ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
 	touch $@
 
-# Create static libarary
+# Build libremoteio.so
+
+libremoteio.so:
+	$(MAKE) -C libremoteio
+	cp libremoteio/libremoteio.so .
+
+# Build libsimpleio.a
 
 libsimpleio.a: compile.done
 	$(AR) rcs $@ obj/*.o
 
-# Create shared library
+# Build libsimpleio.so
 
 libsimpleio.so: compile.done
 	$(CC) -shared -o $@ obj/*.o
@@ -80,11 +86,13 @@ golibs.done:
 
 # Install headers and library files
 
-install: libsimpleio.a libsimpleio.so adalibs.done golibs.done
+install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done golibs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
 	mkdir -p				$(DESTDIR)/include/libsimpleio
+	install -cm 0644 libremoteio/libremoteio.h $(DESTDIR)/include
+	sed -i 's/"C" //g'			$(DESTDIR)/include/libremoteio.h
 	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
 	mkdir -p				$(DESTDIR)/lib
 	install -cm 0644 *.a			$(DESTDIR)/lib
@@ -139,8 +147,9 @@ package.deb: $(PKGFILE)
 # Remove working files
 
 clean:
-	$(MAKE) -C ada/lib clean
-	$(MAKE) -C go/lib  clean
+	$(MAKE) -C ada/lib     clean
+	$(MAKE) -C go/lib      clean
+	$(MAKE) -C libremoteio clean
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean
