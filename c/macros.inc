@@ -24,4 +24,4 @@ void PrintErrorMessage(const char *func, const char *file, int line, const char 
 
 #define ERRORMSG(msg, err, line) PrintErrorMessage(__func__, __FILE__, line, msg, err)
 
-#define ALIAS(orig) __attribute__((weak, alias(orig)))
+#define ALIAS(orig) __attribute__((alias(orig)))
