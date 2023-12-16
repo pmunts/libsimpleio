@@ -25,7 +25,7 @@ IMPLEMENTATION MODULE hid_libsimpleio;
   IMPORT
     errno,
     libhidraw,
-    liblinux;
+    poll;
 
   FROM Storage IMPORT ALLOCATE, DEALLOCATE;
   FROM message64 IMPORT MessageSize;
@@ -168,10 +168,10 @@ IMPLEMENTATION MODULE hid_libsimpleio;
   BEGIN
     IF (dev^.timeout <> FOREVER) THEN
       files[0]   := dev^.fd;
-      events[0]  := liblinux.POLLIN;
+      events[0]  := poll.POLLIN;
       results[0] := 0;
 
-      liblinux.poll(1, files, events, results, dev^.timeout, error);
+      poll.Wait(1, files, events, results, dev^.timeout, error);
 
       IF error <> 0 THEN
         RETURN;

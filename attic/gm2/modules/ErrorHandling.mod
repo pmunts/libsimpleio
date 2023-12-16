@@ -20,9 +20,10 @@
 
 IMPLEMENTATION MODULE ErrorHandling;
 
+  IMPORT errno;
+
   FROM STextIO IMPORT WriteString, WriteLn;
   FROM FIO IMPORT FlushOutErr;
-  FROM errno IMPORT strerror;
 
   PROCEDURE CheckCondition
    (condition : BOOLEAN;
@@ -53,7 +54,7 @@ IMPLEMENTATION MODULE ErrorHandling;
 
   BEGIN
     IF (disp <> Ignore) AND (error <> 0) THEN
-      strerror(error, errnomsg, 256);
+      errno.strerror(error, errnomsg, 256);
 
       WriteString("ERROR: ");
       WriteString(message);

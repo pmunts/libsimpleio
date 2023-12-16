@@ -1,6 +1,4 @@
-(* libsimpleio bindings for GNU Modula-2 *)
-
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2020-2023, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -20,33 +18,40 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-DEFINITION MODULE FOR "C" libadc;
+DEFINITION MODULE FOR "C" poll;
 
   EXPORT UNQUALIFIED
-    ADC_get_name,
-    ADC_open,
-    ADC_close,
-    ADC_read;
+    POLLIN,
+    POLLPRI,
+    POLLOUT,
+    POLLERR,
+    POLLHUP,
+    POLLNVAL,
+    POLL_NOWAIT,
+    POLL_FOREVER,
+    Wait;
 
-  PROCEDURE ADC_get_name
-   (chip       : CARDINAL;
-    VAR name   : ARRAY OF CHAR;
-    namesize   : CARDINAL;
-    VAR error  : CARDINAL);
+  CONST
+    POLLIN       = 0001H;
+    POLLPRI      = 0002H;
+    POLLOUT      = 0004H;
+    POLLERR      = 0008H;
+    POLLHUP      = 0010H;
+    POLLNVAL     = 0020H;
+    POLL_NOWAIT  = 0;
+    POLL_FOREVER = -1;
 
-  PROCEDURE ADC_open
-   (chip       : CARDINAL;
-    channel    : CARDINAL;
-    VAR fd     : INTEGER;
-    VAR error  : CARDINAL);
+  PROCEDURE LINUX_poll
+   (numfiles     : CARDINAL;
+    VAR files    : ARRAY OF INTEGER;
+    VAR events   : ARRAY OF CARDINAL;
+    VAR results  : ARRAY OF CARDINAL;
+    timeout      : INTEGER;
+    VAR error    : CARDINAL);
 
-  PROCEDURE ADC_close
-   (fd         : INTEGER;
-    VAR error  : CARDINAL);
+  (* Define some useful procedure synonyms *)
 
-  PROCEDURE ADC_read
-   (fd         : INTEGER;
-    VAR sample : INTEGER;
-    VAR error  : CARDINAL);
+  CONST
+    Wait = LINUX_poll;
 
-END libadc.
+END poll.

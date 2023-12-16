@@ -21,11 +21,9 @@
 MODULE test_syslog;
 
 IMPORT
-  liblinux;
+  syslog;
 
 FROM STextIO IMPORT WriteString, WriteLn;
-FROM SWholeIO IMPORT WriteCard;
-FROM FIO IMPORT FlushOutErr;
 
 VAR
   error : CARDINAL;
@@ -35,15 +33,13 @@ BEGIN
   WriteString("Syslog Test");
   WriteLn;
   WriteLn;
-  FlushOutErr;
 
-  liblinux.openlog(liblinux.LOG_PROGNAME, liblinux.LOG_PID + liblinux.LOG_PERROR,
-    liblinux.LOG_LOCAL0, error);
+  syslog.Open("test_syslog", syslog.LOG_PID + syslog.LOG_PERROR,
+    syslog.LOG_LOCAL0, error);
 
-  liblinux.writelog(liblinux.LOG_NOTICE, "This is a test.", error);
+  syslog.WriteString(syslog.LOG_NOTICE, "This is a test.", error);
 
-  liblinux.closelog(error);
+  syslog.Close(error);
 
   WriteLn;
-  FlushOutErr;
 END test_syslog.

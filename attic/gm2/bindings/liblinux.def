@@ -20,6 +20,17 @@
 
 DEFINITION MODULE FOR "C" liblinux;
 
+  EXPORT UNQUALIFIED
+    Command,
+    Detach,
+    Drop_Privileges,
+    usleep;
+
+  PROCEDURE LINUX_command
+   (cmd          : ARRAY OF CHAR;
+    VAR status   : CARDINAL;
+    VAR error    : CARDINAL);
+
   PROCEDURE LINUX_detach
    (VAR error    : CARDINAL);
 
@@ -27,114 +38,16 @@ DEFINITION MODULE FOR "C" liblinux;
    (username     : ARRAY OF CHAR;
     VAR error    : CARDINAL);
 
-  CONST
-    LOG_PROGNAME = "";
-
-   (* syslog option constants (extracted from syslog.h) *)
-
-    LOG_PID      = 0001H; (* log the pid with each message *)
-    LOG_CONS     = 0002H; (* log on the console if errors in sending *)
-    LOG_ODELAY   = 0004H; (* delay open until first syslog() (default) *)
-    LOG_NDELAY   = 0008H; (* don't delay open *)
-    LOG_NOWAIT   = 0010H; (* don't wait for console forks: DEPRECATED *)
-    LOG_PERROR   = 0020H; (* log to stderr as well *)
-
-   (* syslog facility constants (extracted from syslog.h) *)
-
-    LOG_KERN     = 0000H;
-    LOG_USER     = 0008H;
-    LOG_MAIL     = 0010H;
-    LOG_DAEMON   = 0018H;
-    LOG_AUTH     = 0020H;
-    LOG_SYSLOG   = 0028H;
-    LOG_LPR      = 0030H;
-    LOG_NEWS     = 0038H;
-    LOG_UUCP     = 0040H;
-    LOG_CRON     = 0048H;
-    LOG_AUTHPRIV = 0050H;
-    LOG_FTP      = 0058H;
-    LOG_LOCAL0   = 0080H;
-    LOG_LOCAL1   = 0088H;
-    LOG_LOCAL2   = 0090H;
-    LOG_LOCAL3   = 0098H;
-    LOG_LOCAL4   = 00A0H;
-    LOG_LOCAL5   = 00A8H;
-    LOG_LOCAL6   = 00B0H;
-    LOG_LOCAL7   = 00B8H;
-
-  PROCEDURE LINUX_openlog
-   (ident        : ARRAY OF CHAR;
-    options      : CARDINAL;
-    facility     : CARDINAL;
-    VAR error    : CARDINAL);
-
-  CONST
-
-   (* syslog priority constants (extracted from syslog.h) *)
-
-    LOG_EMERG    = 0; (* system is unusable *)
-    LOG_ALERT    = 1; (* action must be taken immediately *)
-    LOG_CRIT     = 2; (* critical conditions *)
-    LOG_ERR      = 3; (* error conditions *)
-    LOG_WARNING  = 4; (* warning conditions *)
-    LOG_NOTICE   = 5; (* normal but significant condition *)
-    LOG_INFO     = 6; (* informational *)
-    LOG_DEBUG    = 7; (* debug-level messages *)
-
-  PROCEDURE LINUX_syslog
-   (priority     : CARDINAL;
-    message      : ARRAY OF CHAR;
-    VAR error    : CARDINAL);
-
-  PROCEDURE LINUX_closelog
-   (VAR error    : CARDINAL);
-
-  PROCEDURE LINUX_errno() : CARDINAL;
-
-  PROCEDURE LINUX_strerror
-   (error        : CARDINAL;
-    buf          : ARRAY OF CHAR;
-    bufsize      : CARDINAL);
-
-  CONST
-    POLLIN       = 0001H;
-    POLLPRI      = 0002H;
-    POLLOUT      = 0004H;
-    POLLERR      = 0008H;
-    POLLHUP      = 0010H;
-    POLLNVAL     = 0020H;
-    POLL_NOWAIT  = 0;
-    POLL_FOREVER = -1;
-
-  PROCEDURE LINUX_poll
-   (numfiles     : CARDINAL;
-    VAR files    : ARRAY OF INTEGER;
-    VAR events   : ARRAY OF CARDINAL;
-    VAR results  : ARRAY OF CARDINAL;
-    timeout      : INTEGER;
-    VAR error    : CARDINAL);
-
   PROCEDURE LINUX_usleep
    (microsecs    : CARDINAL;
-    VAR error    : CARDINAL);
-
-  PROCEDURE LINUX_command
-   (cmd          : ARRAY OF CHAR;
-    VAR status   : CARDINAL;
     VAR error    : CARDINAL);
 
   (* Define some useful procedure synonyms *)
 
   CONST
-    detach          = LINUX_detach;
-    drop_privileges = LINUX_drop_privileges;
-    openlog         = LINUX_openlog;
-    writelog        = LINUX_syslog;
-    closelog        = LINUX_closelog;
-    errno           = LINUX_errno;
-    strerror        = LINUX_strerror;
-    poll            = LINUX_poll;
+    Command         = LINUX_command;
+    Detach          = LINUX_detach;
+    Drop_Privileges = LINUX_drop_privileges;
     usleep          = LINUX_usleep;
-    command         = LINUX_command;
 
 END liblinux.

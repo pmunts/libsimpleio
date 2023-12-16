@@ -22,6 +22,14 @@
 
 DEFINITION MODULE FOR "C" libpwm;
 
+  EXPORT UNQUALIFIED
+    PWM_ACTIVELOW,
+    PWM_ACTIVEHIGH,
+    PWM_configure,
+    PWM_open,
+    PWM_close,
+    PWM_write;
+
   CONST
     PWM_ACTIVELOW  = 0;
     PWM_ACTIVEHIGH = 1;
