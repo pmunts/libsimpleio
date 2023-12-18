@@ -115,6 +115,7 @@ install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done golibs.done
 	rm -rf					$(DESTDIR)/share/libsimpleio/c++/visualstudio
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p freepascal			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p gm2				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
 	rm -f					$(DESTDIR)/share/libsimpleio/go/lib/Makefile
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
