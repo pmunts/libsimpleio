@@ -27,6 +27,7 @@
 ifneq ($(BOARDNAME),)
 MUNTSOS		?= /usr/local/share/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
+GM2_LDFLAGS	+= -static
 endif
 
 ###############################################################################
