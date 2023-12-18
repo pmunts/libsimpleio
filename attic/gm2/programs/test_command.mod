@@ -27,7 +27,7 @@ FROM FIO IMPORT FlushOutErr;
 FROM STextIO IMPORT WriteString, WriteLn;
 FROM SWholeIO IMPORT WriteCard;
 
-FROM liblinux IMPORT Command;
+FROM liblinux IMPORT LINUX_command;
 
 VAR
   success : BOOLEAN;
@@ -58,7 +58,7 @@ BEGIN
 
   (* Execute the command string *)
 
-  Command(cmd, status, error);
+  LINUX_command(cmd, status, error);
   WriteLn;
   FlushOutErr;
 
