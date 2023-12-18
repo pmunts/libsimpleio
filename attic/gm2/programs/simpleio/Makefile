@@ -1,6 +1,4 @@
-#!/usr/bin/python3
-
-# Helper script to find and compile implementation modules
+# Makefile definitions for building GNU Modula-2 libsimpleio example programs
 
 # Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
 #
@@ -10,7 +8,7 @@
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 #
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
 # ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
@@ -22,41 +20,25 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import glob
-import os
-import os.path
-import sys
+.PHONY: default clean reallyclean distclean
 
-# Extract command line arguments
+# Override the following macro to build out of tree:
 
-GM2 = sys.argv[1]
-AR = sys.argv[2]
-GM2_CFLAGS = sys.argv[3]
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-OBJDIR = 'libsimpleio-gm2.d'
-LIBFILE = 'libsimpleio-gm2.a'
+include $(LIBSIMPLEIO)/attic/gm2/include/gm2.mk
+include $(LIBSIMPLEIO)/attic/gm2/include/libsimpleio.mk
 
-# Create the object file directory
+# Compile the test programs
 
-os.system('mkdir -p ' + OBJDIR)
+default:
+	for F in *.mod ; do $(MAKE) `basename $$F .mod` ; done
 
-# Create the module library archive
+# Remove working files
 
-os.system(AR + ' rcs ' + LIBFILE)
+clean: gm2_mk_clean
+	for F in *.mod ; do rm -f `basename $$F .mod` ; done
 
-# Search for implementation modules to compile
+reallyclean: gm2_mk_reallyclean clean
 
-for ITEM in GM2_CFLAGS.split():
-  if ITEM.startswith('-I'):
-    DIR = ITEM[2:]
-    for SRCFILE in glob.iglob(DIR + '/*.mod'):
-      OBJFILE = OBJDIR + '/' + os.path.basename(SRCFILE)[:-4] + '.o'
-      print("Compiling library module " + SRCFILE)
-      CMD = GM2 + ' ' + GM2_CFLAGS + ' -c -o' + OBJFILE + ' ' + SRCFILE
-      os.system(CMD)
-      CMD = AR + ' rcs ' + LIBFILE + ' ' + OBJFILE
-      os.system(CMD)
-
-# Remove the object files
-
-os.system('rm -rf ' + OBJDIR)
+distclean: gm2_mk_distclean reallyclean

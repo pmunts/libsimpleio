@@ -30,6 +30,8 @@ include $(MUNTSOS)/include/$(BOARDNAME).mk
 GM2_LDFLAGS	+= -static
 endif
 
+gm2_mk_default: default
+
 ###############################################################################
 
 AR		?= $(CROSS_COMPILE)ar
@@ -45,29 +47,22 @@ GM2_CFLAGS	+= -I$(GM2_SRC)/bindings
 GM2_CFLAGS	+= -I$(GM2_SRC)/devices
 GM2_CFLAGS	+= -I$(GM2_SRC)/modules
 GM2_LDFLAGS	+= -L.
-GM2_LDFLAGS	+= -lsimpleio-gm2
-GM2_LDFLAGS	+= -lsimpleio
+GM2_LDFLAGS	+= -lmodules
 
 ###############################################################################
 
 # Define a rule for compiling a Modula-2 program
 
-%: %.mod libsimpleio-gm2.a
+%: %.mod libmodules.a
 	$(GM2) $(GM2_CFLAGS) -o$@ $< $(GM2_LDFLAGS)
 	$(STRIP) $@
-
-###############################################################################
-
-# Default target placeholder
-
-gm2_mk_default: default
 
 ##############################################################################
 
 # Compile subordinate implementation modules
 
-libsimpleio-gm2.a:
-	$(GM2_SRC)/include/libsimpleio-gm2.py $(GM2) $(AR) "$(GM2_CFLAGS)"
+libmodules.a:
+	$(GM2_SRC)/include/libmodules.py $(GM2) $(AR) "$(GM2_CFLAGS)"
 
 ###############################################################################
 
@@ -77,6 +72,6 @@ gm2_mk_clean:
 	rm -f *.s *.o
 
 gm2_mk_reallyclean: gm2_mk_clean
-	rm -rf libsimpleio-gm2.a
+	rm -rf libmodules.a
 
 gm2_mk_distclean: gm2_mk_reallyclean

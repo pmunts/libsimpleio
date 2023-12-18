@@ -1,4 +1,4 @@
-# Makefile definitions for building GNU Modula-2 libsimpleio example programs
+# Common make definitons for compiling GNU Modula-2 programs using libremoteio
 
 # Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
 #
@@ -20,24 +20,5 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-.PHONY: default clean reallyclean distclean
-
-# Override the following macro to build out of tree:
-
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
-
-include $(LIBSIMPLEIO)/attic/gm2/include/gm2.mk
-
-# Compile the test programs
-
-default:
-	for F in *.mod ; do $(MAKE) `basename $$F .mod` ; done
-
-# Remove working files
-
-clean: gm2_mk_clean
-	for F in *.mod ; do rm -f `basename $$F .mod` ; done
-
-reallyclean: gm2_mk_reallyclean clean
-
-distclean: gm2_mk_distclean reallyclean
+GM2_CFLAGS	+= -I$(GM2_SRC)/modules/remoteio
+GM2_LDFLAGS	+= -lremoteio
