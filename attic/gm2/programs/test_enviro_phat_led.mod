@@ -28,7 +28,7 @@ FROM FIO IMPORT FlushOutErr;
 
 FROM Enviro_pHAT IMPORT LED;
 FROM ErrorHandling IMPORT CheckError;
-FROM liblinux IMPORT usleep;
+FROM liblinux IMPORT LINUX_usleep;
 
 VAR
   error   : CARDINAL;
@@ -47,13 +47,13 @@ BEGIN
     gpio_libsimpleio.Write(LED, TRUE, error);
     CheckError(error, "gpio_libsimpleio.Write() failed");
 
-    usleep(1000000, error);
-    CheckError(error, "usleep() failed");
+    LINUX_usleep(1000000, error);
+    CheckError(error, "LINUX_usleep() failed");
 
     gpio_libsimpleio.Write(LED, FALSE, error);
     CheckError(error, "gpio_libsimpleio.Write() failed");
 
-    usleep(1000000, error);
-    CheckError(error, "usleep() failed");
+    LINUX_usleep(1000000, error);
+    CheckError(error, "LINUX_usleep() failed");
   END;
 END test_enviro_phat_led.

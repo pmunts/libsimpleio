@@ -27,7 +27,7 @@ FROM FIO IMPORT FlushOutErr;
 
 FROM Enviro_pHAT IMPORT AIN, ReadVoltage;
 FROM ErrorHandling IMPORT CheckError;
-FROM liblinux IMPORT usleep;
+FROM liblinux IMPORT LINUX_usleep;
 
 VAR
   channel : CARDINAL;
@@ -59,7 +59,7 @@ BEGIN
     WriteLn;
     FlushOutErr;
 
-    usleep(1000000, error);
-    CheckError(error, "usleep() failed");
+    LINUX_usleep(1000000, error);
+    CheckError(error, "LINUX_usleep() failed");
   END;
 END test_enviro_phat_adc.

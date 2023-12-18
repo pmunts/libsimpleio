@@ -27,7 +27,7 @@ IMPORT
 FROM STextIO IMPORT WriteString, WriteLn;
 FROM FIO IMPORT FlushOutErr;
 FROM ErrorHandling IMPORT CheckError;
-FROM liblinux IMPORT usleep;
+FROM liblinux IMPORT LINUX_usleep;
 
 VAR
   PWM0  : pwm_libsimpleio.Pin;
@@ -57,8 +57,8 @@ BEGIN
 
     duty := duty + 1.0;
 
-    usleep(100000, error);
-    CheckError(error, "usleep() failed");
+    LINUX_usleep(100000, error);
+    CheckError(error, "LINUX_usleep() failed");
   END;
 
   (* Sweep the PWM output dutycycle from 100 to 0 percent *)
@@ -71,8 +71,8 @@ BEGIN
 
     duty := duty - 1.0;
 
-    usleep(100000, error);
-    CheckError(error, "usleep() failed");
+    LINUX_usleep(100000, error);
+    CheckError(error, "LINUX_usleep() failed");
   END;
 
   (* Close the PWM output device *)

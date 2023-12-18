@@ -27,7 +27,7 @@ FROM STextIO IMPORT WriteString, WriteLn;
 FROM SWholeIO IMPORT WriteCard;
 FROM FIO IMPORT FlushOutErr;
 FROM ErrorHandling IMPORT CheckError;
-FROM liblinux IMPORT usleep;
+FROM liblinux IMPORT LINUX_usleep;
 
 VAR
   wdt     : watchdog_libsimpleio.Watchdog;
@@ -80,8 +80,8 @@ BEGIN
     watchdog_libsimpleio.Kick(wdt, error);
     CheckError(error, "watchdog_libsimpleio.Kick() failed");
 
-    usleep(1000000, error);
-    CheckError(error, "usleep() failed");
+    LINUX_usleep(1000000, error);
+    CheckError(error, "LINUX_usleep() failed");
   END;
 
   WriteLn;
@@ -95,7 +95,7 @@ BEGIN
     WriteLn;
     FlushOutErr;
 
-    usleep(1000000, error);
-    CheckError(error, "usleep() failed");
+    LINUX_usleep(1000000, error);
+    CheckError(error, "LINUX_usleep() failed");
   END;
 END test_watchdog.

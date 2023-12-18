@@ -28,7 +28,7 @@ FROM FIO IMPORT FlushOutErr;
 
 FROM Automation_pHAT IMPORT RELAY;
 FROM ErrorHandling IMPORT CheckError;
-FROM liblinux IMPORT usleep;
+FROM liblinux IMPORT LINUX_usleep;
 
 VAR
   error   : CARDINAL;
@@ -47,13 +47,13 @@ BEGIN
     gpio_libsimpleio.Write(RELAY, TRUE, error);
     CheckError(error, "gpio_libsimpleio.Write() failed");
 
-    usleep(1000000, error);
-    CheckError(error, "usleep() failed");
+    LINUX_usleep(1000000, error);
+    CheckError(error, "LINUX_usleep() failed");
 
     gpio_libsimpleio.Write(RELAY, FALSE, error);
     CheckError(error, "gpio_libsimpleio.Write() failed");
 
-    usleep(1000000, error);
-    CheckError(error, "usleep() failed");
+    LINUX_usleep(1000000, error);
+    CheckError(error, "LINUX_usleep() failed");
   END;
 END test_automation_phat_relay.
