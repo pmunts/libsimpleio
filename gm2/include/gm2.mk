@@ -39,7 +39,7 @@ RANLIB		?= $(CROSS_COMPILE)ranlib
 STRIP		?= $(CROSS_COMPILE)strip
 
 GM2		?= $(CROSS_COMPILE)gm2
-GM2_SRC		?= $(LIBSIMPLEIO)/attic/gm2
+GM2_SRC		?= $(LIBSIMPLEIO)/gm2
 GM2_CFLAGS	+= -fiso
 GM2_CFLAGS	+= -fsoft-check-all
 #GM2_CFLAGS	+= -Wpedantic

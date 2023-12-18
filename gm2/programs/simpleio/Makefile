@@ -26,8 +26,8 @@
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-include $(LIBSIMPLEIO)/attic/gm2/include/gm2.mk
-include $(LIBSIMPLEIO)/attic/gm2/include/libsimpleio.mk
+include $(LIBSIMPLEIO)/gm2/include/gm2.mk
+include $(LIBSIMPLEIO)/gm2/include/libsimpleio.mk
 
 # Compile the test programs
 
