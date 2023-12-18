@@ -22,6 +22,13 @@
 
 DEFINITION MODULE FOR "C" libwatchdog;
 
+  EXPORT UNQUALIFIED
+    WATCHDOG_open,
+    WATCHDOG_close,
+    WATCHDOG_get_timeout,
+    WATCHDOG_set_timeout,
+    WATCHDOG_kick;
+
   PROCEDURE WATCHDOG_open
    (name        : ARRAY OF CHAR;
     VAR fd      : INTEGER;

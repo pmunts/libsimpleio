@@ -24,6 +24,15 @@ DEFINITION MODULE FOR "C" libserial;
 
   FROM SYSTEM IMPORT BYTE;
 
+  EXPORT UNQUALIFIED
+    PARITY_NONE,
+    PARITY_EVEN,
+    PARITY_ODD,
+    SERIAL_open,
+    SERIAL_close,
+    SERIAL_send,
+    SERIAL_receive;
+
   CONST
     PARITY_NONE = 0;
     PARITY_EVEN = 1;

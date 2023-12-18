@@ -24,6 +24,16 @@ DEFINITION MODULE FOR "C" libhidraw;
 
   FROM SYSTEM IMPORT BYTE;
 
+  EXPORT UNQUALIFIED
+    HIDRAW_open1,
+    HIDRAW_open2,
+    HIDRAW_open3,
+    HIDRAW_close,
+    HIDRAW_get_name,
+    HIDRAW_get_info,
+    HIDRAW_send,
+    HIDRAW_receive;
+
   PROCEDURE HIDRAW_open1
    (name        : ARRAY OF CHAR;
     VAR fd      : INTEGER;

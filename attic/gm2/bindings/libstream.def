@@ -24,6 +24,12 @@ DEFINITION MODULE FOR "C" libstream;
 
   FROM SYSTEM IMPORT BYTE;
 
+  EXPORT UNQUALIFIED
+    STREAM_encode_frame,
+    STREAM_decode_frame,
+    STREAM_receive_frame,
+    STREAM_send_frame;
+
   PROCEDURE STREAM_encode_frame
    (src        : ARRAY OF BYTE;
     srclen     : CARDINAL;

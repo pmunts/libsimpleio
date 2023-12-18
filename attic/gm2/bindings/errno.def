@@ -59,6 +59,8 @@ DEFINITION MODULE FOR "C" errno;
     EDOM,
     ERANGE,
     ECONNRESET,
+    LINUX_errno,
+    LINUX_strerror,
     errno,
     geterrno,
     strerror;

@@ -21,10 +21,10 @@
 DEFINITION MODULE FOR "C" liblinux;
 
   EXPORT UNQUALIFIED
-    Command,
-    Detach,
-    Drop_Privileges,
-    usleep;
+    LINUX_command,
+    LINUX_detach,
+    LINUX_drop_privileges,
+    LINUX_usleep;
 
   PROCEDURE LINUX_command
    (cmd          : ARRAY OF CHAR;
@@ -41,13 +41,5 @@ DEFINITION MODULE FOR "C" liblinux;
   PROCEDURE LINUX_usleep
    (microsecs    : CARDINAL;
     VAR error    : CARDINAL);
-
-  (* Define some useful procedure synonyms *)
-
-  CONST
-    Command         = LINUX_command;
-    Detach          = LINUX_detach;
-    Drop_Privileges = LINUX_drop_privileges;
-    usleep          = LINUX_usleep;
 
 END liblinux.

@@ -22,6 +22,26 @@ DEFINITION MODULE FOR "C" libipv4;
 
   FROM SYSTEM IMPORT BYTE;
 
+  EXPORT UNQUALIFIED
+    INADDR_ANY,
+    INADDR_LOOPBACK,
+    INADDR_BROADCAST,
+    MSG_DONTROUTE,
+    MSG_DONTWAIT,
+    MSG_MORE,
+    IPV4_resolve,
+    IPV4_ntoa,
+    TCP4_connect,
+    TCP4_accept,
+    TCP4_server,
+    TCP4_close,
+    TCP4_send,
+    TCP4_receive,
+    UDP4_open,
+    UDP4_close,
+    UDP4_send,
+    UDP4_receive;
+
   CONST
     INADDR_ANY       = 000000000H;
     INADDR_LOOPBACK  = 07F000001H;
