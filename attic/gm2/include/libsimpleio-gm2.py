@@ -51,6 +51,7 @@ for ITEM in GM2_CFLAGS.split():
     DIR = ITEM[2:]
     for SRCFILE in glob.iglob(DIR + '/*.mod'):
       OBJFILE = OBJDIR + '/' + os.path.basename(SRCFILE)[:-4] + '.o'
+      print("Compiling library module " + SRCFILE)
       CMD = GM2 + ' ' + GM2_CFLAGS + ' -c -o' + OBJFILE + ' ' + SRCFILE
       os.system(CMD)
       CMD = AR + ' rcs ' + LIBFILE + ' ' + OBJFILE
