@@ -21,4 +21,4 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 GM2_CFLAGS	+= -I$(GM2_SRC)/modules/remoteio
-GM2_LDFLAGS	+= -lremoteio
+GM2_LDFLAGS	+= -lremoteio -lsimpleio
