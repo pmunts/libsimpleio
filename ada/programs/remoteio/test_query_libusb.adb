@@ -80,7 +80,7 @@ BEGIN
 
   IF Ada.Strings.Fixed.Index(remdev.GetCapability, "DAC") /= 0 THEN
 
-    -- Query the available DAC input pins
+    -- Query the available DAC output pins
 
     channels := remdev.GetAvailableChannels(RemoteIO.Channel_DAC);
 

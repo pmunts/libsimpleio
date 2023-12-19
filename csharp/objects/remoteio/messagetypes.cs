@@ -162,11 +162,11 @@ namespace IO.Objects.RemoteIO
         /// </summary>
         DAC_PRESENT_RESPONSE,
         /// <summary>
-        /// DAC input configure request
+        /// DAC output configure request
         /// </summary>
         DAC_CONFIGURE_REQUEST,
         /// <summary>
-        /// DAC input configure response
+        /// DAC output configure response
         /// </summary>
         DAC_CONFIGURE_RESPONSE,
         /// <summary>
