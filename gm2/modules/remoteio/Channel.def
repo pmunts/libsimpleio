@@ -29,7 +29,8 @@ DEFINITION MODULE Channel;
     MaxChannels = 128;
 
   TYPE
-    Channels    = ARRAY [0 .. MaxChannels - 1] OF BYTE;
+    Number      = [0 .. MaxChannels - 1];
+    Channels    = ARRAY Number OF BYTE;
 
   PROCEDURE WriteChannels
    (description : ARRAY OF CHAR;
