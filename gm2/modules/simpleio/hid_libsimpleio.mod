@@ -75,41 +75,6 @@ IMPLEMENTATION MODULE hid_libsimpleio;
     error := errno.EOK;
   END Open;
 
-  (* Open raw HID device given device node name (/dev/hidrawX) *)
-
-  PROCEDURE OpenDevice
-   (name      : ARRAY OF CHAR;
-    timeoutms : CARDINAL;
-    VAR dev   : Device;
-    VAR error : CARDINAL);
-
-  VAR
-    fd : INTEGER;
-
-  BEGIN
-    (* Validate parameters *)
-
-    IF dev <> NIL THEN
-      error := errno.EBUSY;
-      RETURN;
-    END;
-
-    (* Open the raw HID device *)
-
-    libhidraw.HIDRAW_open1(name, fd, error);
-
-    IF error <> 0 THEN
-      RETURN;
-    END;
-
-    (* Create a new raw HID device object *)
-
-    NEW(dev);
-    dev^.fd := fd;
-    dev^.timeout := timeoutms;
-    error := errno.EOK;
-  END OpenDevice;
-
   (* Close raw HID device *)
 
   PROCEDURE Close

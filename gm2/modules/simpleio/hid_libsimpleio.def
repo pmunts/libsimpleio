@@ -42,14 +42,6 @@ DEFINITION MODULE hid_libsimpleio;
     VAR dev   : Device;
     VAR error : CARDINAL);
 
-  (* Open raw HID device given device node name (/dev/hidrawX) *)
-
-  PROCEDURE OpenDevice
-   (name      : ARRAY OF CHAR;
-    timeoutms : CARDINAL;
-    VAR dev   : Device;
-    VAR error : CARDINAL);
-
   (* Close raw HID device *)
 
   PROCEDURE Close
