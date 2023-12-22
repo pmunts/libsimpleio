@@ -1,0 +1,231 @@
+(* Remote I/O Protocol support for GNU Modula-2 programs running on Linux      *)
+(* computers, using libremoteio.so and libsimpleio.so.                         *)
+(*                                                                             *)
+(* http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf                   *)
+
+(* Copyright (C)2023, Philip Munts dba Munts Technologies.                     *)
+(*                                                                             *)
+(* Redistribution and use in source and binary forms, with or without          *)
+(* modification, are permitted provided that the following conditions are met: *)
+(*                                                                             *)
+(* * Redistributions of source code must retain the above copyright notice,    *)
+(*   this list of conditions and the following disclaimer.                     *)
+(*                                                                             *)
+(* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" *)
+(* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE   *)
+(* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE  *)
+(* ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE   *)
+(* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR         *)
+(* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF        *)
+(* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS    *)
+(* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN     *)
+(* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)     *)
+(* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
+(* POSSIBILITY OF SUCH DAMAGE.                                                 *)
+
+DEFINITION MODULE FOR "C" libremoteio;
+
+  FROM Channel   IMPORT Channels;
+  FROM message64 IMPORT Message;
+  FROM SYSTEM    IMPORT BYTE;
+
+  EXPORT UNQUALIFIED
+    TIMEOUT_FOREVER,
+    TIMEOUT_NEVER,
+    TIMEOUT_DEFAULT,
+    open_hid,
+    open_serial,
+    open_udp,
+    send,
+    receive,
+    get_version,
+    get_capability,
+    adc_channels,
+    adc_configure,
+    adc_read,
+    dac_channels,
+    dac_configure,
+    dac_write,
+    gpio_channels,
+    gpio_configure,
+    gpio_read,
+    gpio_write,
+    i2c_channels,
+    i2c_configure,
+    i2c_transaction,
+    pwm_channels,
+    pwm_configure,
+    pwm_write,
+    spi_channels,
+    spi_configure,
+    spi_transaction;
+
+  CONST
+    TIMEOUT_FOREVER = -1;
+    TIMEOUT_NEVER   = 0;
+    TIMEOUT_DEFAULT = 1000; (* milliseconds *)
+
+  PROCEDURE open_hid
+   (vid            : INTEGER;
+    pid            : INTEGER;
+    serial         : ARRAY OF CHAR;
+    timeout        : INTEGER;
+    VAR handle     : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE open_serial
+   (portname       : ARRAY OF CHAR;
+    baudrate       : INTEGER;
+    timeout        : INTEGER;
+    VAR handle     : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE open_udp
+   (server         : ARRAY OF CHAR;
+    port           : INTEGER;
+    timeout        : INTEGER;
+    VAR handle     : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE send
+   (handle         : INTEGER;
+    VAR cmd        : Message;
+    VAR error      : INTEGER);
+
+  PROCEDURE receive
+   (handle         : INTEGER;
+    VAR resp       : Message;
+    VAR error      : INTEGER);
+
+  PROCEDURE get_version
+   (handle         : INTEGER;
+    VAR inbuf      : ARRAY OF CHAR;
+    VAR error      : INTEGER);
+
+  PROCEDURE get_capability
+   (handle         : INTEGER;
+    VAR inbuf      : ARRAY OF CHAR;
+    VAR error      : INTEGER);
+
+  PROCEDURE adc_channels
+   (handle         : INTEGER;
+    VAR channels   : Channels;
+    VAR error      : INTEGER);
+
+  PROCEDURE adc_configure
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    VAR resolution : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE adc_read
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    VAR sample     : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE dac_channels
+   (handle         : INTEGER;
+    VAR channels   : Channels;
+    VAR error      : INTEGER);
+
+  PROCEDURE dac_configure
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    VAR resolution : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE dac_write
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    sample         : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE gpio_channels
+   (handle         : INTEGER;
+    VAR channels   : Channels;
+    VAR error      : INTEGER);
+
+  PROCEDURE gpio_configure
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    direction      : INTEGER;
+    state          : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE gpio_read
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    VAR state      : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE gpio_write
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    state          : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE i2c_channels
+   (handle         : INTEGER;
+    VAR channels   : Channels;
+    VAR error      : INTEGER);
+
+  PROCEDURE i2c_configure
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    frequency      : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE i2c_transaction
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    addr           : INTEGER;
+    VAR cmd        : ARRAY OF BYTE;
+    cmdlen         : INTEGER;
+    VAR resp       : ARRAY OF BYTE;
+    resplen        : INTEGER;
+    delayus        : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE pwm_channels
+   (handle         : INTEGER;
+    VAR channels   : Channels;
+    VAR error      : INTEGER);
+
+  PROCEDURE pwm_configure
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    duty           : REAL;
+    VAR error      : INTEGER);
+
+  PROCEDURE pwm_write
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    duty           : REAL;
+    VAR error      : INTEGER);
+
+  PROCEDURE spi_channels
+   (handle         : INTEGER;
+    VAR channels   : Channels;
+    VAR error      : INTEGER);
+
+  PROCEDURE spi_configure
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    mode           : INTEGER;
+    wordsize       : INTEGER;
+    frequency      : INTEGER;
+    VAR error      : INTEGER);
+
+  PROCEDURE spi_transaction
+   (handle         : INTEGER;
+    channel        : INTEGER;
+    addr           : INTEGER;
+    VAR cmd        : ARRAY OF BYTE;
+    cmdlen         : INTEGER;
+    VAR resp       : ARRAY OF BYTE;
+    resplen        : INTEGER;
+    delayus        : INTEGER;
+    VAR error      : INTEGER);
+
+END libremoteio.
