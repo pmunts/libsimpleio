@@ -133,6 +133,19 @@ extern "C" void get_capability(int handle, char *buf, int *error);
 
 //=============================================================================
 
+// Fetch available A/D converter input channels.
+//
+// The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
+// returned in each element of channels corresponding to a valid A/D input.
+// For example, if an adapter has 4 analog inputs (ADC1, ADC2, ADC3, and ADC4),
+// *channels will be set to 0, 1, 1, 1, 1, 0, 0...
+//
+// Zero on success, or an errno value on failure will be returned in *error.
+
+extern "C" void adc_channels(int handle, uint8_t *channels, int *error);
+
+//=============================================================================
+
 // Configure an A/D converter input.
 //
 // Valid channel numbers are 0 to 127.  Any given adapter will only support a
@@ -161,16 +174,16 @@ extern "C" void adc_read(int handle, int channel, int *sample, int *error);
 
 //=============================================================================
 
-// Fetch available A/D converter input channels.
+// Fetch available D/A converter output channels.
 //
 // The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
-// returned in each element of channels corresponding to a valid A/D input.
-// For example, if an adapter has 4 analog inputs (ADC1, ADC2, ADC3, and ADC4),
+// returned in each element of channels corresponding to a valid D/A output.
+// For example, if an adapter has 4 analog outputs (DAC1, DAC2, DAC3, and DAC4),
 // *channels will be set to 0, 1, 1, 1, 1, 0, 0...
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void adc_channels(int handle, uint8_t *channels, int *error);
+extern "C" void dac_channels(int handle, uint8_t *channels, int *error);
 
 //=============================================================================
 
@@ -202,16 +215,16 @@ extern "C" void dac_write(int handle, int channel, int sample, int *error);
 
 //=============================================================================
 
-// Fetch available D/A converter output channels.
+// Fetch available GPIO pin channels.
 //
 // The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
-// returned in each element of channels corresponding to a valid D/A output.
-// For example, if an adapter has 4 analog outputs (DAC1, DAC2, DAC3, and DAC4),
-// *channels will be set to 0, 1, 1, 1, 1, 0, 0...
+// returned in each element of channels corresponding to a valid GPIO pin.
+// For example, if an adapter has 3 GPIO pins (GPIO2, GPIO3, and GPIO4),
+// *channels will be set to 0, 0, 1, 1, 1, 0, 0...
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void dac_channels(int handle, uint8_t *channels, int *error);
+extern "C" void gpio_channels(int handle, uint8_t *channels, int *error);
 
 //=============================================================================
 
@@ -325,16 +338,16 @@ extern "C" void gpio_write_all(int handle, uint8_t *mask, uint8_t *state,
 
 //=============================================================================
 
-// Fetch available GPIO pin channels.
+// Fetch available I2C bus channels.
 //
 // The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
-// returned in each element of channels corresponding to a valid GPIO pin.
-// For example, if an adapter has 3 GPIO pins (GPIO2, GPIO3, and GPIO4),
-// *channels will be set to 0, 0, 1, 1, 1, 0, 0...
+// returned in each element of channels corresponding to a valid I2C bus.
+// For example, if an adapter has 2 I2C buses (I2C0 and I2C2), *channels will
+// be set to 1, 0, 1, 0, 0...
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void gpio_channels(int handle, uint8_t *channels, int *error);
+extern "C" void i2c_channels(int handle, uint8_t *channels, int *error);
 
 //=============================================================================
 
@@ -390,16 +403,16 @@ extern "C" void i2c_transaction(int handle, int channel, int addr,
 
 //=============================================================================
 
-// Fetch available I2C bus channels.
+// Fetch available PWM output channels.
 //
 // The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
-// returned in each element of channels corresponding to a valid I2C bus.
-// For example, if an adapter has 2 I2C buses (I2C0 and I2C2), *channels will
-// be set to 1, 0, 1, 0, 0...
+// returned in each element of channels corresponding to a valid PWM output.
+// For example, if an adapter has 2 PWM outputs (PWM0 and PWM1), *channels will
+// be set to 1, 1, 0, 0, 0...
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void i2c_channels(int handle, uint8_t *channels, int *error);
+extern "C" void pwm_channels(int handle, uint8_t *channels, int *error);
 
 //=============================================================================
 
@@ -431,16 +444,16 @@ extern "C" void pwm_write(int handle, int channel, float duty, int *error);
 
 //=============================================================================
 
-// Fetch available PWM output channels.
+// Fetch available SPI slave device channels.
 //
 // The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
-// returned in each element of channels corresponding to a valid PWM output.
-// For example, if an adapter has 2 PWM outputs (PWM0 and PWM1), *channels will
-// be set to 1, 1, 0, 0, 0...
+// returned in each element of channels corresponding to a valid SPI slave
+// device. For example, if an adapter has 2 SPI slave devices (SPI0 and SPI1),
+// *channels will be set to 1, 1, 0, 0, 0...
 //
 // Zero on success, or an errno value on failure will be returned in *error.
 
-extern "C" void pwm_channels(int handle, uint8_t *channels, int *error);
+extern "C" void spi_channels(int handle, uint8_t *channels, int *error);
 
 //=============================================================================
 
@@ -494,16 +507,3 @@ extern "C" void spi_configure(int handle, int channel, int mode, int wordsize,
 extern "C" void spi_transaction(int handle, int channel, int addr,
   uint8_t *cmd, int cmdlen, uint8_t *resp, int resplen, int delayus,
   int *error);
-
-//=============================================================================
-
-// Fetch available SPI slave device channels.
-//
-// The actual parameter for *channels *MUST* be 128 bytes.  A 1 will be
-// returned in each element of channels corresponding to a valid SPI slave
-// device. For example, if an adapter has 2 SPI slave devices (SPI0 and SPI1),
-// *channels will be set to 1, 1, 0, 0, 0...
-//
-// Zero on success, or an errno value on failure will be returned in *error.
-
-extern "C" void spi_channels(int handle, uint8_t *channels, int *error);
