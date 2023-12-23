@@ -18,14 +18,6 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-DEFINITION MODULE message64;
+IMPLEMENTATION MODULE Message64;
 
-  FROM SYSTEM IMPORT BYTE;
-
-  CONST
-    MessageSize = 64;
-
-  TYPE
-    Message = ARRAY [0 .. MessageSize - 1] OF BYTE;
-
-END message64.
+END Message64.
