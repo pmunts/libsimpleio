@@ -20,17 +20,23 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-DEFINITION MODULE hid_libsimpleio;
+IMPLEMENTATION MODULE HID_libsimpleio;
 
-  FROM message64 IMPORT Message;
+  IMPORT
+    errno,
+    libhidraw,
+    poll;
+
+  FROM Storage IMPORT ALLOCATE, DEALLOCATE;
+  FROM message64 IMPORT MessageSize;
 
   TYPE
-    Device;
+    DeviceRec = RECORD
+      fd      : INTEGER;
+      timeout : CARDINAL;
+    END;
 
-  CONST
-    NOWAIT    = 0;
-    FOREVER   = 0FFFFFFFFH;
-    ANYSERIAL = "";
+    Device = POINTER TO DeviceRec;
 
   (* Open raw HID device given vendor, product, and serial number  *)
 
@@ -42,11 +48,56 @@ DEFINITION MODULE hid_libsimpleio;
     VAR dev   : Device;
     VAR error : CARDINAL);
 
+  VAR
+    fd : INTEGER;
+
+  BEGIN
+    (* Validate parameters *)
+
+    IF dev <> NIL THEN
+      error := errno.EBUSY;
+      RETURN;
+    END;
+
+    (* Open the raw HID device *)
+
+    libhidraw.HIDRAW_open3(vendor, product, serial, fd, error);
+
+    IF error <> 0 THEN
+      RETURN;
+    END;
+
+    (* Create a new raw HID device object *)
+
+    NEW(dev);
+    dev^.fd := fd;
+    dev^.timeout := timeoutms;
+    error := errno.EOK;
+  END Open;
+
   (* Close raw HID device *)
 
   PROCEDURE Close
    (VAR dev   : Device;
     VAR error : CARDINAL);
+
+  BEGIN
+    (* Validate parameters *)
+
+    IF dev = NIL THEN
+      error := errno.EBADF;
+      RETURN;
+    END;
+
+    (* Close the raw HID device *)
+
+    libhidraw.HIDRAW_close(dev^.fd, error);
+
+    (* Destroy the raw HID device object *)
+
+    DISPOSE(dev);
+    dev := NIL;
+  END Close;
 
   (* Send 64-byte message to raw HID device *)
 
@@ -55,12 +106,49 @@ DEFINITION MODULE hid_libsimpleio;
     msg       : Message;
     VAR error : CARDINAL);
 
+  VAR
+    count : CARDINAL;
+
+  BEGIN
+    libhidraw.HIDRAW_send(dev^.fd, msg, MessageSize, count, error);
+
+    IF (error = 0) AND (count <> MessageSize) THEN
+      error := errno.EIO;
+    END;
+  END Send;
+
   (* Receive 64-byte message from raw HID device *)
 
   PROCEDURE Receive
    (dev       : Device;
     VAR msg   : Message;
     VAR error : CARDINAL);
+
+  VAR
+    files   : ARRAY [0 .. 0] OF INTEGER;
+    events  : ARRAY [0 .. 0] OF CARDINAL;
+    results : ARRAY [0 .. 0] OF CARDINAL;
+    count : CARDINAL;
+
+  BEGIN
+    IF (dev^.timeout <> FOREVER) THEN
+      files[0]   := dev^.fd;
+      events[0]  := poll.POLLIN;
+      results[0] := 0;
+
+      poll.Wait(1, files, events, results, dev^.timeout, error);
+
+      IF error <> 0 THEN
+        RETURN;
+      END;
+    END;
+
+    libhidraw.HIDRAW_receive(dev^.fd, msg, MessageSize, count, error);
+
+    IF (error = 0) AND (count <> MessageSize) THEN
+      error := errno.EIO;
+    END;
+  END Receive;
 
   (* Perform command/response transaction *)
 
@@ -70,8 +158,17 @@ DEFINITION MODULE hid_libsimpleio;
     VAR resp  : Message;
     VAR error : CARDINAL);
 
+  BEGIN
+    Send(dev, cmd, error);
+    Receive(dev, resp, error);
+  END Transaction;
+
   (* Retrieve the underlying Linux file descriptor *)
 
   PROCEDURE fd(dev : Device) : INTEGER;
 
-END hid_libsimpleio.
+  BEGIN
+    RETURN dev^.fd;
+  END fd;
+
+END HID_libsimpleio.
