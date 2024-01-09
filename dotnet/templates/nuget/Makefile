@@ -40,7 +40,6 @@ build:
 	mkdir -p obj
 	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
-	false
 	-svn revert -R $(NUGETDIR)/$(LIBNAME)
 	-svn rm --force $(NUGETDIR)/$(LIBNAME)/*
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
