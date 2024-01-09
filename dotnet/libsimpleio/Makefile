@@ -1,6 +1,6 @@
 # Makefile for building libsimpleio.dll for .Net Standard 2.0
 
-# Copyright (C)2014-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2014-2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -46,7 +46,7 @@ default:
 	BUILDVERSION=$(VERSION) "$(MSBUILD)" help.shfbproj
 	$(CONVERT) Help/$(LIBNAME).docx Help/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
 	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
-	$(PANDOC) --wrap=none -f html -t markdown README.html >obj/README.md
+	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/README.md
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	-svn revert -R $(NUGETDIR)/$(LIBNAME)
 	-svn rm --force $(NUGETDIR)/$(LIBNAME)/*

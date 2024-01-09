@@ -1,8 +1,8 @@
-<p><b>Introduction</b></p>
-<p>This package provides <b><tt>libremoteio.dll</tt></b>, a .Net Standard 2.0
-library assembly that provides a .Net client implementation of the <b><a href=
-"http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
-Protocol</a></b>.</p>
+<h1>Introduction</h1>
+<p>This library package provides <b><tt>libremoteio.dll</tt></b>, a .Net
+Standard 2.0 library assembly that provides a .Net client implementation of the
+<b><a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote
+I/O Protocol</a></b>.</p>
 <p><b>libremoteio</b> provides services to control ADC (Analog to Digital
 Converter) inputs, DAC (Digital to Analog) outputs, GPIO (General Purpose I/O)
 pins, I2C devices, PWM (Pulse Width Modulated) outputs, servo outputs, motor
@@ -13,33 +13,30 @@ Windows or Linux target computers that control I/O devices connected to a
 <b>Remote I/O Protocol</b> server. Such programs may be used for physical
 computing, test fixtures, instrumentation, and other kinds of embedded
 systems.</p>
-<p>The API documentation for <b>libremoteio</b> is available as a Windows
-<a href="http://git.munts.com/libremoteio/doc/libremoteio.dll.chm">help
-file</a>.</p>
-<p><b>Usage</b></p>
+<p>The API documentation for <b>libremoteio</b> is available at <a href=
+"http://git.munts.com/libremoteio/doc/libremoteio.dll.pdf">http://git.munts.com/libremoteio/doc/libremoteio.dll.pdf</a>.</p>
+<h1>Usage</h1>
 <p>The easiest and best way to use <b><tt>libremoteio</tt></b> is to install
-the .Net templates package <b><a href=
+the .Net template package <b><a href=
 "https://www.nuget.org/packages/libremoteio-templates/">libremoteio-templates</a></b>,
 by running the following command from a Linux or Windows command line:</p>
-<pre><b>
+<b><pre>
 dotnet new install libremoteio-templates
-
-</b></pre>
-<p>The above command will install a .Net application program project template
+</pre></b>
+<p>The above command will install a .Net 8 application program project template
 called <b><tt>csharp_console_libremoteio</tt></b>. You can then create a
 project using it with commands like the following:</p>
-<pre><b>
+<b><pre>
 mkdir myprogram
 cd myprogram
 dotnet new csharp_console_libremoteio
-
-</b></pre>
+</pre></b>
 <p>On Windows, after you have run the <b><tt>dotnet new install</tt></b> command
-above, <b>Visual Studio 2022</b> will automatically pick up the
+above, <b>Visual Studio</b> will automatically pick up the
 <b><tt>csharp_console_libremoteio</tt></b> <tt>project template</tt>. You can
 then create a project using it with <b><tt>File</tt> → <tt>New</tt> →
 <tt>Project...</tt></b> and then search for <b><tt>libremoteio</tt></b>.</p>
-<p><b>Remote I/O Protocol Servers</b></p>
+<h1>Remote I/O Protocol Servers</h1>
 <p>A free and open source <b>Remote I/O Protocol</b> server framework written
 in Ada for Linux is part of the <b><a href=
 "https://github.com/pmunts/libsimpleio">Linux Simple I/O Library</a></b>. See
