@@ -14,7 +14,6 @@
     <PackageReadmeFile>doc/README.md</PackageReadmeFile>
     <PackageTags>Linux; I/O; ADC; DAC; GPIO; I2C; PWM; Serial; Servo; SPI; Stepper; USB Raw HID; Watchdog</PackageTags>
     <PackageReleaseNotes>
-Fixed URL for API documentation.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>

@@ -13,7 +13,6 @@
     <PackageReadmeFile>libremoteio-templates.md</PackageReadmeFile>
     <PackageTags>NuGet; C#; Linux; macOS; Windows; Remote I/O Protocol; ADC; DAC; GPIO; I2C; Motor; PWM; Servo; SPI; Stepper; USB HID</PackageTags>
     <PackageReleaseNotes>
-Fixed URL for API documentation.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
