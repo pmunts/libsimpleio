@@ -21,10 +21,29 @@
 DEFINITION MODULE FOR "C" liblinux;
 
   EXPORT UNQUALIFIED
+    POLLIN,
+    POLLPRI,
+    POLLOUT,
+    POLLERR,
+    POLLHUP,
+    POLLNVAL,
+    POLL_NOWAIT,
+    POLL_FOREVER,
     LINUX_command,
     LINUX_detach,
     LINUX_drop_privileges,
+    LINUX_poll,
     LINUX_usleep;
+
+  CONST
+    POLLIN       = 0001H;
+    POLLPRI      = 0002H;
+    POLLOUT      = 0004H;
+    POLLERR      = 0008H;
+    POLLHUP      = 0010H;
+    POLLNVAL     = 0020H;
+    POLL_NOWAIT  = 0;
+    POLL_FOREVER = -1;
 
   PROCEDURE LINUX_command
    (cmd          : ARRAY OF CHAR;
@@ -36,6 +55,14 @@ DEFINITION MODULE FOR "C" liblinux;
 
   PROCEDURE LINUX_drop_privileges
    (username     : ARRAY OF CHAR;
+    VAR error    : CARDINAL);
+
+  PROCEDURE LINUX_poll
+   (numfiles     : CARDINAL;
+    VAR files    : ARRAY OF INTEGER;
+    VAR events   : ARRAY OF CARDINAL;
+    VAR results  : ARRAY OF CARDINAL;
+    timeout      : INTEGER;
     VAR error    : CARDINAL);
 
   PROCEDURE LINUX_usleep
