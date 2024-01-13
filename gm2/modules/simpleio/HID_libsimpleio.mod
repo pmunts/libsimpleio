@@ -1,6 +1,6 @@
 (* Raw HID services using libsimpleio *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -23,12 +23,12 @@
 IMPLEMENTATION MODULE HID_libsimpleio;
 
   IMPORT
+    Message64,
     errno,
     libhidraw,
     poll;
 
   FROM Storage IMPORT ALLOCATE, DEALLOCATE;
-  FROM message64 IMPORT MessageSize;
 
   TYPE
     DeviceRec = RECORD
@@ -103,16 +103,16 @@ IMPLEMENTATION MODULE HID_libsimpleio;
 
   PROCEDURE Send
    (dev       : Device;
-    msg       : Message;
+    msg       : Message64.Message;
     VAR error : CARDINAL);
 
   VAR
     count : CARDINAL;
 
   BEGIN
-    libhidraw.HIDRAW_send(dev^.fd, msg, MessageSize, count, error);
+    libhidraw.HIDRAW_send(dev^.fd, msg, Message64.MessageSize, count, error);
 
-    IF (error = 0) AND (count <> MessageSize) THEN
+    IF (error = 0) AND (count <> Message64.MessageSize) THEN
       error := errno.EIO;
     END;
   END Send;
@@ -121,7 +121,7 @@ IMPLEMENTATION MODULE HID_libsimpleio;
 
   PROCEDURE Receive
    (dev       : Device;
-    VAR msg   : Message;
+    VAR msg   : Message64.Message;
     VAR error : CARDINAL);
 
   VAR
@@ -143,9 +143,9 @@ IMPLEMENTATION MODULE HID_libsimpleio;
       END;
     END;
 
-    libhidraw.HIDRAW_receive(dev^.fd, msg, MessageSize, count, error);
+    libhidraw.HIDRAW_receive(dev^.fd, msg, Message64.MessageSize, count, error);
 
-    IF (error = 0) AND (count <> MessageSize) THEN
+    IF (error = 0) AND (count <> Message64.MessageSize) THEN
       error := errno.EIO;
     END;
   END Receive;
@@ -154,8 +154,8 @@ IMPLEMENTATION MODULE HID_libsimpleio;
 
   PROCEDURE Transaction
    (dev       : Device;
-    cmd       : Message;
-    VAR resp  : Message;
+    cmd       : Message64.Message;
+    VAR resp  : Message64.Message;
     VAR error : CARDINAL);
 
   BEGIN
