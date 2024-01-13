@@ -46,6 +46,6 @@ PACKAGE RemoteIO.Grove_Base_Hat_Zero IS
 
   -- I2C bus
 
-  I2C0  : CONSTANT RemoteIO.ChannelNumber := 0;  -- Socket I2C
+  I2C1  : CONSTANT RemoteIO.ChannelNumber := 1;  -- Socket I2C
 
 END RemoteIO.Grove_Base_Hat_Zero;

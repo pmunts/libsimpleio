@@ -70,9 +70,9 @@ PACKAGE RemoteIO.MUNTS_0018 IS
 
   -- I2C buses
 
-  I2C0   : CONSTANT RemoteIO.ChannelNumber := 0; -- /dev/i2c-1
+  I2C1   : CONSTANT RemoteIO.ChannelNumber := 1;
 
-  J9I2C  : RemoteIO.ChannelNumber RENAMES I2C0;
+  J9I2C  : RemoteIO.ChannelNumber RENAMES I2C1;
 
   -- PWM outputs
 

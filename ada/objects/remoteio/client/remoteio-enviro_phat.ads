@@ -36,6 +36,6 @@ PACKAGE RemoteIO.Enviro_pHAT IS
 
   -- I2C bus
 
-  I2C0 : CONSTANT RemoteIO.ChannelNumber := 0;
+  I2C1 : CONSTANT RemoteIO.ChannelNumber := 1;
 
 END RemoteIO.Enviro_pHAT;

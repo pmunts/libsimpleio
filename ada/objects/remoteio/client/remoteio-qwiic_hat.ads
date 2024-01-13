@@ -34,7 +34,7 @@ PACKAGE RemoteIO.Qwiic_HAT IS
 
   -- I2C bus
 
-  I2C0   : CONSTANT RemoteIO.ChannelNumber := 0;
+  I2C1   : CONSTANT RemoteIO.ChannelNumber := 1;
 
   -- SPI bus
 
