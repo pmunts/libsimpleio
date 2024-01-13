@@ -38,6 +38,6 @@ PACKAGE RemoteIO.Qwiic_HAT IS
 
   -- SPI bus
 
-  SPI0   : CONSTANT RemoteIO.ChannelNumber := 0;
+  SPI1   : CONSTANT RemoteIO.ChannelNumber := 1;
 
 END RemoteIO.Qwiic_HAT;
