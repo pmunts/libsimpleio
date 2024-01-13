@@ -19,18 +19,4 @@
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
 IMPLEMENTATION MODULE hid_munts;
-
-  IMPORT
-    hid_libsimpleio;
-
-  PROCEDURE Open
-   (serial    : ARRAY OF CHAR;
-    timeoutms : CARDINAL;
-    VAR dev   : Device;
-    VAR error : CARDINAL);
-
-  BEGIN
-    hid_libsimpleio.Open(VID, PID, serial, timeoutms, dev, error);
-  END Open;
-
 END hid_munts.

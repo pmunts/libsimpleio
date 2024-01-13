@@ -30,10 +30,4 @@ DEFINITION MODULE hid_munts;
     VID = 016D0H;  (* USB Vendor ID *)
     PID = 00AFAH;  (* USB Product ID *)
 
-  PROCEDURE Open
-   (serial    : ARRAY OF CHAR;
-    timeoutms : CARDINAL;
-    VAR dev   : Device;
-    VAR error : CARDINAL);
-
 END hid_munts.
