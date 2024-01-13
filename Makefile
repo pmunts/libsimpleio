@@ -106,6 +106,7 @@ install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done golibs.done
 	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
 	mkdir -p				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p ada				$(DESTDIR)/share/libsimpleio
+	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/Makefile
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.done
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/lib/*.obj
 	sed -i 's/building/using/g'		$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
