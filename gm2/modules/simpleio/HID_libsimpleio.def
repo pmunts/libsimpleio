@@ -22,7 +22,7 @@
 
 DEFINITION MODULE HID_libsimpleio;
 
-  FROM message64 IMPORT Message;
+  IMPORT Message64;
 
   TYPE
     Device;
@@ -52,22 +52,22 @@ DEFINITION MODULE HID_libsimpleio;
 
   PROCEDURE Send
    (dev       : Device;
-    msg       : Message;
+    msg       : Message64.Message;
     VAR error : CARDINAL);
 
   (* Receive 64-byte message from raw HID device *)
 
   PROCEDURE Receive
    (dev       : Device;
-    VAR msg   : Message;
+    VAR msg   : Message64.Message;
     VAR error : CARDINAL);
 
   (* Perform command/response transaction *)
 
   PROCEDURE Transaction
    (dev       : Device;
-    cmd       : Message;
-    VAR resp  : Message;
+    cmd       : Message64.Message;
+    VAR resp  : Message64.Message;
     VAR error : CARDINAL);
 
   (* Retrieve the underlying Linux file descriptor *)
