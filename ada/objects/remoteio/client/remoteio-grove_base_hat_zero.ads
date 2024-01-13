@@ -48,4 +48,9 @@ PACKAGE RemoteIO.Grove_Base_Hat_Zero IS
 
   I2C1  : CONSTANT RemoteIO.ChannelNumber := 1;  -- Socket I2C
 
+  -- PWM outputs
+
+  PWM0  : CONSTANT RemoteIO.ChannelNumber := 0;  -- Socket PWM pin 0
+  PWM1  : CONSTANT RemoteIO.ChannelNumber := 1;  -- Socket PWM pin 1
+
 END RemoteIO.Grove_Base_Hat_Zero;
