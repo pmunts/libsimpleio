@@ -1,4 +1,4 @@
-(* Copyright (C)2020-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2020-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -33,7 +33,12 @@ DEFINITION MODULE FOR "C" liblinux;
     LINUX_detach,
     LINUX_drop_privileges,
     LINUX_poll,
-    LINUX_usleep;
+    LINUX_usleep,
+    Command,
+    Detach,
+    DropPrivileges,
+    Poll,
+    Sleep;
 
   CONST
     POLLIN       = 0001H;
@@ -68,5 +73,14 @@ DEFINITION MODULE FOR "C" liblinux;
   PROCEDURE LINUX_usleep
    (microsecs    : CARDINAL;
     VAR error    : CARDINAL);
+
+  (* Define some useful synonyms *)
+
+  CONST
+    Command        = LINUX_command;
+    Detach         = LINUX_detach;
+    DropPrivileges = LINUX_drop_privileges;
+    Poll           = LINUX_poll;
+    Sleep          = LINUX_usleep;
 
 END liblinux.
