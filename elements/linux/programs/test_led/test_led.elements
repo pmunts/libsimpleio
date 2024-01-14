@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>test_led</RootNamespace>
-    <ProjectGuid>aac6f08a-ef18-4d29-b9f0-d0fdaee88124</ProjectGuid>
+    <ProjectGuid>{AAC6F08A-EF18-4D29-B9F0-D0FDAEE88124}</ProjectGuid>
     <OutputType>Executable</OutputType>
-    <AssemblyName>test_led</AssemblyName>
+    <BinaryName>test_led</BinaryName>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <Name>test_led</Name>
-    <Architecture>x86_64;armv6;aarch64</Architecture>
+    <Architecture>aarch64</Architecture>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>.\Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <ConditionalDefines>DEBUG;TRACE;</ConditionalDefines>
     <GenerateDebugInfo>True</GenerateDebugInfo>
     <Optimize>False</Optimize>
     <EnableAsserts>True</EnableAsserts>

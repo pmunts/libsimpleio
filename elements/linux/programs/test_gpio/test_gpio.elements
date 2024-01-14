@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>test_gpio</RootNamespace>
-    <ProjectGuid>{92c9ce71-fc19-4c3e-bbe1-c6440d4c7de3}</ProjectGuid>
+    <ProjectGuid>{92C9CE71-FC19-4C3E-BBE1-C6440D4C7DE3}</ProjectGuid>
     <OutputType>Executable</OutputType>
-    <AssemblyName>test_gpio</AssemblyName>
+    <BinaryName>test_gpio</BinaryName>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <Name>test_gpio</Name>
-    <Architecture>x86_64;armv6;aarch64</Architecture>
+    <Architecture>aarch64</Architecture>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>.\Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <ConditionalDefines>DEBUG;TRACE;</ConditionalDefines>
     <GenerateDebugInfo>True</GenerateDebugInfo>
     <Optimize>False</Optimize>
     <EnableAsserts>True</EnableAsserts>
