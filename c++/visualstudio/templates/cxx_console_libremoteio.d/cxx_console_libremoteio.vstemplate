@@ -6,9 +6,9 @@
     <PlatformTag>Windows</PlatformTag>
     <PlatformTag>Win64</PlatformTag>
     <ProjectType>VC</ProjectType>
-    <ProjectTypeTag>console</ProjectTypeTag>
+    <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libremoteio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Remote I/O Protocol client</ProjectTypeTag>
+    <ProjectTypeTag>Munts Technologies Remote I/O Protocol</ProjectTypeTag>
     <ProjectSubType>
     </ProjectSubType>
     <SortOrder>1000</SortOrder>
