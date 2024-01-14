@@ -11,14 +11,10 @@
     <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>Oxygene</LanguageTag>
     <LanguageTag>Pascal</LanguageTag>
-    <LanguageTag>RemObjects Oxygene</LanguageTag>
-    <LanguageTag>RemObjects Pascal</LanguageTag>
-    <PlatformTag>Island</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
-    <ProjectTypeTag>console</ProjectTypeTag>
+    <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libsimpleio</ProjectTypeTag>
     <ProjectTypeTag>Linux Simple I/O Library</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Linux Simple I/O Library</ProjectTypeTag>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
