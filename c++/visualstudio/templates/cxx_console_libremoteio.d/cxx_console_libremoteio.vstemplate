@@ -8,7 +8,7 @@
     <ProjectType>VC</ProjectType>
     <ProjectTypeTag>Console</ProjectTypeTag>
     <ProjectTypeTag>libremoteio</ProjectTypeTag>
-    <ProjectTypeTag>Munts Technologies Remote I/O Protocol</ProjectTypeTag>
+    <ProjectTypeTag>Remote I/O Protocol</ProjectTypeTag>
     <ProjectSubType>
     </ProjectSubType>
     <SortOrder>1000</SortOrder>
