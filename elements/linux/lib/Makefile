@@ -1,4 +1,4 @@
-# Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2020-2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -24,10 +24,10 @@ ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 # Build the project
 
 default:
-	"$(MSBUILD)" libsimpleio_bindings.elements
+	"$(EBUILD)" libsimpleio_bindings.elements
 	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.fx  ../lib/`basename $$D` ; done
 	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.pas  ../lib/`basename $$D` ; done
-	"$(MSBUILD)" libsimpleio_objects.elements
+	"$(EBUILD)" libsimpleio_objects.elements
 	$(FIND) Bin -type f -exec chmod 644 {} ";"
 	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.a   ../lib/`basename $$D` ; done
 	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.fx  ../lib/`basename $$D` ; done
