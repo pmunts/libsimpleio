@@ -5,14 +5,14 @@
     <RootNamespace>$safeprojectname$</RootNamespace>
     <ProjectGuid>$guid1$</ProjectGuid>
     <OutputType>Executable</OutputType>
-    <AssemblyName>$safeprojectname$</AssemblyName>
+    <BinaryName>$safeprojectname$</BinaryName>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <Name>$safeprojectname$</Name>
     <Architecture>x86_64;armv6;aarch64</Architecture>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>.\Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <ConditionalDefines>DEBUG;TRACE;</ConditionalDefines>
     <GenerateDebugInfo>True</GenerateDebugInfo>
     <Optimize>False</Optimize>
     <EnableAsserts>True</EnableAsserts>
