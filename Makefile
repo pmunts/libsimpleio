@@ -101,6 +101,8 @@ install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done golibs.done
 	ln -s /usr/lib/$(LIBARCH)/libhidapi-hidraw.so $(DESTDIR)/lib/libhidapi.so
 	mkdir -p				$(DESTDIR)/libexec
 	install -cm 0755 hotplug/linux/*helper*	$(DESTDIR)/libexec
+	$(CC) -o$(DESTDIR)/libexec/link-gpiochip hotplug/linux/link-gpiochip.c ./libsimpleio.a
+	strip					$(DESTDIR)/libexec/link-gpiochip
 	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-attach hotplug/linux/usb-hid-hotplug-attach.c -static
 	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-detach hotplug/linux/usb-hid-hotplug-detach.c -static
 	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
