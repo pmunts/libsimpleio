@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of liblinux</TITLE>
 </HEAD><BODY>
 <H1>liblinux</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 28 September 2022<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 23 January 2024<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -46,6 +46,8 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 28 September 2022<BR><A HREF="
 <B>void LINUX_pclose(void *</B><I>stream</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void *LINUX_indexpp(void **</B><I>p</I><B>, int32_t </B><I>i</I><B>);</B>
+
+<B>const char * const LINUX_model_name(void);</B>
 
 </PRE>
 
@@ -278,6 +280,14 @@ or if the
 
 parameter
 is less than zero.
+<P>
+
+<B>LINUX_model_name()</B>
+
+returns the contents of
+<B>/proc/device-tree/model</B>
+
+or an empty string if that file cannot be read.
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -294,7 +304,7 @@ is less than zero.
 <A NAME="lbAF">&nbsp;</A>
 <H2>AUTHOR</H2>
 
-Philip Munts dba Munts Technologies
+Philip Munts dba Munts Technologies.
 <P>
 
 <HR>
@@ -310,6 +320,6 @@ Philip Munts dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 03:28:51 GMT, October 30, 2023
+Time: 04:05:47 GMT, January 24, 2024
 </BODY>
 </HTML>

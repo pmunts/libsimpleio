@@ -1,6 +1,6 @@
 { FreePascal bindings for libsimpleio (http://git.munts.com/libsimpleio)      }
 
-{ Copyright (C)2016-2023, Philip Munts dba Munts Technologies.                }
+{ Copyright (C)2016-2024, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -79,6 +79,8 @@ INTERFACE
     POLLHUP      = $0010;
     POLLNVAL     = $0020;
 
+    UNKNOWN_MODEL = '';
+
   { Detach process from controlling terminal and run in the background }
 
   PROCEDURE Detach
@@ -137,10 +139,16 @@ INTERFACE
    (microsecs : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'LINUX_usleep';
 
+  { Execute a shell command }
+
   PROCEDURE Command
    (cmd        : PChar;
     VAR status : Integer;
     VAR error  : Integer); CDECL; EXTERNAL NAME 'LINUX_command';
+
+  { Retrieve the device tree model name from /proc/device-tree/model }
+
+  FUNCTION ModelName : PChar; CDECL; EXTERNAL NAME 'LINUX_model_name';
 
 IMPLEMENTATION
 

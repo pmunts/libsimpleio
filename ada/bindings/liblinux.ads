@@ -1,7 +1,7 @@
 -- Minimal Ada wrapper for the Linux syscall services
 -- implemented in libsimpleio.so
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2024, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -207,5 +207,9 @@ PACKAGE libLinux IS
    (stream  : System.Address;
     error   : OUT Integer);
   PRAGMA Import(C, PClose, "LINUX_pclose");
+
+  FUNCTION ModelName RETURN String;
+
+  UNKNOWN_MODEL : CONSTANT String := "";
 
 END libLinux;

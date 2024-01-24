@@ -1,6 +1,6 @@
 .\" man page for Munts Technologies Linux Simple I/O Library
 .\"
-.\" Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+.\" Copyright (C)2016-2024, Philip Munts dba Munts Technologies.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH liblinux 2 "28 September 2022" "version 1" "Linux Simple I/O Library"
+.TH liblinux 2 "23 January 2024" "version 1" "Linux Simple I/O Library"
 .SH NAME
 .B liblinux
 \-\- Linux Simple I/O Library: Linux System Call Wrapper Module
@@ -57,6 +57,8 @@
 .BI "void LINUX_pclose(void *" stream ", int32_t *" error ");"
 
 .BI "void *LINUX_indexpp(void **" p ", int32_t " i ");"
+
+.BI "const char * const LINUX_model_name(void);
 
 .fi
 Link with
@@ -210,6 +212,11 @@ or if the
 .I i
 parameter
 is less than zero.
+.PP
+.B LINUX_model_name()
+returns the contents of
+.B /proc/device-tree/model
+or an empty string if that file cannot be read.
 .SH SEE ALSO
 .BR libsimpleio "(2), " libadc "(2), " libdac "(2), " libevent "(2), " libgpio "(2),"
 .br
