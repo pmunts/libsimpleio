@@ -1,6 +1,6 @@
 # Makefile definitions for using gccgo to compile Go packages and programs
 
-# Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2020-2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -32,42 +32,50 @@ ifneq ($(BOARDNAME),)
 # Cross-compile for MuntsOS
 MUNTSOS		?= /usr/local/share/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
-GCCGO		:= $(CROSS_COMPILE)gccgo
-AR		:= $(CROSS_COMPILE)ar
-RANLIB		:= $(CROSS_COMPILE)ranlib
-STRIP		:= $(CROSS_COMPILE)strip
-GO_LIB		:= $(GCCSYSROOT)/usr/lib/go
-LDFLAGS		+= -static
-else
-# Native compile for Unix
+endif
+
 GCCGO		?= $(CROSS_COMPILE)gccgo
 AR		?= $(CROSS_COMPILE)ar
 RANLIB		?= $(CROSS_COMPILE)ranlib
 STRIP		?= $(CROSS_COMPILE)strip
-endif
 
 GO_SRC		?= $(LIBSIMPLEIO)/go
-GO_LIB		?= $(GO_SRC)/lib
-GO_LIBNAME	:= munts.com
-GO_LIBFILE	:= $(GO_LIB)/$(GO_LIBNAME).a
+GO_LIBDIR	:= $(shell pwd)/subordinates.d
+GO_LIBFILE	:= $(GO_LIBDIR)/subordinates.a
 
-CFLAGS		+= -Wall $(DEBUGFLAGS) $(EXTRAFLAGS) -I$(GO_LIB)
+GO_LIBSRC	+= $(GO_SRC)/src/interfaces
+GO_LIBSRC	+= $(GO_SRC)/src/classes
+
+CFLAGS		+= -Wall $(DEBUGFLAGS) $(EXTRAFLAGS) -I$(GO_LIBDIR)
 LDFLAGS		+= $(GO_LIBFILE)
-
-# Define a pattern rule to compile a Go program
-
-% : %.go
-	$(GCCGO) $(CFLAGS) -o $@ $*.go $(LDFLAGS)
-	$(STRIP) $@
 
 # Default make target
 
 go_mk_default: default
+
+# Define a pattern rule to compile a Go program using the component library
+
+% : %.go
+	$(MAKE) $(GO_LIBFILE)
+	$(GCCGO) $(CFLAGS) -o $@ $*.go $(LDFLAGS)
+	$(STRIP) $@
+
+# Make the component library
+
+$(GO_LIBFILE):
+	mkdir -p $(GO_LIBDIR)
+	for D in $(GO_LIBSRC) ; do $(MAKE) -C $$D GO_SRC=$(GO_SRC) GO_LIBDIR=$(GO_LIBDIR) ; done
+	$(AR) rcs $(GO_LIBFILE) $(GO_LIBDIR)/*.o
+	rm -f $(GO_LIBDIR)/*.o
+	$(RANLIB) $(GO_LIBFILE)
+
+go_mk_library: $(GO_LIBFILE)
 
 # Remove working files
 
 go_mk_clean:
 
 go_mk_reallyclean: go_mk_clean
+	rm -rf $(GO_LIBDIR)
 
 go_mk_distclean: go_mk_reallyclean
