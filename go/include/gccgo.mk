@@ -43,8 +43,8 @@ GO_SRC		?= $(LIBSIMPLEIO)/go
 GO_LIBDIR	:= $(shell pwd)/subordinates.d
 GO_LIBFILE	:= $(GO_LIBDIR)/subordinates.a
 
-GO_LIBSRC	+= $(GO_SRC)/src/interfaces
-GO_LIBSRC	+= $(GO_SRC)/src/classes
+GO_LIBSRC	+= $(GO_SRC)/interfaces
+GO_LIBSRC	+= $(GO_SRC)/classes
 
 CFLAGS		+= -Wall $(DEBUGFLAGS) $(EXTRAFLAGS) -I$(GO_LIBDIR)
 LDFLAGS		+= $(GO_LIBFILE)
