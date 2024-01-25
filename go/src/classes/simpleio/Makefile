@@ -23,12 +23,12 @@
 include $(GO_SRC)/include/gccgo.mk
 
 MYCOLLECTION	:= munts.com/classes/simpleio
-OBJ		:= $(GO_LIB)/$(MYCOLLECTION)
+OBJ		:= $(GO_LIBDIR)/$(MYCOLLECTION)
 
 # What this collection depends on
 
-CFLAGS		+= -I$(GO_LIB)/munts.com/interfaces
-CFLAGS		+= -I$(GO_LIB)/munts.com/classes
+CFLAGS		+= -I$(GO_LIBDIR)/munts.com/interfaces
+CFLAGS		+= -I$(GO_LIBDIR)/munts.com/classes
 
 # What to compile for this collection
 
@@ -40,4 +40,4 @@ MYMODULES	+= PWM_libsimpleio
 
 default:
 	mkdir -p $(OBJ)
-	for P in $(MYMODULES) ; do $(GCCGO) $(CFLAGS) -I$(OBJ) -c -o$(OBJ)/$$P.o $$P.go ; cp $(OBJ)/$$P.o $(GO_LIB)/$(shell echo $(MYCOLLECTION) | sed 's@/@-@g')-$$P.o ; done
+	for P in $(MYMODULES) ; do $(GCCGO) $(CFLAGS) -I$(OBJ) -c -o$(OBJ)/$$P.o $$P.go ; cp $(OBJ)/$$P.o $(GO_LIBDIR)/$(shell echo $(MYCOLLECTION) | sed 's@/@-@g')-$$P.o ; done
