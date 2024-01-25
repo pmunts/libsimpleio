@@ -80,13 +80,9 @@ adalibs.done:
 	$(MAKE) -C ada/lib
 	touch $@
 
-golibs.done:
-	$(MAKE) -C go/lib
-	touch $@
-
 # Install headers and library files
 
-install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done golibs.done
+install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
@@ -120,7 +116,6 @@ install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done golibs.done
 	cp -R -P -p freepascal			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p gm2				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
-	rm -f					$(DESTDIR)/share/libsimpleio/go/lib/Makefile
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p nuget			$(DESTDIR)/share/libsimpleio
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
@@ -152,7 +147,6 @@ package.deb: $(PKGFILE)
 
 clean:
 	$(MAKE) -C ada/lib     clean
-	$(MAKE) -C go/lib      clean
 	$(MAKE) -C libremoteio clean
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
