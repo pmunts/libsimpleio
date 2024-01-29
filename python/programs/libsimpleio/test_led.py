@@ -22,13 +22,14 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import gpio
-import raspberrypi
+from libsimpleio.gpio        import Pin, Direction
+from libsimpleio.raspberrypi import GPIO26
+
 import time
 
-print("\nLED Test using libsimpleio\n\n")
+print("\nLED Test using libsimpleio\n")
 
-LED = gpio.Pin(raspberrypi.GPIO26, gpio.Direction.Output)
+LED = Pin(GPIO26, Direction.Output)
 
 while True:
   LED.state = not LED.state
