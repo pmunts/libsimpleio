@@ -118,10 +118,10 @@ class Pin:
 
     if error.value != 0:
       raise IOError(error.value, 'GPIO_line_open() failed');
-      
+
     self.__fd__ = fd.value
 
-# Getter
+# Logic state property getter
 
   @property
   def state(self):
@@ -141,7 +141,7 @@ class Pin:
 
     return value.value
 
-# Setter
+# Logic state property setter
 
   @state.setter
   def state(self, value):

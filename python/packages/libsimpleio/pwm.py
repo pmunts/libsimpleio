@@ -76,9 +76,9 @@ class Output:
 
     if error.value != 0:
       raise IOError(error.value, 'PWM_open() failed');
- 
+
     # Save to private fields
-     
+
     self.__fd__     = fd.value
     self.__period__ = period
     self.__duty__   = dutycycle
