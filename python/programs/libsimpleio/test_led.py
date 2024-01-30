@@ -22,14 +22,18 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from libsimpleio.gpio        import Pin, Direction
-from libsimpleio.raspberrypi import GPIO26
-
+import libsimpleio.gpio
+import libsimpleio.raspberrypi
 import time
 
 print("\nLED Test using libsimpleio\n")
 
-LED = Pin(GPIO26, Direction.Output)
+# Create GPIO pin object instance
+
+LED = libsimpleio.gpio.Pin(libsimpleio.raspberrypi.GPIO26,
+                           libsimpleio.gpio.Direction.Output)
+
+# Flash the LED
 
 while True:
   LED.state = not LED.state

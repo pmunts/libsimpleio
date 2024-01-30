@@ -25,12 +25,12 @@
 import libsimpleio.pwm
 import time
 
-def irange(start, end, incr):
+def irange(start, end, incr = 1):
   if incr > 0:
     return range(start, end + 1, incr)
   if incr < 0:
     return range(start, end - 1, incr)
-  
+
 print("\nPWM Output Test using libsimpleio\n")
 
 # Create a PWM output object instance
