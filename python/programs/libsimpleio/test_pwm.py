@@ -23,6 +23,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import libsimpleio.pwm
+import libsimpleio.raspberrypi
 import time
 
 def irange(start, end, incr = 1):
@@ -35,7 +36,7 @@ print("\nPWM Output Test using libsimpleio\n")
 
 # Create a PWM output object instance
 
-outp = libsimpleio.pwm.Output((2,2), 1000, 0.0)
+outp = libsimpleio.pwm.Output(libsimpleio.raspberrypi.PWM0, 1000, 0.0)
 
 # Sweep duty cycle up and down
 
