@@ -25,7 +25,7 @@ __author__	= 'Philip Munts <phil@munts.net>'
 import ctypes
 import enum
 
-libsimpleio = ctypes.cdll.LoadLibrary("libsimpleio.so")
+from libsimpleio.sharedlib import libsimpleio
 
 ##############################################################################
 
