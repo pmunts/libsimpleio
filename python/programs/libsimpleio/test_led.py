@@ -37,4 +37,4 @@ LED = libsimpleio.gpio.Pin(libsimpleio.raspberrypi.GPIO26,
 
 while True:
   LED.state = not LED.state
-  time.sleep(1)
+  time.sleep(0.5)
