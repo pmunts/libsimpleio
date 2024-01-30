@@ -52,3 +52,6 @@ GPIO19 = (0, 19)  # SPI1 MISO, PWM1
 GPIO20 = (0, 20)  # SPI1 MOSI
 GPIO21 = (0, 21)  # SPI1 SCLK
 GPIO26 = (0, 26)
+
+PWM0   = (0,  0)  # GPIO12 or GPIO18
+PWM1   = (0,  1)  # GPIO13 or GPIO19
