@@ -39,6 +39,6 @@ BEGIN
     WriteLn('Cannot determine model name!')
   ELSE
     Writeln('The model name is "', name, '"');
- 
+
   Writeln;
 END.

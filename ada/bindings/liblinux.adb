@@ -26,7 +26,7 @@
 WITH Interfaces.C.Strings;
 
 PACKAGE BODY libLinux IS
-  
+
   FUNCTION LINUX_model_name RETURN Interfaces.C.Strings.chars_ptr;
     PRAGMA Import(C, LINUX_model_name, "LINUX_model_name");
 
