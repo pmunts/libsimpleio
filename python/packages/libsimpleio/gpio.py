@@ -151,3 +151,6 @@ class Pin:
       raise IOError('Cannot write to an input pin')
 
     libsimpleio.GPIO_line_write(self.__fd__, value, ctypes.byref(error))
+
+    if error.value != 0:
+      raise IOError(error.value, 'GPIO_line_write() failed');
