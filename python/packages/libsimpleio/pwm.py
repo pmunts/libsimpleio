@@ -43,9 +43,6 @@ MAXIMUM_DUTYCYCLE = 100.0
 # PWM output class
 
 class Output:
-  __fd__     = -1
-  __period__ = 0
-  __duty__   = 0.0
 
   # Constructor
 

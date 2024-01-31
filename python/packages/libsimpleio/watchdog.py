@@ -29,7 +29,6 @@ from libsimpleio.sharedlib import libsimpleio
 ##############################################################################
 
 class Timer:
-  __fd__ = -1
 
   # Constructor
 

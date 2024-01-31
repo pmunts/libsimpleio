@@ -60,8 +60,6 @@ __Kinds__ = enum.Enum('__Kinds__', ['Unconfigured', 'Input', 'Output', 'Interrup
 # GPIO pin class
 
 class Pin:
-  __kind__ = __Kinds__.Unconfigured
-  __fd__   = -1
 
 # Constructor
 
