@@ -68,14 +68,14 @@ class Output:
       ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'PWM_configure() failed');
+      raise IOError(error.value, 'PWM_configure() failed')
 
     # Open the PWM output device
 
     libsimpleio.PWM_open(chip, channel, ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'PWM_open() failed');
+      raise IOError(error.value, 'PWM_open() failed')
 
     # Save to private fields
 
@@ -103,6 +103,6 @@ class Output:
     libsimpleio.PWM_write(self.__fd__, ontime, ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'PWM_write() failed');
+      raise IOError(error.value, 'PWM_write() failed')
 
     self.__duty__ = value

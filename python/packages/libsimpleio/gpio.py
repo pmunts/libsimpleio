@@ -117,7 +117,7 @@ class Pin:
       ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'GPIO_line_open() failed');
+      raise IOError(error.value, 'GPIO_line_open() failed')
 
     self.__fd__ = fd.value
 
@@ -132,12 +132,12 @@ class Pin:
       libsimpleio.GPIO_line_event(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:
-        raise IOError(error.value, 'GPIO_line_event() failed');
+        raise IOError(error.value, 'GPIO_line_event() failed')
     else:
       libsimpleio.GPIO_line_read(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:
-        raise IOError(error.value, 'GPIO_line_read() failed');
+        raise IOError(error.value, 'GPIO_line_read() failed')
 
     return value.value
 
@@ -153,4 +153,4 @@ class Pin:
     libsimpleio.GPIO_line_write(self.__fd__, value, ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'GPIO_line_write() failed');
+      raise IOError(error.value, 'GPIO_line_write() failed')
