@@ -152,3 +152,9 @@ class Pin:
 
     if error.value != 0:
       raise IOError(error.value, 'GPIO_line_write() failed')
+
+# File descriptor property getter
+
+  @property
+  def fd(self):
+    return self.__fd__
