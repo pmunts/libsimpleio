@@ -25,7 +25,7 @@ __author__	= 'Philip Munts <phil@munts.net>'
 import ctypes
 import enum
 
-from libsimpleio.sharedlib import libsimpleio
+from libsimpleio.common import libsimpleio
 
 ##############################################################################
 

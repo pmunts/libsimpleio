@@ -26,7 +26,7 @@ import ctypes
 import errno
 import enum
 
-from libsimpleio.sharedlib import libsimpleio
+from libsimpleio.common import libsimpleio
 
 ##############################################################################
 

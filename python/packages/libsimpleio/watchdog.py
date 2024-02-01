@@ -24,7 +24,7 @@ __author__	= 'Philip Munts <phil@munts.net>'
 
 import ctypes
 
-from libsimpleio.sharedlib import libsimpleio
+from libsimpleio.common import libsimpleio
 
 ##############################################################################
 

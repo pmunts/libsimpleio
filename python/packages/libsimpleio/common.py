@@ -27,3 +27,11 @@ import ctypes
 # Get handle for libsimpleio.so
 
 libsimpleio = ctypes.cdll.LoadLibrary("libsimpleio.so")
+
+# Improved range() function
+
+def irange(start, end, incr = 1):
+  if incr > 0:
+    return range(start, end + 1, incr)
+  if incr < 0:
+    return range(start, end - 1, incr)
