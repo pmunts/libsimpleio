@@ -20,6 +20,19 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+# Raspberry Pi boards don't have a built-in ADC (Analog to Digital Converter)
+# subsystem, so the following analog input designators are placeholders for
+# the first IIO (Industrial I/O) ADC device.
+
+AIN0   = (0,  0)
+AIN1   = (0,  1)
+AIN2   = (0,  2)
+AIN3   = (0,  3)
+AIN4   = (0,  4)
+AIN5   = (0,  5)
+AIN6   = (0,  6)
+AIN7   = (0,  7)
+
 # The following GPIO pins are available on all Raspberry Pi Models
 
 GPIO2  = (0,  2)  # I2C1 SDA
