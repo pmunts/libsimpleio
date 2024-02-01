@@ -26,11 +26,7 @@ import libsimpleio.pwm
 import libsimpleio.raspberrypi
 import time
 
-def irange(start, end, incr = 1):
-  if incr > 0:
-    return range(start, end + 1, incr)
-  if incr < 0:
-    return range(start, end - 1, incr)
+from libsimpleio.common import irange
 
 print("\nPWM Output Test using libsimpleio\n")
 

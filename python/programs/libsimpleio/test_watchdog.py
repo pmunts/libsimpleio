@@ -25,11 +25,7 @@
 import libsimpleio.watchdog
 import time
 
-def irange(start, end, incr = 1):
-  if incr > 0:
-    return range(start, end + 1, incr)
-  if incr < 0:
-    return range(start, end - 1, incr)
+from libsimpleio.common import irange
 
 print("\nWatchdog Timer Test using libsimpleio\n")
 
