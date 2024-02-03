@@ -124,6 +124,8 @@ install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
+	mkdir -p				$(PKGDIR)/usr/lib/python3/dist-packages
+	ln -s /usr/local/share/libsimpleio/python/packages/libsimpleio $(PKGDIR)/usr/lib/python3/dist-packages/libsimpleio
 	mkdir -p				$(PKGDIR)/usr/share/gpr
 	ln -s /usr/local/share/libsimpleio/ada/lib/libsimpleio.gpr $(PKGDIR)/usr/share/gpr/libsimpleio.gpr
 
