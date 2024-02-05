@@ -25,13 +25,15 @@ __author__	= "Philip Munts <phil@munts.net>"
 import ctypes
 import math
 
+import munts.interfaces.dac
+
 from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
 # Analog output class
 
-class Output:
+class Output(munts.interfaces.dac.Interface):
 
   # Constructor
 
