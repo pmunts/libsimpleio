@@ -28,7 +28,7 @@ import time
 
 print("\nSPI Master Test using libsimpleio\n")
 
-# Create an SPI slave device object instance
+# Create an SPI slave device object
 
 dev = munts.libsimpleio.spi.Device(munts.libsimpleio.raspberrypi.SPI0_0, 0, 8,
         1000000)

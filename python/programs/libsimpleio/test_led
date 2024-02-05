@@ -28,7 +28,7 @@ import time
 
 print("\nLED Test using libsimpleio\n")
 
-# Create GPIO pin object instance
+# Create GPIO pin object
 
 LED = munts.libsimpleio.gpio.Pin(munts.libsimpleio.raspberrypi.GPIO26,
   munts.libsimpleio.gpio.Direction.Output)

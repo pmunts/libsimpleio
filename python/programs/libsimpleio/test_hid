@@ -28,7 +28,7 @@ from munts.common import irange
 
 print("\nRaw HID Loopback Test using libsimpleio\n")
 
-# Create a raw HID device object instance
+# Create a raw HID device object
 
 dev = munts.libsimpleio.hid.Device(0x16D0, 0x0AFA, None)
 

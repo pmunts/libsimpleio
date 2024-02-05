@@ -30,7 +30,7 @@ from munts.common import irange
 
 print("\nPWM Output Test using libsimpleio\n")
 
-# Create a PWM output object instance
+# Create a PWM output object
 
 outp = munts.libsimpleio.pwm.Output(munts.libsimpleio.raspberrypi.PWM0, 1000, 0.0)
 

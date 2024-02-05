@@ -30,7 +30,7 @@ from munts.common import irange
 
 print("\nServo Output Test using libsimpleio\n")
 
-# Create a Servo output object instance
+# Create a Servo output object
 
 outp = munts.libsimpleio.servo.Output(munts.libsimpleio.raspberrypi.PWM0)
 
