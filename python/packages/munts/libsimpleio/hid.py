@@ -24,10 +24,9 @@ __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import errno
-import enum
 import select
 
-from libsimpleio.common import libsimpleio
+from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
@@ -46,7 +45,7 @@ class Device:
     error  = ctypes.c_int()
     fd     = ctypes.c_int()
 
-    libsimpleio.HIDRAW_open3(VID, PID, sernum, ctypes.byref(fd),
+    libhandle.HIDRAW_open3(VID, PID, sernum, ctypes.byref(fd),
       ctypes.byref(error))
 
     if error.value != 0:
@@ -66,7 +65,7 @@ class Device:
     error = ctypes.c_int()
     count = ctypes.c_int()
 
-    libsimpleio.HIDRAW_send(self.__fd__, bytes(outbuf), 64,
+    libhandle.HIDRAW_send(self.__fd__, bytes(outbuf), 64,
       ctypes.byref(count), ctypes.byref(error))
 
     if error.value != 0:
@@ -90,7 +89,7 @@ class Device:
       elif result[0] != (self.__fd__, select.POLLIN):
         return False
 
-    libsimpleio.HIDRAW_receive(self.__fd__, sinbuf, 64, ctypes.byref(count),
+    libhandle.HIDRAW_receive(self.__fd__, sinbuf, 64, ctypes.byref(count),
       ctypes.byref(error))
 
     if error.value != 0:

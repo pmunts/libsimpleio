@@ -24,9 +24,8 @@ __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import errno
-import enum
 
-from libsimpleio.common import libsimpleio
+from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
@@ -52,7 +51,7 @@ class Device:
 
     devname = "/dev/spidev%d.%d" % (chip, channel)
 
-    libsimpleio.SPI_open(ctypes.c_char_p(devname.encode("ascii")), mode,
+    libhandle.SPI_open(ctypes.c_char_p(devname.encode("ascii")), mode,
       wordsize, speed, ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
@@ -75,7 +74,7 @@ class Device:
 
     error   = ctypes.c_int()
 
-    libsimpleio.SPI_transaction(self.__fd__, self.__csfd__, bytes(outbuf),
+    libhandle.SPI_transaction(self.__fd__, self.__csfd__, bytes(outbuf),
       len(outbuf), delayus, sinbuf, size, ctypes.byref(error))
 
     if error.value != 0:

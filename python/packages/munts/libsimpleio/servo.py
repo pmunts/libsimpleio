@@ -23,33 +23,23 @@
 __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
-import enum
 
-from libsimpleio.common import libsimpleio
-
-##############################################################################
-
-# Public enumeration types
-
-Polarity  = enum.Enum("Polarity", ["ActiveLow", "ActiveHigh"], start=0)
-
-# Public constants
-
-MINIMUM_DUTYCYCLE = 0.0
-MAXIMUM_DUTYCYCLE = 100.0
+from munts.interfaces.servo   import MINIMUM_POSITION
+from munts.interfaces.servo   import MAXIMUM_POSITION
+from munts.interfaces.servo   import NEUTRAL_POSITION
+from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
-# PWM output class
+# Servo output class
 
 class Output:
 
   # Constructor
 
-  def __init__(self, designator, frequency, dutycycle = MINIMUM_DUTYCYCLE,
-               polarity = Polarity.ActiveHigh):
-    if dutycycle < MINIMUM_DUTYCYCLE or dutycycle > MAXIMUM_DUTYCYCLE:
-      raise IO_Error(errno.EINVAL, "Duty cycle is out of range")
+  def __init__(self, designator, frequency = 50, position = NEUTRAL_POSITION):
+    if position < MINIMUM_POSITION or position > MAXIMUM_POSITION:
+      raise IO_Error(errno.EINVAL, "Position is out of range")
 
     if frequency < 50:
       raise IO_Error(errno.EINVAL, "Frequency is out of range")
@@ -57,7 +47,7 @@ class Output:
     chip    = int(designator[0])
     channel = int(designator[1])
     period  = int(1.0E9/frequency) # nanoseconds
-    ontime  = int(dutycycle/MAXIMUM_DUTYCYCLE*period) # nanoseconds
+    ontime  = int(1500000.0 + 500000.0*position) # nanoseconds
     error   = ctypes.c_int()
     fd      = ctypes.c_int()
 
@@ -67,7 +57,7 @@ class Output:
     # different channels on the same PWM controller, they will all share the
     # same PWM pulse frequency, the last one configured.
 
-    libsimpleio.PWM_configure(chip, channel, period, ontime, polarity.value,
+    libhandle.PWM_configure(chip, channel, period, ontime, 1,
       ctypes.byref(error))
 
     if error.value != 0:
@@ -75,39 +65,39 @@ class Output:
 
     # Open the PWM output device
 
-    libsimpleio.PWM_open(chip, channel, ctypes.byref(fd), ctypes.byref(error))
+    libhandle.PWM_open(chip, channel, ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
       raise IOError(error.value, "PWM_open() failed")
 
     # Save to private fields
 
-    self.__fd__     = fd.value
-    self.__period__ = period
-    self.__duty__   = dutycycle
+    self.__fd__       = fd.value
+    self.__period__   = period
+    self.__position__ = position
 
-  # Duty cycle property getter
+  # Position property getter
 
   @property
-  def dutycycle(self):
-    return self.__duty__
+  def position(self):
+    return self.__position__
 
-  # Duty cycle property setter
+  # Position property setter
 
-  @dutycycle.setter
-  def dutycycle(self, value):
-    if value < MINIMUM_DUTYCYCLE or value > MAXIMUM_DUTYCYCLE:
-      raise IO_Error(errno.EINVAL, "Duty cycle is out of range")
+  @position.setter
+  def position(self, value):
+    if value < MINIMUM_POSITION or value > MAXIMUM_POSITION:
+      raise IO_Error(errno.EINVAL, "Position is out of range")
 
-    ontime  = int(value/MAXIMUM_DUTYCYCLE*self.__period__) # nanoseconds
-    error   = ctypes.c_int()
+    ontime = int(1500000.0 + 500000.0*value) # nanoseconds
+    error  = ctypes.c_int()
 
-    libsimpleio.PWM_write(self.__fd__, ontime, ctypes.byref(error))
+    libhandle.PWM_write(self.__fd__, ontime, ctypes.byref(error))
 
     if error.value != 0:
       raise IOError(error.value, "PWM_write() failed")
 
-    self.__duty__ = value
+    self.__position__ = value
 
   # File descriptor property getter
 

@@ -24,13 +24,12 @@ __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import errno
-import enum
 
-from libsimpleio.common import libsimpleio
+from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
-# PWM output class
+# I2C bus class
 
 class Bus:
   __fds__ = {}
@@ -62,7 +61,7 @@ class Bus:
 
     devname = "/dev/i2c-%d" % bus
 
-    libsimpleio.I2C_open(ctypes.c_char_p(devname.encode("ascii")),
+    libhandle.I2C_open(ctypes.c_char_p(devname.encode("ascii")),
       ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
@@ -101,7 +100,7 @@ class Bus:
 
     error  = ctypes.c_int()
 
-    libsimpleio.I2C_transaction(self.__fd__, addr, scmd, scmdlen, sresp,
+    libhandle.I2C_transaction(self.__fd__, addr, scmd, scmdlen, sresp,
       sresplen, ctypes.byref(error))
 
     if error.value != 0:

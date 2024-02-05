@@ -23,10 +23,9 @@
 __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
-import enum
 import math
 
-from libsimpleio.common import libsimpleio
+from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
@@ -42,7 +41,7 @@ class Output:
     fd      = ctypes.c_int()
     error   = ctypes.c_int()
 
-    libsimpleio.DAC_open(chip, channel, ctypes.byref(fd), ctypes.byref(error))
+    libhandle.DAC_open(chip, channel, ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
       raise IOError(error.value, "DAC_open() failed")
@@ -72,7 +71,7 @@ class Output:
     sample = ctypes.c_int()
     error  = ctypes.c_int()
 
-    libsimpleio.DAC_write(self.__fd__, int(S), ctypes.byref(error))
+    libhandle.DAC_write(self.__fd__, int(S), ctypes.byref(error))
  
     if error.value != 0:
       raise IOError(error.value, "DAC_write() failed")

@@ -1,4 +1,4 @@
-# Linux Simple I/O Library binding module
+# Munts Technologies common definitions
 
 # Copyright (C)2024, Philip Munts.
 #
@@ -21,12 +21,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 __author__	= "Philip Munts <phil@munts.net>"
-
-import ctypes
-
-# Get handle for libsimpleio.so
-
-libsimpleio = ctypes.cdll.LoadLibrary("libsimpleio.so")
 
 # Improved range() function
 

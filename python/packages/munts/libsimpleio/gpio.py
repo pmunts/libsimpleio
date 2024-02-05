@@ -25,13 +25,13 @@ __author__	= "Philip Munts <phil@munts.net>"
 import ctypes
 import enum
 
-from libsimpleio.common import libsimpleio
+from munts.interfaces.gpio    import Direction
+from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
 # Public enumeration types
 
-Direction = enum.Enum("Direction", ["Input", "Output"])
 Driver    = enum.Enum("Driver", ["PushPull", "OpenDrain", "OpenSource"])
 Edge      = enum.Enum("Edge", ["Neither", "Rising", "Falling", "Both"])
 Polarity  = enum.Enum("Polarity", ["ActiveHigh", "ActiveLow"])
@@ -111,7 +111,7 @@ class Pin:
     fd    = ctypes.c_int()
     error = ctypes.c_int()
 
-    libsimpleio.GPIO_line_open(chip, line, flags, events, state,
+    libhandle.GPIO_line_open(chip, line, flags, events, state,
       ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
@@ -127,12 +127,12 @@ class Pin:
     error = ctypes.c_int()
 
     if self.__kind__ == __Kinds__.Interrupt:
-      libsimpleio.GPIO_line_event(self.__fd__, ctypes.byref(value), ctypes.byref(error))
+      libhandle.GPIO_line_event(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:
         raise IOError(error.value, "GPIO_line_event() failed")
     else:
-      libsimpleio.GPIO_line_read(self.__fd__, ctypes.byref(value), ctypes.byref(error))
+      libhandle.GPIO_line_read(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:
         raise IOError(error.value, "GPIO_line_read() failed")
@@ -148,7 +148,7 @@ class Pin:
     if self.__kind__ != __Kinds__.Output:
       raise IOError("Cannot write to an input pin")
 
-    libsimpleio.GPIO_line_write(self.__fd__, value, ctypes.byref(error))
+    libhandle.GPIO_line_write(self.__fd__, value, ctypes.byref(error))
 
     if error.value != 0:
       raise IOError(error.value, "GPIO_line_write() failed")

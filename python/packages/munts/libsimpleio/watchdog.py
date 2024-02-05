@@ -1,6 +1,6 @@
-# Analog Input Services
+# Watchdog Timer Services
 
-# Copyright (C)2024, Philip Munts dba Munts Technologies
+# Copyright (C)2024, Philip Munts.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -23,64 +23,72 @@
 __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
-import enum
 
-from libsimpleio.common import libsimpleio
+from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
-# PWM output class
-
-class Input:
+class Timer:
 
   # Constructor
 
-  def __init__(self, designator, resolution, Vref, signed = False):
-    chip    = int(designator[0])
-    channel = int(designator[1])
+  def __init__(self, devname = "/dev/watchdog", timeout = 0):
     fd      = ctypes.c_int()
     error   = ctypes.c_int()
 
-    libsimpleio.ADC_open(chip, channel, ctypes.byref(fd), ctypes.byref(error))
+    # Open the watchdog timer device
+
+    libhandle.WATCHDOG_open(ctypes.c_char_p(devname.encode("ascii")),
+      ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, "ADC_open() failed")
+      raise IOError(error.value, "WATCHDOG_open() failed")
 
-    # Save to private fields
+    self.__fd__  = fd.value
 
-    self.__fd__         = fd.value
-    self.__resolution__ = resolution
+    # Set timeout, if requested
 
-    if signed:
-      self.__stepsize__ = Vref/2.0**(resolution-1)
-    else:
-      self.__stepsize__ = Vref/2.0**(resolution)
+    if timeout != 0:
+      self.timeout = timeout
 
-  # Raw sample property getter
+  # Timeout getter
 
   @property
-  def sample(self):
-    sample = ctypes.c_int()
-    error  = ctypes.c_int()
-   
-    libsimpleio.ADC_read(self.__fd__, ctypes.byref(sample), ctypes.byref(error))
- 
+  def timeout(self):
+    nsecs = ctypes.c_int()
+    error = ctypes.c_int()
+
+    libhandle.WATCHDOG_get_timeout(self.__fd__, ctypes.byref(nsecs),
+      ctypes.byref(error))
+
     if error.value != 0:
-      raise IOError(error.value, "ADC_read() failed")
+      raise IOError(error.value, "WATCHDOG_get_timeout() failed")
 
-    return sample.value
+    return nsecs.value
 
-  # Voltage property getter
+  # Timeout setter
 
-  @property
-  def voltage(self):
-    return self.sample*self.__stepsize__
+  @timeout.setter
+  def timeout(self, T):
+    timeout_requested = ctypes.c_int(T)
+    timeout_actual    = ctypes.c_int()
+    error             = ctypes.c_int()
 
-  # Resolution property getter
+    libhandle.WATCHDOG_set_timeout(self.__fd__, timeout_requested,
+      ctypes.byref(timeout_actual), ctypes.byref(error))
 
-  @property
-  def resolution(self):
-    return self.__resolution__
+    if error.value != 0:
+      raise IOError(error.value, "WATCHDOG_set_timeout() failed")
+
+  # Method: Kick the dog
+
+  def Kick(self):
+    error   = ctypes.c_int()
+
+    libhandle.WATCHDOG_kick(self.__fd__, ctypes.byref(error))
+
+    if error.value != 0:
+      raise IOError(error.value, "WATCHDOG_kick() failed")
 
   # File descriptor property getter
 
