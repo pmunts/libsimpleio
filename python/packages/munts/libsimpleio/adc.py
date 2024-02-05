@@ -24,13 +24,15 @@ __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 
+import munts.interfaces.adc
+
 from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
 # PWM output class
 
-class Input:
+class Input(munts.interfaces.adc.Interface):
 
   # Constructor
 
