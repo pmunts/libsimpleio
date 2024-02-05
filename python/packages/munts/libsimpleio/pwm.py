@@ -25,6 +25,7 @@ __author__	= "Philip Munts <phil@munts.net>"
 import ctypes
 import enum
 
+from munts.interfaces.pwm     import Interface
 from munts.interfaces.pwm     import MINIMUM_DUTYCYCLE
 from munts.interfaces.pwm     import MAXIMUM_DUTYCYCLE
 from munts.libsimpleio.common import libhandle
@@ -39,17 +40,17 @@ Polarity  = enum.Enum("Polarity", ["ActiveLow", "ActiveHigh"], start=0)
 
 # PWM output class
 
-class Output:
+class Output(Interface):
 
   # Constructor
 
   def __init__(self, designator, frequency, dutycycle = MINIMUM_DUTYCYCLE,
                polarity = Polarity.ActiveHigh):
     if dutycycle < MINIMUM_DUTYCYCLE or dutycycle > MAXIMUM_DUTYCYCLE:
-      raise IO_Error(errno.EINVAL, "Duty cycle is out of range")
+      raise ValueError("Duty cycle is out of range")
 
     if frequency < 50:
-      raise IO_Error(errno.EINVAL, "Frequency is out of range")
+      raise ValueError("Frequency is out of range")
 
     chip    = int(designator[0])
     channel = int(designator[1])
@@ -94,7 +95,7 @@ class Output:
   @dutycycle.setter
   def dutycycle(self, value):
     if value < MINIMUM_DUTYCYCLE or value > MAXIMUM_DUTYCYCLE:
-      raise IO_Error(errno.EINVAL, "Duty cycle is out of range")
+      raise ValueError("Duty cycle is out of range")
 
     ontime  = int(value/MAXIMUM_DUTYCYCLE*self.__period__) # nanoseconds
     error   = ctypes.c_int()

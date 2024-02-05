@@ -26,6 +26,7 @@ import ctypes
 import enum
 
 from munts.interfaces.gpio    import Direction
+from munts.interfaces.gpio    import Interface
 from munts.libsimpleio.common import libhandle
 
 ##############################################################################
@@ -59,7 +60,7 @@ __Kinds__ = enum.Enum("__Kinds__", ["Unconfigured", "Input", "Output", "Interrup
 
 # GPIO pin class
 
-class Pin:
+class Pin(Interface):
 
 # Constructor
 

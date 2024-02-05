@@ -24,6 +24,7 @@ __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 
+from munts.interfaces.servo   import Interface
 from munts.interfaces.servo   import MINIMUM_POSITION
 from munts.interfaces.servo   import MAXIMUM_POSITION
 from munts.interfaces.servo   import NEUTRAL_POSITION
@@ -33,16 +34,16 @@ from munts.libsimpleio.common import libhandle
 
 # Servo output class
 
-class Output:
+class Output(Interface):
 
   # Constructor
 
   def __init__(self, designator, frequency = 50, position = NEUTRAL_POSITION):
     if position < MINIMUM_POSITION or position > MAXIMUM_POSITION:
-      raise IO_Error(errno.EINVAL, "Position is out of range")
+      raise ValueError("Position is out of range")
 
     if frequency < 50:
-      raise IO_Error(errno.EINVAL, "Frequency is out of range")
+      raise ValueError("Frequency is out of range")
 
     chip    = int(designator[0])
     channel = int(designator[1])
@@ -87,7 +88,7 @@ class Output:
   @position.setter
   def position(self, value):
     if value < MINIMUM_POSITION or value > MAXIMUM_POSITION:
-      raise IO_Error(errno.EINVAL, "Position is out of range")
+      raise ValueError("Position is out of range")
 
     ontime = int(1500000.0 + 500000.0*value) # nanoseconds
     error  = ctypes.c_int()
