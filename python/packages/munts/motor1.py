@@ -23,6 +23,10 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
+import munts.interfaces.gpio
+import munts.interfaces.motor
+import munts.interfaces.pwm
+
 from munts.interfaces.motor import MAXIMUM_VELOCITY
 from munts.interfaces.motor import MINIMUM_VELOCITY
 from munts.interfaces.motor import STOPPED_VELOCITY
@@ -32,13 +36,19 @@ from munts.interfaces.pwm   import MAXIMUM_DUTYCYCLE
 
 # Motor driver output class
 
-class Output:
+class Output(munts.interfaces.motor.Interface):
 
   # Constructor
 
   def __init__(self, speed, direction, velocity = STOPPED_VELOCITY):
+    if not munts.interfaces.pwm.Interface in speed.__class__.__mro__:
+      raise TypeError("speed argument does NOT implement pwm.Interface")
+
+    if not munts.interfaces.gpio.Interface in direction.__class__.__mro__:
+      raise TypeError("direction argument does NOT implement gpio.Interface")
+
     if velocity < MINIMUM_VELOCITY or velocity > MAXIMUM_VELOCITY:
-      raise IO_Error(errno.EINVAL, "Velocity is out of range")
+      raise ValueError("Velocity is out of range")
 
     self.__pwmout__   = speed
     self.__dirout__   = direction
@@ -59,7 +69,7 @@ class Output:
   @velocity.setter
   def velocity(self, value):
     if value < MINIMUM_VELOCITY or value > MAXIMUM_VELOCITY:
-      raise IO_Error(errno.EINVAL, "Velocity is out of range")
+      raise ValueError("Velocity is out of range")
 
     if value < STOPPED_VELOCITY:
       self.__dirout__.state = False  # Nominal reverse rotation
