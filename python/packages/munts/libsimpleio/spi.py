@@ -23,7 +23,6 @@
 __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
-import errno
 
 from munts.libsimpleio.common import libhandle
 
