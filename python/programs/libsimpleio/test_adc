@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-# Watchdog Timer Test using libsimpleio
+# Analog Input Test using libsimpleio
 
 # Copyright (C)2024, Philip Munts.
 #
@@ -22,40 +22,19 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import libsimpleio.watchdog
+import munts.libsimpleio.adc
+import munts.libsimpleio.raspberrypi
 import time
 
-from libsimpleio.common import irange
+print("\nAnalog Input Test using libsimpleio\n")
 
-print("\nWatchdog Timer Test using libsimpleio\n")
+# Following is for the MikroElektronika Pi 3 Click Shield ADC
 
-# Create a watchdog timer device object
+inp = munts.libsimpleio.adc.Input(munts.libsimpleio.raspberrypi.AIN0, 12, 4.096)
 
-wd = libsimpleio.watchdog.Timer()
+print("fd         => " + str(inp.fd))
+print("resolution => " + str(inp.resolution) + " bits\n")
 
-# Display the default watchdog timeout period
-
-print("Default timeout: " + str(wd.timeout))
-
-# Change the watchdog timeout period to 5 seconds
-
-wd.timeout = 5
-
-print("New timeout:     " + str(wd.timeout))
-
-# Kick the watchdog timer for 5 seconds
-
-print()
-
-for tick in irange(1, 5):
-  print("Kick the dog...")
-  wd.Kick()
-  time.sleep(1.0)
-
-# Don't kick the watchdog timer anymore
-
-print()
-
-for tick in irange(1, 10):
-  print("Don't kick the dog...")
+while True:
+  print("AIN0 => " + str(inp.voltage) + " V")
   time.sleep(1.0)

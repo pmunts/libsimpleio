@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-# Analog Input Test using libsimpleio
+# PWM Output Test using libsimpleio
 
 # Copyright (C)2024, Philip Munts.
 #
@@ -22,19 +22,24 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import libsimpleio.adc
-import libsimpleio.raspberrypi
+import munts.libsimpleio.pwm
+import munts.libsimpleio.raspberrypi
 import time
 
-print("\nAnalog Input Test using libsimpleio\n")
+from munts.common import irange
 
-# Following is for the MikroElektronika Pi 3 Click Shield ADC
+print("\nPWM Output Test using libsimpleio\n")
 
-inp = libsimpleio.adc.Input(libsimpleio.raspberrypi.AIN0, 12, 4.096)
+# Create a PWM output object instance
 
-print("fd         => " + str(inp.fd))
-print("resolution => " + str(inp.resolution) + " bits\n")
+outp = munts.libsimpleio.pwm.Output(munts.libsimpleio.raspberrypi.PWM0, 1000, 0.0)
 
-while True:
-  print("AIN0 => " + str(inp.voltage) + " V")
-  time.sleep(1.0)
+# Sweep duty cycle up and down
+
+for duty in irange(0, 100, 1):
+  outp.dutycycle = float(duty)
+  time.sleep(0.05)
+
+for duty in irange(100, 0, -1):
+  outp.dutycycle = float(duty)
+  time.sleep(0.05)

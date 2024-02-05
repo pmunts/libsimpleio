@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-# PWM Output Test using libsimpleio
+# Watchdog Timer Test using libsimpleio
 
 # Copyright (C)2024, Philip Munts.
 #
@@ -22,24 +22,40 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import libsimpleio.pwm
-import libsimpleio.raspberrypi
+import munts.libsimpleio.watchdog
 import time
 
-from libsimpleio.common import irange
+from munts.common import irange
 
-print("\nPWM Output Test using libsimpleio\n")
+print("\nWatchdog Timer Test using libsimpleio\n")
 
-# Create a PWM output object instance
+# Create a watchdog timer device object
 
-outp = libsimpleio.pwm.Output(libsimpleio.raspberrypi.PWM0, 1000, 0.0)
+wd = munts.libsimpleio.watchdog.Timer()
 
-# Sweep duty cycle up and down
+# Display the default watchdog timeout period
 
-for duty in irange(0, 100, 1):
-  outp.dutycycle = float(duty)
-  time.sleep(0.05)
+print("Default timeout: " + str(wd.timeout))
 
-for duty in irange(100, 0, -1):
-  outp.dutycycle = float(duty)
-  time.sleep(0.05)
+# Change the watchdog timeout period to 5 seconds
+
+wd.timeout = 5
+
+print("New timeout:     " + str(wd.timeout))
+
+# Kick the watchdog timer for 5 seconds
+
+print()
+
+for tick in irange(1, 5):
+  print("Kick the dog...")
+  wd.Kick()
+  time.sleep(1.0)
+
+# Don't kick the watchdog timer anymore
+
+print()
+
+for tick in irange(1, 10):
+  print("Don't kick the dog...")
+  time.sleep(1.0)
