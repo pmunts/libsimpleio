@@ -23,7 +23,6 @@
 __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
-import errno
 
 from munts.libsimpleio.common import libhandle
 
@@ -45,10 +44,10 @@ class Bus:
     # Validate parameters
 
     if chip != 0:
-      raise IOError(errno.EINVAL, "Illegal chip number")
+      raise ValueError("Illegal chip number")
 
     if bus < 0:
-      raise IOError(errno.EINVAL, "Illegal bus number")
+      raise ValueError("Illegal bus number")
 
     # See if requested I2C bus device node is already open, and return the
     # saved file descriptor if it is.
@@ -79,10 +78,10 @@ class Bus:
 
   def Transaction(self, addr, cmd, resp):
     if addr < 0x00:
-      raise IOError(errno.EINVAL, "Invalid I2C device address")
+      raise ValueError("Invalid I2C device address")
 
     if addr > 0x7F:
-      raise IOError(errno.EINVAL, "Invalid I2C device address")
+      raise ValueError("Invalid I2C device address")
 
     if cmd == None:
       scmd     = None
