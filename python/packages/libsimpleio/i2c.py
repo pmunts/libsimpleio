@@ -119,3 +119,9 @@ class Bus:
 
   def Write(self, addr, cmd):
     self.Transaction(addr, cmd, None)
+
+  # File descriptor property getter
+
+  @property
+  def fd(self):
+    return self.__fd__

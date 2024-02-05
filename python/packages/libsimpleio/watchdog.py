@@ -89,3 +89,9 @@ class Timer:
 
     if error.value != 0:
       raise IOError(error.value, 'WATCHDOG_kick() failed')
+
+  # File descriptor property getter
+
+  @property
+  def fd(self):
+    return self.__fd__

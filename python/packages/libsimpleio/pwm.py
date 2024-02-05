@@ -103,3 +103,9 @@ class Output:
       raise IOError(error.value, 'PWM_write() failed')
 
     self.__duty__ = value
+
+  # File descriptor property getter
+
+  @property
+  def fd(self):
+    return self.__fd__
