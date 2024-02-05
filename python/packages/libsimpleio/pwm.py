@@ -48,6 +48,12 @@ class Output:
 
   def __init__(self, designator, frequency, dutycycle = MINIMUM_DUTYCYCLE,
                polarity = Polarity.ActiveHigh):
+    if dutycycle < MINIMUM_DUTYCYCLE or dutycycle > MAXIMUM_DUTYCYCLE:
+      raise IO_Error(errno.EINVAL, "Duty cycle is out of range")
+
+    if frequency < 50:
+      raise IO_Error(errno.EINVAL, "Frequency is out of range")
+
     chip    = int(designator[0])
     channel = int(designator[1])
     period  = int(1.0E9/frequency) # nanoseconds
@@ -80,10 +86,6 @@ class Output:
     self.__period__ = period
     self.__duty__   = dutycycle
 
-    # Set initial duty cycle
-
-    self.dutycycle  = dutycycle
-
   # Duty cycle property getter
 
   @property
@@ -94,6 +96,9 @@ class Output:
 
   @dutycycle.setter
   def dutycycle(self, value):
+    if value < MINIMUM_DUTYCYCLE or value > MAXIMUM_DUTYCYCLE:
+      raise IO_Error(errno.EINVAL, "Duty cycle is out of range")
+
     ontime  = int(value/MAXIMUM_DUTYCYCLE*self.__period__) # nanoseconds
     error   = ctypes.c_int()
 
