@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-__author__	= 'Philip Munts <phil@munts.net>'
+__author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import errno
@@ -62,11 +62,11 @@ class Bus:
 
     devname = "/dev/i2c-%d" % bus
 
-    libsimpleio.I2C_open(ctypes.c_char_p(devname.encode('ascii')),
+    libsimpleio.I2C_open(ctypes.c_char_p(devname.encode("ascii")),
       ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'I2C_open() failed')
+      raise IOError(error.value, "I2C_open() failed")
 
     # Save instance file descriptor
 
@@ -105,7 +105,7 @@ class Bus:
       sresplen, ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'I2C_transaction() failed')
+      raise IOError(error.value, "I2C_transaction() failed")
 
     if resp != None:
       resp[:] = sresp.raw

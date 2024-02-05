@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-__author__	= 'Philip Munts <phil@munts.net>'
+__author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import enum
@@ -45,7 +45,7 @@ class Output:
     libsimpleio.DAC_open(chip, channel, ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'DAC_open() failed')
+      raise IOError(error.value, "DAC_open() failed")
 
     # Save to private fields
 
@@ -75,7 +75,7 @@ class Output:
     libsimpleio.DAC_write(self.__fd__, int(S), ctypes.byref(error))
  
     if error.value != 0:
-      raise IOError(error.value, 'DAC_write() failed')
+      raise IOError(error.value, "DAC_write() failed")
 
     self.__sample__ = S
 

@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-__author__	= 'Philip Munts <phil@munts.net>'
+__author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import enum
@@ -44,7 +44,7 @@ class Input:
     libsimpleio.ADC_open(chip, channel, ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'ADC_open() failed')
+      raise IOError(error.value, "ADC_open() failed")
 
     # Save to private fields
 
@@ -66,7 +66,7 @@ class Input:
     libsimpleio.ADC_read(self.__fd__, ctypes.byref(sample), ctypes.byref(error))
  
     if error.value != 0:
-      raise IOError(error.value, 'ADC_read() failed')
+      raise IOError(error.value, "ADC_read() failed")
 
     return sample.value
 

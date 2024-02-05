@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-__author__	= 'Philip Munts <phil@munts.net>'
+__author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import enum
@@ -31,10 +31,10 @@ from libsimpleio.common import libsimpleio
 
 # Public enumeration types
 
-Direction = enum.Enum('Direction', ['Input', 'Output'])
-Driver    = enum.Enum('Driver', ['PushPull', 'OpenDrain', 'OpenSource'])
-Edge      = enum.Enum('Edge', ['Neither', 'Rising', 'Falling', 'Both'])
-Polarity  = enum.Enum('Polarity', ['ActiveHigh', 'ActiveLow'])
+Direction = enum.Enum("Direction", ["Input", "Output"])
+Driver    = enum.Enum("Driver", ["PushPull", "OpenDrain", "OpenSource"])
+Edge      = enum.Enum("Edge", ["Neither", "Rising", "Falling", "Both"])
+Polarity  = enum.Enum("Polarity", ["ActiveHigh", "ActiveLow"])
 
 # Private ioctl() constants
 
@@ -53,7 +53,7 @@ _EVENT_REQUEST_BOTH       = 0x0003
 
 # Private enumeration types
 
-__Kinds__ = enum.Enum('__Kinds__', ['Unconfigured', 'Input', 'Output', 'Interrupt'])
+__Kinds__ = enum.Enum("__Kinds__", ["Unconfigured", "Input", "Output", "Interrupt"])
 
 ##############################################################################
 
@@ -115,7 +115,7 @@ class Pin:
       ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'GPIO_line_open() failed')
+      raise IOError(error.value, "GPIO_line_open() failed")
 
     self.__fd__ = fd.value
 
@@ -130,12 +130,12 @@ class Pin:
       libsimpleio.GPIO_line_event(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:
-        raise IOError(error.value, 'GPIO_line_event() failed')
+        raise IOError(error.value, "GPIO_line_event() failed")
     else:
       libsimpleio.GPIO_line_read(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:
-        raise IOError(error.value, 'GPIO_line_read() failed')
+        raise IOError(error.value, "GPIO_line_read() failed")
 
     return value.value
 
@@ -146,12 +146,12 @@ class Pin:
     error = ctypes.c_int()
 
     if self.__kind__ != __Kinds__.Output:
-      raise IOError('Cannot write to an input pin')
+      raise IOError("Cannot write to an input pin")
 
     libsimpleio.GPIO_line_write(self.__fd__, value, ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'GPIO_line_write() failed')
+      raise IOError(error.value, "GPIO_line_write() failed")
 
 # File descriptor property getter
 

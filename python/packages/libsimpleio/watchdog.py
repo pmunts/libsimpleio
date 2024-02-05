@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-__author__	= 'Philip Munts <phil@munts.net>'
+__author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 
@@ -38,11 +38,11 @@ class Timer:
 
     # Open the watchdog timer device
 
-    libsimpleio.WATCHDOG_open(ctypes.c_char_p(devname.encode('ascii')),
+    libsimpleio.WATCHDOG_open(ctypes.c_char_p(devname.encode("ascii")),
       ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'WATCHDOG_open() failed')
+      raise IOError(error.value, "WATCHDOG_open() failed")
 
     self.__fd__  = fd.value
 
@@ -62,7 +62,7 @@ class Timer:
       ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'WATCHDOG_get_timeout() failed')
+      raise IOError(error.value, "WATCHDOG_get_timeout() failed")
 
     return nsecs.value
 
@@ -78,7 +78,7 @@ class Timer:
       ctypes.byref(timeout_actual), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'WATCHDOG_set_timeout() failed')
+      raise IOError(error.value, "WATCHDOG_set_timeout() failed")
 
   # Method: Kick the dog
 
@@ -88,7 +88,7 @@ class Timer:
     libsimpleio.WATCHDOG_kick(self.__fd__, ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'WATCHDOG_kick() failed')
+      raise IOError(error.value, "WATCHDOG_kick() failed")
 
   # File descriptor property getter
 

@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-__author__	= 'Philip Munts <phil@munts.net>'
+__author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import enum
@@ -31,7 +31,7 @@ from libsimpleio.common import libsimpleio
 
 # Public enumeration types
 
-Polarity  = enum.Enum('Polarity', ['ActiveLow', 'ActiveHigh'], start=0)
+Polarity  = enum.Enum("Polarity", ["ActiveLow", "ActiveHigh"], start=0)
 
 # Public constants
 
@@ -65,14 +65,14 @@ class Output:
       ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'PWM_configure() failed')
+      raise IOError(error.value, "PWM_configure() failed")
 
     # Open the PWM output device
 
     libsimpleio.PWM_open(chip, channel, ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'PWM_open() failed')
+      raise IOError(error.value, "PWM_open() failed")
 
     # Save to private fields
 
@@ -100,7 +100,7 @@ class Output:
     libsimpleio.PWM_write(self.__fd__, ontime, ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'PWM_write() failed')
+      raise IOError(error.value, "PWM_write() failed")
 
     self.__duty__ = value
 

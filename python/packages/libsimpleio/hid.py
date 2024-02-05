@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-__author__	= 'Philip Munts <phil@munts.net>'
+__author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import errno
@@ -41,7 +41,7 @@ class Device:
     if serial == None:
       sernum = None
     else:
-      sernum = ctypes.c_char_p(serial.encode('ascii'))
+      sernum = ctypes.c_char_p(serial.encode("ascii"))
 
     error  = ctypes.c_int()
     fd     = ctypes.c_int()
@@ -50,7 +50,7 @@ class Device:
       ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'HIDRAW_open() failed')
+      raise IOError(error.value, "HIDRAW_open() failed")
 
     # Save instance file descriptor
 
@@ -70,7 +70,7 @@ class Device:
       ctypes.byref(count), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'HIDRAW_send() failed')
+      raise IOError(error.value, "HIDRAW_send() failed")
 
     return count.value == 64
 
@@ -94,10 +94,10 @@ class Device:
       ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'HIDRAW_receive() failed')
+      raise IOError(error.value, "HIDRAW_receive() failed")
 
     if count.value != 64:
-      raise IOError(errno.EIO, 'HIDRAW_receive() returned less than 64 bytes')
+      raise IOError(errno.EIO, "HIDRAW_receive() returned less than 64 bytes")
 
     inbuf[:] = sinbuf.raw
     return True

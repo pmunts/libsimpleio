@@ -20,7 +20,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-__author__	= 'Philip Munts <phil@munts.net>'
+__author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import errno
@@ -52,11 +52,11 @@ class Device:
 
     devname = "/dev/spidev%d.%d" % (chip, channel)
 
-    libsimpleio.SPI_open(ctypes.c_char_p(devname.encode('ascii')), mode,
+    libsimpleio.SPI_open(ctypes.c_char_p(devname.encode("ascii")), mode,
       wordsize, speed, ctypes.byref(fd), ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'SPI_open() failed')
+      raise IOError(error.value, "SPI_open() failed")
 
     # Save instance file descriptor
 
@@ -79,7 +79,7 @@ class Device:
       len(outbuf), delayus, sinbuf, size, ctypes.byref(error))
 
     if error.value != 0:
-      raise IOError(error.value, 'SPI_transaction() failed')
+      raise IOError(error.value, "SPI_transaction() failed")
 
     if inbuf != None:
       inbuf[:] = sinbuf.raw
