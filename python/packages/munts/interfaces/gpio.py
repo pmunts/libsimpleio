@@ -20,8 +20,32 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
-import enum
+###############################################################################
 
 # Public enumeration types
 
+import enum
+
 Direction = enum.Enum("Direction", ["Input", "Output"])
+
+###############################################################################
+
+# Define an interface (aka abstract base class) for GPIO pins
+
+from abc import ABC, abstractmethod
+
+class Interface(ABC):
+
+  # Logic state property getter
+
+  @property
+  @abstractmethod
+  def state(self):
+    pass
+
+  # Logic state property setter
+
+  @state.setter
+  @abstractmethod
+  def state(self, value):
+    pass

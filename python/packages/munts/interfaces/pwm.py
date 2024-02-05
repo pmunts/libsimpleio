@@ -22,7 +22,31 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
+###############################################################################
+
 # Public constants for percentage duty cycle
 
-MINIMUM_DUTYCYCLE = 0.0
-MAXIMUM_DUTYCYCLE = 100.0
+MINIMUM_DUTYCYCLE = 0.0    # percent
+MAXIMUM_DUTYCYCLE = 100.0  # percent
+
+###############################################################################
+
+# Define an interface (aka abstract base class) for PWM outputs
+
+from abc import ABC, abstractmethod
+
+class Interface(ABC):
+
+  # Duty cycle (0.0 to 100.0%) property getter
+
+  @property
+  @abstractmethod
+  def dutycycle(self):
+    pass
+
+  # Duty cycle (0.0 to 100.0%) property setter
+
+  @dutycycle.setter
+  @abstractmethod
+  def dutycycle(self, value):
+    pass

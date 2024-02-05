@@ -22,8 +22,32 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
+###############################################################################
+
 # Public constants for normalized servo positions
 
 MINIMUM_POSITION = -1.0
 NEUTRAL_POSITION = 0.0
 MAXIMUM_POSITION = +1.0
+
+###############################################################################
+
+# Define an interface (aka abstract base class) for GPIO pins
+
+from abc import ABC, abstractmethod
+
+class Interface(ABC):
+
+  # Servo position property getter
+
+  @property
+  @abstractmethod
+  def position(self):
+    pass
+
+  # Servo position property setter
+
+  @position.setter
+  @abstractmethod
+  def position(self, value):
+    pass

@@ -20,8 +20,32 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
+###############################################################################
+
 # Public constants
 
 MINIMUM_VELOCITY = -1.0
 MAXIMUM_VELOCITY = +1.0
 STOPPED_VELOCITY = 0.0
+
+###############################################################################
+
+# Define an interface (aka abstract base class) for motor driver outputs
+
+from abc import ABC, abstractmethod
+
+class Interface(ABC):
+
+  # Motor velocity property getter
+
+  @property
+  @abstractmethod
+  def velocity(self):
+    pass
+
+  # Motor velocity property setter
+
+  @velocity.setter
+  @abstractmethod
+  def velocity(self, value):
+    pass
