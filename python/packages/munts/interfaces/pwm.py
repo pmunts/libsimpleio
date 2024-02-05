@@ -1,5 +1,3 @@
-# PWM (Pulse Width Modulated) Output Services
-
 # Copyright (C)2024, Philip Munts dba Munts Technologies
 #
 # Redistribution and use in source and binary forms, with or without
