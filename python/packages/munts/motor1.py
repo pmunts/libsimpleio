@@ -1,7 +1,7 @@
 # Type 1 Motor Driver: 1 PWM output for speed and 1 GPIO output for direction
 # Both the PWM output and GPIO output must be fully configured
 
-# Copyright (C)2024, Philip Munts dba Munts Technologies
+# Copyright (C)2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
