@@ -29,7 +29,7 @@ from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
-class Timer(munts.interfaces.watchdog.TimerInterface):
+class Timer(munts.interfaces.watchdog.WatchdogTimerInterface):
 
   # Constructor
 
