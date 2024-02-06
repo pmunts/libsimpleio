@@ -1,6 +1,6 @@
 # PCA9534 GPIO Expander Device Driver
 
-# Copyright (C)2024, Philip Munts dba Munts Technologies
+# Copyright (C)2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -24,6 +24,9 @@ __author__	= "Philip Munts <phil@munts.net>"
 
 import munts.interfaces.gpio
 import munts.interfaces.i2c
+
+from munts.interfaces.gpio import Direction
+from munts.interfaces.gpio import GPIOPinInterface
 
 ##############################################################################
 
@@ -130,3 +133,54 @@ class Device:
   @direction.setter
   def direction(self, data):
     self.__Write__(__REG_CONFIG__, data ^ 0xFF)
+
+##############################################################################
+
+# GPIO pin class
+
+class Pin(GPIOPinInterface):
+
+  # Constructor
+
+  def __init__(self, dev, num, direction, state = False):
+    if not munts.devices.pca9534.Device in dev.__class__.__mro__:
+      raise TypeError("dev is NOT munts.devices.pca9534.Device")
+
+    if num < 0 or num > 7:
+      raise ValueError("Illegal GPIO pin number argument")
+
+    if not direction in list(Direction):
+      raise ValueError("Illegal direction argument")
+
+    self.__dev__ = dev
+    self.__set__ = 1 >> num
+    self.__clr__ = self.__set__ ^ 0xFF
+
+    if direction == Direction.Input:
+      self.__inp__ = True
+      dev.direction &= self.__clr__
+    else:
+      self.__inp__ = False
+      dev.direction |= self.__set__
+      self.state = state
+
+  # Logic state property getter
+
+  @property
+  def state(self):
+    if self.__inp__:
+      return self.__dev__.input  & self.__set__ != 0
+    else:
+      return self.__dev__.output & self.__set__ != 0
+
+  # Logic state property setter
+
+  @state.setter
+  def state(self, value):
+    if self.__inp__:
+      raise IOError("Cannot write to an input pin")
+
+    if value:
+      self.__dev__.output |= self.__set__
+    else:
+      self.__dev__.output &= self.__clr__
