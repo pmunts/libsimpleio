@@ -42,10 +42,10 @@ class Output(munts.interfaces.motor.MotorOutputInterface):
 
   def __init__(self, speed, direction, velocity = STOPPED_VELOCITY):
     if not munts.interfaces.pwm.PWMOutputInterface in speed.__class__.__mro__:
-      raise TypeError("speed argument does NOT implement pwm.Interface")
+      raise TypeError("speed argument does NOT implement PWMOutputInterface ")
 
     if not munts.interfaces.gpio.GPIOPinInterface in direction.__class__.__mro__:
-      raise TypeError("direction argument does NOT implement gpio.Interface")
+      raise TypeError("direction argument does NOT implement GPIOPinInterface")
 
     if velocity < MINIMUM_VELOCITY or velocity > MAXIMUM_VELOCITY:
       raise ValueError("Velocity is out of range")
