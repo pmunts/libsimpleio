@@ -23,8 +23,8 @@
 __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
+import munts.interfaces.servo
 
-from munts.interfaces.servo   import Interface
 from munts.interfaces.servo   import MINIMUM_POSITION
 from munts.interfaces.servo   import MAXIMUM_POSITION
 from munts.interfaces.servo   import NEUTRAL_POSITION
@@ -34,7 +34,7 @@ from munts.libsimpleio.common import libhandle
 
 # Servo output class
 
-class Output(Interface):
+class Output(munts.interfaces.servo.ServoOutputInterface):
 
   # Constructor
 

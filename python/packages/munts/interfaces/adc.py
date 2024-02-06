@@ -20,13 +20,11 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
-###############################################################################
-
-# Define an interface (aka abstract base class) for ADC inputs
+# Define an interface (aka abstract base class) for analog inputs
 
 from abc import ABC, abstractmethod
 
-class Interface(ABC):
+class AnalogInputInterface(ABC):
 
   # Raw sample property getter
 

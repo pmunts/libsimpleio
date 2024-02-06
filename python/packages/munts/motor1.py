@@ -36,15 +36,15 @@ from munts.interfaces.pwm   import MAXIMUM_DUTYCYCLE
 
 # Motor driver output class
 
-class Output(munts.interfaces.motor.Interface):
+class Output(munts.interfaces.motor.MotorOutputInterface):
 
   # Constructor
 
   def __init__(self, speed, direction, velocity = STOPPED_VELOCITY):
-    if not munts.interfaces.pwm.Interface in speed.__class__.__mro__:
+    if not munts.interfaces.pwm.PWMOutputInterface in speed.__class__.__mro__:
       raise TypeError("speed argument does NOT implement pwm.Interface")
 
-    if not munts.interfaces.gpio.Interface in direction.__class__.__mro__:
+    if not munts.interfaces.gpio.GPIOPinInterface in direction.__class__.__mro__:
       raise TypeError("direction argument does NOT implement gpio.Interface")
 
     if velocity < MINIMUM_VELOCITY or velocity > MAXIMUM_VELOCITY:

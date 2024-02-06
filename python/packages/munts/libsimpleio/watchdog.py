@@ -23,12 +23,13 @@
 __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
+import munts.interfaces.watchdog
 
 from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
-class Timer:
+class Timer(munts.interfaces.watchdog.TimerInterface):
 
   # Constructor
 

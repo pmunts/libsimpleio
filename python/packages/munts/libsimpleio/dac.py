@@ -33,7 +33,7 @@ from munts.libsimpleio.common import libhandle
 
 # Analog output class
 
-class Output(munts.interfaces.dac.Interface):
+class Output(munts.interfaces.dac.AnalogOutputInterface):
 
   # Constructor
 

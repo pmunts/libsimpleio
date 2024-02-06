@@ -32,7 +32,7 @@ from munts.libsimpleio.common import libhandle
 
 # PWM output class
 
-class Input(munts.interfaces.adc.Interface):
+class Input(munts.interfaces.adc.AnalogInputInterface):
 
   # Constructor
 

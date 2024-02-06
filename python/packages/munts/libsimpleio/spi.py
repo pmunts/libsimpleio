@@ -24,6 +24,8 @@ __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 
+import munts.interfaces.spi
+
 from munts.libsimpleio.common import libhandle
 
 ##############################################################################
@@ -36,7 +38,7 @@ AUTOCS = -1  # Hardware or otherwise automatically configured slave select
 
 # PWM output class
 
-class Device:
+class Device(munts.interfaces.spi.SPIDeviceInterface):
 
   # Constructor
 
@@ -81,16 +83,6 @@ class Device:
 
     if inbuf != None:
       inbuf[:] = sinbuf.raw
-
-  # Read data from SPI slave device
- 
-  def Read(self, inbuf):
-    self.Transaction(inbuf=inbuf)
-
-  # Write data to SPI device
-
-  def Write(self, outbuf):
-    self.Transaction(outbuf)
 
 # File descriptor property getter
 

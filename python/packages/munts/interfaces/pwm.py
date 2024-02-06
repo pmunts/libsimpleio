@@ -33,7 +33,7 @@ MAXIMUM_DUTYCYCLE = 100.0  # percent
 
 from abc import ABC, abstractmethod
 
-class Interface(ABC):
+class PWMOutputInterface(ABC):
 
   # Duty cycle (0.0 to 100.0%) property getter
 
@@ -47,4 +47,11 @@ class Interface(ABC):
   @dutycycle.setter
   @abstractmethod
   def dutycycle(self, value):
+    pass
+
+  # Frequency property getter
+
+  @property
+  @abstractmethod
+  def frequency(self):
     pass

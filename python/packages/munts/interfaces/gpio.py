@@ -34,7 +34,7 @@ Direction = enum.Enum("Direction", ["Input", "Output"])
 
 from abc import ABC, abstractmethod
 
-class Interface(ABC):
+class GPIOPinInterface(ABC):
 
   # Logic state property getter
 

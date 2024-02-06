@@ -20,32 +20,24 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
-###############################################################################
-
-# Public constants
-
-MINIMUM_VELOCITY = -1.0
-MAXIMUM_VELOCITY = +1.0
-STOPPED_VELOCITY = 0.0
-
-###############################################################################
-
-# Define an interface (aka abstract base class) for motor driver outputs
+# Define an interface (aka abstract base class) for SPI slave devices
 
 from abc import ABC, abstractmethod
 
-class MotorOutputInterface(ABC):
+class SPIDeviceInterface(ABC):
 
-  # Motor velocity property getter
+  # Write/Read transaction
 
-  @property
   @abstractmethod
-  def velocity(self):
+  def Transaction(self, outbuf = None, delayus = 0, inbuf = None):
     pass
 
-  # Motor velocity property setter
+  # Read data from SPI slave device
+ 
+  def Read(self, inbuf):
+    self.Transaction(inbuf=inbuf)
 
-  @velocity.setter
-  @abstractmethod
-  def velocity(self, value):
-    pass
+  # Write data to SPI device
+
+  def Write(self, outbuf):
+    self.Transaction(outbuf=outbuf)

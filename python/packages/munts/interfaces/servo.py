@@ -30,11 +30,11 @@ MAXIMUM_POSITION = +1.0
 
 ###############################################################################
 
-# Define an interface (aka abstract base class) for GPIO pins
+# Define an interface (aka abstract base class) for servo outputs
 
 from abc import ABC, abstractmethod
 
-class Interface(ABC):
+class ServoOutputInterface(ABC):
 
   # Servo position property getter
 

@@ -23,6 +23,7 @@
 __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
+import munts.interfaces.i2c
 
 from munts.libsimpleio.common import libhandle
 
@@ -30,7 +31,7 @@ from munts.libsimpleio.common import libhandle
 
 # I2C bus class
 
-class Bus:
+class Bus(munts.interfaces.i2c.I2CBusInterface):
   __fds__ = {}
 
   # Constructor
@@ -107,16 +108,6 @@ class Bus:
 
     if resp != None:
       resp[:] = sresp.raw
-
-  # Read data from I2C device
- 
-  def Read(self, addr, resp):
-    self.Transaction(addr, None, resp)
-
-  # Write data to I2C device
-
-  def Write(self, addr, cmd):
-    self.Transaction(addr, cmd, None)
 
   # File descriptor property getter
 

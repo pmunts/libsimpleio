@@ -20,32 +20,24 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
-###############################################################################
-
-# Public constants
-
-MINIMUM_VELOCITY = -1.0
-MAXIMUM_VELOCITY = +1.0
-STOPPED_VELOCITY = 0.0
-
-###############################################################################
-
-# Define an interface (aka abstract base class) for motor driver outputs
+# Define an interface (aka abstract base class) for I2C buses
 
 from abc import ABC, abstractmethod
 
-class MotorOutputInterface(ABC):
+class I2CBusInterface(ABC):
 
-  # Motor velocity property getter
+  # Perform Write/Read transaction
 
-  @property
   @abstractmethod
-  def velocity(self):
+  def Transaction(self, addr, cmd, resp):
     pass
 
-  # Motor velocity property setter
+  # Read data from I2C device
+ 
+  def Read(self, addr, resp):
+    self.Transaction(addr, None, resp)
 
-  @velocity.setter
-  @abstractmethod
-  def velocity(self, value):
-    pass
+  # Write data to I2C device
+
+  def Write(self, addr, cmd):
+    self.Transaction(addr, cmd, None)

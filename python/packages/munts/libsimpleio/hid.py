@@ -25,6 +25,7 @@ __author__	= "Philip Munts <phil@munts.net>"
 import ctypes
 import errno
 import select
+import munts.interfaces.hid
 
 from munts.libsimpleio.common import libhandle
 
@@ -32,7 +33,7 @@ from munts.libsimpleio.common import libhandle
 
 # Raw HID device class
 
-class Device:
+class Device(munts.interfaces.hid.HIDInterface):
 
   # Constructor
 

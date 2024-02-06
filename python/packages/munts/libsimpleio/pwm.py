@@ -24,8 +24,8 @@ __author__	= "Philip Munts <phil@munts.net>"
 
 import ctypes
 import enum
+import munts.interfaces.pwm
 
-from munts.interfaces.pwm     import Interface
 from munts.interfaces.pwm     import MINIMUM_DUTYCYCLE
 from munts.interfaces.pwm     import MAXIMUM_DUTYCYCLE
 from munts.libsimpleio.common import libhandle
@@ -40,7 +40,7 @@ Polarity  = enum.Enum("Polarity", ["ActiveLow", "ActiveHigh"], start=0)
 
 # PWM output class
 
-class Output(Interface):
+class Output(munts.interfaces.pwm.PWMOutputInterface):
 
   # Constructor
 
@@ -81,6 +81,7 @@ class Output(Interface):
     # Save to private fields
 
     self.__fd__     = fd.value
+    self.__freq__   = frequency
     self.__period__ = period
     self.__duty__   = dutycycle
 
@@ -106,6 +107,12 @@ class Output(Interface):
       raise IOError(error.value, "PWM_write() failed")
 
     self.__duty__ = value
+
+  # Frequency property getter
+
+  @property
+  def frequency(self):
+    return self.__freq__
 
   # File descriptor property getter
 

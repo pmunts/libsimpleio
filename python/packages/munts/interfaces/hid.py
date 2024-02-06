@@ -24,28 +24,22 @@ __author__	= "Philip Munts <phil@munts.net>"
 
 # Public constants
 
-MINIMUM_VELOCITY = -1.0
-MAXIMUM_VELOCITY = +1.0
-STOPPED_VELOCITY = 0.0
+REPORTSIZE = 64
 
 ###############################################################################
 
-# Define an interface (aka abstract base class) for motor driver outputs
+# Define an interface (aka abstract base class) for raw HID devices
 
 from abc import ABC, abstractmethod
 
-class MotorOutputInterface(ABC):
+class HIDInterface(ABC):
 
-  # Motor velocity property getter
+  # Send a 64-byte report
 
-  @property
-  @abstractmethod
-  def velocity(self):
+  def Send(self, outbuf):
     pass
 
-  # Motor velocity property setter
-
-  @velocity.setter
-  @abstractmethod
-  def velocity(self, value):
+  # Receive a 64-byte report
+ 
+  def Receive(self, inbuf, timeoutms = 0):
     pass
