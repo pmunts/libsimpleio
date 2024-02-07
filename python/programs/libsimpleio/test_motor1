@@ -25,36 +25,36 @@
 import munts.devices.motor1
 import munts.libsimpleio.gpio
 import munts.libsimpleio.pwm
-import munts.libsimpleio.raspberrypi
-import time
 
 from munts.common import irange
+from munts.interfaces.gpio import Direction
+from munts.libsimpleio.raspberrypi import GPIO13, PWM0
+from time import sleep
 
 print("\nMotor Driver Output Test using libsimpleio\n")
 
 # Create PWM output object for speed control
 
-speed     = munts.libsimpleio.pwm.Output(munts.libsimpleio.raspberrypi.PWM0, 1000)
+speed = munts.libsimpleio.pwm.Output(PWM0, 1000)
 
 # Create GPIO output pin object for direction control
 
-direction = munts.libsimpleio.gpio.Pin(munts.libsimpleio.raspberrypi.GPIO13,
-  munts.libsimpleio.gpio.Direction.Output)
+direction = munts.libsimpleio.gpio.Pin(GPIO13, Direction.Output)
 
 # Create a motor driver output object
 
-outp      = munts.devices.motor1.Output(speed, direction)
+outp = munts.devices.motor1.Output(speed, direction)
 
 # Sweep velocity up and down
 
 for V in irange(0, 100, 1):
   outp.velocity = float(V/100.0)
-  time.sleep(0.05)
+  sleep(0.05)
 
 for V in irange(100, -100, -1):
   outp.velocity = float(V/100.0)
-  time.sleep(0.05)
+  sleep(0.05)
 
 for V in irange(-100, 0, 1):
   outp.velocity = float(V/100.0)
-  time.sleep(0.05)
+  sleep(0.05)
