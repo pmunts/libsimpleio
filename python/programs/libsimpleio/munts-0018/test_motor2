@@ -25,17 +25,17 @@
 # NOTE: This test program requires the following in /etc/pinmux.conf:
 #
 # 12	a0	# PWM0
-# #13	a0	# PWM1
+# 13	a0	# PWM1
 # #18	a5	# PWM0
-# 19	a5	# PWM1
+# #19	a5	# PWM1
 
 from time                         import sleep
-from munts.libsimpleio.munts_0018 import Motor1OutputFactory, J6PWM, J6DIR
+from munts.libsimpleio.munts_0018 import Motor2OutputFactory, J6PWM, J7PWM
 from munts.common                 import irange
 
 print("\nMUNTS-0018 Raspberry Pi Tutorial I/O Board Motor Test\n")
 
-outp = Motor1OutputFactory(J6PWM, J6DIR, 1000)
+outp = Motor2OutputFactory(J6PWM, J7PWM, 1000)
 
 # Sweep velocity up and down
 

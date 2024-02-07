@@ -128,14 +128,14 @@ def ServoOutputFactory(desg, frequency = 50, position = NEUTRAL_POSITION):
 
 ###############################################################################
 
-# Motor Driver Output Object Factory
+# Motor Driver Type 1 (speed PWM + direction GPIO) Output Object Factory
 
 import munts.devices.motor1
 
 from munts.interfaces.gpio  import Direction
 from munts.interfaces.motor import STOPPED_VELOCITY
 
-def MotorOutputFactory(pwmdesg, gpiodesg, frequency, velocity = STOPPED_VELOCITY):
+def Motor1OutputFactory(pwmdesg, gpiodesg, frequency, velocity = STOPPED_VELOCITY):
   if not pwmdesg in (J6PWM, J7PWM):
     raise ValueError("Illegal PWM output designator")
 
@@ -144,3 +144,22 @@ def MotorOutputFactory(pwmdesg, gpiodesg, frequency, velocity = STOPPED_VELOCITY
 
   return munts.devices.motor1.Output(PWMOutputFactory(pwmdesg, frequency),
     GPIOPinFactory(gpiodesg, Direction.Output, True), velocity)
+
+###############################################################################
+
+# Motor Driver Type 2 (CW PWM and CCW PWM) Output Object Factory
+
+import munts.devices.motor2
+
+from munts.interfaces.gpio  import Direction
+from munts.interfaces.motor import STOPPED_VELOCITY
+
+def Motor2OutputFactory(cwpwmdesg, ccwpwmdesg, frequency, velocity = STOPPED_VELOCITY):
+  if not cwpwmdesg in (J6PWM, J7PWM):
+    raise ValueError("Illegal PWM output designator")
+
+  if not ccwpwmdesg in (J6PWM, J7PWM):
+    raise ValueError("Illegal PWM output designator")
+
+  return munts.devices.motor2.Output(PWMOutputFactory(cwpwmdesg, frequency),
+    PWMOutputFactory(ccwpwmdesg, frequency))
