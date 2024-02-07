@@ -30,7 +30,7 @@ from munts.libsimpleio.common import libhandle
 
 ##############################################################################
 
-# PWM output class
+# Analog input class
 
 class Input(munts.interfaces.adc.AnalogInputInterface):
 
@@ -51,11 +51,12 @@ class Input(munts.interfaces.adc.AnalogInputInterface):
 
     self.__fd__         = fd.value
     self.__resolution__ = resolution
+    self.__Vref__       = Vref
 
     if signed:
       self.__stepsize__ = Vref/2.0**(resolution-1)
     else:
-      self.__stepsize__ = Vref/2.0**(resolution)
+      self.__stepsize__ = Vref/2.0**resolution
 
   # Raw sample property getter
 
@@ -82,6 +83,12 @@ class Input(munts.interfaces.adc.AnalogInputInterface):
   @property
   def resolution(self):
     return self.__resolution__
+
+  # Reference voltage property getter
+
+  @property
+  def reference(self):
+    return self.__Vref__
 
   # File descriptor property getter
 

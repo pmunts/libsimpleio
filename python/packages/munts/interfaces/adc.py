@@ -46,3 +46,10 @@ class AnalogInputInterface(ABC):
   @abstractmethod
   def resolution(self):
     pass
+
+  # Reference voltage property getter
+
+  @property
+  @abstractmethod
+  def reference(self):
+    pass

@@ -52,13 +52,14 @@ class Output(munts.interfaces.dac.AnalogOutputInterface):
 
     self.__fd__         = fd.value
     self.__resolution__ = resolution
+    self.__Vref__       = Vref
     self.__sample__     = 0
-    self.sample         = 4095
+    self.sample         = 0
 
     if signed:
-      self.__stepsize__ = float(Vref)/2.0**(resolution-1)
+      self.__stepsize__ = Vref/2.0**(resolution-1)
     else:
-      self.__stepsize__ = float(Vref)/2.0**(resolution)
+      self.__stepsize__ = Vref/2.0**resolution
 
   # Raw sample property getter
 
@@ -84,7 +85,7 @@ class Output(munts.interfaces.dac.AnalogOutputInterface):
 
   @property
   def voltage(self, V):
-    return self.__sample__*self.__stepsize__
+    return self.sample*self.__stepsize__
 
   # Voltage property setter
 
@@ -97,6 +98,12 @@ class Output(munts.interfaces.dac.AnalogOutputInterface):
   @property
   def resolution(self):
     return self.__resolution__
+
+  # Reference voltage property getter
+
+  @property
+  def reference(self):
+    return self.__Vref__
 
   # File descriptor property getter
 
