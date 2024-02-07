@@ -22,7 +22,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import munts.motor1
+import munts.devices.motor1
 import munts.libsimpleio.gpio
 import munts.libsimpleio.pwm
 import munts.libsimpleio.raspberrypi
@@ -43,7 +43,7 @@ direction = munts.libsimpleio.gpio.Pin(munts.libsimpleio.raspberrypi.GPIO13,
 
 # Create a motor driver output object
 
-outp      = munts.motor1.Output(speed, direction)
+outp      = munts.devices.motor1.Output(speed, direction)
 
 # Sweep velocity up and down
 

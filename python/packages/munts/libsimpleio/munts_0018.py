@@ -130,7 +130,7 @@ def ServoOutputFactory(desg, frequency = 50, position = NEUTRAL_POSITION):
 
 # Motor Driver Output Object Factory
 
-import munts.motor1
+import munts.devices.motor1
 
 from munts.interfaces.gpio  import Direction
 from munts.interfaces.motor import STOPPED_VELOCITY
@@ -142,5 +142,5 @@ def MotorOutputFactory(pwmdesg, gpiodesg, frequency, velocity = STOPPED_VELOCITY
   if not gpiodesg in (J6DIR, J7DIR):
     raise ValueError("Illegal GPIO pin designator")
 
-  return munts.motor1.Output(PWMOutputFactory(pwmdesg, frequency),
+  return munts.devices.motor1.Output(PWMOutputFactory(pwmdesg, frequency),
     GPIOPinFactory(gpiodesg, Direction.Output, True), velocity)
