@@ -38,6 +38,7 @@ class AnalogOutputInterface(ABC):
   @sample.setter
   @abstractmethod
   def sample(self, S):
+    pass
 
   # Voltage property getter
 
