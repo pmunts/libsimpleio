@@ -36,5 +36,5 @@ print("fd         => " + str(inp.fd))
 print("resolution => " + str(inp.resolution) + " bits\n")
 
 while True:
-  print("AIN0 => " + str(inp.voltage) + " V")
+  print("AIN0 => " + str(round(inp.voltage, 2)) + " V")
   time.sleep(1.0)

@@ -30,5 +30,5 @@ print("\nMUNTS-0018 Raspberry Pi Tutorial I/O Board Analog Input Test\n")
 inp = AnalogInputFactory(J10A0)
 
 while True:
-  print("J10A0 => " + str(inp.voltage) + " V")
+  print("J10A0 => " + str(round(inp.voltage, 2)) + " V")
   sleep(1.0)
