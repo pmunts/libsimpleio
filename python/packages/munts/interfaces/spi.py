@@ -33,7 +33,7 @@ class SPIDeviceInterface(ABC):
     pass
 
   # Read data from SPI slave device
- 
+
   def Read(self, inbuf):
     self.Transaction(inbuf=inbuf)
 

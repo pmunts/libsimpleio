@@ -33,7 +33,7 @@ class I2CBusInterface(ABC):
     pass
 
   # Read data from I2C device
- 
+
   def Read(self, addr, resp):
     self.Transaction(addr, None, resp)
 

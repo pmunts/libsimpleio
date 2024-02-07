@@ -63,9 +63,9 @@ class Input(munts.interfaces.adc.AnalogInputInterface):
   def sample(self):
     sample = ctypes.c_int()
     error  = ctypes.c_int()
-   
+
     libhandle.ADC_read(self.__fd__, ctypes.byref(sample), ctypes.byref(error))
- 
+
     if error.value != 0:
       raise IOError(error.value, "ADC_read() failed")
 

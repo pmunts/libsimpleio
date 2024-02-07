@@ -40,6 +40,6 @@ class HIDInterface(ABC):
     pass
 
   # Receive a 64-byte report
- 
+
   def Receive(self, inbuf, timeoutms = 0):
     pass

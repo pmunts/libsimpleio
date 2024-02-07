@@ -74,7 +74,7 @@ class Output(munts.interfaces.dac.AnalogOutputInterface):
     error  = ctypes.c_int()
 
     libhandle.DAC_write(self.__fd__, int(S), ctypes.byref(error))
- 
+
     if error.value != 0:
       raise IOError(error.value, "DAC_write() failed")
 

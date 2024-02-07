@@ -75,7 +75,7 @@ class Device(munts.interfaces.hid.HIDInterface):
     return count.value == 64
 
   # Receive a 64-byte report
- 
+
   def Receive(self, inbuf, timeoutms = 0):
     sinbuf = ctypes.create_string_buffer(bytes(inbuf), 64)
     error  = ctypes.c_int()
