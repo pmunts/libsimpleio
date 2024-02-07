@@ -128,14 +128,11 @@ class Pin(GPIOPinInterface):
     error = ctypes.c_int()
 
     if self.__kind__ == __Kinds__.Interrupt:
-      print("DEBUG: read interrupt pin")
       libhandle.GPIO_line_event(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:
         raise IOError(error.value, "GPIO_line_event() failed")
     else:
-      print("DEBUG: read input pin")
-
       libhandle.GPIO_line_read(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:
