@@ -36,7 +36,7 @@ AUTOCS = -1  # Hardware or otherwise automatically configured slave select
 
 ##############################################################################
 
-# PWM output class
+# SPI slave device class
 
 class Device(munts.interfaces.spi.SPIDeviceInterface):
 
