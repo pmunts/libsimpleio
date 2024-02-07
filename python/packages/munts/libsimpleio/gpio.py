@@ -64,8 +64,8 @@ class Pin(GPIOPinInterface):
 
 # Constructor
 
-  def __init__(self, desg, direction, state = False, driver = Driver.PushPull,
-               edge = Edge.Neither, polarity = Polarity.ActiveHigh):
+  def __init__(self, desg, direction, state = False, edge = Edge.Neither,
+               driver = Driver.PushPull, polarity = Polarity.ActiveHigh):
     chip   = desg[0]
     line   = desg[1]
     flags  = 0
@@ -78,6 +78,21 @@ class Pin(GPIOPinInterface):
     if direction == Direction.Output:
       self.__kind__ = __Kinds__.Output
       flags += _LINE_REQUEST_OUTPUT
+
+    if edge == Edge.Neither:
+      events += _EVENT_REQUEST_NONE
+
+    if edge == Edge.Rising:
+      self.__kind__ = __Kinds__.Interrupt
+      events += _EVENT_REQUEST_RISING
+
+    if edge == Edge.Falling:
+      self.__kind__ = __Kinds__.Interrupt
+      events += _EVENT_REQUEST_FALLING
+
+    if edge == Edge.Both:
+      self.__kind__ = __Kinds__.Interrupt
+      events += _EVENT_REQUEST_BOTH
 
     if driver == Driver.PushPull:
       flags += _LINE_REQUEST_PUSH_PULL
@@ -93,21 +108,6 @@ class Pin(GPIOPinInterface):
 
     if polarity == Polarity.ActiveLow:
       flags += _LINE_REQUEST_ACTIVE_LOW
-
-    if edge == Edge.Neither:
-      events += _EVENT_REQUEST_NONE
-
-    if edge == Edge.Rising:
-      __kind__ = __Kinds__.Interrupt
-      events += _EVENT_REQUEST_RISING
-
-    if edge == Edge.Falling:
-      __kind__ = __Kinds__.Interrupt
-      events += _EVENT_REQUEST_FALLING
-
-    if edge == Edge.Both:
-      __kind__ = __Kinds__.Interrupt
-      events += _EVENT_REQUEST_BOTH
 
     fd    = ctypes.c_int()
     error = ctypes.c_int()
@@ -128,11 +128,14 @@ class Pin(GPIOPinInterface):
     error = ctypes.c_int()
 
     if self.__kind__ == __Kinds__.Interrupt:
+      print("DEBUG: read interrupt pin")
       libhandle.GPIO_line_event(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:
         raise IOError(error.value, "GPIO_line_event() failed")
     else:
+      print("DEBUG: read input pin")
+
       libhandle.GPIO_line_read(self.__fd__, ctypes.byref(value), ctypes.byref(error))
 
       if error.value != 0:

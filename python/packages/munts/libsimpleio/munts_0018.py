@@ -90,12 +90,12 @@ def AnalogInputFactory(desg):
 
 from munts.libsimpleio.gpio import Driver, Edge, Polarity
 
-def GPIOPinFactory(desg, direction, state = False, driver = Driver.PushPull,
-  edge = Edge.Neither, polarity = Polarity.ActiveHigh):
+def GPIOPinFactory(desg, direction, state = False, edge = Edge.Neither,
+  driver = Driver.PushPull, polarity = Polarity.ActiveHigh):
   if not desg in (J4D0, J4D1, J5D0, J5D1, J6D0, J6D1, J7D0, J7D1, LED1, BTN1):
     raise ValueError("Illegal GPIO pin designator")
 
-  return munts.libsimpleio.gpio.Pin(desg, direction, state, driver, edge, polarity)
+  return munts.libsimpleio.gpio.Pin(desg, direction, state, edge, driver, polarity)
 
 ###############################################################################
 
