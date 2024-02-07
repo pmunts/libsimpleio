@@ -22,6 +22,13 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+# NOTE: This test program requires the following in /etc/pinmux.conf:
+#
+# 12	a0	# PWM0
+# #13	a0	# PWM1
+# #18	a5	# PWM0
+# 19	a5	# PWM1
+
 from time                         import sleep
 from munts.libsimpleio.munts_0018 import MotorOutputFactory, J6PWM, J6DIR
 from munts.common                 import irange
