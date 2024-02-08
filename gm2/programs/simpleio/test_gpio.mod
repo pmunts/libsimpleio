@@ -1,4 +1,6 @@
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* GPIO Toggle Test using libsimpleio *)
+
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -33,7 +35,7 @@ VAR
 
 BEGIN
   WriteLn;
-  WriteString("Raspberry Pi GPIO Toggle Test");
+  WriteString("GPIO Toggle Test using libsimpleio");
   WriteLn;
   WriteLn;
   FlushOutErr;
