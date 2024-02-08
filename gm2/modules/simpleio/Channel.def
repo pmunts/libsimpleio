@@ -1,7 +1,7 @@
 (* Many Linux kernel devices are identified by a chip, channel pair of *)
 (* cardinal values.                                                    *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -28,5 +28,15 @@ DEFINITION MODULE Channel;
       chip    : CARDINAL;
       channel : CARDINAL;
     END;
+
+  (* Get channel designator, setting chip to 0 and prompting for channel *)
+  (* Appends ": " to the prompt.                                        *)
+
+  PROCEDURE GetDesignator1(prompt : ARRAY OF CHAR) : Designator;
+
+  (* Get channel designator, prompting for both chip and channel *)
+  (* Appends " chip:    " and " channel: " to the prompts.       *)
+
+  PROCEDURE GetDesignator2(prompt : ARRAY OF CHAR) : Designator;
 
 END Channel.

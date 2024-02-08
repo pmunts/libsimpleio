@@ -1,7 +1,7 @@
 (* Many Linux kernel devices are identified by a chip, channel pair of *)
 (* cardinal values.                                                    *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -22,5 +22,47 @@
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
 IMPLEMENTATION MODULE Channel;
+
+  FROM STextIO  IMPORT WriteString, SkipLine;
+  FROM SWholeIO IMPORT ReadCard;
+
+  (* Get channel designator, setting chip to 0 and prompting for channel *)
+  (* Appends ": " to the prompt.                                        *)
+
+  PROCEDURE GetDesignator1(prompt : ARRAY OF CHAR) : Designator;
+
+  VAR desg : Designator;
+
+  BEGIN
+    desg.chip := 0;
+
+    WriteString(prompt);
+    WriteString(": ");
+    ReadCard(desg.channel);
+    SkipLine;
+
+    RETURN desg;
+  END GetDesignator1;
+
+  (* Get channel designator, prompting for both chip and channel *)
+  (* Appends " chip:    " and " channel: " to the prompts.       *)
+
+  PROCEDURE GetDesignator2(prompt : ARRAY OF CHAR) : Designator;
+
+  VAR desg : Designator;
+
+  BEGIN
+    WriteString(prompt);
+    WriteString(" chip:    ");
+    ReadCard(desg.chip);
+    SkipLine;
+
+    WriteString(prompt);
+    WriteString(" channel: ");
+    ReadCard(desg.channel);
+    SkipLine;
+
+    RETURN desg;
+  END GetDesignator2;
 
 END Channel.
