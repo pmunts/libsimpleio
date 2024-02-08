@@ -24,8 +24,9 @@ MODULE test_adc;
 
 IMPORT ADC_libsimpleio, Channel;
 
-FROM STextIO       IMPORT WriteString, WriteLn;
-FROM SRealIO       IMPORT WriteFixed;
+FROM STextIO       IMPORT WriteString, WriteLn, SkipLine;
+FROM SRealIO       IMPORT ReadReal, WriteFixed;
+FROM SWholeIO      IMPORT ReadCard;
 FROM FIO           IMPORT FlushOutErr;
 
 FROM ErrorHandling IMPORT CheckError;
@@ -33,6 +34,8 @@ FROM libc          IMPORT sleep;
 
 VAR
   desg   : Channel.Designator;
+  res    : CARDINAL;
+  Vref   : REAL;
   inp    : ADC_libsimpleio.Input;
   error  : CARDINAL;
   V      : REAL;
@@ -45,12 +48,20 @@ BEGIN
   FlushOutErr;
 
   desg := Channel.GetDesignator2("Enter A/D converter");
+
+  WriteString("Enter A/D converter resolution (bits): ");
+  ReadCard(res);
+  SkipLine;
+
+  WriteString("Enter A/D converter reference (volts): ");
+  ReadReal(Vref);
+  SkipLine;
   WriteLn;
   FlushOutErr;
 
   (* Open analog input *)
 
-  ADC_libsimpleio.OpenChannel(desg, 12, 3.3, inp, error);
+  ADC_libsimpleio.OpenChannel(desg, res, Vref, inp, error);
   CheckError(error, "ADC_libsimpleio.OpenChannel() failed");
 
   WriteString("Press CONTROL-C to exit");
