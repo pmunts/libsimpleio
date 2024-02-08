@@ -1,4 +1,4 @@
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -21,7 +21,7 @@
 MODULE test_led;
 
 IMPORT
-  gpio_libsimpleio,
+  GPIO_libsimpleio,
   RaspberryPi;
 
 FROM STextIO       IMPORT WriteString, WriteLn;
@@ -30,7 +30,7 @@ FROM ErrorHandling IMPORT CheckError;
 FROM liblinux      IMPORT Sleep;
 
 VAR
-  LED      : gpio_libsimpleio.Pin;
+  LED      : GPIO_libsimpleio.Pin;
   error    : CARDINAL;
   state    : BOOLEAN;
 
@@ -43,17 +43,22 @@ BEGIN
 
   (* Configure LED GPIO output *)
 
-  gpio_libsimpleio.OpenChannel(RaspberryPi.GPIO26,
-    gpio_libsimpleio.Output, FALSE, gpio_libsimpleio.PushPull,
-    gpio_libsimpleio.None, gpio_libsimpleio.ActiveHigh, LED, error);
-  CheckError(error, "gpio_libsimpleio.Open() failed");
+  GPIO_libsimpleio.OpenChannel(RaspberryPi.GPIO26,
+    GPIO_libsimpleio.Output, FALSE, GPIO_libsimpleio.PushPull,
+    GPIO_libsimpleio.None, GPIO_libsimpleio.ActiveHigh, LED, error);
+  CheckError(error, "GPIO_libsimpleio.Open() failed");
+
+  WriteString("Press CONTROL-C to exit");
+  WriteLn;
+  WriteLn;
+  FlushOutErr;
 
   LOOP
-    gpio_libsimpleio.Read(LED, state, error);
-    CheckError(error, "gpio_libsimpleio.Read() failed");
+    GPIO_libsimpleio.Read(LED, state, error);
+    CheckError(error, "GPIO_libsimpleio.Read() failed");
 
-    gpio_libsimpleio.Write(LED, NOT state, error);
-    CheckError(error, "gpio_libsimpleio.Write() failed");
+    GPIO_libsimpleio.Write(LED, NOT state, error);
+    CheckError(error, "GPIO_libsimpleio.Write() failed");
 
     Sleep(500000, error);
     CheckError(error, "LINUX_usleep() failed");
