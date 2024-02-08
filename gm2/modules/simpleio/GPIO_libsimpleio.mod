@@ -20,7 +20,7 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-IMPLEMENTATION MODULE gpio_libsimpleio;
+IMPLEMENTATION MODULE GPIO_libsimpleio;
 
   IMPORT
     errno,
@@ -200,4 +200,4 @@ IMPLEMENTATION MODULE gpio_libsimpleio;
     RETURN pin^.fd;
   END fd;
 
-END gpio_libsimpleio.
+END GPIO_libsimpleio.

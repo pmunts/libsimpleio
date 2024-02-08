@@ -20,7 +20,7 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-DEFINITION MODULE gpio_libsimpleio;
+DEFINITION MODULE GPIO_libsimpleio;
 
   IMPORT
     Channel;
@@ -69,4 +69,4 @@ DEFINITION MODULE gpio_libsimpleio;
 
   PROCEDURE fd(pin : Pin) : INTEGER;
 
-END gpio_libsimpleio.
+END GPIO_libsimpleio.
