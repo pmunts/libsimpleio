@@ -99,6 +99,25 @@ IMPLEMENTATION MODULE HID_libsimpleio;
     dev := NIL;
   END Close;
 
+  (* Get device name/info string *)
+
+  PROCEDURE GetName
+   (dev       : Device;
+    VAR name  : ARRAY OF CHAR;
+    length    : CARDINAL;
+    VAR error : CARDINAL);
+
+  BEGIN
+    (* Validate parameters *)
+
+    IF dev = NIL THEN
+      error := errno.EBADF;
+      RETURN;
+    END;
+
+    libhidraw.HIDRAW_get_name(dev^.fd, name, length, error);
+  END GetName;
+
   (* Send 64-byte message to raw HID device *)
 
   PROCEDURE Send

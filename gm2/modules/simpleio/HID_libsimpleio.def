@@ -49,6 +49,14 @@ DEFINITION MODULE HID_libsimpleio;
    (VAR dev   : Device;
     VAR error : CARDINAL);
 
+  (* Get device name/info string *)
+
+  PROCEDURE GetName
+   (dev       : Device;
+    VAR name  : ARRAY OF CHAR;
+    length    : CARDINAL;
+    VAR error : CARDINAL);
+
   (* Send 64-byte message to raw HID device *)
 
   PROCEDURE Send
