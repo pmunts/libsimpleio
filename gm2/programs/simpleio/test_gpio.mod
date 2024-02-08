@@ -20,16 +20,15 @@
 
 MODULE test_gpio;
 
-IMPORT
-  gpio_libsimpleio,
-  RaspberryPi;
+IMPORT Channel, GPIO_libsimpleio;
 
-FROM STextIO IMPORT WriteString, WriteLn;
-FROM FIO IMPORT FlushOutErr;
+FROM STextIO       IMPORT WriteString, WriteLn, WriteChar;
+FROM FIO           IMPORT FlushOutErr;
 FROM ErrorHandling IMPORT CheckError;
 
 VAR
-  GPIO26 : gpio_libsimpleio.Pin;
+  desg   : Channel.Designator;
+  outp   : GPIO_libsimpleio.Pin;
   error  : CARDINAL;
 
 BEGIN
@@ -39,10 +38,14 @@ BEGIN
   WriteLn;
   FlushOutErr;
 
-  gpio_libsimpleio.OpenChannel(RaspberryPi.GPIO26,
-    gpio_libsimpleio.Output, TRUE, gpio_libsimpleio.PushPull,
-    gpio_libsimpleio.None, gpio_libsimpleio.ActiveHigh, GPIO26, error);
-  CheckError(error, "gpio_libsimpleio.Open() failed");
+  desg := Channel.GetDesignator2("Enter GPIO");
+  WriteLn;
+  FlushOutErr;
+
+  GPIO_libsimpleio.OpenChannel(desg, GPIO_libsimpleio.Output, FALSE,
+    GPIO_libsimpleio.PushPull, GPIO_libsimpleio.None,
+    GPIO_libsimpleio.ActiveHigh, outp, error);
+  CheckError(error, "GPIO_libsimpleio.OpenChannel() failed");
 
   WriteString("Press CONTROL-C to exit");
   WriteLn;
@@ -50,11 +53,11 @@ BEGIN
   FlushOutErr;
 
   LOOP
-    gpio_libsimpleio.Write(GPIO26, TRUE, error);
-    CheckError(error, "gpio_libsimpleio.Write() failed");
+    GPIO_libsimpleio.Write(outp, TRUE, error);
+    CheckError(error, "GPIO_libsimpleio.Write() failed");
 
-    gpio_libsimpleio.Write(GPIO26, FALSE, error);
-    CheckError(error, "gpio_libsimpleio.Write() failed");
+    GPIO_libsimpleio.Write(outp, FALSE, error);
+    CheckError(error, "GPIO_libsimpleio.Write() failed");
   END;
 
 END test_gpio.

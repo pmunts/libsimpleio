@@ -1,4 +1,4 @@
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -20,17 +20,18 @@
 
 MODULE test_pwm;
 
-IMPORT
-  pwm_libsimpleio,
-  RaspberryPi;
+IMPORT Channel, PWM_libsimpleio;
 
-FROM STextIO IMPORT WriteString, WriteLn;
-FROM FIO IMPORT FlushOutErr;
+FROM STextIO       IMPORT WriteString, WriteLn;
+FROM SWholeIO      IMPORT ReadCard;
+FROM FIO           IMPORT FlushOutErr;
 FROM ErrorHandling IMPORT CheckError;
-FROM liblinux IMPORT LINUX_usleep;
+FROM liblinux      IMPORT LINUX_usleep;
 
 VAR
-  PWM0  : pwm_libsimpleio.Pin;
+  desg  : Channel.Designator;
+  freq  : CARDINAL;
+  outp  : PWM_libsimpleio.Output;
   error : CARDINAL;
   duty  : REAL;
 
@@ -41,19 +42,26 @@ BEGIN
   WriteLn;
   FlushOutErr;
 
+  desg := Channel.GetDesignator2("Enter PWM");
+
+  WriteString("Enter frequency:   ");
+  ReadCard(freq);
+  WriteLn;
+  FlushOutErr;
+
   (* Open the PWM output device *)
 
-  pwm_libsimpleio.OpenChannel(RaspberryPi.PWM0, 1000,
-    pwm_libsimpleio.DUTYCYCLE_MAX/2.0, PWM0, error);
-  CheckError(error, "pwm_libsimpleio.Open() failed");
+  PWM_libsimpleio.OpenChannel(desg, freq, PWM_libsimpleio.DUTYCYCLE_MAX/2.0,
+    outp, error);
+  CheckError(error, "PWM_libsimpleio.OpenChannel() failed");
 
   (* Sweep the PWM output dutycycle from 0 to 100 percent *)
 
-  duty := pwm_libsimpleio.DUTYCYCLE_MIN;
+  duty := PWM_libsimpleio.DUTYCYCLE_MIN;
 
-  WHILE duty <= pwm_libsimpleio.DUTYCYCLE_MAX DO
-    pwm_libsimpleio.Write(PWM0, duty, error);
-    CheckError(error, "pwm_libsimpleio.Write() failed");
+  WHILE duty <= PWM_libsimpleio.DUTYCYCLE_MAX DO
+    PWM_libsimpleio.Write(outp, duty, error);
+    CheckError(error, "PWM_libsimpleio.Write() failed");
 
     duty := duty + 1.0;
 
@@ -63,11 +71,11 @@ BEGIN
 
   (* Sweep the PWM output dutycycle from 100 to 0 percent *)
 
-  duty := pwm_libsimpleio.DUTYCYCLE_MAX;
+  duty := PWM_libsimpleio.DUTYCYCLE_MAX;
 
-  WHILE duty >= pwm_libsimpleio.DUTYCYCLE_MIN DO
-    pwm_libsimpleio.Write(PWM0, duty, error);
-    CheckError(error, "pwm_libsimpleio.Write() failed");
+  WHILE duty >= PWM_libsimpleio.DUTYCYCLE_MIN DO
+    PWM_libsimpleio.Write(outp, duty, error);
+    CheckError(error, "PWM_libsimpleio.Write() failed");
 
     duty := duty - 1.0;
 
@@ -77,6 +85,6 @@ BEGIN
 
   (* Close the PWM output device *)
 
-  pwm_libsimpleio.Close(PWM0, error);
-  CheckError(error, "pwm_libsimpleio.Close() failed");
+  PWM_libsimpleio.Close(outp, error);
+  CheckError(error, "PWM_libsimpleio.Close() failed");
 END test_pwm.

@@ -22,17 +22,17 @@
 
 MODULE test_adc;
 
-IMPORT
-  ADC_libsimpleio,
-  RaspberryPi;
+IMPORT ADC_libsimpleio, Channel;
 
 FROM STextIO       IMPORT WriteString, WriteLn;
 FROM SRealIO       IMPORT WriteFixed;
 FROM FIO           IMPORT FlushOutErr;
+
 FROM ErrorHandling IMPORT CheckError;
 FROM libc          IMPORT sleep;
 
 VAR
+  desg   : Channel.Designator;
   inp    : ADC_libsimpleio.Input;
   error  : CARDINAL;
   V      : REAL;
@@ -44,9 +44,13 @@ BEGIN
   WriteLn;
   FlushOutErr;
 
+  desg := Channel.GetDesignator2("Enter A/D converter");
+  WriteLn;
+  FlushOutErr;
+
   (* Open analog input *)
 
-  ADC_libsimpleio.OpenChannel(RaspberryPi.AIN0, 12, 3.3, inp, error);
+  ADC_libsimpleio.OpenChannel(desg, 12, 3.3, inp, error);
   CheckError(error, "ADC_libsimpleio.OpenChannel() failed");
 
   WriteString("Press CONTROL-C to exit");
