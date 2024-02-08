@@ -25,7 +25,7 @@ __author__	= "Philip Munts <phil@munts.net>"
 from math import exp, log
 
 class Model:
-  
+
   # Constructor
 
   def __init__(self, B, R0, T0 = 25.0): # Celsius
