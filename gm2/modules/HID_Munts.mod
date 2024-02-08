@@ -1,4 +1,4 @@
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -18,14 +18,5 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-DEFINITION MODULE hid_munts;
-
-  (* The following USB vendor/product ID pair (purchased from MCS Electronics *)
-  (* at http://www.mcselec.com) is used in all Munts Technologies USB HID     *)
-  (* device firmware.                                                         *)
-
-  CONST
-    VID = 016D0H;  (* USB Vendor ID *)
-    PID = 00AFAH;  (* USB Product ID *)
-
-END hid_munts.
+IMPLEMENTATION MODULE HID_Munts;
+END HID_Munts.
