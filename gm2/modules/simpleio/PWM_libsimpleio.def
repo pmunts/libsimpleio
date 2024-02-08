@@ -29,8 +29,8 @@ DEFINITION MODULE PWM_libsimpleio;
     Output;
 
   CONST
-    DUTYCYCLE_MIN = 0.0;
-    DUTYCYCLE_MAX = 100.0;
+    DUTYCYCLE_MINIMUM = 0.0;
+    DUTYCYCLE_MAXIMUM = 100.0;
 
   PROCEDURE Open
    (chip       : CARDINAL;

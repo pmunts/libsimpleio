@@ -57,13 +57,13 @@ IMPLEMENTATION MODULE PWM_libsimpleio;
       RETURN;
     END;
 
-    IF (dutycycle < DUTYCYCLE_MIN) OR (dutycycle > DUTYCYCLE_MAX) THEN
+    IF (dutycycle < DUTYCYCLE_MINIMUM) OR (dutycycle > DUTYCYCLE_MAXIMUM) THEN
       error := errno.EINVAL;
       RETURN;
     END;
 
     period := TRUNC(1.0E9/FLOAT(frequency) + 0.5);
-    ontime := TRUNC(dutycycle/DUTYCYCLE_MAX*FLOAT(period) + 0.5);
+    ontime := TRUNC(dutycycle/DUTYCYCLE_MAXIMUM*FLOAT(period) + 0.5);
 
     (* Configure the PWM output device *)
 
@@ -140,12 +140,12 @@ IMPLEMENTATION MODULE PWM_libsimpleio;
       RETURN;
     END;
 
-    IF (dutycycle < DUTYCYCLE_MIN) OR (dutycycle > DUTYCYCLE_MAX) THEN
+    IF (dutycycle < DUTYCYCLE_MINIMUM) OR (dutycycle > DUTYCYCLE_MAXIMUM) THEN
       error := errno.EINVAL;
       RETURN;
     END;
 
-    ontime := TRUNC(dutycycle/DUTYCYCLE_MAX*FLOAT(outp^.period) + 0.5);
+    ontime := TRUNC(dutycycle/DUTYCYCLE_MAXIMUM*FLOAT(outp^.period) + 0.5);
 
     libpwm.PWM_write(outp^.fd, ontime, error);
   END Write;

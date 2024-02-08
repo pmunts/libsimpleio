@@ -1,3 +1,5 @@
+(* PWM (Pulse Width Modulation) Test using libsimpleio *)
+
 (* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
@@ -37,7 +39,7 @@ VAR
 
 BEGIN
   WriteLn;
-  WriteString("Raspberry Pi PWM Output Test");
+  WriteString("PWM (Pulse Width Modulation) Test using libsimpleio");
   WriteLn;
   WriteLn;
   FlushOutErr;
@@ -51,15 +53,15 @@ BEGIN
 
   (* Open the PWM output device *)
 
-  PWM_libsimpleio.OpenChannel(desg, freq, PWM_libsimpleio.DUTYCYCLE_MAX/2.0,
+  PWM_libsimpleio.OpenChannel(desg, freq, PWM_libsimpleio.DUTYCYCLE_MAXIMUM/2.0,
     outp, error);
   CheckError(error, "PWM_libsimpleio.OpenChannel() failed");
 
   (* Sweep the PWM output dutycycle from 0 to 100 percent *)
 
-  duty := PWM_libsimpleio.DUTYCYCLE_MIN;
+  duty := PWM_libsimpleio.DUTYCYCLE_MINIMUM;
 
-  WHILE duty <= PWM_libsimpleio.DUTYCYCLE_MAX DO
+  WHILE duty <= PWM_libsimpleio.DUTYCYCLE_MAXIMUM DO
     PWM_libsimpleio.Write(outp, duty, error);
     CheckError(error, "PWM_libsimpleio.Write() failed");
 
@@ -71,9 +73,9 @@ BEGIN
 
   (* Sweep the PWM output dutycycle from 100 to 0 percent *)
 
-  duty := PWM_libsimpleio.DUTYCYCLE_MAX;
+  duty := PWM_libsimpleio.DUTYCYCLE_MAXIMUM;
 
-  WHILE duty >= PWM_libsimpleio.DUTYCYCLE_MIN DO
+  WHILE duty >= PWM_libsimpleio.DUTYCYCLE_MINIMUM DO
     PWM_libsimpleio.Write(outp, duty, error);
     CheckError(error, "PWM_libsimpleio.Write() failed");
 
