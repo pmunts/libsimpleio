@@ -43,7 +43,6 @@ GM2_CFLAGS	+= -fiso
 GM2_CFLAGS	+= -fsoft-check-all
 #GM2_CFLAGS	+= -Wpedantic
 GM2_CFLAGS	+= -I$(GM2_SRC)/modules
-GM2_CFLAGS	+= -I$(GM2_SRC)/modules/bindings
 GM2_LDFLAGS	+= -L.
 GM2_LDFLAGS	+= -lmodules
 

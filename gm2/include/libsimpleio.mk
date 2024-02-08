@@ -21,4 +21,5 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 GM2_CFLAGS	+= -I$(GM2_SRC)/modules/simpleio
+GM2_CFLAGS	+= -I$(GM2_SRC)/modules/simpleio/bindings
 GM2_LDFLAGS	+= -lsimpleio
