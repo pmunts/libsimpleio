@@ -1,6 +1,6 @@
-(* PWM output pin services using libsimpleio *)
+(* PWM output services using libsimpleio *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -20,7 +20,7 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-IMPLEMENTATION MODULE pwm_libsimpleio;
+IMPLEMENTATION MODULE PWM_libsimpleio;
 
   IMPORT
     errno,
@@ -29,19 +29,19 @@ IMPLEMENTATION MODULE pwm_libsimpleio;
   FROM Storage IMPORT ALLOCATE, DEALLOCATE;
 
   TYPE
-    PinRec = RECORD
+    OutputRec = RECORD
       period : CARDINAL;
       fd     : INTEGER;
     END;
 
-    Pin = POINTER TO PinRec;
+    Output = POINTER TO OutputRec;
 
   PROCEDURE Open
    (chip       : CARDINAL;
     channel    : CARDINAL;
     frequency  : CARDINAL;
     dutycycle  : REAL;
-    VAR pin    : Pin;
+    VAR outp   : Output;
     VAR error  : CARDINAL);
 
   VAR
@@ -52,7 +52,7 @@ IMPLEMENTATION MODULE pwm_libsimpleio;
   BEGIN
     (* Validate parameters *)
 
-    IF pin <> NIL THEN
+    IF outp <> NIL THEN
       error := errno.EBUSY;
       RETURN;
     END;
@@ -65,7 +65,7 @@ IMPLEMENTATION MODULE pwm_libsimpleio;
     period := TRUNC(1.0E9/FLOAT(frequency) + 0.5);
     ontime := TRUNC(dutycycle/DUTYCYCLE_MAX*FLOAT(period) + 0.5);
 
-    (* Configure the PWM output pin *)
+    (* Configure the PWM output device *)
 
     libpwm.PWM_configure(chip, channel, period, ontime, libpwm.PWM_ACTIVEHIGH,
       error);
@@ -74,7 +74,7 @@ IMPLEMENTATION MODULE pwm_libsimpleio;
       RETURN;
     END;
 
-    (* Open the PWM output pin device *)
+    (* Open the PWM output device *)
 
     libpwm.PWM_open(chip, channel, fd, error);
 
@@ -82,11 +82,12 @@ IMPLEMENTATION MODULE pwm_libsimpleio;
       RETURN;
     END;
 
-    (* Create a new analog input pin object *)
+    (* Create a new PWM output object *)
 
-    NEW(pin);
-    pin^.fd := fd;
-    pin^.period := period;
+    NEW(outp);
+    outp^.fd     := fd;
+    outp^.period := period;
+
     error := errno.EOK;
   END Open;
 
@@ -94,38 +95,37 @@ IMPLEMENTATION MODULE pwm_libsimpleio;
    (channel    : Channel.Designator;
     frequency  : CARDINAL;
     dutycycle  : REAL;
-    VAR pin    : Pin;
+    VAR outp   : Output;
     VAR error  : CARDINAL);
 
   BEGIN
-    Open(channel.chip, channel.channel, frequency, dutycycle, pin,
-      error);
+    Open(channel.chip, channel.channel, frequency, dutycycle, outp, error);
   END OpenChannel;
 
   PROCEDURE Close
-   (VAR pin    : Pin;
+   (VAR outp   : Output;
     VAR error  : CARDINAL);
 
   BEGIN
     (* Validate parameters *)
 
-    IF pin = NIL THEN
+    IF outp = NIL THEN
       error := errno.EBADF;
       RETURN;
     END;
 
-    (* Close the analog input pin device *)
+    (* Close the PWM output device *)
 
-    libpwm.PWM_close(pin^.fd, error);
+    libpwm.PWM_close(outp^.fd, error);
 
-    (* Destroy the analog input pin object *)
+    (* Destroy the PWM output object *)
 
-    DISPOSE(pin);
-    pin := NIL;
+    DISPOSE(outp);
+    outp := NIL;
   END Close;
 
   PROCEDURE Write
-   (pin        : Pin;
+   (outp       : Output;
     dutycycle  : REAL;
     VAR error  : CARDINAL);
 
@@ -135,7 +135,7 @@ IMPLEMENTATION MODULE pwm_libsimpleio;
   BEGIN
     (* Validate parameters *)
 
-    IF pin = NIL THEN
+    IF outp = NIL THEN
       error := errno.EBADF;
       RETURN;
     END;
@@ -145,15 +145,15 @@ IMPLEMENTATION MODULE pwm_libsimpleio;
       RETURN;
     END;
 
-    ontime := TRUNC(dutycycle/DUTYCYCLE_MAX*FLOAT(pin^.period) + 0.5);
+    ontime := TRUNC(dutycycle/DUTYCYCLE_MAX*FLOAT(outp^.period) + 0.5);
 
-    libpwm.PWM_write(pin^.fd, ontime, error);
+    libpwm.PWM_write(outp^.fd, ontime, error);
   END Write;
 
-  PROCEDURE fd(pin : Pin) : INTEGER;
+  PROCEDURE fd(outp : Output) : INTEGER;
 
   BEGIN
-    RETURN pin^.fd;
+    RETURN outp^.fd;
   END fd;
 
-END pwm_libsimpleio.
+END PWM_libsimpleio.

@@ -1,6 +1,6 @@
-(* PWM output pin services using libsimpleio *)
+(* PWM output services using libsimpleio *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -20,13 +20,13 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-DEFINITION MODULE pwm_libsimpleio;
+DEFINITION MODULE PWM_libsimpleio;
 
   IMPORT
     Channel;
 
   TYPE
-    Pin;
+    Output;
 
   CONST
     DUTYCYCLE_MIN = 0.0;
@@ -37,25 +37,25 @@ DEFINITION MODULE pwm_libsimpleio;
     channel    : CARDINAL;
     frequency  : CARDINAL;
     dutycycle  : REAL;
-    VAR pin    : Pin;
+    VAR outp   : Output;
     VAR error  : CARDINAL);
 
   PROCEDURE OpenChannel
    (channel    : Channel.Designator;
     frequency  : CARDINAL;
     dutycycle  : REAL;
-    VAR pin    : Pin;
+    VAR outp   : Output;
     VAR error  : CARDINAL);
 
   PROCEDURE Close
-   (VAR pin    : Pin;
+   (VAR outp   : Output;
     VAR error  : CARDINAL);
 
   PROCEDURE Write
-   (pin        : Pin;
+   (outp       : Output;
     dutycycle  : REAL;
     VAR error  : CARDINAL);
 
-  PROCEDURE fd(pin : Pin) : INTEGER;
+  PROCEDURE fd(outp: Output) : INTEGER;
 
-END pwm_libsimpleio.
+END PWM_libsimpleio.
