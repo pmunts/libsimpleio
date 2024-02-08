@@ -45,10 +45,10 @@ uniform pattern:
     arguments.
 
 All of the C wrapper functions are declared between **`_BEGIN_STD_C`**
-and **`_END_STD_C`** for C++. Binding modules are provided for Ada, C\#,
-and Free Pascal. Additional source code libraries are provided for Ada,
-C++, C\#, and Free Pascal that define OOP (Object Oriented Programming)
-classes for **libsimpleio**.
+and **`_END_STD_C`** for C++. Additional source code libraries are
+provided for Ada, C++, C\#, Free Pascal, Modula-2, and Python that
+define OOP (Object Oriented Programming) thick binding classes for
+**libsimpleio**.
 
 ## Documentation
 
