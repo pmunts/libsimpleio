@@ -1,4 +1,4 @@
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -23,6 +23,18 @@ DEFINITION MODULE RaspberryPi;
   FROM Channel IMPORT Designator;
 
   CONST
+
+    (* Since Raspberry Pi boards do not have analog inputs, the following *)
+    (* are just placeholders for e.g. the ADC on the Pi 3 Click Shield.   *)
+
+    AIN0   = Designator{0,  0};
+    AIN1   = Designator{0,  1};
+    AIN2   = Designator{0,  2};
+    AIN3   = Designator{0,  3};
+    AIN4   = Designator{0,  4};
+    AIN5   = Designator{0,  5};
+    AIN6   = Designator{0,  6};
+    AIN7   = Designator{0,  7};
 
     (* The following GPIO pins are available on all Raspberry Pi Models *)
 
