@@ -1,4 +1,4 @@
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -18,10 +18,10 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-MODULE test_gpio_interrupt_button_led;
+MODULE test_button_led_interrupt;
 
 IMPORT
-  gpio_libsimpleio,
+  GPIO_libsimpleio,
   RaspberryPi;
 
 FROM STextIO IMPORT WriteString, WriteLn;
@@ -29,8 +29,8 @@ FROM FIO IMPORT FlushOutErr;
 FROM ErrorHandling IMPORT CheckError;
 
 VAR
-  Button   : gpio_libsimpleio.Pin;
-  LED      : gpio_libsimpleio.Pin;
+  Button   : GPIO_libsimpleio.Pin;
+  LED      : GPIO_libsimpleio.Pin;
   newstate : BOOLEAN;
   error    : CARDINAL;
 
@@ -43,21 +43,21 @@ BEGIN
 
   (* Configure button and LED GPIO's *)
 
-  gpio_libsimpleio.OpenChannel(RaspberryPi.GPIO6,
-    gpio_libsimpleio.Input, FALSE, gpio_libsimpleio.PushPull,
-    gpio_libsimpleio.Both, gpio_libsimpleio.ActiveHigh, Button, error);
-  CheckError(error, "gpio_libsimpleio.Open() failed");
+  GPIO_libsimpleio.OpenChannel(RaspberryPi.GPIO6,
+    GPIO_libsimpleio.Input, FALSE, GPIO_libsimpleio.PushPull,
+    GPIO_libsimpleio.Both, GPIO_libsimpleio.ActiveHigh, Button, error);
+  CheckError(error, "GPIO_libsimpleio.Open() failed");
 
-  gpio_libsimpleio.OpenChannel(RaspberryPi.GPIO26,
-    gpio_libsimpleio.Output, FALSE, gpio_libsimpleio.PushPull,
-    gpio_libsimpleio.None, gpio_libsimpleio.ActiveHigh, LED, error);
-  CheckError(error, "gpio_libsimpleio.Open() failed");
+  GPIO_libsimpleio.OpenChannel(RaspberryPi.GPIO26,
+    GPIO_libsimpleio.Output, FALSE, GPIO_libsimpleio.PushPull,
+    GPIO_libsimpleio.None, GPIO_libsimpleio.ActiveHigh, LED, error);
+  CheckError(error, "GPIO_libsimpleio.Open() failed");
 
   (* Process button press and release events *)
 
   LOOP
-    gpio_libsimpleio.Read(Button, newstate, error);
-    CheckError(error, "gpio_libsimpleio.Read() failed");
+    GPIO_libsimpleio.Read(Button, newstate, error);
+    CheckError(error, "GPIO_libsimpleio.Read() failed");
 
     IF newstate THEN
       WriteString("PRESSED");
@@ -68,7 +68,7 @@ BEGIN
     WriteLn;
     FlushOutErr;
 
-    gpio_libsimpleio.Write(LED, newstate, error);
-    CheckError(error, "gpio_libsimpleio.Write() failed");
+    GPIO_libsimpleio.Write(LED, newstate, error);
+    CheckError(error, "GPIO_libsimpleio.Write() failed");
   END;
-END test_gpio_interrupt_button_led.
+END test_button_led_interrupt.
