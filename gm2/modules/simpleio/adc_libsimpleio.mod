@@ -1,6 +1,6 @@
-(* Analog input pin services using libsimpleio *)
+(* Analog input services using libsimpleio *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -26,19 +26,24 @@ IMPLEMENTATION MODULE adc_libsimpleio;
     errno,
     libadc;
 
-  FROM Storage IMPORT ALLOCATE, DEALLOCATE;
+  FROM RealMath IMPORT power;
+  FROM Storage  IMPORT ALLOCATE, DEALLOCATE;
 
   TYPE
-    PinRec = RECORD
-      fd : INTEGER;
+    InputRec = RECORD
+      fd         : INTEGER;
+      resolution : CARDINAL;
+      stepsize   : REAL;
     END;
 
-    Pin = POINTER TO PinRec;
+    Input = POINTER TO InputRec;
 
   PROCEDURE Open
    (chip       : CARDINAL;
     channel    : CARDINAL;
-    VAR pin    : Pin;
+    resolution : CARDINAL;  (* Bits  *)
+    reference  : REAL;      (* Volts *)
+    VAR inp    : Input;
     VAR error  : CARDINAL);
 
   VAR
@@ -47,12 +52,12 @@ IMPLEMENTATION MODULE adc_libsimpleio;
   BEGIN
     (* Validate parameters *)
 
-    IF pin <> NIL THEN
+    IF inp <> NIL THEN
       error := errno.EBUSY;
       RETURN;
     END;
 
-    (* Open the analog input pin device *)
+    (* Open the analog input device *)
 
     libadc.ADC_open(chip, channel, fd, error);
 
@@ -60,66 +65,103 @@ IMPLEMENTATION MODULE adc_libsimpleio;
       RETURN;
     END;
 
-    (* Create a new analog input pin object *)
+    (* Create a new analog input object *)
 
-    NEW(pin);
-    pin^.fd := fd;
-    error := errno.EOK;
+    NEW(inp);
+
+    inp^.fd         := fd;
+    inp^.resolution := resolution;
+
+    IF (resolution = 0) OR (reference = 0.0) THEN
+      (* Resolution and/or reference are undefined. *)
+      (* ReadVolts() will always return 0.0V.       *)
+      inp^.stepsize := 0.0;
+    ELSE
+      (* Calculate the ADC step size, in volts *)
+      inp^.stepsize := reference/power(2.0, FLOAT(resolution));
+    END;
+
+    error           := errno.EOK;
   END Open;
 
   PROCEDURE OpenChannel
    (channel    : Channel.Designator;
-    VAR pin    : Pin;
+    resolution : CARDINAL;  (* Bits  *)
+    reference  : REAL;      (* Volts *)
+    VAR inp    : Input;
     VAR error  : CARDINAL);
 
   BEGIN
-    Open(channel.chip, channel.channel, pin, error);
+    Open(channel.chip, channel.channel, resolution, reference, inp, error);
   END OpenChannel;
 
   PROCEDURE Close
-   (VAR pin    : Pin;
+   (VAR inp    : Input;
     VAR error  : CARDINAL);
 
   BEGIN
     (* Validate parameters *)
 
-    IF pin = NIL THEN
+    IF inp = NIL THEN
       error := errno.EBADF;
       RETURN;
     END;
 
-    (* Close the analog input pin device *)
+    (* Close the analog input device *)
 
-    libadc.ADC_close(pin^.fd, error);
+    libadc.ADC_close(inp^.fd, error);
 
-    (* Destroy the analog input pin object *)
+    (* Destroy the analog input object *)
 
-    DISPOSE(pin);
-    pin := NIL;
+    DISPOSE(inp);
+    inp := NIL;
   END Close;
 
-  PROCEDURE Read
-   (pin        : Pin;
+  PROCEDURE ReadRaw
+   (inp        : Input;
     VAR sample : INTEGER;
     VAR error  : CARDINAL);
 
   BEGIN
     (* Validate parameters *)
 
-    IF pin = NIL THEN
+    IF inp = NIL THEN
       error := errno.EBADF;
       RETURN;
     END;
 
     (* Read an analog input sample *)
 
-    libadc.ADC_read(pin^.fd, sample, error);
-  END Read;
+    libadc.ADC_read(inp^.fd, sample, error);
+  END ReadRaw;
 
-  PROCEDURE fd(pin : Pin) : INTEGER;
+  PROCEDURE ReadVolts
+   (inp        : Input;
+    VAR volts  : REAL;
+    VAR error  : CARDINAL);
+
+  VAR
+    sample : INTEGER;
 
   BEGIN
-    RETURN pin^.fd;
+    (* Validate parameters *)
+
+    IF inp = NIL THEN
+      error := errno.EBADF;
+      RETURN;
+    END;
+
+    ReadRaw(inp, sample, error);
+
+    IF error = 0 THEN
+      volts := FLOAT(sample)*inp^.stepsize;
+    END;
+  END ReadVolts;
+
+  PROCEDURE fd(inp : Input) : INTEGER;
+
+  BEGIN
+    RETURN inp^.fd;
   END fd;
 
 END adc_libsimpleio.

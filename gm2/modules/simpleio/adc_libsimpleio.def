@@ -1,6 +1,6 @@
-(* Analog input pin services using libsimpleio *)
+(* Analog input services using libsimpleio *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -26,28 +26,37 @@ DEFINITION MODULE adc_libsimpleio;
     Channel;
 
   TYPE
-    Pin;
+    Input;
 
   PROCEDURE Open
    (chip       : CARDINAL;
     channel    : CARDINAL;
-    VAR pin    : Pin;
+    resolution : CARDINAL;  (* Bits  *)
+    reference  : REAL;      (* Volts *)
+    VAR inp    : Input;
     VAR error  : CARDINAL);
 
   PROCEDURE OpenChannel
    (channel    : Channel.Designator;
-    VAR pin    : Pin;
+    resolution : CARDINAL;  (* Bits  *)
+    reference  : REAL;      (* Volts *)
+    VAR inp    : Input;
     VAR error  : CARDINAL);
 
   PROCEDURE Close
-   (VAR pin    : Pin;
+   (VAR inp    : Input;
     VAR error  : CARDINAL);
 
-  PROCEDURE Read
-   (pin        : Pin;
+  PROCEDURE ReadRaw
+   (inp        : Input;
     VAR sample : INTEGER;
     VAR error  : CARDINAL);
 
-  PROCEDURE fd(pin : Pin) : INTEGER;
+  PROCEDURE ReadVolts
+   (inp        : Input;
+    VAR volts  : REAL;
+    VAR error  : CARDINAL);
+
+  PROCEDURE fd(inp: Input) : INTEGER;
 
 END adc_libsimpleio.
