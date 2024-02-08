@@ -23,7 +23,7 @@
 MODULE test_adc;
 
 IMPORT
-  adc_libsimpleio,
+  ADC_libsimpleio,
   RaspberryPi;
 
 FROM STextIO       IMPORT WriteString, WriteLn;
@@ -33,7 +33,7 @@ FROM ErrorHandling IMPORT CheckError;
 FROM libc          IMPORT sleep;
 
 VAR
-  inp    : adc_libsimpleio.Input;
+  inp    : ADC_libsimpleio.Input;
   error  : CARDINAL;
   V      : REAL;
 
@@ -46,8 +46,8 @@ BEGIN
 
   (* Open analog input *)
 
-  adc_libsimpleio.OpenChannel(RaspberryPi.AIN0, 12, 3.3, inp, error);
-  CheckError(error, "adc_libsimpleio.OpenChannel() failed");
+  ADC_libsimpleio.OpenChannel(RaspberryPi.AIN0, 12, 3.3, inp, error);
+  CheckError(error, "ADC_libsimpleio.OpenChannel() failed");
 
   WriteString("Press CONTROL-C to exit");
   WriteLn;
@@ -55,8 +55,8 @@ BEGIN
   FlushOutErr;
 
   LOOP
-    adc_libsimpleio.ReadVolts(inp, V, error);
-    CheckError(error, "adc_libsimpleio.ReadVolts() failed");
+    ADC_libsimpleio.ReadVolts(inp, V, error);
+    CheckError(error, "ADC_libsimpleio.ReadVolts() failed");
 
     WriteFixed(V, 2, 4);
     WriteString(" V");
