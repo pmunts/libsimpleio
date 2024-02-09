@@ -25,6 +25,11 @@ DEFINITION MODULE FOR "C" libi2c;
   IMPORT
     SYSTEM;
 
+  EXPORT UNQUALIFIED
+    I2C_open,
+    I2C_close,
+    I2C_transaction;
+
   PROCEDURE I2C_open
    (name      : ARRAY OF CHAR;
     VAR fd    : INTEGER;
