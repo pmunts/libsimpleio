@@ -1,6 +1,6 @@
-(* libsimpleio bindings for GNU Modula-2 *)
+(* SPI slave device services using libsimpleio *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2024, Philip Munts dba Munts Technologies.                     *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -20,40 +20,53 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-DEFINITION MODULE FOR "C" libspi;
+DEFINITION MODULE SPI_libsimpleio;
 
   IMPORT
-    SYSTEM;
+    Channel;
 
-  EXPORT UNQUALIFIED
-    AUTO_CS,
-    SPI_open,
-    SPI_close,
-    SPI_transaction;
+  FROM SYSTEM IMPORT BYTE;
+
+  TYPE
+    Device;
 
   CONST
-    AUTO_CS = -1;
+    AUTO_CS = Channel.Unused;
 
-  PROCEDURE SPI_open
-   (name      : ARRAY OF CHAR;
+  PROCEDURE Open
+   (desg      : Channel.Designator;
+    csdesg    : Channel.Designator;
     mode      : CARDINAL;
     wordsize  : CARDINAL;
     speed     : CARDINAL;
-    VAR spifd : INTEGER;
+    VAR dev   : Device;
     VAR error : CARDINAL);
 
-  PROCEDURE SPI_close
-   (spifd     : INTEGER;
+  PROCEDURE Close
+   (VAR dev   : Device;
     VAR error : CARDINAL);
 
-  PROCEDURE SPI_transaction
-   (spifd     : INTEGER;
-    csfd      : INTEGER;
-    cmd       : SYSTEM.ADDRESS;
+  PROCEDURE Transaction
+   (dev       : Device;
+    cmd       : ARRAY OF BYTE;
     cmdlen    : CARDINAL;
     delayus   : CARDINAL;
-    resp      : SYSTEM.ADDRESS;
+    VAR resp  : ARRAY OF BYTE;
     resplen   : CARDINAL;
     VAR error : CARDINAL);
 
-END libspi.
+  PROCEDURE Read
+   (dev       : Device;
+    VAR resp  : ARRAY OF BYTE;
+    resplen   : CARDINAL;
+    VAR error : CARDINAL);
+
+  PROCEDURE Write
+   (dev       : Device;
+    cmd       : ARRAY OF BYTE;
+    cmdlen    : CARDINAL;
+    VAR error : CARDINAL);
+
+  PROCEDURE fd(dev : Device) : INTEGER;
+
+END SPI_libsimpleio.
