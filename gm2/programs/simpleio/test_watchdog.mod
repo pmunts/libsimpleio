@@ -1,4 +1,4 @@
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -21,7 +21,7 @@
 MODULE test_watchdog;
 
 IMPORT
-  watchdog_libsimpleio;
+  Watchdog_libsimpleio;
 
 FROM STextIO IMPORT WriteString, WriteLn;
 FROM SWholeIO IMPORT WriteCard;
@@ -30,7 +30,7 @@ FROM ErrorHandling IMPORT CheckError;
 FROM liblinux IMPORT LINUX_usleep;
 
 VAR
-  wdt     : watchdog_libsimpleio.Watchdog;
+  wdt     : Watchdog_libsimpleio.Watchdog;
   error   : CARDINAL;
   timeout : CARDINAL;
   i       : CARDINAL;
@@ -42,11 +42,11 @@ BEGIN
   WriteLn;
   FlushOutErr;
 
-  watchdog_libsimpleio.Open(watchdog_libsimpleio.DefaultDevice, wdt, error);
-  CheckError(error, "watchdog_libsimpleio.Open() failed");
+  Watchdog_libsimpleio.Open(Watchdog_libsimpleio.DefaultDevice, wdt, error);
+  CheckError(error, "Watchdog_libsimpleio.Open() failed");
 
-  watchdog_libsimpleio.GetTimeout(wdt, timeout, error);
-  CheckError(error, "watchdog_libsimpleio.GetTimeout() failed");
+  Watchdog_libsimpleio.GetTimeout(wdt, timeout, error);
+  CheckError(error, "Watchdog_libsimpleio.GetTimeout() failed");
 
   WriteString("Default Timeout => ");
   WriteCard(timeout, 0);
@@ -54,11 +54,11 @@ BEGIN
   WriteLn;
   FlushOutErr;
 
-  watchdog_libsimpleio.SetTimeout(wdt, 5, error);
-  CheckError(error, "watchdog_libsimpleio.SetTimeout() failed");
+  Watchdog_libsimpleio.SetTimeout(wdt, 5, error);
+  CheckError(error, "Watchdog_libsimpleio.SetTimeout() failed");
 
-  watchdog_libsimpleio.GetTimeout(wdt, timeout, error);
-  CheckError(error, "watchdog_libsimpleio.GetTimeout() failed");
+  Watchdog_libsimpleio.GetTimeout(wdt, timeout, error);
+  CheckError(error, "Watchdog_libsimpleio.GetTimeout() failed");
 
   WriteString("New Timeout     => ");
   WriteCard(timeout, 0);
@@ -77,8 +77,8 @@ BEGIN
     WriteLn;
     FlushOutErr;
 
-    watchdog_libsimpleio.Kick(wdt, error);
-    CheckError(error, "watchdog_libsimpleio.Kick() failed");
+    Watchdog_libsimpleio.Kick(wdt, error);
+    CheckError(error, "Watchdog_libsimpleio.Kick() failed");
 
     LINUX_usleep(1000000, error);
     CheckError(error, "LINUX_usleep() failed");

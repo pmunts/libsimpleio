@@ -20,7 +20,7 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-DEFINITION MODULE watchdog_libsimpleio;
+DEFINITION MODULE Watchdog_libsimpleio;
 
   TYPE
     Watchdog;
@@ -53,4 +53,4 @@ DEFINITION MODULE watchdog_libsimpleio;
 
   PROCEDURE fd(wdt : Watchdog) : INTEGER;
 
-END watchdog_libsimpleio.
+END Watchdog_libsimpleio.

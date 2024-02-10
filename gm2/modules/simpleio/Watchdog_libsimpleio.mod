@@ -20,7 +20,7 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-IMPLEMENTATION MODULE watchdog_libsimpleio;
+IMPLEMENTATION MODULE Watchdog_libsimpleio;
 
   IMPORT
     errno,
@@ -150,4 +150,4 @@ IMPLEMENTATION MODULE watchdog_libsimpleio;
     RETURN wdt^.fd;
   END fd;
 
-END watchdog_libsimpleio.
+END Watchdog_libsimpleio.
