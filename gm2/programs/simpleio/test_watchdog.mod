@@ -20,8 +20,7 @@
 
 MODULE test_watchdog;
 
-IMPORT
-  Watchdog_libsimpleio;
+IMPORT Watchdog_libsimpleio;
 
 FROM STextIO IMPORT WriteString, WriteLn;
 FROM SWholeIO IMPORT WriteCard;
@@ -42,7 +41,7 @@ BEGIN
   WriteLn;
   FlushOutErr;
 
-  Watchdog_libsimpleio.Open(Watchdog_libsimpleio.DefaultDevice, wdt, error);
+  Watchdog_libsimpleio.Open("/dev/watchdog", wdt, error);
   CheckError(error, "Watchdog_libsimpleio.Open() failed");
 
   Watchdog_libsimpleio.GetTimeout(wdt, timeout, error);

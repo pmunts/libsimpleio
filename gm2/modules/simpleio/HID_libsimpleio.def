@@ -31,7 +31,6 @@ DEFINITION MODULE HID_libsimpleio;
   CONST
     NOWAIT    = 0;
     FOREVER   = 0FFFFFFFFH;
-    ANYSERIAL = "";
 
   (* Open raw HID device given vendor, product, and serial number  *)
 
