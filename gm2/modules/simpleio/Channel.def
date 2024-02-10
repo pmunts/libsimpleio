@@ -29,6 +29,9 @@ DEFINITION MODULE Channel;
       channel : CARDINAL;
     END;
 
+  CONST
+    Unused = Designator{MAX(CARDINAL), MAX(CARDINAL)};
+
   (* Get channel designator, setting chip to 0 and prompting for channel *)
   (* Appends ": " to the prompt.                                        *)
 
