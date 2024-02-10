@@ -1,4 +1,4 @@
-(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2024, Philip Munts dba Munts Technologies.                     *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -18,5 +18,5 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-IMPLEMENTATION MODULE RaspberryPi;
-END RaspberryPi.
+IMPLEMENTATION MODULE RaspberryPi4;
+END RaspberryPi4.

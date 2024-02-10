@@ -1,4 +1,6 @@
-(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
+(* I/O Resource Designators specific to the Raspberry Pi 5 *)
+
+(* Copyright (C)2024, Philip Munts dba Munts Technologies.                     *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -18,5 +20,26 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-IMPLEMENTATION MODULE RaspberryPi;
-END RaspberryPi.
+DEFINITION MODULE RaspberryPi5;
+
+  FROM Channel IMPORT Designator;
+
+  CONST
+    (* The Raspberry Pi 5 has additional I2C bus controllers, which can be *)
+    (* enabled by device tree overlays i2c0-pi5, i2c1-pi5, i2c2-pi5, and   *)
+    (* i2c3-pi5.                                                           *)
+
+    I2C0   = Designator{0, 0};  (* GPIO0/GPIO1 or GPIO8/GPIO9   *)
+    I2C1   = Designator{0, 1};  (* GPIO2/GPIO3 or GPIO10/GPIO11 *)
+    I2C2   = Designator{0, 2};  (* GPIO4/GPIO5 or GPIO12/GPIO13 *)
+    I2C3   = Designator{0, 3};  (* GPIO6/GPIO7 or GPIO14/GPIO15 or GPIO22/23 *)
+
+    (* The Raspberry Pi 5 has two more hardware PWM controllers, two more  *)
+    (* PWM outputs, different chip enumeration, and different pin mapping. *)
+
+    PWM0   = Designator{2, 0};  (* GPIO12 *)
+    PWM1   = Designator{2, 1};  (* GPIO13 *)
+    PWM2   = Designator{2, 2};  (* GPIO14 or GPIO18 *)
+    PWM3   = Designator{2, 3};  (* GPIO15 or GPIO19 *)
+
+END RaspberryPi5.

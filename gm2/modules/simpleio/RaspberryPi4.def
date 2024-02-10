@@ -1,4 +1,6 @@
-(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
+(* I/O Resource Designators specific to the Raspberry Pi 4 *)
+
+(* Copyright (C)2024, Philip Munts dba Munts Technologies.                     *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -18,5 +20,17 @@
 (* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  *)
 (* POSSIBILITY OF SUCH DAMAGE.                                                 *)
 
-IMPLEMENTATION MODULE RaspberryPi;
-END RaspberryPi.
+DEFINITION MODULE RaspberryPi4;
+
+  FROM Channel IMPORT Designator;
+
+  CONST
+    (* The Raspberry Pi 4 has additional I2C bus controllers, which can be *)
+    (* enabled by device tree overlays i2c3, i2c4, i2c5, or i2c6.          *)
+
+    I2C3   = Designator{0, 3};  (* GPIO2/GPIO3   or GPIO4/GPIO5   *)
+    I2C4   = Designator{0, 4};  (* GPIO6/GPIO7   or GPIO8/GPIO9   *)
+    I2C5   = Designator{0, 5};  (* GPIO10/GPIO11 or GPIO12/GPIO13 *)
+    I2C6   = Designator{0, 6};  (* GPIO0/GPIO1   or GPIO22/GPIO23 *)
+
+END RaspberryPi4.
