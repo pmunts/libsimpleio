@@ -72,7 +72,7 @@ BEGIN
   WriteLn;
   FlushOutErr;
 
-  FOR i := 1 TO 10 DO
+  FOR i := 1 TO 5 DO
     WriteCard(i, 0);
     WriteLn;
     FlushOutErr;
