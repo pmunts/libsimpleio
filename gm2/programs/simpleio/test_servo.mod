@@ -53,9 +53,9 @@ BEGIN
 
   (* Open the servo output device *)
 
-  Servo_libsimpleio.OpenChannel(desg, freq, Servo_libsimpleio.POSITION_NEUTRAL,
+  Servo_libsimpleio.Open(desg, freq, Servo_libsimpleio.POSITION_NEUTRAL,
     outp, error);
-  CheckError(error, "Servo_libsimpleio.OpenChannel() failed");
+  CheckError(error, "Servo_libsimpleio.Open() failed");
 
   (* Sweep the servo position from neutral to maximum *)
 

@@ -44,10 +44,10 @@ BEGIN
   WriteLn;
   FlushOutErr;
 
-  GPIO_libsimpleio.OpenChannel(desg, GPIO_libsimpleio.Output, FALSE,
+  GPIO_libsimpleio.Open(desg, GPIO_libsimpleio.Output, FALSE,
     GPIO_libsimpleio.PushPull, GPIO_libsimpleio.None,
     GPIO_libsimpleio.ActiveHigh, outp, error);
-  CheckError(error, "GPIO_libsimpleio.OpenChannel() failed");
+  CheckError(error, "GPIO_libsimpleio.Open() failed");
 
   WriteString("Press CONTROL-C to exit");
   WriteLn;

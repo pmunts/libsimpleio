@@ -39,8 +39,7 @@ IMPLEMENTATION MODULE ADC_libsimpleio;
     Input = POINTER TO InputRec;
 
   PROCEDURE Open
-   (chip       : CARDINAL;
-    channel    : CARDINAL;
+   (desg       : Channel.Designator;
     resolution : CARDINAL;  (* Bits  *)
     reference  : REAL;      (* Volts *)
     VAR inp    : Input;
@@ -59,7 +58,7 @@ IMPLEMENTATION MODULE ADC_libsimpleio;
 
     (* Open the analog input device *)
 
-    libadc.ADC_open(chip, channel, fd, error);
+    libadc.ADC_open(desg.chip, desg.channel, fd, error);
 
     IF error <> 0 THEN
       RETURN;
@@ -83,17 +82,6 @@ IMPLEMENTATION MODULE ADC_libsimpleio;
 
     error           := errno.EOK;
   END Open;
-
-  PROCEDURE OpenChannel
-   (channel    : Channel.Designator;
-    resolution : CARDINAL;  (* Bits  *)
-    reference  : REAL;      (* Volts *)
-    VAR inp    : Input;
-    VAR error  : CARDINAL);
-
-  BEGIN
-    Open(channel.chip, channel.channel, resolution, reference, inp, error);
-  END OpenChannel;
 
   PROCEDURE Close
    (VAR inp    : Input;

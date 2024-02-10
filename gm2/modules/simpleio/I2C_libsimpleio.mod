@@ -36,16 +36,8 @@ IMPLEMENTATION MODULE I2C_libsimpleio;
 
     Bus = POINTER TO BusRec;
 
-  CONST
-    MAX_BUSES = 255;
-    UNUSED    = -1;
-
-  VAR
-    FileTable : ARRAY [0 .. MAX_BUSES] OF INTEGER;
-
   PROCEDURE Open
-   (chip      : CARDINAL;
-    channel   : CARDINAL;
+   (desg      : Channel.Designator;
     VAR bus   : Bus;
     VAR error : CARDINAL);
 
@@ -62,33 +54,20 @@ IMPLEMENTATION MODULE I2C_libsimpleio;
       RETURN;
     END;
 
-    IF chip <> 0 THEN
+    IF desg.chip <> 0 THEN
       error := errno.EINVAL;
       RETURN;
     END;
 
-    IF channel > MAX_BUSES THEN
-      error := errno.EINVAL;
+    (* Open the I2C bus device *)
+
+    CardToStr(desg.channel, busname);
+    Concat("/dev/i2c-", busname, devname);
+
+    libi2c.I2C_open(devname, fd, error);
+
+    IF error <> 0 THEN
       RETURN;
-    END;
-
-    IF FileTable[channel] <> UNUSED THEN
-      (* Reuse the file descriptor for a previously opened I2C bus *)
-
-      fd := FileTable[channel]
-    ELSE
-      (* Open the I2C bus device *)
-
-      CardToStr(channel, busname);
-      Concat("/dev/i2c-", busname, devname);
-
-      libi2c.I2C_open(devname, fd, error);
-
-      IF error <> 0 THEN
-        RETURN;
-      END;
-
-      FileTable[channel] := fd;
     END;
 
     (* Create a new I2C bus object *)
@@ -98,15 +77,6 @@ IMPLEMENTATION MODULE I2C_libsimpleio;
 
     error := errno.EOK;
   END Open;
-
-  PROCEDURE OpenChannel
-   (channel   : Channel.Designator;
-    VAR bus   : Bus;
-    VAR error : CARDINAL);
-
-  BEGIN
-    Open(channel.chip, channel.channel, bus, error);
-  END OpenChannel;
 
   PROCEDURE Close
    (VAR bus    : Bus;
@@ -122,14 +92,6 @@ IMPLEMENTATION MODULE I2C_libsimpleio;
       RETURN;
     END;
 
-    (* Purge FileTable entry *)
-
-    FOR i := 0 TO MAX_BUSES DO
-      IF FileTable[i] = bus^.fd THEN
-        FileTable[i] := UNUSED;
-      END;
-    END;
-    
     (* Close the I2C bus device *)
 
     libi2c.I2C_close(bus^.fd, error);
@@ -203,10 +165,4 @@ IMPLEMENTATION MODULE I2C_libsimpleio;
     RETURN bus^.fd;
   END fd;
 
-VAR i : CARDINAL;
-
-BEGIN
-  FOR i := 0 TO MAX_BUSES DO
-    FileTable[i] := UNUSED;
-  END;
 END I2C_libsimpleio.

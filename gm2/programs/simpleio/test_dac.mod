@@ -61,8 +61,8 @@ BEGIN
 
   (* Open analog output *)
 
-  DAC_libsimpleio.OpenChannel(desg, res, Vref, outp, error);
-  CheckError(error, "DAC_libsimpleio.OpenChannel() failed");
+  DAC_libsimpleio.Open(desg, res, Vref, outp, error);
+  CheckError(error, "DAC_libsimpleio.Open() failed");
 
   WriteString("Press CONTROL-C to exit");
   WriteLn;

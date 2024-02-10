@@ -1,6 +1,6 @@
 (* GPIO pin services using libsimpleio *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -37,15 +37,14 @@ IMPLEMENTATION MODULE GPIO_libsimpleio;
     Pin = POINTER TO PinRec;
 
   PROCEDURE Open
-   (chip       : CARDINAL;
-    line       : CARDINAL;
-    dir        : Direction;
-    state      : BOOLEAN;
-    driver     : Driver;
-    edge       : Edge;
-    polarity   : Polarity;
-    VAR pin    : Pin;
-    VAR error  : CARDINAL);
+   (desg      : Channel.Designator;
+    dir       : Direction;
+    state     : BOOLEAN;
+    driver    : Driver;
+    edge      : Edge;
+    polarity  : Polarity;
+    VAR pin   : Pin;
+    VAR error : CARDINAL);
 
   VAR
     flags  : CARDINAL;
@@ -87,7 +86,8 @@ IMPLEMENTATION MODULE GPIO_libsimpleio;
 
     (* Open the GPIO pin device *)
 
-    libgpio.GPIO_line_open(chip, line, flags, events, ORD(state), fd, error);
+    libgpio.GPIO_line_open(desg.chip, desg.channel, flags, events, ORD(state),
+      fd, error);
 
     IF error <> 0 THEN
       RETURN;
@@ -107,21 +107,6 @@ IMPLEMENTATION MODULE GPIO_libsimpleio;
 
     error := errno.EOK;
   END Open;
-
-  PROCEDURE OpenChannel
-   (channel    : Channel.Designator;
-    dir        : Direction;
-    state      : BOOLEAN;
-    driver     : Driver;
-    edge       : Edge;
-    polarity   : Polarity;
-    VAR pin    : Pin;
-    VAR error  : CARDINAL);
-
-  BEGIN
-    Open(channel.chip, channel.channel, dir, state, driver, edge,
-      polarity, pin, error);
-  END OpenChannel;
 
   PROCEDURE Close
    (VAR pin    : Pin;

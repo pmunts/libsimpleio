@@ -31,13 +31,7 @@ DEFINITION MODULE I2C_libsimpleio;
     Bus;
 
   PROCEDURE Open
-   (chip      : CARDINAL;
-    channel   : CARDINAL;
-    VAR bus   : Bus;
-    VAR error : CARDINAL);
-
-  PROCEDURE OpenChannel
-   (channel   : Channel.Designator;
+   (desg      : Channel.Designator;
     VAR bus   : Bus;
     VAR error : CARDINAL);
 

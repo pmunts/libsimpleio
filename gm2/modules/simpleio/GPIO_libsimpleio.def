@@ -1,6 +1,6 @@
 (* GPIO pin services using libsimpleio *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2024, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -33,17 +33,6 @@ DEFINITION MODULE GPIO_libsimpleio;
     Polarity  = (ActiveLow, ActiveHigh);
 
   PROCEDURE Open
-   (chip       : CARDINAL;
-    line       : CARDINAL;
-    dir        : Direction;
-    state      : BOOLEAN;
-    driver     : Driver;
-    edge       : Edge;
-    polarity   : Polarity;
-    VAR pin    : Pin;
-    VAR error  : CARDINAL);
-
-  PROCEDURE OpenChannel
    (channel    : Channel.Designator;
     dir        : Direction;
     state      : BOOLEAN;

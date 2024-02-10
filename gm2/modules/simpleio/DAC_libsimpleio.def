@@ -29,15 +29,7 @@ DEFINITION MODULE DAC_libsimpleio;
     Output;
 
   PROCEDURE Open
-   (chip       : CARDINAL;
-    channel    : CARDINAL;
-    resolution : CARDINAL;  (* Bits  *)
-    reference  : REAL;      (* Volts *)
-    VAR outp   : Output;
-    VAR error  : CARDINAL);
-
-  PROCEDURE OpenChannel
-   (channel    : Channel.Designator;
+   (desg       : Channel.Designator;
     resolution : CARDINAL;  (* Bits  *)
     reference  : REAL;      (* Volts *)
     VAR outp   : Output;

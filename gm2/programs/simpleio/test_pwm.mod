@@ -53,9 +53,9 @@ BEGIN
 
   (* Open the PWM output device *)
 
-  PWM_libsimpleio.OpenChannel(desg, freq, PWM_libsimpleio.DUTYCYCLE_MAXIMUM/2.0,
+  PWM_libsimpleio.Open(desg, freq, PWM_libsimpleio.DUTYCYCLE_MAXIMUM/2.0,
     outp, error);
-  CheckError(error, "PWM_libsimpleio.OpenChannel() failed");
+  CheckError(error, "PWM_libsimpleio.Open() failed");
 
   (* Sweep the PWM output dutycycle from 0 to 100 percent *)
 

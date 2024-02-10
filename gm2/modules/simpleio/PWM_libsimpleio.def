@@ -33,15 +33,7 @@ DEFINITION MODULE PWM_libsimpleio;
     DUTYCYCLE_MAXIMUM = 100.0;
 
   PROCEDURE Open
-   (chip       : CARDINAL;
-    channel    : CARDINAL;
-    frequency  : CARDINAL;
-    dutycycle  : REAL;
-    VAR outp   : Output;
-    VAR error  : CARDINAL);
-
-  PROCEDURE OpenChannel
-   (channel    : Channel.Designator;
+   (desg       : Channel.Designator;
     frequency  : CARDINAL;
     dutycycle  : REAL;
     VAR outp   : Output;

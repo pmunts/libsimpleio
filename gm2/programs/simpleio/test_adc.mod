@@ -61,8 +61,8 @@ BEGIN
 
   (* Open analog input *)
 
-  ADC_libsimpleio.OpenChannel(desg, res, Vref, inp, error);
-  CheckError(error, "ADC_libsimpleio.OpenChannel() failed");
+  ADC_libsimpleio.Open(desg, res, Vref, inp, error);
+  CheckError(error, "ADC_libsimpleio.Open() failed");
 
   WriteString("Press CONTROL-C to exit");
   WriteLn;

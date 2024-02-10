@@ -43,9 +43,9 @@ BEGIN
 
   (* Configure LED GPIO output *)
 
-  GPIO_libsimpleio.OpenChannel(RaspberryPi.GPIO26,
-    GPIO_libsimpleio.Output, FALSE, GPIO_libsimpleio.PushPull,
-    GPIO_libsimpleio.None, GPIO_libsimpleio.ActiveHigh, LED, error);
+  GPIO_libsimpleio.Open(RaspberryPi.GPIO26, GPIO_libsimpleio.Output, FALSE,
+    GPIO_libsimpleio.PushPull, GPIO_libsimpleio.None,
+    GPIO_libsimpleio.ActiveHigh, LED, error);
   CheckError(error, "GPIO_libsimpleio.Open() failed");
 
   WriteString("Press CONTROL-C to exit");

@@ -56,8 +56,8 @@ BEGIN
 
   (* Open I2C bus master device *)
 
-  I2C_libsimpleio.OpenChannel(desg, bus, error);
-  CheckError(error, "I2C_libsimpleio.OpenChannel() failed");
+  I2C_libsimpleio.Open(desg, bus, error);
+  CheckError(error, "I2C_libsimpleio.Open() failed");
 
   WriteString("fd   => ");
   WriteCard(I2C_libsimpleio.fd(bus), 0);

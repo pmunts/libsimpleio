@@ -39,8 +39,7 @@ IMPLEMENTATION MODULE DAC_libsimpleio;
     Output = POINTER TO OutputRec;
 
   PROCEDURE Open
-   (chip       : CARDINAL;
-    channel    : CARDINAL;
+   (desg       : Channel.Designator;
     resolution : CARDINAL;  (* Bits  *)
     reference  : REAL;      (* Volts *)
     VAR outp   : Output;
@@ -59,7 +58,7 @@ IMPLEMENTATION MODULE DAC_libsimpleio;
 
     (* Open the analog output device *)
 
-    libdac.DAC_open(chip, channel, fd, error);
+    libdac.DAC_open(desg.chip, desg.channel, fd, error);
 
     IF error <> 0 THEN
       RETURN;
@@ -83,17 +82,6 @@ IMPLEMENTATION MODULE DAC_libsimpleio;
 
     error           := errno.EOK;
   END Open;
-
-  PROCEDURE OpenChannel
-   (channel    : Channel.Designator;
-    resolution : CARDINAL;  (* Bits  *)
-    reference  : REAL;      (* Volts *)
-    VAR outp   : Output;
-    VAR error  : CARDINAL);
-
-  BEGIN
-    Open(channel.chip, channel.channel, resolution, reference, outp, error);
-  END OpenChannel;
 
   PROCEDURE Close
    (VAR outp   : Output;

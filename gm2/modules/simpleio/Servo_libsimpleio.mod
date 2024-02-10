@@ -37,8 +37,7 @@ IMPLEMENTATION MODULE Servo_libsimpleio;
     Output = POINTER TO OutputRec;
 
   PROCEDURE Open
-   (chip      : CARDINAL;
-    channel   : CARDINAL;
+   (desg      : Channel.Designator;
     frequency : CARDINAL;
     position  : REAL;
     VAR outp  : Output;
@@ -67,8 +66,8 @@ IMPLEMENTATION MODULE Servo_libsimpleio;
 
     (* Configure the PWM output device *)
 
-    libpwm.PWM_configure(chip, channel, period, ontime, libpwm.PWM_ACTIVEHIGH,
-      error);
+    libpwm.PWM_configure(desg.chip, desg.channel, period, ontime,
+      libpwm.PWM_ACTIVEHIGH, error);
 
     IF error <> 0 THEN
       RETURN;
@@ -76,7 +75,7 @@ IMPLEMENTATION MODULE Servo_libsimpleio;
 
     (* Open the PWM output device *)
 
-    libpwm.PWM_open(chip, channel, fd, error);
+    libpwm.PWM_open(desg.chip, desg.channel, fd, error);
 
     IF error <> 0 THEN
       RETURN;
@@ -90,17 +89,6 @@ IMPLEMENTATION MODULE Servo_libsimpleio;
 
     error := errno.EOK;
   END Open;
-
-  PROCEDURE OpenChannel
-   (channel   : Channel.Designator;
-    frequency : CARDINAL;
-    position  : REAL;
-    VAR outp  : Output;
-    VAR error : CARDINAL);
-
-  BEGIN
-    Open(channel.chip, channel.channel, frequency, position, outp, error);
-  END OpenChannel;
 
   PROCEDURE Close
    (VAR outp  : Output;

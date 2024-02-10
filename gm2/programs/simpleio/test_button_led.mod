@@ -44,14 +44,14 @@ BEGIN
 
   (* Configure button and LED GPIO's *)
 
-  GPIO_libsimpleio.OpenChannel(RaspberryPi.GPIO6,
-    GPIO_libsimpleio.Input, FALSE, GPIO_libsimpleio.PushPull,
-    GPIO_libsimpleio.None, GPIO_libsimpleio.ActiveHigh, Button, error);
+  GPIO_libsimpleio.Open(RaspberryPi.GPIO6, GPIO_libsimpleio.Input, FALSE,
+    GPIO_libsimpleio.PushPull, GPIO_libsimpleio.None,
+    GPIO_libsimpleio.ActiveHigh, Button, error);
   CheckError(error, "GPIO_libsimpleio.Open() failed");
 
-  GPIO_libsimpleio.OpenChannel(RaspberryPi.GPIO26,
-    GPIO_libsimpleio.Output, FALSE, GPIO_libsimpleio.PushPull,
-    GPIO_libsimpleio.None, GPIO_libsimpleio.ActiveHigh, LED, error);
+  GPIO_libsimpleio.Open(RaspberryPi.GPIO26, GPIO_libsimpleio.Output, FALSE,
+    GPIO_libsimpleio.PushPull, GPIO_libsimpleio.None,
+    GPIO_libsimpleio.ActiveHigh, LED, error);
   CheckError(error, "GPIO_libsimpleio.Open() failed");
 
   (* Force initial detection *)
