@@ -41,6 +41,7 @@
     <Compile Include="..\objects\*" />
     <Compile Include="..\objects\remoteio\*" />
     <Compile Include="..\objects\simpleio\*" />
+    <Compile Include="..\objects\simpleio\platforms\*" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Linux.targets" />
 </Project>

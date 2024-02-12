@@ -1,4 +1,4 @@
-{ Copyright (C)2019-2023, Philip Munts dba Munts Technologies.                }
+{ Copyright (C)2019-2024, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -32,8 +32,7 @@ interface
 
   type Pin = public class(Object, IO.Interfaces.GPIO.Pin)
     public constructor
-     (chip     : Integer;
-      chan     : Integer;
+     (desg     : IO.Objects.SimpleIO.Resources.Designator;
       dir      : IO.Interfaces.GPIO.Direction;
       newstate : Boolean    := False;
       driver   : Drivers    := Drivers.PushPull;
@@ -58,8 +57,7 @@ interface
 implementation
 
   constructor Pin
-   (chip     : Integer;
-    chan     : Integer;
+   (desg     : IO.Objects.SimpleIO.Resources.Designator;
     dir      : IO.Interfaces.GPIO.Direction;
     newstate : Boolean;
     driver   : Drivers;
@@ -98,7 +96,7 @@ implementation
       Edges.Both            : events := IO.Bindings.libsimpleio.EVENT_REQUEST_BOTH;
     end;
 
-    IO.Bindings.libsimpleio.GPIO_line_open(chip, chan, flags, events,
+    IO.Bindings.libsimpleio.GPIO_line_open(desg.chip, desg.channel, flags, events,
       ord(newstate), @self.fd, @error);
 
     if error <> 0 then
