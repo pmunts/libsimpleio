@@ -288,7 +288,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// <remarks>
         /// Expansion header pin 24 is <c>SPI0_0</c> on a Raspberry Pi.
         /// </remarks>
-        public static readonly Designator SPI1_0 = new Designator(1,0);
+        public static readonly Designator SPI1_0 = new Designator(1, 0);
 
         /// <summary>
         /// SPI slave select designator for expansion header pin 26.
@@ -297,7 +297,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// <remarks>
         /// Expansion pin header 26 is <c>SPI0_1</c> on a Raspberry Pi.
         /// </remarks>
-        public static readonly Designator SPI1_1 = new Designator(1,1);
+        public static readonly Designator SPI1_1 = new Designator(1, 1);
     }
 
     /// <summary>
