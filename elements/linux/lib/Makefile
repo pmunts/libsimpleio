@@ -23,10 +23,18 @@ ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
 # Build the project
 
-default:
+default: thick
+
+# Build the thin bindings (libadc et al) bindings project
+
+thin:
 	"$(EBUILD)" libsimpleio_bindings.elements
+	$(FIND) Bin -type f -exec chmod 644 {} ";"
 	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.fx  ../lib/`basename $$D` ; done
-	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.pas  ../lib/`basename $$D` ; done
+
+# Build the thick bindings project
+
+thick:
 	"$(EBUILD)" libsimpleio_objects.elements
 	$(FIND) Bin -type f -exec chmod 644 {} ";"
 	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.a   ../lib/`basename $$D` ; done
