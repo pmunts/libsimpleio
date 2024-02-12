@@ -31,51 +31,51 @@ namespace IO.Objects.SimpleIO.Platforms
     public static class RaspberryPi
     {
         /// <summary>Analog input designator (0, 0).</summary>
-        /// <remark>Raspberry Pi boards don't have a built-in ADC (Analog to
+        /// <remarks>Raspberry Pi boards don't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
-        /// for the first IIO (Industrial I/O) ADC device.</remark>
+        /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN0 = new Designator(0, 0);
 
         /// <summary>Analog input designator (0, 1).</summary>
-        /// <remark>Raspberry Pi boards don't have a built-in ADC (Analog to
+        /// <remarks>Raspberry Pi boards don't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
-        /// for the first IIO (Industrial I/O) ADC device.</remark>
+        /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN1 = new Designator(0, 1);
 
         /// <summary>Analog input designator (0, 2).</summary>
-        /// <remark>Raspberry Pi boards don't have a built-in ADC (Analog to
+        /// <remarks>Raspberry Pi boards don't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
-        /// for the first IIO (Industrial I/O) ADC device.</remark>
+        /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN2 = new Designator(0, 2);
 
         /// <summary>Analog input designator (0, 3).</summary>
-        /// <remark>Raspberry Pi boards don't have a built-in ADC (Analog to
+        /// <remarks>Raspberry Pi boards don't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
-        /// for the first IIO (Industrial I/O) ADC device.</remark>
+        /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN3 = new Designator(0, 3);
 
         /// <summary>Analog input designator (0, 4).</summary>
-        /// <remark>Raspberry Pi boards don't have a built-in ADC (Analog to
+        /// <remarks>Raspberry Pi boards don't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
-        /// for the first IIO (Industrial I/O) ADC device.</remark>
+        /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN4 = new Designator(0, 4);
 
         /// <summary>Analog input designator (0, 5).</summary>
-        /// <remark>Raspberry Pi boards don't have a built-in ADC (Analog to
+        /// <remarks>Raspberry Pi boards don't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
-        /// for the first IIO (Industrial I/O) ADC device.</remark>
+        /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN5 = new Designator(0, 5);
 
         /// <summary>Analog input designator (0, 6).</summary>
-        /// <remark>Raspberry Pi boards don't have a built-in ADC (Analog to
+        /// <remarks>Raspberry Pi boards don't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
-        /// for the first IIO (Industrial I/O) ADC device.</remark>
+        /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN6 = new Designator(0, 6);
 
         /// <summary>Analog input designator (0, 7).</summary>
-        /// <remark>Raspberry Pi boards don't have a built-in ADC (Analog to
+        /// <remarks>Raspberry Pi boards don't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
-        /// for the first IIO (Industrial I/O) ADC device.</remark>
+        /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN7 = new Designator(0, 7);
 
         /// <summary>GPIO pin designator (0, 2).  Conflicts with
