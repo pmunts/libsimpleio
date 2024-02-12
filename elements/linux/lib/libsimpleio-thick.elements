@@ -1,16 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>IO.Objects.SimpleIO</RootNamespace>
     <ProjectGuid>{5599598E-09CC-482C-B509-D57BE7EB82E5}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
-    <AssemblyName>libsimpleio-thick</AssemblyName>
+    <BinaryName>libsimpleio-thick</BinaryName>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>
     <OutputPath>.\Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <ConditionalDefines>DEBUG;TRACE;</ConditionalDefines>
     <GenerateDebugInfo>True</GenerateDebugInfo>
     <EnableAsserts>True</EnableAsserts>
     <CpuType>anycpu</CpuType>
@@ -25,21 +26,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'x86_64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio-thin.fx</HintPath>
+      <HintPath>x86_64\libsimpleio-thin.fx</HintPath>
     </Reference>
     <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'armv6' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio-thin.fx</HintPath>
+      <HintPath>armv6\libsimpleio-thin.fx</HintPath>
     </Reference>
     <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'aarch64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio-thin.fx</HintPath>
+      <HintPath>aarch64\libsimpleio-thin.fx</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(LIBSIMPLEIO)\elements\linux\devices\*" />
-    <Compile Include="$(LIBSIMPLEIO)\elements\linux\interfaces\*" />
-    <Compile Include="$(LIBSIMPLEIO)\elements\linux\objects\*" />
-    <Compile Include="$(LIBSIMPLEIO)\elements\linux\objects\remoteio\*" />
-    <Compile Include="$(LIBSIMPLEIO)\elements\linux\objects\simpleio\*" />
+    <Compile Include="..\devices\*" />
+    <Compile Include="..\interfaces\*" />
+    <Compile Include="..\objects\*" />
+    <Compile Include="..\objects\remoteio\*" />
+    <Compile Include="..\objects\simpleio\*" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Linux.targets" />
 </Project>
