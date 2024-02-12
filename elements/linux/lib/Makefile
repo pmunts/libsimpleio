@@ -43,7 +43,6 @@ thick:
 # Remove working files
 
 clean: elements_mk_clean
-	-rm */*.pas
 
 # Include subordinate makefiles
 
