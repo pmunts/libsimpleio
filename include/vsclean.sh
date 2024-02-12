@@ -32,7 +32,9 @@ FIND=${FIND:-/usr/bin/find}
 echo "Removing Visual Studio flotsam from `pwd`"
 
 ${FIND} . -name DOTNETMF_FS_EMULATION	-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name Bin			-exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name bin			-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name Obj			-exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name obj			-exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name OnBoardFlash.dat	-exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name '*.apk' -a -not -path './prebuilt/*' -exec rm -rf {} ";" >/dev/null 2>&1
