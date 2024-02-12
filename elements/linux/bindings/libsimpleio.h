@@ -18,6 +18,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#define LIBSIMPLEIO_BINDINGS 1
+
 typedef int int32_t;
 typedef long int ssize_t;
 typedef long unsigned int size_t;

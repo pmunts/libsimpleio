@@ -4,7 +4,7 @@
     <RootNamespace>IO.Objects.SimpleIO</RootNamespace>
     <ProjectGuid>{5599598E-09CC-482C-B509-D57BE7EB82E5}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
-    <AssemblyName>libsimpleio_objects</AssemblyName>
+    <AssemblyName>libsimpleio-thick</AssemblyName>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -24,14 +24,14 @@
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'x86_64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio_bindings.fx</HintPath>
+    <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'x86_64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio-thin.fx</HintPath>
     </Reference>
-    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'armv6' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio_bindings.fx</HintPath>
+    <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'armv6' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio-thin.fx</HintPath>
     </Reference>
-    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'aarch64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio_bindings.fx</HintPath>
+    <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'aarch64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio-thin.fx</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

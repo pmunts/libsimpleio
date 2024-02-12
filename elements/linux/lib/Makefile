@@ -28,14 +28,14 @@ default: thick
 # Build the thin bindings (libadc et al) bindings project
 
 thin:
-	"$(EBUILD)" libsimpleio_bindings.elements
+	"$(EBUILD)" libsimpleio-thin.elements
 	$(FIND) Bin -type f -exec chmod 644 {} ";"
 	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.fx  ../lib/`basename $$D` ; done
 
 # Build the thick bindings project
 
 thick:
-	"$(EBUILD)" libsimpleio_objects.elements
+	"$(EBUILD)" libsimpleio-thick.elements
 	$(FIND) Bin -type f -exec chmod 644 {} ";"
 	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.a   ../lib/`basename $$D` ; done
 	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.fx  ../lib/`basename $$D` ; done

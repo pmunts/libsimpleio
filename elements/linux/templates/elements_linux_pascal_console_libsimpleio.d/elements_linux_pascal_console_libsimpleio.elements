@@ -28,23 +28,23 @@
     <Compile Include="Program.pas" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'x86_64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio_bindings.fx</HintPath>
+    <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'x86_64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio-thin.fx</HintPath>
     </Reference>
-    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'armv6' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio_bindings.fx</HintPath>
+    <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'armv6' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio-thin.fx</HintPath>
     </Reference>
-    <Reference Include="libsimpleio_bindings" Condition=" '$(Architecture)' == 'aarch64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio_bindings.fx</HintPath>
+    <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'aarch64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio-thin.fx</HintPath>
     </Reference>
-    <Reference Include="libsimpleio_objects" Condition=" '$(Architecture)' == 'x86_64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio_objects.fx</HintPath>
+    <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'x86_64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio-thick.fx</HintPath>
     </Reference>
-    <Reference Include="libsimpleio_objects" Condition=" '$(Architecture)' == 'armv6' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio_objects.fx</HintPath>
+    <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'armv6' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio-thick.fx</HintPath>
     </Reference>
-    <Reference Include="libsimpleio_objects" Condition=" '$(Architecture)' == 'aarch64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio_objects.fx</HintPath>
+    <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'aarch64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio-thick.fx</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Linux.targets" />
