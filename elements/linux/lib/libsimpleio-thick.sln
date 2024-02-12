@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libsimpleio-thick", "libsimpleio-thick.elements", "{5599598E-09CC-482C-B509-D57BE7EB82E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5599598E-09CC-482C-B509-D57BE7EB82E5}.Debug|Default.ActiveCfg = Debug
+		{5599598E-09CC-482C-B509-D57BE7EB82E5}.Debug|Default.Build.0 = Debug
+		{5599598E-09CC-482C-B509-D57BE7EB82E5}.Debug|Default.Deploy.0 = Debug
+		{5599598E-09CC-482C-B509-D57BE7EB82E5}.Release|Default.ActiveCfg = Release
+		{5599598E-09CC-482C-B509-D57BE7EB82E5}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6784D1D0-7B7A-40C1-B0CB-299475CD1C6F}
+	EndGlobalSection
+EndGlobal
