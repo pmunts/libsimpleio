@@ -24,7 +24,7 @@ namespace test_led;
 
   uses IO.Interfaces.GPIO;
   uses IO.Objects.SimpleIO.GPIO;
-  uses IO.Objects.SimpleIO.Platforms;
+  uses IO.Objects.SimpleIO.Platforms.RaspberryPi;
 
   procedure Main(args: array of String);
 
@@ -35,7 +35,7 @@ namespace test_led;
 
     { Create GPIO output object }
 
-    var outp := new Pin(RaspberryPi.GPIO26, Direction.Output);
+    var outp := new Pin(GPIO26, Direction.Output);
 
     writeLn('Press CONTROL-C to exit');
 
