@@ -118,7 +118,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// <summary>GPIO pin designator (0, 12).</summary>
         public static readonly Designator GPIO12 = new Designator(0, 12);
 
-        /// <summary>GPIO pin designator (0, 13).</summary>  
+        /// <summary>GPIO pin designator (0, 13).</summary>
         public static readonly Designator GPIO13 = new Designator(0, 13);
 
         /// <summary>GPIO pin designator (0, 14).  Conflicts with
@@ -142,7 +142,7 @@ namespace IO.Objects.SimpleIO.Platforms
         public static readonly Designator GPIO18 = new Designator(0, 18);
 
         /// <summary>GPIO pin designator (0, 19).  Conflicts with
-        /// <c>PWM1</c> or <c>SPI1 MISO</c>.</summary> 
+        /// <c>PWM1</c> or <c>SPI1 MISO</c>.</summary>
         public static readonly Designator GPIO19 = new Designator(0, 19);
 
         /// <summary>GPIO pin designator (0, 20).  Conflicts with
@@ -165,7 +165,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// <summary>GPIO pin designator (0, 25).</summary>
         public static readonly Designator GPIO25 = new Designator(0, 25);
 
-        /// <summary>GPIO pin designator (0, 26).</summary> 
+        /// <summary>GPIO pin designator (0, 26).</summary>
         public static readonly Designator GPIO26 = new Designator(0, 26);
 
         /// <summary>GPIO pin designator (0, 27).</summary>
