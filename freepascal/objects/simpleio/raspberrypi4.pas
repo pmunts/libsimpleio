@@ -1,4 +1,4 @@
-{ Raspberry Pi 1 to 3 Device Definitions }
+{ Raspberry Pi 4 Device Definitions }
 
 { Copyright (C)2016-2024, Philip Munts dba Munts Technologies.                }
 {                                                                             }
@@ -20,7 +20,7 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-UNIT RaspberryPi;
+UNIT RaspberryPi4;
 
 INTERFACE
 
@@ -71,6 +71,14 @@ INTERFACE
     { All of the following subsystems require device tree overlays }
 
     I2C1   : Designator = (chip : 0; chan :  1);  { GPIO2/GPIO3 }
+
+    { The Raspberry Pi 4 has additional I2C bus controllers, which can be }
+    { enabled by device tree overlays i2c3, i2c4, i2c5, or i2c6.          }
+
+    I2C3   : Designator = (chip : 0; chan :  3);  { GPIO2/GPIO3   or GPIO4/GPIO5 }
+    I2C4   : Designator = (chip : 0; chan :  4);  { GPIO6/GPIO7   or GPIO8/GPIO9 }
+    I2C5   : Designator = (chip : 0; chan :  5);  { GPIO10/GPIO11 or GPIO12/GPIO13 }
+    I2C6   : Designator = (chip : 0; chan :  6);  { GPIO0/GPIO1   or GPIO22/GPIO23 }
 
     PWM0   : Designator = (chip : 0; chan :  0);  { GPIO12 or GPIO18 }
     PWM1   : Designator = (chip : 0; chan :  1);  { GPIO13 or GPIO19 }

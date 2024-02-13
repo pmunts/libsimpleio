@@ -1,4 +1,4 @@
-{ Raspberry Pi 1 to 3 Device Definitions }
+{ Raspberry Pi 5 Device Definitions }
 
 { Copyright (C)2016-2024, Philip Munts dba Munts Technologies.                }
 {                                                                             }
@@ -41,6 +41,8 @@ INTERFACE
     AIN6   : Designator = (chip : 0; chan :  1);
     AIN7   : Designator = (chip : 0; chan :  1);
 
+    GPIO0  : Designator = (chip : 0; chan :  0);  { I2C0 SDA }
+    GPIO1  : Designator = (chip : 0; chan :  1);  { I2C0 SCL }
     GPIO2  : Designator = (chip : 0; chan :  2);  { I2C1 SDA }
     GPIO3  : Designator = (chip : 0; chan :  3);  { I2C1 SCL }
     GPIO4  : Designator = (chip : 0; chan :  4);
@@ -53,12 +55,12 @@ INTERFACE
     GPIO11 : Designator = (chip : 0; chan : 11);  { SPI0 SCLK }
     GPIO12 : Designator = (chip : 0; chan : 12);  { PWM0 }
     GPIO13 : Designator = (chip : 0; chan : 13);  { PWM1 }
-    GPIO14 : Designator = (chip : 0; chan : 14);  { UART0 TXD }
-    GPIO15 : Designator = (chip : 0; chan : 15);  { UART0 RXD }
+    GPIO14 : Designator = (chip : 0; chan : 14);  { PWM2, UART0 TXD }
+    GPIO15 : Designator = (chip : 0; chan : 15);  { PWM3, UART0 RXD }
     GPIO16 : Designator = (chip : 0; chan : 16);  { SPI1 SS2 }
     GPIO17 : Designator = (chip : 0; chan : 17);  { SPI1 SS1 }
-    GPIO18 : Designator = (chip : 0; chan : 18);  { PWM0, SPI1 SS0 }
-    GPIO19 : Designator = (chip : 0; chan : 19);  { PWM1, SPI1 MISO }
+    GPIO18 : Designator = (chip : 0; chan : 18);  { PWM2, SPI1 SS0 }
+    GPIO19 : Designator = (chip : 0; chan : 19);  { PWM3, SPI1 MISO }
     GPIO20 : Designator = (chip : 0; chan : 20);  { SPI1 MOSI }
     GPIO21 : Designator = (chip : 0; chan : 21);  { SPI1 SCLK }
     GPIO22 : Designator = (chip : 0; chan : 22);
@@ -70,10 +72,22 @@ INTERFACE
 
     { All of the following subsystems require device tree overlays }
 
-    I2C1   : Designator = (chip : 0; chan :  1);  { GPIO2/GPIO3 }
+    { The Raspberry Pi 5 has additional I2C bus controllers, which can be }
+    { enabled by device tree overlays i2c0-pi5, i2c1-pi5, i2c2-pi5, and   }
+    { i2c3-pi5.                                                           }
 
-    PWM0   : Designator = (chip : 0; chan :  0);  { GPIO12 or GPIO18 }
-    PWM1   : Designator = (chip : 0; chan :  1);  { GPIO13 or GPIO19 }
+    I2C0   : Designator = (chip : 0; chan :  0);  { GPIO0/GPIO1 or GPIO8/GPIO9 }
+    I2C1   : Designator = (chip : 0; chan :  1);  { GPIO2/GPIO3 or GPIO10/GPIO11 }
+    I2C2   : Designator = (chip : 0; chan :  2);  { GPIO4/GPIO5 or GPIO12/GPIO13 }
+    I2C3   : Designator = (chip : 0; chan :  3);  { GPIO6/GPIO7 or GPIO14/GPIO15 or GPIO22/23 }
+
+    { The Raspberry Pi 5 has two more hardware PWM controllers, two more }
+    { PWM outputs, different chip enumeration, and different pin mapping. }
+
+    PWM0   : Designator = (chip : 2; chan :  0);  { GPIO12 }
+    PWM1   : Designator = (chip : 2; chan :  1);  { GPIO13 }
+    PWM2   : Designator = (chip : 2; chan :  2);  { GPIO14 or GPIO18 }
+    PWM3   : Designator = (chip : 2; chan :  3);  { GPIO15 or GPIO19 }
 
     SPI0_0 : Designator = (chip : 0; chan :  0);  { GPIO8,  GPIO9,  GPIO10, and GPIO11 }
     SPI0_1 : Designator = (chip : 0; chan :  1);  { GPIO7,  GPIO9,  GPIO10, and GPIO11 }
