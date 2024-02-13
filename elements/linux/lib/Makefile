@@ -21,7 +21,6 @@
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
-include $(ELEMENTSSRC)/include/elements.mk
 include $(ELEMENTSSRC)/linux/include/linux.mk
 
 default: Ubuntu
