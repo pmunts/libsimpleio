@@ -67,6 +67,7 @@
     </Compile>
     <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
     <None Include="obj\README.md" Pack="true" PackagePath="doc"/>
+    <None Include="Help\*.chm" Pack="true" PackagePath="doc"/>
     <None Include="Help\*.pdf" Pack="true" PackagePath="doc"/>
   </ItemGroup>
 
