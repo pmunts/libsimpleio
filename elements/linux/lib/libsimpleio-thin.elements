@@ -11,14 +11,14 @@
     <ImportCodeGen>Oxygene</ImportCodeGen>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>.\Bin\Debug</OutputPath>
+    <OutputPath>.</OutputPath>
     <EnableAsserts>True</EnableAsserts>
     <Optimize>False</Optimize>
     <GenerateDebugInfo>True</GenerateDebugInfo>
     <DefineConstants>DEBUG;TRACE;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>.\Bin\Release</OutputPath>
+    <OutputPath>.</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <ImportHeader Include="../bindings/libsimpleio.h" />

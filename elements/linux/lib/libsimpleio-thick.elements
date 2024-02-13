@@ -11,7 +11,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>
-    <OutputPath>.\Bin\Debug</OutputPath>
+    <OutputPath>.</OutputPath>
     <ConditionalDefines>DEBUG;TRACE;</ConditionalDefines>
     <GenerateDebugInfo>True</GenerateDebugInfo>
     <EnableAsserts>True</EnableAsserts>
@@ -21,7 +21,7 @@
     <DefaultGlobalsToPublic>True</DefaultGlobalsToPublic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>.\Bin\Release</OutputPath>
+    <OutputPath>.</OutputPath>
     <CpuType>anycpu</CpuType>
     <Architecture>x86_64;armv6;aarch64</Architecture>
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
@@ -29,13 +29,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'x86_64' ">
-      <HintPath>Bin\Release\Ubuntu\x86_64\libsimpleio-thin.fx</HintPath>
+      <HintPath>Ubuntu\x86_64\libsimpleio-thin.fx</HintPath>
     </Reference>
     <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'armv6' ">
-      <HintPath>Bin\Release\Ubuntu\armv6\libsimpleio-thin.fx</HintPath>
+      <HintPath>Ubuntu\armv6\libsimpleio-thin.fx</HintPath>
     </Reference>
     <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'aarch64' ">
-      <HintPath>Bin\Release\Ubuntu\aarch64\libsimpleio-thin.fx</HintPath>
+      <HintPath>Ubuntu\aarch64\libsimpleio-thin.fx</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
