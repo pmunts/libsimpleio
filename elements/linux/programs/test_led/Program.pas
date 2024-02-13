@@ -1,4 +1,4 @@
-{ LED Toggle Test Using GPIO Output }
+{ LED Test using libsimpleio }
 
 { Copyright (C)2022-2024, Philip Munts dba Munts Technologies.                }
 {                                                                             }
@@ -30,7 +30,7 @@ namespace test_led;
 
   begin
     writeLn;
-    writeLn('LED Toggle Test Using GPIO Output');
+    writeLn('LED Test using libsimpleio');
     writeLn;
 
     { Create GPIO output object }
