@@ -20,9 +20,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Raspberry Pi boards don't have a built-in ADC (Analog to Digital Converter)
-# subsystem, so the following analog input designators are placeholders for
-# the first IIO (Industrial I/O) ADC device.
+# Raspberry Pi boards don't have a built-in ADC (Analog to Digital
+# Converter) subsystem, so the following analog input designators are
+# placeholders for the first IIO (Industrial I/O) ADC device.
 
 AIN0   = (0,  0)
 AIN1   = (0,  1)
