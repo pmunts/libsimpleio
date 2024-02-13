@@ -1,4 +1,4 @@
-# Raspberry Pi 5 Peripheral Device Definitions
+# Raspberry Pi 4 Peripheral Device Definitions
 
 # Copyright (C)2024, Philip Munts dba Munts Technologies.
 #
@@ -33,8 +33,6 @@ AIN5   = (0,  5)
 AIN6   = (0,  6)
 AIN7   = (0,  7)
 
-GPIO0  = (0,  0)  # I2C0 SDA
-GPIO1  = (0,  1)  # I2C0 SDA
 GPIO2  = (0,  2)  # I2C1 SDA
 GPIO3  = (0,  3)  # I2C1 SCL
 GPIO4  = (0,  4)
@@ -51,8 +49,8 @@ GPIO14 = (0, 14)  # UART0 TXD
 GPIO15 = (0, 15)  # UART0 RXD
 GPIO16 = (0, 16)  # SPI1 SS2
 GPIO17 = (0, 17)  # SPI1 SS1
-GPIO18 = (0, 18)  # PWM2, SPI1 SS0
-GPIO19 = (0, 19)  # PWM3, SPI1 MISO
+GPIO18 = (0, 18)  # PWM0, SPI1 SS0
+GPIO19 = (0, 19)  # PWM1, SPI1 MISO
 GPIO20 = (0, 20)  # SPI1 MOSI
 GPIO21 = (0, 21)  # SPI1 SCLK
 GPIO22 = (0, 22)
@@ -62,22 +60,18 @@ GPIO25 = (0, 25)
 GPIO26 = (0, 26)
 GPIO27 = (0, 27)
 
-# The Raspberry Pi 5 has additional I2C bus controllers, which can be
-# enabled by device tree overlays i2c0-pi5, i2c1-pi5, i2c2-pi5, and
-# i2c3-pi5.
+I2C1   = (0,  1)  # GPIO2/GPIO3
 
-I2C0   = (0,  0)  # GPIO0/GPIO1 or GPIO8/GPIO9
-I2C1   = (0,  1)  # GPIO2/GPIO3 or GPIO10/GPIO11
-I2C2   = (0,  2)  # GPIO4/GPIO5 or GPIO12/GPIO13
-I2C3   = (0,  3)  # GPIO6/GPIO7 or GPIO14/GPIO15 or GPIO22/23
+# The Raspberry Pi 4 has additional I2C bus controllers, which can be
+# enabled by device tree overlays i2c3, i2c4, i2c5, or i2c6.
 
-# The Raspberry Pi 5 has two more hardware PWM controllers, two more
-# PWM outputs, different chip enumeration, and different pin mapping.
+I2C3   = (0,  3)  # GPIO2/GPIO3   or GPIO4/GPIO5
+I2C4   = (0,  4)  # GPIO6/GPIO7   or GPIO8/GPIO9
+I2C5   = (0,  5)  # GPIO10/GPIO11 or GPIO12/GPIO13
+I2C6   = (0,  6)  # GPIO0/GPIO1   or GPIO22/GPIO23
 
-PWM0   = (2,  0)  # GPIO12
-PWM1   = (2,  1)  # GPIO13
-PWM2   = (2,  2)  # GPIO14 or GPIO18
-PWM3   = (2,  3)  # GPIO15 or GPIO19
+PWM0   = (0,  0)  # GPIO12 or GPIO18
+PWM1   = (0,  1)  # GPIO13 or GPIO19
 
 SPI0_0 = (0,  0)  # GPIO8,  GPIO9,  GPIO10, and GPIO11
 SPI0_1 = (0,  1)  # GPIO7,  GPIO9,  GPIO10, and GPIO11
