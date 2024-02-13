@@ -4,7 +4,7 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 16.0.29728.190
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libsimpleio", "libsimpleio.csproj", "{59F8B927-AF91-4F80-8627-FA7970ED65AB}"
 EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "help", "help.shfbproj", "{96328C7B-6929-4F8A-B8A7-A33E49861E31}"
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "doc", "doc.shfbproj", "{96328C7B-6929-4F8A-B8A7-A33E49861E31}"
 	ProjectSection(ProjectDependencies) = postProject
 		{59F8B927-AF91-4F80-8627-FA7970ED65AB} = {59F8B927-AF91-4F80-8627-FA7970ED65AB}
 	EndProjectSection
