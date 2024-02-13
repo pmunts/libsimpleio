@@ -20,8 +20,6 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-{$HIDE H7}  { Suppress "...is assigned to but never read messages" }
-
 namespace IO.Objects.SimpleIO.Platforms.RaspberryPi4;
 
   { Raspberry Pi boards don't have a built-in ADC (Analog to Digital    }
@@ -71,10 +69,10 @@ namespace IO.Objects.SimpleIO.Platforms.RaspberryPi4;
   { The Raspberry Pi 4 has additional I2C bus controllers, which can be }
   { enabled by device tree overlays i2c3, i2c4, i2c5, or i2c6.          }
 
-  const I2C3   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0, channel :  3);  { GPIO2/GPIO3   or GPIO4/GPIO5 }
-  const I2C4   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0, channel :  4);  { GPIO6/GPIO7   or GPIO8/GPIO9 }
-  const I2C5   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0, channel :  5);  { GPIO10/GPIO11 or GPIO12/GPIO13 }
-  const I2C6   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0, channel :  6);  { GPIO0/GPIO1   or GPIO22/GPIO23 }
+  const I2C3   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  3);  { GPIO2/GPIO3   or GPIO4/GPIO5 }
+  const I2C4   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  4);  { GPIO6/GPIO7   or GPIO8/GPIO9 }
+  const I2C5   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  5);  { GPIO10/GPIO11 or GPIO12/GPIO13 }
+  const I2C6   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  6);  { GPIO0/GPIO1   or GPIO22/GPIO23 }
 
   const PWM0   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  0);  { GPIO12 or GPIO18 }
   const PWM1   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);  { GPIO13 or GPIO19 }

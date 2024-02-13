@@ -20,8 +20,6 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-{$HIDE H7}  { Suppress "...is assigned to but never read messages" }
-
 namespace IO.Objects.SimpleIO.Platforms.RaspberryPi;
 
   { Raspberry Pi boards don't have a built-in ADC (Analog to Digital    }
