@@ -24,56 +24,57 @@
 
 namespace IO.Objects.SimpleIO.Platforms.RaspberryPi;
 
-    { The following analog inputs are just placeholders, as Raspberry Pi boards }
-    { do not contain A/D converters.                                            }
+  { Raspberry Pi boards don't have a built-in ADC (Analog to Digital    }
+  { Converter) subsystem, so the following analog input designators are }
+  { placeholders for the first IIO (Industrial I/O) ADC device.         }
 
-    const AIN0 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 0);
-    const AIN1 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 1);
-    const AIN2 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 2);
-    const AIN3 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 3);
-    const AIN4 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 4);
-    const AIN5 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 5);
-    const AIN6 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 6);
-    const AIN7 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 7);
+  const AIN0   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  0);
+  const AIN1   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);
+  const AIN2   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  2);
+  const AIN3   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  3);
+  const AIN4   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  4);
+  const AIN5   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  5);
+  const AIN6   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  6);
+  const AIN7   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  7);
 
-    const GPIO2  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  2);  { I2C1 SDA }
-    const GPIO3  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  3);  { I2C1 SCL }
-    const GPIO4  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  4);
-    const GPIO5  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  5);
-    const GPIO6  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  6);
-    const GPIO7  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  7);  { SPI0 SS1 }
-    const GPIO8  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  8);  { SPI0 SS0 }
-    const GPIO9  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  9);  { SPI0 MISO }
-    const GPIO10 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 10);  { SPI0 MOSI }
-    const GPIO11 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 11);  { SPI0 SCLK }
-    const GPIO12 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 12);  { PWM0 }
-    const GPIO13 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 13);  { PWM1 }
-    const GPIO14 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 14);  { UART0 TXD }
-    const GPIO15 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 15);  { UART0 RXD }
-    const GPIO16 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 16);  { SPI1 SS2 }
-    const GPIO17 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 17);  { SPI1 SS1 }
-    const GPIO18 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 18);  { PWM0, SPI1 SS0  }
-    const GPIO19 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 19);  { PWM1, SPI1 MISO }
-    const GPIO20 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 20);  { SPI1 MOSI }
-    const GPIO21 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 21);  { SPI1 SCLK }
-    const GPIO22 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 22);
-    const GPIO23 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 23);
-    const GPIO24 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 24);
-    const GPIO25 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 25);
-    const GPIO26 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 26);
-    const GPIO27 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 27);
+  const GPIO2  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  2);  { I2C1 SDA }
+  const GPIO3  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  3);  { I2C1 SCL }
+  const GPIO4  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  4);
+  const GPIO5  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  5);
+  const GPIO6  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  6);
+  const GPIO7  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  7);  { SPI0 SS1 }
+  const GPIO8  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  8);  { SPI0 SS0 }
+  const GPIO9  : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  9);  { SPI0 MISO }
+  const GPIO10 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 10);  { SPI0 MOSI }
+  const GPIO11 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 11);  { SPI0 SCLK }
+  const GPIO12 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 12);  { PWM0 }
+  const GPIO13 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 13);  { PWM1 }
+  const GPIO14 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 14);  { UART0 TXD }
+  const GPIO15 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 15);  { UART0 RXD }
+  const GPIO16 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 16);  { SPI1 SS2 }
+  const GPIO17 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 17);  { SPI1 SS1 }
+  const GPIO18 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 18);  { PWM0, SPI1 SS0  }
+  const GPIO19 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 19);  { PWM1, SPI1 MISO }
+  const GPIO20 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 20);  { SPI1 MOSI }
+  const GPIO21 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 21);  { SPI1 SCLK }
+  const GPIO22 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 22);
+  const GPIO23 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 23);
+  const GPIO24 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 24);
+  const GPIO25 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 25);
+  const GPIO26 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 26);
+  const GPIO27 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel : 27);
 
-    { All of the following subsystems require device tree overlays }
+  { All of the following subsystems require device tree overlays }
 
-    const I2C1   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);  { GPIO2/GPIO3 }
+  const I2C1   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);  { GPIO2/GPIO3 }
 
-    const PWM0   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  0);  { GPIO12 or GPIO18 }
-    const PWM1   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);  { GPIO13 or GPIO19 }
+  const PWM0   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  0);  { GPIO12 or GPIO18 }
+  const PWM1   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);  { GPIO13 or GPIO19 }
 
-    const SPI0_0 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  0);  { GPIO8,  GPIO9,  GPIO10; and GPIO11 }
-    const SPI0_1 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);  { GPIO7,  GPIO9,  GPIO10; and GPIO11 }
-    const SPI1_0 : IO.Objects.SimpleIO.Resources.Designator = (chip : 1; channel :  0);  { GPIO18, GPIO19, GPIO20; and GPIO21 }
-    const SPI1_1 : IO.Objects.SimpleIO.Resources.Designator = (chip : 1; channel :  1);  { GPIO17, GPIO19, GPIO20; and GPIO21 }
-    const SPI1_2 : IO.Objects.SimpleIO.Resources.Designator = (chip : 1; channel :  2);  { GPIO16, GPIO19, GPIO20; and GPIO21 }
+  const SPI0_0 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  0);  { GPIO8,  GPIO9,  GPIO10; and GPIO11 }
+  const SPI0_1 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);  { GPIO7,  GPIO9,  GPIO10; and GPIO11 }
+  const SPI1_0 : IO.Objects.SimpleIO.Resources.Designator = (chip : 1; channel :  0);  { GPIO18, GPIO19, GPIO20; and GPIO21 }
+  const SPI1_1 : IO.Objects.SimpleIO.Resources.Designator = (chip : 1; channel :  1);  { GPIO17, GPIO19, GPIO20; and GPIO21 }
+  const SPI1_2 : IO.Objects.SimpleIO.Resources.Designator = (chip : 1; channel :  2);  { GPIO16, GPIO19, GPIO20; and GPIO21 }
 
 end.
