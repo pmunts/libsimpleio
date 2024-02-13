@@ -20,6 +20,14 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-ifeq ($(shell uname), Darwin)
-EBUILDFLAGS	+= --setting:Elements:IslandSDKFolder=/Applications/Fire.app/Contents/Resources/Island\ SDKs
-endif
+include $(ELEMENTSSRC)/include/elements.mk
+
+# Build the project
+
+elements_linux_mk_build:
+	$(MAKE) -C $(ELEMENTSSRC)/linux/lib
+	$(MAKE) elements_mk_build
+
+elements_linux_mk_clean:
+	$(MAKE) -C $(ELEMENTSSRC)/linux/lib clean
+	$(MAKE) elements_mk_clean
