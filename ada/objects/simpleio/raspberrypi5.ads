@@ -37,6 +37,8 @@ PACKAGE RaspberryPi5 IS
   AIN6   : CONSTANT Device.Designator := (0,  6);
   AIN7   : CONSTANT Device.Designator := (0,  7);
 
+  GPIO0  : CONSTANT Device.Designator := (0,  0);  -- I2C0 SDA
+  GPIO1  : CONSTANT Device.Designator := (0,  1);  -- I2C0 SCL
   GPIO2  : CONSTANT Device.Designator := (0,  2);  -- I2C1 SDA
   GPIO3  : CONSTANT Device.Designator := (0,  3);  -- I2C1 SCL
   GPIO4  : CONSTANT Device.Designator := (0,  4);
@@ -49,12 +51,12 @@ PACKAGE RaspberryPi5 IS
   GPIO11 : CONSTANT Device.Designator := (0, 11);  -- SPI0 SCLK
   GPIO12 : CONSTANT Device.Designator := (0, 12);  -- PWM0
   GPIO13 : CONSTANT Device.Designator := (0, 13);  -- PWM1
-  GPIO14 : CONSTANT Device.Designator := (0, 14);  -- UART0 TXD
-  GPIO15 : CONSTANT Device.Designator := (0, 15);  -- UART0 RXD
+  GPIO14 : CONSTANT Device.Designator := (0, 14);  -- PWM2, UART0 TXD
+  GPIO15 : CONSTANT Device.Designator := (0, 15);  -- PWM3, UART0 RXD
   GPIO16 : CONSTANT Device.Designator := (0, 16);  -- SPI1 SS2
   GPIO17 : CONSTANT Device.Designator := (0, 17);  -- SPI1 SS1
-  GPIO18 : CONSTANT Device.Designator := (0, 18);  -- PWM0, SPI1 SS0
-  GPIO19 : CONSTANT Device.Designator := (0, 19);  -- SPI1 MISO, PWM1
+  GPIO18 : CONSTANT Device.Designator := (0, 18);  -- PWM2, SPI1 SS0
+  GPIO19 : CONSTANT Device.Designator := (0, 19);  -- PWM3, SPI1 MISO
   GPIO20 : CONSTANT Device.Designator := (0, 20);  -- SPI1 MOSI
   GPIO21 : CONSTANT Device.Designator := (0, 21);  -- SPI1 SCLK
   GPIO22 : CONSTANT Device.Designator := (0, 22);
@@ -83,9 +85,8 @@ PACKAGE RaspberryPi5 IS
   PWM2   : CONSTANT Device.Designator := (2,  2);  -- GPIO14 or GPIO18
   PWM3   : CONSTANT Device.Designator := (2,  3);  -- GPIO15 or GPIO19
 
-  SPI0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO8, GPIO9, GPIO10, and GPIO11
-  SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO7, GPIO9, GPIO10, and GPIO11
-
+  SPI0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO8,  GPIO9,  GPIO10, and GPIO11
+  SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO7,  GPIO9,  GPIO10, and GPIO11
   SPI1_0 : CONSTANT Device.Designator := (1,  0);  -- GPIO18, GPIO19, GPIO20, and GPIO21
   SPI1_1 : CONSTANT Device.Designator := (1,  1);  -- GPIO17, GPIO19, GPIO20, and GPIO21
   SPI1_2 : CONSTANT Device.Designator := (1,  2);  -- GPIO16, GPIO19, GPIO20, and GPIO21

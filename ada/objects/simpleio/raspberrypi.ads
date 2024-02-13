@@ -1,4 +1,4 @@
--- Raspberry Pi Device Definitions
+-- Raspberry Pi 1 to 3 Device Definitions
 
 -- Copyright (C)2018-2024, Philip Munts dba Munts Technologies.
 --
@@ -54,7 +54,7 @@ PACKAGE RaspberryPi IS
   GPIO16 : CONSTANT Device.Designator := (0, 16);  -- SPI1 SS2
   GPIO17 : CONSTANT Device.Designator := (0, 17);  -- SPI1 SS1
   GPIO18 : CONSTANT Device.Designator := (0, 18);  -- PWM0, SPI1 SS0
-  GPIO19 : CONSTANT Device.Designator := (0, 19);  -- SPI1 MISO, PWM1
+  GPIO19 : CONSTANT Device.Designator := (0, 19);  -- PWM1, SPI1 MISO
   GPIO20 : CONSTANT Device.Designator := (0, 20);  -- SPI1 MOSI
   GPIO21 : CONSTANT Device.Designator := (0, 21);  -- SPI1 SCLK
   GPIO22 : CONSTANT Device.Designator := (0, 22);
@@ -66,13 +66,13 @@ PACKAGE RaspberryPi IS
 
   -- All of the following subsystems require device tree overlays
 
-  I2C1   : CONSTANT Device.Designator := (0,  1);  -- GPIO2 and GPIO3
+  I2C1   : CONSTANT Device.Designator := (0,  1);  -- GPIO2/GPIO3
 
   PWM0   : CONSTANT Device.Designator := (0,  0);  -- GPIO12 or GPIO18
   PWM1   : CONSTANT Device.Designator := (0,  1);  -- GPIO13 or GPIO19
 
-  SPI0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO8, GPIO9, GPIO10, and GPIO11
-  SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO7, GPIO9, GPIO10, and GPIO11
+  SPI0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO8,  GPIO9,  GPIO10, and GPIO11
+  SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO7,  GPIO9,  GPIO10, and GPIO11
   SPI1_0 : CONSTANT Device.Designator := (1,  0);  -- GPIO18, GPIO19, GPIO20, and GPIO21
   SPI1_1 : CONSTANT Device.Designator := (1,  1);  -- GPIO17, GPIO19, GPIO20, and GPIO21
   SPI1_2 : CONSTANT Device.Designator := (1,  2);  -- GPIO16, GPIO19, GPIO20, and GPIO21
