@@ -21,30 +21,19 @@
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
-# Build the project
+include $(ELEMENTSSRC)/include/elements.mk
+include $(ELEMENTSSRC)/linux/include/linux.mk
 
-default: thick
+default: build.done
 
-# Build the thin bindings (libadc et al) bindings project
+# Build the thin and thick binding projects
 
-thin:
+build.done:
 	"$(EBUILD)" libsimpleio-thin.elements
-	$(FIND) Bin -type f -exec chmod 644 {} ";"
-	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.fx  ../lib/`basename $$D` ; done
-
-# Build the thick bindings project
-
-thick:
 	"$(EBUILD)" libsimpleio-thick.elements
-	$(FIND) Bin -type f -exec chmod 644 {} ";"
-	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.a   ../lib/`basename $$D` ; done
-	for D in Bin/Release/Ubuntu/* ; do cp $$D/*.fx  ../lib/`basename $$D` ; done
+	touch $@
 
 # Remove working files
 
 clean: elements_mk_clean
-
-# Include subordinate makefiles
-
-include $(ELEMENTSSRC)/include/elements.mk
-include $(ELEMENTSSRC)/linux/include/linux.mk
+	rm -f build.done
