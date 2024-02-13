@@ -24,27 +24,29 @@
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="build.bat" />
+    <Content Include="clean.bat" />
     <Content Include="Makefile" />
     <Compile Include="Program.pas" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'x86_64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio-thin.fx</HintPath>
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\Ubuntu\x86_64\libsimpleio-thin.fx</HintPath>
     </Reference>
     <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'armv6' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio-thin.fx</HintPath>
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\Ubuntu\armv6\libsimpleio-thin.fx</HintPath>
     </Reference>
     <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'aarch64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio-thin.fx</HintPath>
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\Ubuntu\aarch64\libsimpleio-thin.fx</HintPath>
     </Reference>
     <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'x86_64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio-thick.fx</HintPath>
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\Ubuntu\x86_64\libsimpleio-thick.fx</HintPath>
     </Reference>
     <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'armv6' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio-thick.fx</HintPath>
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\Ubuntu\armv6\libsimpleio-thick.fx</HintPath>
     </Reference>
     <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'aarch64' ">
-      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio-thick.fx</HintPath>
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\Ubuntu\aarch64\libsimpleio-thick.fx</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Linux.targets" />

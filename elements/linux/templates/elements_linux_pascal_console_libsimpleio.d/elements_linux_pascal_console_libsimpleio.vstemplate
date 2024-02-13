@@ -20,6 +20,8 @@
   </TemplateData>
   <TemplateContent>
     <Project TargetFileName="elements_linux_pascal_console_libsimpleio.elements" File="elements_linux_pascal_console_libsimpleio.elements" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="false" TargetFileName="build.bat">Makefile</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="clean.bat">Makefile</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="Makefile">Makefile</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.pas">Program.pas</ProjectItem>
     </Project>
