@@ -29,16 +29,23 @@ namespace test_gpio;
     writeLn('GPIO Pin Toggle Test using libsimpleio');
     writeLn;
 
-    write('GPIO chip number?    ');
-    var chip : Int32 := Int32.Parse(readLn());
-
-    write('GPIO channel number? ');
-    var chan : Int32 := Int32.Parse(readLn());
-
+    var desg : IO.Objects.SimpleIO.Resources.Designator;
     var outp : IO.Interfaces.GPIO.Pin;
 
     try
-      outp := new IO.Objects.SimpleIO.GPIO.Pin(chip, chan,
+      desg := IO.Objects.SimpleIO.Resources.GetDesignator2('Enter GPIO');
+
+    except
+      on E : Exception do
+        begin
+          writeLn('ERROR: Illegal input');
+          writeLn(E.Message);
+          exit;
+        end;
+    end;
+
+    try
+      outp := new IO.Objects.SimpleIO.GPIO.Pin(desg,
         IO.Interfaces.GPIO.Direction.Output, False);
 
     except

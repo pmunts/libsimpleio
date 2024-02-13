@@ -18,13 +18,38 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-{$HIDE H8} { Suppress "...is never assigned" message }
-
 namespace IO.Objects.SimpleIO.Resources;
 
-  type Designator = public record
+  type Designator = record
     chip    : Cardinal;
     channel : Cardinal;
+  end;
+
+  function GetDesignator1(prompt : String) : Designator;
+
+  begin
+    var desg : Designator;
+
+    desg.chip := 0;
+
+    write(prompt + ": ");
+    desg.channel := Convert.ToUInt32(readLn);
+
+    GetDesignator1 := desg;
+  end;
+
+  function GetDesignator2(prompt : String) : Designator;
+
+  begin
+    var desg : Designator;
+
+    write(prompt + ' chip number:    ');
+    desg.chip := Convert.ToUInt32(readLn);
+
+    write(prompt + ' channel number: ');
+    desg.channel := Convert.ToUInt32(readLn);
+
+    GetDesignator2 := desg;
   end;
 
 end.
