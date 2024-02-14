@@ -30,7 +30,7 @@ interface
 
   type Edges = public (None, Rising, Falling, Both);
 
-  type Pin = public class(Object, IO.Interfaces.GPIO.Pin)
+  type Pin = public class(Object, IO.Interfaces.GPIO.PinInterface)
     public constructor
      (desg     : IO.Objects.SimpleIO.Resources.Designator;
       dir      : IO.Interfaces.GPIO.Direction;
@@ -100,7 +100,7 @@ implementation
       ord(newstate), @self.fd, @error);
 
     if error <> 0 then
-      raise new IO.Interfaces.GPIO.Error('GPIO_line_open() failed, ' + errno.strerror(error));
+      raise new Exception('GPIO_line_open() failed, ' + errno.strerror(error));
 
     self.IsInput     := (dir = IO.Interfaces.GPIO.Direction.Input);
     self.IsInterrupt := (edge <> Edges.None);
@@ -124,16 +124,14 @@ implementation
         IO.Bindings.libsimpleio.GPIO_line_event(self.fd, @s, @error);
 
         if error <> 0 then
-          raise new IO.Interfaces.GPIO.Error('GPIO_line_event() failed, ' +
-            errno.strerror(error));
+          raise new Exception('GPIO_line_event() failed, ' + errno.strerror(error));
       end
     else
       begin
         IO.Bindings.libsimpleio.GPIO_line_read(self.fd, @s, @error);
 
         if error <> 0 then
-          raise new IO.Interfaces.GPIO.Error('GPIO_line_read() failed, ' +
-            errno.strerror(error));
+          raise new Exception('GPIO_line_read() failed, ' + errno.strerror(error));
       end;
 
     result := (s <> 0);
@@ -145,13 +143,12 @@ implementation
     var error : Int32;
 
     if self.IsInput then
-      raise new IO.Interfaces.GPIO.Error('Cannot write to an input pin');
+      raise new Exception('Cannot write to an input pin');
 
     IO.Bindings.libsimpleio.GPIO_line_write(self.fd, ord(newstate), @error);
 
     if error <> 0 then
-      raise new IO.Interfaces.GPIO.Error('GPIO_line_write() failed, ' +
-        errno.strerror(error));
+      raise new Exception('GPIO_line_write() failed, ' + errno.strerror(error));
   end;
 
 end.
