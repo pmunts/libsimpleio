@@ -29,20 +29,20 @@ interface
     DefaultTimeout = 0;
 
   type
-    Timer = public class(Object, IO.Interfaces.Watchdog.Timer)
+    Timer = public class(Object, IO.Interfaces.Watchdog.TimerInterface)
       public constructor
        (name        : String = DefaultDevice;
         timeoutsecs : Cardinal = 0);
 
       finalizer;
 
-      public method GetTimeout : Cardinal;
+      public method GetTimeout : Cardinal;  { Seconds }
 
-      public method SetTimeout(timeoutsecs : Cardinal);
+      public method SetTimeout(timeoutsecs : Cardinal);  { Seconds }
 
       public method Kick;
 
-      property timeout : Cardinal read GetTimeout write SetTimeout;
+      property timeout : Cardinal read GetTimeout write SetTimeout;  { Seconds }
 
       { Private internal state }
 

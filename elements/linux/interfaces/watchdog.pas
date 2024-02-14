@@ -1,6 +1,6 @@
 { Abstract interface for watchdog timer devices                               }
 
-{ Copyright (C)2020-2023, Philip Munts dba Munts Technologies.                }
+{ Copyright (C)2020-2024, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -22,18 +22,14 @@
 
 namespace IO.Interfaces.Watchdog;
 
-  { Define an exception for watchdog timer errors }
-  type Error = CLASS(Exception);
+  type TimerInterface = public interface
+    method GetTimeout : Cardinal;      { Seconds }
 
-  { Define an interface for watchdog timers }
-  type Timer = public interface
-    method GetTimeout : Cardinal;
-
-    method SetTimeout(t : Cardinal);
+    method SetTimeout(t : Cardinal);   { Seconds }
 
     method Kick;
 
-    property timeout : Cardinal read GetTimeout write SetTimeout;
+    property timeout : Cardinal read GetTimeout write SetTimeout;  { Seconds }
   end;
 
 end.
