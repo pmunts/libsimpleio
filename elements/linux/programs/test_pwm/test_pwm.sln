@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_pwm", "test_pwm.elements", "{246DB7BB-2F6C-4DBF-9D85-1906EC2663A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{246DB7BB-2F6C-4DBF-9D85-1906EC2663A3}.Debug|Default.ActiveCfg = Debug
+		{246DB7BB-2F6C-4DBF-9D85-1906EC2663A3}.Debug|Default.Build.0 = Debug
+		{246DB7BB-2F6C-4DBF-9D85-1906EC2663A3}.Debug|Default.Deploy.0 = Debug
+		{246DB7BB-2F6C-4DBF-9D85-1906EC2663A3}.Release|Default.ActiveCfg = Release
+		{246DB7BB-2F6C-4DBF-9D85-1906EC2663A3}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {93B5C20C-C5C9-457C-800E-A17EAC1B81E5}
+	EndGlobalSection
+EndGlobal
