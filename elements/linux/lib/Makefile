@@ -28,8 +28,7 @@ default: Ubuntu
 # Build the thin and thick binding library projects
 
 Ubuntu:
-	"$(EBUILD)" libsimpleio-thin.elements
-	"$(EBUILD)" libsimpleio-thick.elements
+	"$(EBUILD)" libsimpleio.sln
 	touch $@
 
 # Remove working files
