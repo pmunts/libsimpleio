@@ -48,6 +48,7 @@
     <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'aarch64' ">
       <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\Ubuntu\aarch64\libsimpleio-thick.fx</HintPath>
     </Reference>
+    <Reference Include="Elements" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Linux.targets" />
 </Project>
