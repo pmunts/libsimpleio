@@ -30,7 +30,7 @@ namespace test_gpio;
     writeLn;
 
     var desg : IO.Objects.SimpleIO.Resources.Designator;
-    var outp : IO.Interfaces.GPIO.Pin;
+    var outp : IO.Interfaces.GPIO.PinInterface;
 
     try
       desg := IO.Objects.SimpleIO.Resources.GetDesignator2('Enter GPIO');
