@@ -15,7 +15,7 @@
     <EnableAsserts>True</EnableAsserts>
     <Optimize>False</Optimize>
     <GenerateDebugInfo>True</GenerateDebugInfo>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <ConditionalDefines>DEBUG;TRACE;</ConditionalDefines>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>.</OutputPath>
@@ -23,7 +23,7 @@
   <ItemGroup>
     <ImportHeader Include="../bindings/libsimpleio.h" />
     <SymbolMapping Include="libsimpleio.so">
-        <SymbolNames>*</SymbolNames>
+      <SymbolNames>*</SymbolNames>
     </SymbolMapping>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.targets" />
