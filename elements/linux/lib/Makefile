@@ -23,13 +23,9 @@ ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
 include $(ELEMENTSSRC)/linux/include/linux.mk
 
-default: Ubuntu
-
 # Build the thin and thick binding library projects
 
-Ubuntu:
-	"$(EBUILD)" libsimpleio.sln
-	touch $@
+default: elements_mk_build
 
 # Remove working files
 
