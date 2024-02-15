@@ -25,5 +25,4 @@ REM POSSIBILITY OF SUCH DAMAGE.
 SET EBUILD=C:\Program Files (x86)\RemObjects Software\Elements\Bin\EBuild.exe
 SET EBUILDFLAGS=--configuration:Release
 
-"%EBUILD%" %EBUILDFLAGS% libsimpleio-thin.elements
-"%EBUILD%" %EBUILDFLAGS% libsimpleio-thick.elements
+"%EBUILD%" %EBUILDFLAGS% libsimpleio.sln
