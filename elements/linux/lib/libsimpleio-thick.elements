@@ -39,12 +39,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\devices\*" />
-    <Compile Include="..\interfaces\*" />
-    <Compile Include="..\objects\*" />
-    <Compile Include="..\objects\remoteio\*" />
-    <Compile Include="..\objects\simpleio\*" />
-    <Compile Include="..\objects\simpleio\platforms\*" />
+    <Compile Include="..\devices\*.pas" />
+    <Compile Include="..\interfaces\*.pas" />
+    <Compile Include="..\objects\*.pas" />
+    <Compile Include="..\objects\remoteio\*.pas" />
+    <Compile Include="..\objects\simpleio\*.pas" />
+    <Compile Include="..\objects\simpleio\platforms\*.pas" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Linux.targets" />
 </Project>
