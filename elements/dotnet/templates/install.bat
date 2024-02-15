@@ -1,6 +1,6 @@
 @ECHO OFF
 
-REM Install Visual Studio 2022 project templates
+REM Install Visual Studio project templates
 
 REM Copyright (C)2019-2023, Philip Munts dba Munts Technologies.
 REM
@@ -22,4 +22,37 @@ REM CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 REM ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 REM POSSIBILITY OF SUCH DAMAGE.
 
-XCOPY /Y *.zip "%HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 2022\Templates\ProjectTemplates"
+SET DSTDIR=%HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 2022\Templates\ProjectTemplates
+
+RD /S /Q "%DSTDIR%"\elements_dotnet_csharp_console_libremoteio
+RD /S /Q "%DSTDIR%"\elements_dotnet_csharp_console_libsimpleio
+RD /S /Q "%DSTDIR%"\elements_dotnet_go_console_libremoteio
+RD /S /Q "%DSTDIR%"\elements_dotnet_go_console_libsimpleio
+RD /S /Q "%DSTDIR%"\elements_dotnet_java_console_libremoteio
+RD /S /Q "%DSTDIR%"\elements_dotnet_java_console_libsimpleio
+RD /S /Q "%DSTDIR%"\elements_dotnet_pascal_console_libremoteio
+RD /S /Q "%DSTDIR%"\elements_dotnet_pascal_console_libsimpleio
+RD /S /Q "%DSTDIR%"\elements_dotnet_swift_console_libremoteio
+RD /S /Q "%DSTDIR%"\elements_dotnet_swift_console_libsimpleio
+
+MD "%DSTDIR%"\elements_dotnet_csharp_console_libremoteio
+MD "%DSTDIR%"\elements_dotnet_csharp_console_libsimpleio
+MD "%DSTDIR%"\elements_dotnet_go_console_libremoteio
+MD "%DSTDIR%"\elements_dotnet_go_console_libsimpleio
+MD "%DSTDIR%"\elements_dotnet_java_console_libremoteio
+MD "%DSTDIR%"\elements_dotnet_java_console_libsimpleio
+MD "%DSTDIR%"\elements_dotnet_pascal_console_libremoteio
+MD "%DSTDIR%"\elements_dotnet_pascal_console_libsimpleio
+MD "%DSTDIR%"\elements_dotnet_swift_console_libremoteio
+MD "%DSTDIR%"\elements_dotnet_swift_console_libsimpleio
+
+XCOPY elements_dotnet_csharp_console_libremoteio.d "%DSTDIR%"\elements_dotnet_csharp_console_libremoteio
+XCOPY elements_dotnet_csharp_console_libsimpleio.d "%DSTDIR%"\elements_dotnet_csharp_console_libsimpleio
+XCOPY elements_dotnet_go_console_libremoteio.d     "%DSTDIR%"\elements_dotnet_go_console_libremoteio
+XCOPY elements_dotnet_go_console_libsimpleio.d     "%DSTDIR%"\elements_dotnet_go_console_libsimpleio
+XCOPY elements_dotnet_java_console_libremoteio.d   "%DSTDIR%"\elements_dotnet_java_console_libremoteio
+XCOPY elements_dotnet_java_console_libsimpleio.d   "%DSTDIR%"\elements_dotnet_java_console_libsimpleio
+XCOPY elements_dotnet_pascal_console_libremoteio.d "%DSTDIR%"\elements_dotnet_pascal_console_libremoteio
+XCOPY elements_dotnet_pascal_console_libsimpleio.d "%DSTDIR%"\elements_dotnet_pascal_console_libsimpleio
+XCOPY elements_dotnet_swift_console_libremoteio.d  "%DSTDIR%"\elements_dotnet_swift_console_libremoteio
+XCOPY elements_dotnet_swift_console_libsimpleio.d  "%DSTDIR%"\elements_dotnet_swift_console_libsimpleio
