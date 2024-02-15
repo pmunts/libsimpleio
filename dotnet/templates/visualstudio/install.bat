@@ -30,5 +30,5 @@ RD /S /Q "%DSTDIR%"\csharp_console_libsimpleio
 MD "%DSTDIR%\csharp_console_libremoteio
 MD "%DSTDIR%\csharp_console_libsimpleio
 
-XCOPY csharp_console_libremoteio.d "%DSTDIR%"\csharp_console_libremoteio /S /Y 
+XCOPY csharp_console_libremoteio.d "%DSTDIR%"\csharp_console_libremoteio /S /Y
 XCOPY csharp_console_libsimpleio.d "%DSTDIR%"\csharp_console_libsimpleio /S /Y

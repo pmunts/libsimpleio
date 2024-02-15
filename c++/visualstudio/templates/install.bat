@@ -28,4 +28,4 @@ RD /S /Q "%DSTDIR%"\cxx_console_libremoteio
 
 MD "%DSTDIR%\cxx_console_libremoteio
 
-XCOPY cxx_console_libremoteio.d "%DSTDIR%"\cxx_console_libremoteio /S /Y 
+XCOPY cxx_console_libremoteio.d "%DSTDIR%"\cxx_console_libremoteio /S /Y

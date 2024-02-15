@@ -28,4 +28,4 @@ RD /S /Q "%DSTDIR%"\elements_linux_pascal_console_libsimpleio
 
 MD "%DSTDIR%\elements_linux_pascal_console_libsimpleio
 
-XCOPY elements_linux_pascal_console_libsimpleio.d "%DSTDIR%"\elements_linux_pascal_console_libsimpleio /S /Y 
+XCOPY elements_linux_pascal_console_libsimpleio.d "%DSTDIR%"\elements_linux_pascal_console_libsimpleio /S /Y
