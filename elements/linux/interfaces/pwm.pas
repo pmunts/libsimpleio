@@ -18,8 +18,7 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-{ Define abstract interfaces for sampled data (from e.g. an A/D converter). }
-{ Sample data is unsigned 32-bit, LSB justified.                            }
+{ Define an abstract interface for PWM (Pulse Width Modulated) outputs }
 
 namespace IO.Interfaces.PWM;
 
