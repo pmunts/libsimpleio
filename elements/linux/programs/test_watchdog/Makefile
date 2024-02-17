@@ -23,7 +23,7 @@
 LIBSIMPLEIO	?= $(shell cygpath -m $(HOME)/libsimpleio)
 ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
-include $(ELEMENTSSRC)/linux/include/linux.mk
+include $(ELEMENTSSRC)/include/elements.mk
 
 # Build the project
 
