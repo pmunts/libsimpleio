@@ -18,16 +18,14 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO	?= $(shell cygpath -m $(HOME)/libsimpleio)
-ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
-
-include $(ELEMENTSSRC)/linux/include/linux.mk
-
-# Build the thin and thick binding library projects
+include ../../include/elements.mk
 
 default: elements_mk_build
+	cp Ubuntu/aarch64/* aarch64
+	cp Ubuntu/armv6/*   armv6
+	cp Ubuntu/x86_64/*  x86_64
+	rm -rf Ubuntu
 
 # Remove working files
 
 clean: elements_mk_clean
-	rm -rf Ubuntu
