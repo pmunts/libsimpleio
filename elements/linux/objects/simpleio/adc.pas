@@ -18,13 +18,14 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-{ Implement GPIO pin services using libsimpleio }
+{ Implement ADC input services using libsimpleio }
 
 namespace IO.Objects.SimpleIO.ADC;
 
 interface
 
-  type Input = public class(IO.Interfaces.Sample.InputInterface, IO.Interfaces.Voltage.InputInterface)
+  type Input = public class(IO.Interfaces.Sample.InputInterface,
+    IO.Interfaces.Voltage.InputInterface)
     public constructor
      (desg : IO.Objects.SimpleIO.Resources.Designator;
       bits : Cardinal;
