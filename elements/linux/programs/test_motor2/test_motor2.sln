@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_motor2", "test_motor2.elements", "{20ABA228-DFCB-4195-89AF-4ED27E2ECCB6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20ABA228-DFCB-4195-89AF-4ED27E2ECCB6}.Debug|Default.ActiveCfg = Debug
+		{20ABA228-DFCB-4195-89AF-4ED27E2ECCB6}.Debug|Default.Build.0 = Debug
+		{20ABA228-DFCB-4195-89AF-4ED27E2ECCB6}.Debug|Default.Deploy.0 = Debug
+		{20ABA228-DFCB-4195-89AF-4ED27E2ECCB6}.Release|Default.ActiveCfg = Release
+		{20ABA228-DFCB-4195-89AF-4ED27E2ECCB6}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {862C6E8B-F076-43F8-9D41-82B64ED2122A}
+	EndGlobalSection
+EndGlobal

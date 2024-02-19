@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>3.5</ProductVersion>
+    <RootNamespace>test_motor2</RootNamespace>
+    <ProjectGuid>20aba228-dfcb-4195-89af-4ed27e2eccb6</ProjectGuid>
+    <OutputType>Executable</OutputType>
+    <BinaryName>test_motor2</BinaryName>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <Name>test_motor2</Name>
+    <Architecture>x86_64;armv6;aarch64</Architecture>
+    <AssemblyName>test_motor2</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>.\Bin\Debug</OutputPath>
+    <ConditionalDefines>DEBUG;TRACE;</ConditionalDefines>
+    <GenerateDebugInfo>True</GenerateDebugInfo>
+    <Optimize>False</Optimize>
+    <EnableAsserts>True</EnableAsserts>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>.\Bin\Release</OutputPath>
+    <EnableAsserts>True</EnableAsserts>
+    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="build.bat" />
+    <Content Include="clean.bat" />
+    <Content Include="Makefile" />
+    <Compile Include="Program.pas" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'x86_64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio-thin.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'armv6' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio-thin.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio-thin" Condition=" '$(Architecture)' == 'aarch64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio-thin.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'x86_64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\x86_64\libsimpleio-thick.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'armv6' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\armv6\libsimpleio-thick.fx</HintPath>
+    </Reference>
+    <Reference Include="libsimpleio-thick" Condition=" '$(Architecture)' == 'aarch64' ">
+      <HintPath>$(LIBSIMPLEIO)\elements\linux\lib\aarch64\libsimpleio-thick.fx</HintPath>
+    </Reference>
+    <Reference Include="Elements" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Linux.targets" />
+</Project>
