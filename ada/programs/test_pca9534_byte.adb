@@ -1,6 +1,6 @@
 -- Test an PCA9534 I2C GPIO expander as an 8-bit parallel port
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2024, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -43,6 +43,7 @@ BEGIN
 
   desg := Device.GetDesignator(0, "Enter I2C bus: ");
   addr := I2C.GetAddress("Enter I2C dev address: ");
+  New_Line;
 
   -- Create I2C bus object
 
