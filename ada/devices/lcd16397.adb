@@ -28,31 +28,32 @@ USE TYPE I2C.Byte;
 
 PACKAGE BODY LCD16397 IS
 
-  DelayAfterWrite : CONSTANT Duration := 0.0001; -- seconds
-
   -- Device object constructor
 
   FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN Device IS
+   (bus             : I2C.Bus;
+    addr            : I2C.Address := DefaultAddress;
+    delayafterwrite : Duration    := DefaultDelay) RETURN Device IS
 
     self : DeviceClass;
 
   BEGIN
-    self.Initialize(bus, addr);
+    self.Initialize(bus, addr, delayafterwrite);
     RETURN NEW DeviceClass'(self);
   END Create;
 
   -- Device object instance initializer
 
   PROCEDURE Initialize
-   (Self : OUT DeviceClass;
-    bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) IS
+   (Self            : OUT DeviceClass;
+    bus             : I2C.Bus;
+    addr            : I2C.Address := DefaultAddress;
+    delayafterwrite : Duration    := DefaultDelay) IS
 
   BEGIN
-    Self.bus  := bus;
-    Self.addr := addr;
+    Self.bus             := bus;
+    Self.addr            := addr;
+    Self.delayafterwrite := delayafterwrite;
     Self.Reset;
   END Initialize;
 
@@ -68,7 +69,7 @@ PACKAGE BODY LCD16397 IS
     END LOOP;
 
     Self.bus.Write(Self.addr, cmd, cmd'Length);
-    DELAY DelayAfterWrite;
+    DELAY Self.delayafterwrite;
   END Put;
 
   -- Write character to display
@@ -81,7 +82,7 @@ PACKAGE BODY LCD16397 IS
     cmd(0) := Character'Pos(c);
 
     Self.bus.Write(Self.addr, cmd, cmd'Length);
-    DELAY DelayAfterWrite;
+    DELAY Self.delayafterwrite;
   END Put;
 
   -- Request software reset
@@ -117,7 +118,7 @@ PACKAGE BODY LCD16397 IS
     cmd(1) := 128 + RowCommand(row) + I2C.Byte(col);
 
     Self.bus.Write(Self.addr, cmd, cmd'Length);
-    DELAY DelayAfterWrite;
+    DELAY Self.delayafterwrite;
   END Move;
 
 END LCD16397;

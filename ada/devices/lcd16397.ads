@@ -31,6 +31,7 @@ PACKAGE LCD16397 IS
   TYPE Device IS ACCESS ALL DeviceClass'Class;
 
   DefaultAddress : CONSTANT I2C.Address := 16#72#;
+  DefaultDelay   : CONSTANT Duration    := 0.001; -- seconds
 
   TYPE RowNumber    IS NEW Natural RANGE 1 .. 2;
   TYPE ColumnNumber IS NEW Natural RANGE 0 .. 15;
@@ -38,15 +39,17 @@ PACKAGE LCD16397 IS
   -- Device object constructor
 
   FUNCTION Create
-   (bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN Device;
+   (bus             : I2C.Bus;
+    addr            : I2C.Address := DefaultAddress;
+    delayafterwrite : Duration    := DefaultDelay) RETURN Device;
 
   -- Device object instance initializer
 
   PROCEDURE Initialize
-   (Self : OUT DeviceClass;
-    bus  : I2C.Bus;
-    addr : I2C.Address := DefaultAddress);
+   (Self            : OUT DeviceClass;
+    bus             : I2C.Bus;
+    addr            : I2C.Address := DefaultAddress;
+    delayafterwrite : Duration    := DefaultDelay);
 
   -- Write string to display
 
@@ -74,8 +77,9 @@ PACKAGE LCD16397 IS
 PRIVATE
 
   TYPE DeviceClass IS TAGGED RECORD
-    bus  : I2C.Bus;
-    addr : I2C.Address;
+    bus             : I2C.Bus;
+    addr            : I2C.Address;
+    delayafterwrite : Duration;
   END RECORD;
 
 END LCD16397;
