@@ -1,6 +1,6 @@
--- Orange Pi Zero 2W Device Designators for Raspberry Pi Compatibility
+-- Orange Pi Zero 2 W Device Designators for Raspberry Pi Compatibility
 
--- Copyright (C)2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2023-2024, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- The Orange Pi Zero 2W 40-pin expansion header has excellent compatibility
+-- The Orange Pi Zero 2 W 40-pin expansion header has excellent compatibility
 -- with Raspbery Pi boards, with the exception that PWM outputs are not
 -- routed to GPIO18 or GPIO19.
 

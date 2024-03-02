@@ -1,6 +1,6 @@
-// Orange Pi Zero 2W Linux Microcomputer Board I/O resource definitions
+// Orange Pi Zero 2 W Linux Microcomputer Board I/O resource definitions
 
-// Copyright (C)2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2023-2024, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@ namespace IO.Objects.SimpleIO.Platforms
 {
     /// <summary>
     /// This class provides designators for the
-    /// devices available on the Orange Pi Zero 2W Linux microcomputer board.
+    /// devices available on the Orange Pi Zero 2 W Linux microcomputer board.
     /// </summary>
     public static class OrangePiZero2W
     {
@@ -190,7 +190,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// </summary>
         public static readonly Designator GPIO259 = new Designator(0, 259);
 
-        // On the Orange Pi Zero 2W, the three I2C buses brought out to the
+        // On the Orange Pi Zero 2 W, the three I2C buses brought out to the
         // 40-pin expansion bus are not allocated fixed and predictable
         // device nodes.  We have to search sysfs for a matching base address
         // to find the correct device node for each bus.
@@ -302,7 +302,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
     /// <summary>
     /// This class provides Raspberry Pi compatible designator aliases for the
-    /// devices available on the Orange Pi Zero 2W Linux microcomputer board.
+    /// devices available on the Orange Pi Zero 2 W Linux microcomputer board.
     /// </summary>
     public static class OrangePiZero2W_RaspberryPi
     {

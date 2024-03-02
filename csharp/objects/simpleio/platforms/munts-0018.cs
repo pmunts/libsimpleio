@@ -1,6 +1,6 @@
 // MUNTS-0018 Raspberry Pi Tutorial I/O Board Definitions
 
-// Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2021-2024, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -36,7 +36,7 @@ namespace IO.Objects.SimpleIO.Platforms
     {
         /// <summary>
         /// This class provides designators specific to the  64-Bit
-        /// <a href="https://www.raspberrypi.com/products/raspberry-pi-zero-2-w">Raspberry Pi Zero 2W</a>
+        /// <a href="https://www.raspberrypi.com/products/raspberry-pi-zero-2-w">Raspberry Pi Zero 2 W</a>
         /// interface computer.
         /// </summary>
         /// <remarks>
@@ -428,7 +428,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
         /// <summary>
         /// This class provides designators specific to the 64-Bit
-        /// <a href="https://www.raspberrypi.com/products/raspberry-pi-zero-2-w">Orange Pi Zero 2W</a>
+        /// <a href="https://www.raspberrypi.com/products/raspberry-pi-zero-2-w">Orange Pi Zero 2 W</a>
         /// interface computer.
         /// </summary>
         /// <remarks>
