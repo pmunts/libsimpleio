@@ -22,8 +22,11 @@
 
 include $(LIBSIMPLEIO)/include/common.mk
 
+ifeq ($(OS), Windows_NT)
+EBUILD		?= "C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild.exe"
+endif
+
 CONFIGURATION	?= Release
-EBUILD		?= C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild.exe
 EBUILDFLAGS	+= --configuration:$(CONFIGURATION)
 
 ifneq ($(BOARDNAME),)
@@ -41,7 +44,7 @@ elements_mk_default: default
 # Build project using EBuild
 
 elements_mk_build:
-	"$(EBUILD)" $(EBUILDFLAGS)
+	$(EBUILD) $(EBUILDFLAGS)
 
 # Fixup permissions etc.
 
