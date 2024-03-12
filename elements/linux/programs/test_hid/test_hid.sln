@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "test_hid", "test_hid.elements", "{D5F924E7-C8B0-4EC5-BE7D-EE0705BDCC0E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5F924E7-C8B0-4EC5-BE7D-EE0705BDCC0E}.Debug|Default.ActiveCfg = Debug
+		{D5F924E7-C8B0-4EC5-BE7D-EE0705BDCC0E}.Debug|Default.Build.0 = Debug
+		{D5F924E7-C8B0-4EC5-BE7D-EE0705BDCC0E}.Debug|Default.Deploy.0 = Debug
+		{D5F924E7-C8B0-4EC5-BE7D-EE0705BDCC0E}.Release|Default.ActiveCfg = Release
+		{D5F924E7-C8B0-4EC5-BE7D-EE0705BDCC0E}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF0763A3-BC10-4B1D-BF87-348D29ABE87B}
+	EndGlobalSection
+EndGlobal
