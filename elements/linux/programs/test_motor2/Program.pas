@@ -94,7 +94,7 @@ namespace test_motor1;
       outp.velocity := vel/100.0;
       Thread.Sleep(50);  { milliseconds }
     end;
-  
+
     for vel := 0 downto -100 do begin
       outp.velocity := vel/100.0;
       Thread.Sleep(50);  { milliseconds }
