@@ -25,6 +25,8 @@ default: elements_mk_build
 	cp Ubuntu/armv6/*   armv6
 	cp Ubuntu/x86_64/*  x86_64
 	rm -rf Ubuntu
+	sed -i 's/ \r$$//g' */*.pas
+	unix2dos            */*.pas
 
 # Remove working files
 

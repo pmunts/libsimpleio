@@ -1,14 +1,14 @@
 namespace IO.Bindings.libsimpleio;
 
-// This code file is automatically generated to show the contents of 
+// This code file is automatically generated to show the contents of
 // libsimpleio-thin.fx, and is not meant to be compiled.
-// 
+//
 // Import of libsimpleio-thin (1.0)
-// Frameworks: 
+// Frameworks:
 // Targets: arm64
 // Platform: Linux
 // Dependencies (.fx): Island, rtl
-// 
+//
 
 type
   IO.Bindings.libsimpleio.__Global = public class
