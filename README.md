@@ -87,16 +87,16 @@ Linux are available at:
 ## [Make With Ada](https://www.makewithada.org/) Projects
 
 2017 [Ada Embedded Linux
-Framework](https://www.makewithada.org/entry/ada_linux_sensor_framework) 
+Framework](https://www.makewithada.org/entry/ada_linux_sensor_framework)
 2019 [Modbus RTU Framework for
 Ada](https://www.hackster.io/philip-munts/modbus-rtu-framework-for-ada-f33cc6)
 (Prize Winner\!)
 
 ## [NuGet](https://nuget.org/) Packages for [.Net](https://dotnet.microsoft.com)
 
-[libremoteio](https://www.nuget.org/packages/libremoteio) 
-[libremoteio-templates](https://www.nuget.org/packages/libremoteio-templates) 
-[libsimpleio](https://www.nuget.org/packages/libsimpleio) 
+[libremoteio](https://www.nuget.org/packages/libremoteio)
+[libremoteio-templates](https://www.nuget.org/packages/libremoteio-templates)
+[libsimpleio](https://www.nuget.org/packages/libsimpleio)
 [libsimpleio-templates](https://www.nuget.org/packages/libsimpleio-templates)
 
 -----
