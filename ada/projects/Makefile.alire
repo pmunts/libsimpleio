@@ -54,8 +54,10 @@ clean:
 	rm -rf obj/*
 
 reallyclean: clean
-	alr clean --temp
+	alr clean --cache --temp
 
 distclean:
-	alr clean --cache
-	rm -rf alire bin config obj share ~/.local/share/alire
+	rm -rf alire bin config obj share
+ifeq ($(shell uname), Linux)
+	rm -rf ~/.local/share/alire
+endif
