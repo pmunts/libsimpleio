@@ -1,7 +1,7 @@
 # Makefile to build an Alire program project and optionally deploy the
 # executable program file(s) to the target computer
 
-# Copyright (C)2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2023-2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -39,7 +39,7 @@ STRIP	?= strip
 build:
 	alr build $(ALRFLAGS)
 ifneq ($(STRIP),)
-	$(FIND) bin -type f -not -name '*.dll' -exec $(STRIP) {} ";"
+	@if [ -x $(STRIP) ]; then $(FIND) bin -type f -not -name '*.dll' -exec $(STRIP) {} ";" ; fi
 endif
 ifneq ($(TARGETCOMPUTER),)
 	scp $(SCPFLAGS) bin/* $(TARGETCOMPUTER)
@@ -54,7 +54,15 @@ clean:
 	rm -rf obj/*
 
 reallyclean: clean
-	alr clean
+	alr clean --cache --temp
 
 distclean:
 	rm -rf alire bin config obj share
+ifeq ($(shell uname), Linux)
+	rm -rf ~/.local/share/alire/builds
+	rm -rf ~/.local/share/alire/releases
+endif
+ifeq ($(OS), Windows_NT)
+	rm -rf ~/AppData/Local/alire/cache/builds
+	rm -rf ~/AppData/Local/alire/cache/releases
+endif
