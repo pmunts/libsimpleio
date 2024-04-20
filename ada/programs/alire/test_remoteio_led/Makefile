@@ -54,7 +54,6 @@ clean:
 	rm -rf obj/*
 
 reallyclean: clean
-	alr clean --cache --temp
 
 distclean:
 	rm -rf alire bin config obj share
