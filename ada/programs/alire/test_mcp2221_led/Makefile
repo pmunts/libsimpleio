@@ -57,6 +57,10 @@ reallyclean: clean
 
 distclean:
 	rm -rf alire bin config obj share
+ifeq ($(shell uname), Darwin)
+	rm -rf ~/.local/share/alire/builds
+	rm -rf ~/.local/share/alire/releases
+endif
 ifeq ($(shell uname), Linux)
 	rm -rf ~/.local/share/alire/builds
 	rm -rf ~/.local/share/alire/releases
