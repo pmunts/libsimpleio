@@ -1,4 +1,4 @@
-# Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2020-2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ default:
 
 build:
 	mkdir -p obj
-	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/$(LIBNAME).md
+	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/README.md
 	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
 	-svn revert -R $(NUGETDIR)/$(LIBNAME)
 	-svn rm --force $(NUGETDIR)/$(LIBNAME)/*

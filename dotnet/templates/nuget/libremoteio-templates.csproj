@@ -7,10 +7,10 @@
     <Title>C# console application for .Net 8 using libremoteio</Title>
     <Description>A project for building a C# console application for .Net 8 using the Remote I/O Protocol.</Description>
     <Authors>Philip Munts</Authors>
-    <Copyright>Copyright (C)2016-2023, Philip Munts dba Munts Technologies.</Copyright>
+    <Copyright>Copyright (C)2016-2024, Philip Munts dba Munts Technologies.</Copyright>
     <PackageProjectUrl>http://git.munts.com/libsimpleio</PackageProjectUrl>
-    <PackageLicenseFile>COPYING</PackageLicenseFile>
-    <PackageReadmeFile>libremoteio-templates.md</PackageReadmeFile>
+    <PackageLicenseFile>doc/COPYING</PackageLicenseFile>
+    <PackageReadmeFile>doc/README.md</PackageReadmeFile>
     <PackageTags>NuGet; C#; Linux; macOS; Windows; Remote I/O Protocol; ADC; DAC; GPIO; I2C; Motor; PWM; Servo; SPI; Stepper; USB HID</PackageTags>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
@@ -23,8 +23,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None    Include="../../../COPYING" Pack="true" PackagePath="/"/>
-    <None    Include="obj/libremoteio-templates.md" Pack="true" PackagePath="/"/>
+    <None    Include="../../../COPYING" Pack="true" PackagePath="doc"/>
+    <None    Include="obj/README.md" Pack="true" PackagePath="doc"/>
     <Content Include="csharp_console_libremoteio.d\**\*"/>
     <Compile Remove="**\*"/>
   </ItemGroup>
