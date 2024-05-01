@@ -54,9 +54,9 @@ clean:
 	rm -rf obj/*
 
 reallyclean: clean
-
-distclean:
 	rm -rf alire bin config obj share
+
+distclean: reallyclean
 ifeq ($(shell uname), Darwin)
 	rm -rf ~/.local/share/alire/builds
 	rm -rf ~/.local/share/alire/releases
