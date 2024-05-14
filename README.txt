@@ -70,10 +70,13 @@ Alire Crates
   []   remoteio.pdf
   ---- -----------------
 
-Make With Ada Projects
+The Munts Technologies Alire crate index fork is available at:
 
-2017 Ada Embedded Linux Framework
-2019 Modbus RTU Framework for Ada (Prize Winner!)
+https://github.com/pmunts/alire-index.git
+
+Use the following command to reference it:
+
+alr index --add git+https://github.com/pmunts/alire-index.git --name pmunts --before community
 
 NuGet Packages for .Net
 
