@@ -64,11 +64,7 @@ http://repo.munts.com/debian11
 
 Alire Crates
 
-  ---- -----------------
-  []   libsimpleio.pdf
-  []   mcp2221.pdf
-  []   remoteio.pdf
-  ---- -----------------
+[] [] []
 
 The Munts Technologies Alire crate index fork is available at:
 
