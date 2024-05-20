@@ -64,7 +64,7 @@ http://repo.munts.com/debian11
 
 Alire Crates
 
-[] [] []
+[libsimpleio] [mcp2221] [remoteio]
 
 The Munts Technologies Alire crate index fork is available at:
 
@@ -76,10 +76,18 @@ alr index --add git+https://github.com/pmunts/alire-index.git --name pmunts --be
 
 NuGet Packages for .Net
 
-libremoteio
-libremoteio-templates
-libsimpleio
-libsimpleio-templates
+[libremoteio] [libremoteio-templates] [libsimpleio] [libsimpleio-templates]
+
+Use one of the following command sequences to create a .Net program
+project:
+
+    dotnet new install libremoteio-templates
+    dotnet new csharp_console_libremoteio -o myprogram
+
+Or
+
+    dotnet new install libsimpleio-templates
+    dotnet new csharp_console_libsimpleio -o myprogram
 
 ------------------------------------------------------------------------
 

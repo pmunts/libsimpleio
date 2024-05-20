@@ -98,10 +98,21 @@ Use the following command to reference it:
 [NuGet](https://nuget.org/) Packages for [.Net](https://dotnet.microsoft.com)
 -----------------------------------------------------------------------------
 
-[libremoteio](https://www.nuget.org/packages/libremoteio)  
-[libremoteio-templates](https://www.nuget.org/packages/libremoteio-templates)  
-[libsimpleio](https://www.nuget.org/packages/libsimpleio)  
-[libsimpleio-templates](https://www.nuget.org/packages/libsimpleio-templates)
+[![libremoteio](https://img.shields.io/nuget/v/libremoteio?style=flat&logo=nuget&label=libremoteio)](https://www.nuget.org/packages/libremoteio)
+[![libremoteio-templates](https://img.shields.io/nuget/v/libremoteio-templates?style=flat&logo=nuget&label=libremoteio-templates)](https://www.nuget.org/packages/libremoteio-templates)
+[![libsimpleio](https://img.shields.io/nuget/v/libsimpleio?style=flat&logo=nuget&label=libsimpleio)](https://www.nuget.org/packages/libsimpleio)
+[![libsimpleio-templates](https://img.shields.io/nuget/v/libsimpleio-templates?style=flat&logo=nuget&label=libsimpleio-templates)](https://www.nuget.org/packages/libsimpleio-templates)
+
+Use one of the following command sequences to create a .Net program
+project:
+
+    dotnet new install libremoteio-templates
+    dotnet new csharp_console_libremoteio -o myprogram
+
+Or
+
+    dotnet new install libsimpleio-templates
+    dotnet new csharp_console_libsimpleio -o myprogram
 
 ------------------------------------------------------------------------
 

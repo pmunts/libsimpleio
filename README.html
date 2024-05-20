@@ -63,11 +63,11 @@ Installation instructions are on pages 6 and 7.</p>
 <p><a href=
 "http://repo.munts.com/debian11">http://repo.munts.com/debian11</a></p>
 <h2><a href="https://alire.ada.dev">Alire</a> Crates</h2>
-<p><a href="https://alire.ada.dev/crates/libsimpleio.html"><img src=
+<p><a href="https://alire.ada.dev/crates/libsimpleio.html"><img alt="libsimpleio" src=
 "https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/libsimpleio.json"></a>
-<a href="https://alire.ada.dev/crates/mcp2221.html"><img src=
+<a href="https://alire.ada.dev/crates/mcp2221.html"><img alt="mcp2221" src=
 "https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mcp2221.json"></a>
-<a href="https://alire.ada.dev/crates/remoteio.html"><img src=
+<a href="https://alire.ada.dev/crates/remoteio.html"><img alt="remoteio" src=
 "https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/remoteio.json"></a></p>
 <p>The Munts Technologies Alire crate index fork is available at:</p>
 <p><a href=
@@ -77,13 +77,34 @@ Installation instructions are on pages 6 and 7.</p>
 pmunts --before community</tt></b></p>
 <h2><a href="https://nuget.org/">NuGet</a> Packages for <a href=
 "https://dotnet.microsoft.com">.Net</a></h2>
-<p><a href="https://www.nuget.org/packages/libremoteio">libremoteio</a><br>
-<a href=
-"https://www.nuget.org/packages/libremoteio-templates">libremoteio-templates</a><br>
-
-<a href="https://www.nuget.org/packages/libsimpleio">libsimpleio</a><br>
-<a href=
-"https://www.nuget.org/packages/libsimpleio-templates">libsimpleio-templates</a></p>
+<p><a href="https://www.nuget.org/packages/libremoteio"><img alt="libremoteio"
+src=
+"https://img.shields.io/nuget/v/libremoteio?style=flat&amp;logo=nuget&amp;label=libremoteio"></a>
+<a href="https://www.nuget.org/packages/libremoteio-templates"><img alt=
+"libremoteio-templates" src=
+"https://img.shields.io/nuget/v/libremoteio-templates?style=flat&amp;logo=nuget&amp;label=libremoteio-templates"></a>
+<a href="https://www.nuget.org/packages/libsimpleio"><img alt=
+"libsimpleio" src=
+"https://img.shields.io/nuget/v/libsimpleio?style=flat&amp;logo=nuget&amp;label=libsimpleio"></a>
+<a href="https://www.nuget.org/packages/libsimpleio-templates"><img alt=
+"libsimpleio-templates" src=
+"https://img.shields.io/nuget/v/libsimpleio-templates?style=flat&amp;logo=nuget&amp;label=libsimpleio-templates"></a>
+</p>
+Use one of the following command sequences to create a .Net program
+project:
+<b>
+<pre>
+dotnet new install libremoteio-templates
+dotnet new csharp_console_libremoteio -o myprogram
+</pre>
+</b>
+Or
+<b>
+<pre>
+dotnet new install libsimpleio-templates
+dotnet new csharp_console_libsimpleio -o myprogram
+</pre>
+</b>
 <hr>
 Questions or comments to Philip Munts <a href=
 "mailto:phil@munts.net">phil@munts.net</a>
