@@ -78,7 +78,7 @@ Debian Package Repository
 Prebuilt **`libsimpleio`** packages for [Debian](http://www.debian.org)
 Linux are available at:
 
-<http://repo.munts.com/debian11>
+<http://repo.munts.com/debian12>
 
 [Alire](https://alire.ada.dev) Crates
 -------------------------------------
