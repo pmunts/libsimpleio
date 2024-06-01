@@ -83,9 +83,9 @@ Linux are available at:
 [Alire](https://alire.ada.dev) Crates
 -------------------------------------
 
-[![](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/libsimpleio.json)](https://alire.ada.dev/crates/libsimpleio.html)
-[![](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mcp2221.json)](https://alire.ada.dev/crates/mcp2221.html)
-[![](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/remoteio.json)](https://alire.ada.dev/crates/remoteio.html)
+[![libsimpleio](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/libsimpleio.json)](https://alire.ada.dev/crates/libsimpleio.html)
+[![mcp2221](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mcp2221.json)](https://alire.ada.dev/crates/mcp2221.html)
+[![remoteio](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/remoteio.json)](https://alire.ada.dev/crates/remoteio.html)
 
 The Munts Technologies Alire crate index fork is available at:
 
@@ -99,7 +99,7 @@ Use the following command to reference it:
 -----------------------------------------------------------------------------
 
 [![libremoteio](https://img.shields.io/nuget/v/libremoteio?style=flat&logo=nuget&label=libremoteio)](https://www.nuget.org/packages/libremoteio)
-[![libremoteio-templates](https://img.shields.io/nuget/v/libremoteio-templates?style=flat&logo=nuget&label=libremoteio-templates)](https://www.nuget.org/packages/libremoteio-templates)
+[![libremoteio-templates](https://img.shields.io/nuget/v/libremoteio-templates?style=flat&logo=nuget&label=libremoteio-templates)](https://www.nuget.org/packages/libremoteio-templates)  
 [![libsimpleio](https://img.shields.io/nuget/v/libsimpleio?style=flat&logo=nuget&label=libsimpleio)](https://www.nuget.org/packages/libsimpleio)
 [![libsimpleio-templates](https://img.shields.io/nuget/v/libsimpleio-templates?style=flat&logo=nuget&label=libsimpleio-templates)](https://www.nuget.org/packages/libsimpleio-templates)
 

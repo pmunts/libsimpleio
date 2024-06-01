@@ -76,7 +76,8 @@ alr index --add git+https://github.com/pmunts/alire-index.git --name pmunts --be
 
 NuGet Packages for .Net
 
-[libremoteio] [libremoteio-templates] [libsimpleio] [libsimpleio-templates]
+[libremoteio] [libremoteio-templates]
+[libsimpleio] [libsimpleio-templates]
 
 Use one of the following command sequences to create a .Net program
 project:
