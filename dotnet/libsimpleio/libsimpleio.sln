@@ -4,11 +4,6 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 16.0.29728.190
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libsimpleio", "libsimpleio.csproj", "{59F8B927-AF91-4F80-8627-FA7970ED65AB}"
 EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "doc", "doc.shfbproj", "{96328C7B-6929-4F8A-B8A7-A33E49861E31}"
-	ProjectSection(ProjectDependencies) = postProject
-		{59F8B927-AF91-4F80-8627-FA7970ED65AB} = {59F8B927-AF91-4F80-8627-FA7970ED65AB}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,10 +14,6 @@ Global
 		{59F8B927-AF91-4F80-8627-FA7970ED65AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59F8B927-AF91-4F80-8627-FA7970ED65AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59F8B927-AF91-4F80-8627-FA7970ED65AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{96328C7B-6929-4F8A-B8A7-A33E49861E31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96328C7B-6929-4F8A-B8A7-A33E49861E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96328C7B-6929-4F8A-B8A7-A33E49861E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96328C7B-6929-4F8A-B8A7-A33E49861E31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
