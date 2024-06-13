@@ -30,11 +30,6 @@ NUGETDIR	:= $(LIBSIMPLEIO)/nuget
 FIND		?= find
 PANDOC		?= pandoc
 
-# Definitions for Calibre ebook-convert program
-CONVERT		?= C:/Progra~1/Calibre2/ebook-convert
-CONVERTFLAGS	+= --paper-size letter
-CONVERTFLAGS	+= --pdf-page-numbers
-
 # Include subordinate makefiles
 
 include ../../csharp/include/csharp.mk
@@ -42,12 +37,14 @@ include ../../csharp/include/csharp.mk
 # Build the projects
 
 default:
-	BUILDVERSION=$(VERSION) dotnet build $(LIBNAME).csproj -c $(CONFIGURATION)
-	BUILDVERSION=$(VERSION) "$(MSBUILD)" help.shfbproj
-	$(CONVERT) Help/$(LIBNAME).docx Help/$(LIBNAME).dll.pdf $(CONVERTFLAGS)
-	install -cm 0644 Help/$(LIBNAME).dll.pdf ../../doc
+	mkdir -p obj
 	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/README.md
-	BUILDVERSION=$(VERSION) dotnet pack $(LIBNAME).csproj -c $(CONFIGURATION)
+	BUILDVERSION=$(VERSION) dotnet pack  $(LIBNAME).csproj -c $(CONFIGURATION)
+	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
+	rm -f Help/*.aspx Help/*.log Help/*.php Help/Web.Config
+	$(FIND) Help -type d -exec chmod 755 {} ";"
+	$(FIND) Help -type f -exec chmod 644 {} ";"
+	rsync -avc --delete Help/ ../../doc/$(LIBNAME).dll
 	-svn revert -R $(NUGETDIR)/$(LIBNAME)
 	-svn rm --force $(NUGETDIR)/$(LIBNAME)/*
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
