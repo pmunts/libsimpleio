@@ -299,7 +299,7 @@ namespace IO.Objects.SimpleIO.Platforms
             {
                 // Validate analog input designator
 
-                if (ValidAnalogInputs.Contains(desg))
+                if (!ValidAnalogInputs.Contains(desg))
                 {
                     throw new System.ArgumentException("Invalid analog input designator.");
                 }
