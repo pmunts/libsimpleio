@@ -169,6 +169,12 @@ $(TARDIR):
 
 coreapp_mk_tarball: $(TARFILE)
 
+ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+coreapp_mk_fixperms:
+	chmod 755 .vscode
+	$(FIND) * .vscode -type f -exec chmod 644 {} ";"
+endif
+
 # Remove working files
 
 coreapp_mk_clean: csharp_mk_clean
