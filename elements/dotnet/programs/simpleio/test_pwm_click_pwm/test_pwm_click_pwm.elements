@@ -41,7 +41,6 @@
   <ItemGroup>
     <Content Include="Makefile" />
     <Compile Include="Program.pas" />
-    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Echoes.targets" />
 </Project>
