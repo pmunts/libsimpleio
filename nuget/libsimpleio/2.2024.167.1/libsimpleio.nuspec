@@ -10,7 +10,8 @@
     <readme>doc/README.md</readme>
     <projectUrl>https://github.com/pmunts/libsimpleio</projectUrl>
     <description>Munts Technologies Linux Simple I/O Library for .Net Standard 2.0</description>
-    <releaseNotes>Fixed bug in IO.Interfaces.ADC.Voltage AnalogInputFactory().</releaseNotes>
+    <releaseNotes>Fixed bug in IO.Interfaces.ADC.Voltage AnalogInputFactory().
+Shortened the URL for online API specification.</releaseNotes>
     <copyright>Copyright (C)2017-2024, Philip Munts dba Munts Technologies.</copyright>
     <tags>Linux I/O ADC DAC GPIO I2C PWM Serial Servo SPI Stepper USB Raw HID Watchdog</tags>
     <repository type="git" url="https://github.com/pmunts/libsimpleio" />
