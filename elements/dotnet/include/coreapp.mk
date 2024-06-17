@@ -1,6 +1,6 @@
 # Makefile for building a .Net Core application program
 
-# Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2018-2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -30,8 +30,6 @@ COREAPPBIN	:= $(COREAPPDEST)/bin
 # Build architecture independent deliverables (i.e. dotnet run myapp.dll).
 
 coreapp_mk_build: elements_mk_build
-	cp $(COREAPPPUB)/*.dll .
-	cp $(COREAPPPUB)/*.runtimeconfig.json .
 
 # Install architecture independent deliverables
 
