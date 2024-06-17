@@ -22,10 +22,6 @@
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-BOARDNAME	?= RaspberryPi3
-HOSTNAME	?= root@usbgadget.munts.net
-PROGNAME	:= $(shell basename $(shell pwd))
-
 # Include subordinate makefiles
 
 include $(LIBSIMPLEIO)/csharp/include/csharp.mk
@@ -34,11 +30,6 @@ include $(LIBSIMPLEIO)/csharp/include/coreapp.mk
 # Build the project
 
 default: coreapp_mk_single
-
-# Deploy program to target computer
-
-deploy: coreapp_mk_single
-	scp $(PROGNAME) $(HOSTNAME):.
 
 # Build an application distribution package
 
