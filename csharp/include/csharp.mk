@@ -1,6 +1,6 @@
 # Makefile definitions for C# programming
 
-# Copyright (C)2014-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2014-2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@ csharp_mk_restore:
 
 # Build Visual Studio C# project with MSBuild
 
-csharp_mk_build:
+csharp_mk_build: csharp_mk_restore
 	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
 
 # Clean out working files
