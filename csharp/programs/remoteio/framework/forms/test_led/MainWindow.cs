@@ -9,17 +9,19 @@ namespace test_led
 
         // Button click event handler
 
-        private void SetLED(object sender, EventArgs e)
+        private void ChangeLED(object sender, EventArgs e)
         {
-            if (this.button1.Text == "Turn LED ON")
+            Button b = (Button) sender;
+
+            if (b.Text == "Turn LED ON")
             {
                 this.LED.state = true;
-                this.button1.Text = "Turn LED OFF";
+                b.Text = "Turn LED OFF";
             }
             else
             {
                 this.LED.state = false;
-                this.button1.Text = "Turn LED ON";
+                b.Text = "Turn LED ON";
             }
         }
 
@@ -27,7 +29,7 @@ namespace test_led
         {
             InitializeComponent();
             this.button1.Text = "Turn LED ON";
-            this.button1.Click += SetLED;
+            this.button1.Click += ChangeLED;
             this.LED = pin;
         }
     }
