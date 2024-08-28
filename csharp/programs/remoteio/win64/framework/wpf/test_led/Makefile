@@ -1,4 +1,4 @@
-# Makefile for building C# .Net Framework applications using MSBuild
+# Makefile for building C# .Net applications using MSBuild
 
 # Copyright (C)2024, Philip Munts dba Munts Technologies.
 #
