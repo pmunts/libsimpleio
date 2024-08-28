@@ -48,6 +48,13 @@ csharp_mk_restore:
 csharp_mk_build: csharp_mk_restore
 	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
 
+# Build Windows installer
+
+ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+csharp_mk_installer: csharp_mk_build
+	$(INNOSETUPCOMPILER) installer.iss
+endif
+
 # Special project file fixup target for Cygwin development host
 
 ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
