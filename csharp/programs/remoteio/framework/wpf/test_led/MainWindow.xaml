@@ -1,0 +1,25 @@
+<Window x:Class="test_led.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:test_led"
+        mc:Ignorable="d"
+        Height="200"
+        Width="400"
+        Title="Remote I/O Protocol LED Test"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Button
+            Name="changebutton"
+            Content="Turn LED ON"
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Width="90"
+            Click="ChangeLED"
+            ClickMode="Press"
+            ToolTip="Click this button to toggle the LED." />
+    </Grid>
+</Window>
