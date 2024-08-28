@@ -22,7 +22,8 @@ namespace test_led
             }
             catch
             {
-                MessageBox.Show("Cannot open Remote I/O Protocol server device!", "Fatal Error");
+                MessageBox.Show("Fatal Error: Cannot open Remote I/O Protocol server device!",
+                "Remote I/O Protocol LED Test");
                 return;
             }
 
@@ -34,7 +35,8 @@ namespace test_led
             }
             catch
             {
-                MessageBox.Show("Cannot configure LED!", "Fatal Error");
+                MessageBox.Show("Fatal Error: Cannot configure LED!",
+                "Remote I/O Protocol LED Test");
                 return;
             }
 
