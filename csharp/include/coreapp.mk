@@ -1,6 +1,6 @@
 # Makefile for building a .Net Core application program
 
-# Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2018-2024, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -168,12 +168,6 @@ $(TARDIR):
 	touch $@
 
 coreapp_mk_tarball: $(TARFILE)
-
-ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
-coreapp_mk_fixperms:
-	chmod 755 .vscode
-	$(FIND) * .vscode -type f -exec chmod 644 {} ";"
-endif
 
 # Remove working files
 
