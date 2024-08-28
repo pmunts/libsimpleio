@@ -48,6 +48,17 @@ csharp_mk_restore:
 csharp_mk_build: csharp_mk_restore
 	"$(MSBUILD)" $(MSBUILDTARGET) $(MSBUILDFLAGS) $(MSBUILDPROJECT)
 
+# Special project file fixup target for Cygwin development host
+
+ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
+csharp_mk_fixup:
+	-$(FIND) * -type d -exec chmod 755 {}  ";"
+	-$(FIND) * -type f -exec chmod 644 {}  ";"
+	-$(FIND) * -type f -exec bom_remove {} ";"
+	-$(FIND) * -type f -exec unix2dos {}   ";"
+	-dos2unix Makefile
+endif
+
 # Clean out working files
 
 csharp_mk_clean:
