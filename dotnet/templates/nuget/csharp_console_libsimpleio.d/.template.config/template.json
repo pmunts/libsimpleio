@@ -2,12 +2,12 @@
   "$schema":         "http://json.schemastore.org/template",
   "classifications": ["Console", "libsimpleio", "Linux Simple I/O Library"],
   "identity":        "csharp_console_libsimpleio",
-  "name":            "C# console application for .Net 8 using libsimpleio",
+  "name":            "C# console application for .Net 9 using libsimpleio",
   "shortName":       "csharp_console_libsimpleio",
   "sourceName":      "csharp_console_libsimpleio",
   "tags": {
     "language": "C#",
     "type":     "project",
-    "platform": [".Net 8", "Linux"]
+    "platform": [".Net 9", "Linux"]
   }
 }

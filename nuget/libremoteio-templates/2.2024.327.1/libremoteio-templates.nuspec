@@ -2,15 +2,15 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>libremoteio-templates</id>
-    <version>2.2024.169.1</version>
-    <title>C# console application for .Net 8 using libremoteio</title>
+    <version>2.2024.327.1</version>
+    <title>C# console application for .Net 9 using libremoteio</title>
     <authors>Philip Munts</authors>
     <license type="file">doc/COPYING</license>
     <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
     <readme>doc/README.md</readme>
     <projectUrl>http://git.munts.com/libsimpleio</projectUrl>
-    <description>A project for building a C# console application for .Net 8 using the Remote I/O Protocol.</description>
-    <releaseNotes>Greatly improved Visual Studio Code usability by cleaning up .vscode/tasks.json.</releaseNotes>
+    <description>A project for building a C# console application for .Net 9 using the Remote I/O Protocol.</description>
+    <releaseNotes>Target .Net 9.</releaseNotes>
     <copyright>Copyright (C)2016-2024, Philip Munts dba Munts Technologies.</copyright>
     <tags>NuGet C# Linux macOS Windows Remote I/O Protocol ADC DAC GPIO I2C Motor PWM Servo SPI Stepper USB HID</tags>
     <packageTypes>
@@ -18,7 +18,7 @@
     </packageTypes>
     <repository type="git" url="https://github.com/pmunts/libsimpleio" />
     <dependencies>
-      <group targetFramework="net8.0" />
+      <group targetFramework="net9.0" />
     </dependencies>
   </metadata>
 </package>
