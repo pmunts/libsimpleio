@@ -33,9 +33,9 @@ outputDir=.
 UninstallFilesDir={app}/uninstall
 
 [Files]
-Source: "bin\Release\net8.0-windows\*.exe"                ; DestDir: "{app}"
-Source: "bin\Release\net8.0-windows\*.dll"                ; DestDir: "{app}"
-Source: "bin\Release\net8.0-windows\*.runtimeconfig.json" ; DestDir: "{app}"
+Source: "bin\Release\net9.0-windows\*.exe"                ; DestDir: "{app}"
+Source: "bin\Release\net9.0-windows\*.dll"                ; DestDir: "{app}"
+Source: "bin\Release\net9.0-windows\*.runtimeconfig.json" ; DestDir: "{app}"
 
 [Icons]
 Name: "{commonprograms}\Remote Input Output Protocol LED Test"; Filename: "{app}\test_led.exe"; WorkingDir: "{app}"
