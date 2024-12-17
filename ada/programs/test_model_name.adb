@@ -20,9 +20,11 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH libLinux;
+WITH RaspberryPi;
 
 PROCEDURE test_model_name IS
 
@@ -35,9 +37,11 @@ BEGIN
 
   IF name = libLinux.UNKNOWN_MODEL THEN
     Put_Line("Cannot determine model name!");
+    RETURN;
   ELSE
-    Put_Line("The model name is """ & name & """");
+    Put_Line("The model name is     " & name);
   END IF;
 
+  Put_Line("The CPU generation is " & RaspberryPi.CPUs'Image(RaspberryPi.GetCPU));  
   New_Line;
 END;

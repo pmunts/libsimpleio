@@ -1,4 +1,4 @@
--- Raspberry Pi 1 to 3 Device Definitions
+-- Raspberry Pi I/O Resource Definitions
 
 -- Copyright (C)2018-2024, Philip Munts dba Munts Technologies.
 --
@@ -76,5 +76,27 @@ PACKAGE RaspberryPi IS
   SPI1_0 : CONSTANT Device.Designator := (1,  0);  -- GPIO18, GPIO19, GPIO20, and GPIO21
   SPI1_1 : CONSTANT Device.Designator := (1,  1);  -- GPIO17, GPIO19, GPIO20, and GPIO21
   SPI1_2 : CONSTANT Device.Designator := (1,  2);  -- GPIO16, GPIO19, GPIO20, and GPIO21
+
+  -- Raspberry Pi CPU generations
+
+  TYPE CPUs IS
+   (BCM2708,  -- Raspberry Pi 1
+    BCM2709,  -- Raspberry Pi 2
+    BCM2710,  -- Raspberry Pi 3
+    BCM2711,  -- Raspberry Pi 4
+    BCM2712,  -- Raspberry Pi 5
+    UNKNOWN);
+
+  -- CPU synonyms
+
+  BCM2835   : CONSTANT CPUs := BCM2708; -- Raspberry Pi 1
+  BCM2836   : CONSTANT CPUs := BCM2709; -- Raspberry Pi 2
+  BCM2837   : CONSTANT CPUs := BCM2710; -- Raspberry Pi 3
+  BCM2837B0 : CONSTANT CPUs := BCM2710; -- Raspberry Pi 3+
+  RP3A0     : CONSTANT CPUs := BCM2710; -- Raspberry Pi Zero 2 W
+
+  -- Detect the CPU generation
+
+  FUNCTION GetCPU RETURN CPUs;
 
 END RaspberryPi;
