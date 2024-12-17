@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services, using libsimpleio
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2024, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -33,8 +33,13 @@ USE TYPE Device.Designator;
 WITH BeagleBone;
 WITH PocketBeagle;
 WITH RaspberryPi;
+WITH RaspberryPi5;
+
+USE TYPE RaspberryPi.CPUs;
 
 PACKAGE BODY ClickBoard.SimpleIO IS
+
+  CPU : CONSTANT RaspberryPi.CPUs := RaspberryPi.GetCPU;
 
   SUBTYPE DeviceString IS String(1 .. 12);
 
@@ -204,9 +209,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       UART    => To_DeviceString("ttyS4"),
       Stretch => True),
 
-    -- Socket 1 is over the micro USB connector (up or left)
-
-    SocketRec'(ClickBoard.Shields.PocketBeagle, 1,
+    SocketRec'(ClickBoard.Shields.PocketBeagle, 1, -- Over the micro USB connector (up or left)
      (ClickBoard.AN   => PocketBeagle.GPIO87,  -- Conflicts with AIN6
       ClickBoard.RST  => PocketBeagle.GPIO89,
       ClickBoard.CS   => PocketBeagle.GPIO5,   -- Conflicts with SPI0
@@ -227,9 +230,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       UART    => To_DeviceString("ttyS4"),
       Stretch => True),
 
-    -- Socket 2 is over the micro-SDHC card socket (down or right)
-
-    SocketRec'(ClickBoard.Shields.PocketBeagle, 2,
+    SocketRec'(ClickBoard.Shields.PocketBeagle, 2, -- Over the micro-SDHC card socket (down or right)
      (ClickBoard.AN   => PocketBeagle.GPIO86,  -- Conflicts with AIN5
       ClickBoard.RST  => PocketBeagle.GPIO45,
       ClickBoard.CS   => PocketBeagle.GPIO19,  -- Conflicts with SPI1
@@ -287,7 +288,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       OTHERS          => Device.Unavailable),
       AIN     => Device.Unavailable,
       I2C     => RaspberryPi.I2C1,
-      PWM     => RaspberryPi.PWM0,
+      PWM     => (IF CPU = RaspberryPi.BCM2712 THEN RaspberryPi5.PWM2 ELSE RaspberryPi.PWM0),
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
@@ -329,7 +330,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       OTHERS          => Device.Unavailable),
       AIN     => RaspberryPi.AIN0,           -- Switch AN1 must be in the LEFT position
       I2C     => RaspberryPi.I2C1,
-      PWM     => RaspberryPi.PWM0,
+      PWM     => (IF CPU = RaspberryPi.BCM2712 THEN RaspberryPi5.PWM2 ELSE RaspberryPi.PWM0),
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
       Stretch => False),
