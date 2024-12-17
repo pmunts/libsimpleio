@@ -39,8 +39,10 @@ PACKAGE BODY RaspberryPi IS
 
   -- Obsolete 32-bit models
 
-  RaspberryPi1      : CONSTANT String := "Raspberry Pi 1";
-  RaspberryPiCM1    : CONSTANT String := "Raspberry Pi Compute Module 1";
+  RaspberryPi1      : CONSTANT String := "Raspberry Pi Model";
+  RaspberryPiCM1    : CONSTANT String := "Raspberry Pi Compute Module Rev";
+  RaspberryPiZero   : CONSTANT String := "Raspberry Pi Zero Rev";
+  RaspberryPiZeroW  : CONSTANT String := "Raspberry Pi Zero W Rev";
   RaspberryPi2      : CONSTANT String := "Raspberry Pi 2";
 
   -- Detect the CPU generation
@@ -71,6 +73,10 @@ PACKAGE BODY RaspberryPi IS
     END IF;
 
     -- Obsolete 32-bit models
+
+    IF Ada.Strings.Fixed.Index(ModelName, RaspberryPiCM1)    > 0 THEN
+      RETURN BCM2708;
+    END IF;
 
     IF Ada.Strings.Fixed.Index(ModelName, RaspberryPi2)      > 0 THEN
       RETURN BCM2709;
