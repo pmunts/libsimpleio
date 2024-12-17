@@ -43,7 +43,7 @@ PACKAGE BODY RaspberryPi IS
   RaspberryPiCM1    : CONSTANT String := "Raspberry Pi Compute Module Rev";
   RaspberryPiZero   : CONSTANT String := "Raspberry Pi Zero Rev";
   RaspberryPiZeroW  : CONSTANT String := "Raspberry Pi Zero W Rev";
-  RaspberryPi2      : CONSTANT String := "Raspberry Pi 2";
+  RaspberryPi2      : CONSTANT String := "Raspberry Pi 2 Model B";
 
   -- Detect the CPU generation
 
@@ -74,7 +74,10 @@ PACKAGE BODY RaspberryPi IS
 
     -- Obsolete 32-bit models
 
-    IF Ada.Strings.Fixed.Index(ModelName, RaspberryPiCM1)    > 0 THEN
+    IF Ada.Strings.Fixed.Index(ModelName, RaspberryPi1)      > 0 OR
+       Ada.Strings.Fixed.Index(ModelName, RaspberryPiCM1)    > 0 OR
+       Ada.Strings.Fixed.Index(ModelName, RaspberryPiZero)   > 0 OR
+       Ada.Strings.Fixed.Index(ModelName, RaspberryPiZeroW)  > 0 THEN
       RETURN BCM2708;
     END IF;
 
