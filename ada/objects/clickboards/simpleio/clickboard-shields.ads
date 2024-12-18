@@ -31,6 +31,7 @@ PACKAGE ClickBoard.Shields IS
    PiClick1,          -- Raspberry Pi with MIKROE-1513/1512, with 1 socket
    PiClick2,          -- Raspberry Pi with MIKROE-1879, with 2 sockets
    PiClick3,          -- Raspberry Pi with MIKROE-2756, with 2 sockets
+   PiClick4,          -- Raspberry Pi 4 or 5 with MIKROE-4122, with 3 sockets
    BeagleBoneClick2,  -- BeagleBone with MIKROE-1596, with 2 sockets
    BeagleBoneClick4,  -- BeagleBone with MIKROE-1857, with 4 sockets
    PocketBeagle);     -- PocketBeagle with 2 sockets

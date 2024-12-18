@@ -291,7 +291,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       PWM     => (IF CPU = RaspberryPi.BCM2712 THEN RaspberryPi5.PWM2 ELSE RaspberryPi.PWM0),
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
-      Stretch => False),
+      Stretch => (IF CPU < RaspberryPi.BCM2712 THEN False ELSE True)),
 
     SocketRec'(ClickBoard.Shields.PiClick2, 2,
      (ClickBoard.AN   => RaspberryPi.GPIO13,
@@ -312,7 +312,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       PWM     => Device.Unavailable,
       SPI     => RaspberryPi.SPI0_1,
       UART    => To_DeviceString("ttyAMA0"),
-      Stretch => False),
+      Stretch => (IF CPU < RaspberryPi.BCM2712 THEN False ELSE True)),
 
     SocketRec'(ClickBoard.Shields.PiClick3, 1,
      (ClickBoard.AN   => RaspberryPi.GPIO4,  -- Switch AN1 must be in the RIGHT position
@@ -333,7 +333,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       PWM     => (IF CPU = RaspberryPi.BCM2712 THEN RaspberryPi5.PWM2 ELSE RaspberryPi.PWM0),
       SPI     => RaspberryPi.SPI0_0,
       UART    => To_DeviceString("ttyAMA0"),
-      Stretch => False),
+      Stretch => (IF CPU < RaspberryPi.BCM2712 THEN False ELSE True)),
 
     SocketRec'(ClickBoard.Shields.PiClick3, 2,
      (ClickBoard.AN   => RaspberryPi.GPIO13, -- Switch AN2 must be in the RIGHT position
@@ -354,7 +354,70 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       PWM     => Device.Unavailable,
       SPI     => RaspberryPi.SPI0_1,
       UART    => To_DeviceString("ttyAMA0"),
-      Stretch => False));
+      Stretch => (IF CPU < RaspberryPi.BCM2712 THEN False ELSE True)),
+
+    SocketRec'(ClickBoard.Shields.PiClick4, 1,
+     (ClickBoard.AN   => RaspberryPi.GPIO4,  -- Jumper JP1 aka AN1 must be in the RIGHT position
+      ClickBoard.RST  => RaspberryPi.GPIO5,
+      ClickBoard.CS   => RaspberryPi.GPIO8,  -- Conflicts with SPI0
+      ClickBoard.SCK  => RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => RaspberryPi.GPIO6,
+      ClickBoard.PWM  => RaspberryPi.GPIO18, -- Conflicts with PWM0
+      OTHERS          => Device.Unavailable),
+      AIN     => RaspberryPi.AIN0,           -- Jumper JP1 aka AN1 must be in the LEFT position (default)
+      I2C     => RaspberryPi.I2C1,
+      PWM     => (IF CPU = RaspberryPi.BCM2712 THEN RaspberryPi5.PWM2 ELSE RaspberryPi.PWM0),
+      SPI     => RaspberryPi.SPI0_0,
+      UART    => To_DeviceString("ttyAMA0"),
+      Stretch => (IF CPU < RaspberryPi.BCM2712 THEN False ELSE True)),
+
+    SocketRec'(ClickBoard.Shields.PiClick4, 2,
+     (ClickBoard.AN   => RaspberryPi.GPIO17, -- Jumper JP2 aka AN2 must be in the RIGHT position
+      ClickBoard.RST  => RaspberryPi.GPIO12,
+      ClickBoard.CS   => RaspberryPi.GPIO7,  -- Conflicts with SPI0
+      ClickBoard.SCK  => RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => RaspberryPi.GPIO26,
+      ClickBoard.PWM  => RaspberryPi.GPIO13, -- Conflicts with PWM1
+      OTHERS          => Device.Unavailable),
+      AIN     => RaspberryPi.AIN1,           -- Jumper JP2 aka AN2 must be in the LEFT position (default)
+      I2C     => RaspberryPi.I2C1,
+      PWM     => (IF CPU = RaspberryPi.BCM2712 THEN RaspberryPi5.PWM1 ELSE RaspberryPi.PWM1),
+      SPI     => RaspberryPi.SPI0_1,
+      UART    => To_DeviceString("ttyAMA0"),
+      Stretch => (IF CPU < RaspberryPi.BCM2712 THEN False ELSE True)),
+
+    SocketRec'(ClickBoard.Shields.PiClick4, 3,
+     (ClickBoard.AN   => RaspberryPi.GPIO24, -- Jumper JP3 aka AN3 must be in the RIGHT position
+      ClickBoard.RST  => RaspberryPi.GPIO22,
+      ClickBoard.CS   => RaspberryPi.GPIO23,
+      ClickBoard.SCK  => RaspberryPi.GPIO11, -- Conflicts with SPI0
+      ClickBoard.MISO => RaspberryPi.GPIO9,  -- Conflicts with SPI0
+      ClickBoard.MOSI => RaspberryPi.GPIO10, -- Conflicts with SPI0
+      ClickBoard.SDA  => RaspberryPi.GPIO2,  -- Conflicts with I2C1
+      ClickBoard.SCL  => RaspberryPi.GPIO3,  -- Conflicts with I2C1
+      ClickBoard.TX   => RaspberryPi.GPIO14, -- Conflicts with UART0
+      ClickBoard.RX   => RaspberryPi.GPIO15, -- Conflicts with UART0
+      ClickBoard.INT  => RaspberryPi.GPIO27,
+      ClickBoard.PWM  => RaspberryPi.GPIO16,
+      OTHERS          => Device.Unavailable),
+      AIN     => RaspberryPi.AIN3,           -- Jumper JP2 aka AN2 must be in the LEFT position (default)
+      I2C     => RaspberryPi.I2C1,
+      PWM     => Device.Unavailable,
+      SPI     => Device.Unavailable,
+      UART    => To_DeviceString("ttyAMA0"),
+      Stretch => (IF CPU < RaspberryPi.BCM2712 THEN False ELSE True)));
 
   PRAGMA Warnings(On, "there are no others");
 
@@ -490,7 +553,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
   FUNCTION I2C_Clock_Stretch(Self : SocketSubclass) RETURN Boolean IS
 
   BEGIN
-    RETURN False;
+    RETURN SocketTable(Self.index).Stretch;
   END I2C_Clock_Stretch;
 
 END ClickBoard.SimpleIO;
