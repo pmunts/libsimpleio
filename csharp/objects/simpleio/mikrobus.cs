@@ -1,7 +1,7 @@
 // Mikroelektronika mikroBUS (https://www.mikroe.com/mikrobus)
 // Shield and Socket Services
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2024, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -69,6 +69,13 @@ namespace IO.Objects.SimpleIO.mikroBUS
             /// converter and two mikroBUS sockets.
             /// </summary>
             PiClick3,
+            /// <summary>
+            /// Mikroelektronika Pi 4 Click Shield
+            /// <a href="https://www.mikroe.com/pi-4-click-shield">MIKROE-4122</a>
+            /// for Raspberry Pi 4 Model B or Raspberry Pi 5 Model B, with
+            /// on-board A/D converter, two mikroBUS sockets, and cooling fan.
+            /// </summary>
+            PiClick4,
             /// <summary>
             /// <a href="http://beagleboard.org/pocket">PocketBeagle</a> with
             /// female headers on top, with two mikroBUS sockets.
@@ -406,7 +413,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 // mikroBUS devices
                 AIN:    Unavailable,
                 I2CBus: RaspberryPi.I2C1,
-                PWMOut: RaspberryPi.PWM0,
+                PWMOut: MuntsOS.GetCPUKind() == MuntsOS.CPUKinds.BCM2712 ? RaspberryPi5.PWM2 : RaspberryPi.PWM0,
                 SPIDev: RaspberryPi.SPI0_0,
                 UART:   "/dev/ttyAMA0"),
 
@@ -448,7 +455,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 // mikroBUS devices
                 AIN:    RaspberryPi.AIN0,     // Switch AN1 must be in the LEFT position
                 I2CBus: RaspberryPi.I2C1,
-                PWMOut: RaspberryPi.PWM0,
+                PWMOut: MuntsOS.GetCPUKind() == MuntsOS.CPUKinds.BCM2712 ? RaspberryPi5.PWM2 : RaspberryPi.PWM0,
                 SPIDev: RaspberryPi.SPI0_0,
                 UART:   "/dev/ttyAMA0"),
 
@@ -472,7 +479,70 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWMOut: Unavailable,
                 SPIDev: RaspberryPi.SPI0_1,
                 UART:   "/dev/ttyAMA0"),
-        };
+
+            new SocketEntry(Shield.Kinds.PiClick4, 1,
+                // mikroBUS GPIO pins
+                AN:     RaspberryPi.GPIO4,    // Jumper JP1 aka AN1 must be in the RIGHT position
+                RST:    RaspberryPi.GPIO5,
+                CS:     RaspberryPi.GPIO8,    // Conflicts with SPI0
+                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
+                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0
+                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0
+                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1
+                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1
+                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
+                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
+                INT:    RaspberryPi.GPIO6,
+                PWM:    RaspberryPi.GPIO18,   // Conflicts with PWM0
+                // mikroBUS devices
+                AIN:    RaspberryPi.AIN0,     // Jumper JP1 aka AN1 must be in the LEFT position
+                I2CBus: RaspberryPi.I2C1,
+                PWMOut: MuntsOS.GetCPUKind() == MuntsOS.CPUKinds.BCM2712 ? RaspberryPi5.PWM2 : RaspberryPi.PWM0,
+                SPIDev: RaspberryPi.SPI0_0,
+                UART:   "/dev/ttyAMA0"),
+
+            new SocketEntry(Shield.Kinds.PiClick4, 2,
+                // mikroBUS GPIO pins
+                AN:     RaspberryPi.GPIO17,   // Jumper JP2 aka AN2 must be in the RIGHT position
+                RST:    RaspberryPi.GPIO12,
+                CS:     RaspberryPi.GPIO7,    // Conflicts with SPI0
+                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
+                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0
+                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0
+                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1
+                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1
+                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
+                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
+                INT:    RaspberryPi.GPIO26,
+                PWM:    RaspberryPi.GPIO13,
+                // mikroBUS devices
+                AIN:    RaspberryPi.AIN1,     // Jumper JP2 aka AN2 must be in the LEFT position
+                I2CBus: RaspberryPi.I2C1,
+                PWMOut: MuntsOS.GetCPUKind() == MuntsOS.CPUKinds.BCM2712 ? RaspberryPi5.PWM1 : RaspberryPi.PWM1,
+                SPIDev: RaspberryPi.SPI0_1,
+                UART:   "/dev/ttyAMA0"),
+
+            new SocketEntry(Shield.Kinds.PiClick4, 3,  // Shuttle socket
+                // mikroBUS GPIO pins
+                AN:     RaspberryPi.GPIO24,   // Jumper JP2 aka AN3 must be in the RIGHT position
+                RST:    RaspberryPi.GPIO22,
+                CS:     RaspberryPi.GPIO23,
+                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
+                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0
+                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0
+                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1
+                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1
+                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
+                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
+                INT:    RaspberryPi.GPIO27,
+                PWM:    RaspberryPi.GPIO16,
+                // mikroBUS devices
+                AIN:    RaspberryPi.AIN2,     // Jumper JP2 aka AN3 must be in the LEFT position
+                I2CBus: RaspberryPi.I2C1,
+                PWMOut: Unavailable,
+                SPIDev: Unavailable,
+                UART:   "/dev/ttyAMA0"),
+       };
 
         private readonly SocketEntry myInfo;
 
