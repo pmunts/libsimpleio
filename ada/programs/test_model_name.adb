@@ -41,6 +41,6 @@ BEGIN
     Put_Line("The model name is     " & name);
   END IF;
 
-  Put_Line("The CPU generation is " & RaspberryPi.CPUs'Image(RaspberryPi.GetCPU));  
+  Put_Line("The CPU generation is " & RaspberryPi.CPUs'Image(RaspberryPi.GetCPU));
   New_Line;
 END;
