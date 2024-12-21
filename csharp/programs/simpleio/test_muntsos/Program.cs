@@ -39,4 +39,5 @@ WriteLine("TOOLCHAINREVISION is " + GetProperty("TOOLCHAINREVISION"));
 // Display some hardware information
 
 WriteLine("Model Name        is " + GetModelName());
-WriteLine("CPU               is " + GetCPUKind().ToString());
+WriteLine("CPU Name          is " + GetCPUKind().ToString());
+WriteLine("Shield Name       is " + GetProperty("SHIELDNAME"));
