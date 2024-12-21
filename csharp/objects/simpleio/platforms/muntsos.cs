@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 namespace IO.Objects.SimpleIO.Platforms
 {
     /// <summary>
-    /// This static class provides some methods for obtaining information
+    /// This class provides some methods for obtaining information
     /// about a Linux microcomputer running
     /// <a href="https://github.com/pmunts/muntsos">MuntsOS Embedded Linux</a>.
     /// </summary>
