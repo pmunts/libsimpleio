@@ -25,7 +25,7 @@ WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH Device;
 WITH GPIO.libsimpleio;
-WITH OrangePiZero2W.RaspberryPi; USE OrangePiZero2W.RaspberryPi;
+WITH OrangePiZero2W; USE OrangePiZero2W;
 
 PROCEDURE test_gpio IS
 
