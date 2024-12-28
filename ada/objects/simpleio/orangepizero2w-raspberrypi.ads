@@ -28,39 +28,48 @@ WITH Device;
 
 PACKAGE OrangePiZero2W.RaspberryPi IS
 
-  GPIO2  : Device.Designator RENAMES OrangePiZero2W.GPIO264; -- Pin 3
-  GPIO3  : Device.Designator RENAMES OrangePiZero2W.GPIO263; -- Pin 5
-  GPIO4  : Device.Designator RENAMES OrangePiZero2W.GPIO269; -- Pin 7
-  GPIO5  : Device.Designator RENAMES OrangePiZero2W.GPIO256; -- Pin 29
-  GPIO6  : Device.Designator RENAMES OrangePiZero2W.GPIO271; -- Pin 31
-  GPIO7  : Device.Designator RENAMES OrangePiZero2W.GPIO233; -- Pin 26
-  GPIO8  : Device.Designator RENAMES OrangePiZero2W.GPIO229; -- Pin 24
-  GPIO9  : Device.Designator RENAMES OrangePiZero2W.GPIO232; -- Pin 21
-  GPIO10 : Device.Designator RENAMES OrangePiZero2W.GPIO231; -- Pin 19
-  GPIO11 : Device.Designator RENAMES OrangePiZero2W.GPIO230; -- Pin 23
-  GPIO12 : Device.Designator RENAMES OrangePiZero2W.GPIO267; -- Pin 32
-  GPIO13 : Device.Designator RENAMES OrangePiZero2W.GPIO268; -- Pin 33
-  GPIO14 : Device.Designator RENAMES OrangePiZero2W.GPIO224; -- Pin 8
-  GPIO15 : Device.Designator RENAMES OrangePiZero2W.GPIO225; -- Pin 10
-  GPIO16 : Device.Designator RENAMES OrangePiZero2W.GPIO76;  -- Pin 36
-  GPIO17 : Device.Designator RENAMES OrangePiZero2W.GPIO226; -- Pin 11
-  GPIO18 : Device.Designator RENAMES OrangePiZero2W.GPIO257; -- Pin 12
-  GPIO19 : Device.Designator RENAMES OrangePiZero2W.GPIO258; -- Pin 35
-  GPIO20 : Device.Designator RENAMES OrangePiZero2W.GPIO260; -- Pin 38
-  GPIO21 : Device.Designator RENAMES OrangePiZero2W.GPIO259; -- Pin 40
-  GPIO22 : Device.Designator RENAMES OrangePiZero2W.GPIO261; -- Pin 15
-  GPIO23 : Device.Designator RENAMES OrangePiZero2W.GPIO270; -- Pin 16
-  GPIO24 : Device.Designator RENAMES OrangePiZero2W.GPIO228; -- Pin 18
-  GPIO25 : Device.Designator RENAMES OrangePiZero2W.GPIO262; -- Pin 22
-  GPIO26 : Device.Designator RENAMES OrangePiZero2W.GPIO272; -- Pin 37
-  GPIO27 : Device.Designator RENAMES OrangePiZero2W.GPIO227; -- Pin 13
+  GPIO2  : Device.Designator RENAMES OrangePiZero2W.PI8;    -- Pin 3  I2C1 SDA
+  GPIO3  : Device.Designator RENAMES OrangePiZero2W.PI7;    -- Pin 5  I2C1 SCL
+  GPIO4  : Device.Designator RENAMES OrangePiZero2W.PI13;   -- Pin 7  PWM2
+  GPIO17 : Device.Designator RENAMES OrangePiZero2W.PH2;    -- Pin 11
+  GPIO27 : Device.Designator RENAMES OrangePiZero2W.PH3;    -- Pin 13
+  GPIO22 : Device.Designator RENAMES OrangePiZero2W.PI5;    -- Pin 15
+  GPIO10 : Device.Designator RENAMES OrangePiZero2W.PH7;    -- Pin 19 SPI0 MOSI
+  GPIO9  : Device.Designator RENAMES OrangePiZero2W.PH8;    -- Pin 21 SPI0 MISO
+  GPIO11 : Device.Designator RENAMES OrangePiZero2W.PH6;    -- Pin 23 SPI0 SCLK
+  GPIO0  : Device.Designator RENAMES OrangePiZero2W.PI10;   -- Pin 27 I2C2 SDA
+  GPIO5  : Device.Designator RENAMES OrangePiZero2W.PI0;    -- Pin 29
+  GPIO6  : Device.Designator RENAMES OrangePiZero2W.PI15;   -- Pin 31
+  GPIO13 : Device.Designator RENAMES OrangePiZero2W.PI12;   -- Pin 33 PWM1
+  GPIO19 : Device.Designator RENAMES OrangePiZero2W.PI2;    -- Pin 35
+  GPIO26 : Device.Designator RENAMES OrangePiZero2W.PI16;   -- Pin 37
+  GPIO14 : Device.Designator RENAMES OrangePiZero2W.PH0;    -- Pin 8  TXD0
+  GPIO15 : Device.Designator RENAMES OrangePiZero2W.PH1;    -- Pin 10 RXD0
+  GPIO18 : Device.Designator RENAMES OrangePiZero2W.PI1;    -- Pin 12
+  GPIO23 : Device.Designator RENAMES OrangePiZero2W.PI14;   -- Pin 16 PWM3
+  GPIO24 : Device.Designator RENAMES OrangePiZero2W.PH4;    -- Pin 18
+  GPIO25 : Device.Designator RENAMES OrangePiZero2W.PI6;    -- Pin 22
+  GPIO8  : Device.Designator RENAMES OrangePiZero2W.PH5;    -- Pin 24 SPI0 CE0
+  GPIO7  : Device.Designator RENAMES OrangePiZero2W.PH9;    -- Pin 26 SPI0 CE1
+  GPIO1  : Device.Designator RENAMES OrangePiZero2W.PI9;    -- Pin 28 I2C2 SCL
+  GPIO12 : Device.Designator RENAMES OrangePiZero2W.PI11;   -- Pin 32 PWM0
+  GPIO16 : Device.Designator RENAMES OrangePiZero2W.PC12;   -- Pin 36
+  GPIO20 : Device.Designator RENAMES OrangePiZero2W.PI4;    -- Pin 38
+  GPIO21 : Device.Designator RENAMES OrangePiZero2W.PI3;    -- Pin 40
 
-  I2C1   : Device.Designator RENAMES OrangePiZero2W.I2C1;    -- Pins 3 and 5
+  I2C1   : Device.Designator RENAMES OrangePiZero2W.I2C1;   -- Pins 3 and 5
+  I2C2   : Device.Designator RENAMES OrangePiZero2W.I2C2;   -- Pins 27 and 28
 
-  PWM0   : Device.Designator RENAMES OrangePiZero2W.PWM1;    -- Pin 32;
-  PWM1   : Device.Designator RENAMES OrangePiZero2W.PWM2;    -- Pin 33;
+  PWM0   : Device.Designator RENAMES OrangePiZero2W.PWM1;   -- Pin 32;
+  PWM1   : Device.Designator RENAMES OrangePiZero2W.PWM2;   -- Pin 33;
+  PWM2   : Device.Designator RENAMES OrangePiZero2W.PWM3;   -- Pin 7
+  PWM3   : Device.Designator RENAMES OrangePiZero2W.PWM4;   -- Pin 16;
 
-  SPI0_0 : Device.Designator RENAMES OrangePiZero2W.SPI1_0;  -- Pin 24;
-  SPI0_1 : Device.Designator RENAMES OrangePiZero2W.SPI1_1;  -- Pin 26;
+  -- The H618 hardware subsystem SPI1 at address 0x05011000 is instantiated
+  -- as /sys/class/spi_master/spi0, resulting in slave device nodes named
+  -- /dev/spidev0.0 and /dev/spidev0.1.
+
+  SPI0_0 : Device.Designator RENAMES OrangePiZero2W.SPI0_0; -- Pin 24;
+  SPI0_1 : Device.Designator RENAMES OrangePiZero2W.SPI0_1; -- Pin 26;
 
 END OrangePiZero2W.RaspberryPi;
