@@ -22,6 +22,7 @@
 
 .PHONY: build default clean reallyclean distclean
 
+BOARDNAME	:= OrangePiZero2W
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
 include $(LIBSIMPLEIO)/ada/include/ada.mk
