@@ -24,47 +24,79 @@ WITH Device;
 
 PACKAGE OrangePiZero2W IS
 
-  GPIO264 : CONSTANT Device.Designator := (0, 264); -- Pin 3  aka I2C1 SDA
-  GPIO263 : CONSTANT Device.Designator := (0, 263); -- Pin 5  aka I2C1 SCL
-  GPIO269 : CONSTANT Device.Designator := (0, 269); -- Pin 7  aka PWM3, UART4 TXD
-  GPIO224 : CONSTANT Device.Designator := (0, 224); -- Pin 8  aka UART0 TXD
-  GPIO225 : CONSTANT Device.Designator := (0, 225); -- Pin 10 aka UART0 RXD
-  GPIO226 : CONSTANT Device.Designator := (0, 226); -- Pin 11 aka UART5 RXD
-  GPIO257 : CONSTANT Device.Designator := (0, 257); -- Pin 12
-  GPIO227 : CONSTANT Device.Designator := (0, 227); -- Pin 13 aka UART5 RXD
-  GPIO261 : CONSTANT Device.Designator := (0, 261); -- Pin 15 aka I2C0 SCL, UART2 TXD
-  GPIO270 : CONSTANT Device.Designator := (0, 270); -- Pin 16 aka PWM4, UART4 RXD
-  GPIO228 : CONSTANT Device.Designator := (0, 228); -- Pin 18
-  GPIO231 : CONSTANT Device.Designator := (0, 231); -- Pin 19 aka SPI1 MOSI
-  GPIO232 : CONSTANT Device.Designator := (0, 232); -- Pin 21 aka SPI1 MISO
-  GPIO262 : CONSTANT Device.Designator := (0, 262); -- Pin 22 aka I2C0 SDA, UART2 RXD
-  GPIO230 : CONSTANT Device.Designator := (0, 230); -- Pin 23 aka SPI1 CLK
-  GPIO229 : CONSTANT Device.Designator := (0, 229); -- Pin 24 aka SPI1 SS0
-  GPIO233 : CONSTANT Device.Designator := (0, 233); -- Pin 26 aka SPI1 SS1
-  GPIO266 : CONSTANT Device.Designator := (0, 266); -- Pin 27 aka I2C2 SDA, UART3 RXD
-  GPIO265 : CONSTANT Device.Designator := (0, 265); -- Pin 28 aka I2C2 SCL, UART3 TXD
-  GPIO256 : CONSTANT Device.Designator := (0, 256); -- Pin 29
-  GPIO271 : CONSTANT Device.Designator := (0, 271); -- Pin 31
-  GPIO267 : CONSTANT Device.Designator := (0, 267); -- Pin 32 aka PWM1
-  GPIO268 : CONSTANT Device.Designator := (0, 268); -- Pin 33 aka PMW2
-  GPIO258 : CONSTANT Device.Designator := (0, 258); -- Pin 35
-  GPIO76  : CONSTANT Device.Designator := (0, 76);  -- Pin 36
-  GPIO272 : CONSTANT Device.Designator := (0, 272); -- Pin 37
-  GPIO260 : CONSTANT Device.Designator := (0, 260); -- Pin 38
-  GPIO259 : CONSTANT Device.Designator := (0, 259); -- Pin 40
+  PI8  : CONSTANT Device.Designator := (0, 264);  -- Pin 3  I2C1 SDA
+  PI7  : CONSTANT Device.Designator := (0, 263);  -- Pin 5  I2C1 SCL
+  PI13 : CONSTANT Device.Designator := (0, 269);  -- Pin 7  PWM3
+  PH2  : CONSTANT Device.Designator := (0, 226);  -- Pin 11
+  PH3  : CONSTANT Device.Designator := (0, 227);  -- Pin 13
+  PI5  : CONSTANT Device.Designator := (0, 261);  -- Pin 15
+  PH7  : CONSTANT Device.Designator := (0, 231);  -- Pin 19 SPI1 MOSI
+  PH8  : CONSTANT Device.Designator := (0, 232);  -- Pin 21 SPI1 MISO
+  PH6  : CONSTANT Device.Designator := (0, 230);  -- Pin 23 SPI1 CLK
+  PI10 : CONSTANT Device.Designator := (0, 266);  -- Pin 27 I2C2 SDA
+  PI0  : CONSTANT Device.Designator := (0, 256);  -- Pin 29
+  PI15 : CONSTANT Device.Designator := (0, 271);  -- Pin 31
+  PI12 : CONSTANT Device.Designator := (0, 268);  -- Pin 33 PWM2
+  PI2  : CONSTANT Device.Designator := (0, 258);  -- Pin 35
+  PI16 : CONSTANT Device.Designator := (0, 272);  -- Pin 37
+  PH0  : CONSTANT Device.Designator := (0, 224);  -- Pin 8  TXD0
+  PH1  : CONSTANT Device.Designator := (0, 225);  -- Pin 10 RXD0
+  PI1  : CONSTANT Device.Designator := (0, 257);  -- Pin 12
+  PI14 : CONSTANT Device.Designator := (0, 270);  -- Pin 16 PWM4
+  PH4  : CONSTANT Device.Designator := (0, 228);  -- Pin 18
+  PI6  : CONSTANT Device.Designator := (0, 262);  -- Pin 22
+  PH5  : CONSTANT Device.Designator := (0, 229);  -- Pin 24 SPI1 SS0
+  PH9  : CONSTANT Device.Designator := (0, 233);  -- Pin 26 SPI1 SS1
+  PI9  : CONSTANT Device.Designator := (0, 265);  -- Pin 28 I2C2 SCL
+  PI11 : CONSTANT Device.Designator := (0, 267);  -- Pin 32 PWM1
+  PC12 : CONSTANT Device.Designator := (0, 76);   -- Pin 36
+  PI4  : CONSTANT Device.Designator := (0, 260);  -- Pin 38
+  PI3  : CONSTANT Device.Designator := (0, 259);  -- Pin 40
 
-  -- The following subsystems require device tree overlays
+  -- GPIO pin number aliases
 
-  I2C0    : CONSTANT Device.Designator := (0, 0);   -- Pins 15 and 22
-  I2C1    : CONSTANT Device.Designator := (0, 1);   -- Pins 3  and 5
-  I2C2    : CONSTANT Device.Designator := (0, 2);   -- Pins 27 and 28
+  GPIO264 : Device.Designator RENAMES PI8;        -- Pin 3  I2C1 SDA
+  GPIO263 : Device.Designator RENAMES PI7;        -- Pin 5  I2C1 SCL
+  GPIO269 : Device.Designator RENAMES PI13;       -- Pin 7  PWM3
+  GPIO226 : Device.Designator RENAMES PH2;        -- Pin 11
+  GPIO227 : Device.Designator RENAMES PH3;        -- Pin 13
+  GPIO261 : Device.Designator RENAMES PI5;        -- Pin 15
+  GPIO231 : Device.Designator RENAMES PH7;        -- Pin 19 SPI1 MOSI
+  GPIO232 : Device.Designator RENAMES PH8;        -- Pin 21 SPI1 MISO
+  GPIO230 : Device.Designator RENAMES PH6;        -- Pin 23 SPI1 CLK
+  GPIO266 : Device.Designator RENAMES PI10;       -- Pin 27 I2C2 SDA
+  GPIO256 : Device.Designator RENAMES PI0;        -- Pin 29
+  GPIO271 : Device.Designator RENAMES PI15;       -- Pin 31
+  GPIO268 : Device.Designator RENAMES PI12;       -- Pin 33 PWM2
+  GPIO258 : Device.Designator RENAMES PI2;        -- Pin 35
+  GPIO272 : Device.Designator RENAMES PI16;       -- Pin 37
+  GPIO224 : Device.Designator RENAMES PH0;        -- Pin 8  TXD0
+  GPIO225 : Device.Designator RENAMES PH1;        -- Pin 10 RXD0
+  GPIO257 : Device.Designator RENAMES PI1;        -- Pin 12
+  GPIO270 : Device.Designator RENAMES PI14;       -- Pin 16 PWM4
+  GPIO228 : Device.Designator RENAMES PH4;        -- Pin 18
+  GPIO262 : Device.Designator RENAMES PI6;        -- Pin 22
+  GPIO229 : Device.Designator RENAMES PH5;        -- Pin 24 SPI1 SS0
+  GPIO233 : Device.Designator RENAMES PH9;        -- Pin 26 SPI1 SS1
+  GPIO265 : Device.Designator RENAMES PI9;        -- Pin 28 I2C2 SCL
+  GPIO267 : Device.Designator RENAMES PI11;       -- Pin 32 PWM1
+  GPIO76  : Device.Designator RENAMES PC12;       -- Pin 36
+  GPIO260 : Device.Designator RENAMES PI4;        -- Pin 38
+  GPIO259 : Device.Designator RENAMES PI3;        -- Pin 40
 
-  PWM1    : CONSTANT Device.Designator := (0, 1);   -- Pin 32
-  PWM2    : CONSTANT Device.Designator := (0, 2);   -- Pin 33
-  PWM3    : CONSTANT Device.Designator := (0, 3);   -- Pin 7
-  PWM4    : CONSTANT Device.Designator := (0, 4);   -- Pin 16
+  I2C1    : CONSTANT Device.Designator := (0, 1); -- Pins 3  and 5
+  I2C2    : CONSTANT Device.Designator := (0, 2); -- Pins 27 and 28
 
-  SPI1_0  : CONSTANT Device.Designator := (1, 0);   -- Pin 24
-  SPI1_1  : CONSTANT Device.Designator := (1, 1);   -- Pin 26
+  PWM1    : CONSTANT Device.Designator := (0, 1); -- Pin 32
+  PWM2    : CONSTANT Device.Designator := (0, 2); -- Pin 33
+  PWM3    : CONSTANT Device.Designator := (0, 3); -- Pin 7
+  PWM4    : CONSTANT Device.Designator := (0, 4); -- Pin 16
+
+  -- The H618 hardware subsystem SPI1 at address 0x05011000 is instantiated
+  -- as /sys/class/spi_master/spi0, resulting in slave device nodes named
+  -- /dev/spidev0.0 and /dev/spidev0.1.
+
+  SPI0_0  : CONSTANT Device.Designator := (0, 0); -- Pin 24
+  SPI0_1  : CONSTANT Device.Designator := (0, 1); -- Pin 26
 
 END OrangePiZero2W;
