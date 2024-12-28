@@ -85,6 +85,7 @@ PACKAGE RaspberryPi IS
     BCM2710,  -- Raspberry Pi 3
     BCM2711,  -- Raspberry Pi 4
     BCM2712,  -- Raspberry Pi 5
+    H618,     -- Orange Pi Zero 2W
     UNKNOWN);
 
   -- CPU synonyms
