@@ -1,6 +1,6 @@
 -- Orange Pi Zero 2W GPIO Output Toggle Test
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2024, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -40,7 +40,7 @@ PROCEDURE test_gpio IS
   outp : GPIO.Pin;
 
 BEGIN
-  Put_Line("GPIO Output Test");
+  Put_Line("Orange Pi Zero 2W GPIO Output Toggle Test");
   New_Line;
 
   Put("Enter Raspberry Pi GPIO pin number (0 to 27): ");
