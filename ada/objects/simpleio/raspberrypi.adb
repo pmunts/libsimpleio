@@ -23,12 +23,12 @@
 WITH Ada.Strings.Fixed;
 
 WITH libLinux;
+WITH OrangePiZero2W;
 
 PACKAGE BODY RaspberryPi IS
 
   -- Current (more or less) 64-bit models
 
-  OrangePiZero2W    : CONSTANT String := "OrangePi Zero2 W";
   RaspberryPi2_2710 : CONSTANT String := "Raspberry Pi 2 Model B Rev 1.2";
   RaspberryPi3      : CONSTANT String := "Raspberry Pi 3";
   RaspberryPiCM3    : CONSTANT String := "Raspberry Pi Compute Module 3";
@@ -56,7 +56,7 @@ PACKAGE BODY RaspberryPi IS
 
     -- Current (more or less) 64-bit models
 
-    IF Ada.Strings.Fixed.Index(ModelName, OrangePiZero2W) > 0 THEN
+    IF Ada.Strings.Fixed.Index(ModelName, OrangePiZero2W.ModelName) > 0 THEN
       RETURN H618;
     END IF;
 
