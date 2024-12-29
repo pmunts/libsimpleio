@@ -1,6 +1,6 @@
 -- MUNTS-0018 Tutorial I/O Board Servo Test
 
--- Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2021-2024, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -19,6 +19,8 @@
 -- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
+
+-- Connect the servo to header J2.
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
