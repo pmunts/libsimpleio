@@ -37,7 +37,7 @@ BEGIN
   Put_Line("MUNTS-0018 Tutorial I/O Board Grove Temperature Sensor Test");
   New_Line;
 
-  T := Grove_Temperature.Create(MUNTS_0018.Analog.Inputs(0));
+  T := Grove_Temperature.Create(MUNTS_0018.Analog.Inputs(2));
 
   LOOP
     Temperature.Celsius_IO.Put(T.Get, 4, 1, 0);
