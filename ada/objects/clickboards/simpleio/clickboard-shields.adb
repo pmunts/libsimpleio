@@ -54,10 +54,10 @@ PACKAGE BODY ClickBoard.Shields IS
       WHEN OTHERS => NULL;
     END;
 
-    -- In the absence of SHIELDNAME, assume the mikroBUS Cape (MIKROE-1596)
-    -- for all BeagleBone boards
+    -- In the absence of SHIELDNAME, assume the mikroBUS Cape
+    -- (MIKROE-1596) for all BeagleBone boards
 
-    IF matchenv("BOARDNAME", "beaglebone") OR matchenv("OSNAME", "beagle") THEN
+    IF matchenv("BOARDNAME", "beaglebone") THEN
       RETURN ClickBoard.Shields.BeagleBoneClick4;
     END IF;
 
@@ -74,7 +74,7 @@ PACKAGE BODY ClickBoard.Shields IS
       RETURN ClickBoard.Shields.PiClick3;
     END IF;
 
-    RAISE ShieldError WITH "Cannot identify the ClickBoard shield";
+    RETURN ClickBoard.Shields.Unknown;
   END Detect;
 
 END ClickBoard.Shields;

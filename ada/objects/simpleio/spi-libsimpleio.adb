@@ -100,26 +100,20 @@ PACKAGE BODY SPI.libsimpleio IS
       ss.Initialize(cspin, GPIO.Output, True);
       fdcs := ss.fd;
     ELSE
-      BEGIN
-        -- Special hack for BeagleBone Click Shield (MIKROE-1596):
-        -- Neither socket has the correct hardware slave select signal connected
-        -- to the mikroBUS CS pin, so we have to force software slave select
-        -- using the GPIO that is connected to CS instead.
+      -- Special hack for BeagleBone Click Shield (MIKROE-1596):
+      -- Neither socket has the correct hardware slave select signal connected
+      -- to the mikroBUS CS pin, so we have to force software slave select
+      -- using the GPIO that is connected to CS instead.
 
-        IF ClickBoard.Shields.Detect = ClickBoard.Shields.BeagleBoneClick2 THEN
-          IF name = "/dev/spidev1.0" THEN
-            ss.Initialize(BeagleBone.GPIO44, GPIO.Output, True);
-            fdcs := ss.fd;
-          ELSIF name = "/dev/spidev1.1" THEN
-            ss.Initialize(BeagleBone.GPIO46, GPIO.Output, True);
-            fdcs := ss.fd;
-          END IF;
+      IF ClickBoard.Shields.Detect = ClickBoard.Shields.BeagleBoneClick2 THEN
+        IF name = "/dev/spidev1.0" THEN
+          ss.Initialize(BeagleBone.GPIO44, GPIO.Output, True);
+          fdcs := ss.fd;
+        ELSIF name = "/dev/spidev1.1" THEN
+          ss.Initialize(BeagleBone.GPIO46, GPIO.Output, True);
+          fdcs := ss.fd;
         END IF;
-
-      EXCEPTION
-        WHEN ClickBoard.Shields.ShieldError =>
-          NULL;
-      END;
+      END IF;
     END IF;
 
     Self := DeviceSubclass'(fd => fd, fdcs => fdcs);

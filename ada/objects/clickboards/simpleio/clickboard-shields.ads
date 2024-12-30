@@ -34,7 +34,8 @@ PACKAGE ClickBoard.Shields IS
    PiClick4,          -- Raspberry Pi 4 or 5 with MIKROE-4122, with 3 sockets
    BeagleBoneClick2,  -- BeagleBone with MIKROE-1596, with 2 sockets
    BeagleBoneClick4,  -- BeagleBone with MIKROE-1857, with 4 sockets
-   PocketBeagle);     -- PocketBeagle with 2 sockets
+   PocketBeagle,      -- PocketBeagle with 2 sockets
+   Unknown);          -- Non-mikroBUS shield installed
 
   -- Detect the kind of ClickBoard shield we are using
 
