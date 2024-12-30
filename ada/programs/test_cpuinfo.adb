@@ -1,4 +1,4 @@
--- Linux Device Tree Model Name Test
+-- CPU Information Test
 
 -- Copyright (C)2024, Philip Munts dba Munts Technologies.
 --
@@ -22,25 +22,24 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH libLinux;
-WITH RaspberryPi;
+WITH CPUInfo;
 
-PROCEDURE test_model_name IS
+PROCEDURE test_cpuinfo IS
 
-  name : CONSTANT String := libLinux.ModelName;
+  name : CONSTANT String := CPUInfo.ModelName;
 
 BEGIN
   New_Line;
-  Put_Line("Linux Device Tree Model Name Test");
+  Put_Line("CPU Information Test");
   New_Line;
 
-  IF name = libLinux.UNKNOWN_MODEL THEN
+  IF name = CPUInfo.UNKNOWN_MODEL THEN
     Put_Line("Cannot determine model name!");
     RETURN;
   ELSE
-    Put_Line("The model name is     " & name);
+    Put_Line("The CPU model name is " & name);
   END IF;
 
-  Put_Line("The CPU generation is " & RaspberryPi.CPUs'Image(RaspberryPi.GetCPU));
+    Put_Line("The CPU kind       is " & CPUINFO.Kinds'Image(CPUInfo.Kind));
   New_Line;
-END;
+END test_cpuinfo;
