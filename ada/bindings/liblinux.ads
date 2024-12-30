@@ -210,6 +210,6 @@ PACKAGE libLinux IS
 
   FUNCTION ModelName RETURN String;
 
-  UNKNOWN_MODEL : CONSTANT String := "";
+  UNKNOWN_MODEL : CONSTANT String := "UNKNOWN";
 
 END libLinux;
