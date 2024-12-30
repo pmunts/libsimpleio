@@ -69,12 +69,20 @@ Installation instructions are on pages 6 and 7.</p>
 "https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mcp2221.json"></a>
 <a href="https://alire.ada.dev/crates/remoteio.html"><img alt="remoteio" src=
 "https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/remoteio.json"></a></p>
-<p>The Munts Technologies Alire crate index fork is available at:</p>
-<p><a href=
-"https://github.com/pmunts/alire-index.git">https://github.com/pmunts/alire-index.git</a></p>
-<p>Use the following command to reference it:</p>
-<p><b><tt>alr index --add git+https://github.com/pmunts/alire-index.git --name
-pmunts --before community</tt></b></p>
+<p>Ada programs using the <b><tt>libsimpleio</tt></b> crate run only on Linux
+target computers.</p>
+<p>Ada programs using the <b><tt>mcp2221</tt></b> crate can run on Linux,
+macOS, or Windows target computers, enabling you to control I/O resources on a
+USB tethered <a href=
+"https://www.microchip.com/en-us/product/MCP2221A">MCP2221A USB 2.0 to
+I<sup>2</sup>C/UART Protocol Converter with GPIO</a>, perhaps using a module
+like the <a href="https://www.adafruit.com/product/4471">Adafruit MCP2221A
+Breakout</a>.</p>
+<p>Ada programs using the <b><tt>remoteio</tt></b> crate can run on Linux,
+macOS, or Windows target computers, enabling you to control GPIO resources on a
+USB tethered or networked <a href=
+"http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
+Protocol</a> server.</p>
 <h2><a href="https://nuget.org/">NuGet</a> Packages for <a href=
 "https://dotnet.microsoft.com">.Net</a></h2>
 <p><a href="https://www.nuget.org/packages/libremoteio"><img alt="libremoteio"
@@ -91,21 +99,17 @@ src=
 "libsimpleio-templates" src=
 "https://img.shields.io/nuget/v/libsimpleio-templates?style=flat&amp;logo=nuget&amp;label=libsimpleio-templates"></a>
 </p>
-Use one of the following command sequences to create a .Net program
-project:
-<b>
-<pre>
+<p>
+Use one of the following command sequences to create a .Net program project:
+<pre><b>
 dotnet new install libremoteio-templates
 dotnet new csharp_console_libremoteio -o myprogram
-</pre>
-</b>
+</b></pre>
 Or
-<b>
-<pre>
+<pre><b>
 dotnet new install libsimpleio-templates
 dotnet new csharp_console_libsimpleio -o myprogram
-</pre>
-</b>
+</b></pre></p>
 <hr>
 Questions or comments to Philip Munts <a href=
 "mailto:phil@munts.net">phil@munts.net</a>

@@ -87,13 +87,21 @@ Linux are available at:
 [![mcp2221](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mcp2221.json)](https://alire.ada.dev/crates/mcp2221.html)
 [![remoteio](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/remoteio.json)](https://alire.ada.dev/crates/remoteio.html)
 
-The Munts Technologies Alire crate index fork is available at:
+Ada programs using the **`libsimpleio`** crate run only on Linux target
+computers.
 
-<https://github.com/pmunts/alire-index.git>
+Ada programs using the **`mcp2221`** crate can run on Linux, macOS, or
+Windows target computers, enabling you to control I/O resources on a USB
+tethered [MCP2221A USB 2.0 to I<sup>2</sup>C/UART Protocol Converter
+with GPIO](https://www.microchip.com/en-us/product/MCP2221A), perhaps
+using a module like the [Adafruit MCP2221A
+Breakout](https://www.adafruit.com/product/4471).
 
-Use the following command to reference it:
-
-**`alr index --add git+https://github.com/pmunts/alire-index.git --name pmunts --before community`**
+Ada programs using the **`remoteio`** crate can run on Linux, macOS, or
+Windows target computers, enabling you to control GPIO resources on a
+USB tethered or networked [Remote I/O
+Protocol](http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf)
+server.
 
 [NuGet](https://nuget.org/) Packages for [.Net](https://dotnet.microsoft.com)
 -----------------------------------------------------------------------------

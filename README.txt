@@ -66,13 +66,17 @@ Alire Crates
 
 [libsimpleio] [mcp2221] [remoteio]
 
-The Munts Technologies Alire crate index fork is available at:
+Ada programs using the libsimpleio crate run only on Linux target
+computers.
 
-https://github.com/pmunts/alire-index.git
+Ada programs using the mcp2221 crate can run on Linux, macOS, or Windows
+target computers, enabling you to control I/O resources on a USB
+tethered MCP2221A USB 2.0 to I²C/UART Protocol Converter with GPIO,
+perhaps using a module like the Adafruit MCP2221A Breakout.
 
-Use the following command to reference it:
-
-alr index --add git+https://github.com/pmunts/alire-index.git --name pmunts --before community
+Ada programs using the remoteio crate can run on Linux, macOS, or
+Windows target computers, enabling you to control GPIO resources on a
+USB tethered or networked Remote I/O Protocol server.
 
 NuGet Packages for .Net
 
