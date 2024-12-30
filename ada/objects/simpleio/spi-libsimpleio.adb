@@ -119,9 +119,6 @@ PACKAGE BODY SPI.libsimpleio IS
       EXCEPTION
         WHEN ClickBoard.Shields.ShieldError =>
           NULL;
-
-        WHEN OTHERS =>
-          RAISE;
       END;
     END IF;
 
