@@ -1,6 +1,6 @@
--- Raspberry Pi I/O Resource Definitions
+-- CPU information services
 
--- Copyright (C)2018-2024, Philip Munts dba Munts Technologies.
+-- Copyright (C)2024, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,12 +22,11 @@
 
 WITH Ada.Strings.Fixed;
 
-WITH libLinux;
 WITH OrangePiZero2W;
 
-PACKAGE BODY RaspberryPi IS
+PACKAGE BODY CPUInfo IS
 
-  -- Current (more or less) 64-bit models
+  -- Current (more or less) 64-bit model strings
 
   RaspberryPi2_2710 : CONSTANT String := "Raspberry Pi 2 Model B Rev 1.2";
   RaspberryPi3      : CONSTANT String := "Raspberry Pi 3";
@@ -38,7 +37,7 @@ PACKAGE BODY RaspberryPi IS
   RaspberryPi5      : CONSTANT String := "Raspberry Pi 5";
   RaspberryPiCM5    : CONSTANT String := "Raspberry Pi Compute Module 5";
 
-  -- Obsolete 32-bit models
+  -- Obsolete 32-bit model strings
 
   RaspberryPi1      : CONSTANT String := "Raspberry Pi Model";
   RaspberryPiCM1    : CONSTANT String := "Raspberry Pi Compute Module Rev";
@@ -48,49 +47,49 @@ PACKAGE BODY RaspberryPi IS
 
   -- Detect the CPU generation
 
-  FUNCTION GetCPU RETURN CPUs IS
+  FUNCTION Kind RETURN Kinds IS
 
-    ModelName : CONSTANT String := libLinux.ModelName;
+    name : CONSTANT String := ModelName;
 
   BEGIN
 
     -- Current (more or less) 64-bit models
 
-    IF Ada.Strings.Fixed.Index(ModelName, OrangePiZero2W.ModelName) > 0 THEN
+    IF Ada.Strings.Fixed.Index(name, OrangePiZero2W.ModelName) > 0 THEN
       RETURN H618;
     END IF;
 
-    IF Ada.Strings.Fixed.Index(ModelName, RaspberryPi2_2710) > 0 OR
-       Ada.Strings.Fixed.Index(ModelName, RaspberryPi3)      > 0 OR
-       Ada.Strings.Fixed.Index(ModelName, RaspberryPiCM3)    > 0 OR
-       Ada.Strings.Fixed.Index(ModelName, RaspberryPiZero2)  > 0 THEN
+    IF Ada.Strings.Fixed.Index(name, RaspberryPi2_2710) > 0 OR
+       Ada.Strings.Fixed.Index(name, RaspberryPi3)      > 0 OR
+       Ada.Strings.Fixed.Index(name, RaspberryPiCM3)    > 0 OR
+       Ada.Strings.Fixed.Index(name, RaspberryPiZero2)  > 0 THEN
       RETURN BCM2710;
     END IF;
 
-    IF Ada.Strings.Fixed.Index(ModelName, RaspberryPi4)      > 0 OR
-       Ada.Strings.Fixed.Index(ModelName, RaspberryPiCM4)    > 0 THEN
+    IF Ada.Strings.Fixed.Index(name, RaspberryPi4)      > 0 OR
+       Ada.Strings.Fixed.Index(name, RaspberryPiCM4)    > 0 THEN
       RETURN BCM2711;
     END IF;
 
-    IF Ada.Strings.Fixed.Index(ModelName, RaspberryPi5)      > 0 OR
-       Ada.Strings.Fixed.Index(ModelName, RaspberryPiCM5)    > 0 THEN
+    IF Ada.Strings.Fixed.Index(name, RaspberryPi5)      > 0 OR
+       Ada.Strings.Fixed.Index(name, RaspberryPiCM5)    > 0 THEN
       RETURN BCM2712;
     END IF;
 
     -- Obsolete 32-bit models
 
-    IF Ada.Strings.Fixed.Index(ModelName, RaspberryPi1)      > 0 OR
-       Ada.Strings.Fixed.Index(ModelName, RaspberryPiCM1)    > 0 OR
-       Ada.Strings.Fixed.Index(ModelName, RaspberryPiZero)   > 0 OR
-       Ada.Strings.Fixed.Index(ModelName, RaspberryPiZeroW)  > 0 THEN
+    IF Ada.Strings.Fixed.Index(name, RaspberryPi1)      > 0 OR
+       Ada.Strings.Fixed.Index(name, RaspberryPiCM1)    > 0 OR
+       Ada.Strings.Fixed.Index(name, RaspberryPiZero)   > 0 OR
+       Ada.Strings.Fixed.Index(name, RaspberryPiZeroW)  > 0 THEN
       RETURN BCM2708;
     END IF;
 
-    IF Ada.Strings.Fixed.Index(ModelName, RaspberryPi2)      > 0 THEN
+    IF Ada.Strings.Fixed.Index(name, RaspberryPi2)      > 0 THEN
       RETURN BCM2709;
     END IF;
 
     RETURN UNKNOWN;
-  END GetCPU;
+  END Kind;
 
-END RaspberryPi;
+END CPUInfo;

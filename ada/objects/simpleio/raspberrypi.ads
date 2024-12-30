@@ -21,25 +21,36 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Device;
-WITH libLinux;
+WITH CPUInfo;
 WITH OrangePiZero2W;
+WITH RaspberryPi5;
+
+USE TYPE CPUInfo.Kinds;
 
 PACKAGE RaspberryPi IS
   
-  Orange : CONSTANT Boolean := (libLinux.ModelName = OrangePiZero2W.ModelName);
+  Orange : CONSTANT Boolean := (CPUInfo.ModelName = OrangePiZero2W.ModelName);
+  Pi5    : CONSTANT Boolean := (CPUInfo.Kind = CPUInfo.BCM2712);
+
+  ----------------------------------------------------------------------------
+
+  -- The canonical 40-pin expansion header I/O resources, common across all
+  -- Raspberry Pi platforms including the Orange Pi Zero 2W:
 
   -- Raspberry Pi boards don't have a built-in ADC (Analog to Digital
   -- Converter) subsystem, so the following analog input designators are
-  -- placeholders for the first IIO (Industrial I/O) ADC device.
+  -- placeholders for the first IIO (Industrial I/O) ADC device, which is
+  -- often on a HAT like the Pi 3 Click Shield or an expansion board like
+  -- the MUNTS-0018 Raspberry Pi Tutorial I/O Board.
 
-  AIN0   : CONSTANT Device.Designator := (0,  0);
-  AIN1   : CONSTANT Device.Designator := (0,  1);
-  AIN2   : CONSTANT Device.Designator := (0,  2);
-  AIN3   : CONSTANT Device.Designator := (0,  3);
-  AIN4   : CONSTANT Device.Designator := (0,  4);
-  AIN5   : CONSTANT Device.Designator := (0,  5);
-  AIN6   : CONSTANT Device.Designator := (0,  6);
-  AIN7   : CONSTANT Device.Designator := (0,  7);
+  AIN0   : CONSTANT Device.Designator := (0, 0);
+  AIN1   : CONSTANT Device.Designator := (0, 1);
+  AIN2   : CONSTANT Device.Designator := (0, 2);
+  AIN3   : CONSTANT Device.Designator := (0, 3);
+  AIN4   : CONSTANT Device.Designator := (0, 4);
+  AIN5   : CONSTANT Device.Designator := (0, 5);
+  AIN6   : CONSTANT Device.Designator := (0, 6);
+  AIN7   : CONSTANT Device.Designator := (0, 7);
 
   GPIO2  : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.GPIO2  ELSE (0,  2));  -- Pin 3  I2C1 SDA
   GPIO3  : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.GPIO3  ELSE (0,  3));  -- Pin 5  I2C1 SCL
@@ -68,38 +79,45 @@ PACKAGE RaspberryPi IS
   GPIO26 : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.GPIO26 ELSE (0, 26));  -- Pin 37
   GPIO27 : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.GPIO27 ELSE (0, 27));  -- Pin 13
 
-  I2C1   : CONSTANT Device.Designator := (0,  1);  -- GPIO2/GPIO3
+  I2C1   : CONSTANT Device.Designator := (0, 1); -- Pins 3 and 5
 
-  PWM0   : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.PWM1   ELSE (0,  0));  -- GPIO12 or GPIO18
-  PWM1   : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.PWM2   ELSE (0,  1));  -- GPIO13 or GPIO19
+  PWM0   : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.PWM1 ELSIF Pi5 THEN RaspberryPi5.PWM0 ELSE (0, 0)); -- Pin 32
+  PWM1   : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.PWM2 ELSIF Pi5 THEN RaspberryPi5.PWM1 ELSE (0, 1)); -- Pin 33
 
-  SPI0_0 : CONSTANT Device.Designator := (0,  0);  -- GPIO8,  GPIO9,  GPIO10, and GPIO11
-  SPI0_1 : CONSTANT Device.Designator := (0,  1);  -- GPIO7,  GPIO9,  GPIO10, and GPIO11
-  SPI1_0 : CONSTANT Device.Designator := (1,  0);  -- GPIO18, GPIO19, GPIO20, and GPIO21
-  SPI1_1 : CONSTANT Device.Designator := (1,  1);  -- GPIO17, GPIO19, GPIO20, and GPIO21
-  SPI1_2 : CONSTANT Device.Designator := (1,  2);  -- GPIO16, GPIO19, GPIO20, and GPIO21
+  SPI0_0 : CONSTANT Device.Designator := (0, 0); -- Pins 19, 21, 23, 24
+  SPI0_1 : CONSTANT Device.Designator := (0, 1); -- Pins 19, 21, 23, 26
 
-  -- Raspberry Pi CPU generations
+  ----------------------------------------------------------------------------
 
-  TYPE CPUs IS
-   (BCM2708,  -- Raspberry Pi 1
-    BCM2709,  -- Raspberry Pi 2
-    BCM2710,  -- Raspberry Pi 3
-    BCM2711,  -- Raspberry Pi 4
-    BCM2712,  -- Raspberry Pi 5
-    H618,     -- Orange Pi Zero 2W
-    UNKNOWN);
+  -- The Orange Pi Zero 2W has two more GPIO pins or an I2C bus on pins 27
+  -- and 28, which are supposed to be reserved for the VideoCore subsystem
+  -- on Raspberry Pis.
 
-  -- CPU synonyms
+  GPIO0  : CONSTANT Device.Designator := (IF Orange Then OrangePiZero2W.GPIO0 ELSE Device.Unavailable); -- Pin 27
+  GPIO1  : CONSTANT Device.Designator := (IF Orange Then OrangePiZero2W.GPIO1 ELSE Device.Unavailable); -- Pin 28
 
-  BCM2835   : CONSTANT CPUs := BCM2708; -- Raspberry Pi 1
-  BCM2836   : CONSTANT CPUs := BCM2709; -- Raspberry Pi 2
-  BCM2837   : CONSTANT CPUs := BCM2710; -- Raspberry Pi 3
-  BCM2837B0 : CONSTANT CPUs := BCM2710; -- Raspberry Pi 3+
-  RP3A0     : CONSTANT CPUs := BCM2710; -- Raspberry Pi Zero 2 W
+  I2C2   : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.I2C2  ELSE Device.Unavailable); -- Pins 27 and 28
 
-  -- Detect the CPU generation
+  -- Raspberry Pis 1 to 4 have PWM0 and PWM1 multiplexed to GPIO18 and GPIO19
+  -- on a secondary basis.  Some HAT's like the Pi 3 Click Shield need PWM0
+  -- on GPIO18.  The definitions below make PWM2 and PWM3 synonyms for PWM0
+  -- and PWM1, to make the best of a bad situation.
+  --
+  -- Raspberry Pi 5 has its two additional PWM outputs PWM3 and PWM4 routed
+  -- to GPIO14 and GPIO15.  PWM2 and PWM3 are also multiplexed to GPIO18 and
+  -- GPIO19 on a secondary basis.
+  --
+  -- Unlike Raspberry Pis, the Orange Pi Zero 2W numbers its PWM outputs from
+  -- 1.  It two additional PWM outputs PWM3 and PWM4 are routed to GPIO4
+  -- and GPIO23 (apparently chosen at random).
 
-  FUNCTION GetCPU RETURN CPUs;
+  PWM2   : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.PWM3 ELSIF Pi5 THEN RaspberryPi5.PWM2 ELSE (0, 0)); -- Orange Pi Zero 2W Pin 7,  Raspberry Pi Pin 12 aka GPIO18
+  PWM3   : CONSTANT Device.Designator := (IF Orange THEN OrangePiZero2W.PWM4 ELSIF Pi5 THEN RaspberryPi5.PWM3 ELSE (0, 1)); -- Orange Pi Zero 2W Pin 16, Raspberry Pi Pin 35 aka GPIO19
+
+  -- The Orange Pi Zero 2W does not have SPI1.
+
+  SPI1_0 : CONSTANT Device.Designator := (IF Orange THEN Device.Unavailable ELSE (1, 0));  -- GPIO18, GPIO19, GPIO20, and GPIO21
+  SPI1_1 : CONSTANT Device.Designator := (IF Orange THEN Device.Unavailable ELSE (1, 1));  -- GPIO17, GPIO19, GPIO20, and GPIO21
+  SPI1_2 : CONSTANT Device.Designator := (IF Orange THEN Device.Unavailable ELSE (1, 2));  -- GPIO16, GPIO19, GPIO20, and GPIO21
 
 END RaspberryPi;
