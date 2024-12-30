@@ -22,8 +22,6 @@
 
 PACKAGE ClickBoard.Shields IS
 
-  ShieldError : EXCEPTION;
-
   -- These are the supported ClickBoard shields
 
   TYPE Kind IS
