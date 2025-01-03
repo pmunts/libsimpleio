@@ -28,7 +28,7 @@ WITH RaspberryPi5;
 USE TYPE CPUInfo.Kinds;
 
 PACKAGE RaspberryPi IS
-  
+
   Orange : CONSTANT Boolean := (CPUInfo.ModelName = OrangePiZero2W.ModelName);
   Pi5    : CONSTANT Boolean := (CPUInfo.Kind = CPUInfo.BCM2712);
 
