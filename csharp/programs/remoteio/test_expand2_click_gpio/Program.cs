@@ -1,6 +1,6 @@
 // Mikroelektronika Expand 2 Click GPIO Toggle Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -36,8 +36,10 @@ namespace test_expand2_click_gpio
             Console.Write("Channel number? ");
             var channel = int.Parse(Console.ReadLine());
 
-            var board = new IO.Devices.ClickBoards.RemoteIO.Expand2.Board(socket);
-            var outp = board.GPIO(channel, IO.Interfaces.GPIO.Direction.Output);
+            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
+            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var board  = new IO.Devices.ClickBoards.RemoteIO.Expand2.Board(remdev, socket);
+            var outp   = board.GPIO(channel, IO.Interfaces.GPIO.Direction.Output);
 
             for (;;)
             {

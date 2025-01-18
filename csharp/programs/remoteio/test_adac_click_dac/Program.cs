@@ -1,6 +1,6 @@
 // Mikroelektronika ADAC Click DAC Output Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -36,8 +36,10 @@ namespace test_adac_click_dac
             Console.Write("Channel number? ");
             var channel = int.Parse(Console.ReadLine());
 
-            var board = new IO.Devices.ClickBoards.RemoteIO.ADAC.Board(socket);
-            var outp = board.DAC(channel);
+            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
+            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var board  = new IO.Devices.ClickBoards.RemoteIO.ADAC.Board(remdev, socket);
+            var outp   = board.DAC(channel);
 
             for (;;)
             {

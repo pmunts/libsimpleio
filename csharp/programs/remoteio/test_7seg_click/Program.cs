@@ -1,6 +1,6 @@
 // Mikroelektronika Seven Segment Click Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025 Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -33,8 +33,11 @@ namespace test_7seg_click
             Console.WriteLine("\nMikroelektronika Seven Segment Click Test\n");
 
             Console.Write("Socket number? ");
-            var num = int.Parse(Console.ReadLine());
-            var disp = new Board(num);
+
+            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
+            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var num    = int.Parse(Console.ReadLine());
+            var disp   = new Board(remdev, num);
 
             // Test decimal mode
 

@@ -1,6 +1,6 @@
 // Mikroelektronika PWM Click PWM Output Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -39,8 +39,10 @@ namespace test_pwm_click_pwm
             Console.Write("PWM pulse frequency? ");
             var freq = int.Parse(Console.ReadLine());
 
-            var board = new IO.Devices.ClickBoards.RemoteIO.PWM.Board(socket, freq);
-            var outp = board.PWM(channel);
+            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
+            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var board  = new IO.Devices.ClickBoards.RemoteIO.PWM.Board(remdev, socket, freq);
+            var outp   = board.PWM(channel);
 
             for (;;)
             {
