@@ -20,8 +20,12 @@
       <DocumentationSource sourceFile="bin\Release\netstandard2.0\libremoteio.dll" xmlns="" />
       <DocumentationSource sourceFile="bin\Release\netstandard2.0\libremoteio.xml" xmlns="" />
       <DocumentationSource sourceFile="$(HOME)/.nuget/packages/hidsharp/2.1.0/lib/netstandard2.0/HidSharp.dll" xmlns="" />
+      <DocumentationSource sourceFile="$(HOME)/.nuget/packages/netmq/4.0.1.13/lib/netstandard2.0/NetMQ.dll" xmlns="" />
+      <DocumentationSource sourceFile="$(HOME)/.nuget/packages/asyncio/0.1.69/lib/netstandard2.0/AsyncIO.dll" xmlns="" />
+      <DocumentationSource sourceFile="$(HOME)/.nuget/packages/nacl.net/0.1.13/lib/netstandard2.0/NaCl.dll" xmlns="" />
     </DocumentationSources>
     <NamespaceSummaries>
+      <NamespaceSummaryItem name="AsyncIO" isDocumented="False" />
       <NamespaceSummaryItem name="HidSharp" isDocumented="False" />
       <NamespaceSummaryItem name="HidSharp.Experimental" isDocumented="False" />
       <NamespaceSummaryItem name="HidSharp.Reports" isDocumented="False" />
@@ -29,6 +33,11 @@
       <NamespaceSummaryItem name="HidSharp.Reports.Input" isDocumented="False" />
       <NamespaceSummaryItem name="HidSharp.Reports.Units" isDocumented="False" />
       <NamespaceSummaryItem name="HidSharp.Utility" isDocumented="False" />
+      <NamespaceSummaryItem name="NaCl" isDocumented="False" />
+      <NamespaceSummaryItem name="NetMQ" isDocumented="False" />
+      <NamespaceSummaryItem name="NetMQ.Core.Utils" isDocumented="False" />
+      <NamespaceSummaryItem name="NetMQ.Monitoring" isDocumented="False" />
+      <NamespaceSummaryItem name="NetMQ.Sockets" isDocumented="False" />
       <NamespaceSummaryItem name="IO.Devices.A4988" isDocumented="True">A4988 Stepper Motor Controller Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.AD5593R" isDocumented="True">AD5593 Analog/Digital I/O Device Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.AD5593R.ADC" isDocumented="True">AD5593 Analog/Digital I/O Device ADC Input Services.</NamespaceSummaryItem>
@@ -80,14 +89,16 @@
       <NamespaceSummaryItem name="IO.Objects.Email.Mail" isDocumented="True">Email Sending Services using &lt;c&gt;/usr/bin/mail&lt;/c&gt;</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Email.SMTP" isDocumented="True">Email Sending Services using SMTP to &lt;c&gt;localhost:25&lt;/c&gt;</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.GPIO.PWM" isDocumented="True">PWM Controlled GPIO Output Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Services over UDP</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Message64.HID" isDocumented="True">64-Byte Message Transport Services using raw HID (Human Interfacer Device).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Transport Services using UDP (User Datagram Protocol).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Message64.ZeroMQ" isDocumented="True">64-Byte Message Transport Services using ZeroMQ REQ/REP.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.RemoteIO" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Objects.RemoteIO.HID" isDocumented="True">USB Raw HID (Human Interface Device) Transport Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.RemoteIO.Platforms" isDocumented="True">I/O Resource Definitions for particular Remote I/O Protocol Server Platforms</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.RemoteIO.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Remote I/O protocol Server and Socket Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Servo.PWM" isDocumented="True">PWM Controlled Servo Services</NamespaceSummaryItem>
+
     </NamespaceSummaries>
     <HelpTitle>Munts Technologies Remote I/O Library for .Net Standard 2.0</HelpTitle>
     <HelpFileVersion>$(BUILDVERSION)</HelpFileVersion>
