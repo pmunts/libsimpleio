@@ -1,6 +1,6 @@
 // I/O Resources available from a Raspberry Pi Remote I/O Server
 
-// Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2021-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -23,8 +23,8 @@
 namespace IO.Objects.RemoteIO.Platforms
 {
     /// <summary>
-    /// I/O resources (channel numbers) available on a Raspberry Pi Remote I/O
-    /// Protocol Server
+    /// I/O resources (channel numbers) available on a Raspberry Pi running
+    /// <a href="https://github.com/pmunts/muntsos/blob/master/examples/ada/programs/remoteio_server.adb">Remote I/O Protocol Server</a>.
     /// </summary>
     public static class RaspberryPi
     {
@@ -32,31 +32,49 @@ namespace IO.Objects.RemoteIO.Platforms
         /// Analog input channel number for the remote Raspberry Pi analog
         /// input <c>AIN0</c>.
         /// </summary>
-        /// <remarks>
-        /// This analog input is only available if a
-        /// <a href="https://www.mikroe.com/pi-3-click-shield">Mikroelektronika
-        /// Pi 3 Click Shield (MIKROE-2756)</a> is installed and the following
-        /// device tree overlay command added to config.txt:
-        /// <code>
-        /// dtoverlay=Pi3ClickShield
-        /// </code>
-        /// </remarks>
         public const int AIN0 = 0;
 
         /// <summary>
         /// Analog input channel number for the remote Raspberry Pi analog
         /// input <c>AIN1</c>.
         /// </summary>
-        /// <remarks>
-        /// This analog input is only available if a
-        /// <a href="https://www.mikroe.com/pi-3-click-shield">Mikroelektronika
-        /// Pi 3 Click Shield (MIKROE-2756)</a> is installed and the following
-        /// device tree overlay command added to config.txt:
-        /// <code>
-        /// dtoverlay=Pi3ClickShield
-        /// </code>
-        /// </remarks>
         public const int AIN1 = 1;
+
+        /// <summary>
+        /// Analog input channel number for the remote Raspberry Pi analog
+        /// input <c>AIN2</c>.
+        /// </summary>
+        public const int AIN2 = 2;
+
+        /// <summary>
+        /// Analog input channel number for the remote Raspberry Pi analog
+        /// input <c>AIN3</c>.
+        /// </summary>
+        public const int AIN3 = 3;
+
+        /// <summary>
+        /// Analog input channel number for the remote Raspberry Pi analog
+        /// input <c>AIN4</c>.
+        /// </summary>
+        public const int AIN4 = 4;
+
+        /// <summary>
+        /// Analog input channel number for the remote Raspberry Pi analog
+        /// input <c>AIN5</c>.
+        /// </summary>
+        public const int AIN5 = 5;
+
+        /// <summary>
+        /// Analog input channel number for the remote Raspberry Pi analog
+        /// input <c>AIN6</c>.
+        /// </summary>
+        public const int AIN6 = 6;
+
+        /// <summary>
+        /// Analog input channel number for the remote Raspberry Pi analog
+        /// input <c>AIN7</c>.
+        /// </summary>
+        public const int AIN7 = 5;
 
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi user LED.
@@ -92,21 +110,11 @@ namespace IO.Objects.RemoteIO.Platforms
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO5</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is not usable when the Remote I/O server
-        /// is running on an original Raspberry Pi 1 Model A or B with a 26-pin
-        /// expansion header.
-        /// </remarks>
         public const int GPIO5 = 5;
 
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO6</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is not usable when the Remote I/O server
-        /// is running on an original Raspberry Pi 1 Model A or B with a 26-pin
-        /// expansion header.
-        /// </remarks>
         public const int GPIO6 = 6;
 
         /// <summary>
@@ -157,21 +165,11 @@ namespace IO.Objects.RemoteIO.Platforms
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO12</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is not usable when the Remote I/O server
-        /// is running on an original Raspberry Pi 1 Model A or B with a 26-pin
-        /// expansion header.
-        /// </remarks>
         public const int GPIO12 = 12;
 
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO13</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is not usable when the Remote I/O server
-        /// is running on an original Raspberry Pi 1 Model A or B with a 26-pin
-        /// expansion header.
-        /// </remarks>
         public const int GPIO13 = 13;
 
         /// <summary>
@@ -195,11 +193,6 @@ namespace IO.Objects.RemoteIO.Platforms
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO16</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is not usable when the Remote I/O server
-        /// is running on an original Raspberry Pi 1 Model A or B with a 26-pin
-        /// expansion header.
-        /// </remarks>
         public const int GPIO16 = 16;
 
         /// <summary>
@@ -210,40 +203,21 @@ namespace IO.Objects.RemoteIO.Platforms
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO18</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO18</c> is
-        /// mapped to PWM output <c>PWM0</c>.
-        /// </remarks>
         public const int GPIO18 = 18;
 
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO19</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is not usable when the Remote I/O server
-        /// is running on an original Raspberry Pi 1 Model A or B with a 26-pin
-        /// expansion header.
-        /// </remarks>
         public const int GPIO19 = 19;
 
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO20</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is not usable when the Remote I/O server
-        /// is running on an original Raspberry Pi 1 Model A or B with a 26-pin
-        /// expansion header.
-        /// </remarks>
         public const int GPIO20 = 20;
 
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO21</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is not usable when the Remote I/O server
-        /// is running on an original Raspberry Pi 1 Model A or B with a 26-pin
-        /// expansion header.
-        /// </remarks>
         public const int GPIO21 = 21;
 
         /// <summary>
@@ -269,11 +243,6 @@ namespace IO.Objects.RemoteIO.Platforms
         /// <summary>
         /// GPIO channel number for the remote Raspberry Pi GPIO pin <c>GPIO26</c>.
         /// </summary>
-        /// <remarks>
-        /// This GPIO channel is not usable when the Remote I/O server
-        /// is running on an original Raspberry Pi 1 Model A or B with a 26-pin
-        /// expansion header.
-        /// </remarks>
         public const int GPIO26 = 26;
 
         /// <summary>
@@ -285,54 +254,58 @@ namespace IO.Objects.RemoteIO.Platforms
         /// I<sup>2</sup>C bus channel number for the remote Raspberry Pi
         /// I<sup>2</sup>C bus controller <c>I2C1</c>.
         /// </summary>
+        public const int I2C1 = 1;
+
+        /// <summary>
+        /// I<sup>2</sup>C bus channel number for the remote Raspberry Pi
+        /// I<sup>2</sup>C bus controller <c>I2C2</c>.
+        /// </summary>
         /// <remarks>
-        /// The following device tree overlay command must be added to
-        /// <c>config.txt</c> on the Raspberry Pi Remote I/O server to enable
-        /// I<sup>2</sup>C bus controller <c>I2C1</c>:
-        /// <code>
-        /// dtparam=i2c=on
-        /// </code>
+        /// <c>I2C2</c> will only be configurable if the Remote I/O Protocol
+        /// Server program is running on an Orange Pi Zero 2W.
         /// </remarks>
-        public const int I2C1 = 0;
+        public const int I2C2 = 2;
 
         /// <summary>
         /// PWM output channel number for the remote Raspberry Pi PWM output
         /// <c>PWM0</c>.
         /// </summary>
-        /// <remarks>
-        /// The following device tree overlay command must be added to
-        /// <c>config.txt</c> on the Raspberry Pi Remote I/O server to enable
-        /// PWM output <c>PWM0</c>:
-        /// <code>
-        /// dtoverlay=pwm
-        /// </code>
-        /// </remarks>
         public const int PWM0 = 0;
 
         /// <summary>
         /// PWM output channel number for the remote Raspberry Pi PWM output
         /// <c>PWM1</c>.
         /// </summary>
-        /// <remarks>
-        /// <c>PWM1</c> is not normally enabled. You can enable it with one
-        /// of the device tree overlay command variationss described in
-        /// <a href="https://github.com/raspberrypi/firmware/blob/master/boot/overlays/README">
-        /// https://github.com/raspberrypi/firmware/blob/master/boot/overlays/README</a>.
-        /// </remarks>
         public const int PWM1 = 1;
+
+        /// <summary>
+        /// PWM output channel number for the remote Raspberry Pi PWM output
+        /// <c>PWM2</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>PWM2</c> will only be configurable if the Remote I/O Protocol
+        /// Server program is running on an Orange Pi Zero 2W or a Raspberry
+        /// Pi 5.
+        /// </remarks>
+        public const int PWM2 = 2;
+
+        /// <summary>
+        /// PWM output channel number for the remote Raspberry Pi PWM output
+        /// <c>PWM3</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>PWM3</c> will only be configurable if the Remote I/O Protocol
+        /// Server program is running on an Orange Pi Zero 2W or a Raspberry
+        /// Pi 5.
+        /// </remarks>
+        public const int PWM3 = 3;
 
         /// <summary>
         /// SPI slave device channel number for the remote Raspberry Pi SPI
         /// slave device <c>/dev/spidev0.0</c>.
         /// </summary>
         /// <remarks>
-        /// <c>/dev/spidev0.0</c> uses <c>GPIO8</c> for slave select.
-        /// The following device tree overlay command must be added to
-        /// <c>config.txt</c> on the Raspberry Pi Remote I/O server to enable
-        /// SPI bus controller <c>SPI0</c>:
-        /// <code>
-        /// dtparam=spi=on
-        /// </code>
+        /// <c>SPI0_0</c> uses <c>GPIO8</c> for slave select.
         /// </remarks>
         public const int SPI0_0 = 0;
 
@@ -341,13 +314,7 @@ namespace IO.Objects.RemoteIO.Platforms
         /// slave device <c>/dev/spidev0.1</c>.
         /// </summary>
         /// <remarks>
-        /// <c>/dev/spidev0.1</c> uses <c>GPIO7</c> for slave select.
-        /// The following device tree overlay command must be added to
-        /// <c>config.txt</c> on the Raspberry Pi Remote I/O server to enable
-        /// SPI bus controller <c>SPI0</c>:
-        /// <code>
-        /// dtparam=spi=on
-        /// </code>
+        /// <c>SPI0_1</c> uses <c>GPIO7</c> for slave select.
         /// </remarks>
         public const int SPI0_1 = 1;
 
@@ -356,7 +323,10 @@ namespace IO.Objects.RemoteIO.Platforms
         /// slave device <c>/dev/spidev1.0</c>.
         /// </summary>
         /// <remarks>
-        /// <c>/dev/spidev1.0</c> uses <c>GPIO18</c> for slave select.
+        /// <c>SPI1_0</c> uses <c>GPIO18</c> for slave select.
+        /// <br/>
+        /// <c>SPI1_0</c> will not be configurable if the Remote I/O Server
+        /// program is running on an Orange Pi Zero 2W.
         /// </remarks>
         public const int SPI1_0 = 2;
 
@@ -365,7 +335,10 @@ namespace IO.Objects.RemoteIO.Platforms
         /// slave device <c>/dev/spidev1.1</c>.
         /// </summary>
         /// <remarks>
-        /// <c>/dev/spidev1.1</c> uses <c>GPIO17</c> for slave select.
+        /// <c>SPI1_1</c> uses <c>GPIO17</c> for slave select.
+        /// <br/>
+        /// <c>SPI1_1</c> will not be configurable if the Remote I/O Server
+        /// program is running on an Orange Pi Zero 2W.
         /// </remarks>
         public const int SPI1_1 = 3;
 
@@ -374,7 +347,10 @@ namespace IO.Objects.RemoteIO.Platforms
         /// slave device <c>/dev/spidev1.2</c>.
         /// </summary>
         /// <remarks>
-        /// <c>/dev/spidev1.2</c> uses <c>GPIO16</c> for slave select.
+        /// <c>SPI1_2</c> uses <c>GPIO16</c> for slave select.
+        /// <br/>
+        /// <c>SPI1_2</c> will not be configurable if the Remote I/O Server
+        /// program is running on an Orange Pi Zero 2W.
         /// </remarks>
         public const int SPI1_2 = 4;
     }
