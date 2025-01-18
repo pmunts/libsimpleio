@@ -1,6 +1,6 @@
 // 64-byte Message Services using UDP
 
-// Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,6 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+using System;
 using System.Net;
 using System.Net.Sockets;
 
@@ -29,6 +30,7 @@ namespace IO.Objects.Message64.UDP
     /// 64-Byte Message Transport Client Services using UDP
     /// (User Datagram Protocol).
     /// </summary>
+    [Obsolete("UDP transport is unreliable.  Use ZeroMQ transport instead.")]
     public class Messenger : IO.Interfaces.Message64.Messenger
     {
         private readonly Socket s;
@@ -41,7 +43,7 @@ namespace IO.Objects.Message64.UDP
         /// <param name="port">UDP server port number.</param>
         /// <param name="timeoutms">Receive timeout in milliseconds.  Zero
         /// indicates wait forever.</param>
-        public Messenger(string host, int port, int timeoutms = 1000)
+        public Messenger(string host = "usbgadget.munts.net", int port = 8087, int timeoutms = 1000)
         {
             // Validate parameters
 
