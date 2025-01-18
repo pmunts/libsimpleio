@@ -27,8 +27,7 @@ using System.Net.Sockets;
 namespace IO.Objects.Message64.UDP
 {
     /// <summary>
-    /// 64-Byte Message Transport Client Services using UDP
-    /// (User Datagram Protocol).
+    /// Encapsulates UDP command/response servers.
     /// </summary>
     [Obsolete("UDP transport is unreliable.  Use ZeroMQ transport instead.")]
     public class Messenger : IO.Interfaces.Message64.Messenger

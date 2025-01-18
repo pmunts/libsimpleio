@@ -26,7 +26,7 @@ using System.Net;
 namespace IO.Objects.Message64.ZeroMQ
 {
     /// <summary>
-    /// 64-Byte Message Transport Client Services using ZeroMQ REQ/REP
+    /// Encapsulates ZeroMQ REQ/REP command/response servers.
     /// </summary>
     public class Messenger : IO.Interfaces.Message64.Messenger
     {
