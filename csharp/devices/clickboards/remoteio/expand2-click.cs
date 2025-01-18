@@ -41,7 +41,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.Expand2
         /// <param name="remdev">Remote I/O server device object.</param>
         /// <param name="socknum">mikroBUS socket number.</param>
         /// <param name="addr">I<sup>2</sup>C slave address.</param>
-        public Board(IO.Objects.RemoteIO.Device remdev, int socknum, 
+        public Board(IO.Objects.RemoteIO.Device remdev, int socknum,
             int addr = DefaultAddress)
         {
             // Create a mikroBUS socket object
