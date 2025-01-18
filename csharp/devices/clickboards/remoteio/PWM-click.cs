@@ -1,7 +1,7 @@
 // Mikroelektronika PWM Click MIKROE-1898 (https://www.mikroe.com/pwm-click)
 // Services
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -39,18 +39,13 @@ namespace IO.Devices.ClickBoards.RemoteIO.PWM
         /// <summary>
         /// Constructor for a single PWM click.
         /// </summary>
+        /// <param name="remdev">Remote I/O device object.</param>
         /// <param name="socknum">mikroBUS socket number.</param>
         /// <param name="freq">PWM pulse frequency in Hz.</param>
         /// <param name="addr">I<sup>2</sup>C slave address.</param>
-        /// <param name="remdev">Remote I/O device object.</param>
-        public Board(int socknum, int freq, int addr = DefaultAddress,
-            IO.Objects.RemoteIO.Device remdev = null)
+        public Board(IO.Objects.RemoteIO.Device remdev, int socknum, int freq,
+            int addr = DefaultAddress)
         {
-            // Create Remote I/O server device object, if one wasn't supplied
-
-            if (remdev == null)
-                remdev = new IO.Objects.RemoteIO.Device();
-
             // Create a mikroBUS socket object
 
             IO.Objects.RemoteIO.mikroBUS.Socket S =

@@ -1,7 +1,7 @@
 // Mikroelektronika 7seg Click MIKROE-1201 (https://www.mikroe.com/7seg-click)
 // Services
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,6 +20,8 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+
+using System;
 
 namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
 {
@@ -147,6 +149,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
         /// <summary>
         /// Constructor for a single 7seg click.
         /// </summary>
+        /// <param name="remdev">Remote I/O server device object.</param>
         /// <param name="socket">mikroBUS socket number.</param>
         /// <param name="radix">Numerical base or radix.  Allowed values are
         /// <c>Decimal</c> and <c>Hexadecimal</c>.</param>
@@ -154,16 +157,10 @@ namespace IO.Devices.ClickBoards.RemoteIO.SevenSegment
         /// <c>None</c>, <c>Leading</c>, and <c>Full</c>.</param>
         /// <param name="pwmfreq">PWM frequency.  Set to zero to use GPIO
         /// instead of PWM.</param>
-        /// <param name="remdev">Remote I/O server device object.</param>
-        public Board(int socket, Base radix = Base.Decimal,
-            ZeroBlanking blanking = ZeroBlanking.None, int pwmfreq = 100,
-            IO.Objects.RemoteIO.Device remdev = null)
+        public Board(IO.Objects.RemoteIO.Device remdev, int socket,
+            Base radix = Base.Decimal, ZeroBlanking blanking = ZeroBlanking.None,
+            int pwmfreq = 100)
         {
-            // Create Remote I/O server device object, if one wasn't supplied
-
-            if (remdev == null)
-                remdev = new IO.Objects.RemoteIO.Device();
-
             // Create a mikroBUS socket object
 
             IO.Objects.RemoteIO.mikroBUS.Socket S =
