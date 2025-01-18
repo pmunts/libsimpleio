@@ -20,7 +20,7 @@
 
 using System;
 
-namespace IO.Objects.RemoteIO.HID
+namespace IO.Objects.Message64.HID
 {
     /// <summary>
     /// Encapsulates USB raw HID devices, using the HidSharp library or
