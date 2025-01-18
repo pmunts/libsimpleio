@@ -115,20 +115,6 @@ namespace IO.Objects.RemoteIO
         }
 
         /// <summary>
-        /// Create a Remote I/O server device object using UDP transport.
-        /// </summary>
-        /// <param name="host">UDP server domain name or IP address.</param>
-        /// <param name="port">UDP server port number.</param>
-        /// <param name="timeoutms">Receive timeout in milliseconds.  Zero
-        /// indicates wait forever.</param>
-        public Device(string host, int port = 8087, int timeoutms = 1000)
-        {
-            transport = new IO.Objects.Message64.UDP.Messenger(host, port, timeoutms);
-            Version_string = FetchVersion();
-            Capability_string = FetchCapabilities();
-        }
-
-        /// <summary>
         /// Command dispatcher.
         /// </summary>
         /// <param name="cmd">Command to be sent.</param>
