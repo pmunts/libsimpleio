@@ -8,7 +8,7 @@
     <Title>Munts Technologies Remote I/O Library for .Net Standard 2.0</Title>
     <Description>Munts Technologies Remote I/O Library for .Net Standard 2.0</Description>
     <Authors>Philip Munts</Authors>
-    <Copyright>Copyright (C)2017-2024, Philip Munts dba Munts Technologies.</Copyright>
+    <Copyright>Copyright (C)2017-2025, Philip Munts dba Munts Technologies.</Copyright>
     <PackageProjectUrl>https://github.com/pmunts/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>doc/COPYING</PackageLicenseFile>
     <PackageReadmeFile>doc/README.md</PackageReadmeFile>
@@ -53,13 +53,14 @@
     <Compile Include="..\..\csharp\objects\remoteio\platforms\*.cs">
       <Link>IO.Objects.RemoteIO.Platforms\%(FileName)</Link>
     </Compile>
-    <None Include="..\..\COPYING" Pack="true" PackagePath="doc"/>
-    <None Include="obj\README.md" Pack="true" PackagePath="doc"/>
-    <None Include="Help\*.pdf" Pack="true" PackagePath="doc"/>
+    <None Include="..\..\COPYING" Pack="true" PackagePath="doc" />
+    <None Include="obj\README.md" Pack="true" PackagePath="doc" />
+    <None Include="Help\*.pdf" Pack="true" PackagePath="doc" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="hidsharp" Version="2.1.0" />
+    <PackageReference Include="NetMQ" Version="4.0.1.13" />
   </ItemGroup>
 
 </Project>
