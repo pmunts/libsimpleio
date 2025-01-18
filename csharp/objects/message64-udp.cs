@@ -63,7 +63,7 @@ namespace IO.Objects.Message64.UDP
         }
 
         /// <summary>
-        /// Send a 64-byte command message to a raw HID device.
+        /// Send a 64-byte command message
         /// </summary>
         /// <param name="cmd">64-byte command message.</param>
         public void Send(IO.Interfaces.Message64.Message cmd)
@@ -72,7 +72,7 @@ namespace IO.Objects.Message64.UDP
         }
 
         /// <summary>
-        /// Receive a 64-byte response message from a raw HID device.
+        /// Receive a 64-byte response message
         /// </summary>
         /// <param name="resp">64-byte response message.</param>
         public void Receive(IO.Interfaces.Message64.Message resp)
