@@ -29,37 +29,37 @@ namespace IO.Objects.RemoteIO.Platforms
     /// <a href="http://tech.munts.com/manuals/MUNTS-0018.pdf">
     /// MUNTS-0018 Tutorial I/O Board</a> Remote I/O Protocol Server.
     /// </summary>
-    /// <remarks>
-    /// The following device tree overlay commands must be added to
-    /// <c>config.txt</c> on the Raspberry Pi hosting the MUNTS-0018 Tutorial
-    /// I/O Board Remote I/O Protocol Server:
-    /// <code>
-    /// dtoverlay=anyspi,spi0-1,dev="microchip,mcp3204",speed=1000000
-    /// dtoverlay=pwm-2chan,pin=12,func=4,pin2=19,func2=2
-    /// </code>
-    /// </remarks>
     public static class MUNTS_0018
     {
         /// <summary>
-        /// GPIO channel number for the remote Raspberry Pi user LED.
-        /// Cannot be configured as an input.
-        /// </summary>
-        public const int USERLED = 0;
-
-        /// <summary>
         /// GPIO channel number for the on-board LED <c>D1</c>.
-        /// Cannot be configured as an input.
         /// </summary>
-        public const int D1 = GPIO26;
+        /// <remarks>
+        /// <c>LED1</c> cannot be configured as an input.
+        /// </remarks>
+        public const int LED1 = GPIO26;
 
         /// <summary>
         /// GPIO channel number for the on-board momentary switch <c>SW1</c>.
-        /// Cannot be configured as an output.
         /// </summary>
         /// <remarks>
-        /// This GPIO pin cannot be configured as an output.
+        /// <c>SW1</c> cannot be configured as an output.
         /// </remarks>
         public const int SW1 = GPIO6;
+
+        /// <summary>
+        /// PWM output channel number for Servo Header <c>J2</c>.
+        /// </summary>
+        public const int J2PWM = PWM0;
+
+        /// <summary>
+        /// PWM output channel number for Servo Header <c>J3</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>J3PWM</c> will not be configurable if the Remote I/O
+        /// Protocol Server program is running on an Orange Pi Zero 2W.
+        /// </remarks>
+        public const int J3PWM = PWM1;
 
         /// <summary>
         /// GPIO channel number for Grove Digital I/O Connector <c>J4</c> pin
@@ -90,8 +90,8 @@ namespace IO.Objects.RemoteIO.Platforms
         /// pin <c>D0</c>.
         /// </summary>
         /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO12</c> is
-        /// mapped to <c>PWM0</c>.
+        /// <c>J6D0</c> normally cannot be configured because <c>GPIO12</c>
+        /// is mapped to <c>PWM0</c>.
         /// </remarks>
         public const int J6D0 = GPIO12;
 
@@ -100,41 +100,6 @@ namespace IO.Objects.RemoteIO.Platforms
         /// pin <c>D1</c>.
         /// </summary>
         public const int J6D1 = GPIO13;
-
-        /// <summary>
-        /// GPIO channel number for Grove DC Motor Driver Connector <c>J7</c>
-        /// pin <c>D0</c>.
-        /// </summary>
-        /// <remarks>
-        /// This GPIO channel is normally unusable because <c>GPIO19</c> is
-        /// mapped to <c>PWM1</c>.
-        /// </remarks>
-        public const int J7D0 = GPIO19;
-
-        /// <summary>
-        /// GPIO channel number for Grove DC Motor Driver Connector <c>J7</c>
-        /// pin <c>D1</c>.
-        /// </summary>
-        public const int J7D1 = GPIO18;
-
-        /// <summary>
-        /// PWM channel number for Servo Header <c>J2</c>.
-        /// </summary>
-        public const int J2PWM = PWM0;
-
-        /// <summary>
-        /// PWM channel number for Servo Header <c>J3</c>.
-        /// </summary>
-        public const int J3PWM = PWM1;
-
-        /// <summary>
-        /// PWM channel number for DC Motor Driver Grove Connector <c>J6</c>
-        /// pin <c>D0</c>.
-        /// </summary>
-        /// <remarks>
-        /// <c>J6PWM</c> controls the motor <b>speed</b>.
-        /// </remarks>
-        public const int J6PWM = PWM0;
 
         /// <summary>
         /// GPIO channel number for DC Motor Driver Grove Connector <c>J6</c>
@@ -146,22 +111,50 @@ namespace IO.Objects.RemoteIO.Platforms
         public const int J6DIR = GPIO13;
 
         /// <summary>
-        /// PWM channel number for Grove DC Motor Driver Connector <c>J7</c>
+        /// PWM output channel number for DC Motor Driver Grove Connector <c>J6</c>
         /// pin <c>D0</c>.
         /// </summary>
         /// <remarks>
-        /// <c>J7PWM</c> controls the motor <b>speed</b>.
+        /// <c>J6PWM</c> controls the motor <b>speed</b>.
         /// </remarks>
-        public const int J7PWM = PWM1;
+        public const int J6PWM = PWM0;
+
+        /// <summary>
+        /// GPIO channel number for Grove DC Motor Driver Connector <c>J7</c>
+        /// pin <c>D0</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>J7D0</c> normally cannot be configured because <c>GPIO19</c>
+        /// is mapped to <c>PWM1</c>.
+        /// </remarks>
+        public const int J7D0 = GPIO19;
+
+        /// <summary>
+        /// GPIO channel number for Grove DC Motor Driver Connector <c>J7</c>
+        /// pin <c>D1</c>.
+        /// </summary>
+        public const int J7D1 = GPIO18;
 
         /// <summary>
         /// GPIO channel number for Grove DC Motor Driver Connector <c>J7</c>
         /// pin <c>D1</c>.
         /// </summary>
         /// <remarks>
-        /// <c>J7DIR</c> controls the motor <b>direction</b>.
+        /// <c>J7DIR</c> controls the motor <b>direction</b>
         /// </remarks>
         public const int J7DIR = GPIO18;
+
+        /// <summary>
+        /// PWM output channel number for Grove DC Motor Driver Connector <c>J7</c>
+        /// pin <c>D0</c>.
+        /// </summary>
+        /// <remarks>
+        /// <c>J7PWM</c> controls the motor <b>speed</b>.
+        /// <br/>
+        /// <c>J7PWM</c> will not be configurable if the Remote I/O
+        /// Protocol Server program is running on an Orange Pi Zero 2W.
+        /// </remarks>
+        public const int J7PWM = PWM1;
 
         /// <summary>
         /// I<sup>2</sup>C bus channel number for Grove I<sup>2</sup>C Connector <c>J9</c>.
