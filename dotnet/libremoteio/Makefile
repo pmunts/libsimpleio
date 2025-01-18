@@ -44,7 +44,7 @@ default:
 	rm -f Help/*.aspx Help/*.log Help/*.php Help/Web.Config
 	$(FIND) Help -type d -exec chmod 755 {} ";"
 	$(FIND) Help -type f -exec chmod 644 {} ";"
-	rsync -avc --delete Help/ ../../doc/$(LIBNAME).dll
+	rsync -avcq --delete Help/ ../../doc/$(LIBNAME).dll
 	-svn revert -R $(NUGETDIR)/$(LIBNAME)
 	-svn rm --force $(NUGETDIR)/$(LIBNAME)/*
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
