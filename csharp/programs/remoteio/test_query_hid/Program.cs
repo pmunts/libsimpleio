@@ -1,4 +1,4 @@
-// UDP Remote I/O Device Information Query Test
+// Raw HID Remote I/O Device Information Query Test
 
 // Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 //
@@ -26,7 +26,7 @@ WriteLine("\nRemote I/O Protocol Client\n");
 
 // Create Remote I/O Protocol server object instance
 
-var msg    = new IO.Objects.Message64.UDP.Messenger();
+var msg    = new IO.Objects.Message64.HID.Messenger();
 var remdev = new IO.Objects.RemoteIO.Device(msg);
 
 // Query the Remote I/O Protocol server
