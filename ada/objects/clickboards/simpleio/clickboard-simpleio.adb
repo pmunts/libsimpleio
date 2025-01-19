@@ -413,7 +413,7 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       ClickBoard.INT  => RaspberryPi.GPIO27,
       ClickBoard.PWM  => RaspberryPi.GPIO16,
       OTHERS          => Device.Unavailable),
-      AIN     => RaspberryPi.AIN3,           -- Jumper JP2 aka AN2 must be in the LEFT position (default)
+      AIN     => RaspberryPi.AIN2,           -- Jumper JP3 aka AN3 must be in the LEFT position (default)
       I2C     => RaspberryPi.I2C1,
       PWM     => Device.Unavailable,
       SPI     => Device.Unavailable,
