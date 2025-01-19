@@ -1,6 +1,6 @@
 // Remote I/O GPIO Pin Toggle Test
 
-// Copyright (C)2019-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2019-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,8 @@ namespace test_gpio
         {
             Console.WriteLine("\nRemote I/O GPIO Pin Toggle Test\n");
 
-            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
+            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
+            var remdev = new IO.Objects.RemoteIO.Device(msg);
 
             // Create GPIO pin object
 

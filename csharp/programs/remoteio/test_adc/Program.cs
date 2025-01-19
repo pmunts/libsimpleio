@@ -1,6 +1,6 @@
 // Remote I/O Analog Input Test
 
-// Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -31,7 +31,8 @@ namespace test_adc
         {
             Console.WriteLine("\nRemote I/O Analog Input Test\n");
 
-            IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
+            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
+            var remdev = new IO.Objects.RemoteIO.Device(msg);
 
             Console.Write("Channels:    ");
 
