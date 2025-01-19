@@ -72,8 +72,8 @@ namespace IO.Objects.RemoteIO.mikroBUS
             /// <summary>
             /// Mikroelektronika Pi 4 Click Shield
             /// <a href="https://www.mikroe.com/pi-4-click-shield">MIKROE-4122</a>
-            /// for 40-pin expansion header, with selectable on-board A/D
-            /// converter and three mikroBUS sockets.
+            /// for Raspberry Pi 4 Model B or Raspberry Pi 5 Model B, with
+            /// on-board A/D converter, two mikroBUS sockets, and cooling fan.
             /// </summary>
             PiClick4,
             /// <summary>
