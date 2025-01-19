@@ -514,7 +514,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
                 RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
                 INT:    RaspberryPi.GPIO26,
-                PWM:    RaspberryPi.GPIO13,
+                PWM:    RaspberryPi.GPIO13,   // Conflicts with PWM1
                 // mikroBUS devices
                 AIN:    RaspberryPi.AIN1,     // Jumper JP2 aka AN2 must be in the LEFT position
                 I2CBus: RaspberryPi.I2C1,
@@ -524,7 +524,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
 
             new SocketEntry(Shield.Kinds.PiClick4, 3,  // Shuttle socket
                 // mikroBUS GPIO pins
-                AN:     RaspberryPi.GPIO24,   // Jumper JP2 aka AN3 must be in the RIGHT position
+                AN:     RaspberryPi.GPIO24,   // Jumper JP3 aka AN3 must be in the RIGHT position
                 RST:    RaspberryPi.GPIO22,
                 CS:     RaspberryPi.GPIO23,
                 SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
@@ -537,7 +537,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 INT:    RaspberryPi.GPIO27,
                 PWM:    RaspberryPi.GPIO16,
                 // mikroBUS devices
-                AIN:    RaspberryPi.AIN2,     // Jumper JP2 aka AN3 must be in the LEFT position
+                AIN:    RaspberryPi.AIN2,     // Jumper JP3 aka AN3 must be in the LEFT position
                 I2CBus: RaspberryPi.I2C1,
                 PWMOut: Unavailable,
                 SPIDev: Unavailable,
