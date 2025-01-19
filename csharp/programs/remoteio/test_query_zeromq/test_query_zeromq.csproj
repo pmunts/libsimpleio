@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="libremoteio" Version="2.*" />
-    <PackageReference Include="NetMQ" Version="4.0.1.13" />
   </ItemGroup>
 
   <!-- Include library assemblies -->
