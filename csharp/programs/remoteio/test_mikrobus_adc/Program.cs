@@ -1,6 +1,6 @@
 // mikroBUS Analog Input Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -37,9 +37,10 @@ namespace test_mikrobus_adc
 
             // Create objects
 
+            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
+            var remdev = new IO.Objects.RemoteIO.Device(msg);
             var socket = new IO.Objects.RemoteIO.mikroBUS.Socket(num);
-            var remdev = new IO.Objects.RemoteIO.Device();
-            IO.Interfaces.ADC.Sample AIN = remdev.ADC_Create(socket.AIN);
+            var AIN    = remdev.ADC_Create(socket.AIN);
 
             Console.WriteLine("\nADC Resolution => " + AIN.resolution.ToString() +
             " bits\n");

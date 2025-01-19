@@ -1,6 +1,6 @@
 // mikroBUS PWM Output Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -41,8 +41,9 @@ namespace test_mikrobus_pwm
             // Create objects
 
             var socket = new IO.Objects.RemoteIO.mikroBUS.Socket(num);
-            var remdev = new IO.Objects.RemoteIO.Device();
-            IO.Interfaces.PWM.Output outp = remdev.PWM_Create(socket.PWMOut, freq);
+            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
+            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var outp   = remdev.PWM_Create(socket.PWMOut, freq);
 
             // Sweep PWM output pulse width
 
