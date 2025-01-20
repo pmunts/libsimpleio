@@ -31,6 +31,7 @@ var remdev = new IO.Objects.RemoteIO.Device(msg);
 
 // Query the Remote I/O Protocol server
 
+WriteLine(msg.Info);
 WriteLine(remdev.Version);
 WriteLine(remdev.Capabilities);
 WriteLine();
