@@ -44,11 +44,11 @@
       <NamespaceSummaryItem name="IO.Devices.AD5593R.DAC" isDocumented="True">AD5593 Analog/Digital I/O Device DAC Output Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.AD5593R.GPIO" isDocumented="True">AD5593 Analog/Digital I/O Device GPIO Pin Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ADC121C021" isDocumented="True">ADC121C021 I&lt;sup&gt;2&lt;/sup&gt;C A/D Converter Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.ADAC" isDocumented="True">Mikroelektronika ADAC Click MIKROE-2690 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.Expand" isDocumented="True">Mikroelektronika Expand Click MIKROE-951 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.Expand2" isDocumented="True">Mikroelektronika Expand 2 Click MIKROE-1838 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.PWM" isDocumented="True">Mikroelektronika PWM Click MIKROE-1898 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.ADAC" isDocumented="True">Mikroelektronika ADAC Click MIKROE-2690 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.Expand" isDocumented="True">Mikroelektronika Expand Click MIKROE-951 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.Expand2" isDocumented="True">Mikroelektronika Expand 2 Click MIKROE-1838 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.PWM" isDocumented="True">Mikroelektronika PWM Click MIKROE-1898 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.ADC" isDocumented="True">Seeed Studio Grove I&lt;sup&gt;2&lt;/sup&gt;C ADC (ADC121C021) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature" isDocumented="True">Seeed Studio Grove Temperature Sensor (thermistor) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature_Humidity" isDocumented="True">Seeed Studio Grove Temperature and Humdity Sensor (TH02) Services.</NamespaceSummaryItem>
@@ -78,6 +78,7 @@
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Message.Text" isDocumented="True">Abstract Interface for Text Message Relays</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Message64" isDocumented="True">Abstract Interface for 64-Byte Message Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.mikroBUS" isDocumented="True">Abstract Interface for &lt;a href="https://www.mikroe.com/mikrobus"&gt;mikroBUS&lt;/a&gt; Sockets</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Motor" isDocumented="True">Abstract Interface For Variable Speed Motor Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.PWM" isDocumented="True">Abstract Interface for PWM (Pulse Width Modulated) Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.SPI" isDocumented="True">Abstract Interface for SPI (Serial Peripheral Interconnect) Slave Devices</NamespaceSummaryItem>
