@@ -21,7 +21,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Devices.ClickBoards.RemoteIO.ADAC
+namespace IO.Devices.ClickBoards.ADAC
 {
     /// <summary>
     /// Encapsulates the Mikroelektronika ADAC Click Board.
@@ -29,8 +29,8 @@ namespace IO.Devices.ClickBoards.RemoteIO.ADAC
     /// </summary>
     public class Board
     {
-        private readonly IO.Interfaces.GPIO.Pin myrst;
-        private readonly IO.Devices.AD5593R.Device mydev;
+        private readonly IO.Interfaces.GPIO.Pin    RST;
+        private readonly IO.Devices.AD5593R.Device dev;
 
         /// <summary>
         /// Default I<sup>2</sup>C slave address.
@@ -40,43 +40,27 @@ namespace IO.Devices.ClickBoards.RemoteIO.ADAC
         /// <summary>
         /// Constructor for a single ADAC click.
         /// </summary>
-        /// <param name="remdev">Remote I/O server device object.</param>
-        /// <param name="socknum">mikroBUS socket number.</param>
+        /// <param name="socket">mikroBUS socket object instance.</param>
         /// <param name="addr">I<sup>2</sup>C slave address.</param>
-        public Board(IO.Objects.RemoteIO.Device remdev, int socknum,
+        public Board(IO.Interfaces.mikroBUS.Socket socket,
             int addr = DefaultAddress)
         {
-            // Create a mikroBUS socket object
-
-            IO.Objects.RemoteIO.mikroBUS.Socket S =
-                new IO.Objects.RemoteIO.mikroBUS.Socket(socknum);
-
             // Configure hardware reset GPIO pin
 
-            myrst = remdev.GPIO_Create(S.RST,
-                IO.Interfaces.GPIO.Direction.Output, true);
+            RST = socket.CreateResetOutput(true);
 
             // Issue hardware reset
 
             Reset();
 
-            // Configure I2C bus
-
-            IO.Interfaces.I2C.Bus bus;
-
-            if (IO.Objects.RemoteIO.mikroBUS.Shield.I2CBus is null)
-                bus = remdev.I2C_Create(S.I2CBus);
-            else
-                bus = IO.Objects.RemoteIO.mikroBUS.Shield.I2CBus;
-
             // Configure AD5593R
 
-            mydev = new IO.Devices.AD5593R.Device(bus, addr);
+            dev = new IO.Devices.AD5593R.Device(socket.CreateI2CBus(), addr);
 
             // The ADAC click is wired for 0-5.0V on both ADC and DAC
 
-            mydev.ADC_Reference = IO.Devices.AD5593R.ReferenceMode.Internalx2;
-            mydev.DAC_Reference = IO.Devices.AD5593R.ReferenceMode.Internalx2;
+            dev.ADC_Reference = IO.Devices.AD5593R.ReferenceMode.Internalx2;
+            dev.DAC_Reference = IO.Devices.AD5593R.ReferenceMode.Internalx2;
         }
 
         /// <summary>
@@ -86,7 +70,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.ADAC
         {
             get
             {
-                return mydev;
+                return dev;
             }
         }
 
@@ -95,9 +79,9 @@ namespace IO.Devices.ClickBoards.RemoteIO.ADAC
         /// </summary>
         public void Reset()
         {
-            myrst.state = false;
+            RST.state = false;
             System.Threading.Thread.Sleep(1);
-            myrst.state = true;
+            RST.state = true;
         }
 
         /// <summary>
@@ -107,7 +91,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.ADAC
         /// <returns>ADC input object.</returns>
         public IO.Interfaces.ADC.Sample ADC(int channel)
         {
-            return mydev.ADC_Create(channel);
+            return dev.ADC_Create(channel);
         }
 
         /// <summary>
@@ -118,7 +102,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.ADAC
         /// <returns>DAC output object.</returns>
         public IO.Interfaces.DAC.Sample DAC(int channel, int sample = 0)
         {
-            return mydev.DAC_Create(channel, sample);
+            return dev.DAC_Create(channel, sample);
         }
 
         /// <summary>
@@ -131,7 +115,7 @@ namespace IO.Devices.ClickBoards.RemoteIO.ADAC
         public IO.Interfaces.GPIO.Pin GPIO(int channel,
             IO.Interfaces.GPIO.Direction dir, bool state = false)
         {
-            return mydev.GPIO_Create(channel, dir, state);
+            return dev.GPIO_Create(channel, dir, state);
         }
     }
 }

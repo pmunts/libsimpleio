@@ -1,6 +1,6 @@
 // Mikroelektronika Expand Click MIKROE-951 (https://www.mikroe.com/expand-click) Services
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,31 +20,23 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Devices.ClickBoards.SimpleIO.Expand
+namespace IO.Devices.ClickBoards.Expand
 {
     /// <summary>
     /// Encapsulates the Mikroelektronika Expand Click Board.
     /// </summary>
     public class Board
     {
-        private readonly IO.Interfaces.GPIO.Pin myrst;
-        private readonly IO.Devices.MCP23S17.Device mydev;
+        private readonly IO.Interfaces.GPIO.Pin RST;
+        private readonly IO.Devices.MCP23S17.Device dev;
 
         /// <summary>
-        /// Constructor for a single Expand 2 click.
+        /// Constructor for a single Expand click.
         /// </summary>
-        /// <param name="socknum">mikroBUS socket number.</param>
-        public Board(int socknum)
+        /// <param name="socket">mikroBUS socket object instance.</param>
+        public Board(IO.Interfaces.mikroBUS.Socket socket)
         {
-            // Create a mikroBUS socket object
-
-            IO.Objects.SimpleIO.mikroBUS.Socket S =
-                new IO.Objects.SimpleIO.mikroBUS.Socket(socknum);
-
-            // Configure hardware reset GPIO pin
-
-            myrst = new IO.Objects.SimpleIO.GPIO.Pin(S.RST,
-                IO.Interfaces.GPIO.Direction.Output, true);
+            RST = socket.CreateResetOutput(true);
 
             // Issue hardware reset
 
@@ -52,8 +44,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.Expand
 
             // Create MCP23S17 device object
 
-            mydev = new IO.Devices.MCP23S17.Device(
-                new IO.Objects.SimpleIO.SPI.Device(S.SPIDev,
+            dev = new IO.Devices.MCP23S17.Device(socket.CreateSPIDevice(
                 IO.Devices.MCP23S17.Device.SPI_Mode,
                 IO.Devices.MCP23S17.Device.SPI_WordSize,
                 IO.Devices.MCP23S17.Device.SPI_Frequency));
@@ -64,7 +55,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.Expand
         /// </summary>
         public IO.Devices.MCP23S17.Device device
         {
-            get { return mydev; }
+            get { return dev; }
         }
 
         /// <summary>
@@ -72,9 +63,9 @@ namespace IO.Devices.ClickBoards.SimpleIO.Expand
         /// </summary>
         public void Reset()
         {
-            myrst.state = false;
+            RST.state = false;
             System.Threading.Thread.Sleep(1);
-            myrst.state = true;
+            RST.state = true;
         }
 
         /// <summary>
@@ -87,7 +78,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.Expand
         public IO.Interfaces.GPIO.Pin GPIO(int channel,
             IO.Interfaces.GPIO.Direction dir, bool state = false)
         {
-            return mydev.GPIO_Create(channel, dir, state);
+            return dev.GPIO_Create(channel, dir, state);
         }
     }
 }

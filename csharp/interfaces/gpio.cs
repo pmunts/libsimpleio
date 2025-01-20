@@ -38,7 +38,7 @@ namespace IO.Interfaces.GPIO
     }
 
     /// <summary>
-    /// GPIO pin data direction settings.
+    /// GPIO data direction settings.
     /// </summary>
     public enum Direction
     {
@@ -50,5 +50,68 @@ namespace IO.Interfaces.GPIO
         /// Output pin (read or write)
         /// </summary>
         Output
+    };
+
+    /// <summary>
+    /// GPIO polarity settings.
+    /// </summary>
+    public enum Polarity
+    {
+        /// <summary>
+        /// Configure GPIO pin as active low (inverted logic).
+        /// </summary>
+        ActiveLow,
+
+        /// <summary>
+        /// Configure GPIO pin as active high (normal logic).
+        /// </summary>
+        ActiveHigh
+    };
+
+    /// <summary>
+    /// GPIO output drive settings.
+    /// </summary>
+    public enum Drive
+    {
+        /// <summary>
+        /// Push Pull (current source/sink) output drive.
+        /// </summary>
+        PushPull,
+
+        /// <summary>
+        /// Open Drain (current sink) output drive.
+        /// </summary>
+        OpenDrain,
+
+        /// <summary>
+        /// Open Source (current source) output drive.
+        /// </summary>
+        OpenSource
+    };
+
+    /// <summary>
+    /// GPIO input interrupt edge settings.
+    /// </summary>
+    public enum Edge
+    {
+        /// <summary>
+        /// Configure GPIO input pin with interrupt disabled.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Configure GPIO input pin to interrupt on rising edge.
+        /// </summary>
+        Rising,
+
+        /// <summary>
+        /// Configure GPIO pin to interrupt on falling edge.
+        /// </summary>
+        Falling,
+
+        /// <summary>
+        /// Configure GPIO pin to interrupt on both edges.
+        /// </summary>
+        Both
     };
 }

@@ -1,7 +1,7 @@
 // Mikroelektronika 7seg Click MIKROE-1201 (https://www.mikroe.com/7seg-click)
 // Services
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
+using System;
+
+namespace IO.Devices.ClickBoards.SevenSegment
 {
     /// <summary>
     /// Encapsulates the Mikroelektronika 7Seg Click Board.
@@ -147,26 +149,20 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
         /// <summary>
         /// Constructor for a single 7seg click.
         /// </summary>
-        /// <param name="socket">mikroBUS socket number.</param>
+        /// <param name="socket">mikroBUS socket object instance.</param>
         /// <param name="radix">Numerical base or radix.  Allowed values are
         /// <c>Decimal</c> and <c>Hexadecimal</c>.</param>
         /// <param name="blanking">Zero blanking.  Allowed values are
         /// <c>None</c>, <c>Leading</c>, and <c>Full</c>.</param>
         /// <param name="pwmfreq">PWM frequency.  Set to zero to use GPIO
         /// instead of PWM.</param>
-        public Board(int socket, Base radix = Base.Decimal,
-            ZeroBlanking blanking = ZeroBlanking.None,
-            int pwmfreq = 100)
+        public Board(IO.Interfaces.mikroBUS.Socket socket,
+            Base radix = Base.Decimal,
+            ZeroBlanking blanking = ZeroBlanking.None, int pwmfreq = 0)
         {
-            // Create a mikroBUS socket object
-
-            IO.Objects.SimpleIO.mikroBUS.Socket S =
-                new IO.Objects.SimpleIO.mikroBUS.Socket(socket);
-
             // Configure hardware reset GPIO pin
 
-            myRSTgpio = new IO.Objects.SimpleIO.GPIO.Pin(S.RST,
-                IO.Interfaces.GPIO.Direction.Output, true);
+            myRSTgpio = socket.CreateResetOutput(true);
 
             // Issue hardware reset
 
@@ -175,23 +171,21 @@ namespace IO.Devices.ClickBoards.SimpleIO.SevenSegment
             // Configure PWM pin -- Prefer PWM over GPIO, if possible, and
             // assume full brightness until otherwise changed.
 
-            myPWMgpio = null;
-            myPWMout = null;
-
-            if ((pwmfreq > 0) && (S.PWMOut.available))
+            if (pwmfreq > 0)
             {
-                myPWMout = new IO.Objects.SimpleIO.PWM.Output(S.PWMOut,
-                    pwmfreq, 100.0);
+                myPWMgpio = null;
+                myPWMout  = socket.CreatePWMOutput(pwmfreq, IO.Interfaces.PWM.DutyCycles.Maximum);
             }
-            else if (S.PWM.available)
+            else
             {
-                myPWMgpio = new IO.Objects.SimpleIO.GPIO.Pin(S.PWM,
+                myPWMgpio = socket.CreateGPIOPin(IO.Interfaces.mikroBUS.SocketPins.PWM,
                     IO.Interfaces.GPIO.Direction.Output, true);
+                myPWMout  = null;
             }
 
             // Configure 74HC595 shift register chain
 
-            mychain = new SN74HC595.Device(new IO.Objects.SimpleIO.SPI.Device(S.SPIDev,
+            mychain = new SN74HC595.Device(socket.CreateSPIDevice(
                 IO.Devices.SN74HC595.Device.SPI_Mode, 8,
                 IO.Devices.SN74HC595.Device.SPI_MaxFreq), 2);
 

@@ -31,14 +31,14 @@ namespace test_expand2_click_gpio
             Console.WriteLine("\nMikroelektronika Expand 2 Click GPIO Toggle Test\n");
 
             Console.Write("Socket number?  ");
-            var socket = int.Parse(Console.ReadLine());
+            var num = int.Parse(Console.ReadLine());
 
             Console.Write("Channel number? ");
             var channel = int.Parse(Console.ReadLine());
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
-            var board  = new IO.Devices.ClickBoards.RemoteIO.Expand2.Board(remdev, socket);
+            var server = new IO.Objects.RemoteIO.Device();
+            var socket = new IO.Objects.RemoteIO.mikroBUS.Socket(server, num);
+            var board  = new IO.Devices.ClickBoards.Expand2.Board(socket);
             var outp   = board.GPIO(channel, IO.Interfaces.GPIO.Direction.Output);
 
             for (;;)

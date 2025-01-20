@@ -1,7 +1,7 @@
 // Mikroelektronika PWM Click MIKROE-1898 (https://www.mikroe.com/pwm-click)
 // Services
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Devices.ClickBoards.SimpleIO.PWM
+namespace IO.Devices.ClickBoards.PWM
 {
     /// <summary>
     /// Encapsulates the Mikroelektronika PWM Click Board.
@@ -29,7 +29,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
     /// </summary>
     public class Board
     {
-        private readonly IO.Devices.PCA9685.Device mydev;
+        private readonly IO.Devices.PCA9685.Device dev;
 
         /// <summary>
         /// Default I<sup>2</sup>C slave address.
@@ -39,29 +39,23 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         /// <summary>
         /// Constructor for a single PWM click.
         /// </summary>
-        /// <param name="socknum">mikroBUS socket number.</param>
+        /// <param name="socket">mikroBUS socket object instance.</param>
         /// <param name="freq">PWM pulse frequency in Hz.</param>
         /// <param name="addr">I<sup>2</sup>C slave address.</param>
-        public Board(int socknum, int freq, int addr = DefaultAddress)
+        public Board(IO.Interfaces.mikroBUS.Socket socket, int freq,
+            int addr = DefaultAddress)
         {
-            IO.Objects.SimpleIO.mikroBUS.Socket S =
-                new IO.Objects.SimpleIO.mikroBUS.Socket(socknum);
-
-            IO.Interfaces.I2C.Bus bus;
-
-            bus = new IO.Objects.SimpleIO.I2C.Bus(S.I2CBus);
-
-            mydev = new IO.Devices.PCA9685.Device(bus, addr, freq);
+            dev = new IO.Devices.PCA9685.Device(socket.CreateI2CBus(), addr, freq);
         }
 
         /// <summary>
         /// Returns the underlying PCA9685 device object.
         /// </summary>
-        public IO.Devices.PCA9685.Device dev
+        public IO.Devices.PCA9685.Device device
         {
             get
             {
-                return mydev;
+                return dev;
             }
         }
 
@@ -73,7 +67,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         /// <returns>GPIO output pin object.</returns>
         public IO.Interfaces.GPIO.Pin GPIO(int channel, bool state = false)
         {
-            return new IO.Devices.PCA9685.GPIO.Pin(mydev, channel, state);
+            return new IO.Devices.PCA9685.GPIO.Pin(dev, channel, state);
         }
 
         /// <summary>
@@ -85,7 +79,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         public IO.Interfaces.PWM.Output PWM(int channel,
             double dutycycle = IO.Interfaces.PWM.DutyCycles.Minimum)
         {
-            return new IO.Devices.PCA9685.PWM.Output(mydev, channel, dutycycle);
+            return new IO.Devices.PCA9685.PWM.Output(dev, channel, dutycycle);
         }
 
         /// <summary>
@@ -97,7 +91,7 @@ namespace IO.Devices.ClickBoards.SimpleIO.PWM
         public IO.Interfaces.Servo.Output Servo(int channel,
             double position = IO.Interfaces.Servo.Positions.Neutral)
         {
-            return new IO.Devices.PCA9685.Servo.Output(mydev, channel, position);
+            return new IO.Devices.PCA9685.Servo.Output(dev, channel, position);
         }
     }
 }

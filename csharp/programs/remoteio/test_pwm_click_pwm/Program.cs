@@ -31,7 +31,7 @@ namespace test_pwm_click_pwm
             Console.WriteLine("\nMikroelektronika PWM Click PWM Output Test\n");
 
             Console.Write("Socket number?       ");
-            var socket = int.Parse(Console.ReadLine());
+            var num = int.Parse(Console.ReadLine());
 
             Console.Write("Channel number?      ");
             var channel = int.Parse(Console.ReadLine());
@@ -39,9 +39,9 @@ namespace test_pwm_click_pwm
             Console.Write("PWM pulse frequency? ");
             var freq = int.Parse(Console.ReadLine());
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
-            var board  = new IO.Devices.ClickBoards.RemoteIO.PWM.Board(remdev, socket, freq);
+            var server = new IO.Objects.RemoteIO.Device();
+            var socket = new IO.Objects.RemoteIO.mikroBUS.Socket(server, num);
+            var board  = new IO.Devices.ClickBoards.PWM.Board(socket, freq);
             var outp   = board.PWM(channel);
 
             for (;;)

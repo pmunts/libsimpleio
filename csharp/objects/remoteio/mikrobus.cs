@@ -21,122 +21,35 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Objects.RemoteIO;
 using IO.Objects.RemoteIO.Platforms;
+
+using static System.Console;
 
 namespace IO.Objects.RemoteIO.mikroBUS
 {
     /// <summary>
-    /// Encapsulates mikroBUS shields on Remote I/O Protocol servers providing
-    /// <a href="https://www.mikroe.com/mikrobus">mikroBUS</a> sockets).
+    /// Encapsulates mikroBUS sockets.
     /// </summary>
-    public static class Shield
+    public class Socket : IO.Interfaces.mikroBUS.Socket
     {
-        /// <summary>
-        /// Supported mikroBUS shields.
-        /// </summary>
-        public enum Kinds
+        private enum ShieldKinds
         {
-            /// <summary>
-            /// Mikroelektronika BeagleBone Click Shield
-            /// <a href="https://www.mikroe.com/beaglebone">MIKROE-1596</a>,
-            /// with two mikroBUS sockets.  (Obsolete, but still useful.)
-            /// </summary>
             BeagleBoneClick2,
-            /// <summary>
-            /// Mikroelektronika mikroBUS Cape
-            /// <a href="https://www.mikroe.com/beaglebone-mikrobus-cape">
-            /// MIKROE-1857</a> with four mikroBUS sockets.
-            /// </summary>
             BeagleBoneClick4,
-            /// <summary>
-            /// Raspberry Pi with Mikroelektronika Pi Click Shield
-            /// <a href="https://www.mikroe.com/pi-click-shield-connectors-soldered">
-            /// MIKROE-1512/1513</a> for 26-pin expansion header, with one
-            /// mikroBUS socket (Obsolete.)
-            /// </summary>
             PiClick1,
-            /// <summary>
-            /// Raspberry Pi with Mikroelektronika Pi 2 Click Shield
-            /// <a href="https://www.mikroe.com/pi-2-click-shield">MIKROE-1879</a>
-            /// for 40-pin expansion header, with two mikroBUS sockets.
-            /// </summary>
             PiClick2,
-            /// <summary>
-            /// Mikroelektronika Pi 3 Click Shield
-            /// <a href="https://www.mikroe.com/pi-3-click-shield">MIKROE-2756</a>
-            /// for 40-pin expansion header, with selectable on-board A/D
-            /// converter and two mikroBUS sockets.
-            /// </summary>
             PiClick3,
-            /// <summary>
-            /// Mikroelektronika Pi 4 Click Shield
-            /// <a href="https://www.mikroe.com/pi-4-click-shield">MIKROE-4122</a>
-            /// for Raspberry Pi 4 Model B or Raspberry Pi 5 Model B, with
-            /// on-board A/D converter, two mikroBUS sockets, and cooling fan.
-            /// </summary>
             PiClick4,
-            /// <summary>
-            /// <a href="http://beagleboard.org/pocket">PocketBeagle</a> with
-            /// female headers on top, with two mikroBUS sockets.
-            /// </summary>
-            /// <remarks>
-            /// Refer to <a href="http://git.munts.com/muntsos/doc/PocketBeaglePinout.pdf">
-            /// http://git.munts.com/muntsos/doc/PocketBeaglePinout.pdf</a>
-            /// </remarks>
             PocketBeagle,
-            /// <summary>
-            /// No known mikroBUS shield installed.
-            /// </summary>
             Unknown = int.MaxValue
         }
 
-        /// <summary>
-        /// Returns the kind of mikroBUS shield that is installed on the Remote
-        /// I/O Protocol server, as obtained from the <c>SHIELDNAME</c>
-        /// environment variable.
-        /// </summary>
-        public static Kinds kind
-        {
-            get
-            {
-                if (System.Enum.TryParse<Kinds>(System.Environment.GetEnvironmentVariable("SHIELDNAME"),
-                    true, out Kinds shield))
-                    return shield;
-                else
-                    return Kinds.Unknown;
-            }
-        }
-
-        /// <summary>
-        /// Shared I<sup>2</sup>C bus that is common to all sockets on this
-        /// shield.
-        /// </summary>
-        public static IO.Interfaces.I2C.Bus I2CBus = null;
-    }
-
-    /// <summary>
-    /// Encapsulates mikroBUS sockets.
-    /// </summary>
-    public class Socket
-    {
         private readonly struct SocketEntry
         {
-            public readonly Shield.Kinds shield;
+            public readonly ShieldKinds shield;
             public readonly int num;
             // mikroBUS GPIO pins
-            public readonly int AN;
-            public readonly int RST;
-            public readonly int CS;
-            public readonly int SCK;
-            public readonly int MISO;
-            public readonly int MOSI;
-            public readonly int SDA;
-            public readonly int SCL;
-            public readonly int TX;
-            public readonly int RX;
-            public readonly int INT;
-            public readonly int PWM;
+            public readonly int[] GPIOs;
             // mikroBUS devices
             public readonly int AIN;
             public readonly int I2CBus;
@@ -144,7 +57,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
             public readonly int SPIDev;
 
             public SocketEntry(
-                Shield.Kinds shield,
+                ShieldKinds shield,
                 int num,
                 // mikroBUS GPIO pins
                 int AN,
@@ -166,31 +79,33 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 int SPIDev)
             {
                 this.shield = shield;
-                this.num = num;
-                // mikroBUS GPIO pins
-                this.AN = AN;
-                this.RST = RST;
-                this.CS = CS;
-                this.SCK = SCK;
-                this.MISO = MISO;
-                this.MOSI = MOSI;
-                this.SDA = SDA;
-                this.SCL = SCL;
-                this.TX = TX;
-                this.RX = RX;
-                this.INT = INT;
-                this.PWM = PWM;
-                // mikroBUS devices
-                this.AIN = AIN;
+                this.num    = num;
+                this.GPIOs  = new int[] { AN, RST, CS, SCK, MISO, MOSI, SDA, SCL, TX, RX, INT, PWM };
+                this.AIN    = AIN;
                 this.I2CBus = I2CBus;
                 this.PWMOut = PWMOut;
                 this.SPIDev = SPIDev;
+            }
+
+            public void Dump()
+            {
+                WriteLine("**** Socket Info ****");
+                WriteLine("Shield: " + this.shield.ToString());
+                WriteLine("Number: " + this.num.ToString());
+
+                foreach (IO.Interfaces.mikroBUS.SocketPins P in System.Enum.GetValues(typeof(IO.Interfaces.mikroBUS.SocketPins)))
+                    WriteLine(P.ToString() + ":   " + this.GPIOs[(int) P].ToString().PadRight(4));
+
+                WriteLine("AIN:    " + this.AIN.ToString());
+                WriteLine("I2CBus: " + this.I2CBus.ToString());
+                WriteLine("PWMOut: " + this.PWMOut.ToString());
+                WriteLine("SPIDev: " + this.SPIDev.ToString());
             }
         }
 
         private static readonly SocketEntry[] SocketTable =
         {
-            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 1,
+            new SocketEntry(ShieldKinds.BeagleBoneClick2, 1,
                 // mikroBUS GPIO pins
                 AN:     Device.Unavailable,
                 RST:    BeagleBone.GPIO45,
@@ -210,7 +125,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: BeagleBone.EHRPWM1A,
                 SPIDev: BeagleBone.SPI1_0),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick2, 2,
+            new SocketEntry(ShieldKinds.BeagleBoneClick2, 2,
                 // mikroBUS GPIO pins
                 AN:     Device.Unavailable,
                 RST:    BeagleBone.GPIO47,
@@ -230,7 +145,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: BeagleBone.EHRPWM2A,
                 SPIDev: BeagleBone.SPI1_1),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 1,
+            new SocketEntry(ShieldKinds.BeagleBoneClick4, 1,
                 // mikroBUS GPIO pins
                 AN:     BeagleBone.GPIO61,    // Conflicts with AIN3
                 RST:    BeagleBone.GPIO60,
@@ -250,7 +165,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: BeagleBone.EHRPWM1A,
                 SPIDev: BeagleBone.SPI1_0),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 2,
+            new SocketEntry(ShieldKinds.BeagleBoneClick4, 2,
                 // mikroBUS GPIO pins
                 AN:     BeagleBone.GPIO47,    // Conflicts with AIN2
                 RST:    BeagleBone.GPIO49,
@@ -270,7 +185,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: BeagleBone.EHRPWM1B,
                 SPIDev: BeagleBone.SPI1_1),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 3,
+            new SocketEntry(ShieldKinds.BeagleBoneClick4, 3,
                 // mikroBUS GPIO pins
                 AN:     BeagleBone.GPIO44,    // Conflicts with AIN1
                 RST:    BeagleBone.GPIO26,
@@ -290,7 +205,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: BeagleBone.EHRPWM2A,
                 SPIDev: BeagleBone.SPI0_0),
 
-            new SocketEntry(Shield.Kinds.BeagleBoneClick4, 4,
+            new SocketEntry(ShieldKinds.BeagleBoneClick4, 4,
                 // mikroBUS GPIO pins
                 AN:     BeagleBone.GPIO45,    // Conflicts with AIN0
                 RST:    BeagleBone.GPIO46,
@@ -310,7 +225,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: BeagleBone.EHRPWM2B,
                 SPIDev: Device.Unavailable),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 1, // Over the micro USB socket
+            new SocketEntry(ShieldKinds.PocketBeagle, 1, // Over the micro USB socket
                 // mikroBUS GPIO pins
                 AN:     PocketBeagle.GPIO87,  // Conflicts with AIN6
                 RST:    PocketBeagle.GPIO89,
@@ -330,7 +245,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: PocketBeagle.PWM2_0,
                 SPIDev: PocketBeagle.SPI0_0),
 
-            new SocketEntry(Shield.Kinds.PocketBeagle, 2, // Over the micro SDHC socket
+            new SocketEntry(ShieldKinds.PocketBeagle, 2, // Over the micro SDHC socket
                 // mikroBUS GPIO pins
                 AN:     PocketBeagle.GPIO86,  // Conflicts with AIN5
                 RST:    PocketBeagle.GPIO45,
@@ -350,7 +265,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: PocketBeagle.PWM0_0,
                 SPIDev: PocketBeagle.SPI1_1),
 
-            new SocketEntry(Shield.Kinds.PiClick1, 1,
+            new SocketEntry(ShieldKinds.PiClick1, 1,
                 // mikroBUS GPIO pins
                 AN:     RaspberryPi.GPIO22,
                 RST:    RaspberryPi.GPIO4,
@@ -370,7 +285,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: RaspberryPi.PWM2,
                 SPIDev: RaspberryPi.SPI0_0),
 
-            new SocketEntry(Shield.Kinds.PiClick2, 1,
+            new SocketEntry(ShieldKinds.PiClick2, 1,
                 // mikroBUS GPIO pins
                 AN:     RaspberryPi.GPIO4,
                 RST:    RaspberryPi.GPIO5,
@@ -390,7 +305,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: RaspberryPi.PWM2,
                 SPIDev: RaspberryPi.SPI0_0),
 
-            new SocketEntry(Shield.Kinds.PiClick2, 2,
+            new SocketEntry(ShieldKinds.PiClick2, 2,
                 // mikroBUS GPIO pins
                 AN:     RaspberryPi.GPIO13,
                 RST:    RaspberryPi.GPIO19,
@@ -410,7 +325,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: Device.Unavailable,
                 SPIDev: RaspberryPi.SPI0_1),
 
-            new SocketEntry(Shield.Kinds.PiClick3, 1,
+            new SocketEntry(ShieldKinds.PiClick3, 1,
                 // mikroBUS GPIO pins
                 AN:     RaspberryPi.GPIO4,    // Switch AN1 must be in the RIGHT position
                 RST:    RaspberryPi.GPIO5,
@@ -430,7 +345,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: RaspberryPi.PWM2,
                 SPIDev: RaspberryPi.SPI0_0),
 
-            new SocketEntry(Shield.Kinds.PiClick3, 2,
+            new SocketEntry(ShieldKinds.PiClick3, 2,
                 // mikroBUS GPIO pins
                 AN:     RaspberryPi.GPIO13,   // Switch AN2 must be in the RIGHT position
                 RST:    RaspberryPi.GPIO12,
@@ -450,7 +365,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: Device.Unavailable,
                 SPIDev: RaspberryPi.SPI0_1),
 
-            new SocketEntry(Shield.Kinds.PiClick4, 1,
+            new SocketEntry(ShieldKinds.PiClick4, 1,
                 // mikroBUS GPIO pins
                 AN:     RaspberryPi.GPIO4,    // Jumper JP1 aka AN1 must be in the RIGHT position
                 RST:    RaspberryPi.GPIO5,
@@ -470,7 +385,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: RaspberryPi.PWM2,
                 SPIDev: RaspberryPi.SPI0_0),
 
-            new SocketEntry(Shield.Kinds.PiClick4, 2,
+            new SocketEntry(ShieldKinds.PiClick4, 2,
                 // mikroBUS GPIO pins
                 AN:     RaspberryPi.GPIO17,   // Jumper JP2 aka AN2 must be in the RIGHT position
                 RST:    RaspberryPi.GPIO12,
@@ -490,7 +405,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 PWMOut: RaspberryPi.PWM1,
                 SPIDev: RaspberryPi.SPI0_1),
 
-            new SocketEntry(Shield.Kinds.PiClick4, 3,
+            new SocketEntry(ShieldKinds.PiClick4, 3,
                 // mikroBUS GPIO pins
                 AN:     RaspberryPi.GPIO24,   // Jumper JP3 aka AN3 must be in the RIGHT position
                 RST:    RaspberryPi.GPIO22,
@@ -511,26 +426,35 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 SPIDev: Device.Unavailable),
         };
 
-        private readonly SocketEntry myInfo;
+        private readonly IO.Objects.RemoteIO.Device dev;
+        private readonly SocketEntry sockinfo;
 
         /// <summary>
         /// Constructor for a single mikroBUS socket.
         /// </summary>
+        /// <param name="dev">Remote I/O Protocol Server device handle.</param>
         /// <param name="num">Socket number.</param>
-        /// <param name="shield">mikroBUS shield kind.  Zero
-        /// indicates automatic detection using the <c>Shield.kind</c>
-        /// property.</param>
-        public Socket(int num, Shield.Kinds shield = Shield.Kinds.Unknown)
+        public Socket(IO.Objects.RemoteIO.Device dev, int num)
         {
-            if (shield == Shield.Kinds.Unknown) shield = Shield.kind;
+            this.dev = dev;
+
+            ShieldKinds shield = (ShieldKinds) int.MaxValue;
+
+            // Retrieve shield kind from the capabilities string
+
+            foreach (ShieldKinds s in System.Enum.GetValues(typeof(ShieldKinds)))
+                if (dev.Capabilities.Contains(s.ToString().ToUpper()))
+                {
+                    shield = s;
+                    break;
+                }
 
             // Search for matching shield and socket number
 
-            for (int i = 0; i < SocketTable.Length; i++)
-                if ((SocketTable[i].shield == shield) &&
-                    (SocketTable[i].num == num))
+            foreach (SocketEntry E in SocketTable)
+                if ((E.shield == shield) && (E.num == num))
                 {
-                    myInfo = SocketTable[i];
+                    this.sockinfo = E;
                     return;
                 }
 
@@ -538,132 +462,99 @@ namespace IO.Objects.RemoteIO.mikroBUS
         }
 
         /// <summary>
-        /// Returns the GPIO pin designator for AN.
+        /// Create an analog input object instance for a given socket.
         /// </summary>
-        public int AN
+        /// <returns>Analog input object instance.</returns>
+        public IO.Interfaces.ADC.Sample CreateAnalogInput()
         {
-            get { return myInfo.AN; }
-        }
-
-
-        /// <summary>
-        /// Returns the GPIO pin designator for RST.
-        /// </summary>
-        public int RST
-        {
-            get { return myInfo.RST; }
+            return this.dev.ADC_Create(this.sockinfo.AIN);
         }
 
         /// <summary>
-        /// Returns the GPIO pin designator for CS.
+        /// Create a GPIO pin object instance for a given pin of a given socket.
         /// </summary>
-        public int CS
+        /// <param name="desg">mikroBUS socket pin designator.</param>
+        /// <param name="dir">Data direction.</param>
+        /// <param name="state">Initial state for the reset output.</param>
+        /// <param name="drive">Output drive setting.
+        /// Ignored for remote GPIO pins.</param>
+        /// <param name="edge">Input edge trigger setting.
+        /// Ignored for remote GPIO pins.</param>
+        /// <remarks>
+        /// Seldom are all of the mikroBUS socket pins available for GPIO.
+        /// Usually many of them are configured for other special functions,
+        /// including SPI bus, I<sup>2</sup>C bus, PWM output, etc.
+        /// </remarks>
+        /// <returns>GPIO pin object instance.</returns>
+        public IO.Interfaces.GPIO.Pin CreateGPIOPin(IO.Interfaces.mikroBUS.SocketPins desg,
+            IO.Interfaces.GPIO.Direction dir, bool state = false,
+            IO.Interfaces.GPIO.Drive drive = IO.Interfaces.GPIO.Drive.PushPull,
+            IO.Interfaces.GPIO.Edge edge = IO.Interfaces.GPIO.Edge.None)
         {
-            get { return myInfo.CS; }
+            return this.dev.GPIO_Create((int) desg, dir, state);
         }
 
         /// <summary>
-        /// Returns the GPIO pin designator for SCK.
+        /// Create a GPIO output pin object instance for the RST pin of a
+        /// given socket.
         /// </summary>
-        public int SCK
+        /// <param name="state">Initial state for the reset output.</param>
+        /// <param name="drive">Output drive setting.
+        /// Ignored for remote GPIO pins.</param>
+        /// <returns>GPIO output pin object instance.</returns>
+        public IO.Interfaces.GPIO.Pin CreateResetOutput(bool state = false,
+            IO.Interfaces.GPIO.Drive drive = IO.Interfaces.GPIO.Drive.PushPull)
         {
-            get { return myInfo.SCK; }
+            return this.dev.GPIO_Create(this.sockinfo.GPIOs[(int)IO.Interfaces.mikroBUS.SocketPins.RST],
+                IO.Interfaces.GPIO.Direction.Output, state);
         }
 
         /// <summary>
-        /// Returns the GPIO pin designator for MISO.
+        /// Create a SPI slave device object instance for a given socket.
         /// </summary>
-        public int MISO
+        /// <returns>SPI slave device object instance.</returns>
+        /// <param name="mode">SPI transfer mode: 0 to 3.</param>
+        /// <param name="wordsize">SPI transfer word size: 8, 16, or 32.</param>
+        /// <param name="speed">SPI transfer speed in bits per second.</param>
+        public IO.Interfaces.SPI.Device CreateSPIDevice(int mode, int wordsize, int speed)
         {
-            get { return myInfo.MISO; }
+            return dev.SPI_Create(this.sockinfo.SPIDev, mode, wordsize, speed);
         }
 
         /// <summary>
-        /// Returns the GPIO pin designator for MOSI.
+        /// Create an I<sup>2</sup>C bus object instance for a given socket.
         /// </summary>
-        public int MOSI
+        /// <param name="speed">I<sup>2</sup>C bus clock frequency in Hz.</param>
+        /// <returns>I<sup>2</sup>C bus object instance.</returns>
+        public IO.Interfaces.I2C.Bus CreateI2CBus(int speed = IO.Interfaces.I2C.Speeds.StandardMode)
         {
-            get { return myInfo.MOSI; }
+            return dev.I2C_Create(this.sockinfo.I2CBus, speed);
         }
 
         /// <summary>
-        /// Returns the GPIO pin designator for SDA.
+        /// Create a GPIO input pin instance for the INT (interrupt) pin of a 
+        /// given socket.
         /// </summary>
-        public int SDA
+        /// <param name="edge">Interrupt edge setting.
+        /// Ignored for remote GPIO pins.</param>
+        /// <returns>GPIO pin instance.</returns>
+        public IO.Interfaces.GPIO.Pin CreateInterruptInput(
+            IO.Interfaces.GPIO.Edge edge = IO.Interfaces.GPIO.Edge.None)
         {
-            get { return myInfo.SDA; }
+            return this.dev.GPIO_Create(this.sockinfo.GPIOs[(int)IO.Interfaces.mikroBUS.SocketPins.INT],
+                IO.Interfaces.GPIO.Direction.Input);
         }
 
         /// <summary>
-        /// Returns the GPIO pin designator for SCL.
+        /// Create a PWM (Pulse Width Modulated) output instance for a given
+        /// socket.
         /// </summary>
-        public int SCL
+        /// <param name="freq">PWM pulse frequency in Hz.</param>
+        /// <param name="duty">Initial PWM output duty cycle.</param>
+        /// <returns>PWM output instance.</returns>
+        public IO.Interfaces.PWM.Output CreatePWMOutput(int freq, double duty = IO.Interfaces.PWM.DutyCycles.Minimum)
         {
-            get { return myInfo.SCL; }
-        }
-
-        /// <summary>
-        /// Returns the GPIO pin designator for TX.
-        /// </summary>
-        public int TX
-        {
-            get { return myInfo.TX; }
-        }
-
-        /// <summary>
-        /// Returns the GPIO pin designator for RX.
-        /// </summary>
-        public int RX
-        {
-            get { return myInfo.RX; }
-        }
-
-        /// <summary>
-        /// Returns the GPIO pin designator for INT.
-        /// </summary>
-        public int INT
-        {
-            get { return myInfo.INT; }
-        }
-
-        /// <summary>
-        /// Returns the GPIO pin designator for PWM.
-        /// </summary>
-        public int PWM
-        {
-            get { return myInfo.PWM; }
-        }
-
-        /// <summary>
-        /// Returns the ADC input designator for AN.
-        /// </summary>
-        public int AIN
-        {
-            get { return myInfo.AIN; }
-        }
-
-        /// <summary>
-        /// Returns the PWM output designator for PWM.
-        /// </summary>
-        public int PWMOut
-        {
-            get { return myInfo.PWMOut; }
-        }
-
-        /// <summary>
-        /// Returns the I<sup>2</sup>C bus designator for this socket.
-        /// </summary>
-        public int I2CBus
-        {
-            get { return myInfo.I2CBus; }
-        }
-
-        /// <summary>
-        /// Returns the SPI device designator for this socket.
-        /// </summary>
-        public int SPIDev
-        {
-            get { return myInfo.SPIDev; }
+            return this.dev.PWM_Create(this.sockinfo.PWMOut, freq, duty);
         }
     }
 }

@@ -31,14 +31,14 @@ namespace test_adac_click_dac
             Console.WriteLine("\nMikroelektronika ADAC Click DAC Output Test\n");
 
             Console.Write("Socket number?  ");
-            var socket = int.Parse(Console.ReadLine());
+            var num = int.Parse(Console.ReadLine());
 
             Console.Write("Channel number? ");
             var channel = int.Parse(Console.ReadLine());
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
-            var board  = new IO.Devices.ClickBoards.RemoteIO.ADAC.Board(remdev, socket);
+            var server = new IO.Objects.RemoteIO.Device();
+            var socket = new IO.Objects.RemoteIO.mikroBUS.Socket(server, num);
+            var board  = new IO.Devices.ClickBoards.ADAC.Board(socket);
             var outp   = board.DAC(channel);
 
             for (;;)

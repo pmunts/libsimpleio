@@ -1,4 +1,4 @@
-// Mikroelektronika Expand Click MIKROE-951 (https://www.mikroe.com/expand-click) Services
+// Mikroelektronika Expand 2 Click MIKROE-1838 (https://www.mikroe.com/expand-2-click) Services
 
 // Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
@@ -20,74 +20,71 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-namespace IO.Devices.ClickBoards.RemoteIO.Expand
+namespace IO.Devices.ClickBoards.Expand2
 {
     /// <summary>
-    /// Encapsulates the Mikroelektronika Expand Click Board.
+    /// Encapsulates the Mikroelektronika Expand 2 Click Board.
     /// </summary>
     public class Board
     {
-        private readonly IO.Interfaces.GPIO.Pin myrst;
-        private readonly IO.Devices.MCP23S17.Device mydev;
+        private readonly IO.Interfaces.GPIO.Pin RST;
+        private readonly IO.Devices.MCP23017.Device dev;
 
         /// <summary>
-        /// Constructor for a single Expand click.
+        /// Default I<sup>2</sup>C slave address.
         /// </summary>
-        /// <param name="remdev">Remote I/O server device object.</param>
-        /// <param name="socknum">mikroBUS socket number.</param>
-        public Board(IO.Objects.RemoteIO.Device remdev, int socknum)
+        public const int DefaultAddress = 0x20;
+
+        /// <summary>
+        /// Constructor for a single Expand 2 click.
+        /// </summary>
+        /// <param name="socket">mikroBUS socket object instance.</param>
+        /// <param name="addr">I<sup>2</sup>C slave address.</param>
+        public Board(IO.Interfaces.mikroBUS.Socket socket,
+            int addr = DefaultAddress)
         {
-            // Create a mikroBUS socket object
-
-            IO.Objects.RemoteIO.mikroBUS.Socket S =
-                new IO.Objects.RemoteIO.mikroBUS.Socket(socknum);
-
             // Configure hardware reset GPIO pin
 
-            myrst = remdev.GPIO_Create(S.RST,
-                IO.Interfaces.GPIO.Direction.Output, true);
+            RST = socket.CreateResetOutput(true);
 
             // Issue hardware reset
 
             Reset();
 
-            // Create MCP23S17 device object
+            // Configure the MCP23017
 
-            mydev = new IO.Devices.MCP23S17.Device(remdev.SPI_Create(S.SPIDev,
-                IO.Devices.MCP23S17.Device.SPI_Mode,
-                IO.Devices.MCP23S17.Device.SPI_WordSize,
-                IO.Devices.MCP23S17.Device.SPI_Frequency));
+            dev = new IO.Devices.MCP23017.Device(socket.CreateI2CBus(), addr);
         }
 
         /// <summary>
-        /// Returns the underlying MCP23S17 device object.
+        /// Returns the underlying MCP23017 device object.
         /// </summary>
-        public IO.Devices.MCP23S17.Device device
+        public IO.Devices.MCP23017.Device device
         {
-            get { return mydev; }
+            get { return dev; }
         }
 
         /// <summary>
-        /// Issue hardware reset to the MCP23S17.
+        /// Issue hardware reset to the MCP23017.
         /// </summary>
         public void Reset()
         {
-            myrst.state = false;
+            RST.state = false;
             System.Threading.Thread.Sleep(1);
-            myrst.state = true;
+            RST.state = true;
         }
 
         /// <summary>
         /// Factory function for creating GPIO pins.
         /// </summary>
-        /// <param name="channel">MCP23S17 channel number (0 to 15).</param>
+        /// <param name="channel">MCP23017 channel number (0 to 15).</param>
         /// <param name="dir">GPIO pin direction.</param>
         /// <param name="state">Initial GPIO output state.</param>
         /// <returns>GPIO pin object.</returns>
         public IO.Interfaces.GPIO.Pin GPIO(int channel,
             IO.Interfaces.GPIO.Direction dir, bool state = false)
         {
-            return mydev.GPIO_Create(channel, dir, state);
+            return dev.GPIO_Create(channel, dir, state);
         }
     }
 }
