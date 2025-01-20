@@ -104,7 +104,7 @@ namespace IO.Objects.RemoteIO
         }
 
         /// <summary>
-        /// Create a Remote I/O server device object using the supplied 
+        /// Create a Remote I/O server device object using the supplied
         /// <c>Message64.Messenger</c> transport object.
         /// </summary>
         /// <param name="transport"><c>Message64.Messenger</c> transport

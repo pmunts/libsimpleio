@@ -44,8 +44,8 @@
 // sockets all sharing the same I2C bus.  We want to avoid opening a new I2C
 // bus controller file descriptor for each socket.
 
-#define MAX_BUSES	64 
- 
+#define MAX_BUSES 64
+
 typedef struct
 {
   unsigned refcount;

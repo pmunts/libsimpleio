@@ -532,7 +532,7 @@ namespace IO.Objects.RemoteIO.mikroBUS
         }
 
         /// <summary>
-        /// Create a GPIO input pin instance for the INT (interrupt) pin of a 
+        /// Create a GPIO input pin instance for the INT (interrupt) pin of a
         /// given socket.
         /// </summary>
         /// <param name="edge">Interrupt edge setting.

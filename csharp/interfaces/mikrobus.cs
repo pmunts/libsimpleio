@@ -26,7 +26,7 @@ namespace IO.Interfaces.mikroBUS
     /// Enumeration of mikroBUS socket pin designators.
     /// </summary>
     /// <remarks>
-    /// In principle, any of these pins may be used for GPIO.  In practice, 
+    /// In principle, any of these pins may be used for GPIO.  In practice,
     /// many of them will be configured for special functions and unavailable
     /// for GPIO.
     /// </remarks>
@@ -140,7 +140,7 @@ namespace IO.Interfaces.mikroBUS
         IO.Interfaces.I2C.Bus CreateI2CBus(int speed = IO.Interfaces.I2C.Speeds.StandardMode);
 
         /// <summary>
-        /// Create a GPIO input pin instance for the INT (interrupt) pin of a 
+        /// Create a GPIO input pin instance for the INT (interrupt) pin of a
         /// given socket.
         /// </summary>
         /// <param name="edge">Interrupt edge setting.</param>
