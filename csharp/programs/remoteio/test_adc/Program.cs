@@ -31,8 +31,7 @@ namespace test_adc
         {
             Console.WriteLine("\nRemote I/O Analog Input Test\n");
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             Console.Write("Channels:    ");
 

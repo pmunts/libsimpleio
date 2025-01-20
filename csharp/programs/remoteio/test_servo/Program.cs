@@ -31,8 +31,7 @@ namespace test_servo
         {
             Console.WriteLine("\nRemote I/O Servo Output Test\n");
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             Console.Write("Channels:");
 

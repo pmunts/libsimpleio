@@ -30,8 +30,7 @@ namespace test_gpio_button_led
         {
             Console.WriteLine("\nRemote I/O GPIO Button and LED Test\n");
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             // Configure LED output
 

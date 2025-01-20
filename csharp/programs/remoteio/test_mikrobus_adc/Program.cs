@@ -37,8 +37,7 @@ namespace test_mikrobus_adc
 
             // Create objects
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
             var socket = new IO.Objects.RemoteIO.mikroBUS.Socket(num);
             var AIN    = remdev.ADC_Create(socket.AIN);
 

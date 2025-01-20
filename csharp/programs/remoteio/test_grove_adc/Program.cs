@@ -30,8 +30,7 @@ namespace test_grove_adc
         {
             Console.WriteLine("\nRemote I/O Grove ADC Test\n");
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             IO.Interfaces.I2C.Bus bus =
                 new IO.Objects.RemoteIO.I2C(remdev, 0);

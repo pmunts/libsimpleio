@@ -30,8 +30,7 @@ namespace test_pca9534_device
         {
             Console.WriteLine("\nRemote I/O PCA9534 GPIO Port Toggle Test\n");
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             IO.Interfaces.I2C.Bus bus = new IO.Objects.RemoteIO.I2C(remdev, 0);
 

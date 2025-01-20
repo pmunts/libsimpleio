@@ -30,8 +30,7 @@ namespace test_adc121c021
         {
             Console.WriteLine("\nRemote I/O ADC121C021 A/D Converter Test\n");
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             IO.Interfaces.I2C.Bus bus =
                 new IO.Objects.RemoteIO.I2C(remdev, 0);

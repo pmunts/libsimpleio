@@ -30,8 +30,7 @@ namespace test_grove_temperature
         {
             Console.WriteLine("\nRemote I/O Grove Temperature Sensor (thermistor) Test\n");
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             IO.Interfaces.ADC.Sample S = new IO.Objects.RemoteIO.ADC(remdev, 0);
 

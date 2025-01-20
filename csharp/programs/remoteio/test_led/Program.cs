@@ -30,8 +30,7 @@ namespace test_led
         {
             Console.WriteLine("\nRemote I/O LED Toggle Test\n");
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             IO.Interfaces.GPIO.Pin LED =
                 remdev.GPIO_Create(0, IO.Interfaces.GPIO.Direction.Output);

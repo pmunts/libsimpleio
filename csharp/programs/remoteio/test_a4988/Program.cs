@@ -30,8 +30,7 @@ namespace test_a4988
         {
             Console.WriteLine("\nA4988 Stepper Motor Driver Test\n");
 
-            var msg    = new IO.Objects.Message64.ZeroMQ.Messenger();
-            var remdev = new IO.Objects.RemoteIO.Device(msg);
+            var remdev = new IO.Objects.RemoteIO.Device();
 
             // Get the number of descrete steps the motor under test has
 
