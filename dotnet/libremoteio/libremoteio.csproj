@@ -32,8 +32,8 @@
     <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
     </Compile>
-    <Compile Include="..\..\csharp\devices\clickboards\remoteio\*.cs">
-      <Link>IO.Devices.Clickboards.RemoteIO\%(FileName)</Link>
+    <Compile Include="..\..\csharp\devices\clickboards\*.cs">
+      <Link>IO.Devices.Clickboards\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\devices\grove\*.cs">
       <Link>IO.Devices.Grove\%(FileName)</Link>
