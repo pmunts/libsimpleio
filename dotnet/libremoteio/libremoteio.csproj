@@ -8,6 +8,7 @@
     <Title>Munts Technologies Remote I/O Library for .Net Standard 2.0</Title>
     <Description>Munts Technologies Remote I/O Library for .Net Standard 2.0</Description>
     <Authors>Philip Munts</Authors>
+    <Company>Munts Technologies</Company>
     <Copyright>Copyright (C)2017-2025, Philip Munts dba Munts Technologies.</Copyright>
     <PackageProjectUrl>https://github.com/pmunts/libsimpleio</PackageProjectUrl>
     <PackageLicenseFile>doc/COPYING</PackageLicenseFile>
