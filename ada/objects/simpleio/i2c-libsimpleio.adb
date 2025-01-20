@@ -1,6 +1,6 @@
 -- I2C bus controller services using libsimpleio
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -36,7 +36,6 @@ WITH Device;
 WITH errno;
 WITH libI2C;
 WITH libLinux;
-WITH Reference_Counted_Table;
 
 USE TYPE Device.Designator;
 
@@ -46,41 +45,6 @@ PACKAGE BODY I2C.libsimpleio IS
    (Source : IN String;
     Side   : IN Ada.Strings.Trim_End :=
       Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
-
-  PROCEDURE Create_fd
-   (desg  : Device.Designator;
-    fd    : OUT Integer;
-    error : OUT Integer) IS
-
-  BEGIN
-    IF desg = Device.Unavailable OR desg.chip /= 0 THEN
-      fd    := -1;
-      error := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    libI2C.Open("/dev/i2c-" & Trim(Natural'Image(desg.chan)) & ASCII.NUL, fd, error);
-  END Create_fd;
-
-  PROCEDURE Destroy_fd(fd : integer; error : OUT Integer) IS
-
-  BEGIN
-    IF fd < 0 THEN
-      error := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    libI2C.Close(fd, error);
-  END Destroy_fd;
-
-  PACKAGE fdtable IS NEW Reference_Counted_Table
-   (Element => Integer,
-    Key             => Device.Designator,
-    Null_Element    => -1,
-    Null_Key        => Device.Unavailable,
-    Max_Elements    => 100,
-    Create_Element  => Create_fd,
-    Destroy_Element => Destroy_fd);
 
   -- I2C bus controller object constructor
 
@@ -106,7 +70,7 @@ PACKAGE BODY I2C.libsimpleio IS
       RAISE I2C_Error WITH "Invalid designator for I2C bus controller";
     END IF;
 
-    fdtable.Create(desg, Self.fd, error);
+    libI2C.Open("/dev/i2c-" & Trim(Natural'Image(desg.chan)) & ASCII.NUL, Self.fd, error);
 
     IF error /= 0 THEN
       Self.Destroy;
@@ -125,7 +89,7 @@ PACKAGE BODY I2C.libsimpleio IS
       RETURN;
     END IF;
 
-    fdtable.Destroy(Self.fd, error);
+    libI2C.Close(Self.fd, error);
 
     Self := Destroyed;
 

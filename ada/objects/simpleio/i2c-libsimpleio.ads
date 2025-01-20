@@ -80,10 +80,9 @@ PRIVATE
   PROCEDURE CheckDestroyed(Self : BusSubclass);
 
   TYPE BusSubclass IS NEW I2C.BusInterface WITH RECORD
-    desg : Device.Designator := Device.Unavailable;
-    fd   : Integer           := -1;
+    fd : Integer := -1;
   END RECORD;
 
-  Destroyed : CONSTANT BusSubclass := BusSubclass'(Device.Unavailable, -1);
+  Destroyed : CONSTANT BusSubclass := BusSubclass'(fd => -1);
 
 END I2C.libsimpleio;
