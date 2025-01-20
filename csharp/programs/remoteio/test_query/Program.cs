@@ -1,4 +1,4 @@
-// Remote I/O Device Information Query Test
+// UDP Remote I/O Device Information Query Test
 
 // Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 //
@@ -20,77 +20,70 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
+using static System.Console;
 
-namespace test_query
-{
-    class Program
-    {
-        static void Main()
-        {
-            Console.WriteLine("\nRemote I/O Device Information Query Test\n");
+WriteLine("\nRemote I/O Protocol Client\n");
 
-            var remdev = new IO.Objects.RemoteIO.Device(null);
+// Create Remote I/O Protocol server object instance
 
-            // Display some device information
+var remdev = new IO.Objects.RemoteIO.Device();
 
-            Console.WriteLine(remdev.Version);
-            Console.WriteLine(remdev.Capabilities);
-            Console.WriteLine();
+// Query the Remote I/O Protocol server
 
-            // Display the available ADC inputs
+WriteLine(remdev.Version);
+WriteLine(remdev.Capabilities);
+WriteLine();
 
-            Console.Write("ADC inputs:  ");
+// Display the available ADC inputs
 
-            foreach (int input in remdev.ADC_Available())
-                Console.Write(input.ToString() + " ");
+Write("ADC inputs:  ");
 
-            Console.WriteLine();
+foreach (int input in remdev.ADC_Available())
+    Write(input.ToString() + " ");
 
-            // Display the available DAC outputs
+WriteLine();
 
-            Console.Write("DAC outputs: ");
+// Display the available DAC outputs
 
-            foreach (int output in remdev.DAC_Available())
-                Console.Write(output.ToString() + " ");
+Write("DAC outputs: ");
 
-            Console.WriteLine();
+foreach (int output in remdev.DAC_Available())
+    Write(output.ToString() + " ");
 
-            // Display the available GPIO pins
+WriteLine();
 
-            Console.Write("GPIO Pins:   ");
+// Display the available GPIO pins
 
-            foreach (int pin in remdev.GPIO_Available())
-                Console.Write(pin.ToString() + " ");
+Write("GPIO Pins:   ");
 
-            Console.WriteLine();
+foreach (int pin in remdev.GPIO_Available())
+    Write(pin.ToString() + " ");
 
-            // Display the available I2C buses
+WriteLine();
 
-            Console.Write("I2C buses:   ");
+// Display the available I2C buses
 
-            foreach (int bus in remdev.I2C_Available())
-                Console.Write(bus.ToString() + " ");
+Write("I2C buses:   ");
 
-            Console.WriteLine();
+foreach (int bus in remdev.I2C_Available())
+    Write(bus.ToString() + " ");
 
-            // Display the available PWM outputs
+WriteLine();
 
-            Console.Write("PWM outputs: ");
+// Display the available PWM outputs
 
-            foreach (int bus in remdev.PWM_Available())
-                Console.Write(bus.ToString() + " ");
+Write("PWM outputs: ");
 
-            Console.WriteLine();
+foreach (int bus in remdev.PWM_Available())
+    Write(bus.ToString() + " ");
 
-            // Display the available SPI devices
+WriteLine();
 
-            Console.Write("SPI devices: ");
+// Display the available SPI devices
 
-            foreach (int bus in remdev.SPI_Available())
-                Console.Write(bus.ToString() + " ");
+Write("SPI devices: ");
 
-            Console.WriteLine();
-        }
-    }
-}
+foreach (int bus in remdev.SPI_Available())
+    Write(bus.ToString() + " ");
+
+WriteLine();
