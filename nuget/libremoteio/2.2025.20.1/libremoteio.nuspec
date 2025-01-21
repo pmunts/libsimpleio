@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>libremoteio</id>
+    <version>2.2025.20.1</version>
+    <title>Munts Technologies Remote I/O Library for .Net Standard 2.0</title>
+    <authors>Philip Munts</authors>
+    <license type="file">doc/COPYING</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <readme>doc/README.md</readme>
+    <projectUrl>https://github.com/pmunts/libsimpleio</projectUrl>
+    <description>Munts Technologies Remote I/O Library for .Net Standard 2.0</description>
+    <releaseNotes>More edits for the Orange Pi Zero 2W.
+Modified Remote I/O client stuff to match latest remoteio_server.adb and friends.
+Deprecated support for Remote I/O over UDP.
+Added support for Remote I/O over ZeroMQ REQ/REP.
+Added support for Remote I/O control of the Mikroelektronika Pi 4 Click Shield MIKROE-4122.
+Reworked mikroBUS socket support.</releaseNotes>
+    <copyright>Copyright (C)2017-2025, Philip Munts dba Munts Technologies.</copyright>
+    <tags>Linux USB HID Remote I/O ADC DAC GPIO I2C PWM Servo SPI Stepper</tags>
+    <repository type="git" url="https://github.com/pmunts/libsimpleio" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="NetMQ" version="4.0.1.13" exclude="Build,Analyzers" />
+        <dependency id="hidsharp" version="2.1.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

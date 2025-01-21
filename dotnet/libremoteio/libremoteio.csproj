@@ -15,6 +15,12 @@
     <PackageReadmeFile>doc/README.md</PackageReadmeFile>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI; Stepper;</PackageTags>
     <PackageReleaseNotes>
+More edits for the Orange Pi Zero 2W.
+Modified Remote I/O client stuff to match latest remoteio_server.adb and friends.
+Deprecated support for Remote I/O over UDP.
+Added support for Remote I/O over ZeroMQ REQ/REP.
+Added support for Remote I/O control of the Mikroelektronika Pi 4 Click Shield MIKROE-4122.
+Reworked mikroBUS socket support.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
