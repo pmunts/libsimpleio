@@ -19,10 +19,10 @@
     <DocumentationSources>
       <DocumentationSource sourceFile="bin\Release\netstandard2.0\libremoteio.dll" xmlns="" />
       <DocumentationSource sourceFile="bin\Release\netstandard2.0\libremoteio.xml" xmlns="" />
-      <DocumentationSource sourceFile="$(HOME)/.nuget/packages/hidsharp/2.1.0/lib/netstandard2.0/HidSharp.dll" xmlns="" />
-      <DocumentationSource sourceFile="$(HOME)/.nuget/packages/netmq/4.0.1.13/lib/netstandard2.0/NetMQ.dll" xmlns="" />
       <DocumentationSource sourceFile="$(HOME)/.nuget/packages/asyncio/0.1.69/lib/netstandard2.0/AsyncIO.dll" xmlns="" />
+      <DocumentationSource sourceFile="$(HOME)/.nuget/packages/hidsharp/2.1.0/lib/netstandard2.0/HidSharp.dll" xmlns="" />
       <DocumentationSource sourceFile="$(HOME)/.nuget/packages/nacl.net/0.1.13/lib/netstandard2.0/NaCl.dll" xmlns="" />
+      <DocumentationSource sourceFile="$(HOME)/.nuget/packages/netmq/4.0.1.13/lib/netstandard2.0/NetMQ.dll" xmlns="" />
     </DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="AsyncIO" isDocumented="False" />
