@@ -111,13 +111,14 @@ namespace IO.Objects.RemoteIO
         /// object.</param>
         /// <remarks>
         /// If a value for <c>transport</c> is not supplied, this constructor
-        /// will attempt first to connect to the following Remote I/O protocol
+        /// will attempt to connect to the following Remote I/O protocol
         /// servers:
         /// <br/>
-        /// A Munts Technologies USB HID Gadget (16D0:0AFA).
         /// <br/>
-        /// A Munts Technologies USB Ethernet Gadget at usbgadget.munts.net
-        /// running ZeroMQ (port 8088).
+        /// Munts Technologies USB HID Gadget at 16D0:0AFA.
+        /// <br/>
+        /// Munts Technologies USB Ethernet Gadget at usbgadget.munts.net
+        /// running ZeroMQ at port 8088.
         /// </remarks>
         public Device(Messenger transport = null)
         {
