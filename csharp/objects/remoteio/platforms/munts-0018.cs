@@ -48,15 +48,21 @@ namespace IO.Objects.RemoteIO.Platforms
         public const int SW1 = GPIO6;
 
         /// <summary>
-        /// PWM output channel number for Servo Header <c>J2</c>.
+        /// Servo Header <c>J2</c> position output.
         /// </summary>
+        /// <remarks>
+        /// PWM output <c>J2PWM</c> controls the servo position.
+        /// </remarks>
         public const int J2PWM = PWM0;
 
         /// <summary>
-        /// PWM output channel number for Servo Header <c>J3</c>.
+        ///  Servo Header <c>J3</c> position output.
         /// </summary>
         /// <remarks>
-        /// <c>J3PWM</c> will not be configurable if the Remote I/O
+        /// PWM output <c>J3PWM</c> controls the servo position.
+        /// <br/>
+        /// <br/>
+        /// <c>J3</c> cannot be used for servo control if the Remote I/O
         /// Protocol Server program is running on an Orange Pi Zero 2W.
         /// </remarks>
         public const int J3PWM = PWM3;
@@ -102,20 +108,18 @@ namespace IO.Objects.RemoteIO.Platforms
         public const int J6D1 = GPIO13;
 
         /// <summary>
-        /// PWM output channel number for DC Motor Driver Grove Connector
-        /// <c>J6</c> pin <c>D0</c>.
+        /// Grove DC Motor Driver Connector <c>J6</c> speed output.
         /// </summary>
         /// <remarks>
-        /// PWM output <c>J6PWM</c> controls the motor <b>speed</b>.
+        /// PWM output pin <c>J6PWM</c> controls the motor <b>speed</b>.
         /// </remarks>
         public const int J6PWM = PWM0;
 
         /// <summary>
-        /// GPIO channel number for DC Motor Driver Grove Connector <c>J6</c>
-        /// pin <c>D1</c>.
+        /// Grove DC Motor Driver Connector <c>J6</c> direction output.
         /// </summary>
         /// <remarks>
-        /// GPIO pin <c>J6DIR</c> controls the motor <b>direction</b>.
+        /// GPIO output pin <c>J6DIR</c> controls the motor <b>direction</b>.
         /// </remarks>
         public const int J6DIR = GPIO13;
 
@@ -136,26 +140,27 @@ namespace IO.Objects.RemoteIO.Platforms
         public const int J7D1 = GPIO18;
 
         /// <summary>
-        /// PWM output channel number for Grove DC Motor Driver Connector
-        /// <c>J7</c> pin <c>D0</c>.
+        /// Grove DC Motor Driver Connector <c>J7</c> speed output.
         /// </summary>
         /// <remarks>
-        /// PWM output <c>J7PWM</c> controls the motor <b>speed</b>.
+        /// PWM output pin <c>J7PWM</c> controls the motor <b>speed</b>.
         /// <br/>
-        /// <c>J7</c> can only be used for GPIO if the Remote I/O Protocol
-        /// Server program is running on an Orange Pi Zero 2W.
+        /// <br/>
+        /// <c>J7</c> cannot be used for DC motor control if the Remote I/O
+        /// Protocol Server program is running on an Orange Pi Zero 2W.
         /// </remarks>
         public const int J7PWM = PWM3;
 
         /// <summary>
-        /// GPIO channel number for Grove DC Motor Driver Connector <c>J7</c>
-        /// pin <c>D1</c>.
+        /// Grove DC Motor Driver Connector <c>J7</c> direction output.
         /// </summary>
         /// <remarks>
-        /// GPIO pin <c>J7DIR</c> controls the motor <b>direction</b>.
+        /// GPIO output pin <c>J7DIR</c> controls the motor <b>direction</b>.
         /// <br/>
-        /// <c>J7</c> can only be used for GPIO if the Remote I/O Protocol
-        /// Server program is running on an Orange Pi Zero 2W.
+        /// <br/>
+        /// <c>J7</c> cannot be used for DC motor control if the Remote I/O
+        /// Protocol Server program is running on an Orange Pi Zero 2W.
+        /// </remarks>
         public const int J7DIR = GPIO18;
 
         /// <summary>
