@@ -109,59 +109,11 @@ namespace IO.Objects.RemoteIO
         /// </summary>
         /// <param name="transport"><c>Message64.Messenger</c> transport
         /// object.</param>
-        /// <remarks>
-        /// If a value for <c>transport</c> is not supplied, this constructor
-        /// will attempt to connect to the following Remote I/O protocol
-        /// servers:
-        /// <br/>
-        /// <br/>
-        /// Munts Technologies USB HID Gadget at 16D0:0AFA.
-        /// <br/>
-        /// Munts Technologies USB Ethernet Gadget at usbgadget.munts.net
-        /// running ZeroMQ at port 8088.
-        /// </remarks>
-        public Device(Messenger transport = null)
+        public Device(Messenger transport)
         {
-            // Use supplied transport
-
-            if (transport != null)
-            {
-                this.transport = transport;
-                this.Version_string = FetchVersion();
-                this.Capability_string = FetchCapabilities();
-                return;
-            }
-
-            // Attempt to connect to Munts Technologies USB HID Gadget
-
-            try
-            {
-                this.transport = new IO.Objects.Message64.HID.Messenger();
-                this.Version_string = FetchVersion();
-                this.Capability_string = FetchCapabilities();
-                return;
-            }
-
-            catch
-            {
-            }
-
-            // Attempt to connect to Munts Technologies USB Ethernet Gadget
-            // running ZeroMQ server
-
-            try
-            {
-                this.transport = new IO.Objects.Message64.ZeroMQ.Messenger();
-                this.Version_string = FetchVersion();
-                this.Capability_string = FetchCapabilities();
-                return;
-            }
-
-            catch
-            {
-            }
-
-            throw new Exception("Unable to bind a transport mechanism.");
+            this.transport = transport;
+            this.Version_string = FetchVersion();
+            this.Capability_string = FetchCapabilities();
         }
 
         /// <summary>
