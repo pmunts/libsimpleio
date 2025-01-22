@@ -48,6 +48,15 @@
     <Compile Include="..\..\csharp\objects\*.cs">
       <Link>IO.Objects\%(FileName)</Link>
     </Compile>
+    <Compile Include="..\..\csharp\objects\message64\message64-hid.cs">
+      <Link>IO.Objects.Message64\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\objects\message64\message64-udp.cs">
+      <Link>IO.Objects.Message64\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\objects\message64\message64-zeromq.cs">
+      <Link>IO.Objects.Message64\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\..\csharp\objects\remoteio\*.cs">
       <Link>IO.Objects.RemoteIO\%(FileName)</Link>
     </Compile>
