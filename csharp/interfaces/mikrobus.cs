@@ -90,8 +90,10 @@ namespace IO.Interfaces.mikroBUS
         /// <summary>
         /// Create an analog input object instance for a given socket.
         /// </summary>
+        /// <param name="resolution">A/D converter resolution in bits.  Zero
+        /// means the resolution is unknown.</param>
         /// <returns>Analog input object instance.</returns>
-        IO.Interfaces.ADC.Sample CreateAnalogInput();
+        IO.Interfaces.ADC.Sample CreateAnalogInput(int resolution = 0);
 
         /// <summary>
         /// Create a GPIO pin object instance for a given pin of a given socket.
