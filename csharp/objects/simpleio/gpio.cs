@@ -25,69 +25,6 @@ using System;
 namespace IO.Objects.SimpleIO.GPIO
 {
     /// <summary>
-    /// GPIO output driver settings.
-    /// </summary>
-    public enum Driver
-    {
-        /// <summary>
-        /// Push Pull (current source/sink) output driver.
-        /// </summary>
-        PushPull,
-
-        /// <summary>
-        /// Open Drain (current sink) output driver.
-        /// </summary>
-        OpenDrain,
-
-        /// <summary>
-        /// Open Source (current source) output driver.
-        /// </summary>
-        OpenSource
-    };
-
-    /// <summary>
-    /// GPIO input interrupt edge settings.
-    /// </summary>
-    public enum Edge
-    {
-        /// <summary>
-        /// Configure GPIO input pin with interrupt disabled.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Configure GPIO input pin to interrupt on rising edge.
-        /// </summary>
-        Rising,
-
-        /// <summary>
-        /// Configure GPIO pin to interrupt on falling edge.
-        /// </summary>
-        Falling,
-
-        /// <summary>
-        /// Configure GPIO pin to interrupt on both edges.
-        /// </summary>
-        Both
-    };
-
-    /// <summary>
-    /// GPIO polarity settings
-    /// </summary>
-    public enum Polarity
-    {
-        /// <summary>
-        /// Configure GPIO pin as active low (inverted logic).
-        /// </summary>
-        ActiveLow,
-
-        /// <summary>
-        /// Configure GPIO pin as active high (normal logic).
-        /// </summary>
-        ActiveHigh
-    };
-
-    /// <summary>
     /// Encapsulates Linux GPIO pins using <c>libsimpleio</c>.
     /// </summary>
     public class Pin : IO.Interfaces.GPIO.Pin
@@ -103,7 +40,8 @@ namespace IO.Objects.SimpleIO.GPIO
         };
 
         private void CalculateFlags(IO.Interfaces.GPIO.Direction dir,
-            Driver driver, Edge edge, Polarity polarity, out int flags,
+            IO.Interfaces.GPIO.Drive drive, IO.Interfaces.GPIO.Edge edge,
+            IO.Interfaces.GPIO.Polarity polarity, out int flags,
             out int events, out Kinds kind)
         {
             flags = 0;
@@ -118,17 +56,20 @@ namespace IO.Objects.SimpleIO.GPIO
                 throw new Exception("Invalid direction parameter");
             }
 
-            if ((driver < Driver.PushPull) || (driver > Driver.OpenSource))
+            if ((drive < IO.Interfaces.GPIO.Drive.PushPull) ||
+                (drive > IO.Interfaces.GPIO.Drive.OpenSource))
             {
-                throw new Exception("Invalid driver parameter");
+                throw new Exception("Invalid Drive parameter");
             }
 
-            if ((edge < Edge.None) || (edge > Edge.Both))
+            if ((edge < IO.Interfaces.GPIO.Edge.None) ||
+                (edge > IO.Interfaces.GPIO.Edge.Both))
             {
                 throw new Exception("Invalid edge parameter");
             }
 
-            if ((polarity < Polarity.ActiveLow) || (polarity > Polarity.ActiveHigh))
+            if ((polarity < IO.Interfaces.GPIO.Polarity.ActiveLow) ||
+                (polarity > IO.Interfaces.GPIO.Polarity.ActiveHigh))
             {
                 throw new Exception("Invalid polarity parameter");
             }
@@ -146,19 +87,19 @@ namespace IO.Objects.SimpleIO.GPIO
                     break;
             }
 
-            // Set flags for the GPIO pin output driver
+            // Set flags for the GPIO pin output Drive
 
-            switch (driver)
+            switch (drive)
             {
-                case Driver.PushPull:
+                case IO.Interfaces.GPIO.Drive.PushPull:
                     flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_PUSH_PULL;
                     break;
 
-                case Driver.OpenDrain:
+                case IO.Interfaces.GPIO.Drive.OpenDrain:
                     flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_OPEN_DRAIN;
                     break;
 
-                case Driver.OpenSource:
+                case IO.Interfaces.GPIO.Drive.OpenSource:
                     flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_OPEN_SOURCE;
                     break;
             }
@@ -167,11 +108,11 @@ namespace IO.Objects.SimpleIO.GPIO
 
             switch (polarity)
             {
-                case Polarity.ActiveLow:
+                case IO.Interfaces.GPIO.Polarity.ActiveLow:
                     flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_ACTIVE_LOW;
                     break;
 
-                case Polarity.ActiveHigh:
+                case IO.Interfaces.GPIO.Polarity.ActiveHigh:
                     flags |= IO.Bindings.libsimpleio.GPIO_LINE_REQUEST_ACTIVE_HIGH;
                     break;
             }
@@ -180,26 +121,26 @@ namespace IO.Objects.SimpleIO.GPIO
 
             switch (edge)
             {
-                case Edge.None:
+                case IO.Interfaces.GPIO.Edge.None:
                     events |= IO.Bindings.libsimpleio.GPIO_EVENT_REQUEST_NONE;
                     break;
 
-                case Edge.Rising:
+                case IO.Interfaces.GPIO.Edge.Rising:
                     events |= IO.Bindings.libsimpleio.GPIO_EVENT_REQUEST_RISING;
                     break;
 
-                case Edge.Falling:
+                case IO.Interfaces.GPIO.Edge.Falling:
                     events |= IO.Bindings.libsimpleio.GPIO_EVENT_REQUEST_FALLING;
                     break;
 
-                case Edge.Both:
+                case IO.Interfaces.GPIO.Edge.Both:
                     events |= IO.Bindings.libsimpleio.GPIO_EVENT_REQUEST_BOTH;
                     break;
             }
 
             if (dir == Interfaces.GPIO.Direction.Output)
                 kind = Kinds.Output;
-            else if (edge != Edge.None)
+            else if (edge != IO.Interfaces.GPIO.Edge.None)
                 kind = Kinds.Interrupt;
             else
                 kind = Kinds.Input;
@@ -211,13 +152,14 @@ namespace IO.Objects.SimpleIO.GPIO
         /// <param name="desg">GPIO pin designator.</param>
         /// <param name="dir">Data direction.</param>
         /// <param name="state">Initial GPIO output state.</param>
-        /// <param name="driver">Output driver setting.</param>
-        /// <param name="edge">Interrupt edge setting.</param>
+        /// <param name="drive">Output Drive setting.</param>
+        /// <param name="edge">Input edge setting.</param>
         /// <param name="polarity">Polarity setting.</param>
         public Pin(IO.Objects.SimpleIO.Device.Designator desg,
             IO.Interfaces.GPIO.Direction dir, bool state = false,
-            Driver driver = Driver.PushPull, Edge edge = Edge.None,
-            Polarity polarity = Polarity.ActiveHigh)
+            IO.Interfaces.GPIO.Drive drive = IO.Interfaces.GPIO.Drive.PushPull,
+            IO.Interfaces.GPIO.Edge edge = IO.Interfaces.GPIO.Edge.None,
+            IO.Interfaces.GPIO.Polarity polarity = IO.Interfaces.GPIO.Polarity.ActiveHigh)
         {
             // Validate the GPIO pin designator
 
@@ -227,7 +169,7 @@ namespace IO.Objects.SimpleIO.GPIO
                 throw new Exception("Invalid designator");
             }
 
-            CalculateFlags(dir, driver, edge, polarity, out int flags, out int events,
+            CalculateFlags(dir, drive, edge, polarity, out int flags, out int events,
                 out this.kind);
 
             IO.Bindings.libsimpleio.GPIO_line_open((int)desg.chip,
