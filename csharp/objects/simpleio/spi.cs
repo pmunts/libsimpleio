@@ -20,8 +20,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using static IO.Objects.SimpleIO.mikroBUS.Shield;
-
 using System;
 
 namespace IO.Objects.SimpleIO.SPI
@@ -37,11 +35,14 @@ namespace IO.Objects.SimpleIO.SPI
         private static int SlaveSelect(string devname,
             IO.Objects.SimpleIO.Device.Designator? cspin)
         {
+            string ShieldName = System.Environment.GetEnvironmentVariable("SHIELDNAME");
+
             // Special processing for the Mikroelektronika BeagleBone click
             // SHIELD (MIKROE-1596):  Socket 1 has CS connected to GPIO44
             // instead of SPI1 CS0, so we have to do software slave select.
 
-            if ((kind == Kinds.BeagleBoneClick2) && (devname.Equals("/dev/spidev1.0")))
+            if (ShieldName.Equals("BeagleBoneClick2", StringComparison.OrdinalIgnoreCase) &&
+                (devname.Equals("/dev/spidev1.0")))
             {
                 var SSS = new IO.Objects.SimpleIO.GPIO.Pin
                     (IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO44,
@@ -54,7 +55,8 @@ namespace IO.Objects.SimpleIO.SPI
             // SHIELD (MIKROE-1596):  Socket 2 has CS connected to GPIO46
             // instead of SPI1 CS1, so we have to do software slave select.
 
-            if ((kind == Kinds.BeagleBoneClick2) && (devname.Equals("/dev/spidev1.1")))
+            if (ShieldName.Equals("BeagleBoneClick2", StringComparison.OrdinalIgnoreCase) &&
+                (devname.Equals("/dev/spidev1.1")))
             {
                 var SSS = new IO.Objects.SimpleIO.GPIO.Pin
                     (IO.Objects.SimpleIO.Platforms.BeagleBone.GPIO46,
