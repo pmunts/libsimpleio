@@ -1,6 +1,6 @@
 // MUNTS-0018 Raspberry Pi Tutorial I/O Board Definitions
 
-// Copyright (C)2021-2024, Philip Munts dba Munts Technologies.
+// Copyright (C)2021-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -314,9 +314,10 @@ namespace IO.Objects.SimpleIO.Platforms
             /// </summary>
             /// <param name="edge">Interrupt edge setting.</param>
             /// <returns>GPIO input pin object.</returns>
-            public static IO.Interfaces.GPIO.Pin ButtonInputFactory(IO.Objects.SimpleIO.GPIO.Edge edge = IO.Objects.SimpleIO.GPIO.Edge.None)
+            public static IO.Interfaces.GPIO.Pin ButtonInputFactory(
+                IO.Interfaces.GPIO.Edge edge = IO.Interfaces.GPIO.Edge.None)
             {
-                return new IO.Objects.SimpleIO.GPIO.Pin(SW1, IO.Interfaces.GPIO.Direction.Input, false, IO.Objects.SimpleIO.GPIO.Driver.PushPull, edge);
+                return new IO.Objects.SimpleIO.GPIO.Pin(SW1, IO.Interfaces.GPIO.Direction.Input, false, edge: edge);
             }
 
             /// <summary>
@@ -337,14 +338,15 @@ namespace IO.Objects.SimpleIO.Platforms
             /// pins (<c>J4D0</c> to <c>J7D1</c>.</param>
             /// <param name="dir">Data direction.</param>
             /// <param name="state">Initial GPIO output state.</param>
-            /// <param name="driver">Output driver setting.</param>
+            /// <param name="drive">Output driver setting.</param>
             /// <param name="edge">Interrupt edge setting.</param>
             /// <param name="polarity">Polarity setting.</param>
             /// <returns>GPIO pin object.</returns>
             public static IO.Interfaces.GPIO.Pin GPIOPinFactory(Designator desg,
                 IO.Interfaces.GPIO.Direction dir, bool state = false,
-                Driver driver = Driver.PushPull, Edge edge = Edge.None,
-                Polarity polarity = Polarity.ActiveHigh)
+                IO.Interfaces.GPIO.Drive drive = IO.Interfaces.GPIO.Drive.PushPull,
+                IO.Interfaces.GPIO.Edge edge = IO.Interfaces.GPIO.Edge.None,
+                IO.Interfaces.GPIO.Polarity polarity = IO.Interfaces.GPIO.Polarity.ActiveHigh)
             {
                 // Validate the GPIO pin designator
 
@@ -355,7 +357,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
                 // Return GPIO pin instance
 
-                return new IO.Objects.SimpleIO.GPIO.Pin(desg, dir, state, driver, edge, polarity);
+                return new IO.Objects.SimpleIO.GPIO.Pin(desg, dir, state, drive, edge, polarity);
             }
 
             /// <summary>
@@ -635,11 +637,11 @@ namespace IO.Objects.SimpleIO.Platforms
             /// </summary>
             /// <param name="edge">Interrupt edge setting.</param>
             /// <returns>GPIO input pin object.</returns>
-            public static IO.Interfaces.GPIO.Pin ButtonInputFactory(IO.Objects.SimpleIO.GPIO.Edge edge = IO.Objects.SimpleIO.GPIO.Edge.None)
+            public static IO.Interfaces.GPIO.Pin ButtonInputFactory(IO.Interfaces.GPIO.Edge edge = IO.Interfaces.GPIO.Edge.None)
             {
                 // Return GPIO pin instance
 
-                return new IO.Objects.SimpleIO.GPIO.Pin(SW1, IO.Interfaces.GPIO.Direction.Input, false, IO.Objects.SimpleIO.GPIO.Driver.PushPull, edge);
+                return new IO.Objects.SimpleIO.GPIO.Pin(SW1, IO.Interfaces.GPIO.Direction.Input, false, IO.Interfaces.GPIO.Drive.PushPull, edge);
             }
 
             /// <summary>
@@ -662,14 +664,15 @@ namespace IO.Objects.SimpleIO.Platforms
             /// pins (<c>J4D0</c> to <c>J7D1</c>.</param>
             /// <param name="dir">Data direction.</param>
             /// <param name="state">Initial GPIO output state.</param>
-            /// <param name="driver">Output driver setting.</param>
+            /// <param name="drive">Output driver setting.</param>
             /// <param name="edge">Interrupt edge setting.</param>
             /// <param name="polarity">Polarity setting.</param>
             /// <returns>GPIO pin object.</returns>
             public static IO.Interfaces.GPIO.Pin GPIOPinFactory(Designator desg,
                 IO.Interfaces.GPIO.Direction dir, bool state = false,
-                Driver driver = Driver.PushPull, Edge edge = Edge.None,
-                Polarity polarity = Polarity.ActiveHigh)
+                IO.Interfaces.GPIO.Drive drive = IO.Interfaces.GPIO.Drive.PushPull,
+                IO.Interfaces.GPIO.Edge edge = IO.Interfaces.GPIO.Edge.None,
+                IO.Interfaces.GPIO.Polarity polarity = IO.Interfaces.GPIO.Polarity.ActiveHigh)
             {
                 // Validate the GPIO pin designator
 
@@ -680,7 +683,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
                 // Return GPIO pin instance
 
-                return new IO.Objects.SimpleIO.GPIO.Pin(desg, dir, state, driver, edge, polarity);
+                return new IO.Objects.SimpleIO.GPIO.Pin(desg, dir, state, drive, edge, polarity);
             }
 
             /// <summary>
