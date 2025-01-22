@@ -1,7 +1,7 @@
 // Mikroelektronika mikroBUS (https://www.mikroe.com/mikrobus)
 // Shield and Socket Services
 
-// Copyright (C)2020-2024, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -86,6 +86,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
             public readonly IO.Objects.SimpleIO.Device.Designator[] GPIOs;
             // mikroBUS devices
             public readonly IO.Objects.SimpleIO.Device.Designator AIN;
+            public readonly int AINres;
             public readonly IO.Objects.SimpleIO.Device.Designator I2CBus;
             public readonly IO.Objects.SimpleIO.Device.Designator PWMOut;
             public readonly IO.Objects.SimpleIO.Device.Designator SPIDev;
@@ -109,6 +110,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 IO.Objects.SimpleIO.Device.Designator PWM,
                 // mikroBUS devices
                 IO.Objects.SimpleIO.Device.Designator AIN,
+                int AINres,
                 IO.Objects.SimpleIO.Device.Designator I2CBus,
                 IO.Objects.SimpleIO.Device.Designator PWMOut,
                 IO.Objects.SimpleIO.Device.Designator SPIDev,
@@ -118,13 +120,14 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 this.num = num;
                 // mikroBUS GPIO pins
                 this.GPIOs = new IO.Objects.SimpleIO.Device.Designator[]
-                    { AN, RST, CS, SCK, MISO, MOSI, SDA, SCL, TX, RX, INT, PWM };
+                { AN, RST, CS, SCK, MISO, MOSI, SDA, SCL, TX, RX, INT, PWM };
                 // mikroBUS devices
-                this.AIN = AIN;
+                this.AIN    = AIN;
+                this.AINres = AINres;
                 this.I2CBus = I2CBus;
                 this.PWMOut = PWMOut;
                 this.SPIDev = SPIDev;
-                this.UART = UART;
+                this.UART   = UART;
             }
         }
 
@@ -146,6 +149,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    BeagleBone.GPIO50,    // Conflicts with EHRPWM1A
                 // mikroBUS devices
                 AIN:    BeagleBone.AIN0,
+                AINres: 12,
                 I2CBus: BeagleBone.I2C2,
                 PWMOut: BeagleBone.EHRPWM1A,
                 SPIDev: BeagleBone.SPI1_0,
@@ -167,6 +171,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    BeagleBone.GPIO22,    // Conflicts with EHRPWM2A
                 // mikroBUS devices
                 AIN:    BeagleBone.AIN1,
+                AINres: 12,
                 I2CBus: BeagleBone.I2C2,
                 PWMOut: BeagleBone.EHRPWM2A,
                 SPIDev: BeagleBone.SPI1_1,
@@ -188,6 +193,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    BeagleBone.GPIO50,    // Conflicts with EHRPWM1A
                 // mikroBUS devices
                 AIN:    BeagleBone.AIN3,
+                AINres: 12,
                 I2CBus: BeagleBone.I2C2,
                 PWMOut: BeagleBone.EHRPWM1A,
                 SPIDev: BeagleBone.SPI1_0,
@@ -209,6 +215,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    BeagleBone.GPIO51,    // Conflicts with EHRPWM1B
                 // mikroBUS devices
                 AIN:    BeagleBone.AIN2,
+                AINres: 12,
                 I2CBus: BeagleBone.I2C2,
                 PWMOut: BeagleBone.EHRPWM1B,
                 SPIDev: BeagleBone.SPI1_1,
@@ -230,6 +237,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    BeagleBone.GPIO22,    // Conflicts with EHRPWM2A
                 // mikroBUS devices
                 AIN:    BeagleBone.AIN1,
+                AINres: 12,
                 I2CBus: BeagleBone.I2C2,
                 PWMOut: BeagleBone.EHRPWM2A,
                 SPIDev: BeagleBone.SPI0_0,
@@ -251,6 +259,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    BeagleBone.GPIO23,    // Conflicts with EHRPWM2B
                 // mikroBUS devices
                 AIN:    BeagleBone.AIN0,
+                AINres: 12,
                 I2CBus: BeagleBone.I2C2,
                 PWMOut: BeagleBone.EHRPWM2B,
                 SPIDev: Unavailable,
@@ -272,6 +281,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    PocketBeagle.GPIO50,  // Conflicts with PWM2:0
                 // mikroBUS devices
                 AIN:    PocketBeagle.AIN6,
+                AINres: 12,
                 I2CBus: PocketBeagle.I2C1,
                 PWMOut: PocketBeagle.PWM2_0,
                 SPIDev: PocketBeagle.SPI0_0,
@@ -293,6 +303,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    PocketBeagle.GPIO110, // Conflicts with PWM0:0
                 // mikroBUS devices
                 AIN:    PocketBeagle.AIN5,
+                AINres: 12,
                 I2CBus: PocketBeagle.I2C2,
                 PWMOut: PocketBeagle.PWM0_0,
                 SPIDev: PocketBeagle.SPI1_1,
@@ -314,6 +325,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    RaspberryPi.GPIO18,   // Conflicts with PWM0
                 // mikroBUS devices
                 AIN:    Unavailable,
+                AINres: 0,
                 I2CBus: RaspberryPi.I2C1,
                 PWMOut: RaspberryPi.PWM0,
                 SPIDev: RaspberryPi.SPI0_0,
@@ -335,6 +347,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    RaspberryPi.GPIO18,   // Conflicts with PWM0
                 // mikroBUS devices
                 AIN:    Unavailable,
+                AINres: 0,
                 I2CBus: RaspberryPi.I2C1,
                 PWMOut: MuntsOS.GetCPUKind() == MuntsOS.CPUKinds.BCM2712 ? RaspberryPi5.PWM2 : RaspberryPi.PWM0,
                 SPIDev: RaspberryPi.SPI0_0,
@@ -356,6 +369,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    RaspberryPi.GPIO17,
                 // mikroBUS devices
                 AIN:    Unavailable,
+                AINres: 0,
                 I2CBus: RaspberryPi.I2C1,
                 PWMOut: Unavailable,
                 SPIDev: RaspberryPi.SPI0_1,
@@ -377,6 +391,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    RaspberryPi.GPIO18,   // Conflicts with PWM0
                 // mikroBUS devices
                 AIN:    RaspberryPi.AIN0,     // Switch AN1 must be in the LEFT position
+                AINres: 12,
                 I2CBus: RaspberryPi.I2C1,
                 PWMOut: MuntsOS.GetCPUKind() == MuntsOS.CPUKinds.BCM2712 ? RaspberryPi5.PWM2 : RaspberryPi.PWM0,
                 SPIDev: RaspberryPi.SPI0_0,
@@ -398,6 +413,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    RaspberryPi.GPIO17,
                 // mikroBUS devices
                 AIN:    RaspberryPi.AIN1,     // Switch AN2 must be in the LEFT position
+                AINres: 12,
                 I2CBus: RaspberryPi.I2C1,
                 PWMOut: Unavailable,
                 SPIDev: RaspberryPi.SPI0_1,
@@ -419,6 +435,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    RaspberryPi.GPIO18,   // Conflicts with PWM0
                 // mikroBUS devices
                 AIN:    RaspberryPi.AIN0,     // Jumper JP1 aka AN1 must be in the LEFT position
+                AINres: 15,
                 I2CBus: RaspberryPi.I2C1,
                 PWMOut: MuntsOS.GetCPUKind() == MuntsOS.CPUKinds.BCM2712 ? RaspberryPi5.PWM2 : RaspberryPi.PWM0,
                 SPIDev: RaspberryPi.SPI0_0,
@@ -440,6 +457,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    RaspberryPi.GPIO13,   // Conflicts with PWM1
                 // mikroBUS devices
                 AIN:    RaspberryPi.AIN1,     // Jumper JP2 aka AN2 must be in the LEFT position
+                AINres: 15,
                 I2CBus: RaspberryPi.I2C1,
                 PWMOut: MuntsOS.GetCPUKind() == MuntsOS.CPUKinds.BCM2712 ? RaspberryPi5.PWM1 : RaspberryPi.PWM1,
                 SPIDev: RaspberryPi.SPI0_1,
@@ -461,6 +479,7 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 PWM:    RaspberryPi.GPIO16,
                 // mikroBUS devices
                 AIN:    RaspberryPi.AIN2,     // Jumper JP3 aka AN3 must be in the LEFT position
+                AINres: 15,
                 I2CBus: RaspberryPi.I2C1,
                 PWMOut: Unavailable,
                 SPIDev: Unavailable,
@@ -493,12 +512,11 @@ namespace IO.Objects.SimpleIO.mikroBUS
         /// <summary>
         /// Create an analog input object instance for a given socket.
         /// </summary>
-        /// <param name="resolution">A/D converter resolution in bits.  Zero
-        /// means the resolution is unknown.</param>
         /// <returns>Analog input object instance.</returns>
-        public IO.Interfaces.ADC.Sample CreateAnalogInput(int resolution)
+        public IO.Interfaces.ADC.Sample CreateAnalogInput()
         {
-            return new IO.Objects.SimpleIO.ADC.Sample(this.sockinfo.AIN, resolution);
+            return new IO.Objects.SimpleIO.ADC.Sample(this.sockinfo.AIN,
+                this.sockinfo.AINres);
         }
 
         /// <summary>
