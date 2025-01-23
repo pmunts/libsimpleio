@@ -1,6 +1,6 @@
 # Makefile to build the Linux Simple I/O Library
 
-# Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -123,6 +123,7 @@ install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
+	cp -R -P -p doc/*.dll			$(DESTDIR)/share/libsimpleio/doc
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 	mkdir -p				$(PKGDIR)/usr/lib/python3/dist-packages
