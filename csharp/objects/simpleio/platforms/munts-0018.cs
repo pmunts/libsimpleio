@@ -268,7 +268,7 @@ namespace IO.Objects.SimpleIO.Platforms
             /// <returns>GPIO output pin object.</returns>
             public static IO.Interfaces.GPIO.Pin LEDOutputFactory(bool state = false)
             {
-                return new IO.Objects.SimpleIO.GPIO.Pin(D1, IO.Interfaces.GPIO.Direction.Output, state);
+                return new IO.Objects.SimpleIO.GPIO.Pin(LED1, IO.Interfaces.GPIO.Direction.Output, state);
             }
 
             /// <summary>
@@ -584,7 +584,7 @@ namespace IO.Objects.SimpleIO.Platforms
             {
                 // Return GPIO pin instance
 
-                return new IO.Objects.SimpleIO.GPIO.Pin(D1, IO.Interfaces.GPIO.Direction.Output, state);
+                return new IO.Objects.SimpleIO.GPIO.Pin(LED1, IO.Interfaces.GPIO.Direction.Output, state);
             }
 
             /// <summary>
