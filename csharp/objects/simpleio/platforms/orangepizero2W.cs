@@ -1,6 +1,6 @@
 // Orange Pi Zero 2 W Linux Microcomputer Board I/O resource definitions
 
-// Copyright (C)2023-2024, Philip Munts dba Munts Technologies.
+// Copyright (C)2023-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -543,7 +543,7 @@ namespace IO.Objects.SimpleIO.Platforms
         public static readonly Designator PWM0 = OrangePiZero2W.PWM1;
 
         /// <summary>
-        /// Raspberry Pi compatible alias for <c>PWM1</c>.
+        /// Raspberry Pi compatible alias for <c>PWM2</c>.
         /// </summary>
         public static readonly Designator PWM1 = OrangePiZero2W.PWM2;
 
