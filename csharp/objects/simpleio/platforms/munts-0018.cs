@@ -380,8 +380,6 @@ namespace IO.Objects.SimpleIO.Platforms
         /// <code>
         /// OVERLAYS=MUNTS-0018
         /// </code>
-        /// <br/>
-        /// <br/>
         /// The Orange Pi Zero 2W does not route PWM signals to <c>GPIO18</c>
         /// or <c>GPIO19</c>, so servo header <c>J2</c> and
         /// DC Motor Driver Grove Connector <c>J7</c> are not usable except as
@@ -505,25 +503,25 @@ namespace IO.Objects.SimpleIO.Platforms
             /// Analog input <c>Designator</c> for Analog Input Grove Connector
             /// <c>J10</c> pin <c>A0</c> (MCP3204 input <c>CH2</c>.
             /// </summary>
-            public static readonly Designator J10A0 = new Designator(0, 2);
+            public static readonly Designator J10A0 = OrangePiZero2W_RaspberryPi.AIN2;
 
             /// <summary>
             /// Analog input <c>Designator</c> for Analog Input Grove Connector
             /// <c>J10</c> pin <c>A1</c> (MCP3204 input <c>CH3</c>.
             /// </summary>
-            public static readonly Designator J10A1 = new Designator(0, 3);
+            public static readonly Designator J10A1 = OrangePiZero2W_RaspberryPi.AIN3;
 
             /// <summary>
             /// Analog input <c>Designator</c> for Analog Input Grove Connector
             /// <c>J11</c> pin <c>A0</c> (MCP3204 input <c>CH0</c>.
             /// </summary>
-            public static readonly Designator J11A0 = new Designator(0, 0);
+            public static readonly Designator J11A0 = OrangePiZero2W_RaspberryPi.AIN0;
 
             /// <summary>
             /// Analog input <c>Designator</c> for Analog Input Grove Connector
             /// <c>J11</c> pin <c>A1</c> (MCP3204 input <c>CH1</c>.
             /// </summary>
-            public static readonly Designator J11A1 = new Designator(0, 1);
+            public static readonly Designator J11A1 = OrangePiZero2W_RaspberryPi.AIN1;
 
             // Create lists of valid designators, to be used for error checking
             // in the factory functions below.
