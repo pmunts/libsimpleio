@@ -354,49 +354,49 @@ namespace IO.Objects.SimpleIO.Platforms
     /// </summary>
     public static class OrangePiZero2W_RaspberryPi
     {
-        /// <summary>Analog input designator (0, 0).</summary>
+        /// <summary>Raspberry Pi compatible alias for <c>AIN0</c>.</summary>
         /// <remarks>The Orange Pi Zero 2W doesn't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
         /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN0 = OrangePiZero2W.AIN0;
 
-        /// <summary>Analog input designator (0, 1).</summary>
+        /// <summary>Raspberry Pi compatible alias for <c>AIN1</c>.</summary>
         /// <remarks>The Orange Pi Zero 2W doesn't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
         /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN1 = OrangePiZero2W.AIN1;
 
-        /// <summary>Analog input designator (0, 2).</summary>
+        /// <summary>Raspberry Pi compatible alias for <c>AIN2</c>.</summary>
         /// <remarks>The Orange Pi Zero 2W doesn't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
         /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN2 = OrangePiZero2W.AIN2;
 
-        /// <summary>Analog input designator (0, 3).</summary>
+        /// <summary>Raspberry Pi compatible alias for <c>AIN3</c>.</summary>
         /// <remarks>The Orange Pi Zero 2W doesn't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
         /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN3 = OrangePiZero2W.AIN3;
 
-        /// <summary>Analog input designator (0, 4).</summary>
+        /// <summary>Raspberry Pi compatible alias for <c>AIN4</c>.</summary>
         /// <remarks>The Orange Pi Zero 2W doesn't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
         /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN4 = OrangePiZero2W.AIN4;
 
-        /// <summary>Analog input designator (0, 5).</summary>
+        /// <summary>Raspberry Pi compatible alias for <c>AIN5</c>.</summary>
         /// <remarks>The Orange Pi Zero 2W doesn't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
         /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN5 = OrangePiZero2W.AIN5;
 
-        /// <summary>Analog input designator (0, 6).</summary>
+        /// <summary>Raspberry Pi compatible alias for <c>AIN6</c>.</summary>
         /// <remarks>The Orange Pi Zero 2W doesn't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
         /// for the first IIO (Industrial I/O) ADC device.</remarks>
         public static readonly Designator AIN6 = OrangePiZero2W.AIN6;
 
-        /// <summary>Analog input designator (0, 7).</summary>
+        /// <summary>Raspberry Pi compatible alias for <c>AIN7</c>.</summary>
         /// <remarks>The Orange Pi Zero 2W doesn't have a built-in ADC (Analog to
         /// Digital Converter) subsystem, so this is just a placeholder
         /// for the first IIO (Industrial I/O) ADC device.</remarks>
