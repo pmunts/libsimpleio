@@ -1,6 +1,6 @@
 // I2C bus controller services using IO.Objects.SimpleIO
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -30,18 +30,6 @@ namespace IO.Objects.SimpleIO.I2C
     /// </summary>
     public class Bus : IO.Interfaces.I2C.Bus
     {
-        // If you have system with more than 64 I2C buses, my condolences.
-        // You will need to increase the size of fdtable and rebuild the
-        // library.
-
-        private static int[] fdtable =
-        {
-            -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-            -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-            -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-            -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
-        };
-
         private readonly int myfd;
 
         /// <summary>
@@ -62,48 +50,16 @@ namespace IO.Objects.SimpleIO.I2C
                 throw new Exception("Invalid designator");
             }
 
-            // Unlike almost any Linux I/O resource, an I2C bus can be shared
-            // among two or more I2C slave devices.  We save open file
-            // descriptors in fdtable so we can reuse them if the program
-            // attempts to create multiple instances of the same I2C bus.
-            // An important use case is a mikroBUS shield with multiple sockets
-            // all sharing the same I2C bus.  We want to avoid opening a new
-            // I2C bus file descriptor for each socket.
-
-            if (desg.chan > fdtable.Length - 1)
-            {
-                throw new Exception("Too many I2C buses");
-            }
-
             string devname = String.Format("/dev/i2c-{0}", desg.chan);
 
-            System.Threading.Monitor.Enter(fdtable);
+            IO.Bindings.libsimpleio.I2C_open(devname, out this.myfd,
+                out int error);
 
-            // Resuse an existing open file descriptor, if possible
-
-            if (fdtable[desg.chan] >= 0)
+            if (error != 0)
             {
-                this.myfd = fdtable[desg.chan];
+                throw new Exception("I2C_open() failed, " +
+                    errno.strerror(error));
             }
-            else
-            {
-                IO.Bindings.libsimpleio.I2C_open(devname, out this.myfd,
-                    out int error);
-
-                if (error != 0)
-                {
-                    System.Threading.Monitor.Exit(fdtable);
-
-                    throw new Exception("I2C_open() failed, " +
-                        errno.strerror(error));
-                }
-
-                // Save the new open file descriptor to fdtable, if possible
-
-                fdtable[desg.chan] = this.myfd;
-            }
-
-            System.Threading.Monitor.Exit(fdtable);
         }
 
         /// <summary>
