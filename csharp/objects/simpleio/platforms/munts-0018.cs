@@ -53,7 +53,7 @@ namespace IO.Objects.SimpleIO.Platforms
             /// <summary>
             /// GPIO pin <c>Designator</c> for the on-board LED <c>D1</c>.
             /// </summary>
-            public static readonly Designator D1 =
+            public static readonly Designator LED1 =
                 IO.Objects.SimpleIO.Platforms.RaspberryPi.GPIO26;
 
             // On board pushbutton switch
@@ -392,7 +392,7 @@ namespace IO.Objects.SimpleIO.Platforms
             /// <summary>
             /// GPIO pin <c>Designator</c> for the on-board LED <c>D1</c>.
             /// </summary>
-            public static readonly Designator D1 = OrangePiZero2W_RaspberryPi.GPIO26;
+            public static readonly Designator LED1 = OrangePiZero2W_RaspberryPi.GPIO26;
 
             // On board pushbutton switch
 
