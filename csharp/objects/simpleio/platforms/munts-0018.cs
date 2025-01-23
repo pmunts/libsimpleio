@@ -381,7 +381,7 @@ namespace IO.Objects.SimpleIO.Platforms
         /// OVERLAYS=MUNTS-0018
         /// </code>
         /// The Orange Pi Zero 2W does not route PWM signals to <c>GPIO18</c>
-        /// or <c>GPIO19</c>, so servo header <c>J2</c> and
+        /// or <c>GPIO19</c>, so Servo Header <c>J2</c> and
         /// DC Motor Driver Grove Connector <c>J7</c> are not usable except as
         /// extro GPIO pins.
         /// </remarks>
