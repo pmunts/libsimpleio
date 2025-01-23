@@ -1,6 +1,6 @@
 // Mikroelektronika Seven Segment Click Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,8 +21,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using IO.Devices.ClickBoards.SimpleIO.SevenSegment;
-using static IO.Devices.ClickBoards.SimpleIO.SevenSegment.Board;
+using IO.Devices.ClickBoards.SevenSegment;
+using static IO.Devices.ClickBoards.SevenSegment.Board;
 
 namespace test_7seg_click
 {
@@ -34,17 +34,19 @@ namespace test_7seg_click
 
             Console.Write("Socket number? ");
             var num = int.Parse(Console.ReadLine());
-            var disp = new Board(num);
+
+            var socket = new IO.Objects.SimpleIO.mikroBUS.Socket(num);
+            var board = new Board(socket);
 
             // Test decimal mode
 
-            disp.Clear();
-            disp.radix = Base.Decimal;
-            disp.blanking = ZeroBlanking.Leading;
+            board.Clear();
+            board.radix = Base.Decimal;
+            board.blanking = ZeroBlanking.Leading;
 
             for (int i = 0; i <= 99; i++)
             {
-                disp.state = i;
+                board.state = i;
                 System.Threading.Thread.Sleep(100);
             }
 
@@ -52,7 +54,7 @@ namespace test_7seg_click
 
             for (int i = 99; i >= 0; i--)
             {
-                disp.state = i;
+                board.state = i;
                 System.Threading.Thread.Sleep(100);
             }
 
@@ -60,13 +62,13 @@ namespace test_7seg_click
 
             // Test hexadecimal mode
 
-            disp.Clear();
-            disp.radix = Base.Hexadecimal;
-            disp.blanking = ZeroBlanking.None;
+            board.Clear();
+            board.radix = Base.Hexadecimal;
+            board.blanking = ZeroBlanking.None;
 
             for (int i = 0; i <= 255; i++)
             {
-                disp.state = i;
+                board.state = i;
                 System.Threading.Thread.Sleep(100);
             }
 
@@ -74,7 +76,7 @@ namespace test_7seg_click
 
             for (int i = 255; i >= 0; i--)
             {
-                disp.state = i;
+                board.state = i;
                 System.Threading.Thread.Sleep(100);
             }
 
@@ -82,14 +84,14 @@ namespace test_7seg_click
 
             // Test decimal points
 
-            disp.Clear();
-            disp.rightdp = true;
+            board.Clear();
+            board.rightdp = true;
             System.Threading.Thread.Sleep(1000);
-            disp.rightdp = false;
+            board.rightdp = false;
             System.Threading.Thread.Sleep(1000);
-            disp.leftdp = true;
+            board.leftdp = true;
             System.Threading.Thread.Sleep(1000);
-            disp.leftdp = false;
+            board.leftdp = false;
         }
     }
 }

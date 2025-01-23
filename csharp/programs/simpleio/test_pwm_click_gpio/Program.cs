@@ -1,6 +1,6 @@
 // Mikroelektronika PWM Click GPIO Pin Toggle Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -31,12 +31,13 @@ namespace test_pwm_click_gpio
             Console.WriteLine("\nMikroelektronika PWM Click GPIO Pin Toggle Test\n");
 
             Console.Write("Socket number?  ");
-            var socket = int.Parse(Console.ReadLine());
+            var num = int.Parse(Console.ReadLine());
 
             Console.Write("Channel number? ");
             var channel = int.Parse(Console.ReadLine());
 
-            var board = new IO.Devices.ClickBoards.SimpleIO.PWM.Board(socket, 1526);
+            var socket = new IO.Objects.SimpleIO.mikroBUS.Socket(num);
+            var board = new IO.Devices.ClickBoards.PWM.Board(socket, 1526);
             var outp = board.GPIO(channel);
 
             for (;;)

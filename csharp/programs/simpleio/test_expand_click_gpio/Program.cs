@@ -1,6 +1,6 @@
 // Mikroelektronika Expand Click GPIO Toggle Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,15 +28,16 @@ namespace test_expand_click_gpio
     {
         static void Main()
         {
-            Console.WriteLine("\nMikroelektronika Expand 2 Click GPIO Toggle Test\n");
+            Console.WriteLine("\nMikroelektronika Expand Click GPIO Toggle Test\n");
 
             Console.Write("Socket number?  ");
-            var socket = int.Parse(Console.ReadLine());
+            var num = int.Parse(Console.ReadLine());
 
             Console.Write("Channel number? ");
             var channel = int.Parse(Console.ReadLine());
 
-            var board = new IO.Devices.ClickBoards.SimpleIO.Expand.Board(socket);
+            var socket = new IO.Objects.SimpleIO.mikroBUS.Socket(num);
+            var board = new IO.Devices.ClickBoards.Expand.Board(socket);
             var outp = board.GPIO(channel, IO.Interfaces.GPIO.Direction.Output);
 
             for (;;)
