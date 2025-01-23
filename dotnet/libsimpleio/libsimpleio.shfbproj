@@ -28,16 +28,11 @@
       <NamespaceSummaryItem name="IO.Devices.AD5593R.DAC" isDocumented="True">AD5593 Analog/Digital I/O Device DAC Output Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.AD5593R.GPIO" isDocumented="True">AD5593 Analog/Digital I/O Device GPIO Pin Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.ADC121C021" isDocumented="True">ADC121C021 I&lt;sup&gt;2&lt;/sup&gt;C A/D Converter Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.ADAC" isDocumented="True">Mikroelektronika ADAC Click MIKROE-2690 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.Expand" isDocumented="True">Mikroelektronika Expand Click MIKROE-951 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.Expand2" isDocumented="True">Mikroelektronika Expand 2 Click MIKROE-1838 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.PWM" isDocumented="True">Mikroelektronika PWM Click MIKROE-1898 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.RemoteIO.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.ADAC" isDocumented="True">Mikroelektronika ADAC Click MIKROE-2690 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.Expand" isDocumented="True">Mikroelektronika Expand Click MIKROE-951 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.Expand2" isDocumented="True">Mikroelektronika Expand 2 Click MIKROE-1838 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.PWM" isDocumented="True">Mikroelektronika PWM Click MIKROE-1898 Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SimpleIO.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.ADAC" isDocumented="True">Mikroelektronika ADAC Click MIKROE-2690 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.Expand" isDocumented="True">Mikroelektronika Expand Click MIKROE-951 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.Expand2" isDocumented="True">Mikroelektronika Expand 2 Click MIKROE-1838 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.PWM" isDocumented="True">Mikroelektronika PWM Click MIKROE-1898 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.ClickBoards.SevenSegment" isDocumented="True">Mikroelektronika 7Seg Click MIKROE-1201 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.ADC" isDocumented="True">Seeed Studio Grove I&lt;sup&gt;2&lt;/sup&gt;C ADC (ADC121C021) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature" isDocumented="True">Seeed Studio Grove Temperature Sensor (thermistor) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature_Humidity" isDocumented="True">Seeed Studio Grove Temperature and Humdity Sensor (TH02) Services.</NamespaceSummaryItem>
@@ -75,10 +70,12 @@
       <NamespaceSummaryItem name="IO.Interfaces.Stepper" isDocumented="True">Abstract Interface for Stepper Motor Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Temperature" isDocumented="True">Abstract Interface for Temperature Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Watchdog" isDocumented="True">Abstract Interface for Watchdog Timers</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.mikroBUS" isDocumented="True">Abstract Interface for &lt;a href="https://www.mikroe.com/mikrobus"&gt;mikroBUS&lt;/a&gt; Sockets</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Email.Mail" isDocumented="True">Email Sending Services using &lt;c&gt;/usr/bin/mail&lt;/c&gt;</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Email.SMTP" isDocumented="True">Email Sending Services using SMTP to &lt;c&gt;localhost:25&lt;/c&gt;</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.GPIO.PWM" isDocumented="True">PWM Controlled GPIO Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Services over UDP</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Message64.libhidraw" isDocumented="True">64-Byte Message Services over libhidraw</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.RemoteIO" isDocumented="True">Remote I/O Device Framework, for sending commands and receiving response to/from &lt;a href="http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf"&gt;Remote I/O Protocol&lt;/a&gt; devices.</NamespaceSummaryItem>
