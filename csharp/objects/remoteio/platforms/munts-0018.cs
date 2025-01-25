@@ -191,5 +191,173 @@ namespace IO.Objects.RemoteIO.Platforms
         /// <c>J11</c> pin <c>A1</c> (MCP3204 input <c>CH1</c>).
         /// </summary>
         public const int J11A1 = 1;
+
+        // Create lists of valid designators, to be used for error checking
+        // in the factory functions below.
+
+        private static readonly System.Collections.Generic.List<int> ValidAnalogInputs =
+            new System.Collections.Generic.List<int>(new[] { J10A0, J10A1, J11A0, J11A1 });
+
+        private static readonly System.Collections.Generic.List<int> ValidGPIOPins =
+            new System.Collections.Generic.List<int>(new[] { J4D0, J4D1, J5D0, J5D1, J6D0, J6D1, J7D0, J7D1 });
+
+        private static readonly System.Collections.Generic.List<int> ValidMotorSpeedOutputs =
+            new System.Collections.Generic.List<int>(new[] { J6PWM, J7PWM });
+
+        private static readonly System.Collections.Generic.List<int> ValidMotorDirectionOutputs =
+            new System.Collections.Generic.List<int>(new[] { J6DIR, J7DIR });
+
+        private static readonly System.Collections.Generic.List<int> ValidServoOutputs =
+            new System.Collections.Generic.List<int>(new[] { J2PWM, J3PWM });
+
+        private static readonly IO.Objects.RemoteIO.Device remdev = new IO.Objects.RemoteIO.Device();
+
+        /// <summary>
+        /// Property returning a handle to the Remote I/O Server.
+        /// </summary>
+        public static IO.Objects.RemoteIO.Device server
+        {
+            get { return remdev; }
+        }
+
+        /// <summary>
+        /// Analog input object factory for the on-board analog inputs at
+        /// connectors <c>J10</c> and <c>J11</c>.
+        /// </summary>
+        /// <param name="desg">Device designator for one of the on-board
+        /// analog inputs (<c>J10A0</c>, <c>J10A1</c>, <c>J11A0</c>, or
+        /// <c>J11A1</c>).</param>
+        /// <returns>Analog input object.</returns>
+        public static IO.Interfaces.ADC.Voltage AnalogInputFactory(int desg)
+        {
+            // Validate analog input designator
+
+            if (!ValidAnalogInputs.Contains(desg))
+            {
+                throw new System.ArgumentException("Invalid analog input designator.");
+            }
+
+            // Return analog input instance
+
+            return new IO.Interfaces.ADC.Input(remdev.ADC_Create(desg), 3.3);
+        }
+
+        /// <summary>
+        /// GPIO pin object factory for the on-board button switch at <c>SW1</c>.
+        /// </summary>
+        /// <returns>GPIO input pin object.</returns>
+        public static IO.Interfaces.GPIO.Pin ButtonInputFactory()
+        {
+            // Return GPIO pin instance
+
+            return remdev.GPIO_Create(SW1, IO.Interfaces.GPIO.Direction.Input);
+        }
+
+        /// <summary>
+        /// GPIO pin object factory for the on-board LED at <c>D1</c>.
+        /// </summary>
+        /// <param name="state">Initial GPIO output state.</param>
+        /// <returns>GPIO output pin object.</returns>
+        public static IO.Interfaces.GPIO.Pin LEDOutputFactory(bool state = false)
+        {
+            // Return GPIO pin instance
+
+            return remdev.GPIO_Create(LED1, IO.Interfaces.GPIO.Direction.Output, state);
+        }
+
+        /// <summary>
+        /// GPIO pin object factory for GPIO pins at connectors <c>J4</c> to
+        /// <c>J7</c>.
+        /// </summary>
+        /// <param name="desg">Device designator for one of the on-board GPIO
+        /// pins (<c>J4D0</c> to <c>J7D1</c>.</param>
+        /// <param name="dir">Data direction.</param>
+        /// <param name="state">Initial GPIO output state.</param>
+        /// <returns>GPIO pin object.</returns>
+        public static IO.Interfaces.GPIO.Pin GPIOPinFactory(int desg,
+            IO.Interfaces.GPIO.Direction dir, bool state = false)
+        {
+            // Validate the GPIO pin designator
+
+            if (!ValidGPIOPins.Contains(desg))
+            {
+                throw new System.ArgumentException("Invalid GPIO pin designator.");
+            }
+
+            // Return GPIO pin instance
+
+            return remdev.GPIO_Create(LED1, dir, state);
+        }
+
+        /// <summary>
+        /// I<sup>2</sup>C bus object factory for the on-board I<sup>2</sup>C
+        /// bus at connector <c>J9</c>.
+        /// </summary>
+        /// <returns>I<sup>2</sup>C bus object.</returns>
+        public static IO.Interfaces.I2C.Bus I2CBusFactory()
+        {
+            return remdev.I2C_Create(J9I2C);
+        }
+
+        /// <summary>
+        /// Motor output object factory for the on-board motor outputs
+        /// at connectors <c>J6</c> and <c>J7</c>.
+        /// </summary>
+        /// <param name="speed">Device designator for the motor speed PWM
+        /// output (<c>J6PWM</c> or <c>J7PWM</c>).</param>
+        /// <param name="direction">Device designator for the motor direction
+        /// GPIO output (<c>J6DIR</c> or <c>J7DIR</c>).</param>
+        /// <param name="frequency">PWM pulse frequency.</param>
+        /// <param name="velocity">Initial motor velocity.</param>
+        /// <returns>Motor output object.</returns>
+        public static IO.Interfaces.Motor.Output MotorOutputFactory(int speed,
+            int direction, int frequency, double velocity = 0.0)
+        {
+            // Validate the PWM output designator
+
+            if (!ValidMotorSpeedOutputs.Contains(speed))
+            {
+                throw new System.ArgumentException("Invalid PWM output designator.");
+            }
+
+            // Validate the GPIO output designator
+
+            if (!ValidMotorDirectionOutputs.Contains(direction))
+            {
+                throw new System.ArgumentException("Invalid GPIO output designator.");
+            }
+
+            IO.Interfaces.PWM.Output S = remdev.PWM_Create(speed, frequency);
+
+            IO.Interfaces.GPIO.Pin D = remdev.GPIO_Create(direction,
+                IO.Interfaces.GPIO.Direction.Output);
+
+            return new IO.Objects.Motor.PWM.Output(D, S, velocity);
+        }
+
+        /// <summary>
+        /// Servo output object factory for the on-board servo outputs
+        /// at headers <c>J2</c> and <c>J3</c>.
+        /// </summary>
+        /// <param name="desg">Device designator for one of the on-board
+        /// PWM outputs (<c>J2PWM</c> or <c>J3PWM</c>).</param>
+        /// <param name="frequency">PWM pulse frequency.  Ordinary analog
+        /// servos operate best at 50 Hz.</param>
+        /// <param name="position">Initial servo position.</param>
+        /// <returns>Servo output object.</returns>
+        public static IO.Interfaces.Servo.Output ServoOutputFactory(int desg,
+            int frequency = 50, double position = IO.Interfaces.Servo.Positions.Neutral)
+        {
+            // Validate the servo output designator
+
+            if (!ValidServoOutputs.Contains(desg))
+            {
+                throw new System.ArgumentException("Invalid servo output designator.");
+            }
+
+            // Return servo output instance
+
+            return new IO.Objects.Servo.PWM.Output(remdev.PWM_Create(desg, frequency), frequency, position);
+        }
     }
 }
