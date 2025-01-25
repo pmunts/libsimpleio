@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board shield services, using libsimpleio
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -54,24 +54,10 @@ PACKAGE BODY ClickBoard.Shields IS
       WHEN OTHERS => NULL;
     END;
 
-    -- In the absence of SHIELDNAME, assume the mikroBUS Cape
-    -- (MIKROE-1596) for all BeagleBone boards
-
-    IF matchenv("BOARDNAME", "beaglebone") THEN
-      RETURN ClickBoard.Shields.BeagleBoneClick4;
-    END IF;
-
     -- The nifty PocketBeagle doesn't need a shield!
 
     IF matchenv("BOARDNAME", "pocketbeagle") THEN
       RETURN ClickBoard.Shields.PocketBeagle;
-    END IF;
-
-    -- In the absence of SHIELDNAME, assume the Pi 3 Click Shield
-    -- (MIKROE-2756) for all Raspberry Pi boards
-
-    IF matchenv("BOARDNAME", "raspberrypi") OR matchenv("OSNAME", "raspberrypi") THEN
-      RETURN ClickBoard.Shields.PiClick3;
     END IF;
 
     RETURN ClickBoard.Shields.Unknown;
