@@ -353,8 +353,10 @@ namespace IO.Objects.SimpleIO.Platforms
             /// PWM outputs (<c>J2PWM</c> or <c>J3PWM</c>).</param>
             /// <param name="frequency">PWM pulse frequency.  Ordinary analog
             /// servos operate best at 50 Hz.</param>
+            /// <param name="position">Initial servo position.</param>
             /// <returns>Servo output object.</returns>
-            public static IO.Interfaces.Servo.Output ServoOutputFactory(Designator desg, int frequency = 50)
+            public static IO.Interfaces.Servo.Output ServoOutputFactory(Designator desg,
+                int frequency = 50, double position = IO.Interfaces.Servo.Positions.Neutral)
             {
                 // Validate the servo output designator
 
@@ -669,8 +671,10 @@ namespace IO.Objects.SimpleIO.Platforms
             /// PWM outputs (<c>J2PWM</c>).</param>
             /// <param name="frequency">PWM pulse frequency.  Ordinary analog
             /// servos operate best at 50 Hz.</param>
+            /// <param name="position">Initial servo position.</param>
             /// <returns>Servo output object.</returns>
-            public static IO.Interfaces.Servo.Output ServoOutputFactory(Designator desg, int frequency = 50)
+            public static IO.Interfaces.Servo.Output ServoOutputFactory(Designator desg,
+                int frequency = 50, double position = IO.Interfaces.Servo.Positions.Neutral)
             {
                 // Validate the servo output designator
 
