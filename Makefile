@@ -118,7 +118,6 @@ install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done
 	cp -R -P -p gm2				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p nuget			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p python			$(DESTDIR)/share/libsimpleio
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
