@@ -14,9 +14,6 @@ following types of I/O devices:
 -   GPIO (General Purpose Input/Output) Pins
 -   Raw HID (Human Interface Device) Devices
 -   I<sup>2</sup>C (Inter-Integrated Circuit) Bus Devices
--   [Labview LINX Remote
-    I/O](https://www.labviewmakerhub.com/doku.php?id=learn:libraries:linx:spec:start)
-    Devices
 -   PWM (Pulse Width Modulated) Output Devices
 -   [Remote I/O
     Protocol](http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf)

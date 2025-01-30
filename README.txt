@@ -9,7 +9,6 @@ following types of I/O devices:
 -   GPIO (General Purpose Input/Output) Pins
 -   Raw HID (Human Interface Device) Devices
 -   I²C (Inter-Integrated Circuit) Bus Devices
--   Labview LINX Remote I/O Devices
 -   PWM (Pulse Width Modulated) Output Devices
 -   Remote I/O Protocol Devices
 -   Serial Ports
