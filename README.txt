@@ -86,12 +86,20 @@ Use one of the following command sequences to create a .Net program
 project:
 
     dotnet new install libremoteio-templates
-    dotnet new csharp_console_libremoteio -o myprogram
+    mkdir myprogram
+    cd myprogram
+    dotnet new csharp_console_libremoteio
+    dotnet new sln
+    dotnet sln add myprogram.csproj
 
 Or
 
     dotnet new install libsimpleio-templates
-    dotnet new csharp_console_libsimpleio -o myprogram
+    mkdir myprogram
+    cd myprogram
+    dotnet new csharp_console_libsimpleio
+    dotnet new sln
+    dotnet sln add myprogram.csproj
 
 ------------------------------------------------------------------------
 

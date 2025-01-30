@@ -98,15 +98,28 @@ src=
 </p>
 <p>
 Use one of the following command sequences to create a .Net program project:
-<pre><b>
+<b>
+<pre>
 dotnet new install libremoteio-templates
-dotnet new csharp_console_libremoteio -o myprogram
-</b></pre>
+mkdir myprogram
+cd myprogram
+dotnet new csharp_console_libremoteio
+dotnet new sln
+dotnet sln add myprogram.csproj
+</pre>
+</b>
 Or
-<pre><b>
+<b>
+<pre>
 dotnet new install libsimpleio-templates
-dotnet new csharp_console_libsimpleio -o myprogram
-</b></pre></p>
+mkdir myprogram
+cd myprogram
+dotnet new csharp_console_libsimpleio
+dotnet new sln
+dotnet sln add myprogram.csproj
+</pre>
+</b>
+</p>
 <hr>
 Questions or comments to Philip Munts <a href=
 "mailto:phil@munts.net">phil@munts.net</a>
