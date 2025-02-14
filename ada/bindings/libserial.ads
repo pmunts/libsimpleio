@@ -1,7 +1,7 @@
 -- Minimal Ada wrapper for the Linux serial port services
 -- implemented in libsimpleio.so
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,9 +28,13 @@ WITH System;
 PACKAGE libSerial IS
   PRAGMA Link_With("-lsimpleio");
 
-  PARITY_NONE : CONSTANT Integer := 0;
-  PARITY_EVEN : CONSTANT Integer := 1;
-  PARITY_ODD  : CONSTANT Integer := 2;
+  PARITY_NONE  : CONSTANT Integer := 0;
+  PARITY_EVEN  : CONSTANT Integer := 1;
+  PARITY_ODD   : CONSTANT Integer := 2;
+
+  FLUSH_INPUT  : CONSTANT Integer := 0;
+  FLUSH_OUTPUT : CONSTANT Integer := 1;
+  FLUSH_BOTH   : CONSTANT Integer := 2;
 
   PROCEDURE Open
    (devname  : String;
@@ -62,5 +66,11 @@ PACKAGE libSerial IS
     count    : OUT Integer;
     error    : OUT Integer);
   PRAGMA Import(C, Receive, "SERIAL_receive");
+
+  PROCEDURE Flush
+   (fd       : Integer;
+    what     : Integer;
+    error    : OUT Integer);
+  PRAGMA Import(C, Flush, "SERIAL_flush");
 
 END libSerial;

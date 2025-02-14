@@ -1,6 +1,6 @@
 /* Serial port device wrapper services for Linux */
 
-// Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -400,6 +400,38 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
     ERRORMSG("tcflush() failed", *error, __LINE__ - 3);
     close(*fd);
     *fd = -1;
+    return;
+  }
+
+  *error = 0;
+}
+
+static const int32_t QueueSelector[3] = { TCIFLUSH, TCOFLUSH, TCIOFLUSH };
+
+void SERIAL_flush(int32_t fd, int32_t what, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if ((what < SERIAL_FLUSH_INPUT) || (what > SERIAL_FLUSH_BOTH))
+  {
+    *error = EINVAL;
+    ERRORMSG("what argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (tcflush(fd, QueueSelector[what]) < 0)
+  {
+    *error = errno;
+    ERRORMSG("tcflush() failed", *error, __LINE__ - 3);
     return;
   }
 

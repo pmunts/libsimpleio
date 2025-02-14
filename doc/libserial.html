@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of libserial</TITLE>
 </HEAD><BODY>
 <H1>libserial</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 13 February 2025<BR><A HREF="#index">Index</A>
 <A HREF="../README.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -24,6 +24,13 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#
 <B>  SERIAL_PARITY_ODD,</B>
 <B>} SERIAL_PARITY_t;</B>
 
+<B>typedef enum</B>
+<B>{</B>
+<B>  SERIAL_FLUSH_INPUT,</B>
+<B>  SERIAL_FLUSH_OUTPUT,</B>
+<B>  SERIAL_FLUSH_BOTH ,</B>
+<B>} SERIAL_FLUSH_t;</B>
+
 <B>void SERIAL_open(const char *</B><I>name</I><B>, int32_t </B><I>baudrate</I><B>, int32_t </B><I>parity</I><B>,</B>
 <B>  int32_t </B><I>databits</I><B>, int32_t </B><I>stopbits</I><B>, int32_t *fd</B><I>, int32_t *</I><B>error</B><I>);</I>
 
@@ -34,6 +41,8 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#
 
 <B>void SERIAL_receive(int32_t </B><I>fd</I><B>, void *</B><I>buf</I><B>, int32_t </B><I>bufsize</I><B>,</B>
 <B>  int32_t *</B><I>count</I><B>, int32_t *</B><I>error</I><B>);</B>
+
+<B>void SERIAL_flush(int32_t </B><I>fd</I><B>, int32_t </B><I>what</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 </PRE>
 
@@ -65,11 +74,11 @@ The
 <I>baudrate</I>
 
 parameter sets the serial port bit rate.  Allowed values are
-<B>50</B>, <B>75</B>, <B>110</B>, <B>134</B>, <B>150</B>, <B>200</B>, <B>300</B>, <B>600</B>,
+<B>50</B>, <B>75</B>, <B>110</B>, <B>134</B>, <B>150</B>, <B>200</B>, <B>300</B>, <B>600</B>, 
 
-<B>1200</B>, <B>1800</B>, <B>2400</B>, <B>4800</B>, <B>9600</B>, <B>19200</B>, <B>38400</B>,
+<B>1200</B>, <B>1800</B>, <B>2400</B>, <B>4800</B>, <B>9600</B>, <B>19200</B>, <B>38400</B>, 
 
-<B>57600</B>, <B>115200</B>, <B>230400</B>, <B>460800</B>, <B>500000</B>, <B>576000</B>,
+<B>57600</B>, <B>115200</B>, <B>230400</B>, <B>460800</B>, <B>500000</B>, <B>576000</B>, 
 
 <B>921600</B>, and <B>1000000</B>.
 
@@ -139,6 +148,11 @@ Upon success, the number of bytes actually received will be returned in
 
 <P>
 
+<B>SERIAL_flush()</B>
+
+flushes the serial port queue(s) selected by
+<I>what</I>.
+
 <A NAME="lbAE">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
@@ -155,7 +169,7 @@ Upon success, the number of bytes actually received will be returned in
 <A NAME="lbAF">&nbsp;</A>
 <H2>AUTHOR</H2>
 
-Philip Munts dba Munts Technologies
+Philip Munts dba Munts Technologies.
 <P>
 
 <HR>
@@ -171,6 +185,6 @@ Philip Munts dba Munts Technologies
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 03:28:51 GMT, October 30, 2023
+Time: 06:03:47 GMT, February 14, 2025
 </BODY>
 </HTML>

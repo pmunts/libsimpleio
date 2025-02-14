@@ -1,6 +1,6 @@
 /* Serial port device wrapper services for Linux */
 
-// Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -33,6 +33,13 @@ typedef enum
   SERIAL_PARITY_ODD,
 } SERIAL_PARITY_t;
 
+typedef enum
+{
+  SERIAL_FLUSH_INPUT,
+  SERIAL_FLUSH_OUTPUT,
+  SERIAL_FLUSH_BOTH,
+} SERIAL_FLUSH_t;
+
 _BEGIN_STD_C
 
 extern void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
@@ -45,6 +52,8 @@ extern void SERIAL_send(int32_t fd, void *buf, int32_t bufsize,
 
 extern void SERIAL_receive(int32_t fd, void *buf, int32_t bufsize,
   int32_t *count, int32_t *error);
+
+extern void SERIAL_flush(int32_t fd, int32_t what, int32_t *error);
 
 _END_STD_C
 

@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libserial 2 "21 December 2018" "version 1" "Linux Simple I/O Library"
+.TH libserial 2 "13 February 2025" "version 1" "Linux Simple I/O Library"
 .SH NAME
 .B libserial
 \-\- Linux Simple I/O Library: Asynchronous Serial Port Module
@@ -35,6 +35,13 @@
 .B "  SERIAL_PARITY_ODD,"
 .B } SERIAL_PARITY_t;
 
+.B typedef enum
+.B {
+.B "  SERIAL_FLUSH_INPUT,"
+.B "  SERIAL_FLUSH_OUTPUT,"
+.B "  SERIAL_FLUSH_BOTH ,"
+.B } SERIAL_FLUSH_t;
+
 .BI "void SERIAL_open(const char *" name ", int32_t " baudrate ", int32_t " parity ","
 .BI "  int32_t " databits ", int32_t " stopbits ", int32_t *"fd ", int32_t *" error ");"
 
@@ -45,6 +52,8 @@
 
 .BI "void SERIAL_receive(int32_t " fd ", void *" buf ", int32_t " bufsize ","
 .BI "  int32_t *" count ", int32_t *" error ");"
+
+.BI "void SERIAL_flush(int32_t " fd ", int32_t " what ", int32_t *" error ");"
 
 .fi
 Link with
@@ -112,6 +121,9 @@ and its size is passed in
 Upon success, the number of bytes actually received will be returned in
 .IR *count .
 .PP
+.B SERIAL_flush()
+flushes the serial port queue(s) selected by
+.IR what .
 .SH SEE ALSO
 .BR libsimpleio "(2), " libadc "(2), " libdac "(2), " libevent "(2), " libgpio "(2),"
 .br
