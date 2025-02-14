@@ -86,7 +86,7 @@ PACKAGE BODY Grove_Keypad IS
           libSerial.Flush(myfd, libSerial.FLUSH_INPUT, error);
         END Clear;
       OR
-        DELAY 1.0;
+        TERMINATE;
       END SELECT;
     END LOOP;
   END ReceiverTask;
