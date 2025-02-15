@@ -25,9 +25,12 @@ UNIT libSerial;
 INTERFACE
 
   CONST
-    PARITY_NONE = 0;
-    PARITY_EVEN = 1;
-    PARITY_ODD  = 2;
+    PARITY_NONE  = 0;
+    PARITY_EVEN  = 1;
+    PARITY_ODD   = 2;
+    FLUSH_INPUT  = 0
+    FLUSH_OUTPUT = 1;
+    FLUSH_BOTH   = 2;
 
   PROCEDURE Open
    (devname   : PChar;
@@ -55,6 +58,11 @@ INTERFACE
     size      : Integer;
     VAR count : Integer;
     VAR error : Integer); CDECL; EXTERNAL NAME 'SERIAL_receive';
+
+  PROCEDURE Flush
+   (fd        : Integer;
+    what      : Integer;
+    VAR error : Integer); CDECL; EXTERNAL NAME 'SERIAL_flush';
 
 IMPLEMENTATION
 
