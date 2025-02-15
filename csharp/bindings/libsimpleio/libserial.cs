@@ -1,6 +1,6 @@
 // C# binding for serial port services in libsimpleio.so
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -38,6 +38,19 @@ namespace IO.Bindings
         /// Request odd parity checking.
         /// </summary>
         public const int SERIAL_PARITY_ODD  = 2;
+
+        /// <summary>
+        /// Flush input buffers.
+        /// </summary>
+        public const int FLUSH_INPUT = 0;
+        /// <summary>
+        /// Flush output buffers.
+        /// </summary>
+        public const int FLUSH_OUTPUT = 1;
+        /// <summary>
+        /// Flush input and output buffers.
+        /// </summary>
+        public const int FLUSH_BOTH = 2;
 
         /// <summary>
         /// Open a Linux serial port device.
@@ -88,5 +101,15 @@ namespace IO.Bindings
         [DllImport("simpleio")]
         public static extern void SERIAL_receive(int fd, byte[] buf,
             int bufsize, out int count, out int error);
+
+        /// <summary>
+        /// Flush Linux serial port buffer(s)/queue(s).
+        /// </summary>
+        /// <param name="fd">File descriptor.</param>
+        /// <param name="what">What buffer(s)/queue(s) to flush.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        [DllImport("simpleio")]
+        public static extern void SERIAL_flush(int fd, int what, out int error);
     }
 }
