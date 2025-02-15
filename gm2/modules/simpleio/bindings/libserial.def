@@ -1,6 +1,6 @@
 (* libsimpleio bindings for GNU Modula-2 *)
 
-(* Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                *)
+(* Copyright (C)2018-2025, Philip Munts dba Munts Technologies.                *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)
@@ -25,18 +25,25 @@ DEFINITION MODULE FOR "C" libserial;
   FROM SYSTEM IMPORT BYTE;
 
   EXPORT UNQUALIFIED
+    FLUSH_INPUT,
+    FLUSH_OUTPUT,
+    FLUSH_BOTH,
     PARITY_NONE,
     PARITY_EVEN,
     PARITY_ODD,
     SERIAL_open,
     SERIAL_close,
     SERIAL_send,
-    SERIAL_receive;
+    SERIAL_receive,
+    SERIAL_flush;
 
   CONST
-    PARITY_NONE = 0;
-    PARITY_EVEN = 1;
-    PARITY_ODD  = 2;
+    FLUSH_INPUT  = 0;
+    FLUSH_OUTPUT = 1;
+    FLUSH_BOTH   = 2;
+    PARITY_NONE  = 0;
+    PARITY_EVEN  = 1;
+    PARITY_ODD   = 2;
 
   PROCEDURE SERIAL_open
    (name      : ARRAY OF CHAR;
@@ -63,6 +70,11 @@ DEFINITION MODULE FOR "C" libserial;
     VAR buf   : ARRAY OF BYTE;
     bufsize   : CARDINAL;
     VAR count : CARDINAL;
+    VAR error : CARDINAL);
+
+  PROCEDURE SERIAL_flush
+   (fd        : INTEGER;
+    what      : CARDINAL;
     VAR error : CARDINAL);
 
 END libserial.
