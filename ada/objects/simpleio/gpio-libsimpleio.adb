@@ -1,6 +1,6 @@
 -- GPIO pin services using libsimpleio
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,14 +25,14 @@ WITH libGPIO;
 
 PACKAGE BODY GPIO.libsimpleio IS
 
-  -- Constructors returning GPIO.Pin
+  -- Constructor returning GPIO.Pin
 
   FUNCTION Create
    (desg     : Device.Designator;
     dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
+    state    : Boolean                   := False;
+    driver   : GPIO.libsimpleio.Driver   := PushPull;
+    edge     : GPIO.libsimpleio.Edge     := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin IS
 
     Self : PinSubclass;
@@ -42,15 +42,15 @@ PACKAGE BODY GPIO.libsimpleio IS
     RETURN NEW PinSubclass'(Self);
   END Create;
 
-  -- Static object initializer
+  -- GPIO pin object instance initializer
 
   PROCEDURE Initialize
    (Self     : IN OUT PinSubclass;
     desg     : Device.Designator;
     dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
+    state    : Boolean                   := False;
+    driver   : GPIO.libsimpleio.Driver   := PushPull;
+    edge     : GPIO.libsimpleio.Edge     := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) IS
 
     flags  : Integer;
@@ -104,7 +104,7 @@ PACKAGE BODY GPIO.libsimpleio IS
     Self := PinSubclass'(kind, fd);
   END Initialize;
 
-  -- Static object destroyer
+  -- GPIO pin object instance destroyer
 
   PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
 

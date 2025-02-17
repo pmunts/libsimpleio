@@ -1,6 +1,6 @@
 -- GPIO pin services using libsimpleio
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,38 +26,35 @@ PACKAGE GPIO.libsimpleio IS
 
   -- Type definitions
 
-  TYPE Driver IS (PushPull, OpenDrain, OpenSource);
-
-  TYPE Edge IS (None, Rising, Falling, Both);
-
-  TYPE Polarity IS (ActiveLow, ActiveHigh);
-
+  TYPE Driver      IS (PushPull, OpenDrain, OpenSource);
+  TYPE Edge        IS (None, Rising, Falling, Both);
+  TYPE Polarity    IS (ActiveLow, ActiveHigh);
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH PRIVATE;
 
   Destroyed : CONSTANT PinSubclass;
 
-  -- GPIO pin object constructors
+  -- Constructor returning GPIO.Pin
 
   FUNCTION Create
    (desg     : Device.Designator;
     dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
+    state    : Boolean                   := False;
+    driver   : GPIO.libsimpleio.Driver   := PushPull;
+    edge     : GPIO.libsimpleio.Edge     := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh) RETURN GPIO.Pin;
 
-  -- GPIO pin object initializers
+  -- GPIO pin object instance initializer
 
   PROCEDURE Initialize
    (Self     : IN OUT PinSubclass;
     desg     : Device.Designator;
     dir      : GPIO.Direction;
-    state    : Boolean := False;
-    driver   : GPIO.libsimpleio.Driver := PushPull;
-    edge     : GPIO.libsimpleio.Edge := None;
+    state    : Boolean                   := False;
+    driver   : GPIO.libsimpleio.Driver   := PushPull;
+    edge     : GPIO.libsimpleio.Edge     := None;
     polarity : GPIO.libsimpleio.Polarity := ActiveHigh);
 
-  -- GPIO pin object destroyer
+  -- GPIO pin object instance destroyer
 
   PROCEDURE Destroy(Self : IN OUT PinSubclass);
 
