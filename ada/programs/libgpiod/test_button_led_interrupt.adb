@@ -31,9 +31,6 @@ PROCEDURE test_button_led_interrupt IS
   Button   : GPIO.Pin;
   LED      : GPIO.Pin;
   fd       : Integer;
-  files    : libLinux.FilesType(0 .. 0);
-  events   : libLinux.EventsType(0 .. 0);
-  results  : libLinux.ResultsType(0 .. 0);
   error    : Integer;
 
 BEGIN
@@ -48,12 +45,10 @@ BEGIN
 
   LED := GPIO.libgpiod.Create((0, 26), GPIO.Output);
 
-  LOOP
-    files(0)   := GPIO.libgpiod.PinSubclass(Button.ALL).fd;
-    events(0)  := libLinux.POLLIN;
-    results(0) := 0;
+  fd := GPIO.libgpiod.PinSubclass(Button.ALL).fd;
 
-    libLinux.Poll(1, files, events, results, 1000, error);
+  LOOP
+    libLinux.PollInput(fd, 1000, error);
 
     IF error = errno.EAGAIN THEN
       Put_Line("Tick...");
