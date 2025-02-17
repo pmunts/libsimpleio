@@ -1,7 +1,7 @@
--- Minimal Ada wrapper for the Linux syscall services
+-- Minimal Ada wrapper for certain Linux syscall services
 -- implemented in libsimpleio.so
 
--- Copyright (C)2016-2024, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -127,6 +127,12 @@ PACKAGE libLinux IS
     timeoutms : Integer;
     error     : OUT Integer);
   PRAGMA Import(C, Poll, "LINUX_poll");
+
+  PROCEDURE PollInput
+   (fd        : Integer;
+    timeoutms : Integer;
+    error     : OUT Integer);
+  PRAGMA Import(C, PollInput, "LINUX_poll_input");
 
   PROCEDURE USleep
    (usecs : Integer;

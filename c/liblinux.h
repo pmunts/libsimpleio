@@ -1,7 +1,7 @@
 /* Linux syscall wrappers.  These are primarily for the benefit of other */
 /* programming languages, such as Ada, C#, Free Pascal, Go, etc.         */
 
-// Copyright (C)2016-2024, Philip Munts dba Munts Technologies.
+// Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -65,7 +65,11 @@ extern void LINUX_strerror(int32_t error, char *buf, int32_t bufsize);
 // Wait for an event on one or more files
 
 extern void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
-  int32_t *results, int32_t timeout, int32_t *error);
+  int32_t *results, int32_t timeoutms, int32_t *error);
+
+// Wait for input ready on a single file descriptor
+
+extern void LINUX_poll_input(int32_t fd, int32_t timeoutms, int32_t *error);
 
 // Sleep for some number of microseconds
 

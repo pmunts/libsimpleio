@@ -1,7 +1,7 @@
 /* Linux syscall wrappers.  These are primarily for the benefit of other */
 /* programming languages, such as Ada, C#, Free Pascal, Go, etc.         */
 
-// Copyright (C)2016-2024, Philip Munts dba Munts Technologies.
+// Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -199,7 +199,7 @@ void LINUX_strerror(int32_t error, char *buf, int32_t bufsize)
 // Wait for an event on one or more files
 
 void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
-  int32_t *results, int32_t timeout, int32_t *error)
+  int32_t *results, int32_t timeoutms, int32_t *error)
 {
   assert(error != NULL);
 
@@ -233,10 +233,10 @@ void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
     return;
   }
 
-  if (timeout < -1)
+  if (timeoutms < -1)
   {
     *error = EINVAL;
-    ERRORMSG("timeout argument is out of range", *error, __LINE__ - 3);
+    ERRORMSG("timeoutms argument is out of range", *error, __LINE__ - 3);
     return;
   }
 
@@ -255,7 +255,7 @@ void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
 
   // Wait for something to happen
 
-  int count = poll(fds, numfiles, timeout);
+  int count = poll(fds, numfiles, timeoutms);
 
   // Timeout occurred
 
@@ -280,6 +280,28 @@ void LINUX_poll(int32_t numfiles, int32_t *files, int32_t *events,
     results[i] = fds[i].revents;
 
   *error = 0;
+}
+
+// Wait for input ready on a single file descriptor
+
+void LINUX_poll_input(int32_t fd, int32_t timeoutms, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  int files[1]   = { fd };
+  int events[1]  = { POLLIN };
+  int results[1] = { 0 };
+
+  LINUX_poll(1, files, events, results, timeoutms, error);
 }
 
 // Sleep for some number of microseconds

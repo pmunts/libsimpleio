@@ -1,6 +1,6 @@
 { FreePascal bindings for libsimpleio (http://git.munts.com/libsimpleio)      }
 
-{ Copyright (C)2016-2024, Philip Munts dba Munts Technologies.                }
+{ Copyright (C)2016-2025, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -130,6 +130,13 @@ INTERFACE
     VAR files   : ARRAY OF Integer;
     VAR events  : ARRAY OF Integer;
     VAR results : ARRAY OF Integer;
+    timeoutms   : Integer;
+    VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_poll';
+
+  { Wait for input ready on a single file descriptor}
+
+  PROCEDURE Poll
+   (fd          : Integer;
     timeoutms   : Integer;
     VAR error   : Integer); CDECL; EXTERNAL NAME 'LINUX_poll';
 

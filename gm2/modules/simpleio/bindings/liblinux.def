@@ -33,6 +33,7 @@ DEFINITION MODULE FOR "C" liblinux;
     LINUX_detach,
     LINUX_drop_privileges,
     LINUX_poll,
+    LINUX_poll_input,
     LINUX_usleep,
     Command,
     Detach,
@@ -67,6 +68,11 @@ DEFINITION MODULE FOR "C" liblinux;
     VAR files    : ARRAY OF INTEGER;
     VAR events   : ARRAY OF CARDINAL;
     VAR results  : ARRAY OF CARDINAL;
+    timeout      : INTEGER;
+    VAR error    : CARDINAL);
+
+  PROCEDURE LINUX_poll_input
+   (fd           : INTEGER;
     timeout      : INTEGER;
     VAR error    : CARDINAL);
 
