@@ -27,7 +27,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH GPIO.libsimpleio;
 
-PROCEDURE test_interrupt_button_led IS
+PROCEDURE test_button_led_interrupt IS
 
   Button   : GPIO.Pin;
   LED      : GPIO.Pin;
@@ -53,4 +53,4 @@ BEGIN
       LED.Put(False);
     END IF;
   END LOOP;
-END test_interrupt_button_led;
+END test_button_led_interrupt;
