@@ -35,17 +35,21 @@ PACKAGE libgpiod IS
 
   -- libgpiod opaque structure pointer types
 
-  TYPE gpiod_chip           IS NEW opaque;
-  TYPE gpiod_line           IS NEW opaque;
-  TYPE gpiod_line_config    IS NEW opaque;
-  TYPE gpiod_line_settings  IS NEW opaque;
-  TYPE gpiod_request_config IS NEW opaque;
+  TYPE gpiod_chip              IS NEW opaque;
+  TYPE gpiod_line              IS NEW opaque;
+  TYPE gpiod_line_config       IS NEW opaque;
+  TYPE gpiod_line_settings     IS NEW opaque;
+  TYPE gpiod_request_config    IS NEW opaque;
+  TYPE gpiod_edge_event_buffer IS NEW opaque;
+  TYPE gpiod_edge_event        IS NEW opaque;
 
-  null_chip           : CONSTANT gpiod_chip           := gpiod_chip(null_opaque);
-  null_line           : CONSTANT gpiod_line           := gpiod_line(null_opaque);
-  null_line_config    : CONSTANT gpiod_line_config    := gpiod_line_config(null_opaque);
-  null_line_settings  : CONSTANT gpiod_line_settings  := gpiod_line_settings(null_opaque);
-  null_request_config : CONSTANT gpiod_request_config := gpiod_request_config(null_opaque);
+  null_chip           : CONSTANT gpiod_chip              := gpiod_chip(null_opaque);
+  null_line           : CONSTANT gpiod_line              := gpiod_line(null_opaque);
+  null_line_config    : CONSTANT gpiod_line_config       := gpiod_line_config(null_opaque);
+  null_line_settings  : CONSTANT gpiod_line_settings     := gpiod_line_settings(null_opaque);
+  null_request_config : CONSTANT gpiod_request_config    := gpiod_request_config(null_opaque);
+  null_buffer         : CONSTANT gpiod_edge_event_buffer := gpiod_edge_event_buffer(null_opaque);
+  null_event          : CONSTANT gpiod_edge_event        := gpiod_edge_event(null_opaque);
 
   TYPE uint_array IS ARRAY (Natural RANGE <>) OF Interfaces.C.unsigned;
 
@@ -60,6 +64,16 @@ PACKAGE libgpiod IS
    (GPIOD_LINE_VALUE_ERROR    => -1,
     GPIOD_LINE_VALUE_INACTIVE => 0,
     GPIOD_LINE_VALUE_ACTIVE   => 1);
+
+  -- GPIO edge event
+
+  TYPE gpiod_edge_event_type IS
+   (GPIOD_EDGE_EVENT_RISING_EDGE,
+    GPIOD_EDGE_EVENT_FALLING_EDGE);
+
+  FOR gpiod_edge_event_type USE
+   (GPIOD_EDGE_EVENT_RISING_EDGE  => 1,
+    GPIOD_EDGE_EVENT_FALLING_EDGE => 2);
 
   -- GPIO direction
 
@@ -210,6 +224,35 @@ PACKAGE libgpiod IS
 
   PROCEDURE gpiod_line_request_release
    (line     : gpiod_line)
+    WITH Import => True, Convention => C;
+
+  FUNCTION gpiod_line_request_read_edge_events
+   (line     : gpiod_line;
+    buffer   : gpiod_edge_event_buffer;
+    max_events : Interfaces.C.size_t) RETURN Integer
+    WITH Import => True, Convention => C;
+
+------------------------------------------------------------------------------
+-- GPIO edge event buffer operations
+------------------------------------------------------------------------------
+
+  FUNCTION gpiod_edge_event_buffer_new(capacity : Interfaces.C.size_t)
+    RETURN gpiod_edge_event_buffer
+    WITH Import => True, Convention => C;
+
+  FUNCTION gpiod_edge_event_buffer_get_event(buffer : gpiod_edge_event_buffer;
+    index : Interfaces.C.unsigned_long) RETURN gpiod_edge_event
+    WITH Import => True, Convention => C;
+
+  PROCEDURE gpiod_edge_event_buffer_free(buffer : gpiod_edge_event_buffer)
+    WITH Import => True, Convention => C;
+
+------------------------------------------------------------------------------
+-- GPIO edge event operations
+------------------------------------------------------------------------------
+
+  FUNCTION gpiod_edge_event_get_event_type(event : gpiod_edge_event)
+    RETURN gpiod_edge_event_type
     WITH Import => True, Convention => C;
 
 END libgpiod;

@@ -100,15 +100,19 @@ PRIVATE
 
   PROCEDURE CheckDestroyed(Self : PinSubclass);
 
-  TYPE Kinds IS (undefined, input, output, interrupt);
+  TYPE Kinds IS (input, output, interrupt);
 
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
-    handle : Standard.libgpiod.gpiod_line   := Standard.libgpiod.null_line;
+    handle : Standard.libgpiod.gpiod_line   :=
+      Standard.libgpiod.null_line;
+    buffer : Standard.libgpiod.gpiod_edge_event_buffer := 
+      Standard.libgpiod.null_buffer;
     offset : Standard.Interfaces.C.unsigned := 0;
-    kind   : Kinds                          := undefined;
+    kind   : Kinds                          := input;
   END RECORD;
 
   Destroyed : CONSTANT PinSubclass :=
-    PinSubclass'(Standard.libgpiod.null_line, 0, undefined);
+    PinSubclass'(Standard.libgpiod.null_line, Standard.libgpiod.null_buffer,
+      0, input);
 
 END GPIO.libgpiod;

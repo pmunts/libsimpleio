@@ -52,13 +52,18 @@ PACKAGE BODY GPIO.libgpiod IS
     GPIOD_LINE_EDGE_FALLING,
     GPIOD_LINE_EDGE_BOTH);
 
-  PolarityMap : CONSTANT ARRAY (GPIO.libgpiod.Polarity) OF Boolean := (True, False);
+  EventMap    : CONSTANT ARRAY (gpiod_edge_event_type) OF Boolean :=
+   (True, False);
 
-  StateMap1   : CONSTANT ARRAY (Boolean) OF gpiod_line_value :=
+  PolarityMap : CONSTANT ARRAY (GPIO.libgpiod.Polarity) OF Boolean :=
+   (True, False);
+
+  StateMap    : CONSTANT ARRAY (Boolean) OF gpiod_line_value :=
    (GPIOD_LINE_VALUE_INACTIVE,
     GPIOD_LINE_VALUE_ACTIVE);
 
-  StateMap2   : CONSTANT ARRAY (GPIOD_LINE_VALUE_INACTIVE .. GPIOD_LINE_VALUE_ACTIVE) OF Boolean := (False, True);
+  ValueMap    : CONSTANT ARRAY (GPIOD_LINE_VALUE_INACTIVE .. GPIOD_LINE_VALUE_ACTIVE) OF Boolean :=
+   (False, True);
 
   FUNCTION Trim(s : String) RETURN String IS
 
@@ -110,10 +115,11 @@ PACKAGE BODY GPIO.libgpiod IS
 
     devname  : CONSTANT String := "/dev/gpiochip" & Trim(Integer'Image(desg.chip));
 
+    buffer   : gpiod_edge_event_buffer;
+    kind     : Kinds;
     settings : gpiod_line_settings;
     config   : gpiod_line_config;
     offsets  : uint_array(0 .. 0);
-    kind     : Kinds;
     ret      : Standard.Interfaces.C.int;
     chip     : gpiod_chip;
     line     : gpiod_line;
@@ -137,12 +143,21 @@ PACKAGE BODY GPIO.libgpiod IS
       gpiod_line_settings_set_edge_detection(settings, EdgeMap(edge));
       gpiod_line_settings_set_debounce_period_us(settings,
         Standard.Interfaces.C.unsigned_long(debounce*1.0E6));
-      kind := input;
+
+      IF edge = None THEN
+        buffer := null_buffer;
+        kind   := input;
+      ELSE
+        buffer := gpiod_edge_event_buffer_new(1);
+        ErrorCheck("gpiod_edge_event_buffer_new", buffer = null_buffer);
+        kind   := interrupt;
+      END IF;
     ELSE
+      buffer := null_buffer;
+      kind   := output;
       gpiod_line_settings_set_direction(settings, DirMap(dir));
       gpiod_line_settings_set_drive(settings, DriveMap(drive));
-      gpiod_line_settings_set_output_value(settings, StateMap1(state));
-      kind := output;
+      gpiod_line_settings_set_output_value(settings, StateMap(state));
     END IF;
 
     gpiod_line_settings_set_active_low(settings, PolarityMap(polarity));
@@ -162,7 +177,7 @@ PACKAGE BODY GPIO.libgpiod IS
     gpiod_line_config_free(config);
     gpiod_line_settings_free(settings);
 
-    Self := PinSubclass'(line, offsets(0), kind);
+    Self := PinSubclass'(line, buffer, offsets(0), kind);
   END Initialize;
 
   -- Static object destroyer
@@ -178,6 +193,10 @@ PACKAGE BODY GPIO.libgpiod IS
 
     gpiod_line_request_release(Self.handle);
 
+    IF Self.buffer /= null_buffer THEN
+      gpiod_edge_event_buffer_free(Self.buffer);
+    END IF;
+
     Self := Destroyed;
   END Destroy;
 
@@ -185,15 +204,29 @@ PACKAGE BODY GPIO.libgpiod IS
 
   FUNCTION Get(Self : IN OUT PinSubclass) RETURN Boolean IS
 
-    state : gpiod_line_value;
+    value : gpiod_line_value;
+    state : Boolean;
+    count : Integer;
+    event : gpiod_edge_event;
 
   BEGIN
     Self.CheckDestroyed;
 
-    state := gpiod_line_request_get_value(Self.handle, Self.offset);
-    ErrorCheck("gpiod_line_request_get_value", state = GPIOD_LINE_VALUE_ERROR);
+    CASE Self.kind IS
+      WHEN input|output =>
+        value := gpiod_line_request_get_value(Self.handle, Self.offset);
+        ErrorCheck("gpiod_line_request_get_value", value = GPIOD_LINE_VALUE_ERROR);
+        state := ValueMap(value);
 
-    RETURN StateMap2(state);
+      WHEN interrupt =>
+        count := gpiod_line_request_read_edge_events(Self.handle, Self.buffer, 1);
+        ErrorCheck("gpiod_line_request_read_edge_events", count < 1);
+        event := gpiod_edge_event_buffer_get_event(Self.buffer, 0);
+        ErrorCheck("gpiod_edge_event_buffer_get_event", event = null_event);
+        state := EventMap(gpiod_edge_event_get_event_type(event));
+    END CASE;
+
+    RETURN state;
   END Get;
 
   -- Write GPIO pin state
@@ -207,7 +240,7 @@ PACKAGE BODY GPIO.libgpiod IS
 
     CASE Self.kind IS
       WHEN output =>
-        ret := gpiod_line_request_set_value(Self.handle, Self.offset, StateMap1(state));
+        ret := gpiod_line_request_set_value(Self.handle, Self.offset, StateMap(state));
         ErrorCheck("gpiod_line_request_set_value", ret < 0);
 
       WHEN OTHERS =>
