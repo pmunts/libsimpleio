@@ -105,7 +105,7 @@ PRIVATE
   TYPE PinSubclass IS NEW GPIO.PinInterface WITH RECORD
     handle : Standard.libgpiod.gpiod_line   :=
       Standard.libgpiod.null_line;
-    buffer : Standard.libgpiod.gpiod_edge_event_buffer := 
+    buffer : Standard.libgpiod.gpiod_edge_event_buffer :=
       Standard.libgpiod.null_buffer;
     offset : Standard.Interfaces.C.unsigned := 0;
     kind   : Kinds                          := input;
