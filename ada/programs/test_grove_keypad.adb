@@ -27,7 +27,7 @@ WITH Grove_Keypad;
 
 PROCEDURE test_grove_keypad IS
 
-  inp : Keyboard.Input := Grove_Keypad.Create("/dev/ttyAMA0");
+  inp : CONSTANT Keyboard.Input := Grove_Keypad.Create("/dev/ttyAMA0");
 
 BEGIN
   New_Line;
