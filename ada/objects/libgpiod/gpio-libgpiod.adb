@@ -184,8 +184,6 @@ PACKAGE BODY GPIO.libgpiod IS
 
   PROCEDURE Destroy(Self : IN OUT PinSubclass) IS
 
-    error : Integer;
-
   BEGIN
     IF Self = Destroyed THEN
       RETURN;
