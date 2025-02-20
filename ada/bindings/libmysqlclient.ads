@@ -1,6 +1,6 @@
 -- Super-thin binding to MySQL Connector/C client library
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -28,6 +28,7 @@ PACKAGE libmysqlclient IS
   PRAGMA Link_With("-lmysqlclient");
   PRAGMA Link_With("-lssl");
   PRAGMA Link_With("-lcrypto");
+  PRAGMA Link_With("-lz");
   PRAGMA Link_With("-lsimpleio");
 
   -- libmysqlclient has a myriad of pointer types
