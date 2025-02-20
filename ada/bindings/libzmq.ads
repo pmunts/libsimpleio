@@ -1,4 +1,4 @@
--- Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@ WITH Interfaces.C.Strings;
 WITH System;
 
 PACKAGE libzmq IS
-  PRAGMA Link_With("-lzmq");
+  PRAGMA Link_With("-lzmq -lstdc++");
 
   -- Direct binding to C functions in libzmq
 
