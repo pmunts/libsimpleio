@@ -1,6 +1,6 @@
 -- GPIO pin services using a user LED at /dev/userled
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,9 +22,11 @@
 
 PACKAGE GPIO.UserLED IS
 
+  DefaultUserLED : CONSTANT String := "/dev/userled";
+
   -- Determine whether the user LED is available
 
-  FUNCTION Available RETURN Boolean;
+  FUNCTION Available(devname : String := DefaultUserLED) RETURN Boolean;
 
   -- Class definitions
 
@@ -34,11 +36,16 @@ PACKAGE GPIO.UserLED IS
 
   -- Constructor
 
-  FUNCTION Create(state : Boolean := False) RETURN GPIO.Pin;
+  FUNCTION Create
+   (devname : String  := DefaultUserLED;
+    state   : Boolean := False) RETURN GPIO.Pin;
 
   -- Initializer
 
-  PROCEDURE Initialize(Self : IN OUT PinSubclass; state : Boolean := False);
+  PROCEDURE Initialize
+   (Self    : IN OUT PinSubclass;
+    devname : String  := DefaultUserLED;
+    state   : Boolean := False);
 
   -- Destroyer
 

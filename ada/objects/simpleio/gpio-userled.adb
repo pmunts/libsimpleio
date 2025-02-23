@@ -1,6 +1,6 @@
 -- GPIO pin services using a user LED at /dev/userled
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,6 @@ WITH Logging.libsimpleio;
 
 PACKAGE BODY GPIO.UserLED IS
 
-  filename  : CONSTANT String := "/dev/userled";
   state_on  : CONSTANT String := "1";
   state_off : CONSTANT String := "0";
 
@@ -40,26 +39,31 @@ PACKAGE BODY GPIO.UserLED IS
 
   -- Determine whether the user LED is available
 
-  FUNCTION Available RETURN Boolean IS
+  FUNCTION Available(devname : String := DefaultUserLED) RETURN Boolean IS
 
   BEGIN
-    RETURN Ada.Directories.Exists(filename);
+    RETURN Ada.Directories.Exists(devname);
   END Available;
 
   -- Constructor
 
-  FUNCTION Create(state : Boolean := False) RETURN GPIO.Pin IS
+  FUNCTION Create
+   (devname : String  := DefaultUserLED;
+    state   : Boolean := False) RETURN GPIO.Pin IS
 
     Self : PinSubclass;
 
   BEGIN
-    Self.Initialize(state);
+    Self.Initialize(devname, state);
     RETURN NEW PinSubclass'(Self);
   END Create;
 
   -- Initializer
 
-  PROCEDURE Initialize(Self : IN OUT PinSubclass; state : Boolean := False) IS
+  PROCEDURE Initialize
+   (Self    : IN OUT PinSubclass;
+    devname : String  := DefaultUserLED;
+    state   : Boolean := False) IS
 
     fd    : Integer;
     count : Integer;
@@ -68,7 +72,7 @@ PACKAGE BODY GPIO.UserLED IS
   BEGIN
     Self.Destroy;
 
-    libLinux.Open(filename & ASCII.NUL, fd, error);
+    libLinux.Open(devname & ASCII.NUL, fd, error);
 
     IF error /= 0 THEN
       Logging.libsimpleio.Error("libLinux.Open() failed", error);
