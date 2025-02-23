@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for GPIO commands
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -49,10 +49,11 @@ PACKAGE BODY RemoteIO.GPIO IS
   -- Register libsimpleio GPIO pin by specified designator
 
   PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    desg : Device.Designator;
-    kind : Kinds := InputOutput) IS
+   (Self     : IN OUT DispatcherSubclass;
+    num      : ChannelNumber;
+    desg     : Device.Designator;
+    kind     : Kinds := InputOutput;
+    polarity : Polarities := ActiveHigh) IS
 
   BEGIN
     IF Self.pins(num).registered THEN
@@ -61,6 +62,7 @@ PACKAGE BODY RemoteIO.GPIO IS
 
     Self.pins(num).registered := True;
     Self.pins(num).kind       := kind;
+    Self.pins(num).polarity   := polarity;
     Self.pins(num).desg       := desg;
     Self.pins(num).obj        := Standard.GPIO.libsimpleio.Destroyed;
 
@@ -88,10 +90,11 @@ PACKAGE BODY RemoteIO.GPIO IS
   -- Register GPIO pin by preconfigured object access
 
   PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    pin  : NOT NULL Standard.GPIO.Pin;
-    kind : Kinds := InputOutput) IS
+   (Self     : IN OUT DispatcherSubclass;
+    num      : ChannelNumber;
+    pin      : NOT NULL Standard.GPIO.Pin;
+    kind     : Kinds      := InputOutput;
+    polarity : Polarities := ActiveHigh) IS
 
   BEGIN
     IF Self.pins(num).registered THEN
@@ -102,6 +105,7 @@ PACKAGE BODY RemoteIO.GPIO IS
     Self.pins(num).configured := True;
     Self.pins(num).preconfig  := True;
     Self.pins(num).kind       := kind;
+    Self.pins(num).polarity   := polarity;
     Self.pins(num).pin        := pin;
   END Register;
 
@@ -197,8 +201,14 @@ PACKAGE BODY RemoteIO.GPIO IS
 
       IF selected AND configured THEN
         BEGIN
-          IF Self.pins(c).pin.Get THEN
-            resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
+          IF Self.pins(c).polarity = ActiveHigh THEN
+            IF Self.pins(c).pin.Get THEN
+              resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
+            END IF;
+          ELSE
+            IF NOT Self.pins(c).pin.Get THEN
+              resp(3 + byteindex) := resp(3 + byteindex) OR bitmask;
+            END IF;
           END IF;
         EXCEPTION
           WHEN OTHERS =>
@@ -233,7 +243,11 @@ PACKAGE BODY RemoteIO.GPIO IS
 
       IF selected AND configured AND writable THEN
         BEGIN
-          Self.pins(c).pin.Put(state);
+          IF Self.pins(c).polarity = ActiveHigh THEN
+            Self.pins(c).pin.Put(state);
+          ELSE
+            Self.pins(c).pin.Put(NOT state);
+          END IF;
         EXCEPTION
           WHEN OTHERS =>
             NULL;

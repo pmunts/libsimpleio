@@ -1,6 +1,6 @@
 -- Remote I/O Server Dispatcher for GPIO commands
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -34,24 +34,28 @@ PACKAGE RemoteIO.GPIO IS
 
   TYPE Kinds IS (InputOnly, OutputOnly, InputOutput);
 
+  TYPE Polarities IS (ActiveLow, ActiveHigh);
+
   FUNCTION Create
    (executor : NOT NULL RemoteIO.Executive.Executor) RETURN Dispatcher;
 
   -- Register GPIO pin by device designator
 
   PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    desg : Device.Designator;
-    kind : Kinds := InputOutput);
+   (Self     : IN OUT DispatcherSubclass;
+    num      : ChannelNumber;
+    desg     : Device.Designator;
+    kind     : Kinds      := InputOutput;
+    polarity : Polarities := ActiveHigh);
 
   -- Register GPIO pin by preconfigured object access
 
   PROCEDURE Register
-   (Self : IN OUT DispatcherSubclass;
-    num  : ChannelNumber;
-    pin  : NOT NULL Standard.GPIO.Pin;
-    kind : Kinds := InputOutput);
+   (Self     : IN OUT DispatcherSubclass;
+    num      : ChannelNumber;
+    pin      : NOT NULL Standard.GPIO.Pin;
+    kind     : Kinds      := InputOutput;
+    polarity : Polarities := ActiveHigh);
 
   PROCEDURE Dispatch
    (Self : IN OUT DispatcherSubclass;
@@ -65,6 +69,7 @@ PRIVATE
     configured : Boolean;
     preconfig  : Boolean;
     kind       : Kinds;
+    polarity   : Polarities;
     desg       : Device.Designator;
     obj        : ALIASED Standard.GPIO.libsimpleio.PinSubclass;
     pin        : Standard.GPIO.Pin;
@@ -77,7 +82,7 @@ PRIVATE
   END RECORD;
 
   Unused : CONSTANT PinRec :=
-    PinRec'(False, False, False, InputOutput, Device.Unavailable,
+    PinRec'(False, False, False, InputOutput, ActiveHigh, Device.Unavailable,
     Standard.GPIO.libsimpleio.Destroyed, NULL);
 
 END RemoteIO.GPIO;
