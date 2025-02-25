@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services, using libsimpleio
 
--- Copyright (C)2016-2024, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -32,6 +32,7 @@ USE TYPE Device.Designator;
 -- Platform packages
 
 WITH BeagleBone;
+WITH BeaglePlay;
 WITH PocketBeagle;
 WITH RaspberryPi;
 WITH RaspberryPi5;
@@ -208,6 +209,18 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       PWM     => BeagleBone.EHRPWM2B,
       SPI     => Device.Unavailable,
       UART    => To_DeviceString("ttyS4"),
+      Stretch => True),
+
+    SocketRec'(ClickBoard.Shields.BeaglePlay, 1,
+     (ClickBoard.AN   => BeaglePlay.GPIO_AN,
+      ClickBoard.RST  => BeaglePlay.GPIO_RST,
+      ClickBoard.INT  => BeaglePlay.GPIO_INT,
+      OTHERS          => Device.Unavailable),
+      AIN     => Device.Unavailable,
+      I2C     => BeaglePlay.I2C_MIKROBUS,
+      PWM     => BeaglePlay.PWM_MIKROBUS,
+      SPI     => BeaglePlay.SPI_MIKROBUS,
+      UART    => To_DeviceString(BeaglePlay.UART_MIKROBUS),
       Stretch => True),
 
     SocketRec'(ClickBoard.Shields.PocketBeagle, 1, -- Over the micro USB connector (up or left)

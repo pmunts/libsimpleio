@@ -26,14 +26,39 @@ PACKAGE BeaglePlay IS
 
   -- User LEDs
 
-  USR0 : CONSTANT String := "/dev/userled0";
-  USR1 : CONSTANT String := "/dev/userled1";
-  USR2 : CONSTANT String := "/dev/userled2";
-  USR3 : CONSTANT String := "/dev/userled3";
-  USR4 : CONSTANT String := "/dev/userled4";  -- aka /dev/userled
+  LED_USR0      : CONSTANT String := "/dev/userled0";
+  LED_USR1      : CONSTANT String := "/dev/userled1";
+  LED_USR2      : CONSTANT String := "/dev/userled2";
+  LED_USR3      : CONSTANT String := "/dev/userled3";
+  LED_USR4      : CONSTANT String := "/dev/userled4";  -- aka /dev/userled
 
-  -- GPIO pins
+  -- User button
 
-  USR_BUTTON : CONSTANT Device.Designator := (2, 18); -- Active low
+  GPIO_BUTTON   : CONSTANT Device.Designator := (2, 18); -- Active low
+
+  -- mikroBUS GPIO pins
+
+  GPIO_AN       : CONSTANT Device.Designator := (3, 10);
+  GPIO_RST      : CONSTANT Device.Designator := (3, 12);
+  GPIO_INT      : CONSTANT Device.Designator := (3,  9);
+
+  -- I2C buses
+
+  I2C_GROVE     : CONSTANT Device.Designator := (0, 1);
+  I2C_MIKROBUS  : CONSTANT Device.Designator := (0, 3);
+  I2C_QWIIC     : CONSTANT Device.Designator := (0, 5);
+
+  -- PWM outputs
+
+  PWM_MIKROBUS  : CONSTANT Device.Designator := (0, 0);
+
+  -- Serial ports
+
+  UART_CONSOLE  : CONSTANT String := "/dev/ttyS2"; -- Header J6
+  UART_MIKROBUS : CONSTANT String := "/dev/ttyS0";
+
+  -- SPI devices
+
+  SPI_MIKROBUS  : CONSTANT Device.Designator := (0, 0);
 
 END BeaglePlay;

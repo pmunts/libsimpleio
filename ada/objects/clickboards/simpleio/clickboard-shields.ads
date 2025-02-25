@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board shield services, using libsimpleio
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -33,6 +33,7 @@ PACKAGE ClickBoard.Shields IS
    BeagleBoneClick2,  -- BeagleBone with MIKROE-1596, with 2 sockets
    BeagleBoneClick4,  -- BeagleBone with MIKROE-1857, with 4 sockets
    PocketBeagle,      -- PocketBeagle with 2 sockets
+   BeaglePlay,        -- BeaglePlay with 1 socket
    Unknown);          -- Non-mikroBUS shield installed
 
   -- Detect the kind of ClickBoard shield we are using
