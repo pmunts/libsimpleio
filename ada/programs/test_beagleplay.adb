@@ -26,9 +26,9 @@ PROCEDURE test_beagleplay IS
 
 BEGIN
   Put_Line("MuntsOS       => " & BeaglePlay.MuntsOS'Image);
-  Put_Line("I2C_GROVE     => " & BeaglePlay.I2C_GROVE.chan'Image);
-  Put_Line("I2C_MIKROBUS  => " & BeaglePlay.I2C_MIKROBUS.chan'Image);
-  Put_Line("I2C_QWIIC     => " & BeaglePlay.I2C_QWIIC.chan'Image);
+  Put_Line("I2C_GROVE     =>"  & BeaglePlay.I2C_GROVE.chan'Image);
+  Put_Line("I2C_MIKROBUS  =>"  & BeaglePlay.I2C_MIKROBUS.chan'Image);
+  Put_Line("I2C_QWIIC     =>"  & BeaglePlay.I2C_QWIIC.chan'Image);
   Put_Line("UART_CONSOLE  => " & BeaglePlay.UART_CONSOLE);
   Put_Line("UART_GROVE    => " & BeaglePlay.UART_GROVE);
   Put_Line("UART_MIKROBUS => " & BeaglePlay.UART_MIKROBUS);
