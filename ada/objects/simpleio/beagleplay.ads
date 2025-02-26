@@ -20,9 +20,14 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Environment_Variables;
+
 WITH Device;
 
 PACKAGE BeaglePlay IS
+
+  MuntsOS : CONSTANT Boolean :=
+    Ada.Environment_Variables.Value("OSNAME", "undefined") = "MuntsOS";
 
   -- User LEDs
 
@@ -36,11 +41,26 @@ PACKAGE BeaglePlay IS
 
   GPIO_BUTTON   : CONSTANT Device.Designator := (2, 18); -- Active low
 
+  -- Grove GPIO pins
+
+  GPIO_D0       : CONSTANT Device.Designator := (3, 28); -- Conflicts with I2C_GROVE
+  GPIO_D1       : CONSTANT Device.Designator := (3, 29); -- Conflicts with I2C_GROVE
+
   -- mikroBUS GPIO pins
 
   GPIO_AN       : CONSTANT Device.Designator := (3, 10);
   GPIO_RST      : CONSTANT Device.Designator := (3, 12);
+  GPIO_CS       : CONSTANT Device.Designator := (3, 13); -- Conflicts with SPI_MIKROBUS
+  GPIO_SCK      : CONSTANT Device.Designator := (3, 14); -- Conflicts with SPI_MIKROBUS
+  GPIO_MISO     : CONSTANT Device.Designator := (3,  7); -- Conflicts with SPI_MIKROBUS
+  GPIO_MOSI     : CONSTANT Device.Designator := (3,  8); -- Conflicts with SPI_MIKROBUS
+
+  GPIO_PWM	: CONSTANT Device.Designator := (3, 11); -- Conflicts with PWM_MIKROBUS
   GPIO_INT      : CONSTANT Device.Designator := (3,  9);
+  GPIO_RX       : CONSTANT Device.Designator := (3, 24); -- Conflicts with UART_MIKROBUS
+  GPIO_TX	: CONSTANT Device.Designator := (3, 25); -- Conflicts with UART_MIKROBUS
+  GPIO_SCL      : CONSTANT Device.Designator := (3, 22); -- Conflicts with I2C_MIKROBUS
+  GPIO_SDA	: CONSTANT Device.Designator := (3, 23); -- Conflicts with I2C_MIKROBUS
 
   -- I2C buses
 
@@ -54,8 +74,13 @@ PACKAGE BeaglePlay IS
 
   -- Serial ports
 
-  UART_CONSOLE  : CONSTANT String := "/dev/ttyS2"; -- Header J6
-  UART_MIKROBUS : CONSTANT String := "/dev/ttyS0";
+  -- For some reason, the Debian kernel renumbers the serial ports and marks
+  -- UART1 as reserved.  MuntsOS restores the natural order of the serial ports
+  -- such that ttyS0 => UART0 etc.
+
+  UART_CONSOLE  : CONSTANT String := (IF MuntsOS THEN "/dev/ttyS0" ELSE "/dev/ttyS2"); -- Header J6
+  UART_GROVE    : CONSTANT String := (IF MuntsOS THEN "/dev/ttyS1" ELSE "/dev/nonexistent");
+  UART_MIKROBUS : CONSTANT String := (IF MuntsOS THEN "/dev/ttyS5" ELSE "/dev/ttyS0");
 
   -- SPI devices
 
