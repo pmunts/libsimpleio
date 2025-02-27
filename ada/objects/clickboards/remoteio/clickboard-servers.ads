@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board Remote I/O server kind definitions
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -26,6 +26,7 @@ PACKAGE ClickBoard.Servers IS
    (None,
     BeagleBoneClick2, -- aka BeagleBone click SHIELD, MIKROE-1596, 2 sockets
     BeagleBoneClick4, -- aka mikroBus Cape, MIKROE-1857, 4 sockets
+    BeaglePlay,
     PiClick1,
     PiClick2,
     PiClick3,

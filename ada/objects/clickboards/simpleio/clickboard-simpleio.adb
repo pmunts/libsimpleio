@@ -212,9 +212,9 @@ PACKAGE BODY ClickBoard.SimpleIO IS
       Stretch => True),
 
     SocketRec'(ClickBoard.Shields.BeaglePlay, 1,
-     (ClickBoard.AN   => BeaglePlay.GPIO_AN,
-      ClickBoard.RST  => BeaglePlay.GPIO_RST,
-      ClickBoard.INT  => BeaglePlay.GPIO_INT,
+     (ClickBoard.AN   => BeaglePlay.AN,
+      ClickBoard.RST  => BeaglePlay.RST,
+      ClickBoard.INT  => BeaglePlay.INT,
       OTHERS          => Device.Unavailable),
       AIN     => Device.Unavailable,
       I2C     => BeaglePlay.I2C_MIKROBUS,

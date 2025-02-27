@@ -1,6 +1,6 @@
 -- Mikroelektronika Click Board socket services using Remote I/O
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -22,6 +22,7 @@
 
 WITH ClickBoard.Servers;
 WITH RemoteIO.BeagleBone;
+WITH RemoteIO.BeaglePlay;
 WITH RemoteIO.PocketBeagle;
 WITH RemoteIO.RaspberryPi;
 
@@ -166,6 +167,25 @@ PACKAGE BODY ClickBoard.RemoteIO IS
       I2C    => Standard.RemoteIO.BeagleBone.I2C2,
       PWM    => Standard.RemoteIO.BeagleBone.EHRPWM2B,
       SPI    => Unavailable,
+      OTHERS => Unavailable),
+
+    SocketRec'(ClickBoard.Servers.BeaglePlay, 1,
+     (ClickBoard.AN   => Standard.RemoteIO.BeaglePlay.AN,
+      ClickBoard.RST  => Standard.RemoteIO.BeaglePlay.RST,
+      ClickBoard.CS   => Standard.RemoteIO.BeaglePlay.CS,   -- Conflicts with SPI
+      ClickBoard.SCK  => Standard.RemoteIO.BeaglePlay.SCK,  -- Conflicts with SPI
+      ClickBoard.MISO => Standard.RemoteIO.BeaglePlay.MISO, -- Conflicts with SPI
+      ClickBoard.MOSI => Standard.RemoteIO.BeaglePlay.MOSI, -- Conflicts with SPI
+      ClickBoard.PWM  => Standard.RemoteIO.BeaglePlay.PWM,  -- Conflicts with PWM
+      ClickBoard.INT  => Standard.RemoteIO.BeaglePlay.INT,
+      ClickBoard.RX   => Standard.RemoteIO.BeaglePlay.RX,   -- Conflicts with UART
+      ClickBoard.TX   => Standard.RemoteIO.BeaglePlay.TX,   -- Conflicts with UART
+      ClickBoard.SDA  => Standard.RemoteIO.BeaglePlay.SDA,  -- Conflicts with I2C
+      ClickBoard.SCL  => Standard.RemoteIO.BeaglePlay.SCL,  -- Conflicts with I2C
+      OTHERS          => Unavailable),
+      I2C    => Standard.RemoteIO.BeaglePlay.I2C_MIKROBUS,
+      PWM    => Standard.RemoteIO.BeaglePlay.PWM_MIKROBUS,
+      SPI    => Standard.RemoteIO.BeaglePlay.SPI_MIKROBUS,
       OTHERS => Unavailable),
 
     -- Socket 1 is over the micro USB connector (left)

@@ -35,32 +35,32 @@ PACKAGE BeaglePlay IS
   LED_USR1      : CONSTANT String := "/dev/userled1";
   LED_USR2      : CONSTANT String := "/dev/userled2";
   LED_USR3      : CONSTANT String := "/dev/userled3";
-  LED_USR4      : CONSTANT String := "/dev/userled4";  -- aka /dev/userled
+  LED_USR4      : CONSTANT String := "/dev/userled4";
 
   -- User button
 
-  GPIO_BUTTON   : CONSTANT Device.Designator := (2, 18); -- Active low
-
-  -- Grove GPIO pins
-
-  GPIO_D0       : CONSTANT Device.Designator := (3, 28); -- Conflicts with I2C_GROVE
-  GPIO_D1       : CONSTANT Device.Designator := (3, 29); -- Conflicts with I2C_GROVE
+  USER_BUTTON   : CONSTANT Device.Designator := (2, 18); -- Active low
 
   -- mikroBUS GPIO pins
 
-  GPIO_AN       : CONSTANT Device.Designator := (3, 10);
-  GPIO_RST      : CONSTANT Device.Designator := (3, 12);
-  GPIO_CS       : CONSTANT Device.Designator := (3, 13); -- Conflicts with SPI_MIKROBUS
-  GPIO_SCK      : CONSTANT Device.Designator := (3, 14); -- Conflicts with SPI_MIKROBUS
-  GPIO_MISO     : CONSTANT Device.Designator := (3,  7); -- Conflicts with SPI_MIKROBUS
-  GPIO_MOSI     : CONSTANT Device.Designator := (3,  8); -- Conflicts with SPI_MIKROBUS
+  AN            : CONSTANT Device.Designator := (3, 10);
+  RST           : CONSTANT Device.Designator := (3, 12);
+  CS            : CONSTANT Device.Designator := (3, 13); -- Conflicts with SPI_MIKROBUS
+  SCK           : CONSTANT Device.Designator := (3, 14); -- Conflicts with SPI_MIKROBUS
+  MISO          : CONSTANT Device.Designator := (3,  7); -- Conflicts with SPI_MIKROBUS
+  MOSI          : CONSTANT Device.Designator := (3,  8); -- Conflicts with SPI_MIKROBUS
 
-  GPIO_PWM	: CONSTANT Device.Designator := (3, 11); -- Conflicts with PWM_MIKROBUS
-  GPIO_INT      : CONSTANT Device.Designator := (3,  9);
-  GPIO_RX       : CONSTANT Device.Designator := (3, 24); -- Conflicts with UART_MIKROBUS
-  GPIO_TX	: CONSTANT Device.Designator := (3, 25); -- Conflicts with UART_MIKROBUS
-  GPIO_SCL      : CONSTANT Device.Designator := (3, 22); -- Conflicts with I2C_MIKROBUS
-  GPIO_SDA	: CONSTANT Device.Designator := (3, 23); -- Conflicts with I2C_MIKROBUS
+  PWM	        : CONSTANT Device.Designator := (3, 11); -- Conflicts with PWM_MIKROBUS
+  INT           : CONSTANT Device.Designator := (3,  9);
+  RX            : CONSTANT Device.Designator := (3, 24); -- Conflicts with UART_MIKROBUS
+  TX	        : CONSTANT Device.Designator := (3, 25); -- Conflicts with UART_MIKROBUS
+  SCL           : CONSTANT Device.Designator := (3, 22); -- Conflicts with I2C_MIKROBUS
+  SDA	        : CONSTANT Device.Designator := (3, 23); -- Conflicts with I2C_MIKROBUS
+
+  -- Grove GPIO pins
+
+  D0            : CONSTANT Device.Designator := (3, 28); -- Conflicts with I2C1 or UART1
+  D1            : CONSTANT Device.Designator := (3, 29); -- Conflicts with I2C1 or UART1
 
   -- I2C buses
 
