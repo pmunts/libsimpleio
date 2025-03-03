@@ -70,6 +70,8 @@ PACKAGE BeaglePlay IS
 
   -- PWM outputs
 
+  PWM_GROVE_D0  : CONSTANT Device.Designator := (1, 0);
+  PWM_GROVE_D1  : CONSTANT Device.Designator := (1, 1);
   PWM_MIKROBUS  : CONSTANT Device.Designator := (0, 0);
 
   -- Serial ports
@@ -81,6 +83,7 @@ PACKAGE BeaglePlay IS
   UART_CONSOLE  : CONSTANT String := (IF MuntsOS THEN "/dev/ttyS0" ELSE "/dev/ttyS2"); -- Header J6
   UART_GROVE    : CONSTANT String := (IF MuntsOS THEN "/dev/ttyS1" ELSE "/dev/nonexistent");
   UART_MIKROBUS : CONSTANT String := (IF MuntsOS THEN "/dev/ttyS5" ELSE "/dev/ttyS0");
+  UART_CC1352   : CONSTANT String := (IF MuntsOS THEN "/dev/ttyS6" ELSE "/dev/ttyS1");
 
   -- SPI devices
 
