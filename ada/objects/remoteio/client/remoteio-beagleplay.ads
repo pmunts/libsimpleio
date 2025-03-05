@@ -22,6 +22,8 @@
 
 PACKAGE RemoteIO.BeaglePlay IS
 
+  -- GPIO pins
+
   LED_USR0     : CONSTANT RemoteIO.ChannelNumber :=  0;
   LED_USR1     : CONSTANT RemoteIO.ChannelNumber :=  1;
   LED_USR2     : CONSTANT RemoteIO.ChannelNumber :=  2;
@@ -47,11 +49,19 @@ PACKAGE RemoteIO.BeaglePlay IS
   D0           : CONSTANT RemoteIO.ChannelNumber := 18;
   D1           : CONSTANT RemoteIO.ChannelNumber := 19;
 
+  -- I2C buses
+
   I2C_GROVE    : CONSTANT RemoteIO.ChannelNumber :=  0;
   I2C_MIKROBUS : CONSTANT RemoteIO.ChannelNumber :=  1;
   I2C_QWIIC    : CONSTANT RemoteIO.ChannelNumber :=  2;
 
+  -- PWM outputs
+
   PWM_MIKROBUS : CONSTANT RemoteIO.ChannelNumber :=  0;
+  PWM_GROVE_D0 : CONSTANT RemoteIO.ChannelNumber :=  1;
+  PWM_GROVE_D1 : CONSTANT RemoteIO.ChannelNumber :=  2;
+
+  -- SPI slave devices
 
   SPI_MIKROBUS : CONSTANT RemoteIO.ChannelNumber :=  0;
 
