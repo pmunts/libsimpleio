@@ -36,11 +36,12 @@ namespace IO.Objects.RemoteIO.mikroBUS
         {
             BeagleBoneClick2,
             BeagleBoneClick4,
+            PocketBeagle,
+            BeaglePlay,
             PiClick1,
             PiClick2,
             PiClick3,
             PiClick4,
-            PocketBeagle,
             Unknown = int.MaxValue
         }
 
@@ -264,6 +265,26 @@ namespace IO.Objects.RemoteIO.mikroBUS
                 I2CBus: PocketBeagle.I2C2,
                 PWMOut: PocketBeagle.PWM0_0,
                 SPIDev: PocketBeagle.SPI1_1),
+
+            new SocketEntry(ShieldKinds.BeaglePlay, 1,
+                // mikroBUS GPIO pins
+                AN:     BeaglePlay.AN,
+                RST:    BeaglePlay.RST,
+                CS:     BeaglePlay.CS,        // Conflicts with SPI0
+                SCK:    BeaglePlay.SCK,       // Conflicts with SPI0
+                MISO:   BeaglePlay.MISO,      // Conflicts with SPI0
+                MOSI:   BeaglePlay.MOSI,      // Conflicts with SPI0
+                SDA:    BeaglePlay.SDA,       // Conflicts with I2C3
+                SCL:    BeaglePlay.SCL,       // Conflicts with I2C3
+                TX:     BeaglePlay.TX,        // Conflicts with UART5
+                RX:     BeaglePlay.RX,        // Conflicts with UART5
+                INT:    BeaglePlay.INT,
+                PWM:    BeaglePlay.PWM,       // Conflicts with PWM0
+                // mikroBUS devices
+                AIN:    Device.Unavailable,
+                I2CBus: BeaglePlay.I2C_MIKROBUS,
+                PWMOut: BeaglePlay.PWM_MIKROBUS,
+                SPIDev: BeaglePlay.SPI_MIKROBUS),
 
             new SocketEntry(ShieldKinds.PiClick1, 1,
                 // mikroBUS GPIO pins

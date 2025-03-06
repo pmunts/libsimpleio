@@ -38,11 +38,12 @@ namespace IO.Objects.SimpleIO.mikroBUS
         {
             BeagleBoneClick2,
             BeagleBoneClick4,
+            PocketBeagle,
+            BeaglePlay,
             PiClick1,
             PiClick2,
             PiClick3,
             PiClick4,
-            PocketBeagle,
             Unknown = int.MaxValue
         }
 
@@ -309,18 +310,40 @@ namespace IO.Objects.SimpleIO.mikroBUS
                 SPIDev: PocketBeagle.SPI1_1,
                 UART:   "/dev/ttyS0"),
 
-            new SocketEntry(ShieldKinds.PiClick1, 1,
+             new SocketEntry(ShieldKinds.BeaglePlay, 1,
+                // mikroBUS GPIO pins
+                AN:     BeaglePlay.AN,
+                RST:    BeaglePlay.RST,
+                CS:     BeaglePlay.CS,        // Conflicts with SPI1
+                SCK:    BeaglePlay.SCK,       // Conflicts with SPI1
+                MISO:   BeaglePlay.MISO,      // Conflicts with SPI1
+                MOSI:   BeaglePlay.MOSI,      // Conflicts with SPI1
+                SDA:    BeaglePlay.SDA,       // Conflicts with I2C3
+                SCL:    BeaglePlay.SCL,       // Conflicts with I2C3
+                TX:     BeaglePlay.TX,        // Conflicts with UART5
+                RX:     BeaglePlay.RX,        // Conflicts with UART5
+                INT:    BeaglePlay.INT,
+                PWM:    BeaglePlay.PWM,       // Conflicts with PWM0
+                // mikroBUS devices
+                AIN:    Unavailable,
+                AINres: 0,
+                I2CBus: BeaglePlay.I2C_MIKROBUS,
+                PWMOut: BeaglePlay.PWM_MIKROBUS,
+                SPIDev: BeaglePlay.SPI_MIKROBUS,
+                UART:   BeaglePlay.UART_MIKROBUS),
+
+           new SocketEntry(ShieldKinds.PiClick1, 1,
                 // mikroBUS GPIO pins
                 AN:     RaspberryPi.GPIO22,
                 RST:    RaspberryPi.GPIO4,
-                CS:     RaspberryPi.GPIO8,    // Conflicts with SPI0,
-                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0,
-                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0,
-                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0,
-                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1,
-                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1,
-                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0,
-                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0,
+                CS:     RaspberryPi.GPIO8,    // Conflicts with SPI0
+                SCK:    RaspberryPi.GPIO11,   // Conflicts with SPI0
+                MISO:   RaspberryPi.GPIO9,    // Conflicts with SPI0
+                MOSI:   RaspberryPi.GPIO10,   // Conflicts with SPI0
+                SDA:    RaspberryPi.GPIO2,    // Conflicts with I2C1
+                SCL:    RaspberryPi.GPIO3,    // Conflicts with I2C1
+                TX:     RaspberryPi.GPIO14,   // Conflicts with UART0
+                RX:     RaspberryPi.GPIO15,   // Conflicts with UART0
                 INT:    RaspberryPi.GPIO17,
                 PWM:    RaspberryPi.GPIO18,   // Conflicts with PWM0
                 // mikroBUS devices
