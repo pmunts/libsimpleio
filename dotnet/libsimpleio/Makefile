@@ -1,6 +1,6 @@
 # Makefile for building libsimpleio.dll for .Net Standard 2.0
 
-# Copyright (C)2014-2024, Philip Munts dba Munts Technologies.
+# Copyright (C)2014-2025, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,6 +25,7 @@ LIBSIMPLEIO	:= ../..
 LIBNAME		:= libsimpleio
 VERSION		:= $(shell date '+2.%Y.%j.$(BUILDNUM)' | sed 's/\.0/./g')
 CONFIGURATION	:= Release
+DOCDIR		:= $(LIBSIMPLEIO)/doc/$(LIBNAME).dll
 NUGETDIR	:= $(LIBSIMPLEIO)/nuget
 
 FIND		?= find
@@ -42,9 +43,12 @@ default:
 	BUILDVERSION=$(VERSION) dotnet pack  $(LIBNAME).csproj -c $(CONFIGURATION)
 	BUILDVERSION=$(VERSION) "$(MSBUILD)" $(LIBNAME).shfbproj
 	rm -f Help/*.aspx Help/*.log Help/*.php Help/Web.Config
-	$(FIND) Help -type d -exec chmod 755 {} ";"
-	$(FIND) Help -type f -exec chmod 644 {} ";"
-	rsync -avcq --delete Help/ ../../doc/$(LIBNAME).dll
+	rm -rf $(DOCDIR)/*
+	cp -r Help/* $(DOCDIR)
+	$(FIND) $(DOCDIR) -type d -exec chmod 755 {} ";"
+	$(FIND) $(DOCDIR) -type f -exec chmod 644 {} ";"
+	svn status $(DOCDIR) | grep '?' | awk '{ printf("svn add %s\n", $$2); }' | sh
+	svn status $(DOCDIR) | grep '!' | awk '{ printf("svn rm  %s\n", $$2); }' | sh
 	-svn revert -R $(NUGETDIR)/$(LIBNAME)
 	-svn rm --force $(NUGETDIR)/$(LIBNAME)/*
 	nuget add bin/$(CONFIGURATION)/*.nupkg -source $(NUGETDIR)
