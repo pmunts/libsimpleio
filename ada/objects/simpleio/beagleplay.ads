@@ -37,6 +37,8 @@ PACKAGE BeaglePlay IS
   LED_USR3      : CONSTANT String := "/dev/userled3";
   LED_USR4      : CONSTANT String := "/dev/userled4";
 
+  USER_LED      : CONSTANT String := LED_USR0;
+
   -- User button
 
   USER_BUTTON   : CONSTANT Device.Designator := (2, 18); -- Active low
