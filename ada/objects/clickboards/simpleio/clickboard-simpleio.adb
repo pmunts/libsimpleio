@@ -214,7 +214,16 @@ PACKAGE BODY ClickBoard.SimpleIO IS
     SocketRec'(ClickBoard.Shields.BeaglePlay, 1,
      (ClickBoard.AN   => BeaglePlay.AN,
       ClickBoard.RST  => BeaglePlay.RST,
+      ClickBoard.CS   => BeaglePlay.CS,      -- Conflicts with SPI0
+      ClickBoard.SCK  => BeaglePlay.SCK,     -- Conflicts with SPI0
+      ClickBoard.MISO => BeaglePlay.MISO,    -- Conflicts with SPI0
+      ClickBoard.MOSI => BeaglePlay.MOSI,    -- Conflicts with SPI0
+      ClickBoard.SDA  => BeaglePlay.SDA,     -- Conflicts with I2C3
+      ClickBoard.SCL  => BeaglePlay.SCL,     -- Conflicts with I2C3
+      ClickBoard.TX   => BeaglePlay.TX,      -- Conflicts with UART5
+      ClickBoard.RX   => BeaglePlay.RX,      -- Conflicts with UART5
       ClickBoard.INT  => BeaglePlay.INT,
+      ClickBoard.PWM  => BeaglePlay.PWM,     -- Conflicts with PWM0.0
       OTHERS          => Device.Unavailable),
       AIN     => Device.Unavailable,
       I2C     => BeaglePlay.I2C_MIKROBUS,
