@@ -172,16 +172,16 @@ PACKAGE BODY ClickBoard.RemoteIO IS
     SocketRec'(ClickBoard.Servers.BeaglePlay, 1,
      (ClickBoard.AN   => Standard.RemoteIO.BeaglePlay.AN,
       ClickBoard.RST  => Standard.RemoteIO.BeaglePlay.RST,
-      ClickBoard.CS   => Standard.RemoteIO.BeaglePlay.CS,   -- Conflicts with SPI
-      ClickBoard.SCK  => Standard.RemoteIO.BeaglePlay.SCK,  -- Conflicts with SPI
-      ClickBoard.MISO => Standard.RemoteIO.BeaglePlay.MISO, -- Conflicts with SPI
-      ClickBoard.MOSI => Standard.RemoteIO.BeaglePlay.MOSI, -- Conflicts with SPI
-      ClickBoard.PWM  => Standard.RemoteIO.BeaglePlay.PWM,  -- Conflicts with PWM
+      ClickBoard.CS   => Standard.RemoteIO.BeaglePlay.CS,   -- Conflicts with SPI0
+      ClickBoard.SCK  => Standard.RemoteIO.BeaglePlay.SCK,  -- Conflicts with SPI0
+      ClickBoard.MISO => Standard.RemoteIO.BeaglePlay.MISO, -- Conflicts with SPI0
+      ClickBoard.MOSI => Standard.RemoteIO.BeaglePlay.MOSI, -- Conflicts with SPI0
+      ClickBoard.PWM  => Standard.RemoteIO.BeaglePlay.PWM,  -- Conflicts with PWM0.0
       ClickBoard.INT  => Standard.RemoteIO.BeaglePlay.INT,
-      ClickBoard.RX   => Standard.RemoteIO.BeaglePlay.RX,   -- Conflicts with UART
-      ClickBoard.TX   => Standard.RemoteIO.BeaglePlay.TX,   -- Conflicts with UART
-      ClickBoard.SDA  => Standard.RemoteIO.BeaglePlay.SDA,  -- Conflicts with I2C
-      ClickBoard.SCL  => Standard.RemoteIO.BeaglePlay.SCL,  -- Conflicts with I2C
+      ClickBoard.RX   => Standard.RemoteIO.BeaglePlay.RX,   -- Conflicts with UART5
+      ClickBoard.TX   => Standard.RemoteIO.BeaglePlay.TX,   -- Conflicts with UART5
+      ClickBoard.SDA  => Standard.RemoteIO.BeaglePlay.SDA,  -- Conflicts with I2C3
+      ClickBoard.SCL  => Standard.RemoteIO.BeaglePlay.SCL,  -- Conflicts with I2C3
       OTHERS          => Unavailable),
       I2C    => Standard.RemoteIO.BeaglePlay.I2C_MIKROBUS,
       PWM    => Standard.RemoteIO.BeaglePlay.PWM_MIKROBUS,
