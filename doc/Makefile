@@ -1,6 +1,6 @@
 # Makefile to build Linux Simple I/O Library HTML documentation
 
-# Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@ default: html
 %.html: %.2
 	man2html -r $^ >$@
 	sed -i '1,2d' $@
-	sed -i 's@\.\./index\.html@../README.html@g' $@
+	sed -i 's@\.\./index\.html@libsimpleio.html@g' $@
 	sed -i 's@\.\./man2/@@g' $@
 	sed -i 's@\.2\.html@.html@g' $@
 	sed -i 's/I<FONT SIZE="-2">2<\/FONT>C/I<sup>2<\/sup>C/g' $@

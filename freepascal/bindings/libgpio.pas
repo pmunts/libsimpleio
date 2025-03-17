@@ -1,6 +1,6 @@
-{ FreePascal bindings for libsimpleio (http://git.munts.com/libsimpleio)      }
+{ FreePascal bindings for libsimpleio (https://github.com/pmunts/libsimpleio) }
 
-{ Copyright (C)2016-2023, Philip Munts dba Munts Technologies.                }
+{ Copyright (C)2016-2025, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }

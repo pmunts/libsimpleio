@@ -1,9 +1,9 @@
 (* Remote I/O Protocol support for GNU Modula-2 programs running on Linux      *)
 (* computers, using libremoteio.so and libsimpleio.so.                         *)
 (*                                                                             *)
-(* http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf                   *)
+(* https://repo.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf                 *)
 
-(* Copyright (C)2023, Philip Munts dba Munts Technologies.                     *)
+(* Copyright (C)2025, Philip Munts dba Munts Technologies.                     *)
 (*                                                                             *)
 (* Redistribution and use in source and binary forms, with or without          *)
 (* modification, are permitted provided that the following conditions are met: *)

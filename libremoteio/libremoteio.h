@@ -1,6 +1,6 @@
 // API Specification for libremoteio.dll
 
-// Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2021-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// See also: http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
+// See also: https://repo.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
 
 //=============================================================================
 

@@ -16,12 +16,12 @@ following types of I/O devices:
 -   I<sup>2</sup>C (Inter-Integrated Circuit) Bus Devices
 -   PWM (Pulse Width Modulated) Output Devices
 -   [Remote I/O
-    Protocol](http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf)
+    Protocol](https://repo.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf)
     Devices
 -   Serial Ports
 -   SPI (Serial Peripheral Interface) Bus Devices
 -   [Stream Framing
-    Protocol](http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf)
+    Protocol](https://repo.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf)
     Devices
 -   TCP and UDP over IPv4 Network Devices
 -   Watchdog Timer Devices
@@ -52,11 +52,11 @@ Documentation
 -------------
 
 The user manual for **libsimpleio** is available at
-[UserManual.pdf](http://git.munts.com/libsimpleio/doc/UserManual.pdf).
+[UserManual.pdf](https://repo.munts.com/libsimpleio/doc/UserManual.pdf).
 Installation instructions are on pages 6 and 7.
 
 The man pages specifying the **libsimpleio** API are available at
-[libsimpleio.html](http://git.munts.com/libsimpleio/doc/libsimpleio.html).
+[libsimpleio.html](https://repo.munts.com/libsimpleio/doc/libsimpleio.html).
 
 Git Repository
 --------------
@@ -75,7 +75,7 @@ Debian Package Repository
 Prebuilt **`libsimpleio`** packages for [Debian](http://www.debian.org)
 Linux are available at:
 
-<http://repo.munts.com/debian12>
+<https://repo.munts.com/debian12>
 
 [Alire](https://alire.ada.dev) Crates
 -------------------------------------
@@ -97,7 +97,7 @@ Breakout](https://www.adafruit.com/product/4471).
 Ada programs using the **`remoteio`** crate can run on Linux, macOS, or
 Windows target computers, enabling you to control GPIO resources on a
 USB tethered or networked [Remote I/O
-Protocol](http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf)
+Protocol](https://repo.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf)
 server.
 
 [NuGet](https://nuget.org/) Packages for [.Net](https://dotnet.microsoft.com)

@@ -5,8 +5,8 @@
  	_printf("Copyright (C) 2011 - 2022 Tony Wang. All Rights Reserved.\n");
  	_printf("For more information, see https://github.com/paladin-t/my_basic/.\n");
 +	_printf("\nIncludes bindings for the Linux Simple I/O Library\n");
-+	_printf("http://git.munts.com/libsimpleio\n"); 
-+	_printf("Copyright (C)2018-2023, Philip Munts dba Munts Technologies.\n\n");
++	_printf("https://github.com/pmunts/libsimpleio\n"); 
++	_printf("Copyright (C)2018-2025, Philip Munts dba Munts Technologies.\n\n");
  	_printf("Input HELP and hint enter to view the help information.\n");
  }
  

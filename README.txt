@@ -59,7 +59,7 @@ Debian Package Repository
 
 Prebuilt libsimpleio packages for Debian Linux are available at:
 
-http://repo.munts.com/debian12
+https://repo.munts.com/debian12
 
 Alire Crates
 
@@ -85,21 +85,21 @@ NuGet Packages for .Net
 Use one of the following command sequences to create a .Net program
 project:
 
-    dotnet new install libremoteio-templates
-    mkdir myprogram
-    cd myprogram
-    dotnet new csharp_console_libremoteio
-    dotnet new sln
-    dotnet sln add myprogram.csproj
+dotnet new install libremoteio-templates
+mkdir myprogram
+cd myprogram
+dotnet new csharp_console_libremoteio
+dotnet new sln
+dotnet sln add myprogram.csproj
 
 Or
 
-    dotnet new install libsimpleio-templates
-    mkdir myprogram
-    cd myprogram
-    dotnet new csharp_console_libsimpleio
-    dotnet new sln
-    dotnet sln add myprogram.csproj
+dotnet new install libsimpleio-templates
+mkdir myprogram
+cd myprogram
+dotnet new csharp_console_libsimpleio
+dotnet new sln
+dotnet sln add myprogram.csproj
 
 ------------------------------------------------------------------------
 

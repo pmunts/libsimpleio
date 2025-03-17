@@ -1,6 +1,6 @@
 -- Pure Ada implementation of the Stream Framing Protocol
 
--- Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2021-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- See http://git.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
+-- See https://repo.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
 
 WITH Interfaces; USE Interfaces;
 WITH Messaging;

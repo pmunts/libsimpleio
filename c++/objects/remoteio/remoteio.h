@@ -1,6 +1,6 @@
 // Remote I/O Protocol Definitions
 
-// Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
 
 // The Remote I/O Protocol specification is available online at:
 //
-// http://git.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
+// https://repo.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf
 
 #ifndef _REMOTEIO_H
 #define _REMOTEIO_H
