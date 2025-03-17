@@ -15,6 +15,7 @@
     <PackageReadmeFile>doc/README.md</PackageReadmeFile>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI; Stepper;</PackageTags>
     <PackageReleaseNotes>
+Changed PackageProjectURL to https://github.com/pmunts/libsimpleio
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
