@@ -23,7 +23,6 @@
 WITH Ada.Calendar;
 WITH Ada.Strings.Fixed;
 WITH Ada.Strings.Maps.Constants;
-WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH errno;
 WITH LibLinux;
@@ -158,5 +157,73 @@ PACKAGE BODY WIO_E5 IS
       RAISE Error WITH "Unexpected response string";
     END IF;
   END SendCommand;
+
+--------------------------------------
+-- Peer to Peer Communication Services
+--------------------------------------
+
+  BWS   : ARRAY (Bandwidths) OF String(1 .. 3) := ("125", "250", "500");
+  BOOLS : ARRAY (Boolean)    OF String(1 .. 3) := (" ON", "OFF");
+
+  FUNCTION Trim(s : String) RETURN String IS
+
+  BEGIN
+    RETURN Ada.Strings.Fixed.Trim(s, Ada.Strings.Both);
+  END Trim;
+
+  -- Enable Peer to Peer mode
+
+  PROCEDURE P2P_Enable
+   (Self       : DeviceClass;
+    freqmhz    : Positive;
+    spread     : SpreadingFactors := SF7;
+    bandwidth  : BandWidths       := BW500K;
+    txpreamble : Positive         := 12;
+    rxpreamble : Positive         := 15;
+    powerdbm   : Positive         := 14) IS
+
+    cmd  : CONSTANT String := "AT+TEST=RFCFG," &
+                              Trim(freqmhz'Image)     & "," &
+                              Trim(spread'Image)      & "," &
+                              Trim(BWS(bandwidth))    & "," &
+                              Trim(txpreamble'Image)  & "," &
+                              Trim(rxpreamble'Image)  & "," &
+                              Trim(powerdbm'Image)    & "," &
+                              "ON,OFF,OFF";
+
+    resp : CONSTANT String := "+TEST: RFCFG F:" &
+                              Trim(freqmhz'Image)    & "000000, " &
+                              Trim(spread'Image)     & ", "       &
+                              Trim(bandwidth'Image)  & ", TXPR:"  &
+                              Trim(txpreamble'Image) & ", RXPR:"  &
+                              Trim(rxpreamble'Image) & ", POW:"   &
+                              Trim(powerdbm'Image)   & "dBm, "    &
+                              "CRC:ON, IQ:OFF, NET:OFF";
+
+  BEGIN
+    Self.SendCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
+    Self.SendCommand(cmd, resp,  0.15);
+  END P2P_Enable;
+
+  -- Send a text message
+
+  PROCEDURE P2P_Send(Self : DeviceClass; msg : String) IS
+
+    cmd  : CONSTANT String := "AT+TEST=TXLRSTR, """ & msg & """";
+
+    resp : CONSTANT String := "+TEST: TXLRSTR """ & msg & """" &
+                              ASCII.CR & ASCII.LF & "+TEST: TX DONE";
+
+  BEGIN
+    Self.SendCommand(cmd, resp, 0.15);
+  END P2P_Send;
+
+  -- Send a binary message
+
+  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet) IS
+
+  BEGIN
+    NULL;
+  END P2P_Send;
 
 END WIO_E5;

@@ -33,6 +33,10 @@ PACKAGE WIO_E5 IS
 
   DefaultTimeout : CONSTANT Duration := 0.02;
 
+-------------------------
+-- Device Driver Services
+-------------------------
+
   -- Device object constructor
 
   FUNCTION Create
@@ -71,6 +75,34 @@ PACKAGE WIO_E5 IS
     cmd     : String;
     resp    : GNAT.Regpat.Pattern_Matcher;
     timeout : Duration := DefaultTimeout);
+
+--------------------------------------
+-- Peer to Peer Communication Services
+--------------------------------------
+
+  TYPE SpreadingFactors IS (SF7, SF8, SF9, SF10, SF11, SF12);
+  TYPE Bandwidths       IS (BW125K, BW250K, BW500K);
+  TYPE Byte             IS MOD 256;
+  TYPE Packet           IS ARRAY (Natural RANGE <>) OF Byte;
+
+  -- Enable Peer to Peer mode
+
+  PROCEDURE P2P_Enable
+   (Self       : DeviceClass;
+    freqmhz    : Positive;
+    spread     : SpreadingFactors := SF7;
+    bandwidth  : BandWidths       := BW500K;
+    txpreamble : Positive         := 12;
+    rxpreamble : Positive         := 15;
+    powerdbm   : Positive         := 14);
+
+  -- Send a text message
+
+  PROCEDURE P2P_Send(Self : DeviceClass; msg : String);
+
+  -- Send a binary message
+
+  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet);
 
 PRIVATE
 
