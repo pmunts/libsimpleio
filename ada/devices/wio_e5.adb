@@ -162,15 +162,6 @@ PACKAGE BODY WIO_E5 IS
 -- Peer to Peer Communication Services
 --------------------------------------
 
-  BWS   : ARRAY (Bandwidths) OF String(1 .. 3) := ("125", "250", "500");
-  BOOLS : ARRAY (Boolean)    OF String(1 .. 3) := (" ON", "OFF");
-
-  FUNCTION Trim(s : String) RETURN String IS
-
-  BEGIN
-    RETURN Ada.Strings.Fixed.Trim(s, Ada.Strings.Both);
-  END Trim;
-
   -- Enable Peer to Peer mode
 
   PROCEDURE P2P_Enable
@@ -182,27 +173,25 @@ PACKAGE BODY WIO_E5 IS
     rxpreamble : Positive         := 15;
     powerdbm   : Positive         := 14) IS
 
-    cmd  : CONSTANT String := "AT+TEST=RFCFG," &
-                              Trim(freqmhz'Image)     & "," &
-                              Trim(spread'Image)      & "," &
-                              Trim(BWS(bandwidth))    & "," &
-                              Trim(txpreamble'Image)  & "," &
-                              Trim(rxpreamble'Image)  & "," &
-                              Trim(powerdbm'Image)    & "," &
-                              "ON,OFF,OFF";
+    BWS   : CONSTANT ARRAY (Bandwidths) OF String(1 .. 3) := ("125", "250", "500");
 
-    resp : CONSTANT String := "+TEST: RFCFG F:" &
-                              Trim(freqmhz'Image)    & "000000, " &
-                              Trim(spread'Image)     & ", "       &
-                              Trim(bandwidth'Image)  & ", TXPR:"  &
-                              Trim(txpreamble'Image) & ", RXPR:"  &
-                              Trim(rxpreamble'Image) & ", POW:"   &
-                              Trim(powerdbm'Image)   & "dBm, "    &
-                              "CRC:ON, IQ:OFF, NET:OFF";
+    FUNCTION Trim(Source : String; Side : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
+
+    config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
+                                     Trim(freqmhz'Image)     & "," &
+                                     Trim(spread'Image)      & "," &
+                                     Trim(BWS(bandwidth))    & "," &
+                                     Trim(txpreamble'Image)  & "," &
+                                     Trim(rxpreamble'Image)  & "," &
+                                     Trim(powerdbm'Image)    & "," &
+                                     "ON,OFF,OFF";
+
+    config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
 
   BEGIN
     Self.SendCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
-    Self.SendCommand(cmd, resp,  0.15);
+    Self.SendCommand(config_cmd, config_resp,  0.15);
+    Self.SendCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
   END P2P_Enable;
 
   -- Send a text message
