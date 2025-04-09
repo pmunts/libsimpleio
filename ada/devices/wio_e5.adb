@@ -20,17 +20,24 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Streams;
+WITH Ada.Calendar;
 WITH Ada.Strings.Fixed;
 WITH Ada.Strings.Maps.Constants;
+WITH Ada.Text_IO; USE Ada.Text_IO;
+
+WITH errno;
+WITH LibLinux;
+WITH LibSerial;
+
+USE TYPE Ada.Calendar.Time;
 
 PACKAGE BODY WIO_E5 IS
 
   -- Device object constructor
 
   FUNCTION Create
-   (portname : Serial.Port_Name;
-    baudrate : Serial.Data_Rate := Serial.B115200) RETURN Device IS
+   (portname : String;
+    baudrate : Positive := 115200) RETURN Device IS
 
     dev : DeviceClass;
 
@@ -43,55 +50,95 @@ PACKAGE BODY WIO_E5 IS
 
   PROCEDURE Initialize
    (Self     : OUT DeviceClass;
-    portname : Serial.Port_Name;
-    baudrate : Serial.Data_Rate := Serial.B115200) IS
+    portname : String;
+    baudrate : Positive := 115200) IS
+
+    err : Integer;
 
   BEGIN
-    Self.port := NEW Serial.Serial_Port;
-    Serial.Open(Self.port.ALL, portname);
-    Serial.Set(Self.port.ALL, Rate => baudrate, Block => False, Timeout => 0.2);
+    libSerial.Open(portname, baudrate, libSerial.PARITY_NONE, 8, 1, Self.fd, err);
   END Initialize;
 
   -- Send AT command string to WIO-E5
 
   PROCEDURE SendCommand(Self : DeviceClass; cmd : String) IS
 
+    outbuf : String := cmd & ASCII.CR & ASCII.LF;
+    count  : Integer;
+    err    : Integer;
+
   BEGIN
-    String'Write(Self.port, cmd & ASCII.CR & ASCII.LF);
+    libSerial.Send(Self.fd, outbuf'Address, outbuf'Length, count, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libSerial.Send failed, " & errno.strerror(err);
+    END IF;
+
+    IF count < outbuf'Length THEN
+      RAISE Error WITH "libSerial.Send failed to send all data";
+    END IF;
   END SendCommand;
 
   -- Get response string from WIO-E5
 
-  FUNCTION GetResponse(Self : DeviceClass) RETURN String IS
+  FUNCTION GetResponse
+   (Self    : DeviceClass;
+    timeout : Duration := DefaultTimeout) RETURN String IS
 
-    inbuf : Ada.Streams.Stream_Element_Array(1 .. 1024) := (OTHERS => 0);
-    count : Ada.Streams.Stream_Element_Offset;
+    deadline : CONSTANT Ada.Calendar.Time := Ada.Calendar.Clock + Timeout;
+    inbuf    : Character;
+    count    : Natural;
+    err      : Integer;
+    respidx  : Natural := 0;
+    resp     : String(1 .. 1024) := (OTHERS => ASCII.NUL);
 
   BEGIN
-    Self.port.Read(inbuf, count);
+    WHILE Ada.Calendar.Clock < deadline LOOP
+      libLinux.PollInput(Self.fd, 1, err);
 
-    DECLARE
+      IF err < 0 AND err /= errno.EAGAIN THEN
+        RAISE Error WITH "libLinux.PollInput failed, " & errno.strerror(err);
+      END IF;
 
-      resp : String(1 .. Natural(count));
+      IF err = 0 THEN
+        libSerial.Receive(Self.fd, inbuf'Address, 1, count, err);
 
-    BEGIN
-      FOR i IN 1 .. count LOOP
-        resp(Positive(i)) := Character'Val(inbuf(i));
-      END LOOP;
+        IF err < 0 THEN
+          RAISE Error WITH "libSerial.Receive failed, " & errno.strerror(err);
+        END IF;
 
-      RETURN Ada.Strings.Fixed.Trim(resp, Ada.Strings.Maps.Constants.Control_Set,
-        Ada.Strings.Maps.Constants.Control_Set);
-    END;
+        IF count = 0 THEN
+          RAISE Error WITH "libSerial.Receive failed to receive a byte";
+        END IF;
+
+        IF respidx = resp'Length THEN
+          RAISE Error WITH "response buffer overrun";
+        END IF;
+
+        respidx := respidx + 1;
+        resp(respidx) := inbuf;
+      END IF;
+    END LOOP;
+
+    -- Trim NUL/CR/LF from the response string
+
+    RETURN Ada.Strings.Fixed.Trim(resp,
+      Ada.Strings.Maps.Constants.Control_Set,
+      Ada.Strings.Maps.Constants.Control_Set);
   END GetResponse;
 
   -- Send AT command string to WIO-E5 expecting a response string
 
-  PROCEDURE SendCommand(Self : DeviceClass; cmd : String; resp : String) IS
+  PROCEDURE SendCommand
+   (Self    : DeviceClass;
+    cmd     : String;
+    resp    : String;
+    timeout : Duration := DefaultTimeout) IS
 
   BEGIN
-    String'Write(Self.port, cmd & ASCII.CR & ASCII.LF);
+    Self.SendCommand(cmd);
 
-    IF Self.GetResponse /= resp THEN
+    IF Self.GetResponse(timeout) /= resp THEN
       RAISE Error WITH "Unexpected response string";
     END IF;
   END SendCommand;
@@ -99,14 +146,15 @@ PACKAGE BODY WIO_E5 IS
   -- Send AT command string to WIO-E5 expecting a response string
 
   PROCEDURE SendCommand
-   (Self     : DeviceClass;
-    cmd      : String;
-    resp     : GNAT.Regpat.Pattern_Matcher) IS
+   (Self    : DeviceClass;
+    cmd     : String;
+    resp    : GNAT.Regpat.Pattern_Matcher;
+    timeout : Duration := DefaultTimeout) IS
 
   BEGIN
-    String'Write(Self.port, cmd & ASCII.CR & ASCII.LF);
+    Self.SendCommand(cmd);
 
-    IF NOT GNAT.Regpat.Match(resp, Self.GetResponse) THEN
+    IF NOT GNAT.Regpat.Match(resp, Self.GetResponse(timeout)) THEN
       RAISE Error WITH "Unexpected response string";
     END IF;
   END SendCommand;

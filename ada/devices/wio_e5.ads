@@ -21,11 +21,8 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH GNAT.Regpat;
-WITH GNAT.Serial_Communications;
 
 PACKAGE WIO_E5 IS
-
-  PACKAGE Serial RENAMES GNAT.Serial_Communications;
 
   Error : EXCEPTION;
 
@@ -34,18 +31,20 @@ PACKAGE WIO_E5 IS
   TYPE DeviceClass IS TAGGED PRIVATE;
   TYPE Device      IS ACCESS ALL DeviceClass'Class;
 
+  DefaultTimeout : CONSTANT Duration := 0.02;
+
   -- Device object constructor
 
   FUNCTION Create
-   (portname : Serial.Port_Name;
-    baudrate : Serial.Data_Rate := Serial.B115200) RETURN Device;
+   (portname : String;
+    baudrate : Positive := 115200) RETURN Device;
 
   -- Device instance initializer
 
   PROCEDURE Initialize
    (Self     : OUT DeviceClass;
-    portname : Serial.Port_Name;
-    baudrate : Serial.Data_Rate := Serial.B115200);
+    portname : String;
+    baudrate : Positive := 115200);
 
   -- Send AT command string to WIO-E5
 
@@ -53,22 +52,30 @@ PACKAGE WIO_E5 IS
 
   -- Get response string from WIO-E5
 
-  FUNCTION GetResponse(Self : DeviceClass) RETURN String;
+  FUNCTION GetResponse
+   (Self    : DeviceClass;
+    timeout : Duration := DefaultTimeout) RETURN String;
 
   -- Send AT command string to WIO-E5 expecting a response string
 
-  PROCEDURE SendCommand(Self : DeviceClass; cmd : String; resp : String);
+  PROCEDURE SendCommand
+   (Self    : DeviceClass;
+    cmd     : String;
+    resp    : String;
+    timeout : Duration := DefaultTimeout);
 
   -- Send AT command string to WIO-E5 expecting a response string
 
-  PROCEDURE SendCommand (Self : DeviceClass; cmd : String; resp : GNAT.Regpat.Pattern_Matcher);
+  PROCEDURE SendCommand
+   (Self    : DeviceClass;
+    cmd     : String;
+    resp    : GNAT.Regpat.Pattern_Matcher;
+    timeout : Duration := DefaultTimeout);
 
 PRIVATE
 
-  TYPE SerialPortAccess IS ACCESS Serial.Serial_Port;
-
   TYPE DeviceClass IS TAGGED RECORD
-    port : SerialPortAccess := NULL;
+    fd : Integer := -1;
   END RECORD;
 
 END WIO_E5;
