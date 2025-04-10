@@ -1,4 +1,3 @@
--- Seeed Studio WIO-E5 LoRa Transceiver Device Driver
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -21,14 +20,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Calendar;
+WITH Ada.Containers;
 WITH Ada.Strings.Fixed;
 WITH Ada.Strings.Maps.Constants;
+WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH errno;
 WITH LibLinux;
 WITH LibSerial;
+WITH Logging.libsimpleio;
 
 USE TYPE Ada.Calendar.Time;
+USE TYPE Ada.Containers.Count_Type;
 
 PACKAGE BODY WIO_E5 IS
 
@@ -55,12 +58,18 @@ PACKAGE BODY WIO_E5 IS
     err : Integer;
 
   BEGIN
+    -- Open the serial port
+
     libSerial.Open(portname, baudrate, libSerial.PARITY_NONE, 8, 1, Self.fd, err);
+
+    IF err < 0 THEN
+      RAISE Error WITH "libSerial.Open failed, " & errno.strerror(err);
+    END IF;
   END Initialize;
 
   -- Send AT command string to WIO-E5
 
-  PROCEDURE SendCommand(Self : DeviceClass; cmd : String) IS
+  PROCEDURE SendATCommand(Self : DeviceClass; cmd : String) IS
 
     outbuf : String := cmd & ASCII.CR & ASCII.LF;
     count  : Integer;
@@ -69,18 +78,50 @@ PACKAGE BODY WIO_E5 IS
   BEGIN
     libSerial.Send(Self.fd, outbuf'Address, outbuf'Length, count, err);
 
-    IF err > 0 THEN
+    IF err < 0 THEN
       RAISE Error WITH "libSerial.Send failed, " & errno.strerror(err);
     END IF;
 
     IF count < outbuf'Length THEN
       RAISE Error WITH "libSerial.Send failed to send all data";
     END IF;
-  END SendCommand;
+  END SendATCommand;
+
+  -- Send AT command string to WIO-E5 expecting a response string
+
+  PROCEDURE SendATCommand
+   (Self    : DeviceClass;
+    cmd     : String;
+    resp    : String;
+    timeout : Duration := DefaultTimeout) IS
+
+  BEGIN
+    Self.SendATCommand(cmd);
+
+    IF Self.GetATResponse(timeout) /= resp THEN
+      RAISE Error WITH "Unexpected response string";
+    END IF;
+  END SendATCommand;
+
+  -- Send AT command string to WIO-E5 expecting a response string
+
+  PROCEDURE SendATCommand
+   (Self    : DeviceClass;
+    cmd     : String;
+    resp    : GNAT.Regpat.Pattern_Matcher;
+    timeout : Duration := DefaultTimeout) IS
+
+  BEGIN
+    Self.SendATCommand(cmd);
+
+    IF NOT GNAT.Regpat.Match(resp, Self.GetATResponse(timeout)) THEN
+      RAISE Error WITH "Unexpected response string";
+    END IF;
+  END SendATCommand;
 
   -- Get response string from WIO-E5
 
-  FUNCTION GetResponse
+  FUNCTION GetATResponse
    (Self    : DeviceClass;
     timeout : Duration := DefaultTimeout) RETURN String IS
 
@@ -124,48 +165,224 @@ PACKAGE BODY WIO_E5 IS
     RETURN Ada.Strings.Fixed.Trim(resp,
       Ada.Strings.Maps.Constants.Control_Set,
       Ada.Strings.Maps.Constants.Control_Set);
-  END GetResponse;
+  END GetATResponse;
 
-  -- Send AT command string to WIO-E5 expecting a response string
+  TASK BODY ResponseTask IS
 
-  PROCEDURE SendCommand
-   (Self    : DeviceClass;
-    cmd     : String;
-    resp    : String;
-    timeout : Duration := DefaultTimeout) IS
+    mydev  : DeviceClass;
+    myfd   : Integer           := -1;
+    active : Boolean           := False;
+    inxmt  : Boolean           := False;
+    buf    : String(1 .. 1024) := (OTHERS => ASCII.NUL);
+    buflen : Natural           := 0;
+
+    resp_cfg : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RFCFG.*");
+    resp_ign : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT|RXLRPKT|LEN:");
+    resp_rcv : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RX [""][0-9a-fA-F]*[""]");
+    resp_xmt : CONSTANT String := "+TEST: TX DONE";
+
+    PROCEDURE BufError(msg : String) IS
+
+    BEGIN
+      Logging.libsimpleio.Error(msg);
+      buf    := (OTHERS => ASCII.NUL);
+      buflen := 0;
+    END BufError;
+
+    PROCEDURE PopTxQueue IS
+
+      item : Queue_Item;
+
+    BEGIN
+      mydev.txqueue.Dequeue(item);
+
+      DECLARE
+        cmd : String(1 .. 2*item.len + 19) := (OTHERS => '.');
+      BEGIN
+        cmd(1 .. 17)    := "AT+TEST=TXLRPKT, ";
+        cmd(18)         := ASCII.Quotation;
+        cmd(cmd'Length) := ASCII.Quotation;
+
+        FOR i IN 1 .. item.len LOOP
+          cmd(17 + i*2) := hexchars(Natural(item.msg(i) / 16));
+          cmd(18 + i*2) := hexchars(Natural(item.msg(i) MOD 16));
+        END LOOP;
+
+        mydev.SendATCommand(cmd);
+        inxmt := True;
+      END;
+    END;
+
+    PROCEDURE PushRxQueue(s : String) IS
+
+      item : Queue_Item;
+
+    BEGIN
+      item.len := (s'Length - 12)/2;
+
+      FOR i IN 1 .. item.len LOOP
+        item.msg(i) := Byte'Value("16#" & s(10+i*2 .. 11+i*2) & "#");
+      END LOOP;
+
+      mydev.rxqueue.Enqueue(item);
+    END PushRxQueue;
+
+    PROCEDURE ProcessResponse(s : String) IS
+
+    BEGIN
+
+      -- Check for packet received
+
+      IF GNAT.Regpat.Match(resp_rcv, s) THEN
+        PushRxQueue(s);
+        RETURN;
+      END IF;
+
+      -- Check for RF configuration report
+
+      IF GNAT.Regpat.Match(resp_cfg, s) THEN
+        Logging.libsimpleio.Note(Ada.Strings.Fixed.Delete(s, 1, 15));
+        RETURN;
+      END IF;
+
+      -- Check for transmit done
+
+      IF s = resp_xmt THEN
+        IF mydev.txqueue.Current_Use > 0 THEN
+          -- Pop another transmit packet
+          PopTxQueue;
+        ELSE
+          -- Restart receive mode
+          inxmt := False;
+          mydev.SendATCommand("AT+TEST=RXLRPKT");
+        END IF;
+        RETURN;
+      END IF;
+
+      -- Check for ignored responses
+
+      IF GNAT.Regpat.Match(resp_ign, s) THEN
+        RETURN;
+      END IF;
+
+      Put_Line("DEBUG: response line => " & s);
+    END ProcessResponse;
+
+    PROCEDURE ProcessCharacter(c : Character) IS
+
+    BEGIN
+      buflen      := buflen + 1;
+      buf(buflen) := c;
+
+      IF buf(buflen) = ASCII.LF THEN
+        buf(buflen) := ASCII.NUL;
+        buflen := buflen - 1;
+        IF buf(buflen) = ASCII.CR THEN
+          buf(buflen) := ASCII.NUL;
+          buflen := buflen - 1;
+        END IF;
+
+        IF (buflen > 0) THEN
+          ProcessResponse(buf(1 .. buflen));
+        END IF;
+
+        buf    := (OTHERS => ASCII.NUL);
+        buflen := 0;
+      END IF;
+    END ProcessCharacter;
+
+    PROCEDURE ProcessSerialPortRcv IS
+
+      inbuf  : Character;
+      count  : Integer;
+      err    : Integer;
+
+    BEGIN
+      -- Check for serial data to arrive
+
+      libLinux.PollInput(myfd, 10, err);
+      DELAY 0.0;
+
+      -- poll() timed out
+
+      IF err = errno.EAGAIN THEN
+        -- No data is available
+        RETURN;
+      END IF;
+
+      -- Check for poll() error
+
+      IF err < 0 THEN
+        -- PollInput failed
+        BufError("libLinux.PollInput failed, " & errno.strerror(err));
+        RETURN;
+      END IF;
+
+      -- Data is available, read a byte
+
+      libSerial.Receive(myfd, inbuf'Address, 1, count, err);
+
+      -- Check for read() error
+
+      IF err < 0 THEN
+        BufError("libSerial.Receive failed, " & errno.strerror(err));
+        RETURN;
+      END IF;
+
+      -- Check for short read (should be impossible, but we'll check anyway)
+
+      IF count /= 1 THEN
+        BufError("libSerial.Receive failed to read a byte");
+        RETURN;
+      END IF;
+
+      -- It's now a little late, but check for buffer overrun
+
+      IF buflen = buf'Length THEN
+        BufError("Response buffer overrun");
+        RETURN;
+      END IF;
+
+      -- Hurray, despite all the odds, we got a byte from the serial port
+
+      ProcessCharacter(inbuf);
+    END ProcessSerialPortRcv;
 
   BEGIN
-    Self.SendCommand(cmd);
+    ACCEPT Initialize(dev : DeviceClass) DO
+      Logging.libsimpleio.Note("Initializing response handler task");
+      mydev  := dev;
+      myfd   := dev.fd;
+      active := True;
+    END Initialize;
 
-    IF Self.GetResponse(timeout) /= resp THEN
-      RAISE Error WITH "Unexpected response string";
-    END IF;
-  END SendCommand;
+    -- Main task loop
 
-  -- Send AT command string to WIO-E5 expecting a response string
+    WHILE active LOOP
+      SELECT
+        ACCEPT Destroy DO
+          active := False;
+          Logging.libsimpleio.Note("Terminating response handler task");
+        END Destroy;
+      ELSE
 
-  PROCEDURE SendCommand
-   (Self    : DeviceClass;
-    cmd     : String;
-    resp    : GNAT.Regpat.Pattern_Matcher;
-    timeout : Duration := DefaultTimeout) IS
+        -- Check for queued outbound packets
 
-  BEGIN
-    Self.SendCommand(cmd);
+        IF mydev.txqueue.Current_Use > 0 AND NOT inxmt THEN
+          PopTxQueue;
+        END IF;
 
-    IF NOT GNAT.Regpat.Match(resp, Self.GetResponse(timeout)) THEN
-      RAISE Error WITH "Unexpected response string";
-    END IF;
-  END SendCommand;
+        -- Check the serial port receiver
 
---------------------------------------
--- Peer to Peer Communication Services
---------------------------------------
+        ProcessSerialPortRcv;
+      END SELECT;
+    END LOOP;
+  END ResponseTask;
 
-  -- Enable Peer to Peer mode
+  -- Begin Peer to Peer mode
 
-  PROCEDURE P2P_Enable
-   (Self       : DeviceClass;
+  PROCEDURE P2P_Startup
+   (Self       : IN OUT DeviceClass;
     freqmhz    : Positive;
     spread     : SpreadingFactors := SF7;
     bandwidth  : BandWidths       := BW500K;
@@ -189,30 +406,129 @@ PACKAGE BODY WIO_E5 IS
     config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
 
   BEGIN
-    Self.SendCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
-    Self.SendCommand(config_cmd, config_resp,  0.15);
-    Self.SendCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
-  END P2P_Enable;
+    -- Enter test mode
+
+    Self.SendATCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
+
+    -- Configure RF parameters
+
+    Self.SendATCommand(config_cmd, config_resp, 0.15);
+
+    -- Start receive mode
+
+    Self.SendATCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
+  
+    -- Create the receive and transmit packet queues
+
+    Self.rxqueue  := NEW Queue_Package.Queue;
+    Self.txqueue  := NEW Queue_Package.Queue;
+
+    -- Start the response message handler task
+
+    Self.response := NEW ResponseTask;
+    Self.response.Initialize(Self);
+
+    -- Query RF configuration for the log
+
+    Self.SendATCommand("AT+TEST=?");
+    DELAY DefaultTimeout;
+  END P2P_Startup;
+
+  -- End Peer to Peer mode
+
+  PROCEDURE P2P_Shutdown(Self : DeviceClass) IS
+
+  BEGIN
+    ABORT Self.response.ALL;
+  END P2P_Shutdown;
 
   -- Send a text message
 
   PROCEDURE P2P_Send(Self : DeviceClass; msg : String) IS
 
-    cmd  : CONSTANT String := "AT+TEST=TXLRSTR, """ & msg & """";
-
-    resp : CONSTANT String := "+TEST: TXLRSTR """ & msg & """" &
-                              ASCII.CR & ASCII.LF & "+TEST: TX DONE";
+    item : Queue_Item;
 
   BEGIN
-    Self.SendCommand(cmd, resp, 0.15);
+    item.msg := ToPacket(msg);
+    item.len := msg'Length;
+    Self.txqueue.Enqueue(item);
   END P2P_Send;
 
   -- Send a binary message
 
-  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet) IS
+  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet; len : Natural) IS
+
+    item : Queue_Item;
 
   BEGIN
-    NULL;
+    item.msg := msg;
+    item.len := len;
+    Self.txqueue.Enqueue(item);
   END P2P_Send;
+
+  -- Receive a binary message
+
+  PROCEDURE P2P_Receive(Self : DeviceClass; msg : OUT Packet; len : OUT Natural) IS
+
+    item : Queue_Item;
+
+  BEGIN
+    SELECT
+      Self.rxqueue.Dequeue(item);
+      msg := item.msg;
+      len := item.len;
+    ELSE
+      len := 0;
+    END SELECT;
+  END P2P_Receive;
+
+  PROCEDURE Dump(msg : Packet; len : Natural) IS
+
+  BEGIN
+    IF len = 0 THEN
+      Put_Line("Packet: <empty>");
+      RETURN;
+    END IF;
+
+    Put("Packet:");
+
+    FOR i IN 1 .. len LOOP
+      Put(' ');
+      Put(hexchars(Natural(msg(i) / 16)));
+      Put(hexchars(Natural(msg(i) MOD 16)));
+    END LOOP;
+
+    New_Line;
+  END Dump;
+
+  -- Convert from binary to string
+
+  FUNCTION ToString(p : Packet; len : Natural) RETURN String IS
+
+  BEGIN
+    DECLARE
+      s : String(1 .. len);
+    BEGIN
+      FOR i IN s'Range LOOP
+        s(i) := Character'Val(p(i));
+      END LOOP;
+
+      RETURN s;
+    END;
+  END ToString;
+
+  -- Convert from string to binary
+
+  FUNCTION ToPacket(s : String) RETURN Packet IS
+
+    p : Packet;
+
+  BEGIN
+    FOR i IN s'Range LOOP
+      p(i) := Character'Pos(s(i));
+    END LOOP;
+
+    RETURN p;
+  END ToPacket;
 
 END WIO_E5;

@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Containers.Synchronized_Queue_Interfaces;
+WITH Ada.Containers.Bounded_Synchronized_Queues;
 WITH GNAT.Regpat;
 
 PACKAGE WIO_E5 IS
@@ -28,14 +30,12 @@ PACKAGE WIO_E5 IS
 
   -- Type definitions
 
-  TYPE DeviceClass IS TAGGED PRIVATE;
-  TYPE Device      IS ACCESS ALL DeviceClass'Class;
-
-  DefaultTimeout : CONSTANT Duration := 0.02;
-
--------------------------
--- Device Driver Services
--------------------------
+  TYPE DeviceClass      IS TAGGED PRIVATE;
+  TYPE Device           IS ACCESS ALL DeviceClass'Class;
+  TYPE SpreadingFactors IS (SF7, SF8, SF9, SF10, SF11, SF12);
+  TYPE Bandwidths       IS (BW125K, BW250K, BW500K);
+  TYPE Byte             IS MOD 256;
+  TYPE Packet           IS ARRAY (1 .. 256) OF Byte;
 
   -- Device object constructor
 
@@ -50,45 +50,10 @@ PACKAGE WIO_E5 IS
     portname : String;
     baudrate : Positive := 115200);
 
-  -- Send AT command string to WIO-E5
+  -- Begin Peer to Peer mode
 
-  PROCEDURE SendCommand(Self : DeviceClass; cmd : String);
-
-  -- Get response string from WIO-E5
-
-  FUNCTION GetResponse
-   (Self    : DeviceClass;
-    timeout : Duration := DefaultTimeout) RETURN String;
-
-  -- Send AT command string to WIO-E5 expecting a response string
-
-  PROCEDURE SendCommand
-   (Self    : DeviceClass;
-    cmd     : String;
-    resp    : String;
-    timeout : Duration := DefaultTimeout);
-
-  -- Send AT command string to WIO-E5 expecting a response string
-
-  PROCEDURE SendCommand
-   (Self    : DeviceClass;
-    cmd     : String;
-    resp    : GNAT.Regpat.Pattern_Matcher;
-    timeout : Duration := DefaultTimeout);
-
---------------------------------------
--- Peer to Peer Communication Services
---------------------------------------
-
-  TYPE SpreadingFactors IS (SF7, SF8, SF9, SF10, SF11, SF12);
-  TYPE Bandwidths       IS (BW125K, BW250K, BW500K);
-  TYPE Byte             IS MOD 256;
-  TYPE Packet           IS ARRAY (Natural RANGE <>) OF Byte;
-
-  -- Enable Peer to Peer mode
-
-  PROCEDURE P2P_Enable
-   (Self       : DeviceClass;
+  PROCEDURE P2P_Startup
+   (Self       : IN OUT DeviceClass;
     freqmhz    : Positive;
     spread     : SpreadingFactors := SF7;
     bandwidth  : BandWidths       := BW500K;
@@ -96,18 +61,91 @@ PACKAGE WIO_E5 IS
     rxpreamble : Positive         := 15;
     powerdbm   : Positive         := 14);
 
+  -- End Peer to Peer mode
+
+  PROCEDURE P2P_Shutdown(Self : DeviceClass);
+
   -- Send a text message
 
   PROCEDURE P2P_Send(Self : DeviceClass; msg : String);
 
   -- Send a binary message
 
-  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet);
+  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet; len : Natural);
+
+  -- Receive a binary message
+
+  PROCEDURE P2P_Receive(Self : DeviceClass; msg : OUT Packet; len : OUT Natural);
+
+  -- Dump contents of a packet in hexadecimal form
+
+  PROCEDURE Dump(msg : Packet; len : Natural);
+
+  -- Convert a message from binary to string
+
+  FUNCTION ToString(p : Packet; len : Natural) RETURN String;
+
+  -- Convert a message from string to binary
+
+  FUNCTION ToPacket(s : String) RETURN Packet;
 
 PRIVATE
 
+  DefaultTimeout : CONSTANT Duration := 0.02;
+  hexchars       : CONSTANT ARRAY (0 .. 15) OF Character := "0123456789ABCDEF";
+
+  -- Send AT command string to WIO-E5
+
+  PROCEDURE SendATCommand(Self : DeviceClass; cmd : String);
+
+  -- Send AT command string to WIO-E5 expecting a response string
+
+  PROCEDURE SendATCommand
+   (Self    : DeviceClass;
+    cmd     : String;
+    resp    : String;
+    timeout : Duration := DefaultTimeout);
+
+  -- Send AT command string to WIO-E5 expecting a response string
+
+  PROCEDURE SendATCommand
+   (Self    : DeviceClass;
+    cmd     : String;
+    resp    : GNAT.Regpat.Pattern_Matcher;
+    timeout : Duration := DefaultTimeout);
+
+  -- Get response string from WIO-E5
+
+  FUNCTION GetATResponse
+   (Self    : DeviceClass;
+    timeout : Duration := DefaultTimeout) RETURN String;
+
+  -- Define background task for handling response messages
+
+  TASK TYPE ResponseTask IS
+    ENTRY Initialize(dev : DeviceClass);
+    ENTRY Destroy;
+  END ResponseTask;
+
+  TYPE ResponseTaskAccess IS ACCESS ResponseTask;
+
+  -- Event queue definitions
+
+  TYPE Queue_Item IS RECORD
+    msg : Packet;
+    len : Natural;
+  END RECORD;
+
+  PACKAGE Queue_Interface IS NEW Ada.Containers.Synchronized_Queue_Interfaces(Queue_Item);
+  PACKAGE Queue_Package   IS NEW Ada.Containers.Bounded_Synchronized_Queues(Queue_Interface, 100);
+
+  TYPE Queue_Access IS ACCESS Queue_Package.Queue;
+
   TYPE DeviceClass IS TAGGED RECORD
-    fd : Integer := -1;
+    fd       : Integer            := -1;
+    rxqueue  : Queue_Access       := NULL;
+    txqueue  : Queue_Access       := NULL;
+    response : ResponseTaskAccess := NULL;
   END RECORD;
 
 END WIO_E5;
