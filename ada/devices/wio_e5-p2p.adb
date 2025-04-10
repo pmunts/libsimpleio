@@ -1,4 +1,8 @@
--- Seeed Studio WIO-E5 LoRa Transceiver Peer to Peer Support
+-- Seeed Studio WIO-E5 LoRa Transceiver P2P (Peer to Peer or Point to Point)
+-- Support.  P2P is misleading because there is no station addressing and all
+-- transmissions are broadcasts.  Any station with the same RF settings
+-- (frequency, spreading factor, and bandwidth) will be able to receive what
+-- you transmit with this package.
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
