@@ -23,6 +23,22 @@
 PRIVATE WITH Ada.Containers.Synchronized_Queue_Interfaces;
 PRIVATE WITH Ada.Containers.Bounded_Synchronized_Queues;
 
+GENERIC
+
+  -- The maximum payload size is constrained first by the RF subsystem of the
+  -- STM32WLE5JC microcontroller within the WIO-E5 module (maximum RF frame
+  -- size of 255 bytes) and constrained further by the RF spreading and
+  -- bandwidth settings.  Values of 59, 123, and 230 bytes seem to supported
+  -- by the LoRa PHY and MAC specifications.
+  --
+  -- I have determined empirically that the maximum usable payload using the
+  -- Send and Receive services below at US915 Data Rate Scheme #13 (spreading
+  -- factor 7 and 500 kHz bandwidth) is 253 bytes.  This is larger than what
+  -- is defined in any LoRa specification I have read and may not interoperate
+  -- with any other RF chipset.  YMMV.
+
+  MaxPayloadSize : Positive;
+
 PACKAGE WIO_E5.P2P IS
 
   Error : EXCEPTION;
@@ -34,7 +50,7 @@ PACKAGE WIO_E5.P2P IS
   TYPE SpreadingFactors IS (SF7, SF8, SF9, SF10, SF11, SF12);
   TYPE Bandwidths       IS (BW125K, BW250K, BW500K);
   TYPE Byte             IS MOD 256;
-  TYPE Packet           IS ARRAY (1 .. 256) OF Byte;
+  TYPE Packet           IS ARRAY (1 .. MaxPayloadSize) OF Byte;
 
   Uninitialized  : CONSTANT DeviceSubclass;
 
@@ -97,19 +113,19 @@ PACKAGE WIO_E5.P2P IS
 
   PROCEDURE Dump(msg : Packet; len : Positive)
 
-    WITH Pre => len <= Packet'Length;
+    WITH Pre => len <= MaxPayloadSize;
 
   -- Convert a message from binary to string.
 
   FUNCTION ToString(p : Packet; len : Positive) RETURN String
 
-    WITH Pre => len <= Packet'Length;
+    WITH Pre => len <= MaxPayloadSize;
 
   -- Convert a message from string to binary.
 
   FUNCTION ToPacket(s : String) RETURN Packet
 
-    WITH Pre => s'Length > 0 AND s'Length <= Packet'Length;
+    WITH Pre => s'Length > 0 AND s'Length <= MaxPayloadSize;
 
 PRIVATE
 
