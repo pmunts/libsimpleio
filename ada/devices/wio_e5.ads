@@ -37,57 +37,80 @@ PACKAGE WIO_E5 IS
   TYPE Byte             IS MOD 256;
   TYPE Packet           IS ARRAY (1 .. 256) OF Byte;
 
+  Uninitialized  : CONSTANT DeviceClass;
+
   -- Device object constructor
 
   FUNCTION Create
    (portname : String;
-    baudrate : Positive := 115200) RETURN Device;
+    baudrate : Positive := 115200) RETURN Device
+
+    WITH Pre => portname'Length > 0;
 
   -- Device instance initializer
 
   PROCEDURE Initialize
    (Self     : OUT DeviceClass;
     portname : String;
-    baudrate : Positive := 115200);
+    baudrate : Positive := 115200)
 
-  -- Begin Peer to Peer mode
+    WITH Pre => portname'Length > 0;
 
-  PROCEDURE P2P_Startup
+  -- Begin Peer to Peer mode.
+
+  PROCEDURE P2P_Begin
    (Self       : IN OUT DeviceClass;
     freqmhz    : Positive;
     spread     : SpreadingFactors := SF7;
     bandwidth  : BandWidths       := BW500K;
     txpreamble : Positive         := 12;
     rxpreamble : Positive         := 15;
-    powerdbm   : Positive         := 14);
+    powerdbm   : Positive         := 14)
 
-  -- End Peer to Peer mode
+    WITH Pre => Self /= Uninitialized;
 
-  PROCEDURE P2P_Shutdown(Self : DeviceClass);
+  -- End Peer to Peer mode.
 
-  -- Send a text message
+  PROCEDURE P2P_End(Self : DeviceClass)
 
-  PROCEDURE P2P_Send(Self : DeviceClass; msg : String);
+    WITH Pre => Self /= Uninitialized;
 
-  -- Send a binary message
+  -- Send a text message, which cannot be empty.
 
-  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet; len : Natural);
+  PROCEDURE P2P_Send(Self : DeviceClass; s : String)
 
-  -- Receive a binary message
+    WITH Pre => Self /= Uninitialized AND s'Length > 0;
 
-  PROCEDURE P2P_Receive(Self : DeviceClass; msg : OUT Packet; len : OUT Natural);
+  -- Send a binary message, which cannot be empty.
 
-  -- Dump contents of a packet in hexadecimal form
+  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet; len : Positive)
 
-  PROCEDURE Dump(msg : Packet; len : Natural);
+    WITH Pre => Self /= Uninitialized;
 
-  -- Convert a message from binary to string
+  -- Receive a binary message, which cannot be empty.
+  -- Zero length indicates no messages are available.
 
-  FUNCTION ToString(p : Packet; len : Natural) RETURN String;
+  PROCEDURE P2P_Receive(Self : DeviceClass; msg : OUT Packet; len : OUT Natural)
 
-  -- Convert a message from string to binary
+    WITH Pre => Self /= Uninitialized;
 
-  FUNCTION ToPacket(s : String) RETURN Packet;
+  -- Dump contents of a packet in hexadecimal form.
+
+  PROCEDURE Dump(msg : Packet; len : Positive)
+
+    WITH Pre => len <= Packet'Length;
+
+  -- Convert a message from binary to string.
+
+  FUNCTION ToString(p : Packet; len : Positive) RETURN String
+
+    WITH Pre => len <= Packet'Length;
+
+  -- Convert a message from string to binary.
+
+  FUNCTION ToPacket(s : String) RETURN Packet
+
+    WITH Pre => s'Length > 0 AND s'Length <= Packet'Length;
 
 PRIVATE
 
@@ -96,7 +119,9 @@ PRIVATE
 
   -- Send AT command string to WIO-E5
 
-  PROCEDURE SendATCommand(Self : DeviceClass; cmd : String);
+  PROCEDURE SendATCommand(Self : DeviceClass; cmd : String)
+
+    WITH Pre => Self /= Uninitialized AND cmd'Length > 0;
 
   -- Send AT command string to WIO-E5 expecting a response string
 
@@ -104,7 +129,9 @@ PRIVATE
    (Self    : DeviceClass;
     cmd     : String;
     resp    : String;
-    timeout : Duration := DefaultTimeout);
+    timeout : Duration := DefaultTimeout)
+
+    WITH Pre => Self /= Uninitialized AND cmd'Length > 0 AND resp'Length > 0;
 
   -- Send AT command string to WIO-E5 expecting a response string
 
@@ -112,19 +139,23 @@ PRIVATE
    (Self    : DeviceClass;
     cmd     : String;
     resp    : GNAT.Regpat.Pattern_Matcher;
-    timeout : Duration := DefaultTimeout);
+    timeout : Duration := DefaultTimeout)
+
+    WITH Pre => Self /= Uninitialized AND cmd'Length > 0;
 
   -- Get response string from WIO-E5
 
   FUNCTION GetATResponse
    (Self    : DeviceClass;
-    timeout : Duration := DefaultTimeout) RETURN String;
+    timeout : Duration := DefaultTimeout) RETURN String
+
+   WITH Pre => Self /= Uninitialized;
 
   -- Define a background task for handling Peer to Peer communication events
 
   TASK TYPE P2P_Task IS
     ENTRY Initialize(dev : DeviceClass);
-    ENTRY Destroy;
+    ENTRY Finalize;
   END P2P_Task;
 
   TYPE P2P_TaskAccess IS ACCESS P2P_Task;
@@ -149,5 +180,7 @@ PRIVATE
     txqueue  : P2P_Queue_Access   := NULL;
     response : P2P_TaskAccess     := NULL;
   END RECORD;
+
+  Uninitialized : CONSTANT DeviceClass := DeviceClass'(-1, NULL, NULL, NULL);
 
 END WIO_E5;

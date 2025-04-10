@@ -360,10 +360,11 @@ PACKAGE BODY WIO_E5 IS
 
     WHILE active LOOP
       SELECT
-        ACCEPT Destroy DO
-          active := False;
-          Logging.libsimpleio.Note("Terminating response handler task");
-        END Destroy;
+        WHEN mydev.txqueue.Current_Use = 0 AND NOT inxmt =>
+          ACCEPT Finalize DO
+            active := False;
+            Logging.libsimpleio.Note("Terminating response handler task");
+          END Finalize;
       ELSE
 
         -- Check for queued outbound packets
@@ -379,9 +380,9 @@ PACKAGE BODY WIO_E5 IS
     END LOOP;
   END P2P_Task;
 
-  -- Begin Peer to Peer mode
+  -- Begin Peer to Peer mode.
 
-  PROCEDURE P2P_Startup
+  PROCEDURE P2P_Begin
    (Self       : IN OUT DeviceClass;
     freqmhz    : Positive;
     spread     : SpreadingFactors := SF7;
@@ -432,31 +433,31 @@ PACKAGE BODY WIO_E5 IS
 
     Self.SendATCommand("AT+TEST=?");
     DELAY DefaultTimeout;
-  END P2P_Startup;
+  END P2P_Begin;
 
-  -- End Peer to Peer mode
+  -- End Peer to Peer mode.
 
-  PROCEDURE P2P_Shutdown(Self : DeviceClass) IS
+  PROCEDURE P2P_End(Self : DeviceClass) IS
 
   BEGIN
-    ABORT Self.response.ALL;
-  END P2P_Shutdown;
+    Self.response.Finalize;
+  END P2P_End;
 
-  -- Send a text message
+  -- Send a text message, which cannot be empty.
 
-  PROCEDURE P2P_Send(Self : DeviceClass; msg : String) IS
-
+  PROCEDURE P2P_Send(Self : DeviceClass; s : String) IS
+  
     item : P2P_Queue_Item;
 
   BEGIN
-    item.msg := ToPacket(msg);
-    item.len := msg'Length;
+    item.msg := ToPacket(s);
+    item.len := s'Length;
     Self.txqueue.Enqueue(item);
   END P2P_Send;
 
-  -- Send a binary message
+  -- Send a binary message, which cannot be empty.
 
-  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet; len : Natural) IS
+  PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet; len : Positive) IS
 
     item : P2P_Queue_Item;
 
@@ -466,7 +467,8 @@ PACKAGE BODY WIO_E5 IS
     Self.txqueue.Enqueue(item);
   END P2P_Send;
 
-  -- Receive a binary message
+  -- Receive a binary message, which cannot be empty.
+  -- Zero length indicates no messages are available.
 
   PROCEDURE P2P_Receive(Self : DeviceClass; msg : OUT Packet; len : OUT Natural) IS
 
@@ -482,14 +484,11 @@ PACKAGE BODY WIO_E5 IS
     END SELECT;
   END P2P_Receive;
 
-  PROCEDURE Dump(msg : Packet; len : Natural) IS
+  -- Dump contents of a packet in hexadecimal form.
+
+  PROCEDURE Dump(msg : Packet; len : Positive) IS
 
   BEGIN
-    IF len = 0 THEN
-      Put_Line("Packet: <empty>");
-      RETURN;
-    END IF;
-
     Put("Packet:");
 
     FOR i IN 1 .. len LOOP
@@ -501,9 +500,9 @@ PACKAGE BODY WIO_E5 IS
     New_Line;
   END Dump;
 
-  -- Convert from binary to string
+  -- Convert a message from binary to string.
 
-  FUNCTION ToString(p : Packet; len : Natural) RETURN String IS
+  FUNCTION ToString(p : Packet; len : Positive) RETURN String IS
 
   BEGIN
     DECLARE
@@ -517,7 +516,7 @@ PACKAGE BODY WIO_E5 IS
     END;
   END ToString;
 
-  -- Convert from string to binary
+  -- Convert a message from string to binary.
 
   FUNCTION ToPacket(s : String) RETURN Packet IS
 
