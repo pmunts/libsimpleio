@@ -1,4 +1,4 @@
--- Seeed Studio WIO-E5 LoRa Transceiver Device Driver
+-- Seeed Studio WIO-E5 LoRa Transceiver Peer to Peer Support
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -112,8 +112,6 @@ PACKAGE WIO_E5.P2P IS
     WITH Pre => s'Length > 0 AND s'Length <= Packet'Length;
 
 PRIVATE
-
-  hexchars       : CONSTANT ARRAY (0 .. 15) OF Character := "0123456789ABCDEF";
 
   -- Define a background task for handling Peer to Peer communication events
 

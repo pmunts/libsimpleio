@@ -1,3 +1,4 @@
+-- Seeed Studio WIO-E5 LoRa Transceiver Peer to Peer Support
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -31,6 +32,8 @@ WITH Logging.libsimpleio;
 USE TYPE Ada.Containers.Count_Type;
 
 PACKAGE BODY WIO_E5.P2P IS
+
+  hexchars : CONSTANT ARRAY (0 .. 15) OF Character := "0123456789ABCDEF";
 
   FUNCTION Trim(Source : String; Side : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
