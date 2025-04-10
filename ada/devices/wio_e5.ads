@@ -20,9 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Containers.Synchronized_Queue_Interfaces;
-WITH Ada.Containers.Bounded_Synchronized_Queues;
-WITH GNAT.Regpat;
+PRIVATE WITH Ada.Containers.Synchronized_Queue_Interfaces;
+PRIVATE WITH Ada.Containers.Bounded_Synchronized_Queues;
+PRIVATE WITH GNAT.Regpat;
 
 PACKAGE WIO_E5 IS
 
@@ -120,32 +120,34 @@ PRIVATE
    (Self    : DeviceClass;
     timeout : Duration := DefaultTimeout) RETURN String;
 
-  -- Define background task for handling response messages
+  -- Define a background task for handling Peer to Peer communication events
 
-  TASK TYPE ResponseTask IS
+  TASK TYPE P2P_Task IS
     ENTRY Initialize(dev : DeviceClass);
     ENTRY Destroy;
-  END ResponseTask;
+  END P2P_Task;
 
-  TYPE ResponseTaskAccess IS ACCESS ResponseTask;
+  TYPE P2P_TaskAccess IS ACCESS P2P_Task;
 
   -- Event queue definitions
 
-  TYPE Queue_Item IS RECORD
+  TYPE P2P_Queue_Item IS RECORD
     msg : Packet;
     len : Natural;
   END RECORD;
 
-  PACKAGE Queue_Interface IS NEW Ada.Containers.Synchronized_Queue_Interfaces(Queue_Item);
-  PACKAGE Queue_Package   IS NEW Ada.Containers.Bounded_Synchronized_Queues(Queue_Interface, 100);
+  PACKAGE P2P_Queue_Interface IS NEW Ada.Containers.Synchronized_Queue_Interfaces(P2P_Queue_Item);
+  PACKAGE P2P_Queue_Package   IS NEW Ada.Containers.Bounded_Synchronized_Queues(P2P_Queue_Interface, 100);
 
-  TYPE Queue_Access IS ACCESS Queue_Package.Queue;
+  TYPE P2P_Queue_Access IS ACCESS P2P_Queue_Package.Queue;
+
+  -- WIO-E5 device class
 
   TYPE DeviceClass IS TAGGED RECORD
     fd       : Integer            := -1;
-    rxqueue  : Queue_Access       := NULL;
-    txqueue  : Queue_Access       := NULL;
-    response : ResponseTaskAccess := NULL;
+    rxqueue  : P2P_Queue_Access   := NULL;
+    txqueue  : P2P_Queue_Access   := NULL;
+    response : P2P_TaskAccess     := NULL;
   END RECORD;
 
 END WIO_E5;

@@ -167,7 +167,7 @@ PACKAGE BODY WIO_E5 IS
       Ada.Strings.Maps.Constants.Control_Set);
   END GetATResponse;
 
-  TASK BODY ResponseTask IS
+  TASK BODY P2P_Task IS
 
     mydev  : DeviceClass;
     myfd   : Integer           := -1;
@@ -191,7 +191,7 @@ PACKAGE BODY WIO_E5 IS
 
     PROCEDURE PopTxQueue IS
 
-      item : Queue_Item;
+      item : P2P_Queue_Item;
 
     BEGIN
       mydev.txqueue.Dequeue(item);
@@ -215,7 +215,7 @@ PACKAGE BODY WIO_E5 IS
 
     PROCEDURE PushRxQueue(s : String) IS
 
-      item : Queue_Item;
+      item : P2P_Queue_Item;
 
     BEGIN
       item.len := (s'Length - 12)/2;
@@ -377,7 +377,7 @@ PACKAGE BODY WIO_E5 IS
         ProcessSerialPortRcv;
       END SELECT;
     END LOOP;
-  END ResponseTask;
+  END P2P_Task;
 
   -- Begin Peer to Peer mode
 
@@ -420,12 +420,12 @@ PACKAGE BODY WIO_E5 IS
   
     -- Create the receive and transmit packet queues
 
-    Self.rxqueue  := NEW Queue_Package.Queue;
-    Self.txqueue  := NEW Queue_Package.Queue;
+    Self.rxqueue  := NEW P2P_Queue_Package.Queue;
+    Self.txqueue  := NEW P2P_Queue_Package.Queue;
 
     -- Start the response message handler task
 
-    Self.response := NEW ResponseTask;
+    Self.response := NEW P2P_Task;
     Self.response.Initialize(Self);
 
     -- Query RF configuration for the log
@@ -446,7 +446,7 @@ PACKAGE BODY WIO_E5 IS
 
   PROCEDURE P2P_Send(Self : DeviceClass; msg : String) IS
 
-    item : Queue_Item;
+    item : P2P_Queue_Item;
 
   BEGIN
     item.msg := ToPacket(msg);
@@ -458,7 +458,7 @@ PACKAGE BODY WIO_E5 IS
 
   PROCEDURE P2P_Send(Self : DeviceClass; msg : Packet; len : Natural) IS
 
-    item : Queue_Item;
+    item : P2P_Queue_Item;
 
   BEGIN
     item.msg := msg;
@@ -470,7 +470,7 @@ PACKAGE BODY WIO_E5 IS
 
   PROCEDURE P2P_Receive(Self : DeviceClass; msg : OUT Packet; len : OUT Natural) IS
 
-    item : Queue_Item;
+    item : P2P_Queue_Item;
 
   BEGIN
     SELECT
