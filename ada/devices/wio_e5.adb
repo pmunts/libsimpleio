@@ -1,3 +1,4 @@
+-- Seeed Studio WIO-E5 LoRa Transceiver Device Driver
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
