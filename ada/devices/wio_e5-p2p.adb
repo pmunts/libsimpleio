@@ -57,8 +57,6 @@ PACKAGE BODY WIO_E5.P2P IS
     portname : String;
     baudrate : Positive := 115200) IS
 
-    err : Integer;
-
   BEGIN
     OpenSerialPort(portname, baudrate, Self.fd);
 
@@ -316,7 +314,7 @@ PACKAGE BODY WIO_E5.P2P IS
     -- Start receive mode
 
     Self.SendATCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
-  
+
     -- Pass Self to the background task
 
     Self.response.Initialize(Self);
@@ -338,7 +336,7 @@ PACKAGE BODY WIO_E5.P2P IS
   -- Send a text message, which cannot be empty.
 
   PROCEDURE Send(Self : DeviceSubclass; s : String) IS
-  
+
     item : Queue_Item;
 
   BEGIN
