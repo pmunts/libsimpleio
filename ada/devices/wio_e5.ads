@@ -32,8 +32,6 @@ PACKAGE WIO_E5 IS
   TYPE SpreadingFactors IS (SF7, SF8, SF9, SF10, SF11, SF12);
   TYPE Bandwidths       IS (BW125K, BW250K, BW500K);
 
-  Uninitialized  : CONSTANT DeviceClass;
-
 PRIVATE
 
   DefaultTimeout : CONSTANT Duration := 0.02;
@@ -51,7 +49,7 @@ PRIVATE
 
   PROCEDURE SendATCommand(Self : DeviceClass; cmd : String)
 
-    WITH Pre => Self /= Uninitialized AND cmd'Length > 0;
+    WITH Pre => cmd'Length > 0;
 
   -- Send AT command string to WIO-E5 expecting a response string
 
@@ -61,7 +59,7 @@ PRIVATE
     resp    : String;
     timeout : Duration := DefaultTimeout)
 
-    WITH Pre => Self /= Uninitialized AND cmd'Length > 0 AND resp'Length > 0;
+    WITH Pre => cmd'Length > 0 AND resp'Length > 0;
 
   -- Send AT command string to WIO-E5 expecting a response string
 
@@ -71,22 +69,18 @@ PRIVATE
     resp    : GNAT.Regpat.Pattern_Matcher;
     timeout : Duration := DefaultTimeout)
 
-    WITH Pre => Self /= Uninitialized AND cmd'Length > 0;
+    WITH Pre => cmd'Length > 0;
 
   -- Get response string from WIO-E5
 
   FUNCTION GetATResponse
    (Self    : DeviceClass;
-    timeout : Duration := DefaultTimeout) RETURN String
-
-   WITH Pre => Self /= Uninitialized;
+    timeout : Duration := DefaultTimeout) RETURN String;
 
   -- WIO-E5 device class
 
   TYPE DeviceClass IS TAGGED RECORD
     fd : Integer := -1;
   END RECORD;
-
-  Uninitialized : CONSTANT DeviceClass := DeviceClass'(fd => -1);
 
 END WIO_E5;
