@@ -37,7 +37,9 @@ GENERIC
   -- is defined in any LoRa specification I have read and may not interoperate
   -- with any other RF chipset.  YMMV.
 
-  MaxPayloadSize : Positive;
+  MaxPayloadSize : Positive; -- bytes
+
+  MaxQueueSize   : Positive := 10; -- elements
 
 PACKAGE WIO_E5.P2P IS
 
@@ -129,6 +131,8 @@ PACKAGE WIO_E5.P2P IS
 
 PRIVATE
 
+  USE Ada.Containers;
+
   -- Define a background task for handling Peer to Peer communication events
 
   TASK TYPE BackgroundTask IS
@@ -145,8 +149,8 @@ PRIVATE
     len : Natural;
   END RECORD;
 
-  PACKAGE Queue_Interface IS NEW Ada.Containers.Synchronized_Queue_Interfaces(Queue_Item);
-  PACKAGE Queue_Package   IS NEW Ada.Containers.Bounded_Synchronized_Queues(Queue_Interface, 100);
+  PACKAGE Queue_Interface IS NEW Synchronized_Queue_Interfaces(Queue_Item);
+  PACKAGE Queue_Package   IS NEW Bounded_Synchronized_Queues(Queue_Interface, Count_Type(MaxQueueSize));
 
   TYPE Queue_Access IS ACCESS Queue_Package.Queue;
 
