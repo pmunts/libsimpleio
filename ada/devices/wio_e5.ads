@@ -1,4 +1,7 @@
--- Seeed Studio WIO-E5 LoRa Transceiver Device Driver
+-- Seeed Studio WIO-E5 LoRa Transceiver Low Level Device Driver for
+-- child packages.  You cannot use this package on its own.
+--
+-- See also: https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
