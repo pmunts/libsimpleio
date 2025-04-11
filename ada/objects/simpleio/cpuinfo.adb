@@ -22,6 +22,7 @@
 
 WITH Ada.Strings.Fixed;
 
+WITH BeaglePlay;
 WITH OrangePiZero2W;
 
 PACKAGE BODY CPUInfo IS
@@ -55,7 +56,11 @@ PACKAGE BODY CPUInfo IS
 
     -- Current (more or less) 64-bit models
 
-    IF Ada.Strings.Fixed.Index(name, OrangePiZero2W.ModelName) > 0 THEN
+    IF Ada.Strings.Fixed.Index(name, Standard.BeaglePlay.ModelName) > 0 THEN
+      RETURN AM6254;
+    END IF;
+
+    IF Ada.Strings.Fixed.Index(name, Standard.OrangePiZero2W.ModelName) > 0 THEN
       RETURN H618;
     END IF;
 
@@ -91,5 +96,21 @@ PACKAGE BODY CPUInfo IS
 
     RETURN UNKNOWN;
   END Kind;
+
+  -- Fetch the platform
+
+  FUNCTION Platform RETURN Platforms IS
+
+  BEGIN
+    IF Kind = AM6254 THEN
+      RETURN BeaglePlay;
+    ELSIF Kind = H618 THEN
+      RETURN OrangePiZero2W;
+    ELSIF Kind >= BCM2708 AND Kind <= BCM2712 THEN
+      RETURN RaspberryPi;
+    ELSE
+      RETURN UNKNOWN;
+    END IF;
+  END Platform;
 
 END CPUInfo;

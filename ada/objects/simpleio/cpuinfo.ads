@@ -35,6 +35,7 @@ PACKAGE CPUInfo IS
     BCM2711,  -- Raspberry Pi 4
     BCM2712,  -- Raspberry Pi 5
     H618,     -- Orange Pi Zero 2W
+    AM6254,   -- BeaglePlay
     UNKNOWN);
 
   -- CPU kind synonyms
@@ -45,6 +46,12 @@ PACKAGE CPUInfo IS
   BCM2837B0 : CONSTANT Kinds := BCM2710; -- Raspberry Pi 3+
   RP3A0     : CONSTANT Kinds := BCM2710; -- Raspberry Pi Zero 2 W
 
+  TYPE Platforms IS
+   (BeaglePlay,
+    OrangePiZero2W,
+    RaspberryPi,
+    UNKNOWN);
+
   -- Fetch the CPU device tree model name
 
   FUNCTION ModelName RETURN String RENAMES libLinux.ModelName;
@@ -52,5 +59,9 @@ PACKAGE CPUInfo IS
   -- Fetch the CPU kind
 
   FUNCTION Kind RETURN Kinds;
+
+  -- Fetch the platform
+
+  FUNCTION Platform RETURN Platforms;
 
 END CPUInfo;
