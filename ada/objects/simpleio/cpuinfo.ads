@@ -29,13 +29,13 @@ PACKAGE CPUInfo IS
   -- Known CPU kinds
 
   TYPE Kinds IS
-   (BCM2708,  -- Raspberry Pi 1
+   (AM6254,   -- BeaglePlay
+    H618,     -- Orange Pi Zero 2W
+    BCM2708,  -- Raspberry Pi 1
     BCM2709,  -- Raspberry Pi 2
     BCM2710,  -- Raspberry Pi 3
     BCM2711,  -- Raspberry Pi 4
     BCM2712,  -- Raspberry Pi 5
-    H618,     -- Orange Pi Zero 2W
-    AM6254,   -- BeaglePlay
     UNKNOWN);
 
   -- CPU kind synonyms

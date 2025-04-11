@@ -99,18 +99,20 @@ PACKAGE BODY CPUInfo IS
 
   -- Fetch the platform
 
+  platform_table : CONSTANT ARRAY (Kinds) OF Platforms :=
+   (BeaglePlay,
+    OrangePiZero2W,
+    RaspberryPi,
+    RaspberryPi,
+    RaspberryPi,
+    RaspberryPi,
+    RaspberryPi,
+    UNKNOWN);
+
   FUNCTION Platform RETURN Platforms IS
 
   BEGIN
-    IF Kind = AM6254 THEN
-      RETURN BeaglePlay;
-    ELSIF Kind = H618 THEN
-      RETURN OrangePiZero2W;
-    ELSIF Kind >= BCM2708 AND Kind <= BCM2712 THEN
-      RETURN RaspberryPi;
-    ELSE
-      RETURN UNKNOWN;
-    END IF;
+    RETURN platform_table(Kind);
   END Platform;
 
 END CPUInfo;
