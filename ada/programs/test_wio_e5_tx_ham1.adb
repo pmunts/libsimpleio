@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH WIO_E5.Ham1;
 
-PROCEDURE test_wio_e5_tx IS
+PROCEDURE test_wio_e5_tx_ham1 IS
 
   PACKAGE LoRaHam IS NEW WIO_E5.Ham1(64); USE LoRaHam;
 
@@ -40,4 +40,4 @@ BEGIN
   dev.Send("This is a test #2", 66);
   dev.Send("This is a test #3", 67);
   dev.Finish;
-END test_wio_e5_tx;
+END test_wio_e5_tx_ham1;
