@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH WIO_E5.P2P;
 
-PROCEDURE test_wio_e5_tx IS
+PROCEDURE test_wio_e5_tx_p2p IS
 
   PACKAGE LoRaP2P IS NEW WIO_E5.P2P(64); USE LoRaP2P;
 
@@ -40,4 +40,4 @@ BEGIN
   dev.Send("This is a test #2");
   dev.Send("This is a test #3");
   dev.Finish;
-END test_wio_e5_tx;
+END test_wio_e5_tx_p2p;
