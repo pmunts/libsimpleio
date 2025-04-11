@@ -40,6 +40,7 @@ BEGIN
     Put_Line("The CPU model name is " & name);
   END IF;
 
-    Put_Line("The CPU kind       is " & CPUINFO.Kinds'Image(CPUInfo.Kind));
+  Put_Line("The CPU kind is       " & CPUInfo.Kinds'Image(CPUInfo.Kind));
+  Put_Line("The platform is       " & CPUInfo.Platforms'Image(CPUInfo.Platform));
   New_Line;
 END test_cpuinfo;
