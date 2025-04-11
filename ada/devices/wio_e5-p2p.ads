@@ -161,9 +161,9 @@ PRIVATE
   -- WIO-E5 device class
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH RECORD
-    rxqueue  : Queue_Access   := NULL;
-    txqueue  : Queue_Access   := NULL;
-    response : TaskAccess     := NULL;
+    rxqueue  : Queue_Access;
+    txqueue  : Queue_Access;
+    response : TaskAccess;
   END RECORD;
 
   Uninitialized : CONSTANT DeviceSubclass := DeviceSubclass'(-1, NULL, NULL, NULL);
