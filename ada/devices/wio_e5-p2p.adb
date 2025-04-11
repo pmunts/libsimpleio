@@ -37,7 +37,23 @@ USE TYPE Ada.Containers.Count_Type;
 
 PACKAGE BODY WIO_E5.P2P IS
 
-  hexchars : CONSTANT ARRAY (0 .. 15) OF Character := "0123456789ABCDEF";
+  -- Convert a hex string to a byte
+
+  FUNCTION ToByte(s : string) RETURN Byte IS
+
+  BEGIN
+    RETURN Byte'Value("16#" & s & "#");
+  END;
+
+  -- Convert a byte to hex string
+
+  FUNCTION ToHex(b : Byte) RETURN String IS
+
+    hexchars : CONSTANT ARRAY (0 .. 15) OF Character := "0123456789ABCDEF";
+
+  BEGIN
+    RETURN hexchars(Natural(b / 16)) & hexchars(Natural(b MOD 16));
+  END;
 
   FUNCTION Trim(Source : String; Side : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
@@ -106,8 +122,7 @@ PACKAGE BODY WIO_E5.P2P IS
         cmd(cmd'Length) := ASCII.Quotation;
 
         FOR i IN 1 .. item.len LOOP
-          cmd(17 + i*2) := hexchars(Natural(item.msg(i) / 16));
-          cmd(18 + i*2) := hexchars(Natural(item.msg(i) MOD 16));
+          cmd(17 + i*2 .. 18 + i*2) := ToHex(item.msg(i));
         END LOOP;
 
         mydev.SendATCommand(cmd);
@@ -123,7 +138,7 @@ PACKAGE BODY WIO_E5.P2P IS
       item.len := (s'Length - 12)/2;
 
       FOR i IN 1 .. item.len LOOP
-        item.msg(i) := Byte'Value("16#" & s(10+i*2 .. 11+i*2) & "#");
+        item.msg(i) := ToByte(s(10+i*2 .. 11+i*2));
       END LOOP;
 
       mydev.rxqueue.Enqueue(item);
@@ -387,8 +402,7 @@ PACKAGE BODY WIO_E5.P2P IS
 
     FOR i IN 1 .. len LOOP
       Put(' ');
-      Put(hexchars(Natural(msg(i) / 16)));
-      Put(hexchars(Natural(msg(i) MOD 16)));
+      Put(ToHex(msg(i)));
     END LOOP;
 
     New_Line;
