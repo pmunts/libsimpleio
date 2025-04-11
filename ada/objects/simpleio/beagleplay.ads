@@ -26,6 +26,8 @@ WITH Device;
 
 PACKAGE BeaglePlay IS
 
+  ModelName : CONSTANT String := "BeagleBoard.org BeaglePlay"; -- From /proc/device-tree/model
+
   MuntsOS : CONSTANT Boolean :=
     Ada.Environment_Variables.Value("OSNAME", "undefined") = "MuntsOS";
 
