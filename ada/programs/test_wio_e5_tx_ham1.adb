@@ -29,6 +29,10 @@ PROCEDURE test_wio_e5_tx_ham1 IS
   PACKAGE LoRaHam IS NEW WIO_E5.Ham1(64); USE LoRaHam;
 
   dev : Device := Create("/dev/ttyAMA0", "N7AHL   ", 65);
+  msg : Packet;
+  len : Natural := 0;
+  src : Byte;
+  dst : Byte;
 
 BEGIN
   New_Line;
@@ -36,8 +40,21 @@ BEGIN
   New_Line;
 
   dev.Start(915);
-  dev.Send("This is a test #1", 0);
-  dev.Send("This is a test #2", 66);
-  dev.Send("This is a test #3", 67);
+
+  FOR i IN 1 .. 10 LOOP
+    dev.Send("This is test" & i'Image, 66);
+
+    DELAY 0.3;
+
+    dev.Receive(msg, len, src, dst);
+
+    IF len > 0 THEN
+      Put_Line("Received => """ & ToString(msg, len) & """ from node" & src'Image &
+        " to node" & dst'Image);
+    END IF;
+
+    DELAY 0.3;
+  END LOOP;
+
   dev.Finish;
 END test_wio_e5_tx_ham1;

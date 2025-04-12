@@ -29,6 +29,8 @@ PROCEDURE test_wio_e5_tx_p2p IS
   PACKAGE LoRaP2P IS NEW WIO_E5.P2P(64); USE LoRaP2P;
 
   dev : Device := Create("/dev/ttyAMA0");
+  msg : Packet;
+  len : Natural := 0;
 
 BEGIN
   New_Line;
@@ -36,8 +38,20 @@ BEGIN
   New_Line;
 
   dev.Start(915);
-  dev.Send("This is a test #1");
-  dev.Send("This is a test #2");
-  dev.Send("This is a test #3");
+
+  FOR i IN 1 .. 10 LOOP
+    dev.Send("This is test" & i'Image);
+
+    DELAY 0.3;
+
+    dev.Receive(msg, len);
+
+    IF len > 0 THEN
+      Put_Line("Received => """ & ToString(msg, len));
+    END IF;
+
+    DELAY 0.3;
+  END LOOP;
+
   dev.Finish;
 END test_wio_e5_tx_p2p;
