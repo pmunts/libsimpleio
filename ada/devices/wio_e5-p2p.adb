@@ -90,14 +90,14 @@ PACKAGE BODY WIO_E5.P2P IS
     mydev  : DeviceSubclass;
     myfd   : Integer           := -1;
     active : Boolean           := False;
+    inrcv  : Boolean           := False;
     inxmt  : Boolean           := False;
     buf    : String(1 .. 1024) := (OTHERS => ASCII.NUL);
     buflen : Natural           := 0;
 
     resp_cfg : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RFCFG.*");
-    resp_ign : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT|RXLRPKT|LEN:");
+    resp_ign : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT|LEN:");
     resp_rcv : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RX [""][0-9a-fA-F]*[""]");
-    resp_xmt : CONSTANT String := "+TEST: TX DONE";
 
     PROCEDURE BufError(msg : String) IS
 
@@ -125,8 +125,8 @@ PACKAGE BODY WIO_E5.P2P IS
           cmd(17 + i*2 .. 18 + i*2) := ToHex(item.msg(i));
         END LOOP;
 
-        mydev.SendATCommand(cmd);
         inxmt := True;
+        mydev.SendATCommand(cmd);
       END;
     END;
 
@@ -164,15 +164,17 @@ PACKAGE BODY WIO_E5.P2P IS
 
       -- Check for transmit done
 
-      IF s = resp_xmt THEN
-        IF mydev.txqueue.Current_Use > 0 THEN
-          -- Pop another transmit packet
-          PopTxQueue;
-        ELSE
-          -- Restart receive mode
-          inxmt := False;
-          mydev.SendATCommand("AT+TEST=RXLRPKT");
-        END IF;
+      IF s = "+TEST: TX DONE" THEN
+        inxmt := False;
+        inrcv := True;
+        mydev.SendATCommand("AT+TEST=RXLRPKT");
+        RETURN;
+      END IF;
+
+      -- Check for receiver started
+
+      IF s = "+TEST: RXLRPKT" THEN
+        inrcv := False;
         RETURN;
       END IF;
 
@@ -277,7 +279,7 @@ PACKAGE BODY WIO_E5.P2P IS
 
     WHILE active LOOP
       SELECT
-        WHEN mydev.txqueue.Current_Use = 0 AND NOT inxmt =>
+        WHEN mydev.txqueue.Current_Use = 0 AND NOT inrcv AND NOT inxmt =>
           ACCEPT Finalize DO
             active := False;
             Logging.libsimpleio.Note("Terminating response handler task");
@@ -286,7 +288,7 @@ PACKAGE BODY WIO_E5.P2P IS
 
         -- Check for queued outbound packets
 
-        IF mydev.txqueue.Current_Use > 0 AND NOT inxmt THEN
+        IF mydev.txqueue.Current_Use > 0 AND NOT inrcv AND NOT inxmt THEN
           PopTxQueue;
         END IF;
 
