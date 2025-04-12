@@ -47,8 +47,7 @@ BEGIN
     IF len > 0 THEN
       Put_Line("Received => """ & ToString(msg, len) & """ from node" & src'Image &
         " to node" & dst'Image);
+      dev.Send("ACK", src);
     END IF;
-
-    DELAY 0.1;
   END LOOP;
 END test_wio_e5_rx_ham1;
