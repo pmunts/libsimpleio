@@ -44,7 +44,7 @@ BEGIN
 
     IF len > 0 THEN
       Put_Line("Received => " & ToString(msg, len));
-      dev.Send("ACK", src);
+      dev.Send("ACK");
     END IF;
   END LOOP;
 END test_wio_e5_rx_p2p;
