@@ -34,6 +34,7 @@ PACKAGE WIO_E5 IS
   TYPE DeviceClass      IS TAGGED PRIVATE;
   TYPE SpreadingFactors IS (SF7, SF8, SF9, SF10, SF11, SF12);
   TYPE Bandwidths       IS (BW125K, BW250K, BW500K);
+  TYPE Byte             IS MOD 256;
 
 PRIVATE
 
