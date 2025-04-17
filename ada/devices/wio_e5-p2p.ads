@@ -47,8 +47,6 @@ GENERIC
 
 PACKAGE WIO_E5.P2P IS
 
-  Error : EXCEPTION;
-
   -- Type definitions
 
   TYPE DeviceSubclass   IS NEW DeviceClass WITH PRIVATE;

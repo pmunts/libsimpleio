@@ -51,8 +51,6 @@ GENERIC
 
 PACKAGE WIO_E5.Ham1 IS
 
-  Error : EXCEPTION;
-
   -- Type definitions
 
   TYPE DeviceSubclass   IS NEW DeviceClass WITH PRIVATE;
