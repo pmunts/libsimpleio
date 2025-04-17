@@ -53,12 +53,9 @@ PACKAGE WIO_E5.Ham1 IS
 
   -- Type definitions
 
-  TYPE DeviceSubclass   IS NEW DeviceClass WITH PRIVATE;
-  TYPE Device           IS ACCESS ALL DeviceSubclass'Class;
-  TYPE SpreadingFactors IS (SF7, SF8, SF9, SF10, SF11, SF12);
-  TYPE Bandwidths       IS (BW125K, BW250K, BW500K);
-  TYPE Byte             IS MOD 256;
-  TYPE Packet           IS ARRAY (1 .. MaxPayloadSize) OF Byte;
+  TYPE DeviceSubclass IS NEW DeviceClass WITH PRIVATE;
+  TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
+  TYPE Packet         IS ARRAY (1 .. MaxPayloadSize) OF Byte;
 
   SUBTYPE NetworkID IS String(1 .. 8); -- e.g. callsign
 
