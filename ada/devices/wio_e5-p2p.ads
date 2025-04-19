@@ -55,7 +55,6 @@ PACKAGE WIO_E5.P2P IS
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH PRIVATE;
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
-  TYPE Frequency      IS DELTA 0.001 DIGITS 6;
   TYPE Packet         IS ARRAY (1 .. MaxPayloadSize) OF Byte;
 
   Uninitialized  : CONSTANT DeviceSubclass;
@@ -77,7 +76,7 @@ PACKAGE WIO_E5.P2P IS
 
     WITH Pre => portname'Length > 0;
 
-  -- End Peer to Peer mode.
+  -- Terminate background task
 
   PROCEDURE Shutdown(Self : DeviceSubclass)
 

@@ -333,7 +333,7 @@ PACKAGE BODY WIO_E5.P2P IS
     END LOOP;
   END BackgroundTask;
 
-  -- End Peer to Peer mode.
+  -- Terminate background task
 
   PROCEDURE Shutdown(Self : DeviceSubclass) IS
 
