@@ -38,11 +38,11 @@ PROJECT Default IS
      ("-O3",
       "-ffunction-sections",
       "-fdata-sections",
-      "-gnatVa",
       "-gnata",
       "-gnato1",
-      "-gnatwJ",
+      "-gnatVa",
       "-gnatwa",
+      "-gnatwJ",
       "-gnat2012"
      );
   END Compiler;
