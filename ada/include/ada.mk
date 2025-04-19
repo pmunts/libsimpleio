@@ -1,6 +1,6 @@
 # Makefile definitions for building GNAT Ada application programs
 
-# Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -90,7 +90,7 @@ endif
 
 # General toolchain definitions
 
-CFLAGS		+= -g -gnat2012
+CFLAGS		+= -g -gnata -gnat2012
 ADA_OBJ		?= $(shell pwd)/obj
 
 # Definitions for gnatmake

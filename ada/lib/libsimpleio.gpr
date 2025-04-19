@@ -1,6 +1,6 @@
 -- Project file for building the precompiled Ada package library
 
--- Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2021-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,9 +29,11 @@ LIBRARY PROJECT libsimpleio IS
    ("-O3",
     "-ffunction-sections",
     "-fdata-sections",
-    "-gnato1",
-    "-gnatwa",
     "-gnatVa",
+    "-gnata",
+    "-gnato1",
+    "-gnatwJ",
+    "-gnatwa",
     "-gnat2012"
    );
 
