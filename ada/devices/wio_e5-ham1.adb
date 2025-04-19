@@ -355,6 +355,10 @@ PACKAGE BODY WIO_E5.Ham1 IS
 
     -- Validate parameters
 
+    IF Packet'Length > 253 THEN
+      RAISE Error WITH "Invalid packet size setting";
+    END IF;
+
     IF SpreadingFactor < 7 OR SpreadingFactor > 12 THEN
       RAISE Error WITH "Invalid spreading factor setting";
     END IF;
