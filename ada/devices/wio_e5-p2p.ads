@@ -41,9 +41,13 @@ GENERIC
   -- is defined in any LoRa specification I have read and may not interoperate
   -- with any other RF chipset.  YMMV.
 
-  MaxPayloadSize : Positive; -- bytes
-
-  MaxQueueSize   : Positive := 10; -- elements
+  MaxPayloadSize  : Positive;                -- bytes
+  MaxQueueSize    : Positive         := 10;  -- elements
+  SpreadingFactor : SpreadingFactors := SF7;
+  Bandwidth       : Positive         := 500; -- kHz (125, 250, or 500)
+  TxPreamble      : Positive         := 12;  -- bits;
+  RxPreamble      : Positive         := 15;  -- bits;
+  TxPower         : Positive         := 14;  -- dBm;
 
 PACKAGE WIO_E5.P2P IS
 
@@ -51,6 +55,7 @@ PACKAGE WIO_E5.P2P IS
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH PRIVATE;
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
+  TYPE Frequency      IS DELTA 0.001 DIGITS 6;
   TYPE Packet         IS ARRAY (1 .. MaxPayloadSize) OF Byte;
 
   Uninitialized  : CONSTANT DeviceSubclass;
@@ -59,35 +64,22 @@ PACKAGE WIO_E5.P2P IS
 
   FUNCTION Create
    (portname : String;
-    baudrate : Positive := 115200) RETURN Device
-
-    WITH Pre => portname'Length > 0;
+    baudrate : Positive;
+    freqmhz  : Frequency) RETURN Device;
 
   -- Device instance initializer
 
   PROCEDURE Initialize
    (Self     : OUT DeviceSubclass;
     portname : String;
-    baudrate : Positive := 115200)
+    baudrate : Positive;
+    freqmhz  : Frequency)
 
     WITH Pre => portname'Length > 0;
 
-  -- Begin Peer to Peer mode.
-
-  PROCEDURE Start
-   (Self       : IN OUT DeviceSubclass;
-    freqmhz    : Positive;
-    spread     : SpreadingFactors := SF7;
-    bandwidth  : BandWidths       := BW500K;
-    txpreamble : Positive         := 12;
-    rxpreamble : Positive         := 15;
-    powerdbm   : Positive         := 14)
-
-    WITH Pre => Self /= Uninitialized;
-
   -- End Peer to Peer mode.
 
-  PROCEDURE Finish(Self : DeviceSubclass)
+  PROCEDURE Shutdown(Self : DeviceSubclass)
 
     WITH Pre => Self /= Uninitialized;
 
@@ -136,7 +128,7 @@ PRIVATE
 
   TASK TYPE BackgroundTask IS
     ENTRY Initialize(dev : DeviceSubclass);
-    ENTRY Finalize;
+    ENTRY Shutdown;
   END BackgroundTask;
 
   TYPE TaskAccess IS ACCESS BackgroundTask;

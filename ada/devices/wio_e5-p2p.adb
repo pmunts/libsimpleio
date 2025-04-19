@@ -61,12 +61,13 @@ PACKAGE BODY WIO_E5.P2P IS
 
   FUNCTION Create
    (portname : String;
-    baudrate : Positive := 115200) RETURN Device IS
+    baudrate : Positive;
+    freqmhz  : Frequency) RETURN Device IS
 
     dev : DeviceSubclass;
 
   BEGIN
-    Initialize(dev, portname, baudrate);
+    Initialize(dev, portname, baudrate, freqmhz);
     RETURN NEW DeviceSubclass'(dev);
   END Create;
 
@@ -75,7 +76,19 @@ PACKAGE BODY WIO_E5.P2P IS
   PROCEDURE Initialize
    (Self     : OUT DeviceSubclass;
     portname : String;
-    baudrate : Positive := 115200) IS
+    baudrate : Positive;
+    freqmhz  : Frequency) IS
+
+    config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
+                                     Trim(freqmhz'Image)          & "," &
+                                     Trim(SpreadingFactor'Image)  & "," &
+                                     Trim(Bandwidth'Image)        & "," &
+                                     Trim(TxPreamble'Image)       & "," &
+                                     Trim(RxPreamble'Image)       & "," &
+                                     Trim(TxPower'Image)          & "," &
+                                     "ON,OFF,OFF";
+
+    config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
 
   BEGIN
     OpenSerialPort(portname, baudrate, Self.fd);
@@ -83,6 +96,27 @@ PACKAGE BODY WIO_E5.P2P IS
     Self.rxqueue  := NEW Queue_Package.Queue;
     Self.txqueue  := NEW Queue_Package.Queue;
     Self.response := NEW BackgroundTask;
+
+    -- Enter test mode
+
+    Self.SendATCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
+
+    -- Configure RF parameters
+
+    Self.SendATCommand(config_cmd, config_resp, 0.15);
+
+    -- Start receive mode
+
+    Self.SendATCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
+
+    -- Pass Self to the background task
+
+    Self.response.Initialize(Self);
+
+    -- Query RF configuration for the log
+
+    Self.SendATCommand("AT+TEST=?");
+    DELAY DefaultTimeout;
   END Initialize;
 
   TASK BODY BackgroundTask IS
@@ -280,10 +314,10 @@ PACKAGE BODY WIO_E5.P2P IS
     WHILE active LOOP
       SELECT
         WHEN mydev.txqueue.Current_Use = 0 AND NOT inrcv AND NOT inxmt =>
-          ACCEPT Finalize DO
+          ACCEPT Shutdown DO
             active := False;
             Logging.libsimpleio.Note("Terminating response handler task");
-          END Finalize;
+          END Shutdown;
       ELSE
 
         -- Check for queued outbound packets
@@ -299,60 +333,13 @@ PACKAGE BODY WIO_E5.P2P IS
     END LOOP;
   END BackgroundTask;
 
-  -- Begin Peer to Peer mode.
-
-  PROCEDURE Start
-   (Self       : IN OUT DeviceSubclass;
-    freqmhz    : Positive;
-    spread     : SpreadingFactors := SF7;
-    bandwidth  : BandWidths       := BW500K;
-    txpreamble : Positive         := 12;
-    rxpreamble : Positive         := 15;
-    powerdbm   : Positive         := 14) IS
-
-    BWS   : CONSTANT ARRAY (Bandwidths) OF String(1 .. 3) := ("125", "250", "500");
-
-    config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
-                                     Trim(freqmhz'Image)     & "," &
-                                     Trim(spread'Image)      & "," &
-                                     Trim(BWS(bandwidth))    & "," &
-                                     Trim(txpreamble'Image)  & "," &
-                                     Trim(rxpreamble'Image)  & "," &
-                                     Trim(powerdbm'Image)    & "," &
-                                     "ON,OFF,OFF";
-
-    config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
-
-  BEGIN
-    -- Enter test mode
-
-    Self.SendATCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
-
-    -- Configure RF parameters
-
-    Self.SendATCommand(config_cmd, config_resp, 0.15);
-
-    -- Start receive mode
-
-    Self.SendATCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
-
-    -- Pass Self to the background task
-
-    Self.response.Initialize(Self);
-
-    -- Query RF configuration for the log
-
-    Self.SendATCommand("AT+TEST=?");
-    DELAY DefaultTimeout;
-  END Start;
-
   -- End Peer to Peer mode.
 
-  PROCEDURE Finish(Self : DeviceSubclass) IS
+  PROCEDURE Shutdown(Self : DeviceSubclass) IS
 
   BEGIN
-    Self.response.Finalize;
-  END Finish;
+    Self.response.Shutdown;
+  END Shutdown;
 
   -- Send a text message, which cannot be empty.
 

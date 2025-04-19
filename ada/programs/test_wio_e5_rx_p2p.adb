@@ -28,7 +28,7 @@ PROCEDURE test_wio_e5_rx_p2p IS
 
   PACKAGE LoRaP2P IS NEW WIO_E5.P2P(64); USE LoRaP2P;
 
-  dev : Device := Create("/dev/ttyAMA0");
+  dev : Device := Create("/dev/ttyAMA0", 115200, 915.0);
   msg : Packet;
   len : Natural;
 
@@ -36,8 +36,6 @@ BEGIN
   New_Line;
   Put_Line("WIO-E5 LoRa Transceiver Receive Test");
   New_Line;
-
-  dev.Start(915);
 
   LOOP
     dev.Receive(msg, len);
