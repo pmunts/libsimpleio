@@ -75,40 +75,6 @@ PACKAGE BODY WIO_E5.Ham1 IS
 
   FUNCTION Trim(Source : String; Side : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
-  -- Device object constructor
-
-  FUNCTION Create
-   (portname : String;
-    network  : NetworkID; -- aka callsign
-    node     : Byte;
-    baudrate : Positive := 115200) RETURN Device IS
-
-    dev : DeviceSubclass;
-
-  BEGIN
-    Initialize(dev, portname, network, node, baudrate);
-    RETURN NEW DeviceSubclass'(dev);
-  END Create;
-
-  -- Device instance initializer
-
-  PROCEDURE Initialize
-   (Self     : OUT DeviceSubclass;
-    portname : String;
-    network  : NetworkID; -- aka callsign
-    node     : Byte;
-    baudrate : Positive := 115200) IS
-
-  BEGIN
-    OpenSerialPort(portname, baudrate, Self.fd);
-
-    Self.network  := network;
-    Self.node     := node;
-    Self.rxqueue  := NEW Queue_Package.Queue;
-    Self.txqueue  := NEW Queue_Package.Queue;
-    Self.response := NEW BackgroundTask;
-  END Initialize;
-
   TASK BODY BackgroundTask IS
 
     mydev  : DeviceSubclass;
@@ -329,10 +295,10 @@ PACKAGE BODY WIO_E5.Ham1 IS
     WHILE active LOOP
       SELECT
         WHEN mydev.txqueue.Current_Use = 0 AND NOT inrcv AND NOT inxmt =>
-          ACCEPT Finalize DO
+          ACCEPT Shutdown DO
             active := False;
             Logging.libsimpleio.Note("Terminating response handler task");
-          END Finalize;
+          END Shutdown;
       ELSE
 
         -- Check for queued outbound packets
@@ -348,31 +314,67 @@ PACKAGE BODY WIO_E5.Ham1 IS
     END LOOP;
   END BackgroundTask;
 
-  -- Begin Peer to Peer mode.
+  -- Device object constructor
 
-  PROCEDURE Start
-   (Self       : IN OUT DeviceSubclass;
-    freqmhz    : Positive;
-    spread     : SpreadingFactors := SF7;
-    bandwidth  : BandWidths       := BW500K;
-    txpreamble : Positive         := 12;
-    rxpreamble : Positive         := 15;
-    powerdbm   : Positive         := 14) IS
+  FUNCTION Create
+   (portname : String;
+    baudrate : Positive;  -- bits per second
+    freqmhz  : Frequency; -- MHz e.g. 915.000
+    network  : NetworkID; -- aka callsign
+    node     : Byte) RETURN Device IS
 
-    BWS   : CONSTANT ARRAY (Bandwidths) OF String(1 .. 3) := ("125", "250", "500");
+    dev : DeviceSubclass;
+
+  BEGIN
+    Initialize(dev, portname, baudrate, freqmhz, network, node);
+    RETURN NEW DeviceSubclass'(dev);
+  END Create;
+
+  -- Device instance initializer
+
+  PROCEDURE Initialize
+   (Self     : OUT DeviceSubclass;
+    portname : String;
+    baudrate : Positive;  -- bits per second
+    freqmhz  : Frequency; -- MHz e.g. 915.000
+    network  : NetworkID; -- aka callsign
+    node     : Byte) IS
 
     config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
-                                     Trim(freqmhz'Image)     & "," &
-                                     Trim(spread'Image)      & "," &
-                                     Trim(BWS(bandwidth))    & "," &
-                                     Trim(txpreamble'Image)  & "," &
-                                     Trim(rxpreamble'Image)  & "," &
-                                     Trim(powerdbm'Image)    & "," &
+                                     Trim(freqmhz'Image)                 & "," &
+                                     "SF" & Trim(SpreadingFactor'Image)  & "," &
+                                     Trim(Bandwidth'Image)               & "," &
+                                     Trim(TxPreamble'Image)              & "," &
+                                     Trim(RxPreamble'Image)              & "," &
+                                     Trim(TxPower'Image)                 & "," &
                                      "ON,OFF,OFF";
 
     config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
 
   BEGIN
+
+    -- Validate parameters
+
+    IF SpreadingFactor < 7 OR SpreadingFactor > 12 THEN
+      RAISE Error WITH "Invalid spreading factor setting";
+    END IF;
+
+    IF Bandwidth /= 125 AND Bandwidth /= 250 AND Bandwidth /= 500 THEN
+      RAISE Error WITH "Invalid bandwidth setting";
+    END IF;
+
+    IF TxPower < -1 OR TxPower > 22 THEN
+      RAISE Error WITH "Invalid transmit power setting";
+    END IF;
+
+    OpenSerialPort(portname, baudrate, Self.fd);
+
+    Self.network  := network;
+    Self.node     := node;
+    Self.rxqueue  := NEW Queue_Package.Queue;
+    Self.txqueue  := NEW Queue_Package.Queue;
+    Self.response := NEW BackgroundTask;
+
     -- Enter test mode
 
     Self.SendATCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
@@ -393,15 +395,15 @@ PACKAGE BODY WIO_E5.Ham1 IS
 
     Self.SendATCommand("AT+TEST=?");
     DELAY DefaultTimeout;
-  END Start;
+  END Initialize;
 
-  -- End Peer to Peer mode.
+  -- Terminate background task
 
-  PROCEDURE Finish(Self : DeviceSubclass) IS
+  PROCEDURE Shutdown(Self : DeviceSubclass) IS
 
   BEGIN
-    Self.response.Finalize;
-  END Finish;
+    Self.response.Shutdown;
+  END Shutdown;
 
   -- Send a text message, which cannot be empty.
 

@@ -45,9 +45,13 @@ GENERIC
   -- is defined in any LoRa specification I have read and may not interoperate
   -- with any other RF chipset.  YMMV.
 
-  MaxPayloadSize : Positive; -- bytes
-
-  MaxQueueSize   : Positive := 10; -- elements
+  MaxPayloadSize  : Positive;        -- bytes
+  QueueSize       : Positive := 10;  -- elements
+  SpreadingFactor : Positive := 7;   -- (7, 8, 9, 10, 11, or 12)
+  Bandwidth       : Positive := 500; -- kHz (125, 250, or 500)
+  TxPreamble      : Positive := 12;  -- bits;
+  RxPreamble      : Positive := 15;  -- bits;
+  TxPower         : Positive := 20;  -- dBm;
 
 PACKAGE WIO_E5.Ham1 IS
 
@@ -65,9 +69,10 @@ PACKAGE WIO_E5.Ham1 IS
 
   FUNCTION Create
    (portname : String;
-    network  : NetworkID;
-    node     : Byte;
-    baudrate : Positive := 115200) RETURN Device
+    baudrate : Positive;  -- bits per second
+    freqmhz  : Frequency; -- MHz e.g. 915.000
+    network  : NetworkID; -- aka callsign
+    node     : Byte) RETURN Device
 
     WITH Pre => portname'Length > 0;
 
@@ -76,28 +81,16 @@ PACKAGE WIO_E5.Ham1 IS
   PROCEDURE Initialize
    (Self     : OUT DeviceSubclass;
     portname : String;
-    network  : NetworkID;
-    node     : Byte;
-    baudrate : Positive := 115200)
+    baudrate : Positive;  -- bits per second;
+    freqmhz  : Frequency; -- MHz e.g. 915.000
+    network  : NetworkID; -- aka callsign
+    node     : Byte)
 
     WITH Pre => portname'Length > 0;
 
-  -- Begin Peer to Peer mode.
+  -- Terminate background task
 
-  PROCEDURE Start
-   (Self       : IN OUT DeviceSubclass;
-    freqmhz    : Positive;
-    spread     : SpreadingFactors := SF7;
-    bandwidth  : BandWidths       := BW500K;
-    txpreamble : Positive         := 12;
-    rxpreamble : Positive         := 15;
-    powerdbm   : Positive         := 14)
-
-    WITH Pre => Self /= Uninitialized;
-
-  -- End Peer to Peer mode.
-
-  PROCEDURE Finish(Self : DeviceSubclass)
+  PROCEDURE Shutdown(Self : DeviceSubclass)
 
     WITH Pre => Self /= Uninitialized;
 
@@ -158,7 +151,7 @@ PRIVATE
 
   TASK TYPE BackgroundTask IS
     ENTRY Initialize(dev : DeviceSubclass);
-    ENTRY Finalize;
+    ENTRY Shutdown;
   END BackgroundTask;
 
   TYPE TaskAccess IS ACCESS BackgroundTask;
@@ -173,7 +166,7 @@ PRIVATE
   END RECORD;
 
   PACKAGE Queue_Interface IS NEW Synchronized_Queue_Interfaces(Queue_Item);
-  PACKAGE Queue_Package   IS NEW Bounded_Synchronized_Queues(Queue_Interface, Count_Type(MaxQueueSize));
+  PACKAGE Queue_Package   IS NEW Bounded_Synchronized_Queues(Queue_Interface, Count_Type(QueueSize));
 
   TYPE Queue_Access IS ACCESS Queue_Package.Queue;
 
