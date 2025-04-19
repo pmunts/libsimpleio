@@ -27,17 +27,13 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 
-PROGRAMS	:= test_wio_e5_rx_ham1 test_wio_e5_tx_ham1
+PROGRAMS	:= $(shell ls test*.adb | awk '{ printf("basename %s .adb\n", $$1); }' | sh)
 
 default: build
 
 # Build program(s)
 
 build: $(PROGRAMS)
-	-ssh root@bozrah killall test_wio_e5_rx_ham1
-	-ssh root@tarsus killall test_wio_e5_tx_ham1
-	scp test_wio_e5_rx_ham1 root@bozrah:.
-	scp test_wio_e5_tx_ham1 root@tarsus:.
 
 # Remove working files
 
