@@ -87,13 +87,13 @@ PACKAGE WIO_E5.P2P IS
 
   PROCEDURE Send(Self : DeviceSubclass; s : String)
 
-    WITH Pre => Self /= Uninitialized AND s'Length > 0;
+    WITH Pre => Self /= Uninitialized AND s'Length > 0 AND s'Length <= Packet'Length;
 
   -- Send a binary message, which cannot be empty.
 
   PROCEDURE Send(Self : DeviceSubclass; msg : Packet; len : Positive)
 
-    WITH Pre => Self /= Uninitialized;
+    WITH Pre => Self /= Uninitialized AND len > 0 AND len <= Packet'Length;
 
   -- Receive a binary message, which cannot be empty.
   -- Zero length indicates no messages are available.
@@ -106,13 +106,13 @@ PACKAGE WIO_E5.P2P IS
 
   PROCEDURE Dump(msg : Packet; len : Positive)
 
-    WITH Pre => len <= Packet'Length;
+    WITH Pre => len > 0 AND len <= Packet'Length;
 
   -- Convert a message from binary to string.
 
   FUNCTION ToString(p : Packet; len : Positive) RETURN String
 
-    WITH Pre => len <= Packet'Length;
+    WITH Pre => len > 0 AND len <= Packet'Length;
 
   -- Convert a message from string to binary.
 
