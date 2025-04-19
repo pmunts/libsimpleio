@@ -32,14 +32,13 @@ GENERIC
   -- The maximum payload size is constrained first by the RF subsystem of the
   -- STM32WLE5JC microcontroller within the WIO-E5 module (maximum RF frame
   -- size of 255 bytes) and constrained further by the RF spreading and
-  -- bandwidth settings.  Values of 59, 123, and 230 bytes seem to supported
-  -- by the LoRa PHY and MAC specifications.
+  -- bandwidth settings.  Values of 59, 123, and 230 bytes (depending on the
+  -- data rate scheme) seem be allowed by the LoRa PHY and MAC specifications.
   --
-  -- I have determined empirically that the maximum usable payload using the
-  -- Send and Receive services below at US915 Data Rate Scheme #13 (spreading
-  -- factor 7 and 500 kHz bandwidth) is 253 bytes.  This is larger than what
-  -- is defined in any LoRa specification I have read and may not interoperate
-  -- with any other RF chipset.  YMMV.
+  -- I have determined experimentally that the maximum usable payload using the
+  -- P2P Send and Receive services below is 253 bytes at any data rate scheme.
+  -- This is larger than what is defined in any LoRa specification I have read
+  -- and may not interoperate with any other RF chipset.  YMMV.
 
   MaxPayloadSize  : Positive;        -- bytes
   QueueSize       : Positive := 10;  -- elements
