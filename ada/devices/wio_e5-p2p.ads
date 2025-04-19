@@ -43,7 +43,7 @@ GENERIC
 
   MaxPayloadSize  : Positive;        -- bytes
   QueueSize       : Positive := 10;  -- elements
-  SpreadingFactor : Positive := 7;   -- (7, 8, 9, 10, 11, 12)
+  SpreadingFactor : Positive := 7;   -- (7, 8, 9, 10, 11, or 12)
   Bandwidth       : Positive := 500; -- kHz (125, 250, or 500)
   TxPreamble      : Positive := 12;  -- bits;
   RxPreamble      : Positive := 15;  -- bits;
