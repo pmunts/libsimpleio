@@ -57,83 +57,6 @@ PACKAGE BODY WIO_E5.P2P IS
 
   FUNCTION Trim(Source : String; Side : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
-  -- Device object constructor
-
-  FUNCTION Create
-   (portname : String;
-    baudrate : Positive;
-    freqmhz  : Frequency) RETURN Device IS
-
-    dev : DeviceSubclass;
-
-  BEGIN
-    Initialize(dev, portname, baudrate, freqmhz);
-    RETURN NEW DeviceSubclass'(dev);
-  END Create;
-
-  -- Device instance initializer
-
-  PROCEDURE Initialize
-   (Self     : OUT DeviceSubclass;
-    portname : String;
-    baudrate : Positive;
-    freqmhz  : Frequency) IS
-
-    config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
-                                     Trim(freqmhz'Image)                 & "," &
-                                     "SF" & Trim(SpreadingFactor'Image)  & "," &
-                                     Trim(Bandwidth'Image)               & "," &
-                                     Trim(TxPreamble'Image)              & "," &
-                                     Trim(RxPreamble'Image)              & "," &
-                                     Trim(TxPower'Image)                 & "," &
-                                     "ON,OFF,OFF";
-
-    config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
-
-  BEGIN
-
-    -- Validate parameters
-
-    IF SpreadingFactor < 7 OR SpreadingFactor > 12 THEN
-      RAISE Error WITH "Invalid spreading factor setting";
-    END IF;
-
-    IF Bandwidth /= 125 AND Bandwidth /= 250 AND Bandwidth /= 500 THEN
-      RAISE Error WITH "Invalid bandwidth setting";
-    END IF;
-
-    IF TxPower < -1 OR TxPower > 22 THEN
-      RAISE Error WITH "Invalid transmit power setting";
-    END IF;
-
-    OpenSerialPort(portname, baudrate, Self.fd);
-
-    Self.rxqueue  := NEW Queue_Package.Queue;
-    Self.txqueue  := NEW Queue_Package.Queue;
-    Self.response := NEW BackgroundTask;
-
-    -- Enter test mode
-
-    Self.SendATCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
-
-    -- Configure RF parameters
-
-    Self.SendATCommand(config_cmd, config_resp, 0.15);
-
-    -- Start receive mode
-
-    Self.SendATCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
-
-    -- Pass Self to the background task
-
-    Self.response.Initialize(Self);
-
-    -- Query RF configuration for the log
-
-    Self.SendATCommand("AT+TEST=?");
-    DELAY DefaultTimeout;
-  END Initialize;
-
   TASK BODY BackgroundTask IS
 
     mydev  : DeviceSubclass;
@@ -347,6 +270,83 @@ PACKAGE BODY WIO_E5.P2P IS
       END SELECT;
     END LOOP;
   END BackgroundTask;
+
+  -- Device object constructor
+
+  FUNCTION Create
+   (portname : String;
+    baudrate : Positive;
+    freqmhz  : Frequency) RETURN Device IS
+
+    dev : DeviceSubclass;
+
+  BEGIN
+    Initialize(dev, portname, baudrate, freqmhz);
+    RETURN NEW DeviceSubclass'(dev);
+  END Create;
+
+  -- Device instance initializer
+
+  PROCEDURE Initialize
+   (Self     : OUT DeviceSubclass;
+    portname : String;
+    baudrate : Positive;
+    freqmhz  : Frequency) IS
+
+    config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
+                                     Trim(freqmhz'Image)                 & "," &
+                                     "SF" & Trim(SpreadingFactor'Image)  & "," &
+                                     Trim(Bandwidth'Image)               & "," &
+                                     Trim(TxPreamble'Image)              & "," &
+                                     Trim(RxPreamble'Image)              & "," &
+                                     Trim(TxPower'Image)                 & "," &
+                                     "ON,OFF,OFF";
+
+    config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
+
+  BEGIN
+
+    -- Validate parameters
+
+    IF SpreadingFactor < 7 OR SpreadingFactor > 12 THEN
+      RAISE Error WITH "Invalid spreading factor setting";
+    END IF;
+
+    IF Bandwidth /= 125 AND Bandwidth /= 250 AND Bandwidth /= 500 THEN
+      RAISE Error WITH "Invalid bandwidth setting";
+    END IF;
+
+    IF TxPower < -1 OR TxPower > 22 THEN
+      RAISE Error WITH "Invalid transmit power setting";
+    END IF;
+
+    OpenSerialPort(portname, baudrate, Self.fd);
+
+    Self.rxqueue  := NEW Queue_Package.Queue;
+    Self.txqueue  := NEW Queue_Package.Queue;
+    Self.response := NEW BackgroundTask;
+
+    -- Enter test mode
+
+    Self.SendATCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
+
+    -- Configure RF parameters
+
+    Self.SendATCommand(config_cmd, config_resp, 0.15);
+
+    -- Start receive mode
+
+    Self.SendATCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
+
+    -- Pass Self to the background task
+
+    Self.response.Initialize(Self);
+
+    -- Query RF configuration for the log
+
+    Self.SendATCommand("AT+TEST=?");
+    DELAY DefaultTimeout;
+  END Initialize;
 
   -- Terminate background task
 
