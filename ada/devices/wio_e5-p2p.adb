@@ -308,7 +308,7 @@ PACKAGE BODY WIO_E5.P2P IS
 
     -- Validate parameters
 
-    IF MaxPacketSize > 253 THEN
+    IF Packet'Length > 253 THEN
       RAISE Error WITH "Invalid packet size setting";
     END IF;
 

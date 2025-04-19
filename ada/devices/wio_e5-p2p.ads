@@ -106,19 +106,19 @@ PACKAGE WIO_E5.P2P IS
 
   PROCEDURE Dump(msg : Packet; len : Positive)
 
-    WITH Pre => len <= MaxPayloadSize;
+    WITH Pre => len <= Packet'Length;
 
   -- Convert a message from binary to string.
 
   FUNCTION ToString(p : Packet; len : Positive) RETURN String
 
-    WITH Pre => len <= MaxPayloadSize;
+    WITH Pre => len <= Packet'Length;
 
   -- Convert a message from string to binary.
 
   FUNCTION ToPacket(s : String) RETURN Packet
 
-    WITH Pre => s'Length > 0 AND s'Length <= MaxPayloadSize;
+    WITH Pre => s'Length > 0 AND s'Length <= Packet'Length;
 
 PRIVATE
 
