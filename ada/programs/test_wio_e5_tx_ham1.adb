@@ -28,18 +28,16 @@ PROCEDURE test_wio_e5_tx_ham1 IS
 
   PACKAGE LoRaHam IS NEW WIO_E5.Ham1(64); USE LoRaHam;
 
-  dev : Device := Create("/dev/ttyAMA0", "N7AHL   ", 65);
+  dev : Device := Create("/dev/ttyAMA0", 115200, 915.0, "N7AHL   ", 65);
   msg : Packet;
   len : Natural := 0;
-  src : Byte;
-  dst : Byte;
+  src : WIO_E5.Byte;
+  dst : WIO_E5.Byte;
 
 BEGIN
   New_Line;
   Put_Line("WIO-E5 LoRa Transceiver Transmit Test");
   New_Line;
-
-  dev.Start(915);
 
   FOR i IN 1 .. 10 LOOP
     dev.Send("This is test" & i'Image, 66);
@@ -56,5 +54,5 @@ BEGIN
     DELAY 0.3;
   END LOOP;
 
-  dev.Finish;
+  dev.Shutdown;
 END test_wio_e5_tx_ham1;
