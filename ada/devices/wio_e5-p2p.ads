@@ -41,13 +41,13 @@ GENERIC
   -- is defined in any LoRa specification I have read and may not interoperate
   -- with any other RF chipset.  YMMV.
 
-  MaxPayloadSize  : Positive;                -- bytes
-  MaxQueueSize    : Positive         := 10;  -- elements
-  SpreadingFactor : SpreadingFactors := SF7;
-  Bandwidth       : Positive         := 500; -- kHz (125, 250, or 500)
-  TxPreamble      : Positive         := 12;  -- bits;
-  RxPreamble      : Positive         := 15;  -- bits;
-  TxPower         : Positive         := 14;  -- dBm;
+  MaxPayloadSize  : Positive;        -- bytes
+  QueueSize       : Positive := 10;  -- elements
+  SpreadingFactor : Positive := 7;   -- (7, 8, 9, 10, 11, 12)
+  Bandwidth       : Positive := 500; -- kHz (125, 250, or 500)
+  TxPreamble      : Positive := 12;  -- bits;
+  RxPreamble      : Positive := 15;  -- bits;
+  TxPower         : Integer  := 14;  -- dBm;
 
 PACKAGE WIO_E5.P2P IS
 
@@ -64,7 +64,9 @@ PACKAGE WIO_E5.P2P IS
   FUNCTION Create
    (portname : String;
     baudrate : Positive;
-    freqmhz  : Frequency) RETURN Device;
+    freqmhz  : Frequency) RETURN Device
+
+    WITH Pre => portname'Length > 0;
 
   -- Device instance initializer
 
@@ -140,7 +142,7 @@ PRIVATE
   END RECORD;
 
   PACKAGE Queue_Interface IS NEW Synchronized_Queue_Interfaces(Queue_Item);
-  PACKAGE Queue_Package   IS NEW Bounded_Synchronized_Queues(Queue_Interface, Count_Type(MaxQueueSize));
+  PACKAGE Queue_Package   IS NEW Bounded_Synchronized_Queues(Queue_Interface, Count_Type(QueueSize));
 
   TYPE Queue_Access IS ACCESS Queue_Package.Queue;
 

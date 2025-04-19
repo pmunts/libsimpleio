@@ -80,17 +80,32 @@ PACKAGE BODY WIO_E5.P2P IS
     freqmhz  : Frequency) IS
 
     config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
-                                     Trim(freqmhz'Image)          & "," &
-                                     Trim(SpreadingFactor'Image)  & "," &
-                                     Trim(Bandwidth'Image)        & "," &
-                                     Trim(TxPreamble'Image)       & "," &
-                                     Trim(RxPreamble'Image)       & "," &
-                                     Trim(TxPower'Image)          & "," &
+                                     Trim(freqmhz'Image)                 & "," &
+                                     "SF" & Trim(SpreadingFactor'Image)  & "," &
+                                     Trim(Bandwidth'Image)               & "," &
+                                     Trim(TxPreamble'Image)              & "," &
+                                     Trim(RxPreamble'Image)              & "," &
+                                     Trim(TxPower'Image)                 & "," &
                                      "ON,OFF,OFF";
 
     config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
 
   BEGIN
+
+    -- Validate parameters
+
+    IF SpreadingFactor < 7 OR SpreadingFactor > 12 THEN
+      RAISE Error WITH "Invalid spreading factor setting";
+    END IF;
+
+    IF Bandwidth /= 125 AND Bandwidth /= 250 AND Bandwidth /= 500 THEN
+      RAISE Error WITH "Invalid bandwidth setting";
+    END IF;
+
+    IF TxPower < -1 OR TxPower > 22 THEN
+      RAISE Error WITH "Invalid transmit power setting";
+    END IF;
+
     OpenSerialPort(portname, baudrate, Self.fd);
 
     Self.rxqueue  := NEW Queue_Package.Queue;
