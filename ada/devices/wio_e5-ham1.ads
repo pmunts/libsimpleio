@@ -36,16 +36,15 @@ GENERIC
   -- The maximum payload size is constrained first by the RF subsystem of the
   -- STM32WLE5JC microcontroller within the WIO-E5 module (maximum RF frame
   -- size of 255 bytes) and constrained further by the RF spreading and
-  -- bandwidth settings.  Values of 59, 123, and 230 bytes seem to supported
-  -- by the LoRa PHY and MAC specifications.
+  -- bandwidth settings.  Values of 59, 123, and 230 bytes (depending on the
+  -- data rate scheme) seem be allowed by the LoRa PHY and MAC specifications.
   --
-  -- I have determined empirically that the maximum usable payload using the
-  -- Send and Receive services below at US915 Data Rate Scheme #13 (spreading
-  -- factor 7 and 500 kHz bandwidth) is 253 bytes.  This is larger than what
-  -- is defined in any LoRa specification I have read and may not interoperate
-  -- with any other RF chipset.  YMMV.
+  -- I have determined experimentally that the maximum usable payload using the
+  -- P2P Send and Receive services below is 253 bytes at any data rate scheme.
+  -- This is larger than what is defined in any LoRa specification I have read
+  -- and may not interoperate with any other RF chipset.  YMMV.
 
-  MaxPayloadSize  : Positive;        -- bytes
+  MaxPayloadSize  : Positive;        -- bytes, NOT including address header
   QueueSize       : Positive := 10;  -- elements
   SpreadingFactor : Positive := 7;   -- (7, 8, 9, 10, 11, or 12)
   Bandwidth       : Positive := 500; -- kHz (125, 250, or 500)
@@ -59,11 +58,13 @@ PACKAGE WIO_E5.Ham1 IS
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH PRIVATE;
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
-  TYPE Packet         IS ARRAY (1 .. MaxPayloadSize) OF Byte;
+  TYPE Packet         IS ARRAY (1 .. MaxPayloadSize + 10) OF Byte;
 
   SUBTYPE NetworkID IS String(1 .. 8); -- e.g. callsign
 
   Uninitialized  : CONSTANT DeviceSubclass;
+
+  Broadcast : CONSTANT Byte := 0; -- ARCNET style broadcast address
 
   -- Device object constructor
 
@@ -74,7 +75,7 @@ PACKAGE WIO_E5.Ham1 IS
     network  : NetworkID; -- aka callsign
     node     : Byte) RETURN Device
 
-    WITH Pre => portname'Length > 0;
+    WITH Pre => portname'Length > 0 AND network'Length > 0 AND node > Broadcast;
 
   -- Device instance initializer
 
@@ -86,7 +87,7 @@ PACKAGE WIO_E5.Ham1 IS
     network  : NetworkID; -- aka callsign
     node     : Byte)
 
-    WITH Pre => portname'Length > 0;
+    WITH Pre => portname'Length > 0 AND network'Length > 0 AND node > Broadcast;
 
   -- Terminate background task
 
@@ -101,7 +102,7 @@ PACKAGE WIO_E5.Ham1 IS
     s    : String;
     dst  : Byte)
 
-    WITH Pre => Self /= Uninitialized AND s'Length > 0;
+    WITH Pre => Self /= Uninitialized AND s'Length > 0 AND s'Length <= MaxPayloadSize;
 
   -- Send a binary message, which cannot be empty.
 
@@ -111,7 +112,7 @@ PACKAGE WIO_E5.Ham1 IS
     len  : Positive;
     dst  : Byte)
 
-    WITH Pre => Self /= Uninitialized;
+    WITH Pre => Self /= Uninitialized AND len <= MaxPayloadSize;
 
   -- Receive a binary message, which cannot be empty.
   -- Zero length indicates no messages are available.
@@ -129,19 +130,19 @@ PACKAGE WIO_E5.Ham1 IS
 
   PROCEDURE Dump(msg : Packet; len : Positive)
 
-    WITH Pre => len <= MaxPayloadSize;
+    WITH Pre => len <= Packet'Length;
 
   -- Convert a message from binary to string.
 
   FUNCTION ToString(p : Packet; len : Positive) RETURN String
 
-    WITH Pre => len <= MaxPayloadSize;
+    WITH Pre => len <= Packet'Length;
 
   -- Convert a message from string to binary.
 
   FUNCTION ToPacket(s : String) RETURN Packet
 
-    WITH Pre => s'Length > 0 AND s'Length <= MaxPayloadSize;
+    WITH Pre => s'Length > 0 AND s'Length <= Packet'Length;
 
 PRIVATE
 
@@ -173,7 +174,7 @@ PRIVATE
   -- WIO-E5 device class
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH RECORD
-    network  : NetworkID; -- e.g. callsign
+    network  : NetworkID;
     node     : Byte;
     rxqueue  : Queue_Access;
     txqueue  : Queue_Access;
