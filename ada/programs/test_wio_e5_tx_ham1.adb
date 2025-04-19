@@ -26,7 +26,7 @@ WITH WIO_E5.Ham1;
 
 PROCEDURE test_wio_e5_tx_ham1 IS
 
-  PACKAGE LoRaHam IS NEW WIO_E5.Ham1(64); USE LoRaHam;
+  PACKAGE LoRa IS NEW WIO_E5.Ham1(64); USE LoRa;
 
   dev : Device := Create("/dev/ttyAMA0", 115200, 915.0, "N7AHL   ", 65);
   msg : Packet;
