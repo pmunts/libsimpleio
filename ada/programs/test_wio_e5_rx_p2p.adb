@@ -26,7 +26,7 @@ WITH WIO_E5.P2P;
 
 PROCEDURE test_wio_e5_rx_p2p IS
 
-  PACKAGE LoRaP2P IS NEW WIO_E5.P2P(64); USE LoRaP2P;
+  PACKAGE LoRa IS NEW WIO_E5.P2P(64); USE LoRa;
 
   dev : Device := Create("/dev/ttyAMA0", 115200, 915.0);
   msg : Packet;
