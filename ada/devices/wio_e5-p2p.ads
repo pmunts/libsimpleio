@@ -1,12 +1,31 @@
--- Seeed Studio WIO-E5 LoRa Transceiver P2P (Peer to Peer or Point to Point)
--- Support.  P2P is misleading because there is no station addressing and all
--- transmissions are broadcasts.  Any station with the same RF settings
--- (frequency, spreading factor, and bandwidth) will be able to receive what
--- you transmit with this package.
+-- Seeed Studio WIO-E5 LoRa Transceiver Test Mode aka P2P (Peer to Peer or
+-- Point to Point) Support.  P2P is misleading because there is no station
+-- addressing and all transmissions are broadcasts.  Any station with the
+-- same RF settings (frequency, spreading factor, and bandwidth) will be able
+-- to receive what you transmit with this package.
+--
+-- In test aka P2P mode, the WIO-E5 transmits unencrypted "implicit header"
+-- frames consisting of a configurable number of preamble bits, 1 to 253
+-- payload bytes, and two CRC bytes.  After the RF frame has been serialized,
+-- the WIO-E5 applies sprectrum whitening and adds forward error correction
+-- bits to the outgoing bit stream.
+--
+-- Upon reception the WIO-E5 performs error correction using the added FEC
+-- bits and then transparently strips them and reverses spectrum whitening.
+-- After reconstituting the original RF frame, the WIO-E5 verifies the CRC,
+-- discarding erroneous frames and passing valid ones to the device driver.
+--
+-- Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent and
+-- received using *any* data rate scheme (the combination of spreading
+-- factor, modulation bandwidth, and the derived RF symbol rate).
+--
+-- In the context of this package, the terms "preamble" and "syncword" are
+-- synonymous as are "frame" and "packet".
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
+
 -- modification, are permitted provided that the following conditions are met:
 --
 -- * Redistributions of source code must retain the above copyright notice,
@@ -29,18 +48,7 @@ PRIVATE WITH Ada.Containers.Bounded_Synchronized_Queues;
 
 GENERIC
 
-  -- The maximum payload size is constrained first by the RF subsystem of the
-  -- STM32WLE5JC microcontroller within the WIO-E5 module (maximum RF frame
-  -- size of 255 bytes) and constrained further by the RF spreading and
-  -- bandwidth settings.  Values of 59, 123, and 230 bytes (depending on the
-  -- data rate scheme) seem be allowed by the LoRa PHY and MAC specifications.
-  --
-  -- I have determined experimentally that the maximum usable payload using the
-  -- P2P Send and Receive services below is 253 bytes at any data rate scheme.
-  -- This is larger than what is defined in any LoRa specification I have read
-  -- and may not interoperate with any other RF chipset.  YMMV.
-
-  MaxPayloadSize  : Positive;        -- bytes
+  MaxPayloadSize  : Positive;        -- bytes (1 to 253)
   QueueSize       : Positive := 10;  -- elements
   SpreadingFactor : Positive := 7;   -- (7, 8, 9, 10, 11, or 12)
   Bandwidth       : Positive := 500; -- kHz (125, 250, or 500)

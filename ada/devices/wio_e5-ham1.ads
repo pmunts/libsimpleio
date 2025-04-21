@@ -1,12 +1,43 @@
--- Seeed Studio WIO-E5 LoRa Transceiver Support for Amateur Radio
+-- Seeed Studio WIO-E5 LoRa Transceiver Support for Amateur Radio, using
+-- Test aka P2P mode.
 --
 -- Flavor #1: All stations are administered by the same ham radio operator.
 --
 -- The first 10 bytes of the payload are dedicated to address information:
 --
--- 8 ASCII bytes for the call sign, left justified and space padded.
--- 1 byte for the destination node (ARCNET style, broadcast=0, node=1 to 255).
--- 1 byte for the source node (1 to 255).
+-- * 8 ASCII bytes for the network ID aka call sign, left justified and space
+--   padded.  Unlike AX.25, the ASCII bytes are *not* left shifted one bit.
+--
+-- * 1 byte for the destination node ID (ARCNET style: broadcast=0,
+--   unicast=1 to 255).
+--
+-- * 1 byte for the source node ID (ARCNET style: 1 to 255).
+--
+-- In test aka P2P mode, the WIO-E5 transmits unencrypted "implicit header"
+-- frames consisting of a configurable number of preamble bits, 1 to 253
+-- payload bytes, and two CRC bytes.  After the RF frame has been serialized,
+-- the WIO-E5 applies sprectrum whitening and adds forward error correction
+-- bits to the outgoing bit stream.
+--
+-- Upon reception the WIO-E5 performs error correction using the added FEC
+-- bits and then transparently strips them and reverses spectrum whitening.
+-- After reconstituting the original RF frame, the WIO-E5 verifies the CRC,
+-- discarding erroneous frames and passing valid ones to the device driver.
+--
+-- Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent and
+-- received using *any* data rate scheme (the combination of spreading
+-- factor, modulation bandwidth, and the derived RF symbol rate).
+--
+-- In the context of this package, the terms "preamble" and "syncword" are
+-- synonymous as are "frame" and "packet".
+--
+-- This package will drop any received frame that does not contain matching
+-- network aka callsign and node ID's, imposing a unicast scheme onto the
+-- inherently broadcast P2P mode.  In accordance with the digital data
+-- transparency required by U.S. Amateur Radio Service regulations, any
+-- WIO-E5 using the same RF settings (possibly using the related Ada package
+-- WIO_E5.P2P) can monitor communications among a group of ham radio stations
+-- using this package.
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -33,20 +64,9 @@ PRIVATE WITH Ada.Containers.Bounded_Synchronized_Queues;
 
 GENERIC
 
-  -- The maximum payload size is constrained first by the RF subsystem of the
-  -- STM32WLE5JC microcontroller within the WIO-E5 module (maximum RF frame
-  -- size of 255 bytes) and constrained further by the RF spreading and
-  -- bandwidth settings.  Values of 59, 123, and 230 bytes (depending on the
-  -- data rate scheme) seem be allowed by the LoRa PHY and MAC specifications.
-  --
-  -- I have determined experimentally that the maximum usable payload using the
-  -- P2P Send and Receive services below is 253 bytes at any data rate scheme.
-  -- This is larger than what is defined in any LoRa specification I have read
-  -- and may not interoperate with any other RF chipset.  YMMV.
-
   MaxPayloadSize  : Positive;        -- bytes, NOT including address header
   QueueSize       : Positive := 10;  -- elements
-  SpreadingFactor : Positive := 7;   -- (7, 8, 9, 10, 11, or 12)
+  SpreadingFactor : Positive := 7;   -- (7 to 12)
   Bandwidth       : Positive := 500; -- kHz (125, 250, or 500)
   TxPreamble      : Positive := 12;  -- bits;
   RxPreamble      : Positive := 15;  -- bits;
