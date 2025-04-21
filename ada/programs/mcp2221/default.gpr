@@ -43,6 +43,7 @@ PROJECT Default IS
       "-gnatVa",
       "-gnatwa",
       "-gnatwJ",
+      "-gnatwK",
       "-gnat2012"
      );
   END Compiler;
