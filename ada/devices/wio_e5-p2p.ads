@@ -1,18 +1,18 @@
--- Seeed Studio WIO-E5 LoRa Transceiver Test Mode aka P2P (Peer to Peer or
+-- Seeed Studio Wio-E5 LoRa Transceiver Test Mode aka P2P (Peer to Peer or
 -- Point to Point) Support.  P2P is misleading because there is no station
 -- addressing and all transmissions are broadcasts.  Any station with the
 -- same RF settings (frequency, spreading factor, and bandwidth) will be able
 -- to receive what you transmit with this package.
 --
--- In test aka P2P mode, the WIO-E5 transmits unencrypted "implicit header"
+-- In test aka P2P mode, the Wio-E5 transmits unencrypted "implicit header"
 -- frames consisting of a configurable number of preamble bits, 1 to 253
 -- payload bytes, and two CRC bytes.  After the RF frame has been serialized,
--- the WIO-E5 applies sprectrum whitening and adds forward error correction
+-- the Wio-E5 applies sprectrum whitening and adds forward error correction
 -- bits to the outgoing bit stream.
 --
--- Upon reception the WIO-E5 performs error correction using the added FEC
+-- Upon reception the Wio-E5 performs error correction using the added FEC
 -- bits and then transparently strips them and reverses spectrum whitening.
--- After reconstituting the original RF frame, the WIO-E5 verifies the CRC,
+-- After reconstituting the original RF frame, the Wio-E5 verifies the CRC,
 -- discarding erroneous frames and passing valid ones to the device driver.
 --
 -- Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent and
@@ -56,7 +56,7 @@ GENERIC
   RxPreamble      : Positive := 15;  -- bits;
   TxPower         : Integer  := 14;  -- dBm;
 
-PACKAGE WIO_E5.P2P IS
+PACKAGE Wio_E5.P2P IS
 
   -- Type definitions
 
@@ -153,7 +153,7 @@ PRIVATE
 
   TYPE Queue_Access IS ACCESS Queue_Package.Queue;
 
-  -- WIO-E5 device class
+  -- Wio-E5 device class
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH RECORD
     rxqueue  : Queue_Access;
@@ -163,4 +163,4 @@ PRIVATE
 
   Uninitialized : CONSTANT DeviceSubclass := DeviceSubclass'(-1, NULL, NULL, NULL);
 
-END WIO_E5.P2P;
+END Wio_E5.P2P;

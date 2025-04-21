@@ -1,4 +1,4 @@
--- Seeed Studio WIO-E5 LoRa Transceiver Support for Amateur Radio, using
+-- Seeed Studio Wio-E5 LoRa Transceiver Support for Amateur Radio, using
 -- Test aka P2P mode.
 --
 -- Flavor #1: All stations are administered by the same ham radio operator.
@@ -13,15 +13,15 @@
 --
 -- * 1 byte for the source node ID (ARCNET style: 1 to 255).
 --
--- In test aka P2P mode, the WIO-E5 transmits unencrypted "implicit header"
+-- In test aka P2P mode, the Wio-E5 transmits unencrypted "implicit header"
 -- frames consisting of a configurable number of preamble bits, 1 to 253
 -- payload bytes, and two CRC bytes.  After the RF frame has been serialized,
--- the WIO-E5 applies sprectrum whitening and adds forward error correction
+-- the Wio-E5 applies sprectrum whitening and adds forward error correction
 -- bits to the outgoing bit stream.
 --
--- Upon reception the WIO-E5 performs error correction using the added FEC
+-- Upon reception the Wio-E5 performs error correction using the added FEC
 -- bits and then transparently strips them and reverses spectrum whitening.
--- After reconstituting the original RF frame, the WIO-E5 verifies the CRC,
+-- After reconstituting the original RF frame, the Wio-E5 verifies the CRC,
 -- discarding erroneous frames and passing valid ones to the device driver.
 --
 -- Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent and
@@ -35,8 +35,8 @@
 -- network aka callsign and node ID's, imposing a unicast scheme onto the
 -- inherently broadcast P2P mode.  In accordance with the digital data
 -- transparency required by U.S. Amateur Radio Service regulations, any
--- WIO-E5 using the same RF settings (possibly using the related Ada package
--- WIO_E5.P2P) can monitor communications among a group of ham radio stations
+-- Wio-E5 using the same RF settings (possibly using the related Ada package
+-- Wio_E5.P2P) can monitor communications among a group of ham radio stations
 -- using this package.
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
@@ -70,7 +70,7 @@ WITH Logging.libsimpleio;
 
 USE TYPE Ada.Containers.Count_Type;
 
-PACKAGE BODY WIO_E5.Ham1 IS
+PACKAGE BODY Wio_E5.Ham1 IS
 
   -- Convert a hex string to a byte
 
@@ -544,4 +544,4 @@ PACKAGE BODY WIO_E5.Ham1 IS
     RETURN p;
   END ToPacket;
 
-END WIO_E5.Ham1;
+END Wio_E5.Ham1;

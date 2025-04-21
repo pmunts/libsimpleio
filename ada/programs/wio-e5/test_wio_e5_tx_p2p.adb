@@ -1,4 +1,4 @@
--- WIO-E5 LoRa Transceiver Transmit Test
+-- Wio-E5 LoRa Transceiver Transmit Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -22,11 +22,11 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH WIO_E5.P2P;
+WITH Wio_E5.P2P;
 
 PROCEDURE test_wio_e5_tx_p2p IS
 
-  PACKAGE LoRa IS NEW WIO_E5.P2P(64); USE LoRa;
+  PACKAGE LoRa IS NEW Wio_E5.P2P(64); USE LoRa;
 
   dev : Device := Create("/dev/ttyAMA0", 115200, 915.0);
   msg : Packet;
@@ -34,7 +34,7 @@ PROCEDURE test_wio_e5_tx_p2p IS
 
 BEGIN
   New_Line;
-  Put_Line("WIO-E5 LoRa Transceiver Transmit Test");
+  Put_Line("Wio-E5 LoRa Transceiver Transmit Test");
   New_Line;
 
   FOR i IN 1 .. 10 LOOP

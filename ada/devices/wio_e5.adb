@@ -1,4 +1,4 @@
--- Seeed Studio WIO-E5 LoRa Transceiver Low Level Device Driver for
+-- Seeed Studio Wio-E5 LoRa Transceiver Low Level Device Driver for
 -- child packages.  You cannot use this package on its own.
 --
 -- See also: https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module
@@ -33,9 +33,9 @@ WITH LibSerial;
 
 USE TYPE Ada.Calendar.Time;
 
-PACKAGE BODY WIO_E5 IS
+PACKAGE BODY Wio_E5 IS
 
-  -- Open serial port connection to the WIO-E5
+  -- Open serial port connection to the Wio-E5
 
   PROCEDURE OpenSerialPort
    (name     : String;
@@ -54,7 +54,7 @@ PACKAGE BODY WIO_E5 IS
     END IF;
   END;
 
-  -- Send AT command string to WIO-E5
+  -- Send AT command string to Wio-E5
 
   PROCEDURE SendATCommand(Self : DeviceClass; cmd : String) IS
 
@@ -74,7 +74,7 @@ PACKAGE BODY WIO_E5 IS
     END IF;
   END SendATCommand;
 
-  -- Send AT command string to WIO-E5 expecting a response string
+  -- Send AT command string to Wio-E5 expecting a response string
 
   PROCEDURE SendATCommand
    (Self    : DeviceClass;
@@ -90,7 +90,7 @@ PACKAGE BODY WIO_E5 IS
     END IF;
   END SendATCommand;
 
-  -- Send AT command string to WIO-E5 expecting a response string
+  -- Send AT command string to Wio-E5 expecting a response string
 
   PROCEDURE SendATCommand
    (Self    : DeviceClass;
@@ -106,7 +106,7 @@ PACKAGE BODY WIO_E5 IS
     END IF;
   END SendATCommand;
 
-  -- Get response string from WIO-E5
+  -- Get response string from Wio-E5
 
   FUNCTION GetATResponse
    (Self    : DeviceClass;
@@ -154,4 +154,4 @@ PACKAGE BODY WIO_E5 IS
       Ada.Strings.Maps.Constants.Control_Set);
   END GetATResponse;
 
-END WIO_E5;
+END Wio_E5;

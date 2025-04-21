@@ -1,4 +1,4 @@
--- Seeed Studio WIO-E5 LoRa Transceiver Low Level Device Driver for
+-- Seeed Studio Wio-E5 LoRa Transceiver Low Level Device Driver for
 -- child packages.  You cannot use this package on its own.
 --
 -- See also: https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module
@@ -25,7 +25,7 @@
 
 PRIVATE WITH GNAT.Regpat;
 
-PACKAGE WIO_E5 IS
+PACKAGE Wio_E5 IS
 
   Error : EXCEPTION;
 
@@ -39,7 +39,7 @@ PRIVATE
 
   DefaultTimeout : CONSTANT Duration := 0.02;
 
-  -- Open serial port connection to the WIO-E5
+  -- Open serial port connection to the Wio-E5
 
   PROCEDURE OpenSerialPort
    (name     : String;
@@ -48,13 +48,13 @@ PRIVATE
 
     WITH Pre => name'Length > 0;
 
-  -- Send AT command string to WIO-E5
+  -- Send AT command string to Wio-E5
 
   PROCEDURE SendATCommand(Self : DeviceClass; cmd : String)
 
     WITH Pre => cmd'Length > 0;
 
-  -- Send AT command string to WIO-E5 expecting a response string
+  -- Send AT command string to Wio-E5 expecting a response string
 
   PROCEDURE SendATCommand
    (Self    : DeviceClass;
@@ -64,7 +64,7 @@ PRIVATE
 
     WITH Pre => cmd'Length > 0 AND resp'Length > 0;
 
-  -- Send AT command string to WIO-E5 expecting a response string
+  -- Send AT command string to Wio-E5 expecting a response string
 
   PROCEDURE SendATCommand
    (Self    : DeviceClass;
@@ -74,16 +74,16 @@ PRIVATE
 
     WITH Pre => cmd'Length > 0;
 
-  -- Get response string from WIO-E5
+  -- Get response string from Wio-E5
 
   FUNCTION GetATResponse
    (Self    : DeviceClass;
     timeout : Duration := DefaultTimeout) RETURN String;
 
-  -- WIO-E5 device class
+  -- Wio-E5 device class
 
   TYPE DeviceClass IS TAGGED RECORD
     fd : Integer := -1;
   END RECORD;
 
-END WIO_E5;
+END Wio_E5;
