@@ -1,6 +1,6 @@
 # gmake rule for building a Debian package
 
-# Copyright (C)2019-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2019-2025, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@ include $(LIBSIMPLEIO)/include/common.mk
 %.deb: %
 	chmod -R ugo-w $</*
 	chmod -R u+w $</DEBIAN
-	$(GAINROOT) chown -R root.root $<
+	$(GAINROOT) chown -R root:root $<
 	$(GAINROOT) dpkg-deb -Zgzip --build $<
 	$(GAINROOT) chown -R --reference=Makefile $< $@
 	chmod -R u+w $<
