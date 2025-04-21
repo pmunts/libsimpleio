@@ -34,6 +34,7 @@ LIBRARY PROJECT libsimpleio IS
     "-gnatVa",
     "-gnatwa",
     "-gnatwJ",
+    "-gnatwK",
     "-gnat2012"
    );
 
