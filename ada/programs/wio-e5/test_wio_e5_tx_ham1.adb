@@ -28,13 +28,13 @@ PROCEDURE test_wio_e5_tx_ham1 IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1(64); USE LoRa;
 
-  dev  : Device := Create("/dev/ttyAMA0", 115200, 915.0, "N7AHL   ", 65);
-  msg  : Frame;
-  len  : Natural := 0;
-  src  : Wio_E5.Byte;
-  dst  : Wio_E5.Byte;
-  RSSI : Integer;
-  SNR  : Integer;
+  dev : Device := Create("/dev/ttyAMA0", 115200, 915.0, "N7AHL   ", 65);
+  msg : Frame;
+  len : Natural := 0;
+  src : Wio_E5.Byte;
+  dst : Wio_E5.Byte;
+  RSS : Integer;
+  SNR : Integer;
 
 BEGIN
   New_Line;
@@ -46,11 +46,11 @@ BEGIN
 
     DELAY 0.3;
 
-    dev.Receive(msg, len, src, dst, RSSI, SNR);
+    dev.Receive(msg, len, src, dst, RSS, SNR);
 
     IF len > 0 THEN
       Put_Line("Received => """ & ToString(msg, len) & """ from node"
-        & src'Image & " to node" & dst'Image & " RSSI: " & RSSI'Image &
+        & src'Image & " to node" & dst'Image & " RSS: " & RSS'Image &
         " dBm SNR: " & SNR'Image & " dB");
     END IF;
 
