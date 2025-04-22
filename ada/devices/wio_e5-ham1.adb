@@ -105,7 +105,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
     active : Boolean           := False;
     inrcv  : Boolean           := False;
     inxmt  : Boolean           := False;
-    RSSI   : Integer           := Integer'First;
+    RSS    : Integer           := Integer'First;
     SNR    : Integer           := Integer'First;
     buf    : String(1 .. 1024) := (OTHERS => ASCII.NUL);
     buflen : Natural           := 0;
@@ -150,9 +150,9 @@ PACKAGE BODY Wio_E5.Ham1 IS
     END;
 
     PROCEDURE PushRxQueue
-     (s    : String;
-      RSSI : Integer;
-      SNR  : Integer) IS
+     (s   : String;
+      RSS : Integer;
+      SNR : Integer) IS
       PRAGMA Warnings(Off, "index for * may assume lower bound *");
 
       network : CONSTANT String(1 .. 16) := s(12 .. 27);
@@ -180,10 +180,10 @@ PACKAGE BODY Wio_E5.Ham1 IS
         item.msg(i) := ToByte(s(30+i*2 .. 31+i*2));
       END LOOP;
 
-      item.src  := ToByte(src);
-      item.dst  := ToByte(dst);
-      item.RSSI := RSSI;
-      item.SNR  := SNR;
+      item.src := ToByte(src);
+      item.dst := ToByte(dst);
+      item.RSS := RSS;
+      item.SNR := SNR;
       mydev.rxqueue.Enqueue(item);
 
       PRAGMA Warnings(On, "index for * may assume lower bound *");
@@ -200,25 +200,25 @@ PACKAGE BODY Wio_E5.Ham1 IS
       -- Check for frame received
 
       IF GNAT.Regpat.Match(resp_rcv1, s) THEN
-        i    := Ada.Strings.Fixed.Index(s, "RSSI:") + 5;
-        j    := Ada.Strings.Fixed.Index(s, " ", i) - 2;
-        k    := Ada.Strings.Fixed.Index(s, "SNR:") + 4;
-        RSSI := Integer'Value(s(i .. j));
-        SNR  := Integer'Value(s(k .. s'Last));
+        i   := Ada.Strings.Fixed.Index(s, "RSSI:") + 5;
+        j   := Ada.Strings.Fixed.Index(s, " ", i) - 2;
+        k   := Ada.Strings.Fixed.Index(s, "SNR:") + 4;
+        RSS := Integer'Value(s(i .. j));
+        SNR := Integer'Value(s(k .. s'Last));
         RETURN;
       END IF;
 
       IF GNAT.Regpat.Match(resp_rcv2, s) THEN
-        PushRxQueue(s, RSSI, SNR);
-        RSSI := Integer'First;
-        SNR  := Integer'First;
+        PushRxQueue(s, RSS, SNR);
+        RSS := Integer'First;
+        SNR := Integer'First;
         RETURN;
       END IF;
 
       -- Any other response poisons RSSI and SNR
 
-      RSSI := Integer'First;
-      SNR  := Integer'First;
+      RSS := Integer'First;
+      SNR := Integer'First;
 
       -- Check for RF configuration report
 
@@ -469,12 +469,12 @@ PACKAGE BODY Wio_E5.Ham1 IS
     item : Queue_Item;
 
   BEGIN
-    item.msg  := ToFrame(s);
-    item.len  := s'Length;
-    item.src  := Self.node;
-    item.dst  := dst;
-    item.RSSI := 0;
-    item.SNR  := 0;
+    item.msg := ToFrame(s);
+    item.len := s'Length;
+    item.src := Self.node;
+    item.dst := dst;
+    item.RSS := 0;
+    item.SNR := 0;
     Self.txqueue.Enqueue(item);
   END Send;
 
@@ -489,12 +489,12 @@ PACKAGE BODY Wio_E5.Ham1 IS
     item : Queue_Item;
 
   BEGIN
-    item.msg  := msg;
-    item.len  := len;
-    item.src  := Self.node;
-    item.dst  := dst;
-    item.RSSI := 0;
-    item.SNR  := 0;
+    item.msg := msg;
+    item.len := len;
+    item.src := Self.node;
+    item.dst := dst;
+    item.RSS := 0;
+    item.SNR := 0;
     Self.txqueue.Enqueue(item);
   END Send;
 
@@ -507,7 +507,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
     len  : OUT Natural;
     src  : OUT Byte;
     dst  : OUT Byte;
-    RSSI : OUT Integer;
+    RSS  : OUT Integer;
     SNR  : OUT Integer) IS
 
     item : Queue_Item;
@@ -515,18 +515,18 @@ PACKAGE BODY Wio_E5.Ham1 IS
   BEGIN
     SELECT
       Self.rxqueue.Dequeue(item);
-      msg  := item.msg;
-      len  := item.len;
-      src  := item.src;
-      dst  := item.dst;
-      RSSI := item.RSSI;
-      SNR  := item.SNR;
+      msg := item.msg;
+      len := item.len;
+      src := item.src;
+      dst := item.dst;
+      RSS := item.RSS;
+      SNR := item.SNR;
     ELSE
-      len  := 0;
-      src  := 0;
-      dst  := 0;
-      RSSI := Integer'First;
-      SNR  := Integer'First;
+      len := 0;
+      src := 0;
+      dst := 0;
+      RSS := Integer'First;
+      SNR := Integer'First;
     END SELECT;
   END Receive;
 

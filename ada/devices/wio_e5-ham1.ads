@@ -135,7 +135,7 @@ PACKAGE Wio_E5.Ham1 IS
     len  : OUT Natural;
     src  : OUT Byte;
     dst  : OUT Byte;
-    RSSI : OUT Integer;
+    RSS  : OUT Integer;
     SNR  : OUT Integer)
 
     WITH Pre => Self /= Uninitialized;
@@ -178,7 +178,7 @@ PRIVATE
     len  : Natural;
     src  : Byte;
     dst  : Byte;
-    RSSI : Integer;
+    RSS  : Integer;
     SNR  : Integer;
   END RECORD;
 
