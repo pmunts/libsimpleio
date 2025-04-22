@@ -6,21 +6,13 @@
 --
 -- In test aka P2P mode, the Wio-E5 transmits unencrypted "implicit header"
 -- frames consisting of a configurable number of preamble bits, 1 to 253
--- payload bytes, and two CRC bytes.  After the RF frame has been serialized,
--- the Wio-E5 applies sprectrum whitening and adds forward error correction
--- bits to the outgoing bit stream.
---
--- Upon reception the Wio-E5 performs error correction using the added FEC
--- bits and then transparently strips them and reverses spectrum whitening.
--- After reconstituting the original RF frame, the Wio-E5 verifies the CRC,
--- discarding erroneous frames and passing valid ones to the device driver.
+-- payload bytes, and two CRC bytes.  Upon reception of each frame, the Wio-E5
+-- verifies the CRC, discarding erroneous frames and passing valid ones to the
+-- device driver.
 --
 -- Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent and
 -- received using *any* data rate scheme (the combination of spreading
 -- factor, modulation bandwidth, and the derived RF symbol rate).
---
--- In the context of this package, the terms "preamble" and "syncword" are
--- synonymous as are "frame" and "frame".
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
