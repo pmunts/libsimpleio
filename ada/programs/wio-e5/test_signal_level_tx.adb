@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Wio_E5.Ham1;
 
-PROCEDURE test_responder_tx IS
+PROCEDURE test_signal_level_tx IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
 
@@ -58,4 +58,4 @@ BEGIN
   END LOOP;
 
   dev.Shutdown;
-END test_responder_tx;
+END test_signal_level_tx;
