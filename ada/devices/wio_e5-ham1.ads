@@ -56,13 +56,13 @@ PRIVATE WITH Ada.Containers.Bounded_Synchronized_Queues;
 
 GENERIC
 
-  MaxPayloadSize  : Positive;        -- bytes, NOT including address header
+  MaxPayloadSize  : Positive := 243; -- bytes, NOT including address header
   QueueSize       : Positive := 10;  -- elements
   SpreadingFactor : Positive := 7;   -- (7 to 12)
   Bandwidth       : Positive := 500; -- kHz (125, 250, or 500)
   TxPreamble      : Positive := 12;  -- bits;
   RxPreamble      : Positive := 15;  -- bits;
-  TxPower         : Positive := 20;  -- dBm;
+  TxPower         : Positive := 22;  -- dBm;
 
 PACKAGE Wio_E5.Ham1 IS
 
