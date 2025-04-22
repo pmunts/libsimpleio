@@ -31,6 +31,8 @@ PROCEDURE test_wio_e5_tx_p2p IS
   dev : Device := Create("/dev/ttyAMA0", 115200, 915.0);
   msg : Frame;
   len : Natural := 0;
+  RSS : Integer;
+  SNR : Integer;
 
 BEGIN
   New_Line;
@@ -42,10 +44,11 @@ BEGIN
 
     DELAY 0.3;
 
-    dev.Receive(msg, len);
+    dev.Receive(msg, len, RSS, SNR);
 
     IF len > 0 THEN
-      Put_Line("Received => " & ToString(msg, len));
+      Put_Line("Received => """ & ToString(msg, len) & """ LEN:" & len'Image &
+        " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image & " dB");
     END IF;
 
     DELAY 0.3;

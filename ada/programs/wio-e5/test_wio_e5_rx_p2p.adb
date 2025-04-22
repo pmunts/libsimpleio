@@ -26,11 +26,13 @@ WITH Wio_E5.P2P;
 
 PROCEDURE test_wio_e5_rx_p2p IS
 
-  PACKAGE LoRa IS NEW Wio_E5.P2P(64); USE LoRa;
+  PACKAGE LoRa IS NEW Wio_E5.P2P; USE LoRa;
 
   dev : Device := Create("/dev/ttyAMA0", 115200, 915.0);
   msg : Frame;
   len : Natural;
+  RSS : Integer;
+  SNR : Integer;
 
 BEGIN
   New_Line;
@@ -38,11 +40,13 @@ BEGIN
   New_Line;
 
   LOOP
-    dev.Receive(msg, len);
+    dev.Receive(msg, len, RSS, SNR);
 
     IF len > 0 THEN
-      Put_Line("Received => " & ToString(msg, len));
-      dev.Send("ACK");
+      Put_Line("Received => """ & ToString(msg, len) & """ LEN:" & len'Image &
+        " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image & " dB");
+      dev.Send("LEN:" & len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" &
+        SNR'Image & " dB");
     END IF;
   END LOOP;
 END test_wio_e5_rx_p2p;

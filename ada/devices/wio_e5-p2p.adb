@@ -20,7 +20,7 @@
 -- factor, modulation bandwidth, and the derived RF symbol rate).
 --
 -- In the context of this package, the terms "preamble" and "syncword" are
--- synonymous as are "frame" and "packet".
+-- synonymous as are "frame" and "frame".
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -82,12 +82,15 @@ PACKAGE BODY Wio_E5.P2P IS
     active : Boolean           := False;
     inrcv  : Boolean           := False;
     inxmt  : Boolean           := False;
+    RSS    : Integer           := Integer'First;
+    SNR    : Integer           := Integer'First;
     buf    : String(1 .. 1024) := (OTHERS => ASCII.NUL);
     buflen : Natural           := 0;
 
-    resp_cfg : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RFCFG.*");
-    resp_ign : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT|LEN:");
-    resp_rcv : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RX [""][0-9a-fA-F]*[""]");
+    resp_cfg  : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RFCFG.*");
+    resp_ign  : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT");
+    resp_rcv1 : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: LEN:[0-9]+, RSSI:-*[0-9]+, SNR:-*[0-9]+");
+    resp_rcv2 : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RX [""][0-9a-fA-F]*[""]");
 
     PROCEDURE BufError(msg : String) IS
 
@@ -120,7 +123,10 @@ PACKAGE BODY Wio_E5.P2P IS
       END;
     END;
 
-    PROCEDURE PushRxQueue(s : String) IS
+    PROCEDURE PushRxQueue
+     (s   : String;
+      RSS : Integer;
+      SNR : Integer) IS
 
       item : Queue_Item;
 
@@ -131,19 +137,41 @@ PACKAGE BODY Wio_E5.P2P IS
         item.msg(i) := ToByte(s(10+i*2 .. 11+i*2));
       END LOOP;
 
+      item.RSS := RSS;
+      item.SNR := SNR;
       mydev.rxqueue.Enqueue(item);
     END PushRxQueue;
 
     PROCEDURE ProcessResponse(s : String) IS
 
+      i : Positive;
+      j : Positive;
+      k : Positive;
+
     BEGIN
 
-      -- Check for packet received
+      -- Check for frame received
 
-      IF GNAT.Regpat.Match(resp_rcv, s) THEN
-        PushRxQueue(s);
+      IF GNAT.Regpat.Match(resp_rcv1, s) THEN
+        i   := Ada.Strings.Fixed.Index(s, "RSSI:") + 5;
+        j   := Ada.Strings.Fixed.Index(s, " ", i) - 2;
+        k   := Ada.Strings.Fixed.Index(s, "SNR:") + 4;
+        RSS := Integer'Value(s(i .. j));
+        SNR := Integer'Value(s(k .. s'Last));
         RETURN;
       END IF;
+
+      IF GNAT.Regpat.Match(resp_rcv2, s) THEN
+        PushRxQueue(s, RSS, SNR);
+        RSS := Integer'First;
+        SNR := Integer'First;
+        RETURN;
+      END IF;
+
+      -- Any other response poisons RSSI and SNR
+
+      RSS := Integer'First;
+      SNR := Integer'First;
 
       -- Check for RF configuration report
 
@@ -276,7 +304,7 @@ PACKAGE BODY Wio_E5.P2P IS
           END Shutdown;
       ELSE
 
-        -- Check for queued outbound packets
+        -- Check for queued outbound frames
 
         IF mydev.txqueue.Current_Use > 0 AND NOT inrcv AND NOT inxmt THEN
           PopTxQueue;
@@ -326,8 +354,8 @@ PACKAGE BODY Wio_E5.P2P IS
 
     -- Validate parameters
 
-    IF Packet'Length > 253 THEN
-      RAISE Error WITH "Invalid packet size setting";
+    IF Frame'Length > 253 THEN
+      RAISE Error WITH "Invalid frame size setting";
     END IF;
 
     IF SpreadingFactor < 7 OR SpreadingFactor > 12 THEN
@@ -385,27 +413,36 @@ PACKAGE BODY Wio_E5.P2P IS
     item : Queue_Item;
 
   BEGIN
-    item.msg := ToPacket(s);
+    item.msg := ToFrame(s);
     item.len := s'Length;
+    item.RSS := 0;
+    item.SNR := 0;
     Self.txqueue.Enqueue(item);
   END Send;
 
   -- Send a binary message, which cannot be empty.
 
-  PROCEDURE Send(Self : DeviceSubclass; msg : Packet; len : Positive) IS
+  PROCEDURE Send(Self : DeviceSubclass; msg : Frame; len : Positive) IS
 
     item : Queue_Item;
 
   BEGIN
     item.msg := msg;
     item.len := len;
+    item.RSS := 0;
+    item.SNR := 0;
     Self.txqueue.Enqueue(item);
   END Send;
 
   -- Receive a binary message, which cannot be empty.
   -- Zero length indicates no messages are available.
 
-  PROCEDURE Receive(Self : DeviceSubclass; msg : OUT Packet; len : OUT Natural) IS
+  PROCEDURE Receive
+   (Self : DeviceSubclass;
+    msg  : OUT Frame;
+    len  : OUT Natural;
+    RSS  : OUT Integer;
+    SNR  : OUT Integer) IS
 
     item : Queue_Item;
 
@@ -414,17 +451,21 @@ PACKAGE BODY Wio_E5.P2P IS
       Self.rxqueue.Dequeue(item);
       msg := item.msg;
       len := item.len;
+      RSS := item.RSS;
+      SNR := item.SNR;
     ELSE
       len := 0;
+      RSS := Integer'First;
+      SNR := Integer'First;
     END SELECT;
   END Receive;
 
-  -- Dump contents of a packet in hexadecimal form.
+  -- Dump contents of a frame in hexadecimal form.
 
-  PROCEDURE Dump(msg : Packet; len : Positive) IS
+  PROCEDURE Dump(msg : Frame; len : Positive) IS
 
   BEGIN
-    Put("Packet:");
+    Put("Frame:");
 
     FOR i IN 1 .. len LOOP
       Put(' ');
@@ -436,7 +477,7 @@ PACKAGE BODY Wio_E5.P2P IS
 
   -- Convert a message from binary to string.
 
-  FUNCTION ToString(p : Packet; len : Positive) RETURN String IS
+  FUNCTION ToString(p : Frame; len : Positive) RETURN String IS
 
   BEGIN
     DECLARE
@@ -452,9 +493,9 @@ PACKAGE BODY Wio_E5.P2P IS
 
   -- Convert a message from string to binary.
 
-  FUNCTION ToPacket(s : String) RETURN Packet IS
+  FUNCTION ToFrame(s : String) RETURN Frame IS
 
-    p : Packet;
+    p : Frame;
 
   BEGIN
     FOR i IN s'Range LOOP
@@ -462,6 +503,6 @@ PACKAGE BODY Wio_E5.P2P IS
     END LOOP;
 
     RETURN p;
-  END ToPacket;
+  END ToFrame;
 
 END Wio_E5.P2P;
