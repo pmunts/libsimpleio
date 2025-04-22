@@ -176,10 +176,10 @@ PRIVATE
   TYPE Queue_Item IS RECORD
     msg  : Frame;
     len  : Natural;
-    RSSI : Integer;
-    SNR  : Integer;
     src  : Byte;
     dst  : Byte;
+    RSSI : Integer;
+    SNR  : Integer;
   END RECORD;
 
   PACKAGE Queue_Interface IS NEW Synchronized_Queue_Interfaces(Queue_Item);
