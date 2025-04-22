@@ -28,7 +28,7 @@ PROCEDURE test_spew_tx IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
 
-  dev : Device := Create("/dev/ttyAMA0", 115200, 915.0, "N7AHL   ", 65);
+  dev : Device := Create("/dev/ttyAMA0", 115200, 915.0, "N7AHL   ", 1);
 
 BEGIN
   New_Line;
@@ -36,7 +36,7 @@ BEGIN
   New_Line;
 
   FOR i IN 1 .. 10 LOOP
-    dev.Send("This is test" & i'Image, 66);
+    dev.Send("This is test" & i'Image, 2);
   END LOOP;
 
   dev.Shutdown;
