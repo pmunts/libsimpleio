@@ -26,7 +26,7 @@ WITH Wio_E5.Ham1;
 
 PROCEDURE test_spew_rx IS
 
-  PACKAGE LoRa IS NEW Wio_E5.Ham1(64); USE LoRa;
+  PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
 
   dev : Device := Create("/dev/ttyAMA0", 115200, 915.0, "N7AHL   ", 66);
   msg : Frame;
