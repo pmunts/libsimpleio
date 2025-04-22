@@ -1,5 +1,5 @@
--- Seeed Studio Wio-E5 LoRa Transceiver Support for Amateur Radio, using
--- Test aka P2P mode.
+-- Seeed Studio Wio-E5 LoRa Transceiver Support for Amateur Radio
+-- using Test aka P2P mode.
 --
 -- Flavor #1: All stations are administered by the same ham radio operator.
 --
@@ -15,21 +15,13 @@
 --
 -- In test aka P2P mode, the Wio-E5 transmits unencrypted "implicit header"
 -- frames consisting of a configurable number of preamble bits, 1 to 253
--- payload bytes, and two CRC bytes.  After the RF frame has been serialized,
--- the Wio-E5 applies sprectrum whitening and adds forward error correction
--- bits to the outgoing bit stream.
---
--- Upon reception the Wio-E5 performs error correction using the added FEC
--- bits and then transparently strips them and reverses spectrum whitening.
--- After reconstituting the original RF frame, the Wio-E5 verifies the CRC,
--- discarding erroneous frames and passing valid ones to the device driver.
+-- payload bytes, and two CRC bytes.  Upon reception of each frame, the Wio-E5
+-- verifies the CRC, discarding erroneous frames and passing valid ones to the
+-- device driver.
 --
 -- Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent and
 -- received using *any* data rate scheme (the combination of spreading
 -- factor, modulation bandwidth, and the derived RF symbol rate).
---
--- In the context of this package, the terms "preamble" and "syncword" are
--- synonymous as are "frame" and "packet".
 --
 -- This package will drop any received frame that does not contain matching
 -- network aka callsign and node ID's, imposing a unicast scheme onto the
@@ -113,12 +105,15 @@ PACKAGE BODY Wio_E5.Ham1 IS
     active : Boolean           := False;
     inrcv  : Boolean           := False;
     inxmt  : Boolean           := False;
+    RSSI   : Integer           := Integer'First;
+    SNR    : Integer           := Integer'First;
     buf    : String(1 .. 1024) := (OTHERS => ASCII.NUL);
     buflen : Natural           := 0;
 
-    resp_cfg : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RFCFG.*");
-    resp_ign : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT|LEN:");
-    resp_rcv : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RX [""][0-9a-fA-F]*[""]");
+    resp_cfg  : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RFCFG.*");
+    resp_ign  : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT");
+    resp_rcv1 : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: LEN:[0-9]+, RSSI:-*[0-9]+, SNR:-*[0-9]+");
+    resp_rcv2 : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RX [""][0-9a-fA-F]*[""]");
 
     PROCEDURE BufError(msg : String) IS
 
@@ -154,7 +149,10 @@ PACKAGE BODY Wio_E5.Ham1 IS
       END;
     END;
 
-    PROCEDURE PushRxQueue(s : String) IS
+    PROCEDURE PushRxQueue
+     (s    : String;
+      RSSI : Integer;
+      SNR  : Integer) IS
       PRAGMA Warnings(Off, "index for * may assume lower bound *");
 
       network : CONSTANT String(1 .. 16) := s(12 .. 27);
@@ -182,9 +180,10 @@ PACKAGE BODY Wio_E5.Ham1 IS
         item.msg(i) := ToByte(s(30+i*2 .. 31+i*2));
       END LOOP;
 
-      item.src := ToByte(src);
-      item.dst := ToByte(dst);
-
+      item.src  := ToByte(src);
+      item.dst  := ToByte(dst);
+      item.RSSI := RSSI;
+      item.SNR  := SNR;
       mydev.rxqueue.Enqueue(item);
 
       PRAGMA Warnings(On, "index for * may assume lower bound *");
@@ -192,14 +191,34 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
     PROCEDURE ProcessResponse(s : String) IS
 
+      i : Positive;
+      j : Positive;
+      k : Positive;
+
     BEGIN
 
-      -- Check for packet received
+      -- Check for frame received
 
-      IF GNAT.Regpat.Match(resp_rcv, s) THEN
-        PushRxQueue(s);
+      IF GNAT.Regpat.Match(resp_rcv1, s) THEN
+        i    := Ada.Strings.Fixed.Index(s, "RSSI:") + 5;
+        j    := Ada.Strings.Fixed.Index(s, " ", i) - 2;
+        k    := Ada.Strings.Fixed.Index(s, "SNR:") + 4;
+        RSSI := Integer'Value(s(i .. j));
+        SNR  := Integer'Value(s(k .. s'Last));
         RETURN;
       END IF;
+
+      IF GNAT.Regpat.Match(resp_rcv2, s) THEN
+        PushRxQueue(s, RSSI, SNR);
+        RSSI := Integer'First;
+        SNR  := Integer'First;
+        RETURN;
+      END IF;
+
+      -- Any other response poisons RSSI and SNR
+
+      RSSI := Integer'First;
+      SNR  := Integer'First;
 
       -- Check for RF configuration report
 
@@ -332,7 +351,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
           END Shutdown;
       ELSE
 
-        -- Check for queued outbound packets
+        -- Check for queued outbound frames
 
         IF mydev.txqueue.Current_Use > 0 AND NOT inrcv AND NOT inxmt THEN
           PopTxQueue;
@@ -386,8 +405,8 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
     -- Validate parameters
 
-    IF Packet'Length > 253 THEN
-      RAISE Error WITH "Invalid packet size setting";
+    IF Frame'Length > 253 THEN
+      RAISE Error WITH "Invalid frame size setting";
     END IF;
 
     IF SpreadingFactor < 7 OR SpreadingFactor > 12 THEN
@@ -450,10 +469,12 @@ PACKAGE BODY Wio_E5.Ham1 IS
     item : Queue_Item;
 
   BEGIN
-    item.msg := ToPacket(s);
-    item.len := s'Length;
-    item.src := Self.node;
-    item.dst := dst;
+    item.msg  := ToFrame(s);
+    item.len  := s'Length;
+    item.src  := Self.node;
+    item.dst  := dst;
+    item.RSSI := 0;
+    item.SNR  := 0;
     Self.txqueue.Enqueue(item);
   END Send;
 
@@ -461,17 +482,19 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   PROCEDURE Send
    (Self : DeviceSubclass;
-    msg  : Packet;
+    msg  : Frame;
     len  : Positive;
     dst  : Byte) IS
 
     item : Queue_Item;
 
   BEGIN
-    item.msg := msg;
-    item.len := len;
-    item.src := Self.node;
-    item.dst := dst;
+    item.msg  := msg;
+    item.len  := len;
+    item.src  := Self.node;
+    item.dst  := dst;
+    item.RSSI := 0;
+    item.SNR  := 0;
     Self.txqueue.Enqueue(item);
   END Send;
 
@@ -480,31 +503,39 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   PROCEDURE Receive
    (Self : DeviceSubclass;
-    msg  : OUT Packet;
+    msg  : OUT Frame;
     len  : OUT Natural;
     src  : OUT Byte;
-    dst  : OUT Byte) IS
+    dst  : OUT Byte;
+    RSSI : OUT Integer;
+    SNR  : OUT Integer) IS
 
     item : Queue_Item;
 
   BEGIN
     SELECT
       Self.rxqueue.Dequeue(item);
-      msg := item.msg;
-      len := item.len;
-      src := item.src;
-      dst := item.dst;
+      msg  := item.msg;
+      len  := item.len;
+      src  := item.src;
+      dst  := item.dst;
+      RSSI := item.RSSI;
+      SNR  := item.SNR;
     ELSE
-      len := 0;
+      len  := 0;
+      src  := 0;
+      dst  := 0;
+      RSSI := Integer'First;
+      SNR  := Integer'First;
     END SELECT;
   END Receive;
 
-  -- Dump contents of a packet in hexadecimal form.
+  -- Dump contents of a frame in hexadecimal form.
 
-  PROCEDURE Dump(msg : Packet; len : Positive) IS
+  PROCEDURE Dump(msg : Frame; len : Positive) IS
 
   BEGIN
-    Put("Packet:");
+    Put("Frame:");
 
     FOR i IN 1 .. len LOOP
       Put(' ');
@@ -516,7 +547,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   -- Convert a message from binary to string.
 
-  FUNCTION ToString(p : Packet; len : Positive) RETURN String IS
+  FUNCTION ToString(p : Frame; len : Positive) RETURN String IS
 
   BEGIN
     DECLARE
@@ -532,9 +563,9 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   -- Convert a message from string to binary.
 
-  FUNCTION ToPacket(s : String) RETURN Packet IS
+  FUNCTION ToFrame(s : String) RETURN Frame IS
 
-    p : Packet;
+    p : Frame;
 
   BEGIN
     FOR i IN s'Range LOOP
@@ -542,6 +573,6 @@ PACKAGE BODY Wio_E5.Ham1 IS
     END LOOP;
 
     RETURN p;
-  END ToPacket;
+  END ToFrame;
 
 END Wio_E5.Ham1;

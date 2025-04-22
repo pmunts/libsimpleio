@@ -1,5 +1,5 @@
--- Seeed Studio Wio-E5 LoRa Transceiver Support for Amateur Radio, using
--- Test aka P2P mode.
+-- Seeed Studio Wio-E5 LoRa Transceiver Support for Amateur Radio
+-- using Test aka P2P mode.
 --
 -- Flavor #1: All stations are administered by the same ham radio operator.
 --
@@ -15,21 +15,13 @@
 --
 -- In test aka P2P mode, the Wio-E5 transmits unencrypted "implicit header"
 -- frames consisting of a configurable number of preamble bits, 1 to 253
--- payload bytes, and two CRC bytes.  After the RF frame has been serialized,
--- the Wio-E5 applies sprectrum whitening and adds forward error correction
--- bits to the outgoing bit stream.
---
--- Upon reception the Wio-E5 performs error correction using the added FEC
--- bits and then transparently strips them and reverses spectrum whitening.
--- After reconstituting the original RF frame, the Wio-E5 verifies the CRC,
--- discarding erroneous frames and passing valid ones to the device driver.
+-- payload bytes, and two CRC bytes.  Upon reception of each frame, the Wio-E5
+-- verifies the CRC, discarding erroneous frames and passing valid ones to the
+-- device driver.
 --
 -- Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent and
 -- received using *any* data rate scheme (the combination of spreading
 -- factor, modulation bandwidth, and the derived RF symbol rate).
---
--- In the context of this package, the terms "preamble" and "syncword" are
--- synonymous as are "frame" and "packet".
 --
 -- This package will drop any received frame that does not contain matching
 -- network aka callsign and node ID's, imposing a unicast scheme onto the
@@ -78,7 +70,7 @@ PACKAGE Wio_E5.Ham1 IS
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH PRIVATE;
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
-  TYPE Packet         IS ARRAY (1 .. MaxPayloadSize + 10) OF Byte;
+  TYPE Frame          IS ARRAY (1 .. MaxPayloadSize + 10) OF Byte;
 
   SUBTYPE NetworkID IS String(1 .. 8); -- e.g. callsign
 
@@ -128,7 +120,7 @@ PACKAGE Wio_E5.Ham1 IS
 
   PROCEDURE Send
    (Self : DeviceSubclass;
-    msg  : Packet;
+    msg  : Frame;
     len  : Positive;
     dst  : Byte)
 
@@ -139,30 +131,32 @@ PACKAGE Wio_E5.Ham1 IS
 
   PROCEDURE Receive
    (Self : DeviceSubclass;
-    msg  : OUT Packet;
+    msg  : OUT Frame;
     len  : OUT Natural;
     src  : OUT Byte;
-    dst  : OUT Byte)
+    dst  : OUT Byte;
+    RSSI : OUT Integer;
+    SNR  : OUT Integer)
 
     WITH Pre => Self /= Uninitialized;
 
-  -- Dump contents of a packet in hexadecimal form.
+  -- Dump contents of a frame in hexadecimal form.
 
-  PROCEDURE Dump(msg : Packet; len : Positive)
+  PROCEDURE Dump(msg : Frame; len : Positive)
 
-    WITH Pre => len <= Packet'Length;
+    WITH Pre => len <= Frame'Length;
 
   -- Convert a message from binary to string.
 
-  FUNCTION ToString(p : Packet; len : Positive) RETURN String
+  FUNCTION ToString(p : Frame; len : Positive) RETURN String
 
-    WITH Pre => len <= Packet'Length;
+    WITH Pre => len <= Frame'Length;
 
   -- Convert a message from string to binary.
 
-  FUNCTION ToPacket(s : String) RETURN Packet
+  FUNCTION ToFrame(s : String) RETURN Frame
 
-    WITH Pre => s'Length > 0 AND s'Length <= Packet'Length;
+    WITH Pre => s'Length > 0 AND s'Length <= Frame'Length;
 
 PRIVATE
 
@@ -180,10 +174,12 @@ PRIVATE
   -- Event queue definitions
 
   TYPE Queue_Item IS RECORD
-    msg : Packet;
-    len : Natural;
-    src : Byte;
-    dst : Byte;
+    msg  : Frame;
+    len  : Natural;
+    RSSI : Integer;
+    SNR  : Integer;
+    src  : Byte;
+    dst  : Byte;
   END RECORD;
 
   PACKAGE Queue_Interface IS NEW Synchronized_Queue_Interfaces(Queue_Item);
