@@ -29,7 +29,7 @@ PROCEDURE test_wio_e5_tx_ham1 IS
   PACKAGE LoRa IS NEW Wio_E5.Ham1(64); USE LoRa;
 
   dev  : Device := Create("/dev/ttyAMA0", 115200, 915.0, "N7AHL   ", 65);
-  msg  : Packet;
+  msg  : Frame;
   len  : Natural := 0;
   src  : Wio_E5.Byte;
   dst  : Wio_E5.Byte;
