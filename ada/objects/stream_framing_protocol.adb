@@ -23,6 +23,7 @@
 -- See https://repo.munts.com/libsimpleio/doc/StreamFramingProtocol.pdf
 
 WITH Interfaces; USE Interfaces;
+WITH CRC16_CCITT;
 WITH Messaging;
 
 USE TYPE Messaging.Byte;
@@ -33,24 +34,7 @@ PACKAGE BODY Stream_Framing_Protocol IS
   STX : CONSTANT Messaging.Byte := 16#02#;
   ETX : CONSTANT Messaging.Byte := 16#03#;
 
-  -- The following CRC16-CCITT subroutine came from:
-  -- http://stackoverflow.com/questions/10564491/function-to-calculate-a-crc16-checksum
-
-  FUNCTION CRC16(buf : PayloadBuffer; length : Natural) RETURN Unsigned_16 IS
-
-    crc : Unsigned_16 := 16#1D0F#;
-    x   : Unsigned_8;
-
-  BEGIN
-    FOR i IN 1 .. length LOOP
-      x   := Unsigned_8(Shift_Right(crc, 8)) XOR Unsigned_8(buf(i));
-      x   := x XOR Shift_Right(x, 4);
-      crc := Shift_Left(crc, 8) XOR Shift_Left(Unsigned_16(x), 12) XOR
-        Shift_Left(Unsigned_16(x), 5) XOR Unsigned_16(x);
-    END LOOP;
-
-    RETURN crc;
-  END CRC16;
+  FUNCTION CRC16 IS NEW CRC16_CCITT(Messaging.Byte, PayloadIndex, PayloadBuffer);
 
   -- Encode a frame. Zero length (indicating an empty frame) is allowed.
 

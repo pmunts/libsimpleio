@@ -33,11 +33,11 @@ PACKAGE Stream_Framing_Protocol IS
   Framing_Error : EXCEPTION RENAMES Messaging.Framing_Error;
   CRC_Error     : EXCEPTION RENAMES Messaging.CRC_Error;
 
-  SUBTYPE PayloadSize   IS Natural  RANGE 0 .. MaxPayloadSize;
   SUBTYPE FrameSize     IS Positive RANGE 1 .. 2*MaxPayloadSize + 8;
-
-  SUBTYPE PayloadBuffer IS Messaging.Buffer(1 .. PayloadSize'Last);
   SUBTYPE FrameBuffer   IS Messaging.Buffer(FrameSize);
+  SUBTYPE PayLoadIndex  IS Positive RANGE 1 .. MaxPayloadSize;
+  SUBTYPE PayloadBuffer IS Messaging.Buffer(PayloadIndex);
+  SUBTYPE PayloadSize   IS Natural  RANGE 0 .. MaxPayloadSize;
 
   -- Encode a frame. Zero length (indicating an empty frame) is allowed.
 
