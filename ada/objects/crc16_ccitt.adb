@@ -20,27 +20,25 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Interfaces; USE Interfaces;
+-- The following CRC16-CCITT subroutine came from:
+-- http://stackoverflow.com/questions/10564491/function-to-calculate-a-crc16-checksum
 
-PACKAGE BODY CRC_16_CCITT IS
+FUNCTION CRC16_CCITT(buf : BufferType; len : Natural) RETURN Unsigned_16 IS
 
-  -- The following CRC16-CCITT subroutine came from:
-  -- http://stackoverflow.com/questions/10564491/function-to-calculate-a-crc16-checksum
+  crc : Unsigned_16 := Seed;
+  x   : Unsigned_8;
 
-  FUNCTION Calc(buf : BufferType; len : Positive) RETURN Unsigned_16 IS
-
-    crc : Unsigned_16 := Seed;
-    x   : Unsigned_8;
-
-  BEGIN
-    FOR i IN BufferRange'First .. BufferRange'First + BufferRange(len-1) LOOP
-      x   := Unsigned_8(Shift_Right(crc, 8)) XOR Unsigned_8(buf(i));
-      x   := x XOR Shift_Right(x, 4);
-      crc := Shift_Left(crc, 8) XOR Shift_Left(Unsigned_16(x), 12) XOR
-        Shift_Left(Unsigned_16(x), 5) XOR Unsigned_16(x);
-    END LOOP;
-
+BEGIN
+  IF len = 0 THEN
     RETURN crc;
-  END Calc;
+  END IF;
 
-END CRC_16_CCITT;
+  FOR i IN Buf'First .. Buf'First + IndexType(len) - 1 LOOP
+    x   := Unsigned_8(Shift_Right(crc, 8)) XOR Unsigned_8(buf(i));
+    x   := x XOR Shift_Right(x, 4);
+    crc := Shift_Left(crc, 8) XOR Shift_Left(Unsigned_16(x), 12) XOR
+      Shift_Left(Unsigned_16(x), 5) XOR Unsigned_16(x);
+  END LOOP;
+
+  RETURN crc;
+END CRC16_CCITT;

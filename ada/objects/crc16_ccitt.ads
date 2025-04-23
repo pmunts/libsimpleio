@@ -20,18 +20,14 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Interfaces;
+WITH Interfaces; USE Interfaces;
 
 GENERIC
 
-  TYPE BufferElement IS MOD <>;
-  TYPE BufferRange   IS RANGE <>;
-  TYPE BufferType    IS ARRAY (BufferRange) OF BufferElement;
+  TYPE Octet       IS MOD <>;
+  TYPE IndexType   IS RANGE <>;
+  TYPE BufferType  IS ARRAY (IndexType) OF Octet;
 
-  Seed : Interfaces.Unsigned_16 := 16#1D0F#;
+  Seed : Unsigned_16 := 16#1D0F#;
 
-PACKAGE CRC_16_CCITT IS
-
-  FUNCTION Calc(buf : BufferType; len : Positive) RETURN Interfaces.Unsigned_16;
-
-END CRC_16_CCITT;
+FUNCTION CRC16_CCITT(buf : BufferType; len : Natural) RETURN Unsigned_16;
