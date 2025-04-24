@@ -1,0 +1,22 @@
+with "config/test_signal_level_rx_config.gpr";
+project Test_Signal_Level_Rx is
+
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use "obj/" & Test_Signal_Level_Rx_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("test_signal_level_rx.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use Test_Signal_Level_Rx_Config.Ada_Compiler_Switches & ("-gnaty-g");
+   end Compiler;
+
+   package Binder is
+      for Switches ("Ada") use ("-Es"); --  Symbolic traceback
+   end Binder;
+
+   package Install is
+      for Artifacts (".") use ("share");
+   end Install;
+
+end Test_Signal_Level_Rx;

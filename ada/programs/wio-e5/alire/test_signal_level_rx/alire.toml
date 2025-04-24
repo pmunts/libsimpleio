@@ -1,0 +1,14 @@
+name = "test_signal_level_rx"
+description = ""
+version = "0.1.0-dev"
+
+authors = ["Your Name"]
+maintainers = ["Your Name <example@example.com>"]
+licenses = "MIT OR Apache-2.0 WITH LLVM-exception"
+website = ""
+tags = []
+
+executables = ["test_signal_level_rx"]
+
+[[depends-on]]
+muntsos_aarch64 = "^9.3.1"
