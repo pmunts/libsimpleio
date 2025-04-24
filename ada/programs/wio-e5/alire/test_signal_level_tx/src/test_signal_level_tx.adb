@@ -41,7 +41,7 @@ BEGIN
   Put_Line("Wio-E5 LoRa Transceiver Signal Level Test Initiator");
   New_Line;
 
-  FOR i IN 1 .. 100 LOOP
+  FOR i IN 1 .. 10 LOOP
     dev.Send("This is test" & i'Image, 2);
 
     DELAY 0.3;
