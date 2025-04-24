@@ -51,7 +51,7 @@ BEGIN
 
   -- Create a LoRa transceiver object
 
-  dev :=  Create("/dev/ttyAMA0", 115200, 915.0, "N7AHL   ", 2);
+  dev :=  Create("/dev/ttyAMA0", 115200, 915.0, "XXXXXXXX", 2);
 
   LOOP
     dev.Receive(msg, len, src, dst, RSS, SNR);
