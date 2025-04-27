@@ -51,6 +51,14 @@ PACKAGE BODY Wio_E5.P2P IS
 
   start_time : Ada.Real_Time.Time := Ada.Real_Time.Clock;
 
+  PROCEDURE StopWatch IS
+
+    now : Ada.Real_Time.Time := Ada.Real_Time.Clock;
+
+  BEGIN
+    Put_Line("Stopwatch =>" & Ada.Real_Time.To_Duration(now - start_time)'Image);
+  END StopWatch;
+
   -- Convert a hex string to a byte
 
   FUNCTION ToByte(s : string) RETURN Byte IS
@@ -320,32 +328,45 @@ PACKAGE BODY Wio_E5.P2P IS
   -- Device object constructor
 
   FUNCTION Create
-   (portname : String;
-    baudrate : Positive;
-    freqmhz  : Frequency) RETURN Device IS
+   (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Positive;        -- bits per second e.g. 115200
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Positive := 7;   -- (7 to 12)
+    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
+    txpreamble : Positive := 12;  -- bits;
+    rxpreamble : Positive := 15;  -- bits;
+    txpower    : Positive := 22)  -- dBm;
+  RETURN Device IS
 
     dev : DeviceSubclass;
 
   BEGIN
-    Initialize(dev, portname, baudrate, freqmhz);
+    Initialize(dev, portname, baudrate, freqmhz, spreading, bandwidth,
+      txpreamble, rxpreamble, txpower);
     RETURN NEW DeviceSubclass'(dev);
   END Create;
 
   -- Device instance initializer
 
   PROCEDURE Initialize
-   (Self     : OUT DeviceSubclass;
-    portname : String;
-    baudrate : Positive;
-    freqmhz  : Frequency) IS
+   (Self       : OUT DeviceSubclass;
+    portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Positive;        -- bits per second e.g. 115200
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Positive := 7;   -- (7 to 12)
+    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
+    txpreamble : Positive := 12;  -- bits;
+    rxpreamble : Positive := 15;  -- bits;
+    txpower    : Positive := 22)  -- dBm;
+  IS
 
     config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
-                                     Trim(freqmhz'Image)                 & "," &
-                                     "SF" & Trim(SpreadingFactor'Image)  & "," &
-                                     Trim(Bandwidth'Image)               & "," &
-                                     Trim(TxPreamble'Image)              & "," &
-                                     Trim(RxPreamble'Image)              & "," &
-                                     Trim(TxPower'Image)                 & "," &
+                                     Trim(freqmhz'Image)          & "," &
+                                     "SF" & Trim(spreading'Image) & "," &
+                                     Trim(bandwidth'Image)        & "," &
+                                     Trim(txpreamble'Image)       & "," &
+                                     Trim(rxpreamble'Image)       & "," &
+                                     Trim(txpower'Image)          & "," &
                                      "ON,OFF,OFF";
 
     config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
@@ -358,23 +379,19 @@ PACKAGE BODY Wio_E5.P2P IS
       RAISE Error WITH "Invalid frame size setting";
     END IF;
 
-    IF SpreadingFactor < 7 OR SpreadingFactor > 12 THEN
+    IF spreading < 7 OR spreading > 12 THEN
       RAISE Error WITH "Invalid spreading factor setting";
     END IF;
 
-    IF Bandwidth /= 125 AND Bandwidth /= 250 AND Bandwidth /= 500 THEN
+    IF bandwidth /= 125 AND bandwidth /= 250 AND bandwidth /= 500 THEN
       RAISE Error WITH "Invalid bandwidth setting";
     END IF;
 
-    IF TxPower < -1 OR TxPower > 22 THEN
+    IF txpower < -1 OR txpower > 22 THEN
       RAISE Error WITH "Invalid transmit power setting";
     END IF;
 
     OpenSerialPort(portname, baudrate, Self.fd);
-
-    Self.rxqueue  := NEW Queue_Package.Queue;
-    Self.txqueue  := NEW Queue_Package.Queue;
-    Self.response := NEW BackgroundTask;
 
     -- Enter test mode
 
@@ -388,7 +405,13 @@ PACKAGE BODY Wio_E5.P2P IS
 
     Self.SendATCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
 
-    -- Pass Self to the background task
+    -- Initialize the devicesubclass instance
+
+    Self.rxqueue  := NEW Queue_Package.Queue;
+    Self.txqueue  := NEW Queue_Package.Queue;
+    Self.response := NEW BackgroundTask;
+
+    -- Initialize the background task
 
     Self.response.Initialize(Self);
 

@@ -41,11 +41,6 @@ GENERIC
 
   MaxPayloadSize  : Positive := 253; -- bytes (1 to 253)
   QueueSize       : Positive := 10;  -- elements
-  SpreadingFactor : Positive := 7;   -- (7 to 12)
-  Bandwidth       : Positive := 500; -- kHz (125, 250, or 500)
-  TxPreamble      : Positive := 12;  -- bits;
-  RxPreamble      : Positive := 15;  -- bits;
-  TxPower         : Integer  := 10;  -- dBm;
 
 PACKAGE Wio_E5.P2P IS
 
@@ -60,19 +55,30 @@ PACKAGE Wio_E5.P2P IS
   -- Device object constructor
 
   FUNCTION Create
-   (portname : String;
-    baudrate : Positive;
-    freqmhz  : Frequency) RETURN Device
+   (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Positive;        -- bits per second e.g. 115200
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Positive := 7;   -- (7 to 12)
+    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
+    txpreamble : Positive := 12;  -- bits;
+    rxpreamble : Positive := 15;  -- bits;
+    txpower    : Positive := 22)  -- dBm;
+  RETURN Device
 
     WITH Pre => portname'Length > 0;
 
   -- Device instance initializer
 
   PROCEDURE Initialize
-   (Self     : OUT DeviceSubclass;
-    portname : String;
-    baudrate : Positive;
-    freqmhz  : Frequency)
+   (Self       : OUT DeviceSubclass;
+    portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Positive;        -- bits per second e.g. 115200
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Positive := 7;   -- (7 to 12)
+    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
+    txpreamble : Positive := 12;  -- bits;
+    rxpreamble : Positive := 15;  -- bits;
+    txpower    : Positive := 22)  -- dBm;
 
     WITH Pre => portname'Length > 0;
 
@@ -92,7 +98,7 @@ PACKAGE Wio_E5.P2P IS
 
   PROCEDURE Send(Self : DeviceSubclass; msg : Frame; len : Positive)
 
-    WITH Pre => Self /= Uninitialized AND len > 0 AND len <= Frame'Length;
+    WITH Pre => Self /= Uninitialized AND len <= Frame'Length;
 
   -- Receive a binary message, which cannot be empty.
   -- Zero length indicates no messages are available.
@@ -110,13 +116,13 @@ PACKAGE Wio_E5.P2P IS
 
   PROCEDURE Dump(msg : Frame; len : Positive)
 
-    WITH Pre => len > 0 AND len <= Frame'Length;
+    WITH Pre => len <= Frame'Length;
 
   -- Convert a message from binary to string.
 
   FUNCTION ToString(p : Frame; len : Positive) RETURN String
 
-    WITH Pre => len > 0 AND len <= Frame'Length;
+    WITH Pre => len <= Frame'Length;
 
   -- Convert a message from string to binary.
 
