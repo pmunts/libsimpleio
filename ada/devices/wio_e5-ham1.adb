@@ -452,12 +452,6 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
     OpenSerialPort(portname, baudrate, Self.fd);
 
-    Self.network  := network;
-    Self.node     := node;
-    Self.rxqueue  := NEW Queue_Package.Queue;
-    Self.txqueue  := NEW Queue_Package.Queue;
-    Self.response := NEW BackgroundTask;
-
     -- Enter test mode
 
     Self.SendATCommand("AT+MODE=TEST", "+MODE: TEST", 0.15);
@@ -470,7 +464,15 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
     Self.SendATCommand("AT+TEST=RXLRPKT", "+TEST: RXLRPKT", 0.15);
 
-    -- Pass Self to the background task
+    -- Initialize the devicesubclass instance
+
+    Self.network  := network;
+    Self.node     := node;
+    Self.rxqueue  := NEW Queue_Package.Queue;
+    Self.txqueue  := NEW Queue_Package.Queue;
+    Self.response := NEW BackgroundTask;
+
+    -- Initialize the background task
 
     Self.response.Initialize(Self);
 
