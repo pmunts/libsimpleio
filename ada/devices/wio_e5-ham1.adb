@@ -296,7 +296,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
       -- Check for poll() error
 
-      IF err < 0 THEN
+      IF err > 0 THEN
         -- PollInput failed
         BufError("libLinux.PollInput failed, " & errno.strerror(err));
         RETURN;
@@ -308,7 +308,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
       -- Check for read() error
 
-      IF err < 0 THEN
+      IF err > 0 THEN
         BufError("libSerial.Receive failed, " & errno.strerror(err));
         RETURN;
       END IF;
