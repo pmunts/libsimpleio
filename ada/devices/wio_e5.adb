@@ -23,7 +23,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Calendar;
+WITH Ada.Real_Time;
 WITH Ada.Strings.Fixed;
 WITH Ada.Strings.Maps.Constants;
 
@@ -31,7 +31,7 @@ WITH errno;
 WITH LibLinux;
 WITH LibSerial;
 
-USE TYPE Ada.Calendar.Time;
+USE TYPE Ada.Real_Time.Time;
 
 PACKAGE BODY Wio_E5 IS
 
@@ -47,9 +47,10 @@ PACKAGE BODY Wio_E5 IS
   BEGIN
     -- Open the serial port
 
-    libSerial.Open(name, baudrate, libSerial.PARITY_NONE, 8, 1, fd, err);
+    libSerial.Open(name & ASCII.NUL, baudrate, libSerial.PARITY_NONE,
+      8, 1, fd, err);
 
-    IF err < 0 THEN
+    IF err > 0 THEN
       RAISE Error WITH "libSerial.Open failed, " & errno.strerror(err);
     END IF;
   END;
@@ -65,7 +66,7 @@ PACKAGE BODY Wio_E5 IS
   BEGIN
     libSerial.Send(Self.fd, outbuf'Address, outbuf'Length, count, err);
 
-    IF err < 0 THEN
+    IF err > 0 THEN
       RAISE Error WITH "libSerial.Send failed, " & errno.strerror(err);
     END IF;
 
@@ -112,7 +113,8 @@ PACKAGE BODY Wio_E5 IS
    (Self    : DeviceClass;
     timeout : Duration := DefaultTimeout) RETURN String IS
 
-    deadline : CONSTANT Ada.Calendar.Time := Ada.Calendar.Clock + Timeout;
+    deadline : CONSTANT Ada.Real_Time.Time := Ada.Real_Time.Clock +
+      Ada.Real_Time.To_Time_Span(Timeout);
     inbuf    : Character;
     count    : Natural;
     err      : Integer;
@@ -120,17 +122,17 @@ PACKAGE BODY Wio_E5 IS
     resp     : String(1 .. 1024) := (OTHERS => ASCII.NUL);
 
   BEGIN
-    WHILE Ada.Calendar.Clock < deadline LOOP
+    WHILE Ada.Real_Time.Clock < deadline LOOP
       libLinux.PollInput(Self.fd, 1, err);
 
-      IF err < 0 AND err /= errno.EAGAIN THEN
+      IF err > 0 AND err /= errno.EAGAIN THEN
         RAISE Error WITH "libLinux.PollInput failed, " & errno.strerror(err);
       END IF;
 
       IF err = 0 THEN
         libSerial.Receive(Self.fd, inbuf'Address, 1, count, err);
 
-        IF err < 0 THEN
+        IF err > 0 THEN
           RAISE Error WITH "libSerial.Receive failed, " & errno.strerror(err);
         END IF;
 
