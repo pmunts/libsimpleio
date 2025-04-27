@@ -68,6 +68,14 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   start_time : Ada.Real_Time.Time := Ada.Real_Time.Clock;
 
+  PROCEDURE StopWatch IS
+
+    now : Ada.Real_Time.Time := Ada.Real_Time.Clock;
+
+  BEGIN
+    Put_Line("Stopwatch =>" & Ada.Real_Time.To_Duration(now - start_time)'Image);
+  END StopWatch;
+
   -- Convert a hex string to a byte
 
   FUNCTION ToByte(s : string) RETURN Byte IS
