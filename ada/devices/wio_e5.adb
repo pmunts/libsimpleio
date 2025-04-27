@@ -26,7 +26,6 @@
 WITH Ada.Real_Time;
 WITH Ada.Strings.Fixed;
 WITH Ada.Strings.Maps.Constants;
-WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH errno;
 WITH LibLinux;
