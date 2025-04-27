@@ -58,11 +58,6 @@ GENERIC
 
   MaxPayloadSize  : Positive := 243; -- bytes, NOT including address header
   QueueSize       : Positive := 10;  -- elements
-  SpreadingFactor : Positive := 7;   -- (7 to 12)
-  Bandwidth       : Positive := 500; -- kHz (125, 250, or 500)
-  TxPreamble      : Positive := 12;  -- bits;
-  RxPreamble      : Positive := 15;  -- bits;
-  TxPower         : Positive := 22;  -- dBm;
 
 PACKAGE Wio_E5.Ham1 IS
 
@@ -81,23 +76,34 @@ PACKAGE Wio_E5.Ham1 IS
   -- Device object constructor
 
   FUNCTION Create
-   (portname : String;
-    baudrate : Positive;  -- bits per second
-    freqmhz  : Frequency; -- MHz e.g. 915.000
-    network  : NetworkID; -- aka callsign
-    node     : Byte) RETURN Device
+   (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Positive;        -- bits per second e.g. 115200
+    network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
+    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Positive := 7;   -- (7 to 12)
+    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
+    txpreamble : Positive := 12;  -- bits;
+    rxpreamble : Positive := 15;  -- bits;
+    txpower    : Positive := 22)  -- dBm;
+  RETURN Device
 
     WITH Pre => portname'Length > 0 AND network'Length > 0 AND node > Broadcast;
 
   -- Device instance initializer
 
   PROCEDURE Initialize
-   (Self     : OUT DeviceSubclass;
-    portname : String;
-    baudrate : Positive;  -- bits per second;
-    freqmhz  : Frequency; -- MHz e.g. 915.000
-    network  : NetworkID; -- aka callsign
-    node     : Byte)
+   (Self       : OUT DeviceSubclass;
+    portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Positive;        -- bits per second e.g. 115200
+    network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
+    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Positive := 7;   -- (7 to 12)
+    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
+    txpreamble : Positive := 12;  -- bits;
+    rxpreamble : Positive := 15;  -- bits;
+    txpower    : Positive := 22)  -- dBm;
 
     WITH Pre => portname'Length > 0 AND network'Length > 0 AND node > Broadcast;
 

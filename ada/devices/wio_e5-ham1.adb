@@ -383,36 +383,49 @@ PACKAGE BODY Wio_E5.Ham1 IS
   -- Device object constructor
 
   FUNCTION Create
-   (portname : String;
-    baudrate : Positive;  -- bits per second
-    freqmhz  : Frequency; -- MHz e.g. 915.000
-    network  : NetworkID; -- aka callsign
-    node     : Byte) RETURN Device IS
+   (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Positive;        -- bits per second e.g. 115200
+    network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
+    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Positive := 7;   -- (7 to 12)
+    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
+    txpreamble : Positive := 12;  -- bits;
+    rxpreamble : Positive := 15;  -- bits;
+    txpower    : Positive := 22)  -- dBm;
+  RETURN DEVICE IS
 
     dev : DeviceSubclass;
 
   BEGIN
-    Initialize(dev, portname, baudrate, freqmhz, network, node);
+    Initialize(dev, portname, baudrate, network, node, freqmhz, spreading,
+      bandwidth, txpreamble, rxpreamble, txpower);
     RETURN NEW DeviceSubclass'(dev);
   END Create;
 
   -- Device instance initializer
 
   PROCEDURE Initialize
-   (Self     : OUT DeviceSubclass;
-    portname : String;
-    baudrate : Positive;  -- bits per second
-    freqmhz  : Frequency; -- MHz e.g. 915.000
-    network  : NetworkID; -- aka callsign
-    node     : Byte) IS
+   (Self       : OUT DeviceSubclass;
+    portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Positive;        -- bits per second e.g. 115200
+    network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
+    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Positive := 7;   -- (7 to 12)
+    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
+    txpreamble : Positive := 12;  -- bits;
+    rxpreamble : Positive := 15;  -- bits;
+    txpower    : Positive := 22)  -- dBm
+   IS
 
     config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
-                                     Trim(freqmhz'Image)                 & "," &
-                                     "SF" & Trim(SpreadingFactor'Image)  & "," &
-                                     Trim(Bandwidth'Image)               & "," &
-                                     Trim(TxPreamble'Image)              & "," &
-                                     Trim(RxPreamble'Image)              & "," &
-                                     Trim(TxPower'Image)                 & "," &
+                                     Trim(freqmhz'Image)          & "," &
+                                     "SF" & Trim(spreading'Image) & "," &
+                                     Trim(bandwidth'Image)        & "," &
+                                     Trim(txpreamble'Image)       & "," &
+                                     Trim(rxpreamble'Image)       & "," &
+                                     Trim(txpower'Image)          & "," &
                                      "ON,OFF,OFF";
 
     config_resp : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST:.*NET:OFF");
@@ -425,15 +438,15 @@ PACKAGE BODY Wio_E5.Ham1 IS
       RAISE Error WITH "Invalid frame size setting";
     END IF;
 
-    IF SpreadingFactor < 7 OR SpreadingFactor > 12 THEN
+    IF spreading < 7 OR spreading > 12 THEN
       RAISE Error WITH "Invalid spreading factor setting";
     END IF;
 
-    IF Bandwidth /= 125 AND Bandwidth /= 250 AND Bandwidth /= 500 THEN
+    IF bandwidth /= 125 AND bandwidth /= 250 AND bandwidth /= 500 THEN
       RAISE Error WITH "Invalid bandwidth setting";
     END IF;
 
-    IF TxPower < -1 OR TxPower > 22 THEN
+    IF txpower < -1 OR txpower > 22 THEN
       RAISE Error WITH "Invalid transmit power setting";
     END IF;
 

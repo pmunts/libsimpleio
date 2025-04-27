@@ -28,7 +28,7 @@ PROCEDURE test_signal_level_tx IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
 
-  dev : Device := Create("/dev/ttyAMA0", 115200, 915.0, "XXXXXXXX", 1);
+  dev : Device := Create("/dev/ttyAMA0", 115200, "XXXXXXXX", 1, 915.0);
   msg : Frame;
   len : Natural := 0;
   src : Wio_E5.Byte;
