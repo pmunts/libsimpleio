@@ -26,6 +26,7 @@
 WITH Ada.Real_Time;
 WITH Ada.Strings.Fixed;
 WITH Ada.Strings.Maps.Constants;
+WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH errno;
 WITH LibLinux;
@@ -86,9 +87,13 @@ PACKAGE BODY Wio_E5 IS
   BEGIN
     Self.SendATCommand(cmd);
 
-    IF Self.GetATResponse(timeout) /= resp THEN
-      RAISE Error WITH "Unexpected response string";
-    END IF;
+    DECLARE
+      s : String := Self.GetATResponse(timeout);
+    BEGIN
+      IF s /= resp THEN
+        RAISE Error WITH "Unexpected response string: " & s;
+      END IF;
+    END;
   END SendATCommand;
 
   -- Send AT command string to Wio-E5 expecting a response string
@@ -102,9 +107,13 @@ PACKAGE BODY Wio_E5 IS
   BEGIN
     Self.SendATCommand(cmd);
 
-    IF NOT GNAT.Regpat.Match(resp, Self.GetATResponse(timeout)) THEN
-      RAISE Error WITH "Unexpected response string";
-    END IF;
+    DECLARE
+      s : String := Self.GetATResponse(timeout);
+    BEGIN
+      IF NOT GNAT.Regpat.Match(resp, s) THEN
+        RAISE Error WITH "Unexpected response string: " & s;
+      END IF;
+    END;
   END SendATCommand;
 
   -- Get response string from Wio-E5
@@ -122,7 +131,13 @@ PACKAGE BODY Wio_E5 IS
     resp     : String(1 .. 1024) := (OTHERS => ASCII.NUL);
 
   BEGIN
-    WHILE Ada.Real_Time.Clock < deadline LOOP
+    LOOP
+      IF Ada.Real_Time.Clock > deadline THEN
+        resp          := (OTHERS => ASCII.NUL);
+        resp(1 .. 16) := "Deadline expired";
+        RETURN resp;
+      END IF;
+
       libLinux.PollInput(Self.fd, 1, err);
 
       IF err > 0 AND err /= errno.EAGAIN THEN
@@ -146,6 +161,8 @@ PACKAGE BODY Wio_E5 IS
 
         respidx := respidx + 1;
         resp(respidx) := inbuf;
+
+        EXIT WHEN resp(respidx) = ASCII.LF;
       END IF;
     END LOOP;
 
