@@ -35,6 +35,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Containers;
+WITH Ada.Real_Time;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
@@ -44,8 +45,11 @@ WITH LibSerial;
 WITH Logging.libsimpleio;
 
 USE TYPE Ada.Containers.Count_Type;
+USE TYPE Ada.Real_Time.Time;
 
 PACKAGE BODY Wio_E5.P2P IS
+
+  start_time : Ada.Real_Time.Time := Ada.Real_Time.Clock;
 
   -- Convert a hex string to a byte
 
@@ -175,6 +179,11 @@ PACKAGE BODY Wio_E5.P2P IS
       -- Check for transmit done
 
       IF s = "+TEST: TX DONE" THEN
+        IF mydev.txqueue.Current_Use > 0 THEN
+          PopTxQueue;
+          RETURN;
+        END IF;
+
         inxmt := False;
         inrcv := True;
         mydev.SendATCommand("AT+TEST=RXLRPKT");
