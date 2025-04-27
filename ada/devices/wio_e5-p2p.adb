@@ -279,7 +279,6 @@ PACKAGE BODY Wio_E5.P2P IS
 
   BEGIN
     ACCEPT Initialize(dev : DeviceSubclass) DO
-      Logging.libsimpleio.Note("Initializing response handler task");
       mydev  := dev;
       myfd   := dev.fd;
       active := True;
