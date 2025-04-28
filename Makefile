@@ -80,6 +80,12 @@ libwioe5ham1.so:
 	$(MAKE) -C ada/shared-libs/libwioe5ham1
 	cp ada/shared-libs/libwioe5ham1/lib/libwioe5ham1.so .
 
+# Build libwioe5p2p.so
+
+libwioe5p2p.so:
+	$(MAKE) -C ada/shared-libs/libwioe5p2p
+	cp ada/shared-libs/libwioe5p2p/lib/libwioe5p2p.so .
+
 # Precompile Ada library projects
 
 adalibs.done:
@@ -88,15 +94,13 @@ adalibs.done:
 
 # Install headers and library files
 
-install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so adalibs.done
+install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5p2p.so adalibs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
 	mkdir -p				$(DESTDIR)/include/libsimpleio
-	install -cm 0644 ada/shared-libs/libremoteio/libremoteio.h $(DESTDIR)/include
-	sed -i 's/"C" //g'			$(DESTDIR)/include/libremoteio.h
-	install -cm 0644 ada/shared-libs/libwioe5ham1/libwioe5ham1.h $(DESTDIR)/include
-	sed -i 's/"C" //g'			$(DESTDIR)/include/libwioe5ham1.h
+	install -cm 0644 ada/shared-libs/*/*.h	$(DESTDIR)/include
+	sed -i 's/"C" //g'			$(DESTDIR)/include/*.h
 	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
 	mkdir -p				$(DESTDIR)/lib
 	install -cm 0644 *.a			$(DESTDIR)/lib
@@ -105,8 +109,6 @@ install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so adalibs.don
 	ln -s /usr/lib/$(LIBARCH)/libhidapi-hidraw.so $(DESTDIR)/lib/libhidapi.so
 	mkdir -p				$(DESTDIR)/libexec
 	install -cm 0755 hotplug/linux/*helper*	$(DESTDIR)/libexec
-	$(CC) -o$(DESTDIR)/libexec/link-gpiochip hotplug/linux/link-gpiochip.c ./libsimpleio.a
-	strip					$(DESTDIR)/libexec/link-gpiochip
 	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-attach hotplug/linux/usb-hid-hotplug-attach.c -static
 	$(CC) -o$(DESTDIR)/libexec/usb-hid-hotplug-detach hotplug/linux/usb-hid-hotplug-detach.c -static
 	strip					$(DESTDIR)/libexec/usb-hid-hotplug*
@@ -158,9 +160,10 @@ package.deb: $(PKGFILE)
 # Remove working files
 
 clean:
-	$(MAKE) -C ada/lib     clean
-	$(MAKE) -C ada/shared-libs/libremoteio clean
+	$(MAKE) -C ada/lib clean
+	$(MAKE) -C ada/shared-libs/libremoteio  clean
 	$(MAKE) -C ada/shared-libs/libwioe5ham1 clean
+	$(MAKE) -C ada/shared-libs/libwioe5p2p  clean
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean
