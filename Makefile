@@ -74,6 +74,12 @@ libsimpleio.a: compile.done
 libsimpleio.so: compile.done
 	$(CC) -shared -o $@ obj/*.o
 
+# Build libwioe5ham1.so
+
+libwioe5ham1.so:
+	$(MAKE) -C ada/shared-libs/libwioe5ham1
+	cp ada/shared-libs/libwioe5ham1/lib/libwioe5ham1.so .
+
 # Precompile Ada library projects
 
 adalibs.done:
@@ -152,6 +158,7 @@ package.deb: $(PKGFILE)
 clean:
 	$(MAKE) -C ada/lib     clean
 	$(MAKE) -C ada/shared-libs/libremoteio clean
+	$(MAKE) -C ada/shared-libs/libwioe5ham1 clean
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean
