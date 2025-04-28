@@ -67,6 +67,26 @@ PACKAGE BODY libWioE5P2P IS
       RETURN;
     END IF;
 
+    IF baudrate /= 230400 AND baudrate /= 115200 AND baudrate /= 76800 AND
+       baudrate /= 57600  AND baudrate /= 38400  AND baudrate /= 19200 AND
+       baudrate /= 14400  AND baudrate /= 9600 THEN
+      Put_Line(Standard_Error, "ERROR: Invalid serial port baud rate");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    IF freqmhz < 863.0 OR freqmhz > 928.0 THEN
+      Put_Line(Standard_Error, "ERROR: Invalid carrier frequency");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    IF freqmhz > 867.0 AND freqmhz < 902.0 THEN
+      Put_Line(Standard_Error, "ERROR: Invalid carrier frequency");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
     IF spreading < 7 OR spreading > 12 THEN
       Put_Line(Standard_error, "ERROR: Invalid spreading factor");
       err := errno.EINVAL;
@@ -180,7 +200,7 @@ PACKAGE BODY libWioE5P2P IS
       RETURN;
     END IF;
 
-    IF len < 1 OR len > LoRa.Frame'Length - 10 THEN
+    IF len < 1 OR len > LoRa.Frame'Length THEN
       Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := errno.EINVAL;
       RETURN;
@@ -218,7 +238,7 @@ PACKAGE BODY libWioE5P2P IS
       RETURN;
     END IF;
 
-    IF s'Length < 1 OR s'Length > LoRa.Frame'Length - 10 THEN
+    IF s'Length < 1 OR s'Length > LoRa.Frame'Length THEN
       Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := errno.EINVAL;
       RETURN;

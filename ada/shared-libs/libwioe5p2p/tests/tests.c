@@ -30,7 +30,7 @@
 
 #include <libwioe5p2p.h>
 
-START_TEST(test_init_portname)
+START_TEST(test_initialize)
 {
   int32_t handle;
   int32_t error;
@@ -49,40 +49,44 @@ START_TEST(test_init_portname)
 
   wioe5p2p_init("/dev/ttyS0", 115200, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EIO);
-}
-END_TEST
 
-START_TEST(test_init_spreading)
-{
-  int32_t handle;
-  int32_t error;
+  // Test invalid baud rates
+
+  wioe5p2p_init("/dev/ttyUSB0", 2400, 915.0, 7, 500, 12, 15, 22, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5p2p_init("/dev/ttyUSB0", 4800, 915.0, 7, 500, 12, 15, 22, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5p2p_init("/dev/ttyUSB0", 9601, 915.0, 7, 500, 12, 15, 22, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  // Test invalid RF carrier frequencies
+
+  wioe5p2p_init("/dev/ttyUSB0", 115200, 862.0, 7, 500, 12, 15, 22, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5p2p_init("/dev/ttyUSB0", 115200, 871.0, 7, 500, 12, 15, 22, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5p2p_init("/dev/ttyUSB0", 115200, 901.0, 7, 500, 12, 15, 22, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5p2p_init("/dev/ttyUSB0", 115200, 929.0, 7, 500, 12, 15, 22, &handle, &error);
+  ck_assert(error == EINVAL);
 
   // Test invalid spreading factors
 
   wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 6, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
-  
+
   wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 13, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_init_bandwidth)
-{
-  int32_t handle;
-  int32_t error;
 
   // Test invalid bandwidth
 
   wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 7, 1000, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_init_preambles)
-{
-  int32_t handle;
-  int32_t error;
 
   // Test invalid tx preamble
 
@@ -93,13 +97,6 @@ START_TEST(test_init_preambles)
 
   wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 0, 22, &handle, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_init_txpower)
-{
-  int32_t handle;
-  int32_t error;
 
   // Test invalid transmit power
 
@@ -111,9 +108,9 @@ START_TEST(test_init_txpower)
 }
 END_TEST
 
-START_TEST(test_receive_handle)
+START_TEST(test_receive)
 {
-  int8_t msg[243];
+  int8_t msg[255];
   int32_t len;
   int32_t RSS;
   int32_t SNR;
@@ -132,9 +129,10 @@ START_TEST(test_receive_handle)
 }
 END_TEST
 
-START_TEST(test_send_handle)
+START_TEST(test_send)
 {
-  int8_t msg[243];
+  int32_t handle;
+  int8_t msg[255];
   int32_t error;
 
   // Test invalid device handle
@@ -147,14 +145,17 @@ START_TEST(test_send_handle)
 
   wioe5p2p_send(11, msg, 1, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
 
-START_TEST(test_send_length)
-{
-  int32_t handle;
-  int8_t msg[255];
-  int32_t error;
+  wioe5p2p_send_string(0, "This is a test.", &error);
+  ck_assert(error == EINVAL);
+
+  wioe5p2p_send_string(1, "This is a test.", &error);
+  ck_assert(error == EINVAL);
+
+  wioe5p2p_send_string(11, "This is a test.", &error);
+  ck_assert(error == EINVAL);
+
+  // Need to get a device handle to test length values
 
   wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == 0);
@@ -165,37 +166,8 @@ START_TEST(test_send_length)
   wioe5p2p_send(handle, msg, 0, &error);
   ck_assert(error == EINVAL);
 
-  wioe5p2p_send(handle, msg, 244, &error);
+  wioe5p2p_send(handle, msg, 254, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_send_string_handle)
-{
-  int32_t error;
-
-  // Test invalid device handle
-
-  wioe5p2p_send_string(0, "This is a test.", &error);
-  ck_assert(error == EINVAL);
-
-  wioe5p2p_send_string(1, "This is a test.", &error);
-  ck_assert(error == EINVAL);
-
-  wioe5p2p_send_string(11, "This is a test.", &error);
-  ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_send_string_length)
-{
-  int32_t handle;
-  char msg[245];
-  int32_t error;
-
-  wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, &handle, &error);
-  ck_assert(error == 0);
-  ck_assert(handle == 1);
 
   // Test invalid length values
 
@@ -205,12 +177,11 @@ START_TEST(test_send_string_length)
   memset(msg,  0, sizeof(msg));
   memset(msg, 'A', sizeof(msg)-1);
 
-  wioe5p2p_send_string(handle, msg, &error);
-  ck_assert(error == EINVAL);
-}
+  wioe5p2p_send_string(handle, (char *) msg, &error);
+  ck_assert(error == EINVAL);}
 END_TEST
 
-START_TEST(test_send_receive)
+START_TEST(test_radio)
 {
   int32_t handle;
   int8_t msg[255];
@@ -227,7 +198,7 @@ START_TEST(test_send_receive)
 
   // Send a frame
 
-  wioe5p2p_send(handle, "This is test_send_receive1", 26, &error);
+  wioe5p2p_send(handle, "This is test_radio 1", 20, &error);
   ck_assert(handle == 1);
   ck_assert(error == 0);
 
@@ -246,7 +217,7 @@ START_TEST(test_send_receive)
 
   // Send another frame
 
-  wioe5p2p_send_string(handle, "This is test_send_receive2", &error);
+  wioe5p2p_send_string(handle, "This is test_radio 2", &error);
   ck_assert(handle == 1);
   ck_assert(error == 0);
 
@@ -266,41 +237,18 @@ START_TEST(test_send_receive)
 
 int main(void)
 {
-  TCase   *init_tests;
-  TCase   *receive_tests;
-  TCase   *send_tests;
-  TCase   *send_string_tests;
-  TCase   *radio_tests;
+  TCase   *tests;
   Suite   *suite;
   SRunner *runner;
 
-  init_tests = tcase_create("Initialize Checks");
-  tcase_add_test(init_tests, test_init_portname);
-  tcase_add_test(init_tests, test_init_spreading);
-  tcase_add_test(init_tests, test_init_bandwidth);
-  tcase_add_test(init_tests, test_init_preambles);
-  tcase_add_test(init_tests, test_init_txpower);
-
-  receive_tests = tcase_create("Receive Checks");
-  tcase_add_test(receive_tests, test_receive_handle);
-
-  send_tests = tcase_create("Send Checks");
-  tcase_add_test(send_tests, test_send_handle);
-  tcase_add_test(send_tests, test_send_length);
-
-  send_string_tests = tcase_create("Send String Checks");
-  tcase_add_test(send_string_tests, test_send_string_handle);
-  tcase_add_test(send_string_tests, test_send_string_length);
-
-  radio_tests = tcase_create("Radio Checks");
-  tcase_add_test(radio_tests, test_send_receive);
+  tests = tcase_create("Initialize Checks");
+  tcase_add_test(tests, test_initialize);
+  tcase_add_test(tests, test_receive);
+  tcase_add_test(tests, test_send);
+  tcase_add_test(tests, test_radio);
 
   suite = suite_create("libwioe5p2p Unit Tests");
-  suite_add_tcase(suite, init_tests);
-  suite_add_tcase(suite, receive_tests);
-  suite_add_tcase(suite, send_tests);
-  suite_add_tcase(suite, send_string_tests);
-  suite_add_tcase(suite, radio_tests);
+  suite_add_tcase(suite, tests);
 
   runner = srunner_create(suite);
   srunner_run_all(runner, CK_NORMAL);
