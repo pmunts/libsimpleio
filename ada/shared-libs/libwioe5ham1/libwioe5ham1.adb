@@ -114,7 +114,7 @@ PACKAGE BODY libWioE5Ham1 IS
       RETURN;
     END IF;
 
-    IF txpower < 0 OR txpower > 22 THEN
+    IF txpower < 1 OR txpower > 22 THEN
       Put_Line(Standard_Error, "ERROR: Invalid transmit power");
       err := errno.EINVAL;
       RETURN;
