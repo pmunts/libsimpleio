@@ -1,3 +1,5 @@
+# Makefile for building and running libwioe5p2p tests
+
 # Copyright (C)2025, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -18,39 +20,14 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-LIBSIMPLEIO	?= ../../..
+LIBSIMPLEIO	?= ../../../..
 
-include $(LIBSIMPLEIO)/ada/include/ada.mk
-include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
+CFLAGS		= -Wall $(DEBUGFLAGS)
+LDFLAGS		= -lcheck -lm -lrt -lpthread -lsubunit -lwioe5p2p
 
-default: libwioe5p2p.so
+# Build and run test suite
 
-###############################################################################
-
-# Gather subordinates
-
-subordinates:
-	mkdir -p							$@
-	cp $(LIBSIMPLEIO)/ada/bindings/errno.ads			$@
-	cp $(LIBSIMPLEIO)/ada/bindings/liblinux.*			$@
-	cp $(LIBSIMPLEIO)/ada/bindings/libserial.*			$@
-	cp $(LIBSIMPLEIO)/ada/interfaces/logging.ads			$@
-	cp $(LIBSIMPLEIO)/ada/devices/wio_e5.*				$@
-	cp $(LIBSIMPLEIO)/ada/devices/wio_e5-p2p.*			$@
-	cp $(LIBSIMPLEIO)/ada/objects/simpleio/logging-libsimpleio.*	$@
-	touch $@
-
-###############################################################################
-
-# Build the shared library project
-
-libwioe5p2p.so: subordinates
-	$(GPRBUILD) $(GPRBUILDFLAGS)
-	$(CROSS_COMPILE)strip lib/*.so
-
-###############################################################################
-
-# Remove working files
-
-clean:
-	rm -rf lib obj subordinates *.so
+default:
+	$(CC) $(CFLAGS) -o tests tests.c $(LDFLAGS)
+	./tests
+	rm tests

@@ -18,6 +18,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Directories;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Interfaces.C.Strings;
 WITH errno;
@@ -54,6 +55,18 @@ PACKAGE BODY libWioE5P2P IS
 
     -- Validate parameters
 
+    IF port'Length = 0 THEN
+      Put_Line(Standard_error, "ERROR: Empty serial port name");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    IF NOT Ada.Directories.Exists(port) THEN
+      Put_Line(Standard_error, "ERROR: Nonexistent serial port name");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
     IF spreading < 7 OR spreading > 12 THEN
       Put_Line(Standard_error, "ERROR: Invalid spreading factor");
       err := errno.EINVAL;
@@ -66,7 +79,19 @@ PACKAGE BODY libWioE5P2P IS
       RETURN;
     END IF;
 
-    IF txpower < 0 OR txpower > 22 THEN
+    IF txpreamble < 1 THEN
+      Put_Line(Standard_error, "ERROR: Invalid tx preamble");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    IF rxpreamble < 1 THEN
+      Put_Line(Standard_error, "ERROR: Invalid rx preamble");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    IF txpower < 1 OR txpower > 22 THEN
       Put_Line(Standard_error, "ERROR: Invalid transmit power");
       err := errno.EINVAL;
       RETURN;
