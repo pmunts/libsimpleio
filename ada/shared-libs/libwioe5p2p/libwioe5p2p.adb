@@ -151,6 +151,7 @@ PACKAGE BODY libWioE5P2P IS
     END IF;
 
     PortHandles(handle).Receive(msg, len, RSS, SNR);
+    err := 0;
 
   EXCEPTION
     WHEN OTHERS =>
@@ -186,6 +187,7 @@ PACKAGE BODY libWioE5P2P IS
     END IF;
 
     PortHandles(handle).Send(msg, len);
+    err := 0;
 
   EXCEPTION
     WHEN OTHERS =>
@@ -223,6 +225,7 @@ PACKAGE BODY libWioE5P2P IS
     END IF;
 
     PortHandles(handle).Send(s);
+    err := 0;
 
   EXCEPTION
     WHEN OTHERS =>
