@@ -219,9 +219,13 @@ START_TEST(test_send_receive)
   int32_t SNR;
   int32_t error;
 
+  // Initialize Wio-E5 radio subsystem
+
   wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == 0);
   ck_assert(handle == 1);
+
+  // Send a frame
 
   wioe5p2p_send(handle, "This is test_send_receive1", 26, &error);
   ck_assert(handle == 1);
@@ -229,8 +233,9 @@ START_TEST(test_send_receive)
 
   usleep(300000);
 
-  memset(msg, 0, sizeof(msg));
+  // Receive response frame
 
+  memset(msg, 0, sizeof(msg));
   wioe5p2p_receive(handle, msg, &len, &RSS, &SNR, &error);
   ck_assert(handle == 1);
   ck_assert(error == 0);
@@ -239,7 +244,7 @@ START_TEST(test_send_receive)
   puts((char *) msg);
   printf("LEN: %d bytes RSS:%d dBm SNR: %d dB\n", len, RSS, SNR);
 
-  //usleep(400000);
+  // Send another frame
 
   wioe5p2p_send_string(handle, "This is test_send_receive2", &error);
   ck_assert(handle == 1);
@@ -247,8 +252,9 @@ START_TEST(test_send_receive)
 
   usleep(300000);
 
-  memset(msg, 0, sizeof(msg));
+  // Receive response frame
 
+  memset(msg, 0, sizeof(msg));
   wioe5p2p_receive(handle, msg, &len, &RSS, &SNR, &error);
   ck_assert(handle == 1);
   ck_assert(error == 0);
