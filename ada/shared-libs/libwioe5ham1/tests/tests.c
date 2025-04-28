@@ -65,21 +65,21 @@ START_TEST(test_initialize)
 
   wioe5ham1_init("/dev/ttyUSB0", 115200, 862.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
-  
+
   wioe5ham1_init("/dev/ttyUSB0", 115200, 871.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
-  
+
   wioe5ham1_init("/dev/ttyUSB0", 115200, 901.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
-  
+
   wioe5ham1_init("/dev/ttyUSB0", 115200, 929.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
-  
+
   // Test invalid spreading factors
 
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 6, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
-  
+
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 13, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
 
@@ -231,7 +231,7 @@ START_TEST(test_radio)
 
   // Send a frame
 
-  wioe5ham1_send(handle, "This is test_radio1", 26, 2, &error);
+  wioe5ham1_send(handle, "This is test_radio 1", 20, 2, &error);
   ck_assert(handle == 1);
   ck_assert(error == 0);
 
@@ -250,7 +250,7 @@ START_TEST(test_radio)
 
   // Send another frame
 
-  wioe5ham1_send_string(handle, "This is test_radio2", 2, &error);
+  wioe5ham1_send_string(handle, "This is test_radio 2", 2, &error);
   ck_assert(handle == 1);
   ck_assert(error == 0);
 
