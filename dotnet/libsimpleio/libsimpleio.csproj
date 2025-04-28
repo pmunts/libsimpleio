@@ -30,8 +30,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\csharp\bindings\libsimpleio\*.cs">
-      <Link>IO.Bindings\%(FileName)</Link>
+    <Compile Include="..\..\csharp\bindings\simpleio\*.cs">
+      <Link>IO.Bindings.SimpleIO\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
