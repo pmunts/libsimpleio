@@ -30,7 +30,7 @@
 
 #include <libwioe5ham1.h>
 
-START_TEST(test_init_portname)
+START_TEST(test_initialize)
 {
   int32_t handle;
   int32_t error;
@@ -49,13 +49,6 @@ START_TEST(test_init_portname)
 
   wioe5ham1_init("/dev/ttyS0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EIO);
-}
-END_TEST
-
-START_TEST(test_init_spreading)
-{
-  int32_t handle;
-  int32_t error;
 
   // Test invalid spreading factors
 
@@ -64,25 +57,11 @@ START_TEST(test_init_spreading)
   
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 13, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_init_bandwidth)
-{
-  int32_t handle;
-  int32_t error;
 
   // Test invalid bandwidth
 
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 1000, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_init_preambles)
-{
-  int32_t handle;
-  int32_t error;
 
   // Test invalid tx preamble
 
@@ -93,13 +72,6 @@ START_TEST(test_init_preambles)
 
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 0, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_init_txpower)
-{
-  int32_t handle;
-  int32_t error;
 
   // Test invalid transmit power
 
@@ -111,9 +83,10 @@ START_TEST(test_init_txpower)
 }
 END_TEST
 
-START_TEST(test_receive_handle)
+START_TEST(test_receive)
 {
-  int8_t msg[243];
+  int32_t handle;
+  int8_t msg[255];
   int32_t len;
   int32_t src;
   int32_t dst;
@@ -134,9 +107,10 @@ START_TEST(test_receive_handle)
 }
 END_TEST
 
-START_TEST(test_send_handle)
+START_TEST(test_send)
 {
-  int8_t msg[243];
+  int32_t handle;
+  int8_t msg[245];
   int32_t error;
 
   // Test invalid device handle
@@ -149,14 +123,19 @@ START_TEST(test_send_handle)
 
   wioe5ham1_send(11, msg, 1, 2, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
 
-START_TEST(test_send_length)
-{
-  int32_t handle;
-  int8_t msg[255];
-  int32_t error;
+  // Test invalid device handle
+
+  wioe5ham1_send_string(0, "This is a test.", 2, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_send_string(1, "This is a test.", 2, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_send_string(11, "This is a test.", 2, &error);
+  ck_assert(error == EINVAL);
+
+  // Need to get a device handle to test length values
 
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == 0);
@@ -169,35 +148,6 @@ START_TEST(test_send_length)
 
   wioe5ham1_send(handle, msg, 244, 2, &error);
   ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_send_string_handle)
-{
-  int32_t error;
-
-  // Test invalid device handle
-
-  wioe5ham1_send_string(0, "This is a test.", 2, &error);
-  ck_assert(error == EINVAL);
-
-  wioe5ham1_send_string(1, "This is a test.", 2, &error);
-  ck_assert(error == EINVAL);
-
-  wioe5ham1_send_string(11, "This is a test.", 2, &error);
-  ck_assert(error == EINVAL);
-}
-END_TEST
-
-START_TEST(test_send_string_length)
-{
-  int32_t handle;
-  char msg[245];
-  int32_t error;
-
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
-  ck_assert(error == 0);
-  ck_assert(handle == 1);
 
   // Test invalid length values
 
@@ -212,7 +162,7 @@ START_TEST(test_send_string_length)
 }
 END_TEST
 
-START_TEST(test_send_receive)
+START_TEST(test_radio)
 {
   int32_t handle;
   int8_t msg[255];
@@ -231,7 +181,7 @@ START_TEST(test_send_receive)
 
   // Send a frame
 
-  wioe5ham1_send(handle, "This is test_send_receive1", 26, 2, &error);
+  wioe5ham1_send(handle, "This is test_radio1", 26, 2, &error);
   ck_assert(handle == 1);
   ck_assert(error == 0);
 
@@ -250,7 +200,7 @@ START_TEST(test_send_receive)
 
   // Send another frame
 
-  wioe5ham1_send_string(handle, "This is test_send_receive2", 2, &error);
+  wioe5ham1_send_string(handle, "This is test_radio2", 2, &error);
   ck_assert(handle == 1);
   ck_assert(error == 0);
 
@@ -270,41 +220,18 @@ START_TEST(test_send_receive)
 
 int main(void)
 {
-  TCase   *init_tests;
-  TCase   *receive_tests;
-  TCase   *send_tests;
-  TCase   *send_string_tests;
-  TCase   *radio_tests;
+  TCase   *tests;
   Suite   *suite;
   SRunner *runner;
 
-  init_tests = tcase_create("Initialize Checks");
-  tcase_add_test(init_tests, test_init_portname);
-  tcase_add_test(init_tests, test_init_spreading);
-  tcase_add_test(init_tests, test_init_bandwidth);
-  tcase_add_test(init_tests, test_init_preambles);
-  tcase_add_test(init_tests, test_init_txpower);
-
-  receive_tests = tcase_create("Receive Checks");
-  tcase_add_test(receive_tests, test_receive_handle);
-
-  send_tests = tcase_create("Send Checks");
-  tcase_add_test(send_tests, test_send_handle);
-  tcase_add_test(send_tests, test_send_length);
-
-  send_string_tests = tcase_create("Send String Checks");
-  tcase_add_test(send_string_tests, test_send_string_handle);
-  tcase_add_test(send_string_tests, test_send_string_length);
-
-  radio_tests = tcase_create("Radio Checks");
-  tcase_add_test(radio_tests, test_send_receive);
+  tests = tcase_create("Initialize Checks");
+  tcase_add_test(tests, test_initialize);
+  tcase_add_test(tests, test_receive);
+  tcase_add_test(tests, test_send);
+  tcase_add_test(tests, test_radio);
 
   suite = suite_create("libwioe5ham1 Unit Tests");
-  suite_add_tcase(suite, init_tests);
-  suite_add_tcase(suite, receive_tests);
-  suite_add_tcase(suite, send_tests);
-  suite_add_tcase(suite, send_string_tests);
-  suite_add_tcase(suite, radio_tests);
+  suite_add_tcase(suite, tests);
 
   runner = srunner_create(suite);
   srunner_run_all(runner, CK_NORMAL);
