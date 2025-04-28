@@ -61,8 +61,8 @@ compile.done:
 # Build libremoteio.so
 
 libremoteio.so:
-	$(MAKE) -C libremoteio
-	cp libremoteio/libremoteio.so .
+	$(MAKE) -C ada/shared-libs/libremoteio
+	cp ada/shared-libs/libremoteio/libremoteio.so .
 
 # Build libsimpleio.a
 
@@ -87,7 +87,7 @@ install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
 	mkdir -p				$(DESTDIR)/include/libsimpleio
-	install -cm 0644 libremoteio/libremoteio.h $(DESTDIR)/include
+	install -cm 0644 ada/shared-libs/libremoteio/libremoteio.h $(DESTDIR)/include
 	sed -i 's/"C" //g'			$(DESTDIR)/include/libremoteio.h
 	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
 	mkdir -p				$(DESTDIR)/lib
@@ -151,7 +151,7 @@ package.deb: $(PKGFILE)
 
 clean:
 	$(MAKE) -C ada/lib     clean
-	$(MAKE) -C libremoteio clean
+	$(MAKE) -C ada/shared-libs/libremoteio clean
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean
