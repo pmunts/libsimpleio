@@ -88,13 +88,15 @@ adalibs.done:
 
 # Install headers and library files
 
-install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done
+install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so adalibs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
 	mkdir -p				$(DESTDIR)/include/libsimpleio
 	install -cm 0644 ada/shared-libs/libremoteio/libremoteio.h $(DESTDIR)/include
 	sed -i 's/"C" //g'			$(DESTDIR)/include/libremoteio.h
+	install -cm 0644 ada/shared-libs/libwioe5ham1/libwioe5ham1.h $(DESTDIR)/include
+	sed -i 's/"C" //g'			$(DESTDIR)/include/libwioe5ham1.h
 	install -cm 0644 c/*.h			$(DESTDIR)/include/libsimpleio
 	mkdir -p				$(DESTDIR)/lib
 	install -cm 0644 *.a			$(DESTDIR)/lib
