@@ -50,6 +50,31 @@ START_TEST(test_initialize)
   wioe5ham1_init("/dev/ttyS0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EIO);
 
+  // Test invalid baud rates
+
+  wioe5ham1_init("/dev/ttyUSB0", 2400, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_init("/dev/ttyUSB0", 4800, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_init("/dev/ttyUSB0", 9601, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  // Test invalid RF carrier frequencies
+
+  wioe5ham1_init("/dev/ttyUSB0", 115200, 862.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
+  ck_assert(error == EINVAL);
+  
+  wioe5ham1_init("/dev/ttyUSB0", 115200, 871.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
+  ck_assert(error == EINVAL);
+  
+  wioe5ham1_init("/dev/ttyUSB0", 115200, 901.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
+  ck_assert(error == EINVAL);
+  
+  wioe5ham1_init("/dev/ttyUSB0", 115200, 929.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
+  ck_assert(error == EINVAL);
+  
   // Test invalid spreading factors
 
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 6, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
@@ -80,12 +105,27 @@ START_TEST(test_initialize)
 
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 23, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == EINVAL);
+
+  // Test invalid network ID aka callsign
+
+  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXX", 1, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXXXX", 1, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  // Test invalid node ID
+
+  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 0, &handle, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 256, &handle, &error);
+  ck_assert(error == EINVAL);
 }
 END_TEST
 
 START_TEST(test_receive)
 {
-  int32_t handle;
   int8_t msg[255];
   int32_t len;
   int32_t src;
@@ -124,8 +164,6 @@ START_TEST(test_send)
   wioe5ham1_send(11, msg, 1, 2, &error);
   ck_assert(error == EINVAL);
 
-  // Test invalid device handle
-
   wioe5ham1_send_string(0, "This is a test.", 2, &error);
   ck_assert(error == EINVAL);
 
@@ -135,7 +173,7 @@ START_TEST(test_send)
   wioe5ham1_send_string(11, "This is a test.", 2, &error);
   ck_assert(error == EINVAL);
 
-  // Need to get a device handle to test length values
+  // Need to get a device handle to test length and destination node ID values
 
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 1, &handle, &error);
   ck_assert(error == 0);
@@ -149,15 +187,27 @@ START_TEST(test_send)
   wioe5ham1_send(handle, msg, 244, 2, &error);
   ck_assert(error == EINVAL);
 
-  // Test invalid length values
-
   wioe5ham1_send_string(handle, "", 2, &error);
   ck_assert(error == EINVAL);
 
   memset(msg,  0, sizeof(msg));
   memset(msg, 'A', sizeof(msg)-1);
 
-  wioe5ham1_send_string(handle, msg, 2, &error);
+  wioe5ham1_send_string(handle, (char *) msg, 2, &error);
+  ck_assert(error == EINVAL);
+
+  // Test invalid destination node ID values
+
+  wioe5ham1_send(handle, "DEADBEEF", 8, -1, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_send(handle, "DEADBEEF", 8, 256, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_send_string(handle, "DEADBEEF", -1, &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_send_string(handle, "DEADBEEF", 256, &error);
   ck_assert(error == EINVAL);
 }
 END_TEST
