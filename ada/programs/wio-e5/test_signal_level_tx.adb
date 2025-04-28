@@ -66,8 +66,6 @@ BEGIN
         & src'Image & " to node" & dst'Image & " RSS: " & RSS'Image &
         " dBm SNR: " & SNR'Image & " dB");
     END IF;
-
-    DELAY 0.3;
   END LOOP;
 
   dev.Shutdown;

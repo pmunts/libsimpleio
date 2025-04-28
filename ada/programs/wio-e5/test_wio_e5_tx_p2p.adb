@@ -50,8 +50,6 @@ BEGIN
       Put_Line("Received => """ & ToString(msg, len) & """ LEN:" & len'Image &
         " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image & " dB");
     END IF;
-
-    DELAY 0.3;
   END LOOP;
 
   dev.Shutdown;
