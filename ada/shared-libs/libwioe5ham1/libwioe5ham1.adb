@@ -18,6 +18,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Directories;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Interfaces.C.Strings;
 WITH errno;
@@ -57,6 +58,18 @@ PACKAGE BODY libWioE5Ham1 IS
 
     -- Validate parameters
 
+    IF port'Length = 0 THEN
+      Put_Line(Standard_error, "ERROR: Empty serial port name");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    IF NOT Ada.Directories.Exists(port) THEN
+      Put_Line(Standard_error, "ERROR: Nonexistent serial port name");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
     IF spreading < 7 OR spreading > 12 THEN
       Put_Line(Standard_error, "ERROR: Invalid spreading factor");
       err := errno.EINVAL;
@@ -65,6 +78,18 @@ PACKAGE BODY libWioE5Ham1 IS
 
     IF bandwidth /= 125 AND bandwidth /= 250 AND bandwidth /= 500 THEN
       Put_Line(Standard_error, "ERROR: Invalid bandwidth");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    IF txpreamble < 1 THEN
+      Put_Line(Standard_error, "ERROR: Invalid tx preamble");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    IF rxpreamble < 1 THEN
+      Put_Line(Standard_error, "ERROR: Invalid rx preamble");
       err := errno.EINVAL;
       RETURN;
     END IF;
@@ -151,6 +176,7 @@ PACKAGE BODY libWioE5Ham1 IS
 
     src := Integer(bsrc);
     dst := Integer(bdst);
+    err := 0;
 
   EXCEPTION
     WHEN OTHERS =>
@@ -193,6 +219,7 @@ PACKAGE BODY libWioE5Ham1 IS
     END IF;
 
     PortHandles(handle).Send(msg, len, Wio_E5.Byte(dst));
+    err := 0;
 
   EXCEPTION
     WHEN OTHERS =>
@@ -237,6 +264,7 @@ PACKAGE BODY libWioE5Ham1 IS
     END IF;
 
     PortHandles(handle).Send(s, Wio_E5.Byte(dst));
+    err := 0;
 
   EXCEPTION
     WHEN OTHERS =>
