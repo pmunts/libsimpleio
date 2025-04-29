@@ -24,7 +24,7 @@ WITH libLinux;
 WITH Watchdog.libsimpleio;
 WITH Wio_E5.Ham1;
 
-PROCEDURE test_signal_level_rx IS
+PROCEDURE test_signal_level_responder IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
 
@@ -57,9 +57,9 @@ BEGIN
     dev.Receive(msg, len, src, dst, RSS, SNR);
 
     IF len > 0 THEN
-      dev.Send("LEN:" & len'Image & " bytes RSS: " & RSS'Image & " dBm SNR: " & SNR'Image & " dB", src);
+      dev.Send("LEN:" & len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image & " dB", src);
     END IF;
 
     wd.Kick;
   END LOOP;
-END test_signal_level_rx;
+END test_signal_level_responder;
