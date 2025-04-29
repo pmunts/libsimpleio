@@ -21,12 +21,16 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH libLinux;
+WITH Logging.libsimpleio;
 WITH Watchdog.libsimpleio;
 WITH Wio_E5.Ham1;
 
 PROCEDURE test_signal_level_responder IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
+
+  NetworkID : CONSTANT String      := "XXXXXXXX";
+  NodeID    : CONSTANT Wio_E5.Byte := 2;
 
   err : Integer;
   wd  : Watchdog.Timer;
@@ -39,6 +43,10 @@ PROCEDURE test_signal_level_responder IS
   SNR : Integer;
 
 BEGIN
+  logging.libsimpleio.Note("LoRa Signal Level Responder");
+  logging.libsimpleio.Note("Network ID => " & NetworkID);
+  logging.libsimpleio.Note("Node ID    =>" & NodeID'Image);
+
   libLinux.Detach(err);
 
   -- Create a watchdog timer device object
@@ -51,13 +59,14 @@ BEGIN
 
   -- Create a LoRa transceiver object
 
-  dev :=  Create("/dev/ttyAMA0", 115200, "XXXXXXXX", 2, 915.0);
+  dev :=  Create("/dev/ttyAMA0", 115200, NetworkID, NodeID, 915.0);
 
   LOOP
     dev.Receive(msg, len, src, dst, RSS, SNR);
 
     IF len > 0 THEN
-      dev.Send("LEN:" & len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image & " dB", src);
+      dev.Send("LEN:" & len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" &
+        SNR'Image & " dB", src);
     END IF;
 
     wd.Kick;
