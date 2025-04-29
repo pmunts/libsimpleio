@@ -42,7 +42,7 @@ PROCEDURE test_crc16 IS
 
   BEGIN
     FOR I IN s'Range LOOP
-     outbuf(i) := Character'Pos(s(i)); 
+     outbuf(i) := Character'Pos(s(i));
     END LOOP;
 
     RETURN outbuf;

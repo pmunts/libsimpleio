@@ -55,7 +55,7 @@ PACKAGE libWioE5P2P IS
     msg        : LoRa.Frame;
     len        : Integer;
     err        : OUT Integer);
-    
+
   PROCEDURE SendString
    (handle     : Integer;
     outbuf     : Interfaces.C.Strings.chars_ptr;

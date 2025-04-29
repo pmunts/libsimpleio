@@ -60,7 +60,7 @@ PACKAGE libWioE5Ham1 IS
     len        : Integer;
     dst        : Integer;
     err        : OUT Integer);
-    
+
   PROCEDURE SendString
    (handle     : Integer;
     outbuf     : Interfaces.C.Strings.chars_ptr;

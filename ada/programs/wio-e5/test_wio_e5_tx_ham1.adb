@@ -51,7 +51,7 @@ BEGIN
   END IF;
 
   dev := Create("/dev/ttyAMA0", 115200, "XXXXXXXX", 1, 915.0);
- 
+
   num := Positive'Value(Ada.Command_Line.Argument(1));
 
   FOR i IN 1 .. num LOOP
