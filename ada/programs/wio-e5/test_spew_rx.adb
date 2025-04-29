@@ -46,8 +46,8 @@ BEGIN
 
     IF len > 0 THEN
       Put_Line("Received => """ & ToString(msg, len) & """ from node" &
-        src'Image & " to node" & dst'Image & " RSS: " & RSS'Image &
-        " dBm SNR: " & SNR'Image & " dB");
+        src'Image & " to node" & dst'Image & " RSS:" & RSS'Image &
+        " dBm SNR:" & SNR'Image & " dB");
     END IF;
   END LOOP;
 END test_spew_rx;

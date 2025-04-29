@@ -48,7 +48,7 @@ BEGIN
       Put_Line("Received => """ & ToString(msg, len) & """ LEN:" & len'Image &
         " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image & " dB");
 
-      dev.Send("LEN:" & len'Image & " bytes RSS: " & RSS'Image & " dBm SNR: " &
+      dev.Send("LEN:" & len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" &
         SNR'Image & " dB");
     END IF;
   END LOOP;
