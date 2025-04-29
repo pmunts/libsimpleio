@@ -22,15 +22,17 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH Wio_E5.P2P;
+WITH Wio_E5.Ham1;
 
-PROCEDURE test_wio_e5_rx_p2p IS
+PROCEDURE test_wio_e5_rx_ham1 IS
 
-  PACKAGE LoRa IS NEW Wio_E5.P2P; USE LoRa;
+  PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
 
   dev : Device;
   msg : Frame;
   len : Natural;
+  src : Wio_E5.Byte;
+  dst : Wio_E5.Byte;
   RSS : Integer;
   SNR : Integer;
 
@@ -39,17 +41,17 @@ BEGIN
   Put_Line("Wio-E5 LoRa Transceiver Receive Test");
   New_Line;
 
-  dev := Create("/dev/ttyAMA0", 115200, 915.0);
+  dev := Create("/dev/ttyAMA0", 115200, "XXXXXXXX", 2, 915.0);
 
   LOOP
-    dev.Receive(msg, len, RSS, SNR);
+    dev.Receive(msg, len, src, dst, RSS, SNR);
 
     IF len > 0 THEN
       Put_Line("Received => """ & ToString(msg, len) & """ LEN:" & len'Image &
         " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image & " dB");
 
       dev.Send("LEN:" & len'Image & " bytes RSS: " & RSS'Image & " dBm SNR: " &
-        SNR'Image & " dB");
+        SNR'Image & " dB", src);
     END IF;
   END LOOP;
-END test_wio_e5_rx_p2p;
+END test_wio_e5_rx_ham1;

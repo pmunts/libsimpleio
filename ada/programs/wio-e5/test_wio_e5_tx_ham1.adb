@@ -1,4 +1,4 @@
--- Wio-E5 LoRa Transceiver Signal Level Test Initiator
+-- Wio-E5 LoRa Transceiver Transmit Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -25,7 +25,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Wio_E5.Ham1;
 
-PROCEDURE test_signal_level_tx IS
+PROCEDURE test_wio_e5_tx_ham1 IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
 
@@ -40,11 +40,11 @@ PROCEDURE test_signal_level_tx IS
 
 BEGIN
   New_Line;
-  Put_Line("Wio-E5 LoRa Transceiver Signal Level Test Initiator");
+  Put_Line("Wio-E5 LoRa Transceiver Transmit Test");
   New_Line;
 
   IF Ada.Command_Line.Argument_Count /= 1 THEN
-    Put_Line("Usage: test_signal_level_tx <iterations>");
+    Put_Line("Usage: test_wio_e5_tx_ham1 <iterations>");
     New_Line;
     Ada.Command_Line.Set_Exit_Status(1);
     RETURN;
@@ -69,4 +69,4 @@ BEGIN
   END LOOP;
 
   dev.Shutdown;
-END test_signal_level_tx;
+END test_wio_e5_tx_ham1;

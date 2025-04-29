@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Wio_E5.P2P;
@@ -28,7 +29,8 @@ PROCEDURE test_wio_e5_tx_p2p IS
 
   PACKAGE LoRa IS NEW Wio_E5.P2P; USE LoRa;
 
-  dev : Device := Create("/dev/ttyAMA0", 115200, 915.0);
+  dev : Device;
+  num : Positive;
   msg : Frame;
   len : Natural := 0;
   RSS : Integer;
@@ -39,7 +41,18 @@ BEGIN
   Put_Line("Wio-E5 LoRa Transceiver Transmit Test");
   New_Line;
 
-  FOR i IN 1 .. 10 LOOP
+  IF Ada.Command_Line.Argument_Count /= 1 THEN
+    Put_Line("Usage: test_wio_e5_tx_p2p <iterations>");
+    New_Line;
+    Ada.Command_Line.Set_Exit_Status(1);
+    RETURN;
+  END IF;
+
+  dev := Create("/dev/ttyAMA0", 115200, 915.0);
+
+  num := Positive'Value(Ada.Command_Line.Argument(1));
+
+  FOR i IN 1 .. num LOOP
     dev.Send("This is test" & i'Image);
 
     DELAY 0.3;
