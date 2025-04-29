@@ -38,6 +38,10 @@ PACKAGE libWioE5P2P IS
     handle     : OUT Integer;
     err        : OUT Integer);
 
+  PROCEDURE Shutdown
+   (handle     : Integer;
+    err        : OUT Integer);
+
   PROCEDURE Receive
    (handle     : Integer;
     msg        : OUT LoRa.Frame;
@@ -58,6 +62,7 @@ PACKAGE libWioE5P2P IS
     err        : OUT Integer);
 
   PRAGMA Export(Convention => C, Entity => Initialize, External_Name => "wioe5p2p_init");
+  PRAGMA Export(Convention => C, Entity => Shutdown  , External_Name => "wioe5p2p_exit");
   PRAGMA Export(Convention => C, Entity => Receive,    External_Name => "wioe5p2p_receive");
   PRAGMA Export(Convention => C, Entity => Send,       External_Name => "wioe5p2p_send");
   PRAGMA Export(Convention => C, Entity => SendString, External_Name => "wioe5p2p_send_string");

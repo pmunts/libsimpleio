@@ -132,19 +132,48 @@ PACKAGE BODY libWioE5P2P IS
       txpreamble,
       rxpreamble,
       txpower);
- 
+
     PortHandles(NextPortHandle) := dev;
 
     handle := NextPortHandle;
     err    := 0;
 
     NextPortHandle := NextPortHandle + 1;
+
   EXCEPTION
     WHEN OTHERS =>
       Put_Line("ERROR: Wio_E5.P2P.Create() failed");
       handle := -1;
-      err    := errno.EIO;    
+      err    := errno.EIO;
   END Initialize;
+
+  PROCEDURE Shutdown
+   (handle     : Integer;
+    err        : OUT Integer) IS
+
+  BEGIN
+    -- Validate parameters
+
+    IF handle < 1 OR handle > MaxPortHandles THEN
+      Put_Line(Standard_Error, "ERROR: Invalid port handle");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    IF PortHandles(handle) = NULL THEN
+      Put_Line(Standard_Error, "ERROR: Invalid port handle");
+      err := errno.EINVAL;
+      RETURN;
+    END IF;
+
+    PortHandles(handle).Shutdown;
+    err := 0;
+
+  EXCEPTION
+    WHEN OTHERS =>
+      Put_Line("ERROR: Wio_E5.Ham1.Shutdown() failed");
+      err := errno.EIO;
+  END Shutdown;
 
   PROCEDURE Receive
    (handle     : Integer;

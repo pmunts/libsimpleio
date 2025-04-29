@@ -121,6 +121,17 @@ START_TEST(test_initialize)
 
   wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "XXXXXXXX", 256, &handle, &error);
   ck_assert(error == EINVAL);
+
+  // Test invalid device handle
+
+  wioe5ham1_exit(0,  &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_exit(1,  &error);
+  ck_assert(error == EINVAL);
+
+  wioe5ham1_exit(11, &error);
+  ck_assert(error == EINVAL);
 }
 END_TEST
 
@@ -266,6 +277,11 @@ START_TEST(test_radio)
   msg[len] = 0;
   puts((char *) msg);
   printf("LEN: %d bytes RSS: %d dBm SNR: %d dB\n", len, RSS, SNR);
+
+  // Test graceful exit
+
+  wioe5ham1_exit(handle, &error);
+  ck_assert(error == 0);
 }
 
 int main(void)

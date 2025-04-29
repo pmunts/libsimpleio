@@ -105,6 +105,17 @@ START_TEST(test_initialize)
 
   wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 23, &handle, &error);
   ck_assert(error == EINVAL);
+
+  // Test invalid device handle
+
+  wioe5p2p_exit(0,  &error);
+  ck_assert(error == EINVAL);
+
+  wioe5p2p_exit(1,  &error);
+  ck_assert(error == EINVAL);
+
+  wioe5p2p_exit(11, &error);
+  ck_assert(error == EINVAL);
 }
 END_TEST
 
@@ -233,6 +244,11 @@ START_TEST(test_radio)
   msg[len] = 0;
   puts((char *) msg);
   printf("LEN: %d bytes RSS:%d dBm SNR: %d dB\n", len, RSS, SNR);
+
+  // Test graceful exit
+
+  wioe5p2p_exit(handle, &error);
+  ck_assert(error == 0);
 }
 
 int main(void)
