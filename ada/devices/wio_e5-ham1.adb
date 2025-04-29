@@ -363,7 +363,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
         WHEN mydev.txqueue.Current_Use = 0 AND NOT inrcv AND NOT inxmt =>
           ACCEPT Shutdown DO
             active := False;
-            Logging.libsimpleio.Note("Terminating response handler task");
+            Logging.libsimpleio.Note("Terminating background task");
           END Shutdown;
       ELSE
 
@@ -373,7 +373,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
           PopTxQueue;
         END IF;
 
-        -- Check the serial port receiver
+        -- Run the serial port receiver state machine
 
         ProcessSerialPortRcv;
       END SELECT;
