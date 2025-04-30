@@ -100,4 +100,8 @@ PRIVATE
     fd : Integer := -1;
   END RECORD;
 
+  start_time : Ada.Real_Time.Time := Ada.Real_Time.Clock;
+
+  PROCEDURE StopWatch;
+`
 END Wio_E5;

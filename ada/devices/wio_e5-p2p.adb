@@ -35,24 +35,12 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Containers;
-WITH Ada.Real_Time;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 USE TYPE Ada.Containers.Count_Type;
-USE TYPE Ada.Real_Time.Time;
 
 PACKAGE BODY Wio_E5.P2P IS
-
-  start_time : Ada.Real_Time.Time := Ada.Real_Time.Clock;
-
-  PROCEDURE StopWatch IS
-
-    now : Ada.Real_Time.Time := Ada.Real_Time.Clock;
-
-  BEGIN
-    Put_Line("Stopwatch =>" & Ada.Real_Time.To_Duration(now - start_time)'Image);
-  END StopWatch;
 
   -- Convert a hex string to a byte
 
@@ -85,7 +73,6 @@ PACKAGE BODY Wio_E5.P2P IS
     buf    : String(1 .. 1024) := (OTHERS => ASCII.NUL);
     buflen : Natural           := 0;
 
-    resp_cfg  : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RFCFG.*");
     resp_ign  : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT|RFCFG");
     resp_rcv1 : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: LEN:[0-9]+, RSSI:-*[0-9]+, SNR:-*[0-9]+");
     resp_rcv2 : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RX [""][0-9a-fA-F]*[""]");
