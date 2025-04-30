@@ -27,6 +27,8 @@ extern void wioe5p2p_init(char *portname, int32_t baudrate, float freqmhz,
   int32_t spreading, int32_t bandwidth, int32_t txpreamble, int32_t rxpreamble,
   int32_t txpower, int32_t *handle, int32_t *error);
 
+extern void wioe5p2p_exit(int32_t handle, int32_t *error);
+
 extern void wioe5p2p_receive(int32_t handle, void *msg, int32_t *len,
   int32_t *rss, int32_t *snr, int32_t *error);
 
