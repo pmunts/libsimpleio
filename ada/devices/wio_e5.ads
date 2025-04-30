@@ -23,6 +23,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+PRIVATE WITH Ada.Real_Time;
 PRIVATE WITH GNAT.Regpat;
 
 PACKAGE Wio_E5 IS
@@ -103,5 +104,5 @@ PRIVATE
   start_time : Ada.Real_Time.Time := Ada.Real_Time.Clock;
 
   PROCEDURE StopWatch;
-`
+
 END Wio_E5;
