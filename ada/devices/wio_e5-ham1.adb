@@ -108,7 +108,6 @@ PACKAGE BODY Wio_E5.Ham1 IS
   TASK BODY BackgroundTask IS
 
     mydev  : DeviceSubclass;
-    myfd   : Integer           := -1;
     active : Boolean           := False;
     inrcv  : Boolean           := False;
     inxmt  : Boolean           := False;
@@ -289,7 +288,6 @@ PACKAGE BODY Wio_E5.Ham1 IS
   BEGIN
     ACCEPT Initialize(dev : DeviceSubclass) DO
       mydev  := dev;
-      myfd   := dev.fd;
       active := True;
     END Initialize;
 
@@ -386,7 +384,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
       RAISE Error WITH "Invalid transmit power setting";
     END IF;
 
-    SerialPortOpen(portname, baudrate, Self.fd);
+    Self.SerialPortOpen(portname, baudrate);
 
     -- Enter test mode
 

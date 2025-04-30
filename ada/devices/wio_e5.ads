@@ -42,9 +42,9 @@ PRIVATE
   -- Open serial port connection to the Wio-E5
 
   PROCEDURE SerialPortOpen
-   (name     : String;
-    baudrate : Positive;
-    fd       : OUT Integer)
+   (Self     : OUT DeviceClass;
+    name     : String;
+    baudrate : Positive)
 
     WITH Pre => name'Length > 0;
 

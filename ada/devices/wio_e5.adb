@@ -38,9 +38,9 @@ PACKAGE BODY Wio_E5 IS
   -- Open serial port connection to the Wio-E5
 
   PROCEDURE SerialPortOpen
-   (name     : String;
-    baudrate : Positive;
-    fd       : OUT Integer) IS
+   (Self     : OUT DeviceClass;
+    name     : String;
+    baudrate : Positive) IS
 
     err : Integer;
 
@@ -48,7 +48,7 @@ PACKAGE BODY Wio_E5 IS
     -- Open the serial port
 
     libSerial.Open(name & ASCII.NUL, baudrate, libSerial.PARITY_NONE,
-      8, 1, fd, err);
+      8, 1, Self.fd, err);
 
     IF err > 0 THEN
       RAISE Error WITH "libSerial.Open failed, " & errno.strerror(err);
