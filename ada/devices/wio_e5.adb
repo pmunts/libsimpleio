@@ -61,8 +61,31 @@ PACKAGE BODY Wio_E5 IS
     (Self : DeviceClass;
      c    : OUT Character) RETURN Boolean IS
 
+    count    : Natural;
+    err      : Integer;
+
   BEGIN
-    RETURN False;
+    libLinux.PollInput(Self.fd, 1, err);
+
+    IF err = errno.EAGAIN THEN
+      RETURN False;
+    END IF;
+
+    IF err > 0 THEN
+      RAISE Error WITH "libLinux.PollInput failed, " & errno.strerror(err);
+    END IF;
+
+    libSerial.Receive(Self.fd, c'Address, 1, count, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libSerial.Receive failed, " & errno.strerror(err);
+    END IF;
+
+    IF count = 0 THEN
+      RAISE Error WITH "libSerial.Receive failed to receive a byte";
+    END IF;
+
+    RETURN True;
   END SerialPortReceive;
 
   -- Send a string of characters to the Wio-E5
@@ -143,8 +166,6 @@ PACKAGE BODY Wio_E5 IS
     deadline : CONSTANT Ada.Real_Time.Time := Ada.Real_Time.Clock +
       Ada.Real_Time.To_Time_Span(Timeout);
     inbuf    : Character;
-    count    : Natural;
-    err      : Integer;
     respidx  : Natural := 0;
     resp     : String(1 .. 1024) := (OTHERS => ASCII.NUL);
 
@@ -156,31 +177,15 @@ PACKAGE BODY Wio_E5 IS
         RETURN resp;
       END IF;
 
-      libLinux.PollInput(Self.fd, 1, err);
-
-      IF err > 0 AND err /= errno.EAGAIN THEN
-        RAISE Error WITH "libLinux.PollInput failed, " & errno.strerror(err);
-      END IF;
-
-      IF err = 0 THEN
-        libSerial.Receive(Self.fd, inbuf'Address, 1, count, err);
-
-        IF err > 0 THEN
-          RAISE Error WITH "libSerial.Receive failed, " & errno.strerror(err);
-        END IF;
-
-        IF count = 0 THEN
-          RAISE Error WITH "libSerial.Receive failed to receive a byte";
-        END IF;
-
-        IF respidx = resp'Length THEN
-          RAISE Error WITH "response buffer overrun";
-        END IF;
-
+      IF Self.SerialPortReceive(inbuf) THEN
         respidx := respidx + 1;
         resp(respidx) := inbuf;
 
         EXIT WHEN resp(respidx) = ASCII.LF;
+      END IF;
+
+      IF respidx = resp'Length THEN
+        RAISE Error WITH "response buffer overrun";
       END IF;
     END LOOP;
 
