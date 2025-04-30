@@ -327,7 +327,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
     txpreamble : Positive := 12;  -- bits;
     rxpreamble : Positive := 15;  -- bits;
     txpower    : Positive := 22)  -- dBm;
-  RETURN DEVICE IS
+  RETURN Device IS
 
     dev : DeviceSubclass;
 
