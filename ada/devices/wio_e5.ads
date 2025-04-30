@@ -41,7 +41,7 @@ PRIVATE
 
   -- Open serial port connection to the Wio-E5
 
-  PROCEDURE OpenSerialPort
+  PROCEDURE SerialPortOpen
    (name     : String;
     baudrate : Positive;
     fd       : OUT Integer)

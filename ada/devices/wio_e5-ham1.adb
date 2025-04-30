@@ -450,7 +450,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
       RAISE Error WITH "Invalid transmit power setting";
     END IF;
 
-    OpenSerialPort(portname, baudrate, Self.fd);
+    SerialPortOpen(portname, baudrate, Self.fd);
 
     -- Enter test mode
 
