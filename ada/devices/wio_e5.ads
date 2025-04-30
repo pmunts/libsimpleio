@@ -48,6 +48,20 @@ PRIVATE
 
     WITH Pre => name'Length > 0;
 
+  -- Receive one character from Wio-E5
+
+  FUNCTION SerialPortReceive
+    (Self : DeviceClass;
+     c    : OUT Character) RETURN Boolean;
+
+  -- Send a string of characters to the Wio-E5
+
+  PROCEDURE SerialPortSend
+    (Self : DeviceClass;
+     s    : String)
+
+    WITH Pre => s'Length > 0;
+
   -- Send AT command string to Wio-E5
 
   PROCEDURE SendATCommand(Self : DeviceClass; cmd : String)

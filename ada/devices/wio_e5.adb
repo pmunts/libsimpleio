@@ -55,24 +55,43 @@ PACKAGE BODY Wio_E5 IS
     END IF;
   END;
 
-  -- Send AT command string to Wio-E5
+  -- Receive one character from Wio-E5
 
-  PROCEDURE SendATCommand(Self : DeviceClass; cmd : String) IS
+  FUNCTION SerialPortReceive
+    (Self : DeviceClass;
+     c    : OUT Character) RETURN Boolean IS
 
-    outbuf : String := cmd & ASCII.CR & ASCII.LF;
+  BEGIN
+    RETURN False;
+  END SerialPortReceive;
+
+  -- Send a string of characters to the Wio-E5
+
+  PROCEDURE SerialPortSend
+    (Self : DeviceClass;
+     s    : String) IS
+
     count  : Integer;
     err    : Integer;
 
   BEGIN
-    libSerial.Send(Self.fd, outbuf'Address, outbuf'Length, count, err);
+    libSerial.Send(Self.fd, s'Address, s'Length, count, err);
 
     IF err > 0 THEN
       RAISE Error WITH "libSerial.Send failed, " & errno.strerror(err);
     END IF;
 
-    IF count < outbuf'Length THEN
+    IF count < s'Length THEN
       RAISE Error WITH "libSerial.Send failed to send all data";
     END IF;
+  END SerialPortSend;
+
+  -- Send AT command string to Wio-E5
+
+  PROCEDURE SendATCommand(Self : DeviceClass; cmd : String) IS
+
+  BEGIN
+    Self.SerialPortSend(cmd & ASCII.CR & ASCII.LF);
   END SendATCommand;
 
   -- Send AT command string to Wio-E5 expecting a response string
@@ -84,7 +103,7 @@ PACKAGE BODY Wio_E5 IS
     timeout : Duration := DefaultTimeout) IS
 
   BEGIN
-    Self.SendATCommand(cmd);
+    Self.SerialPortSend(cmd & ASCII.CR & ASCII.LF);
 
     DECLARE
       s : String := Self.GetATResponse(timeout);
@@ -104,7 +123,7 @@ PACKAGE BODY Wio_E5 IS
     timeout : Duration := DefaultTimeout) IS
 
   BEGIN
-    Self.SendATCommand(cmd);
+    Self.SerialPortSend(cmd & ASCII.CR & ASCII.LF);
 
     DECLARE
       s : String := Self.GetATResponse(timeout);
