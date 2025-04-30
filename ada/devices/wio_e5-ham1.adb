@@ -56,11 +56,6 @@ WITH Ada.Real_Time;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH errno;
-WITH LibLinux;
-WITH LibSerial;
-WITH Logging.libsimpleio;
-
 USE TYPE Ada.Containers.Count_Type;
 USE TYPE Ada.Real_Time.Time;
 
@@ -123,17 +118,9 @@ PACKAGE BODY Wio_E5.Ham1 IS
     buflen : Natural           := 0;
 
     resp_cfg  : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RFCFG.*");
-    resp_ign  : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT");
+    resp_ign  : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: TXLRPKT|RFCFG");
     resp_rcv1 : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: LEN:[0-9]+, RSSI:-*[0-9]+, SNR:-*[0-9]+");
     resp_rcv2 : CONSTANT GNAT.Regpat.Pattern_Matcher := GNAT.Regpat.Compile("\+TEST: RX [""][0-9a-fA-F]*[""]");
-
-    PROCEDURE BufError(msg : String) IS
-
-    BEGIN
-      Logging.libsimpleio.Error(msg);
-      buf    := (OTHERS => ASCII.NUL);
-      buflen := 0;
-    END BufError;
 
     PROCEDURE PopTxQueue IS
 
@@ -232,13 +219,6 @@ PACKAGE BODY Wio_E5.Ham1 IS
       RSS := Integer'First;
       SNR := Integer'First;
 
-      -- Check for RF configuration report
-
-      IF GNAT.Regpat.Match(resp_cfg, s) THEN
-        Logging.libsimpleio.Note(Ada.Strings.Fixed.Delete(s, 1, 15));
-        RETURN;
-      END IF;
-
       -- Check for transmit done
 
       IF s = "+TEST: TX DONE" THEN
@@ -269,9 +249,23 @@ PACKAGE BODY Wio_E5.Ham1 IS
       Put_Line("DEBUG: response line => " & s);
     END ProcessResponse;
 
-    PROCEDURE ProcessCharacter(c : Character) IS
+    PROCEDURE ReceiveOneCharacter IS
+
+      c : Character;
 
     BEGIN
+      IF NOT mydev.SerialPortReceive(c) THEN
+        RETURN;
+      END IF;
+
+      -- Check for buffer overrun
+
+      IF buflen = buf'Length THEN
+        buf    := (OTHERS => ASCII.NUL);
+        buflen := 0;
+        RETURN;
+      END IF;
+
       buflen      := buflen + 1;
       buf(buflen) := c;
 
@@ -290,64 +284,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
         buf    := (OTHERS => ASCII.NUL);
         buflen := 0;
       END IF;
-    END ProcessCharacter;
-
-    PROCEDURE ProcessSerialPortRcv IS
-
-      inbuf  : Character;
-      count  : Integer;
-      err    : Integer;
-
-    BEGIN
-      -- Check for serial data to arrive
-
-      libLinux.PollInput(myfd, 10, err);
-      DELAY 0.0;
-
-      -- poll() timed out
-
-      IF err = errno.EAGAIN THEN
-        -- No data is available
-        RETURN;
-      END IF;
-
-      -- Check for poll() error
-
-      IF err > 0 THEN
-        -- PollInput failed
-        BufError("libLinux.PollInput failed, " & errno.strerror(err));
-        RETURN;
-      END IF;
-
-      -- Data is available, read a byte
-
-      libSerial.Receive(myfd, inbuf'Address, 1, count, err);
-
-      -- Check for read() error
-
-      IF err > 0 THEN
-        BufError("libSerial.Receive failed, " & errno.strerror(err));
-        RETURN;
-      END IF;
-
-      -- Check for short read (should be impossible, but we'll check anyway)
-
-      IF count /= 1 THEN
-        BufError("libSerial.Receive failed to read a byte");
-        RETURN;
-      END IF;
-
-      -- It's now a little late, but check for buffer overrun
-
-      IF buflen = buf'Length THEN
-        BufError("Response buffer overrun");
-        RETURN;
-      END IF;
-
-      -- Hurray, despite all the odds, we got a byte from the serial port
-
-      ProcessCharacter(inbuf);
-    END ProcessSerialPortRcv;
+    END ReceiveOneCharacter;
 
   BEGIN
     ACCEPT Initialize(dev : DeviceSubclass) DO
@@ -363,7 +300,6 @@ PACKAGE BODY Wio_E5.Ham1 IS
         WHEN mydev.txqueue.Current_Use = 0 AND NOT inrcv AND NOT inxmt =>
           ACCEPT Shutdown DO
             active := False;
-            Logging.libsimpleio.Note("Terminating background task");
           END Shutdown;
       ELSE
 
@@ -375,7 +311,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
         -- Run the serial port receiver state machine
 
-        ProcessSerialPortRcv;
+        ReceiveOneCharacter;
       END SELECT;
     END LOOP;
   END BackgroundTask;
@@ -475,11 +411,6 @@ PACKAGE BODY Wio_E5.Ham1 IS
     -- Initialize the background task
 
     Self.response.Initialize(Self);
-
-    -- Query RF configuration for the log
-
-    Self.SendATCommand("AT+TEST=?");
-    DELAY DefaultTimeout;
   END Initialize;
 
   -- Terminate background task
