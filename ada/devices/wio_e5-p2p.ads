@@ -165,6 +165,6 @@ PRIVATE
     response : TaskAccess;
   END RECORD;
 
-  Uninitialized : CONSTANT DeviceSubclass := DeviceSubclass'(-1, NULL, NULL, NULL);
+  Uninitialized : CONSTANT DeviceSubclass := DeviceSubclass'(NULL, NULL, NULL, NULL);
 
 END Wio_E5.P2P;

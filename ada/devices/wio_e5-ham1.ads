@@ -204,6 +204,6 @@ PRIVATE
   END RECORD;
 
   Uninitialized : CONSTANT DeviceSubclass :=
-    DeviceSubclass'(-1, (OTHERS => ASCII.NUL), 0, NULL, NULL, NULL);
+    DeviceSubclass'(NULL, (OTHERS => ASCII.NUL), 0, NULL, NULL, NULL);
 
 END Wio_E5.Ham1;

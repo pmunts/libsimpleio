@@ -23,18 +23,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.IO_Exceptions;
 WITH Ada.Real_Time;
 WITH Ada.Strings.Fixed;
 WITH Ada.Strings.Maps.Constants;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH errno;
-WITH LibLinux;
-WITH LibSerial;
-
 USE TYPE Ada.Real_Time.Time;
 
 PACKAGE BODY Wio_E5 IS
+
+  PACKAGE sercom RENAMES GNAT.Serial_Communications;
 
   -- Open serial port connection to the Wio-E5
 
@@ -43,17 +42,38 @@ PACKAGE BODY Wio_E5 IS
     name     : String;
     baudrate : Positive) IS
 
-    err : Integer;
+    baud : sercom.Data_Rate;
 
   BEGIN
-    -- Open the serial port
 
-    libSerial.Open(name & ASCII.NUL, baudrate, libSerial.PARITY_NONE,
-      8, 1, Self.fd, err);
+    -- The following baud rates are specified in "LoRa-E5 AT Command Specification".
+    -- As of 2024, GNAT.Serial_Communications does not support 14400 or 78600.
 
-    IF err > 0 THEN
-      RAISE Error WITH "libSerial.Open failed, " & errno.strerror(err);
-    END IF;
+    CASE baudrate IS
+      WHEN 9600   =>
+        baud := sercom.B9600;
+--    WHEN 14400  =>
+--      baud := sercom.B14400;
+      WHEN 19200  =>
+        baud := sercom.B19200;
+      WHEN 38400  =>
+        baud := sercom.B38400;
+      WHEN 57600  =>
+        baud := sercom.B57600;
+--    WHEN 76800  =>
+--      baud := sercom.B76800;
+      WHEN 115200 =>
+        baud := sercom.B115200;
+      WHEN 230400 =>
+        baud := sercom.B230400;
+      WHEN OTHERS =>
+        RAISE Error WITH "Invalid baud rate parameter.";
+    END CASE;
+
+    Self.port := NEW sercom.Serial_Port;
+
+    sercom.Open(Self.port.ALL, sercom.Port_Name(name));
+    sercom.Set(Self.port.ALL, baud, Timeout => 0.001);
   END;
 
   -- Receive one character from Wio-E5
@@ -62,31 +82,13 @@ PACKAGE BODY Wio_E5 IS
     (Self : DeviceClass;
      c    : OUT Character) RETURN Boolean IS
 
-    count    : Natural;
-    err      : Integer;
-
   BEGIN
-    libLinux.PollInput(Self.fd, 1, err);
-
-    IF err = errno.EAGAIN THEN
-      RETURN False;
-    END IF;
-
-    IF err > 0 THEN
-      RAISE Error WITH "libLinux.PollInput failed, " & errno.strerror(err);
-    END IF;
-
-    libSerial.Receive(Self.fd, c'Address, 1, count, err);
-
-    IF err > 0 THEN
-      RAISE Error WITH "libSerial.Receive failed, " & errno.strerror(err);
-    END IF;
-
-    IF count = 0 THEN
-      RAISE Error WITH "libSerial.Receive failed to receive a byte";
-    END IF;
-
+    Character'Read(Self.port, c);
     RETURN True;
+  EXCEPTION
+    WHEN Ada.IO_Exceptions.End_Error | GNAT.Serial_Communications.Serial_Error =>
+      DELAY 0.005; -- Workaround for broken GNAT.Serial_Communications timeout
+      RETURN False;
   END SerialPortReceive;
 
   -- Send a string of characters to the Wio-E5
@@ -95,19 +97,8 @@ PACKAGE BODY Wio_E5 IS
     (Self : DeviceClass;
      s    : String) IS
 
-    count  : Integer;
-    err    : Integer;
-
   BEGIN
-    libSerial.Send(Self.fd, s'Address, s'Length, count, err);
-
-    IF err > 0 THEN
-      RAISE Error WITH "libSerial.Send failed, " & errno.strerror(err);
-    END IF;
-
-    IF count < s'Length THEN
-      RAISE Error WITH "libSerial.Send failed to send all data";
-    END IF;
+    String'Write(Self.port, s);
   END SerialPortSend;
 
   -- Send AT command string to Wio-E5

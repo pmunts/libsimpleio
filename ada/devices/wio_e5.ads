@@ -25,6 +25,7 @@
 
 PRIVATE WITH Ada.Real_Time;
 PRIVATE WITH GNAT.Regpat;
+PRIVATE WITH GNAT.Serial_Communications;
 
 PACKAGE Wio_E5 IS
 
@@ -98,7 +99,7 @@ PRIVATE
   -- Wio-E5 device class
 
   TYPE DeviceClass IS TAGGED RECORD
-    fd : Integer := -1;
+    port : ACCESS GNAT.Serial_Communications.Serial_Port := NULL;
   END RECORD;
 
   start_time : Ada.Real_Time.Time := Ada.Real_Time.Clock;
