@@ -73,7 +73,7 @@ PACKAGE BODY Wio_E5 IS
     Self.port := NEW sercom.Serial_Port;
 
     sercom.Open(Self.port.ALL, sercom.Port_Name(name));
-    sercom.Set(Self.port.ALL, baud, Timeout => 0.001);
+    sercom.Set(Self.port.ALL, baud, Block => False, Timeout => 0.0);
   END;
 
   -- Receive one character from Wio-E5
