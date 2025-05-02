@@ -52,6 +52,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Containers;
+WITH Ada.Directories;
 WITH Ada.Environment_Variables;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
@@ -306,15 +307,15 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   FUNCTION Create
    (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
-    baudrate   : Positive;        -- bits per second e.g. 115200
+    baudrate   : Integer;         -- bits per second e.g. 115200
     network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
     node       : Byte;            -- ARCNET style e.g. 1 to 255
     freqmhz    : Frequency;       -- MHz e.g. 915.000
-    spreading  : Positive := 7;   -- (7 to 12)
-    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
-    txpreamble : Positive := 12;  -- bits;
-    rxpreamble : Positive := 15;  -- bits;
-    txpower    : Positive := 22)  -- dBm;
+    spreading  : Integer := 7;    -- (7 to 12)
+    bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
+    txpreamble : Integer := 12;   -- bits;
+    rxpreamble : Integer := 15;   -- bits;
+    txpower    : Integer := 22)   -- dBm;
   RETURN Device IS
 
     dev : DeviceSubclass;
@@ -325,10 +326,10 @@ PACKAGE BODY Wio_E5.Ham1 IS
     RETURN NEW DeviceSubclass'(dev);
   END Create;
 
-  -- Device object constructor getting configuration parameters from 
+  -- Device object constructor that gets configuration parameters from 
   -- environment variables, some of which have default values.
   --
-  -- This is mostly for MuntsOS Embedded Linux targets, with configuration
+  -- This is mostly for MuntsOS Embedded Linux targets with configuration
   -- parameters defined in /etc/environment.
   --
   -- WIOE5_PORT
@@ -348,15 +349,15 @@ PACKAGE BODY Wio_E5.Ham1 IS
     PACKAGE str RENAMES Ada.Strings.Fixed;
 
     portname   : String    := env.Value("WIOE5_PORT");
-    baudrate   : Positive  := Positive'Value(env.Value("WIOE5_BAUD", "115200"));
+    baudrate   : Integer   := Positive'Value(env.Value("WIOE5_BAUD", "115200"));
     network    : String    := str.Head(env.Value("WIOE5_NETWORK"), 8);
     node       : Byte      := Byte'Value(env.Value("WIOE5_NODE"));
     freqmhz    : Frequency := Frequency'value(env.Value("WIOE5_FREQ"));
-    spreading  : Positive  := Positive'value(env.Value("WIOE5_SPREADING", "7"));
-    bandwidth  : Positive  := Positive'value(env.Value("WIOE5_BANDWIDTH", "500"));
-    txpreamble : Positive  := Positive'value(env.Value("WIOE5_TXPREAMBLE", "12"));
-    rxpreamble : Positive  := Positive'value(env.Value("WIOE5_RXPREAMBLE", "15"));
-    txpower    : Positive  := Positive'value(env.Value("WIOE5_TXPOWER", "22"));
+    spreading  : Integer   := Positive'value(env.Value("WIOE5_SPREADING", "7"));
+    bandwidth  : Integer   := Positive'value(env.Value("WIOE5_BANDWIDTH", "500"));
+    txpreamble : Integer   := Positive'value(env.Value("WIOE5_TXPREAMBLE", "12"));
+    rxpreamble : Integer   := Positive'value(env.Value("WIOE5_RXPREAMBLE", "15"));
+    txpower    : Integer   := Integer'value(env.Value("WIOE5_TXPOWER", "22"));
 
   BEGIN
     RETURN Create(portname, baudrate, network, node, freqmhz, spreading,
@@ -367,16 +368,16 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   PROCEDURE Initialize
    (Self       : OUT DeviceSubclass;
-    portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
-    baudrate   : Positive;        -- bits per second e.g. 115200
-    network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
-    node       : Byte;            -- ARCNET style e.g. 1 to 255
-    freqmhz    : Frequency;       -- MHz e.g. 915.000
-    spreading  : Positive := 7;   -- (7 to 12)
-    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
-    txpreamble : Positive := 12;  -- bits;
-    rxpreamble : Positive := 15;  -- bits;
-    txpower    : Positive := 22)  -- dBm
+    portname   : String;           -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Integer;          -- bits per second e.g. 115200
+    network    : NetworkID;        -- aka callsign e.g. "WA7AAA  "
+    node       : Byte;             -- ARCNET style e.g. 1 to 255
+    freqmhz    : Frequency;        -- MHz e.g. 915.000
+    spreading  : Integer  := 7;    -- (7 to 12)
+    bandwidth  : Integer  := 500;  -- kHz (125, 250, or 500)
+    txpreamble : Integer  := 12;   -- bits;
+    rxpreamble : Integer  := 15;   -- bits;
+    txpower    : Integer  := 22)   -- dBm;
    IS
 
     config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
@@ -395,19 +396,53 @@ PACKAGE BODY Wio_E5.Ham1 IS
     -- Validate parameters
 
     IF Frame'Length > 253 THEN
-      RAISE Error WITH "Invalid frame size setting";
+      RAISE Error WITH "Invalid frame size";
+    END IF;
+
+    IF portname'Length < 1 THEN
+      RAISE Error WITH "Invalid port name, cannot be empty";
+    END IF;
+
+    IF NOT Ada.Directories.Exists(portname) THEN
+      RAISE Error WITH "Serial port device does not exist";
+    END IF;
+
+    IF baudrate /= 230400 AND baudrate /= 115200 AND baudrate /= 76800 AND
+       baudrate /= 57600  AND baudrate /= 38400  AND baudrate /= 19200 AND
+       baudrate /= 14400  AND baudrate /= 9600 THEN
+      RAISE ERROR WITH "Invalid serial port data rate";
+    END IF;
+
+    IF network'Length < 1 THEN
+      RAISE Error WITH "Invalid network ID, cannot be empty";
+    END IF;
+
+    IF node = Broadcast THEN
+      RAISE Error WITH "Invalid node ID, cannot be broadcast address";
+    END IF;
+
+    IF freqmhz < 902.0 OR freqmhz > 928.0 THEN
+      RAISE Error WITH "Invalid RF center frequency";
     END IF;
 
     IF spreading < 7 OR spreading > 12 THEN
-      RAISE Error WITH "Invalid spreading factor setting";
+      RAISE Error WITH "Invalid spreading factor";
     END IF;
 
     IF bandwidth /= 125 AND bandwidth /= 250 AND bandwidth /= 500 THEN
-      RAISE Error WITH "Invalid bandwidth setting";
+      RAISE Error WITH "Invalid bandwidth";
+    END IF;
+
+    IF txpreamble < 1 THEN
+      RAISE Error WITH "Invalid tx preamble bits";
+    END IF;
+
+    IF rxpreamble < 1 THEN
+      RAISE Error WITH "Invalid rx preamble bits";
     END IF;
 
     IF txpower < -1 OR txpower > 22 THEN
-      RAISE Error WITH "Invalid transmit power setting";
+      RAISE Error WITH "Invalid transmit power";
     END IF;
 
     Self.SerialPortOpen(portname, baudrate);
@@ -455,6 +490,10 @@ PACKAGE BODY Wio_E5.Ham1 IS
     item : Queue_Item;
 
   BEGIN
+    IF s'Length < 1 OR s'Length > MaxPayloadLength THEN
+      RAISE Error WITH "Invalid payload length";
+    END IF;
+
     item.msg := ToFrame(s);
     item.len := s'Length;
     item.src := Self.node;
@@ -475,6 +514,10 @@ PACKAGE BODY Wio_E5.Ham1 IS
     item : Queue_Item;
 
   BEGIN
+    IF len > MaxPayloadLength THEN
+      RAISE Error WITH "Invalid payload length";
+    END IF;
+
     item.msg := msg;
     item.len := len;
     item.src := Self.node;

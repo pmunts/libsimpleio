@@ -69,31 +69,29 @@ PACKAGE Wio_E5.Ham1 IS
 
   SUBTYPE NetworkID IS String(1 .. 8); -- e.g. callsign
 
-  Uninitialized  : CONSTANT DeviceSubclass;
-
-  Broadcast : CONSTANT Byte := 0; -- ARCNET style broadcast address
+  Broadcast        : CONSTANT Byte    := 0; -- ARCNET style broadcast address
+  MaxPayloadLength : CONSTANT Natural := MaxPayloadSize;
+  Uninitialized    : CONSTANT DeviceSubclass;
 
   -- Device object constructor
 
   FUNCTION Create
    (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
-    baudrate   : Positive;        -- bits per second e.g. 115200
+    baudrate   : Integer;         -- bits per second e.g. 115200
     network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
     node       : Byte;            -- ARCNET style e.g. 1 to 255
     freqmhz    : Frequency;       -- MHz e.g. 915.000
-    spreading  : Positive := 7;   -- (7 to 12)
-    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
-    txpreamble : Positive := 12;  -- bits;
-    rxpreamble : Positive := 15;  -- bits;
-    txpower    : Positive := 22)  -- dBm;
-  RETURN Device
+    spreading  : Integer := 7;    -- (7 to 12)
+    bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
+    txpreamble : Integer := 12;   -- bits;
+    rxpreamble : Integer := 15;   -- bits;
+    txpower    : Integer := 22)   -- dBm;
+  RETURN Device;
 
-    WITH Pre => portname'Length > 0 AND network'Length > 0 AND node > Broadcast;
-
-  -- Device object constructor getting configuration parameters from 
+  -- Device object constructor that gets configuration parameters from 
   -- environment variables, some of which have default values.
   --
-  -- This is mostly for MuntsOS Embedded Linux targets, with configuration
+  -- This is mostly for MuntsOS Embedded Linux targets with configuration
   -- parameters defined in /etc/environment.
   --
   -- WIOE5_PORT
@@ -113,18 +111,16 @@ PACKAGE Wio_E5.Ham1 IS
 
   PROCEDURE Initialize
    (Self       : OUT DeviceSubclass;
-    portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
-    baudrate   : Positive;        -- bits per second e.g. 115200
-    network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
-    node       : Byte;            -- ARCNET style e.g. 1 to 255
-    freqmhz    : Frequency;       -- MHz e.g. 915.000
-    spreading  : Positive := 7;   -- (7 to 12)
-    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
-    txpreamble : Positive := 12;  -- bits;
-    rxpreamble : Positive := 15;  -- bits;
-    txpower    : Positive := 22)  -- dBm;
-
-    WITH Pre => portname'Length > 0 AND network'Length > 0 AND node > Broadcast;
+    portname   : String;           -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Integer;          -- bits per second e.g. 115200
+    network    : NetworkID;        -- aka callsign e.g. "WA7AAA  "
+    node       : Byte;             -- ARCNET style e.g. 1 to 255
+    freqmhz    : Frequency;        -- MHz e.g. 915.000
+    spreading  : Integer  := 7;    -- (7 to 12)
+    bandwidth  : Integer  := 500;  -- kHz (125, 250, or 500)
+    txpreamble : Integer  := 12;   -- bits;
+    rxpreamble : Integer  := 15;   -- bits;
+    txpower    : Integer  := 22);  -- dBm;
 
   -- Terminate background task
 
@@ -139,7 +135,7 @@ PACKAGE Wio_E5.Ham1 IS
     s    : String;
     dst  : Byte)
 
-    WITH Pre => Self /= Uninitialized AND s'Length > 0 AND s'Length <= MaxPayloadSize;
+    WITH Pre => Self /= Uninitialized;
 
   -- Send a binary message, which cannot be empty.
 
@@ -149,7 +145,7 @@ PACKAGE Wio_E5.Ham1 IS
     len  : Positive;
     dst  : Byte)
 
-    WITH Pre => Self /= Uninitialized AND len <= MaxPayloadSize;
+    WITH Pre => Self /= Uninitialized;
 
   -- Receive a binary message, which cannot be empty.
   -- Zero length indicates no messages are available.
