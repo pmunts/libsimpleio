@@ -326,7 +326,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
     RETURN NEW DeviceSubclass'(dev);
   END Create;
 
-  -- Device object constructor that gets configuration parameters from 
+  -- Device object constructor that gets configuration parameters from
   -- environment variables, some of which have default values.
   --
   -- This is mostly for MuntsOS Embedded Linux targets with configuration
@@ -349,14 +349,14 @@ PACKAGE BODY Wio_E5.Ham1 IS
     PACKAGE str RENAMES Ada.Strings.Fixed;
 
     portname   : String    := env.Value("WIOE5_PORT");
-    baudrate   : Integer   := Positive'Value(env.Value("WIOE5_BAUD", "115200"));
+    baudrate   : Integer   := Integer'Value(env.Value("WIOE5_BAUD", "115200"));
     network    : String    := str.Head(env.Value("WIOE5_NETWORK"), 8);
     node       : Byte      := Byte'Value(env.Value("WIOE5_NODE"));
     freqmhz    : Frequency := Frequency'value(env.Value("WIOE5_FREQ"));
-    spreading  : Integer   := Positive'value(env.Value("WIOE5_SPREADING", "7"));
-    bandwidth  : Integer   := Positive'value(env.Value("WIOE5_BANDWIDTH", "500"));
-    txpreamble : Integer   := Positive'value(env.Value("WIOE5_TXPREAMBLE", "12"));
-    rxpreamble : Integer   := Positive'value(env.Value("WIOE5_RXPREAMBLE", "15"));
+    spreading  : Integer   := Integer'value(env.Value("WIOE5_SPREADING", "7"));
+    bandwidth  : Integer   := Integer'value(env.Value("WIOE5_BANDWIDTH", "500"));
+    txpreamble : Integer   := Integer'value(env.Value("WIOE5_TXPREAMBLE", "12"));
+    rxpreamble : Integer   := Integer'value(env.Value("WIOE5_RXPREAMBLE", "15"));
     txpower    : Integer   := Integer'value(env.Value("WIOE5_TXPOWER", "22"));
 
   BEGIN
@@ -368,16 +368,16 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   PROCEDURE Initialize
    (Self       : OUT DeviceSubclass;
-    portname   : String;           -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
-    baudrate   : Integer;          -- bits per second e.g. 115200
-    network    : NetworkID;        -- aka callsign e.g. "WA7AAA  "
-    node       : Byte;             -- ARCNET style e.g. 1 to 255
-    freqmhz    : Frequency;        -- MHz e.g. 915.000
-    spreading  : Integer  := 7;    -- (7 to 12)
-    bandwidth  : Integer  := 500;  -- kHz (125, 250, or 500)
-    txpreamble : Integer  := 12;   -- bits;
-    rxpreamble : Integer  := 15;   -- bits;
-    txpower    : Integer  := 22)   -- dBm;
+    portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Integer;         -- bits per second e.g. 115200
+    network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
+    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Integer := 7;    -- (7 to 12)
+    bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
+    txpreamble : Integer := 12;   -- bits;
+    rxpreamble : Integer := 15;   -- bits;
+    txpower    : Integer := 22)   -- dBm;
    IS
 
     config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
