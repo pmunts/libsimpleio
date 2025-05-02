@@ -111,16 +111,16 @@ PACKAGE Wio_E5.Ham1 IS
 
   PROCEDURE Initialize
    (Self       : OUT DeviceSubclass;
-    portname   : String;           -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
-    baudrate   : Integer;          -- bits per second e.g. 115200
-    network    : NetworkID;        -- aka callsign e.g. "WA7AAA  "
-    node       : Byte;             -- ARCNET style e.g. 1 to 255
-    freqmhz    : Frequency;        -- MHz e.g. 915.000
-    spreading  : Integer  := 7;    -- (7 to 12)
-    bandwidth  : Integer  := 500;  -- kHz (125, 250, or 500)
-    txpreamble : Integer  := 12;   -- bits;
-    rxpreamble : Integer  := 15;   -- bits;
-    txpower    : Integer  := 22);  -- dBm;
+    portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
+    baudrate   : Integer;         -- bits per second e.g. 115200
+    network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
+    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    spreading  : Integer := 7;    -- (7 to 12)
+    bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
+    txpreamble : Integer := 12;   -- bits;
+    rxpreamble : Integer := 15;   -- bits;
+    txpower    : Integer := 22);  -- dBm;
 
   -- Terminate background task
 
