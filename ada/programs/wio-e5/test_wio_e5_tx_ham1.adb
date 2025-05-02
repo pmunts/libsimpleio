@@ -27,11 +27,11 @@ WITH Wio_E5.Ham1;
 
 PROCEDURE test_wio_e5_tx_ham1 IS
 
-  PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
+  PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  dev : Device;
+  dev : LoRa.Device;
   num : Positive;
-  msg : Frame;
+  msg : LoRa.Frame;
   len : Natural := 0;
   src : Wio_E5.Byte;
   dst : Wio_E5.Byte;
@@ -50,7 +50,7 @@ BEGIN
     RETURN;
   END IF;
 
-  dev := Create("/dev/ttyAMA0", 115200, "XXXXXXXX", 1, 915.0);
+  dev := LoRa.Create;
 
   num := Positive'Value(Ada.Command_Line.Argument(1));
 
@@ -62,7 +62,7 @@ BEGIN
     dev.Receive(msg, len, src, dst, RSS, SNR);
 
     IF len > 0 THEN
-      Put_Line("Received => """ & ToString(msg, len) & """ from node"
+      Put_Line("Received => """ & LoRA.ToString(msg, len) & """ from node"
         & src'Image & " to node" & dst'Image & " RSS:" & RSS'Image &
         " dBm SNR:" & SNR'Image & " dB");
     END IF;

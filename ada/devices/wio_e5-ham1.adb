@@ -52,6 +52,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Containers;
+WITH Ada.Environment_Variables;
 WITH Ada.Strings.Fixed;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
@@ -322,6 +323,44 @@ PACKAGE BODY Wio_E5.Ham1 IS
     Initialize(dev, portname, baudrate, network, node, freqmhz, spreading,
       bandwidth, txpreamble, rxpreamble, txpower);
     RETURN NEW DeviceSubclass'(dev);
+  END Create;
+
+  -- Device object constructor getting configuration parameters from 
+  -- environment variables, some of which have default values.
+  --
+  -- This is mostly for MuntsOS Embedded Linux targets, with configuration
+  -- parameters defined in /etc/environment.
+  --
+  -- WIOE5_PORT
+  -- WIOE5_BAUD         (Default: 115200)
+  -- WIOE5_NETWORK
+  -- WIOE5_NODE
+  -- WIOE5_FREQ
+  -- WIOE5_SPREADING    (Default: 7)
+  -- WIOE5_BANDWIDTH    (Default: 500)
+  -- WIOE5_TXPREAMBLE   (Default: 12)
+  -- WIOE5_RXPREAMBLE   (Default: 15)
+  -- WIOE5_TXPOWER      (Default: 22)
+
+  FUNCTION Create RETURN Device IS
+
+    PACKAGE env RENAMES Ada.Environment_Variables;
+    PACKAGE str RENAMES Ada.Strings.Fixed;
+
+    portname   : String    := env.Value("WIOE5_PORT");
+    baudrate   : Positive  := Positive'Value(env.Value("WIOE5_BAUD", "115200"));
+    network    : String    := str.Head(env.Value("WIOE5_NETWORK"), 8);
+    node       : Byte      := Byte'Value(env.Value("WIOE5_NODE"));
+    freqmhz    : Frequency := Frequency'value(env.Value("WIOE5_FREQ"));
+    spreading  : Positive  := Positive'value(env.Value("WIOE5_SPREADING", "7"));
+    bandwidth  : Positive  := Positive'value(env.Value("WIOE5_BANDWIDTH", "500"));
+    txpreamble : Positive  := Positive'value(env.Value("WIOE5_TXPREAMBLE", "12"));
+    rxpreamble : Positive  := Positive'value(env.Value("WIOE5_RXPREAMBLE", "15"));
+    txpower    : Positive  := Positive'value(env.Value("WIOE5_TXPOWER", "22"));
+
+  BEGIN
+    RETURN Create(portname, baudrate, network, node, freqmhz, spreading,
+      bandwidth, txpreamble, rxpreamble, txpower);
   END Create;
 
   -- Device instance initializer

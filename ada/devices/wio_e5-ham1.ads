@@ -90,6 +90,25 @@ PACKAGE Wio_E5.Ham1 IS
 
     WITH Pre => portname'Length > 0 AND network'Length > 0 AND node > Broadcast;
 
+  -- Device object constructor getting configuration parameters from 
+  -- environment variables, some of which have default values.
+  --
+  -- This is mostly for MuntsOS Embedded Linux targets, with configuration
+  -- parameters defined in /etc/environment.
+  --
+  -- WIOE5_PORT
+  -- WIOE5_BAUD         (Default: 115200)
+  -- WIOE5_NETWORK
+  -- WIOE5_NODE
+  -- WIOE5_FREQ
+  -- WIOE5_SPREADING    (Default: 7)
+  -- WIOE5_BANDWIDTH    (Default: 500)
+  -- WIOE5_TXPREAMBLE   (Default: 12)
+  -- WIOE5_RXPREAMBLE   (Default: 15)
+  -- WIOE5_TXPOWER      (Default: 22)
+
+  FUNCTION Create RETURN Device;
+
   -- Device instance initializer
 
   PROCEDURE Initialize

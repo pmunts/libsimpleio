@@ -26,10 +26,10 @@ WITH Wio_E5.Ham1;
 
 PROCEDURE test_wio_e5_rx_ham1 IS
 
-  PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
+  PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  dev : Device;
-  msg : Frame;
+  dev : LoRa.Device;
+  msg : LoRa.Frame;
   len : Natural;
   src : Wio_E5.Byte;
   dst : Wio_E5.Byte;
@@ -41,14 +41,15 @@ BEGIN
   Put_Line("Wio-E5 LoRa Transceiver Receive Test");
   New_Line;
 
-  dev := Create("/dev/ttyAMA0", 115200, "XXXXXXXX", 2, 915.0);
+  dev := LoRa.Create;
 
   LOOP
     dev.Receive(msg, len, src, dst, RSS, SNR);
 
     IF len > 0 THEN
-      Put_Line("Received => """ & ToString(msg, len) & """ LEN:" & len'Image &
-        " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image & " dB");
+      Put_Line("Received => """ & LoRa.ToString(msg, len) & """ LEN:" &
+        len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image &
+        " dB");
 
       dev.Send("LEN:" & len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" &
         SNR'Image & " dB", src);
