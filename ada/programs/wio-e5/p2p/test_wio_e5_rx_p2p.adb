@@ -39,7 +39,7 @@ BEGIN
   Put_Line("Wio-E5 LoRa Transceiver Receive Test");
   New_Line;
 
-  dev := Create("/dev/ttyAMA0", 115200, 915.0);
+  dev := Create;
 
   LOOP
     dev.Receive(msg, len, RSS, SNR);

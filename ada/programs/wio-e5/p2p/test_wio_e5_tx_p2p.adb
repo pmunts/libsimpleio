@@ -48,7 +48,7 @@ BEGIN
     RETURN;
   END IF;
 
-  dev := Create("/dev/ttyAMA0", 115200, 915.0);
+  dev := Create;
 
   num := Positive'Value(Ada.Command_Line.Argument(1));
 
