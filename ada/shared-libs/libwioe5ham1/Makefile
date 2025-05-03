@@ -45,7 +45,7 @@ ifeq ($(shell uname), Linux)
 	$(CROSS_COMPILE)strip lib/*.so
 endif
 ifeq ($(OS), Windows_NT)
-	cp lib/*.dll ../../../win64
+	cp lib/libwioe5ham1.dll ../../../win64/wioe5ham1.dll
 endif
 
 ###############################################################################
