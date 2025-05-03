@@ -66,7 +66,7 @@ PACKAGE Wio_E5.P2P IS
     txpower    : Integer := 22)   -- dBm;
   RETURN Device;
 
-  -- Device object constructor that gets configuration parameters from 
+  -- Device object constructor that gets configuration parameters from
   -- environment variables, some of which have default values.
   --
   -- This is mostly for MuntsOS Embedded Linux targets with configuration
