@@ -23,7 +23,7 @@
 using System;
 using static System.Console;
 using static System.Threading.Thread;
-using static IO.Bindings.libwioe5p2p;
+using static IO.Bindings.WioE5.libwioe5p2p;
 
 WriteLine("\nWio-E5 LoRa Transceiver Test\n");
 
