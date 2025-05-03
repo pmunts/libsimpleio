@@ -50,37 +50,51 @@ PACKAGE Wio_E5.P2P IS
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
   TYPE Frame          IS ARRAY (1 .. MaxPayloadSize) OF Byte;
 
-  Uninitialized  : CONSTANT DeviceSubclass;
+  MaxPayloadLength : CONSTANT Natural := MaxPayloadSize;
+  Uninitialized    : CONSTANT DeviceSubclass;
 
   -- Device object constructor
 
   FUNCTION Create
    (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
-    baudrate   : Positive;        -- bits per second e.g. 115200
+    baudrate   : Integer ;        -- bits per second e.g. 115200
     freqmhz    : Frequency;       -- MHz e.g. 915.000
-    spreading  : Positive := 7;   -- (7 to 12)
-    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
-    txpreamble : Positive := 12;  -- bits;
-    rxpreamble : Positive := 15;  -- bits;
-    txpower    : Positive := 22)  -- dBm;
-  RETURN Device
+    spreading  : Integer := 7;    -- (7 to 12)
+    bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
+    txpreamble : Integer := 12;   -- bits;
+    rxpreamble : Integer := 15;   -- bits;
+    txpower    : Integer := 22)   -- dBm;
+  RETURN Device;
 
-    WITH Pre => portname'Length > 0;
+  -- Device object constructor that gets configuration parameters from 
+  -- environment variables, some of which have default values.
+  --
+  -- This is mostly for MuntsOS Embedded Linux targets with configuration
+  -- parameters defined in /etc/environment.
+  --
+  -- WIOE5_PORT
+  -- WIOE5_BAUD         (Default: 115200)
+  -- WIOE5_FREQ
+  -- WIOE5_SPREADING    (Default: 7)
+  -- WIOE5_BANDWIDTH    (Default: 500)
+  -- WIOE5_TXPREAMBLE   (Default: 12)
+  -- WIOE5_RXPREAMBLE   (Default: 15)
+  -- WIOE5_TXPOWER      (Default: 22)
+
+  FUNCTION Create RETURN Device;
 
   -- Device instance initializer
 
   PROCEDURE Initialize
    (Self       : OUT DeviceSubclass;
     portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
-    baudrate   : Positive;        -- bits per second e.g. 115200
+    baudrate   : Integer;         -- bits per second e.g. 115200
     freqmhz    : Frequency;       -- MHz e.g. 915.000
-    spreading  : Positive := 7;   -- (7 to 12)
-    bandwidth  : Positive := 500; -- kHz (125, 250, or 500)
-    txpreamble : Positive := 12;  -- bits;
-    rxpreamble : Positive := 15;  -- bits;
-    txpower    : Positive := 22)  -- dBm;
-
-    WITH Pre => portname'Length > 0;
+    spreading  : Integer := 7;    -- (7 to 12)
+    bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
+    txpreamble : Integer := 12;   -- bits;
+    rxpreamble : Integer := 15;   -- bits;
+    txpower    : Integer := 22);  -- dBm;
 
   -- Terminate background task
 
@@ -92,13 +106,13 @@ PACKAGE Wio_E5.P2P IS
 
   PROCEDURE Send(Self : DeviceSubclass; s : String)
 
-    WITH Pre => Self /= Uninitialized AND s'Length > 0 AND s'Length <= Frame'Length;
+    WITH Pre => Self /= Uninitialized;
 
   -- Send a binary message, which cannot be empty.
 
   PROCEDURE Send(Self : DeviceSubclass; msg : Frame; len : Positive)
 
-    WITH Pre => Self /= Uninitialized AND len <= Frame'Length;
+    WITH Pre => Self /= Uninitialized;
 
   -- Receive a binary message, which cannot be empty.
   -- Zero length indicates no messages are available.

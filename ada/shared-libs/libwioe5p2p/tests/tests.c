@@ -43,7 +43,7 @@ START_TEST(test_initialize)
   // Test nonexistent serial port name
 
   wioe5p2p_init("/dev/ttyBOGUS", 115200, 915.0, 7, 500, 12, 15, 22, &handle, &error);
-  ck_assert(error == EINVAL);
+  ck_assert(error == ENOENT);
 
   // Test disconnected serial port name
 
@@ -100,7 +100,7 @@ START_TEST(test_initialize)
 
   // Test invalid transmit power
 
-  wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, -1, &handle, &error);
+  wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, -2, &handle, &error);
   ck_assert(error == EINVAL);
 
   wioe5p2p_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 23, &handle, &error);

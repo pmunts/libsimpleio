@@ -18,13 +18,21 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Directories;
+WITH Ada.Exceptions;
 WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH Ada.Strings.Fixed;
 WITH Interfaces.C.Strings;
-WITH errno;
+
 WITH Wio_E5.P2P;
 
 PACKAGE BODY libWioE5P2P IS
+
+  -- errno values
+
+  ENOENT : CONSTANT := 2;
+  EIO    : CONSTANT := 5;
+  ENOMEM : CONSTANT := 12;
+  EINVAL : CONSTANT := 22;
 
   USE TYPE LoRa.Device;
 
@@ -34,6 +42,22 @@ PACKAGE BODY libWioE5P2P IS
     (OTHERS => NULL);
 
   NextPortHandle : Positive := PortHandles'First;
+
+  -- Infer errno number from exception message
+
+  FUNCTION ToErrNum(E : Ada.Exceptions.Exception_Occurrence) RETURN Integer IS
+
+    s : CONSTANT String := Ada.Exceptions.Exception_Message(E);
+
+  BEGIN
+    IF Ada.Strings.Fixed.Head(s, 7) = "Invalid" THEN
+      RETURN EINVAL;
+    ELSIF Ada.Strings.Fixed.Tail(s, 14) = "does not exist" THEN
+      RETURN ENOENT;
+    ELSE
+      RETURN EIO;
+    END IF;
+  END ToErrNum;
 
   PROCEDURE Initialize
    (portname   : Interfaces.C.Strings.chars_ptr;
@@ -55,83 +79,14 @@ PACKAGE BODY libWioE5P2P IS
 
     -- Validate parameters
 
-    IF port'Length = 0 THEN
-      Put_Line(Standard_error, "ERROR: Empty serial port name");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    IF NOT Ada.Directories.Exists(port) THEN
-      Put_Line(Standard_error, "ERROR: Nonexistent serial port name");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    IF baudrate /= 230400 AND baudrate /= 115200 AND baudrate /= 76800 AND
-       baudrate /= 57600  AND baudrate /= 38400  AND baudrate /= 19200 AND
-       baudrate /= 14400  AND baudrate /= 9600 THEN
-      Put_Line(Standard_Error, "ERROR: Invalid serial port baud rate");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    IF freqmhz < 863.0 OR freqmhz > 928.0 THEN
-      Put_Line(Standard_Error, "ERROR: Invalid carrier frequency");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    IF freqmhz > 867.0 AND freqmhz < 902.0 THEN
-      Put_Line(Standard_Error, "ERROR: Invalid carrier frequency");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    IF spreading < 7 OR spreading > 12 THEN
-      Put_Line(Standard_error, "ERROR: Invalid spreading factor");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    IF bandwidth /= 125 AND bandwidth /= 250 AND bandwidth /= 500 THEN
-      Put_Line(Standard_error, "ERROR: Invalid bandwidth");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    IF txpreamble < 1 THEN
-      Put_Line(Standard_error, "ERROR: Invalid tx preamble");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    IF rxpreamble < 1 THEN
-      Put_Line(Standard_error, "ERROR: Invalid rx preamble");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
-    IF txpower < 1 OR txpower > 22 THEN
-      Put_Line(Standard_error, "ERROR: Invalid transmit power");
-      err := errno.EINVAL;
-      RETURN;
-    END IF;
-
     IF NextPortHandle > MaxPortHandles THEN
       Put_Line(Standard_Error, "ERROR: No more port handles");
-      err := errno.ENOMEM;
+      err := ENOMEM;
       RETURN;
     END IF;
 
-    dev := LoRa.Create
-     (port,
-      baudrate,
-      Wio_E5.Frequency(freqmhz),
-      spreading,
-      bandwidth,
-      txpreamble,
-      rxpreamble,
-      txpower);
+    dev := LoRa.Create(port, baudrate, Wio_E5.Frequency(freqmhz), spreading,
+      bandwidth, txpreamble, rxpreamble, txpower);
 
     PortHandles(NextPortHandle) := dev;
 
@@ -141,10 +96,10 @@ PACKAGE BODY libWioE5P2P IS
     NextPortHandle := NextPortHandle + 1;
 
   EXCEPTION
-    WHEN OTHERS =>
+    WHEN E : OTHERS =>
       Put_Line("ERROR: Wio_E5.P2P.Create() failed");
       handle := -1;
-      err    := errno.EIO;
+      err    := ToErrNum(E);
   END Initialize;
 
   PROCEDURE Shutdown
@@ -156,13 +111,13 @@ PACKAGE BODY libWioE5P2P IS
 
     IF handle < 1 OR handle > MaxPortHandles THEN
       Put_Line(Standard_Error, "ERROR: Invalid port handle");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
       Put_Line(Standard_Error, "ERROR: Invalid port handle");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
@@ -170,9 +125,9 @@ PACKAGE BODY libWioE5P2P IS
     err := 0;
 
   EXCEPTION
-    WHEN OTHERS =>
+    WHEN E : OTHERS =>
       Put_Line("ERROR: Wio_E5.Ham1.Shutdown() failed");
-      err := errno.EIO;
+      err := ToErrNum(E);
   END Shutdown;
 
   PROCEDURE Receive
@@ -189,13 +144,13 @@ PACKAGE BODY libWioE5P2P IS
 
     IF handle < 1 OR handle > MaxPortHandles THEN
       Put_Line(Standard_Error, "ERROR: Invalid port handle");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
       Put_Line(Standard_Error, "ERROR: Invalid port handle");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
@@ -203,9 +158,9 @@ PACKAGE BODY libWioE5P2P IS
     err := 0;
 
   EXCEPTION
-    WHEN OTHERS =>
+    WHEN E : OTHERS =>
       Put_Line(Standard_Error, "ERROR: Wio_E5.P2P.Receive() failed");
-      err := errno.EIO;
+      err := ToErrNum(E);
   END Receive;
 
   PROCEDURE Send
@@ -215,23 +170,24 @@ PACKAGE BODY libWioE5P2P IS
     err        : OUT Integer) IS
 
   BEGIN
+
     -- Validate parameters
 
     IF handle < 1 OR handle > MaxPortHandles THEN
       Put_Line(Standard_Error, "ERROR: Invalid port handle");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
       Put_Line(Standard_Error, "ERROR: Invalid port handle");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
     IF len < 1 OR len > LoRa.Frame'Length THEN
       Put_Line(Standard_Error, "ERROR: Invalid payload length");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
@@ -239,9 +195,9 @@ PACKAGE BODY libWioE5P2P IS
     err := 0;
 
   EXCEPTION
-    WHEN OTHERS =>
+    WHEN E : OTHERS =>
       Put_Line(Standard_Error, "ERROR: Wio_E5.P2P.Send() failed");
-      err := errno.EIO;
+      err := ToErrNum(E);
   END Send;
 
   PROCEDURE SendString
@@ -257,19 +213,19 @@ PACKAGE BODY libWioE5P2P IS
 
     IF handle < 1 OR handle > MaxPortHandles THEN
       Put_Line(Standard_Error, "ERROR: Invalid port handle");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
       Put_Line(Standard_Error, "ERROR: Invalid port handle");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
     IF s'Length < 1 OR s'Length > LoRa.Frame'Length THEN
       Put_Line(Standard_Error, "ERROR: Invalid payload length");
-      err := errno.EINVAL;
+      err := EINVAL;
       RETURN;
     END IF;
 
@@ -277,9 +233,9 @@ PACKAGE BODY libWioE5P2P IS
     err := 0;
 
   EXCEPTION
-    WHEN OTHERS =>
+    WHEN E : OTHERS =>
       Put_Line(Standard_Error, "ERROR: Wio_E5.P2P.Send() failed");
-      err := errno.EIO;
+      err := ToErrNum(E);
   END SendString;
 
 END libWioE5P2P;

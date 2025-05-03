@@ -31,13 +31,8 @@ default: libwioe5p2p.so
 
 subordinates:
 	mkdir -p							$@
-	cp $(LIBSIMPLEIO)/ada/bindings/errno.ads			$@
-	cp $(LIBSIMPLEIO)/ada/bindings/liblinux.*			$@
-	cp $(LIBSIMPLEIO)/ada/bindings/libserial.*			$@
-	cp $(LIBSIMPLEIO)/ada/interfaces/logging.ads			$@
 	cp $(LIBSIMPLEIO)/ada/devices/wio_e5.*				$@
 	cp $(LIBSIMPLEIO)/ada/devices/wio_e5-p2p.*			$@
-	cp $(LIBSIMPLEIO)/ada/objects/simpleio/logging-libsimpleio.*	$@
 	touch $@
 
 ###############################################################################
