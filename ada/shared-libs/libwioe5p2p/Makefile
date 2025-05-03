@@ -41,11 +41,16 @@ subordinates:
 
 libwioe5p2p.so: subordinates
 	$(GPRBUILD) $(GPRBUILDFLAGS)
+ifeq ($(shell uname), Linux)
 	$(CROSS_COMPILE)strip lib/*.so
+endif
+ifeq ($(OS), Windows_NT)
+	cp lib/*.dll ../../../win64
+endif
 
 ###############################################################################
 
 # Remove working files
 
 clean:
-	rm -rf lib obj subordinates *.so
+	rm -rf lib obj subordinates

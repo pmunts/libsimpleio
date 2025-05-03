@@ -41,18 +41,16 @@ subordinates:
 
 libwioe5ham1.so: subordinates
 	$(GPRBUILD) $(GPRBUILDFLAGS)
+ifeq ($(shell uname), Linux)
 	$(CROSS_COMPILE)strip lib/*.so
-
-###############################################################################
-
-# Build optional tests
-
-test1: test1.c
-	$(CROSS_COMPILE)gcc -Wall -o$@ $< -lwioe5ham1
+endif
+ifeq ($(OS), Windows_NT)
+	cp lib/*.dll ../../../win64
+endif
 
 ###############################################################################
 
 # Remove working files
 
 clean:
-	rm -rf lib obj subordinates *.so
+	rm -rf lib obj subordinates
