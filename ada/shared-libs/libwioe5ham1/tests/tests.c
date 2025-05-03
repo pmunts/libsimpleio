@@ -275,6 +275,7 @@ START_TEST(test_radio)
   wioe5ham1_exit(handle, &error);
   ck_assert(error == 0);
 }
+END_TEST
 
 int main(void)
 {
