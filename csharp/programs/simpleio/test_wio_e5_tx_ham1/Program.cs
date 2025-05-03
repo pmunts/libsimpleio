@@ -30,7 +30,7 @@ WriteLine("\nWio-E5 LoRa Transceiver Test\n");
 int handle;
 int error;
 
-wioe5ham1_init("COM1", 115200, 915.0F, 7, 500, 12, 15, 22, "XXXXXXXX", 1,
+wioe5ham1_init("/dev/ttyAMA0", 115200, 915.0F, 7, 500, 12, 15, 22, "N7AHL", 1,
     out handle, out error);
 
 if (error != 0)
