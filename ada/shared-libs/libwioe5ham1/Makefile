@@ -42,7 +42,12 @@ subordinates:
 libwioe5ham1.so: subordinates
 	$(GPRBUILD) $(GPRBUILDFLAGS)
 ifeq ($(shell uname), Linux)
-	$(CROSS_COMPILE)strip lib/*.so
+	$(CROSS_COMPILE)strip lib/libwioe5ham1.so
+ifeq ($(BOARDNAME), AArch64)
+	cp lib/libwioe5ham1.so ../../../linux/arm64
+else
+	cp lib/libwioe5ham1.so ../../../linux/amd64
+endif
 endif
 ifeq ($(OS), Windows_NT)
 	cp lib/libwioe5ham1.dll ../../../win64/wioe5ham1.dll
