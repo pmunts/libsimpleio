@@ -23,7 +23,7 @@ LIBSIMPLEIO	?= ../../..
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 
-default: libwioe5ham1.so
+default: build
 
 ###############################################################################
 
@@ -39,27 +39,24 @@ subordinates:
 
 # Build the shared library project
 
-libwioe5ham1.so: subordinates
+build: subordinates
 	$(GPRBUILD) $(GPRBUILDFLAGS)
 ifeq ($(shell uname), Linux)
-	$(CROSS_COMPILE)strip lib/libwioe5ham1.so
-ifeq ($(shell uname -m), x86_64)
-	cp lib/libwioe5ham1.so ../../../linux/amd64
+	$(CROSS_COMPILE)strip lib/*.so
+	cp lib/*.so .
+ifneq ($(BOARDNAME),)
+	# Save for MuntsOS Embedded Linux
+	cp *.so $(LIBSIMPLEIO)/linux/muntsos/$(BOARDNAMELC)
+else
+ifneq ($(wildcard $(LIBSIMPLEIO)/linux/$(OSNAME)/$(shell dpkg --print-architecture)),)
+	# Save for native Linux distribution
+	cp *.so $(LIBSIMPLEIO)/linux/$(OSNAME)/$(shell dpkg --print-architecture)
 endif
-ifeq ($(shell uname -m), aarch64)
-	cp lib/libwioe5ham1.so ../../../linux/arm64
 endif
 endif
 ifeq ($(OS), Windows_NT)
+	# Save for Microsoft Windows 64-bit
 	cp lib/libwioe5ham1.dll ../../../win64/wioe5ham1.dll
-endif
-
-###############################################################################
-
-ifeq ($(shell uname), Linux)
-install: libwioe5ham1.so
-	install -cm 0444 *.h		/usr/local/include
-	install -cm 0555 lib/*.so	/usr/local/lib
 endif
 
 ###############################################################################
@@ -67,4 +64,4 @@ endif
 # Remove working files
 
 clean:
-	rm -rf lib obj subordinates
+	rm -rf *.so lib obj subordinates
