@@ -62,5 +62,5 @@ if (error != 0)
     return;
 }
 
-WriteLine("LEN: {0} bytes RSS:{1} dBm SNR: {2} dB", len, RSS, SNR); 
+WriteLine("LEN: {0} bytes RSS:{1} dBm SNR: {2} dB", len, RSS, SNR);
 WriteLine(System.Text.Encoding.UTF8.GetString(msg, 0, len));
