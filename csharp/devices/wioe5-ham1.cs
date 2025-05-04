@@ -51,10 +51,10 @@ namespace IO.Devices.WioE5.Ham1
         /// </param>
         /// <param name="baudrate">Serial port data rate in bits per second
         /// (9600, 19200, 38400, 57600, 115200, or 230400).</param>
-        /// <param name="networkid">Network ID <i>aka</i> callsign, 8 ASCII
+        /// <param name="network">Network ID <i>aka</i> callsign, 8 ASCII
         /// characters, left justified and automatically space padded
         /// <i>e.g.</i> "WA7AAA".</param>
-        /// <param name="nodeid">Node ID, ARCNET Style: 1 to 255.</param>
+        /// <param name="node">Node ID, ARCNET Style: 1 to 255.</param>
         /// <param name="freq">RF center frequency in MHz, 902.0 to 928.0
         /// (<a href="https://en.wikipedia.org/wiki/33-centimeter_band">U.S.
         /// Amateur Radio Allocation</a>).</param>
@@ -63,12 +63,12 @@ namespace IO.Devices.WioE5.Ham1
         /// <param name="txpreamble">Number of transmit preamble bits.</param>
         /// <param name="rxpreamble">Number of receive preamble bits.</param>
         /// <param name="power">Transmit power in dBm, -1 to 22.</param>
-        public Device(string portname, int baudrate, string networkid,
-            int nodeid, float freq, int spreading = 7, int bandwidth = 500,
+        public Device(string portname, int baudrate, string network,
+            int node, float freq, int spreading = 7, int bandwidth = 500,
             int txpreamble = 12, int rxpreamble = 15, int power = 22)
         {
-            wioe5ham1_init(portname, baudrate, freq, spreading, bandwidth,
-                txpreamble, rxpreamble, power, networkid, nodeid,
+            wioe5ham1_init(portname, baudrate, network, node, freq,
+                spreading, bandwidth, txpreamble, rxpreamble, power,
                 out this.handle, out int error);
 
             if (error != 0)
@@ -116,7 +116,7 @@ namespace IO.Devices.WioE5.Ham1
                 sbaudrate = "115200";
             }
 
-            if (!Int32.TryParse(sbaudrate, out int baudrate))
+            if (!int.TryParse(sbaudrate, out int baudrate))
             {
                 throw new Exception("WIOE5_PORT environment variable is invalid");
             }
@@ -147,7 +147,7 @@ namespace IO.Devices.WioE5.Ham1
                 throw new Exception("WIOE5_FREQ environment variable is undefined");
             }
 
-            if (float.TryParse(sfreq, out float freq))
+            if (!float.TryParse(sfreq, out float freq))
             {
                 throw new Exception("WIOE5_FREQ environment variable is invalid");
             }
@@ -162,7 +162,6 @@ namespace IO.Devices.WioE5.Ham1
             if (!int.TryParse(sspreading, out int spreading))
             {
                 throw new Exception("WIOE5_FREQ environment variable is invalid");
-
             }
 
             var sbandwidth = GetEnvironmentVariable("WIOE5_BANDWIDTH");
@@ -213,8 +212,8 @@ namespace IO.Devices.WioE5.Ham1
                 throw new Exception("WIOE5_POWER environment variable is invalid");
             }
 
-            wioe5ham1_init(port, baudrate, freq, spreading, bandwidth,
-                txpreamble, rxpreamble, power, network, node, out this.handle,
+            wioe5ham1_init(port, baudrate, network, node, freq, spreading,
+                bandwidth, txpreamble, rxpreamble, power, out this.handle,
                 out int error);
 
             if (error != 0)
@@ -222,6 +221,15 @@ namespace IO.Devices.WioE5.Ham1
                 throw new Exception("wioe5ham1_init() failed, " +
                     errno.strerror(error));
             }
+        }
+
+        /// <summary>
+        /// Finalizer for a Wio-E5 LoRa Transceiver Module device object
+        /// instance.
+        /// </summary>
+        ~Device()
+        {
+            wioe5ham1_exit(handle, out int error);
         }
 
         /// <summary>

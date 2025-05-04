@@ -116,7 +116,7 @@ namespace IO.Devices.WioE5.P2P
                 throw new Exception("WIOE5_FREQ environment variable is undefined");
             }
 
-            if (float.TryParse(sfreq, out float freq))
+            if (!float.TryParse(sfreq, out float freq))
             {
                 throw new Exception("WIOE5_FREQ environment variable is invalid");
             }

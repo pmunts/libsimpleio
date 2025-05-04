@@ -92,6 +92,10 @@ namespace IO.Bindings
         /// <param name="baudrate">Serial port baud rate in bits per second
         /// (9600, 19200, 38400, 57600, 115200, or 230400).
         /// </param>
+        /// <param name="network">Network ID <i>e.g.</i> callsign (8 ASCII
+        /// characters, left justified and blank padded).</param>
+        /// <param name="node">Network node ID
+        /// (ARCNET Style: 1 to 255).</param>
         /// <param name="freqmhz">RF center frequency in MHz, 902.0 to 928.0
         /// (<a href="https://en.wikipedia.org/wiki/33-centimeter_band">U.S.
         /// Amateur Radio Allocation</a>).
@@ -104,24 +108,20 @@ namespace IO.Bindings
         /// <param name="rxpreamble">Number of receive preamble bits (15 is
         /// recommended).</param>
         /// <param name="txpower">Transmit power in dBm (0 to 22).</param>
-        /// <param name="network">Network ID <i>e.g.</i> callsign (8 ASCII
-        /// characters, left justified and blank padded).</param>
-        /// <param name="node">Network node ID
-        /// (ARCNET Style: 1 to 255).</param>
         /// <param name="handle">Wio-E5 device handle.</param>
         /// <param name="error">Error code.  Zero upon success.</param>
         [DllImport("wioe5ham1")]
         public static extern void wioe5ham1_init
          (string portname,
           int baudrate,
+          string network,
+          int node,
           float freqmhz,
           int spreading,
           int bandwidth,
           int txpreamble,
           int rxpreamble,
           int txpower,
-          string network,
-          int node,
           out int handle,
           out int error);
 
