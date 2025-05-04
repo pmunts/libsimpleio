@@ -62,14 +62,14 @@ PACKAGE BODY libWioE5Ham1 IS
   PROCEDURE Initialize
    (portname   : Interfaces.C.Strings.chars_ptr;
     baudrate   : Integer;
+    network    : Interfaces.C.Strings.chars_ptr;
+    node       : Integer;
     freqmhz    : Float;
     spreading  : Integer;
     bandwidth  : Integer;
     txpreamble : Integer;
     rxpreamble : Integer;
     txpower    : Integer;
-    network    : Interfaces.C.Strings.chars_ptr;
-    node       : Integer;
     handle     : OUT Integer;
     err        : OUT Integer) IS
 

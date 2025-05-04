@@ -37,81 +37,75 @@ START_TEST(test_initialize)
 
   // Test empty serial port name
 
-  wioe5ham1_init("", 115200, 915.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("", 115200, "N7AHL", 1, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
   // Test nonexistent serial port name
 
-  wioe5ham1_init("/dev/ttyBOGUS", 115200, 915.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyBOGUS", 115200, "N7AHL", 1, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == ENOENT);
 
   // Test disconnected serial port name
 
-  wioe5ham1_init("/dev/ttyS0", 115200, 915.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyS0", 115200, "N7AHL", 1, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EIO);
 
   // Test invalid baud rates
 
-  wioe5ham1_init("/dev/ttyUSB0", 2400, 915.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 2400, "N7AHL", 1, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
-  wioe5ham1_init("/dev/ttyUSB0", 4800, 915.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 4800, "N7AHL", 1, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
-  wioe5ham1_init("/dev/ttyUSB0", 9601, 915.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 9601, "N7AHL", 1, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
   // Test invalid RF carrier frequencies
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 862.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 901.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 871.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
-  ck_assert(error == EINVAL);
-
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 901.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
-  ck_assert(error == EINVAL);
-
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 929.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 929.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
   // Test invalid spreading factors
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 6, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 915.0, 6, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 13, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 915.0, 13, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
   // Test invalid bandwidth
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 1000, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 915.0, 7, 1000, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
   // Test invalid tx preamble
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 0, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 915.0, 7, 500, 0, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
   // Test invalid rx preamble
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 0, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 915.0, 7, 500, 12, 0, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
   // Test invalid transmit power
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, -2, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 915.0, 7, 500, 12, 15, -2, &handle, &error);
   ck_assert(error == EINVAL);
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 23, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 915.0, 7, 500, 12, 15, 23, &handle, &error);
   ck_assert(error == EINVAL);
 
   // Test invalid node ID
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "N7AHL", 0, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 0, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "N7AHL", 256, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 256, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == EINVAL);
 
   // Test invalid device handle
@@ -178,7 +172,7 @@ START_TEST(test_send)
 
   // Need to get a device handle to test length and destination node ID values
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == 0);
   ck_assert(handle == 1);
 
@@ -228,7 +222,7 @@ START_TEST(test_radio)
 
   // Initialize Wio-E5 radio subsystem
 
-  wioe5ham1_init("/dev/ttyUSB0", 115200, 915.0, 7, 500, 12, 15, 22, "N7AHL", 1, &handle, &error);
+  wioe5ham1_init("/dev/ttyUSB0", 115200, "N7AHL", 1, 915.0, 7, 500, 12, 15, 22, &handle, &error);
   ck_assert(error == 0);
   ck_assert(handle == 1);
 

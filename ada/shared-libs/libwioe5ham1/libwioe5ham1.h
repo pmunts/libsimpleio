@@ -23,9 +23,10 @@
 
 #include <stdint.h>
 
-extern void wioe5ham1_init(char *portname, int32_t baudrate, float freqmhz,
-  int32_t spreading, int32_t bandwidth, int32_t txpreamble, int32_t rxpreamble,
-  int32_t txpower, char *network, int32_t node, int32_t *handle, int32_t *error);
+extern void wioe5ham1_init(char *portname, int32_t baudrate, char *network,
+  int32_t node, float freqmhz, int32_t spreading, int32_t bandwidth,
+  int32_t txpreamble, int32_t rxpreamble, int32_t txpower, int32_t *handle,
+  int32_t *error);
 
 extern void wioe5ham1_exit(int32_t handle, int32_t *error);
 
