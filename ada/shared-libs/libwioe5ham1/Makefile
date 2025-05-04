@@ -56,6 +56,14 @@ endif
 
 ###############################################################################
 
+ifeq ($(shell uname), Linux)
+install: libwioe5ham1.so
+	install -cm 0444 *.h		/usr/local/include
+	install -cm 0555 lib/*.so	/usr/local/lib
+endif
+
+###############################################################################
+
 # Remove working files
 
 clean:
