@@ -25,7 +25,7 @@ using static System.Threading.Thread;
 
 WriteLine("\nWio-E5 LoRa Transceiver Test\n");
 
-var dev = new IO.Devices.WioE5.Ham1.Device("com1", 115200, "N7AHL", 1, 915.0F);
+var dev = new IO.Devices.WioE5.Ham1.Device();
 var msg = new byte[255];
 
 dev.Send("This is a test.", 2);
