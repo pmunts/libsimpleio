@@ -20,47 +20,19 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
 using static System.Console;
 using static System.Threading.Thread;
-using static IO.Bindings.WioE5.libwioe5p2p;
 
 WriteLine("\nWio-E5 LoRa Transceiver Test\n");
 
-int handle;
-int error;
+var dev = new IO.Devices.WioE5.P2P.Device();
+var msg = new byte[255];
 
-wioe5p2p_init("/dev/ttyAMA0", 115200, 915.0F, 7, 500, 12, 15, 22,
-    out handle, out error);
-
-if (error != 0)
-{
-    WriteLine("ERROR: wioe5p2p_init() failed, error=" + error.ToString());
-    return;
-}
-
-wioe5p2p_send_string(handle, "This is a test", out error);
-
-if (error != 0)
-{
-    WriteLine("ERROR: wioe5p2p_send_string() failed, error=" + error.ToString());
-    return;
-}
+dev.Send("This is a test.");
 
 Sleep(300);
 
-var msg = new byte[255];
-int len;
-int RSS;
-int SNR;
-
-wioe5p2p_receive(handle, msg, out len, out RSS, out SNR, out error);
-
-if (error != 0)
-{
-    WriteLine("ERROR: wioe5p2p_receive() failed, error=" + error.ToString());
-    return;
-}
+dev.Receive(msg, out int len, out int RSS, out int SNR);
 
 WriteLine("LEN: {0} bytes RSS:{1} dBm SNR: {2} dB", len, RSS, SNR);
 WriteLine(System.Text.Encoding.UTF8.GetString(msg, 0, len));
