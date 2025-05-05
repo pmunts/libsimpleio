@@ -74,6 +74,18 @@ libsimpleio.a: compile.done
 libsimpleio.so: compile.done
 	$(CC) -shared -o $@ obj/*.o
 
+# Build libwioe5ham1.so
+
+libwioe5ham1.so:
+	$(MAKE) -C ada/shared-libs/libwioe5ham1
+	cp ada/shared-libs/libwioe5ham1/lib/libwioe5ham1.so .
+
+# Build libwioe5p2p.so
+
+libwioe5p2p.so:
+	$(MAKE) -C ada/shared-libs/libwioe5p2p
+	cp ada/shared-libs/libwioe5p2p/lib/libwioe5p2p.so .
+
 # Precompile Ada library projects
 
 adalibs.done:
@@ -82,7 +94,7 @@ adalibs.done:
 
 # Install headers and library files
 
-install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done
+install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5p2p.so adalibs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
@@ -93,7 +105,6 @@ install: libremoteio.so libsimpleio.a libsimpleio.so adalibs.done
 	mkdir -p				$(DESTDIR)/lib
 	install -cm 0644 *.a			$(DESTDIR)/lib
 	install -cm 0755 *.so			$(DESTDIR)/lib
-	install -cm 0755 linux/$(PKGARCH)/*.so	$(DESTDIR)/lib
 	ln -s /usr/lib/$(LIBARCH)/libhidapi-hidraw.a $(DESTDIR)/lib/libhidapi.a
 	ln -s /usr/lib/$(LIBARCH)/libhidapi-hidraw.so $(DESTDIR)/lib/libhidapi.so
 	mkdir -p				$(DESTDIR)/libexec
@@ -152,6 +163,8 @@ package.deb: $(PKGFILE)
 clean:
 	$(MAKE) -C ada/lib clean
 	$(MAKE) -C ada/shared-libs/libremoteio  clean
+	$(MAKE) -C ada/shared-libs/libwioe5ham1 clean
+	$(MAKE) -C ada/shared-libs/libwioe5p2p  clean
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
 reallyclean: clean
