@@ -21,18 +21,30 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using static System.Console;
+using static System.Environment;
 using static System.Threading.Thread;
 
 WriteLine("\nWio-E5 LoRa Transceiver Test\n");
 
+int iterations = 0;
+
+if ((args.Length != 1) || (!int.TryParse(args[0], out iterations)))
+{
+  WriteLine("Usage: test_wio_e5_tx_ham1 <iterations>\n");
+  Exit(1);
+}
+
 var dev = new IO.Devices.WioE5.Ham1.Device();
 var msg = new byte[255];
 
-dev.Send("This is a test.", 2);
+for (int i = 0; i < iterations; i++)
+{
+  dev.Send("This is test " + i.ToString(), 2);
 
-Sleep(300);
+  Sleep(300);
 
-dev.Receive(msg, out int len, out int src, out int dst, out int RSS, out int SNR);
+  dev.Receive(msg, out int len, out int src, out int dst, out int   RSS, out int SNR);
 
-WriteLine("LEN: {0} bytes RSS:{1} dBm SNR: {2} dB", len, RSS, SNR);
-WriteLine(System.Text.Encoding.UTF8.GetString(msg, 0, len));
+  WriteLine("LEN: {0} bytes RSS:{1} dBm SNR: {2} dB", len, RSS, SNR);
+  WriteLine(System.Text.Encoding.UTF8.GetString(msg, 0, len));
+}
