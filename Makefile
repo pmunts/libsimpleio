@@ -42,12 +42,20 @@ PKGFILE		:= $(PKGDIR).deb
 
 include include/dpkg.mk
 
-default: package.deb
+default: checks package.deb
 
 SIMPLEIO_COMPONENTS	= errmsg.o libevent.o libgpio.o libhidraw.o libi2c.o
 SIMPLEIO_COMPONENTS	+= libserial.o libspi.o liblinux.o liblinx.o
 SIMPLEIO_COMPONENTS	+= libpwm.o libipv4.o libstream.o libwatchdog.o
 SIMPLEIO_COMPONENTS	+= libadc.o
+
+# Perform some checks for beginning the build
+
+checks:
+ifneq ($(BOARDNAME),)
+	@echo "You munts unset BOARDNAME before building libsimpleio!"
+	@false
+endif
 
 # Compile C and C++ source files
 
