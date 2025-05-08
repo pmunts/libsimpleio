@@ -53,24 +53,23 @@ namespace IO.Bindings
     /// <para>
     /// <c>libwioe5ham1</c> provides Amateur Radio Service Support Flavor
     /// #1: <i><b>All stations are administered by the same ham radio
-    /// operator, using the same callsign, and the first 10 bytes of payload
+    /// operator, using the same call sign, and the first 12 bytes of payload
     /// are dedicated to address information:</b></i>
     /// </para>
     /// <para>
-    /// 10 ASCII bytes for the network ID <i>aka</i> callsign, left justified
-    /// and space padded.  Unlike AX.25, the ASCII bytes are <b>not</b> left
-    /// shifted one bit.
+    /// 10 ASCII characters for the network ID <i>aka</i> call sign, left
+    /// justified and space padded.
     /// </para>
     /// <para>
-    /// 1 byte for the destination node ID (ARCNET style: broadcast=0,
+    /// 1 binary byte for the destination node ID (ARCNET style: broadcast=0,
     /// unicast=1 to 255).
     /// </para>
     /// <para>
-    /// 1 byte for the source node ID (ARCNET style: unicast=1 to 255).
+    /// 1 binary byte for the source node ID (ARCNET style: unicast=1 to 255).
     /// </para>
     /// <para>
     /// <c>libwioe5ham1</c> drops any received frame that does not contain
-    /// matching network <i>aka</i> callsign and destination node ID's,
+    /// matching network <i>aka</i> call sign and destination node ID's,
     /// imposing a unicast address scheme onto the broadcast Wio-E5 test
     /// <i>aka</i> P2P mode.
     /// </para>
@@ -92,7 +91,7 @@ namespace IO.Bindings
         /// <param name="baudrate">Serial port baud rate in bits per second
         /// (9600, 19200, 38400, 57600, 115200, or 230400).
         /// </param>
-        /// <param name="network">Network ID <i>e.g.</i> callsign (8 ASCII
+        /// <param name="network">Network ID <i>e.g.</i> call sign (10 ASCII
         /// characters, left justified and blank padded).</param>
         /// <param name="node">Network node ID
         /// (ARCNET Style: 1 to 255).</param>
@@ -139,7 +138,7 @@ namespace IO.Bindings
         /// Receive a binary message frame, if available.
         /// </summary>
         /// <param name="handle">Wio-E5 device handle.</param>
-        /// <param name="msg">Payload buffer (243 bytes).</param>
+        /// <param name="msg">Payload buffer (241 bytes).</param>
         /// <param name="len">Number of payload bytes received.
         /// Zero indicates queue empty, no RF frame available.</param>
         /// <param name="src">Source node ID (ARCNET Style: 1 to 255).</param>
@@ -163,9 +162,9 @@ namespace IO.Bindings
         /// Transmit a binary message frame.
         /// </summary>
         /// <param name="handle">Wio-E5 device handle.</param>
-        /// <param name="msg">Payload buffer (243 bytes).</param>
+        /// <param name="msg">Payload buffer (241 bytes).</param>
         /// <param name="len">Number of payload bytes to transmit
-        /// (1 to 243).</param>
+        /// (1 to 241).</param>
         /// <param name="dst">Destination node ID
         /// (ARCNET Style: 0 for broadcast or 1 to 255 for unicast).</param>
         /// <param name="error">Error code.  Zero upon success.</param>
@@ -181,7 +180,7 @@ namespace IO.Bindings
         /// Transmit a string message frame.
         /// </summary>
         /// <param name="handle">Wio-E5 device handle.</param>
-        /// <param name="msg">Message string (1 to 243 ASCII characters).</param>
+        /// <param name="msg">Message string (1 to 241 ASCII characters).</param>
         /// <param name="dst">Destination node ID
         /// (ARCNET Style: 0 for broadcast or 1 to 255 for unicast).</param>
         /// <param name="error">Error code.  Zero upon success.</param>
