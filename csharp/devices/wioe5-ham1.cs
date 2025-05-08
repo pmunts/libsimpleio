@@ -32,11 +32,11 @@ namespace IO.Devices.WioE5.Ham1
     /// Flavor #1:
     /// <para/>
     /// <para/>
-    /// 8 bytes network ID <i>aka</i> callsign, left justified and space
+    /// 10 characters network ID <i>aka</i> callsign, left justified and space
     /// padded.<br/>
-    /// 1 byte destination node ID (ARCNET style: 0=broadcast or 1 to
+    /// 1 binary byte destination node ID (ARCNET style: 0=broadcast or 1 to
     /// 255).<br/>
-    /// 1 byte source node ID (ARCNET style: 1 to 255).
+    /// 1 binary byte source node ID (ARCNET style: 1 to 255).
     /// </summary>
     public class Device
     {
@@ -51,9 +51,9 @@ namespace IO.Devices.WioE5.Ham1
         /// </param>
         /// <param name="baudrate">Serial port data rate in bits per second
         /// (9600, 19200, 38400, 57600, 115200, or 230400).</param>
-        /// <param name="network">Network ID <i>aka</i> callsign, 8 ASCII
+        /// <param name="network">Network ID <i>aka</i> callsign, 10 ASCII
         /// characters, left justified and automatically space padded
-        /// <i>e.g.</i> "WA7AAA".</param>
+        /// <i>e.g.</i> "WA7AAA" or "KL7/SA7AAA".</param>
         /// <param name="node">Node ID, ARCNET Style: 1 to 255.</param>
         /// <param name="freq">RF center frequency in MHz, 902.0 to 928.0
         /// (<a href="https://en.wikipedia.org/wiki/33-centimeter_band">U.S.
