@@ -132,7 +132,7 @@ PACKAGE BODY libWioE5P2P IS
 
   PROCEDURE Receive
    (handle     : Integer;
-    msg        : OUT LoRa.Frame;
+    msg        : OUT LoRa.Payload;
     len        : OUT Integer;
     RSS        : OUT Integer;
     SNR        : OUT Integer;
@@ -165,7 +165,7 @@ PACKAGE BODY libWioE5P2P IS
 
   PROCEDURE Send
    (handle     : Integer;
-    msg        : LoRa.Frame;
+    msg        : LoRa.Payload;
     len        : Integer;
     err        : OUT Integer) IS
 
@@ -185,7 +185,7 @@ PACKAGE BODY libWioE5P2P IS
       RETURN;
     END IF;
 
-    IF len < 1 OR len > LoRa.Frame'Length THEN
+    IF len < 1 OR len > LoRa.Payload'Length THEN
       Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := EINVAL;
       RETURN;
@@ -223,7 +223,7 @@ PACKAGE BODY libWioE5P2P IS
       RETURN;
     END IF;
 
-    IF s'Length < 1 OR s'Length > LoRa.Frame'Length THEN
+    IF s'Length < 1 OR s'Length > LoRa.Payload'Length THEN
       Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := EINVAL;
       RETURN;

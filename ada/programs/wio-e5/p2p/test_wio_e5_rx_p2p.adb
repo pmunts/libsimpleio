@@ -29,7 +29,7 @@ PROCEDURE test_wio_e5_rx_p2p IS
   PACKAGE LoRa IS NEW Wio_E5.P2P; USE LoRa;
 
   dev : Device;
-  msg : Frame;
+  msg : Payload;
   len : Natural;
   RSS : Integer;
   SNR : Integer;

@@ -31,7 +31,7 @@ PROCEDURE test_wio_e5_tx_p2p IS
 
   dev : Device;
   num : Positive;
-  msg : Frame;
+  msg : Payload;
   len : Natural := 0;
   RSS : Integer;
   SNR : Integer;

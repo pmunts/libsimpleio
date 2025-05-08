@@ -331,10 +331,6 @@ PACKAGE BODY Wio_E5.P2P IS
 
     -- Validate parameters
 
-    IF Frame'Length > 253 THEN
-      RAISE Error WITH "Invalid frame size";
-    END IF;
-
     IF portname'Length < 1 THEN
       RAISE Error WITH "Invalid port name, cannot be empty";
     END IF;
@@ -413,11 +409,11 @@ PACKAGE BODY Wio_E5.P2P IS
     item : Queue_Item;
 
   BEGIN
-    IF s'Length < 1 OR s'Length > MaxPayloadLength THEN
+    IF s'Length < 1 OR s'Length > Payload'Length THEN
       RAISE Error WITH "Invalid payload length";
     END IF;
 
-    item.msg := ToFrame(s);
+    item.msg := ToPayload(s);
     item.len := s'Length;
     item.RSS := 0;
     item.SNR := 0;
@@ -426,12 +422,12 @@ PACKAGE BODY Wio_E5.P2P IS
 
   -- Send a binary message, which cannot be empty.
 
-  PROCEDURE Send(Self : DeviceSubclass; msg : Frame; len : Positive) IS
+  PROCEDURE Send(Self : DeviceSubclass; msg : Payload; len : Positive) IS
 
     item : Queue_Item;
 
   BEGIN
-    IF len > MaxPayloadLength THEN
+    IF len > Payload'Length THEN
       RAISE Error WITH "Invalid payload length";
     END IF;
 
@@ -447,7 +443,7 @@ PACKAGE BODY Wio_E5.P2P IS
 
   PROCEDURE Receive
    (Self : DeviceSubclass;
-    msg  : OUT Frame;
+    msg  : OUT Payload;
     len  : OUT Natural;
     RSS  : OUT Integer;
     SNR  : OUT Integer) IS
@@ -470,10 +466,10 @@ PACKAGE BODY Wio_E5.P2P IS
 
   -- Dump contents of a frame in hexadecimal form.
 
-  PROCEDURE Dump(msg : Frame; len : Positive) IS
+  PROCEDURE Dump(msg : Payload; len : Positive) IS
 
   BEGIN
-    Put("Frame:");
+    Put("Payload:");
 
     FOR i IN 1 .. len LOOP
       Put(' ');
@@ -485,7 +481,7 @@ PACKAGE BODY Wio_E5.P2P IS
 
   -- Convert a message from binary to string.
 
-  FUNCTION ToString(p : Frame; len : Positive) RETURN String IS
+  FUNCTION ToString(p : Payload; len : Positive) RETURN String IS
 
   BEGIN
     DECLARE
@@ -501,9 +497,9 @@ PACKAGE BODY Wio_E5.P2P IS
 
   -- Convert a message from string to binary.
 
-  FUNCTION ToFrame(s : String) RETURN Frame IS
+  FUNCTION ToPayload(s : String) RETURN Payload IS
 
-    p : Frame;
+    p : Payload;
 
   BEGIN
     FOR i IN s'Range LOOP
@@ -511,6 +507,6 @@ PACKAGE BODY Wio_E5.P2P IS
     END LOOP;
 
     RETURN p;
-  END ToFrame;
+  END ToPayload;
 
 END Wio_E5.P2P;

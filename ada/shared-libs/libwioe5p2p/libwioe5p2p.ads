@@ -44,7 +44,7 @@ PACKAGE libWioE5P2P IS
 
   PROCEDURE Receive
    (handle     : Integer;
-    msg        : OUT LoRa.Frame;
+    msg        : OUT LoRa.Payload;
     len        : OUT Integer;
     RSS        : OUT Integer;
     SNR        : OUT Integer;
@@ -52,7 +52,7 @@ PACKAGE libWioE5P2P IS
 
   PROCEDURE Send
    (handle     : Integer;
-    msg        : LoRa.Frame;
+    msg        : LoRa.Payload;
     len        : Integer;
     err        : OUT Integer);
 

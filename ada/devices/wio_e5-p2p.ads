@@ -44,13 +44,14 @@ GENERIC
 
 PACKAGE Wio_E5.P2P IS
 
-  -- Type definitions
+  -- The maximum RF frame size is 255 bytes
+
+  PRAGMA Assert(MaxPayloadSize + 2 <= 255);
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH PRIVATE;
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
-  TYPE Frame          IS ARRAY (1 .. MaxPayloadSize) OF Byte;
+  TYPE Payload        IS ARRAY (1 .. MaxPayloadSize) OF Byte;
 
-  MaxPayloadLength : CONSTANT Natural := MaxPayloadSize;
   Uninitialized    : CONSTANT DeviceSubclass;
 
   -- Device object constructor
@@ -110,7 +111,7 @@ PACKAGE Wio_E5.P2P IS
 
   -- Send a binary message, which cannot be empty.
 
-  PROCEDURE Send(Self : DeviceSubclass; msg : Frame; len : Positive)
+  PROCEDURE Send(Self : DeviceSubclass; msg : Payload; len : Positive)
 
     WITH Pre => Self /= Uninitialized;
 
@@ -119,7 +120,7 @@ PACKAGE Wio_E5.P2P IS
 
   PROCEDURE Receive
    (Self : DeviceSubclass;
-    msg  : OUT Frame;
+    msg  : OUT Payload;
     len  : OUT Natural;
     RSS  : OUT Integer;
     SNR  : OUT Integer)
@@ -128,21 +129,21 @@ PACKAGE Wio_E5.P2P IS
 
   -- Dump contents of a frame in hexadecimal form.
 
-  PROCEDURE Dump(msg : Frame; len : Positive)
+  PROCEDURE Dump(msg : Payload; len : Positive)
 
-    WITH Pre => len <= Frame'Length;
+    WITH Pre => len <= Payload'Length;
 
   -- Convert a message from binary to string.
 
-  FUNCTION ToString(p : Frame; len : Positive) RETURN String
+  FUNCTION ToString(p : Payload; len : Positive) RETURN String
 
-    WITH Pre => len <= Frame'Length;
+    WITH Pre => len <= Payload'Length;
 
   -- Convert a message from string to binary.
 
-  FUNCTION ToFrame(s : String) RETURN Frame
+  FUNCTION ToPayload(s : String) RETURN Payload
 
-    WITH Pre => s'Length > 0 AND s'Length <= Frame'Length;
+    WITH Pre => s'Length > 0 AND s'Length <= Payload'Length;
 
 PRIVATE
 
@@ -160,7 +161,7 @@ PRIVATE
   -- Event queue definitions
 
   TYPE Queue_Item IS RECORD
-    msg : Frame;
+    msg : Payload;
     len : Natural;
     RSS : Integer;
     SNR : Integer;
