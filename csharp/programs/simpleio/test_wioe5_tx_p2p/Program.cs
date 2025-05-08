@@ -37,7 +37,7 @@ if ((args.Length != 1) || (!int.TryParse(args[0], out iterations)))
 var dev = new IO.Devices.WioE5.P2P.Device();
 var msg = new byte[255];
 
-for (int i = 0; i < iterations; i++)
+for (int i = 1; i <= iterations; i++)
 {
   dev.Send("This is test " + i.ToString());
 
