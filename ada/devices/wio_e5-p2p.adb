@@ -339,9 +339,8 @@ PACKAGE BODY Wio_E5.P2P IS
       RAISE Error WITH "Serial port device does not exist";
     END IF;
 
-    IF baudrate /= 230400 AND baudrate /= 115200 AND baudrate /= 76800 AND
-       baudrate /= 57600  AND baudrate /= 38400  AND baudrate /= 19200 AND
-       baudrate /= 14400  AND baudrate /= 9600 THEN
+    IF baudrate /= 230400 AND baudrate /= 115200 AND baudrate /= 57600 AND
+       baudrate /= 38400  AND baudrate /= 19200  AND baudrate /= 9600 THEN
       RAISE ERROR WITH "Invalid serial port data rate";
     END IF;
 
