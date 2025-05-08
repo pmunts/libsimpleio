@@ -20,6 +20,11 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+// This program requires a receive station with node ID 2 running either
+// test_wioe5_rx_ham1 or test_signal_level_responder.
+//
+// See also: https://git.munts.com/libsimpleio/doc/WioE5LoRaP2P.pdf
+
 using static System.Console;
 using static System.Environment;
 using static System.Threading.Thread;
@@ -30,7 +35,7 @@ int iterations = 0;
 
 if ((args.Length != 1) || (!int.TryParse(args[0], out iterations)))
 {
-  WriteLine("Usage: test_wioe5_tx_ham1 <iterations>\n");
+  WriteLine("Usage: test_wioe5_ham1 <iterations>\n");
   Exit(1);
 }
 

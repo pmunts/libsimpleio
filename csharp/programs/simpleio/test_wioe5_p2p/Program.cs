@@ -20,6 +20,10 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+// This program requires a receive station running test_wioe5_rx_p2p.
+//
+// See also: https://git.munts.com/libsimpleio/doc/WioE5LoRaP2P.pdf
+
 using static System.Console;
 using static System.Environment;
 using static System.Threading.Thread;
@@ -30,7 +34,7 @@ int iterations = 0;
 
 if ((args.Length != 1) || (!int.TryParse(args[0], out iterations)))
 {
-  WriteLine("Usage: test_wioe5_tx_p2p <iterations>\n");
+  WriteLine("Usage: test_wioe5_p2p <iterations>\n");
   Exit(1);
 }
 
