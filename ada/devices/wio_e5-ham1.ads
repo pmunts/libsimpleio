@@ -3,9 +3,9 @@
 --
 -- Flavor #1: All stations are administered by the same ham radio operator.
 --
--- The first 10 bytes of the payload are dedicated to address information:
+-- The first 12 bytes of the payload are dedicated to address information:
 --
--- * 8 ASCII bytes for the network ID aka call sign, left justified and space
+-- * 10 ASCII bytes for the network ID aka call sign, left justified and space
 --   padded.  Unlike AX.25, the ASCII bytes are *not* left shifted one bit.
 --
 -- * 1 byte for the destination node ID (ARCNET style: broadcast=0,
@@ -56,22 +56,25 @@ PRIVATE WITH Ada.Containers.Bounded_Synchronized_Queues;
 
 GENERIC
 
-  MaxPayloadSize  : Positive := 243; -- bytes, NOT including address header
+  MaxPayloadSize  : Positive := 241; -- bytes, NOT including address header
   QueueSize       : Positive := 10;  -- elements
 
 PACKAGE Wio_E5.Ham1 IS
 
-  -- Type definitions
+  SUBTYPE NetworkID IS String(1 .. 10); -- e.g. callsign
+
+  HeaderSize : CONSTANT Positive := (NetworkID'Size + Byte'Size + Byte'Size)/8;
+
+  -- The maximum RF frame size is 255 bytes
+
+  PRAGMA Assert(HeaderSize + MaxPayloadSize + 2 <= 255);
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH PRIVATE;
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
-  TYPE Frame          IS ARRAY (1 .. MaxPayloadSize + 10) OF Byte;
+  TYPE Payload        IS ARRAY (1 .. MaxPayloadSize) OF Byte;
 
-  SUBTYPE NetworkID IS String(1 .. 8); -- e.g. callsign
-
-  Broadcast        : CONSTANT Byte    := 0; -- ARCNET style broadcast address
-  MaxPayloadLength : CONSTANT Natural := MaxPayloadSize;
-  Uninitialized    : CONSTANT DeviceSubclass;
+  Broadcast     : CONSTANT Byte := 0; -- ARCNET style broadcast address
+  Uninitialized : CONSTANT DeviceSubclass;
 
   -- Device object constructor
 
@@ -141,7 +144,7 @@ PACKAGE Wio_E5.Ham1 IS
 
   PROCEDURE Send
    (Self : DeviceSubclass;
-    msg  : Frame;
+    msg  : Payload;
     len  : Positive;
     dst  : Byte)
 
@@ -152,7 +155,7 @@ PACKAGE Wio_E5.Ham1 IS
 
   PROCEDURE Receive
    (Self : DeviceSubclass;
-    msg  : OUT Frame;
+    msg  : OUT Payload;
     len  : OUT Natural;
     src  : OUT Byte;
     dst  : OUT Byte;
@@ -161,23 +164,23 @@ PACKAGE Wio_E5.Ham1 IS
 
     WITH Pre => Self /= Uninitialized;
 
-  -- Dump contents of a frame in hexadecimal form.
+  -- Dump contents of a payload in hexadecimal form.
 
-  PROCEDURE Dump(msg : Frame; len : Positive)
+  PROCEDURE Dump(msg : Payload; len : Positive)
 
-    WITH Pre => len <= Frame'Length;
+    WITH Pre => len <= Payload'Length;
 
-  -- Convert a message from binary to string.
+  -- Convert a payload from binary to string.
 
-  FUNCTION ToString(p : Frame; len : Positive) RETURN String
+  FUNCTION ToString(p : Payload; len : Positive) RETURN String
 
-    WITH Pre => len <= Frame'Length;
+    WITH Pre => len <= Payload'Length;
 
-  -- Convert a message from string to binary.
+  -- Convert a payload from string to binary.
 
-  FUNCTION ToFrame(s : String) RETURN Frame
+  FUNCTION ToPayload(s : String) RETURN Payload
 
-    WITH Pre => s'Length > 0 AND s'Length <= Frame'Length;
+    WITH Pre => s'Length > 0 AND s'Length <= Payload'Length;
 
 PRIVATE
 
@@ -195,7 +198,7 @@ PRIVATE
   -- Event queue definitions
 
   TYPE Queue_Item IS RECORD
-    msg  : Frame;
+    msg  : Payload;
     len  : Natural;
     src  : Byte;
     dst  : Byte;

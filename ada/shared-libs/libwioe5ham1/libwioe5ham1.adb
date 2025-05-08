@@ -74,7 +74,7 @@ PACKAGE BODY libWioE5Ham1 IS
     err        : OUT Integer) IS
 
     port : String := Interfaces.C.Strings.Value(portname);
-    net  : String := Ada.Strings.Fixed.Head(Interfaces.C.Strings.Value(network), 8);
+    net  : String := Ada.Strings.Fixed.Head(Interfaces.C.Strings.Value(network), 10);
     dev  : LoRa.Device;
 
   BEGIN
@@ -142,7 +142,7 @@ PACKAGE BODY libWioE5Ham1 IS
 
   PROCEDURE Receive
    (handle     : Integer;
-    msg        : OUT LoRa.Frame;
+    msg        : OUT LoRa.Payload;
     len        : OUT Integer;
     src        : OUT Integer;
     dst        : OUT Integer;
@@ -183,7 +183,7 @@ PACKAGE BODY libWioE5Ham1 IS
 
   PROCEDURE Send
    (handle     : Integer;
-    msg        : LoRa.Frame;
+    msg        : LoRa.Payload;
     len        : Integer;
     dst        : Integer;
     err        : OUT Integer) IS
@@ -203,7 +203,7 @@ PACKAGE BODY libWioE5Ham1 IS
       RETURN;
     END IF;
 
-    IF len < 1 OR len > LoRa.MaxPayloadLength THEN
+    IF len < 1 OR len > LoRa.Payload'Length THEN
       Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := EINVAL;
       RETURN;
@@ -248,7 +248,7 @@ PACKAGE BODY libWioE5Ham1 IS
       RETURN;
     END IF;
 
-    IF s'Length < 1 OR s'Length > LoRa.MaxPayloadLength THEN
+    IF s'Length < 1 OR s'Length > LoRa.Payload'Length THEN
       Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := EINVAL;
       RETURN;

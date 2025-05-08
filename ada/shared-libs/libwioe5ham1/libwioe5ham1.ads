@@ -46,7 +46,7 @@ PACKAGE libWioE5Ham1 IS
 
   PROCEDURE Receive
    (handle     : Integer;
-    msg        : OUT LoRa.Frame;
+    msg        : OUT LoRa.Payload;
     len        : OUT Integer;
     src        : OUT Integer;
     dst        : OUT Integer;
@@ -56,7 +56,7 @@ PACKAGE libWioE5Ham1 IS
 
   PROCEDURE Send
    (handle     : Integer;
-    msg        : LoRa.Frame;
+    msg        : LoRa.Payload;
     len        : Integer;
     dst        : Integer;
     err        : OUT Integer);

@@ -3,9 +3,9 @@
 --
 -- Flavor #1: All stations are administered by the same ham radio operator.
 --
--- The first 10 bytes of the payload are dedicated to address information:
+-- The first 12 bytes of the payload are dedicated to address information:
 --
--- * 8 ASCII bytes for the network ID aka call sign, left justified and space
+-- * 10 ASCII bytes for the network ID aka call sign, left justified and space
 --   padded.  Unlike AX.25, the ASCII bytes are *not* left shifted one bit.
 --
 -- * 1 byte for the destination node ID (ARCNET style: broadcast=0,
@@ -118,17 +118,17 @@ PACKAGE BODY Wio_E5.Ham1 IS
       mydev.txqueue.Dequeue(item);
 
       DECLARE
-        cmd : String(1 .. 2*item.len + 39) := (OTHERS => '.');
+        cmd : String(1 .. 2*item.len + 43) := (OTHERS => '.');
       BEGIN
         cmd(1 .. 17)    := "AT+TEST=TXLRPKT, ";
         cmd(18)         := ASCII.Quotation;
+        cmd(19 .. 38)   := ToHex(mydev.network);
+        cmd(39 .. 40)   := ToHex(item.dst);
+        cmd(41 .. 42)   := ToHex(item.src);
         cmd(cmd'Length) := ASCII.Quotation;
-        cmd(19 .. 34)   := ToHex(mydev.network);
-        cmd(35 .. 36)   := ToHex(item.dst);
-        cmd(37 .. 38)   := ToHex(item.src);
 
         FOR i IN 1 .. item.len LOOP
-          cmd(37 + i*2 .. 38 + i*2) := ToHex(item.msg(i));
+          cmd(41 + i*2 .. 42 + i*2) := ToHex(item.msg(i));
         END LOOP;
 
         inxmt := True;
@@ -142,9 +142,9 @@ PACKAGE BODY Wio_E5.Ham1 IS
       SNR : Integer) IS
       PRAGMA Warnings(Off, "index for * may assume lower bound *");
 
-      network : CONSTANT String(1 .. 16) := s(12 .. 27);
-      dst     : CONSTANT String(1 .. 2)  := s(28 .. 29);
-      src     : CONSTANT String(1 .. 2)  := s(30 .. 31);
+      network : CONSTANT String(1  .. 20) := s(12 .. 31);
+      dst     : CONSTANT String(1  .. 2)  := s(32 .. 33);
+      src     : CONSTANT String(1  .. 2)  := s(34 .. 35);
       item    : Queue_Item;
 
     BEGIN
@@ -157,14 +157,14 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
       -- Check for matching node ID or broadcast ID
 
-      IF dst /= ToHex(mydev.node) AND dst /= "00" THEN
+      IF dst /= ToHex(mydev.node) AND dst /= ToHex(Broadcast) THEN
         RETURN;
       END IF;
 
-      item.len := (s'Length - 32)/2;
+      item.len := (s'Length - 36)/2;
 
       FOR i IN 1 .. item.len LOOP
-        item.msg(i) := ToByte(s(30+i*2 .. 31+i*2));
+        item.msg(i) := ToByte(s(34+i*2 .. 35+i*2));
       END LOOP;
 
       item.src := ToByte(src);
@@ -350,7 +350,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
     portname   : String    := env.Value("WIOE5_PORT");
     baudrate   : Integer   := Integer'Value(env.Value("WIOE5_BAUD", "115200"));
-    network    : String    := str.Head(env.Value("WIOE5_NETWORK"), 8);
+    network    : String    := str.Head(env.Value("WIOE5_NETWORK"), 10);
     node       : Byte      := Byte'Value(env.Value("WIOE5_NODE"));
     freqmhz    : Frequency := Frequency'value(env.Value("WIOE5_FREQ"));
     spreading  : Integer   := Integer'value(env.Value("WIOE5_SPREADING", "7"));
@@ -395,10 +395,6 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
     -- Validate parameters
 
-    IF Frame'Length > 253 THEN
-      RAISE Error WITH "Invalid frame size";
-    END IF;
-
     IF portname'Length < 1 THEN
       RAISE Error WITH "Invalid port name, cannot be empty";
     END IF;
@@ -407,9 +403,8 @@ PACKAGE BODY Wio_E5.Ham1 IS
       RAISE Error WITH "Serial port device does not exist";
     END IF;
 
-    IF baudrate /= 230400 AND baudrate /= 115200 AND baudrate /= 76800 AND
-       baudrate /= 57600  AND baudrate /= 38400  AND baudrate /= 19200 AND
-       baudrate /= 14400  AND baudrate /= 9600 THEN
+    IF baudrate /= 230400 AND baudrate /= 115200 AND baudrate /= 57600 AND
+       baudrate /= 38400  AND baudrate /= 19200  AND baudrate /= 9600 THEN
       RAISE ERROR WITH "Invalid serial port data rate";
     END IF;
 
@@ -490,11 +485,11 @@ PACKAGE BODY Wio_E5.Ham1 IS
     item : Queue_Item;
 
   BEGIN
-    IF s'Length < 1 OR s'Length > MaxPayloadLength THEN
+    IF s'Length < 1 OR s'Length > Payload'Length THEN
       RAISE Error WITH "Invalid payload length";
     END IF;
 
-    item.msg := ToFrame(s);
+    item.msg := ToPayload(s);
     item.len := s'Length;
     item.src := Self.node;
     item.dst := dst;
@@ -507,14 +502,14 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   PROCEDURE Send
    (Self : DeviceSubclass;
-    msg  : Frame;
+    msg  : Payload;
     len  : Positive;
     dst  : Byte) IS
 
     item : Queue_Item;
 
   BEGIN
-    IF len > MaxPayloadLength THEN
+    IF len > Payload'Length THEN
       RAISE Error WITH "Invalid payload length";
     END IF;
 
@@ -532,7 +527,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   PROCEDURE Receive
    (Self : DeviceSubclass;
-    msg  : OUT Frame;
+    msg  : OUT Payload;
     len  : OUT Natural;
     src  : OUT Byte;
     dst  : OUT Byte;
@@ -559,12 +554,12 @@ PACKAGE BODY Wio_E5.Ham1 IS
     END SELECT;
   END Receive;
 
-  -- Dump contents of a frame in hexadecimal form.
+  -- Dump contents of a payload in hexadecimal form.
 
-  PROCEDURE Dump(msg : Frame; len : Positive) IS
+  PROCEDURE Dump(msg : Payload; len : Positive) IS
 
   BEGIN
-    Put("Frame:");
+    Put("Payload:");
 
     FOR i IN 1 .. len LOOP
       Put(' ');
@@ -574,9 +569,9 @@ PACKAGE BODY Wio_E5.Ham1 IS
     New_Line;
   END Dump;
 
-  -- Convert a message from binary to string.
+  -- Convert a payload from binary to string.
 
-  FUNCTION ToString(p : Frame; len : Positive) RETURN String IS
+  FUNCTION ToString(p : Payload; len : Positive) RETURN String IS
 
   BEGIN
     DECLARE
@@ -590,11 +585,11 @@ PACKAGE BODY Wio_E5.Ham1 IS
     END;
   END ToString;
 
-  -- Convert a message from string to binary.
+  -- Convert a payload from string to binary.
 
-  FUNCTION ToFrame(s : String) RETURN Frame IS
+  FUNCTION ToPayload(s : String) RETURN Payload IS
 
-    p : Frame;
+    p : Payload;
 
   BEGIN
     FOR i IN s'Range LOOP
@@ -602,6 +597,6 @@ PACKAGE BODY Wio_E5.Ham1 IS
     END LOOP;
 
     RETURN p;
-  END ToFrame;
+  END ToPayload;
 
 END Wio_E5.Ham1;
