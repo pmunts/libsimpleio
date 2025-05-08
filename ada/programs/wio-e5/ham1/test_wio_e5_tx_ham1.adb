@@ -31,7 +31,7 @@ PROCEDURE test_wio_e5_tx_ham1 IS
 
   dev : LoRa.Device;
   num : Positive;
-  msg : LoRa.Frame;
+  msg : LoRa.Payload;
   len : Natural := 0;
   src : Wio_E5.Byte;
   dst : Wio_E5.Byte;

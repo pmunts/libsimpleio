@@ -31,7 +31,7 @@ PROCEDURE test_signal_level_responder IS
   err : Integer;
   wd  : Watchdog.Timer;
   dev : LoRa.Device;
-  msg : LoRa.Frame;
+  msg : LoRa.Payload;
   len : Natural;
   src : Wio_E5.Byte;
   dst : Wio_E5.Byte;

@@ -29,7 +29,7 @@ PROCEDURE test_wio_e5_rx_ham1 IS
   PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
   dev : LoRa.Device;
-  msg : LoRa.Frame;
+  msg : LoRa.Payload;
   len : Natural;
   src : Wio_E5.Byte;
   dst : Wio_E5.Byte;
