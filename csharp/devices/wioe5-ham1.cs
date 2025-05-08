@@ -235,7 +235,7 @@ namespace IO.Devices.WioE5.Ham1
         /// <summary>
         /// Send a text message.
         /// </summary>
-        /// <param name="s">Text message to send.  Must be 1 to 243
+        /// <param name="s">Text message to send.  Must be 1 to 241
         /// characters.</param>
         /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
         /// or 1 to 255).</param>
@@ -255,7 +255,7 @@ namespace IO.Devices.WioE5.Ham1
         /// Send a binary message.
         /// </summary>
         /// <param name="msg">Binary message.</param>
-        /// <param name="len">Message length in bytes, 1 to 243.</param>
+        /// <param name="len">Message length in bytes, 1 to 241.</param>
         /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
         /// or 1 to 255).</param>
         public void Send(byte[] msg, int len, int dst)
@@ -272,7 +272,7 @@ namespace IO.Devices.WioE5.Ham1
         /// <summary>
         /// Receive a binary message.
         /// </summary>
-        /// <param name="msg">Binary message.  Must be at least 243 bytes.
+        /// <param name="msg">Binary message.  Must be at least 241 bytes.
         /// </param>
         /// <param name="len">Number of bytes received.</param>
         /// <param name="src">Source node ID (ARCNET style: 1 to 255).</param>

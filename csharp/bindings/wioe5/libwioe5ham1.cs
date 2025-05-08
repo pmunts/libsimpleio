@@ -57,8 +57,8 @@ namespace IO.Bindings
     /// are dedicated to address information:</b></i>
     /// </para>
     /// <para>
-    /// 8 ASCII bytes for the network ID <i>aka</i> callsign, left justified
-    /// and space padded.  Unlike AX.25, the ASCII bytes are left
+    /// 10 ASCII bytes for the network ID <i>aka</i> callsign, left justified
+    /// and space padded.  Unlike AX.25, the ASCII bytes are <b>not</b> left
     /// shifted one bit.
     /// </para>
     /// <para>
