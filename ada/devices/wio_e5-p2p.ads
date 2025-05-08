@@ -127,7 +127,7 @@ PACKAGE Wio_E5.P2P IS
 
     WITH Pre => Self /= Uninitialized;
 
-  -- Dump contents of a frame in hexadecimal form.
+  -- Dump contents of a payload in hexadecimal form.
 
   PROCEDURE Dump(msg : Payload; len : Positive)
 
