@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Wio_E5.P2P;
 
-PROCEDURE test_wio_e5_rx_p2p IS
+PROCEDURE test_wioe5_rx_p2p IS
 
   PACKAGE LoRa IS NEW Wio_E5.P2P; USE LoRa;
 
@@ -52,4 +52,4 @@ BEGIN
         SNR'Image & " dB");
     END IF;
   END LOOP;
-END test_wio_e5_rx_p2p;
+END test_wioe5_rx_p2p;

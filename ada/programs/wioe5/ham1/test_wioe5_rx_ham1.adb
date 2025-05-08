@@ -1,4 +1,4 @@
--- Wio-E5 LoRa Transceiver Transmit Test
+-- Wio-E5 LoRa Transceiver Receive Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -20,50 +20,39 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH Wio_E5.P2P;
+WITH Wio_E5.Ham1;
 
-PROCEDURE test_wio_e5_tx_p2p IS
+PROCEDURE test_wioe5_rx_ham1 IS
 
-  PACKAGE LoRa IS NEW Wio_E5.P2P; USE LoRa;
+  PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  dev : Device;
-  num : Positive;
-  msg : Payload;
-  len : Natural := 0;
+  dev : LoRa.Device;
+  msg : LoRa.Payload;
+  len : Natural;
+  src : Wio_E5.Byte;
+  dst : Wio_E5.Byte;
   RSS : Integer;
   SNR : Integer;
 
 BEGIN
   New_Line;
-  Put_Line("Wio-E5 LoRa Transceiver Transmit Test");
+  Put_Line("Wio-E5 LoRa Transceiver Receive Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 1 THEN
-    Put_Line("Usage: test_wio_e5_tx_p2p <iterations>");
-    New_Line;
-    Ada.Command_Line.Set_Exit_Status(1);
-    RETURN;
-  END IF;
+  dev := LoRa.Create;
 
-  dev := Create;
-
-  num := Positive'Value(Ada.Command_Line.Argument(1));
-
-  FOR i IN 1 .. num LOOP
-    dev.Send("This is test" & i'Image);
-
-    DELAY 0.3;
-
-    dev.Receive(msg, len, RSS, SNR);
+  LOOP
+    dev.Receive(msg, len, src, dst, RSS, SNR);
 
     IF len > 0 THEN
-      Put_Line("Received => """ & ToString(msg, len) & """ LEN:" & len'Image &
-        " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image & " dB");
+      Put_Line("Received => """ & LoRa.ToString(msg, len) & """ LEN:" &
+        len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image &
+        " dB");
+
+      dev.Send("LEN:" & len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" &
+        SNR'Image & " dB", src);
     END IF;
   END LOOP;
-
-  dev.Shutdown;
-END test_wio_e5_tx_p2p;
+END test_wioe5_rx_ham1;
