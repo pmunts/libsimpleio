@@ -58,7 +58,7 @@ PACKAGE Wio_E5.P2P IS
 
   FUNCTION Create
    (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
-    baudrate   : Integer ;        -- bits per second e.g. 115200
+    baudrate   : Integer;         -- bits per second e.g. 115200
     freqmhz    : Frequency;       -- MHz e.g. 915.000
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
@@ -133,13 +133,13 @@ PACKAGE Wio_E5.P2P IS
 
     WITH Pre => len <= Payload'Length;
 
-  -- Convert a message from binary to string.
+  -- Convert a payload from binary to string.
 
   FUNCTION ToString(p : Payload; len : Positive) RETURN String
 
     WITH Pre => len <= Payload'Length;
 
-  -- Convert a message from string to binary.
+  -- Convert a payload from string to binary.
 
   FUNCTION ToPayload(s : String) RETURN Payload
 
