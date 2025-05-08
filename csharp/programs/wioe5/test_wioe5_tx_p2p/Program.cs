@@ -30,7 +30,7 @@ int iterations = 0;
 
 if ((args.Length != 1) || (!int.TryParse(args[0], out iterations)))
 {
-  WriteLine("Usage: test_wio_e5_tx_p2p <iterations>\n");
+  WriteLine("Usage: test_wioe5_tx_p2p <iterations>\n");
   Exit(1);
 }
 
