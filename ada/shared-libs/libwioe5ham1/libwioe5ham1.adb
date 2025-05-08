@@ -20,7 +20,6 @@
 
 WITH Ada.Exceptions;
 WITH Ada.Strings.Fixed;
-WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Interfaces.C.Strings;
 
 WITH Wio_E5.Ham1;
@@ -83,13 +82,11 @@ PACKAGE BODY libWioE5Ham1 IS
     -- Validate parameters
 
     IF node < 1 OR node > 255 THEN
-      Put_Line(Standard_Error, "ERROR: Invalid node ID");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF NextPortHandle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: No more port handles");
       err := ENOMEM;
       RETURN;
     END IF;
@@ -107,7 +104,6 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E: OTHERS =>
-      Put_Line("ERROR: Wio_E5.Ham1.Create() failed");
       handle := -1;
       err    := ToErrNum(E);
   END Initialize;
@@ -120,13 +116,11 @@ PACKAGE BODY libWioE5Ham1 IS
     -- Validate parameters
 
     IF handle < 1 OR handle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
@@ -136,7 +130,6 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E : OTHERS =>
-      Put_Line("ERROR: Wio_E5.Ham1.Shutdown() failed");
       err := ToErrNum(E);
   END Shutdown;
 
@@ -158,13 +151,11 @@ PACKAGE BODY libWioE5Ham1 IS
     -- Validate parameters
 
     IF handle < 1 OR handle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
@@ -177,7 +168,6 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E : OTHERS =>
-      Put_Line(Standard_Error, "ERROR: Wio_E5.Ham1.Receive() failed");
       err := ToErrNum(E);
   END Receive;
 
@@ -192,25 +182,21 @@ PACKAGE BODY libWioE5Ham1 IS
     -- Validate parameters
 
     IF handle < 1 OR handle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF len < 1 OR len > LoRa.Payload'Length THEN
-      Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF dst < 0 OR dst > 255 THEN
-      Put_Line(Standard_Error, "ERROR: Invalid node ID");
       err := EINVAL;
       RETURN;
     END IF;
@@ -220,7 +206,6 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E : OTHERS =>
-      Put_Line(Standard_Error, "ERROR: Wio_E5.Ham1.Send() failed");
       err := ToErrNum(E);
   END Send;
 
@@ -237,25 +222,21 @@ PACKAGE BODY libWioE5Ham1 IS
     -- Validate parameters
 
     IF handle < 1 OR handle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF s'Length < 1 OR s'Length > LoRa.Payload'Length THEN
-      Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF dst < 0 OR dst > 255 THEN
-      Put_Line(Standard_Error, "ERROR: Invalid node ID");
       err := EINVAL;
       RETURN;
     END IF;
@@ -265,7 +246,6 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E : OTHERS =>
-      Put_Line(Standard_Error, "ERROR: Wio_E5.Ham1.Send() failed");
       err := ToErrNum(E);
   END SendString;
 

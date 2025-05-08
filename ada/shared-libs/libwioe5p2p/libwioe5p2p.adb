@@ -19,7 +19,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Exceptions;
-WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Strings.Fixed;
 WITH Interfaces.C.Strings;
 
@@ -80,7 +79,6 @@ PACKAGE BODY libWioE5P2P IS
     -- Validate parameters
 
     IF NextPortHandle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: No more port handles");
       err := ENOMEM;
       RETURN;
     END IF;
@@ -97,7 +95,6 @@ PACKAGE BODY libWioE5P2P IS
 
   EXCEPTION
     WHEN E : OTHERS =>
-      Put_Line("ERROR: Wio_E5.P2P.Create() failed");
       handle := -1;
       err    := ToErrNum(E);
   END Initialize;
@@ -110,13 +107,11 @@ PACKAGE BODY libWioE5P2P IS
     -- Validate parameters
 
     IF handle < 1 OR handle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
@@ -126,7 +121,6 @@ PACKAGE BODY libWioE5P2P IS
 
   EXCEPTION
     WHEN E : OTHERS =>
-      Put_Line("ERROR: Wio_E5.Ham1.Shutdown() failed");
       err := ToErrNum(E);
   END Shutdown;
 
@@ -143,13 +137,11 @@ PACKAGE BODY libWioE5P2P IS
     -- Validate parameters
 
     IF handle < 1 OR handle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
@@ -159,7 +151,6 @@ PACKAGE BODY libWioE5P2P IS
 
   EXCEPTION
     WHEN E : OTHERS =>
-      Put_Line(Standard_Error, "ERROR: Wio_E5.P2P.Receive() failed");
       err := ToErrNum(E);
   END Receive;
 
@@ -174,19 +165,16 @@ PACKAGE BODY libWioE5P2P IS
     -- Validate parameters
 
     IF handle < 1 OR handle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF len < 1 OR len > LoRa.Payload'Length THEN
-      Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := EINVAL;
       RETURN;
     END IF;
@@ -196,7 +184,6 @@ PACKAGE BODY libWioE5P2P IS
 
   EXCEPTION
     WHEN E : OTHERS =>
-      Put_Line(Standard_Error, "ERROR: Wio_E5.P2P.Send() failed");
       err := ToErrNum(E);
   END Send;
 
@@ -212,19 +199,16 @@ PACKAGE BODY libWioE5P2P IS
     -- Validate parameters
 
     IF handle < 1 OR handle > MaxPortHandles THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF PortHandles(handle) = NULL THEN
-      Put_Line(Standard_Error, "ERROR: Invalid port handle");
       err := EINVAL;
       RETURN;
     END IF;
 
     IF s'Length < 1 OR s'Length > LoRa.Payload'Length THEN
-      Put_Line(Standard_Error, "ERROR: Invalid payload length");
       err := EINVAL;
       RETURN;
     END IF;
@@ -234,7 +218,6 @@ PACKAGE BODY libWioE5P2P IS
 
   EXCEPTION
     WHEN E : OTHERS =>
-      Put_Line(Standard_Error, "ERROR: Wio_E5.P2P.Send() failed");
       err := ToErrNum(E);
   END SendString;
 
