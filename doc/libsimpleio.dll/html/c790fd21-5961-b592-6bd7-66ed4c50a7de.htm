@@ -24,18 +24,17 @@
             rate).
             </p><p><span class="code">libwioe5ham1</span> provides Amateur Radio Service Support Flavor
             #1: <i><b>All stations are administered by the same ham radio
-            operator, using the same callsign, and the first 10 bytes of payload
+            operator, using the same call sign, and the first 12 bytes of payload
             are dedicated to address information:</b></i></p><p>
-            8 ASCII bytes for the network ID <i>aka</i> callsign, left justified
-            and space padded.  Unlike AX.25, the ASCII bytes are left
-            shifted one bit.
+            10 ASCII characters for the network ID <i>aka</i> call sign, left
+            justified and space padded.
             </p><p>
-            1 byte for the destination node ID (ARCNET style: broadcast=0,
+            1 binary byte for the destination node ID (ARCNET style: broadcast=0,
             unicast=1 to 255).
             </p><p>
-            1 byte for the source node ID (ARCNET style: unicast=1 to 255).
+            1 binary byte for the source node ID (ARCNET style: unicast=1 to 255).
             </p><p><span class="code">libwioe5ham1</span> drops any received frame that does not contain
-            matching network <i>aka</i> callsign and destination node ID's,
+            matching network <i>aka</i> call sign and destination node ID's,
             imposing a unicast address scheme onto the broadcast Wio-E5 test
             <i>aka</i> P2P mode.
             </p><p>
