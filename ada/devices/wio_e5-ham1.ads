@@ -83,12 +83,12 @@ PACKAGE Wio_E5.Ham1 IS
     baudrate   : Integer;         -- bits per second e.g. 115200
     network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
     node       : Byte;            -- ARCNET style e.g. 1 to 255
-    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    freqmhz    : Frequency;       -- MHz (902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
-    txpreamble : Integer := 12;   -- bits;
-    rxpreamble : Integer := 15;   -- bits;
-    txpower    : Integer := 22)   -- dBm;
+    txpreamble : Integer := 12;   -- bits
+    rxpreamble : Integer := 15;   -- bits
+    txpower    : Integer := 22)   -- dBm (-1 to 22)
   RETURN Device;
 
   -- Device object constructor that gets configuration parameters from
@@ -118,12 +118,12 @@ PACKAGE Wio_E5.Ham1 IS
     baudrate   : Integer;         -- bits per second e.g. 115200
     network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
     node       : Byte;            -- ARCNET style e.g. 1 to 255
-    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    freqmhz    : Frequency;       -- MHz (902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
-    txpreamble : Integer := 12;   -- bits;
-    rxpreamble : Integer := 15;   -- bits;
-    txpower    : Integer := 22);  -- dBm;
+    txpreamble : Integer := 12;   -- bits
+    rxpreamble : Integer := 15;   -- bits
+    txpower    : Integer := 22)   -- dBm (-1 to 22)
 
   -- Terminate background task
 

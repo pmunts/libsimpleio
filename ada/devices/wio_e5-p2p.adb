@@ -253,12 +253,12 @@ PACKAGE BODY Wio_E5.P2P IS
   FUNCTION Create
    (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
     baudrate   : Integer;         -- bits per second e.g. 115200
-    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    freqmhz    : Frequency;       -- MHz (863.0 to 870, or 902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
-    txpreamble : Integer := 12;   -- bits;
-    rxpreamble : Integer := 15;   -- bits;
-    txpower    : Integer := 22)   -- dBm;
+    txpreamble : Integer := 12;   -- bits
+    rxpreamble : Integer := 15;   -- bits
+    txpower    : Integer := 14)   -- dBm (-1 to 22, subject to EIRP limits)
   RETURN Device IS
 
     dev : DeviceSubclass;
@@ -282,7 +282,7 @@ PACKAGE BODY Wio_E5.P2P IS
   -- WIOE5_BANDWIDTH    (Default: 500)
   -- WIOE5_TXPREAMBLE   (Default: 12)
   -- WIOE5_RXPREAMBLE   (Default: 15)
-  -- WIOE5_TXPOWER      (Default: 22)
+  -- WIOE5_TXPOWER      (Default: 14)
 
   FUNCTION Create RETURN Device IS
 
@@ -295,7 +295,7 @@ PACKAGE BODY Wio_E5.P2P IS
     bandwidth  : Integer   := Integer'value(env.Value("WIOE5_BANDWIDTH", "500"));
     txpreamble : Integer   := Integer'value(env.Value("WIOE5_TXPREAMBLE", "12"));
     rxpreamble : Integer   := Integer'value(env.Value("WIOE5_RXPREAMBLE", "15"));
-    txpower    : Integer   := Integer'value(env.Value("WIOE5_TXPOWER", "22"));
+    txpower    : Integer   := Integer'value(env.Value("WIOE5_TXPOWER", "14"));
 
   BEGIN
     RETURN Create(portname, baudrate, freqmhz, spreading, bandwidth,
@@ -308,12 +308,12 @@ PACKAGE BODY Wio_E5.P2P IS
    (Self       : OUT DeviceSubclass;
     portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
     baudrate   : Integer;         -- bits per second e.g. 115200
-    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    freqmhz    : Frequency;       -- MHz (863.0 to 870, or 902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
-    txpreamble : Integer := 12;   -- bits;
-    rxpreamble : Integer := 15;   -- bits;
-    txpower    : Integer := 22)   -- dBm;
+    txpreamble : Integer := 12;   -- bits
+    rxpreamble : Integer := 15;   -- bits
+    txpower    : Integer := 14)   -- dBm (-1 to 22, subject to EIRP limits)
   IS
 
     config_cmd  : CONSTANT String := "AT+TEST=RFCFG," &
@@ -344,7 +344,11 @@ PACKAGE BODY Wio_E5.P2P IS
       RAISE ERROR WITH "Invalid serial port data rate";
     END IF;
 
-    IF freqmhz < 902.0 OR freqmhz > 928.0 THEN
+    IF freqmhz < 863.0 OR freqmhz > 928.0 THEN
+      RAISE Error WITH "Invalid RF center frequency";
+    END IF;
+
+    IF freqmhz > 870.0 AND freqmhz < 902.0 THEN
       RAISE Error WITH "Invalid RF center frequency";
     END IF;
 

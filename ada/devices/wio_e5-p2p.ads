@@ -59,12 +59,12 @@ PACKAGE Wio_E5.P2P IS
   FUNCTION Create
    (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
     baudrate   : Integer;         -- bits per second e.g. 115200
-    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    freqmhz    : Frequency;       -- MHz (863.0 to 870, or 902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
-    txpreamble : Integer := 12;   -- bits;
-    rxpreamble : Integer := 15;   -- bits;
-    txpower    : Integer := 22)   -- dBm;
+    txpreamble : Integer := 12;   -- bits
+    rxpreamble : Integer := 15;   -- bits
+    txpower    : Integer := 14)   -- dBm (-1 to 22, subject to EIRP limits)
   RETURN Device;
 
   -- Device object constructor that gets configuration parameters from
@@ -80,7 +80,7 @@ PACKAGE Wio_E5.P2P IS
   -- WIOE5_BANDWIDTH    (Default: 500)
   -- WIOE5_TXPREAMBLE   (Default: 12)
   -- WIOE5_RXPREAMBLE   (Default: 15)
-  -- WIOE5_TXPOWER      (Default: 22)
+  -- WIOE5_TXPOWER      (Default: 14)
 
   FUNCTION Create RETURN Device;
 
@@ -90,12 +90,12 @@ PACKAGE Wio_E5.P2P IS
    (Self       : OUT DeviceSubclass;
     portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
     baudrate   : Integer;         -- bits per second e.g. 115200
-    freqmhz    : Frequency;       -- MHz e.g. 915.000
+    freqmhz    : Frequency;       -- MHz (863.0 to 870, or 902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
-    txpreamble : Integer := 12;   -- bits;
-    rxpreamble : Integer := 15;   -- bits;
-    txpower    : Integer := 22);  -- dBm;
+    txpreamble : Integer := 12;   -- bits
+    rxpreamble : Integer := 15;   -- bits
+    txpower    : Integer := 14)   -- dBm (-1 to 22, subject to EIRP limits)
 
   -- Terminate background task
 
