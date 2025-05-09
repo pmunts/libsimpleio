@@ -123,7 +123,7 @@ PACKAGE Wio_E5.Ham1 IS
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
     txpreamble : Integer := 12;   -- bits
     rxpreamble : Integer := 15;   -- bits
-    txpower    : Integer := 22)   -- dBm (-1 to 22)
+    txpower    : Integer := 22);  -- dBm (-1 to 22)
 
   -- Terminate background task
 

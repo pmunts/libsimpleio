@@ -95,7 +95,7 @@ PACKAGE Wio_E5.P2P IS
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
     txpreamble : Integer := 12;   -- bits
     rxpreamble : Integer := 15;   -- bits
-    txpower    : Integer := 14)   -- dBm (-1 to 22, subject to EIRP limits)
+    txpower    : Integer := 14);  -- dBm (-1 to 22, subject to EIRP limits)
 
   -- Terminate background task
 
