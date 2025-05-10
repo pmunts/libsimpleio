@@ -1,4 +1,4 @@
--- Wio-E5 LoRa Amateur Radio Flavor #1 Passive Monitor Test
+-- Wio-E5 LoRa Amateur Radio Flavor #1 Passive Monitor
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -25,7 +25,7 @@ WITH Ada.Strings.Fixed;
 
 WITH Wio_E5.P2P;
 
-PROCEDURE monitor IS
+PROCEDURE wioe5_ham1_monitor IS
 
   PACKAGE LoRa IS NEW Wio_E5.P2P;
 
@@ -37,7 +37,7 @@ PROCEDURE monitor IS
 
 BEGIN
   New_Line;
-  Put_Line("Wio-E5 LoRa Amateur Radio Flavor #1 Passive Monitor Test");
+  Put_Line("Wio-E5 LoRa Amateur Radio Flavor #1 Passive Monitor");
   New_Line;
 
   dev := LoRa.Create;
@@ -58,4 +58,4 @@ BEGIN
       END;
     END IF;
   END LOOP;
-END monitor;
+END wioe5_ham1_monitor;
