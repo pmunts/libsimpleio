@@ -1,4 +1,4 @@
-name = "test_signal_level_tx"
+name = "test_wioe5_tx_ham1"
 description = ""
 version = "0.1.0-dev"
 
@@ -8,7 +8,7 @@ licenses = "MIT OR Apache-2.0 WITH LLVM-exception"
 website = ""
 tags = []
 
-executables = ["test_signal_level_tx"]
+executables = ["test_wioe5_tx_ham1"]
 
 [[depends-on]]
-libsimpleio = "^2.23168.1"
+wioe5_ham1 = "^1.23299.1"

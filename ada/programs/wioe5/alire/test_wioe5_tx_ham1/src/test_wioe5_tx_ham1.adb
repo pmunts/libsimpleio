@@ -1,4 +1,4 @@
--- Wio-E5 LoRa Transceiver Signal Level Test Initiator
+-- Wio-E5 LoRa Transceiver Transmit Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -20,42 +20,54 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Command_Line;
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH Wio_E5.Ham1;
 
-PROCEDURE test_signal_level_tx IS
+PROCEDURE test_wioe5_tx_ham1 IS
 
-  PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
+  PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  dev : Device := Create("/dev/ttyUSB0", 115200, 915.0, "XXXXXXXX", 1);
-  msg : Frame;
-  len : Natural := 0;
-  src : Wio_E5.Byte;
-  dst : Wio_E5.Byte;
-  RSS : Integer;
-  SNR : Integer;
+  dev  : LoRa.Device;
+  node : Wio_E5.Byte;
+  num  : Positive;
+  msg  : LoRa.Payload;
+  len  : Natural := 0;
+  src  : Wio_E5.Byte;
+  dst  : Wio_E5.Byte;
+  RSS  : Integer;
+  SNR  : Integer;
 
 BEGIN
   New_Line;
-  Put_Line("Wio-E5 LoRa Transceiver Signal Level Test Initiator");
+  Put_Line("Wio-E5 LoRa Transceiver Transmit Test");
   New_Line;
 
-  FOR i IN 1 .. 10 LOOP
-    dev.Send("This is test" & i'Image, 2);
+  IF Ada.Command_Line.Argument_Count /= 2 THEN
+    Put_Line("Usage: test_wioe5_tx_ham1 <node id> <iterations>");
+    New_Line;
+    Ada.Command_Line.Set_Exit_Status(1);
+    RETURN;
+  END IF;
+
+  dev  := LoRa.Create;
+  node := Wio_E5.Byte'Value(Ada.Command_Line.Argument(1));
+  num  := Positive'Value(Ada.Command_Line.Argument(2));
+
+  FOR i IN 1 .. num LOOP
+    dev.Send("This is test" & i'Image, node);
 
     DELAY 0.3;
 
     dev.Receive(msg, len, src, dst, RSS, SNR);
 
     IF len > 0 THEN
-      Put_Line("Received => """ & ToString(msg, len) & """ from node"
-        & src'Image & " to node" & dst'Image & " RSS: " & RSS'Image &
-        " dBm SNR: " & SNR'Image & " dB");
+      Put_Line("Received => """ & LoRA.ToString(msg, len) & """ from node"
+        & src'Image & " to node" & dst'Image & " RSS:" & RSS'Image &
+        " dBm SNR:" & SNR'Image & " dB");
     END IF;
-
-    DELAY 0.3;
   END LOOP;
 
   dev.Shutdown;
-END test_signal_level_tx;
+END test_wioe5_tx_ham1;

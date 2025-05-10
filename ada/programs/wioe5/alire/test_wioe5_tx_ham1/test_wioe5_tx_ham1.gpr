@@ -1,14 +1,14 @@
-with "config/test_signal_level_tx_config.gpr";
-project Test_Signal_Level_Tx is
+with "config/test_wioe5_tx_ham1_config.gpr";
+project Test_WioE5_Tx_Ham1 is
 
    for Source_Dirs use ("src/", "config/");
-   for Object_Dir use "obj/" & Test_Signal_Level_Tx_Config.Build_Profile;
+   for Object_Dir use "obj/" & Test_WioE5_Tx_Ham1_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Exec_Dir use "bin";
-   for Main use ("test_signal_level_tx.adb");
+   for Main use ("test_wioe5_tx_ham1.adb");
 
    package Compiler is
-      for Default_Switches ("Ada") use Test_Signal_Level_Tx_Config.Ada_Compiler_Switches & ("-gnaty-g");
+      for Default_Switches ("Ada") use Test_WioE5_Tx_Ham1_Config.Ada_Compiler_Switches & ("-gnaty-g");
    end Compiler;
 
    package Binder is
@@ -19,4 +19,4 @@ project Test_Signal_Level_Tx is
       for Artifacts (".") use ("share");
    end Install;
 
-end Test_Signal_Level_Tx;
+end Test_WioE5_Tx_Ham1;
