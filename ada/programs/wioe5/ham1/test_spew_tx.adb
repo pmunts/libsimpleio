@@ -29,28 +29,28 @@ PROCEDURE test_spew_tx IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  dev : LoRa.Device;
-  num : Positive;
+  dev  : LoRa.Device;
+  node : Wio_E5.Byte;
+  num  : Positive;
 
 BEGIN
   New_Line;
   Put_Line("Wio-E5 LoRa Transceiver Transmit Test");
   New_Line;
 
-  IF Ada.Command_Line.Argument_Count /= 1 THEN
-    Put_Line("Usage: test_spew_tx <iterations>");
+  IF Ada.Command_Line.Argument_Count /= 2 THEN
+    Put_Line("Usage: test_spew_tx <node id> <iterations>");
     New_Line;
     Ada.Command_Line.Set_Exit_Status(1);
     RETURN;
   END IF;
 
-  dev := LoRa.Create;
-
-  num := Positive'Value(Ada.Command_Line.Argument(1));
+  dev  := LoRa.Create;
+  node := Wio_E5.Byte'Value(Ada.Command_Line.Argument(1));
+  num  := Positive'Value(Ada.Command_Line.Argument(2));
 
   FOR i IN 1 .. num LOOP
-
-    dev.Send("This is test" & i'Image, 2);
+    dev.Send("This is test" & i'Image, node);
   END LOOP;
 
   dev.Shutdown;
