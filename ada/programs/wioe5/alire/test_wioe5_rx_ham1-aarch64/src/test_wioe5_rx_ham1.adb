@@ -1,4 +1,4 @@
--- Wio-E5 LoRa Transceiver Signal Level Test Responder
+-- Wio-E5 LoRa Transceiver Receive Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -20,18 +20,16 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH libLinux;
-WITH Watchdog.libsimpleio;
+WITH Ada.Text_IO; USE Ada.Text_IO;
+
 WITH Wio_E5.Ham1;
 
-PROCEDURE test_signal_level_rx IS
+PROCEDURE test_wioe5_rx_ham1 IS
 
-  PACKAGE LoRa IS NEW Wio_E5.Ham1; USE LoRa;
+  PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  err : Integer;
-  wd  : Watchdog.Timer;
-  dev : Device;
-  msg : Frame;
+  dev : LoRa.Device;
+  msg : LoRa.Payload;
   len : Natural;
   src : Wio_E5.Byte;
   dst : Wio_E5.Byte;
@@ -39,27 +37,22 @@ PROCEDURE test_signal_level_rx IS
   SNR : Integer;
 
 BEGIN
-  libLinux.Detach(err);
+  New_Line;
+  Put_Line("Wio-E5 LoRa Transceiver Receive Test");
+  New_Line;
 
-  -- Create a watchdog timer device object
-
-  wd := Watchdog.libsimpleio.Create;
-
-  -- Change the watchdog timeout period to 5 seconds
-
-  wd.SetTimeout(5.0);
-
-  -- Create a LoRa transceiver object
-
-  dev :=  Create("/dev/ttyAMA0", 115200, 915.0, "XXXXXXXX", 2);
+  dev := LoRa.Create;
 
   LOOP
     dev.Receive(msg, len, src, dst, RSS, SNR);
 
     IF len > 0 THEN
-      dev.Send("LEN:" & len'Image & " bytes RSS: " & RSS'Image & " dBm SNR: " & SNR'Image & " dB", src);
-    END IF;
+      Put_Line("Received => """ & LoRa.ToString(msg, len) & """ LEN:" &
+        len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" & SNR'Image &
+        " dB");
 
-    wd.Kick;
+      dev.Send("LEN:" & len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" &
+        SNR'Image & " dB", src);
+    END IF;
   END LOOP;
-END test_signal_level_rx;
+END test_wioe5_rx_ham1;
