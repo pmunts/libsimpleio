@@ -45,7 +45,7 @@ for (int i = 1; i <= iterations; i++)
 {
   dev.Send("This is test " + i.ToString());
 
-  Sleep(300);
+  Sleep(400);
 
   dev.Receive(msg, out int len, out int   RSS, out int SNR);
 
