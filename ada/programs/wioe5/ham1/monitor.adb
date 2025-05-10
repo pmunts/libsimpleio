@@ -25,7 +25,7 @@ WITH Ada.Strings.Fixed;
 
 WITH Wio_E5.P2P;
 
-PROCEDURE test_monitor IS
+PROCEDURE monitor IS
 
   PACKAGE LoRa IS NEW Wio_E5.P2P;
 
@@ -58,4 +58,4 @@ BEGIN
       END;
     END IF;
   END LOOP;
-END test_monitor;
+END monitor;
