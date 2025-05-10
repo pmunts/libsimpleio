@@ -1,4 +1,4 @@
--- Wio-E5 LoRa Transceiver Signal Level Test Responder
+-- Wio-E5 LoRa Transceiver Signal Level Responder
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -24,7 +24,7 @@ WITH libLinux;
 WITH Watchdog.libsimpleio;
 WITH Wio_E5.Ham1;
 
-PROCEDURE signal_level_responder IS
+PROCEDURE wioe5_ham1_responder IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
@@ -63,4 +63,4 @@ BEGIN
 
     wd.Kick;
   END LOOP;
-END signal_level_responder;
+END wioe5_ham1_responder;
