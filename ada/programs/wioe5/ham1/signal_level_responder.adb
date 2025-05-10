@@ -24,7 +24,7 @@ WITH libLinux;
 WITH Watchdog.libsimpleio;
 WITH Wio_E5.Ham1;
 
-PROCEDURE test_signal_level_responder IS
+PROCEDURE signal_level_responder IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
@@ -63,4 +63,4 @@ BEGIN
 
     wd.Kick;
   END LOOP;
-END test_signal_level_responder;
+END signal_level_responder;
