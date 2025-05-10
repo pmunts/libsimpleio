@@ -55,7 +55,7 @@ BEGIN
   FOR i IN 1 .. num LOOP
     dev.Send("This is test" & i'Image);
 
-    DELAY 0.3;
+    DELAY 0.4;
 
     dev.Receive(msg, len, RSS, SNR);
 
