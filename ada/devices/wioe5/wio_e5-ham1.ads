@@ -1,5 +1,15 @@
--- Seeed Studio Wio-E5 LoRa Transceiver Support for Amateur Radio
--- using Test aka P2P mode.
+-- Seeed Studio Wio-E5 LoRa Transceiver Support for Amateur Radio Flavor #1,
+-- using test aka P2P mode and prefixing the payload with an address header.
+--
+-- In test aka P2P mode, the Wio-E5 transmits unencrypted "implicit header"
+-- frames consisting of a configurable number of preamble bits, 1 to 253
+-- payload bytes, and two CRC bytes.  Upon reception of each frame, the Wio-E5
+-- verifies the CRC, discarding erroneous frames and passing valid ones to the
+-- device driver.
+--
+-- Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent and
+-- received using *any* data rate scheme (the combination of spreading
+-- factor, modulation bandwidth, and the derived RF symbol rate).
 --
 -- Flavor #1: All stations are administered by the same ham radio operator.
 --
@@ -12,16 +22,6 @@
 --   unicast=1 to 255).
 --
 -- * 1 byte for the source node ID (ARCNET style: 1 to 255).
---
--- In test aka P2P mode, the Wio-E5 transmits unencrypted "implicit header"
--- frames consisting of a configurable number of preamble bits, 1 to 253
--- payload bytes, and two CRC bytes.  Upon reception of each frame, the Wio-E5
--- verifies the CRC, discarding erroneous frames and passing valid ones to the
--- device driver.
---
--- Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent and
--- received using *any* data rate scheme (the combination of spreading
--- factor, modulation bandwidth, and the derived RF symbol rate).
 --
 -- This package will drop any received frame that does not contain matching
 -- network aka callsign and node ID's, imposing a unicast scheme onto the
