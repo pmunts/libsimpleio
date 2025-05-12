@@ -27,7 +27,7 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 include $(LIBSIMPLEIO)/ada/include/ada.mk
 include $(LIBSIMPLEIO)/ada/include/libsimpleio.mk
 
-PROGRAMS	:= $(shell ls test*.adb | awk '{ printf("basename %s .adb\n", $$1); }' | sh)
+PROGRAMS	:= $(shell ls *.adb | awk '{ printf("basename %s .adb\n", $$1); }' | sh)
 
 default: build
 
