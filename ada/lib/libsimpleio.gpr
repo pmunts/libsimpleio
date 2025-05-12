@@ -45,7 +45,7 @@ LIBRARY PROJECT libsimpleio IS
   FOR Library_Dir      USE LIBSIMPLEIO & "/ada/lib/libsimpleio.lib";
   FOR Source_Dirs      USE
    (LIBSIMPLEIO & "/ada/bindings",
-    LIBSIMPLEIO & "/ada/devices",
+    LIBSIMPLEIO & "/ada/devices/**",
     LIBSIMPLEIO & "/ada/interfaces",
     LIBSIMPLEIO & "/ada/objects/**");
 -- CUT HERE

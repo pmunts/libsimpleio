@@ -22,6 +22,7 @@
 
 CFLAGS += -I$(LIBSIMPLEIO)/ada/bindings
 CFLAGS += -I$(LIBSIMPLEIO)/ada/devices
+CFLAGS += -I$(LIBSIMPLEIO)/ada/devices/wioe5
 CFLAGS += -I$(LIBSIMPLEIO)/ada/interfaces
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/clickboards

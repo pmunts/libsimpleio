@@ -31,8 +31,8 @@ default: build
 
 subordinates:
 	mkdir -p							$@
-	cp $(LIBSIMPLEIO)/ada/devices/wio_e5.*				$@
-	cp $(LIBSIMPLEIO)/ada/devices/wio_e5-p2p.*			$@
+	cp $(LIBSIMPLEIO)/ada/devices/wioe5/wio_e5.*			$@
+	cp $(LIBSIMPLEIO)/ada/devices/wioe5/wio_e5-p2p.*		$@
 	touch $@
 
 ###############################################################################

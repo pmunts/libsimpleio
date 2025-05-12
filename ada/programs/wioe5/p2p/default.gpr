@@ -25,7 +25,7 @@ PROJECT Default IS
 
   FOR Source_Dirs USE (".",
     LIBSIMPLEIO & "/ada/bindings",
-    LIBSIMPLEIO & "/ada/devices",
+    LIBSIMPLEIO & "/ada/devices/**",
     LIBSIMPLEIO & "/ada/interfaces",
     LIBSIMPLEIO & "/ada/objects/**");
 
