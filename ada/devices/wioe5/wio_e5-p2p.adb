@@ -140,7 +140,7 @@ PACKAGE BODY Wio_E5.P2P IS
         RETURN;
       END IF;
 
-      IF GNAT.Regpat.Match(resp_rcv2, s) THEN
+      IF s'Length > 14 AND THEN GNAT.Regpat.Match(resp_rcv2, s) THEN
         PushRxQueue(s, RSS, SNR);
         RSS := Integer'First;
         SNR := Integer'First;

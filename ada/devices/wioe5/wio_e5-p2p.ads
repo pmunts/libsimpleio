@@ -39,18 +39,19 @@ PRIVATE WITH Ada.Containers.Bounded_Synchronized_Queues;
 
 GENERIC
 
-  MaxPayloadSize  : Positive := 253; -- bytes (1 to 253)
+  MaxPayloadBytes : Positive := 253; -- 1 to 253
   QueueSize       : Positive := 10;  -- elements
 
 PACKAGE Wio_E5.P2P IS
 
-  -- The maximum RF frame size is 255 bytes
-
-  PRAGMA Assert(MaxPayloadSize + 2 <= 255);
-
   TYPE DeviceSubclass IS NEW DeviceClass WITH PRIVATE;
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
-  TYPE Payload        IS ARRAY (1 .. MaxPayloadSize) OF Byte;
+  TYPE Payload        IS ARRAY (1 .. MaxPayloadBytes) OF Byte;
+
+  -- Verify the instantiated frame size is less than or equal to 255 bytes,
+  -- the maximum RF frame size.
+
+  PRAGMA Assert(MaxPayloadBytes + 2 <= 255);
 
   Uninitialized    : CONSTANT DeviceSubclass;
 
