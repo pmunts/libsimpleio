@@ -92,7 +92,7 @@ PACKAGE BODY libWioE5Ham1 IS
       RETURN;
     END IF;
 
-    dev := LoRa.Create(port, baudrate, net, Wio_E5.Byte(node),
+    dev := LoRa.Create(port, baudrate, net, LoRa.NodeID(node),
       Wio_E5.Frequency(freqmhz), spreading, bandwidth, txpreamble, rxpreamble,
       txpower);
 
@@ -146,8 +146,8 @@ PACKAGE BODY libWioE5Ham1 IS
     SNR        : OUT Integer;
     err        : OUT Integer) IS
 
-    bsrc : WIO_E5.Byte;
-    bdst : WIO_E5.Byte;
+    bsrc : LoRa.NodeID;
+    bdst : LoRa.NodeID;
 
   BEGIN
 
@@ -205,7 +205,7 @@ PACKAGE BODY libWioE5Ham1 IS
       RETURN;
     END IF;
 
-    PortHandles(handle).Send(msg, len, Wio_E5.Byte(dst));
+    PortHandles(handle).Send(msg, len, LoRa.NodeID(dst));
     err := 0;
 
   EXCEPTION
@@ -246,7 +246,7 @@ PACKAGE BODY libWioE5Ham1 IS
       RETURN;
     END IF;
 
-    PortHandles(handle).Send(s, Wio_E5.Byte(dst));
+    PortHandles(handle).Send(s, LoRa.NodeID(dst));
     err := 0;
 
   EXCEPTION

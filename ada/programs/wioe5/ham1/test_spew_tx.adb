@@ -29,9 +29,9 @@ PROCEDURE test_spew_tx IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  dev  : LoRa.Device;
-  node : Wio_E5.Byte;
-  num  : Positive;
+  dev     : LoRa.Device;
+  dstnode : LoRa.NodeID;
+  num     : Positive;
 
 BEGIN
   New_Line;
@@ -45,12 +45,12 @@ BEGIN
     RETURN;
   END IF;
 
-  dev  := LoRa.Create;
-  node := Wio_E5.Byte'Value(Ada.Command_Line.Argument(1));
-  num  := Positive'Value(Ada.Command_Line.Argument(2));
+  dev     := LoRa.Create;
+  dstnode := LoRa.NodeID'Value(Ada.Command_Line.Argument(1));
+  num     := Positive'Value(Ada.Command_Line.Argument(2));
 
   FOR i IN 1 .. num LOOP
-    dev.Send("This is test" & i'Image, node);
+    dev.Send("This is test" & i'Image, dstnode);
   END LOOP;
 
   dev.Shutdown;

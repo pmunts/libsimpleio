@@ -67,7 +67,13 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   BEGIN
     RETURN Byte'Value("16#" & s & "#");
-  END;
+  END ToByte;
+
+  FUNCTION ToNodeID(s : string) RETURN NodeID IS
+
+  BEGIN
+    RETURN NodeID'Value("16#" & s & "#");
+  END ToNodeID;
 
   -- Convert a byte to hex string
 
@@ -77,7 +83,31 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   BEGIN
     RETURN hexchars(Natural(b / 16)) & hexchars(Natural(b MOD 16));
-  END;
+  END ToHex;
+
+  -- Convert a byte to hex string
+
+  FUNCTION ToHex(b : NodeID) RETURN String IS
+
+    hexchars : CONSTANT ARRAY (0 .. 15) OF Character := "0123456789ABCDEF";
+
+  BEGIN
+    RETURN hexchars(Natural(b / 16)) & hexchars(Natural(b MOD 16));
+  END ToHex;
+
+  -- Convert a hex string to a network ID
+
+  FUNCTION ToNetworkID(s : string) RETURN NetworkID IS
+
+    net : NetworkID;
+
+  BEGIN
+    FOR i IN NetworkID'Range LOOP
+      net(i) := Character'Val(Natural'Value("16#" & s(s'First + 2*i - 2 .. s'First + 2*i - 1) & "#"));
+    END LOOP;
+
+    RETURN net;
+  END ToNetworkID;
 
   -- Convert a network ID string to hex string
 
@@ -87,11 +117,11 @@ PACKAGE BODY Wio_E5.Ham1 IS
 
   BEGIN
     FOR i IN NetworkID'Range LOOP
-      s(i*2-1 .. i*2) := ToHex(Character'Pos(n(i)));
+      s(i*2-1 .. i*2) := ToHex(Wio_E5.Byte(Character'Pos(n(i))));
     END LOOP;
 
     RETURN s;
-  END;
+  END ToHex;
 
   FUNCTION Trim(Source : String; Side : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
@@ -123,8 +153,8 @@ PACKAGE BODY Wio_E5.Ham1 IS
         cmd(1 .. 17)    := "AT+TEST=TXLRPKT, ";
         cmd(18)         := ASCII.Quotation;
         cmd(19 .. 38)   := ToHex(mydev.network);
-        cmd(39 .. 40)   := ToHex(item.dst);
-        cmd(41 .. 42)   := ToHex(item.src);
+        cmd(39 .. 40)   := ToHex(item.dstnode);
+        cmd(41 .. 42)   := ToHex(item.srcnode);
         cmd(cmd'Length) := ASCII.Quotation;
 
         FOR i IN 1 .. item.len LOOP
@@ -134,7 +164,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
         inxmt := True;
         mydev.SendATCommand(cmd);
       END;
-    END;
+    END PopTxQueue;
 
     PROCEDURE PushRxQueue
      (s   : String;
@@ -142,22 +172,23 @@ PACKAGE BODY Wio_E5.Ham1 IS
       SNR : Integer) IS
       PRAGMA Warnings(Off, "index for * may assume lower bound *");
 
-      network : CONSTANT String(1  .. 20) := s(12 .. 31);
-      dst     : CONSTANT String(1  .. 2)  := s(32 .. 33);
-      src     : CONSTANT String(1  .. 2)  := s(34 .. 35);
+      network : NetworkID := ToNetworkID(s(12 .. 31));
+      dstnode : NodeID    := ToNodeID(s(32 .. 33));
+      srcnode : NodeID    := ToNodeID(s(34 .. 35));
+
       item    : Queue_Item;
 
     BEGIN
 
       -- Check for matching network ID
 
-      IF network /= ToHex(mydev.network) THEN
+      IF network /= mydev.network THEN
         RETURN;
       END IF;
 
-      -- Check for matching node ID or broadcast ID
+      -- Check for matching node ID or broadcast node ID
 
-      IF dst /= ToHex(mydev.node) AND dst /= ToHex(Broadcast) THEN
+      IF dstnode /= mydev.node AND dstnode /= BroadcastNode THEN
         RETURN;
       END IF;
 
@@ -167,10 +198,10 @@ PACKAGE BODY Wio_E5.Ham1 IS
         item.msg(i) := ToByte(s(34+i*2 .. 35+i*2));
       END LOOP;
 
-      item.src := ToByte(src);
-      item.dst := ToByte(dst);
-      item.RSS := RSS;
-      item.SNR := SNR;
+      item.srcnode := srcnode;
+      item.dstnode := dstnode;
+      item.RSS     := RSS;
+      item.SNR     := SNR;
       mydev.rxqueue.Enqueue(item);
 
       PRAGMA Warnings(On, "index for * may assume lower bound *");
@@ -195,7 +226,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
         RETURN;
       END IF;
 
-      IF GNAT.Regpat.Match(resp_rcv2, s) THEN
+      IF s'Length >= 14 + HeaderBytes AND THEN GNAT.Regpat.Match(resp_rcv2, s) THEN
         PushRxQueue(s, RSS, SNR);
         RSS := Integer'First;
         SNR := Integer'First;
@@ -309,7 +340,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
    (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
     baudrate   : Integer;         -- bits per second e.g. 115200
     network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
-    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    node       : NodeID;          -- ARCNET style e.g. 1 to 255
     freqmhz    : Frequency;       -- MHz (902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
@@ -351,7 +382,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
     portname   : String    := env.Value("WIOE5_PORT");
     baudrate   : Integer   := Integer'Value(env.Value("WIOE5_BAUD", "115200"));
     network    : String    := str.Head(env.Value("WIOE5_NETWORK"), 10);
-    node       : Byte      := Byte'Value(env.Value("WIOE5_NODE"));
+    node       : NodeID    := NodeID'Value(env.Value("WIOE5_NODE"));
     freqmhz    : Frequency := Frequency'value(env.Value("WIOE5_FREQ"));
     spreading  : Integer   := Integer'value(env.Value("WIOE5_SPREADING", "7"));
     bandwidth  : Integer   := Integer'value(env.Value("WIOE5_BANDWIDTH", "500"));
@@ -371,7 +402,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
     portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
     baudrate   : Integer;         -- bits per second e.g. 115200
     network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
-    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    node       : NodeID;          -- ARCNET style e.g. 1 to 255
     freqmhz    : Frequency;       -- MHz (902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
@@ -412,8 +443,8 @@ PACKAGE BODY Wio_E5.Ham1 IS
       RAISE Error WITH "Invalid network ID, cannot be empty";
     END IF;
 
-    IF node = Broadcast THEN
-      RAISE Error WITH "Invalid node ID, cannot be broadcast address";
+    IF node = BroadcastNode THEN
+      RAISE Error WITH "Invalid node ID, cannot be broadcast";
     END IF;
 
     IF freqmhz < 902.0 OR freqmhz > 928.0 THEN
@@ -478,9 +509,9 @@ PACKAGE BODY Wio_E5.Ham1 IS
   -- Send a text message, which cannot be empty.
 
   PROCEDURE Send
-   (Self : DeviceSubclass;
-    s    : String;
-    dst  : Byte) IS
+   (Self    : DeviceSubclass;
+    s       : String;
+    dstnode : NodeID) IS
 
     item : Queue_Item;
 
@@ -489,22 +520,22 @@ PACKAGE BODY Wio_E5.Ham1 IS
       RAISE Error WITH "Invalid payload length";
     END IF;
 
-    item.msg := ToPayload(s);
-    item.len := s'Length;
-    item.src := Self.node;
-    item.dst := dst;
-    item.RSS := 0;
-    item.SNR := 0;
+    item.msg     := ToPayload(s);
+    item.len     := s'Length;
+    item.srcnode := Self.node;
+    item.dstnode := dstnode;
+    item.RSS     := 0;
+    item.SNR     := 0;
     Self.txqueue.Enqueue(item);
   END Send;
 
   -- Send a binary message, which cannot be empty.
 
   PROCEDURE Send
-   (Self : DeviceSubclass;
-    msg  : Payload;
-    len  : Positive;
-    dst  : Byte) IS
+   (Self    : DeviceSubclass;
+    msg     : Payload;
+    len     : Positive;
+    dstnode : NodeID) IS
 
     item : Queue_Item;
 
@@ -513,12 +544,12 @@ PACKAGE BODY Wio_E5.Ham1 IS
       RAISE Error WITH "Invalid payload length";
     END IF;
 
-    item.msg := msg;
-    item.len := len;
-    item.src := Self.node;
-    item.dst := dst;
-    item.RSS := 0;
-    item.SNR := 0;
+    item.msg     := msg;
+    item.len     := len;
+    item.srcnode := Self.node;
+    item.dstnode := dstnode;
+    item.RSS     := 0;
+    item.SNR     := 0;
     Self.txqueue.Enqueue(item);
   END Send;
 
@@ -526,31 +557,31 @@ PACKAGE BODY Wio_E5.Ham1 IS
   -- Zero length indicates no messages are available.
 
   PROCEDURE Receive
-   (Self : DeviceSubclass;
-    msg  : OUT Payload;
-    len  : OUT Natural;
-    src  : OUT Byte;
-    dst  : OUT Byte;
-    RSS  : OUT Integer;
-    SNR  : OUT Integer) IS
+   (Self    : DeviceSubclass;
+    msg     : OUT Payload;
+    len     : OUT Natural;
+    srcnode : OUT NodeID;
+    dstnode : OUT NodeID;
+    RSS     : OUT Integer;
+    SNR     : OUT Integer) IS
 
     item : Queue_Item;
 
   BEGIN
     SELECT
       Self.rxqueue.Dequeue(item);
-      msg := item.msg;
-      len := item.len;
-      src := item.src;
-      dst := item.dst;
-      RSS := item.RSS;
-      SNR := item.SNR;
+      msg     := item.msg;
+      len     := item.len;
+      srcnode := item.srcnode;
+      dstnode := item.dstnode;
+      RSS     := item.RSS;
+      SNR     := item.SNR;
     ELSE
-      len := 0;
-      src := 0;
-      dst := 0;
-      RSS := Integer'First;
-      SNR := Integer'First;
+      len     := 0;
+      srcnode := 0;
+      dstnode := 0;
+      RSS     := Integer'First;
+      SNR     := Integer'First;
     END SELECT;
   END Receive;
 

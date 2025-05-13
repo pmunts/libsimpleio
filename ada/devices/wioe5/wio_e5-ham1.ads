@@ -56,24 +56,26 @@ PRIVATE WITH Ada.Containers.Bounded_Synchronized_Queues;
 
 GENERIC
 
-  MaxPayloadSize  : Positive := 241; -- bytes, NOT including address header
+  MaxPayloadBytes : Positive := 241; -- NOT including address header
   QueueSize       : Positive := 10;  -- elements
 
 PACKAGE Wio_E5.Ham1 IS
 
-  SUBTYPE NetworkID IS String(1 .. 10); -- e.g. callsign
-
-  HeaderSize : CONSTANT Positive := (NetworkID'Size + Byte'Size + Byte'Size)/8;
-
-  -- The maximum RF frame size is 255 bytes
-
-  PRAGMA Assert(HeaderSize + MaxPayloadSize + 2 <= 255);
-
   TYPE DeviceSubclass IS NEW DeviceClass WITH PRIVATE;
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
-  TYPE Payload        IS ARRAY (1 .. MaxPayloadSize) OF Byte;
+  TYPE Payload        IS ARRAY (1 .. MaxPayloadBytes) OF Byte;
+  SUBTYPE NetworkID   IS String(1 .. 10); -- e.g. callsign
+  TYPE NodeID         IS NEW Byte;
 
-  Broadcast     : CONSTANT Byte := 0; -- ARCNET style broadcast address
+  -- Verify the instantiated frame size is less than or equal to 255 bytes,
+  -- the maximum RF frame size.
+
+  HeaderBytes : CONSTANT Positive := NetworkID'Length + 2;
+  FrameBytes  : CONSTANT Positive := HeaderBytes + Payload'Length + 2;
+
+  PRAGMA Assert(FrameBytes <= 255);
+
+  BroadcastNode : CONSTANT NodeID := 0; -- ARCNET style broadcast address
   Uninitialized : CONSTANT DeviceSubclass;
 
   -- Device object constructor
@@ -82,7 +84,7 @@ PACKAGE Wio_E5.Ham1 IS
    (portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
     baudrate   : Integer;         -- bits per second e.g. 115200
     network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
-    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    node       : NodeID;          -- ARCNET style e.g. 1 to 255
     freqmhz    : Frequency;       -- MHz (902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
@@ -117,7 +119,7 @@ PACKAGE Wio_E5.Ham1 IS
     portname   : String;          -- e.g. "/dev/ttyAMA0" or "/dev/ttyUSB0"
     baudrate   : Integer;         -- bits per second e.g. 115200
     network    : NetworkID;       -- aka callsign e.g. "WA7AAA  "
-    node       : Byte;            -- ARCNET style e.g. 1 to 255
+    node       : NodeID;          -- ARCNET style e.g. 1 to 255
     freqmhz    : Frequency;       -- MHz (902.0 to 928.0)
     spreading  : Integer := 7;    -- (7 to 12)
     bandwidth  : Integer := 500;  -- kHz (125, 250, or 500)
@@ -134,19 +136,19 @@ PACKAGE Wio_E5.Ham1 IS
   -- Send a text message, which cannot be empty.
 
   PROCEDURE Send
-   (Self : DeviceSubclass;
-    s    : String;
-    dst  : Byte)
+   (Self    : DeviceSubclass;
+    s       : String;
+    dstnode : NodeID)
 
     WITH Pre => Self /= Uninitialized;
 
   -- Send a binary message, which cannot be empty.
 
   PROCEDURE Send
-   (Self : DeviceSubclass;
-    msg  : Payload;
-    len  : Positive;
-    dst  : Byte)
+   (Self    : DeviceSubclass;
+    msg     : Payload;
+    len     : Positive;
+    dstnode : NodeID)
 
     WITH Pre => Self /= Uninitialized;
 
@@ -154,13 +156,13 @@ PACKAGE Wio_E5.Ham1 IS
   -- Zero length indicates no messages are available.
 
   PROCEDURE Receive
-   (Self : DeviceSubclass;
-    msg  : OUT Payload;
-    len  : OUT Natural;
-    src  : OUT Byte;
-    dst  : OUT Byte;
-    RSS  : OUT Integer;
-    SNR  : OUT Integer)
+   (Self    : DeviceSubclass;
+    msg     : OUT Payload;
+    len     : OUT Natural;
+    srcnode : OUT NodeID;
+    dstnode : OUT NodeID;
+    RSS     : OUT Integer;
+    SNR     : OUT Integer)
 
     WITH Pre => Self /= Uninitialized;
 
@@ -198,12 +200,12 @@ PRIVATE
   -- Event queue definitions
 
   TYPE Queue_Item IS RECORD
-    msg  : Payload;
-    len  : Natural;
-    src  : Byte;
-    dst  : Byte;
-    RSS  : Integer;
-    SNR  : Integer;
+    msg     : Payload;
+    len     : Natural;
+    srcnode : NodeID;
+    dstnode : NodeID;
+    RSS     : Integer;
+    SNR     : Integer;
   END RECORD;
 
   PACKAGE Queue_Interface IS NEW Synchronized_Queue_Interfaces(Queue_Item);
@@ -215,7 +217,7 @@ PRIVATE
 
   TYPE DeviceSubclass IS NEW DeviceClass WITH RECORD
     network  : NetworkID;
-    node     : Byte;
+    node     : NodeID;
     rxqueue  : Queue_Access;
     txqueue  : Queue_Access;
     response : TaskAccess;

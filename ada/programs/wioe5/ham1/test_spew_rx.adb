@@ -28,13 +28,13 @@ PROCEDURE test_spew_rx IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  dev : LoRa.Device;
-  msg : LoRa.Payload;
-  len : Natural;
-  src : Wio_E5.Byte;
-  dst : Wio_E5.Byte;
-  RSS : Integer;
-  SNR : Integer;
+  dev     : LoRa.Device;
+  msg     : LoRa.Payload;
+  len     : Natural;
+  srcnode : LoRa.NodeID;
+  dstnode : LoRa.NodeID;
+  RSS     : Integer;
+  SNR     : Integer;
 
 BEGIN
   New_Line;
@@ -44,11 +44,11 @@ BEGIN
   dev := LoRa.Create;
 
   LOOP
-    dev.Receive(msg, len, src, dst, RSS, SNR);
+    dev.Receive(msg, len, srcnode, dstnode, RSS, SNR);
 
     IF len > 0 THEN
       Put_Line("Received => """ & LoRa.ToString(msg, len) & """ from node" &
-        src'Image & " to node" & dst'Image & " RSS:" & RSS'Image &
+        srcnode'Image & " to node" & dstnode'Image & " RSS:" & RSS'Image   &
         " dBm SNR:" & SNR'Image & " dB");
     END IF;
   END LOOP;

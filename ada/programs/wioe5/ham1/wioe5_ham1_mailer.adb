@@ -48,15 +48,15 @@ PROCEDURE wioe5_ham1_mailer IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  err : Integer;
-  wd  : Watchdog.Timer;
-  dev : LoRa.Device;
-  msg : LoRa.Payload;
-  len : Natural;
-  src : Wio_E5.Byte;
-  dst : Wio_E5.Byte;
-  RSS : Integer;
-  SNR : Integer;
+  err     : Integer;
+  wd      : Watchdog.Timer;
+  dev     : LoRa.Device;
+  msg     : LoRa.Payload;
+  len     : Natural;
+  srcnode : LoRa.NodeID;
+  dstnode : LoRa.NodeID;
+  RSS     : Integer;
+  SNR     : Integer;
 
   relay : CONSTANT Messaging.Text.Relay := Email_Sendmail.Create;
 
@@ -76,11 +76,11 @@ BEGIN
   dev := LoRa.Create;
 
   LOOP
-    dev.Receive(msg, len, src, dst, RSS, SNR);
+    dev.Receive(msg, len, srcnode, dstnode, RSS, SNR);
 
     IF len > 0 THEN
       DECLARE
-        username  : String := getenv("WIOE5_NETWORK") & '-' & trim(src'Image);
+        username  : String := getenv("WIOE5_NETWORK") & '-' & trim(srcnode'Image);
         address   : String := tolower(username) & '@' & getenv("WIOE5_DOMAIN");
         sender    : String := username & " <" & address & ">";
         recipient : String := getenv("WIOE5_MAILTO");

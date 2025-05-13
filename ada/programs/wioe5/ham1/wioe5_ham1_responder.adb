@@ -28,15 +28,15 @@ PROCEDURE wioe5_ham1_responder IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  err : Integer;
-  wd  : Watchdog.Timer;
-  dev : LoRa.Device;
-  msg : LoRa.Payload;
-  len : Natural;
-  src : Wio_E5.Byte;
-  dst : Wio_E5.Byte;
-  RSS : Integer;
-  SNR : Integer;
+  err     : Integer;
+  wd      : Watchdog.Timer;
+  dev     : LoRa.Device;
+  msg     : LoRa.Payload;
+  len     : Natural;
+  srcnode : LoRa.NodeID;
+  dstnode : LoRa.NodeID;
+  RSS     : Integer;
+  SNR     : Integer;
 
 BEGIN
   libLinux.Detach(err);
@@ -54,11 +54,11 @@ BEGIN
   dev := LoRa.Create;
 
   LOOP
-    dev.Receive(msg, len, src, dst, RSS, SNR);
+    dev.Receive(msg, len, srcnode, dstnode, RSS, SNR);
 
     IF len > 0 THEN
       dev.Send("LEN:" & len'Image & " bytes RSS:" & RSS'Image & " dBm SNR:" &
-        SNR'Image & " dB", src);
+        SNR'Image & " dB", srcnode);
     END IF;
 
     wd.Kick;
