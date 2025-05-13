@@ -65,7 +65,7 @@ PACKAGE Wio_E5.Ham1 IS
   TYPE Device         IS ACCESS ALL DeviceSubclass'Class;
   TYPE Payload        IS ARRAY (1 .. MaxPayloadBytes) OF Byte;
   SUBTYPE NetworkID   IS String(1 .. 10); -- e.g. callsign
-  TYPE NodeID         IS NEW Byte;
+  TYPE NodeID         IS NEW Byte; -- ARCNET style 0=broadcast, or 1 to 255
 
   -- Verify the instantiated frame size is less than or equal to 255 bytes,
   -- the maximum RF frame size.
