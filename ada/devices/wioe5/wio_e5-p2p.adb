@@ -50,7 +50,7 @@ PACKAGE BODY Wio_E5.P2P IS
 
   BEGIN
     RETURN Byte'Value("16#" & s & "#");
-  END;
+  END ToByte;
 
   -- Convert a byte to hex string
 
@@ -60,7 +60,7 @@ PACKAGE BODY Wio_E5.P2P IS
 
   BEGIN
     RETURN hexchars(Natural(b / 16)) & hexchars(Natural(b MOD 16));
-  END;
+  END ToHex;
 
   FUNCTION Trim(Source : String; Side : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
@@ -100,7 +100,7 @@ PACKAGE BODY Wio_E5.P2P IS
         inxmt := True;
         mydev.SendATCommand(cmd);
       END;
-    END;
+    END PopTxQueue;
 
     PROCEDURE PushRxQueue
      (s   : String;
