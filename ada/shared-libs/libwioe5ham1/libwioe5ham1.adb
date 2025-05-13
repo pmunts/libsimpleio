@@ -22,6 +22,7 @@ WITH Ada.Exceptions;
 WITH Ada.Strings.Fixed;
 WITH Interfaces.C.Strings;
 
+WITH Debug;
 WITH Wio_E5.Ham1;
 
 PACKAGE BODY libWioE5Ham1 IS
@@ -104,6 +105,7 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E: OTHERS =>
+      Debug.Put(E);
       handle := -1;
       err    := ToErrNum(E);
   END Initialize;
@@ -130,6 +132,7 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E : OTHERS =>
+      Debug.Put(E);
       err := ToErrNum(E);
   END Shutdown;
 
@@ -168,6 +171,7 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E : OTHERS =>
+      Debug.Put(E);
       err := ToErrNum(E);
   END Receive;
 
@@ -206,6 +210,7 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E : OTHERS =>
+      Debug.Put(E);
       err := ToErrNum(E);
   END Send;
 
@@ -246,6 +251,7 @@ PACKAGE BODY libWioE5Ham1 IS
 
   EXCEPTION
     WHEN E : OTHERS =>
+      Debug.Put(E);
       err := ToErrNum(E);
   END SendString;
 

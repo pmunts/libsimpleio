@@ -30,9 +30,10 @@ default: build
 # Gather subordinates
 
 subordinates:
-	mkdir -p							$@
-	cp $(LIBSIMPLEIO)/ada/devices/wioe5/wio_e5.*			$@
-	cp $(LIBSIMPLEIO)/ada/devices/wioe5/wio_e5-ham1.*		$@
+	mkdir -p						$@
+	cp $(LIBSIMPLEIO)/ada/devices/wioe5/wio_e5.*		$@
+	cp $(LIBSIMPLEIO)/ada/devices/wioe5/wio_e5-ham1.*	$@
+	cp $(LIBSIMPLEIO)/ada/objects/debug.*			$@
 	touch $@
 
 ###############################################################################
