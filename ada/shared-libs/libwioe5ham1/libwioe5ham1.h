@@ -36,7 +36,7 @@ extern void wioe5ham1_receive(int32_t handle, void *msg, int32_t *len,
 extern void wioe5ham1_send(int32_t handle, void *msg, int32_t len,
   int32_t dst, int32_t *error);
 
-extern void wioe5ham1_send_string(int32_t handle, char *s, int32_t dst,
-  int32_t *error);
+extern void wioe5ham1_send_string(int32_t handle, char *s,
+  int32_t dst, int32_t *error);
 
 #endif
