@@ -241,6 +241,8 @@ START_TEST(test_radio)
   ck_assert(handle == 1);
   ck_assert(error == 0);
   ck_assert(len > 0);
+  ck_assert(src == 2);
+  ck_assert(dst == 1);
   msg[len] = 0;
   puts((char *) msg);
   printf("LEN: %d bytes RSS: %d dBm SNR: %d dB\n", len, RSS, SNR);
@@ -260,6 +262,8 @@ START_TEST(test_radio)
   ck_assert(handle == 1);
   ck_assert(error == 0);
   ck_assert(len > 0);
+  ck_assert(src == 2);
+  ck_assert(dst == 1);
   msg[len] = 0;
   puts((char *) msg);
   printf("LEN: %d bytes RSS: %d dBm SNR: %d dB\n", len, RSS, SNR);
