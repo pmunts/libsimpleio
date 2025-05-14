@@ -215,15 +215,15 @@ PACKAGE BODY Wio_E5.Ham2 IS
         RETURN;
       END IF;
 
-      -- Destination must not be mixed broadcast and unicast
-
-      IF NOT (IsBroadcast(dstnet, dstnode) OR IsUnicast(dstnet, dstnode)) THEN
-        RETURN;
-      END IF;
-
       -- Check for matching network ID or broadcast network ID
 
       IF dstnet /= mydev.network AND NOT IsBroadcast(dstnet) THEN
+        RETURN;
+      END IF;
+
+      -- Check for broadcast network ID and unicast node ID
+
+      IF IsBroadcast(dstnet) AND dstnode /= BroadcastNode THEN
         RETURN;
       END IF;
 
@@ -486,6 +486,10 @@ PACKAGE BODY Wio_E5.Ham2 IS
       RAISE Error WITH "Invalid network ID, cannot be empty";
     END IF;
 
+    IF IsBroadcast(network) THEN
+      RAISE Error WITH "Invalid network ID, cannot be broadcast";
+    END IF;
+
     IF node = BroadcastNode THEN
       RAISE Error WITH "Invalid node ID, cannot be broadcast";
     END IF;
@@ -588,7 +592,7 @@ PACKAGE BODY Wio_E5.Ham2 IS
       RAISE Error WITH "Invalid payload length";
     END IF;
 
-    IF NOT (IsBroadcast(dstnet, dstnode) OR IsUnicast(dstnet, dstnode)) THEN
+    IF dstnet /= Self.network AND NOT (IsBroadcast(dstnet, dstnode) OR IsUnicast(dstnet, dstnode)) THEN
       RAISE Error WITH "Invalid broadcast/unicast combination";
     END IF;
 
