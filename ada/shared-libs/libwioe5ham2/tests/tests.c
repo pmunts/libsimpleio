@@ -194,7 +194,7 @@ START_TEST(test_send)
   wioe5ham2_send(handle, msg, 0, "N7AHL", 2, &error);
   ck_assert(error == EINVAL);
 
-  wioe5ham2_send(handle, msg, 244, "N7AHL", 2, &error);
+  wioe5ham2_send(handle, msg, 232, "N7AHL", 2, &error);
   ck_assert(error == EINVAL);
 
   wioe5ham2_send_string(handle, "", "N7AHL", 2, &error);

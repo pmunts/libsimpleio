@@ -181,7 +181,7 @@ START_TEST(test_send)
   wioe5ham1_send(handle, msg, 0, 2, &error);
   ck_assert(error == EINVAL);
 
-  wioe5ham1_send(handle, msg, 244, 2, &error);
+  wioe5ham1_send(handle, msg, 242, 2, &error);
   ck_assert(error == EINVAL);
 
   wioe5ham1_send_string(handle, "", 2, &error);
