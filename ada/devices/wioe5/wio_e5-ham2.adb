@@ -134,20 +134,12 @@ PACKAGE BODY Wio_E5.Ham2 IS
     RETURN net = BroadcastNet1 OR net = BroadcastNet2 OR net = BroadcastNet3;
   END IsBroadcast;
 
-  -- Check for broadcast node ID
-
-  FUNCTION IsBroadcast(node : NodeID) RETURN Boolean IS
-
-  BEGIN
-    RETURN node = BroadcastNode;
-  END IsBroadcast;
-
   -- Check for broadcast
 
   FUNCTION IsBroadcast(net : NetworkID; node : NodeID) RETURN Boolean IS
 
   BEGIN
-    RETURN IsBroadcast(net) AND IsBroadcast(node);
+    RETURN IsBroadcast(net) AND node = BroadcastNode;
   END IsBroadcast;
 
   -- Check for unicast
@@ -155,7 +147,7 @@ PACKAGE BODY Wio_E5.Ham2 IS
   FUNCTION IsUnicast(net : NetworkID; node : NodeID) RETURN Boolean IS
 
   BEGIN
-    RETURN NOT IsBroadcast(net) AND NOT IsBroadcast(node);
+    RETURN NOT IsBroadcast(net) AND node /= BroadcastNode;
   END IsUnicast;
 
   FUNCTION Trim(Source : String; Side : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
@@ -183,17 +175,18 @@ PACKAGE BODY Wio_E5.Ham2 IS
       mydev.txqueue.Dequeue(item);
 
       DECLARE
-        cmd : String(1 .. 2*item.len + 43) := (OTHERS => '.');
+        cmd : String(1 .. 2*item.len + 63) := (OTHERS => '.');
       BEGIN
         cmd(1 .. 17)    := "AT+TEST=TXLRPKT, ";
         cmd(18)         := ASCII.Quotation;
-        cmd(19 .. 38)   := ToHex(mydev.network);
+        cmd(19 .. 38)   := ToHex(item.dstnet);
         cmd(39 .. 40)   := ToHex(item.dstnode);
-        cmd(41 .. 42)   := ToHex(item.srcnode);
+        cmd(41 .. 60)   := ToHex(item.srcnet);
+        cmd(61 .. 62)   := ToHex(item.srcnode);
         cmd(cmd'Length) := ASCII.Quotation;
 
         FOR i IN 1 .. item.len LOOP
-          cmd(41 + i*2 .. 42 + i*2) := ToHex(item.msg(i));
+          cmd(61 + i*2 .. 62 + i*2) := ToHex(item.msg(i));
         END LOOP;
 
         inxmt := True;
@@ -207,17 +200,30 @@ PACKAGE BODY Wio_E5.Ham2 IS
       SNR : Integer) IS
       PRAGMA Warnings(Off, "index for * may assume lower bound *");
 
-      network : NetworkID := ToNetworkID(s(12 .. 31));
+      dstnet  : NetworkID := ToNetworkID(s(12 .. 31));
       dstnode : NodeID    := ToNodeID(s(32 .. 33));
-      srcnode : NodeID    := ToNodeID(s(34 .. 35));
+      srcnet  : NetworkID := ToNetworkID(s(34 .. 53));
+      srcnode : NodeID    := ToNodeID(s(54 .. 55));
 
       item    : Queue_Item;
 
     BEGIN
 
-      -- Check for matching network ID
+      -- Source network or source node must not be broadcast
 
-      IF network /= mydev.network THEN
+      IF IsBroadcast(srcnet) OR srcnode = BroadcastNode THEN
+        RETURN;
+      END IF;
+
+      -- Destination must not be mixed broadcast and unicast
+
+      IF NOT (IsBroadcast(dstnet, dstnode) OR IsUnicast(dstnet, dstnode)) THEN
+        RETURN;
+      END IF;
+
+      -- Check for matching network ID or broadcast network ID
+
+      IF dstnet /= mydev.network AND NOT IsBroadcast(dstnet) THEN
         RETURN;
       END IF;
 
@@ -227,13 +233,15 @@ PACKAGE BODY Wio_E5.Ham2 IS
         RETURN;
       END IF;
 
-      item.len := (s'Length - 36)/2;
+      item.len := (s'Length - 56)/2;
 
       FOR i IN 1 .. item.len LOOP
-        item.msg(i) := ToByte(s(34+i*2 .. 35+i*2));
+        item.msg(i) := ToByte(s(54+i*2 .. 55+i*2));
       END LOOP;
 
+      item.srcnet  := srcnet;
       item.srcnode := srcnode;
+      item.dstnet  := dstnet;
       item.dstnode := dstnode;
       item.RSS     := RSS;
       item.SNR     := SNR;
@@ -261,7 +269,7 @@ PACKAGE BODY Wio_E5.Ham2 IS
         RETURN;
       END IF;
 
-      IF s'Length >= 14 + HeaderBytes AND THEN GNAT.Regpat.Match(resp_rcv2, s) THEN
+      IF s'Length >= 14 + 2*HeaderBytes AND THEN GNAT.Regpat.Match(resp_rcv2, s) THEN
         PushRxQueue(s, RSS, SNR);
         RSS := Integer'First;
         SNR := Integer'First;
