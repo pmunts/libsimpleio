@@ -285,7 +285,7 @@ START_TEST(test_radio)
   ck_assert(SNR > 0);
   msg[len] = 0;
   puts((char *) msg);
-  printf("LEN: %d bytes RSS: %d dBm SNR: %d dB\n", len, RSS, SNR);
+  printf("LEN: %d bytes RSS:%d dBm SNR: %d dB\n", len, RSS, SNR);
 
   // Test graceful exit
 
