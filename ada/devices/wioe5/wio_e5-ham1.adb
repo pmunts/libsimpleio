@@ -226,7 +226,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
         RETURN;
       END IF;
 
-      IF s'Length >= 14 + HeaderBytes AND THEN GNAT.Regpat.Match(resp_rcv2, s) THEN
+      IF s'Length >= 14 + 2*HeaderBytes AND THEN GNAT.Regpat.Match(resp_rcv2, s) THEN
         PushRxQueue(s, RSS, SNR);
         RSS := Integer'First;
         SNR := Integer'First;
