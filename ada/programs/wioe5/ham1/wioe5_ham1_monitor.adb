@@ -27,6 +27,15 @@ WITH Wio_E5.P2P;
 
 PROCEDURE wioe5_ham1_monitor IS
 
+  FUNCTION Delete
+   (Source  : IN String;
+    From    : IN Positive;
+    Through : IN Natural) RETURN String RENAMES Ada.Strings.Fixed.Delete;
+
+  FUNCTION Trim
+   (Source : String;
+    Side   : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
+
   PACKAGE LoRa IS NEW Wio_E5.P2P;
 
   dev : LoRa.Device;
@@ -45,16 +54,18 @@ BEGIN
   LOOP
     dev.Receive(msg, len, RSS, SNR);
 
-    IF len > 0 THEN
+    IF len > 12 THEN
       DECLARE
-        s   : String      := LoRa.ToString(msg, len);
-        net : String      := s(1 .. 10);
-        src : Wio_E5.Byte := msg(12);
-        dst : Wio_E5.Byte := msg(11);
-        pay : String      := Ada.Strings.Fixed.Delete(s, 1, 12);
+        s        : String      := LoRa.ToString(msg, len);
+        net      : String      := s(1 .. 10);
+        dstnode  : Wio_E5.Byte := msg(11);
+        srcnode  : Wio_E5.Byte := msg(12);
+        pay      : String      := Delete(s, 1, 12);
+        sender   : String      := Trim(net) & "-" & Trim(srcnode'Image);
+        receiver : String      := Trim(net) & "-" & Trim(dstnode'Image);
       BEGIN
-        Put_Line("net: """ & net & """ src:" & src'Image & " dst:" &
-          dst'Image & " payload: """ & pay & """");
+        Put_Line(sender & " => " & Receiver & " """ & pay & """" &
+          "  RSS:" & RSS'Image & " dbM  SNR:" & SNR'Image & " dB");
       END;
     END IF;
   END LOOP;
