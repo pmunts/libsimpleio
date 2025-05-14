@@ -15,8 +15,8 @@
 --
 -- The first 12 bytes of the payload are dedicated to address information:
 --
--- * 10 ASCII bytes for the network ID aka call sign, left justified and space
---   padded.  Unlike AX.25, the ASCII bytes are *not* left shifted one bit.
+-- * 10 upper case ASCII bytes for the network ID aka call sign, left
+--   justified and space padded.
 --
 -- * 1 byte for the destination node ID (ARCNET style: broadcast=0,
 --   unicast=1 to 255).
