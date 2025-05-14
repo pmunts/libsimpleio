@@ -88,6 +88,12 @@ libwioe5ham1.so:
 	$(MAKE) -C ada/shared-libs/libwioe5ham1
 	cp ada/shared-libs/libwioe5ham1/lib/libwioe5ham1.so .
 
+# Build libwioe5ham2.so
+
+libwioe5ham2.so:
+	$(MAKE) -C ada/shared-libs/libwioe5ham2
+	cp ada/shared-libs/libwioe5ham2/lib/libwioe5ham2.so .
+
 # Build libwioe5p2p.so
 
 libwioe5p2p.so:
@@ -102,7 +108,7 @@ adalibs.done:
 
 # Install headers and library files
 
-install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5p2p.so adalibs.done
+install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5ham2.so libwioe5p2p.so adalibs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
@@ -172,6 +178,7 @@ clean:
 	$(MAKE) -C ada/lib clean
 	$(MAKE) -C ada/shared-libs/libremoteio  clean
 	$(MAKE) -C ada/shared-libs/libwioe5ham1 clean
+	$(MAKE) -C ada/shared-libs/libwioe5ham2 clean
 	$(MAKE) -C ada/shared-libs/libwioe5p2p  clean
 	-rm -rf libsimpleio obj *.done *.a *.so $(PKGDIR) *.deb
 
