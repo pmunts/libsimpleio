@@ -64,10 +64,13 @@ BEGIN
         pay      : String      := Delete(s, 1, 22);
         sender   : String      := Trim(srcnet) & "-" & Trim(srcnode'Image);
         receiver : String      := Trim(dstnet) & "-" & Trim(dstnode'Image);
+        nbytes   : Positive    := len - 22;
       BEGIN
-        Put_Line(sender & " => " & Receiver & " """ & pay & """" &
-          "  RSS" & RSS'Image & " dbM  SNR" & SNR'Image & " dB");
+        Put_Line(sender & " => " & Receiver & " " & nbytes'Image &
+          " Bytes => """ & pay & """" & "  RSS:" & RSS'Image & " dbM  SNR:" &
+          SNR'Image & " dB");
       END;
     END IF;
   END LOOP;
-END wioe5_ham2_monitor;
+END wioe5_ham2_monitor
+;

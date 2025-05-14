@@ -63,9 +63,11 @@ BEGIN
         pay      : String      := Delete(s, 1, 12);
         sender   : String      := Trim(net) & "-" & Trim(srcnode'Image);
         receiver : String      := Trim(net) & "-" & Trim(dstnode'Image);
+        nbytes   : Positive    := len - 22;
       BEGIN
-        Put_Line(sender & " => " & Receiver & " """ & pay & """" &
-          "  RSS:" & RSS'Image & " dbM  SNR:" & SNR'Image & " dB");
+        Put_Line(sender & " => " & Receiver & " " & nbytes'Image &
+          " Bytes => """ & pay & """" & "  RSS:" & RSS'Image & " dbM  SNR:" &
+          SNR'Image & " dB");
       END;
     END IF;
   END LOOP;
