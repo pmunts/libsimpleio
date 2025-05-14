@@ -577,11 +577,7 @@ PACKAGE BODY Wio_E5.Ham1 IS
       RSS     := item.RSS;
       SNR     := item.SNR;
     ELSE
-      len     := 0;
-      srcnode := 0;
-      dstnode := 0;
-      RSS     := Integer'First;
-      SNR     := Integer'First;
+      len := 0;
     END SELECT;
   END Receive;
 

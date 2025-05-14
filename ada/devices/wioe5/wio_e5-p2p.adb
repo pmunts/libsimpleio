@@ -462,8 +462,6 @@ PACKAGE BODY Wio_E5.P2P IS
       SNR := item.SNR;
     ELSE
       len := 0;
-      RSS := Integer'First;
-      SNR := Integer'First;
     END SELECT;
   END Receive;
 
