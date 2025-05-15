@@ -29,15 +29,15 @@ PROCEDURE test_wioe5_tx_ham1 IS
 
   PACKAGE LoRa IS NEW Wio_E5.Ham1;
 
-  dev  : LoRa.Device;
-  node : Wio_E5.Byte;
-  num  : Positive;
-  msg  : LoRa.Payload;
-  len  : Natural := 0;
-  src  : Wio_E5.Byte;
-  dst  : Wio_E5.Byte;
-  RSS  : Integer;
-  SNR  : Integer;
+  dev       : LoRa.Device;
+  responder : LoRa.NodeID;
+  num       : Positive;
+  msg       : LoRa.Payload;
+  len       : Natural := 0;
+  srcnode   : LoRa.NodeID;
+  dstnode   : LoRa.NodeID;
+  RSS       : Integer;
+  SNR       : Integer;
 
 BEGIN
   New_Line;
@@ -51,20 +51,20 @@ BEGIN
     RETURN;
   END IF;
 
-  dev  := LoRa.Create;
-  node := Wio_E5.Byte'Value(Ada.Command_Line.Argument(1));
-  num  := Positive'Value(Ada.Command_Line.Argument(2));
+  dev       := LoRa.Create;
+  responder := LoRa.NodeID'Value(Ada.Command_Line.Argument(1));
+  num       := Positive'Value(Ada.Command_Line.Argument(2));
 
   FOR i IN 1 .. num LOOP
-    dev.Send("This is test" & i'Image, node);
+    dev.Send("This is test" & i'Image, responder);
 
     DELAY 0.4;
 
-    dev.Receive(msg, len, src, dst, RSS, SNR);
+    dev.Receive(msg, len, srcnode, dstnode, RSS, SNR);
 
     IF len > 0 THEN
       Put_Line("Received => """ & LoRA.ToString(msg, len) & """ from node"
-        & src'Image & " to node" & dst'Image & " RSS:" & RSS'Image &
+        & srcnode'Image & " to node" & dstnode'Image & " RSS:" & RSS'Image &
         " dBm SNR:" & SNR'Image & " dB");
     END IF;
   END LOOP;

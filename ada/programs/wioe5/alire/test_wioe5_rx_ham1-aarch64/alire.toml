@@ -11,4 +11,4 @@ tags = []
 executables = ["test_wioe5_rx_ham1"]
 
 [[depends-on]]
-muntsos_aarch64 = "^9.3.1"
+muntsos_aarch64 = "^10.4.0"

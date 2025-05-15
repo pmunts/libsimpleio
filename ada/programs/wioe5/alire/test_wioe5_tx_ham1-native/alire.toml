@@ -11,4 +11,4 @@ tags = []
 executables = ["test_wioe5_tx_ham1"]
 
 [[depends-on]]
-wioe5_ham1 = "^1.23299.1"
+wioe5_ham1 = "^1.23340.1"
