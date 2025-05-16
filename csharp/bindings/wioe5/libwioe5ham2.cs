@@ -72,7 +72,7 @@ namespace IO.Bindings
     /// Amateur Radio Service regulations, any Wio-E5 using the same RF
     /// settings (possibly using the related library
     /// <c><see cref="libwioe5p2p"/></c>) can monitor communications among a
-    /// group of ham radio stations using <c>libwioe5ham1</c>.
+    /// group of ham radio stations using <c>libwioe5ham2</c>.
     /// </summary>
     public static class libwioe5ham2
     {
