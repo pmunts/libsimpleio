@@ -23,63 +23,54 @@ using System.Runtime.InteropServices;
 namespace IO.Bindings
 {
     /// <summary>
-    /// <para>
     /// Wrapper class for the
     /// <a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module">
     /// Wio-E5 LoRa Transceiver Module</a> Driver Library
-    /// <c>libwioe5ham1.so</c> using test mode <i>aka</i> P2P (Peer to Peer
-    /// or Point to Point) mode, adapted for use by U.S. Amateur Radio
+    /// <c>libwioe5ham1.so</c> using test mode <i>aka</i> P2P (Point to Point
+    /// or Peer to Peer) broadcast mode, adapted for use by U.S. Amateur Radio
     /// Operators.
-    /// </para>
-    /// <para>
+    /// <para/>
+    /// <para/>
     /// P2P is misleading because there is no station addressing and all
     /// transmissions are broadcasts.  Any station with the same RF settings
     /// (frequency, spreading factor, and chirp bandwidth) will be able to
     /// receive what you transmit with this library.
-    /// </para>
-    /// <para>
+    /// <para/>
     /// In test <i>aka</i> P2P mode, the Wio-E5 transmits unencrypted
     /// "implicit header" frames consisting of a configurable number of
     /// preamble bits, 1 to 253 payload bytes, and two CRC bytes.  Upon
     /// reception of each frame, the Wio-E5 verifies the CRC, discarding
     /// erroneous frames and passing valid ones to the device driver.
-    /// </para>
-    /// <para>
+    /// <para/>
     /// Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent
     /// and received using <b>any</b> data rate scheme (the combination of
     /// spreading factor, modulation bandwidth, and the derived RF symbol
     /// rate).
-    /// </para>
-    /// <para>
-    /// <c>libwioe5ham1</c> provides Amateur Radio Service Support Flavor
-    /// #1: <i><b>All stations are administered by the same ham radio
-    /// operator, using the same call sign, and the first 12 bytes of payload
-    /// are dedicated to address information:</b></i>
-    /// </para>
-    /// <para>
-    /// 10 ASCII characters for the network ID <i>aka</i> call sign, left
-    /// justified and space padded.
-    /// </para>
-    /// <para>
-    /// 1 binary byte for the destination node ID (ARCNET style: broadcast=0,
-    /// unicast=1 to 255).
-    /// </para>
-    /// <para>
-    /// 1 binary byte for the source node ID (ARCNET style: unicast=1 to 255).
-    /// </para>
-    /// <para>
+    /// <para/>
+    /// <c>libwioe5ham1</c> supports Amateur Radio Unicast Flavor #1
+    /// (Personal Area Network with all stations using the same call sign).
+    /// The first 12 bytes of the payload are reserved for the following
+    /// unicast address information:
+    /// <para/>
+    /// 10 upper case characters for the network ID <i>aka</i> call sign,
+    /// left justified and space padded.<br/>
+    /// 1 binary byte for the destination node ID (ARCNET style: 0=broadcast
+    /// or 1 to 255).<br/>
+    /// 1 binary byte for the source node ID (ARCNET style: 1 to 255).
+    /// <para/>
     /// <c>libwioe5ham1</c> drops any received frame that does not contain
-    /// matching network <i>aka</i> call sign and destination node ID's,
+    /// a matching network ID <i>aka</i> call sign and destination node ID,
     /// imposing a unicast address scheme onto the broadcast Wio-E5 test
     /// <i>aka</i> P2P mode.
-    /// </para>
-    /// <para>
+    /// <para/>
+    /// See <a href="https://repo.munts.com/libsimpleio/doc/WioE5LoRaP2P.pdf">
+    /// Wio-E5 LoRa Transceiver Peer to Peer Mode</a> for more information.
+    /// <para/>
     /// In accordance with the digital data transparency required by U.S.
     /// Amateur Radio Service regulations, any Wio-E5 using the same RF
-    /// settings (possibly using the related library <c>libwioe5p2p</c>)
-    /// can monitor communications among a group of ham radio stations using
-    /// <c>libwioe5ham1</c>.
-    /// </para>
+    /// settings (possibly using the related library
+    /// <c><see cref="libwioe5p2p"/></c>) can monitor communications among a
+    /// group of ham radio stations using <c>libwioe5ham1</c>.
     /// </summary>
     public static class libwioe5ham1
     {

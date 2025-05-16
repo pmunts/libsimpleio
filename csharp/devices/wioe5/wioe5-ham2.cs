@@ -20,15 +20,20 @@
 
 using System;
 using static System.Environment;
-using static IO.Bindings.libwioe5p2p;
+using static IO.Bindings.libwioe5ham2;
 
-namespace IO.Devices.WioE5.P2P
+namespace IO.Devices.WioE5.Ham2
 {
     /// <summary>
     /// Encapsulates the
     /// <a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module">
-    /// Wio-E5 LoRa Transceiver Module</a> in P2P (Peer to Peer or Point to
-    /// Point) broadcast mode.
+    /// Wio-E5 LoRa Transceiver Module</a> in test <i>aka</i> P2P (Point to
+    /// Point or Peer to Peer) broadcast mode, adding Amateur Radio Unicast
+    /// Flavor #2 (Local Area Network with stations using different network
+    /// ID's <i>aka</i> call signs) address information.
+    /// <para/>
+    /// <para/>
+    /// See <c><see cref="IO.Bindings.libwioe5ham2"/></c> more information.
     /// </summary>
     public class Device
     {
@@ -43,27 +48,29 @@ namespace IO.Devices.WioE5.P2P
         /// </param>
         /// <param name="baudrate">Serial port data rate in bits per second
         /// (9600, 19200, 38400, 57600, 115200, or 230400).</param>
-        /// <param name="freq">RF center frequency in MHz, 863.0 to 870.0
-        /// (European Union
-        /// <a href="https://en.wikipedia.org/wiki/ISM_radio_band">
-        /// ISM Band</a>) or 902.0 to 928.0 (United States
-        /// <a href="https://en.wikipedia.org/wiki/ISM_radio_band">
-        /// ISM Band</a>).</param>
+        /// <param name="network">Network ID <i>aka</i> callsign, 10 ASCII
+        /// characters, left justified and automatically space padded
+        /// <i>e.g.</i> "WA7AAA" or "KL7/SA7AAA".</param>
+        /// <param name="node">Node ID, ARCNET Style: 1 to 255.</param>
+        /// <param name="freq">RF center frequency in MHz, 902.0 to 928.0
+        /// (<a href="https://en.wikipedia.org/wiki/33-centimeter_band">U.S.
+        /// Amateur Radio Allocation</a>).</param>
         /// <param name="spreading">Spreading Factor, 7 to 12.</param>
         /// <param name="bandwidth">Bandwidth in kHz, 125, 250, or 500.</param>
         /// <param name="txpreamble">Number of transmit preamble bits.</param>
         /// <param name="rxpreamble">Number of receive preamble bits.</param>
         /// <param name="power">Transmit power in dBm, -1 to 22.</param>
-        public Device(string portname, int baudrate, float freq,
-            int spreading = 7, int bandwidth = 500, int txpreamble = 12,
-            int rxpreamble = 15, int power = 14)
+        public Device(string portname, int baudrate, string network,
+            int node, float freq, int spreading = 7, int bandwidth = 500,
+            int txpreamble = 12, int rxpreamble = 15, int power = 22)
         {
-            wioe5p2p_init(portname, baudrate, freq, spreading, bandwidth,
-                txpreamble, rxpreamble, power, out this.handle, out int error);
+            wioe5ham2_init(portname, baudrate, network, node, freq,
+                spreading, bandwidth, txpreamble, rxpreamble, power,
+                out this.handle, out int error);
 
             if (error != 0)
             {
-                throw new Exception("wioe5p2p_init() failed, " +
+                throw new Exception("wioe5ham2_init() failed, " +
                     errno.strerror(error));
             }
         }
@@ -81,12 +88,14 @@ namespace IO.Devices.WioE5.P2P
         /// <para/>
         /// <c>WIOE5_PORT</c><br/>
         /// <c>WIOE5_BAUD</c> (Default: 115200)<br/>
+        /// <c>WIOE5_NETWORK</c><br/>
+        /// <c>WIOE5_NODE</c><br/>
         /// <c>WIOE5_FREQ</c><br/>
         /// <c>WIOE5_SPREADING</c> (Default: 7)<br/>
         /// <c>WIOE5_BANDWIDTH</c> (Default: 500)<br/>
         /// <c>WIOE5_TXPREAMBLE</c> (Default: 12)<br/>
         /// <c>WIOE5_RXPREAMBLE</c> (Default: 15)<br/>
-        /// <c>WIOE5_TXPOWER</c> (Default: 14)<br/>
+        /// <c>WIOE5_TXPOWER</c> (Default: 22)<br/>
         /// </summary>
         public Device()
         {
@@ -104,9 +113,28 @@ namespace IO.Devices.WioE5.P2P
                 sbaudrate = "115200";
             }
 
-            if (!Int32.TryParse(sbaudrate, out int baudrate))
+            if (!int.TryParse(sbaudrate, out int baudrate))
             {
                 throw new Exception("WIOE5_PORT environment variable is invalid");
+            }
+
+            var network = GetEnvironmentVariable("WIOE5_NETWORK");
+
+            if (network == null)
+            {
+                throw new Exception("WIOE5_NETWORK environment variable is undefined");
+            }
+
+            var snode = GetEnvironmentVariable("WIOE5_NODE");
+
+            if (snode == null)
+            {
+                throw new Exception("WIOE5_NODE environment variable is undefined");
+            }
+
+            if (!int.TryParse(snode, out int node))
+            {
+                throw new Exception("WIOE5_NODE environment variable is undefined");
             }
 
             var sfreq = GetEnvironmentVariable("WIOE5_FREQ");
@@ -173,7 +201,7 @@ namespace IO.Devices.WioE5.P2P
 
             if (spower == null)
             {
-                spower = "14";
+                spower = "22";
             }
 
             if (!int.TryParse(spower, out int power))
@@ -181,28 +209,41 @@ namespace IO.Devices.WioE5.P2P
                 throw new Exception("WIOE5_POWER environment variable is invalid");
             }
 
-            wioe5p2p_init(port, baudrate, freq, spreading, bandwidth,
-                txpreamble, rxpreamble, power, out this.handle, out int error);
+            wioe5ham2_init(port, baudrate, network, node, freq, spreading,
+                bandwidth, txpreamble, rxpreamble, power, out this.handle,
+                out int error);
 
             if (error != 0)
             {
-                throw new Exception("wioe5p2p_init() failed, " +
+                throw new Exception("wioe5ham2_init() failed, " +
                     errno.strerror(error));
             }
         }
 
         /// <summary>
+        /// Finalizer for a Wio-E5 LoRa Transceiver Module device object
+        /// instance.
+        /// </summary>
+        ~Device()
+        {
+            wioe5ham2_exit(handle, out int error);
+        }
+
+        /// <summary>
         /// Send a text message.
         /// </summary>
-        /// <param name="s">Text message to send.  Must be 1 to 243
+        /// <param name="s">Text message to send.  Must be 1 to 241
         /// characters.</param>
-        public void Send(string s)
+        /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
+        /// or 1 to 255).</param>
+        public void Send(string s, int dst)
         {
-            wioe5p2p_send_string(this.handle, s, out int error);
+            wioe5ham2_send_string(this.handle,
+                s, dst, out int error);
 
             if (error != 0)
             {
-                throw new Exception("wioe5p2p_send_string() failed, " +
+                throw new Exception("wioe5ham2_send_string() failed, " +
                     errno.strerror(error));
             }
         }
@@ -211,14 +252,16 @@ namespace IO.Devices.WioE5.P2P
         /// Send a binary message.
         /// </summary>
         /// <param name="msg">Binary message.</param>
-        /// <param name="len">Message length in bytes, 1 to 243.</param>
-        public void Send(byte[] msg, int len)
+        /// <param name="len">Message length in bytes, 1 to 241.</param>
+        /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
+        /// or 1 to 255).</param>
+        public void Send(byte[] msg, int len, int dst)
         {
-            wioe5p2p_send(this.handle, msg, len, out int error);
+            wioe5ham2_send(this.handle, msg, len, dst, out int error);
 
             if (error != 0)
             {
-                throw new Exception("wioe5p2p_send() failed, " +
+                throw new Exception("wioe5ham2_send() failed, " +
                     errno.strerror(error));
             }
         }
@@ -226,19 +269,23 @@ namespace IO.Devices.WioE5.P2P
         /// <summary>
         /// Receive a binary message.
         /// </summary>
-        /// <param name="msg">Binary message.  Must be at least 243 bytes.
+        /// <param name="msg">Binary message.  Must be at least 241 bytes.
         /// </param>
         /// <param name="len">Number of bytes received.</param>
+        /// <param name="src">Source node ID (ARCNET style: 1 to 255).</param>
+        /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
+        /// or 1 to 255).</param>
         /// <param name="RSS">Received Signal Strength in dBm.</param>
         /// <param name="SNR">Signal to Noise Ratio in dB.</param>
-        public void Receive(byte[] msg, out int len, out int RSS, out int SNR)
+        public void Receive(byte[]msg, out int len, out int src, out int dst,
+            out int RSS, out int SNR)
         {
-            wioe5p2p_receive(this.handle, msg, out len, out RSS, out SNR,
-                out int error);
+            wioe5ham2_receive(this.handle, msg, out len, out src, out dst,
+                out RSS, out SNR, out int error);
 
             if (error != 0)
             {
-                throw new Exception("wioe5p2p_send() failed, " +
+                throw new Exception("wioe5ham2_send() failed, " +
                     errno.strerror(error));
             }
         }

@@ -23,34 +23,58 @@ using System.Runtime.InteropServices;
 namespace IO.Bindings
 {
     /// <summary>
-    /// <para>
     /// Wrapper class for the
     /// <a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module">
-    /// Wio-E5 LoRa Transceiver Module</a> Driver Library <c>libwioe5p2p.so</c>
-    /// using test mode <i>aka</i> P2P (Point to Point or Peer to Peer)
-    /// broadcast mode.
-    /// </para>
-    /// <para>
+    /// Wio-E5 LoRa Transceiver Module</a> Driver Library
+    /// <c>libwioe5ham2.so</c> using test mode <i>aka</i> P2P (Point to Point
+    /// or Peer to Peer) broadcast mode, adapted for use by U.S. Amateur Radio
+    /// Operators.
+    /// <para/>
+    /// <para/>
     /// P2P is misleading because there is no station addressing and all
     /// transmissions are broadcasts.  Any station with the same RF settings
     /// (frequency, spreading factor, and chirp bandwidth) will be able to
     /// receive what you transmit with this library.
-    /// </para>
-    /// <para>
+    /// <para/>
     /// In test <i>aka</i> P2P mode, the Wio-E5 transmits unencrypted
     /// "implicit header" frames consisting of a configurable number of
     /// preamble bits, 1 to 253 payload bytes, and two CRC bytes.  Upon
     /// reception of each frame, the Wio-E5 verifies the CRC, discarding
     /// erroneous frames and passing valid ones to the device driver.
-    /// </para>
-    /// <para>
+    /// <para/>
     /// Unlike LoRaWan mode, frames with up to 253 payload bytes can be sent
     /// and received using <b>any</b> data rate scheme (the combination of
     /// spreading factor, modulation bandwidth, and the derived RF symbol
     /// rate).
-    /// </para>
+    /// <para/>
+    /// <c>libwioe5ham2</c> supports Amateur Radio Unicast Flavor #2
+    /// (Local Area Network with stations using different call signs).
+    /// The first 22 bytes of the payload are reserved for the following
+    /// unicast address information:
+    /// <para/>
+    /// 10 upper case characters for the destination network ID <i>aka</i>
+    /// callsign, left justified and space padded.<br/>
+    /// 1 binary byte for the destination node ID (ARCNET style: 0=broadcast
+    /// or 1 to 255).<br/>
+    /// 10 upper case characters for the source network ID <i>aka</i> callsign,
+    /// left justified and space padded.<br/>
+    /// 1 binary byte for the source node ID (ARCNET style: 1 to 255).
+    /// <para/>
+    /// <c>libwioe5ham2</c> drops any received frame that does not contain a
+    /// matching destination network ID <i>aka</i> call sign and destination
+    /// node ID, imposing a unicast address scheme onto the broadcast Wio-E5
+    /// test <i>aka</i> P2P mode.
+    /// <para/>
+    /// See <a href="https://repo.munts.com/libsimpleio/doc/WioE5LoRaP2P.pdf">
+    /// Wio-E5 LoRa Transceiver Peer to Peer Mode</a> for more information.
+    /// <para/>
+    /// In accordance with the digital data transparency required by U.S.
+    /// Amateur Radio Service regulations, any Wio-E5 using the same RF
+    /// settings (possibly using the related library
+    /// <c><see cref="libwioe5p2p"/></c>) can monitor communications among a
+    /// group of ham radio stations using <c>libwioe5ham1</c>.
     /// </summary>
-    public static class libwioe5p2p
+    public static class libwioe5ham2
     {
         /// <summary>
         /// Initialize the Wio-E5 driver shared library and transceiver module.
@@ -60,12 +84,14 @@ namespace IO.Bindings
         /// <param name="baudrate">Serial port baud rate in bits per second
         /// (9600, 19200, 38400, 57600, 115200, or 230400).
         /// </param>
-        /// <param name="freqmhz">RF center frequency in MHz, 863.0 to 870.0
-        /// (European Union
-        /// <a href="https://en.wikipedia.org/wiki/ISM_radio_band">
-        /// ISM Band</a>) or 902.0 to 928.0 (United States
-        /// <a href="https://en.wikipedia.org/wiki/ISM_radio_band">
-        /// ISM Band</a>).</param>
+        /// <param name="network">Network ID <i>e.g.</i> call sign (10 ASCII
+        /// characters, left justified and blank padded).</param>
+        /// <param name="node">Network node ID
+        /// (ARCNET Style: 1 to 255).</param>
+        /// <param name="freqmhz">RF center frequency in MHz, 902.0 to 928.0
+        /// (<a href="https://en.wikipedia.org/wiki/33-centimeter_band">U.S.
+        /// Amateur Radio Allocation</a>).
+        /// </param>
         /// <param name="spreading">Spreading factor (7 to 12).</param>
         /// <param name="bandwidth">Spread spectrum chirp bandwidth in kHz
         /// (125, 250, or 500).</param>
@@ -76,10 +102,12 @@ namespace IO.Bindings
         /// <param name="txpower">Transmit power in dBm (0 to 22).</param>
         /// <param name="handle">Wio-E5 device handle.</param>
         /// <param name="error">Error code.  Zero upon success.</param>
-        [DllImport("wioe5p2p")]
-        public static extern void wioe5p2p_init
+        [DllImport("wioe5ham2")]
+        public static extern void wioe5ham2_init
          (string portname,
           int baudrate,
+          string network,
+          int node,
           float freqmhz,
           int spreading,
           int bandwidth,
@@ -94,8 +122,8 @@ namespace IO.Bindings
         /// </summary>
         /// <param name="handle">Wio-E5 device handle.</param>
         /// <param name="error">Error code.  Zero upon success.</param>
-        [DllImport("wioe5p2p")]
-        public static extern void wioe5p2p_exit
+        [DllImport("wioe5ham2")]
+        public static extern void wioe5ham2_exit
          (int handle,
           out int error);
 
@@ -103,17 +131,22 @@ namespace IO.Bindings
         /// Receive a binary message frame, if available.
         /// </summary>
         /// <param name="handle">Wio-E5 device handle.</param>
-        /// <param name="msg">Payload buffer (253 bytes).</param>
+        /// <param name="msg">Payload buffer (241 bytes).</param>
         /// <param name="len">Number of payload bytes received.
         /// Zero indicates queue empty, no RF frame available.</param>
+        /// <param name="src">Source node ID (ARCNET Style: 1 to 255).</param>
+        /// <param name="dst">Destination node ID
+        /// (ARCNET Style: 0 for broadcast or 1 to 255 for unicast).</param>
         /// <param name="RSS">Received Signal Strength in dBm.</param>
         /// <param name="SNR">Signal to Noise Ratio in dB.</param>
         /// <param name="error">Error code.  Zero upon success.</param>
-        [DllImport("wioe5p2p")]
-        public static extern void wioe5p2p_receive
+        [DllImport("wioe5ham2")]
+        public static extern void wioe5ham2_receive
          (int handle,
           byte[] msg,
           out int len,
+          out int src,
+          out int dst,
           out int RSS,
           out int SNR,
           out int error);
@@ -122,27 +155,33 @@ namespace IO.Bindings
         /// Transmit a binary message frame.
         /// </summary>
         /// <param name="handle">Wio-E5 device handle.</param>
-        /// <param name="msg">Payload buffer (253 bytes).</param>
+        /// <param name="msg">Payload buffer (241 bytes).</param>
         /// <param name="len">Number of payload bytes to transmit
-        /// (1 to 253).</param>
+        /// (1 to 241).</param>
+        /// <param name="dst">Destination node ID
+        /// (ARCNET Style: 0 for broadcast or 1 to 255 for unicast).</param>
         /// <param name="error">Error code.  Zero upon success.</param>
-        [DllImport("wioe5p2p")]
-        public static extern void wioe5p2p_send
+        [DllImport("wioe5ham2")]
+        public static extern void wioe5ham2_send
          (int handle,
           byte[] msg,
           int len,
+          int dst,
           out int error);
 
         /// <summary>
         /// Transmit a string message frame.
         /// </summary>
         /// <param name="handle">Wio-E5 device handle.</param>
-        /// <param name="msg">Message string (1 to 253 ASCII characters).</param>
+        /// <param name="msg">Message string (1 to 241 ASCII characters).</param>
+        /// <param name="dst">Destination node ID
+        /// (ARCNET Style: 0 for broadcast or 1 to 255 for unicast).</param>
         /// <param name="error">Error code.  Zero upon success.</param>
-        [DllImport("wioe5p2p")]
-        public static extern void wioe5p2p_send_string
+        [DllImport("wioe5ham2")]
+        public static extern void wioe5ham2_send_string
          (int handle,
           string msg,
+          int dst,
           out int error);
     }
 }
