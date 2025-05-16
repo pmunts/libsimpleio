@@ -20,8 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// This program requires a receive station with node ID 2 running either
-// test_wioe5_rx_ham2 or test_signal_level_responder.
+// This program requires a receive station running either test_wioe5_rx_ham2
+// or wioe5_ham2_responder.
 //
 // See also: https://git.munts.com/libsimpleio/doc/WioE5LoRaP2P.pdf
 

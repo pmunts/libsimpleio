@@ -20,8 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// This program requires a receive station with node ID 2 running either
-// test_wioe5_rx_ham1 or test_signal_level_responder.
+// This program requires a receive station running either test_wioe5_rx_ham1
+// or wioe5_ham1_responder.
 //
 // See also: https://git.munts.com/libsimpleio/doc/WioE5LoRaP2P.pdf
 
@@ -48,8 +48,8 @@ for (int i = 1; i <= iterations; i++)
 
   Sleep(400);
 
-  dev.Receive(msg, out int len, out int srcnode, out int dstnode, out int RSS,
-    out int SNR);
+  dev.Receive(msg, out int len, out string srcnet, out int srcnode,
+    out string dstnet, out int dstnode, out int RSS, out int SNR);
 
   WriteLine("LEN: {0} bytes RSS:{1} dBm SNR: {2} dB", len, RSS, SNR);
   WriteLine(System.Text.Encoding.UTF8.GetString(msg, 0, len));
