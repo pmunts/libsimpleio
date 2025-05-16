@@ -57,6 +57,7 @@
       <NamespaceSummaryItem name="IO.Devices.Thermistor" isDocumented="True">Thermistor Modeling Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies USB devices</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.WioE5.Ham1" isDocumented="True">&lt;a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module"&gt;Wio-E5 LoRa Transceiver Module&lt;/a&gt; Amateur Radio Unicast Flavor #1 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.WioE5.Ham2" isDocumented="True">&lt;a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module"&gt;Wio-E5 LoRa Transceiver Module&lt;/a&gt; Amateur Radio Unicast Flavor #2 Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.WioE5.P2P" isDocumented="True">&lt;a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module"&gt;Wio-E5 LoRa Transceiver Module&lt;/a&gt; P2P (Peer to Peer or Point to Point) Broadcast Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.DAC" isDocumented="True">Abstract Interface for DAC (Digital to Analog Converter) Outputs</NamespaceSummaryItem>

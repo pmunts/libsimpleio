@@ -48,6 +48,9 @@
     <Compile Include="..\..\csharp\devices\pmod\*.cs">
       <Link>IO.Devices.Pmod\%(FileName)</Link>
     </Compile>
+    <Compile Include="..\..\csharp\devices\wioe5\*.cs">
+      <Link>IO.Devices.WioE5\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\..\csharp\interfaces\*.cs">
       <Link>IO.Interfaces\%(FileName)</Link>
     </Compile>
