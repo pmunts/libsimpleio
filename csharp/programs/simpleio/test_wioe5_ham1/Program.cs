@@ -37,10 +37,10 @@ if (args.Length != 2)
   Exit(1);
 }
 
-var dev              = new IO.Devices.WioE5.Ham1.Device();
-var msg              = new byte[255];
-var respondernode    = int.Parse(args[0]);
-var iterations       = int.Parse(args[1]);
+var dev           = new IO.Devices.WioE5.Ham1.Device();
+var msg           = new byte[255];
+var respondernode = int.Parse(args[0]);
+var iterations    = int.Parse(args[1]);
 
 for (int i = 1; i <= iterations; i++)
 {
