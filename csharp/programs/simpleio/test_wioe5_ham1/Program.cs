@@ -31,24 +31,25 @@ using static System.Threading.Thread;
 
 WriteLine("\nWio-E5 LoRa Transceiver Test\n");
 
-int iterations = 0;
-
-if ((args.Length != 1) || (!int.TryParse(args[0], out iterations)))
+if (args.Length != 2)
 {
-  WriteLine("Usage: test_wioe5_ham1 <iterations>\n");
+  WriteLine("Usage: test_wioe5_ham1 <node id> <iterations>\n");
   Exit(1);
 }
 
-var dev = new IO.Devices.WioE5.Ham1.Device();
-var msg = new byte[255];
+var dev        = new IO.Devices.WioE5.Ham1.Device();
+var msg        = new byte[255];
+var dstnode    = int.Parse(args[0]);
+var iterations = int.Parse(args[1]);
 
 for (int i = 1; i <= iterations; i++)
 {
-  dev.Send("This is test " + i.ToString(), 2);
+  dev.Send("This is test " + i.ToString(), dstnode);
 
   Sleep(400);
 
-  dev.Receive(msg, out int len, out int src, out int dst, out int   RSS, out int SNR);
+  dev.Receive(msg, out int len, out int src, out int dst, out int RSS,
+    out int SNR);
 
   WriteLine("LEN: {0} bytes RSS:{1} dBm SNR: {2} dB", len, RSS, SNR);
   WriteLine(System.Text.Encoding.UTF8.GetString(msg, 0, len));
