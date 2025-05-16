@@ -288,7 +288,7 @@ namespace IO.Devices.WioE5.Ham1
 
             if (error != 0)
             {
-                throw new Exception("wioe5ham1_send() failed, " +
+                throw new Exception("wioe5ham1_receive() failed, " +
                     errno.strerror(error));
             }
         }
@@ -315,7 +315,7 @@ namespace IO.Devices.WioE5.Ham1
 
             if (error != 0)
             {
-                throw new Exception("wioe5ham1_send() failed, " +
+                throw new Exception("wioe5ham1_receive() failed, " +
                     errno.strerror(error));
             }
 

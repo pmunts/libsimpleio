@@ -263,7 +263,7 @@ namespace IO.Devices.WioE5.Ham2
 
             if (error != 0)
             {
-                throw new Exception("wioe5ham2_send() failed, " +
+                throw new Exception("wioe5ham2_receive() failed, " +
                     errno.strerror(error));
             }
         }
@@ -294,7 +294,7 @@ namespace IO.Devices.WioE5.Ham2
 
             if (error != 0)
             {
-                throw new Exception("wioe5ham2_send() failed, " +
+                throw new Exception("wioe5ham2_receive() failed, " +
                     errno.strerror(error));
             }
 

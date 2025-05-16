@@ -242,7 +242,7 @@ namespace IO.Devices.WioE5.P2P
 
             if (error != 0)
             {
-                throw new Exception("wioe5p2p_send() failed, " +
+                throw new Exception("wioe5p2p_receive() failed, " +
                     errno.strerror(error));
             }
         }
