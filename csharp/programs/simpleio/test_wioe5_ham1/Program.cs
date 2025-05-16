@@ -37,18 +37,18 @@ if (args.Length != 2)
   Exit(1);
 }
 
-var dev        = new IO.Devices.WioE5.Ham1.Device();
-var msg        = new byte[255];
-var dstnode    = int.Parse(args[0]);
-var iterations = int.Parse(args[1]);
+var dev              = new IO.Devices.WioE5.Ham1.Device();
+var msg              = new byte[255];
+var respondernode    = int.Parse(args[0]);
+var iterations       = int.Parse(args[1]);
 
 for (int i = 1; i <= iterations; i++)
 {
-  dev.Send("This is test " + i.ToString(), dstnode);
+  dev.Send("This is test " + i.ToString(), respondernode);
 
   Sleep(400);
 
-  dev.Receive(msg, out int len, out int src, out int dst, out int RSS,
+  dev.Receive(msg, out int len, out int srcnode, out int dstnode, out int RSS,
     out int SNR);
 
   WriteLine("LEN: {0} bytes RSS:{1} dBm SNR: {2} dB", len, RSS, SNR);
