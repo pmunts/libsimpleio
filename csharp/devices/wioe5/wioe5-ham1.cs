@@ -37,6 +37,7 @@ namespace IO.Devices.WioE5.Ham1
     /// </summary>
     public class Device
     {
+        private readonly string mynetwork;
         private readonly int handle;
 
         /// <summary>
@@ -73,6 +74,8 @@ namespace IO.Devices.WioE5.Ham1
                 throw new Exception("wioe5ham1_init() failed, " +
                     errno.strerror(error));
             }
+
+            mynetwork = network;
         }
 
         /// <summary>
@@ -234,12 +237,12 @@ namespace IO.Devices.WioE5.Ham1
         /// </summary>
         /// <param name="s">Text message to send.  Must be 1 to 241
         /// characters.</param>
-        /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
+        /// <param name="dstnode">Destination node ID (ARCNET style: 0=broadcast,
         /// or 1 to 255).</param>
-        public void Send(string s, int dst)
+        public void Send(string s, int dstnode)
         {
             wioe5ham1_send_string(this.handle,
-                s, dst, out int error);
+                s, dstnode, out int error);
 
             if (error != 0)
             {
@@ -253,11 +256,11 @@ namespace IO.Devices.WioE5.Ham1
         /// </summary>
         /// <param name="msg">Binary message.</param>
         /// <param name="len">Message length in bytes, 1 to 241.</param>
-        /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
+        /// <param name="dstnode">Destination node ID (ARCNET style: 0=broadcast,
         /// or 1 to 255).</param>
-        public void Send(byte[] msg, int len, int dst)
+        public void Send(byte[] msg, int len, int dstnode)
         {
-            wioe5ham1_send(this.handle, msg, len, dst, out int error);
+            wioe5ham1_send(this.handle, msg, len, dstnode, out int error);
 
             if (error != 0)
             {
@@ -272,22 +275,52 @@ namespace IO.Devices.WioE5.Ham1
         /// <param name="msg">Binary message.  Must be at least 241 bytes.
         /// </param>
         /// <param name="len">Number of bytes received.</param>
-        /// <param name="src">Source node ID (ARCNET style: 1 to 255).</param>
-        /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
+        /// <param name="srcnode">Source node ID (ARCNET style: 1 to 255).</param>
+        /// <param name="dstnode">Destination node ID (ARCNET style: 0=broadcast,
         /// or 1 to 255).</param>
         /// <param name="RSS">Received Signal Strength in dBm.</param>
         /// <param name="SNR">Signal to Noise Ratio in dB.</param>
-        public void Receive(byte[]msg, out int len, out int src, out int dst,
-            out int RSS, out int SNR)
+        public void Receive(byte[] msg, out int len, out int srcnode,
+            out int dstnode, out int RSS, out int SNR)
         {
-            wioe5ham1_receive(this.handle, msg, out len, out src, out dst,
-                out RSS, out SNR, out int error);
+            wioe5ham1_receive(this.handle, msg, out len, out srcnode,
+                out dstnode, out RSS, out SNR, out int error);
 
             if (error != 0)
             {
                 throw new Exception("wioe5ham1_send() failed, " +
                     errno.strerror(error));
             }
+        }
+
+        /// <summary>
+        /// Receive a binary message.
+        /// </summary>
+        /// <param name="msg">Binary message.  Must be at least 241 bytes.
+        /// </param>
+        /// <param name="len">Number of bytes received.</param>
+        /// <param name="srcnet">Source network ID.</param>
+        /// <param name="srcnode">Source node ID (ARCNET style: 1 to 255).</param>
+        /// <param name="dstnet">Destination network ID.</param>
+        /// <param name="dstnode">Destination node ID (ARCNET style: 0=broadcast,
+        /// or 1 to 255).</param>
+        /// <param name="RSS">Received Signal Strength in dBm.</param>
+        /// <param name="SNR">Signal to Noise Ratio in dB.</param>
+        public void Receive(byte[] msg, out int len, out string srcnet,
+            out int srcnode, out string dstnet, out int dstnode, out int RSS,
+            out int SNR)
+        {
+            wioe5ham1_receive(this.handle, msg, out len, out srcnode,
+                out dstnode, out RSS, out SNR, out int error);
+
+            if (error != 0)
+            {
+                throw new Exception("wioe5ham1_send() failed, " +
+                    errno.strerror(error));
+            }
+
+            srcnet = this.mynetwork;
+            dstnet = this.mynetwork;
         }
     }
 }
