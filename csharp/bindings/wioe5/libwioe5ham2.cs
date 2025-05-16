@@ -134,8 +134,10 @@ namespace IO.Bindings
         /// <param name="msg">Payload buffer (241 bytes).</param>
         /// <param name="len">Number of payload bytes received.
         /// Zero indicates queue empty, no RF frame available.</param>
-        /// <param name="src">Source node ID (ARCNET Style: 1 to 255).</param>
-        /// <param name="dst">Destination node ID
+        /// <param name="dstnet">Source network ID.</param>
+        /// <param name="srcnode">Source node ID (ARCNET Style: 1 to 255).</param>
+        /// <param name="srcnet">Destination network ID.</param>
+        /// <param name="dstnode">Destination node ID
         /// (ARCNET Style: 0 for broadcast or 1 to 255 for unicast).</param>
         /// <param name="RSS">Received Signal Strength in dBm.</param>
         /// <param name="SNR">Signal to Noise Ratio in dB.</param>
@@ -145,8 +147,10 @@ namespace IO.Bindings
          (int handle,
           byte[] msg,
           out int len,
-          out int src,
-          out int dst,
+          char[] srcnet,
+          out int srcnode,
+          char[] dstnet,
+          out int dstnode,
           out int RSS,
           out int SNR,
           out int error);
@@ -158,7 +162,8 @@ namespace IO.Bindings
         /// <param name="msg">Payload buffer (241 bytes).</param>
         /// <param name="len">Number of payload bytes to transmit
         /// (1 to 241).</param>
-        /// <param name="dst">Destination node ID
+        /// <param name="dstnet">Destination network ID.</param>
+        /// <param name="dstnode">Destination node ID
         /// (ARCNET Style: 0 for broadcast or 1 to 255 for unicast).</param>
         /// <param name="error">Error code.  Zero upon success.</param>
         [DllImport("wioe5ham2")]
@@ -166,7 +171,8 @@ namespace IO.Bindings
          (int handle,
           byte[] msg,
           int len,
-          int dst,
+          string dstnet,
+          int dstnode,
           out int error);
 
         /// <summary>
@@ -174,14 +180,16 @@ namespace IO.Bindings
         /// </summary>
         /// <param name="handle">Wio-E5 device handle.</param>
         /// <param name="msg">Message string (1 to 241 ASCII characters).</param>
-        /// <param name="dst">Destination node ID
+        /// <param name="dstnet">Destination network ID.</param>
+        /// <param name="dstnode">Destination node ID
         /// (ARCNET Style: 0 for broadcast or 1 to 255 for unicast).</param>
         /// <param name="error">Error code.  Zero upon success.</param>
         [DllImport("wioe5ham2")]
         public static extern void wioe5ham2_send_string
          (int handle,
           string msg,
-          int dst,
+          string dstnet,
+          int dstnode,
           out int error);
     }
 }

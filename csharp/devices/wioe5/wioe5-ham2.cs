@@ -234,12 +234,13 @@ namespace IO.Devices.WioE5.Ham2
         /// </summary>
         /// <param name="s">Text message to send.  Must be 1 to 241
         /// characters.</param>
-        /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
+        /// <param name="dstnet">Destination network ID.</param>
+        /// <param name="dstnode">Destination node ID (ARCNET style: 0=broadcast,
         /// or 1 to 255).</param>
-        public void Send(string s, int dst)
+        public void Send(string s, string dstnet, int dstnode)
         {
             wioe5ham2_send_string(this.handle,
-                s, dst, out int error);
+                s, dstnet, dstnode, out int error);
 
             if (error != 0)
             {
@@ -253,11 +254,12 @@ namespace IO.Devices.WioE5.Ham2
         /// </summary>
         /// <param name="msg">Binary message.</param>
         /// <param name="len">Message length in bytes, 1 to 241.</param>
-        /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
+        /// <param name="dstnet">Destination network ID.</param>
+        /// <param name="dstnode">Destination node ID (ARCNET style: 0=broadcast,
         /// or 1 to 255).</param>
-        public void Send(byte[] msg, int len, int dst)
+        public void Send(byte[] msg, int len, string dstnet, int dstnode)
         {
-            wioe5ham2_send(this.handle, msg, len, dst, out int error);
+            wioe5ham2_send(this.handle, msg, len, dstnet, dstnode, out int error);
 
             if (error != 0)
             {
@@ -272,22 +274,32 @@ namespace IO.Devices.WioE5.Ham2
         /// <param name="msg">Binary message.  Must be at least 241 bytes.
         /// </param>
         /// <param name="len">Number of bytes received.</param>
-        /// <param name="src">Source node ID (ARCNET style: 1 to 255).</param>
-        /// <param name="dst">Destination node ID (ARCNET style: 0=broadcast,
+        /// <param name="srcnet">Source network ID.</param>
+        /// <param name="srcnode">Source node ID (ARCNET style: 1 to 255).</param>
+        /// <param name="dstnet">Destination network ID.</param>
+        /// <param name="dstnode">Destination node ID (ARCNET style: 0=broadcast,
         /// or 1 to 255).</param>
         /// <param name="RSS">Received Signal Strength in dBm.</param>
         /// <param name="SNR">Signal to Noise Ratio in dB.</param>
-        public void Receive(byte[]msg, out int len, out int src, out int dst,
-            out int RSS, out int SNR)
+        public void Receive(byte[]msg, out int len, out string srcnet,
+            out int srcnode, out string dstnet, out int dstnode, out int RSS,
+            out int SNR)
         {
-            wioe5ham2_receive(this.handle, msg, out len, out src, out dst,
-                out RSS, out SNR, out int error);
+            var cdstnet = new char[11];
+            var csrcnet = new char[11];
+
+            wioe5ham2_receive(this.handle, msg, out len, csrcnet,
+                out srcnode, cdstnet, out dstnode, out RSS, out SNR,
+                out int error);
 
             if (error != 0)
             {
                 throw new Exception("wioe5ham2_send() failed, " +
                     errno.strerror(error));
             }
+
+            srcnet = new string(csrcnet).Trim(' ');
+            dstnet = new string(cdstnet).Trim(' ');
         }
     }
 }
