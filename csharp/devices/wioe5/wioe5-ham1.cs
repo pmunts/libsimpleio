@@ -75,7 +75,7 @@ namespace IO.Devices.WioE5.Ham1
                     errno.strerror(error));
             }
 
-            mynetwork = network;
+            this.mynetwork = network;
         }
 
         /// <summary>
@@ -221,6 +221,8 @@ namespace IO.Devices.WioE5.Ham1
                 throw new Exception("wioe5ham1_init() failed, " +
                     errno.strerror(error));
             }
+
+            this.mynetwork = network;
         }
 
         /// <summary>
