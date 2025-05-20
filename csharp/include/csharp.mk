@@ -57,14 +57,13 @@ endif
 
 # Special project file fixup target for Cygwin development host
 
-ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
 csharp_mk_fixup:
 	-$(FIND) * -type d -exec chmod 755 {}  ";"
 	-$(FIND) * -type f -exec chmod 644 {}  ";"
 	-$(FIND) * -type f -exec bom_remove {} ";"
 	-$(FIND) * -type f -exec unix2dos {}   ";"
 	-dos2unix Makefile
-endif
+	-dos2unix S00*
 
 # Clean out working files
 
