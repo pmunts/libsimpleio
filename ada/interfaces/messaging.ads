@@ -1,6 +1,6 @@
 -- Parent package for messaging child packages
 
--- Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ PACKAGE Messaging IS
 
   TYPE Byte IS MOD 256;
 
-  TYPE Buffer IS ARRAY (Natural RANGE <>) OF Byte;
+  TYPE Buffer IS ARRAY (Natural RANGE <>) OF ALIASED Byte;
 
   -- Display buffer contents in hexadecimal
 
