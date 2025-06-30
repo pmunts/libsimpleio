@@ -37,6 +37,16 @@ _END_STD_C for C++. Additional source code libraries are provided for
 Ada, C++, C#, Free Pascal, Modula-2, and Python that define OOP (Object
 Oriented Programming) thick binding classes for libsimpleio.
 
+The Ada library unit packages in the libsimpleio code tree are
+especially rich and are both more numerous and more refined than those
+for other programming languages. Ada was originally developed and
+released in 1983 to replace a myriad of other programming languages used
+for developing software for military aircraft and other complex weapons
+systems. With the help of libsimpleio, Ada is still one of the best
+languages around for developing reliable embedded systems software for
+Linux computers. See also MuntsOS Embedded Linux, which uses libsimpleio
+pervasively.
+
 Documentation
 
 The user manual for libsimpleio is available at UserManual.pdf.
@@ -64,6 +74,7 @@ https://repo.munts.com/debian12
 Alire Crates
 
 [libsimpleio] [mcp2221] [remoteio]
+[wioe5_ham1] [wioe5_ham2] [wioe5_p2p]
 
 Ada programs using the libsimpleio crate run only on Linux target
 computers.

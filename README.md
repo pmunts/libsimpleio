@@ -48,6 +48,17 @@ provided for Ada, C++, C\#, Free Pascal, Modula-2, and Python that
 define OOP (Object Oriented Programming) thick binding classes for
 **libsimpleio**.
 
+The Ada library unit packages in the **libsimpleio** code tree are
+especially rich and are both more numerous and more refined than those
+for other programming languages. Ada was originally developed and
+released in 1983 to replace a myriad of other programming languages used
+for developing software for military aircraft and other complex weapons
+systems. With the help of **libsimpleio**, Ada is still one of the best
+languages around for developing reliable embedded systems software for
+Linux computers. See also [MuntsOS Embedded
+Linux](https://github.com/pmunts/muntsos), which uses **libsimpleio**
+pervasively.
+
 Documentation
 -------------
 
@@ -83,6 +94,9 @@ Linux are available at:
 [![libsimpleio](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/libsimpleio.json)](https://alire.ada.dev/crates/libsimpleio.html)
 [![mcp2221](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/mcp2221.json)](https://alire.ada.dev/crates/mcp2221.html)
 [![remoteio](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/remoteio.json)](https://alire.ada.dev/crates/remoteio.html)
+[![wioe5\_ham1](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/wioe5_ham1.json)](https://alire.ada.dev/crates/wioe5_ham1)
+[![wioe5\_ham2](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/wioe5_ham2.json)](https://alire.ada.dev/crates/wioe5_ham2.html)
+[![wioe5\_p2p](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/wioe5_p2p.json)](https://alire.ada.dev/crates/wioe5_p2p.html)
 
 Ada programs using the **`libsimpleio`** crate run only on Linux target
 computers.
