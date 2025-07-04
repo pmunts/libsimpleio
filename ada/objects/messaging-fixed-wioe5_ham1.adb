@@ -52,7 +52,7 @@ PACKAGE BODY Messaging.Fixed.WioE5_Ham1 IS
     -- Optimize bandwidth by not sending trailing zeros.  For short
     -- messages, this will greatly reduce channel bandwidth
 
-    WHILE (len > 0) AND (msg(len - 1) = 0) LOOP
+    WHILE (len > 1) AND (msg(len - 1) = 0) LOOP
       len := len - 1;
     END LOOP;
 
