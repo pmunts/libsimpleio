@@ -29,6 +29,8 @@ WITH RemoteIO.Client.WioE5_Ham1;
 
 PROCEDURE test_query_wioe5_ham1 IS
 
+  radio    : Message64.Ham1.driver.Device;
+  node     : Message64.Ham1.driver.NodeID;
   remdev   : RemoteIO.Client.Device;
   channels : RemoteIO.ChannelSets.Set;
 
@@ -45,9 +47,14 @@ BEGIN
     RETURN;
   END IF;
 
+  -- Create Wio-E5 LoRa Transceiver device
+
+  radio := Message64.Ham1.driver.Create;
+  node  := Message64.Ham1.driver.NodeID'Value(Ada.Command_Line.Argument(1));
+
   -- Create the remote I/O device
 
-  remdev := RemoteIO.Client.WioE5_Ham1.Create(node => Message64.Ham1.driver.NodeID'Value(Ada.Command_Line.Argument(1)));
+  remdev := RemoteIO.Client.WioE5_Ham1.Create(radio, node);
 
   -- Query the firmware version
 
@@ -175,4 +182,6 @@ BEGIN
       New_Line;
     END IF;
   END IF;
+
+  radio.Shutdown;
 END test_query_wioe5_ham1;
