@@ -25,7 +25,7 @@ PACKAGE RemoteIO.Client.WioE5_Ham1 IS
   FUNCTION Create
    (dev     : Message64.Ham1.driver.Device := Message64.Ham1.driver.Create;
     node    : Message64.Ham1.driver.NodeID;
-    timeout : Integer  := 1000) RETURN Device IS
-   (Create(Message64.Ham1.Create(dev, node)));
+    timeout : Natural  := 1000) RETURN Device IS
+   (Create(Message64.Ham1.Create(dev, node, timeout)));
 
 END RemoteIO.Client.WioE5_Ham1;

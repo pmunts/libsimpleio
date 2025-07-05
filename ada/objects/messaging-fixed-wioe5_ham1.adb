@@ -33,11 +33,12 @@ PACKAGE BODY Messaging.Fixed.WioE5_Ham1 IS
   -- Constructor
 
   FUNCTION Create
-   (dev  : driver.Device;
-    node : driver.NodeID) RETURN Messenger IS
+   (dev     : driver.Device;
+    node    : driver.NodeID;
+    timeout : Natural := 1000) RETURN Messenger IS
 
   BEGIN
-    RETURN NEW MessengerSubclass'(dev, node);
+    RETURN NEW MessengerSubclass'(dev, node, timeout);
   END Create;
 
   -- Send a message
@@ -49,8 +50,7 @@ PACKAGE BODY Messaging.Fixed.WioE5_Ham1 IS
   BEGIN
     len := msg'Length;
 
-    -- Optimize bandwidth by not sending trailing zeros.  For short
-    -- messages, this will greatly reduce channel bandwidth
+    -- Don't send trailing zero bytes
 
     WHILE (len > 1) AND (msg(len - 1) = 0) LOOP
       len := len - 1;
@@ -70,11 +70,22 @@ PACKAGE BODY Messaging.Fixed.WioE5_Ham1 IS
     RSS : Integer;
     SNR : Integer;
 
+    timeout : Natural := Self.mytime;
+
   BEGIN
     LOOP
       Self.mydev.Receive(pay, len, src, dst, RSS, SNR);
       EXIT WHEN len > 0;
-      DELAY 0.1;
+
+      DELAY 0.001;
+
+      IF Self.mytime > 0 THEN
+        timeout := timeout - 1;
+
+        IF timeout = 0 THEN
+          RAISE Messaging.Timeout_Error;
+        END IF;
+      END IF;
     END LOOP;
 
     msg := ToMessage(pay);

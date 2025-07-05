@@ -37,8 +37,9 @@ PACKAGE Messaging.Fixed.WioE5_Ham1 IS
   -- Constructor
 
   FUNCTION Create
-   (dev  : driver.Device;
-    node : driver.NodeID) RETURN Messenger;
+   (dev     : driver.Device;
+    node    : driver.NodeID;
+    timeout : Natural := 1000) RETURN Messenger;
 
   -- Send a message
 
@@ -57,6 +58,7 @@ PRIVATE
   TYPE MessengerSubclass IS NEW MessengerInterface WITH RECORD
     mydev  : driver.Device;
     mynode : driver.NodeID;
+    mytime : Natural;
   END RECORD;
 
 END Messaging.Fixed.WioE5_Ham1;
