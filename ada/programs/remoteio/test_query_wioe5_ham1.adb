@@ -184,4 +184,9 @@ BEGIN
   END IF;
 
   radio.Shutdown;
+
+EXCEPTION
+  WHEN OTHERS =>
+    radio.Shutdown;
+    RAISE;
 END test_query_wioe5_ham1;
