@@ -70,7 +70,11 @@ PACKAGE BODY Wio_E5 IS
         RAISE Error WITH "Invalid baud rate parameter.";
     END CASE;
 
+    PRAGMA Warnings(Off, "use of an anonymous access type allocator");
+
     Self.port := NEW sercom.Serial_Port;
+
+    PRAGMA Warnings(On, "use of an anonymous access type allocator");
 
     sercom.Open(Self.port.ALL, sercom.Port_Name(name));
     sercom.Set(Self.port.ALL, baud, Block => False, Timeout => 0.0);

@@ -24,10 +24,7 @@ WITH Ada.Exceptions;
 WITH Ada.Strings.Fixed;
 WITH Ada.Unchecked_Conversion;
 
-WITH libLinux;
 WITH Logging.libsimpleio;
-WITH Message64;
-WITH Wio_E5.Ham1;
 
 PACKAGE BODY RemoteIO.Server.WioE5_Ham1 IS
 
