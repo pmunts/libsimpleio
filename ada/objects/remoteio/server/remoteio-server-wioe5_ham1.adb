@@ -43,7 +43,7 @@ PACKAGE BODY RemoteIO.Server.WioE5_Ham1 IS
     myname : String(1 .. 80);
     mydev  : driver.Device;
     myexec : RemoteIO.Executive.Executor;
-    pay    : driver.Payload := (OTHERS => 0);
+    pay    : driver.Payload;
     len    : Natural;
     src    : driver.NodeID;
     dst    : driver.NodeID;
@@ -75,7 +75,6 @@ PACKAGE BODY RemoteIO.Server.WioE5_Ham1 IS
 
     LOOP
       BEGIN
-        pay := (OTHERS => 0);
         mydev.Receive(pay, len, src, dst, RSS, SNR);
 
         IF len > 0 AND THEN src /= driver.BroadcastNode AND THEN dst /= driver.BroadcastNode THEN
@@ -85,7 +84,6 @@ PACKAGE BODY RemoteIO.Server.WioE5_Ham1 IS
 
           cmd := ToMessage(pay);
           myexec.Execute(cmd, resp);
-
           pay := ToPayload(resp);
           len := pay'Length;
 
