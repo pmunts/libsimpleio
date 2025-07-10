@@ -89,6 +89,10 @@ PACKAGE BODY Messaging.Fixed.WioE5_Ham1 IS
     END LOOP;
 
     msg := ToMessage(pay);
+
+    -- Reconstitute trailing zeros
+
+    msg(len .. msg'Last) := (OTHERS => 0);
   END Receive;
 
 END Messaging.Fixed.WioE5_Ham1;
