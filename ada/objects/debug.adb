@@ -1,7 +1,7 @@
 -- Simple debugging services.  Print something if the "DEBUGLEVEL" environment
 -- variable is set to an integer value greater than zero.
 
--- Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2021-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO;
+WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Environment_Variables;
 
 PACKAGE BODY Debug IS
@@ -51,7 +51,7 @@ PACKAGE BODY Debug IS
 
   BEGIN
     IF Level > 0 THEN
-      Ada.Text_IO.Put_Line(s);
+      Put_Line(Standard_Error, s);
     END IF;
   END Put;
 
@@ -61,8 +61,8 @@ PACKAGE BODY Debug IS
 
   BEGIN
     IF Level > 0 THEN
-      Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Name(e));
-      Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Message(e));
+      Put_Line(Standard_Error, Ada.Exceptions.Exception_Name(e));
+      Put_Line(Standard_Error, Ada.Exceptions.Exception_Message(e));
     END IF;
   END Put;
 
