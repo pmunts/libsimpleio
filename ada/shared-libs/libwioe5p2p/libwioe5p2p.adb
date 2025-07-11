@@ -23,9 +23,14 @@ WITH Ada.Strings.Fixed;
 WITH Interfaces.C.Strings;
 
 WITH Debug;
+WITH libLinux;
+WITH Logging.libsimpleio;
 WITH Wio_E5.P2P;
 
 PACKAGE BODY libWioE5P2P IS
+
+  logger : CONSTANT Logging.Logger := Logging.libsimpleio.Create("libwioe5p2p",
+    libLinux.LOG_NDELAY);
 
   -- errno values
 

@@ -23,9 +23,14 @@ WITH Ada.Strings.Fixed;
 WITH Interfaces.C.Strings;
 
 WITH Debug;
+WITH libLinux;
+WITH Logging.libsimpleio;
 WITH Wio_E5.Ham2;
 
 PACKAGE BODY libWioE5Ham2 IS
+
+  logger : CONSTANT Logging.Logger := Logging.libsimpleio.Create("libwioe5ham2",
+    libLinux.LOG_NDELAY);
 
   -- errno values
 
