@@ -1,6 +1,6 @@
--- MuntsOS Embedded Linux Lebug Level Environment Variable Test
+-- Debug Output Test
 
--- Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,13 +23,19 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Debug;
 
-PROCEDURE test_debuglevel IS
+PROCEDURE test_debug IS
 
 BEGIN
   New_Line;
-  Put_Line("MuntsOS Embedded Linux Lebug Level Environment Variable Test");
+  Put_Line("Debug Output Test");
   New_Line;
   Put_Line("Level   =>" & Natural'Image(Debug.Level));
   Put_Line("Enabled => " & Boolean'Image(Debug.Enabled));
   New_Line;
-END test_debuglevel;
+  Debug.Put("NOTICE: This is a test.");
+  New_Line;
+  RAISE Program_Error WITH "ERROR: This is another test.";
+EXCEPTION
+  WHEN E : OTHERS =>
+    Debug.Put(E);
+END test_debug;
