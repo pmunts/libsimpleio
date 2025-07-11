@@ -22,8 +22,6 @@
 
 WITH Ada.Text_IO; USE Ada.Text_IO;
 
-WITH libLinux;
-
 PACKAGE BODY Debug.syslog IS
 
   PROCEDURE Initialize
