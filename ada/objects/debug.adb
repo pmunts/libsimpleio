@@ -1,7 +1,7 @@
 -- Simple debugging services.  Print something if the "DEBUGLEVEL" environment
 -- variable is set to an integer value greater than zero.
 
--- Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2021-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,6 +24,8 @@
 WITH Ada.Text_IO;
 WITH Ada.Environment_Variables;
 
+WITH Logging.libsimpleio;
+
 PACKAGE BODY Debug IS
 
   -- Fetch the value of the DEBUGLEVEL environment variable
@@ -45,13 +47,29 @@ PACKAGE BODY Debug IS
     RETURN Level > 0;
   END Enabled;
 
+  FUNCTION DoPrint RETURN Boolean IS
+
+  BEGIN
+    RETURN Level = 1 OR Level = 3;
+  END DoPrint;
+
+  FUNCTION DoSyslog RETURN Boolean IS
+
+  BEGIN
+    RETURN Level = 2 OR Level = 3;
+  END DoSyslog;
+
   -- Print a string if DEBUGLEVEL > 0
 
   PROCEDURE Put(s : String) IS
 
   BEGIN
-    IF Level > 0 THEN
+    IF DoPrint THEN
       Ada.Text_IO.Put_Line(s);
+    END IF;
+
+    IF DoSyslog THEN
+      Logging.libsimpleio.Note(s);
     END IF;
   END Put;
 
@@ -60,9 +78,14 @@ PACKAGE BODY Debug IS
   PROCEDURE Put(e : Ada.Exceptions.Exception_Occurrence) IS
 
   BEGIN
-    IF Level > 0 THEN
+    IF DoPrint THEN
       Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Name(e));
       Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Message(e));
+    END IF;
+
+    IF DoSyslog THEN
+      Logging.libsimpleio.Error(Ada.Exceptions.Exception_Name(e));
+      Logging.libsimpleio.Error(Ada.Exceptions.Exception_Message(e));
     END IF;
   END Put;
 
