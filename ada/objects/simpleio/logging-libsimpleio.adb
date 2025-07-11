@@ -1,6 +1,6 @@
 -- Log messages with syslog using libsimpleio
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -52,7 +52,7 @@ PACKAGE BODY Logging.libsimpleio IS
     Self := Destroyed;
 
     libLinux.CloseLog(err);
-    libLinux.OpenLog(sender, options, facility, err);
+    libLinux.OpenLog(sender & ASCII.Nul, options, facility, err);
 
     IF err /= 0 THEN
       RAISE Logging_Error WITH "libLinux.OpenLog() failed, " &
