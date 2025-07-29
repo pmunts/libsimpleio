@@ -20,6 +20,9 @@
 
 WITH Ada.Directories;
 
+WITH errno;
+WITH libLinux;
+
 USE TYPE Ada.Directories.File_Size;
 
 PACKAGE BODY BuildHAT.Firmware IS
@@ -59,10 +62,42 @@ PACKAGE BODY BuildHAT.Firmware IS
 
   FUNCTION ReadFile(name : String) RETURN ByteArray IS
 
-    nbytes : CONSTANT Positive := Positive(Ada.Directories.Size(name));
-    inbuf  : ByteArray(1 .. nbytes);
+    fd    : Integer;
+    err   : Integer;
+    inbuf : ByteArray(1 .. Positive(Ada.Directories.Size(name)));
+    count : Integer;
  
   BEGIN
+    IF NOT Ada.Directories.Exists(name) THEN
+      RAISE Error WITH "File " & name & " does not exist";
+    END IF;
+
+    IF Ada.Directories.Size(name) < 1 THEN
+      RAISE Error WITH "File " & name & " is empty";
+    END IF;
+
+    libLinux.OpenRead(name & ASCII.NUL, fd, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libLinux.OpenRead() failed, " & errno.strerror(err);
+    END IF;
+
+    libLinux.Read(fd, inbuf'Address, inbuf'Length, count, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libLinux.Read() failed, " & errno.strerror(err);
+    END IF;
+
+    IF count /= inbuf'Length THEN
+      RAISE Error WITH "libLinux.Read() failed to read correct number of bytes";
+    END IF;
+
+    libLinux.Close(fd, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libLinux.Close() failed, " & errno.strerror(err);
+    END IF;
+
     RETURN inbuf;
   END ReadFile;
 
@@ -73,38 +108,13 @@ PACKAGE BODY BuildHAT.Firmware IS
     firmware  : String := DefaultFirmware;
     signature : String := DefaultSignature) IS
 
+    FirmwareBytes  : ByteArray := ReadFile(firmware);
+    SignatureBytes : ByteArray := ReadFile(signature);
+
   BEGIN
-
-    -- Validate parameters
-
     IF NOT Ada.Directories.Exists(port) THEN
       RAISE Error WITH "Serial port device node does not exist";
     END IF;
-
-    IF NOT Ada.Directories.Exists(firmware) THEN
-      RAISE Error WITH "Firmware file does not exist";
-    END IF;
-
-    IF Ada.Directories.Size(firmware) < 1 THEN
-      RAISE Error WITH "Firmware file is empty";
-    END IF;
-
-    IF NOT Ada.Directories.Exists(signature) THEN
-      RAISE Error WITH "Signature file does not exist";
-    END IF;
-
-    IF Ada.Directories.Size(signature) < 1 THEN
-      RAISE Error WITH "Signature file is empty";
-    END IF;
-
-    DECLARE
-
-      FirmwareBuf  : ByteArray := ReadFile(firmware);
-      SignatureBuf : ByteArray := ReadFile(signature);
-
-    BEGIN
-      NULL;
-    END;
   END Load;
 
 END BuildHAT.Firmware;
