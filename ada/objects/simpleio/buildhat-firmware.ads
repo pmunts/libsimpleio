@@ -20,6 +20,8 @@
 
 PACKAGE BuildHAT.Firmware IS
 
+  Error : EXCEPTION;
+
   DefaultPort      : CONSTANT String := "/dev/ttyAMA0";
   DefaultFirmware  : CONSTANT String := "/lib/firmware/buildhat/firmware.bin";
   DefaultSignature : CONSTANT String := "/lib/firmware/buildhat/signature.bin";

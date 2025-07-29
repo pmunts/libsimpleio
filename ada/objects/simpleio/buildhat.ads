@@ -20,6 +20,7 @@
 
 PACKAGE BuildHAT IS
 
-  TYPE Byte IS MOD 256;
+  TYPE Byte      IS MOD 256;
+  TYPE ByteArray IS ARRAY (Positive RANGE <>) OF Byte;
 
 END BuildHAT;
