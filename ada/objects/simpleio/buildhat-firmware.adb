@@ -104,9 +104,10 @@ PACKAGE BODY BuildHAT.Firmware IS
   -- Load Build HAT firmware via serial port
 
   PROCEDURE Load
-   (port      : String := DefaultPort;
-    firmware  : String := DefaultFirmware;
-    signature : String := DefaultSignature) IS
+   (port      : String   := DefaultPort;
+    baudrate  : Positive := DefaultBaudRate;
+    firmware  : String   := DefaultFirmware;
+    signature : String   := DefaultSignature) IS
 
     FirmwareBytes  : ByteArray := ReadFile(firmware);
     SignatureBytes : ByteArray := ReadFile(signature);

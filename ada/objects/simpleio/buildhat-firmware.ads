@@ -20,17 +20,15 @@
 
 PACKAGE BuildHAT.Firmware IS
 
-  Error : EXCEPTION;
-
-  DefaultPort      : CONSTANT String := "/dev/ttyAMA0";
   DefaultFirmware  : CONSTANT String := "/lib/firmware/buildhat/firmware.bin";
   DefaultSignature : CONSTANT String := "/lib/firmware/buildhat/signature.bin";
 
   -- Load Build HAT firmware via serial port
 
   PROCEDURE Load
-   (port      : String := DefaultPort;
-    firmware  : String := DefaultFirmware;
-    signature : String := DefaultSignature);
+   (port      : String   := DefaultPort;
+    baudrate  : Positive := DefaultBaudRate;
+    firmware  : String   := DefaultFirmware;
+    signature : String   := DefaultSignature);
 
 END BuildHAT.Firmware;

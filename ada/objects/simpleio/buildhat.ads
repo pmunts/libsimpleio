@@ -20,6 +20,11 @@
 
 PACKAGE BuildHAT IS
 
+  Error : EXCEPTION;
+
+  DefaultPort     : CONSTANT String := "/dev/ttyAMA0";
+  DefaultBaudRate : CONSTANT Positive := 115200;
+
   TYPE Byte      IS MOD 256;
   TYPE ByteArray IS ARRAY (Positive RANGE <>) OF Byte;
 
