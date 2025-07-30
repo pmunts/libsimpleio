@@ -19,9 +19,10 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Directories;
-
+WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH errno;
 WITH libLinux;
+WITH libSerial;
 
 USE TYPE Ada.Directories.File_Size;
 
@@ -30,6 +31,39 @@ PACKAGE BODY BuildHAT.Firmware IS
   TYPE Checksum IS MOD 2**32;
 
   PRAGMA Provide_Shift_Operators(Checksum);
+
+  FUNCTION ReadFile(name : String) RETURN ByteArray IS
+
+    fd    : Integer;
+    err   : Integer;
+    inbuf : ByteArray(1 .. Positive(Ada.Directories.Size(name)));
+    count : Integer;
+ 
+  BEGIN
+    libLinux.OpenRead(name & ASCII.NUL, fd, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libLinux.OpenRead() failed, " & errno.strerror(err);
+    END IF;
+
+    libLinux.Read(fd, inbuf'Address, inbuf'Length, count, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libLinux.Read() failed, " & errno.strerror(err);
+    END IF;
+
+    IF count /= inbuf'Length THEN
+      RAISE Error WITH "libLinux.Read() failed to read correct number of bytes";
+    END IF;
+
+    libLinux.Close(fd, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libLinux.Close() failed, " & errno.strerror(err);
+    END IF;
+
+    RETURN inbuf;
+  END ReadFile;
 
   FUNCTION CalcChecksum(buf : ByteArray) RETURN Checksum IS
 
@@ -60,47 +94,6 @@ PACKAGE BODY BuildHAT.Firmware IS
     RETURN u;
   END CalcChecksum;
 
-  FUNCTION ReadFile(name : String) RETURN ByteArray IS
-
-    fd    : Integer;
-    err   : Integer;
-    inbuf : ByteArray(1 .. Positive(Ada.Directories.Size(name)));
-    count : Integer;
- 
-  BEGIN
-    IF NOT Ada.Directories.Exists(name) THEN
-      RAISE Error WITH "File " & name & " does not exist";
-    END IF;
-
-    IF Ada.Directories.Size(name) < 1 THEN
-      RAISE Error WITH "File " & name & " is empty";
-    END IF;
-
-    libLinux.OpenRead(name & ASCII.NUL, fd, err);
-
-    IF err > 0 THEN
-      RAISE Error WITH "libLinux.OpenRead() failed, " & errno.strerror(err);
-    END IF;
-
-    libLinux.Read(fd, inbuf'Address, inbuf'Length, count, err);
-
-    IF err > 0 THEN
-      RAISE Error WITH "libLinux.Read() failed, " & errno.strerror(err);
-    END IF;
-
-    IF count /= inbuf'Length THEN
-      RAISE Error WITH "libLinux.Read() failed to read correct number of bytes";
-    END IF;
-
-    libLinux.Close(fd, err);
-
-    IF err > 0 THEN
-      RAISE Error WITH "libLinux.Close() failed, " & errno.strerror(err);
-    END IF;
-
-    RETURN inbuf;
-  END ReadFile;
-
   -- Load Build HAT firmware via serial port
 
   PROCEDURE Load
@@ -109,13 +102,44 @@ PACKAGE BODY BuildHAT.Firmware IS
     firmware  : String   := DefaultFirmware;
     signature : String   := DefaultSignature) IS
 
-    FirmwareBytes  : ByteArray := ReadFile(firmware);
-    SignatureBytes : ByteArray := ReadFile(signature);
+    serialfd  : Integer;
+    err       : Integer;
 
   BEGIN
     IF NOT Ada.Directories.Exists(port) THEN
       RAISE Error WITH "Serial port device node does not exist";
     END IF;
+
+    IF NOT Ada.Directories.Exists(firmware) THEN
+      RAISE Error WITH "File " & firmware & " does not exist";
+    END IF;
+
+    IF Ada.Directories.Size(firmware) < 1 THEN
+      RAISE Error WITH "File " & firmware & " is empty";
+    END IF;
+
+    IF NOT Ada.Directories.Exists(signature) THEN
+      RAISE Error WITH "File " & signature & " does not exist";
+    END IF;
+
+    IF Ada.Directories.Size(signature) < 1 THEN
+      RAISE Error WITH "File " & signature & " is empty";
+    END IF;
+
+    libSerial.Open(port, baudrate, 0, 8, 1, serialfd, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libSerial.Open() failed, " & errno.strerror(err);
+    END IF;
+
+    DECLARE
+      FirmwareBytes  : CONSTANT ByteArray := ReadFile(firmware);
+      FirmwareCRC    : CONSTANT Checksum  := CalcChecksum(FirmwareBytes);
+      SignatureBytes : CONSTANT ByteArray := ReadFile(signature);
+      SignatureCRC   : CONSTANT Checksum  := CalcChecksum(SignatureBytes);
+    BEGIN
+      NULL;
+    END;
   END Load;
 
 END BuildHAT.Firmware;
