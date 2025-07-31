@@ -23,6 +23,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH errno;
 WITH libLinux;
 WITH libSerial;
+WITH RaspberryPi;
 
 USE TYPE Ada.Directories.File_Size;
 
@@ -38,7 +39,7 @@ PACKAGE BODY BuildHAT.Firmware IS
     err   : Integer;
     inbuf : ByteArray(1 .. Positive(Ada.Directories.Size(name)));
     count : Integer;
- 
+
   BEGIN
     libLinux.OpenRead(name & ASCII.NUL, fd, err);
 
@@ -94,6 +95,34 @@ PACKAGE BODY BuildHAT.Firmware IS
     RETURN u;
   END CalcChecksum;
 
+  PROCEDURE Reset IS
+
+  -- Reverse engineered from the following Python3 code in serinterface.py:
+  --
+  -- reset = DigitalOutputDevice(BuildHAT.RESET_GPIO_NUMBER)
+  -- boot0 = DigitalOutputDevice(BuildHAT.BOOT0_GPIO_NUMBER)
+  -- boot0.off()
+  -- reset.off()
+  -- time.sleep(0.01)
+  -- reset.on()
+  -- time.sleep(0.01)
+  -- boot0.close()
+  -- reset.close()
+  -- time.sleep(0.5)
+
+    ResetOut : GPIO.Pin := GPIO.libsimpleio.Create(RaspberryPi.GPIO4,
+                             GPIO.Output, Polarity => GPIO.ActiveLow);
+
+    Boot0Out : GPIO.Pin := GPIO.libsimpleio.Create(RaspberryPi.GPIO22,
+                             GPIO.Output, False);
+
+  BEGIN
+    ResetOut.Put(True)
+    DELAY 0.01;
+    ResetOut.Put(False);
+    DELAY 0.50;
+  END Reset;
+
   -- Load Build HAT firmware via serial port
 
   PROCEDURE Load
@@ -138,7 +167,7 @@ PACKAGE BODY BuildHAT.Firmware IS
       SignatureBytes : CONSTANT ByteArray := ReadFile(signature);
       SignatureCRC   : CONSTANT Checksum  := CalcChecksum(SignatureBytes);
     BEGIN
-      NULL;
+      Reset;
     END;
   END Load;
 
