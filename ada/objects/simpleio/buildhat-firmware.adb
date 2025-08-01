@@ -21,7 +21,6 @@
 WITH Ada.Calendar;
 WITH Ada.Directories;
 WITH Ada.Exceptions;
-WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH errno;
 WITH GPIO.libsimpleio;
@@ -38,6 +37,8 @@ PACKAGE BODY BuildHAT.Firmware IS
   TYPE Checksum IS MOD 2**32;
 
   PRAGMA Provide_Shift_Operators(Checksum);
+
+  -- Read a whole binary file into a byte array
 
   FUNCTION ReadFile(name : String) RETURN ByteArray IS
 
@@ -72,18 +73,9 @@ PACKAGE BODY BuildHAT.Firmware IS
     RETURN inbuf;
   END ReadFile;
 
-  FUNCTION CalcChecksum(buf : ByteArray) RETURN Checksum IS
+  -- Calculate CRC of a byte array
 
-  -- Reverse engineered from the following Python3 code in serinterface.py:
-  --
-  -- u = 1
-  -- for i in range(0, len(data)):
-  --     if (u & 0x80000000) != 0:
-  --         u = (u << 1) ^ 0x1d872b41
-  --     else:
-  --         u = u << 1
-  --     u = (u ^ data[i]) & 0xFFFFFFFF
-  -- return u
+  FUNCTION CalcChecksum(buf : ByteArray) RETURN Checksum IS
 
     u : Checksum := 1;
 
@@ -101,6 +93,8 @@ PACKAGE BODY BuildHAT.Firmware IS
     RETURN u;
   END CalcChecksum;
 
+  -- Issue hardware reset to RP2040 microcontroller
+
   PROCEDURE Reset IS
 
     ResetOut : GPIO.Pin := GPIO.libsimpleio.Create(RaspberryPi.GPIO4,
@@ -117,6 +111,8 @@ PACKAGE BODY BuildHAT.Firmware IS
     ResetOut.Put(False);
     DELAY 0.50;
   END Reset;
+
+  -- Receive one character from the RP2040 microcontroller boot loader
 
   PROCEDURE SerialRead
    (fd      : Integer;
@@ -151,6 +147,8 @@ PACKAGE BODY BuildHAT.Firmware IS
     success := True;
   END SerialRead;
 
+  -- Wait for a response string from the RP2040 microcontroller boot loader
+
   PROCEDURE WaitForString
    (fd      : Integer;
     s       : String;
@@ -181,6 +179,8 @@ PACKAGE BODY BuildHAT.Firmware IS
     END LOOP;
   END WaitForString;
 
+  -- Send one character to the RP2040 microcontroller boot loader
+
   PROCEDURE Send(fd : integer; c : Character) IS
 
     err : Integer;
@@ -198,6 +198,8 @@ PACKAGE BODY BuildHAT.Firmware IS
     END IF;
   END Send;
 
+  -- Send a string to the RP2040 microcontroller boot loader
+
   PROCEDURE Send(fd : integer; s : String) IS
 
     err : Integer;
@@ -214,6 +216,8 @@ PACKAGE BODY BuildHAT.Firmware IS
       RAISE Error WITH "Unexpected number of bytes sent";
     END IF;
   END Send;
+
+  -- Send an array of bytes to the RP2040 microcontroller boot loader
 
   PROCEDURE Send(fd : integer; b : ByteArray) IS
 
@@ -247,6 +251,8 @@ PACKAGE BODY BuildHAT.Firmware IS
   BEGIN
     syslog.Note("Starting download to RP2040.");
 
+    -- Validate parameters
+
     IF NOT Ada.Directories.Exists(port) THEN
       RAISE Error WITH "Serial port device node does not exist";
     END IF;
@@ -267,6 +273,8 @@ PACKAGE BODY BuildHAT.Firmware IS
       RAISE Error WITH "File " & signature & " is empty";
     END IF;
 
+    -- Open serial port
+
     libSerial.Open(port, baudrate, 0, 8, 1, serialfd, err);
 
     IF err > 0 THEN
@@ -274,12 +282,16 @@ PACKAGE BODY BuildHAT.Firmware IS
     END IF;
 
     DECLARE
+      -- Read firmware files
       FirmwareBytes  : CONSTANT ByteArray := ReadFile(firmware);
       FirmwareSize   : CONSTANT Positive  := FirmwareBytes'Length;
       FirmwareCRC    : CONSTANT Checksum  := CalcChecksum(FirmwareBytes);
       SignatureBytes : CONSTANT ByteArray := ReadFile(signature);
       SignatureSize  : CONSTANT Positive  := SignatureBytes'Length;
     BEGIN
+      -- Conduct dialog with the RP2040 microcontroller boot loader to
+      -- download Build HAT firmware
+
       Reset;
       WaitForString(serialfd, "BHBL> ");
       Send(serialfd, "clear" & ASCII.CR);
@@ -297,7 +309,7 @@ PACKAGE BODY BuildHAT.Firmware IS
       Send(serialfd, ASCII.ETX);
       WaitForString(serialfd, "BHBL> ");
       Send(serialfd, "reboot" & ASCII.CR);
-      WaitForString(serialfd, "Rebooting...", 0.1);
+      WaitForString(serialfd, "Rebooting...", 5.0);
     END;
 
     syslog.Note("Finished.");
