@@ -18,13 +18,19 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Calendar;
 WITH Ada.Directories;
+WITH Ada.Exceptions;
+WITH Ada.Text_IO; USE Ada.Text_IO;
+
 WITH errno;
 WITH GPIO.libsimpleio;
 WITH libLinux;
 WITH libSerial;
+WITH Logging.libsimpleio;
 WITH RaspberryPi;
 
+USE TYPE Ada.Calendar.Time;
 USE TYPE Ada.Directories.File_Size;
 
 PACKAGE BODY BuildHAT.Firmware IS
@@ -112,12 +118,26 @@ PACKAGE BODY BuildHAT.Firmware IS
     DELAY 0.50;
   END Reset;
 
-  PROCEDURE SerialRead(fd : Integer; c : OUT Character) IS
+  PROCEDURE SerialRead
+   (fd      : Integer;
+    c       : OUT Character;
+    success : OUT Boolean) IS
 
     err : Integer;
     cnt : Integer;
 
   BEGIN
+    libLinux.PollInput(fd, 10, err);
+
+    IF err = errno.EAGAIN THEN
+      success := False;
+      RETURN;
+    END IF;
+
+    IF err > 0 THEN
+      RAISE Error WITH "libLinux.PollInput() failed, " & errno.strerror(err);
+    END IF;
+
     libSerial.Receive(fd, c'Address, 1, cnt, err);
 
     IF err > 0 THEN
@@ -127,19 +147,37 @@ PACKAGE BODY BuildHAT.Firmware IS
     IF cnt /= 1 THEN
       RAISE Error WITH "Unexpected number of bytes received";
     END IF;
+
+    success := True;
   END SerialRead;
 
-  PROCEDURE WaitForString(fd : Integer; s : String) IS
+  PROCEDURE WaitForString
+   (fd      : Integer;
+    s       : String;
+    timeout : Duration := 0.25) IS
 
-  buf : String(s'Range) := (OTHERS => ASCII.NUL);
+  buf     : String(s'Range) := (OTHERS => ASCII.NUL);
+  c       : Character;
+  success : Boolean;
+  Tstart  : CONSTANT Ada.Calendar.Time := Ada.Calendar.Clock;
+  Tlate   : CONSTANT Ada.Calendar.Time := Tstart + timeout;
 
   BEGIN
     WHILE buf /= s LOOP
+      LOOP
+        SerialRead(fd, c, success);
+        EXIT WHEN Success;
+
+        IF Ada.Calendar.Clock > Tlate THEN
+          RAISE Error WITH "Serial port timeout expired";
+        END IF;
+      END LOOP;
+
       FOR i IN 1 .. buf'Length - 1 LOOP
         buf(i) := buf(i + 1);
       END LOOP;
 
-      SerialRead(fd, buf(buf'Last));
+      buf(buf'Last) := c;
     END LOOP;
   END WaitForString;
 
@@ -202,10 +240,13 @@ PACKAGE BODY BuildHAT.Firmware IS
     firmware  : String   := DefaultFirmware;
     signature : String   := DefaultSignature) IS
 
+    syslog    : Logging.Logger := Logging.libsimpleio.Create("Build HAT Firmware Loader");
     serialfd  : Integer;
     err       : Integer;
 
   BEGIN
+    syslog.Note("Starting download to RP2040.");
+
     IF NOT Ada.Directories.Exists(port) THEN
       RAISE Error WITH "Serial port device node does not exist";
     END IF;
@@ -256,8 +297,15 @@ PACKAGE BODY BuildHAT.Firmware IS
       Send(serialfd, ASCII.ETX);
       WaitForString(serialfd, "BHBL> ");
       Send(serialfd, "reboot" & ASCII.CR);
-      WaitForString(serialfd, "Rebooting...");
+      WaitForString(serialfd, "Rebooting...", 0.1);
     END;
+
+    syslog.Note("Finished.");
+
+  EXCEPTION
+    WHEN E : OTHERS =>
+      syslog.Error("ERROR: " & Ada.Exceptions.Exception_Message(E));
+      RAISE;
   END Load;
 
 END BuildHAT.Firmware;
