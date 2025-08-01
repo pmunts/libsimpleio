@@ -19,8 +19,8 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Directories;
-WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH errno;
+WITH GPIO.libsimpleio;
 WITH libLinux;
 WITH libSerial;
 WITH RaspberryPi;
@@ -83,13 +83,13 @@ PACKAGE BODY BuildHAT.Firmware IS
 
   BEGIN
     FOR b OF buf LOOP
-      IF u >= 16#80000000# THEN
-        u := Shift_Left(u, 1) OR 16#1D872B41#;
+      IF (u AND 16#80000000#) /= 0 THEN
+        u := Shift_Left(u, 1) XOR 16#1D872B41#;
       ELSE
         u := Shift_Left(u, 1);
       END IF;
 
-      u := u OR Checksum(b);
+      u := (u XOR Checksum(b)) AND 16#FFFFFFFF#;
     END LOOP;
 
     RETURN u;
@@ -97,31 +97,102 @@ PACKAGE BODY BuildHAT.Firmware IS
 
   PROCEDURE Reset IS
 
-  -- Reverse engineered from the following Python3 code in serinterface.py:
-  --
-  -- reset = DigitalOutputDevice(BuildHAT.RESET_GPIO_NUMBER)
-  -- boot0 = DigitalOutputDevice(BuildHAT.BOOT0_GPIO_NUMBER)
-  -- boot0.off()
-  -- reset.off()
-  -- time.sleep(0.01)
-  -- reset.on()
-  -- time.sleep(0.01)
-  -- boot0.close()
-  -- reset.close()
-  -- time.sleep(0.5)
-
     ResetOut : GPIO.Pin := GPIO.libsimpleio.Create(RaspberryPi.GPIO4,
-                             GPIO.Output, Polarity => GPIO.ActiveLow);
+                             GPIO.Output, False,
+                             Polarity => GPIO.libsimpleio.ActiveLow);
 
     Boot0Out : GPIO.Pin := GPIO.libsimpleio.Create(RaspberryPi.GPIO22,
-                             GPIO.Output, False);
+                             GPIO.Output, True,
+                             Polarity => GPIO.libsimpleio.ActiveLow);
 
   BEGIN
-    ResetOut.Put(True)
+    ResetOut.Put(True);
     DELAY 0.01;
     ResetOut.Put(False);
     DELAY 0.50;
   END Reset;
+
+  PROCEDURE SerialRead(fd : Integer; c : OUT Character) IS
+
+    err : Integer;
+    cnt : Integer;
+
+  BEGIN
+    libSerial.Receive(fd, c'Address, 1, cnt, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libSerial.Receive() failed, " & errno.strerror(err);
+    END IF;
+
+    IF cnt /= 1 THEN
+      RAISE Error WITH "Unexpected number of bytes received";
+    END IF;
+  END SerialRead;
+
+  PROCEDURE WaitForString(fd : Integer; s : String) IS
+
+  buf : String(s'Range) := (OTHERS => ASCII.NUL);
+
+  BEGIN
+    WHILE buf /= s LOOP
+      FOR i IN 1 .. buf'Length - 1 LOOP
+        buf(i) := buf(i + 1);
+      END LOOP;
+
+      SerialRead(fd, buf(buf'Last));
+    END LOOP;
+  END WaitForString;
+
+  PROCEDURE Send(fd : integer; c : Character) IS
+
+    err : Integer;
+    cnt : Integer;
+
+  BEGIN
+    libSerial.Send(fd, c'Address, 1, cnt, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libSerial.Send() failed, " & errno.strerror(err);
+    END IF;
+
+    IF cnt /= 1 THEN
+      RAISE Error WITH "Unexpected number of bytes sent";
+    END IF;
+  END Send;
+
+  PROCEDURE Send(fd : integer; s : String) IS
+
+    err : Integer;
+    cnt : Integer;
+
+  BEGIN
+    libSerial.Send(fd, s'Address, s'Length, cnt, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libSerial.Send() failed, " & errno.strerror(err);
+    END IF;
+
+    IF cnt /= s'Length THEN
+      RAISE Error WITH "Unexpected number of bytes sent";
+    END IF;
+  END Send;
+
+  PROCEDURE Send(fd : integer; b : ByteArray) IS
+
+    err : Integer;
+    cnt : Integer;
+
+  BEGIN
+    libSerial.Send(fd, b'Address, b'Length, cnt, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libSerial.Send() failed, " & errno.strerror(err);
+    END IF;
+
+    IF cnt /= b'Length THEN
+      RAISE Error WITH "Unexpected number of bytes sent";
+    END IF;
+  END Send;
 
   -- Load Build HAT firmware via serial port
 
@@ -163,11 +234,29 @@ PACKAGE BODY BuildHAT.Firmware IS
 
     DECLARE
       FirmwareBytes  : CONSTANT ByteArray := ReadFile(firmware);
+      FirmwareSize   : CONSTANT Positive  := FirmwareBytes'Length;
       FirmwareCRC    : CONSTANT Checksum  := CalcChecksum(FirmwareBytes);
       SignatureBytes : CONSTANT ByteArray := ReadFile(signature);
-      SignatureCRC   : CONSTANT Checksum  := CalcChecksum(SignatureBytes);
+      SignatureSize  : CONSTANT Positive  := SignatureBytes'Length;
     BEGIN
       Reset;
+      WaitForString(serialfd, "BHBL> ");
+      Send(serialfd, "clear" & ASCII.CR);
+      WaitForString(serialfd, "BHBL> ");
+      Send(serialfd, "load" & FirmwareSize'Image & FirmwareCRC'Image & ASCII.CR);
+      DELAY 0.1;
+      Send(serialfd, ASCII.STX);
+      Send(serialfd, FirmwareBytes);
+      Send(serialfd, ASCII.ETX);
+      WaitForString(serialfd, "BHBL> ");
+      Send(serialfd, "signature" & SignatureSize'Image & ASCII.CR);
+      DELAY 0.1;
+      Send(serialfd, ASCII.STX);
+      Send(serialfd, SignatureBytes);
+      Send(serialfd, ASCII.ETX);
+      WaitForString(serialfd, "BHBL> ");
+      Send(serialfd, "reboot" & ASCII.CR);
+      WaitForString(serialfd, "Rebooting...");
     END;
   END Load;
 
