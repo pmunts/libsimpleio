@@ -95,6 +95,8 @@ PACKAGE BODY BuildHAT.Firmware IS
 
   -- Issue hardware reset to RP2040 microcontroller
 
+  PRAGMA Warnings(Off, "variable ""Boot0Out"" is not referenced");
+
   PROCEDURE Reset IS
 
     ResetOut : GPIO.Pin := GPIO.libsimpleio.Create(RaspberryPi.GPIO4,
@@ -111,6 +113,8 @@ PACKAGE BODY BuildHAT.Firmware IS
     ResetOut.Put(False);
     DELAY 0.50;
   END Reset;
+
+  PRAGMA Warnings(On, "variable ""Boot0Out"" is not referenced");
 
   -- Receive one character from the RP2040 microcontroller boot loader
 

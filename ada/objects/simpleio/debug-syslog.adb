@@ -24,6 +24,8 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 
 PACKAGE BODY Debug.syslog IS
 
+  PRAGMA Warnings(Off, "modified by call, but value might not be referenced");
+
   PROCEDURE Initialize
    (ident    : String  := libLinux.LOG_PROGNAME;
     options  : Integer := libLinux.LOG_NDELAY;
@@ -34,6 +36,8 @@ PACKAGE BODY Debug.syslog IS
   BEGIN
     libLinux.OpenLog(ident & ASCII.Nul, options, facility, error);
   END Initialize;
+
+  PRAGMA Warnings(On, "modified by call, but value might not be referenced");
 
   FUNCTION DoPrint RETURN Boolean IS
 

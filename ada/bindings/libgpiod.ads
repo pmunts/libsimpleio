@@ -168,10 +168,14 @@ PACKAGE libgpiod IS
     input_edge   : gpiod_line_edge)
     WITH Import => True, Convention => C;
 
+  PRAGMA Warnings(Off, """*"" is an 8-bit Ada Boolean");
+
   PROCEDURE gpiod_line_settings_set_active_low
    (settings     : gpiod_line_settings;
     active_low   : Boolean)
     WITH Import => True, Convention => C;
+
+  PRAGMA Warnings(On, """*"" is an 8-bit Ada Boolean");
 
   PROCEDURE gpiod_line_settings_set_debounce_period_us
    (settings     : gpiod_line_settings;
