@@ -239,10 +239,10 @@ PACKAGE BODY BuildHAT.Firmware IS
   -- Load Build HAT firmware via serial port
 
   PROCEDURE Load
-   (port      : String   := DefaultPort;
-    baudrate  : Positive := DefaultBaudRate;
-    firmware  : String   := DefaultFirmware;
-    signature : String   := DefaultSignature) IS
+   (serialport : String   := DefaultSerialPort;
+    baudrate   : Positive := DefaultBaudRate;
+    firmware   : String   := DefaultFirmware;
+    signature  : String   := DefaultSignature) IS
 
     syslog    : Logging.Logger := Logging.libsimpleio.Create("Build HAT Firmware Loader");
     serialfd  : Integer;
@@ -253,7 +253,7 @@ PACKAGE BODY BuildHAT.Firmware IS
 
     -- Validate parameters
 
-    IF NOT Ada.Directories.Exists(port) THEN
+    IF NOT Ada.Directories.Exists(serialport) THEN
       RAISE Error WITH "Serial port device node does not exist";
     END IF;
 
@@ -275,7 +275,7 @@ PACKAGE BODY BuildHAT.Firmware IS
 
     -- Open serial port
 
-    libSerial.Open(port, baudrate, 0, 8, 1, serialfd, err);
+    libSerial.Open(serialport, baudrate, 0, 8, 1, serialfd, err);
 
     IF err > 0 THEN
       RAISE Error WITH "libSerial.Open() failed, " & errno.strerror(err);
