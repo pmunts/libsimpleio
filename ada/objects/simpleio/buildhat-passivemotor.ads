@@ -18,36 +18,32 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE BuildHAT IS
+WITH Motor;
 
-  Error : EXCEPTION;
+PACKAGE BuildHAT.PassiveMotor IS
 
-  DefaultSerialPort : CONSTANT String := "/dev/ttyAMA0";
-  DefaultBaudRate   : CONSTANT Positive := 115200;
-
-  TYPE Byte        IS MOD 256;
-  TYPE ByteArray   IS ARRAY (Positive RANGE <>) OF Byte;
-  TYPE DeviceClass IS TAGGED PRIVATE;
-  TYPE Device      IS ACCESS ALL DeviceClass'Class;
-  TYPE Ports       IS (PortA, PortB, PortC, PortD);
+  TYPE OutputSubclass IS NEW Motor.OutputInterface WITH PRIVATE;
 
   FUNCTION Create
-   (serialport : String   := DefaultSerialPort;
-    baudrate   : Positive := DefaultBaudRate) RETURN Device;
+   (dev      : Device;
+    port     : Ports;
+    velocity : Motor.Velocity := 0.0) RETURN Motor.Output;
 
   PROCEDURE Initialize
-   (Self       : OUT DeviceClass;
-    serialport : String   := DefaultSerialPort;
-    baudrate   : Positive := DefaultBaudRate);
+   (Self     : IN OUT OutputSubclass;
+    dev      : Device;
+    port     : Ports;
+    velocity : Motor.Velocity := 0.0);
 
-  PROCEDURE Send
-   (Self       : DeviceClass;
-    s          : String);
+  PROCEDURE Put
+   (Self     : IN OUT OutputSubclass;
+    velocity : Motor.Velocity);
 
 PRIVATE
 
-  TYPE DeviceClass IS TAGGED RECORD
-    fd : Integer;
+  TYPE OutputSubclass IS NEW Motor.OutputInterface WITH RECORD
+    mydev  : Device;
+    myport : Ports;
   END RECORD;
 
-END BuildHAT;
+END BuildHAT.PassiveMotor;

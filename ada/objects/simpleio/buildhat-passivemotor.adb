@@ -18,36 +18,57 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE BuildHAT IS
+PACKAGE BODY BuildHAT.PassiveMotor IS
 
-  Error : EXCEPTION;
+  FUNCTION ToString(p : Ports) RETURN String IS
 
-  DefaultSerialPort : CONSTANT String := "/dev/ttyAMA0";
-  DefaultBaudRate   : CONSTANT Positive := 115200;
+  BEGIN
+    RETURN Ports'Pos(p)'Image;
+  END ToString;
 
-  TYPE Byte        IS MOD 256;
-  TYPE ByteArray   IS ARRAY (Positive RANGE <>) OF Byte;
-  TYPE DeviceClass IS TAGGED PRIVATE;
-  TYPE Device      IS ACCESS ALL DeviceClass'Class;
-  TYPE Ports       IS (PortA, PortB, PortC, PortD);
+  FUNCTION ToString(v : Motor.Velocity) RETURN String IS
+
+    s : String(1 .. 6);
+
+  BEGIN
+    Motor.Velocity_IO.Put(s, v, 3, 0);
+    RETURN s;
+  END ToString;
 
   FUNCTION Create
-   (serialport : String   := DefaultSerialPort;
-    baudrate   : Positive := DefaultBaudRate) RETURN Device;
+   (dev      : Device;
+    port     : Ports;
+    velocity : Motor.Velocity := 0.0) RETURN Motor.Output IS
+
+    outp : OutputSubclass;
+
+  BEGIN
+    outp.Initialize(dev, port, velocity);
+    RETURN NEW OutputSubclass'(outp);
+  END Create;
 
   PROCEDURE Initialize
-   (Self       : OUT DeviceClass;
-    serialport : String   := DefaultSerialPort;
-    baudrate   : Positive := DefaultBaudRate);
+   (Self     : IN OUT OutputSubclass;
+    dev      : Device;
+    port     : Ports;
+    velocity : Motor.Velocity := 0.0) IS
 
-  PROCEDURE Send
-   (Self       : DeviceClass;
-    s          : String);
+  BEGIN
+    Self.mydev  := dev;
+    Self.myport := port;
+    Self.mydev.Send("port" & ToString(Self.myport) & " ; port_plimit 1.0" &
+      ASCII.CR);
+    Self.Put(velocity);
+  END Initialize;
 
-PRIVATE
+  PROCEDURE Put
+   (Self     : IN OUT OutputSubclass;
+    velocity : Motor.Velocity) IS
 
-  TYPE DeviceClass IS TAGGED RECORD
-    fd : Integer;
-  END RECORD;
 
-END BuildHAT;
+  BEGIN
+    Self.mydev.Send("port" & ToString(Self.myport) & " ; pwm ; set " &
+      ToString(velocity) & ASCII.CR);
+  END Put;
+
+END BuildHAT.PassiveMotor;

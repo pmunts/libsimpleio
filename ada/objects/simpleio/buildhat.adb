@@ -18,36 +18,56 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE BuildHAT IS
+WITH Debug;
+WITH errno;
+WITH libSerial;
 
-  Error : EXCEPTION;
-
-  DefaultSerialPort : CONSTANT String := "/dev/ttyAMA0";
-  DefaultBaudRate   : CONSTANT Positive := 115200;
-
-  TYPE Byte        IS MOD 256;
-  TYPE ByteArray   IS ARRAY (Positive RANGE <>) OF Byte;
-  TYPE DeviceClass IS TAGGED PRIVATE;
-  TYPE Device      IS ACCESS ALL DeviceClass'Class;
-  TYPE Ports       IS (PortA, PortB, PortC, PortD);
+PACKAGE BODY BuildHAT IS
 
   FUNCTION Create
    (serialport : String   := DefaultSerialPort;
-    baudrate   : Positive := DefaultBaudRate) RETURN Device;
+    baudrate   : Positive := DefaultBaudRate) RETURN Device IS
+
+    dev : DeviceClass;
+
+  BEGIN
+    dev.Initialize(serialport, baudrate);
+    RETURN NEW DeviceClass'(dev);
+  END Create;
 
   PROCEDURE Initialize
    (Self       : OUT DeviceClass;
     serialport : String   := DefaultSerialPort;
-    baudrate   : Positive := DefaultBaudRate);
+    baudrate   : Positive := DefaultBaudRate) IS
+
+    err : Integer;
+
+  BEGIN
+    libSerial.Open(serialport, baudrate, 0, 8, 1, Self.fd, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libSerial.Open() failed, " & errno.strerror(err);
+    END IF;
+  END Initialize;
 
   PROCEDURE Send
    (Self       : DeviceClass;
-    s          : String);
+    s          : String) IS
 
-PRIVATE
+    err : Integer;
+    cnt : Integer;
 
-  TYPE DeviceClass IS TAGGED RECORD
-    fd : Integer;
-  END RECORD;
+  BEGIN
+    Debug.Put(s);
+    libSerial.Send(Self.fd, s'Address, s'Length, cnt, err);
+
+    IF err > 0 THEN
+      RAISE Error WITH "libSerial.Send() failed, " & errno.strerror(err);
+    END IF;
+
+    IF cnt /= s'Length THEN
+      RAISE Error WITH "Unexpected number of bytes sent";
+    END IF;
+  END Send;
 
 END BuildHAT;
