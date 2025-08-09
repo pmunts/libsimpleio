@@ -22,6 +22,7 @@ WITH Ada.Calendar;
 WITH Ada.Directories;
 WITH Ada.Exceptions;
 
+WITH Debug;
 WITH errno;
 WITH GPIO.libsimpleio;
 WITH libLinux;
@@ -210,6 +211,7 @@ PACKAGE BODY BuildHAT.Firmware IS
     cnt : Integer;
 
   BEGIN
+    Debug.Put(s);
     libSerial.Send(fd, s'Address, s'Length, cnt, err);
 
     IF err > 0 THEN
