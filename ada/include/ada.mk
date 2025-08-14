@@ -98,7 +98,7 @@ ADA_OBJ		?= $(shell pwd)/obj
 GNATMAKE	?= $(GNATPREFIX)gnatmake$(EXESUFFIX)
 GNATMAKEFLAGS	= -D $(ADA_OBJ)
 GNATMAKECFLAGS	+= $(CFLAGS)
-GNATMAKELDFLAGS	+= $(LDFLAGS)
+GNATMAKELDFLAGS	+= -shared-libgcc $(LDFLAGS)
 
 # Definitions for other GNAT programs
 
@@ -120,14 +120,14 @@ GPRBUILDFLAGS	+= -p $(GPRBUILDCONFIG)
 ifneq ($(GPRBUILD), no)
 # Build with explicit Ada program project file
 %: %.gpr
-	$(GPRBUILD) -P$< $(GPRBUILDFLAGS) $@
+	$(GPRBUILD) -P$< $(GPRBUILDFLAGS) $@ $(GPRBUILDPOSTFLAGS)
 	-$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 
 ifneq ($(wildcard default.gpr),)
 # Build with default Ada program project file
 %:
-	$(GPRBUILD) $(GPRBUILDFLAGS) $@
+	$(GPRBUILD) $(GPRBUILDFLAGS) $@ $(GPRBUILDPOSTFLAGS)
 	-$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 endif
