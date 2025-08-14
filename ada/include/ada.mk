@@ -36,6 +36,11 @@ ifeq ($(BOARDBASE),)
 # Using MuntsOS cross-toolchain
 MUNTSOS		?= /usr/local/share/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
+ifneq ($(wildcard /usr/local/muntsos-gprbuild/bin/gprbuild),)
+# Debian 12 native gprbuild does not link programs for MuntSOS correctly,
+# so try to use one that is known to work.
+GPRBUILD	?= /usr/local/muntsos-gprbuild/bin/gprbuild
+endif
 endif
 else
 ifneq ($(wildcard default.cgpr),)
