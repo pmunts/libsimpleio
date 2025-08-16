@@ -103,7 +103,7 @@ ADA_OBJ		?= $(shell pwd)/obj
 GNATMAKE	?= $(GNATPREFIX)gnatmake$(EXESUFFIX)
 GNATMAKEFLAGS	= -D $(ADA_OBJ)
 GNATMAKECFLAGS	+= $(CFLAGS)
-GNATMAKELDFLAGS	+= -shared-libgcc $(LDFLAGS)
+GNATMAKELDFLAGS	+= $(LDFLAGS)
 
 # Definitions for other GNAT programs
 
