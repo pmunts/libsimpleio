@@ -95,21 +95,21 @@ endif
 
 # General toolchain definitions
 
-CFLAGS		+= -g -gnata -gnat2012
 ADA_OBJ		?= $(shell pwd)/obj
 
-# Definitions for gnatmake
-
-GNATMAKE	?= $(GNATPREFIX)gnatmake$(EXESUFFIX)
-GNATMAKEFLAGS	= -D $(ADA_OBJ)
-GNATMAKECFLAGS	+= $(CFLAGS)
-GNATMAKELDFLAGS	+= $(LDFLAGS)
-
-# Definitions for other GNAT programs
+# Definitions for GNAT programs
 
 GNATBIND	?= $(GNATPREFIX)gnatbind$(EXESUFFIX)
 GNATLINK	?= $(GNATPREFIX)gnatlink$(EXESUFFIX)
+GNATMAKE	?= $(GNATPREFIX)gnatmake$(EXESUFFIX)
 GNATSTRIP	?= $(GNATPREFIX)strip$(EXESUFFIX)
+
+# Definitions for gnatmake
+
+GNATADAVERSION	?= -gnat2012
+GNATMAKEFLAGS	= -D $(ADA_OBJ)
+GNATMAKECFLAGS	+= -g -gnata $(GNATADAVERSION) $(CFLAGS)
+GNATMAKELDFLAGS	+= $(LDFLAGS)
 
 # Definitions for gprbuild
 
