@@ -1,7 +1,7 @@
 -- Minimal Ada wrapper for the Linux A/D services
 -- implemented in libsimpleio.so
 
--- Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -30,6 +30,12 @@ PACKAGE libADC IS
     size    : Integer;
     error   : OUT Integer);
   PRAGMA Import(C, GetName, "ADC_get_name");
+
+  PROCEDURE GetScale
+   (chip    : Integer;
+    scale   : OUT Long_Float;
+    error   : OUT Integer);
+  PRAGMA Import(C, GetScale, "ADC_get_scale1");
 
   PROCEDURE Open
    (chip    : Integer;
