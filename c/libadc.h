@@ -1,6 +1,6 @@
 /* Industrial I/O A/D Converter services for Linux */
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -30,6 +30,8 @@ _BEGIN_STD_C
 
 extern void ADC_get_name(int32_t chip, char *name, int32_t namesize,
   int32_t *error);
+
+extern void ADC_get_scale1(int32_t chip, double *scale, int32_t *error);
 
 extern void ADC_open(int32_t chip, int32_t channel, int32_t *fd,
   int32_t *error);

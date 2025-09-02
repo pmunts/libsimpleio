@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of libadc</TITLE>
 </HEAD><BODY>
 <H1>libadc</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 2 September 2025<BR><A HREF="#index">Index</A>
 <A HREF="libsimpleio.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -19,6 +19,8 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 21 December 2018<BR><A HREF="#
 
 <B>void ADC_get_name(int32_t </B><I>chip</I><B>, char *</B><I>name</I><B>, int32_t </B><I>namesize</I><B>,</B>
 <B>  int32_t *</B><I>error</I><B>);</B>
+
+<B>void ADC_get_scale1(int32_t </B><I>chip</I><B>, double *</B><I>scale</I><B>, int32_t *</B><I>error</I><B>);</B>
 
 <B>void ADC_open(int32_t </B><I>chip</I><B>, int32_t </B><I>channel</I><B>, int32_t *</B><I>fd</I><B>,</B>
 <B>  int32_t *</B><I>error</I><B>);</B>
@@ -60,6 +62,20 @@ and the destination buffer size must be passed in
 <I>namesize</I>.
 
 The minimum size for the destination buffer is 16 bytes.
+<P>
+
+<B>ADC_get_scale()</B>
+
+returns the scale factor in microvolts for the A/D converter selected by the
+<I>chip</I>
+
+parameter in the
+<I>*scale</I>
+
+parameter.  This will fail unless the reference voltage has been configured with the
+<B>vref-supply</B>
+
+property in a device tree overlay for the A/D converter..
 <P>
 
 <B>ADC_open()</B>
@@ -126,6 +142,6 @@ Philip Munts dba Munts Technologies.
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 09:12:44 GMT, March 17, 2025
+Time: 15:30:34 GMT, September 02, 2025
 </BODY>
 </HTML>

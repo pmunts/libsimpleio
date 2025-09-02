@@ -1,6 +1,6 @@
 /* Industrial I/O A/D Converter services for Linux */
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -35,6 +35,7 @@
 
 #define NAME_FILE	"/sys/bus/iio/devices/iio:device%d/name"
 #define DATA_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_raw"
+#define SCALE_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage_scale"
 
 void ADC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
 {
@@ -91,6 +92,60 @@ void ADC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
 
   while ((len > 0) && isspace(name[len-1]))
     name[--len] = 0;
+
+  close(fd);
+}
+
+void ADC_get_scale1(int32_t chip, double *scale, int32_t *error)
+{
+  assert(error != NULL);
+
+  *scale = 0.0;
+
+  // Validate parameters
+
+  if (chip < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (scale == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("scale argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  char filename[MAXPATHLEN];
+  memset(filename, 0, sizeof(filename));
+  snprintf(filename, sizeof(filename) - 1, SCALE_FILE, chip);
+
+  int fd = open(filename, O_RDONLY);
+
+  if (fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
+    return;
+  }
+
+  char scalebuf[256];
+  memset(scalebuf, 0, sizeof(scalebuf));
+
+  ssize_t len = read(fd, scalebuf, sizeof(scalebuf) - 1);
+
+  if (len >= 0)
+  {
+    *scale = atof(scalebuf);
+    *error = 0;
+  }
+  else
+  {
+    *error = errno;
+    ERRORMSG("read() failed", *error, __LINE__ - 7);
+  }
 
   close(fd);
 }
