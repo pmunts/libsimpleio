@@ -26,9 +26,9 @@ WITH IO_Interfaces;
 
 PACKAGE Angle IS
 
-  TYPE Degrees IS NEW Float;
+  TYPE Degrees IS NEW Long_Float;
 
-  TYPE Radians IS NEW Float;
+  TYPE Radians IS NEW Long_Float;
 
   FUNCTION To_Radians(x : Degrees) RETURN Radians IS
    (Radians(x*Ada.Numerics.Pi/180.0));

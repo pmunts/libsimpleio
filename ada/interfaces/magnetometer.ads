@@ -25,7 +25,7 @@ WITH IO_Interfaces;
 
 PACKAGE Magnetometer IS
 
-  TYPE Gauss IS NEW Float;
+  TYPE Gauss IS NEW Long_Float;
 
   TYPE Vector IS RECORD
     x : Gauss;

@@ -25,7 +25,7 @@ WITH IO_Interfaces;
 
 PACKAGE Pressure IS
 
-  TYPE Pascals IS NEW Float;
+  TYPE Pascals IS NEW Long_Float;
 
   -- Conversion factors
 

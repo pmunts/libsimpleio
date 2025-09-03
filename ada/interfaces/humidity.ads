@@ -25,7 +25,7 @@ WITH IO_Interfaces;
 
 PACKAGE Humidity IS
 
-  TYPE Relative IS NEW Float RANGE 0.0 .. 100.0;
+  TYPE Relative IS NEW Long_Float RANGE 0.0 .. 100.0;
 
   -- Instantiate text I/O package
 

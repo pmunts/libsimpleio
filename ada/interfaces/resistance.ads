@@ -25,7 +25,7 @@ WITH IO_Interfaces;
 
 PACKAGE Resistance IS
 
-  TYPE Ohms IS NEW Float;
+  TYPE Ohms IS NEW Long_Float;
 
   -- Instantiate text I/O package
 

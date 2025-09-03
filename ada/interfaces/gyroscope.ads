@@ -25,7 +25,7 @@ WITH IO_Interfaces;
 
 PACKAGE Gyroscope IS
 
-  TYPE DegreesPerSecond IS NEW Float;
+  TYPE DegreesPerSecond IS NEW Long_Float;
 
   TYPE Vector IS RECORD
     x : DegreesPerSecond; -- Roll

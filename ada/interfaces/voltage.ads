@@ -25,7 +25,7 @@ WITH IO_Interfaces;
 
 PACKAGE Voltage IS
 
-  TYPE Volts IS NEW Float;
+  TYPE Volts IS NEW Long_Float;
 
   -- Instantiate text I/O package
 

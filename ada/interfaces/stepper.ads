@@ -28,7 +28,7 @@ PACKAGE Stepper IS
   Error : EXCEPTION;
 
   TYPE Steps IS NEW Integer; -- Forward is positive and reverse is negative
-  TYPE Rate  IS NEW Float;   -- Forward is positive and reverse is negative
+  TYPE Rate  IS NEW Long_Float;   -- Forward is positive and reverse is negative
 
   -- Instantiate text I/O packages
 

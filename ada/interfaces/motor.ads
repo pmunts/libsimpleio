@@ -30,7 +30,7 @@ PACKAGE Motor IS
   -- Define a normalized velocity type.  Full speed ahead is 1.0, and
   -- full speed astern is -1.0.
 
-  TYPE Velocity IS NEW Float RANGE -1.0 .. +1.0;
+  TYPE Velocity IS NEW Long_Float RANGE -1.0 .. +1.0;
 
   -- Instantiate text I/O package
 

@@ -27,7 +27,7 @@ PACKAGE PWM IS
 
   PWM_Error : EXCEPTION;
 
-  TYPE DutyCycle IS NEW Float RANGE 0.0 .. 100.0;
+  TYPE DutyCycle IS NEW Long_Float RANGE 0.0 .. 100.0;
 
   MinimumDutyCycle : CONSTANT DutyCycle := DutyCycle'First;
   MaximumDutyCycle : CONSTANT DutyCycle := DutyCycle'Last;

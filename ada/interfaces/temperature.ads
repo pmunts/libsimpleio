@@ -25,9 +25,9 @@ WITH IO_Interfaces;
 
 PACKAGE Temperature IS
 
-  TYPE Kelvins    IS NEW Float RANGE     0.0 .. Float'Large;
-  TYPE Celsius    IS NEW Float RANGE -273.15 .. Float'Large;
-  TYPE Fahrenheit IS NEW Float RANGE -459.67 .. Float'Large;
+  TYPE Kelvins    IS NEW Long_Float RANGE     0.0 .. Long_Float'Large;
+  TYPE Celsius    IS NEW Long_Float RANGE -273.15 .. Long_Float'Large;
+  TYPE Fahrenheit IS NEW Long_Float RANGE -459.67 .. Long_Float'Large;
 
   -- Define some Celsius temperature constants
 

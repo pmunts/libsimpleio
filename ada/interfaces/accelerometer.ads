@@ -25,7 +25,7 @@ WITH IO_Interfaces;
 
 PACKAGE Accelerometer IS
 
-  TYPE Gravities IS NEW Float;
+  TYPE Gravities IS NEW Long_Float;
 
   TYPE Vector IS RECORD
     x : Gravities;

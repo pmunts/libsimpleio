@@ -27,7 +27,7 @@ PACKAGE Servo IS
 
   Servo_Error : EXCEPTION;
 
-  TYPE Position IS NEW Float RANGE -1.0 .. 1.0;
+  TYPE Position IS NEW Long_Float RANGE -1.0 .. 1.0;
 
   MinimumPosition  : CONSTANT Position := Position'First;
   NeutralPosition  : CONSTANT Position := 0.0;
