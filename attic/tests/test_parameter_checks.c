@@ -66,16 +66,22 @@ START_TEST(test_libadc)
   ADC_get_name(999, name, sizeof(name), &error);
   ck_assert(error == ENOENT);
 
-  ADC_get_scale(-1, &scale, &error);
-  ck_assert(error == EINVAL);
-
-  ADC_get_scale(0, NULL, &error);
-  ck_assert(error == EINVAL);
-
   ADC_get_reference(-1, &reference, &error);
   ck_assert(error == EINVAL);
+  ck_assert(reference == 0.0);
 
   ADC_get_reference(0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  ADC_get_scale(-1, 0, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  ADC_get_scale(0, -1, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  ADC_get_scale(0, 0, NULL, &error);
   ck_assert(error == EINVAL);
 
   fd = -888;

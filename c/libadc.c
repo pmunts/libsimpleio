@@ -35,7 +35,8 @@
 
 #define NAME_FILE	"/sys/bus/iio/devices/iio:device%d/name"
 #define DATA_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_raw"
-#define SCALE_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage_scale"
+#define SCALE_FILE1	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_scale"
+#define SCALE_FILE2	"/sys/bus/iio/devices/iio:device%d/in_voltage_scale"
 #define VREFPH_FILE	"/sys/bus/iio/devices/iio:device%d/of_node/vref-supply"
 #define REGPH_FILE	"/sys/class/regulator/regulator.%d/of_node/phandle"
 #define UV_FILE		"/sys/class/regulator/regulator.%d/microvolts"
@@ -99,72 +100,11 @@ void ADC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
   close(fd);
 }
 
-void ADC_get_scale(int32_t chip, double *scale, int32_t *error)
-{
-  assert(error != NULL);
-
-  // Validate parameters
-
-  if (chip < 0)
-  {
-    *error = EINVAL;
-    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
-
-  if (scale == NULL)
-  {
-    *error = EINVAL;
-    ERRORMSG("scale argument is NULL", *error, __LINE__ - 3);
-    return;
-  }
-
-  *scale = 0.0;
-
-  char filename[MAXPATHLEN];
-  memset(filename, 0, sizeof(filename));
-  snprintf(filename, sizeof(filename) - 1, SCALE_FILE, chip);
-
-  int fd = open(filename, O_RDONLY);
-
-  if (fd < 0)
-  {
-    *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 5);
-    return;
-  }
-
-  char scalebuf[256];
-  memset(scalebuf, 0, sizeof(scalebuf));
-
-  ssize_t len = read(fd, scalebuf, sizeof(scalebuf) - 1);
-
-  if (len >= 0)
-  {
-    *scale = atof(scalebuf);
-    *error = 0;
-  }
-  else
-  {
-    *error = errno;
-    ERRORMSG("read() failed", *error, __LINE__ - 7);
-  }
-
-  close(fd);
-}
-
 void ADC_get_reference(int32_t chip, double *reference, int32_t *error)
 {
   assert(error != NULL);
 
   // Validate parameters
-
-  if (chip < 0)
-  {
-    *error = EINVAL;
-    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
 
   if (reference == NULL)
   {
@@ -174,6 +114,13 @@ void ADC_get_reference(int32_t chip, double *reference, int32_t *error)
   }
 
   *reference = 0.0;
+
+  if (chip < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
 
   // Get phandle for Vref regulator
 
@@ -291,6 +238,73 @@ void ADC_get_reference(int32_t chip, double *reference, int32_t *error)
   return;
 }
 
+void ADC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (scale == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("scale argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  *scale = 0.0;
+
+  if (chip < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (channel < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("channel argument is invalid", *error, __LINE__ - 4);
+    return;
+  }
+
+  char filename[MAXPATHLEN];
+  memset(filename, 0, sizeof(filename));
+  snprintf(filename, sizeof(filename) - 1, SCALE_FILE1, chip, channel);
+
+  if (access(filename, R_OK))
+  {
+    memset(filename, 0, sizeof(filename));
+    snprintf(filename, sizeof(filename) - 1, SCALE_FILE2, chip);
+  }
+
+  int fd = open(filename, O_RDONLY);
+
+  if (fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
+    return;
+  }
+
+  char scalebuf[256];
+  memset(scalebuf, 0, sizeof(scalebuf));
+
+  ssize_t len = read(fd, scalebuf, sizeof(scalebuf) - 1);
+
+  if (len >= 0)
+  {
+    *scale = atof(scalebuf);
+    *error = 0;
+  }
+  else
+  {
+    *error = errno;
+    ERRORMSG("read() failed", *error, __LINE__ - 7);
+  }
+
+  close(fd);
+}
+
 void ADC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
@@ -304,19 +318,17 @@ void ADC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
     return;
   }
 
+  *fd = -1;
+
   if (chip < 0)
   {
-    *fd = -1;
     *error = EINVAL;
     ERRORMSG("chip argument is invalid", *error, __LINE__ - 4);
     return;
   }
 
-  // Validate parameters
-
   if (channel < 0)
   {
-    *fd = -1;
     *error = EINVAL;
     ERRORMSG("channel argument is invalid", *error, __LINE__ - 4);
     return;
@@ -346,14 +358,6 @@ void ADC_read(int32_t fd, int32_t *sample, int32_t *error)
 
   // Validate parameters
 
-  if (fd < 0)
-  {
-    *sample = 0;
-    *error = EINVAL;
-    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
-    return;
-  }
-
   if (sample == NULL)
   {
     *error = EINVAL;
@@ -361,11 +365,19 @@ void ADC_read(int32_t fd, int32_t *sample, int32_t *error)
     return;
   }
 
+  *sample = 0;
+
+  if (fd < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
   // Rewind the raw data file
 
   if (lseek(fd, SEEK_SET, 0) < 0)
   {
-    *sample = 0;
     *error = errno;
     ERRORMSG("lseek() failed", *error, __LINE__ - 4);
     return;

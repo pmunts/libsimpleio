@@ -23,7 +23,6 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
-WITH errno;
 WITH libADC;
 WITH ADC.Scaled;
 WITH Device;
@@ -49,22 +48,20 @@ BEGIN
   Put("Enter ADC channel number: ");
   Get(desg.chan);
 
-  libADC.GetScale(desg.chip, scale, error);
-
-  IF error /= 0 THEN
-    RAISE Program_Error WITH "libADC.GetScale failed, " & errno.strerror(error);
-  END IF;
-
   New_Line;
-  Put_Line("Scale Factor:      " & scale'Image);
 
   libADC.GetReference(desg.chip, vref, error);
 
-  IF error /= 0 THEN
-    RAISE Program_Error WITH "libADC.GetScale failed, " & errno.strerror(error);
+  IF error = 0 THEN
+    Put_Line("Reference:   " & vref'Image & " V");
   END IF;
 
-  Put_Line("Reference Voltage: " & vref'Image & " V");
+  libADC.GetScale(desg.chip, desg.chan, scale, error);
+
+  IF error = 0 THEN
+    Put_Line("Scale Factor:" & scale'Image);
+  END IF;
+
   New_Line;
 
   ain := ADC.Scaled.Create(desg);

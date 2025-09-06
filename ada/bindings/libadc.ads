@@ -33,6 +33,7 @@ PACKAGE libADC IS
 
   PROCEDURE GetScale
    (chip    : Integer;
+    channel : Integer;
     scale   : OUT Long_Float;
     error   : OUT Integer);
   PRAGMA Import(C, GetScale, "ADC_get_scale");

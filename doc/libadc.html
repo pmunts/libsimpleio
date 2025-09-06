@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of libadc</TITLE>
 </HEAD><BODY>
 <H1>libadc</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 5 September 2025<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 6 September 2025<BR><A HREF="#index">Index</A>
 <A HREF="libsimpleio.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -20,10 +20,10 @@ Section: Linux Simple I/O Library (2)<BR>Updated: 5 September 2025<BR><A HREF="#
 <B>void ADC_get_name(int32_t </B><I>chip</I><B>, char *</B><I>name</I><B>, int32_t </B><I>namesize</I><B>,</B>
 <B>  int32_t *</B><I>error</I><B>);</B>
 
-<B>void ADC_get_scale(int32_t </B><I>chip</I><B>, double *</B><I>scale</I><B>,</B>
+<B>void ADC_get_reference(int32_t </B><I>chip</I><B>, double *</B><I>reference</I><B>,</B>
 <B>  int32_t *</B><I>error</I><B>);</B>
 
-<B>void ADC_get_reference(int32_t </B><I>chip</I><B>, double *</B><I>reference</I><B>,</B>
+<B>void ADC_get_scale(int32_t </B><I>chip</I><B>, int32_t </B><I>channel</I><B>, double *</B><I>scale</I><B>,</B>
 <B>  int32_t *</B><I>error</I><B>);</B>
 
 <B>void ADC_open(int32_t </B><I>chip</I><B>, int32_t </B><I>channel</I><B>, int32_t *</B><I>fd</I><B>,</B>
@@ -68,20 +68,6 @@ and the destination buffer size must be passed in
 The minimum size for the destination buffer is 16 bytes.
 <P>
 
-<B>ADC_get_scale()</B>
-
-returns the scale factor in microvolts for the A/D converter selected by the
-<I>chip</I>
-
-parameter in the
-<I>*scale</I>
-
-parameter.  This will fail unless the reference voltage has been configured with the
-<B>vref-supply</B>
-
-property in a device tree overlay for the A/D converter.
-<P>
-
 <B>ADC_get_reference()</B>
 
 returns the reference voltage for the A/D converter selected by the
@@ -91,6 +77,24 @@ parameter in the
 <I>*reference</I>
 
 parameter.  This will fail unless the reference voltage has been configured with the
+<B>vref-supply</B>
+
+property in a device tree overlay for the A/D converter.
+<P>
+
+<B>ADC_get_scale()</B>
+
+returns an A/D input scale factor in the
+<I>*scale</I>
+
+parameter.  The A/D chip number must be passed in the
+<I>chip</I>
+
+parameter and the A/D input channel number must be passed in the
+<I>channel</I>
+
+parameter.
+This will fail unless the reference voltage has been configured with the
 <B>vref-supply</B>
 
 property in a device tree overlay for the A/D converter.
@@ -160,6 +164,6 @@ Philip Munts dba Munts Technologies.
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 02:59:57 GMT, September 06, 2025
+Time: 18:21:57 GMT, September 06, 2025
 </BODY>
 </HTML>
