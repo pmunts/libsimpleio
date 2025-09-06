@@ -55,7 +55,7 @@ PACKAGE BODY ADC.Scaled IS
   BEGIN
     Self.Destroy;
 
-    libADC.GetScale(desg.chip, scale, error);
+    libADC.GetScale(desg.chip, desg.chan, scale, error);
 
     IF error /= 0 THEN
       RAISE ADC_Error WITH "libADC.GetScale() failed, " & errno.strerror(error);
