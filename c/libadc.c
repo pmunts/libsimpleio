@@ -36,6 +36,9 @@
 #define NAME_FILE	"/sys/bus/iio/devices/iio:device%d/name"
 #define DATA_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_raw"
 #define SCALE_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage_scale"
+#define VREFPH_FILE	"/sys/bus/iio/devices/iio:device%d/of_node/vref-supply"
+#define REGPH_FILE	"/sys/class/regulator/regulator.%d/of_node/phandle"
+#define UV_FILE		"/sys/class/regulator/regulator.%d/microvolts"
 
 void ADC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
 {
@@ -96,11 +99,9 @@ void ADC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
   close(fd);
 }
 
-void ADC_get_scale1(int32_t chip, double *scale, int32_t *error)
+void ADC_get_scale(int32_t chip, double *scale, int32_t *error)
 {
   assert(error != NULL);
-
-  *scale = 0.0;
 
   // Validate parameters
 
@@ -117,6 +118,8 @@ void ADC_get_scale1(int32_t chip, double *scale, int32_t *error)
     ERRORMSG("scale argument is NULL", *error, __LINE__ - 3);
     return;
   }
+
+  *scale = 0.0;
 
   char filename[MAXPATHLEN];
   memset(filename, 0, sizeof(filename));
@@ -148,6 +151,144 @@ void ADC_get_scale1(int32_t chip, double *scale, int32_t *error)
   }
 
   close(fd);
+}
+
+void ADC_get_reference(int32_t chip, double *reference, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if (chip < 0)
+  {
+    *error = EINVAL;
+    ERRORMSG("chip argument is invalid", *error, __LINE__ - 3);
+    return;
+  }
+
+  if (reference == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("vref argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  *reference = 0.0;
+
+  // Get phandle for Vref regulator
+
+  uint32_t vref_phandle = 0;
+
+  char filename[MAXPATHLEN];
+  memset(filename, 0, sizeof(filename));
+  snprintf(filename, sizeof(filename) - 1, VREFPH_FILE, chip);
+
+  if (access(filename, R_OK))
+  {
+    *error = errno;
+    ERRORMSG("access() failed", *error, __LINE__ - 3);
+    return;
+  }
+
+  int fd = open(filename, O_RDONLY);
+
+  if (fd < 0)
+  {
+    *error = errno;
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
+    return;
+  }
+
+  ssize_t len = read(fd, &vref_phandle, sizeof(vref_phandle));
+
+  if (len < 0)
+  {
+    *error = errno;
+    ERRORMSG("read() failed", *error, __LINE__ - 5);
+    close(fd);
+    return;
+  }
+  else if (len != sizeof(vref_phandle))
+  {
+    *error = EIO;
+    ERRORMSG("read() failed", *error, __LINE__ - 11);
+    close(fd);
+    return;
+  }
+
+  close(fd);
+
+  // Search regulators for matching phandle
+
+  uint32_t reg_phandle = 0;
+
+  int regnum;
+
+  for (regnum = 0; regnum < 100; regnum++)
+  {
+    memset(filename, 0, sizeof(filename));
+    snprintf(filename, sizeof(filename) - 1, REGPH_FILE, regnum);
+
+    if (access(filename, R_OK))
+      continue;
+
+    fd = open(filename, O_RDONLY);
+
+    if (fd < 0)
+      continue;
+
+    len = read(fd, &reg_phandle, sizeof(reg_phandle));
+
+    close(fd);
+
+    if (len != sizeof(vref_phandle))
+      continue;
+
+    if (reg_phandle == vref_phandle)
+    {
+      memset(filename, 0, sizeof(filename));
+      snprintf(filename, sizeof(filename) - 1, UV_FILE, regnum);
+
+      if (access(filename, R_OK))
+      {
+        *error = errno;
+        ERRORMSG("access() failed", *error, __LINE__ - 3);
+        return;
+      }
+
+      fd = open(filename, O_RDONLY);
+
+      if (fd < 0)
+      {
+        *error = errno;
+        ERRORMSG("open() failed", *error, __LINE__ - 5);
+        return;
+      }
+
+      char inbuf[256];
+      memset(inbuf, 0, sizeof(inbuf));
+
+      len = read(fd, inbuf, sizeof(inbuf) - 1);
+
+      if (len < 0)
+      {
+        *error = errno;
+        ERRORMSG("read() failed", *error, __LINE__ - 5);
+        close(fd);
+        return;
+      }
+
+      close(fd);
+
+      *reference = atof(inbuf)/1000000.0;
+      *error = 0;
+      return;
+    }
+  }
+
+  *error = EIO;
+  ERRORMSG("Matching regulator not found,", *error, __LINE__ - 4);
+  return;
 }
 
 void ADC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)

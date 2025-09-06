@@ -1,6 +1,6 @@
 // Linux Simple I/O Library unit tests -- parameter checking
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -44,6 +44,8 @@
 START_TEST(test_libadc)
 {
   char name[256];
+  double scale;
+  double reference;
   int32_t error;
   int32_t fd;
   int32_t sample;
@@ -63,6 +65,18 @@ START_TEST(test_libadc)
 
   ADC_get_name(999, name, sizeof(name), &error);
   ck_assert(error == ENOENT);
+
+  ADC_get_scale(-1, &scale, &error);
+  ck_assert(error == EINVAL);
+
+  ADC_get_scale(0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  ADC_get_reference(-1, &reference, &error);
+  ck_assert(error == EINVAL);
+
+  ADC_get_reference(0, NULL, &error);
+  ck_assert(error == EINVAL);
 
   fd = -888;
   ADC_open(-1, 0, &fd, &error);
@@ -706,7 +720,7 @@ START_TEST(test_libi2c)
   ck_assert(error == EINVAL);
 
   I2C_close(999, &error);
-  ck_assert(error == EBADF);
+  ck_assert(error == EINVAL);
 }
 END_TEST
 

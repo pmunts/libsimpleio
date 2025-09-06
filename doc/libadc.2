@@ -20,7 +20,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.TH libadc 2 "2 September 2025" "version 1" "Linux Simple I/O Library"
+.TH libadc 2 "5 September 2025" "version 1" "Linux Simple I/O Library"
 .SH NAME
 .B libadc
 \-\- Linux Simple I/O Library: A/D Input Module
@@ -31,7 +31,11 @@
 .BI "void ADC_get_name(int32_t " chip ", char *" name ", int32_t " namesize ","
 .BI "  int32_t *" error ");"
 
-.BI "void ADC_get_scale1(int32_t " chip ", double *" scale ", int32_t *" error ");"
+.BI "void ADC_get_scale(int32_t " chip ", double *" scale ",
+.BI "  int32_t *" error ");"
+
+.BI "void ADC_get_reference(int32_t " chip ", double *" reference ",
+.BI "  int32_t *" error ");"
 
 .BI "void ADC_open(int32_t " chip ", int32_t " channel ", int32_t *" fd ",
 .BI "  int32_t *" error ");"
@@ -69,7 +73,16 @@ parameter in the
 .I *scale
 parameter.  This will fail unless the reference voltage has been configured with the
 .B vref-supply
-property in a device tree overlay for the A/D converter..
+property in a device tree overlay for the A/D converter.
+.PP
+.B ADC_get_reference()
+returns the reference voltage for the A/D converter selected by the
+.I chip
+parameter in the
+.I *reference
+parameter.  This will fail unless the reference voltage has been configured with the
+.B vref-supply
+property in a device tree overlay for the A/D converter.
 .PP
 .B ADC_open()
 opens an A/D input channel device. The A/D chip number must be passed in the

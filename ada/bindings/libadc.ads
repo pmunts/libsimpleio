@@ -35,7 +35,13 @@ PACKAGE libADC IS
    (chip    : Integer;
     scale   : OUT Long_Float;
     error   : OUT Integer);
-  PRAGMA Import(C, GetScale, "ADC_get_scale1");
+  PRAGMA Import(C, GetScale, "ADC_get_scale");
+
+  PROCEDURE GetReference
+   (chip    : Integer;
+    vref    : OUT Long_Float;
+    error   : OUT Integer);
+  PRAGMA Import(C, GetReference, "ADC_get_reference");
 
   PROCEDURE Open
    (chip    : Integer;
