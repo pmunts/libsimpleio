@@ -65,9 +65,12 @@ BEGIN
   END IF;
 
   Put_Line("Reference Voltage: " & vref'Image & " V");
+  New_Line;
 
   ain := ADC.Scaled.Create(desg);
 
-  Put_Line("Input Voltage:     " & ain.Get'Image & " V");
-  New_Line;
+  LOOP
+    Put_Line("Voltage:" & ain.Get'Image & " V");
+    DELAY 1.0;
+  END LOOP;
 END test_adc_scaled;
