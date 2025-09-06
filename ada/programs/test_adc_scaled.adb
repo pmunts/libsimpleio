@@ -1,4 +1,4 @@
--- ADC input test using kernel and libsimpleio ADC services
+-- Scaled ADC input test using kernel and libsimpleio ADC services
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -23,6 +23,8 @@
 WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
+WITH errno;
+WITH libADC;
 WITH ADC.Scaled;
 WITH Device;
 WITH Voltage;
@@ -32,8 +34,13 @@ PROCEDURE test_adc_scaled IS
   desg  : Device.Designator;
   ain   : Voltage.Input;
 
+  scale : Long_Float;
+  vref  : Long_Float;
+  error : Integer;
+
 BEGIN
-  Put_Line("ADC Input Test");
+  New_Line;
+  Put_Line("Scaled ADC Input Test");
   New_Line;
 
   Put("Enter ADC chip number:    ");
@@ -42,7 +49,25 @@ BEGIN
   Put("Enter ADC channel number: ");
   Get(desg.chan);
 
+  libADC.GetScale(desg.chip, scale, error);
+
+  IF error /= 0 THEN
+    RAISE Program_Error WITH "libADC.GetScale failed, " & errno.strerror(error);
+  END IF;
+
+  New_Line;
+  Put_Line("Scale Factor:      " & scale'Image);
+
+  libADC.GetReference(desg.chip, vref, error);
+
+  IF error /= 0 THEN
+    RAISE Program_Error WITH "libADC.GetScale failed, " & errno.strerror(error);
+  END IF;
+
+  Put_Line("Reference Voltage: " & vref'Image & " V");
+
   ain := ADC.Scaled.Create(desg);
 
-  Put_Line(ain.Get'Image);
+  Put_Line("Input Voltage:     " & ain.Get'Image & " V");
+  New_Line;
 END test_adc_scaled;
