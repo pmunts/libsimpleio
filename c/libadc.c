@@ -33,7 +33,7 @@
 #include "macros.inc"
 #include "libadc.h"
 
-#define NAME_FILE	"/sys/bus/iio/devices/iio:device%d/name"
+#define NAME_FILE	"/sys/bus/iio/devices/iio:device%d/of_node/name"
 #define DATA_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_raw"
 #define SCALE_FILE1	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_scale"
 #define SCALE_FILE2	"/sys/bus/iio/devices/iio:device%d/in_voltage_scale"
@@ -267,12 +267,16 @@ void ADC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
     return;
   }
 
+  // Try in_voltageY_scale first
+
   char filename[MAXPATHLEN];
   memset(filename, 0, sizeof(filename));
   snprintf(filename, sizeof(filename) - 1, SCALE_FILE1, chip, channel);
 
   if (access(filename, R_OK))
   {
+    // Now try in_voltage_scale
+
     memset(filename, 0, sizeof(filename));
     snprintf(filename, sizeof(filename) - 1, SCALE_FILE2, chip);
   }
@@ -293,7 +297,18 @@ void ADC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
 
   if (len >= 0)
   {
-    *scale = atof(scalebuf);
+    // UGLY SPECIAL HACK: For MCP342x ADC chips, for which the kernel
+    // generates incorrect values for in_voltageY_scale
+
+    char chipname[256];
+    memset(chipname, 0, sizeof(chipname));
+    ADC_get_name(chip, chipname, sizeof(chipname) - 1, error);
+
+    if (!strncmp(chipname, "mcp342", 6))
+      *scale = atof(scalebuf)*1000;
+    else
+      *scale = atof(scalebuf);
+
     *error = 0;
   }
   else
