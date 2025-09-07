@@ -1,6 +1,6 @@
 -- Define I/O device objects for the Raspberry Pi Tutorial I/O Board MUNTS-0018
 
--- Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2021-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,16 +20,15 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ADC.libsimpleio;
-WITH MCP3204;
+WITH ADC.Scaled;
 WITH Voltage;
 
 PACKAGE MUNTS_0018.Analog IS
 
   Inputs : CONSTANT ARRAY (0 .. 3) OF Voltage.Input :=
-   (ADC.Create(ADC.libsimpleio.Create(MUNTS_0018.J10A0, MCP3204.Resolution), 3.3),
-    ADC.Create(ADC.libsimpleio.Create(MUNTS_0018.J10A1, MCP3204.Resolution), 3.3),
-    ADC.Create(ADC.libsimpleio.Create(MUNTS_0018.J11A0, MCP3204.Resolution), 3.3),
-    ADC.Create(ADC.libsimpleio.Create(MUNTS_0018.J11A1, MCP3204.Resolution), 3.3));
+   (ADC.Scaled.Create(MUNTS_0018.J10A0),
+    ADC.Scaled.Create(MUNTS_0018.J10A1),
+    ADC.Scaled.Create(MUNTS_0018.J11A0),
+    ADC.Scaled.Create(MUNTS_0018.J11A1));
 
 END MUNTS_0018.Analog;
