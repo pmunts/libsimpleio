@@ -34,7 +34,8 @@
 #include "libadc.h"
 
 #define NAME_FILE	"/sys/bus/iio/devices/iio:device%d/of_node/name"
-#define DATA_FILE	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_raw"
+#define DATA_FILE1	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_raw"
+#define DATA_FILE2	"/sys/bus/iio/devices/iio:device%d/in_voltage_raw"
 #define SCALE_FILE1	"/sys/bus/iio/devices/iio:device%d/in_voltage%d_scale"
 #define SCALE_FILE2	"/sys/bus/iio/devices/iio:device%d/in_voltage_scale"
 #define VREFPH_FILE	"/sys/bus/iio/devices/iio:device%d/of_node/vref-supply"
@@ -76,10 +77,11 @@ void ADC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
   snprintf(filename, sizeof(filename), NAME_FILE, chip);
 
   fd = open(filename, O_RDONLY);
+
   if (fd < 0)
   {
     *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 4);
+    ERRORMSG("open() failed", *error, __LINE__ - 5);
     return;
   }
 
@@ -349,13 +351,23 @@ void ADC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
     return;
   }
 
+  // Try in_voltageY_raw first
+
   char filename[MAXPATHLEN];
-  snprintf(filename, sizeof(filename), DATA_FILE, chip, channel);
+  snprintf(filename, sizeof(filename), DATA_FILE1, chip, channel);
+
+  if (access(filename, R_OK) && channel == 0)
+  {
+    // Now try in_voltage_raw IFF channel 0
+
+    memset(filename, 0, sizeof(filename));
+    snprintf(filename, sizeof(filename) - 1, DATA_FILE2, chip);
+  }
 
   *fd = open(filename, O_RDONLY);
+
   if (*fd < 0)
   {
-    *fd = -1;
     *error = errno;
     ERRORMSG("open() failed", *error, __LINE__ - 5);
     return;
