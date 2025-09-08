@@ -64,9 +64,11 @@ namespace IO.Bindings
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
         /// value upon failure.</param>
         /// <remarks>
-        /// Not all A/D converter devices implement scaling.
-        /// A special device tree overlay may be required to configure
-        /// scaling using the <c>vref-supply</c> property. See
+        /// This function requires the ADC device to implement scaling, which may
+        /// require a special device tree overlay that configures a
+        /// voltage reference with the <c>vref-supply</c> property.  The
+        /// <c>vref-supply</c> property may requre a ficticious voltage regulator.
+        /// See
         /// <a href="https://github.com/pmunts/muntsos/blob/master/boot/RaspberryPi/overlays/MUNTS-0018.dts">MUNTS-0018.dts</a>
         /// for an example.
         /// </remarks>
