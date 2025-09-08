@@ -1,6 +1,6 @@
 // C# binding for ADC input services in libsimpleio.so
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -33,14 +33,49 @@ namespace IO.Bindings
         /// <param name="chip">Linux IIO device number.</param>
         /// <param name="name">Destination buffer.</param>
         /// <param name="size">Size of destination buffer.</param>
-        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
-        /// value upon failure.</param>
+        /// <param name="error">Error code.  Zero upon success or an
+        /// <c>errno</c> value upon failure.</param>
         [DllImport("simpleio")]
         public static extern void ADC_get_name(int chip,
           System.Text.StringBuilder name, int size, out int error);
 
         /// <summary>
-        /// Open a Linux IIO A/D converter input device.
+        /// Get the reference voltage for the specified Linux IIO A/D
+        /// converter device.
+        /// </summary>
+        /// <param name="chip">Linux IIO device number.</param>
+        /// <param name="vref">Voltage reference in volts.</param>
+        /// <param name="error">Error code.  Zero upon success or an
+        /// <c>errno</c> value upon failure.</param>
+        /// <remarks>
+        /// Not all A/D converter devices have a queryable voltage reference.
+        /// </remarks>
+        [DllImport("simpleio")]
+        public static extern void ADC_get_reference(int chip, out double vref,
+          out int error);
+
+        /// <summary>
+        /// Get the scale factor for the specified Linux IIO A/D converter
+        /// input.
+        /// </summary>
+        /// <param name="chip">Linux IIO device number.</param>
+        /// <param name="channel">Input channel number.</param>
+        /// <param name="scale">Scale factor in volts per ADC step.</param>
+        /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
+        /// value upon failure.</param>
+        /// <remarks>
+        /// Not all A/D converter devices implement scaling.
+        /// A special device tree overlay may be required to configure
+        /// scaling using the <c>vref-supply</c> property. See
+        /// <a href="https://github.com/pmunts/muntsos/blob/master/boot/RaspberryPi/overlays/MUNTS-0018.dts">MUNTS-0018.dts</a>
+        /// for an example.
+        /// </remarks>
+        [DllImport("simpleio")]
+        public static extern void ADC_get_scale(int chip, int channel,
+            out double scale, out int error);
+
+        /// <summary>
+        /// Open a Linux IIO A/D converter input.
         /// </summary>
         /// <param name="chip">Linux IIO device number.</param>
         /// <param name="channel">Input channel number.</param>
@@ -52,7 +87,7 @@ namespace IO.Bindings
           out int error);
 
         /// <summary>
-        /// Close a Linux IIO A/D converter input device.
+        /// Close a Linux IIO A/D converter input.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="error">Error code.  Zero upon success or an <c>errno</c>
@@ -61,7 +96,7 @@ namespace IO.Bindings
         public static extern void ADC_close(int fd, out int error);
 
         /// <summary>
-        /// Read a Linux IIO A/D converter input device.
+        /// Read a Linux IIO A/D converter input.
         /// </summary>
         /// <param name="fd">File descriptor.</param>
         /// <param name="sample">Analog sample data.</param>
