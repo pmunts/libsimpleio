@@ -229,13 +229,13 @@ namespace IO.Objects.SimpleIO.Platforms
                 new List<Designator>(new[] { J2PWM, J3PWM });
 
             /// <summary>
-            /// Analog input object factory for the on-board analog inputs at
-            /// connectors <c>J10</c> and <c>J11</c>.
+            /// Analog voltage input object factory for the on-board analog
+            /// inputs at connectors <c>J10</c> and <c>J11</c>.
             /// </summary>
             /// <param name="desg">Device designator for one of the on-board
             /// analog inputs (<c>J10A0</c>, <c>J10A1</c>, <c>J11A0</c>, or
             /// <c>J11A1</c>).</param>
-            /// <returns>Analog input object.</returns>
+            /// <returns>Analog voltage input instance.</returns>
             public static IO.Interfaces.ADC.Voltage AnalogInputFactory(Designator desg)
             {
                 // Validate analog input designator
@@ -245,9 +245,9 @@ namespace IO.Objects.SimpleIO.Platforms
                     throw new System.ArgumentException("Invalid analog input designator.");
                 }
 
-                // Return analog input instance
+                // Return analog voltage input instance
 
-                return new IO.Interfaces.ADC.Input(new IO.Objects.SimpleIO.ADC.Sample(desg, 12), 3.3);
+                return new IO.Objects.SimpleIO.ADC.Voltage(desg);
             }
 
             /// <summary>
@@ -544,13 +544,13 @@ namespace IO.Objects.SimpleIO.Platforms
                 new List<Designator>(new[] { J2PWM });
 
             /// <summary>
-            /// Analog input object factory for the on-board analog inputs at
-            /// connectors <c>J10</c> and <c>J11</c>.
+            /// Analog voltage input object factory for the on-board analog
+            /// inputs at connectors <c>J10</c> and <c>J11</c>.
             /// </summary>
             /// <param name="desg">Device designator for one of the on-board
             /// analog inputs (<c>J10A0</c>, <c>J10A1</c>, <c>J11A0</c>, or
             /// <c>J11A1</c>).</param>
-            /// <returns>Analog input object.</returns>
+            /// <returns>Analog voltage input instance.</returns>
             public static IO.Interfaces.ADC.Voltage AnalogInputFactory(Designator desg)
             {
                 // Validate analog input designator
@@ -560,9 +560,9 @@ namespace IO.Objects.SimpleIO.Platforms
                     throw new System.ArgumentException("Invalid analog input designator.");
                 }
 
-                // Return analog input instance
+                // Return analog voltage input instance
 
-                return new IO.Interfaces.ADC.Input(new IO.Objects.SimpleIO.ADC.Sample(desg, 12), 3.3);
+                return new IO.Objects.SimpleIO.ADC.Voltage(desg);
             }
 
             /// <summary>
