@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of libadc</TITLE>
 </HEAD><BODY>
 <H1>libadc</H1>
-Section: Linux Simple I/O Library (2)<BR>Updated: 6 September 2025<BR><A HREF="#index">Index</A>
+Section: Linux Simple I/O Library (2)<BR>Updated: 7 September 2025<BR><A HREF="#index">Index</A>
 <A HREF="libsimpleio.html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -84,7 +84,7 @@ property in a device tree overlay for the A/D converter.
 
 <B>ADC_get_scale()</B>
 
-returns an A/D input scale factor in the
+returns an A/D input scale factor (volts per step) in the
 <I>*scale</I>
 
 parameter.  The A/D chip number must be passed in the
@@ -94,10 +94,7 @@ parameter and the A/D input channel number must be passed in the
 <I>channel</I>
 
 parameter.
-This will fail unless the reference voltage has been configured with the
-<B>vref-supply</B>
-
-property in a device tree overlay for the A/D converter.
+This will fail unless the A/D chip implements scaling.
 <P>
 
 <B>ADC_open()</B>
@@ -164,6 +161,6 @@ Philip Munts dba Munts Technologies.
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 18:21:57 GMT, September 06, 2025
+Time: 06:20:51 GMT, September 08, 2025
 </BODY>
 </HTML>

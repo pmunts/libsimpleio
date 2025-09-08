@@ -67,7 +67,7 @@ PACKAGE BODY ADC.Scaled IS
       RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    Self := InputSubclass'(fd, Voltage.Volts(scale/1000.0));
+    Self := InputSubclass'(fd, Voltage.Volts(scale));
   END Initialize;
 
   -- Voltage input object destroyer

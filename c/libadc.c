@@ -307,9 +307,9 @@ void ADC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
     ADC_get_name(chip, chipname, sizeof(chipname) - 1, error);
 
     if (!strncmp(chipname, "mcp342", 6))
-      *scale = atof(scalebuf)*1000;
-    else
       *scale = atof(scalebuf);
+    else
+      *scale = atof(scalebuf)/1000;
 
     *error = 0;
   }
