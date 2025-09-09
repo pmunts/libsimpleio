@@ -1,6 +1,6 @@
 -- Stub program to force compiling all of the static object packages
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -34,7 +34,8 @@ WITH Watchdog.libsimpleio;
 
 PROCEDURE test_static_objects IS
 
-  adc0    : ADC.libsimpleio.InputSubclass      := ADC.libsimpleio.Destroyed;
+  adc0    : ADC.libsimpleio.InputSubclassSample:= ADC.libsimpleio.DestroyedSample;
+  adc1    : ADC.libsimpleio.InputSubclassVolts := ADC.libsimpleio.DestroyedVolts;
   dac0    : DAC.libsimpleio.OutputSubclass     := DAC.libsimpleio.Destroyed;
   gpio0   : GPIO.libsimpleio.PinSubclass       := GPIO.libsimpleio.Destroyed;
   hid0    : HID.hidapi.MessengerSubclass       := HID.hidapi.Destroyed;
@@ -48,6 +49,7 @@ PROCEDURE test_static_objects IS
 
 BEGIN
   ADC.libsimpleio.Destroy(adc0);
+  ADC.libsimpleio.Destroy(adc1);
   DAC.libsimpleio.Destroy(dac0);
   GPIO.libsimpleio.Destroy(gpio0);
   HID.hidapi.Destroy(hid0);
