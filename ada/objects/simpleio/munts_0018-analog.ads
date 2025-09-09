@@ -20,15 +20,15 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH ADC.Scaled;
+WITH ADC.libsimpleio;
 WITH Voltage;
 
 PACKAGE MUNTS_0018.Analog IS
 
   Inputs : CONSTANT ARRAY (0 .. 3) OF Voltage.Input :=
-   (ADC.Scaled.Create(MUNTS_0018.J10A0),
-    ADC.Scaled.Create(MUNTS_0018.J10A1),
-    ADC.Scaled.Create(MUNTS_0018.J11A0),
-    ADC.Scaled.Create(MUNTS_0018.J11A1));
+   (ADC.libsimpleio.Create(MUNTS_0018.J10A0),
+    ADC.libsimpleio.Create(MUNTS_0018.J10A1),
+    ADC.libsimpleio.Create(MUNTS_0018.J11A0),
+    ADC.libsimpleio.Create(MUNTS_0018.J11A1));
 
 END MUNTS_0018.Analog;

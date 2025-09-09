@@ -22,26 +22,29 @@
 
 WITH errno;
 WITH libADC;
+WITH Voltage;
+
+USE TYPE Voltage.Volts;
 
 PACKAGE BODY ADC.libsimpleio IS
 
-  -- ADC input object constructor
+  -- ADC sample input object constructor
 
   FUNCTION Create
    (desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Input IS
 
-    Self : InputSubclass;
+    Self : InputSubclassSample;
 
   BEGIN
     Self.Initialize(desg, resolution);
-    RETURN NEW InputSubclass'(Self);
+    RETURN NEW InputSubclassSample'(Self);
   END Create;
 
-  -- ADC input object initializer
+  -- ADC sample input object initializer
 
   PROCEDURE Initialize
-   (Self       : IN OUT InputSubclass;
+   (Self       : IN OUT InputSubclassSample;
     desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) IS
 
@@ -57,33 +60,33 @@ PACKAGE BODY ADC.libsimpleio IS
       RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    Self := InputSubclass'(fd, resolution);
+    Self := InputSubclassSample'(fd, resolution);
   END Initialize;
 
-  -- ADC input object destroyer
+  -- ADC sample input object destroyer
 
-  PROCEDURE Destroy(Self : IN OUT InputSubclass) IS
+  PROCEDURE Destroy(Self : IN OUT InputSubclassSample) IS
 
     error : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
+    IF Self = DestroyedSample THEN
       RETURN;
     END IF;
 
     libADC.Close(Self.fd, error);
 
-    Self := Destroyed;
+    Self := DestroyedSample;
 
     IF error /= 0 THEN
       RAISE ADC_Error WITH "libADC.Close() failed, " & errno.strerror(error);
     END IF;
   END Destroy;
 
-  -- ADC input read method
+  -- ADC sample input read method
 
   FUNCTION Get
-   (Self : IN OUT InputSubclass) RETURN Analog.Sample IS
+   (Self : IN OUT InputSubclassSample) RETURN Analog.Sample IS
 
     sample : Integer;
     error  : Integer;
@@ -102,7 +105,7 @@ PACKAGE BODY ADC.libsimpleio IS
 
   -- Retrieve the ADC resolution
 
-  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive IS
+  FUNCTION GetResolution(Self : IN OUT InputSubclassSample) RETURN Positive IS
 
   BEGIN
     Self.CheckDestroyed;
@@ -112,7 +115,7 @@ PACKAGE BODY ADC.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(Self : InputSubclass) RETURN Integer IS
+  FUNCTION fd(Self : InputSubclassSample) RETURN Integer IS
 
   BEGIN
     Self.CheckDestroyed;
@@ -120,13 +123,167 @@ PACKAGE BODY ADC.libsimpleio IS
     RETURN Self.fd;
   END fd;
 
-  -- Check whether ADC input has been destroyed
+  -- Check whether ADC sample input has been destroyed
 
-  PROCEDURE CheckDestroyed(Self : InputSubclass) IS
+  PROCEDURE CheckDestroyed(Self : InputSubclassSample) IS
 
   BEGIN
-    IF Self = Destroyed THEN
+    IF Self = DestroyedSample THEN
       RAISE ADC_Error WITH "Analog input has been destroyed";
+    END IF;
+  END CheckDestroyed;
+
+  -- ADC voltage input object constructor for a scaled ADC input
+  -- in_voltage_scale or in_voltageY_scale must be functional!
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    gain       : Voltage.Volts := 1.0) RETURN Voltage.Input IS
+
+    Self : InputSubclassVolts;
+
+  BEGIN
+    Self.Initialize(desg, gain);
+    RETURN NEW InputSubclassVolts'(Self);
+  END Create;
+
+  -- ADC voltage input object constructor for an unscaled ADC input
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    resolution : Positive;
+    reference  : Voltage.Volts;
+    gain       : Voltage.Volts := 1.0) RETURN Voltage.Input IS
+
+    Self : InputSubclassVolts;
+
+  BEGIN
+    Self.Initialize(desg, resolution, reference, gain);
+    RETURN NEW InputSubclassVolts'(Self);
+  END Create;
+
+  -- ADC voltage input object initializer for a scaled ADC input
+  -- in_voltage_scale or in_voltageY_scale must be functional!
+
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclassVolts;
+    desg       : Device.Designator;
+    gain       : Voltage.Volts := 1.0) IS
+
+    scale : Long_Float;
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    Self.Destroy;
+
+    IF gain = 0.0 THEN
+      RAISE ADC_Error WITH "ERROR: gain cannot be zero";
+    END IF;
+
+    libADC.GetScale(desg.chip, desg.chan, scale, error);
+
+    IF error /= 0 THEN
+      RAISE ADC_Error WITH "libADC.GetScale() failed, " & errno.strerror(error);
+    END IF;
+
+    libADC.Open(desg.chip, desg.chan, fd, error);
+
+    IF error /= 0 THEN
+      RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
+    END IF;
+
+    Self := InputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
+  END Initialize;
+
+  -- ADC voltage input object initializer for an unscaled ADC input
+
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclassVolts;
+    desg       : Device.Designator;
+    resolution : Positive;
+    reference  : Voltage.Volts;
+    gain       : Voltage.Volts := 1.0) IS
+
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    Self.Destroy;
+
+    IF reference = 0.0 THEN
+      RAISE ADC_Error WITH "ERROR: reference voltage cannot be zero";
+    END IF;
+
+    IF gain = 0.0 THEN
+      RAISE ADC_Error WITH "ERROR: gain cannot be zero";
+    END IF;
+
+    libADC.Open(desg.chip, desg.chan, fd, error);
+
+    IF error /= 0 THEN
+      RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
+    END IF;
+
+    Self := InputSubclassVolts'(fd, reference/2.0**resolution/gain);
+  END Initialize;
+
+  -- ADC voltage input object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT InputSubclassVolts) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = DestroyedVolts THEN
+      RETURN;
+    END IF;
+
+    libADC.Close(Self.fd, error);
+
+    Self := DestroyedVolts;
+
+    IF error /= 0 THEN
+      RAISE ADC_Error WITH "libADC.Close() failed, " & errno.strerror(error);
+    END IF;
+  END Destroy;
+
+  -- ADC voltage input read method
+
+  FUNCTION Get(Self : IN OUT InputSubclassVolts) RETURN Voltage.Volts IS
+
+    sample : Integer;
+    error  : Integer;
+
+  BEGIN
+    Self.CheckDestroyed;
+
+    libADC.Read(Self.fd, sample, error);
+
+    IF error /= 0 THEN
+      RAISE ADC_Error WITH "libADC.Read() failed, " & errno.strerror(error);
+    END IF;
+
+    RETURN Voltage.Volts(sample)*Self.scale;
+  END Get;
+
+  -- Retrieve the underlying Linux file descriptor
+
+  FUNCTION fd(Self : InputSubclassVolts) RETURN Integer IS
+
+  BEGIN
+    Self.CheckDestroyed;
+
+    RETURN Self.fd;
+  END fd;
+
+  -- Check whether ADC voltage input has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : InputSubclassVolts) IS
+
+  BEGIN
+    IF Self = DestroyedVolts THEN
+      RAISE ADC_Error WITH "ADC input has been destroyed";
     END IF;
   END CheckDestroyed;
 

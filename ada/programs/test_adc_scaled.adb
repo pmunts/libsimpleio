@@ -24,7 +24,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH libADC;
-WITH ADC.Scaled;
+WITH ADC.libsimpleio;
 WITH Device;
 WITH Voltage;
 
@@ -64,7 +64,7 @@ BEGIN
 
   New_Line;
 
-  ain := ADC.Scaled.Create(desg);
+  ain := ADC.libsimpleio.Create(desg);
 
   LOOP
     Put_Line("Voltage:" & ain.Get'Image & " V");

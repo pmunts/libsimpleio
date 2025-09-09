@@ -60,7 +60,7 @@ PACKAGE BODY RemoteIO.ADC IS
     Self.inputs(num).registered := True;
     Self.inputs(num).configured := False;
     Self.inputs(num).desg       := desg;
-    Self.inputs(num).obj        := Standard.ADC.libsimpleio.Destroyed;
+    Self.inputs(num).obj        := Standard.ADC.libsimpleio.DestroyedSample;
     Self.inputs(num).input      := Self.inputs(num).obj'Unchecked_Access;
     Self.inputs(num).resolution := resolution;
   END Register;
@@ -80,7 +80,7 @@ PACKAGE BODY RemoteIO.ADC IS
     Self.inputs(num).registered := True;
     Self.inputs(num).configured := True;
     Self.inputs(num).desg       := Device.Unavailable;
-    Self.inputs(num).obj        := Standard.ADC.libsimpleio.Destroyed;
+    Self.inputs(num).obj        := Standard.ADC.libsimpleio.DestroyedSample;
     Self.inputs(num).input      := input;
     Self.inputs(num).resolution := input.GetResolution;
   END Register;

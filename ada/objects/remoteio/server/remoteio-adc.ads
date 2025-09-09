@@ -63,7 +63,7 @@ PRIVATE
     registered : Boolean;
     configured : Boolean;
     desg       : Device.Designator;
-    obj        : ALIASED Standard.ADC.libsimpleio.InputSubclass;
+    obj        : ALIASED Standard.ADC.libsimpleio.InputSubclassSample;
     input      : Analog.Input;
     resolution : Natural;
   END RECORD;
@@ -76,6 +76,6 @@ PRIVATE
 
   Unused : CONSTANT InputRec :=
     InputRec'(False, False, Device.Unavailable,
-    Standard.ADC.libsimpleio.Destroyed, NULL, 0);
+    Standard.ADC.libsimpleio.DestroyedSample, NULL, 0);
 
 END RemoteIO.ADC;

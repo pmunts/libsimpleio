@@ -1,6 +1,6 @@
 -- A/D (Analog to Digital) input services using libsimpleio
 
--- Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,50 +27,111 @@ PACKAGE ADC.libsimpleio IS
 
   -- Type definitions
 
-  TYPE InputSubclass IS NEW Analog.InputInterface WITH PRIVATE;
+  TYPE InputSubclassSample IS NEW Analog.InputInterface WITH PRIVATE;
 
-  Destroyed : CONSTANT InputSubclass;
+  DestroyedSample : CONSTANT InputSubclassSample;
 
-  -- ADC input object constructor
+  -- ADC sample input object constructor
 
   FUNCTION Create
    (desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Input;
 
-  -- ADC input object initializer
+  -- ADC sample input object initializer
 
   PROCEDURE Initialize
-   (Self       : IN OUT InputSubclass;
+   (Self       : IN OUT InputSubclassSample;
     desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution);
 
-  -- ADC input object destroyer
+  -- ADC sample input object destroyer
 
-  PROCEDURE Destroy(Self : IN OUT InputSubclass);
+  PROCEDURE Destroy(Self : IN OUT InputSubclassSample);
 
-  -- ADC input read method
+  -- ADC sample input read method
 
-  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Analog.Sample;
+  FUNCTION Get(Self : IN OUT InputSubclassSample) RETURN Analog.Sample;
 
   -- Retrieve the ADC resolution
 
-  FUNCTION GetResolution(Self : IN OUT InputSubclass) RETURN Positive;
+  FUNCTION GetResolution(Self : IN OUT InputSubclassSample) RETURN Positive;
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(Self : InputSubclass) RETURN Integer;
+  FUNCTION fd(Self : InputSubclassSample) RETURN Integer;
+
+  -- Type definitions
+
+  TYPE InputSubclassVolts IS NEW Voltage.InputInterface WITH PRIVATE;
+
+  DestroyedVolts : CONSTANT InputSubclassVolts;
+
+  -- ADC voltage input object constructor for a scaled ADC input
+  -- in_voltage_scale or in_voltageY_scale must be functional!
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    gain       : Voltage.Volts := 1.0) RETURN Voltage.Input;
+
+  -- ADC voltage input object constructor for an unscaled ADC input
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    resolution : Positive;
+    reference  : Voltage.Volts;
+    gain       : Voltage.Volts := 1.0) RETURN Voltage.Input;
+
+  -- ADC voltage input object initializer for a scaled ADC input
+  -- in_voltage_scale or in_voltageY_scale must be functional!
+
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclassVolts;
+    desg       : Device.Designator;
+    gain       : Voltage.Volts := 1.0);
+
+  -- ADC voltage input object initializer for an unscaled ADC input
+
+  PROCEDURE Initialize
+   (Self       : IN OUT InputSubclassVolts;
+    desg       : Device.Designator;
+    resolution : Positive;
+    reference  : Voltage.Volts;
+    gain       : Voltage.Volts := 1.0);
+
+  -- ADC voltage input object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT InputSubclassVolts);
+
+  -- ADC voltage input read method
+
+  FUNCTION Get(Self : IN OUT InputSubclassVolts) RETURN Voltage.Volts;
+
+  -- Retrieve the underlying Linux file descriptor
+
+  FUNCTION fd(Self : InputSubclassVolts) RETURN Integer;
 
 PRIVATE
 
-  -- Check whether ADC input has been destroyed
+  -- Check whether ADC sample input has been destroyed
 
-  PROCEDURE CheckDestroyed(Self : InputSubclass);
+  PROCEDURE CheckDestroyed(Self : InputSubclassSample);
 
-  TYPE InputSubclass IS NEW Analog.InputInterface WITH RECORD
+  TYPE InputSubclassSample IS NEW Analog.InputInterface WITH RECORD
     fd         : Integer  := -1;
     resolution : Natural  := 0;
   END RECORD;
 
-  Destroyed : CONSTANT InputSubclass := InputSubclass'(-1, 0);
+  DestroyedSample : CONSTANT InputSubclassSample := InputSubclassSample'(-1, 0);
+
+  -- Check whether ADC voltage input has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : InputSubclassVolts);
+
+  TYPE InputSubclassVolts IS NEW Voltage.InputInterface WITH RECORD
+    fd    : Integer       := -1;
+    scale : Voltage.Volts := 0.0;
+  END RECORD;
+
+  DestroyedVolts : CONSTANT InputSubclassVolts := InputSubclassVolts'(-1, 0.0);
 
 END ADC.libsimpleio;
