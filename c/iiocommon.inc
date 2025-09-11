@@ -1,6 +1,6 @@
-/* Linux Industrial I/O D/A Converter services */
+/* Linux Industrial I/O common services */
 
-// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
+// Copyright (C)2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -20,22 +20,20 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <fcntl.h>
+#ifndef IIOCOMMON_INC
+#define IIOCOMMON_INC
 
-#include "libdac.h"
-#include "iiocommon.inc"
+#include <libsimpleio/cplusplus.h>
 
-#define SCALE_FILE1	"/sys/bus/iio/devices/iio:device%d/out_voltage%d_scale"
-#define SCALE_FILE2	"/sys/bus/iio/devices/iio:device%d/out_voltage_scale"
-#define DATA_FILE1	"/sys/bus/iio/devices/iio:device%d/out_voltage%d_raw"
-#define DATA_FILE2	"/sys/bus/iio/devices/iio:device%d/out_voltage_raw"
+_BEGIN_STD_C
 
-void DAC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
-{
-  IIO_get_scale(chip, channel, SCALE_FILE1, SCALE_FILE2, scale, error);
-}
+extern void IIO_get_scale(int32_t chip, int32_t channel,
+  const char *scalefile1, const char *scalefile2, double *scale,
+  int32_t *error);
 
-void DAC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
-{
-  IIO_open(chip, channel, DATA_FILE1, DATA_FILE2, O_WRONLY, fd, error);
-}
+void IIO_open(int32_t chip, int32_t channel, const char *datafile1,
+  const char *datafile2, mode_t mode, int32_t *fd, int32_t *error);
+
+_END_STD_C
+
+#endif

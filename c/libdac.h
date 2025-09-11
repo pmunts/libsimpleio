@@ -1,6 +1,6 @@
-/* Industrial I/O D/A Converter services for Linux */
+/* Linux Industrial I/O D/A Converter services */
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -29,6 +29,12 @@
 _BEGIN_STD_C
 
 extern void DAC_get_name(int32_t chip, char *name, int32_t namesize,
+  int32_t *error);
+
+extern void DAC_get_reference(int32_t chip, double *reference,
+  int32_t *error);
+
+extern void DAC_get_scale(int32_t chip, int32_t channel, double *scale,
   int32_t *error);
 
 extern void DAC_open(int32_t chip, int32_t channel, int32_t *fd,

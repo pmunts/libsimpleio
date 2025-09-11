@@ -1,4 +1,4 @@
-/* Industrial I/O A/D Converter services for Linux */
+/* Linux Industrial I/O A/D Converter services */
 
 // Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
