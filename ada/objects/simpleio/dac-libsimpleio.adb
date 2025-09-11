@@ -34,17 +34,17 @@ PACKAGE BODY DAC.libsimpleio IS
    (desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Output IS
 
-    Self : OutputSubclass;
+    Self : OutputSubclassSample;
 
   BEGIN
     Self.Initialize(desg, resolution);
-    RETURN NEW OutputSubclass'(Self);
+    RETURN NEW OutputSubclassSample'(Self);
   END Create;
 
   -- DAC output object initializer
 
   PROCEDURE Initialize
-   (Self       : IN OUT OutputSubclass;
+   (Self       : IN OUT OutputSubclassSample;
     desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) IS
 
@@ -60,23 +60,23 @@ PACKAGE BODY DAC.libsimpleio IS
       RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    Self := OutputSubclass'(fd, resolution, 2**resolution - 1);
+    Self := OutputSubclassSample'(fd, resolution, 2**resolution - 1);
   END Initialize;
 
   -- DAC output object destroyer
 
-  PROCEDURE Destroy(Self : IN OUT OutputSubclass) IS
+  PROCEDURE Destroy(Self : IN OUT OutputSubclassSample) IS
 
     error : Integer;
 
   BEGIN
-    IF Self = Destroyed THEN
+    IF Self = DestroyedSample THEN
       RETURN;
     END IF;
 
     libDAC.Close(Self.fd, error);
 
-    Self := Destroyed;
+    Self := DestroyedSample;
 
     IF error /= 0 THEN
       RAISE DAC_Error WITH "libDAC.Close() failed, " & errno.strerror(error);
@@ -86,7 +86,7 @@ PACKAGE BODY DAC.libsimpleio IS
   -- DAC output write method
 
   PROCEDURE Put
-   (Self       : IN OUT OutputSubclass;
+   (Self       : IN OUT OutputSubclassSample;
     sample     : Analog.Sample) IS
 
     error : Integer;
@@ -107,7 +107,7 @@ PACKAGE BODY DAC.libsimpleio IS
 
   -- Retrieve the DAC resolution
 
-  FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive IS
+  FUNCTION GetResolution(Self : IN OUT OutputSubclassSample) RETURN Positive IS
 
   BEGIN
     Self.CheckDestroyed;
@@ -117,7 +117,7 @@ PACKAGE BODY DAC.libsimpleio IS
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(Self : OutputSubclass) RETURN Integer IS
+  FUNCTION fd(Self : OutputSubclassSample) RETURN Integer IS
 
   BEGIN
     Self.CheckDestroyed;
@@ -127,10 +127,10 @@ PACKAGE BODY DAC.libsimpleio IS
 
   -- Check whether DAC output has been destroyed
 
-  PROCEDURE CheckDestroyed(Self : OutputSubclass) IS
+  PROCEDURE CheckDestroyed(Self : OutputSubclassSample) IS
 
   BEGIN
-    IF Self = Destroyed THEN
+    IF Self = DestroyedSample THEN
       RAISE DAC_Error WITH "Analog output has been destroyed";
     END IF;
   END CheckDestroyed;

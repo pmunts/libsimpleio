@@ -27,53 +27,116 @@ PACKAGE DAC.libsimpleio IS
 
   -- Type definitions
 
-  TYPE OutputSubclass IS NEW Analog.OutputInterface WITH PRIVATE;
+  TYPE OutputSubclassSample IS NEW Analog.OutputInterface WITH PRIVATE;
 
-  Destroyed : CONSTANT OutputSubclass;
+  DestroyedSample : CONSTANT OutputSubclassSample;
 
-  -- DAC output object constructor
+  -- DAC sample output object constructor
 
   FUNCTION Create
    (desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution) RETURN Analog.Output;
 
-  -- DAC output object initializer
+  -- DAC sample output object initializer
 
   PROCEDURE Initialize
-   (Self       : IN OUT OutputSubclass;
+   (Self       : IN OUT OutputSubclassSample;
     desg       : Device.Designator;
     resolution : Positive := Analog.MaxResolution);
 
-  -- DAC output object destroyer
+  -- DAC sample output object destroyer
 
-  PROCEDURE Destroy(Self : IN OUT OutputSubclass);
+  PROCEDURE Destroy(Self : IN OUT OutputSubclassSample);
 
-  -- DAC output write method
+  -- DAC sample output write method
 
   PROCEDURE Put
-   (Self       : IN OUT OutputSubclass;
+   (Self       : IN OUT OutputSubclassSample;
     sample     : Analog.Sample);
 
   -- Retrieve the DAC resolution
 
-  FUNCTION GetResolution(Self : IN OUT OutputSubclass) RETURN Positive;
+  FUNCTION GetResolution(Self : IN OUT OutputSubclassSample) RETURN Positive;
 
   -- Retrieve the underlying Linux file descriptor
 
-  FUNCTION fd(Self : OutputSubclass) RETURN Integer;
+  FUNCTION fd(Self : OutputSubclassSample) RETURN Integer;
+
+  -- Type definitions
+
+  TYPE OutputSubclassVolts IS NEW Voltage.OutputInterface WITH PRIVATE;
+
+  DestroyedVolts : CONSTANT OutputSubclassVolts;
+
+  -- DAC voltage output object constructor for a scaled ADC output
+  -- out_voltage_scale or out_voltageY_scale must be functional!
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output;
+
+  -- DAC voltage output object constructor for an unscaled ADC output
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    resolution : Positive;
+    reference  : Voltage.Volts;
+    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output;
+
+  -- DAC voltage output object initializer for a scaled ADC output
+  -- out_voltage_scale or out_voltageY_scale must be functional!
+
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclassVolts;
+    desg       : Device.Designator;
+    gain       : Voltage.Volts := 1.0);
+
+  -- DAC voltage output object initializer for an unscaled ADC output
+
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclassVolts;
+    desg       : Device.Designator;
+    resolution : Positive;
+    reference  : Voltage.Volts;
+    gain       : Voltage.Volts := 1.0);
+
+  -- DAC voltage output object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT OutputSubclassVolts);
+
+  -- DAC voltage output read method
+
+  PROCEDURE Put
+   (Self       : IN OUT OutputSubclassVolts;
+    vout       : Voltage.Volts);
+
+  -- Retrieve the underlying Linux file descriptor
+
+  FUNCTION fd(Self : OutputSubclassVolts) RETURN Integer;
 
 PRIVATE
 
   -- Check whether DAC output has been destroyed
 
-  PROCEDURE CheckDestroyed(Self : OutputSubclass);
+  PROCEDURE CheckDestroyed(Self : OutputSubclassSample);
 
-  TYPE OutputSubclass IS NEW Analog.OutputInterface WITH RECORD
+  TYPE OutputSubclassSample IS NEW Analog.OutputInterface WITH RECORD
     fd         : Integer       := -1;
     resolution : Natural       := 0;
     maxsample  : Analog.Sample := 0;
   END RECORD;
 
-  Destroyed : CONSTANT OutputSubclass := OutputSubclass'(-1, 0, 0);
+  DestroyedSample : CONSTANT OutputSubclassSample := OutputSubclassSample'(-1, 0, 0);
+
+  -- Check whether DAC voltage output has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : OutputSubclassVolts);
+
+  TYPE OutputSubclassVolts IS NEW Voltage.OutputInterface WITH RECORD
+    fd    : Integer       := -1;
+    scale : Voltage.Volts := 0.0;
+  END RECORD;
+
+  DestroyedVolts : CONSTANT OutputSubclassVolts := OutputSubclassVolts'(-1, 0.0);
 
 END DAC.libsimpleio;

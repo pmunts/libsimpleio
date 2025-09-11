@@ -63,7 +63,7 @@ PRIVATE
     registered  : Boolean;
     configured  : Boolean;
     desg        : Device.Designator;
-    obj         : ALIASED Standard.DAC.libsimpleio.OutputSubclass;
+    obj         : ALIASED Standard.DAC.libsimpleio.OutputSubclassSample;
     output      : Analog.Output;
     resolution  : Natural;
   END RECORD;
@@ -76,6 +76,6 @@ PRIVATE
 
   Unused : CONSTANT OutputRec :=
     OutputRec'(False, False, Device.Unavailable,
-    Standard.DAC.libsimpleio.Destroyed, NULL, 0);
+    Standard.DAC.libsimpleio.DestroyedSample, NULL, 0);
 
 END RemoteIO.DAC;
