@@ -1,6 +1,6 @@
 -- A/D (Analog to Digital) input services using libsimpleio
 
--- Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -133,7 +133,7 @@ PACKAGE BODY ADC.libsimpleio IS
     END IF;
   END CheckDestroyed;
 
-  -- ADC voltage input object constructor for a scaled ADC input
+  -- ADC voltage input object constructor for a scaled ADC voltage input
   -- in_voltage_scale or in_voltageY_scale must be functional!
 
   FUNCTION Create
@@ -147,7 +147,7 @@ PACKAGE BODY ADC.libsimpleio IS
     RETURN NEW InputSubclassVolts'(Self);
   END Create;
 
-  -- ADC voltage input object constructor for an unscaled ADC input
+  -- ADC voltage input object constructor for an unscaled ADC voltage input
 
   FUNCTION Create
    (desg       : Device.Designator;
@@ -162,7 +162,7 @@ PACKAGE BODY ADC.libsimpleio IS
     RETURN NEW InputSubclassVolts'(Self);
   END Create;
 
-  -- ADC voltage input object initializer for a scaled ADC input
+  -- ADC voltage input object initializer for a scaled ADC voltage input
   -- in_voltage_scale or in_voltageY_scale must be functional!
 
   PROCEDURE Initialize
@@ -196,7 +196,7 @@ PACKAGE BODY ADC.libsimpleio IS
     Self := InputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
   END Initialize;
 
-  -- ADC voltage input object initializer for an unscaled ADC input
+  -- ADC voltage input object initializer for an unscaled ADC voltage input
 
   PROCEDURE Initialize
    (Self       : IN OUT InputSubclassVolts;
@@ -283,7 +283,7 @@ PACKAGE BODY ADC.libsimpleio IS
 
   BEGIN
     IF Self = DestroyedVolts THEN
-      RAISE ADC_Error WITH "ADC input has been destroyed";
+      RAISE ADC_Error WITH "ADC voltage input has been destroyed";
     END IF;
   END CheckDestroyed;
 
