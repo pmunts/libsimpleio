@@ -28,6 +28,7 @@
 #include <stdlib.h>
 
 #include <libadc.h>
+#include <libdac.h>
 #include <libevent.h>
 #include <libgpio.h>
 #include <libhidraw.h>
@@ -123,6 +124,84 @@ START_TEST(test_libadc)
   ck_assert(error == EBADF);
 }
 END_TEST
+
+START_TEST(test_libdac)
+{
+  char name[256];
+  double scale;
+  double reference;
+  int32_t error;
+  int32_t fd;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  DAC_get_name(-1, name, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  DAC_get_name(0, NULL, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  DAC_get_name(0, name, 15, &error);
+  ck_assert(error == EINVAL);
+
+  DAC_get_name(999, name, sizeof(name), &error);
+  ck_assert(error == ENOENT);
+
+  DAC_get_reference(-1, &reference, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(reference == 0.0);
+
+  DAC_get_reference(0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  DAC_get_scale(-1, 0, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  DAC_get_scale(0, -1, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  DAC_get_scale(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  DAC_open(-1, 0, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  DAC_open(0, -1, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EINVAL);
+
+  DAC_open(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  DAC_open(999, 0, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == ENOENT);
+
+  fd = -888;
+  DAC_open(0, 999, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == ENOENT);
+
+  DAC_write(-1, 0xDEADBEEF, &error);
+  ck_assert(error == EINVAL);
+
+  DAC_write(999, 0xDEADBEEF, &error);
+  ck_assert(error == EBADF);
+
+  DAC_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  DAC_close(999, &error);
+  ck_assert(error == EBADF);
+}
 
 START_TEST(test_libevent)
 {
@@ -1761,6 +1840,7 @@ int main(void)
 
   tests = tcase_create("Test Parameter Checking");
   tcase_add_test(tests, test_libadc);
+  tcase_add_test(tests, test_libdac);
   tcase_add_test(tests, test_libevent);
   tcase_add_test(tests, test_libgpio);
   tcase_add_test(tests, test_libgpiod);
