@@ -1,6 +1,6 @@
 -- D/A (Digital to Analog) output services
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -23,12 +23,14 @@
 WITH Analog;
 WITH errno;
 WITH libDAC;
+WITH Voltage;
 
 USE TYPE Analog.Sample;
+USE TYPE Voltage.Volts;
 
 PACKAGE BODY DAC.libsimpleio IS
 
-  -- DAC output object constructor
+  -- DAC sampled data output object constructor
 
   FUNCTION Create
    (desg       : Device.Designator;
@@ -41,7 +43,7 @@ PACKAGE BODY DAC.libsimpleio IS
     RETURN NEW OutputSubclassSample'(Self);
   END Create;
 
-  -- DAC output object initializer
+  -- DAC sampled data output object initializer
 
   PROCEDURE Initialize
    (Self       : IN OUT OutputSubclassSample;
@@ -63,7 +65,7 @@ PACKAGE BODY DAC.libsimpleio IS
     Self := OutputSubclassSample'(fd, resolution, 2**resolution - 1);
   END Initialize;
 
-  -- DAC output object destroyer
+  -- DAC sampled data output object destroyer
 
   PROCEDURE Destroy(Self : IN OUT OutputSubclassSample) IS
 
@@ -83,7 +85,7 @@ PACKAGE BODY DAC.libsimpleio IS
     END IF;
   END Destroy;
 
-  -- DAC output write method
+  -- DAC sampled data output write method
 
   PROCEDURE Put
    (Self       : IN OUT OutputSubclassSample;
@@ -125,7 +127,7 @@ PACKAGE BODY DAC.libsimpleio IS
     RETURN Self.fd;
   END fd;
 
-  -- Check whether DAC output has been destroyed
+  -- Check whether DAC sampled data output has been destroyed
 
   PROCEDURE CheckDestroyed(Self : OutputSubclassSample) IS
 
@@ -135,4 +137,154 @@ PACKAGE BODY DAC.libsimpleio IS
     END IF;
   END CheckDestroyed;
 
-END DAC.libsimpleio;
+  -- DAC voltage output object constructor for an unscaled DAC voltage output
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    resolution : Positive;
+    reference  : Voltage.Volts;
+    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output IS
+
+    Self : OutputSubclassVolts;
+
+  BEGIN
+    Self.Initialize(desg, resolution, reference, gain);
+    RETURN NEW OutputSubclassVolts'(Self);
+  END Create;
+
+  -- DAC voltage output object constructor for a scaled DAC voltage output
+  -- out_voltage_scale or out_voltageY_scale must be functional!
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output IS
+
+    Self : OutputSubclassVolts;
+
+  BEGIN
+    Self.Initialize(desg, gain);
+    RETURN NEW OutputSubclassVolts'(Self);
+  END Create;
+
+  -- DAC voltage output object initializer for an unscaled DAC voltage output
+
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclassVolts;
+    desg       : Device.Designator;
+    resolution : Positive;
+    reference  : Voltage.Volts;
+    gain       : Voltage.Volts := 1.0) IS
+
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    Self.Destroy;
+
+    IF reference = 0.0 THEN
+      RAISE DAC_Error WITH "ERROR: reference voltage cannot be zero";
+    END IF;
+
+    IF gain = 0.0 THEN
+      RAISE DAC_Error WITH "ERROR: gain cannot be zero";
+    END IF;
+
+    libDAC.Open(desg.chip, desg.chan, fd, error);
+
+    IF error /= 0 THEN
+      RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
+    END IF;
+
+    Self := OutputSubclassVolts'(fd, reference/2.0**resolution/gain);
+  END Initialize;
+
+  -- DAC voltage output object initializer for a scaled DAC voltage output
+  -- out_voltage_scale or out_voltageY_scale must be functional!
+
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclassVolts;
+    desg       : Device.Designator;
+    gain       : Voltage.Volts := 1.0) IS
+
+    scale : Long_Float;
+    fd    : Integer;
+    error : Integer;
+
+  BEGIN
+    Self.Destroy;
+
+    IF gain = 0.0 THEN
+      RAISE DAC_Error WITH "ERROR: gain cannot be zero";
+    END IF;
+
+    libDAC.GetScale(desg.chip, desg.chan, scale, error);
+
+    IF error /= 0 THEN
+      RAISE DAC_Error WITH "libDAC.GetScale() failed, " & errno.strerror(error);
+    END IF;
+
+    libDAC.Open(desg.chip, desg.chan, fd, error);
+
+    IF error /= 0 THEN
+      RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
+    END IF;
+
+    Self := OutputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
+  END Initialize;
+
+  -- DAC voltage output object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT OutputSubclassVolts) IS
+
+    error : Integer;
+
+  BEGIN
+    IF Self = DestroyedVolts THEN
+      RETURN;
+    END IF;
+
+    libDAC.Close(Self.fd, error);
+
+    Self := DestroyedVolts;
+
+    IF error /= 0 THEN
+      RAISE DAC_Error WITH "libDAC.Close() failed, " & errno.strerror(error);
+    END IF;
+  END Destroy;
+
+  -- DAC voltage output write method
+
+  PROCEDURE Put
+   (Self       : IN OUT OutputSubclassVolts;
+    vout       : Voltage.Volts) IS
+
+    error : Integer;
+
+  BEGIN
+    libDAC.Write(Self.fd, Integer(vout/Self.scale), error);
+
+    IF error /= 0 THEN
+      RAISE DAC_Error WITH "libDAC.Write() failed, " & errno.strerror(error);
+    END IF;
+  END Put;
+
+
+  -- Retrieve the underlying Linux file descriptor
+
+  FUNCTION fd(Self : OutputSubclassVolts) RETURN Integer IS
+
+  BEGIN
+    Self.CheckDestroyed;
+
+    RETURN Self.fd;
+  END fd;
+
+  -- Check whether DAC voltage output has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : OutputSubclassVolts) IS
+
+  BEGIN
+    IF Self = DestroyedVolts THEN
+      RAISE DAC_Error WITH "DAC voltage output has been destroyed";
+    END IF;
+  END CheckDestroyed;END DAC.libsimpleio;

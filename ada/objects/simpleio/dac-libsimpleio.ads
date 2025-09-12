@@ -1,6 +1,6 @@
 -- D/A (Digital to Analog) output services
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -68,14 +68,7 @@ PACKAGE DAC.libsimpleio IS
 
   DestroyedVolts : CONSTANT OutputSubclassVolts;
 
-  -- DAC voltage output object constructor for a scaled ADC output
-  -- out_voltage_scale or out_voltageY_scale must be functional!
-
-  FUNCTION Create
-   (desg       : Device.Designator;
-    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output;
-
-  -- DAC voltage output object constructor for an unscaled ADC output
+  -- DAC voltage output object constructor for an unscaled DAC voltage output
 
   FUNCTION Create
    (desg       : Device.Designator;
@@ -83,7 +76,14 @@ PACKAGE DAC.libsimpleio IS
     reference  : Voltage.Volts;
     gain       : Voltage.Volts := 1.0) RETURN Voltage.Output;
 
-  -- DAC voltage output object initializer for a scaled ADC output
+  -- DAC voltage output object constructor for a scaled DAC voltage output
+  -- out_voltage_scale or out_voltageY_scale must be functional!
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output;
+
+  -- DAC voltage output object initializer for a scaled DAC voltage output
   -- out_voltage_scale or out_voltageY_scale must be functional!
 
   PROCEDURE Initialize
@@ -91,7 +91,7 @@ PACKAGE DAC.libsimpleio IS
     desg       : Device.Designator;
     gain       : Voltage.Volts := 1.0);
 
-  -- DAC voltage output object initializer for an unscaled ADC output
+  -- DAC voltage output object initializer for an unscaled DAC voltage output
 
   PROCEDURE Initialize
    (Self       : IN OUT OutputSubclassVolts;
@@ -104,7 +104,7 @@ PACKAGE DAC.libsimpleio IS
 
   PROCEDURE Destroy(Self : IN OUT OutputSubclassVolts);
 
-  -- DAC voltage output read method
+  -- DAC voltage output write method
 
   PROCEDURE Put
    (Self       : IN OUT OutputSubclassVolts;

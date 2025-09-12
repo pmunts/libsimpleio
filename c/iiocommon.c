@@ -363,7 +363,7 @@ void IIO_open(int32_t chip, int32_t channel, const char *datafile1,
     snprintf(filename, sizeof(filename) - 1, datafile1, chip);
   }
 
-  *fd = open(filename, O_RDONLY);
+  *fd = open(filename, mode);
 
   if (*fd < 0)
   {
