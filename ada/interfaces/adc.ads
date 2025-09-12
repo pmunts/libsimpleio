@@ -1,6 +1,6 @@
 -- Abstract Analog to Digital Converter interface definitions
 
--- Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,6 +27,8 @@ PACKAGE ADC IS
 
   ADC_Error : EXCEPTION;
 
+  DefaultGain : CONSTANT Voltage.Volts := 1.0;
+
   TYPE InputSubclass IS NEW Voltage.InputInterface WITH PRIVATE;
 
   -- Constructor
@@ -34,7 +36,7 @@ PACKAGE ADC IS
   FUNCTION Create
    (input     : NOT NULL Analog.Input;
     reference : Voltage.Volts;
-    gain      : Voltage.Volts := 1.0) RETURN Voltage.Input;
+    gain      : Voltage.Volts := DefaultGain) RETURN Voltage.Input;
 
   -- Methods
 
