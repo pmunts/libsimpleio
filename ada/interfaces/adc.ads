@@ -27,7 +27,7 @@ PACKAGE ADC IS
 
   ADC_Error : EXCEPTION;
 
-  DefaultGain : CONSTANT Voltage.Volts := 1.0;
+  UnityGain : CONSTANT Voltage.Volts := 1.0;
 
   TYPE InputSubclass IS NEW Voltage.InputInterface WITH PRIVATE;
 
@@ -36,7 +36,7 @@ PACKAGE ADC IS
   FUNCTION Create
    (input     : NOT NULL Analog.Input;
     reference : Voltage.Volts;
-    gain      : Voltage.Volts := DefaultGain) RETURN Voltage.Input;
+    gain      : Voltage.Volts := UnityGain) RETURN Voltage.Input;
 
   -- Methods
 

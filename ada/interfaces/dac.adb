@@ -31,7 +31,7 @@ PACKAGE BODY DAC IS
   FUNCTION Create
    (output    : NOT NULL Analog.Output;
     reference : Voltage.Volts;
-    gain      : Voltage.Volts := DefaultGain) RETURN Voltage.Output IS
+    gain      : Voltage.Volts := UnityGain) RETURN Voltage.Output IS
 
   BEGIN
     IF reference = 0.0 THEN

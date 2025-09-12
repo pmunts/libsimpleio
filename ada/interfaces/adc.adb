@@ -31,7 +31,7 @@ PACKAGE BODY ADC IS
   FUNCTION Create
    (input     : NOT NULL Analog.Input;
     reference : Voltage.Volts;
-    gain      : Voltage.Volts := DefaultGain) RETURN Voltage.Input IS
+    gain      : Voltage.Volts := UnityGain) RETURN Voltage.Input IS
 
   BEGIN
     IF reference = 0.0 THEN

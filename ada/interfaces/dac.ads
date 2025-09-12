@@ -27,7 +27,7 @@ PACKAGE DAC IS
 
   DAC_Error : EXCEPTION;
 
-  DefaultGain : CONSTANT Voltage.Volts := 1.0;
+  UnityGain : CONSTANT Voltage.Volts := 1.0;
 
   TYPE OutputSubclass IS NEW Voltage.OutputInterface WITH PRIVATE;
 
@@ -36,7 +36,7 @@ PACKAGE DAC IS
   FUNCTION Create
    (output    : NOT NULL Analog.Output;
     reference : Voltage.Volts;
-    gain      : Voltage.Volts := DefaultGain) RETURN Voltage.Output;
+    gain      : Voltage.Volts := UnityGain) RETURN Voltage.Output;
 
   -- Methods
 
