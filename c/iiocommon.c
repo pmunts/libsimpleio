@@ -360,7 +360,7 @@ void IIO_open(int32_t chip, int32_t channel, const char *datafile1,
     // Now try xx_xxxxxx_raw IFF channel 0
 
     memset(filename, 0, sizeof(filename));
-    snprintf(filename, sizeof(filename) - 1, datafile1, chip);
+    snprintf(filename, sizeof(filename) - 1, datafile2, chip);
   }
 
   *fd = open(filename, mode);
