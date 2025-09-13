@@ -1,4 +1,4 @@
--- Scaled ADC input test using kernel and libsimpleio ADC services
+-- Linux Industrial I/O Analog to Digital Converter Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -28,7 +28,7 @@ WITH ADC.libsimpleio;
 WITH Device;
 WITH Voltage;
 
-PROCEDURE test_adc_scaled IS
+PROCEDURE test_iio_adc IS
 
   desg  : Device.Designator;
   ain   : Voltage.Input;
@@ -39,7 +39,7 @@ PROCEDURE test_adc_scaled IS
 
 BEGIN
   New_Line;
-  Put_Line("Scaled ADC Input Test");
+  Put_Line("Linux Industrial I/O Analog to Digital Converter Test");
   New_Line;
 
   Put("Enter ADC chip number:    ");
@@ -70,4 +70,4 @@ BEGIN
     Put_Line("Voltage:" & ain.Get'Image & " V");
     DELAY 1.0;
   END LOOP;
-END test_adc_scaled;
+END test_iio_adc;
