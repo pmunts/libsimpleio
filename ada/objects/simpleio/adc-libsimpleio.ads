@@ -20,6 +20,11 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- The default gain value UnityGain supplied to the voltage input
+-- constructors and initializers below, for IIO channel (X, Y) e.g.
+-- iio:deviceX channel Y, can be overridden by environment variable
+-- IIOGAIN_X_Y. Gain values other than UnityGain will NOT be overridden.
+
 WITH Analog;
 WITH Device;
 
@@ -71,7 +76,7 @@ PACKAGE ADC.libsimpleio IS
 
   FUNCTION Create
    (desg       : Device.Designator;
-    gain       : Voltage.Volts := 1.0) RETURN Voltage.Input;
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Input;
 
   -- ADC voltage input object constructor for an unscaled ADC input
 
@@ -79,7 +84,7 @@ PACKAGE ADC.libsimpleio IS
    (desg       : Device.Designator;
     resolution : Positive;
     reference  : Voltage.Volts;
-    gain       : Voltage.Volts := 1.0) RETURN Voltage.Input;
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Input;
 
   -- ADC voltage input object initializer for a scaled ADC input
   -- in_voltage_scale or in_voltageY_scale must be functional!
@@ -87,7 +92,7 @@ PACKAGE ADC.libsimpleio IS
   PROCEDURE Initialize
    (Self       : IN OUT InputSubclassVolts;
     desg       : Device.Designator;
-    gain       : Voltage.Volts := 1.0);
+    gain       : Voltage.Volts := UnityGain);
 
   -- ADC voltage input object initializer for an unscaled ADC input
 
@@ -96,7 +101,7 @@ PACKAGE ADC.libsimpleio IS
     desg       : Device.Designator;
     resolution : Positive;
     reference  : Voltage.Volts;
-    gain       : Voltage.Volts := 1.0);
+    gain       : Voltage.Volts := UnityGain);
 
   -- ADC voltage input object destroyer
 

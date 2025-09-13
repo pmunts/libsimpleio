@@ -20,6 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Environment_Variables;
+WITH Ada.Strings.Fixed;
+
 WITH Analog;
 WITH errno;
 WITH libDAC;
@@ -29,6 +32,19 @@ USE TYPE Analog.Sample;
 USE TYPE Voltage.Volts;
 
 PACKAGE BODY DAC.libsimpleio IS
+
+  -- Get IIO device gain from environment variable
+
+  FUNCTION IIOgain(desg : Device.Designator) RETURN Voltage.Volts IS
+
+    name : CONSTANT String := "IIOGAIN" &
+      "_" & Ada.Strings.Fixed.Trim(desg.chip'Image, Ada.Strings.Left) &
+      "_" & Ada.Strings.Fixed.Trim(desg.channel'Image, Ada.Strings.Left);
+
+  BEGIN
+    RETURN Voltage.Volts'Value(Ada.Environment_Variables.Value(name,
+      UnityGain'Image));
+  END IIOgain;
 
   -- DAC sampled data output object constructor
 
@@ -143,7 +159,7 @@ PACKAGE BODY DAC.libsimpleio IS
    (desg       : Device.Designator;
     resolution : Positive;
     reference  : Voltage.Volts;
-    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output IS
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Output IS
 
     Self : OutputSubclassVolts;
 
@@ -157,7 +173,7 @@ PACKAGE BODY DAC.libsimpleio IS
 
   FUNCTION Create
    (desg       : Device.Designator;
-    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output IS
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Output IS
 
     Self : OutputSubclassVolts;
 
@@ -173,7 +189,7 @@ PACKAGE BODY DAC.libsimpleio IS
     desg       : Device.Designator;
     resolution : Positive;
     reference  : Voltage.Volts;
-    gain       : Voltage.Volts := 1.0) IS
+    gain       : Voltage.Volts := UnityGain) IS
 
     fd    : Integer;
     error : Integer;
@@ -195,7 +211,11 @@ PACKAGE BODY DAC.libsimpleio IS
       RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    Self := OutputSubclassVolts'(fd, reference/2.0**resolution/gain);
+    IF gain = UnityGain THEN
+      Self := OutputSubclassVolts'(fd, reference/2.0**resolution/IIOgain);
+    ELSE
+      Self := OutputSubclassVolts'(fd, reference/2.0**resolution/gain);
+    END IF;
   END Initialize;
 
   -- DAC voltage output object initializer for a scaled DAC voltage output
@@ -204,7 +224,7 @@ PACKAGE BODY DAC.libsimpleio IS
   PROCEDURE Initialize
    (Self       : IN OUT OutputSubclassVolts;
     desg       : Device.Designator;
-    gain       : Voltage.Volts := 1.0) IS
+    gain       : Voltage.Volts := UnityGain) IS
 
     scale : Long_Float;
     fd    : Integer;
@@ -229,7 +249,11 @@ PACKAGE BODY DAC.libsimpleio IS
       RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    Self := OutputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
+    IF gain = UnityGain THEN
+      Self := OutputSubclassVolts'(fd, Voltage.Volts(scale)/IIOgain);
+    ELSE
+      Self := OutputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
+    END IF;
   END Initialize;
 
   -- DAC voltage output object destroyer

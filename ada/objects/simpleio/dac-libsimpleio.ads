@@ -20,6 +20,11 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- The default gain value UnityGain supplied to the voltage output
+-- constructors and initializers below, for IIO channel (X, Y) e.g.
+-- iio:deviceX channel Y, can be overridden by environment variable
+-- IIOGAIN_X_Y. Gain values other than UnityGain will NOT be overridden.
+
 WITH Analog;
 WITH Device;
 
@@ -74,14 +79,14 @@ PACKAGE DAC.libsimpleio IS
    (desg       : Device.Designator;
     resolution : Positive;
     reference  : Voltage.Volts;
-    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output;
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Output;
 
   -- DAC voltage output object constructor for a scaled DAC voltage output
   -- out_voltage_scale or out_voltageY_scale must be functional!
 
   FUNCTION Create
    (desg       : Device.Designator;
-    gain       : Voltage.Volts := 1.0) RETURN Voltage.Output;
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Output;
 
   -- DAC voltage output object initializer for a scaled DAC voltage output
   -- out_voltage_scale or out_voltageY_scale must be functional!
@@ -89,7 +94,7 @@ PACKAGE DAC.libsimpleio IS
   PROCEDURE Initialize
    (Self       : IN OUT OutputSubclassVolts;
     desg       : Device.Designator;
-    gain       : Voltage.Volts := 1.0);
+    gain       : Voltage.Volts := UnityGain);
 
   -- DAC voltage output object initializer for an unscaled DAC voltage output
 
@@ -98,7 +103,7 @@ PACKAGE DAC.libsimpleio IS
     desg       : Device.Designator;
     resolution : Positive;
     reference  : Voltage.Volts;
-    gain       : Voltage.Volts := 1.0);
+    gain       : Voltage.Volts := UnityGain);
 
   -- DAC voltage output object destroyer
 

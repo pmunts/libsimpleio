@@ -20,6 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Environment_Variables;
+WITH Ada.Strings.Fixed;
+
 WITH errno;
 WITH libADC;
 WITH Voltage;
@@ -27,6 +30,19 @@ WITH Voltage;
 USE TYPE Voltage.Volts;
 
 PACKAGE BODY ADC.libsimpleio IS
+  
+  -- Get IIO device gain from environment variable
+
+  FUNCTION IIOgain(desg : Device.Designator) RETURN Voltage.Volts IS
+
+    name : CONSTANT String := "IIOGAIN" &
+      "_" & Ada.Strings.Fixed.Trim(desg.chip'Image, Ada.Strings.Left) &
+      "_" & Ada.Strings.Fixed.Trim(desg.channel'Image, Ada.Strings.Left);
+
+  BEGIN
+    RETURN Voltage.Volts'Value(Ada.Environment_Variables.Value(name,
+      UnityGain'Image));
+  END IIOgain;
 
   -- ADC sample input object constructor
 
@@ -138,7 +154,7 @@ PACKAGE BODY ADC.libsimpleio IS
 
   FUNCTION Create
    (desg       : Device.Designator;
-    gain       : Voltage.Volts := 1.0) RETURN Voltage.Input IS
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Input IS
 
     Self : InputSubclassVolts;
 
@@ -153,7 +169,7 @@ PACKAGE BODY ADC.libsimpleio IS
    (desg       : Device.Designator;
     resolution : Positive;
     reference  : Voltage.Volts;
-    gain       : Voltage.Volts := 1.0) RETURN Voltage.Input IS
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Input IS
 
     Self : InputSubclassVolts;
 
@@ -168,7 +184,7 @@ PACKAGE BODY ADC.libsimpleio IS
   PROCEDURE Initialize
    (Self       : IN OUT InputSubclassVolts;
     desg       : Device.Designator;
-    gain       : Voltage.Volts := 1.0) IS
+    gain       : Voltage.Volts := UnityGain) IS
 
     scale : Long_Float;
     fd    : Integer;
@@ -193,7 +209,11 @@ PACKAGE BODY ADC.libsimpleio IS
       RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    Self := InputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
+    IF gain = UnityGain THEN
+      Self := InputSubclassVolts'(fd, Voltage.Volts(scale)/IIOgain);
+    ELSE
+      Self := InputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
+    END IF;
   END Initialize;
 
   -- ADC voltage input object initializer for an unscaled ADC voltage input
@@ -203,7 +223,7 @@ PACKAGE BODY ADC.libsimpleio IS
     desg       : Device.Designator;
     resolution : Positive;
     reference  : Voltage.Volts;
-    gain       : Voltage.Volts := 1.0) IS
+    gain       : Voltage.Volts := UnityGain) IS
 
     fd    : Integer;
     error : Integer;
@@ -225,7 +245,11 @@ PACKAGE BODY ADC.libsimpleio IS
       RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    Self := InputSubclassVolts'(fd, reference/2.0**resolution/gain);
+    IF gain = UnityGain
+      Self := InputSubclassVolts'(fd, reference/2.0**resolution/IIOgain);
+    ELSE
+      Self := InputSubclassVolts'(fd, reference/2.0**resolution/gain);
+    END IF;
   END Initialize;
 
   -- ADC voltage input object destroyer
