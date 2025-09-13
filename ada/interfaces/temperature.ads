@@ -1,6 +1,6 @@
 -- Temperature measurement definitions
 
--- Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -24,6 +24,8 @@ WITH Ada.Text_IO;
 WITH IO_Interfaces;
 
 PACKAGE Temperature IS
+
+  Temperature_Error : EXCEPTION;
 
   TYPE Kelvins    IS NEW Long_Float RANGE     0.0 .. Long_Float'Large;
   TYPE Celsius    IS NEW Long_Float RANGE -273.15 .. Long_Float'Large;
@@ -59,7 +61,7 @@ PACKAGE Temperature IS
 
   PACKAGE Interfaces IS NEW IO_Interfaces(Celsius);
 
-  -- Define an abstract interface for temperature sensor intputs, derived from
+  -- Define an abstract interface for temperature sensor inputs, derived from
   -- Interfaces.InputInterface
 
   TYPE InputInterface IS INTERFACE AND Interfaces.InputInterface;
