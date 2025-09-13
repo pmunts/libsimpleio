@@ -1,7 +1,7 @@
--- Minimal Ada wrapper for the Linux IIO temperature sensor services
+-- Minimal Ada wrapper for the Linux Industrial I/O temperature sensor services
 -- implemented in libsimpleio.so
 
--- Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
+-- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
