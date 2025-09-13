@@ -1,4 +1,4 @@
--- Minimal Ada wrapper for the Linux A/D services
+-- Minimal Ada wrapper for the Linux Industrial I/O A/D converter services
 -- implemented in libsimpleio.so
 
 -- Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
