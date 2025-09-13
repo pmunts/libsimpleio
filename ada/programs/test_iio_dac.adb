@@ -1,4 +1,4 @@
--- Scaled DAC output test using kernel and libsimpleio DAC services
+-- Linux Industrial I/O Digital to Analog Converter Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -28,7 +28,7 @@ WITH DAC.libsimpleio;
 WITH Device;
 WITH Voltage;
 
-PROCEDURE test_dac_scaled IS
+PROCEDURE test_iio_dac IS
 
   desg  : Device.Designator;
   outp  : Voltage.Output;
@@ -39,7 +39,7 @@ PROCEDURE test_dac_scaled IS
 
 BEGIN
   New_Line;
-  Put_Line("Scaled DAC Output Test");
+  Put_Line("Linux Industrial I/O Digital to Analog Converter Test");
   New_Line;
 
   Put("Enter DAC chip number:    ");
@@ -70,4 +70,4 @@ BEGIN
   Voltage.Volts_IO.Get(Vout);
 
   outp.Put(Vout);
-END test_dac_scaled;
+END test_iio_dac;
