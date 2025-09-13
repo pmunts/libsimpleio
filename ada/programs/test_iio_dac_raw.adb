@@ -40,13 +40,13 @@ BEGIN
   Put_Line("Linux Industrial I/O raw sample Digital to Analog Converter Test");
   New_Line;
 
-  Put("Enter DAC chip number:    ");
+  Put("Enter chip number:    ");
   Get(desg.chip);
 
-  Put("Enter DAC channel number: ");
+  Put("Enter channel number: ");
   Get(desg.chan);
 
-  Put("Enter DAC resolution:     ");
+  Put("Enter resolution:     ");
   Get(resolution);
 
   New_Line;

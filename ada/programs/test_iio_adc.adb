@@ -42,10 +42,10 @@ BEGIN
   Put_Line("Linux Industrial I/O Analog to Digital Converter Test");
   New_Line;
 
-  Put("Enter ADC chip number:    ");
+  Put("Enter chip number:    ");
   Get(desg.chip);
 
-  Put("Enter ADC channel number: ");
+  Put("Enter channel number: ");
   Get(desg.chan);
 
   New_Line;
