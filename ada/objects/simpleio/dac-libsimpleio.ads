@@ -73,19 +73,19 @@ PACKAGE DAC.libsimpleio IS
 
   DestroyedVolts : CONSTANT OutputSubclassVolts;
 
+  -- DAC voltage output object constructor for a scaled DAC voltage output
+  -- out_voltage_scale or out_voltageY_scale must be functional!
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Output;
+
   -- DAC voltage output object constructor for an unscaled DAC voltage output
 
   FUNCTION Create
    (desg       : Device.Designator;
     resolution : Positive;
     reference  : Voltage.Volts;
-    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Output;
-
-  -- DAC voltage output object constructor for a scaled DAC voltage output
-  -- out_voltage_scale or out_voltageY_scale must be functional!
-
-  FUNCTION Create
-   (desg       : Device.Designator;
     gain       : Voltage.Volts := UnityGain) RETURN Voltage.Output;
 
   -- DAC voltage output object initializer for a scaled DAC voltage output

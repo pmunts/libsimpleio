@@ -37,7 +37,7 @@ PACKAGE BODY ADC.libsimpleio IS
 
     name : CONSTANT String := "IIOGAIN" &
       "_" & Ada.Strings.Fixed.Trim(desg.chip'Image, Ada.Strings.Left) &
-      "_" & Ada.Strings.Fixed.Trim(desg.channel'Image, Ada.Strings.Left);
+      "_" & Ada.Strings.Fixed.Trim(desg.chan'Image, Ada.Strings.Left);
 
   BEGIN
     RETURN Voltage.Volts'Value(Ada.Environment_Variables.Value(name,
@@ -210,7 +210,7 @@ PACKAGE BODY ADC.libsimpleio IS
     END IF;
 
     IF gain = UnityGain THEN
-      Self := InputSubclassVolts'(fd, Voltage.Volts(scale)/IIOgain);
+      Self := InputSubclassVolts'(fd, Voltage.Volts(scale)/IIOgain(desg));
     ELSE
       Self := InputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
     END IF;
@@ -239,14 +239,18 @@ PACKAGE BODY ADC.libsimpleio IS
       RAISE ADC_Error WITH "ERROR: gain cannot be zero";
     END IF;
 
+    IF gain = UnityGain AND IIOgain(desg) = 0.0 THEN
+      RAISE ADC_Error WITH "ERROR: gain cannot be zero";
+    END IF;
+
     libADC.Open(desg.chip, desg.chan, fd, error);
 
     IF error /= 0 THEN
       RAISE ADC_Error WITH "libADC.Open() failed, " & errno.strerror(error);
     END IF;
 
-    IF gain = UnityGain
-      Self := InputSubclassVolts'(fd, reference/2.0**resolution/IIOgain);
+    IF gain = UnityGain THEN
+      Self := InputSubclassVolts'(fd, reference/2.0**resolution/IIOgain(desg));
     ELSE
       Self := InputSubclassVolts'(fd, reference/2.0**resolution/gain);
     END IF;

@@ -39,7 +39,7 @@ PACKAGE BODY DAC.libsimpleio IS
 
     name : CONSTANT String := "IIOGAIN" &
       "_" & Ada.Strings.Fixed.Trim(desg.chip'Image, Ada.Strings.Left) &
-      "_" & Ada.Strings.Fixed.Trim(desg.channel'Image, Ada.Strings.Left);
+      "_" & Ada.Strings.Fixed.Trim(desg.chan'Image, Ada.Strings.Left);
 
   BEGIN
     RETURN Voltage.Volts'Value(Ada.Environment_Variables.Value(name,
@@ -153,6 +153,20 @@ PACKAGE BODY DAC.libsimpleio IS
     END IF;
   END CheckDestroyed;
 
+  -- DAC voltage output object constructor for a scaled DAC voltage output
+  -- out_voltage_scale or out_voltageY_scale must be functional!
+
+  FUNCTION Create
+   (desg       : Device.Designator;
+    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Output IS
+
+    Self : OutputSubclassVolts;
+
+  BEGIN
+    Self.Initialize(desg, gain);
+    RETURN NEW OutputSubclassVolts'(Self);
+  END Create;
+
   -- DAC voltage output object constructor for an unscaled DAC voltage output
 
   FUNCTION Create
@@ -168,19 +182,47 @@ PACKAGE BODY DAC.libsimpleio IS
     RETURN NEW OutputSubclassVolts'(Self);
   END Create;
 
-  -- DAC voltage output object constructor for a scaled DAC voltage output
+  -- DAC voltage output object initializer for a scaled DAC voltage output
   -- out_voltage_scale or out_voltageY_scale must be functional!
 
-  FUNCTION Create
-   (desg       : Device.Designator;
-    gain       : Voltage.Volts := UnityGain) RETURN Voltage.Output IS
+  PROCEDURE Initialize
+   (Self       : IN OUT OutputSubclassVolts;
+    desg       : Device.Designator;
+    gain       : Voltage.Volts := UnityGain) IS
 
-    Self : OutputSubclassVolts;
+    scale : Long_Float;
+    fd    : Integer;
+    error : Integer;
 
   BEGIN
-    Self.Initialize(desg, gain);
-    RETURN NEW OutputSubclassVolts'(Self);
-  END Create;
+    Self.Destroy;
+
+    IF gain = 0.0 THEN
+      RAISE DAC_Error WITH "ERROR: gain cannot be zero";
+    END IF;
+
+    IF gain = UnityGain AND IIOgain(desg) = 0.0 THEN
+      RAISE DAC_Error WITH "ERROR: gain cannot be zero";
+    END IF;
+
+    libDAC.GetScale(desg.chip, desg.chan, scale, error);
+
+    IF error /= 0 THEN
+      RAISE DAC_Error WITH "libDAC.GetScale() failed, " & errno.strerror(error);
+    END IF;
+
+    libDAC.Open(desg.chip, desg.chan, fd, error);
+
+    IF error /= 0 THEN
+      RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
+    END IF;
+
+    IF gain = UnityGain THEN
+      Self := OutputSubclassVolts'(fd, Voltage.Volts(scale)/IIOgain(desg));
+    ELSE
+      Self := OutputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
+    END IF;
+  END Initialize;
 
   -- DAC voltage output object initializer for an unscaled DAC voltage output
 
@@ -205,44 +247,10 @@ PACKAGE BODY DAC.libsimpleio IS
       RAISE DAC_Error WITH "ERROR: gain cannot be zero";
     END IF;
 
-    libDAC.Open(desg.chip, desg.chan, fd, error);
-
-    IF error /= 0 THEN
-      RAISE DAC_Error WITH "libDAC.Open() failed, " & errno.strerror(error);
-    END IF;
-
-    IF gain = UnityGain THEN
-      Self := OutputSubclassVolts'(fd, reference/2.0**resolution/IIOgain);
-    ELSE
-      Self := OutputSubclassVolts'(fd, reference/2.0**resolution/gain);
-    END IF;
-  END Initialize;
-
-  -- DAC voltage output object initializer for a scaled DAC voltage output
-  -- out_voltage_scale or out_voltageY_scale must be functional!
-
-  PROCEDURE Initialize
-   (Self       : IN OUT OutputSubclassVolts;
-    desg       : Device.Designator;
-    gain       : Voltage.Volts := UnityGain) IS
-
-    scale : Long_Float;
-    fd    : Integer;
-    error : Integer;
-
-  BEGIN
-    Self.Destroy;
-
-    IF gain = 0.0 THEN
+    IF gain = UnityGain AND IIOgain(desg) = 0.0 THEN
       RAISE DAC_Error WITH "ERROR: gain cannot be zero";
     END IF;
 
-    libDAC.GetScale(desg.chip, desg.chan, scale, error);
-
-    IF error /= 0 THEN
-      RAISE DAC_Error WITH "libDAC.GetScale() failed, " & errno.strerror(error);
-    END IF;
-
     libDAC.Open(desg.chip, desg.chan, fd, error);
 
     IF error /= 0 THEN
@@ -250,9 +258,9 @@ PACKAGE BODY DAC.libsimpleio IS
     END IF;
 
     IF gain = UnityGain THEN
-      Self := OutputSubclassVolts'(fd, Voltage.Volts(scale)/IIOgain);
+      Self := OutputSubclassVolts'(fd, reference/2.0**resolution/IIOgain(desg));
     ELSE
-      Self := OutputSubclassVolts'(fd, Voltage.Volts(scale)/gain);
+      Self := OutputSubclassVolts'(fd, reference/2.0**resolution/gain);
     END IF;
   END Initialize;
 
