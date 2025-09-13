@@ -32,14 +32,17 @@
 #include <libevent.h>
 #include <libgpio.h>
 #include <libhidraw.h>
+#include <libhumidity.h>
 #include <libi2c.h>
 #include <libipv4.h>
 #include <liblinux.h>
 #include <liblinx.h>
+#include <libpressure.h>
 #include <libpwm.h>
 #include <libserial.h>
 #include <libspi.h>
 #include <libstream.h>
+#include <libtemp.h>
 #include <libwatchdog.h>
 
 START_TEST(test_libadc)
@@ -747,6 +750,81 @@ START_TEST(test_libhidraw)
 }
 END_TEST
 
+START_TEST(test_libhumid)
+{
+  char name[256];
+  double scale;
+  int32_t error;
+  int32_t fd;
+  int32_t sample;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  HUMID_get_name(-1, name, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  HUMID_get_name(0, NULL, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  HUMID_get_name(0, name, 15, &error);
+  ck_assert(error == EINVAL);
+
+  HUMID_get_name(999, name, sizeof(name), &error);
+  ck_assert(error == ENOENT);
+
+  HUMID_get_scale(-1, 0, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  HUMID_get_scale(0, -1, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  HUMID_get_scale(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  HUMID_open(-1, 0, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  HUMID_open(0, -1, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EINVAL);
+
+  HUMID_open(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  HUMID_open(999, 0, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == ENOENT);
+
+  fd = -888;
+  HUMID_open(0, 999, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == ENOENT);
+
+  HUMID_read(-1, &sample, &error);
+  ck_assert(error == EINVAL);
+
+  HUMID_read(999, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  HUMID_read(999, &sample, &error);
+  ck_assert(error == EBADF);
+
+  HUMID_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  HUMID_close(999, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 START_TEST(test_libi2c)
 {
   int32_t fd;
@@ -1438,6 +1516,81 @@ START_TEST(test_liblinx)
 }
 END_TEST
 
+START_TEST(test_libpressure)
+{
+  char name[256];
+  double scale;
+  int32_t error;
+  int32_t fd;
+  int32_t sample;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  PRESSURE_get_name(-1, name, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  PRESSURE_get_name(0, NULL, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  PRESSURE_get_name(0, name, 15, &error);
+  ck_assert(error == EINVAL);
+
+  PRESSURE_get_name(999, name, sizeof(name), &error);
+  ck_assert(error == ENOENT);
+
+  PRESSURE_get_scale(-1, 0, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  PRESSURE_get_scale(0, -1, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  PRESSURE_get_scale(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  PRESSURE_open(-1, 0, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  PRESSURE_open(0, -1, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EINVAL);
+
+  PRESSURE_open(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  PRESSURE_open(999, 0, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == ENOENT);
+
+  fd = -888;
+  PRESSURE_open(0, 999, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == ENOENT);
+
+  PRESSURE_read(-1, &sample, &error);
+  ck_assert(error == EINVAL);
+
+  PRESSURE_read(999, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  PRESSURE_read(999, &sample, &error);
+  ck_assert(error == EBADF);
+
+  PRESSURE_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  PRESSURE_close(999, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 START_TEST(test_libpwm)
 {
   int32_t error;
@@ -1774,6 +1927,81 @@ START_TEST(test_libstream)
 }
 END_TEST
 
+START_TEST(test_libtemp)
+{
+  char name[256];
+  double scale;
+  int32_t error;
+  int32_t fd;
+  int32_t sample;
+
+#ifdef VERBOSE
+  putenv("DEBUGLEVEL=1");
+#endif
+
+  TEMP_get_name(-1, name, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  TEMP_get_name(0, NULL, sizeof(name), &error);
+  ck_assert(error == EINVAL);
+
+  TEMP_get_name(0, name, 15, &error);
+  ck_assert(error == EINVAL);
+
+  TEMP_get_name(999, name, sizeof(name), &error);
+  ck_assert(error == ENOENT);
+
+  TEMP_get_scale(-1, 0, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  TEMP_get_scale(0, -1, &scale, &error);
+  ck_assert(error == EINVAL);
+  ck_assert(scale == 0.0);
+
+  TEMP_get_scale(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  TEMP_open(-1, 0, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  TEMP_open(0, -1, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == EINVAL);
+
+  TEMP_open(0, 0, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  fd = -888;
+  TEMP_open(999, 0, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == ENOENT);
+
+  fd = -888;
+  TEMP_open(0, 999, &fd, &error);
+  ck_assert(fd == -1);
+  ck_assert(error == ENOENT);
+
+  TEMP_read(-1, &sample, &error);
+  ck_assert(error == EINVAL);
+
+  TEMP_read(999, NULL, &error);
+  ck_assert(error == EINVAL);
+
+  TEMP_read(999, &sample, &error);
+  ck_assert(error == EBADF);
+
+  TEMP_close(-1, &error);
+  ck_assert(error == EINVAL);
+
+  TEMP_close(999, &error);
+  ck_assert(error == EBADF);
+}
+END_TEST
+
 START_TEST(test_libwatchdog)
 {
   int32_t fd;
@@ -1845,14 +2073,17 @@ int main(void)
   tcase_add_test(tests, test_libgpio);
   tcase_add_test(tests, test_libgpiod);
   tcase_add_test(tests, test_libhidraw);
+  tcase_add_test(tests, test_libhumid);
   tcase_add_test(tests, test_libi2c);
   tcase_add_test(tests, test_libipv4);
   tcase_add_test(tests, test_liblinux);
   tcase_add_test(tests, test_liblinx);
+  tcase_add_test(tests, test_libpressure);
   tcase_add_test(tests, test_libpwm);
   tcase_add_test(tests, test_libserial);
   tcase_add_test(tests, test_libspi);
   tcase_add_test(tests, test_libstream);
+  tcase_add_test(tests, test_libtemp);
   tcase_add_test(tests, test_libwatchdog);
 
   suite = suite_create("Test Parameter Checking");
