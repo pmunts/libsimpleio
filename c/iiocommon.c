@@ -465,3 +465,5 @@ void ADC_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sampl
 void DAC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
 void DAC_get_reference(int32_t chip, double *reference, int32_t *error) ALIAS("IIO_get_vref");
 void DAC_write(int32_t fd, int32_t sample, int32_t *error) ALIAS("IIO_write_sample");
+void TEMP_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
+void TEMP_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sample");
