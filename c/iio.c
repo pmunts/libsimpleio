@@ -38,6 +38,10 @@
 #define VREFPH_FILE	"/sys/bus/iio/devices/iio:device%d/of_node/vref-supply"
 #define REGPH_FILE	"/sys/class/regulator/regulator.%d/of_node/phandle"
 #define UV_FILE		"/sys/class/regulator/regulator.%d/microvolts"
+#define SCALE_FILE1	"/sys/bus/iio/devices/iio:device%d/%s%d_scale"
+#define SCALE_FILE2	"/sys/bus/iio/devices/iio:device%d/%s_scale"
+#define DATA_FILE1	"/sys/bus/iio/devices/iio:device%d/%s%d_raw"
+#define DATA_FILE2	"/sys/bus/iio/devices/iio:device%d/%s_raw"
 
 void IIO_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
 {
@@ -237,8 +241,8 @@ void IIO_get_vref(int32_t chip, double *reference, int32_t *error)
   return;
 }
 
-void IIO_get_scale(int32_t chip, int32_t channel, const char *scalefile1,
-  const char *scalefile2, double *scale, int32_t *error)
+void IIO_get_scale(int32_t chip, int32_t channel, const char *property,
+  double *scale, int32_t *error)
 {
   assert(error != NULL);
 
@@ -320,8 +324,8 @@ void IIO_get_scale(int32_t chip, int32_t channel, const char *scalefile1,
   close(fd);
 }
 
-void IIO_open(int32_t chip, int32_t channel, const char *datafile1,
-  const char *datafile2, mode_t mode, int32_t *fd, int32_t *error)
+void IIO_open(int32_t chip, int32_t channel, const char *property,
+  mode_t mode, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
@@ -459,11 +463,106 @@ void IIO_write_sample(int32_t fd, int32_t sample, int32_t *error)
   *error = 0;
 }
 
+/*****************************************************************************/
+
+// ADC (Analog to Digital Converter) Services
+
+#include "libadc.h"
+
 void ADC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
+
 void ADC_get_reference(int32_t chip, double *reference, int32_t *error) ALIAS("IIO_get_vref");
+
+void ADC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
+{
+  IIO_get_scale(chip, channel, "in_voltage", scale, error);
+}
+
 void ADC_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sample");
+
+void ADC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
+{
+  IIO_open(chip, channel, "in_voltage", O_RDONLY, fd, error);
+}
+
+/*****************************************************************************/
+
+// DAC (Digital to Analog Converter) Services
+
+#include "libdac.h"
+
 void DAC_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
+
 void DAC_get_reference(int32_t chip, double *reference, int32_t *error) ALIAS("IIO_get_vref");
+
+void DAC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
+{
+  IIO_get_scale(chip, channel, out_voltage, scale, error);
+}
+
+void DAC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
+{
+  IIO_open(chip, channel, DATA_FILE1, DATA_FILE2, O_WRONLY, fd, error);
+}
+
 void DAC_write(int32_t fd, int32_t sample, int32_t *error) ALIAS("IIO_write_sample");
+
+/*****************************************************************************/
+
+// Humidity Sensor Services
+
+#include "libhumid.h"
+
+void HUMID_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
+
+void HUMID_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
+{
+  IIO_get_scale(chip, channel, "in_humidityrelative", scale, error);
+}
+
+void HUMID_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
+{
+  IIO_open(chip, channel, "in_humidityrelative", O_RDONLY, fd, error);
+}
+
+void HUMID_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sample");
+
+/*****************************************************************************/
+
+// Pressure Sensor Services
+
+#include "libpressure.h"
+
+void PRESSURE_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
+
+void PRESSURE_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
+{
+  IIO_get_scale(chip, channel, "pressure", scale, error);
+}
+
+void PRESSURE_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
+{
+  IIO_open(chip, channel, "pressure", O_RDONLY, fd, error);
+}
+
+void PRESSURE_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sample");
+
+/*****************************************************************************/
+
+// Temperature Sensor Services
+
+#include "libtemp.h"
+
 void TEMP_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
+
+void TEMP_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
+{
+  IIO_get_scale(chip, channel, "in_temp", scale, error);
+}
+
+void TEMP_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
+{
+  IIO_open(chip, channel, "in_temp", O_RDONLY, fd, error);
+}
+
 void TEMP_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sample");
