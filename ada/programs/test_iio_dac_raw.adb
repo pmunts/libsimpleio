@@ -1,6 +1,6 @@
--- DAC Output Test using kernel and libsimpleio DAC services
+-- Linux Industrial I/O raw sample Digital to Analog Converter Test
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,14 +29,15 @@ WITH Device;
 
 USE TYPE Analog.Sample;
 
-PROCEDURE test_dac IS
+PROCEDURE test_iio_dac_raw IS
 
   desg       : Device.Designator;
   resolution : Positive;
   DAC0       : Analog.Output;
 
 BEGIN
-  Put_Line("DAC Output Test");
+  New_Line;
+  Put_Line("Linux Industrial I/O raw sample Digital to Analog Converter Test");
   New_Line;
 
   Put("Enter DAC chip number:    ");
@@ -47,6 +48,8 @@ BEGIN
 
   Put("Enter DAC resolution:     ");
   Get(resolution);
+
+  New_Line;
 
   -- Create DAC output object
 
@@ -59,4 +62,4 @@ BEGIN
       DAC0.Put(s);
     END LOOP;
   END LOOP;
-END test_dac;
+END test_iio_dac_raw;
