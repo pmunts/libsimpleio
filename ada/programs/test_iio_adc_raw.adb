@@ -1,6 +1,6 @@
--- ADC input test using kernel and libsimpleio ADC services
+-- Linux Industrial I/O raw sample Analog to Digital Converter Test
 
--- Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -27,13 +27,13 @@ WITH Analog;
 WITH ADC.libsimpleio;
 WITH Device;
 
-PROCEDURE test_adc IS
+PROCEDURE test_iio_adc_raw IS
 
   desg : Device.Designator;
   ADC0 : Analog.Input;
 
 BEGIN
-  Put_Line("ADC Input Test");
+  Put_Line("Linux Industrial I/O raw sample Analog to Digital Converter Test");
   New_Line;
 
   Put("Enter ADC chip number:    ");
@@ -52,4 +52,4 @@ BEGIN
     Put_Line("Sample:" & Analog.Sample'Image(ADC0.Get));
     DELAY 1.0;
   END LOOP;
-END test_adc;
+END test_iio_adc_raw;
