@@ -33,6 +33,7 @@ PROCEDURE test_iio_adc_raw IS
   ADC0 : Analog.Input;
 
 BEGIN
+  New_Line;
   Put_Line("Linux Industrial I/O raw sample Analog to Digital Converter Test");
   New_Line;
 
@@ -41,6 +42,8 @@ BEGIN
 
   Put("Enter ADC channel number: ");
   Get(desg.chan);
+
+  New_Line;
 
   -- Create ADC input object
 
