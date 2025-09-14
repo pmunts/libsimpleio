@@ -31,6 +31,9 @@ _BEGIN_STD_C
 extern void TEMP_get_name(int32_t chip, char *name, int32_t namesize,
   int32_t *error);
 
+extern void TEMP_get_offset(int32_t chip, int32_t channel, int32_t *offset,
+  int32_t *error);
+
 extern void TEMP_get_scale(int32_t chip, int32_t channel, double *scale,
   int32_t *error);
 

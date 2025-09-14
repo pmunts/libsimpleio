@@ -34,6 +34,9 @@ extern void DAC_get_name(int32_t chip, char *name, int32_t namesize,
 extern void DAC_get_reference(int32_t chip, double *reference,
   int32_t *error);
 
+extern void DAC_get_offset(int32_t chip, int32_t channel, int32_t *offset,
+  int32_t *error);
+
 extern void DAC_get_scale(int32_t chip, int32_t channel, double *scale,
   int32_t *error);
 
