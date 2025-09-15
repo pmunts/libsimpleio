@@ -521,7 +521,7 @@ void DAC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
   IIO_get_name(chip, chipname, sizeof(chipname) - 1, error);
   if (*error) return;
 
-  IIO_open(chip, channel, "in_voltage", "scale", O_RDONLY, &fd, error);
+  IIO_open(chip, channel, "out_voltage", "scale", O_RDONLY, &fd, error);
   if (*error) return;
 
   IIO_get_double(fd, scale, error);
