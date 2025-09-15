@@ -1,6 +1,6 @@
 // GPIO pin services using libsimpleio
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@
 #ifndef _GPIO_LIBSIMPLEIO_H
 #define _GPIO_LIBSIMPLEIO_H
 
+#include <cstdint>
 #include <climits>
 #include <gpio-interface.h>
 #include <libsimpleio/libgpio.h>
