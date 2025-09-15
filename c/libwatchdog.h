@@ -1,6 +1,6 @@
 /* Watchdog timer services for Linux */
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,7 +24,6 @@
 #define LIBWATCHDOG_H
 
 #include <libsimpleio/cplusplus.h>
-#include <stdint.h>
 
 _BEGIN_STD_C
 

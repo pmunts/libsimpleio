@@ -1,6 +1,6 @@
 /* SPI transaction services for Linux */
 
-// Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -23,9 +23,11 @@
 #include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <linux/spi/spidev.h>
 #include <sys/ioctl.h>
 #include <sys/param.h>
 

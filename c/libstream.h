@@ -1,6 +1,6 @@
 // Simple byte stream message framing library
 
-// Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,10 +22,6 @@
 
 #ifndef _LIBSTREAM_H
 #define _LIBSTREAM_H
-
-#include <stdint.h>
-#include <string.h>
-#include <sys/types.h>
 
 #ifndef _BEGIN_STD_C
 #ifdef __linux__

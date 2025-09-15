@@ -26,7 +26,6 @@
 
 #include <libsimpleio/cplusplus.h>
 #include <poll.h>
-#include <stdint.h>
 #include <syslog.h>
 
 #define LOG_PROGNAME	""

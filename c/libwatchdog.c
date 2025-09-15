@@ -1,6 +1,6 @@
 /* Watchdog timer services for Linux */
 
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <linux/watchdog.h>
 #include <sys/ioctl.h>
 

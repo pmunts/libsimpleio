@@ -24,7 +24,6 @@
 #define LIBADC_H
 
 #include <libsimpleio/cplusplus.h>
-#include <stdint.h>
 
 _BEGIN_STD_C
 

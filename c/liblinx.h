@@ -1,6 +1,6 @@
 // LabView LINX device firmware definitions
 
-// Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -23,11 +23,9 @@
 #ifndef _LIBLINX_H_
 #define _LIBLINX_H_
 
-#include <unistd.h>
 #ifndef _BEGIN_STD_C
 #include <libsimpleio/cplusplus.h>
 #endif
-#include <stdint.h>
 
 #define LINX_SOF	0xFF
 #define LINX_VERSION	0x03000000
