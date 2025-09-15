@@ -31,6 +31,7 @@
 #include <unistd.h>
 #include <sys/param.h>
 
+#include "libiio.h"
 #include "macros.inc"
 
 #define NAME_FILE	"/sys/bus/iio/devices/iio:device%d/of_node/name"
@@ -534,6 +535,6 @@ void DAC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
   IIO_open(chip, channel, "out_voltage", "raw", O_WRONLY, fd, error);
 }
 
-void DAC_write(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_put_int");
+void DAC_write(int32_t fd, int32_t sample, int32_t *error) ALIAS("IIO_put_int");
 
 void DAC_close(int32_t fd, int32_t *error) ALIAS("IIO_close");
