@@ -37,12 +37,10 @@
 #define VREFPH_FILE	"/sys/bus/iio/devices/iio:device%d/of_node/vref-supply"
 #define REGPH_FILE	"/sys/class/regulator/regulator.%d/of_node/phandle"
 #define UV_FILE		"/sys/class/regulator/regulator.%d/microvolts"
-#define SCALE_FILE1	"/sys/bus/iio/devices/iio:device%d/%s%d_scale"
-#define SCALE_FILE2	"/sys/bus/iio/devices/iio:device%d/%s_scale"
-#define DATA_FILE1	"/sys/bus/iio/devices/iio:device%d/%s%d_raw"
-#define DATA_FILE2	"/sys/bus/iio/devices/iio:device%d/%s_raw"
+#define DATA_FILE1	"/sys/bus/iio/devices/iio:device%d/%s%d_%s"
+#define DATA_FILE2	"/sys/bus/iio/devices/iio:device%d/%s_%s"
 
-static void IIO_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
+void IIO_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error)
 {
   assert(error != NULL);
 
@@ -102,7 +100,7 @@ static void IIO_get_name(int32_t chip, char *name, int32_t namesize, int32_t *er
   close(fd);
 }
 
-static void IIO_get_vref(int32_t chip, double *reference, int32_t *error)
+void IIO_get_vref(int32_t chip, double *reference, int32_t *error)
 {
   assert(error != NULL);
 
@@ -240,21 +238,12 @@ static void IIO_get_vref(int32_t chip, double *reference, int32_t *error)
   return;
 }
 
-static void IIO_get_scale(int32_t chip, int32_t channel, const char *property,
-  double *scale, int32_t *error)
+void IIO_open(int32_t chip, int32_t channel, const char *property,
+  const char *suffix, mode_t mode, int32_t *fd, int32_t *error)
 {
   assert(error != NULL);
 
   // Validate parameters
-
-  if (scale == NULL)
-  {
-    *error = EINVAL;
-    ERRORMSG("scale argument is NULL", *error, __LINE__ - 3);
-    return;
-  }
-
-  *scale = 0.0;
 
   if (chip < 0)
   {
@@ -270,65 +259,18 @@ static void IIO_get_scale(int32_t chip, int32_t channel, const char *property,
     return;
   }
 
-  // Try xx_xxxxY_scale first
-
-  char filename[MAXPATHLEN];
-  memset(filename, 0, sizeof(filename));
-  snprintf(filename, sizeof(filename) - 1, SCALE_FILE1, chip, property, channel);
-
-  if (access(filename, R_OK))
+  if (property == NULL)
   {
-    // Now try xx_xxxx_scale
-
-    memset(filename, 0, sizeof(filename));
-    snprintf(filename, sizeof(filename) - 1, SCALE_FILE2, chip, property);
-  }
-
-  int fd = open(filename, O_RDONLY);
-
-  if (fd < 0)
-  {
-    *error = errno;
-    ERRORMSG("open() failed", *error, __LINE__ - 5);
+    *error = EINVAL;
+    ERRORMSG("property argument is NULL", *error, __LINE__ - 3);
     return;
   }
-
-  char scalebuf[256];
-  memset(scalebuf, 0, sizeof(scalebuf));
-
-  ssize_t len = read(fd, scalebuf, sizeof(scalebuf) - 1);
-
-  if (len >= 0)
+  if (suffix == NULL)
   {
-    // UGLY SPECIAL HACK: For MCP342x ADC chips, for which the kernel
-    // generates incorrect values for xx_xxxxxxY_scale
-
-    char chipname[256];
-    memset(chipname, 0, sizeof(chipname));
-    IIO_get_name(chip, chipname, sizeof(chipname) - 1, error);
-
-    if (!strncmp(chipname, "mcp342", 6))
-      *scale = atof(scalebuf);
-    else
-      *scale = atof(scalebuf)/1000;
-
-    *error = 0;
+    *error = EINVAL;
+    ERRORMSG("property argument is NULL", *error, __LINE__ - 3);
+    return;
   }
-  else
-  {
-    *error = errno;
-    ERRORMSG("read() failed", *error, __LINE__ - 7);
-  }
-
-  close(fd);
-}
-
-static void IIO_open(int32_t chip, int32_t channel, const char *property,
-  mode_t mode, int32_t *fd, int32_t *error)
-{
-  assert(error != NULL);
-
-  // Validate parameters
 
   if (fd == NULL)
   {
@@ -337,33 +279,20 @@ static void IIO_open(int32_t chip, int32_t channel, const char *property,
     return;
   }
 
-  *fd = -1;
-
-  if (chip < 0)
-  {
-    *error = EINVAL;
-    ERRORMSG("chip argument is invalid", *error, __LINE__ - 4);
-    return;
-  }
-
-  if (channel < 0)
-  {
-    *error = EINVAL;
-    ERRORMSG("channel argument is invalid", *error, __LINE__ - 4);
-    return;
-  }
-
-  // Try xx_xxxxxxY_raw first
+  // Try xx_xxxxY_xxx first
 
   char filename[MAXPATHLEN];
-  snprintf(filename, sizeof(filename), DATA_FILE1, chip, property, channel);
+  memset(filename, 0, sizeof(filename));
+  snprintf(filename, sizeof(filename) - 1, DATA_FILE1, chip, property,
+    channel, suffix);
 
-  if (access(filename, R_OK) && channel == 0)
+  if (access(filename, F_OK) && (channel == 0))
   {
-    // Now try xx_xxxxxx_raw IFF channel 0
+    // Now try xx_xxxx_xxx
 
     memset(filename, 0, sizeof(filename));
-    snprintf(filename, sizeof(filename) - 1, DATA_FILE2, chip, property);
+    snprintf(filename, sizeof(filename) - 1, DATA_FILE2, chip, property,
+    suffix);
   }
 
   *fd = open(filename, mode);
@@ -378,7 +307,7 @@ static void IIO_open(int32_t chip, int32_t channel, const char *property,
   *error = 0;
 }
 
-static void IIO_read_sample(int32_t fd, int32_t *sample, int32_t *error)
+void IIO_get_double(int32_t fd, double *item, int32_t *error)
 {
   assert(error != NULL);
 
@@ -387,14 +316,60 @@ static void IIO_read_sample(int32_t fd, int32_t *sample, int32_t *error)
 
   // Validate parameters
 
-  if (sample == NULL)
+  if (fd < 0)
   {
     *error = EINVAL;
-    ERRORMSG("sample argument is NULL", *error, __LINE__ - 3);
+    ERRORMSG("fd argument is invalid", *error, __LINE__ - 3);
     return;
   }
 
-  *sample = 0;
+  if (item == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("item argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
+
+  // Rewind the raw data file
+
+  if (lseek(fd, SEEK_SET, 0) < 0)
+  {
+    *error = errno;
+    ERRORMSG("lseek() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  // Read from the raw data file
+
+  len = read(fd, buf, sizeof(buf) - 1);
+
+  if (len < 0)
+  {
+    *error = errno;
+    ERRORMSG("read() failed", *error, __LINE__ - 4);
+    return;
+  }
+
+  buf[len] = 0;
+  *item = atof(buf);
+  *error = 0;
+}
+
+void IIO_get_int(int32_t fd, int32_t *item, int32_t *error)
+{
+  assert(error != NULL);
+
+  char buf[32];
+  ssize_t len;
+
+  // Validate parameters
+
+  if (item == NULL)
+  {
+    *error = EINVAL;
+    ERRORMSG("item argument is NULL", *error, __LINE__ - 3);
+    return;
+  }
 
   if (fd < 0)
   {
@@ -418,18 +393,17 @@ static void IIO_read_sample(int32_t fd, int32_t *sample, int32_t *error)
 
   if (len < 0)
   {
-    *sample = 0;
     *error = errno;
     ERRORMSG("read() failed", *error, __LINE__ - 4);
     return;
   }
 
   buf[len] = 0;
-  *sample = atoi(buf);
+  *item = atoi(buf);
   *error = 0;
 }
 
-static void IIO_write_sample(int32_t fd, int32_t sample, int32_t *error)
+void IIO_put_int(int32_t fd, int32_t item, int32_t *error)
 {
   assert(error != NULL);
 
@@ -448,7 +422,7 @@ static void IIO_write_sample(int32_t fd, int32_t sample, int32_t *error)
 
   // Write to the raw data file
 
-  count = snprintf(buf, sizeof(buf), "%d\n", sample);
+  count = snprintf(buf, sizeof(buf), "%d\n", item);
 
   len = write(fd, buf, count);
 
@@ -462,7 +436,7 @@ static void IIO_write_sample(int32_t fd, int32_t sample, int32_t *error)
   *error = 0;
 }
 
-static void IIO_close(int32_t fd, int32_t *error)
+void IIO_close(int32_t fd, int32_t *error)
 {
   assert(error != NULL);
 
@@ -487,7 +461,7 @@ static void IIO_close(int32_t fd, int32_t *error)
 
 /*****************************************************************************/
 
-// ADC (Analog to Digital Converter) Services
+// Compatibility wrapper functions
 
 #include "libadc.h"
 
@@ -497,21 +471,39 @@ void ADC_get_reference(int32_t chip, double *reference, int32_t *error) ALIAS("I
 
 void ADC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
 {
-  IIO_get_scale(chip, channel, "in_voltage", scale, error);
+  char chipname[256];
+  int fd;
+
+  IIO_get_name(chip, chipname, sizeof(chipname) - 1, error);
+  if (*error) return;
+
+  IIO_open(chip, channel, "in_voltage", "scale", O_RDONLY, &fd, error);
+  if (*error) return;
+
+  IIO_get_double(fd, scale, error);
+  close(fd);
+  if (*error) return;
+
+  *scale /= 1000.0; // Convert millivolts per step to volts per step
+
+  // UGLY SPECIAL HACK: Apply correction factor for certain ADC chips,
+  // (e.g. MCP3428) for which the kernel generates an incorrect value in
+  // in_voltage[Y]_scale, which SHOULD be millivolts per step, according to:
+  //
+  // https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-iio
+
+  if (!strncmp(chipname, "mcp342", 6))
+    *scale *= 1000.0;
 }
 
 void ADC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 {
-  IIO_open(chip, channel, "in_voltage", O_RDONLY, fd, error);
+  IIO_open(chip, channel, "in_voltage", "raw", O_RDONLY, fd, error);
 }
 
-void ADC_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sample");
+void ADC_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_get_int");
 
 void ADC_close(int32_t fd, int32_t *error) ALIAS("IIO_close");
-
-/*****************************************************************************/
-
-// DAC (Digital to Analog Converter) Services
 
 #include "libdac.h"
 
@@ -521,80 +513,27 @@ void DAC_get_reference(int32_t chip, double *reference, int32_t *error) ALIAS("I
 
 void DAC_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
 {
-  IIO_get_scale(chip, channel, "out_voltage", scale, error);
+  char chipname[256];
+  int fd;
+
+  IIO_get_name(chip, chipname, sizeof(chipname) - 1, error);
+  if (*error) return;
+
+  IIO_open(chip, channel, "in_voltage", "scale", O_RDONLY, &fd, error);
+  if (*error) return;
+
+  IIO_get_double(fd, scale, error);
+  close(fd);
+  if (*error) return;
+
+  *scale /= 1000.0; // Convert millivolts per step to volts per step
 }
 
 void DAC_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
 {
-  IIO_open(chip, channel, "out_voltage", O_WRONLY, fd, error);
+  IIO_open(chip, channel, "out_voltage", "raw", O_WRONLY, fd, error);
 }
 
-void DAC_write(int32_t fd, int32_t sample, int32_t *error) ALIAS("IIO_write_sample");
+void DAC_write(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_put_int");
 
 void DAC_close(int32_t fd, int32_t *error) ALIAS("IIO_close");
-
-/*****************************************************************************/
-
-// Humidity Sensor Services
-
-#include "libhumidity.h"
-
-void HUMID_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
-
-void HUMID_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
-{
-  IIO_get_scale(chip, channel, "in_humidityrelative", scale, error);
-}
-
-void HUMID_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
-{
-  IIO_open(chip, channel, "in_humidityrelative", O_RDONLY, fd, error);
-}
-
-void HUMID_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sample");
-
-void HUMID_close(int32_t fd, int32_t *error) ALIAS("IIO_close");
-
-/*****************************************************************************/
-
-// Pressure Sensor Services
-
-#include "libpressure.h"
-
-void PRESSURE_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
-
-void PRESSURE_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
-{
-  IIO_get_scale(chip, channel, "pressure", scale, error);
-}
-
-void PRESSURE_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
-{
-  IIO_open(chip, channel, "pressure", O_RDONLY, fd, error);
-}
-
-void PRESSURE_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sample");
-
-void PRESSURE_close(int32_t fd, int32_t *error) ALIAS("IIO_close");
-
-/*****************************************************************************/
-
-// Temperature Sensor Services
-
-#include "libtemp.h"
-
-void TEMP_get_name(int32_t chip, char *name, int32_t namesize, int32_t *error) ALIAS("IIO_get_name");
-
-void TEMP_get_scale(int32_t chip, int32_t channel, double *scale, int32_t *error)
-{
-  IIO_get_scale(chip, channel, "in_temp", scale, error);
-}
-
-void TEMP_open(int32_t chip, int32_t channel, int32_t *fd, int32_t *error)
-{
-  IIO_open(chip, channel, "in_temp", O_RDONLY, fd, error);
-}
-
-void TEMP_read(int32_t fd, int32_t *sample, int32_t *error) ALIAS("IIO_read_sample");
-
-void TEMP_close(int32_t fd, int32_t *error) ALIAS("IIO_close");
