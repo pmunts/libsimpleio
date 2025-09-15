@@ -24,14 +24,11 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
 
 WITH Device;
-WITH libTEMP;
 WITH Temperature.libsimpleio;
 
 PROCEDURE test_iio_temperature IS
 
   desg   : Device.Designator;
-  scale  : Long_Float;
-  error  : Integer;
   sensor : Temperature.Input;
 
 BEGIN
@@ -44,14 +41,6 @@ BEGIN
 
   Put("Enter channel number: ");
   Get(desg.chan);
-
-  New_Line;
-
-  libTEMP.GetScale(desg.chip, desg.chan, scale, error);
-
-  IF error = 0 THEN
-    Put_Line("Scale Factor:" & scale'Image);
-  END IF;
 
   New_Line;
 
