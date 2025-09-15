@@ -20,8 +20,12 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Ada.Strings.Fixed;
+WITH Ada.Strings.Maps.Constants;
+WITH Ada.Text_IO; USE Ada.Text_IO;
+
 WITH errno;
-WITH libTEMP;
+WITH libIIO;
 
 PACKAGE BODY Temperature.libsimpleio IS
 
@@ -40,28 +44,67 @@ PACKAGE BODY Temperature.libsimpleio IS
 
   PROCEDURE Initialize(Self : IN OUT InputSubclass; desg : Device.Designator) IS
 
-    scale : Long_Float;
-    fd    : Integer;
-    error : Integer;
+    fd_offset : Integer;
+    fd_raw    : Integer;
+    fd_scale  : Integer;
+    name      : String(1 .. 256);
+    fudge     : Long_Float;
+    error     : Integer;
 
   BEGIN
     Self.Destroy;
 
-    libTEMP.GetScale(desg.chip, desg.chan, scale, error);
+    libIIO.Open(desg.chip, desg.chan, "in_temp" & ASCII.Nul,
+      "offset" & ASCII.Nul, libIIO.O_RDONLY, fd_offset, error);
 
     IF error /= 0 THEN
-      RAISE Temperature_Error WITH "libTEMP.GetScale() failed, " &
+      fd_offset := -1;
+    END IF;
+
+    libIIO.Open(desg.chip, desg.chan, "in_temp" & ASCII.Nul,
+      "raw" & ASCII.Nul, libIIO.O_RDONLY, fd_raw, error);
+
+    IF error /= 0 THEN
+      Self.Destroy;
+
+      RAISE Temperature_Error WITH "libIIO.Open() failed, " &
         errno.strerror(error);
     END IF;
 
-    libTEMP.Open(desg.chip, desg.chan, fd, error);
+    libIIO.Open(desg.chip, desg.chan, "in_temp" & ASCII.Nul,
+      "scale" & ASCII.Nul, libIIO.O_RDONLY, fd_scale, error);
 
     IF error /= 0 THEN
-      RAISE Temperature_Error WITH "libTEMP.Open() failed, " &
+      Self.Destroy;
+
+      RAISE Temperature_Error WITH "libIIO.Open() failed, " &
         errno.strerror(error);
     END IF;
 
-    Self := InputSubclass'(fd, Temperature.Celsius(scale)*1000.0);
+    libIIO.GetName(desg.chip, name, name'Length, error);
+
+    IF error /= 0 THEN
+      Self.Destroy;
+
+      RAISE Temperature_Error WITH "libIIO.GetName() failed, " &
+        errno.strerror(error);
+    END IF;
+
+    -- Compute scale fudge factor for certain devices
+
+    DECLARE
+      sname : String := Ada.Strings.Fixed.Trim(name,
+        Ada.Strings.Maps.Constants.Control_set,
+        Ada.Strings.Maps.Constants.Control_set);
+    BEGIN
+      IF sname = "mpl3115" THEN
+        fudge := 1000.0;
+      ELSE
+        fudge := 1.0;
+      END IF;
+    END;
+
+    Self := InputSubclass'(fd_offset, fd_raw, fd_scale, fudge);
   END Initialize;
 
   -- Temperature sensor object destroyer
@@ -75,43 +118,58 @@ PACKAGE BODY Temperature.libsimpleio IS
       RETURN;
     END IF;
 
-    libTEMP.Close(Self.fd, error);
+    IF Self.fd_offset >= 0 THEN
+      libIIO.Close(Self.fd_offset, error);
+    END IF;
+
+    IF Self.fd_raw >= 0 THEN
+      libIIO.Close(Self.fd_raw, error);
+    END IF;
+
+    IF Self.fd_scale >= 0 THEN
+      libIIO.Close(Self.fd_scale, error);
+    END IF;
 
     Self := Destroyed;
-
-    IF error /= 0 THEN
-      RAISE Temperature_Error WITH "libTEMP.Close() failed, " &
-        errno.strerror(error);
-    END IF;
   END Destroy;
 
   -- Temperature sensor read method
 
   FUNCTION Get(Self : IN OUT InputSubclass) RETURN Celsius IS
 
-    sample : Integer;
+    offset : Integer;
+    raw    : Integer;
+    scale  : Long_Float;
     error  : Integer;
 
   BEGIN
     Self.CheckDestroyed;
 
-    libTEMP.Read(Self.fd, sample, error);
+    IF Self.fd_offset >= 0 THEN
+      libIIO.GetInt(Self.fd_offset, offset, error);
+
+      IF error /= 0 THEN
+        RAISE Temperature_Error WITH "libIIO.GetInt() failed, " &
+          errno.strerror(error);
+      END IF;
+    END IF;
+
+    libIIO.GetInt(Self.fd_raw, raw, error);
 
     IF error /= 0 THEN
-      RAISE Temperature_Error WITH "libTEMP.Read() failed, " &
+      RAISE Temperature_Error WITH "libIIO.GetInt() failed, " &
         errno.strerror(error);
     END IF;
 
-    RETURN Temperature.Celsius(sample)*Self.scale;
+    libIIO.GetDouble(Self.fd_scale, scale, error);
+
+    IF error /= 0 THEN
+      RAISE Temperature_Error WITH "libIIO.GetDouble() failed, " &
+        errno.strerror(error);
+    END IF;
+
+    RETURN Temperature.Celsius(Long_Float(raw + offset)*scale/1000.0*Self.fudge);
   END Get;
-
-  -- Retrieve the underlying Linux file descriptor
-
-  FUNCTION fd(Self : InputSubclass) RETURN Integer IS 
-
-  BEGIN
-    RETURN Self.fd;
-  END fd;
 
   -- Check whether temperature sensor has been destroyed
 

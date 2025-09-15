@@ -46,10 +46,6 @@ PACKAGE Temperature.libsimpleio IS
 
   FUNCTION Get(Self : IN OUT InputSubclass) RETURN Celsius;
 
-  -- Retrieve the underlying Linux file descriptor
-
-  FUNCTION fd(Self : InputSubclass) RETURN Integer;
-
 PRIVATE
 
   -- Check whether temperature sensor object instance has been destroyed
@@ -57,10 +53,12 @@ PRIVATE
   PROCEDURE CheckDestroyed(Self : InputSubclass);
 
   TYPE InputSubclass IS NEW InputInterface WITH RECORD
-    fd    : Integer  := -1;
-    scale : Temperature.Celsius := Celsius'Last;
+    fd_offset : Integer    := -1;
+    fd_raw    : Integer    := -1;
+    fd_scale  : Integer    := -1;
+    fudge     : Long_Float := 1.0;
   END RECORD;
 
-  Destroyed : CONSTANT InputSubclass := InputSubclass'(-1, Celsius'Last);
+  Destroyed : CONSTANT InputSubclass := InputSubclass'(-1, -1, -1, 1.0);
 
 END Temperature.libsimpleio;
