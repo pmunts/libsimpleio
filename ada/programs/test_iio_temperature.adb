@@ -1,4 +1,4 @@
--- Linux Industrial I/O Temperature Sensor Test
+-- Linux Industrial I/O Subsystem Temperature Sensor Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -33,7 +33,7 @@ PROCEDURE test_iio_temperature IS
 
 BEGIN
   New_Line;
-  Put_Line("Linux Industrial I/O Temperature Sensor Test");
+  Put_Line("Linux Industrial I/O Subsystem Temperature Sensor Test");
   New_Line;
 
   Put("Enter chip number:    ");

@@ -1,4 +1,4 @@
--- Linux Industrial I/O Digital to Analog Converter Test
+-- Linux Industrial I/O Subsystem Digital to Analog Converter Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -39,7 +39,7 @@ PROCEDURE test_iio_dac IS
 
 BEGIN
   New_Line;
-  Put_Line("Linux Industrial I/O Digital to Analog Converter Test");
+  Put_Line("Linux Industrial I/O Subsystem Digital to Analog Converter Test");
   New_Line;
 
   Put("Enter chip number:    ");

@@ -1,4 +1,4 @@
--- Linux Industrial I/O Analog to Digital Converter Test
+-- Linux Industrial I/O Subsystem Analog to Digital Converter Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -39,7 +39,7 @@ PROCEDURE test_iio_adc IS
 
 BEGIN
   New_Line;
-  Put_Line("Linux Industrial I/O Analog to Digital Converter Test");
+  Put_Line("Linux Industrial I/O Subsystem Analog to Digital Converter Test");
   New_Line;
 
   Put("Enter chip number:    ");
