@@ -1,4 +1,4 @@
--- Linux Industrial I/O Temperature Sensor Test
+-- Linux Industrial I/O Temperature Sensor Services
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -20,36 +20,45 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO; USE Ada.Text_IO;
-WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
-
 WITH Device;
-WITH Temperature.libsimpleio.IIO;
 
-PROCEDURE test_iio_temperature IS
+PACKAGE Temperature.libsimpleio.IIO IS
 
-  desg   : Device.Designator;
-  sensor : Temperature.Input;
+  -- Type definitions
 
-BEGIN
-  New_Line;
-  Put_Line("Linux Industrial I/O Temperature Sensor Test");
-  New_Line;
+  TYPE InputSubclass IS NEW InputInterface WITH PRIVATE;
 
-  Put("Enter chip number:    ");
-  Get(desg.chip);
+  Destroyed : CONSTANT InputSubclass;
 
-  Put("Enter channel number: ");
-  Get(desg.chan);
+  -- Temperature sensor object constructor
 
-  New_Line;
+  FUNCTION Create(desg : Device.Designator) RETURN Input;
 
-  sensor := Temperature.libsimpleio.IIO.Create(desg);
+  -- Temperature sensor object instance initializer
 
-  LOOP
-    Put("Temperature: ");
-    Temperature.Celsius_IO.Put(sensor.Get, 3, 1, 0);
-    Put_Line(" °C");
-    DELAY 1.0;
-  END LOOP;
-END test_iio_temperature;
+  PROCEDURE Initialize(Self : IN OUT InputSubclass; desg : Device.Designator);
+
+  -- Temperature sensor object destroyer
+
+  PROCEDURE Destroy(Self : IN OUT InputSubclass);
+
+  -- Temperature sensor read method
+
+  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Celsius;
+
+PRIVATE
+
+  -- Check whether temperature sensor object instance has been destroyed
+
+  PROCEDURE CheckDestroyed(Self : InputSubclass);
+
+  TYPE InputSubclass IS NEW InputInterface WITH RECORD
+    fd_offset : Integer    := -1;
+    fd_raw    : Integer    := -1;
+    fd_scale  : Integer    := -1;
+    fudge     : Long_Float := 1.0;
+  END RECORD;
+
+  Destroyed : CONSTANT InputSubclass := InputSubclass'(-1, -1, -1, 1.0);
+
+END Temperature.libsimpleio.IIO;

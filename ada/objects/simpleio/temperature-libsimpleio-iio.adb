@@ -22,12 +22,11 @@
 
 WITH Ada.Strings.Fixed;
 WITH Ada.Strings.Maps.Constants;
-WITH Ada.Text_IO; USE Ada.Text_IO;
 
 WITH errno;
 WITH libIIO;
 
-PACKAGE BODY Temperature.libsimpleio IS
+PACKAGE BODY Temperature.libsimpleio.IIO IS
 
   -- Temperature sensor object constructor
 
@@ -181,4 +180,4 @@ PACKAGE BODY Temperature.libsimpleio IS
     END IF;
   END CheckDestroyed;
 
-END Temperature.libsimpleio;
+END Temperature.libsimpleio.IIO;

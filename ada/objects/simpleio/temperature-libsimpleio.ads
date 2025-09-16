@@ -20,45 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Device;
-
 PACKAGE Temperature.libsimpleio IS
-
-  -- Type definitions
-
-  TYPE InputSubclass IS NEW InputInterface WITH PRIVATE;
-
-  Destroyed : CONSTANT InputSubclass;
-
-  -- Temperature sensor object constructor
-
-  FUNCTION Create(desg : Device.Designator) RETURN Input;
-
-  -- Temperature sensor object instance initializer
-
-  PROCEDURE Initialize(Self : IN OUT InputSubclass; desg : Device.Designator);
-
-  -- Temperature sensor object destroyer
-
-  PROCEDURE Destroy(Self : IN OUT InputSubclass);
-
-  -- Temperature sensor read method
-
-  FUNCTION Get(Self : IN OUT InputSubclass) RETURN Celsius;
-
-PRIVATE
-
-  -- Check whether temperature sensor object instance has been destroyed
-
-  PROCEDURE CheckDestroyed(Self : InputSubclass);
-
-  TYPE InputSubclass IS NEW InputInterface WITH RECORD
-    fd_offset : Integer    := -1;
-    fd_raw    : Integer    := -1;
-    fd_scale  : Integer    := -1;
-    fudge     : Long_Float := 1.0;
-  END RECORD;
-
-  Destroyed : CONSTANT InputSubclass := InputSubclass'(-1, -1, -1, 1.0);
 
 END Temperature.libsimpleio;
