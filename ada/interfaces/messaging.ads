@@ -32,6 +32,8 @@ PACKAGE Messaging IS
 
   TYPE Buffer IS ARRAY (Natural RANGE <>) OF ALIASED Byte;
 
+  PRAGMA Universal_Aliasing(Buffer);
+
   -- Display buffer contents in hexadecimal
 
   PROCEDURE Dump(src : Buffer; nbytes : Natural := Natural'Last);
