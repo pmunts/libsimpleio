@@ -30,7 +30,7 @@ WITH Voltage;
 USE TYPE Voltage.Volts;
 
 PACKAGE BODY ADC.libsimpleio IS
-  
+
   -- Get IIO device gain from environment variable
 
   FUNCTION IIOgain(desg : Device.Designator) RETURN Voltage.Volts IS
