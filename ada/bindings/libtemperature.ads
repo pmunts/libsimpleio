@@ -21,7 +21,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE libTEMP IS
+PACKAGE libTemperature IS
   PRAGMA Link_With("-lsimpleio");
 
   PROCEDURE GetName
@@ -55,4 +55,4 @@ PACKAGE libTEMP IS
     sample  : OUT Integer;
     error   : OUT Integer);
   PRAGMA Import(C, Read, "TEMP_read");
-END libTEMP;
+END libTemperature;
