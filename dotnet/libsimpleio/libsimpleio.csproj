@@ -34,7 +34,7 @@
       <Link>IO.Bindings\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\bindings\wioe5\*.cs">
-      <Link>IO.Bindings.WioE5\%(FileName)</Link>
+      <Link>IO.Bindings\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
