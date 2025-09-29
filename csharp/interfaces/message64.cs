@@ -1,4 +1,4 @@
-// Copyright (C)2017-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -53,6 +53,27 @@ namespace IO.Interfaces.Message64
 
             for (int i = 0; i < Size; i++)
                 payload[i] = fill;
+        }
+
+        /// <summary>
+        /// Dump payload in hexadecimal format
+        /// </summary>
+        public void Dump()
+        {
+            for (int i = 0; i < this.payload.Length; i++)
+                System.Console.Write(string.Format("{0:X2}", this.payload[i]));
+
+            System.Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Fill payload with a specified byte value.
+        /// </summary>
+        /// <param name="fill">Value to initialize the payload with.</param>
+        public void Fill(byte fill)
+        {
+            for (int i = 0; i < Size; i++)
+                this.payload[i] = fill;
         }
     }
 
