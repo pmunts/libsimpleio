@@ -1,6 +1,6 @@
-// Remote I/O Device Information Query Test
+// Raw HID Remote I/O Device Information Query Test
 
-// Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@ namespace test_query_remoteio_hid
     {
         static void Main()
         {
-            Console.WriteLine("\nRemote I/O Device Information Query Test\n");
+            Console.WriteLine("\nRaw HID Remote I/O Device Information Query Test\n");
 
             var remdev = new IO.Objects.RemoteIO.Device();
 
