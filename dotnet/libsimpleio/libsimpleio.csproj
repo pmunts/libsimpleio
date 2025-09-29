@@ -34,7 +34,7 @@
       <Link>IO.Bindings\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\bindings\wioe5\*.cs">
-      <Link>IO.Bindings\%(FileName)</Link>
+      <Link>IO.Bindings.WioE5\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
@@ -61,6 +61,9 @@
       <Link>IO.Objects.Message64\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\message64\message64-udp.cs">
+      <Link>IO.Objects.Message64\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\objects\message64\message64-wioe5ham1.cs">
       <Link>IO.Objects.Message64\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\remoteio\*.cs">

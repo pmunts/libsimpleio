@@ -79,6 +79,7 @@
       <NamespaceSummaryItem name="IO.Objects.Email.SMTP" isDocumented="True">Email Sending Services using SMTP to &lt;c&gt;localhost:25&lt;/c&gt;</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.GPIO.PWM" isDocumented="True">PWM Controlled GPIO Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Services over UDP</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Message64.WioE5Ham1" isDocumented="True">64-Byte Message Services over Wio-E5 LoRa Transceiver Amateur Radio Addressing Protocol #1</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.libhidraw" isDocumented="True">64-Byte Message Services over libhidraw</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>
