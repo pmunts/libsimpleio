@@ -27,16 +27,38 @@ WITH Wio_E5.P2P;
 
 PROCEDURE wioe5_ham1_monitor IS
 
-  FUNCTION Delete
-   (Source  : IN String;
-    From    : IN Positive;
-    Through : IN Natural) RETURN String RENAMES Ada.Strings.Fixed.Delete;
+  HeaderBytes : CONSTANT Positive := 12;
 
   FUNCTION Trim
    (Source : String;
     Side   : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
   PACKAGE LoRa IS NEW Wio_E5.P2P;
+
+  FUNCTION Dump(msg : LoRa.Payload; nbytes : Positive) RETURN String IS
+
+    hexchars   : CONSTANT ARRAY (0 .. 15) OF Character := "0123456789ABCDEF";
+
+    b     : Natural;
+    chars : String(1 .. nbytes);
+    bytes : String(1 .. nbytes*3) := (OTHERS => ' ');
+
+  BEGIN
+    FOR i IN Positive RANGE 1 .. nbytes LOOP
+      b := Natural(msg(i + HeaderBytes));
+
+      IF b > 31 AND b < 127 THEN
+        chars(i)         := Character'Val(b);
+      ELSE
+        chars(i) := '.';
+      END IF;
+
+      bytes(i*3-1) := hexchars(b / 16);
+      bytes(i*3)   := hexchars(b MOD 16);
+    END LOOP;
+
+    RETURN """" & chars & """" & bytes;
+  END Dump;
 
   dev : LoRa.Device;
   msg : LoRa.Payload;
@@ -54,20 +76,18 @@ BEGIN
   LOOP
     dev.Receive(msg, len, RSS, SNR);
 
-    IF len > 12 THEN
+    IF len > HeaderBytes THEN
       DECLARE
-        s        : String      := LoRa.ToString(msg, len);
-        net      : String      := s(1 .. 10);
-        dstnode  : Wio_E5.Byte := msg(11);
-        srcnode  : Wio_E5.Byte := msg(12);
-        pay      : String      := Delete(s, 1, 12);
-        sender   : String      := Trim(net) & "-" & Trim(srcnode'Image);
-        receiver : String      := Trim(net) & "-" & Trim(dstnode'Image);
-        nbytes   : Positive    := len - 22;
+        nbytes   : Positive     := len - HeaderBytes;
+        net      : String       := LoRa.ToString(msg, len)(1 .. HeaderBytes - 2);
+        dstnode  : Wio_E5.Byte  := msg(HeaderBytes - 1);
+        srcnode  : Wio_E5.Byte  := msg(HeaderBytes);
+        sender   : String       := Trim(net) & "-" & Trim(srcnode'Image);
+        receiver : String       := Trim(net) & "-" & Trim(dstnode'Image);
+        pay      : String       := Dump(msg, nbytes);
+
       BEGIN
-        Put_Line(sender & " => " & Receiver & " " & nbytes'Image &
-          " Bytes => """ & pay & """" & "  RSS:" & RSS'Image & " dbM  SNR:" &
-          SNR'Image & " dB");
+        Put_Line(sender & " => " & Receiver & "  RSS:" & RSS'Image & " dbM  SNR:" & SNR'Image & " dB " & nbytes'Image & " Bytes  " & pay);
       END;
     END IF;
   END LOOP;
