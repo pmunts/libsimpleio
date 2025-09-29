@@ -38,6 +38,7 @@
       <NamespaceSummaryItem name="NetMQ.Core.Utils" isDocumented="False" />
       <NamespaceSummaryItem name="NetMQ.Monitoring" isDocumented="False" />
       <NamespaceSummaryItem name="NetMQ.Sockets" isDocumented="False" />
+      <NamespaceSummaryItem name="IO.Bindings" isDocumented="True">Wrapper classes for C shared libraries.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.A4988" isDocumented="True">A4988 Stepper Motor Controller Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.AD5593R" isDocumented="True">AD5593 Analog/Digital I/O Device Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.AD5593R.ADC" isDocumented="True">AD5593 Analog/Digital I/O Device ADC Input Services.</NamespaceSummaryItem>
@@ -71,6 +72,9 @@
       <NamespaceSummaryItem name="IO.Devices.TH02" isDocumented="True">TH02 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Thermistor" isDocumented="True">Thermistor Modeling Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.USB.Munts" isDocumented="True">Vendor and Product Identifiers for Munts Technologies (&lt;a href="http://tech.munts.com"&gt;http://tech.munts.com&lt;/a&gt;) USB devices</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.WioE5.Ham1" isDocumented="True">&lt;a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module"&gt;Wio-E5 LoRa Transceiver Module&lt;/a&gt; Amateur Radio Unicast Flavor #1 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.WioE5.Ham2" isDocumented="True">&lt;a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module"&gt;Wio-E5 LoRa Transceiver Module&lt;/a&gt; Amateur Radio Unicast Flavor #2 Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.WioE5.P2P" isDocumented="True">&lt;a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module"&gt;Wio-E5 LoRa Transceiver Module&lt;/a&gt; P2P (Peer to Peer or Point to Point) Broadcast Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.DAC" isDocumented="True">Abstract Interface for DAC (Digital to Analog Converter) Outputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Output) Pins</NamespaceSummaryItem>
@@ -92,6 +96,7 @@
       <NamespaceSummaryItem name="IO.Objects.GPIO.PWM" isDocumented="True">PWM Controlled GPIO Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.HID" isDocumented="True">64-Byte Message Transport Services using raw HID (Human Interfacer Device).</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Transport Services using UDP (User Datagram Protocol).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.Message64.WioE5Ham1" isDocumented="True">64-Byte Message Services over Wio-E5 LoRa Transceiver Amateur Radio Addressing Protocol #1</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.ZeroMQ" isDocumented="True">64-Byte Message Transport Services using ZeroMQ REQ/REP.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.PWM" isDocumented="True">PWM Controlled Motor Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Motor.Servo" isDocumented="True">Servo Controlled Motor (e.g. continuous rotation servo) Services</NamespaceSummaryItem>

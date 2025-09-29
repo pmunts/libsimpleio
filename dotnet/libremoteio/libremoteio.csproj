@@ -30,6 +30,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\csharp\bindings\wioe5\*.cs">
+      <Link>IO.Bindings\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
     </Compile>
@@ -42,6 +45,9 @@
     <Compile Include="..\..\csharp\devices\pmod\*.cs">
       <Link>IO.Devices.Pmod\%(FileName)</Link>
     </Compile>
+    <Compile Include="..\..\csharp\devices\wioe5\*.cs">
+      <Link>IO.Devices.WioE5\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\..\csharp\interfaces\*.cs">
       <Link>IO.Interfaces\%(FileName)</Link>
     </Compile>
@@ -52,6 +58,9 @@
       <Link>IO.Objects.Message64\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\message64\message64-udp.cs">
+      <Link>IO.Objects.Message64\%(FileName)</Link>
+    </Compile>
+    <Compile Include="..\..\csharp\objects\message64\message64-wioe5ham1.cs">
       <Link>IO.Objects.Message64\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\objects\message64\message64-zeromq.cs">
