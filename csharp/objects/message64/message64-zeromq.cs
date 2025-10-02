@@ -71,6 +71,8 @@ namespace IO.Objects.Message64.ZeroMQ
         /// <param name="resp">64-byte response message.</param>
         public void Receive(IO.Interfaces.Message64.Message resp)
         {
+            resp.Fill(0);
+
             if (!this.sock.TryReceiveFrameBytes(this.timeout, out resp.payload))
                 throw new System.Exception("Receive timeout");
         }

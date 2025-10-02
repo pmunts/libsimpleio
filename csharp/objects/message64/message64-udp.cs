@@ -80,6 +80,8 @@ namespace IO.Objects.Message64.UDP
         {
             EndPoint sender = new IPEndPoint(0, 0);
 
+            resp.Fill(0);
+
             this.s.ReceiveFrom(resp.payload, ref sender);
 
             if (!this.server.Equals(sender))

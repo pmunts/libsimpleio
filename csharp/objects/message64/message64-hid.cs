@@ -272,6 +272,8 @@ namespace IO.Objects.Message64.HID
                             }
                         }
 
+                        resp.Fill(0);
+
                         libHIDRaw.HIDRAW_receive(this.fd, resp.payload,
                             IO.Interfaces.Message64.Message.Size, out count,
                             out error);
@@ -294,6 +296,8 @@ namespace IO.Objects.Message64.HID
                         if (len != IO.Interfaces.Message64.Message.Size +
                             this.reportID_offset)
                             throw new Exception("Invalid response message size");
+
+                        resp.Fill(0);
 
                         for (int i = 0; i < IO.Interfaces.Message64.Message.Size; i++)
                             resp.payload[i] = inbuf[i + this.reportID_offset];

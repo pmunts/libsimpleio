@@ -115,6 +115,8 @@ namespace IO.Objects.Message64.libhidraw
                 }
             }
 
+            resp.Fill(0);
+
             IO.Bindings.libsimpleio.HIDRAW_receive(this.myfd,
                 resp.payload, IO.Interfaces.Message64.Message.Size,
                 out int count, out error);
