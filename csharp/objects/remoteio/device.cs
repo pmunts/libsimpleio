@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using IO.Interfaces.Message64;
 
 namespace IO.Objects.RemoteIO
 {
@@ -60,10 +59,12 @@ namespace IO.Objects.RemoteIO
     /// </summary>
     public partial class Device
     {
-        private readonly Messenger transport;
+        private readonly IO.Interfaces.Message64.Messenger transport;
         private readonly String Version_string;
         private readonly String Capability_string;
-        private byte msgnum = 0;
+        private byte msgnum;
+        private IO.Interfaces.Message64.Message cmdbuf;
+        private IO.Interfaces.Message64.Message respbuf;
 
         /// <summary>
         /// Maximum number of channels each subsystem can support.
@@ -79,28 +80,24 @@ namespace IO.Objects.RemoteIO
 
         private string FetchVersion()
         {
-            Message cmd = new Message(0);
-            Message resp = new Message();
+            cmdbuf.Fill(0);
+            cmdbuf.payload[0] = (byte)MessageTypes.VERSION_REQUEST;
 
-            cmd.payload[0] = (byte)MessageTypes.VERSION_REQUEST;
-            cmd.payload[1] = 1;
-
-            this.transport.Transaction(cmd, resp);
-            return System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
+            Dispatcher(cmdbuf, respbuf);
+            return System.Text.Encoding.UTF8.GetString(respbuf.payload, 3,
+                IO.Interfaces.Message64.Message.Size - 3).Trim('\0');
         }
 
         // Fetch capability string
 
         private string FetchCapabilities()
         {
-            Message cmd = new Message(0);
-            Message resp = new Message();
+            cmdbuf.Fill(0);
+            cmdbuf.payload[0] = (byte)MessageTypes.CAPABILITY_REQUEST;
 
-            cmd.payload[0] = (byte)MessageTypes.CAPABILITY_REQUEST;
-            cmd.payload[1] = 2;
-
-            this.transport.Transaction(cmd, resp);
-            return System.Text.Encoding.UTF8.GetString(resp.payload, 3, Message.Size - 3).Trim('\0');
+            Dispatcher(cmdbuf, respbuf);
+            return System.Text.Encoding.UTF8.GetString(respbuf.payload, 3,
+                IO.Interfaces.Message64.Message.Size - 3).Trim('\0');
         }
 
         /// <summary>
@@ -109,10 +106,13 @@ namespace IO.Objects.RemoteIO
         /// </summary>
         /// <param name="transport"><c>Message64.Messenger</c> transport
         /// object.</param>
-        public Device(Messenger transport)
+        public Device(IO.Interfaces.Message64.Messenger transport)
         {
-            this.transport = transport;
-            this.Version_string = FetchVersion();
+            this.transport         = transport;
+            this.msgnum            = 1;
+            this.cmdbuf            = new IO.Interfaces.Message64.Message();
+            this.respbuf           = new IO.Interfaces.Message64.Message();
+            this.Version_string    = FetchVersion();
             this.Capability_string = FetchCapabilities();
         }
 
@@ -121,11 +121,12 @@ namespace IO.Objects.RemoteIO
         /// </summary>
         /// <param name="cmd">Command to be sent.</param>
         /// <param name="resp">Response to be received.</param>
-        public void Dispatcher(Message cmd, Message resp)
+        public void Dispatcher(IO.Interfaces.Message64.Message cmd,
+            IO.Interfaces.Message64.Message resp)
         {
             unchecked
             {
-                msgnum += 17;
+                msgnum += 251;  // Largest prime byte
             }
 
             cmd.payload[1] = msgnum;
@@ -193,13 +194,10 @@ namespace IO.Objects.RemoteIO
 
             // Query available peripherals
 
-            Message cmd = new Message(0);
-            Message resp = new Message();
+            cmdbuf.Fill(0);
+            cmdbuf.payload[0] = (byte)MsgTypes[(int)t];
 
-            cmd.payload[0] = (byte)MsgTypes[(int)t];
-            cmd.payload[1] = 5;
-
-            this.transport.Transaction(cmd, resp);
+            Dispatcher(cmdbuf, respbuf);
 
             // Build the list of available peripherals
 
@@ -208,7 +206,7 @@ namespace IO.Objects.RemoteIO
                 int bytenum = num / 8;
                 byte bitmask = (byte)(1 << (7 - num % 8));
 
-                if ((resp.payload[3 + bytenum] & bitmask) != 0)
+                if ((respbuf.payload[3 + bytenum] & bitmask) != 0)
                     peripherals.Add(num);
             }
 
