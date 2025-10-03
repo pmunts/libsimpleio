@@ -44,16 +44,24 @@ released in 1983 to replace a myriad of other programming languages used
 for developing software for military aircraft and other complex weapons
 systems. With the help of libsimpleio, Ada is still one of the best
 languages around for developing reliable embedded systems software for
-Linux computers. See also MuntsOS Embedded Linux, which uses libsimpleio
-pervasively.
+Linux computers.
 
-Documentation
+See also MuntsOS Embedded Linux, which uses libsimpleio pervasively.
 
-The user manual for libsimpleio is available at UserManual.pdf.
-Installation instructions are on pages 6 and 7.
+Documentation at https://repo.munts.com/libsimpleio/doc
 
-The man pages specifying the libsimpleio API are available at
-libsimpleio.html.
+User Manual:
+
+https://repo.munts.com/libsimpleio/doc/UserManual.pdf
+
+C Wrapper Functions API Specification:
+
+https://repo.munts.com/libsimpleio/doc/libsimpleio.html
+
+.Net Binding API Specifications:
+
+https://repo.munts.com/libsimpleio/doc/libremoteio.dll
+https://repo.munts.com/libsimpleio/doc/libsimpleio.dll
 
 Git Repository
 
