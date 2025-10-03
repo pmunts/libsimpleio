@@ -78,6 +78,7 @@ Debian Package Repository
 Prebuilt libsimpleio packages for Debian Linux are available at:
 
 https://repo.munts.com/debian12
+https://repo.munts.com/debian13
 
 Alire Crates
 
