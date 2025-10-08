@@ -157,7 +157,7 @@ PACKAGE BODY BuildHAT.Firmware IS
   PROCEDURE WaitForString
    (fd      : Integer;
     s       : String;
-    timeout : Duration := 0.25) IS
+    timeout : Duration := 1.0) IS
 
   buf     : String(s'Range) := (OTHERS => ASCII.NUL);
   c       : Character;
