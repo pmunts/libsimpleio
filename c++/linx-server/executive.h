@@ -1,6 +1,6 @@
 // LabView LINX Remote I/O Protocol Command Executive module
 
-// Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef _EXECUTIVE_H
-#define _EXECTUIVE_H
+#define _EXECUTIVE_H
 
 // This function will not return until a fatal error occurrs or the
 // connection is closed by the client.
