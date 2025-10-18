@@ -1,6 +1,6 @@
 // Labview LINX Common Commands module
 
-// Copyright (C)2016-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,10 +24,10 @@
 #define _COMMON_H_
 
 #include <errno.h>
-#include <libsimpleio/liblinx.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <libsimpleio/liblinx.h>
 #ifdef __linux__
 #include <syslog.h>
 #endif
