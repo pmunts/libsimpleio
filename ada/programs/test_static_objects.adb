@@ -34,18 +34,18 @@ WITH Watchdog.libsimpleio;
 
 PROCEDURE test_static_objects IS
 
-  adc0    : ADC.libsimpleio.InputSubclassSample:= ADC.libsimpleio.DestroyedSample;
-  adc1    : ADC.libsimpleio.InputSubclassVolts := ADC.libsimpleio.DestroyedVolts;
-  dac0    : DAC.libsimpleio.OutputSubclass     := DAC.libsimpleio.Destroyed;
-  gpio0   : GPIO.libsimpleio.PinSubclass       := GPIO.libsimpleio.Destroyed;
-  hid0    : HID.hidapi.MessengerSubclass       := HID.hidapi.Destroyed;
-  hid1    : HID.libsimpleio.MessengerSubclass  := HID.libsimpleio.Destroyed;
-  hid2    : HID.libusb.MessengerSubclass       := HID.libusb.Destroyed;
-  i2c0    : I2C.libsimpleio.BusSubclass        := I2C.libsimpleio.Destroyed;
-  log0    : Logging.libsimpleio.LoggerSubclass := Logging.libsimpleio.Destroyed;
-  pwm0    : PWM.libsimpleio.OutputSubclass     := PWM.libsimpleio.Destroyed;
-  spidev0 : SPI.libsimpleio.DeviceSubclass     := SPI.libsimpleio.Destroyed;
-  wd0     : Watchdog.libsimpleio.TimerSubclass := Watchdog.libsimpleio.Destroyed;
+  adc0    : ADC.libsimpleio.InputSubclassSample  := ADC.libsimpleio.DestroyedSample;
+  adc1    : ADC.libsimpleio.InputSubclassVolts   := ADC.libsimpleio.DestroyedVolts;
+  dac0    : DAC.libsimpleio.OutputSubclassSample := DAC.libsimpleio.DestroyedSample;
+  gpio0   : GPIO.libsimpleio.PinSubclass         := GPIO.libsimpleio.Destroyed;
+  hid0    : HID.hidapi.MessengerSubclass         := HID.hidapi.Destroyed;
+  hid1    : HID.libsimpleio.MessengerSubclass    := HID.libsimpleio.Destroyed;
+  hid2    : HID.libusb.MessengerSubclass         := HID.libusb.Destroyed;
+  i2c0    : I2C.libsimpleio.BusSubclass          := I2C.libsimpleio.Destroyed;
+  log0    : Logging.libsimpleio.LoggerSubclass   := Logging.libsimpleio.Destroyed;
+  pwm0    : PWM.libsimpleio.OutputSubclass       := PWM.libsimpleio.Destroyed;
+  spidev0 : SPI.libsimpleio.DeviceSubclass       := SPI.libsimpleio.Destroyed;
+  wd0     : Watchdog.libsimpleio.TimerSubclass   := Watchdog.libsimpleio.Destroyed;
 
 BEGIN
   ADC.libsimpleio.Destroy(adc0);
