@@ -35,7 +35,7 @@ AR = sys.argv[2]
 GM2_CFLAGS = sys.argv[3]
 
 LIBFILE = sys.argv[4]
-OBJDIR = tempfile.mkdtemp(prefix = LIBFILE + '.')
+OBJDIR = tempfile.mkdtemp(prefix = 'makelib.obj.')
 
 # Create the object file directory
 
