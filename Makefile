@@ -106,9 +106,15 @@ adalibs.done:
 	$(MAKE) -C ada/lib
 	touch $@
 
+# Build libsimpleiogm2.a
+
+gm2libs.done:
+	$(MAKE) -R -C gm2/lib LIBSIMPLEIO=`pwd` LIBSIMPLEIOGM2=`pwd`/libsimpleiogm2.a
+	touch $@
+
 # Install headers and library files
 
-install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5ham2.so libwioe5p2p.so adalibs.done
+install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5ham2.so libwioe5p2p.so adalibs.done gm2libs.done
 	mkdir -p				$(ETCDIR)/udev/rules.d
 	install -cm 0644 hotplug/linux/*.conf	$(ETCDIR)
 	install -cm 0644 hotplug/linux/*.rules	$(ETCDIR)/udev/rules.d
@@ -141,6 +147,7 @@ install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5ham
 	rm -rf					$(DESTDIR)/share/libsimpleio/csharp/programs/remoteio/win64
 	cp -R -P -p freepascal			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p gm2				$(DESTDIR)/share/libsimpleio
+	rm -rf					$(DESTDIR)/share/libsimpleio/gm2/lib
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p python			$(DESTDIR)/share/libsimpleio

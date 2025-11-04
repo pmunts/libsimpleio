@@ -27,6 +27,7 @@
 ifneq ($(BOARDNAME),)
 MUNTSOS		?= /usr/local/share/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
+LIBSIMPLEIOGM2	:= $(LIBSLIBDIR)/libsimpleiogm2.a
 endif
 
 gm2_mk_default: default
@@ -37,7 +38,7 @@ AR		?= $(CROSS_COMPILE)ar
 RANLIB		?= $(CROSS_COMPILE)ranlib
 STRIP		?= $(CROSS_COMPILE)strip
 
-LIBSIMPLEIOGM2	?= $(LIBSIMPLEIO)/gm2/lib/libsimpleiogm2.a
+LIBSIMPLEIOGM2	?= /usr/local/lib/libsimpleiogm2.a
 
 GM2		?= $(CROSS_COMPILE)gm2
 GM2_SRC		?= $(LIBSIMPLEIO)/gm2
@@ -46,7 +47,6 @@ GM2_CFLAGS	+= -fsoft-check-all
 #GM2_CFLAGS	+= -Wpedantic
 GM2_CFLAGS	+= -I$(GM2_SRC)/modules
 GM2_LDFLAGS	+= -L.
-GM2_LDFLAGS	+= -L$(GM2_SRC)/lib
 GM2_LDFLAGS	+= $(LIBSIMPLEIOGM2)
 
 ###############################################################################
