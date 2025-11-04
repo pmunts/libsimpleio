@@ -1,6 +1,6 @@
-# Common make definitons for compiling GNU Modula-2 programs
+# Build library containing compiled implementation modules
 
-# Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
+# Copyright (C)2025, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -20,6 +20,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+# NOTE: Build with: gmake -R
+
 ###############################################################################
 
 # Definitions for MuntsOS Embedded Linux
@@ -29,41 +31,30 @@ MUNTSOS		?= /usr/local/share/muntsos
 include $(MUNTSOS)/include/$(BOARDNAME).mk
 endif
 
-gm2_mk_default: default
+# Override the following macro to build out of tree:
 
-###############################################################################
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-AR		?= $(CROSS_COMPILE)ar
-RANLIB		?= $(CROSS_COMPILE)ranlib
-STRIP		?= $(CROSS_COMPILE)strip
+include $(LIBSIMPLEIO)/gm2/include/gm2.mk
+#include $(LIBSIMPLEIO)/gm2/include/libremoteio.mk
+include $(LIBSIMPLEIO)/gm2/include/libsimpleio.mk
 
-LIBSIMPLEIOGM2	?= $(LIBSIMPLEIO)/gm2/lib/libsimpleiogm2.a
+default: $(LIBSIMPLEIOGM2)
 
-GM2		?= $(CROSS_COMPILE)gm2
-GM2_SRC		?= $(LIBSIMPLEIO)/gm2
-GM2_CFLAGS	+= -fiso
-GM2_CFLAGS	+= -fsoft-check-all
-#GM2_CFLAGS	+= -Wpedantic
-GM2_CFLAGS	+= -I$(GM2_SRC)/modules
-GM2_LDFLAGS	+= -L.
-GM2_LDFLAGS	+= -L$(GM2_SRC)/lib
-GM2_LDFLAGS	+= $(LIBSIMPLEIOGM2)
+##############################################################################
 
-###############################################################################
+# Compile subordinate implementation modules
 
-# Define a rule for compiling a Modula-2 program
-
-%: %.mod
-	$(GM2) $(GM2_CFLAGS) -o$@ $< $(GM2_LDFLAGS)
-	$(STRIP) $@
+$(LIBSIMPLEIOGM2):
+	$(GM2_SRC)/lib/makelib.py $(GM2) $(AR) "$(GM2_CFLAGS)" "$@"
 
 ###############################################################################
 
 # Clean out working files
 
-gm2_mk_clean:
-	rm -f *.s *.o
+clean: gm2_mk_clean
+	rm -f $(LIBSIMPLEIOGM2)
 
-gm2_mk_reallyclean: gm2_mk_clean
+reallyclean: gm2_mk_reallyclean
 
-gm2_mk_distclean: gm2_mk_reallyclean
+distclean: gm2_mk_distclean

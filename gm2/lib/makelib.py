@@ -2,7 +2,7 @@
 
 # Helper script to find and compile implementation modules
 
-# Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -26,6 +26,7 @@ import glob
 import os
 import os.path
 import sys
+import tempfile
 
 # Extract command line arguments
 
@@ -33,12 +34,12 @@ GM2 = sys.argv[1]
 AR = sys.argv[2]
 GM2_CFLAGS = sys.argv[3]
 
-OBJDIR = 'libmodules.d'
-LIBFILE = 'libmodules.a'
+LIBFILE = sys.argv[4]
+OBJDIR = tempfile.mkdtemp(prefix = LIBFILE + '.')
 
 # Create the object file directory
 
-os.system('mkdir -p ' + OBJDIR)
+#os.system('mkdir -p ' + OBJDIR)
 
 # Create the module library archive
 
