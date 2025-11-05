@@ -28,6 +28,6 @@ include $(LIBSIMPLEIO)/include/common.mk
 	chmod -R ugo-w $</*
 	chmod -R u+w $</DEBIAN
 	$(GAINROOT) chown -R root:root $<
-	$(GAINROOT) dpkg-deb -Zgzip --build $<
+	$(GAINROOT) dpkg-deb --build $<
 	$(GAINROOT) chown -R --reference=Makefile $< $@
 	chmod -R u+w $<
