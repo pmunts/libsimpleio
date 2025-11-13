@@ -62,6 +62,11 @@ endif
 # Definitions for Microsoft Windows
 
 ifeq ($(OS), Windows_NT)
+ifneq ($(BOARDNAME),)
+# Using MuntsOS cross-toolchain
+MUNTSOS		?= /usr/local/share/muntsos
+include $(MUNTSOS)/include/$(BOARDNAME).mk
+else
 EXESUFFIX	= .exe
 ifneq ($(GNAT),)
 # Gnat Community or Alire or similar mingw toolchain
@@ -71,6 +76,7 @@ ifeq ($(findstring CYGWIN, $(shell uname)), CYGWIN)
 # Cygwin toolchain (no gprbuild available)
 GPRBUILD	:= no
 LIBSIMPLEIO	:= $(shell cygpath $(LIBSIMPLEIO))
+endif
 endif
 endif
 endif
