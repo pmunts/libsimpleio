@@ -129,6 +129,9 @@ ifneq ($(GPRBUILD), no)
 	$(GPRBUILD) -P$< $(GPRBUILDFLAGS) $@ $(GPRBUILDPOSTFLAGS)
 	-$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $@$(EXESUFFIX) $(TARGETCOMPUTER)
+endif
 
 ifneq ($(wildcard default.gpr),)
 # Build with default Ada program project file
@@ -136,6 +139,9 @@ ifneq ($(wildcard default.gpr),)
 	$(GPRBUILD) $(GPRBUILDFLAGS) $@ $(GPRBUILDPOSTFLAGS)
 	-$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $@$(EXESUFFIX) $(TARGETCOMPUTER)
+endif
 endif
 else
 # Build with gnatmake (deprecated, but sometimes necessary)
@@ -144,6 +150,9 @@ else
 	$(GNATMAKE) $(GNATMAKEFLAGS) $@ -cargs $(GNATMAKECFLAGS) -largs $(GNATMAKELDFLAGS)
 	-$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $@$(EXESUFFIX) $(TARGETCOMPUTER)
+endif
 endif
 
 # Default make target
