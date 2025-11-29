@@ -1,6 +1,6 @@
 // GPIO Interrupt Button and LED Test
 
-// Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -38,8 +38,8 @@ namespace test_gpio_interrupt_button_led
             IO.Interfaces.GPIO.Pin Button =
                 new IO.Objects.SimpleIO.GPIO.Pin(desg_Button,
                     IO.Interfaces.GPIO.Direction.Input, false,
-                    IO.Objects.SimpleIO.GPIO.Driver.PushPull,
-                    IO.Objects.SimpleIO.GPIO.Edge.Both);
+                    IO.Interfaces.GPIO.Drive.PushPull,
+                    IO.Interfaces.GPIO.Edge.Both);
 
             IO.Objects.SimpleIO.Device.Designator desg_LED =
                 new IO.Objects.SimpleIO.Device.Designator(0, 26);

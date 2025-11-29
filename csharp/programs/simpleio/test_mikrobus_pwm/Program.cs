@@ -1,6 +1,6 @@
 // mikroBUS PWM Output Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,7 @@ namespace test_mikrobus_pwm
             // Create objects
 
             var S = new IO.Objects.SimpleIO.mikroBUS.Socket(num);
-            var outp = new IO.Objects.SimpleIO.PWM.Output(S.PWMOut, freq);
+            var outp = S.CreatePWMOutput(freq);
 
             // Sweep PWM output pulse width
 

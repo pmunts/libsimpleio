@@ -1,6 +1,6 @@
 // mikroBUS Analog Input Test
 
-// Copyright (C)2020-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2020-2025, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ namespace test_mikrobus_adc
             // Create objects
 
             var S = new IO.Objects.SimpleIO.mikroBUS.Socket(num);
-            var AIN = new IO.Objects.SimpleIO.ADC.Sample(S.AIN, 32);
+            var AIN = S.CreateAnalogInput();
 
             // Display analog input samples
 
