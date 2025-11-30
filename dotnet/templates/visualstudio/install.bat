@@ -2,7 +2,7 @@
 
 REM Install Visual Studio project templates
 
-REM Copyright (C)2019-2024, Philip Munts dba Munts Technologies.
+REM Copyright (C)2019-2025, Philip Munts dba Munts Technologies.
 REM
 REM Redistribution and use in source and binary forms, with or without
 REM modification, are permitted provided that the following conditions are met:
@@ -22,13 +22,6 @@ REM CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 REM ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 REM POSSIBILITY OF SUCH DAMAGE.
 
-SET DSTDIR=%HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 2022\Templates\ProjectTemplates
-
-RD /S /Q "%DSTDIR%"\csharp_console_libremoteio
-RD /S /Q "%DSTDIR%"\csharp_console_libsimpleio
-
-MD "%DSTDIR%\csharp_console_libremoteio
-MD "%DSTDIR%\csharp_console_libsimpleio
-
-XCOPY csharp_console_libremoteio.d "%DSTDIR%"\csharp_console_libremoteio /S /Y
-XCOPY csharp_console_libsimpleio.d "%DSTDIR%"\csharp_console_libsimpleio /S /Y
+set DSTDIR=%USERPROFILE%\Documents\Visual Studio 18\Templates\ProjectTemplates
+md "%DSTDIR%"
+xcopy *.zip "%DSTDIR%" /Y

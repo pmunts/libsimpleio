@@ -1,25 +1,18 @@
-<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:Elements="http://schemas.remobjects.com/elements/vstemplate">
+<?xml version="1.0" encoding="utf-8"?>
+
+<VSTemplate Type="Project" Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
   <TemplateData>
-    <Name>C# console application for .Net 9 using libsimpleio</Name>
-    <Description>A project for building a C# console application for .Net 9 using the Linux Simple I/O Library.</Description>
+    <Name>csharp_console_libsimpleio</Name>
+    <Description>A project for building a C# .Net console application using the Munts Technologies Linux Simple I/O Library.</Description>
     <ProjectType>CSharp</ProjectType>
-    <SortOrder>1000</SortOrder>
-    <CreateNewFolder>true</CreateNewFolder>
-    <CreateInPlace>true</CreateInPlace>
-    <DefaultName>csharp_console_libsimpleio</DefaultName>
-    <ProvideDefaultName>true</ProvideDefaultName>
     <LanguageTag>C#</LanguageTag>
-    <PlatformTag>.Net 9</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
     <ProjectTypeTag>Console</ProjectTypeTag>
-    <ProjectTypeTag>libsimpleio</ProjectTypeTag>
-    <ProjectTypeTag>Linux Simple I/O Library</ProjectTypeTag>
-    <LocationField>Enabled</LocationField>
-    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <ProjectTypeTag>Munts Technologies Linux Simple I/O Library</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
-    <Project File="csharp_console_libsimpleio.csproj" ReplaceParameters="true">
-      <ProjectItem ReplaceParameters="true" OpenInEditor="true">Program.cs</ProjectItem>
+    <Project File="csharp_console_libsimpleio.csproj">
+      <ProjectItem>Program.cs</ProjectItem>
       <ProjectItem>Makefile</ProjectItem>
       <ProjectItem>.vscode\tasks.json</ProjectItem>
     </Project>
