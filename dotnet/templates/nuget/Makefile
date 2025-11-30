@@ -51,9 +51,3 @@ build:
 
 clean:
 	rm -rf bin obj *.nupkg
-
-# Install templates from libsimpleio installation or source checkout
-
-install:
-	dotnet new install ./csharp_console_libremoteio.d
-	dotnet new install ./csharp_console_libsimpleio.d
