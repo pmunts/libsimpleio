@@ -22,7 +22,7 @@ LIBNAME		?= libremoteio-templates
 BUILDNUM	?= 1
 VERSION		:= $(shell date '+2.%Y.%j.$(BUILDNUM)' | sed 's/\.0/./g')
 CONFIGURATION	:= Release
-NUGETDIR	:= ../../../nuget
+NUGETDIR	:= ../../nuget
 
 FIND		?= find
 MAKE		?= make
