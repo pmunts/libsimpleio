@@ -4,8 +4,8 @@
     <PackageType>Template</PackageType>
     <PackageVersion>$(BUILDVERSION)</PackageVersion>
     <PackageId>libsimpleio-templates</PackageId>
-    <Title>C# console application for .Net 9 using libsimpleio</Title>
-    <Description>A project for building a C# console application for .Net 9 using the Linux Simple I/O Library.</Description>
+    <Title>libsimpleio-templates</Title>
+    <Description>Project template for building a C# console application for .Net 10 using the Linux Simple I/O Library.</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2016-2025, Philip Munts dba Munts Technologies.</Copyright>
     <PackageProjectUrl>https://github.com/pmunts/libsimpleio</PackageProjectUrl>

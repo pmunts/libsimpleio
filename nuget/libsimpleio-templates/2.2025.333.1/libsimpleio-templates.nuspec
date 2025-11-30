@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>libremoteio-templates</id>
-    <version>2.2025.76.2</version>
-    <title>C# console application for .Net 9 using libremoteio</title>
+    <id>libsimpleio-templates</id>
+    <version>2.2025.333.1</version>
+    <title>libsimpleio-templates</title>
     <authors>Philip Munts</authors>
     <license type="file">doc/COPYING</license>
     <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
     <readme>doc/README.md</readme>
     <projectUrl>https://github.com/pmunts/libsimpleio</projectUrl>
-    <description>A project for building a C# console application for .Net 9 using the Remote I/O Protocol.</description>
-    <releaseNotes>Corrected the URL for the API specification.</releaseNotes>
+    <description>Project template for building a C# console application for .Net 10 using the Linux Simple I/O Library.</description>
+    <releaseNotes>Updated for .Net 10.0.0 (LTS) and Visual Studio 2026.</releaseNotes>
     <copyright>Copyright (C)2016-2025, Philip Munts dba Munts Technologies.</copyright>
-    <tags>NuGet C# Linux macOS Windows Remote I/O Protocol ADC DAC GPIO I2C Motor PWM Servo SPI Stepper USB HID</tags>
+    <tags>NuGet C# Linux Linux Simple I/O Library Remote I/O Protocol ADC DAC GPIO I2C Motor PWM Servo SPI Stepper USB HID</tags>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
     <repository type="git" url="https://github.com/pmunts/libsimpleio" />
     <dependencies>
-      <group targetFramework="net9.0" />
+      <group targetFramework="net10.0" />
     </dependencies>
   </metadata>
 </package>

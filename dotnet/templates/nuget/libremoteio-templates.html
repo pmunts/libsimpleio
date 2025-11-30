@@ -1,39 +1,43 @@
 <h1>Introduction</h1>
-<p>This template package provides a .Net 9 project template for developing
-cross-platform .Net 9 application programs for Windows or Linux using
-<b><a href="https://www.nuget.org/packages/libremoteio">libremoteio.dll</a></b>, a
-.Net Standard 2.0 library assembly that provides a .Net client implementation
-of the <b><a href=
-"https://repo.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote I/O
-Protocol</a></b>.</p>
+<p>This package provides a project template for developing cross-platform .Net
+10 application programs for Linux, macOS, or Windows using <b><a href=
+"https://www.nuget.org/packages/libremoteio">libremoteio.dll</a></b>, a .Net
+Standard 2.0 library assembly that provides a .Net client implementation of the
+<b><a href="https://repo.munts.com/libsimpleio/doc/RemoteIOProtocol.pdf">Remote
+I/O Protocol</a></b>.</p>
 <p><b>libremoteio.dll</b> provides services to control ADC (Analog to Digital
 Converter) inputs, DAC (Digital to Analog) outputs, GPIO (General Purpose I/O)
 pins, I2C devices, PWM (Pulse Width Modulated) outputs, servo outputs, motor
 outputs, and SPI (Serial Peripheral Interface) devices connected to a <b>Remote
 I/O Protocol</b> server.</p>
 <p>With <b>libremoteio.dll</b> you can develop .Net application programs for
-Windows or Linux target computers that control I/O devices connected to a
-<b>Remote I/O Protocol</b> server. Such programs may be used for physical
+Linux, macOS, or Windows target computers that control I/O devices connected to
+a <b>Remote I/O Protocol</b> server. Such programs may be used for physical
 computing, test fixtures, instrumentation, and other kinds of embedded
 systems.</p>
-<p>The API documentation for <b>libremoteio.dll</b> is available online at <a href=
+<p>The API documentation for <b>libremoteio.dll</b> is available online at
+<a href=
 "https://repo.munts.com/libsimpleio/doc/libremoteio.dll">https://repo.munts.com/libsimpleio/doc/libremoteio.dll</a>.</p>
 <h1>Usage</h1>
 <p>Install this template package by running the following command from a Linux
 or Windows command line:</p>
-<b><pre>
+<b>
+<pre>
 dotnet new install libremoteio-templates
-</pre></b>
-<p>The above command will install a .Net 9 application program project template
+</pre>
+</b>
+<p>The above command will install an application program project template
 called <b><tt>csharp_console_libremoteio</tt></b>. You can then create a
 project using it with commands like the following:</p>
-<b><pre>
+<b>
+<pre>
 mkdir myprogram
 cd myprogram
 dotnet new csharp_console_libremoteio
-</pre></b>
-<p>On Windows, after you have run the <b><tt>dotnet new install</tt></b> command
-above, <b>Visual Studio</b> will automatically pick up the
+</pre>
+</b>
+<p>On Windows, after you have run the <b><tt>dotnet new install</tt></b>
+command above, <b>Visual Studio</b> will automatically pick up the
 <b><tt>csharp_console_libremoteio</tt></b> <tt>project template</tt>. You can
 then create a project using it with <b><tt>File</tt> → <tt>New</tt> →
 <tt>Project...</tt></b> and then search for <b><tt>libremoteio</tt></b>.</p>
