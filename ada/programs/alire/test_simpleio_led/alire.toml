@@ -8,4 +8,4 @@ maintainers-logins = ["pmunts"]
 
 executables = ["test_simpleio_led"]
 [[depends-on]]
-libsimpleio = "^1.0.0"
+libsimpleio = "^2.0.0"
