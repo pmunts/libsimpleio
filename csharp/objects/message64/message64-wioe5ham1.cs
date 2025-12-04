@@ -66,7 +66,7 @@ namespace IO.Objects.Message64.WioE5Ham1
         public void Send(IO.Interfaces.Message64.Message cmd)
         {
             int count = cmd.payload.Length;
-            
+
             // Don't transmit trailing zero bytes
 
             while ((count > 1) && (cmd.payload[count - 1] == 0))
