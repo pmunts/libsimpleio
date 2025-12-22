@@ -63,7 +63,7 @@ compile.done:
 	ln -s c libsimpleio
 	rm -rf obj
 	mkdir obj
-	for F in c/*.c ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
+	for F in c/*.c ada/rabbitmq/*.c ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
 	touch $@
 
 # Build libremoteio.so
