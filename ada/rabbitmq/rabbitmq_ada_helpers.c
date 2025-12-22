@@ -3,8 +3,8 @@
  * Provides non-variadic wrappers for variadic librabbitmq functions
  */
 
-#include <amqp.h>
-#include <amqp_tcp_socket.h>
+#include <rabbitmq-c/amqp.h>
+#include <rabbitmq-c/tcp_socket.h>
 
 /* Wrapper for amqp_login with PLAIN authentication */
 amqp_rpc_reply_t rabbitmq_ada_login_plain(

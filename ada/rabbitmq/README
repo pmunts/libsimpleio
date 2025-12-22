@@ -1,4 +1,6 @@
-Imported from https://github.com/geewiz/rabbitmq_ada
+# RabbitMQ Ada Client Library Notes
 
-22 December 2025 -- Imported source files.  Created this file (README).
+22 December 2025 -- Imported from https://github.com/geewiz/rabbitmq_ada.
+                    Created this file (README).
                     Extracted COPYING from rabbitmq-c_binding.ads.
+                    Fixed deprecated includes in rabbitmq_ada_helpers.c.
