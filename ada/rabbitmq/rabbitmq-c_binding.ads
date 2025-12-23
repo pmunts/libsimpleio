@@ -11,6 +11,8 @@ with System;
 --  Merged thin binding for librabbitmq (rabbitmq-c)
 --  Auto-generated from amqp.h and amqp_framing.h, then merged to resolve circular deps
 package RabbitMQ.C_Binding is
+  pragma Link_With ("-lrabbitmq");
+  pragma Link_With ("-lsimpleio");
 
    --  ===========================================
    --  From amqp.h (base types and API functions)

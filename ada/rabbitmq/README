@@ -4,3 +4,5 @@
                     Created this file (README).
                     Extracted COPYING from rabbitmq-c_binding.ads.
                     Fixed deprecated includes in rabbitmq_ada_helpers.c.
+                    Added pragma Link_With("-lrabbitmq") and
+                    pragma Link_With("-lsimpleio") to rabbitmq-c_binding.ads.
