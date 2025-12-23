@@ -6,3 +6,5 @@
                     Fixed deprecated includes in rabbitmq_ada_helpers.c.
                     Added pragma Link_With("-lrabbitmq") and
                     pragma Link_With("-lsimpleio") to rabbitmq-c_binding.ads.
+
+23 December 2025 -- Added local extensions package RabbitMQ.Munts.
