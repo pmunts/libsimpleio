@@ -140,6 +140,7 @@ install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5ham
 	sed -i 's/building/using/g'		$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
 	sed -i 's/false/true/g'			$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
 	sed -i '/CUT HERE/,+5 d'		$(DESTDIR)/share/libsimpleio/ada/lib/*.gpr
+	rm -f					$(DESTDIR)/share/libsimpleio/ada/rabbitmq/*.c
 	rm -rf					$(DESTDIR)/share/libsimpleio/ada/shared-libs
 	cp -R -P -p c++				$(DESTDIR)/share/libsimpleio
 	rm -rf					$(DESTDIR)/share/libsimpleio/c++/visualstudio
