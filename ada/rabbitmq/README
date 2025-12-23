@@ -8,3 +8,5 @@
                     pragma Link_With("-lsimpleio") to rabbitmq-c_binding.ads.
 
 23 December 2025 -- Added local extensions package RabbitMQ.Munts.
+                    Patch rabbitmq-client-urls.adb.
+                    (See https://github.com/geewiz/rabbitmq_ada/issues/1)

@@ -95,7 +95,7 @@ package body RabbitMQ.Client.URLs is
             Vhost : constant Unbounded_String := Slice_After (Rest, Pos);
          begin
             if Length (Vhost) > 0 then
-               Result.Virtual_Host := To_Unbounded_String ("/") & Vhost;
+               Result.Virtual_Host := Vhost;
             else
                Result.Virtual_Host := To_Unbounded_String (Default_Vhost);
             end if;
