@@ -32,10 +32,6 @@ PROCEDURE test_rabbitmq_produce IS
   broker : RabbitMQ.Client.Connection;
 
 BEGIN
-  New_Line;
-  Put_Line("RabbitMQ Producer Test");
-  New_Line;
-
   IF Ada.Command_Line.Argument_Count /= 1 THEN
     Put_Line("Usage: test_rabbitmq_produce <text message>");
     New_Line;
