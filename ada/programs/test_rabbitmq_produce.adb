@@ -43,5 +43,5 @@ BEGIN
   END IF;
 
   broker.Connect(RabbitMQ.Munts.URL);
-  broker.Publish(RabbitMQ.Munts.Queue, Ada.Command_Line.Argument(1));
+  broker.Publish(RabbitMQ.Munts.Exchange, "", Ada.Command_Line.Argument(1));
 END test_rabbitmq_produce;

@@ -42,5 +42,11 @@ BEGIN
   New_Line;
 
   broker.Connect(RabbitMQ.Munts.URL);
-  broker.Subscribe(RabbitMQ.Munts.Queue, Callback'Unrestricted_Access);
+
+  DECLARE
+    Queue : CONSTANT String := broker.Declare_Queue;
+  BEGIN
+    broker.Bind_Queue(Queue, RabbitMQ.Munts.Exchange);
+    broker.Subscribe(Queue, Callback'Unrestricted_Access);
+  END;
 END test_rabbitmq_consume;
