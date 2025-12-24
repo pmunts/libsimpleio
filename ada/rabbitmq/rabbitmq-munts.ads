@@ -22,19 +22,24 @@
 
 -- This package expects the following environment variables:
 --
--- RABBITMQ_SCHEME (default "amqp")
--- RABBITMQ_USER   (default "guest")
--- RABBITMQ_PASS   (default "guest")
--- RABBITMQ_SERVER (default "localhost")
--- RABBITMQ_PORT   (default "5672")
--- RABBITMQ_VHOST  (default "/")
--- RABBITMQ_QUEUE  (no default)
+-- RABBITMQ_SCHEME   (default "amqp")
+-- RABBITMQ_USER     (default "guest")
+-- RABBITMQ_PASS     (default "guest")
+-- RABBITMQ_SERVER   (default "localhost")
+-- RABBITMQ_PORT     (default "5672")
+-- RABBITMQ_VHOST    (default "/")
+-- RABBITMQ_EXCHANGE (default "amq.fanout")
+-- RABBITMQ_QUEUE    (no default)
 
 PACKAGE RabbitMQ.Munts IS
 
   -- Assemble Rabbit MQ broker URL from environment variables
 
   FUNCTION URL RETURN String;
+
+  -- Get exchange name from environment variable
+
+  FUNCTION Exchange RETURN String;
 
   -- Get queue name from environment variable
 

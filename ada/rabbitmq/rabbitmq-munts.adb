@@ -22,13 +22,14 @@
 
 -- This package expects the following environment variables:
 --
--- RABBITMQ_SCHEME (default "amqp")
--- RABBITMQ_USER   (default "guest")
--- RABBITMQ_PASS   (default "guest")
--- RABBITMQ_SERVER (default "localhost")
--- RABBITMQ_PORT   (default "5672")
--- RABBITMQ_VHOST  (default "/")
--- RABBITMQ_QUEUE  (no default)
+-- RABBITMQ_SCHEME   (default "amqp")
+-- RABBITMQ_USER     (default "guest")
+-- RABBITMQ_PASS     (default "guest")
+-- RABBITMQ_SERVER   (default "localhost")
+-- RABBITMQ_PORT     (default "5672")
+-- RABBITMQ_VHOST    (default "/")
+-- RABBITMQ_EXCHANGE (default "amq.fanout")
+-- RABBITMQ_QUEUE    (no default)
 
 WITH Ada.Environment_Variables;
 WITH Ada.Strings.Fixed;
@@ -60,6 +61,14 @@ PACKAGE BODY RabbitMQ.Munts IS
       RETURN Scheme & "://" & UserName & ":" & Password & "@" & Server & ":" & Port & "/" & VHost;
     END IF;
   END URL;
+
+  -- Get exchange name from environment variable
+
+  FUNCTION Exchange RETURN String IS
+
+  BEGIN
+    RETURN env.Value("RABBITMQ_EXCHANGE", "amq.fanout");
+  END Exchange;
 
   -- Get queue name from environment variable
 
