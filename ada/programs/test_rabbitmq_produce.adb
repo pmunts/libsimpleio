@@ -33,6 +33,7 @@ PROCEDURE test_rabbitmq_produce IS
 
 BEGIN
   IF Ada.Command_Line.Argument_Count /= 1 THEN
+    New_Line;
     Put_Line("Usage: test_rabbitmq_produce <text message>");
     New_Line;
     RETURN;
