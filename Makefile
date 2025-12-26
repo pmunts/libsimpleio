@@ -59,13 +59,11 @@ endif
 
 # Compile C and C++ source files
 
-CFILES	:= $(shell find c ada/thirdparty -name '*.c')
-
 compile.done:
 	ln -s c libsimpleio
 	rm -rf obj
 	mkdir obj
-	for F in $(CFILES) ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
+	for F in $(shell find c ada/thirdparty -name '*.c') ; do $(CC) $(CFLAGS) -c -o obj/`basename $$F .c`.o $$F ; done
 	touch $@
 
 # Build libremoteio.so
