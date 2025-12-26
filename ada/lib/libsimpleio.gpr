@@ -48,7 +48,7 @@ LIBRARY PROJECT libsimpleio IS
     LIBSIMPLEIO & "/ada/devices/**",
     LIBSIMPLEIO & "/ada/interfaces",
     LIBSIMPLEIO & "/ada/objects/**",
-    LIBSIMPLEIO & "/ada/rabbitmq");
+    LIBSIMPLEIO & "/ada/thirdparty/**");
 
 -- CUT HERE
   FOR Object_Dir       USE LIBSIMPLEIO & "/ada/lib/libsimpleio.obj";

@@ -34,4 +34,4 @@ CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/remoteio
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/remoteio/client
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/remoteio/server
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/simpleio
-CFLAGS += -I$(LIBSIMPLEIO)/ada/rabbitmq
+CFLAGS += -I$(LIBSIMPLEIO)/ada/thirdparty/rabbitmq_ada
