@@ -26,7 +26,7 @@ AR		?= ar
 CC		?= gcc
 RANLIB		?= ranlib
 
-CFLAGS		= -Wall -fPIC -I. -I.. $(DEBUGFLAGS)
+CFLAGS		= -Wall -fPIC $(DEBUGFLAGS)
 
 LIBARCH		?= $(shell gcc -dumpmachine)
 DESTDIR		?= /usr/local
