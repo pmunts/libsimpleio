@@ -10,3 +10,10 @@
 23 December 2025 -- Added local extensions package RabbitMQ.Munts.
                     Patch rabbitmq-client-urls.adb.
                     (See https://github.com/geewiz/rabbitmq_ada/issues/1)
+
+26 December 2025 -- Edited rabbitmq_ada_helpers.c to mark the external function
+                    amqp_login() as weak, so that programs such as test_led.adb
+                    can be linked without librabbitmq.so.  Bona fide RabbitMQ
+                    client programs, such as test_rabbitmq_produce.adb,
+                    explicitly link librabbitmq.so and thus satisfy the symbol
+                    reference to amqp_login().

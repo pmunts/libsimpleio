@@ -6,6 +6,12 @@
 #include <rabbitmq-c/amqp.h>
 #include <rabbitmq-c/tcp_socket.h>
 
+AMQP_EXPORT
+amqp_rpc_reply_t AMQP_CALL amqp_login(amqp_connection_state_t state,
+                                      char const *vhost, int channel_max,
+                                      int frame_max, int heartbeat,
+                                      amqp_sasl_method_enum sasl_method, ...) __attribute__ ((weak));
+
 /* Wrapper for amqp_login with PLAIN authentication */
 amqp_rpc_reply_t rabbitmq_ada_login_plain(
     amqp_connection_state_t state,
