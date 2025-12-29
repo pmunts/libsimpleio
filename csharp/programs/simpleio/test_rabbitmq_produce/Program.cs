@@ -39,7 +39,7 @@ string GetEnv(string name, string default_value)
   return v is null ? default_value : v;
 }
 
-// Configure RabbitMQ.Client
+// Configure RabbitMQ.Client from environment variables
 
 var factory         = new RabbitMQ.Client.ConnectionFactory();
 factory.UserName    = GetEnv("RABBITMQ_USER",     "guest");
