@@ -21,9 +21,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using RabbitMQ.Client;
-using System.Text;
+
 using static System.Console;
 using static System.Environment;
+using static System.Text.Encoding;
 
 if (args.Length != 1)
 {
@@ -56,4 +57,4 @@ var channel    = await connection.CreateChannelAsync();
 
 // Send a message to the exchange
 
-await channel.BasicPublishAsync(exchange, routing, Encoding.UTF8.GetBytes(args[0]));
+await channel.BasicPublishAsync(exchange, routing, UTF8.GetBytes(args[0]));
