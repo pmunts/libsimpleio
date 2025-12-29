@@ -28,8 +28,9 @@
 -- RABBITMQ_SERVER   (default "localhost")
 -- RABBITMQ_PORT     (default "5672")
 -- RABBITMQ_VHOST    (default "/")
--- RABBITMQ_EXCHANGE (default "amq.fanout")
+-- RABBITMQ_EXCHANGE (default "amq.topic")
 -- RABBITMQ_QUEUE    (no default)
+-- RABBITMQ_ROUTING  (default "")
 
 WITH Ada.Environment_Variables;
 WITH Ada.Strings.Fixed;
@@ -67,7 +68,7 @@ PACKAGE BODY RabbitMQ.Munts IS
   FUNCTION Exchange RETURN String IS
 
   BEGIN
-    RETURN env.Value("RABBITMQ_EXCHANGE", "amq.fanout");
+    RETURN env.Value("RABBITMQ_EXCHANGE", "amq.topic");
   END Exchange;
 
   -- Get queue name from environment variable
@@ -77,5 +78,13 @@ PACKAGE BODY RabbitMQ.Munts IS
   BEGIN
     RETURN env.Value("RABBITMQ_QUEUE");
   END Queue;
+
+  -- Get routing key from environment variable
+
+  FUNCTION Routing RETURN String IS
+
+  BEGIN
+    RETURN env.Value("RABBITMQ_ROUTING", "");
+  END Routing;
 
 END RabbitMQ.Munts;

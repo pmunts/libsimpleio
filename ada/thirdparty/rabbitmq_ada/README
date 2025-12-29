@@ -17,3 +17,7 @@
                     client programs, such as test_rabbitmq_produce.adb,
                     explicitly link librabbitmq.so and thus satisfy the symbol
                     reference to amqp_login().
+
+29 December 2025 -- Changed the default exchange to amqp.topic and added support
+                    for the RABBITMQ_ROUTING environment variable to package
+                    RabbitMQ.Munts.

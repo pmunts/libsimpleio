@@ -28,8 +28,9 @@
 -- RABBITMQ_SERVER   (default "localhost")
 -- RABBITMQ_PORT     (default "5672")
 -- RABBITMQ_VHOST    (default "/")
--- RABBITMQ_EXCHANGE (default "amq.fanout")
+-- RABBITMQ_EXCHANGE (default "amq.topic")
 -- RABBITMQ_QUEUE    (no default)
+-- RABBITMQ_ROUTING  (default "")
 
 PACKAGE RabbitMQ.Munts IS
 
@@ -44,5 +45,9 @@ PACKAGE RabbitMQ.Munts IS
   -- Get queue name from environment variable
 
   FUNCTION Queue RETURN String;
+
+  -- Get routing key from environment variable
+
+  FUNCTION Routing RETURN String;
 
 END RabbitMQ.Munts;

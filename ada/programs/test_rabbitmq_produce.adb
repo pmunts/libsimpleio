@@ -1,4 +1,4 @@
--- RabbitMQ Producer Test
+-- RabbitMQ Message Producer Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -34,11 +34,19 @@ PROCEDURE test_rabbitmq_produce IS
 BEGIN
   IF Ada.Command_Line.Argument_Count /= 1 THEN
     New_Line;
+    Put_Line("RabbitMQ Message Producer Test");
+    New_Line;
     Put_Line("Usage: test_rabbitmq_produce <text message>");
     New_Line;
     RETURN;
   END IF;
 
+  -- Connect to the RabbitMQ server
+
   broker.Connect(RabbitMQ.Munts.URL);
-  broker.Publish(RabbitMQ.Munts.Exchange, "", Ada.Command_Line.Argument(1));
+
+  -- Send a message
+
+  broker.Publish(RabbitMQ.Munts.Exchange, RabbitMQ.Munts.Routing,
+    Ada.Command_Line.Argument(1));
 END test_rabbitmq_produce;

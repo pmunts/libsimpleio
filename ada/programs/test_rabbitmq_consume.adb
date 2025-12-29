@@ -1,4 +1,4 @@
--- RabbitMQ Consumer Test
+-- RabbitMQ Message Consumer Test
 
 -- Copyright (C)2025, Philip Munts dba Munts Technologies.
 --
@@ -40,13 +40,24 @@ BEGIN
   New_Line;
   Put_Line("RabbitMQ Consumer Test");
   New_Line;
+  Put_Line("Topic/Routing Key => " & RabbitMQ.Munts.Routing);
+  New_Line;
+
+  -- Connect to the RabbitMQ server
 
   broker.Connect(RabbitMQ.Munts.URL);
 
   DECLARE
+    -- Create an ephemeral output queue
+
     Queue : CONSTANT String := broker.Declare_Queue;
   BEGIN
-    broker.Bind_Queue(Queue, RabbitMQ.Munts.Exchange);
+    -- Bind output queue to input exchange
+
+    broker.Bind_Queue(Queue, RabbitMQ.Munts.Exchange, RabbitMQ.Munts.Routing);
+
+    -- Receive messages
+
     broker.Subscribe(Queue, Callback'Unrestricted_Access);
   END;
 END test_rabbitmq_consume;
