@@ -1,4 +1,4 @@
-// RabbitMQ Producer Test
+// RabbitMQ Message Producer Test
 
 // Copyright (C)2025, Philip Munts dba Munts Technologies.
 //
@@ -27,7 +27,8 @@ using static System.Environment;
 
 if (args.Length != 1)
 {
-  WriteLine("\nUsage: test_rabbitmq_produce <text message>\n");
+  WriteLine("\nRabbitMQ Message Producer Test\n");
+  WriteLine("Usage: test_rabbitmq_produce <text message>\n");
   Exit(1);
 }
 
@@ -45,7 +46,8 @@ factory.Password    = GetEnv("RABBITMQ_PASS",     "guest");
 factory.HostName    = GetEnv("RABBITMQ_SERVER",   "localhost");
 factory.Port        = int.Parse(GetEnv("RABBITMQ_PORT", "5672"));
 factory.VirtualHost = GetEnv("RABBITMQ_VHOST",    "/");
-var exchange        = GetEnv("RABBITMQ_EXCHANGE", "amq.fanout");
+var exchange        = GetEnv("RABBITMQ_EXCHANGE", "amq.topic");
+var routing         = GetEnv("RABBITMQ_ROUTING",  "");
 
 // Connect to the RabbitMQ server.
 
@@ -54,4 +56,4 @@ var channel    = await connection.CreateChannelAsync();
 
 // Send a message to the exchange
 
-await channel.BasicPublishAsync(exchange, "", Encoding.UTF8.GetBytes(args[0]));
+await channel.BasicPublishAsync(exchange, routing, Encoding.UTF8.GetBytes(args[0]));
