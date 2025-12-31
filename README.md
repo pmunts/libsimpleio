@@ -89,7 +89,6 @@ Use the following command to clone it:
 Prebuilt **`libsimpleio`** packages for [Debian](http://www.debian.org)
 Linux are available at:
 
-<https://repo.munts.com/debian12>  
 <https://repo.munts.com/debian13>
 
 ## [Alire](https://alire.ada.dev) Crates
