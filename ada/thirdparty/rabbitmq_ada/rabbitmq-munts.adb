@@ -29,7 +29,6 @@
 -- RABBITMQ_PORT     (default "5672")
 -- RABBITMQ_VHOST    (default "/")
 -- RABBITMQ_EXCHANGE (default "amq.topic")
--- RABBITMQ_QUEUE    (no default)
 -- RABBITMQ_ROUTING  (default "")
 
 WITH Ada.Environment_Variables;
@@ -44,7 +43,9 @@ PACKAGE BODY RabbitMQ.Munts IS
 
   FUNCTION Trim(Source : String; Side : Ada.Strings.Trim_End := Ada.Strings.Both) RETURN String RENAMES Ada.Strings.Fixed.Trim;
 
-  -- Assemble Rabbit MQ broker URL from environment variables
+  -- Assemble Rabbit MQ broker URL from environment variables RABBITMQ_SCHEME,
+  -- RABBITMQ_USER, RABBITMQ_PASS, RABBITMQ_SERVER, RABBITMQ_PORT,
+  -- and RABBITMQ_VHOST.
 
   FUNCTION URL RETURN String IS
 
@@ -63,7 +64,7 @@ PACKAGE BODY RabbitMQ.Munts IS
     END IF;
   END URL;
 
-  -- Get exchange name from environment variable
+  -- Get exchange name from environment variable RABBITMQ_EXCHANGE.
 
   FUNCTION Exchange RETURN String IS
 
@@ -71,15 +72,7 @@ PACKAGE BODY RabbitMQ.Munts IS
     RETURN env.Value("RABBITMQ_EXCHANGE", "amq.topic");
   END Exchange;
 
-  -- Get queue name from environment variable
-
-  FUNCTION Queue RETURN String IS
-
-  BEGIN
-    RETURN env.Value("RABBITMQ_QUEUE");
-  END Queue;
-
-  -- Get routing key from environment variable
+  -- Get routing key string from environment variable RABBITMQ_ROUTING.
 
   FUNCTION Routing RETURN String IS
 

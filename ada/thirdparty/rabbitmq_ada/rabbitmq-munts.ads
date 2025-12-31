@@ -29,24 +29,21 @@
 -- RABBITMQ_PORT     (default "5672")
 -- RABBITMQ_VHOST    (default "/")
 -- RABBITMQ_EXCHANGE (default "amq.topic")
--- RABBITMQ_QUEUE    (no default)
 -- RABBITMQ_ROUTING  (default "")
 
 PACKAGE RabbitMQ.Munts IS
 
-  -- Assemble Rabbit MQ broker URL from environment variables
+  -- Assemble Rabbit MQ broker URL from environment variables RABBITMQ_SCHEME,
+  -- RABBITMQ_USER, RABBITMQ_PASS, RABBITMQ_SERVER, RABBITMQ_PORT,
+  -- and RABBITMQ_VHOST.
 
   FUNCTION URL RETURN String;
 
-  -- Get exchange name from environment variable
+  -- Get exchange name from environment variable RABBITMQ_EXCHANGE.
 
   FUNCTION Exchange RETURN String;
 
-  -- Get queue name from environment variable
-
-  FUNCTION Queue RETURN String;
-
-  -- Get routing key from environment variable
+  -- Get routing key string from environment variable RABBITMQ_ROUTING.
 
   FUNCTION Routing RETURN String;
 

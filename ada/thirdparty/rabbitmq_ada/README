@@ -21,3 +21,6 @@
 29 December 2025 -- Changed the default exchange to amqp.topic and added support
                     for the RABBITMQ_ROUTING environment variable to package
                     RabbitMQ.Munts.
+
+31 December 2025 -- Removed unnecessary function Queue from package
+                    RabbitMQ.Munts.
