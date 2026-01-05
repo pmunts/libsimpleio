@@ -24,3 +24,5 @@
 
 31 December 2025 -- Removed unnecessary function Queue from package
                     RabbitMQ.Munts.
+
+4 January 2026   -- Added #pragma weak amqp_login to rabbitmq_ada_helpers.c.
