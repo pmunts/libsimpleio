@@ -89,6 +89,13 @@ PACKAGE Paho_MQTT_sync IS
     QOS     : Integer;
     error   : OUT Integer);
 
+  -- Unsubscribe to messages from the MQTT server
+
+  PROCEDURE Unsubscribe
+   (handle  : Server_Handle;
+    topic   : String;
+    error   : OUT Integer);
+
   -- Fetch an error message as a C string
 
   FUNCTION strerrorC(error : Integer) RETURN Interfaces.C.Strings.chars_ptr;
@@ -102,12 +109,13 @@ PACKAGE Paho_MQTT_sync IS
 
   -- The following wrapper functions are defined in paho_mqtt_sync_wrappers.c
 
-  PRAGMA Import(C, Create,     "Paho_MQTT_sync_create");
-  PRAGMA Import(C, Destroy,    "Paho_MQTT_sync_destroy");
-  PRAGMA Import(C, Connect,    "Paho_MQTT_sync_connect");
-  PRAGMA Import(C, Disconnect, "Paho_MQTT_sync_disconnect");
-  PRAGMA Import(C, Publish,    "Paho_MQTT_sync_publish_string");
-  PRAGMA Import(C, Subscribe,  "Paho_MQTT_sync_subscribe_string");
+  PRAGMA Import(C, Create,      "Paho_MQTT_sync_create");
+  PRAGMA Import(C, Destroy,     "Paho_MQTT_sync_destroy");
+  PRAGMA Import(C, Connect,     "Paho_MQTT_sync_connect");
+  PRAGMA Import(C, Disconnect,  "Paho_MQTT_sync_disconnect");
+  PRAGMA Import(C, Publish,     "Paho_MQTT_sync_publish_string");
+  PRAGMA Import(C, Subscribe,   "Paho_MQTT_sync_subscribe_string");
+  PRAGMA Import(C, Unsubscribe, "Paho_MQTT_sync_unsubscribe");
 
   PRAGMA Link_With("-lpaho-mqtt3c -lsimpleio");
 END Paho_MQTT_sync;

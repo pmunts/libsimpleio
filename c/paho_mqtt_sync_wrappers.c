@@ -42,6 +42,7 @@
 #pragma weak MQTTClient_publishMessage
 #pragma weak MQTTClient_setCallbacks
 #pragma weak MQTTClient_subscribe
+#pragma weak MQTTClient_unsubscribe
 
 // Second level message received callback placeholder
 // Marked t weak so we can replace it with something useful.
@@ -177,4 +178,19 @@ void Paho_MQTT_sync_subscribe_string(MQTTClient handle, char *topic, int32_t QOS
   }
 
   *error = MQTTClient_subscribe(handle, topic, QOS);
+}
+
+void Paho_MQTT_sync_unsubscribe(MQTTClient handle, char *topic, int32_t *error)
+{
+  assert(error != NULL);
+
+  // Validate parameters
+
+  if ((handle == NULL) || (topic == NULL))
+  {
+    *error = MQTTCLIENT_NULL_PARAMETER;
+    return;
+  }
+
+  *error = MQTTClient_unsubscribe(handle, topic);
 }
