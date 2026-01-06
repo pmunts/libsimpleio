@@ -1,6 +1,6 @@
 -- Paho MQTT Message Publish Test
 
--- Copyright (C)2025, Philip Munts dba Munts Technologies.
+-- Copyright (C)2026, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
