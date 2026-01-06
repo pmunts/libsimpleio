@@ -73,6 +73,12 @@ PACKAGE MQTT.Paho IS
     topic     : String;
     QOS       : Integer := Default_QOS);
 
+  -- Unsubscribe to messages from the server
+
+  PROCEDURE Unsubscribe
+   (Self      : IN OUT Server_Class;
+    topic     : String);
+
 PRIVATE
 
   -- Check whether an MQTT server object instance has been destroyed

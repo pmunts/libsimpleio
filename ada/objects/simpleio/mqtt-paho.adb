@@ -174,6 +174,25 @@ PACKAGE BODY MQTT.Paho IS
     END IF;
   END Subscribe;
 
+  -- Unsubscribe to messages from the server
+
+  PROCEDURE Unsubscribe
+   (Self      : IN OUT Server_Class;
+    topic     : String) IS
+
+    error : Integer;
+
+  BEGIN
+    Self.CheckDestroyed;
+
+    Unsubscribe(Self.handle, topic, error);
+
+    IF error /= 0 THEN
+      RAISE MQTT.Error WITH "Paho_MQTT_sync.Unsubscribe() failed, " &
+        strerror(error);
+    END IF;
+  END Unsubscribe;
+
   -- Check whether an MQTT server object instance has been destroyed
 
   PROCEDURE CheckDestroyed(Self : Server_Class) IS
