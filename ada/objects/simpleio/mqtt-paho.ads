@@ -18,26 +18,28 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Interfaces.C.Strings;
 WITH Paho_MQTT_sync; USE Paho_MQTT_sync;
+WITH System;
 
 PACKAGE MQTT.Paho IS
 
   TYPE Server_Class IS TAGGED PRIVATE;
-
   TYPE Server       IS ACCESS ALL Server_Class'Class;
 
-  -- Create an MQTT server object instance
+  -- Third level message received callback
 
-  FUNCTION Create
-   (URI       : String := Default_URI;
-    ID        : String := Default_ID) RETURN Server;
+  TYPE SubCallback3 IS ACCESS PROCEDURE
+   (topic   : String;
+    message : String);
 
   -- Initialize an MQTT server object instance
 
   PROCEDURE Initialize
    (Self      : IN OUT Server_Class;
-    URI       : String := Default_URI;
-    ID        : String := Default_ID);
+    URI       : String       := Default_URI;
+    ID        : String       := Default_ID;
+    callback3 : SubCallback3 := Null);
 
   -- Destroy an MQTT server object instance
 
@@ -64,15 +66,34 @@ PACKAGE MQTT.Paho IS
     message   : String;
     QOS       : Integer := Default_QOS);
 
+  -- Subscribe to messages from the server
+
+  PROCEDURE Subscribe
+   (Self      : Server_Class;
+    topic     : String;
+    QOS       : Integer := Default_QOS);
+
 PRIVATE
+
+  -- Check whether an MQTT server object instance has been destroyed
 
   PROCEDURE CheckDestroyed(Self : Server_Class);
 
   TYPE Server_Class IS TAGGED RECORD
     handle    : Server_Handle := Null_Handle;
-    connected : Boolean       `:= false;
+    callback3 : SubCallback3  := Null;
+    connected : Boolean       := false;
   END RECORD;
 
-  Destroyed : CONSTANT Server_Class := Server_Class'(Null_Handle, false);
+  Destroyed : CONSTANT Server_Class := Server_Class'(Null_Handle, Null, false);
+
+  -- Second level message received callback
+
+  PROCEDURE subcallback2
+   (context   : System.Address;
+    topic     : Interfaces.C.Strings.chars_ptr;
+    payload   : Interfaces.C.Strings.chars_ptr);
+
+  PRAGMA Export(C, subcallback2);
 
 END MQTT.Paho;

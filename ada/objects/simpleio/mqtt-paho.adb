@@ -19,48 +19,51 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH Ada.Environment_Variables;
+WITH Ada.Text_IO; USE Ada.Text_IO;
+WITH System;
+WITH System.Address_To_Access_Conversions;
+
+USE TYPE System.Address;
 
 PACKAGE BODY MQTT.Paho IS
 
-  -- Get a configuration value, from a parameter or from an environment variable
+  PACKAGE env RENAMES Ada.Environment_Variables;
 
-  FUNCTION GetEnv(parm : String; var : String; default : String) RETURN String IS
+  PACKAGE SCC IS NEW System.Address_To_Access_Conversions(Server_Class);
+
+  -- Get a configuration value, from an argument or from an environment variable
+
+  FUNCTION GetEnv(arg : String; var : String; default : String) RETURN String IS
 
   BEGIN
-    RETURN (IF parm /= default THEN parm ELSE Ada.Environment_Variables.Value(var, default));
+    RETURN (IF arg /= default THEN arg ELSE env.Value(var, default));
   END GetEnv;
-
-  -- Create an MQTT server object instance
-
-  FUNCTION Create
-   (URI       : String := Default_URI;
-    ID        : String := Default_ID) RETURN Server IS
-
-    Self : Server_Class;
-
-  BEGIN
-    Self.Initialize(URI, ID);
-    RETURN NEW Server_Class'(Self);
-  END Create;
 
   -- Initialize an MQTT server object instance
 
   PROCEDURE Initialize
    (Self      : IN OUT Server_Class;
-    URI       : String := Default_URI;
-    ID        : String := Default_ID) IS
+    URI       : String       := Default_URI;
+    ID        : String       := Default_ID;
+    callback3 : SubCallback3 := Null) IS
 
     error : Integer;
 
   BEGIN
     Self.Destroy;
 
-    Create(Self.handle, GetEnv(URI, "MQTT_URI", Default_URI) & ASCII.Nul,
-      GetEnv(ID, "MQTT_ID", Default_ID) & ASCII.Nul, error);
+    Create(Self.handle,
+      GetEnv(URI, "MQTT_URI", Default_URI) & ASCII.Nul,
+      GetEnv(ID,  "MQTT_ID", Default_ID)   & ASCII.Nul,
+      SCC.To_Address(Self'Unchecked_Access), error);
 
     IF error /= 0 THEN
-      RAISE MQTT.Error WITH "Paho_MQTT_sync.Create() failed, " & strerror(error);
+      Self.Destroy;
+      RAISE MQTT.Error WITH "Paho_MQTT_sync.Create() failed, " &
+        strerror(error);
     END IF;
+
+    Self.callback3 := callback3;
   END Initialize;
 
   -- Destroy an MQTT server object instance
@@ -82,7 +85,8 @@ PACKAGE BODY MQTT.Paho IS
     Destroy(Self.handle, error);
 
     IF error /= 0 THEN
-      RAISE MQTT.Error WITH "Paho_MQTT_sync.Destroy() failed, " & strerror(error);
+      RAISE MQTT.Error WITH "Paho_MQTT_sync.Destroy() failed, " &
+        strerror(error);
     END IF;
 
     Self := Destroyed;
@@ -100,11 +104,13 @@ PACKAGE BODY MQTT.Paho IS
   BEGIN
     Self.CheckDestroyed;
 
-    Connect(Self.handle, GetEnv(username, "MQTT_USER", Default_User) & ASCII.Nul,
+    Connect(Self.handle,
+      GetEnv(username, "MQTT_USER", Default_User) & ASCII.Nul,
       GetEnv(password, "MQTT_PASS", Default_Pass) & ASCII.Nul, error);
 
     IF error /= 0 THEN
-      RAISE MQTT.Error WITH "Paho_MQTT_sync.Connect() failed, " & strerror(error);
+      RAISE MQTT.Error WITH "Paho_MQTT_sync.Connect() failed, "
+        & strerror(error);
     END IF;
   END Connect;
 
@@ -122,7 +128,8 @@ PACKAGE BODY MQTT.Paho IS
     Disconnect(Self.handle, timeoutms, error);
 
     IF error /= 0 THEN
-      RAISE MQTT.Error WITH "Paho_MQTT_sync.Disconnect() failed, " & strerror(error);
+      RAISE MQTT.Error WITH "Paho_MQTT_sync.Disconnect() failed, " &
+        strerror(error);
     END IF;
   END Disconnect;
 
@@ -142,9 +149,30 @@ PACKAGE BODY MQTT.Paho IS
     Publish(Self.handle, topic, message, QOS, error);
 
     IF error /= 0 THEN
-      RAISE MQTT.Error WITH "Paho_MQTT_sync.Publish() failed, " & strerror(error);
+      RAISE MQTT.Error WITH "Paho_MQTT_sync.Publish() failed, " &
+        strerror(error);
     END IF;
   END Publish;
+
+  -- Subscribe to messages from the server
+
+  PROCEDURE Subscribe
+   (Self      : Server_Class;
+    topic     : String;
+    QOS       : Integer := Default_QOS) IS
+
+    error : Integer;
+
+  BEGIN
+    Self.CheckDestroyed;
+
+    Subscribe(Self.handle, topic, QOS, error);
+
+    IF error /= 0 THEN
+      RAISE MQTT.Error WITH "Paho_MQTT_sync.Subscribe() failed, " &
+        strerror(error);
+    END IF;
+  END Subscribe;
 
   -- Check whether an MQTT server object instance has been destroyed
 
@@ -155,5 +183,28 @@ PACKAGE BODY MQTT.Paho IS
       RAISE Error WITH "This instance has been destroyed.";
     END IF;
   END CheckDestroyed;
+
+  -- Second level subcribed message callback
+
+  PROCEDURE subcallback2
+   (context   : System.Address;
+    topic     : Interfaces.C.Strings.chars_ptr;
+    payload   : Interfaces.C.Strings.chars_ptr) IS
+
+    Self : Server_Class :=
+     (IF context = System.Null_Address THEN
+        Destroyed
+      ELSE
+        SCC.To_Pointer(context).ALL);
+
+  BEGIN
+    IF Self.callback3 /= Null THEN
+      Self.callback3(Interfaces.C.Strings.Value(topic),
+        Interfaces.C.Strings.Value(payload));
+    ELSE
+      Put_Line("DEBUG: Topic   => " & Interfaces.C.Strings.Value(topic));
+      Put_Line("DEBUG: Payload => " & Interfaces.C.Strings.Value(payload));
+    END IF;
+  END subcallback2;
 
 END MQTT.Paho;

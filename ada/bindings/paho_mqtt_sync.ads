@@ -36,7 +36,7 @@ PACKAGE Paho_MQTT_sync IS
   Null_Handle  : CONSTANT Server_Handle := Server_Handle(System.Null_Address);
 
   Default_URI     : CONSTANT String  := "tcp://localhost:1883";
-  Default_ID      : CONSTANT String  := "";
+  Default_ID      : CONSTANT String  := "MQTT client";
   Default_User    : CONSTANT String  := "guest";
   Default_Pass    : CONSTANT String  := "guest";
   Default_QOS     : CONSTANT Integer := 0;
@@ -48,6 +48,7 @@ PACKAGE Paho_MQTT_sync IS
    (handle  : OUT Server_Handle;
     URI     : String;
     ID      : String;
+    context : System.Address;
     error   : OUT Integer);
 
   -- Destroy a server handle
@@ -80,6 +81,14 @@ PACKAGE Paho_MQTT_sync IS
     QOS     : Integer;
     error   : OUT Integer);
 
+  -- Subscribe to messages from the MQTT server
+
+  PROCEDURE Subscribe
+   (handle  : Server_Handle;
+    topic   : String;
+    QOS     : Integer;
+    error   : OUT Integer);
+
   -- Fetch an error message as a C string
 
   FUNCTION strerrorC(error : Integer) RETURN Interfaces.C.Strings.chars_ptr;
@@ -97,7 +106,8 @@ PACKAGE Paho_MQTT_sync IS
   PRAGMA Import(C, Destroy,    "Paho_MQTT_sync_destroy");
   PRAGMA Import(C, Connect,    "Paho_MQTT_sync_connect");
   PRAGMA Import(C, Disconnect, "Paho_MQTT_sync_disconnect");
-  PRAGMA Import(C, Publish   , "Paho_MQTT_sync_publish_string");
+  PRAGMA Import(C, Publish,    "Paho_MQTT_sync_publish_string");
+  PRAGMA Import(C, Subscribe,  "Paho_MQTT_sync_subscribe_string");
 
   PRAGMA Link_With("-lpaho-mqtt3c -lsimpleio");
 END Paho_MQTT_sync;
