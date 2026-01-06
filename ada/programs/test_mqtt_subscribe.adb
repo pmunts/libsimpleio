@@ -34,7 +34,7 @@ PROCEDURE test_mqtt_subscribe IS
   END Callback;
 
   server : MQTT.Paho.Server_Class;
-  
+
 BEGIN
   New_Line;
   Put_Line("Paho MQTT Message Subscribe Test");

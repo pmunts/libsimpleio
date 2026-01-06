@@ -60,7 +60,7 @@ int subcallback1(void *context, char *topicName, int topicLen, MQTTClient_messag
     MQTTClient_free(topicName);
     return 1;
 }
- 
+
 void Paho_MQTT_sync_create(MQTTClient *handle, char *URI, char *ID, void *context, int32_t *error)
 {
   assert(error != NULL);
