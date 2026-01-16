@@ -157,8 +157,8 @@ PROCEDURE test_mysql_fetch_blob IS
 
   PACKAGE ByteIO IS NEW Ada.Sequential_IO(Byte);
 
-  server : MySQL.libmysqlclient.Server;
-  blobID : Natural;
+  server  : MySQL.libmysqlclient.Server;
+  blobID  : Natural;
   dstfile : ByteIO.File_Type;
 
 BEGIN
@@ -184,7 +184,7 @@ BEGIN
   ByteIO.Create(dstfile, name => "blob" & Trim(blobID'Image) & ".bin");
 
   DECLARE
-    blobhex  : String := server.FetchColumn(1);
+    blobhex  : String  := server.FetchColumn(1);
     blobsize : Natural := blobhex'Length/2;
   BEGIN
     FOR i IN 1 .. blobsize LOOP
@@ -194,5 +194,6 @@ BEGIN
 
   ByteIO.Close(dstfile);
 
+  server.FreeResults;
   server.Disconnect;
 END test_mysql_fetch_blob;
