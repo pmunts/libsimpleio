@@ -38,7 +38,7 @@ JAR_COMPONENTS	+= com
 
 %.class: %.java
 	rm -rf $(JAR_COMPONENTS)
-	jar xf $(LIBSIMPLEIO)/attic/java/components/jna-4.4.0.jar com/sun/jna
+	jar xf $(LIBSIMPLEIO)/attic/java/components/jna-5.18.1.jar com/sun/jna
 	$(JAVAC) $(JAVAC_FLAGS) $<
 
 # Build the applicaton JAR files
