@@ -1,6 +1,6 @@
 # Makefile for building Java libsimpleio example programs
 
-# Copyright (C)2017-2021, Philip Munts, President, Munts AM Corp.
+# Copyright (C)2017-2026, Philip Munts, President, Munts AM Corp.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -24,12 +24,12 @@
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-include $(LIBSIMPLEIO)/java/include/java.mk
+include $(LIBSIMPLEIO)/attic/java/include/java.mk
 
 ifeq ($(OS), Windows_NT)
-JAVAC_CLASSPATH	:= ".;$(LIBSIMPLEIO)/java/classes"
+JAVAC_CLASSPATH	:= ".;$(LIBSIMPLEIO)/attic/java/classes"
 else
-JAVAC_CLASSPATH	:= .:$(LIBSIMPLEIO)/java/classes
+JAVAC_CLASSPATH	:= .:$(LIBSIMPLEIO)/attic/java/classes
 endif
 
 JAR_COMPONENTS	+= com
@@ -38,7 +38,7 @@ JAR_COMPONENTS	+= com
 
 %.class: %.java
 	rm -rf $(JAR_COMPONENTS)
-	jar xf $(LIBSIMPLEIO)/java/components/jna-4.4.0.jar com/sun/jna
+	jar xf $(LIBSIMPLEIO)/attic/java/components/jna-4.4.0.jar com/sun/jna
 	$(JAVAC) $(JAVAC_FLAGS) $<
 
 # Build the applicaton JAR files
