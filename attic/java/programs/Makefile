@@ -20,8 +20,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-.PHONY: default clean reallyclean distclean
-
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
 include $(LIBSIMPLEIO)/attic/java/include/java.mk
@@ -41,7 +39,7 @@ JAR_COMPONENTS	+= com
 	jar xf $(LIBSIMPLEIO)/attic/java/components/jna-5.18.1.jar com/sun/jna
 	$(JAVAC) $(JAVAC_FLAGS) $<
 
-# Build the applicaton JAR files
+# Build all applicaton JAR files
 
 default:
 	for F in *.java ; do $(MAKE) `basename $$F .java`.jar ; rm -rf $(JAR_COMPONENTS) *.manifest ; done
@@ -49,7 +47,6 @@ default:
 # Remove working files
 
 clean: java_mk_clean
-	rm -rf $(JAR_COMPONENTS)
 
 reallyclean: java_mk_reallyclean
 

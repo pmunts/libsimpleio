@@ -38,10 +38,6 @@ JARSIGNER_FLAGS	?=
 JARSIGNER_KEYSTORE ?= $(JAVA_SRC)/keystore
 JARSIGNER_ALIAS	?= $(USER)
 
-# Don't delete intermediate files
-
-.SECONDARY:
-
 # Java pattern rules
 
 %.class: %.java
@@ -55,6 +51,7 @@ JARSIGNER_ALIAS	?= $(USER)
 
 %.jar: %.manifest
 	$(JAR) -cmf $< $@ $(JAR_COMPONENTS)
+	rm -rf $< $(JAR_COMPONENTS)
 	if [ -f $(JARSIGNER_KEYSTORE) ]; then $(JARSIGNER) -keystore $(JARSIGNER_KEYSTORE) $(JARSIGNER_FLAGS) $@ $(JARSIGNER_ALIAS) ; fi
 
 # Default catchall target
@@ -64,7 +61,7 @@ java_mk_default: default
 # Clean out working files
 
 java_mk_clean:
-	rm -rf *.class *.jar *.log *.manifest
+	rm -rf *.jar *.log *.manifest $(JAR_COMPONENTS)
 
 java_mk_reallyclean: java_mk_clean
 
