@@ -615,6 +615,11 @@ void GPIO_configure(int32_t pin, int32_t direction, int32_t state, int32_t edge,
     return;
   }
 
+  // Recent Raspberry Pi kernels start deprecated sysfs API GPIO pin numbers at 512!
+
+  if (strstr(LINUX_model_name(), "Raspberry Pi") != NULL)
+    pin += 512;
+
   snprintf(name_direction, sizeof(name_direction), DIRECTION, pin);
   snprintf(name_edge,      sizeof(name_edge),      EDGE,      pin);
   snprintf(name_polarity,  sizeof(name_polarity),  ACTIVELOW, pin);
@@ -802,6 +807,11 @@ void GPIO_open(int32_t pin, int32_t *fd, int32_t *error)
     ERRORMSG("pin number argument is invalid", *error, __LINE__ - 4);
     return;
   }
+
+  // Recent Raspberry Pi kernels start deprecated sysfs API GPIO pin numbers at 512!
+
+  if (strstr(LINUX_model_name(), "Raspberry Pi") != NULL)
+    pin += 512;
 
   snprintf(filename, sizeof(filename), VALUE, pin);
 
