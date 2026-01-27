@@ -58,7 +58,7 @@ public class libevent
     int handle, IntByReference error);
 
   public static native void EVENT_unregister_fd(int epfd, int fd,
-    IntByReferenceerror);
+    IntByReference error);
 
   public static native void EVENT_wait(int epfd, IntByReference fd,
     IntByReference event, IntByReference handle, int timeoutms,
