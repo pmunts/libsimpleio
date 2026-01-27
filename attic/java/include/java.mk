@@ -53,6 +53,17 @@ JARSIGNER_ALIAS	?= $(USER)
 	$(JAR) -cmf $< $@ $(JAR_COMPONENTS)
 	rm -rf $< $(JAR_COMPONENTS)
 	if [ -f $(JARSIGNER_KEYSTORE) ]; then $(JARSIGNER) -keystore $(JARSIGNER_KEYSTORE) $(JARSIGNER_FLAGS) $@ $(JARSIGNER_ALIAS) ; fi
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $@ $(TARGETCOMPUTER)
+endif
+
+%: %.manifest
+	$(JAR) -cmf $< $@.jar $(JAR_COMPONENTS)
+	rm -rf $< $(JAR_COMPONENTS)
+	if [ -f $(JARSIGNER_KEYSTORE) ]; then $(JARSIGNER) -keystore $(JARSIGNER_KEYSTORE) $(JARSIGNER_FLAGS) $@.jar $(JARSIGNER_ALIAS) ; fi
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $@.jar $(TARGETCOMPUTER)
+endif
 
 # Default catchall target
 
