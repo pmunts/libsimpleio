@@ -50,6 +50,7 @@ JARSIGNER_ALIAS	?= $(USER)
 %.jar: %.manifest
 	$(JAR) -cmf $< $@ $(JAR_COMPONENTS)
 	if [ -f $(JARSIGNER_KEYSTORE) ]; then $(JARSIGNER) -keystore $(JARSIGNER_KEYSTORE) $(JARSIGNER_FLAGS) $@ $(JARSIGNER_ALIAS) ; fi
+	rm -rf $(JAR_COMPONENTS)
 ifneq ($(TARGETCOMPUTER),)
 	scp $(SCPFLAGS) $@ $(TARGETCOMPUTER)
 endif
@@ -57,6 +58,7 @@ endif
 %: %.manifest
 	$(JAR) -cmf $< $@.jar $(JAR_COMPONENTS)
 	if [ -f $(JARSIGNER_KEYSTORE) ]; then $(JARSIGNER) -keystore $(JARSIGNER_KEYSTORE) $(JARSIGNER_FLAGS) $@.jar $(JARSIGNER_ALIAS) ; fi
+	rm -rf $(JAR_COMPONENTS)
 ifneq ($(TARGETCOMPUTER),)
 	scp $(SCPFLAGS) $@.jar $(TARGETCOMPUTER)
 endif
