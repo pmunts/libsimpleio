@@ -1,4 +1,4 @@
-# Makefile for building Java libsimpleio example programs
+# Makefile for building Java programs using the Linux Simple I/O Library
 
 # Copyright (C)2017-2026, Philip Munts, President, Munts AM Corp.
 #
@@ -24,20 +24,22 @@ LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
 include $(LIBSIMPLEIO)/attic/java/include/java.mk
 
-ifeq ($(OS), Windows_NT)
-JAVAC_CLASSPATH	:= ".;$(LIBSIMPLEIO)/attic/java/classes"
-else
-JAVAC_CLASSPATH	:= .:$(LIBSIMPLEIO)/attic/java/classes
-endif
-
 JAR_COMPONENTS	+= com
 
-# Override the .class rule, to remove debris and include JNA
+# Override the .class rule, to unpack library jar files
 
 %.class: %.java
 	rm -rf $(JAR_COMPONENTS)
-	jar xf $(LIBSIMPLEIO)/attic/java/jars/jna-5.18.1.jar com/sun/jna
+	jar xf $(LIBSIMPLEIO)/attic/java/jars/jna.jar         com/sun
+	jar xf $(LIBSIMPLEIO)/attic/java/jars/libsimpleio.jar com/munts
 	$(JAVAC) $(JAVAC_FLAGS) $<
+
+# Override the .manifest rule, to enable native method access
+
+%.manifest: %.class
+	echo "Main-Class: $*" >$@
+	echo "Permissions: $(JAR_PERMISSIONS)" >>$@
+	echo "Enable-Native-Access: ALL-UNNAMED" >>$@
 
 # Build all applicaton JAR files
 
