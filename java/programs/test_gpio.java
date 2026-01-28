@@ -1,4 +1,4 @@
-// GPIO Toggle Test using libsimpleio
+// GPIO Toggle Speed Test using libsimpleio
 
 // Copyright (C)2017-2026, Philip Munts dba Munts Technologies.
 //

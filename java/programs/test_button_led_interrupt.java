@@ -1,4 +1,4 @@
-// GPIO Button and LED Test
+// Interrupt Button and LED Test using libsimpleio
 
 // Copyright (C)2018-2026, Philip Munts dba Munts Technologies.
 //
@@ -24,61 +24,39 @@ import com.munts.interfaces.GPIO.*;
 import com.munts.libsimpleio.objects.GPIO.*;
 import com.munts.libsimpleio.platforms.RaspberryPi;
 
-public class test_gpio_button_led
+public class test_button_led_interrupt
 {
   public static void main(String args[])
   {
     Builder b;
-    boolean oldstate;
-    boolean newstate;
 
-    System.out.println("\nGPIO Button and LED Test using libsimpleio\n");
+    System.out.println("\nInterrupt Button and LED Test using libsimpleio\n");
 
     // Configure button and LED GPIO's
 
     b = new Builder(RaspberryPi.GPIO6);
     b.SetDirection(Direction.Input);
+    b.SetInterrupt(Edge.Both);
     Pin Button = b.Create();
 
     b = new Builder(RaspberryPi.GPIO26);
     b.SetDirection(Direction.Output);
     Pin LED = b.Create();
 
-    // Force initial detection
-
-    oldstate = !Button.read();
-
     System.out.println("Press CONTROL-C to exit...\n");
 
     // Process state transitions
 
     for (;;)
-    {
-      newstate = Button.read();
-
-      if (newstate != oldstate)
+      if (Button.read())
       {
-        if (newstate)
-        {
-          System.out.println("PRESSED");
-          LED.write(true);
-        }
-        else
-        {
-          System.out.println("RELEASED");
-          LED.write(false);
-        }
-
-        oldstate = newstate;
+        System.out.println("PRESSED");
+        LED.write(true);
       }
-
-      try
+      else
       {
-        Thread.sleep(100);
+        System.out.println("RELEASED");
+        LED.write(false);
       }
-      catch (Exception e)
-      {
-      }
-    }
   }
 }
