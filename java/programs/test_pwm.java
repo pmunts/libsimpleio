@@ -21,6 +21,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 import com.munts.interfaces.PWM.*;
+import com.munts.libsimpleio.objects.Designator;
 import com.munts.libsimpleio.objects.PWM.*;
 
 public class test_pwm
@@ -32,17 +33,17 @@ public class test_pwm
     if (args.length != 3)
     {
       System.out.println("Usage: java -jar test_pwm.jar " +
-        "<chip number> <line number> <frequency>\n");
+        "<chip number> <channel number> <frequency>\n");
       System.exit(1);
     }
 
-    int chip = Integer.parseInt(args[0]);
-    int line = Integer.parseInt(args[1]);
-    int freq = Integer.parseInt(args[2]);
+    int chip    = Integer.parseInt(args[0]);
+    int channel = Integer.parseInt(args[1]);
+    int freq    = Integer.parseInt(args[2]);
 
     // Create PWM output instance
 
-    Output PWM0 = new OutputSubclass(chip, line, freq);
+    Output PWM0 = new OutputSubclass(new Designator(chip, channel), freq);
 
     // Sweep the PWM output pulse width back and forth
 

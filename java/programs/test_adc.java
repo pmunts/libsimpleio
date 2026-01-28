@@ -29,6 +29,7 @@
 
 import com.munts.interfaces.ADC.*;
 import com.munts.libsimpleio.objects.ADC.*;
+import com.munts.libsimpleio.objects.Designator;
 
 public class test_adc
 {
@@ -44,7 +45,10 @@ public class test_adc
     Voltage[] inputs = new Voltage[MAX_CHANNELS];
 
     for (int c = 0; c < inputs.length; c++)
-      inputs[c] = new Input(new SampleSubclass(0, c, RESOLUTION), VREF, GAIN);
+    {
+      inputs[c] = new Input(new SampleSubclass(new Designator(0, c),
+        RESOLUTION), VREF, GAIN);
+    }
 
     for (;;)
     {

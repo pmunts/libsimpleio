@@ -21,6 +21,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 import com.munts.interfaces.GPIO.*;
+import com.munts.libsimpleio.objects.Designator;
 import com.munts.libsimpleio.objects.GPIO.*;
 
 public class test_gpio
@@ -40,7 +41,7 @@ public class test_gpio
     int line = Integer.parseInt(args[1]);
     int iterations = Integer.parseInt(args[2]);
 
-    Builder b = new Builder(chip, line);
+    Builder b = new Builder(new Designator(chip, line));
     b.SetDirection(Direction.Output);
     Pin p = b.Create();
 

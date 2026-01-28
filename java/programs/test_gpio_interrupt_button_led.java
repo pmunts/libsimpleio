@@ -22,6 +22,7 @@
 
 import com.munts.interfaces.GPIO.*;
 import com.munts.libsimpleio.objects.GPIO.*;
+import com.munts.libsimpleio.platforms.RaspberryPi;
 
 public class test_gpio_interrupt_button_led
 {
@@ -33,12 +34,12 @@ public class test_gpio_interrupt_button_led
 
     // Configure button and LED GPIO's
 
-    b = new Builder(0, 6);
+    b = new Builder(RaspberryPi.GPIO6);
     b.SetDirection(Direction.Input);
     b.SetInterrupt(Edge.Both);
     Pin Button = b.Create();
 
-    b = new Builder(0, 26);
+    b = new Builder(RaspberryPi.GPIO26);
     b.SetDirection(Direction.Output);
     Pin LED = b.Create();
 
