@@ -24,6 +24,7 @@ package com.munts.libsimpleio.objects.PWM;
 
 import com.munts.interfaces.PWM.Output;
 import com.munts.libsimpleio.bindings.libpwm;
+import com.munts.libsimpleio.objects.Designator;
 import com.munts.libsimpleio.objects.errno;
 import com.sun.jna.ptr.IntByReference;
 
@@ -34,7 +35,7 @@ public class OutputSubclass implements Output
 
   // PWM output object constructor
 
-  public OutputSubclass(int chip, int channel, int frequency,
+  public OutputSubclass(Designator desg, int frequency,
     double dutycycle, int polarity)
   {
     int ontime;
@@ -59,7 +60,8 @@ public class OutputSubclass implements Output
 
     // Configure the PWM output
 
-    libpwm.PWM_configure(chip, channel, this.period, ontime, polarity, error);
+    libpwm.PWM_configure(desg.chip, desg.channel, this.period, ontime,
+      polarity, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: PWM_configure() failed, " +
@@ -67,7 +69,7 @@ public class OutputSubclass implements Output
 
     // Open the PWM output device node
 
-    libpwm.PWM_open(chip, channel, fd, error);
+    libpwm.PWM_open(desg.chip, desg.channel, fd, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: PWM_open() failed, " +
@@ -78,7 +80,7 @@ public class OutputSubclass implements Output
 
   // PWM output object constructor with default polarity
 
-  public OutputSubclass(int chip, int channel, int frequency, double dutycycle)
+  public OutputSubclass(Designator desg, int frequency, double dutycycle)
   {
     int ontime;
     IntByReference fd = new IntByReference();
@@ -99,7 +101,7 @@ public class OutputSubclass implements Output
 
     // Configure the PWM output
 
-    libpwm.PWM_configure(chip, channel, this.period, ontime, libpwm.ACTIVEHIGH,
+    libpwm.PWM_configure(desg.chip, desg.channel, this.period, ontime, libpwm.ACTIVEHIGH,
       error);
 
     if (error.getValue() != errno.EOK)
@@ -108,7 +110,7 @@ public class OutputSubclass implements Output
 
     // Open the PWM output device node
 
-    libpwm.PWM_open(chip, channel, fd, error);
+    libpwm.PWM_open(desg.chip, desg.channel, fd, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: PWM_open() failed, " +
@@ -119,7 +121,7 @@ public class OutputSubclass implements Output
 
   // PWM output object constructor with default polarity and duty cycle
 
-  public OutputSubclass(int chip, int channel, int frequency)
+  public OutputSubclass(Designator desg, int frequency)
   {
     IntByReference fd = new IntByReference();
     IntByReference error = new IntByReference();
@@ -128,8 +130,8 @@ public class OutputSubclass implements Output
 
     // Configure the PWM output
 
-    libpwm.PWM_configure(chip, channel, this.period, 0, libpwm.ACTIVEHIGH,
-      error);
+    libpwm.PWM_configure(desg.chip, desg.channel, this.period, 0,
+      libpwm.ACTIVEHIGH, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: PWM_configure() failed, " +
@@ -137,7 +139,7 @@ public class OutputSubclass implements Output
 
     // Open the PWM output device node
 
-    libpwm.PWM_open(chip, channel, fd, error);
+    libpwm.PWM_open(desg.chip, desg.channel, fd, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: PWM_open() failed, " +

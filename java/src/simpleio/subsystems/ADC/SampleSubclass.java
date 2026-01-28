@@ -25,6 +25,7 @@ package com.munts.libsimpleio.objects.ADC;
 import com.munts.interfaces.ADC.Sample;
 import com.munts.libsimpleio.bindings.libadc;
 import com.munts.libsimpleio.objects.errno;
+import com.munts.libsimpleio.objects.Designator;
 import com.sun.jna.ptr.IntByReference;
 
 public class SampleSubclass implements Sample
@@ -34,17 +35,17 @@ public class SampleSubclass implements Sample
 
   // ADC input object constructor
 
-  public SampleSubclass(int chip, int channel, int resolution)
+  public SampleSubclass(Designator desg, int resolution)
   {
     IntByReference fd = new IntByReference();
     IntByReference error = new IntByReference();
 
     // Validate parameters
 
-    if (chip < 0)
+    if (desg.chip < 0)
       throw new RuntimeException("ERROR: chip number is invalid");
 
-    if (channel < 0)
+    if (desg.channel < 0)
       throw new RuntimeException("ERROR: channel number is invalid");
 
     if (resolution < 1)
@@ -52,7 +53,7 @@ public class SampleSubclass implements Sample
 
     // Open the ADC input device node
 
-    libadc.ADC_open(chip, channel, fd, error);
+    libadc.ADC_open(desg.chip, desg.channel, fd, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: ADC_open() failed, " +

@@ -28,6 +28,7 @@ JAVAC_FLAGS	:= -cp .:$(LIBSIMPLEIO)/java/jars/jna.jar -d .
 SRCFILES	+= ../interfaces/*/*.java
 SRCFILES	+= bindings/*.java
 SRCFILES	+= common/*.java
+SRCFILES	+= platforms/*.java
 SRCFILES	+= subsystems/*/*.java
 
 BUILDNUM	?= 1

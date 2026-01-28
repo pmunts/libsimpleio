@@ -22,6 +22,7 @@ package com.munts.libsimpleio.objects.GPIO;
 
 import com.munts.interfaces.GPIO.Pin;
 import com.munts.libsimpleio.bindings.libgpio;
+import com.munts.libsimpleio.objects.Designator;
 import com.munts.libsimpleio.objects.GPIO.PinSubclass;
 
 public class Builder
@@ -32,10 +33,10 @@ public class Builder
   public int events;
   public int state;
 
-  public Builder(int chip, int line)
+  public Builder(Designator desg)
   {
-    this.chip = chip;
-    this.line = line;
+    this.chip = desg.chip;
+    this.line = desg.channel;
     this.flags = 0;
     this.events = 0;
     this.state = 0;
