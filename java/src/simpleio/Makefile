@@ -21,9 +21,9 @@
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-include $(LIBSIMPLEIO)/attic/java/include/java.mk
+include $(LIBSIMPLEIO)/java/include/java.mk
 
-JAVAC_FLAGS	:= -cp .:$(LIBSIMPLEIO)/attic/java/jars/jna.jar -d .
+JAVAC_FLAGS	:= -cp .:$(LIBSIMPLEIO)/java/jars/jna.jar -d .
 
 SRCFILES	+= ../interfaces/*/*.java
 SRCFILES	+= bindings/*.java

@@ -22,7 +22,7 @@
 
 LIBSIMPLEIO	?= /usr/local/share/libsimpleio
 
-include $(LIBSIMPLEIO)/attic/java/include/java.mk
+include $(LIBSIMPLEIO)/java/include/java.mk
 
 JAR_COMPONENTS	+= com
 
@@ -30,8 +30,8 @@ JAR_COMPONENTS	+= com
 
 %.class: %.java
 	rm -rf $(JAR_COMPONENTS)
-	jar xf $(LIBSIMPLEIO)/attic/java/jars/jna.jar         com/sun
-	jar xf $(LIBSIMPLEIO)/attic/java/jars/libsimpleio.jar com/munts
+	jar xf $(LIBSIMPLEIO)/java/jars/jna.jar         com/sun
+	jar xf $(LIBSIMPLEIO)/java/jars/libsimpleio.jar com/munts
 	$(JAVAC) $(JAVAC_FLAGS) $<
 
 # Override the .manifest rule, to enable native method access
