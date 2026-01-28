@@ -37,7 +37,6 @@ JARFILE		:= ../../jars/libsimpleio.jar
 
 default:
 	$(JAVAC) $(JAVAC_FLAGS) $(SRCFILES)
-	cp $(LIBSIMPLEIO)/COPYING com/munts
 	echo "Implementation-Title:      Java binding to the Linux Simple I/O Library"	 >$(MANIFEST)
 	echo "Implementation-Vendor:     Philip Munts dba Munts Technologies"		>>$(MANIFEST)
 	echo "Implementation-Version:    $(VERSION)"					>>$(MANIFEST)
