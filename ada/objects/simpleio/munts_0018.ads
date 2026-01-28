@@ -97,7 +97,7 @@ PACKAGE MUNTS_0018 IS
 
   -- On board LED indicator
 
-  D1    : Device.Designator RENAMES RaspberryPi.GPIO26;
+  D1     : Device.Designator RENAMES RaspberryPi.GPIO26;
 
 PRIVATE
 
