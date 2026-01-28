@@ -24,6 +24,10 @@ import com.munts.libsimpleio.objects.Designator;
 
 public final class RaspberryPi
 {
+  private RaspberryPi()
+  {
+  }
+
   // Raspberry Pi boards don't have a built-in ADC (Analog to Digital
   // Converter) subsystem, so the following analog input designators are
   // placeholders for the first IIO (Industrial I/O) ADC device, which is
