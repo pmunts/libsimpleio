@@ -19,7 +19,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 # JDK programs
 
-LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+LIBSIMPLEIO	?= ../../..
 
 include $(LIBSIMPLEIO)/java/include/java.mk
 
