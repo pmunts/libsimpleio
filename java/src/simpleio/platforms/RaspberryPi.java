@@ -70,12 +70,12 @@ public final class RaspberryPi
   public static final Designator GPIO26 = new Designator(0, 26);  // Pin 37
   public static final Designator GPIO27 = new Designator(0, 27);  // Pin 13
 
-  public static final Designator I2C1   = new Designator(0,  1);  // Pins 3 and 5
+  public static final Designator I2C1   = new Designator(0,  1);  // GPIO2/GPIO3
 
-  public static final Designator PWM0   = new Designator(0,  0);  // Pin 12 or pin 32
-  public static final Designator PWM1   = new Designator(0,  1);  // Pin 33 or pin 35
+  public static final Designator PWM0   = new Designator(0,  0);  // GPIO12 or GPIO18
+  public static final Designator PWM1   = new Designator(0,  1);  // GPIO13 or GPIO19
 
-  public static final Designator SPI1_0 = new Designator(1,  0);  // Pins 35, 38, 40, and 12
-  public static final Designator SPI1_1 = new Designator(1,  1);  // Pins 35, 38, 40, and 11
-  public static final Designator SPI1_2 = new Designator(1,  2);  // Pins 35, 38, 40, and 36
+  public static final Designator SPI1_0 = new Designator(1,  0);  // GPIO18/GPIO19/GPIO20/GPIO21
+  public static final Designator SPI1_1 = new Designator(1,  1);  // GPIO17/GPIO19/GPIO20/GPIO21
+  public static final Designator SPI1_2 = new Designator(1,  2);  // GPIO16/GPIO19/GPIO20/GPIO21
 }
