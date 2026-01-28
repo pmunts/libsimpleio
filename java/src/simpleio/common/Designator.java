@@ -20,14 +20,14 @@
 
 package com.munts.libsimpleio.objects;
 
-public class Designator
+public record Designator(int chip, int channel)
 {
-  public int chip;
-  public int channel;
-
-  public Designator(int chip, int channel)
+  public Designator
   {
-    this.chip    = chip;
-    this.channel = channel;
+    if (chip() < 0)
+      throw new RuntimeException("ERROR: chip number is invalid");
+
+    if (channel() < 0)
+      throw new RuntimeException("ERROR: channel number is invalid");
   }
 }
