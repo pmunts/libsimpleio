@@ -44,6 +44,9 @@ public class OutputSubclass implements Output
 
     // Validate parameters
 
+    if (frequency < 1)
+      throw new RuntimeException("ERROR: frequency is invalid");
+
     if ((dutycycle < 0.0) || (dutycycle > 100.0))
       throw new RuntimeException("ERROR: Invalid duty cycle parameter");
 
@@ -60,7 +63,7 @@ public class OutputSubclass implements Output
 
     // Configure the PWM output
 
-    libpwm.PWM_configure(desg.chip, desg.channel, this.period, ontime,
+    libpwm.PWM_configure(desg.chip(), desg.channel(), this.period, ontime,
       polarity, error);
 
     if (error.getValue() != errno.EOK)
@@ -69,7 +72,7 @@ public class OutputSubclass implements Output
 
     // Open the PWM output device node
 
-    libpwm.PWM_open(desg.chip, desg.channel, fd, error);
+    libpwm.PWM_open(desg.chip(), desg.channel(), fd, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: PWM_open() failed, " +
@@ -88,6 +91,9 @@ public class OutputSubclass implements Output
 
     // Validate parameters
 
+    if (frequency < 1)
+      throw new RuntimeException("ERROR: frequency is invalid");
+
     if ((dutycycle < 0.0) || (dutycycle > 100.0))
       throw new RuntimeException("ERROR: Invalid duty cycle parameter");
 
@@ -101,7 +107,7 @@ public class OutputSubclass implements Output
 
     // Configure the PWM output
 
-    libpwm.PWM_configure(desg.chip, desg.channel, this.period, ontime, libpwm.ACTIVEHIGH,
+    libpwm.PWM_configure(desg.chip(), desg.channel(), this.period, ontime, libpwm.ACTIVEHIGH,
       error);
 
     if (error.getValue() != errno.EOK)
@@ -110,7 +116,7 @@ public class OutputSubclass implements Output
 
     // Open the PWM output device node
 
-    libpwm.PWM_open(desg.chip, desg.channel, fd, error);
+    libpwm.PWM_open(desg.chip(), desg.channel(), fd, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: PWM_open() failed, " +
@@ -126,11 +132,16 @@ public class OutputSubclass implements Output
     IntByReference fd = new IntByReference();
     IntByReference error = new IntByReference();
 
+    // Validate parameters
+
+    if (frequency < 1)
+      throw new RuntimeException("ERROR: frequency is invalid");
+
     this.period = (int) Math.round(1.0E9/frequency);
 
     // Configure the PWM output
 
-    libpwm.PWM_configure(desg.chip, desg.channel, this.period, 0,
+    libpwm.PWM_configure(desg.chip(), desg.channel(), this.period, 0,
       libpwm.ACTIVEHIGH, error);
 
     if (error.getValue() != errno.EOK)
@@ -139,7 +150,7 @@ public class OutputSubclass implements Output
 
     // Open the PWM output device node
 
-    libpwm.PWM_open(desg.chip, desg.channel, fd, error);
+    libpwm.PWM_open(desg.chip(), desg.channel(), fd, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: PWM_open() failed, " +

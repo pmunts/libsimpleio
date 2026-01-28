@@ -35,8 +35,8 @@ public class Builder
 
   public Builder(Designator desg)
   {
-    this.chip = desg.chip;
-    this.line = desg.channel;
+    this.chip = desg.chip();
+    this.line = desg.channel();
     this.flags = 0;
     this.events = 0;
     this.state = 0;

@@ -42,18 +42,12 @@ public class SampleSubclass implements Sample
 
     // Validate parameters
 
-    if (desg.chip < 0)
-      throw new RuntimeException("ERROR: chip number is invalid");
-
-    if (desg.channel < 0)
-      throw new RuntimeException("ERROR: channel number is invalid");
-
     if (resolution < 1)
       throw new RuntimeException("ERROR: resolution is invalid");
 
     // Open the ADC input device node
 
-    libadc.ADC_open(desg.chip, desg.channel, fd, error);
+    libadc.ADC_open(desg.chip(), desg.channel(), fd, error);
 
     if (error.getValue() != errno.EOK)
       throw new RuntimeException("ERROR: ADC_open() failed, " +
