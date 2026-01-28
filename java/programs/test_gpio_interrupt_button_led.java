@@ -1,6 +1,6 @@
 // GPIO Interrupt Button and LED Test
 
-// Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2026, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ public class test_gpio_interrupt_button_led
   {
     Builder b;
 
-    System.out.println("\nGPIO Interrupt Button and LED Test\n");
+    System.out.println("\nGPIO Interrupt Button and LED Test using libsimpleio\n");
 
     // Configure button and LED GPIO's
 

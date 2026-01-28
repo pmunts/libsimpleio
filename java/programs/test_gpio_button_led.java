@@ -1,6 +1,6 @@
 // GPIO Button and LED Test
 
-// Copyright (C)2018-2021, Philip Munts, President, Munts AM Corp.
+// Copyright (C)2018-2026, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -31,7 +31,7 @@ public class test_gpio_button_led
     boolean oldstate;
     boolean newstate;
 
-    System.out.println("\nPi GPIO Button and LED Test\n");
+    System.out.println("\nGPIO Button and LED Test using libsimpleio\n");
 
     // Configure button and LED GPIO's
 
@@ -69,6 +69,14 @@ public class test_gpio_button_led
         }
 
         oldstate = newstate;
+      }
+
+      try
+      {
+        Thread.sleep(100);
+      }
+      catch (Exception e)
+      {
       }
     }
   }
