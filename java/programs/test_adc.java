@@ -50,6 +50,8 @@ public class test_adc
         RESOLUTION), VREF, GAIN);
     }
 
+    System.out.println("Press CONTROL-C to exit...\n");
+
     for (;;)
     {
       for (Voltage ain : inputs)
