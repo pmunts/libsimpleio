@@ -34,6 +34,12 @@ public class libadc
   public static native void ADC_get_name(int chip, byte[] buf, int size,
     IntByReference error);
 
+  public static native void ADC_get_reference(int chip,
+    DoubleByReference reference, IntByReference error);
+
+  public static native void ADC_get_scale(int chip, int channel,
+    DoubleByReference scale, IntByReference error);
+
   public static native void ADC_open(int chip, int channel, IntByReference fd,
     IntByReference error);
 
