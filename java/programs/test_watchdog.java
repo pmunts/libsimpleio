@@ -21,7 +21,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 import com.munts.interfaces.Watchdog.*;
-import com.munts.libsimpleio.Watchdog.*;
+import com.munts.libsimpleio.Watchdog;
 
 public class test_watchdog
 {
@@ -31,7 +31,7 @@ public class test_watchdog
 
     // Create watchdog timer instance
 
-    Timer wd = new TimerSubclass();
+    Timer wd = Watchdog.Create();
 
     // Display the default watchdog timeout period
 
