@@ -38,9 +38,9 @@ public class Input implements Voltage
     if  (gain == 0.0)
       throw new RuntimeException("ERROR: gain is invalid");
 
-    this.input = input;
-    this.stepsize = reference/(1 << input.resolution());
-    this.gain = gain;
+    this.input    = input;
+    this.stepsize = reference/Math.pow(2.0, input.resolution());
+    this.gain     = gain;
   }
 
   // Methods
