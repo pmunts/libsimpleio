@@ -20,9 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-import com.munts.interfaces.PWM.*;
 import com.munts.libsimpleio.Designator;
-import com.munts.libsimpleio.PWM.*;
+import com.munts.libsimpleio.PWM;
 
 public class test_pwm
 {
@@ -40,10 +39,7 @@ public class test_pwm
     int chip    = Integer.parseInt(args[0]);
     int channel = Integer.parseInt(args[1]);
     int freq    = Integer.parseInt(args[2]);
-
-    // Create PWM output instance
-
-    Output PWM0 = new OutputSubclass(new Designator(chip, channel), freq);
+    var PWM0 = PWM.Create(new Designator(chip, channel), freq, 0.0, PWM.Polarity.ActiveHigh);
 
     // Sweep the PWM output pulse width back and forth
 
