@@ -35,10 +35,10 @@
 // as PWM outputs.  If you need to use these pins for GPIO, omit the pwm-2chan
 // device tree overlay.
 
-package com.munts.libsimpleio.platforms;
+package com.munts.libsimpleio;
 
-import com.munts.libsimpleio.objects.Designator;
-import com.munts.libsimpleio.platforms.RaspberryPi;
+import com.munts.libsimpleio.Designator;
+import com.munts.libsimpleio.RaspberryPi;
 
 public final class MUNTS_0018
 {

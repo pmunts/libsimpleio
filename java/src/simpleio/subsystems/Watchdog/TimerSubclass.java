@@ -20,11 +20,11 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-package com.munts.libsimpleio.objects.Watchdog;
+package com.munts.libsimpleio.Watchdog;
 
 import com.munts.interfaces.Watchdog.Timer;
 import com.munts.libsimpleio.bindings.libwatchdog;
-import com.munts.libsimpleio.objects.errno;
+import com.munts.libsimpleio.errno;
 import com.sun.jna.ptr.IntByReference;
 
 public class TimerSubclass implements Timer

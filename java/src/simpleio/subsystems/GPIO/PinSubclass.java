@@ -20,11 +20,11 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-package com.munts.libsimpleio.objects.GPIO;
+package com.munts.libsimpleio.GPIO;
 
 import com.munts.interfaces.GPIO.*;
 import com.munts.libsimpleio.bindings.libgpio;
-import com.munts.libsimpleio.objects.errno;
+import com.munts.libsimpleio.errno;
 import com.sun.jna.ptr.IntByReference;
 
 public class PinSubclass implements Pin

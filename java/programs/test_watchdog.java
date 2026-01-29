@@ -21,7 +21,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 import com.munts.interfaces.Watchdog.*;
-import com.munts.libsimpleio.objects.Watchdog.*;
+import com.munts.libsimpleio.Watchdog.*;
 
 public class test_watchdog
 {

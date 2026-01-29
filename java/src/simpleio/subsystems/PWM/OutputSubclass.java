@@ -20,12 +20,12 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-package com.munts.libsimpleio.objects.PWM;
+package com.munts.libsimpleio.PWM;
 
 import com.munts.interfaces.PWM.Output;
 import com.munts.libsimpleio.bindings.libpwm;
-import com.munts.libsimpleio.objects.Designator;
-import com.munts.libsimpleio.objects.errno;
+import com.munts.libsimpleio.Designator;
+import com.munts.libsimpleio.errno;
 import com.sun.jna.ptr.IntByReference;
 
 public class OutputSubclass implements Output

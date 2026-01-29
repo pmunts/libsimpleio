@@ -21,8 +21,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 import com.munts.interfaces.GPIO.*;
-import com.munts.libsimpleio.objects.Designator;
-import com.munts.libsimpleio.objects.GPIO.*;
+import com.munts.libsimpleio.Designator;
+import com.munts.libsimpleio.GPIO.*;
 
 public class test_gpio
 {

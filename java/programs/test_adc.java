@@ -20,8 +20,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-import com.munts.libsimpleio.objects.Designator;
-import com.munts.libsimpleio.objects.IIO.ADC;
+import com.munts.libsimpleio.Designator;
+import com.munts.libsimpleio.ADC;
 
 public class test_adc
 {

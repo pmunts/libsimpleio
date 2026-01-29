@@ -21,8 +21,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 import com.munts.interfaces.PWM.*;
-import com.munts.libsimpleio.objects.Designator;
-import com.munts.libsimpleio.objects.PWM.*;
+import com.munts.libsimpleio.Designator;
+import com.munts.libsimpleio.PWM.*;
 
 public class test_pwm
 {

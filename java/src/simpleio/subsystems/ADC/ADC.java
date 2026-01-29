@@ -20,12 +20,12 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-package com.munts.libsimpleio.objects.IIO;
+package com.munts.libsimpleio;
 
 import com.munts.interfaces.ADC.*;
 import com.munts.libsimpleio.bindings.libadc;
-import com.munts.libsimpleio.objects.errno;
-import com.munts.libsimpleio.objects.Designator;
+import com.munts.libsimpleio.errno;
+import com.munts.libsimpleio.Designator;
 import com.sun.jna.ptr.DoubleByReference;
 import com.sun.jna.ptr.IntByReference;
 

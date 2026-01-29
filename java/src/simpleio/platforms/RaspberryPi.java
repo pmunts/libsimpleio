@@ -18,9 +18,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-package com.munts.libsimpleio.platforms;
+package com.munts.libsimpleio;
 
-import com.munts.libsimpleio.objects.Designator;
+import com.munts.libsimpleio.Designator;
 
 public final class RaspberryPi
 {
