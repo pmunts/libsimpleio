@@ -26,7 +26,7 @@ import com.munts.libsimpleio.RaspberryPi;
 
 public class test_button_led
 {
-  public static void main(String args[])
+  public static void main(String args[]) throws InterruptedException
   {
     Builder b;
     boolean oldstate;
@@ -72,13 +72,7 @@ public class test_button_led
         oldstate = newstate;
       }
 
-      try
-      {
-        Thread.sleep(100);
-      }
-      catch (Exception e)
-      {
-      }
+      Thread.sleep(100);
     }
   }
 }

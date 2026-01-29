@@ -26,7 +26,7 @@ import com.munts.libsimpleio.RaspberryPi;
 
 public class test_led
 {
-  public static void main(String args[])
+  public static void main(String args[]) throws InterruptedException
   {
     Builder b;
     boolean oldstate;
@@ -45,14 +45,7 @@ public class test_led
     for (;;)
     {
       LED.write(!LED.read());
-
-      try
-      {
-        Thread.sleep(500);
-      }
-      catch (Exception e)
-      {
-      }
+      Thread.sleep(500);
     }
   }
 }
