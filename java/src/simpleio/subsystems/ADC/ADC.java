@@ -1,4 +1,4 @@
-// Linux Industrial I/O ADC services using libsimpleio
+// Analog input services using libsimpleio
 
 // Copyright (C)2026, Philip Munts dba Munts Technologies.
 //
