@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libpwm
+public final class libpwm
 {
+  private libpwm()
+  {
+  }
+
   // PWM output polarity constants
 
   public static final int ACTIVELOW	= 0;

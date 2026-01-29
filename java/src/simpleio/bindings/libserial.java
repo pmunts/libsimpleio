@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libserial
+public final class libserial
 {
+  private libserial()
+  {
+  }
+
   // Parity settings
 
   public static final int NONE = 0;

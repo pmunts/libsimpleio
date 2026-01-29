@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libhidraw
+public final class libhidraw
 {
+  private libhidraw()
+  {
+  }
+
   // Raw HID device function definitions
 
   public static native void HIDRAW_open1(String name, IntByReference fd,

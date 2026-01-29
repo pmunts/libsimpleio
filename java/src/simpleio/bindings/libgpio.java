@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libgpio
+public final class libgpio
 {
+  private libgpio()
+  {
+  }
+
   // Old GPIO sysfs API:
 
   // GPIO data direction constants

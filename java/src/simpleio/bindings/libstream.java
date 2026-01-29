@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libstream
+public final class libstream
 {
+  private libstream()
+  {
+  }
+
   // Stream Framing Protocol function definitions
 
   public static native void STREAM_encode_frame(byte[] src, int srclen,

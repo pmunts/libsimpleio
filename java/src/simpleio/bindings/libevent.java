@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libevent
+public final class libevent
 {
+  private libevent()
+  {
+  }
+
   // epoll events, extracted from /usr/include/sys/epoll.h
 
   public static final int EPOLLIN      = 0x00000001;

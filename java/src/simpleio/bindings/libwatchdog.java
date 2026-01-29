@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libwatchdog
+public final class libwatchdog
 {
+  private libwatchdog()
+  {
+  }
+
   // Raw HID device function definitions
 
   public static native void WATCHDOG_open(String name, IntByReference fd,

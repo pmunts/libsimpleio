@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class liblinux
+public final class liblinux
 {
+  private liblinux()
+  {
+  }
+
   public static final String LOG_PROGNAME = "";
 
   // syslog option constants (extracted from syslog.h)

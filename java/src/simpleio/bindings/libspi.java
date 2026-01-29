@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libspi
+public final class libspi
 {
+  private libspi()
+  {
+  }
+
   // SPI device function definitions
 
   public static native void SPI_open(String devname, int mode, int wordsize,

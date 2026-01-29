@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libi2c
+public final class libi2c
 {
+  private libi2c()
+  {
+  }
+
   // I2C device function definitions
 
   public static native void I2C_open(String devname, IntByReference fd,

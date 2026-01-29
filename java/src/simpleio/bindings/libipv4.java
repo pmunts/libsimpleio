@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libipv4
+public final class libipv4
 {
+  private libipv4()
+  {
+  }
+
   public static final int INADDR_ANY       = 0;
   public static final int INADDR_LOOPBACK  = 0x7F000001;
   public static final int INADDR_BROADCAST = -1;

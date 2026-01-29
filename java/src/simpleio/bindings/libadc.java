@@ -27,8 +27,12 @@ package com.munts.libsimpleio.bindings;
 import com.sun.jna.*;
 import com.sun.jna.ptr.*;
 
-public class libadc
+public final class libadc
 {
+  private libadc()
+  {
+  }
+
   // A/D input device function definitions
 
   public static native void ADC_get_name(int chip, byte[] buf, int size,
