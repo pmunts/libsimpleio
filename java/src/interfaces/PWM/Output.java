@@ -24,5 +24,8 @@ package com.munts.interfaces.PWM;
 
 public interface Output
 {
+  double MIN_DUTYCYCLE =   0.0;
+  double MAX_DUTYCYCLE = 100.0;
+
   void write(double dutycycle);
 }
