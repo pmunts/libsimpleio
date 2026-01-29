@@ -24,8 +24,8 @@ package com.munts.libsimpleio;
 
 import com.munts.interfaces.ADC.*;
 import com.munts.libsimpleio.bindings.libadc;
-import com.munts.libsimpleio.errno;
 import com.munts.libsimpleio.Designator;
+import com.munts.libsimpleio.errno;
 import com.sun.jna.ptr.DoubleByReference;
 import com.sun.jna.ptr.IntByReference;
 
@@ -37,10 +37,10 @@ public final class ADC
 
   private static class SampleSubclass implements Sample
   {
-    private int fd;
-    private int numbits;
+    int fd;
+    int numbits;
 
-    public SampleSubclass(Designator desg, int resolution)
+    SampleSubclass(Designator desg, int resolution)
     {
       IntByReference fd = new IntByReference();
       IntByReference error = new IntByReference();
