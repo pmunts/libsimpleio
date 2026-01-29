@@ -45,3 +45,6 @@ default:
 	$(JAR) -cmf $(MANIFEST) $(JARFILE) com
 	if [ -f $(JARSIGNER_KEYSTORE) ]; then $(JARSIGNER) -keystore $(JARSIGNER_KEYSTORE) $(JARSIGNER_FLAGS) $(JARFILE) $(JARSIGNER_ALIAS) ; fi
 	rm -rf $(MANIFEST) com
+
+clean:
+	rm -rf $(MANIFEST) com
