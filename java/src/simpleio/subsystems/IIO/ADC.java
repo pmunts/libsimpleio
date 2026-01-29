@@ -100,7 +100,7 @@ public final class ADC
 
   // Attempt to fetch the reference voltage for a particular analog input
 
-  public static double ReferenceVoltage(Designator desg)
+  public static double Reference(Designator desg)
   {
     DoubleByReference Vref   = new DoubleByReference();
     IntByReference error     = new IntByReference();
@@ -116,7 +116,7 @@ public final class ADC
 
   // Attempt to fetch the scale voltage for a particular analog input
 
-  public static double ScaleVoltage(Designator desg)
+  public static double ScaleFactor(Designator desg)
   {
     DoubleByReference Vscale = new DoubleByReference();
     IntByReference error     = new IntByReference();
@@ -151,7 +151,7 @@ public final class ADC
     double gain)
   {
     return new Input(new SampleSubclass(desg, resolution),
-      ReferenceVoltage(desg), gain);
+      Reference(desg), gain);
   }
 
   // Create a scaled analog voltage input
@@ -159,7 +159,7 @@ public final class ADC
   public static Voltage Create(Designator desg, double gain)
   {
     return new Input(new SampleSubclass(desg, 31),
-      ScaleVoltage(desg)*Math.pow(2.0, 31.0), gain);
+      ScaleFactor(desg)*Math.pow(2.0, 31.0), gain);
   }
 
   // Create a unity gain scaled analog voltage input
@@ -167,6 +167,6 @@ public final class ADC
   public static Voltage Create(Designator desg)
   {
     return new Input(new SampleSubclass(desg, 31),
-      ScaleVoltage(desg)*Math.pow(2.0, 31.0), 1.0);
+      ScaleFactor(desg)*Math.pow(2.0, 31.0), 1.0);
   }
 }
