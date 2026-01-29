@@ -20,44 +20,32 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// Test Configuration:
-//
-// Raspberry Pi microcomputer with Mikroelektronica Pi 3 Click Shield
-// MIKROE-2756 (https://www.mikroe.com/pi-3-click-shield).
-//
-// Add dtoverlay=Pi3ClickShield to /boot/config.txt.
-
-import com.munts.interfaces.ADC.*;
-import com.munts.libsimpleio.objects.ADC.*;
 import com.munts.libsimpleio.objects.Designator;
+import com.munts.libsimpleio.objects.IIO.ADC;
 
 public class test_adc
 {
-  public static final int MAX_CHANNELS = 2;
-  public static final int RESOLUTION   = 12;
-  public static final double VREF      = 4.096;
-  public static final double GAIN      = 1.0;
-
   public static void main(String args[]) throws InterruptedException
   {
     System.out.println("\nAnalog Input Test using libsimpleio\n");
 
-    Voltage[] inputs = new Voltage[MAX_CHANNELS];
-
-    for (int c = 0; c < inputs.length; c++)
+    if (args.length != 2)
     {
-      inputs[c] = new Input(new SampleSubclass(new Designator(0, c),
-        RESOLUTION), VREF, GAIN);
+      System.out.println("Usage: java -jar test_pwm.jar " +
+        "<chip number> <channel number>\n");
+      System.exit(1);
     }
+
+    int chip    = Integer.parseInt(args[0]);
+    int channel = Integer.parseInt(args[1]);
+    var desg    = new Designator(chip, channel);
+    var inp     = ADC.Create(desg);
 
     System.out.println("Press CONTROL-C to exit...\n");
 
     for (;;)
     {
-      for (Voltage ain : inputs)
-        System.out.print(String.format("%6.3f", ain.voltage()));
-
-      System.out.println();
+      System.out.println(String.format("%6.3f", inp.voltage()));
       Thread.sleep(2000);
     }
   }
