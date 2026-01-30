@@ -288,7 +288,7 @@ void IIO_open(int32_t chip, int32_t channel, const char *property,
   snprintf(filename, sizeof(filename) - 1, DATA_FILE1, chip, property,
     channel, suffix);
 
-  if (access(filename, F_OK) && (channel == 0))
+  if (access(filename, F_OK) && (strcmp(suffix, "raw") || (channel == 0)))
   {
     // Now try xx_xxxx_xxx
 
