@@ -57,15 +57,15 @@ public final class PWM
       // Validate parameters
 
       if (frequency < 1)
-        throw new RuntimeException("ERROR: frequency is invalid");
+        throw new RuntimeException("ERROR: frequency is out of range.");
 
       if ((dutycycle < Output.MIN_DUTYCYCLE) ||
           (dutycycle > Output.MAX_DUTYCYCLE))
-        throw new RuntimeException("ERROR: Invalid duty cycle parameter");
+        throw new RuntimeException("ERROR: dutycycle is out of range.");
 
       if ((polarity.ordinal() < libpwm.ACTIVELOW) ||
           (polarity.ordinal() > libpwm.ACTIVEHIGH))
-        throw new RuntimeException("ERROR: Invalid polarity parameter");
+        throw new RuntimeException("ERROR: polarity is out of range.");
 
       // Calculate the period
 
