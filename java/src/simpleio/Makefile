@@ -25,6 +25,7 @@ include $(LIBSIMPLEIO)/java/include/java.mk
 
 JAVAC_FLAGS	:= -cp .:$(LIBSIMPLEIO)/java/jars/jna.jar -d .
 
+SRCFILES	+= ../common/*.java
 SRCFILES	+= ../interfaces/*/*.java
 SRCFILES	+= bindings/*.java
 SRCFILES	+= common/*.java
