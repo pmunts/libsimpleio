@@ -31,11 +31,12 @@ public final class Servo
   private static class OutputSubclass implements Output
   {
     com.munts.interfaces.PWM.Output pwmout;
-    int period; // nanoseconds
-    double overdrive;
+    double period;   // seconds
+    double swing;    // seconds
+    double midpoint; // seconds
 
     OutputSubclass(com.munts.interfaces.PWM.Output pwmout,
-      int frequency, double position, double overdrive)
+      int frequency, double position, double minwidth, double maxwidth)
     {
       // Validate parameters
 
@@ -45,15 +46,15 @@ public final class Servo
       if (frequency < 50)
         throw new RuntimeException("ERROR: frequency is out of range.");
 
-      // Validate parameters
-
       if ((position < Output.MIN_POSITION) ||
           (position > Output.MAX_POSITION))
-        throw new RuntimeException("ERROR: polarity is out of range.");
+        throw new RuntimeException("ERROR: position is out of range.");
 
-      this.pwmout    = pwmout;
-      this.period    = 1000000000 / frequency;
-      this.overdrive = overdrive;
+      this.pwmout   = pwmout;
+      this.period   = 1.0/frequency;
+      this.swing    = (maxwidth - minwidth)/2.0;
+      this.midpoint = minwidth + swing;
+
       this.write(position);
     }
 
@@ -63,27 +64,28 @@ public final class Servo
 
       if ((position < Output.MIN_POSITION) ||
           (position > Output.MAX_POSITION))
-        throw new RuntimeException("ERROR: polarity is out of range.");
+        throw new RuntimeException("ERROR: position is out of range.");
 
-      int ontime = 1500000 + (int) Math.round(500000.0*position*this.overdrive);
-      this.pwmout.write(((double)ontime)/((double)this.period)*100.0);
+      double ontime = this.midpoint + this.swing*position;
+      this.pwmout.write(ontime/this.period*100.0);
     }
   }
 
   // Configure a servo output
 
   public static Output Create(com.munts.interfaces.PWM.Output pwmout,
-    int frequency, double position, double overdrive)
+    int frequency, double position, double minwidth, double maxwidth)
   {
-    return new OutputSubclass(pwmout, frequency, position, overdrive);
+    return new OutputSubclass(pwmout, frequency, position, minwidth, maxwidth);
   }
 
-  // Configure a servo output with a default neutral position
+  // Configure a servo output with default neutral position, minwidth and
+  // maxwidth parameters
 
   public static Output Create(com.munts.interfaces.PWM.Output pwmout,
     int frequency)
   {
     return new OutputSubclass(pwmout, frequency, Output.NEUTRAL_POSITION,
-      1.0);
+      1.0E-3, 2.0E-3);
   }
 }
