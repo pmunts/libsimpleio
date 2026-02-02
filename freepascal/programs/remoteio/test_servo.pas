@@ -1,6 +1,6 @@
 { Remote I/O Servo Output Test }
 
-{ Copyright (C)2019-2023, Philip Munts dba Munts Technologies.                }
+{ Copyright (C)2019-2026, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -50,7 +50,7 @@ BEGIN
   SetLength(outputs, Length(chans));
 
   FOR i := 0 TO Length(chans) - 1 DO
-    outputs[i] := Servo_PWM.OutputSubclass.Create(remdev.PWM(chans[i], 50));
+    outputs[i] := Servo_PWM.OutputSubclass.Create(remdev.PWM(chans[i], 50), 50);
 
   { Sweep the pulse width back and forth }
 
