@@ -1,6 +1,6 @@
 -- Test program servo outputs implemented with kernel and libsimpleio support.
 
--- Copyright (C)2019-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2019-2026, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,8 +29,8 @@ WITH Servo.PWM;
 
 PROCEDURE test_servo IS
 
-  desg   : Device.Designator;
-  Servo0 : Servo.Output;
+  desg : Device.Designator;
+  outp : Servo.Output;
 
 BEGIN
   Put_Line("Servo Output Test");
@@ -44,17 +44,17 @@ BEGIN
 
   -- Create servo output object
 
-  Servo0 := Servo.PWM.Create(PWM.libsimpleio.Create(desg, 50));
+  outp := Servo.PWM.Create(PWM.libsimpleio.Create(desg, 50));
 
   -- Sweep the servo back and forth
 
   FOR d IN -100 .. 100 LOOP
-    Servo0.Put(Servo.Position(Float(d)/100.0));
+    outp.Put(Servo.Position(Float(d)/100.0));
     DELAY 0.05;
   END LOOP;
 
   FOR d IN REVERSE -100 .. 100 LOOP
-    Servo0.Put(Servo.Position(Float(d)/100.0));
+    outp.Put(Servo.Position(Float(d)/100.0));
     DELAY 0.05;
   END LOOP;
 END test_servo;
