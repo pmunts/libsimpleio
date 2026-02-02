@@ -1,6 +1,3 @@
--- Template for servos controlled by a variable width control pulse
--- realized with an underlying PWM output
-
 -- Copyright (C)2019-2026, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
@@ -21,42 +18,41 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH PWM;
-
-GENERIC
-
-  MinimumWidth : IN Duration;
-  MaximumWidth : IN Duration;
-
-PACKAGE Servo.PWM_Template IS
-
-  -- Type definitions
-
-  TYPE OverdriveFactor IS NEW Float RANGE 1.0 .. 3.0;
-  -- Some RC servos require an overdrive factor of 2.0 to achieve 180 degree
-  -- rotation.  Warning: Any value over 2.0 is extremely dubious!
-
-  TYPE OutputSubclass  IS NEW Servo.OutputInterface WITH PRIVATE;
+PACKAGE BODY Servo.PWM IS
 
   -- Servo output object constructor
 
   FUNCTION Create
-   (output    : NOT NULL PWM.Output;
-    position  : Servo.Position := Servo.NeutralPosition;
-    overdrive : OverdriveFactor := 1.0)
-    RETURN Servo.Output;
+   (pwmout   : NOT NULL Standard.PWM.Output;
+    position : Servo.Position := NeutralPosition;
+    minwidth : Duration := 1.0E-3;
+    maxwidth : Duration := 2.0E-3)
+    RETURN Output IS
+
+    swing    : CONSTANT Duration := (maxwidth - minwidth)/2;
+    midpoint : CONSTANT Duration := minwidth + swing;
+
+    outp : Output;
+
+  BEGIN
+    IF maxwidth > pwmout.GetPeriod THEN
+      RAISE Servo_Error WITH "PWM pulse frequency is too high";
+    END IF;
+
+    outp := NEW OutputSubclass'(pwmout, swing, midpoint);
+    outp.Put(position);
+
+    RETURN outp;
+  END Create;
 
   -- Servo output write method
 
   PROCEDURE Put
-   (Self      : IN OUT OutputSubclass;
-    position  : Servo.Position);
+   (Self     : IN OUT OutputSubclass;
+    position : Servo.Position) IS
 
-PRIVATE
+  BEGIN
+    Self.pwmout.Put(Self.midpoint + Self.swing*Duration(position));
+  END Put;
 
-  TYPE OutputSubclass IS NEW Servo.OutputInterface WITH RECORD
-    output    : PWM.Output;
-    overdrive : OverdriveFactor;
-  END RECORD;
-
-END Servo.PWM_Template;
+END Servo.PWM;

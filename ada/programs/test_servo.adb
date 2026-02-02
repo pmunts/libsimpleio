@@ -44,7 +44,7 @@ BEGIN
 
   -- Create servo output object
 
-  outp := Servo.PWM.Create(PWM.libsimpleio.Create(desg, 50));
+  outp := Servo.PWM.Create(PWM.libsimpleio.Create(desg, 50), minwidth => 0.55E-3, maxwidth => 2.33E-3);
 
   -- Sweep the servo back and forth
 
