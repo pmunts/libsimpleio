@@ -1,6 +1,6 @@
 { Abstract interface for servo output devices }
 
-{ Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                }
+{ Copyright (C)2018-2026, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -44,11 +44,11 @@ INTERFACE
 
       { Write method }
 
-      PROCEDURE Write(position : Real);
+      PROCEDURE Write(position : Double);
 
       { Position property }
 
-      PROPERTY position : Real WRITE Write;
+      PROPERTY position : Double WRITE Write;
     END;
 
 IMPLEMENTATION
