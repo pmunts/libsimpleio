@@ -1,6 +1,6 @@
 # Makefile definitions for building Free Pascal application programs
 
-# Copyright (C)2013-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2013-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -67,12 +67,18 @@ endif
 %: %.pas
 	mkdir -p $(OBJ)
 	$(FPC) $(FPC_FLAGS) $(FPC_LDFLAGS) -o$@$(EXESUFFIX) $^
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $@$(EXESUFFIX) $(TARGETCOMPUTER)
+endif
 
 # We dislike the .pp file extension, but we support it anyway
 
 %: %.pp
 	mkdir -p $(OBJ)
 	$(FPC) $(FPC_FLAGS) $(FPC_LDFLAGS) -o$@$(EXESUFFIX) $^
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $@$(EXESUFFIX) $(TARGETCOMPUTER)
+endif
 
 ###############################################################################
 
