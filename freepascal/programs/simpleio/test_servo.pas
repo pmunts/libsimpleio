@@ -1,6 +1,6 @@
 { Linux Simple I/O Library servo output test                                  }
 
-{ Copyright (C)2018-2023, Philip Munts dba Munts Technologies.                }
+{ Copyright (C)2018-2026, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -20,7 +20,7 @@
 { ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE  }
 { POSSIBILITY OF SUCH DAMAGE.                                                 }
 
-PROGRAM test_servo_pwm;
+PROGRAM test_servo;
 
 USES
   PWM,
@@ -53,7 +53,7 @@ BEGIN
 
   { Create a servo output object }
 
-  servoout := Servo_PWM.OutputSubclass.Create(pwmout);
+  servoout := Servo_PWM.OutputSubclass.Create(pwmout, 50);
 
   { Sweep the pulse width back and forth }
 

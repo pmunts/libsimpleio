@@ -1,6 +1,6 @@
 { Servo output services using PWM services                                    }
 
-{ Copyright (C)2019-2023, Philip Munts dba Munts Technologies.                }
+{ Copyright (C)2019-2026, Philip Munts dba Munts Technologies.                }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -32,16 +32,20 @@ INTERFACE
     OutputSubclass = CLASS(TInterfacedObject, Servo.Output)
       CONSTRUCTOR Create
        (pwmout    : PWM.Output;
-        frequency : Cardinal = 50;
-        position  : Real = Servo.POSITION_NEUTRAL);
+        frequency : Cardinal;
+        position  : Double   = Servo.POSITION_NEUTRAL;
+        minwidth  : Double   = 1.0E-3;
+        maxwidth  : Double   = 2.0E-3);
 
-      PROCEDURE Write(position : Real);
+      PROCEDURE Write(position : Double);
 
-      PROPERTY position : Real WRITE Write;
+      PROPERTY position : Double WRITE Write;
 
     PRIVATE
-      pwmout : PWM.Output;
-      period : Cardinal;    { nanoseconds }
+      pwmout   : PWM.Output;
+      period   : Double;  { seconds }
+      swing    : Double;  { seconds }
+      midpoint : Double;  { seconds }
     END;
 
 IMPLEMENTATION
@@ -51,24 +55,28 @@ IMPLEMENTATION
   CONSTRUCTOR OutputSubclass.Create
    (pwmout    : PWM.Output;
     frequency : Cardinal;
-    position  : Real);
+    position  : Double;
+    minwidth  : Double;
+    maxwidth  : Double);
 
   BEGIN
     Self.pwmout   := pwmout;
-    Self.period   := 1000000000 DIV frequency;
+    Self.period   := 1.0/frequency;
+    Self.swing    := (maxwidth - minwidth)/2.0;
+    Self.midpoint := minwidth + swing;
     Self.position := position;
   END;
 
   {  Servo_libsimpleio.OutputSubclass write method }
 
-  PROCEDURE OutputSubclass.Write(position : Real);
+  PROCEDURE OutputSubclass.Write(position : Double);
 
   VAR
-    ontime : Cardinal;  { nanoseconds }
+    ontime : Double;  { seconds }
 
   BEGIN
-    ontime := Round(1500000.0 + 500000.0*position);
-    Self.pwmout.dutycycle := Real(ontime)/Real(Self.period)*100.0;
+    ontime := Self.midpoint + Self.swing*position;
+    Self.pwmout.dutycycle := ontime/Self.period*100.0;
   END;
 
 END.
