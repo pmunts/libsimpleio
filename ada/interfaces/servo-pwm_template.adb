@@ -1,7 +1,7 @@
 -- Template for servos controlled by a variable width control pulse
 -- realized with an underlying PWM output
 
--- Copyright (C)2019-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2019-2026, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -29,8 +29,9 @@ PACKAGE BODY Servo.PWM_Template IS
   -- Servo output object constructor
 
   FUNCTION Create
-   (output   : NOT NULL PWM.Output;
-    position : Servo.Position := Servo.NeutralPosition)
+   (output    : NOT NULL PWM.Output;
+    position  : Servo.Position  := Servo.NeutralPosition;
+    overdrive : OverdriveFactor := 1.0)
     RETURN Servo.Output IS
 
     outp : Servo.Output;
@@ -40,7 +41,8 @@ PACKAGE BODY Servo.PWM_Template IS
       RAISE Servo_Error WITH "PWM pulse frequency is too high";
     END IF;
 
-    outp := NEW OutputSubclass'(output => output);
+    
+    outp := NEW OutputSubclass'(output, overdrive);
     outp.Put(position);
 
     RETURN outp;
@@ -53,7 +55,7 @@ PACKAGE BODY Servo.PWM_Template IS
     position : Servo.Position) IS
 
   BEGIN
-    Self.output.Put(Midpoint + Swing*Duration(position));
+    Self.output.Put(Midpoint + Swing*Duration(Duration(position)*Duration(Self.overdrive)));
   END Put;
 
 END Servo.PWM_Template;

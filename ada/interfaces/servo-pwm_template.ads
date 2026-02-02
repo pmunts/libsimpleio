@@ -1,7 +1,7 @@
 -- Template for servos controlled by a variable width control pulse
 -- realized with an underlying PWM output
 
--- Copyright (C)2019-2023, Philip Munts dba Munts Technologies.
+-- Copyright (C)2019-2026, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -32,25 +32,31 @@ PACKAGE Servo.PWM_Template IS
 
   -- Type definitions
 
-  TYPE OutputSubclass IS NEW Servo.OutputInterface WITH PRIVATE;
+  TYPE OverdriveFactor IS NEW Float RANGE 1.0 .. 3.0;
+  -- Some RC servos require an overdrive factor of 2.0 to achieve 180 degree
+  -- rotation.  Warning: Any value over 2.0 is extremely dubious!
+
+  TYPE OutputSubclass  IS NEW Servo.OutputInterface WITH PRIVATE;
 
   -- Servo output object constructor
 
   FUNCTION Create
-   (output   : NOT NULL PWM.Output;
-    position : Servo.Position := Servo.NeutralPosition)
+   (output    : NOT NULL PWM.Output;
+    position  : Servo.Position := Servo.NeutralPosition;
+    overdrive : OverdriveFactor := 1.0)
     RETURN Servo.Output;
 
   -- Servo output write method
 
   PROCEDURE Put
-   (Self     : IN OUT OutputSubclass;
-    position : Servo.Position);
+   (Self      : IN OUT OutputSubclass;
+    position  : Servo.Position);
 
 PRIVATE
 
   TYPE OutputSubclass IS NEW Servo.OutputInterface WITH RECORD
-    output : PWM.Output;
+    output    : PWM.Output;
+    overdrive : OverdriveFactor;
   END RECORD;
 
 END Servo.PWM_Template;
