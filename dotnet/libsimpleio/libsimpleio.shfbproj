@@ -96,7 +96,6 @@
       <NamespaceSummaryItem name="IO.Objects.SimpleIO.PWM" isDocumented="True">PWM (Pulse Width Modulated) Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.SimpleIO.Platforms" isDocumented="True">Platform Definition Classes</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.SimpleIO.SPI" isDocumented="True">SPI (Serial Peripheral Interconnect) Device Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Objects.SimpleIO.Servo" isDocumented="True">Servo Output Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.SimpleIO.Watchdog" isDocumented="True">Watchdog Timer Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.SimpleIO.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Shield and Socket Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.SimpleIO.syslog" isDocumented="True">Error Logging Services Using the Linux &lt;c&gt;syslog&lt;/c&gt; Subsystem</NamespaceSummaryItem>
