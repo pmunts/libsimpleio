@@ -1,6 +1,6 @@
 # Makefile definitions for C# programming
 
-# Copyright (C)2014-2024, Philip Munts dba Munts Technologies.
+# Copyright (C)2014-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -21,8 +21,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 CONFIGURATION	?= Release
-CSC		?= C:/PROGRA~1/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/Roslyn/csc.exe
-MSBUILD		?= C:/PROGRA~1/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe
+CSC		?= C:/PROGRA~1/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/Roslyn/csc.exe
+MSBUILD		?= C:/PROGRA~1/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/MSBuild.exe
 MSBUILDTARGET	?= /t:Build
 MSBUILDFLAGS	?= /p:Configuration=$(CONFIGURATION)
 MSBUILDPROJECT	?=
