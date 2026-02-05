@@ -1,6 +1,6 @@
 // Servo Output Test
 
-// Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2018-2026, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -31,12 +31,17 @@ namespace test_servo
         {
             WriteLine("\nServo Output Test\n");
 
-            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter PWM output channel:    ");
+            var desg = new IO.Objects.SimpleIO.Device.Designator("Enter PWM output channel: ");
+
+            // Create PWM output object
+
+            IO.Interfaces.PWM.Output PWM0 =
+                new IO.Objects.SimpleIO.PWM.Output(desg, 50);
 
             // Create servo output object
 
             IO.Interfaces.Servo.Output Servo0 =
-                new IO.Objects.SimpleIO.Servo.Output(desg, 50);
+                new IO.Objects.Servo.PWM.Output(PWM0, 50);
 
             // Sweep servo position back and forth
 

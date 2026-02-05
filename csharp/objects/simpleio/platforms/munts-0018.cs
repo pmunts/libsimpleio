@@ -367,7 +367,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
                 // Return servo output instance
 
-                return new IO.Objects.SimpleIO.Servo.Output(desg, frequency);
+                return new IO.Objects.Servo.PWM.Output(new IO.Objects.SimpleIO.PWM.Output(desg, frequency), frequency, position);
             }
         }
 
@@ -685,7 +685,7 @@ namespace IO.Objects.SimpleIO.Platforms
 
                 // Return servo output instance
 
-                return new IO.Objects.SimpleIO.Servo.Output(desg, frequency);
+                return new IO.Objects.Servo.PWM.Output(new IO.Objects.SimpleIO.PWM.Output(desg, frequency), frequency, position);
             }
         }
     }
