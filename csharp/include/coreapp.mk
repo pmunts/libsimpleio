@@ -1,6 +1,6 @@
 # Makefile for building a .Net Core application program
 
-# Copyright (C)2018-2024, Philip Munts dba Munts Technologies.
+# Copyright (C)2018-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -65,8 +65,8 @@ endif
 # dotnet command line flags for the various kinds of deliverables
 
 COREAPP_BUILD_FLAGS		?= -c $(CONFIGURATION)
-COREAPP_SINGLE_FLAGS		?= -c $(CONFIGURATION) -r $(DOTNETARCH) -p:PublishSingleFile=true --self-contained false $(DOTNETFLAGS)
-COREAPP_SELFCONTAINED_FLAGS	?= -c $(CONFIGURATION) -r $(DOTNETARCH) -p:PublishSingleFile=true --self-contained true  $(DOTNETFLAGS)
+COREAPP_SINGLE_FLAGS		?= -c $(CONFIGURATION) -r $(DOTNETARCH) -p:PublishSingleFile=true --no-self-contained $(DOTNETFLAGS)
+COREAPP_SELFCONTAINED_FLAGS	?= -c $(CONFIGURATION) -r $(DOTNETARCH) -p:PublishSingleFile=true --self-contained $(DOTNETFLAGS)
 
 # Build architecture independent deliverables (i.e. dotnet run myapp.dll).
 
