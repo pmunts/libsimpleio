@@ -1,4 +1,4 @@
-// Copyright (C)2018-2023, Philip Munts dba Munts Technologies.
+// Copyright (C)2018-2026, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -26,7 +26,9 @@ namespace IO.Objects.Servo.PWM
     public class Output : IO.Interfaces.Servo.Output
     {
         private readonly IO.Interfaces.PWM.Output pwm;
-        private readonly int period;
+        private readonly double period;
+        private readonly double swing;
+        private readonly double midpoint;
 
         /// <summary>
         /// Constructor for a single servo output.
@@ -34,15 +36,20 @@ namespace IO.Objects.Servo.PWM
         /// <param name="pwm">PWM output instance.</param>
         /// <param name="freq">PWM pulse frequency.</param>
         /// <param name="position">Initial servo position.</param>
+        /// <param name="minwidth">Minimum servo output pulse width.</param>
+        /// <param name="maxwidth">Maximum servo output pulse width.</param>
         public Output(IO.Interfaces.PWM.Output pwm, int freq = 50,
-          double position = IO.Interfaces.Servo.Positions.Neutral)
+          double position = IO.Interfaces.Servo.Positions.Neutral,
+          double minwidth = 1.0E-3, double maxwidth = 2.0E-3)
         {
             if ((position < IO.Interfaces.Servo.Positions.Minimum) ||
                 (position > IO.Interfaces.Servo.Positions.Maximum))
                 throw new System.Exception("Invalid servo position");
 
             this.pwm = pwm;
-            this.period = 1000000000 / freq;
+            this.period = 1.0/freq;
+            this.swing = (maxwidth - minwidth)/2;
+            this.midpoint = minwidth + swing;
             this.position = position;
         }
 
@@ -58,8 +65,8 @@ namespace IO.Objects.Servo.PWM
                     (value > IO.Interfaces.Servo.Positions.Maximum))
                     throw new System.Exception("Invalid servo position");
 
-                int ontime = 1500000 + (int)(500000.0 * value);
-                this.pwm.dutycycle = ((double)ontime) / ((double)this.period) * 100.0;
+                double ontime = this.midpoint + this.swing*value;
+                this.pwm.dutycycle = ontime/this.period*100.0;
             }
         }
     }
