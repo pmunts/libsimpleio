@@ -2,7 +2,7 @@
 
 REM Install Visual Studio project templates
 
-REM Copyright (C)2019-2024, Philip Munts dba Munts Technologies.
+REM Copyright (C)2019-2026, Philip Munts dba Munts Technologies.
 REM
 REM Redistribution and use in source and binary forms, with or without
 REM modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@ REM CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 REM ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 REM POSSIBILITY OF SUCH DAMAGE.
 
-SET DSTDIR=%HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 2022\Templates\ProjectTemplates
+SET DSTDIR=%HOMEDRIVE%%HOMEPATH%\Documents\Visual Studio 18\Templates\ProjectTemplates
 
 RD /S /Q "%DSTDIR%"\cxx_console_libremoteio
 
