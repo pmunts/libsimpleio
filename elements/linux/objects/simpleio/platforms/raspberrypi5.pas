@@ -1,6 +1,6 @@
 { Raspberry Pi 5 Peripheral Subsystem Designator Definitions }
 
-{ Copyright (C)2024, Philip Munts dba Munts Technologies.                     }
+{ Copyright (C)2024-26, Philip Munts dba Munts Technologies.                  }
 {                                                                             }
 { Redistribution and use in source and binary forms, with or without          }
 { modification, are permitted provided that the following conditions are met: }
@@ -77,13 +77,12 @@ const
   I2C2   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  2);  { GPIO4/GPIO5 or GPIO12/GPIO13 }
   I2C3   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  3);  { GPIO6/GPIO7 or GPIO14/GPIO15 or GPIO22/23 }
 
-  { The Raspberry Pi 5 has two more hardware PWM controllers, two more  }
-  { PWM outputs, different chip enumeration, and different pin mapping. }
+  { The Raspberry Pi 5 has two more PWM outputs and different pin mapping. }
 
-  PWM0   : IO.Objects.SimpleIO.Resources.Designator = (chip : 2; channel :  0);  { GPIO12 }
-  PWM1   : IO.Objects.SimpleIO.Resources.Designator = (chip : 2; channel :  1);  { GPIO13 }
-  PWM2   : IO.Objects.SimpleIO.Resources.Designator = (chip : 2; channel :  2);  { GPIO14 or GPIO18 }
-  PWM3   : IO.Objects.SimpleIO.Resources.Designator = (chip : 2; channel :  3);  { GPIO15 or GPIO19 }
+  PWM0   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  0);  { GPIO12 }
+  PWM1   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);  { GPIO13 }
+  PWM2   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  2);  { GPIO14 or GPIO18 }
+  PWM3   : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  3);  { GPIO15 or GPIO19 }
 
   SPI0_0 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  0);  { GPIO8,  GPIO9,  GPIO10; and GPIO11 }
   SPI0_1 : IO.Objects.SimpleIO.Resources.Designator = (chip : 0; channel :  1);  { GPIO7,  GPIO9,  GPIO10; and GPIO11 }

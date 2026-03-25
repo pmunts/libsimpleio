@@ -1,6 +1,6 @@
 // Raspberry Pi 5 I/O resource definitions
 
-// Copyright (C)2024, Philip Munts dba Munts Technologies.
+// Copyright (C)2024-2026, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -201,25 +201,25 @@ namespace IO.Objects.SimpleIO.Platforms
         /// </summary>
         public static readonly Designator I2C3 = new Designator(0, 3);
 
-        /// <summary>PWM output designator (2, 0).  Conflicts with
+        /// <summary>PWM output designator (0, 0).  Conflicts with
         /// <c>GPIO12</c>.  Requires the <c>pwmchip.dtbo</c>
         /// device tree overlay.</summary>
-        public static readonly Designator PWM0 = new Designator(2, 0);
+        public static readonly Designator PWM0 = new Designator(0, 0);
 
-        /// <summary>PWM output designator (2, 1).  Conflicts with
+        /// <summary>PWM output designator (0, 1).  Conflicts with
         /// <c>GPIO13</c>.  Requires the <c>pwmchip.dtbo</c>
         /// device tree overlay.</summary>
-        public static readonly Designator PWM1 = new Designator(2, 1);
+        public static readonly Designator PWM1 = new Designator(0, 1);
 
-        /// <summary>PWM output designator (2, 2).  Conflicts with
+        /// <summary>PWM output designator (0, 2).  Conflicts with
         /// <c>GPIO14</c> or <c>GPIO18</c>.  Requires the <c>pwmchip.dtbo</c>
         /// device tree overlay.</summary>
-        public static readonly Designator PWM2 = new Designator(2, 2);
+        public static readonly Designator PWM2 = new Designator(0, 2);
 
-        /// <summary>PWM output designator (2, 3).  Conflicts with
+        /// <summary>PWM output designator (0, 3).  Conflicts with
         /// <c>GPIO15</c> or <c>GPIO19</c>.  Requires the <c>pwmchip.dtbo</c>
         /// device tree overlay.</summary>
-        public static readonly Designator PWM3 = new Designator(2, 3);
+        public static readonly Designator PWM3 = new Designator(0, 3);
 
         /// <summary>SPI slave designator (0, 0).  Conflicts with
         /// <c>GPIO8</c>.</summary>

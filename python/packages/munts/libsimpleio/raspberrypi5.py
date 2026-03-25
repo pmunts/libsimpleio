@@ -1,6 +1,6 @@
 # Raspberry Pi 5 Peripheral Device Definitions
 
-# Copyright (C)2024, Philip Munts dba Munts Technologies.
+# Copyright (C)2024-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -71,13 +71,12 @@ I2C1   = (0,  1)  # GPIO2/GPIO3 or GPIO10/GPIO11
 I2C2   = (0,  2)  # GPIO4/GPIO5 or GPIO12/GPIO13
 I2C3   = (0,  3)  # GPIO6/GPIO7 or GPIO14/GPIO15 or GPIO22/23
 
-# The Raspberry Pi 5 has two more hardware PWM controllers, two more
-# PWM outputs, different chip enumeration, and different pin mapping.
+# The Raspberry Pi 5 has two more PWM outputs and different pin mapping.
 
-PWM0   = (2,  0)  # GPIO12
-PWM1   = (2,  1)  # GPIO13
-PWM2   = (2,  2)  # GPIO14 or GPIO18
-PWM3   = (2,  3)  # GPIO15 or GPIO19
+PWM0   = (0,  0)  # GPIO12
+PWM1   = (0,  1)  # GPIO13
+PWM2   = (0,  2)  # GPIO14 or GPIO18
+PWM3   = (0,  3)  # GPIO15 or GPIO19
 
 SPI0_0 = (0,  0)  # GPIO8,  GPIO9,  GPIO10, and GPIO11
 SPI0_1 = (0,  1)  # GPIO7,  GPIO9,  GPIO10, and GPIO11

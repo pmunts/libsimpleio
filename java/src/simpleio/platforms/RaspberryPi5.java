@@ -78,13 +78,12 @@ public final class RaspberryPi5
   public static final Designator I2C2   = new Designator(0,  2);  // GPIO4/GPIO5 or GPIO12/GPIO13
   public static final Designator I2C3   = new Designator(0,  3);  // GPIO6/GPIO7 or GPIO14/GPIO15 or GPIO22/23
 
-  // The Raspberry Pi 5 has two more PWM outputs, different chip enumeration,
-  // and different pin mapping.
+  // The Raspberry Pi 5 has two more PWM outputs and different pin mapping.
 
-  public static final Designator PWM0   = new Designator(2,  0);  // GPIO12
-  public static final Designator PWM1   = new Designator(2,  1);  // GPIO13
-  public static final Designator PWM2   = new Designator(2,  2);  // GPIO14 or GPIO18
-  public static final Designator PWM3   = new Designator(2,  3);  // GPIO15 or GPIO19
+  public static final Designator PWM0   = new Designator(0,  0);  // GPIO12
+  public static final Designator PWM1   = new Designator(0,  1);  // GPIO13
+  public static final Designator PWM2   = new Designator(0,  2);  // GPIO14 or GPIO18
+  public static final Designator PWM3   = new Designator(0,  3);  // GPIO15 or GPIO19
 
   public static final Designator SPI1_0 = new Designator(1,  0);  // GPIO18/GPIO19/GPIO20/GPIO21
   public static final Designator SPI1_1 = new Designator(1,  1);  // GPIO17/GPIO19/GPIO20/GPIO21

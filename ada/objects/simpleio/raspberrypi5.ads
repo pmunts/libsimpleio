@@ -1,6 +1,6 @@
 -- Raspberry Pi 5 Device Definitions
 
--- Copyright (C)2024, Philip Munts dba Munts Technologies.
+-- Copyright (C)2024-2026, Philip Munts dba Munts Technologies.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -33,12 +33,11 @@ PACKAGE RaspberryPi5 IS
   I2C2   : CONSTANT Device.Designator := (0,  2);  -- GPIO4/GPIO5 or GPIO12/GPIO13
   I2C3   : CONSTANT Device.Designator := (0,  3);  -- GPIO6/GPIO7 or GPIO14/GPIO15 or GPIO22/23
 
-  -- The Raspberry Pi 5 has two more PWM outputs, different chip enumeration,
-  -- and different pin mapping.
+  -- The Raspberry Pi 5 has two more PWM outputs and different pin mapping.
 
-  PWM0   : CONSTANT Device.Designator := (2,  0);  -- GPIO12
-  PWM1   : CONSTANT Device.Designator := (2,  1);  -- GPIO13
-  PWM2   : CONSTANT Device.Designator := (2,  2);  -- GPIO14 or GPIO18
-  PWM3   : CONSTANT Device.Designator := (2,  3);  -- GPIO15 or GPIO19
+  PWM0   : CONSTANT Device.Designator := (0,  0);  -- GPIO12
+  PWM1   : CONSTANT Device.Designator := (0,  1);  -- GPIO13
+  PWM2   : CONSTANT Device.Designator := (0,  2);  -- GPIO14 or GPIO18
+  PWM3   : CONSTANT Device.Designator := (0,  3);  -- GPIO15 or GPIO19
 
 END RaspberryPi5;
