@@ -1,7 +1,7 @@
 # Makefile to build an Alire program project and optionally deploy the
 # executable program file(s) to the target computer
 
-# Copyright (C)2023-2024, Philip Munts dba Munts Technologies.
+# Copyright (C)2023-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@ STRIP	?= strip
 # Build the Alire project
 
 build:
-	alr build $(ALRFLAGS)
+	$(ALRVARS) alr build $(ALRFLAGS)
 ifneq ($(STRIP),)
 	@if [ -x $(STRIP) ]; then $(FIND) bin -type f -not -name '*.dll' -exec $(STRIP) {} ";" ; fi
 endif

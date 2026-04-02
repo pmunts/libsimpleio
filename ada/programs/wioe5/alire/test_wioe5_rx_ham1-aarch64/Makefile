@@ -1,7 +1,7 @@
 # Makefile to build a MuntsOS Embedde Linux  Alire program project and
 # optionally deploy the executable program file(s) to a target computer via scp
 
-# Copyright (C)2024, Philip Munts dba Munts Technologies.
+# Copyright (C)2024-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ STRIP	?= /usr/local/gcc-aarch64-muntsos-linux-gnu-ctng/bin/aarch64-muntsos-linux
 # Build the Alire project
 
 build:
-	alr build $(ALRFLAGS)
+	$(ALRVARS) alr build $(ALRFLAGS)
 ifneq ($(STRIP),)
 	$(STRIP) bin/*
 endif
