@@ -37,6 +37,7 @@ ${FIND} . -name bin			-exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name Obj			-exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name obj			-exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name OnBoardFlash.dat	-exec rm -rf {} ";" >/dev/null 2>&1
+${FIND} . -name '.vs'			-exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name '*.apk' -a -not -path './prebuilt/*' -exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name '*.csproj.user'		-exec rm -rf {} ";" >/dev/null 2>&1
 ${FIND} . -name '*.exe.config'		-exec rm -rf {} ";" >/dev/null 2>&1
