@@ -1,4 +1,4 @@
-# Copyright (C)2021-2023, Philip Munts dba Munts Technologies.
+# Copyright (C)2021-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -44,6 +44,18 @@ build:
 	sed -i 's/--PRAGMA Link_With/  PRAGMA Link_With/g' $(LIBSIMPLEIO)/ada/objects/hid-hidapi.ads
 	cp obj/lib/$(LIBFILE) .
 	rm -rf obj
+ifeq ($(shell uname), Linux)
+	$(CROSS_COMPILE)strip *.so
+ifneq ($(BOARDNAME),)
+	# Save for MuntsOS Embedded Linux
+	cp *.so $(LIBSIMPLEIO)/linux/muntsos/$(BOARDNAMELC)
+else
+ifneq ($(wildcard $(LIBSIMPLEIO)/linux/$(OSNAME)/$(shell dpkg --print-architecture)),)
+	# Save for native Linux distribution
+	cp *.so $(LIBSIMPLEIO)/linux/$(OSNAME)/$(shell dpkg --print-architecture)
+endif
+endif
+endif
 ifeq ($(OS), Windows_NT)
 	echo "EXPORTS" >libremoteio.def
 	awk -F '[ (]' '/extern/ { print $$4 }' libremoteio.h >>libremoteio.def
