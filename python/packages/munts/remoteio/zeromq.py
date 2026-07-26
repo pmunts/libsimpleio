@@ -30,6 +30,7 @@ class Server(munts.interfaces.remoteio.ServerInterface):
         self.__socket__  = self.__context__.socket(zmq.REQ)
         self.__socket__.connect("tcp://" + hostname + ":" + str(port))
         self.__seq__ = 0
+
         cmd  = bytearray(64)
         
         # Fetch server version string
@@ -72,14 +73,65 @@ class Server(munts.interfaces.remoteio.ServerInterface):
 
         return resp
 
-    # version string getter
+    # Fetch channels present
+    def __GetChannels__(self, capstring):
+        CommandBytes = {
+          "ADC"    : 26,
+          "DAC   " : 32,
+          "DEVICE" : 44,
+          "GPIO"   : 6,
+          "I2C"    : 14,
+          "PWM"    : 38,
+          "SPI"    : 20,
+        }
+
+        if capstring in self.__capability__:
+            cmd    = bytearray(64)
+            cmd[0] = CommandBytes[capstring]
+            resp   = self.transaction(cmd)
+
+            return munts.remoteio.common.ChannelsToSet(resp)
+        else:
+            return set()
+
+    # version string property
 
     @property
     def version(self):
         return self.__version__
 
-    # capability string getter
+    # capability string property
 
     @property
     def capability(self):
         return self.__capability__
+
+    # Channels present properties
+
+    @property
+    def ADC_Channels(self):
+      return self.__GetChannels__("ADC");
+
+    @property
+    def DAC_Channels(self):
+      return self.__GetChannels__("DAC");
+
+    @property
+    def DEVICE_Channels(self):
+      return self.__GetChannels__("DEVICE");
+
+    @property
+    def GPIO_Channels(self):
+      return self.__GetChannels__("GPIO");
+
+    @property
+    def I2C_Channels(self):
+      return self.__GetChannels__("I2C");
+
+    @property
+    def PWM_Channels(self):
+      return self.__GetChannels__("PWM");
+
+    @property
+    def SPI_Channels(self):
+      return self.__GetChannels__("SPI");
