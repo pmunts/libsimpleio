@@ -32,9 +32,9 @@ class Server(munts.interfaces.remoteio.ServerInterface):
         self.__seq__ = 0
 
         cmd  = bytearray(64)
-        
+
         # Fetch server version string
-    
+
         cmd[0] = 2
         resp = self.transaction(cmd)
         self.__version__ = resp[3:].decode("utf-8").strip("\0")
@@ -50,18 +50,18 @@ class Server(munts.interfaces.remoteio.ServerInterface):
     def transaction(self, cmd, timeout = 1000):
         self.__seq__ = (self.__seq__ + 113) % 256
         cmd[1] = self.__seq__
-        
+
         self.__socket__.send(cmd)
 
         # Poll for received data available.
 
         if self.__socket__.poll(timeout, zmq.POLLIN) == 0:
             raise IOError("poll() timed out")
-        
+
         resp = self.__socket__.recv()
 
         # Check for errors
-        
+
         if resp[0] != cmd[0] + 1:
             raise IOError("Message type mismatch")
 
