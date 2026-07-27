@@ -160,7 +160,7 @@ install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5ham
 	mkdir -p				$(DESTDIR)/share/man/man2
 	install -cm 0644 doc/*.2		$(DESTDIR)/share/man/man2
 	mkdir -p				$(PKGDIR)/usr/lib/python3/dist-packages
-	ln -s /usr/local/share/libsimpleio/python/packages/munts $(PKGDIR)/usr/lib/python3/dist-packages/munts
+	ln -s /usr/local/share/libsimpleio/python3/packages/munts $(PKGDIR)/usr/lib/python3/dist-packages/munts
 	mkdir -p				$(PKGDIR)/usr/share/gpr
 	ln -s /usr/local/share/libsimpleio/ada/lib/libsimpleio.gpr $(PKGDIR)/usr/share/gpr/libsimpleio.gpr
 
