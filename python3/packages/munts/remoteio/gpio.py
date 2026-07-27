@@ -20,42 +20,56 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
-import munts.interfaces.remoteio
-import munts.interfaces.gpio
+from munts.interfaces.gpio import Direction, GPIOPinInterface
+from munts.remoteio.common import ChannelToByte, ChannelToMask
 
-class Pin(munts.interfaces.gpio.GPIOPinInterface):
+class Pin(GPIOPinInterface):
     def __init__(self, server, num, direction, state = False):
-        self.__srv__ = server
-        self.__num__ = num
-        self.__dir__ = direction
+        self.__srv__   = server
+        self.__byte__  = ChannelToByte(num)
+        self.__mask__  = ChannelToMask(num)
+        self.__isout__ = direction == Direction.Output
+
+        # Configure a GPIO pin
 
         cmd = bytearray(64)
         cmd[0] = 8
-        cmd[2 + self.__num__ // 8] |= 7 - self.__num__ % 8
+        cmd[2 + self.__byte__] |= self.__mask__
 
-        if direction == munts.interfaces.gpio.Direction.Output:
-          cmd[18 + self.__num__ // 8] |= 7 - self.__num__ % 8
+        if self.__isout__:
+          cmd[18 + self.__byte__] |= self.__mask__
 
         self.__srv__.transaction(cmd)
 
-    # Logic state property getter
+        # Write GPIO output pin initial state
+
+        if self.__isout__:
+            self.state = state
+
+    # GPIO pin state getter
 
     @property
     def state(self):
-      cmd = bytearray(64)
-      cmd[0] = 10
-      cmd[2 + self.__num__ // 8] |= 7 - self.__num__ % 8
+        cmd = bytearray(64)
+        cmd[0] = 10
+        cmd[2 + self.__byte__] |= self.__mask__
 
-      resp = self.__srv__.transaction(cmd)
+        resp = self.__srv__.transaction(cmd)
 
-      return (resp[3 + self.__num__ // 8] & 7 - self.__num__ % 8) != 0
+        return (resp[3 + self.__byte__] & self.__mask__) != 0
 
-    # Logic state property setter
+    # GPIO pin state setter
 
     @state.setter
     def state(self, value):
-      cmd = bytearray(64)
-      cmd[0] = 12
-      cmd[2 + self.__num__ // 8] |= 7 - self.__num__ % 8
+        if not self.__isout__:
+          raise IOError("Cannot write to GPIO input pin")
 
-      self.__srv__.transaction(cmd)
+        cmd = bytearray(64)
+        cmd[0] = 12
+        cmd[2 + self.__byte__] |= self.__mask__
+
+        if value:
+            cmd[18 + self.__byte__] |= self.__mask__
+
+        self.__srv__.transaction(cmd)
