@@ -26,6 +26,14 @@ import munts.interfaces.remoteio
 
 class Server(munts.interfaces.remoteio.ServerInterface):
     def __init__(self, hostname, port):
+
+        # Validate arguments
+
+        assert isinstance(hostname, str)
+        assert len(hostname) > 0
+        assert isinstance(port, int)
+        assert (port >= 1024) and (port <= 65535)
+
         self.__context__ = zmq.Context()
         self.__socket__  = self.__context__.socket(zmq.REQ)
         self.__socket__.connect("tcp://" + hostname + ":" + str(port))
@@ -48,6 +56,14 @@ class Server(munts.interfaces.remoteio.ServerInterface):
     # Execute a Remote I/O Protocol transaction
 
     def transaction(self, cmd, timeout = 1000):
+
+        # Vaidate arguments
+
+        assert isinstance(cmd, bytearray)
+        assert len(cmd) == 64
+        assert isinstance(timeout, int)
+        assert timeout >= 0
+
         self.__seq__ = (self.__seq__ + 113) % 256
         cmd[1] = self.__seq__
 
@@ -75,6 +91,14 @@ class Server(munts.interfaces.remoteio.ServerInterface):
 
     # Fetch channels present
     def __GetChannels__(self, capstring):
+
+        # Validate arguments
+
+        assert isinstance(capstring, str)
+        assert len(capstring) > 0
+
+        # Table of capabilities and command byte values
+
         CommandBytes = {
           "ADC"    : 26,
           "DAC   " : 32,

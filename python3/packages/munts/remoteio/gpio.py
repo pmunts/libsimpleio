@@ -20,11 +20,21 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
-from munts.interfaces.gpio import Direction, GPIOPinInterface
-from munts.remoteio.common import ChannelToByte, ChannelToMask
+from munts.interfaces.gpio     import Direction, GPIOPinInterface
+from munts.interfaces.remoteio import ServerInterface
+from munts.remoteio.common     import ChannelToByte, ChannelToMask
 
 class Pin(GPIOPinInterface):
     def __init__(self, server, num, direction, state = False):
+
+        # Validate arguments
+
+        assert isinstance(server, ServerInterface)
+        assert isinstance(num, int)
+        assert num >= 0 and num <= 127
+        assert isinstance(direction, Direction)
+        assert isinstance(state, bool)
+
         self.__srv__   = server
         self.__byte__  = ChannelToByte(num)
         self.__mask__  = ChannelToMask(num)
@@ -62,8 +72,8 @@ class Pin(GPIOPinInterface):
 
     @state.setter
     def state(self, value):
-        if not self.__isout__:
-          raise IOError("Cannot write to GPIO input pin")
+        assert isinstance(value, bool)
+        assert self.__isout__
 
         cmd = bytearray(64)
         cmd[0] = 12
