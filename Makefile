@@ -152,7 +152,7 @@ install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5ham
 	cp -R -P -p go				$(DESTDIR)/share/libsimpleio
 	cp -R -P -p include			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p java			$(DESTDIR)/share/libsimpleio
-	cp -R -P -p python			$(DESTDIR)/share/libsimpleio
+	cp -R -P -p python3			$(DESTDIR)/share/libsimpleio
 	mkdir -p				$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 COPYING		$(DESTDIR)/share/libsimpleio/doc
 	install -cm 0644 doc/*.pdf		$(DESTDIR)/share/libsimpleio/doc
