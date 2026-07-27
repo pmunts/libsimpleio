@@ -20,11 +20,17 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
+def ChannelToByte(c):
+    return c // 8;
+
+def ChannelToMask(c):
+    return 1 << (7 - c % 8)
+
 def ChannelsToSet(resp):
     channels = set()
 
     for c in range(128):
-        if resp[3 + c // 8] & (1 << (7 - c % 8)):
+        if resp[3 + ChannelToByte(c)] & ChannelToMask(c):
             channels.add(c)
 
     return channels;
