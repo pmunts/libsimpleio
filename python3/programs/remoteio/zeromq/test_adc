@@ -28,7 +28,7 @@ import munts.remoteio.zeromq
 import munts.remoteio.adc
 
 print("")
-print("Remote I/O Analog Input Test")
+print("Remote I/O Protocol Analog Input Test")
 print("")
 
 # Create an analog input
