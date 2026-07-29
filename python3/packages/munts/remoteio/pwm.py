@@ -20,13 +20,11 @@
 
 __author__	= "Philip Munts <phil@munts.net>"
 
-from munts.interfaces.pwm      import AnalogInputInterface
-from munts.interfaces.pwm      impoer MINIMUM_DUTYCYCLE, MAXIMUM_DUTYCYCLE
-
+from munts.interfaces.pwm      import PWMOutputInterface
 from munts.interfaces.remoteio import ServerInterface
 
-class Input(PWMOutputInterface):
-    def __init__(self, server, channel, freq = 50, duty = MINIMUM_DUTYCYCLE):
+class Output(PWMOutputInterface):
+    def __init__(self, server, channel, freq = 50, duty = 0.0):
 
         # Validate arguments
 
@@ -42,34 +40,49 @@ class Input(PWMOutputInterface):
         self.__chan__   = channel
         self.__freq__   = freq
         self.__period__ = 1000000000 // freq
-        self.__duty__   = duty
 
         # Configure a PWM output
 
         cmd = bytearray(64)
         cmd[0] = 40
-        cmd[2] = channel
-        cmd[3] = (self.__period__ >> 24) | 0xFF
-        cmd[4] = (self.__period__ >> 16) | 0xFF
-        cmd[5] = (self.__period__ >>  8) | 0xFF
-        cmd[6] - (self.__period__ >>  0) | 0xFF
-
+        cmd[2] = self.__chan__
+        cmd[3] = (self.__period__ >> 24) & 0xFF
+        cmd[4] = (self.__period__ >> 16) & 0xFF
+        cmd[5] = (self.__period__ >>  8) & 0xFF
+        cmd[6] = (self.__period__ >>  0) & 0xFF
         self.__srv__.transaction(cmd)
 
-        # Duty cycle (0.0 to 100.0%) property getter
+        self.dutycycle = duty
 
-        @property
-        def dutycycle(self):
-            return self.__duty__
+    # Duty cycle (0.0 to 100.0%) property getter
 
-        # Duty cycle (0.0 to 100.0%) property setter
+    @property
+    def dutycycle(self):
+        return self.__duty__
 
-        @dutycycle.setter
-        def dutycycle(self, value):
-            self.__duty__ = value
+    # Duty cycle (0.0 to 100.0%) property setter
 
-        # Frequency property getter
+    @dutycycle.setter
+    def dutycycle(self, value):
+        assert isinstance(value, float)
 
-        @property
-        def frequency(self):
-            return self.__freq__
+        dutyns = int(value/100.0*self.__period__ + 0.5)
+
+        # Write PWM output duty cycle
+
+        cmd = bytearray(64)
+        cmd[0] = 42
+        cmd[2] = self.__chan__
+        cmd[3] = (dutyns >> 24) & 0xFF
+        cmd[4] = (dutyns >> 16) & 0xFF
+        cmd[5] = (dutyns >>  8) & 0xFF
+        cmd[6] = (dutyns >>  0) & 0xFF
+        self.__srv__.transaction(cmd)
+
+        self.__duty__ = value
+
+    # Frequency property getter
+
+    @property
+    def frequency(self):
+        return self.__freq__
