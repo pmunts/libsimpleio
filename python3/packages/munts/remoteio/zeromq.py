@@ -101,7 +101,7 @@ class Server(munts.interfaces.remoteio.ServerInterface):
 
         CommandBytes = {
           "ADC"    : 26,
-          "DAC   " : 32,
+          "DAC"    : 32,
           "DEVICE" : 44,
           "GPIO"   : 6,
           "I2C"    : 14,
