@@ -1,0 +1,8 @@
+Desktop Entry]
+Type=Application
+Name=AdaCore GNAT Studio
+Comment=AdaCore GNAT Studio Integrated Development Environment
+Exec=/usr/local/gnatstudio/bin/gnatstudio
+Icon=/usr/local/gnatstudio/share/gnatstudio/icons/hicolor/32x32/apps/gnatstudio_logo.png
+Terminal=false
+Categories=Applications;Development;
