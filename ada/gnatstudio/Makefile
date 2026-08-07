@@ -62,7 +62,7 @@ $(PKGDIR): $(DISTDIR)
 	sed -i s/@@ARCH@@/$(PKGARCH)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@NAME@@/$(PKGNAME)/g		$(PKGDIR)/DEBIAN/control
 	sed -i s/@@VERSION@@/$(PKGVERSION)/g	$(PKGDIR)/DEBIAN/control
-	cd $(DISTDIR) && ./doinstall		$(shell pwd)/$(PKGDIR)/usr/local/gnatstudio
+	$(DISTDIR)/doinstall			$(shell pwd)/$(PKGDIR)/usr/local/gnatstudio
 	sed -i 's@$$(basename "$$0")@gnatstudio@g' $(PKGDIR)/usr/local/gnatstudio/bin/gnatstudio
 	sed -i 's@$$(dirname "$$0")@/usr/local/gnatstudio/bin@g' $(PKGDIR)/usr/local/gnatstudio/bin/gnatstudio
 	mkdir -p				$(PKGDIR)/usr/local/bin
@@ -81,7 +81,6 @@ ifneq ($(SERVERDIR),)
 endif
 
 clean:
-	chmod -R u+w $(PKGDIR)
 	rm -rf $(DISTDIR) $(PKGDIR) $(PKGFILE)
 
 reallyclean: clean
