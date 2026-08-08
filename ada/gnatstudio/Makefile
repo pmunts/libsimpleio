@@ -65,6 +65,7 @@ $(PKGDIR): $(DISTDIR)
 	$(DISTDIR)/doinstall			$(shell pwd)/$(PKGDIR)/usr/local/gnatstudio
 	sed -i 's@$$(basename "$$0")@gnatstudio@g' $(PKGDIR)/usr/local/gnatstudio/bin/gnatstudio
 	sed -i 's@$$(dirname "$$0")@/usr/local/gnatstudio/bin@g' $(PKGDIR)/usr/local/gnatstudio/bin/gnatstudio
+	find $(PKGDIR)/usr/local/gnatstudio/lib/gnatstudio -name '*.cache' -exec sed -i 's@$(shell pwd)/$(PKGDIR)@@g' {} ";"
 	mkdir -p				$(PKGDIR)/usr/local/bin
 	ln -s ../gnatstudio/bin/gnatstudio	$(PKGDIR)/usr/local/bin/gnatstudio
 	mkdir -p				$(PKGDIR)/usr/local/share/applications
