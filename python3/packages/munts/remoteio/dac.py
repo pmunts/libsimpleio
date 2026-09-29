@@ -69,7 +69,7 @@ class Output(AnalogOutputInterface):
         cmd[5] = (value >>  8) & 0xFF
         cmd[6] = (value >>  0) & 0xFF
         self.__srv__.transaction(cmd)
-      
+
         self.__sample__ = value
 
     # Voltage property getter
