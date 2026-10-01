@@ -104,7 +104,7 @@
       <NamespaceSummaryItem name="IO.Objects.RemoteIO.Platforms" isDocumented="True">I/O Resource Definitions for particular Remote I/O Protocol Server Platforms</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.RemoteIO.mikroBUS" isDocumented="True">Mikroelektronika mikroBUS (&lt;a href="https://www.mikroe.com/mikrobus"&gt;https://www.mikroe.com/mikrobus&lt;/a&gt;) Remote I/O protocol Server and Socket Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Servo.PWM" isDocumented="True">PWM Controlled Servo Services</NamespaceSummaryItem>
-
+      <NamespaceSummaryItem name="IO.Objects.SkidSteer" isDocumented="True">Skid Steering (&lt;i&gt;aka&lt;/i&gt; differential steering) Vehicle Services</NamespaceSummaryItem>
     </NamespaceSummaries>
     <HelpTitle>Munts Technologies Remote I/O Library for .Net Standard 2.0</HelpTitle>
     <HelpFileVersion>$(BUILDVERSION)</HelpFileVersion>
