@@ -55,7 +55,7 @@ namespace IO.Objects.SimpleIO.Platforms
     public static IO.Interfaces.Motor.Output MotorFactory(uint motor,
         int frequency = 1000, double velocity = 0.0)
     {
-      if (motor > MotorB) 
+      if (motor > MotorB)
         throw new System.Exception("Invalid motor driver output selector.");
 
       return new IO.Objects.Motor.PWM.Output(
