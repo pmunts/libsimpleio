@@ -27,7 +27,7 @@ namespace IO.Objects.SkidSteer
   {
     private readonly IO.Interfaces.Motor.Output LeftMotor;
     private readonly IO.Interfaces.Motor.Output RightMotor;
-    private const double Sensitivity = 0.1;
+    private const double SteeringSensitivity = 0.2;
     private double GoVelocity = IO.Interfaces.Motor.Velocities.Stop;
 
     /// <summary>
@@ -97,49 +97,38 @@ namespace IO.Objects.SkidSteer
       // -1.0 (hard left) to +1.0 (hard right).
 
       if (steering < -1.0) throw new System.Exception("Turn() steering is out of range");
+      if (steering >  1.0) throw new System.Exception("Turn() steering is out of range");
       if (steering == 0.0) return;
-      if (steering > 1.0) throw new System.Exception("Turn() steering is out of range");
 
-      var SaveVelocity = GoVelocity;
-
-      if ((GoVelocity == IO.Interfaces.Motor.Velocities.Stop) && (steering > 0.0))
+      if (GoVelocity == IO.Interfaces.Motor.Velocities.Stop)
       {
-        // Spin in place clockwise
-        LeftMotor.velocity  = steering;
-        RightMotor.velocity = -steering;
-      }
-      else if ((GoVelocity == IO.Interfaces.Motor.Velocities.Stop) && (steering < 0.0))
-      {
-        // Spin in place counterclockwise
-        LeftMotor.velocity  = steering;
-        RightMotor.velocity = -steering;
+        // Spin in place
+        LeftMotor.velocity  = GoVelocity *(1.0 - SteeringSensitivity) + steering;
+        RightMotor.velocity = GoVelocity *(1.0 - SteeringSensitivity) - steering;
       }
       else if (GoVelocity > IO.Interfaces.Motor.Velocities.Stop)
       {
         // Moving forward
-        LeftMotor.velocity  =
-          System.Math.Max(IO.Interfaces.Motor.Velocities.Minimum,
-            SaveVelocity + steering * Sensitivity);
+        LeftMotor.velocity  = GoVelocity *(1.0 - SteeringSensitivity) +
+          steering*SteeringSensitivity;
 
-        RightMotor.velocity =
-          System.Math.Min(IO.Interfaces.Motor.Velocities.Maximum,
-            SaveVelocity - steering * Sensitivity);
+        RightMotor.velocity = GoVelocity *(1.0 - SteeringSensitivity) -
+          steering*SteeringSensitivity;
       }
       else if (GoVelocity < IO.Interfaces.Motor.Velocities.Stop)
       {
         // Moving reverse
-        LeftMotor.velocity  =
-          System.Math.Max(IO.Interfaces.Motor.Velocities.Minimum,
-            SaveVelocity - steering * Sensitivity);
+        LeftMotor.velocity  = GoVelocity *(1.0 - SteeringSensitivity) -
+          steering*SteeringSensitivity;
 
-        RightMotor.velocity =
-          System.Math.Min(IO.Interfaces.Motor.Velocities.Maximum,
-            SaveVelocity + steering * Sensitivity);
+        RightMotor.velocity = GoVelocity *(1.0 - SteeringSensitivity) +
+          steering*SteeringSensitivity;
       }
 
       System.Threading.Thread.Sleep((int)milliseconds);
 
-      Go(SaveVelocity);
+      // Resume forward or reverse motion
+      Go(GoVelocity);
     }
   }
 
@@ -152,7 +141,7 @@ namespace IO.Objects.SkidSteer
     private readonly IO.Interfaces.Motor.Output LeftRearMotor;
     private readonly IO.Interfaces.Motor.Output RightFrontMotor;
     private readonly IO.Interfaces.Motor.Output RightRearMotor;
-    private const double Sensitivity = 0.1;
+    private const double SteeringSensitivity = 0.2;
     private double GoVelocity = IO.Interfaces.Motor.Velocities.Stop;
 
     /// <summary>
@@ -171,10 +160,10 @@ namespace IO.Objects.SkidSteer
       IO.Interfaces.Motor.Output rightfront,
       IO.Interfaces.Motor.Output rightrear)
     {
-      LeftFrontMotor  = leftfront;
-      LeftRearMotor   = leftfront;
+      LeftFrontMotor = leftfront;
+      LeftRearMotor = leftfront;
       RightFrontMotor = rightfront;
-      RightRearMotor  = rightrear;
+      RightRearMotor = rightrear;
     }
 
     /// <summary>
@@ -189,10 +178,10 @@ namespace IO.Objects.SkidSteer
       if (System.Math.Abs(newvelocity) > IO.Interfaces.Motor.Velocities.Maximum)
         throw new System.Exception("Go() velocity is out of range");
 
-      LeftFrontMotor.velocity  = newvelocity;
-      LeftRearMotor.velocity   = newvelocity;
+      LeftFrontMotor.velocity = newvelocity;
+      LeftRearMotor.velocity = newvelocity;
       RightFrontMotor.velocity = newvelocity;
-      RightRearMotor.velocity  = newvelocity;
+      RightRearMotor.velocity = newvelocity;
       GoVelocity = newvelocity;
     }
 
@@ -232,69 +221,52 @@ namespace IO.Objects.SkidSteer
       // -1.0 (hard left) to +1.0 (hard right).
 
       if (steering < -1.0) throw new System.Exception("Turn() steering is out of range");
+      if (steering >  1.0) throw new System.Exception("Turn() steering is out of range");
       if (steering == 0.0) return;
-      if (steering > 1.0) throw new System.Exception("Turn() steering is out of range");
 
-      var SaveVelocity = GoVelocity;
-
-      if ((GoVelocity == IO.Interfaces.Motor.Velocities.Stop) && (steering > 0.0))
+      if (GoVelocity == IO.Interfaces.Motor.Velocities.Stop)
       {
-        // Spin in place clockwise
-        LeftFrontMotor.velocity  = steering;
-        LeftRearMotor.velocity   = steering;
-        RightFrontMotor.velocity = -steering;
-        RightRearMotor.velocity  = -steering;
-      }
-      else if ((GoVelocity == IO.Interfaces.Motor.Velocities.Stop) && (steering < 0.0))
-      {
-        // Spin in place counterclockwise
-        LeftFrontMotor.velocity  = steering;
-        LeftRearMotor.velocity   = steering;
-        RightFrontMotor.velocity = -steering;
-        RightRearMotor.velocity  = -steering;
+        // Spin in place
+        LeftFrontMotor.velocity  = GoVelocity * (1.0 - SteeringSensitivity) + steering;
+        LeftRearMotor.velocity   = GoVelocity * (1.0 - SteeringSensitivity) + steering;
+        RightFrontMotor.velocity = GoVelocity * (1.0 - SteeringSensitivity) - steering;
+        RightRearMotor.velocity  = GoVelocity * (1.0 - SteeringSensitivity) - steering;
       }
       else if (GoVelocity > IO.Interfaces.Motor.Velocities.Stop)
       {
-        // Moving forward into turn
-        LeftFrontMotor.velocity  =
-          System.Math.Max(IO.Interfaces.Motor.Velocities.Minimum,
-            SaveVelocity + steering * Sensitivity);
+        // Moving forward
+        LeftFrontMotor.velocity  = GoVelocity * (1.0 - SteeringSensitivity) +
+          steering * SteeringSensitivity;
 
-        LeftRearMotor.velocity   =
-          System.Math.Max(IO.Interfaces.Motor.Velocities.Minimum,
-            SaveVelocity + steering * Sensitivity);
+        LeftRearMotor.velocity   = GoVelocity * (1.0 - SteeringSensitivity) +
+          steering * SteeringSensitivity;
 
-        RightFrontMotor.velocity =
-          System.Math.Min(IO.Interfaces.Motor.Velocities.Maximum,
-            SaveVelocity - steering * Sensitivity);
+        RightFrontMotor.velocity = GoVelocity * (1.0 - SteeringSensitivity) -
+          steering * SteeringSensitivity;
 
-        RightRearMotor.velocity  =
-          System.Math.Min(IO.Interfaces.Motor.Velocities.Maximum,
-            SaveVelocity - steering * Sensitivity);
+        RightRearMotor.velocity  = GoVelocity * (1.0 - SteeringSensitivity) -
+          steering * SteeringSensitivity;
       }
       else if (GoVelocity < IO.Interfaces.Motor.Velocities.Stop)
       {
-        // Moving reverse into turn
-        LeftFrontMotor.velocity  =
-          System.Math.Max(IO.Interfaces.Motor.Velocities.Minimum,
-            SaveVelocity - steering * Sensitivity);
+        // Moving reverse
+        LeftFrontMotor.velocity  = GoVelocity * (1.0 - SteeringSensitivity) -
+          steering * SteeringSensitivity;
 
-        LeftRearMotor.velocity   =
-          System.Math.Max(IO.Interfaces.Motor.Velocities.Minimum,
-            SaveVelocity - steering * Sensitivity);
+        LeftRearMotor.velocity   = GoVelocity * (1.0 - SteeringSensitivity) -
+          steering * SteeringSensitivity;
 
-        RightFrontMotor.velocity =
-          System.Math.Min(IO.Interfaces.Motor.Velocities.Maximum,
-            SaveVelocity + steering * Sensitivity);
+        RightFrontMotor.velocity = GoVelocity * (1.0 - SteeringSensitivity) +
+          steering * SteeringSensitivity;
 
-        RightRearMotor.velocity  =
-          System.Math.Min(IO.Interfaces.Motor.Velocities.Maximum,
-            SaveVelocity + steering * Sensitivity);
+        RightRearMotor.velocity  = GoVelocity * (1.0 - SteeringSensitivity) +
+          steering * SteeringSensitivity;
       }
 
       System.Threading.Thread.Sleep((int)milliseconds);
 
-      Go(SaveVelocity);
+      // Resume forward or reverse motion
+      Go(GoVelocity);
     }
   }
 }
