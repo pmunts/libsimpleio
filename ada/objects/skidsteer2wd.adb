@@ -89,18 +89,27 @@ PACKAGE BODY SkidSteer2WD IS
     IF s = Vehicle.STEER_NONE THEN
       -- No turn, so just keep moving
       RETURN;
-    ELSIF Self.velo = Vehicle.SPEED_STOP THEN
+    ELSIF Self.velo > Vehicle.SPEED_STOP THEN
+      -- Moving forward
+      Self.left.Put (Self.velo*Motor.Velocity(1.0 - Self.sens) +
+        Motor.Velocity(s*Self.sens));
+      Self.right.Put(Self.velo*Motor.Velocity(1.0 - Self.sens) -
+        Motor.Velocity(s*Self.sens));
+    ELSIF Self.velo < Vehicle.SPEED_STOP THEN
+      -- Moving reverse
+      Self.left.Put (Self.velo*Motor.Velocity(1.0 - Self.sens) -
+        Motor.Velocity(s*Self.sens));
+      Self.right.Put(Self.velo*Motor.Velocity(1.0 - Self.sens) +
+        Motor.Velocity(s*Self.sens));
+    ELSE
       -- Stopped, so just spin in place
       Self.left.Put(Motor.Velocity(s));
       Self.right.Put(Motor.Velocity(-s));
-    ELSE
-      -- Moving forward or reverse, so turn
-      Self.left.Put (Self.velo*Motor.Velocity((1.0 - Self.sens) + s*Self.sens));
-      Self.right.Put(Self.velo*Motor.Velocity((1.0 - Self.sens) - s*Self.sens));
     END IF;
 
     DELAY t;
 
+    -- Resume forward or reverse motion
     Self.Go(Self.velo);
   END Turn;
 END SkidSteer2WD;
