@@ -50,7 +50,7 @@ PACKAGE BODY SkidSteer2WD IS
     Self.left  := LeftMotorDriver;
     Self.right := RightMotorDriver;
     Self.sens  := SteeringSensitivity;
-    Self.velo  := 0.0;
+    Self.velo  := Vehicle.SPEED_STOP;
   END Initialize;
 
   -- Start or change forward or reverse speed
@@ -64,10 +64,7 @@ PACKAGE BODY SkidSteer2WD IS
     Self.left.Put(v);
     Self.right.Put(v);
     Self.velo := v;
-
-    IF t > 0.0 THEN
-      DELAY t;
-    END IF;
+    DELAY t;
   END Go;
 
   -- Stop forward or reverse motion
@@ -75,7 +72,7 @@ PACKAGE BODY SkidSteer2WD IS
   PROCEDURE Stop(Self : IN OUT SkidSteerClass) IS
 
   BEGIN
-    Self.Go(0.0);
+    Self.Go(Vehicle.SPEED_STOP);
   END Stop;
 
   -- Execute a turn
