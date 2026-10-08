@@ -54,6 +54,8 @@
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature" isDocumented="True">Seeed Studio Grove Temperature Sensor (thermistor) Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.Grove.Temperature_Humidity" isDocumented="True">Seeed Studio Grove Temperature and Humdity Sensor (TH02) Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.HDC1080" isDocumented="True">HDC1080 I&lt;sup&gt;2&lt;/sup&gt;C Temperature/Humidity Sensor Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Devices.M5Stack_Ultrasonic_I2C" isDocumented="True">M5Stack Ultrasonic-I2C I&lt;sup&gt;2&lt;/sup&gt;C Ultrasonic Rangefinder Services</NamespaceSummaryItem>
+
       <NamespaceSummaryItem name="IO.Devices.MCP23017" isDocumented="True">MCP23017 I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander Device Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.MCP23017.GPIO" isDocumented="True">MCP23017 I&lt;sup&gt;2&lt;/sup&gt;C GPIO Expander GPIO Pin Services.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Devices.MCP23S17" isDocumented="True">MCP23S17 SPI GPIO Expander Device Services.</NamespaceSummaryItem>
@@ -77,6 +79,7 @@
       <NamespaceSummaryItem name="IO.Devices.WioE5.P2P" isDocumented="True">&lt;a href="https://wiki.seeedstudio.com/LoRa-E5_STM32WLE5JC_Module"&gt;Wio-E5 LoRa Transceiver Module&lt;/a&gt; P2P (Peer to Peer or Point to Point) Broadcast Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.ADC" isDocumented="True">Abstract Interface for ADC (Analog to Digital Converter) Inputs</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.DAC" isDocumented="True">Abstract Interface for DAC (Digital to Analog Converter) Outputs</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Interfaces.Distance" isDocumented="True">Abstract Interface for Distance Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.GPIO" isDocumented="True">Abstract Interface for GPIO (General Purpose Input/Output) Pins</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.Humidity" isDocumented="True">Abstract Interface for Humidity Sensors</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Interfaces.I2C" isDocumented="True">Abstract Interface for I&lt;sup&gt;2&lt;/sup&gt;C (Inter-Integrated Circuit) Bus Controllers</NamespaceSummaryItem>
