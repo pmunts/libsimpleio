@@ -27,7 +27,7 @@ WITH I2C.libsimpleio;
 WITH M5Stack_Ultrasonic_I2C;
 WITH RaspberryPi;
 
-PROCEDURE test_m5stack_ultrasonic_i2c IS
+PROCEDURE test_sonar_m5stack_ultrasonic_i2c IS
 
   bus    : I2C.Bus;
   sensor : Distance.Input;
@@ -45,4 +45,4 @@ BEGIN
     New_Line;
     DELAY 0.5;
   END LOOP;
-END test_m5stack_ultrasonic_i2c;
+END test_sonar_m5stack_ultrasonic_i2c;
