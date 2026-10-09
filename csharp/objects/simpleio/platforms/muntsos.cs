@@ -154,5 +154,24 @@ namespace IO.Objects.SimpleIO.Platforms
 
             return CPUKinds.UNKNOWN;
         }
+
+    /// <summary>
+    /// This method reports whether the hardware platform supports I2C slave
+    /// clock stretching.
+    /// </summary>
+    /// <returns><c>true</c> if the hardware platform supports I2C slave
+    /// clock stretching or <c>false</c> if it does not.</returns>
+    /// <remarks>
+    /// Raspberry Pi's 1 to 4 (CPU cores BCM2708 to BCM2711) share a broken
+    /// I2C master controller that does not support I2C slave clock stretching.
+    /// This defect causes very difficult to diagnose problems with certain I2C
+    /// slave devices.  The Raspberry Pi 5 with its RP1 I/O Controller
+    /// <b>does</b> support I2C slave clock stretching.
+    /// </remarks>
+    public static bool I2C_Clock_Stretch_Works()
+        {
+
+          return GetCPUKind() > CPUKinds.BCM2711;
+        }
     }
 }
