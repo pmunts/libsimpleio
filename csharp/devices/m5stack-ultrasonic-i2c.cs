@@ -18,8 +18,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using static IO.Objects.SimpleIO.Platforms.MuntsOS;
-
 namespace IO.Devices.M5Stack_Ultrasonic_I2C
 {
   /// <summary>
@@ -39,7 +37,11 @@ namespace IO.Devices.M5Stack_Ultrasonic_I2C
     /// <param name="addr">I<sup>2</sup>C slave address.</param>
     public Sensor(IO.Interfaces.I2C.Bus bus, int addr = 0x57)
     {
-      I2C_Clock_Stretch_Works = I2C_Clock_Stretch_Works();
+#if LIBSIMPLEIO
+      I2C_Clock_Stretch_Works = !IO.Objects.SimpleIO.Platforms.MuntsOS.I2C_Clock_Stretch_Fails();
+#else
+      I2C_Clock_Stretch_Works = true;
+#endif
       dev = new IO.Interfaces.I2C.Device(bus, addr);
     }
 
