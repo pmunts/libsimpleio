@@ -15,12 +15,10 @@
     <PackageReadmeFile>doc/README.md</PackageReadmeFile>
     <PackageTags>Linux; USB HID; Remote I/O; ADC; DAC; GPIO; I2C; PWM; Servo; SPI; Stepper;</PackageTags>
     <PackageReleaseNotes>
-More improvements to class IO.Objects.SkidSteer.Vehicle2WD.
-Added abstract interface IO.Interfaces.Distance.Sensor.
-Added device driver class IO.Devices.M5Stack_Ultrasonic_I2C.
     </PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryURL>https://github.com/pmunts/libsimpleio</RepositoryURL>
+    <DefineConstants>LIBREMOTEIO</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
