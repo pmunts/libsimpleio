@@ -21,11 +21,19 @@
 -- See https://shop.m5stack.com/products/ultrasonic-distance-unit-i2c-rcwl-9620
 -- for more information.
 
+WITH CPUInfo;
 WITH Distance;
 
+USE TYPE CPUInfo.Kinds;
 USE TYPE Distance.meters;
 
 PACKAGE BODY M5Stack_Ultrasonic_I2C IS
+
+  -- Raspberry Pi 1 to 4 (cores BCM2708 to BCM2711) have a notoriously broken
+  -- I2C master controller that cannot handle I2C slave clock stretching.
+
+  I2C_Clock_Stretch_Works : CONSTANT Boolean :=
+   (IF CPUInfo.Kind >= CPUInfo.BCM2708 AND CPUInfo.Kind <= CPUInfo.BCM2711 THEN False ELSE True);
 
   -- Device object constructor
 
@@ -58,23 +66,24 @@ PACKAGE BODY M5Stack_Ultrasonic_I2C IS
     rawdist : Natural;
 
   BEGIN
-    LOOP
-      -- For some reason, the first I2C transaction from a Raspberry Pi to the
-      -- M5 Stack Ultrasonic-I2C module after system power up always fails.
-      -- The following exception handling code is a work-around.
-      --
-      -- It also has the interesting side effect of recovering silently from
-      -- hot unplugging and plugging the module's Grove I2C cable.
-      BEGIN
-        -- Transmit ping, wait 5 milliseconds for signal processing, receive echo:
-        cmd(0) := 16#01#;
-        Self.bus.Transaction(Self.address, cmd, cmd'Length, resp, resp'Length, 5000);
-        EXIT;
-      EXCEPTION
-        WHEN OTHERS =>
-          NULL;
-      END;
-    END LOOP;
+    -- Transmit ping command
+
+    cmd(0) := 16#01#;
+    Self.bus.Write(Self.address, cmd, cmd'Length);
+
+    -- The M5 Stack Ultrasonic-I2C module pulls SCL low (i.e. I2C slave clock
+    -- stretch) for 50 milliseconds after accepting the ping command.  On
+    -- Raspberry Pi's 1 to 4, which do not support I2C slave clock stretch,
+    -- we have to wait it out with a safe margin before reading the echo
+    -- response bytes.
+
+    DELAY (IF I2C_Clock_Stretch_Works THEN 0.005 ELSE 0.100);
+
+    -- Receive echo data
+
+    Self.bus.Read(Self.address, resp, resp'Length);
+
+    -- Process echo data
 
     rawdist := Natural(resp(0))*65536 + Natural(resp(1))*256 + Natural(resp(2));
 
