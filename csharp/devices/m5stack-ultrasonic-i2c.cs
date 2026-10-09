@@ -18,7 +18,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System.Runtime.CompilerServices;
+using static IO.Objects.SimpleIO.Platforms.MuntsOS;
 
 namespace IO.Devices.M5Stack_Ultrasonic_I2C
 {
@@ -27,6 +27,7 @@ namespace IO.Devices.M5Stack_Ultrasonic_I2C
   /// </summary>
   public class Sensor : IO.Interfaces.Distance.Sensor
   {
+    private readonly bool I2C_Clock_Stretch_Works;
     private readonly IO.Interfaces.I2C.Device dev;
     private readonly byte[] cmdbuf = { 1 };
     private byte[] respbuf = { 0, 0, 0 };
@@ -38,6 +39,7 @@ namespace IO.Devices.M5Stack_Ultrasonic_I2C
     /// <param name="addr">I<sup>2</sup>C slave address.</param>
     public Sensor(IO.Interfaces.I2C.Bus bus, int addr = 0x57)
     {
+      I2C_Clock_Stretch_Works = I2C_Clock_Stretch_Works();
       dev = new IO.Interfaces.I2C.Device(bus, addr);
     }
 
@@ -48,7 +50,9 @@ namespace IO.Devices.M5Stack_Ultrasonic_I2C
     {
       get
       {
-        dev.Transaction(cmdbuf, cmdbuf.Length, respbuf, respbuf.Length, 5000);
+        dev.Write(cmdbuf, cmdbuf.Length);
+        System.Threading.Thread.Sleep(I2C_Clock_Stretch_Works ? 5 : 100);
+        dev.Read(respbuf, respbuf.Length);
         float rawdist = respbuf[0] * 65536 + respbuf[1] * 256 + respbuf[2];
         return rawdist / 1.0E6;
       }
