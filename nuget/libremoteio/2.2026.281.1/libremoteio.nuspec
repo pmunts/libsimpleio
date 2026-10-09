@@ -12,7 +12,8 @@
     <description>Munts Technologies Remote I/O Library for .Net Standard 2.0</description>
     <releaseNotes>More improvements to class IO.Objects.SkidSteer.Vehicle2WD.
 Added abstract interface IO.Interfaces.Distance.Sensor.
-Added device driver class IO.Devices.M5Stack_Ultrasonic_I2C.</releaseNotes>
+Added device driver class IO.Devices.M5Stack_Ultrasonic_I2C.
+Added method I2C_Clock_Stretch_Fails() to IO.Objects.SimpleIO.Platforms.MuntsOS.</releaseNotes>
     <copyright>Copyright (C)2016-2026, Philip Munts dba Munts Technologies.</copyright>
     <tags>Linux USB HID Remote I/O ADC DAC GPIO I2C PWM Servo SPI Stepper</tags>
     <repository type="git" url="https://github.com/pmunts/libsimpleio" />
