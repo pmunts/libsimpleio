@@ -33,15 +33,17 @@ PACKAGE M5Stack_Ultrasonic_I2C IS
   -- Device object constructor
 
   FUNCTION Create
-   (bus  : NOT NULL I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN Distance.Input;
+   (bus     : NOT NULL I2C.Bus;
+    addr    : I2C.Address := DefaultAddress;
+    stretch : Boolean     := False) RETURN Distance.Input;
 
   -- Device object instance initializer
 
   PROCEDURE Initialize
-   (Self : OUT Sensor;
-    bus  : NOT NULL I2C.Bus;
-    addr : I2C.Address := DefaultAddress);
+   (Self    : OUT Sensor;
+    bus     : NOT NULL I2C.Bus;
+    addr    : I2C.Address := DefaultAddress;
+    stretch : Boolean     := False);
 
   -- Get distance in meters
 
@@ -52,6 +54,7 @@ PRIVATE
   TYPE Sensor IS NEW Distance.InputInterface WITH RECORD
     bus     : I2C.Bus;
     address : I2C.Address;
+    stretch : Boolean;
   END RECORD;
 
 END M5Stack_Ultrasonic_I2C;

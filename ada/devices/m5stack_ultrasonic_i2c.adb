@@ -21,40 +21,35 @@
 -- See https://shop.m5stack.com/products/ultrasonic-distance-unit-i2c-rcwl-9620
 -- for more information.
 
-WITH CPUInfo;
 WITH Distance;
 
-USE TYPE CPUInfo.Kinds;
 USE TYPE Distance.meters;
 
 PACKAGE BODY M5Stack_Ultrasonic_I2C IS
 
-  -- Raspberry Pi 1 to 4 (cores BCM2708 to BCM2711) have a notoriously broken
-  -- I2C master controller that cannot handle I2C slave clock stretching.
-
-  I2C_Clock_Stretch_Works : CONSTANT Boolean :=
-   (IF CPUInfo.Kind >= CPUInfo.BCM2708 AND CPUInfo.Kind <= CPUInfo.BCM2711 THEN False ELSE True);
-
   -- Device object constructor
 
   FUNCTION Create
-   (bus  : NOT NULL I2C.Bus;
-    addr : I2C.Address := DefaultAddress) RETURN Distance.Input IS
+   (bus     : NOT NULL I2C.Bus;
+    addr    : I2C.Address := DefaultAddress;
+    stretch : Boolean     := False) RETURN Distance.Input IS
 
   BEGIN
-    RETURN NEW Sensor'(bus, addr);
+    RETURN NEW Sensor'(bus, addr, stretch);
   END Create;
 
   -- Device object instance initializer
 
   PROCEDURE Initialize
-   (Self : OUT Sensor;
-    bus  : NOT NULL I2C.Bus;
-    addr : I2C.Address := DefaultAddress) IS
+   (Self    : OUT Sensor;
+    bus     : NOT NULL I2C.Bus;
+    addr    : I2C.Address := DefaultAddress;
+    stretch : Boolean     := False) IS
 
   BEGIN
     Self.bus     := bus;
     Self.address := addr;
+    Self.stretch := stretch;
   END Initialize;
 
   -- Get distance in meters
@@ -72,12 +67,13 @@ PACKAGE BODY M5Stack_Ultrasonic_I2C IS
     Self.bus.Write(Self.address, cmd, cmd'Length);
 
     -- The M5 Stack Ultrasonic-I2C module pulls SCL low (i.e. I2C slave clock
-    -- stretch) for 50 milliseconds after accepting the ping command.  On
-    -- Raspberry Pi's 1 to 4, which do not support I2C slave clock stretch,
+    -- stretch) for 50 milliseconds after accepting the ping command.
+    -- On Raspberry Pi's 1 to 4, which do not support I2C slave clock stretch,
     -- we have to wait it out with a safe margin before reading the echo
-    -- response bytes.
+    -- response bytes.  The RP1 I/O Controller on Raspberry Pi 5 boards does
+    -- support clock stretching.
 
-    DELAY (IF I2C_Clock_Stretch_Works THEN 0.005 ELSE 0.100);
+    DELAY (IF Self.stretch THEN 0.005 ELSE 0.100);
 
     -- Receive echo data
 
