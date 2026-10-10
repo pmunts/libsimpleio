@@ -25,7 +25,7 @@ WITH Ada.Text_IO; USE Ada.Text_IO;
 WITH Distance;
 WITH I2C.Remoteio;
 WITH M5Stack_Ultrasonic_I2C;
-WITH RemoteIO.Client.libsimpleio;
+WITH RemoteIO.Client.hidapi;
 
 PROCEDURE test_sonar_m5stack_ultrasonic_i2c IS
 
@@ -37,7 +37,7 @@ BEGIN
   Put_Line("M5Stack Ultrasonic I2C Module SONAR Test");
   New_Line;
 
-  bus    := I2C.RemoteIO.Create(RemoteIO.Client.libsimpleio.Create, 0);
+  bus    := I2C.RemoteIO.Create(RemoteIO.Client.hidapi.Create, 0);
   sensor := M5Stack_Ultrasonic_I2C.Create(bus);
 
   LOOP
