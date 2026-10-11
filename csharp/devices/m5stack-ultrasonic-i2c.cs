@@ -18,6 +18,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+using IO.Objects.RemoteIO;
+using System.Net.NetworkInformation;
+
 namespace IO.Devices.M5Stack_Ultrasonic_I2C
 {
   /// <summary>
@@ -35,13 +38,19 @@ namespace IO.Devices.M5Stack_Ultrasonic_I2C
     /// </summary>
     /// <param name="bus">I<sup>2</sup>C bus controller.</param>
     /// <param name="addr">I<sup>2</sup>C slave address.</param>
-    public Sensor(IO.Interfaces.I2C.Bus bus, int addr = 0x57)
+    /// <param name="stretch">Indicates the I<sup>2</sup>C bus controller can
+    /// properly handle I<sup>2</sup>C clock stretching.</param>
+    /// <remarks>
+    /// The M5 Stack Ultrasonic-I2C module pulls SCL low (i.e.I2C slave clock
+    /// stretch) for 50 milliseconds after accepting the ping command.
+    /// On Raspberry Pi's 1 to 4, which do not support I2C slave clock stretch,
+    /// we have to wait it out with a safe margin before reading the echo
+    /// response bytes.  The RP1 I/O Controller on Raspberry Pi 5 boards does
+    /// support clock stretching.
+    /// </remarks>
+    public Sensor(IO.Interfaces.I2C.Bus bus, int addr = 0x57, bool stretch = false)
     {
-#if LIBSIMPLEIO
-      I2C_Clock_Stretch_Works = !IO.Objects.SimpleIO.Platforms.MuntsOS.I2C_Clock_Stretch_Fails();
-#else
-      I2C_Clock_Stretch_Works = true;
-#endif
+      I2C_Clock_Stretch_Works = stretch;
       dev = new IO.Interfaces.I2C.Device(bus, addr);
     }
 
