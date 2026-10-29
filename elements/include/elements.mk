@@ -25,6 +25,7 @@ include $(LIBSIMPLEIO)/include/common.mk
 ifeq ($(shell uname), Darwin)
 FIRERESOURCES	?= /Applications/Fire.app/Contents/Resources
 EBUILD		?= $(FIRERESOURCES)/DotNet/dotnet exec $(FIRERESOURCES)/Core/EBuild.dll
+EBUILDFLAGS	+= --setting:Elements:ReferencePathsXMLFolder=/Applications/Fire.app/Contents/Resources/"Reference Paths with Data Abstract Trial"
 endif
 
 ifeq ($(OS), Windows_NT)
