@@ -1,6 +1,6 @@
 # Makefile definitions for RemObjects Elements programming
 
-# Copyright (C)2018-2024, Philip Munts dba Munts Technologies.
+# Copyright (C)2018-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -23,22 +23,20 @@
 include $(LIBSIMPLEIO)/include/common.mk
 
 ifeq ($(shell uname), Darwin)
-FIRERESOURCES	?= $(HOME)/Applications/Fire.app/Contents/Resources
-MONO		?= $(FIRERESOURCES)/Mono/bin/mono-sgen
-EBUILD		?= $(MONO) $(FIRERESOURCES)/EBuild.exe
-EBUILDFLAGS	+= --setting:Elements:IslandSDKFolder=$(FIRERESOURCES)/"Island SDKs"
+FIRERESOURCES	?= /Applications/Fire.app/Contents/Resources
+EBUILD		?= $(FIRERESOURCES)/DotNet/dotnet exec $(FIRERESOURCES)/Core/EBuild.dll
 endif
 
 ifeq ($(OS), Windows_NT)
 EBUILD		?= "C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild.exe"
 endif
 
-CONFIGURATION	?= Release
-EBUILDFLAGS	+= --configuration:$(CONFIGURATION)
-
 ifneq ($(BOARDNAME),)
 EBUILDFLAGS	+= --setting:ExtraConditionalDefines=$(BOARDNAME)
 endif
+
+CONFIGURATION	?= Release
+EBUILDFLAGS	+= --configuration:$(CONFIGURATION)
 
 # Don't delete intermediate files
 
