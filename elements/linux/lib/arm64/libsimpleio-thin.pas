@@ -5,13 +5,13 @@ namespace IO.Bindings.libsimpleio;
 //
 // Import of libsimpleio-thin (1.0)
 // Frameworks:
-// Targets: armv6
+// Targets: arm64
 // Platform: Linux
 // Dependencies (.fx): Island, rtl
 //
 
 type
-  IO.Bindings.libsimpleio.__Global = public class
+  __Global = public class
   public
     class method ADC_get_name(chip: rtl.int32_t; name: ^AnsiChar; namesize: rtl.int32_t; error: ^rtl.int32_t);
     class method ADC_open(chip: rtl.int32_t; channel: rtl.int32_t; fd: ^rtl.int32_t; error: ^rtl.int32_t);
@@ -173,8 +173,8 @@ type
     class const SPI_AUTO_CS: Integer = -1;
   end;
 
-  IO.Bindings.libsimpleio.STREAM_readfn_t = public block(fd: Integer; buf: ^Void; count: rtl.size_t): rtl.ssize_t;
+  STREAM_readfn_t = public block(fd: Integer; buf: ^Void; count: rtl.size_t): rtl.ssize_t;
 
-  IO.Bindings.libsimpleio.STREAM_writefn_t = public block(fd: Integer; buf: ^Void; count: rtl.size_t): rtl.ssize_t;
+  STREAM_writefn_t = public block(fd: Integer; buf: ^Void; count: rtl.size_t): rtl.ssize_t;
 
 end.

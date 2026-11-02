@@ -11,7 +11,7 @@ namespace IO.Bindings.libsimpleio;
 //
 
 type
-  IO.Bindings.libsimpleio.__Global = public class
+  __Global = public class
   public
     class method ADC_get_name(chip: rtl.int32_t; name: ^AnsiChar; namesize: rtl.int32_t; error: ^rtl.int32_t);
     class method ADC_open(chip: rtl.int32_t; channel: rtl.int32_t; fd: ^rtl.int32_t; error: ^rtl.int32_t);
@@ -173,8 +173,8 @@ type
     class const SPI_AUTO_CS: Integer = -1;
   end;
 
-  IO.Bindings.libsimpleio.STREAM_readfn_t = public block(fd: Integer; buf: ^Void; count: rtl.size_t): rtl.ssize_t;
+  STREAM_readfn_t = public block(fd: Integer; buf: ^Void; count: rtl.size_t): rtl.ssize_t;
 
-  IO.Bindings.libsimpleio.STREAM_writefn_t = public block(fd: Integer; buf: ^Void; count: rtl.size_t): rtl.ssize_t;
+  STREAM_writefn_t = public block(fd: Integer; buf: ^Void; count: rtl.size_t): rtl.ssize_t;
 
 end.

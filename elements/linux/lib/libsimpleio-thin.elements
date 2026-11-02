@@ -7,7 +7,7 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <Mode>Island</Mode>
     <SubMode>Linux</SubMode>
-    <Architecture>x86_64;armv6;aarch64</Architecture>
+    <Architecture>x86_64;arm64</Architecture>
     <ImportCodeGen>Oxygene</ImportCodeGen>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

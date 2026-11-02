@@ -1,4 +1,4 @@
-# Copyright (C)2020-2024, Philip Munts dba Munts Technologies.
+# Copyright (C)2020-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -21,8 +21,7 @@
 include ../../include/elements.mk
 
 default: elements_mk_build
-	cp Ubuntu/aarch64/* aarch64
-	cp Ubuntu/armv6/*   armv6
+	cp Ubuntu/arm64/*   arm64
 	cp Ubuntu/x86_64/*  x86_64
 	rm -rf Ubuntu
 	sed -i 's/ \r$$//g' */*.pas
