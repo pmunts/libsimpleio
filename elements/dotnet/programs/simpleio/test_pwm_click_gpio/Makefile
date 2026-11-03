@@ -28,13 +28,10 @@ else
 LIBSIMPLEIO	?= $(HOME)/libsimpleio
 endif
 
-ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
-
-# Build the project
+# Build the project.  Other possible build targets include coreapp_mk_deb,
+# coreapp_mk_rpm, and coreapp_mk_tarball.
 
 default: coreapp_mk_build
-
-tarball: coreapp_mk_tarball
 
 # Remove working files
 
@@ -42,5 +39,5 @@ clean: elements_mk_clean coreapp_mk_clean
 
 # Include subordinate makefiles
 
-include $(ELEMENTSSRC)/include/elements.mk
-include $(ELEMENTSSRC)/dotnet/include/coreapp.mk
+include $(LIBSIMPLEIO)/elements/include/elements.mk
+include $(LIBSIMPLEIO)/elements/dotnet/include/coreapp.mk
