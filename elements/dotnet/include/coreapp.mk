@@ -30,6 +30,8 @@ COREAPPBIN	:= $(COREAPPDEST)/bin
 # Build architecture independent deliverables (i.e. dotnet run myapp.dll).
 
 coreapp_mk_build: elements_mk_build
+	cp $(COREAPPPUB)/*.dll .
+	cp $(COREAPPPUB)/*.runtimeconfig.json .
 
 # Install architecture independent deliverables
 
@@ -72,6 +74,7 @@ $(DEBDIR):
 coreapp_mk_deb: $(DEBFILE)
 endif
 
+ifeq ($(shell uname), Linux)
 # Build an architecture independent RPM package file (mostly useful for
 # MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
 
@@ -88,6 +91,7 @@ $(RPMDIR):
 	touch $@
 
 coreapp_mk_rpm: $(RPMFILE)
+endif
 
 # Build an architecture independent tarball file (mostly useful for
 # MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
