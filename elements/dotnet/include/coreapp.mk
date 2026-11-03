@@ -27,6 +27,10 @@ COREAPPDEST	:= /usr/local
 COREAPPLIB	:= $(COREAPPDEST)/lib/$(COREAPPNAME)
 COREAPPBIN	:= $(COREAPPDEST)/bin
 
+ifeq ($(shell uname), Linux)
+EBUILDFLAGS	+= --setting:ReferencePath="/usr/local/lib/elements/References/Echoes/NET"
+endif
+
 # Build architecture independent deliverables (i.e. dotnet run myapp.dll).
 
 coreapp_mk_build: elements_mk_build

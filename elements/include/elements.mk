@@ -33,7 +33,6 @@ endif
 ifeq ($(shell uname), Linux)
 ELEMENTSINSTALL	:= /usr/local/lib/elements
 EBUILD		:= ebuild
-EBUILDFLAGS	+= --setting:ReferencePath="$(ELEMENTSINSTALL)/References/Echoes/NET"
 endif
 
 ifeq ($(OS), Windows_NT)
