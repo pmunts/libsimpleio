@@ -31,7 +31,6 @@ TAR		:= gtar
 endif
 
 ifeq ($(shell uname), Linux)
-ELEMENTSINSTALL	:= /usr/local/lib/elements
 EBUILD		:= ebuild
 endif
 
