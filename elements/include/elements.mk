@@ -30,6 +30,12 @@ SED		:= gsed
 TAR		:= gtar
 endif
 
+ifeq ($(shell uname), Linux)
+ELEMENTSINSTALL	:= /usr/local/lib/elements
+EBUILD		:= ebuild
+EBUILDFLAGS	+= --setting:ReferencePath="$(ELEMENTSINSTALL)/References/Echoes/NET"
+endif
+
 ifeq ($(OS), Windows_NT)
 EBUILD		?= "C:/Program Files (x86)/RemObjects Software/Elements/Bin/EBuild.exe"
 endif
