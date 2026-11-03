@@ -27,6 +27,10 @@ COREAPPDEST	:= /usr/local
 COREAPPLIB	:= $(COREAPPDEST)/lib/$(COREAPPNAME)
 COREAPPBIN	:= $(COREAPPDEST)/bin
 
+ifeq ($(shell uname), Darwin)
+EBUILDFLAGS	+= --setting:ReferencePath="$(FIRERESOURCES)/References/Echoes/NET"
+endif
+
 ifeq ($(shell uname), Linux)
 EBUILDFLAGS	+= --setting:ReferencePath="/usr/local/lib/elements/References/Echoes/NET"
 endif
