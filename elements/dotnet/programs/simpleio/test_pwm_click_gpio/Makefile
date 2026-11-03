@@ -20,16 +20,19 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+ifeq ($(shell uname), Linux)
+LIBSIMPLEIO	?= /usr/local/share/libsimpleio
+else ifeq ($(OS), Windows_NT)
 LIBSIMPLEIO     ?= $(shell cygpath -m $(HOME)/libsimpleio)
+else 
+LIBSIMPLEIO	?= $(HOME)/libsimpleio
+endif
+
 ELEMENTSSRC	?= $(LIBSIMPLEIO)/elements
 
 # Build the project
 
 default: coreapp_mk_build
-
-deb: coreapp_mk_deb
-
-rpm: coreapp_mk_rpm
 
 tarball: coreapp_mk_tarball
 
