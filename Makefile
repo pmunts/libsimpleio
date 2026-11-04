@@ -147,7 +147,6 @@ install: libremoteio.so libsimpleio.a libsimpleio.so libwioe5ham1.so libwioe5ham
 	cp -R -P -p csharp			$(DESTDIR)/share/libsimpleio
 	rm -rf					$(DESTDIR)/share/libsimpleio/csharp/programs/remoteio/win64
 	cp -R -P -p elements			$(DESTDIR)/share/libsimpleio
-	rm -rf					$(DESTDIR)/share/libsimpleio/elements/dotnet/templates
 	rm -rf					$(DESTDIR)/share/libsimpleio/elements/linux
 	cp -R -P -p freepascal			$(DESTDIR)/share/libsimpleio
 	cp -R -P -p gm2				$(DESTDIR)/share/libsimpleio
