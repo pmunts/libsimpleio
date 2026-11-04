@@ -56,7 +56,7 @@ fi
 
 PROJECTNAME=`basename $1`
 PROJECTGUID=`uuidgen`
-TEMPLATEDIR=${LIBSIMPLEIO}/elements/dotnet/templates/elements_dotnet_$2_console_$3.d
+TEMPLATEDIR=${LIBSIMPLEIO:-/usr/local/share/libsimpleio}/elements/dotnet/templates/elements_dotnet_$2_console_$3.d
 
 cp ${TEMPLATEDIR}/*.elements	"$1"
 cp ${TEMPLATEDIR}/*.ico		"$1"
