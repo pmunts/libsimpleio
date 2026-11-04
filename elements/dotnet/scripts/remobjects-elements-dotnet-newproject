@@ -33,7 +33,7 @@ fi
 
 if [ ! -x /bin/uuidgen -a ! -x /usr/bin/uuidgen ]; then
   echo ""
-  echo "ERROR: uuidgen not found, install package uuid-runtime!"
+  echo "ERROR: uuidgen not found!"
   echo ""
   exit 1
 fi
@@ -58,10 +58,9 @@ PROJECTNAME=`basename $1`
 PROJECTGUID=`uuidgen`
 TEMPLATEDIR=${LIBSIMPLEIO:-/usr/local/share/libsimpleio}/elements/dotnet/templates/elements_dotnet_$2_console_$3.d
 
-cp ${TEMPLATEDIR}/*.elements	"$1"
-cp ${TEMPLATEDIR}/*.ico		"$1"
-cp ${TEMPLATEDIR}/Makefile	"$1"
-cp ${TEMPLATEDIR}/Program.*	"$1"
+install -cm 0644 ${TEMPLATEDIR}/*.elements	"$1"
+install -cm 0644 ${TEMPLATEDIR}/Makefile	"$1"
+install -cm 0644 ${TEMPLATEDIR}/Program.*	"$1"
 
 sed -i "s/\\\$safeprojectname\\\$/${PROJECTNAME}/g"	"$1"/*
 sed -i "s/\\\$guid1\\\$/${PROJECTGUID}/g"		"$1"/*.elements
