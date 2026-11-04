@@ -1,0 +1,2 @@
+#! /bin/sh
+exec detach flatpak run com.remobjects.earth
