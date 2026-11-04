@@ -1,0 +1,21 @@
+#! /bin/sh
+
+InstallTemplate()
+{
+  TEMPLATENAME=elements_dotnet_$1_console_$2
+  TEMPLATESRC=${TEMPLATENAME}.d
+  TEMPLATEDST=~/Library/"Application Support"/"RemObjects Software"/Elements/Templates/$3/Echoes/Projects/${TEMPLATENAME}
+
+  rsync -avc --delete --mkpath --quiet ${TEMPLATESRC}/ "${TEMPLATEDST}"
+}
+
+InstallTemplate csharp libremoteio Hydrogene
+InstallTemplate csharp libsimpleio Hydrogene
+InstallTemplate go     libremoteio Gold
+InstallTemplate go     libsimpleio Gold
+InstallTemplate java   libremoteio Iodine
+InstallTemplate java   libsimpleio Iodine
+InstallTemplate pascal libremoteio Oxygene
+InstallTemplate pascal libsimpleio Oxygene
+InstallTemplate swift  libremoteio Silver
+InstallTemplate swift  libsimpleio Silver
