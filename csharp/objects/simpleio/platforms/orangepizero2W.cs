@@ -548,6 +548,16 @@ namespace IO.Objects.SimpleIO.Platforms
         public static readonly Designator PWM1 = OrangePiZero2W.PWM2;
 
         /// <summary>
+        /// Raspberry Pi compatible alias for <c>PWM3</c>.
+        /// </summary>
+        public static readonly Designator PWM2 = OrangePiZero2W.PWM3;
+
+        /// <summary>
+        /// Raspberry Pi compatible alias for <c>PWM4</c>.
+        /// </summary>
+        public static readonly Designator PWM3 = OrangePiZero2W.PWM4;
+
+        /// <summary>
         /// Raspberry Pi compatible alias for <c>SPI1_0</c>.
         /// </summary>
         public static readonly Designator SPI0_0 = OrangePiZero2W.SPI1_0;
