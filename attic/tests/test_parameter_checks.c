@@ -1,6 +1,6 @@
 // Linux Simple I/O Library unit tests -- parameter checking
 
-// Copyright (C)2017-2025, Philip Munts dba Munts Technologies.
+// Copyright (C)2017-2026, Philip Munts dba Munts Technologies.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -35,7 +35,6 @@
 #include <libi2c.h>
 #include <libipv4.h>
 #include <liblinux.h>
-#include <liblinx.h>
 #include <libpwm.h>
 #include <libserial.h>
 #include <libspi.h>
@@ -1269,175 +1268,6 @@ START_TEST(test_liblinux)
 }
 END_TEST
 
-START_TEST(test_liblinx)
-{
-  int32_t fd = -1;
-  LINX_command_t cmd;
-  int32_t error;
-  LINX_response_t resp;
-  int32_t count = 0;
-
-#ifdef VERBOSE
-  putenv("DEBUGLEVEL=1");
-#endif
-
-  fd = -888;
-  LINUX_open_readwrite(NULL, &fd, &error);
-  ck_assert(fd == -1);
-  ck_assert(error == EINVAL);
-
-  LINUX_open_readwrite("/dev/bogus", NULL, &error);
-  ck_assert(error == EINVAL);
-
-  fd = -888;
-  LINUX_open_readwrite("/dev/bogus", &fd, &error);
-  ck_assert(fd == -1);
-  ck_assert(error == ENOENT);
-
-  LINUX_open_readwrite("/dev/null", &fd, &error);
-  ck_assert(error == 0);
-  ck_assert(fd > 0);
-
-  memset(&cmd, 0, sizeof(cmd));
-
-  LINX_transmit_command(-1, &cmd, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_transmit_command(999, &cmd, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_transmit_command(fd, NULL, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_transmit_command(fd, &cmd, &error);
-  ck_assert(error == EINVAL);
-
-  cmd.SoF = LINX_SOF;
-
-  LINX_transmit_command(fd, &cmd, &error);
-  ck_assert(error == EINVAL);
-
-  cmd.PacketSize = 6;
-  LINX_transmit_command(fd, &cmd, &error);
-  ck_assert(error == EINVAL);
-
-  cmd.PacketSize = sizeof(LINX_command_t) + 1;
-  LINX_transmit_command(fd, &cmd, &error);
-  ck_assert(error == EINVAL);
-
-  cmd.PacketSize = 7;
-  LINX_transmit_command(fd, &cmd, &error);
-  ck_assert(error == 0);
-
-  cmd.PacketSize = sizeof(LINX_command_t);
-  LINX_transmit_command(fd, &cmd, &error);
-  ck_assert(error == 0);
-
-  LINUX_close(-1, &error);
-  ck_assert(error == EINVAL);
-
-  LINUX_close(999, &error);
-  ck_assert(error == EBADF);
-
-  LINUX_close(fd, &error);
-  ck_assert(error == 0);
-  fd = -1;
-
-  fd = -888;
-  LINUX_open_readwrite(NULL, &fd, &error);
-  ck_assert(fd == -1);
-  ck_assert(error == EINVAL);
-
-  LINUX_open_readwrite("/dev/bogus", NULL, &error);
-  ck_assert(error == EINVAL);
-
-  fd = -888;
-  LINUX_open_readwrite("/dev/bogus", &fd, &error);
-  ck_assert(fd == -1);
-  ck_assert(error == ENOENT);
-
-  LINUX_open_readwrite("/dev/null", &fd, &error);
-  ck_assert(error == 0);
-  ck_assert(fd > 0);
-
-  memset(&resp, 0, sizeof(resp));
-
-  LINX_transmit_response(-1, &resp, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_transmit_response(999, &resp, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_transmit_response(fd, NULL, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_transmit_response(fd, &resp, &error);
-  ck_assert(error == EINVAL);
-
-  resp.SoF = LINX_SOF;
-
-  LINX_transmit_response(fd, &resp, &error);
-  ck_assert(error == EINVAL);
-
-  resp.PacketSize = 5;
-  LINX_transmit_response(fd, &resp, &error);
-  ck_assert(error == EINVAL);
-
-  resp.PacketSize = sizeof(LINX_response_t) + 1;
-  LINX_transmit_response(fd, &resp, &error);
-  ck_assert(error == EINVAL);
-
-  resp.PacketSize = 6;
-  LINX_transmit_response(fd, &resp, &error);
-  ck_assert(error == 0);
-
-  resp.PacketSize = sizeof(LINX_response_t);
-  LINX_transmit_response(fd, &resp, &error);
-  ck_assert(error == 0);
-
-  LINUX_close(-1, &error);
-  ck_assert(error == EINVAL);
-
-  LINUX_close(999, &error);
-  ck_assert(error == EBADF);
-
-  LINUX_close(fd, &error);
-  ck_assert(error == 0);
-  fd = -1;
-
-  LINUX_open_readwrite("/dev/null", &fd, &error);
-  ck_assert(error == 0);
-  ck_assert(fd > 0);
-
-  LINX_receive_command(-1, &cmd, &count, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_receive_command(fd, NULL, &count, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_receive_command(fd, &cmd, NULL, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_receive_command(fd, &cmd, &count, &error);
-  ck_assert(error == EPIPE);
-
-  LINX_receive_response(-1, &resp, &count, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_receive_response(fd, NULL, &count, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_receive_response(fd, &resp, NULL, &error);
-  ck_assert(error == EINVAL);
-
-  LINX_receive_response(fd, &resp, &count, &error);
-  ck_assert(error == EPIPE);
-
-  LINUX_close(fd, &error);
-  ck_assert(error == 0);
-}
-END_TEST
-
 START_TEST(test_libpwm)
 {
   int32_t error;
@@ -1848,7 +1678,6 @@ int main(void)
   tcase_add_test(tests, test_libi2c);
   tcase_add_test(tests, test_libipv4);
   tcase_add_test(tests, test_liblinux);
-  tcase_add_test(tests, test_liblinx);
   tcase_add_test(tests, test_libpwm);
   tcase_add_test(tests, test_libserial);
   tcase_add_test(tests, test_libspi);

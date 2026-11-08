@@ -1,6 +1,6 @@
 # Makefile to build the Linux Simple I/O Library
 
-# Copyright (C)2016-2025, Philip Munts dba Munts Technologies.
+# Copyright (C)2016-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@ include include/dpkg.mk
 default: checks package.deb
 
 SIMPLEIO_COMPONENTS	= errmsg.o libevent.o libgpio.o libhidraw.o libi2c.o
-SIMPLEIO_COMPONENTS	+= libserial.o libspi.o liblinux.o liblinx.o
+SIMPLEIO_COMPONENTS	+= libserial.o libspi.o liblinux.o
 SIMPLEIO_COMPONENTS	+= libpwm.o libipv4.o libstream.o libwatchdog.o
 SIMPLEIO_COMPONENTS	+= libadc.o
 
