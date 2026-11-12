@@ -5,7 +5,7 @@
     <PackageVersion>$(BUILDVERSION)</PackageVersion>
     <PackageId>libremoteio-templates</PackageId>
     <Title>libremoteio-templates</Title>
-    <Description>Project template for building a C# console application for .Net 10 using the Remote I/O Protocol Library.</Description>
+    <Description>Project template for building a C# console application for .Net 11 using the Remote I/O Protocol Library.</Description>
     <Authors>Philip Munts</Authors>
     <Copyright>Copyright (C)2016-2026, Philip Munts dba Munts Technologies.</Copyright>
     <PackageProjectUrl>https://github.com/pmunts/libsimpleio</PackageProjectUrl>

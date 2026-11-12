@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>libremoteio</id>
-    <version>2.2026.283.1</version>
+    <version>2.2026.316.1</version>
     <title>Munts Technologies Remote I/O Library for .Net Standard 2.0</title>
     <authors>Philip Munts</authors>
     <license type="file">doc/COPYING</license>
@@ -10,9 +10,7 @@
     <readme>doc/README.md</readme>
     <projectUrl>https://github.com/pmunts/libsimpleio</projectUrl>
     <description>Munts Technologies Remote I/O Library for .Net Standard 2.0</description>
-    <releaseNotes>Pass I2C clock stretching flag to constructor
-IO.Devices.M5Stack_Ultrasonic_I2C.Sensor() instead of trying to guess whether
-the target board supports clock stretching.</releaseNotes>
+    <releaseNotes>Built with .Net SDK 11.0.100.</releaseNotes>
     <copyright>Copyright (C)2016-2026, Philip Munts dba Munts Technologies.</copyright>
     <tags>Linux USB HID Remote I/O ADC DAC GPIO I2C PWM Servo SPI Stepper</tags>
     <repository type="git" url="https://github.com/pmunts/libsimpleio" />
