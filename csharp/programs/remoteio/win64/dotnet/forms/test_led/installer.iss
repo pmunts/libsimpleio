@@ -1,4 +1,4 @@
-; Copyright (C)2024, Philip Munts dba Munts Technologies.
+; Copyright (C)2024-2026, Philip Munts dba Munts Technologies.
 ;
 ; Redistribution and use in source and binary forms, with or without
 ; modification, are permitted provided that the following conditions are met:
@@ -33,9 +33,9 @@ outputDir=.
 UninstallFilesDir={app}/uninstall
 
 [Files]
-Source: "bin\Release\net10.0-windows\*.exe"                ; DestDir: "{app}"
-Source: "bin\Release\net10.0-windows\*.dll"                ; DestDir: "{app}"
-Source: "bin\Release\net10.0-windows\*.runtimeconfig.json" ; DestDir: "{app}"
+Source: "bin\Release\net11.0-windows\*.exe"                ; DestDir: "{app}"
+Source: "bin\Release\net11.0-windows\*.dll"                ; DestDir: "{app}"
+Source: "bin\Release\net11.0-windows\*.runtimeconfig.json" ; DestDir: "{app}"
 
 [Icons]
 Name: "{commonprograms}\Remote Input Output Protocol LED Test"; Filename: "{app}\test_led.exe"; WorkingDir: "{app}"
