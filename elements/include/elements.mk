@@ -24,7 +24,7 @@ include $(LIBSIMPLEIO)/include/common.mk
 
 ifeq ($(shell uname), Darwin)
 FIRERESOURCES	?= /Applications/Fire.app/Contents/Resources
-EBUILD		?= $(FIRERESOURCES)/DotNet/dotnet exec $(FIRERESOURCES)/Core/EBuild.dll
+EBUILD		?= $(FIRERESOURCES)/DotNet/dotnet exec $(FIRERESOURCES)/EBuild.dll
 SED		:= gsed
 TAR		:= gtar
 endif
