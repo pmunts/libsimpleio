@@ -53,7 +53,7 @@ PACKAGE BODY spi_agent.sfr IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_SFR);
-    cmd.pin     := Unsigned_32(reg.address);
+    cmd.pin     := Interfaces.Unsigned_32(reg.address);
     cmd.data    := 0;
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
@@ -88,8 +88,8 @@ PACKAGE BODY spi_agent.sfr IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_SFR);
-    cmd.pin     := Unsigned_32(reg.address);
-    cmd.data    := Unsigned_32(data);
+    cmd.pin     := Interfaces.Unsigned_32(reg.address);
+    cmd.data    := Interfaces.Unsigned_32(data);
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 

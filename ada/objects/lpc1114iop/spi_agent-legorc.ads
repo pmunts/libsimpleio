@@ -21,9 +21,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH spi_agent.pins; USE spi_agent.pins;
-WITH spi_agent.gpio; USE spi_agent.gpio;
-
 PACKAGE spi_agent.legorc IS
 
   TYPE legorc_channel_t IS NEW Natural RANGE 1 .. 4;
