@@ -27,7 +27,7 @@ WITH spi_agent.commands;   USE spi_agent.commands;
 WITH spi_agent.exceptions; USE spi_agent.exceptions;
 WITH spi_agent.gpio;       USE spi_agent.gpio;
 WITH spi_agent.messages;   USE spi_agent.messages;
-WITH spi_agent.transport;  USE spi_agent.transport;
+WITH spi_agent.transport;
 
 PACKAGE BODY spi_agent.legorc IS
 
