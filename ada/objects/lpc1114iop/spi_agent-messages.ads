@@ -20,23 +20,25 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Interfaces;
+
 PACKAGE spi_agent.messages IS
 
   -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware command structure
 
   TYPE SPIAGENT_COMMAND_MSG_t IS RECORD
-    command : Unsigned_32;
-    pin     : Unsigned_32;
-    data    : Unsigned_32;
+    command : Interfaces.Unsigned_32;
+    pin     : Interfaces.Unsigned_32;
+    data    : Interfaces.Unsigned_32;
   END RECORD;
 
   -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware response structure
 
   TYPE SPIAGENT_RESPONSE_MSG_t IS RECORD
-    command : Unsigned_32;
-    pin     : Unsigned_32;
-    data    : Unsigned_32;
-    error   : Unsigned_32;
+    command : Interfaces.Unsigned_32;
+    pin     : Interfaces.Unsigned_32;
+    data    : Interfaces.Unsigned_32;
+    error   : Interfaces.Unsigned_32;
   END RECORD;
 
 END spi_agent.messages;
