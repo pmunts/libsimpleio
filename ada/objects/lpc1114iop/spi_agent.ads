@@ -26,4 +26,7 @@ PRAGMA Warnings(Off, "use clause for package ""lpc11xx"" has no effect");
 WITH lpc11xx; USE lpc11xx;
 
 PACKAGE spi_agent IS
+
+  SpiAgentError : EXCEPTION;
+
 END spi_agent;
