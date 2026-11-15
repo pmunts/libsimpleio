@@ -21,8 +21,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Interfaces.C;       USE Interfaces.C;
-
 WITH spi_agent.messages; USE spi_agent.messages;
 
 PACKAGE spi_agent.transport IS
