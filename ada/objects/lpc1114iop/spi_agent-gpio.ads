@@ -20,9 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH spi_agent.pins;
-USE spi_agent.pins;
-
 PACKAGE spi_agent.gpio IS
 
   -- General Purpose Input/Output types

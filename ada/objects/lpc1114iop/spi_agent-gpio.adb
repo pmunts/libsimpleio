@@ -20,20 +20,11 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH spi_agent.commands;
-USE spi_agent.commands;
-
-WITH spi_agent.exceptions;
-USE spi_agent.exceptions;
-
-WITH spi_agent.messages;
-USE spi_agent.messages;
-
-WITH spi_agent.pins;
-USE spi_agent.pins;
-
+WITH spi_agent.commands;   USE  spi_agent.commands;
+WITH spi_agent.exceptions; USE  spi_agent.exceptions;
+WITH spi_agent.messages;   USE  spi_agent.messages;
+WITH spi_agent.pins;       USE  spi_agent.pins;
 WITH spi_agent.transport;
-USE spi_agent.transport;
 
 PACKAGE BODY spi_agent.gpio IS
 
@@ -42,7 +33,8 @@ PACKAGE BODY spi_agent.gpio IS
   FUNCTION IsGPIO(pin : pin_id_t) RETURN Boolean IS
 
   BEGIN
-    RETURN ((pin >= LPC1114_GPIO0) AND (pin <= LPC1114_GPIO5)) OR ((pin >= LPC1114_GPIO6) AND (pin <= LPC1114_GPIO7));
+    RETURN ((pin >= LPC1114_GPIO0) AND (pin <= LPC1114_GPIO5)) OR
+           ((pin >= LPC1114_GPIO6) AND (pin <= LPC1114_GPIO7));
   END IsGPIO;
 
   -- Initialize a GPIO pin, given direction and initial state
@@ -268,63 +260,5 @@ PACKAGE BODY spi_agent.gpio IS
       RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
     END IF;
   END Put;
-
-  PROCEDURE Configure
-   (self   : GPIO;
-    iocfg  : gpio_mode_t;
-    intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED) IS
-
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
-
-  BEGIN
-
-    -- Build the SPI agent command message
-
-    cmd.command  := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO);
-    cmd.pin      := pin_id_t'POS(self.pin);
-    cmd.data     := gpio_mode_t'POS(iocfg);
-
-    -- Configure the GPIO pin
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
-
-    IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI agent firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-    END IF;
-
-    -- Also configure the interrupt mode for input pins
-
-    IF (iocfg >= GPIO_MODE_INPUT) AND (iocfg <= GPIO_MODE_INPUT_PULLUP) THEN
-      cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO_INTERRUPT);
-      cmd.pin     := pin_id_t'POS(self.pin);
-      cmd.data    := gpio_interrupt_config_t'POS(intcfg);
-
-      -- Configure the GPIO pin
-
-      spi_agent.transport.command(cmd, resp, error);
-
-      -- Check for error return from spi_agent.transport.command()
-
-      IF error /= 0 THEN
-        RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-      END IF;
-
-      -- Check for error from the SPI agent firmware
-
-      IF Integer(resp.error) /= 0 THEN
-        RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-      END IF;
-    END IF;
-  END Configure;
 
 END spi_agent.gpio;
