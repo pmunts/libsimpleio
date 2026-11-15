@@ -1,7 +1,7 @@
 -- Raspberry Pi LPC1114 I/O Processor Expansion Board
 -- LEGO® Power Functions Remote Control services
 
--- Copyright (C)2013-2018, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
