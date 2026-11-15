@@ -1,0 +1,63 @@
+-- Raspberry Pi LPC1114 I/O Processor Expansion Board GPIO services
+
+-- Copyright (C)2013-2018, Philip Munts, President, Munts AM Corp.
+--
+-- Redistribution and use in source and binary forms, with or without
+-- modification, are permitted provided that the following conditions are met:
+--
+-- * Redistributions of source code must retain the above copyright notice,
+--   this list of conditions and the following disclaimer.
+--
+-- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+-- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+-- IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+-- ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+-- LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+-- CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+-- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+-- INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+-- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+-- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+-- POSSIBILITY OF SUCH DAMAGE.
+
+PACKAGE spi_agent.pins IS
+
+  -- LPC1114 I/O Processor Expansion Board Input/Output pins
+
+  LPC1114_INT         : CONSTANT pin_id_t := PIO0_3;
+  LPC1114_READY       : CONSTANT pin_id_t := PIO0_11;
+  LPC1114_LED         : CONSTANT pin_id_t := PIO0_7;
+  LPC1114_GPIO0       : CONSTANT pin_id_t := PIO1_0;
+  LPC1114_GPIO1       : CONSTANT pin_id_t := PIO1_1;
+  LPC1114_GPIO2       : CONSTANT pin_id_t := PIO1_2;
+  LPC1114_GPIO3       : CONSTANT pin_id_t := PIO1_3;
+  LPC1114_GPIO4       : CONSTANT pin_id_t := PIO1_4;
+  LPC1114_GPIO5       : CONSTANT pin_id_t := PIO1_5;
+  LPC1114_GPIO6       : CONSTANT pin_id_t := PIO1_8;
+  LPC1114_GPIO7       : CONSTANT pin_id_t := PIO1_9;
+
+  -- Analog input pins
+
+  LPC1114_AD1         : CONSTANT pin_id_t := LPC1114_GPIO0;
+  LPC1114_AD2         : CONSTANT pin_id_t := LPC1114_GPIO1;
+  LPC1114_AD3         : CONSTANT pin_id_t := LPC1114_GPIO2;
+  LPC1114_AD4         : CONSTANT pin_id_t := LPC1114_GPIO3;
+  LPC1114_AD5         : CONSTANT pin_id_t := LPC1114_GPIO4;
+
+  -- PWM output pins
+
+  LPC1114_PWM1        : CONSTANT pin_id_t := LPC1114_GPIO1;
+  LPC1114_PWM2        : CONSTANT pin_id_t := LPC1114_GPIO2;
+  LPC1114_PWM3        : CONSTANT pin_id_t := LPC1114_GPIO3;
+  LPC1114_PWM4        : CONSTANT pin_id_t := LPC1114_GPIO7;
+
+  -- Timer pins
+
+  LPC1114_CT32B1_CAP0 : CONSTANT pin_id_t := LPC1114_GPIO0;
+  LPC1114_CT32B1_MAT0 : CONSTANT pin_id_t := LPC1114_GPIO1;
+  LPC1114_CT32B1_MAT1 : CONSTANT pin_id_t := LPC1114_GPIO2;
+  LPC1114_CT32B1_MAT2 : CONSTANT pin_id_t := LPC1114_GPIO3;
+  LPC1114_CT32B1_MAT3 : CONSTANT pin_id_t := LPC1114_GPIO4;
+  LPC1114_CT32B0_CAP0 : CONSTANT pin_id_t := LPC1114_GPIO5;
+
+END spi_agent.pins;
