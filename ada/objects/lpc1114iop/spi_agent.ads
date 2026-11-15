@@ -20,9 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Interfaces;   USE Interfaces;
-WITH errno;        USE errno;
-WITH lpc11xx;      USE lpc11xx;
+PRAGMA Warnings(Off, "no entities of ""lpc11xx"" are referenced");
+PRAGMA Warnings(Off, "use clause for package ""lpc11xx"" has no effect");
+
+WITH lpc11xx; USE lpc11xx;
 
 PACKAGE spi_agent IS
 END spi_agent;
