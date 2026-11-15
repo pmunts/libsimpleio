@@ -21,6 +21,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH lpc11xx;
+
 PACKAGE spi_agent.legorc IS
 
   TYPE legorc_channel_t IS NEW Natural RANGE 1 .. 4;
@@ -42,7 +44,7 @@ PACKAGE spi_agent.legorc IS
 
   -- Initialize a LEGO® RC output pin
 
-  FUNCTION Create(pin : pin_id_t) RETURN LEGORC;
+  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN LEGORC;
 
   -- Write LEGO® RC pin
 
@@ -55,6 +57,6 @@ PACKAGE spi_agent.legorc IS
 
 PRIVATE
   TYPE LEGORC IS TAGGED RECORD
-    pin : pin_id_t;
+    pin : lpc11xx.pin_id_t;
   END RECORD;
 END spi_agent.legorc;

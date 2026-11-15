@@ -1,5 +1,3 @@
--- Declarations for the Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
-
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
@@ -19,11 +17,6 @@
 -- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
-
-PRAGMA Warnings(Off, "no entities of ""lpc11xx"" are referenced");
-PRAGMA Warnings(Off, "use clause for package ""lpc11xx"" has no effect");
-
-WITH lpc11xx; USE lpc11xx;
 
 PACKAGE spi_agent IS
 

@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH lpc11xx;
+
 PACKAGE spi_agent.gpio IS
 
   -- General Purpose Input/Output types
@@ -45,19 +47,19 @@ PACKAGE spi_agent.gpio IS
 
   -- Validate a GPIO pin
 
-  FUNCTION IsGPIO(pin : pin_id_t) RETURN Boolean;
+  FUNCTION IsGPIO(pin : lpc11xx.pin_id_t) RETURN Boolean;
 
   -- Initialize a GPIO pin, given direction and initial state
 
   FUNCTION Create
-   (pin    : pin_id_t;
+   (pin    : lpc11xx.pin_id_t;
     dir    : gpio_direction_t;
     state  : Boolean) RETURN GPIO;
 
   -- Initialize a GPIO pin, given configuration mode
 
   FUNCTION Create
-   (pin    : pin_id_t;
+   (pin    : lpc11xx.pin_id_t;
     iocfg  : gpio_mode_t) RETURN GPIO;
 
   -- Configure GPIO pin mode
@@ -82,6 +84,6 @@ PACKAGE spi_agent.gpio IS
 
 PRIVATE
   TYPE GPIO IS TAGGED RECORD
-    pin : pin_id_t;
+    pin : lpc11xx.pin_id_t;
   END RECORD;
 END spi_agent.gpio;

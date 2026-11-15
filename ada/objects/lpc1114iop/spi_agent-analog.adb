@@ -20,16 +20,20 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH lpc11xx;
+
 WITH spi_agent.commands;   USE spi_agent.commands;
 WITH spi_agent.messages;   USE spi_agent.messages;
 WITH spi_agent.pins;       USE spi_agent.pins;
 WITH spi_agent.transport;
 
+USE TYPE lpc11xx.pin_id_t;
+
 PACKAGE BODY spi_agent.analog IS
 
   -- Validate LPC1114 analog input pin number
 
-  FUNCTION IsAnalog(pin : pin_id_t) RETURN Boolean IS
+  FUNCTION IsAnalog(pin : lpc11xx.pin_id_t) RETURN Boolean IS
 
   BEGIN
     RETURN (pin >= LPC1114_AD1) AND (pin <= LPC1114_AD5);
@@ -37,7 +41,7 @@ PACKAGE BODY spi_agent.analog IS
 
   -- Configure LPC1114 analog input pin
 
-  FUNCTION Create(pin : pin_id_t) RETURN ADC IS
+  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN ADC IS
 
     cmd   : SPIAGENT_COMMAND_MSG_t;
     resp  : SPIAGENT_RESPONSE_MSG_t;
@@ -51,7 +55,7 @@ PACKAGE BODY spi_agent.analog IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_ANALOG_INPUT);
-    cmd.pin     := pin_id_t'POS(pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(pin);
     cmd.data    := 0;
 
     -- Configure the analog input pin
@@ -80,7 +84,7 @@ PACKAGE BODY spi_agent.analog IS
   FUNCTION Create(channel : analog_channel_t) RETURN ADC IS
 
   BEGIN
-    RETURN Create(pin_id_t'VAL(channel - 1 + pin_id_t'POS(LPC1114_AD1)));
+    RETURN Create(lpc11xx.pin_id_t'VAL(channel - 1 + lpc11xx.pin_id_t'POS(LPC1114_AD1)));
   END Create;
 
   -- Read from LPC1114 analog input pin
@@ -96,7 +100,7 @@ PACKAGE BODY spi_agent.analog IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_ANALOG);
-    cmd.pin     := pin_id_t'POS(self.pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
     cmd.data    := 0;
 
     -- Read the analog input pin

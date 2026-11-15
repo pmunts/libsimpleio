@@ -20,7 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH spi_agent.pins; USE spi_agent.pins;
+WITH lpc11xx;
+
 WITH spi_agent.gpio; USE spi_agent.gpio;
 
 PACKAGE spi_agent.pwm IS
@@ -40,11 +41,11 @@ PACKAGE spi_agent.pwm IS
 
   -- Validate PWM output pin
 
-  FUNCTION IsPWM(pin : pin_id_t) RETURN Boolean;
+  FUNCTION IsPWM(pin : lpc11xx.pin_id_t) RETURN Boolean;
 
   -- PWM output operations
 
-  FUNCTION Create(pin : pin_id_t;
+  FUNCTION Create(pin : lpc11xx.pin_id_t;
     freq : pwm_frequency_t := 100) RETURN PWM;
 
   FUNCTION Create(channel : pwm_channel_t;
@@ -62,7 +63,7 @@ PACKAGE spi_agent.pwm IS
 
   -- Servo output operations
 
-  FUNCTION Create(pin : pin_id_t;
+  FUNCTION Create(pin : lpc11xx.pin_id_t;
     freq : pwm_frequency_t := 50) RETURN Servo;
 
   FUNCTION Create(channel : pwm_channel_t;
@@ -74,8 +75,6 @@ PACKAGE spi_agent.pwm IS
 
   TYPE Motor IS TAGGED PRIVATE;
 
-  SUBTYPE dir_pin_id_t IS pin_id_t RANGE LPC1114_GPIO0 .. LPC1114_GPIO7;
-
   TYPE motor_speed_t IS NEW Float RANGE -1.0 .. 1.0;		-- Normalized velocity
 
   MOTOR_FORWARD : motor_speed_t := 1.0;				-- Full speed forward direction
@@ -84,18 +83,18 @@ PACKAGE spi_agent.pwm IS
 
   -- H-bridge motor driver output operations
 
-  FUNCTION Create(pwmpin : pin_id_t; dirpin : dir_pin_id_t;
+  FUNCTION Create(pwmpin : lpc11xx.pin_id_t; dirpin : lpc11xx.pin_id_t;
     freq : pwm_frequency_t := 100) RETURN Motor;
 
   PROCEDURE Put(self : Motor; speed : motor_speed_t);
 
 PRIVATE
   TYPE PWM IS TAGGED RECORD
-    pin : pin_id_t;
+    pin : lpc11xx.pin_id_t;
   END RECORD;
 
   TYPE Servo IS TAGGED RECORD
-    pin  : pin_id_t;
+    pin  : lpc11xx.pin_id_t;
     freq : pwm_frequency_t;
   END RECORD;
 

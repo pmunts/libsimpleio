@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH lpc11xx ; USE lpc11xx;
+
 PACKAGE spi_agent.pins IS
 
   -- LPC1114 I/O Processor Expansion Board Input/Output pins

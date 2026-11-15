@@ -22,18 +22,22 @@
 
 WITH Interfaces;
 
+WITH lpc11xx;
 WITH spi_agent.commands;   USE  spi_agent.commands;
 WITH spi_agent.messages;   USE  spi_agent.messages;
+WITH spi_agent.pins;       USE spi_agent.pins;
 WITH spi_agent.transport;
+
+USE TYPE lpc11xx.pin_id_t;
 
 PACKAGE BODY spi_agent.pwm IS
 
-  ChannelToPin : CONSTANT ARRAY (pwm_channel_t) OF pin_id_t :=
+  ChannelToPin : CONSTANT ARRAY (pwm_channel_t) OF lpc11xx.pin_id_t :=
     (LPC1114_PWM1, LPC1114_PWM2, LPC1114_PWM3, LPC1114_PWM4);
 
   -- Validate LPC1114 PWM output pin
 
-  FUNCTION IsPWM(pin : pin_id_t) RETURN Boolean IS
+  FUNCTION IsPWM(pin : lpc11xx.pin_id_t) RETURN Boolean IS
 
   BEGIN
     RETURN ((pin >= LPC1114_PWM1) AND (pin <= LPC1114_PWM3)) OR (pin = LPC1114_PWM4);
@@ -41,7 +45,7 @@ PACKAGE BODY spi_agent.pwm IS
 
   -- Configure LPC1114 PWM output pin
 
-  FUNCTION Create(pin : pin_id_t;
+  FUNCTION Create(pin : lpc11xx.pin_id_t;
     freq : pwm_frequency_t := 100) RETURN PWM IS
 
     cmd   : SPIAGENT_COMMAND_MSG_t;
@@ -54,7 +58,7 @@ PACKAGE BODY spi_agent.pwm IS
     END IF;
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT);
-    cmd.pin     := pin_id_t'POS(pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(pin);
     cmd.data    := Interfaces.Unsigned_32(freq);
 
     -- Configure the PWM output pin
@@ -100,7 +104,7 @@ PACKAGE BODY spi_agent.pwm IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_PWM);
-    cmd.pin     := pin_id_t'POS(self.pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
     cmd.data    := Interfaces.Unsigned_32(655.35*dutycycle);
 
     -- Issue command
@@ -122,7 +126,7 @@ PACKAGE BODY spi_agent.pwm IS
 
   -- Configure LPC1114 servo output pin
 
-  FUNCTION Create(pin : pin_id_t;
+  FUNCTION Create(pin : lpc11xx.pin_id_t;
     freq : pwm_frequency_t := 50) RETURN Servo IS
 
     cmd   : SPIAGENT_COMMAND_MSG_t;
@@ -141,7 +145,7 @@ PACKAGE BODY spi_agent.pwm IS
     -- Configure the PWM output pin
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT);
-    cmd.pin     := pin_id_t'POS(pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(pin);
     cmd.data    := Interfaces.Unsigned_32(freq);
 
     spi_agent.transport.command(cmd, resp, error);
@@ -185,7 +189,7 @@ PACKAGE BODY spi_agent.pwm IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_PWM);
-    cmd.pin     := pin_id_t'POS(self.pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
     cmd.data    := Interfaces.Unsigned_32(655.35*(0.5E-1*float(position) + 1.5E-1)*float(self.freq));
 
     -- Issue command
@@ -207,7 +211,7 @@ PACKAGE BODY spi_agent.pwm IS
 
   -- Configure H-bridge motor driver outputs
 
-  FUNCTION Create(pwmpin : pin_id_t; dirpin : dir_pin_id_t;
+  FUNCTION Create(pwmpin : lpc11xx.pin_id_t; dirpin : lpc11xx.pin_id_t;
     freq : pwm_frequency_t := 100) RETURN Motor IS
 
   BEGIN

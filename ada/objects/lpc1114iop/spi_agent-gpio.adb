@@ -20,16 +20,20 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH lpc11xx;
+
 WITH spi_agent.commands;   USE  spi_agent.commands;
 WITH spi_agent.messages;   USE  spi_agent.messages;
 WITH spi_agent.pins;       USE  spi_agent.pins;
 WITH spi_agent.transport;
 
+USE TYPE lpc11xx.pin_id_t;
+
 PACKAGE BODY spi_agent.gpio IS
 
   -- Validate a GPIO pin
 
-  FUNCTION IsGPIO(pin : pin_id_t) RETURN Boolean IS
+  FUNCTION IsGPIO(pin : lpc11xx.pin_id_t) RETURN Boolean IS
 
   BEGIN
     RETURN ((pin >= LPC1114_GPIO0) AND (pin <= LPC1114_GPIO5)) OR
@@ -39,7 +43,7 @@ PACKAGE BODY spi_agent.gpio IS
   -- Initialize a GPIO pin, given direction and initial state
 
   FUNCTION Create
-   (pin    : pin_id_t;
+   (pin    : lpc11xx.pin_id_t;
     dir    : gpio_direction_t;
     state  : Boolean) RETURN GPIO IS
 
@@ -57,7 +61,7 @@ PACKAGE BODY spi_agent.gpio IS
       cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO_OUTPUT);
     END IF;
 
-    cmd.pin  := pin_id_t'POS(pin);
+    cmd.pin  := lpc11xx.pin_id_t'POS(pin);
     cmd.data := Boolean'POS(state);
 
     -- Issue the command
@@ -84,7 +88,7 @@ PACKAGE BODY spi_agent.gpio IS
   -- Initialize a GPIO pin, given configuration mode
 
   FUNCTION Create
-   (pin   : pin_id_t;
+   (pin   : lpc11xx.pin_id_t;
     iocfg : gpio_mode_t) RETURN GPIO IS
 
     cmd   : SPIAGENT_COMMAND_MSG_t;
@@ -96,7 +100,7 @@ PACKAGE BODY spi_agent.gpio IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO);
-    cmd.pin     := pin_id_t'POS(pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(pin);
     cmd.data    := gpio_mode_t'POS(iocfg);
 
     -- Issue the command
@@ -135,7 +139,7 @@ PACKAGE BODY spi_agent.gpio IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO);
-    cmd.pin  := pin_id_t'POS(self.pin);
+    cmd.pin  := lpc11xx.pin_id_t'POS(self.pin);
     cmd.data := gpio_mode_t'POS(iocfg);
 
     -- Issue the command
@@ -170,7 +174,7 @@ PACKAGE BODY spi_agent.gpio IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO_INTERRUPT);
-    cmd.pin     := pin_id_t'POS(self.pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
     cmd.data    := gpio_interrupt_config_t'POS(intcfg);
 
     -- Issue the command
@@ -203,7 +207,7 @@ PACKAGE BODY spi_agent.gpio IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_GPIO);
-    cmd.pin     := pin_id_t'POS(self.pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
     cmd.data    := 0;
 
     -- Read the GPIO pin
@@ -240,7 +244,7 @@ PACKAGE BODY spi_agent.gpio IS
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_GPIO);
-    cmd.pin     := pin_id_t'POS(self.pin);
+    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
     cmd.data    := Boolean'POS(state);
 
     -- Write the GPIO pin

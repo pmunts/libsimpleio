@@ -20,6 +20,8 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH lpc11xx;
+
 PACKAGE spi_agent.analog IS
 
   LPC1114_ADC_SPAN     : constant := 3.3;		-- Volts
@@ -37,9 +39,9 @@ PACKAGE spi_agent.analog IS
 
   -- Analog input operations
 
-  FUNCTION IsAnalog(pin: pin_id_t) RETURN Boolean;
+  FUNCTION IsAnalog(pin: lpc11xx.pin_id_t) RETURN Boolean;
 
-  FUNCTION Create(pin : pin_id_t) RETURN ADC;
+  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN ADC;
 
   FUNCTION Create(channel : analog_channel_t) RETURN ADC;
 
@@ -47,6 +49,6 @@ PACKAGE spi_agent.analog IS
 
 PRIVATE
   TYPE ADC IS TAGGED RECORD
-    pin : pin_id_t;
+    pin : lpc11xx.pin_id_t;
   END RECORD;
 END spi_agent.analog;
