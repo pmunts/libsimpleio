@@ -20,11 +20,14 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH spi_agent.commands; USE spi_agent.commands;
+WITH Interfaces;
+
+WITH spi_agent.commands;   USE spi_agent.commands;
 WITH spi_agent.exceptions; USE spi_agent.exceptions;
-WITH spi_agent.messages; USE spi_agent.messages;
-WITH spi_agent.pins; USE spi_agent.pins;
-WITH spi_agent.transport; USE spi_agent.transport;
+WITH spi_agent.messages;   USE spi_agent.messages;
+WITH spi_agent.transport;
+
+USE TYPE Interfaces.Unsigned_32;
 
 PACKAGE BODY spi_agent.timer IS
 
@@ -112,7 +115,7 @@ PACKAGE BODY spi_agent.timer IS
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_TIMER_PRESCALER);
     cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := Unsigned_32(prescaler);
+    cmd.data    := Interfaces.Unsigned_32(prescaler);
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
@@ -149,7 +152,7 @@ PACKAGE BODY spi_agent.timer IS
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_TIMER_CAPTURE);
     cmd.pin     := timer_id_t'POS(self.id);
     cmd.data    := capture_edge_t'POS(edge) OR
-      Shift_Left(Unsigned_32(capture_interrupt_t'POS(interrupt)), 4);
+      Interfaces.Shift_Left(Interfaces.Unsigned_32(capture_interrupt_t'POS(interrupt)), 4);
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
@@ -191,9 +194,9 @@ PACKAGE BODY spi_agent.timer IS
       timer_match_register_t'POS(reg);
     cmd.pin     := timer_id_t'POS(self.id);
     cmd.data    := timer_match_output_action_t'POS(action) OR
-      Shift_Left(Unsigned_32(timer_match_interrupt_t'POS(interrupt)), 4) OR
-      Shift_Left(Unsigned_32(timer_match_reset_t'POS(reset)), 5) OR
-      Shift_left(Unsigned_32(timer_match_stop_t'POS(stop)), 6);
+      Interfaces.Shift_Left(Interfaces.Unsigned_32(timer_match_interrupt_t'POS(interrupt)), 4) OR
+      Interfaces.Shift_Left(Interfaces.Unsigned_32(timer_match_reset_t'POS(reset)), 5) OR
+      Interfaces.Shift_left(Interfaces.Unsigned_32(timer_match_stop_t'POS(stop)), 6);
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
@@ -218,7 +221,7 @@ PACKAGE BODY spi_agent.timer IS
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_TIMER_MATCH0_VALUE) +
       timer_match_register_t'POS(reg);
     cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := Unsigned_32(value);
+    cmd.data    := Interfaces.Unsigned_32(value);
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 

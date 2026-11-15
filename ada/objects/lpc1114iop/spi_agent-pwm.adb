@@ -20,20 +20,12 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH spi_agent.commands;
-USE spi_agent.commands;
+WITH Interfaces;
 
-WITH spi_agent.exceptions;
-USE spi_agent.exceptions;
-
-WITH spi_agent.messages;
-USE spi_agent.messages;
-
-WITH spi_agent.pins;
-USE spi_agent.pins;
-
-WITH spi_agent.transport;
-USE spi_agent.transport;
+WITH spi_agent.commands;   USE  spi_agent.commands;
+WITH spi_agent.exceptions; USE  spi_agent.exceptions;
+WITH spi_agent.messages;   USE  spi_agent.messages;
+WITH spi_agent.transport;  USE  spi_agent.transport;
 
 PACKAGE BODY spi_agent.pwm IS
 
@@ -64,7 +56,7 @@ PACKAGE BODY spi_agent.pwm IS
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT);
     cmd.pin     := pin_id_t'POS(pin);
-    cmd.data    := Unsigned_32(freq);
+    cmd.data    := Interfaces.Unsigned_32(freq);
 
     -- Configure the PWM output pin
 
@@ -110,7 +102,7 @@ PACKAGE BODY spi_agent.pwm IS
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_PWM);
     cmd.pin     := pin_id_t'POS(self.pin);
-    cmd.data    := Unsigned_32(655.35*dutycycle);
+    cmd.data    := Interfaces.Unsigned_32(655.35*dutycycle);
 
     -- Issue command
 
@@ -151,7 +143,7 @@ PACKAGE BODY spi_agent.pwm IS
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT);
     cmd.pin     := pin_id_t'POS(pin);
-    cmd.data    := Unsigned_32(freq);
+    cmd.data    := Interfaces.Unsigned_32(freq);
 
     spi_agent.transport.command(cmd, resp, error);
 
@@ -195,7 +187,7 @@ PACKAGE BODY spi_agent.pwm IS
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_PWM);
     cmd.pin     := pin_id_t'POS(self.pin);
-    cmd.data    := Unsigned_32(655.35*(0.5E-1*float(position) + 1.5E-1)*float(self.freq));
+    cmd.data    := Interfaces.Unsigned_32(655.35*(0.5E-1*float(position) + 1.5E-1)*float(self.freq));
 
     -- Issue command
 

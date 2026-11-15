@@ -20,8 +20,6 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH spi_agent.pins; USE spi_agent.pins;
-
 PACKAGE spi_agent.analog IS
 
   LPC1114_ADC_SPAN     : constant := 3.3;		-- Volts
