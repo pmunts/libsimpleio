@@ -26,7 +26,6 @@ WITH Ada.Text_IO;           USE Ada.Text_IO;
 WITH CRT;                   USE CRT;
 
 WITH spi_agent.analog;      USE spi_agent.analog;
-WITH spi_agent.gpio;        USE spi_agent.gpio;
 WITH spi_agent.pins;        USE spi_agent.pins;
 WITH spi_agent.transport;
 
@@ -34,7 +33,6 @@ PROCEDURE test_adc IS
 
   servername : Unbounded_String;
   error      : Integer;
-  LED        : GPIO;
   AD1        : ADC;
   AD2        : ADC;
   AD3        : ADC;
@@ -71,7 +69,6 @@ BEGIN
 
   -- Configure I/O pins
 
-  LED := Create(LPC1114_LED, GPIO_OUTPUT, False);
   AD1 := Create(LPC1114_AD1);
   AD2 := Create(2);
   AD3 := Create(LPC1114_AD3);
@@ -86,8 +83,6 @@ BEGIN
   Put("Press any key to exit program");
 
   LOOP
-    LED.Put(NOT LED.Get);
-
     GotoXY(1, 3); Put("Analog Input 1 is "); Put(Get(AD1), 1, 2, 0); Put("V");
     GotoXY(1, 4); Put("Analog Input 2 is "); Put(AD2.Get, 1, 2, 0);  Put("V");
     GotoXY(1, 5); Put("Analog Input 3 is "); Put(Get(AD3), 1, 2, 0); Put("V");
