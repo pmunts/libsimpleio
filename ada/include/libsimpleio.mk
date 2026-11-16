@@ -1,6 +1,6 @@
 # GNAT Ada definitions for libsimpleio
 
-# Copyright (C)2018-2025, Philip Munts dba Munts Technologies.
+# Copyright (C)2018-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -29,6 +29,7 @@ CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/clickboards
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/clickboards/remoteio
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/clickboards/simpleio
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/libgpiod
+CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/lpc1114iop
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/modbus
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/remoteio
 CFLAGS += -I$(LIBSIMPLEIO)/ada/objects/remoteio/client
