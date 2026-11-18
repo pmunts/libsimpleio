@@ -20,20 +20,81 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Interfaces;
+WITH Interfaces.C;
 
-WITH lpc11xx;
-WITH spi_agent.commands;   USE  spi_agent.commands;
-WITH spi_agent.messages;   USE  spi_agent.messages;
+WITH Discrete_To_Unsigned;
+WITH Real_To_Float;
+
+WITH lpc11xx;              USE lpc11xx;
+WITH spi_agent.gpio;
 WITH spi_agent.pins;       USE spi_agent.pins;
-WITH spi_agent.transport;
 
-USE TYPE lpc11xx.pin_id_t;
+USE TYPE Interfaces.C.int;
 
 PACKAGE BODY spi_agent.pwm IS
 
-  ChannelToPin : CONSTANT ARRAY (pwm_channel_t) OF lpc11xx.pin_id_t :=
-    (LPC1114_PWM1, LPC1114_PWM2, LPC1114_PWM3, LPC1114_PWM4);
+  -- Thin binding to libsimpleio.so
+
+  PROCEDURE spiagent_pwm_configure
+   (pin    : Interfaces.C.unsigned;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_pwm_configure);
+
+  PROCEDURE spiagent_pwm_set_frequency
+   (freq   : Interfaces.C.unsigned;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_pwm_set_frequency);
+
+  PROCEDURE spiagent_pwm_put
+   (pin    : Interfaces.C.unsigned;
+    duty   : Interfaces.C.C_float;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_pwm_put);
+
+  PROCEDURE spiagent_servo_configure
+   (pin    : Interfaces.C.unsigned;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_servo_configure);
+
+  PROCEDURE spiagent_servo_put
+   (pin    : Interfaces.C.unsigned;
+    posi   : Interfaces.C.C_float;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_servo_put);
+
+  PROCEDURE spiagent_motor_configure
+   (pwmpin : Interfaces.C.unsigned;
+    dirpin : Interfaces.C.unsigned;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_motor_configure);
+
+  PROCEDURE spiagent_motor_put
+   (pwmpin : Interfaces.C.unsigned;
+    dirpin : Interfaces.C.unsigned;
+    speed  : Interfaces.C.C_float;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_motor_put);
+
+  -- Type transfer functions
+
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(lpc11xx.pin_id_t);
+
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(pwm_frequency_t);
+
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(servo_frequency_t);
+
+  FUNCTION To_Float    IS NEW Real_To_Float(Standard.PWM.DutyCycle);
+
+  FUNCTION To_Float    IS NEW Real_To_Float(Standard.Servo.Position);
+
+  FUNCTION To_Float    IS NEW Real_To_Float(Standard.Motor.Velocity);
 
   -- Validate LPC1114 PWM output pin
 
@@ -43,183 +104,188 @@ PACKAGE BODY spi_agent.pwm IS
     RETURN ((pin >= LPC1114_PWM1) AND (pin <= LPC1114_PWM3)) OR (pin = LPC1114_PWM4);
   END IsPWM;
 
-  -- Configure LPC1114 PWM output pin
+  -- PWM output object constructor
 
-  FUNCTION Create(pin : lpc11xx.pin_id_t;
-    freq : pwm_frequency_t := 100) RETURN PWM IS
+  FUNCTION Create
+   (pwmpin    : lpc11xx.pin_id_t;
+    frequency : pwm_frequency_t;
+    dutycycle : Standard.PWM.DutyCycle := 0.0) RETURN Standard.PWM.Output IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    self : PWMOutputClass;
 
   BEGIN
-    IF NOT IsPWM(pin) THEN
-      RAISE SpiAgentError WITH "Invalid pin for PWM output";
-    END IF;
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT);
-    cmd.pin     := lpc11xx.pin_id_t'POS(pin);
-    cmd.data    := Interfaces.Unsigned_32(freq);
-
-    -- Configure the PWM output pin
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
-
-    IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-    END IF;
-
-    -- Allocate the pin structure
-
-    RETURN PWM'(pin => pin);
+    self.Initialize(pwmpin, frequency, dutycycle);
+    RETURN NEW PWMOutputClass'(self);
   END Create;
 
-  -- Configure LPC1114 PWM output pin
+  -- PWM output object initializer
 
-  FUNCTION Create(channel : pwm_channel_t;
-    freq : pwm_frequency_t := 100) RETURN PWM IS
+  PROCEDURE Initialize
+   (self      : OUT PWMOutputClass;
+    pwmpin    : lpc11xx.pin_id_t;
+    frequency : pwm_frequency_t;
+    dutycycle : Standard.PWM.DutyCycle := 0.0) IS
 
-  BEGIN
-    RETURN Create(ChannelToPin(channel), freq);
-  END Create;
-
-  -- Set LPC1114 PWM output duty cycle
-
-  PROCEDURE Put(self : PWM; dutycycle : pwm_dutycycle_t) IS
-
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
-
-  BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_PWM);
-    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
-    cmd.data    := Interfaces.Unsigned_32(655.35*dutycycle);
-
-    -- Issue command
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
-
-    IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-    END IF;
-  END Put;
-
-  -- Configure LPC1114 servo output pin
-
-  FUNCTION Create(pin : lpc11xx.pin_id_t;
-    freq : pwm_frequency_t := 50) RETURN Servo IS
-
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
-
-  BEGIN
-    IF freq > 400 THEN
-      RAISE SpiAgentError WITH "PWM frequency is too high for servos";
-    END IF;
-
-    IF NOT IsPWM(pin) THEN
-      RAISE SpiAgentError WITH "Invalid pin for PWM output";
-    END IF;
-
-    -- Configure the PWM output pin
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT);
-    cmd.pin     := lpc11xx.pin_id_t'POS(pin);
-    cmd.data    := Interfaces.Unsigned_32(freq);
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
-
-    IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-    END IF;
-
-    -- Allocate the pin structure
-
-    RETURN Servo'(pin, freq);
-  END Create;
-
-  -- Configure LPC1114 servo output pin
-
-  FUNCTION Create(channel : pwm_channel_t;
-    freq : pwm_frequency_t := 50) RETURN Servo IS
-
-  BEGIN
-    RETURN Create(ChannelToPin(channel), freq);
-  END Create;
-
-  -- Set servo position
-
-  PROCEDURE Put(self : Servo; position : servo_position_t) IS
-
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
-
-  BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_PWM);
-    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
-    cmd.data    := Interfaces.Unsigned_32(655.35*(0.5E-1*float(position) + 1.5E-1)*float(self.freq));
-
-    -- Issue command
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
-
-    IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-    END IF;
-  END Put;
-
-  -- Configure H-bridge motor driver outputs
-
-  FUNCTION Create(pwmpin : lpc11xx.pin_id_t; dirpin : lpc11xx.pin_id_t;
-    freq : pwm_frequency_t := 100) RETURN Motor IS
+    error : Interfaces.C.int;
 
   BEGIN
     IF NOT IsPWM(pwmpin) THEN
       RAISE SpiAgentError WITH "Invalid pin for PWM output";
     END IF;
 
-    IF NOT IsGPIO(dirpin) THEN
+    spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
+    END IF;
+
+    spiagent_pwm_configure(To_Unsigned(pwmpin), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_pwm_configure() failed, error" & error'Image;
+    END IF;
+
+    spiagent_pwm_put(To_Unsigned(pwmpin), To_Float(dutycycle), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_pwm_put() failed, error" & error'Image;
+    END IF;
+
+    self.pwmpin := pwmpin;
+    self.freq   := frequency;
+  END Initialize;
+
+  -- Set PWM output duty cycle
+
+  PROCEDURE Put(self : IN OUT PWMOutputClass; dutycycle : Standard.PWM.Dutycycle) IS
+
+    error : Interfaces.C.int;
+
+  BEGIN
+    spiagent_pwm_put(To_Unsigned(self.pwmpin), To_Float(dutycycle), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_pwm_put() failed, error" & error'Image;
+    END IF;
+  END Put;
+
+  -- Set PWM output duration
+
+  PROCEDURE Put
+   (self      : IN OUT PWMOutputClass;
+    duration  : Standard.Duration) IS
+
+  BEGIN
+    RAISE SpiAgentError WITH "This method is not implemented.";
+  END Put;
+
+  -- Get PWM pulse period
+
+  FUNCTION GetPeriod(self : IN OUT PWMOutputClass) RETURN Duration IS
+
+  BEGIN
+    RETURN 1.0/Duration(self.freq);
+  END GetPeriod;
+
+  -- Servo output object constructor
+
+  FUNCTION Create
+   (pwmpin    : lpc11xx.pin_id_t;
+    frequency : servo_frequency_t := 50;
+    position  : Standard.Servo.Position := 0.0) RETURN Standard.Servo.Output IS
+
+    self : ServoOutputClass;
+
+  BEGIN
+    self.Initialize(pwmpin, frequency, position);
+    RETURN NEW ServoOutputClass'(self);
+  END Create;
+
+  -- Servo output object initializer
+
+  PROCEDURE Initialize
+   (self      : OUT ServoOutputClass;
+    pwmpin    : lpc11xx.pin_id_t;
+    frequency : servo_frequency_t := 50;
+    position  : Standard.Servo.Position := 0.0) IS
+
+    error : Interfaces.C.int;
+
+  BEGIN
+    IF NOT IsPWM(pwmpin) THEN
+      RAISE SpiAgentError WITH "Invalid pin for PWM output";
+    END IF;
+
+    spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
+    END IF;
+
+    spiagent_servo_configure(To_Unsigned(pwmpin), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_servo_configure() failed, error" & error'Image;
+    END IF;
+
+    spiagent_servo_put(To_Unsigned(pwmpin), To_Float(position), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_servo_put() failed, error" & error'Image;
+    END IF;
+
+    self.pwmpin := pwmpin;
+    self.freq   := frequency;
+  END Initialize;
+
+  -- Set servo position
+
+  PROCEDURE Put
+   (self      : IN OUT ServoOutputClass;
+    position  : Standard.Servo.Position) IS
+
+    error : Interfaces.C.int;
+
+  BEGIN
+    spiagent_servo_put(To_Unsigned(self.pwmpin), To_Float(position), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_servo_put() failed, error" & error'Image;
+    END IF;
+  END Put;
+
+  -- Motor driver output object constructor
+
+  FUNCTION Create
+   (pwmpin    : lpc11xx.pin_id_t;
+    dirpin    : lpc11xx.pin_id_t;
+    frequency : pwm_frequency_t;
+    velocity  : Standard.Motor.Velocity  := 0.0) RETURN Standard.Motor.Output IS
+
+    self : MotorOutputClass1;
+
+  BEGIN
+    self.Initialize(pwmpin, dirpin, frequency, velocity);
+    RETURN NEW MotorOutputClass1'(self);
+  END Create;
+
+  -- Motor driver output object initializer
+
+  PROCEDURE Initialize
+   (self      : OUT MotorOutputClass1;
+    pwmpin    : lpc11xx.pin_id_t;
+    dirpin    : lpc11xx.pin_id_t;
+    frequency : pwm_frequency_t;
+    velocity  : Standard.Motor.Velocity  := 0.0) IS
+
+    error : Interfaces.C.int;
+
+  BEGIN
+    IF NOT IsPWM(pwmpin) THEN
+      RAISE SpiAgentError WITH "Invalid pin for PWM output";
+    END IF;
+
+    IF NOT spi_agent.gpio.IsGPIO(dirpin) THEN
       RAISE SpiAgentError WITH "Invalid pin for direction output";
     END IF;
 
@@ -227,21 +293,43 @@ PACKAGE BODY spi_agent.pwm IS
       RAISE SpiAgentError WITH "PWM and direction pins cannot be the same";
     END IF;
 
-    RETURN Motor'(Create(pwmpin, freq), Create(dirpin, GPIO_MODE_OUTPUT));
-  END Create;
+    spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
 
-  -- Set H-bridge motor driver output speed
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
+    END IF;
 
-  PROCEDURE Put(self : Motor; speed : motor_speed_t) IS
+    spiagent_motor_configure(To_Unsigned(pwmpin), To_Unsigned(dirpin), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_motor_configure() failed, error" & error'Image;
+    END IF;
+
+    spiagent_motor_put(To_Unsigned(pwmpin), To_Unsigned(dirpin), To_Float(velocity), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_motor_put() failed, error" & error'Image;
+    END IF;
+
+    self.dirpin := dirpin;
+    self.pwmpin := pwmpin;
+  END Initialize;
+
+  -- Motor driver output object put method
+
+  PROCEDURE Put
+   (self      : IN OUT MotorOutputClass1;
+    velocity  : Standard.Motor.Velocity) IS
+
+    error : Interfaces.C.int;
 
   BEGIN
-    IF speed < 0.0 THEN
-      self.dirpin.Put(False);
-      self.pwmpin.Put(pwm_dutycycle_t(-100.0*speed));
-    ELSE
-      self.dirpin.Put(True);
-      self.pwmpin.Put(pwm_dutycycle_t(100.0*speed));
+    spiagent_motor_put(To_Unsigned(self.pwmpin), To_Unsigned(self.dirpin),
+      To_Float(velocity), error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_motor_put() failed, error" & error'Image;
     END IF;
-  END;
+  END Put;
 
 END spi_agent.pwm;

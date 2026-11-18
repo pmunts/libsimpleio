@@ -21,85 +21,116 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH lpc11xx;
+WITH PWM;
+WITH Servo;
+WITH Motor;
 
-WITH spi_agent.gpio; USE spi_agent.gpio;
+USE PWM;
 
 PACKAGE spi_agent.pwm IS
 
   -- PWM output types
 
-  TYPE PWM IS TAGGED PRIVATE;
-
-  TYPE pwm_channel_t IS NEW Natural RANGE 1 .. 4;
-
-  TYPE pwm_frequency_t IS NEW Natural RANGE 50 .. 50000;	-- Hertz
-
-  TYPE pwm_dutycycle_t IS NEW Float RANGE 0.0 .. 100.0;		-- Percent
-
-  PWM_OFF : pwm_dutycycle_t := 0.0;				-- Minimum power
-  PWM_ON  : pwm_dutycycle_t := 100.0;				-- Maximum power
+  TYPE PWMOutputClass  IS NEW Standard.PWM.OutputInterface WITH PRIVATE;
+  TYPE pwm_frequency_t IS NEW Positive RANGE 50 .. 50000; -- Hertz
 
   -- Validate PWM output pin
 
   FUNCTION IsPWM(pin : lpc11xx.pin_id_t) RETURN Boolean;
 
-  -- PWM output operations
+  -- PWM output object constructor
 
-  FUNCTION Create(pin : lpc11xx.pin_id_t;
-    freq : pwm_frequency_t := 100) RETURN PWM;
+  FUNCTION Create
+   (pwmpin    : lpc11xx.pin_id_t;
+    frequency : pwm_frequency_t;
+    dutycycle : Standard.PWM.DutyCycle := 0.0) RETURN Standard.PWM.Output;
 
-  FUNCTION Create(channel : pwm_channel_t;
-    freq : pwm_frequency_t := 100) RETURN PWM;
+  -- PWM output object initializer
 
-  PROCEDURE Put(self : PWM; dutycycle : pwm_dutycycle_t);
+  PROCEDURE Initialize
+   (self      : OUT PWMOutputClass;
+    pwmpin    : lpc11xx.pin_id_t;
+    frequency : pwm_frequency_t;
+    dutycycle : Standard.PWM.DutyCycle := 0.0);
+
+  -- PWM output object methods
+
+  PROCEDURE Put
+   (self      : IN OUT PWMOutputClass;
+    dutycycle : Standard.PWM.DutyCycle);
+
+  PROCEDURE Put
+   (self      : IN OUT PWMOutputClass;
+    duration  : Standard.Duration);
+
+  FUNCTION GetPeriod(self : IN OUT PWMOutputClass) RETURN Duration;
 
   -- Servo output types
 
-  TYPE Servo is TAGGED PRIVATE;
+  TYPE ServoOutputClass  IS NEW Servo.OutputInterface WITH PRIVATE;
+  TYPE servo_frequency_t IS NEW Positive RANGE 50 .. 400; -- Hertz
 
-  TYPE servo_position_t IS NEW Float RANGE -1.0 .. 1.0;		-- Normalized position
+  -- Servo output object constructor
 
-  SERVO_NEUTRAL : servo_position_t := 0.0;			-- Midpoint/neutral/null/zero position
+  FUNCTION Create
+   (pwmpin    : lpc11xx.pin_id_t;
+    frequency : servo_frequency_t := 50;
+    position  : Standard.Servo.Position := 0.0) RETURN Standard.Servo.Output;
 
-  -- Servo output operations
+  -- Servo output object initializer
 
-  FUNCTION Create(pin : lpc11xx.pin_id_t;
-    freq : pwm_frequency_t := 50) RETURN Servo;
+  PROCEDURE Initialize
+   (self      : OUT ServoOutputClass;
+    pwmpin    : lpc11xx.pin_id_t;
+    frequency : servo_frequency_t := 50;
+    position  : Standard.Servo.Position := 0.0);
 
-  FUNCTION Create(channel : pwm_channel_t;
-    freq : pwm_frequency_t := 50) RETURN Servo;
+  -- Servo output object put method
 
-  PROCEDURE Put(self : Servo; position : servo_position_t);
+  PROCEDURE Put
+   (self      : IN OUT ServoOutputClass;
+    position  : Standard.Servo.Position);
 
-  -- H-bridge motor driver output types
+  -- Motor driver output type
 
-  TYPE Motor IS TAGGED PRIVATE;
+  TYPE MotorOutputClass1 IS NEW Motor.OutputInterface WITH PRIVATE;
 
-  TYPE motor_speed_t IS NEW Float RANGE -1.0 .. 1.0;		-- Normalized velocity
+  -- Motor driver output object constructor
 
-  MOTOR_FORWARD : motor_speed_t := 1.0;				-- Full speed forward direction
-  MOTOR_REVERSE : motor_speed_t := -1.0;			-- Full speed reverse direction
-  MOTOR_STOP    : motor_speed_t := 0.0;				-- Motor stopped
+  FUNCTION Create
+   (pwmpin    : lpc11xx.pin_id_t;
+    dirpin    : lpc11xx.pin_id_t;
+    frequency : pwm_frequency_t;
+    velocity  : Standard.Motor.Velocity  := 0.0) RETURN Standard.Motor.Output;
 
-  -- H-bridge motor driver output operations
+  -- Motor driver output object initializer
 
-  FUNCTION Create(pwmpin : lpc11xx.pin_id_t; dirpin : lpc11xx.pin_id_t;
-    freq : pwm_frequency_t := 100) RETURN Motor;
+  PROCEDURE Initialize
+   (self      : OUT MotorOutputClass1;
+    pwmpin    : lpc11xx.pin_id_t;
+    dirpin    : lpc11xx.pin_id_t;
+    frequency : pwm_frequency_t;
+    velocity  : Standard.Motor.Velocity  := 0.0);
 
-  PROCEDURE Put(self : Motor; speed : motor_speed_t);
+  -- Motor driver output object put method
+
+  PROCEDURE Put
+   (self      : IN OUT MotorOutputClass1;
+    velocity  : Standard.Motor.Velocity);
 
 PRIVATE
-  TYPE PWM IS TAGGED RECORD
-    pin : lpc11xx.pin_id_t;
+  TYPE PWMOutputClass IS NEW Standard.PWM.OutputInterface WITH RECORD
+    pwmpin : lpc11xx.pin_id_t;
+    freq   : pwm_frequency_t;
   END RECORD;
 
-  TYPE Servo IS TAGGED RECORD
-    pin  : lpc11xx.pin_id_t;
-    freq : pwm_frequency_t;
+  TYPE ServoOutputClass IS NEW Standard.Servo.OutputInterface WITH RECORD
+    pwmpin : lpc11xx.pin_id_t;
+    freq   : servo_frequency_t;
   END RECORD;
 
-  TYPE Motor IS TAGGED RECORD
-    pwmpin : PWM;
-    dirpin : GPIO.GPIO;
+  TYPE MotorOutputClass1 IS NEW Standard.Motor.OutputInterface WITH RECORD
+    dirpin : lpc11xx.pin_id_t;
+    pwmpin : lpc11xx.pin_id_t;
   END RECORD;
 END spi_agent.pwm;
