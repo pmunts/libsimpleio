@@ -46,6 +46,12 @@ PACKAGE spi_agent.pins IS
   LPC1114_AD4         : CONSTANT pin_id_t := LPC1114_GPIO3;
   LPC1114_AD5         : CONSTANT pin_id_t := LPC1114_GPIO4;
 
+  LPC1114_ADC1        : CONSTANT pin_id_t := LPC1114_AD1;
+  LPC1114_ADC2        : CONSTANT pin_id_t := LPC1114_AD2;
+  LPC1114_ADC3        : CONSTANT pin_id_t := LPC1114_AD3;
+  LPC1114_ADC4        : CONSTANT pin_id_t := LPC1114_AD4;
+  LPC1114_ADC5        : CONSTANT pin_id_t := LPC1114_AD5;
+
   -- PWM output pins
 
   LPC1114_PWM1        : CONSTANT pin_id_t := LPC1114_GPIO1;
@@ -61,5 +67,36 @@ PACKAGE spi_agent.pins IS
   LPC1114_CT32B1_MAT2 : CONSTANT pin_id_t := LPC1114_GPIO3;
   LPC1114_CT32B1_MAT3 : CONSTANT pin_id_t := LPC1114_GPIO4;
   LPC1114_CT32B0_CAP0 : CONSTANT pin_id_t := LPC1114_GPIO5;
+
+  -- Pin mapping tables
+
+  GPIO_PINS : CONSTANT ARRAY (0 .. 7) OF pin_id_t :=
+   (LPC1114_GPIO0,
+    LPC1114_GPIO1,
+    LPC1114_GPIO2,
+    LPC1114_GPIO3,
+    LPC1114_GPIO4,
+    LPC1114_GPIO5,
+    LPC1114_GPIO6,
+    LPC1114_GPIO7);
+
+  ADC_PINS  : CONSTANT ARRAY (1 .. 5) OF pin_id_t :=
+   (LPC1114_AD1,
+    LPC1114_AD2,
+    LPC1114_AD3,
+    LPC1114_AD4,
+    LPC1114_AD5);
+
+  MAT_PINS  : CONSTANT ARRAY (0 .. 3) OF pin_id_t :=
+   (LPC1114_CT32B1_MAT0,
+    LPC1114_CT32B1_MAT1,
+    LPC1114_CT32B1_MAT2,
+    LPC1114_CT32B1_MAT3);
+
+  PWM_PINS  : CONSTANT ARRAY (1 .. 4) OF pin_id_t :=
+   (LPC1114_PWM1,
+    LPC1114_PWM2,
+    LPC1114_PWM3,
+    LPC1114_PWM4);
 
 END spi_agent.pins;
