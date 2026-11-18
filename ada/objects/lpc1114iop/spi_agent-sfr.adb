@@ -20,11 +20,23 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH libspiagent;
-
-USE TYPE libspiagent.int32_t;
-
 PACKAGE BODY spi_agent.sfr IS
+
+  -- Thin binding to libsimpleio.so
+
+  PROCEDURE spiagent_sfr_get
+   (address : sfr_address;
+    data    : OUT sfr_data;
+    error   : OUT Integer);
+
+  PRAGMA Import(C, spiagent_sfr_get);
+
+  PROCEDURE spiagent_sfr_put
+   (address : sfr_address;
+    data    : sfr_data;
+    error   : OUT Integer);
+
+  PRAGMA Import(C, spiagent_sfr_put);
 
   -- Create an LPC1114 special function register instance
 
@@ -33,7 +45,7 @@ PACKAGE BODY spi_agent.sfr IS
   BEGIN
     IF ((address >= 16#40000000#) AND (address <= 16#4007FFFF#)) OR
        ((address >= 16#50000000#) AND (address <= 16#501FFFFF#)) THEN
-      RETURN SFR'(address => libspiagent.uint32_t(address));
+      RETURN SFR'(address => address);
     ELSE
       RAISE SpiAgentError WITH "Illegal SFR address";
     END IF;
@@ -43,27 +55,27 @@ PACKAGE BODY spi_agent.sfr IS
 
   FUNCTION Get(reg : SFR) RETURN sfr_data IS
 
-    data  : libspiagent.uint32_t;
-    error : libspiagent.int32_t;
+    data  : sfr_data;
+    error : Integer;
 
   BEGIN
-    libspiagent.spiagent_sfr_get(reg.address, data, error);
+    spiagent_sfr_get(reg.address, data, error);
 
     IF error /= 0 THEN
       RAISE SpiAgentError WITH "spiagent_sfr_get() failed, error" & error'Image;
     END IF;
 
-    RETURN sfr_data(data);
+    RETURN data;
   END Get;
 
   -- Write to LPC1114 special function register
 
   PROCEDURE Put(reg : SFR; data : sfr_data) IS
 
-    error : libspiagent.int32_t;
+    error : Integer;
 
   BEGIN
-    libspiagent.spiagent_sfr_put(reg.address, libspiagent.uint32_t(data), error);
+    spiagent_sfr_put(reg.address, data, error);
 
     IF error /= 0 THEN
       RAISE SpiAgentError WITH "spiagent_sfr_put() failed, error" & error'Image;

@@ -25,14 +25,14 @@
 -- of peripheral registers within the ranges 40000000-4007FFF and
 -- 50000000-501FFFFF are accessible.
 
-WITH libspiagent;
+WITH Interfaces.C;
 
 PACKAGE spi_agent.sfr IS
 
   -- Derive types for SFR address and data
 
-  TYPE sfr_address IS NEW libspiagent.uint32_t;
-  TYPE sfr_data    IS NEW libspiagent.uint32_t;
+  TYPE sfr_address IS NEW Interfaces.C.unsigned;
+  TYPE sfr_data    IS NEW Interfaces.C.unsigned;
 
   TYPE SFR IS TAGGED PRIVATE;
 
@@ -57,6 +57,6 @@ PACKAGE spi_agent.sfr IS
 
 PRIVATE
   TYPE SFR IS TAGGED RECORD
-    address : libspiagent.uint32_t;
+    address : sfr_address;
   END RECORD;
 END spi_agent.sfr;
