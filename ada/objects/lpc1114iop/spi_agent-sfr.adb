@@ -20,9 +20,9 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH spi_agent.commands;   USE spi_agent.commands;
-WITH spi_agent.messages;   USE spi_agent.messages;
-WITH spi_agent.transport;
+WITH libspiagent;
+
+USE TYPE libspiagent.int32_t;
 
 PACKAGE BODY spi_agent.sfr IS
 
@@ -33,7 +33,7 @@ PACKAGE BODY spi_agent.sfr IS
   BEGIN
     IF ((address >= 16#40000000#) AND (address <= 16#4007FFFF#)) OR
        ((address >= 16#50000000#) AND (address <= 16#501FFFFF#)) THEN
-      RETURN SFR'(address => address);
+      RETURN SFR'(address => libspiagent.uint32_t(address));
     ELSE
       RAISE SpiAgentError WITH "Illegal SFR address";
     END IF;
@@ -43,67 +43,31 @@ PACKAGE BODY spi_agent.sfr IS
 
   FUNCTION Get(reg : SFR) RETURN sfr_data IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    data  : libspiagent.uint32_t;
+    error : libspiagent.int32_t;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_SFR);
-    cmd.pin     := Interfaces.Unsigned_32(reg.address);
-    cmd.data    := 0;
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
+    libspiagent.spiagent_sfr_get(reg.address, data, error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
+      RAISE SpiAgentError WITH "spiagent_sfr_get() failed, error" & error'Image;
     END IF;
 
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-    END IF;
-
-    RETURN sfr_data(resp.data);
+    RETURN sfr_data(data);
   END Get;
 
   -- Write to LPC1114 special function register
 
   PROCEDURE Put(reg : SFR; data : sfr_data) IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    error : libspiagent.int32_t;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_SFR);
-    cmd.pin     := Interfaces.Unsigned_32(reg.address);
-    cmd.data    := Interfaces.Unsigned_32(data);
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
+    libspiagent.spiagent_sfr_put(reg.address, libspiagent.uint32_t(data), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
+      RAISE SpiAgentError WITH "spiagent_sfr_put() failed, error" & error'Image;
     END IF;
   END Put;
+
 END spi_agent.sfr;
