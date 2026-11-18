@@ -90,11 +90,11 @@ PACKAGE BODY spi_agent.gpio IS
     dir    : Standard.GPIO.Direction;
     state  : Boolean := False) RETURN Standard.GPIO.Pin IS
 
-    self : PinClass;
+    self : GPIOPinClass;
 
   BEGIN
     self.Initialize(pin, dir, state);
-    RETURN NEW PinClass'(self);
+    RETURN NEW GPIOPinClass'(self);
   END Create;
 
   -- Create a GPIO pin object instance, given configuration and initial state
@@ -105,17 +105,17 @@ PACKAGE BODY spi_agent.gpio IS
     intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
     state  : Boolean := False) RETURN Standard.GPIO.Pin IS
 
-    self : PinClass;
+    self : GPIOPinClass;
 
   BEGIN
     self.Initialize(pin, iocfg, intcfg, state);
-    RETURN NEW PinClass'(self);
+    RETURN NEW GPIOPinClass'(self);
   END Create;
 
   -- GPIO pin object initializer
 
   PROCEDURE Initialize
-   (self   : OUT PinClass;
+   (self   : OUT GPIOPinClass;
     pin    : lpc11xx.pin_id_t;
     dir    : Standard.GPIO.Direction;
     state  : Boolean := False) IS
@@ -135,7 +135,7 @@ PACKAGE BODY spi_agent.gpio IS
   -- GPIO pin object initializer
 
   PROCEDURE Initialize
-   (self   : OUT PinClass;
+   (self   : OUT GPIOPinClass;
     pin    : lpc11xx.pin_id_t;
     iocfg  : gpio_mode_t;
     intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
@@ -154,7 +154,7 @@ PACKAGE BODY spi_agent.gpio IS
   END Initialize;
 
   PROCEDURE ConfigureMode
-   (self  : PinClass;
+   (self  : GPIOPinClass;
     iocfg : gpio_mode_t) IS
 
     error : Interfaces.C.int;
@@ -170,7 +170,7 @@ PACKAGE BODY spi_agent.gpio IS
   -- Configure GPIO pin interrupt
 
   PROCEDURE ConfigureInterrupt
-   (self   : PinClass;
+   (self   : GPIOPinClass;
     intcfg : gpio_interrupt_config_t) IS
 
     error  : Interfaces.C.int;
@@ -185,7 +185,7 @@ PACKAGE BODY spi_agent.gpio IS
 
   -- Read from LPC1114 GPIO pin
 
-  FUNCTION Get(self : IN OUT PinClass) RETURN Boolean IS
+  FUNCTION Get(self : IN OUT GPIOPinClass) RETURN Boolean IS
 
     state : Interfaces.C.unsigned;
     error : Interfaces.C.int;
@@ -202,7 +202,7 @@ PACKAGE BODY spi_agent.gpio IS
 
   -- Write to LPC1114 GPIO pin
 
-  PROCEDURE Put(self : IN OUT PinClass; state : Boolean) IS
+  PROCEDURE Put(self : IN OUT GPIOPinClass; state : Boolean) IS
 
     error : Interfaces.C.int;
 

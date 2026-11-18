@@ -38,7 +38,7 @@ PACKAGE spi_agent.gpio IS
     GPIO_INTERRUPT_RISING,
     GPIO_INTERRUPT_BOTH);
 
-  TYPE PinClass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
+  TYPE GPIOPinClass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
 
   -- Validate a GPIO pin
 
@@ -62,7 +62,7 @@ PACKAGE spi_agent.gpio IS
   -- GPIO pin object initializer
 
   PROCEDURE Initialize
-   (self   : OUT PinClass;
+   (self   : OUT GPIOPinClass;
     pin    : lpc11xx.pin_id_t;
     dir    : Standard.GPIO.Direction;
     state  : Boolean := False);
@@ -70,7 +70,7 @@ PACKAGE spi_agent.gpio IS
   -- GPIO pin object initializer
 
   PROCEDURE Initialize
-   (self   : OUT PinClass;
+   (self   : OUT GPIOPinClass;
     pin    : lpc11xx.pin_id_t;
     iocfg  : gpio_mode_t;
     intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
@@ -79,25 +79,25 @@ PACKAGE spi_agent.gpio IS
   -- Configure GPIO pin mode
 
   PROCEDURE ConfigureMode
-   (self   : PinClass;
+   (self   : GPIOPinClass;
     iocfg  : gpio_mode_t);
 
   -- Configure GPIO pin interrupt
 
   PROCEDURE ConfigureInterrupt
-   (self   : PinClass;
+   (self   : GPIOPinClass;
     intcfg : gpio_interrupt_config_t);
 
   -- Read GPIO pin
 
-  FUNCTION Get(self : IN OUT PinClass) RETURN Boolean;
+  FUNCTION Get(self : IN OUT GPIOPinClass) RETURN Boolean;
 
   -- Write GPIO pin
 
-  PROCEDURE Put(self : IN OUT PinClass; state : Boolean);
+  PROCEDURE Put(self : IN OUT GPIOPinClass; state : Boolean);
 
 PRIVATE
-  TYPE PinClass IS NEW Standard.GPIO.PinInterface WITH RECORD
+  TYPE GPIOPinClass IS NEW Standard.GPIO.PinInterface WITH RECORD
     pin : lpc11xx.pin_id_t;
   END RECORD;
 END spi_agent.gpio;
