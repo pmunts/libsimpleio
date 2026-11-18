@@ -20,18 +20,59 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Interfaces.C;
+
+WITH Enum_To_Unsigned;
 WITH GPIO;
 WITH lpc11xx;
 
-WITH spi_agent.commands;   USE  spi_agent.commands;
-WITH spi_agent.messages;   USE  spi_agent.messages;
-WITH spi_agent.pins;       USE  spi_agent.pins;
-WITH spi_agent.transport;
+WITH spi_agent.pins; USE  spi_agent.pins;
 
+USE TYPE Interfaces.C.int;
 USE TYPE Standard.GPIO.Direction;
 USE TYPE lpc11xx.pin_id_t;
 
 PACKAGE BODY spi_agent.gpio IS
+
+  -- Thin binding to libsimpleio.so
+
+  PROCEDURE spiagent_gpio_configure_mode
+   (pin       : Interfaces.C.unsigned;
+    mode      : Interfaces.C.unsigned;
+    error     : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_gpio_configure_mode);
+
+  PROCEDURE spiagent_gpio_configure_interrupt
+   (pin       : Interfaces.C.unsigned;
+    intconfig : Interfaces.C.unsigned;
+    error     : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_gpio_configure_interrupt);
+
+  PROCEDURE spiagent_gpio_get
+   (pin       : Interfaces.C.unsigned;
+    state     : OUT Interfaces.C.unsigned;
+    error     : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_gpio_get);
+
+  PROCEDURE spiagent_gpio_put
+   (pin       : Interfaces.C.unsigned;
+    state     : Interfaces.C.unsigned;
+    error     : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_gpio_put);
+
+  -- Type transfer functions
+
+  FUNCTION To_Unsigned IS NEW Enum_To_Unsigned(Boolean);
+
+  FUNCTION To_Unsigned IS NEW Enum_To_Unsigned(gpio_interrupt_config_t);
+
+  FUNCTION To_Unsigned IS NEW Enum_To_Unsigned(gpio_mode_t);
+
+  FUNCTION To_Unsigned IS NEW Enum_To_Unsigned(lpc11xx.pin_id_t);
 
   -- Validate a GPIO pin
 
@@ -116,31 +157,13 @@ PACKAGE BODY spi_agent.gpio IS
    (self  : PinSubclass;
     iocfg : gpio_mode_t) IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    error : Interfaces.C.int;
 
   BEGIN
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO);
-    cmd.pin  := lpc11xx.pin_id_t'POS(self.pin);
-    cmd.data := gpio_mode_t'POS(iocfg);
-
-    -- Issue the command
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
+    spiagent_gpio_configure_mode(To_Unsigned(self.pin), To_Unsigned(iocfg), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
+      RAISE SpiAgentError WITH "spiagent_gpio_configure_mode() failed, error" & error'Image;
     END IF;
   END ConfigureMode;
 
@@ -150,32 +173,13 @@ PACKAGE BODY spi_agent.gpio IS
    (self   : PinSubclass;
     intcfg : gpio_interrupt_config_t) IS
 
-    cmd    : SPIAGENT_COMMAND_MSG_t;
-    resp   : SPIAGENT_RESPONSE_MSG_t;
-    error  : Integer;
+    error  : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO_INTERRUPT);
-    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
-    cmd.data    := gpio_interrupt_config_t'POS(intcfg);
-
-    -- Issue the command
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
+    spiagent_gpio_configure_interrupt(To_Unsigned(self.pin), To_Unsigned(intcfg), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI agent firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
+      RAISE SpiAgentError WITH "spiagent_gpio_configure_interrupt() failed, error" & error'Image;
     END IF;
   END ConfigureInterrupt;
 
@@ -183,69 +187,30 @@ PACKAGE BODY spi_agent.gpio IS
 
   FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    state : Interfaces.C.unsigned;
+    error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_GPIO);
-    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
-    cmd.data    := 0;
-
-    -- Read the GPIO pin
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
+    spiagent_gpio_get(To_Unsigned(self.pin), state, error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
+      RAISE SpiAgentError WITH "spiagent_gpio_get() failed, error" & error'Image;
     END IF;
 
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-    END IF;
-
-    -- Return the state of the GPIO pin
-
-    RETURN Boolean'VAL(resp.data);
+    RETURN Boolean'VAL(state);
   END Get;
 
   -- Write to LPC1114 GPIO pin
 
   PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean) IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_GPIO);
-    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
-    cmd.data    := Boolean'POS(state);
-
-    -- Write the GPIO pin
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
+    spiagent_gpio_put(To_Unsigned(self.pin), To_Unsigned(state), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
+      RAISE SpiAgentError WITH "spiagent_gpio_put() failed, error" & error'Image;
     END IF;
   END Put;
 
