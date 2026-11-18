@@ -20,6 +20,8 @@
 
 PACKAGE spi_agent IS
 
+  PRAGMA Link_With("-lspiagent");
+
   SpiAgentError : EXCEPTION;
 
 END spi_agent;
