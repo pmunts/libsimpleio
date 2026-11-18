@@ -20,15 +20,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH GPIO;
 WITH lpc11xx;
 
 PACKAGE spi_agent.gpio IS
-
-  -- General Purpose Input/Output types
-
-  TYPE gpio_direction_t IS
-   (GPIO_INPUT,
-    GPIO_OUTPUT);
 
   TYPE gpio_mode_t IS
    (GPIO_MODE_INPUT,			-- Normal high impedance input
@@ -43,47 +38,66 @@ PACKAGE spi_agent.gpio IS
     GPIO_INTERRUPT_RISING,
     GPIO_INTERRUPT_BOTH);
 
-  TYPE GPIO IS TAGGED PRIVATE;
+  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
 
   -- Validate a GPIO pin
 
   FUNCTION IsGPIO(pin : lpc11xx.pin_id_t) RETURN Boolean;
 
-  -- Initialize a GPIO pin, given direction and initial state
+  -- Create a GPIO pin object instance, given direction and initial state
 
   FUNCTION Create
    (pin    : lpc11xx.pin_id_t;
-    dir    : gpio_direction_t;
-    state  : Boolean) RETURN GPIO;
+    dir    : Standard.GPIO.Direction;
+    state  : Boolean := False) RETURN Standard.GPIO.Pin;
 
-  -- Initialize a GPIO pin, given configuration mode
+  -- Create a GPIO pin object instance, given configuration and initial state
 
   FUNCTION Create
    (pin    : lpc11xx.pin_id_t;
-    iocfg  : gpio_mode_t) RETURN GPIO;
+    iocfg  : gpio_mode_t;
+    intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
+    state  : Boolean := False) RETURN Standard.GPIO.Pin;
+
+  -- GPIO pin object initializer
+
+  PROCEDURE Initialize
+   (self   : OUT PinSubclass;
+    pin    : lpc11xx.pin_id_t;
+    dir    : Standard.GPIO.Direction;
+    state  : Boolean := False);
+
+  -- GPIO pin object initializer
+
+  PROCEDURE Initialize
+   (self   : OUT PinSubclass;
+    pin    : lpc11xx.pin_id_t;
+    iocfg  : gpio_mode_t;
+    intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
+    state  : Boolean := False);
 
   -- Configure GPIO pin mode
 
   PROCEDURE ConfigureMode
-   (self   : GPIO;
+   (self   : PinSubclass;
     iocfg  : gpio_mode_t);
 
   -- Configure GPIO pin interrupt
 
   PROCEDURE ConfigureInterrupt
-   (self   : GPIO;
+   (self   : PinSubclass;
     intcfg : gpio_interrupt_config_t);
 
   -- Read GPIO pin
 
-  FUNCTION Get(self : GPIO) RETURN Boolean;
+  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean;
 
   -- Write GPIO pin
 
-  PROCEDURE Put(self : GPIO; state : Boolean);
+  PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean);
 
 PRIVATE
-  TYPE GPIO IS TAGGED RECORD
+  TYPE PinSubclass IS NEW Standard.GPIO.PinInterface WITH RECORD
     pin : lpc11xx.pin_id_t;
   END RECORD;
 END spi_agent.gpio;

@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH GPIO;
 WITH lpc11xx;
 
 WITH spi_agent.commands;   USE  spi_agent.commands;
@@ -27,6 +28,7 @@ WITH spi_agent.messages;   USE  spi_agent.messages;
 WITH spi_agent.pins;       USE  spi_agent.pins;
 WITH spi_agent.transport;
 
+USE TYPE Standard.GPIO.Direction;
 USE TYPE lpc11xx.pin_id_t;
 
 PACKAGE BODY spi_agent.gpio IS
@@ -40,94 +42,78 @@ PACKAGE BODY spi_agent.gpio IS
            ((pin >= LPC1114_GPIO6) AND (pin <= LPC1114_GPIO7));
   END IsGPIO;
 
-  -- Initialize a GPIO pin, given direction and initial state
+  -- Create a GPIO pin object instance, given direction and initial state
 
   FUNCTION Create
    (pin    : lpc11xx.pin_id_t;
-    dir    : gpio_direction_t;
-    state  : Boolean) RETURN GPIO IS
+    dir    : Standard.GPIO.Direction;
+    state  : Boolean := False) RETURN Standard.GPIO.Pin IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    self : PinSubclass;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    IF dir = GPIO_INPUT THEN
-      cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO_INPUT);
-    ELSE
-      cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO_OUTPUT);
-    END IF;
-
-    cmd.pin  := lpc11xx.pin_id_t'POS(pin);
-    cmd.data := Boolean'POS(state);
-
-    -- Issue the command
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
-
-    IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-    END IF;
-
-    -- Initialize the GPIO pin object
-
-    RETURN GPIO'(pin => pin);
+    self.Initialize(pin, dir, state);
+    RETURN NEW PinSubclass'(self);
   END Create;
 
-  -- Initialize a GPIO pin, given configuration mode
+  -- Create a GPIO pin object instance, given configuration and initial state
 
   FUNCTION Create
-   (pin   : lpc11xx.pin_id_t;
-    iocfg : gpio_mode_t) RETURN GPIO IS
+   (pin    : lpc11xx.pin_id_t;
+    iocfg  : gpio_mode_t;
+    intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
+    state  : Boolean := False) RETURN Standard.GPIO.Pin IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    self : PinSubclass;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO);
-    cmd.pin     := lpc11xx.pin_id_t'POS(pin);
-    cmd.data    := gpio_mode_t'POS(iocfg);
-
-    -- Issue the command
-
-    spi_agent.transport.command(cmd, resp, error);
-
-    -- Check for error return from spi_agent.transport.command()
-
-    IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
-    END IF;
-
-    -- Initialize the GPIO pin object
-
-    RETURN GPIO'(pin => pin);
+    self.Initialize(pin, iocfg, intcfg, state);
+    RETURN NEW PinSubclass'(self);
   END Create;
 
-  -- (Re)confgure a GPIO pin's I/O mode
+  -- GPIO pin object initializer
+
+  PROCEDURE Initialize
+   (self   : OUT PinSubclass;
+    pin    : lpc11xx.pin_id_t;
+    dir    : Standard.GPIO.Direction;
+    state  : Boolean := False) IS
+
+  BEGIN
+    self.pin := pin;
+
+    IF dir = Standard.GPIO.Input THEN
+      self.ConfigureMode(GPIO_MODE_INPUT);
+      self.ConfigureInterrupt(GPIO_INTERRUPT_DISABLED);
+    ELSE
+      self.ConfigureMode(GPIO_MODE_OUTPUT);
+      self.Put(state);
+    END IF;
+  END Initialize;
+
+  -- GPIO pin object initializer
+
+  PROCEDURE Initialize
+   (self   : OUT PinSubclass;
+    pin    : lpc11xx.pin_id_t;
+    iocfg  : gpio_mode_t;
+    intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
+    state  : Boolean := False) IS
+
+  BEGIN
+    self.pin := pin;
+
+    self.ConfigureMode(iocfg);
+
+    IF iocfg < GPIO_MODE_OUTPUT THEN
+      self.ConfigureInterrupt(intcfg);
+    ELSE
+      self.Put(state);
+    END IF;
+  END Initialize;
 
   PROCEDURE ConfigureMode
-   (self  : GPIO;
+   (self  : PinSubclass;
     iocfg : gpio_mode_t) IS
 
     cmd   : SPIAGENT_COMMAND_MSG_t;
@@ -135,7 +121,6 @@ PACKAGE BODY spi_agent.gpio IS
     error : Integer;
 
   BEGIN
-
     -- Build the SPI Agent Firmware command message
 
     cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO);
@@ -162,7 +147,7 @@ PACKAGE BODY spi_agent.gpio IS
   -- Configure GPIO pin interrupt
 
   PROCEDURE ConfigureInterrupt
-   (self   : GPIO;
+   (self   : PinSubclass;
     intcfg : gpio_interrupt_config_t) IS
 
     cmd    : SPIAGENT_COMMAND_MSG_t;
@@ -196,7 +181,7 @@ PACKAGE BODY spi_agent.gpio IS
 
   -- Read from LPC1114 GPIO pin
 
-  FUNCTION Get(self : GPIO) RETURN Boolean IS
+  FUNCTION Get(self : IN OUT PinSubclass) RETURN Boolean IS
 
     cmd   : SPIAGENT_COMMAND_MSG_t;
     resp  : SPIAGENT_RESPONSE_MSG_t;
@@ -233,7 +218,7 @@ PACKAGE BODY spi_agent.gpio IS
 
   -- Write to LPC1114 GPIO pin
 
-  PROCEDURE Put(self : GPIO; state : Boolean) IS
+  PROCEDURE Put(self : IN OUT PinSubclass; state : Boolean) IS
 
     cmd   : SPIAGENT_COMMAND_MSG_t;
     resp  : SPIAGENT_RESPONSE_MSG_t;
