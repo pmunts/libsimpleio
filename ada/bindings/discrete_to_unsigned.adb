@@ -18,10 +18,10 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-FUNCTION Enum_To_Unsigned(item : T) RETURN Interfaces.C.Unsigned IS
+FUNCTION Discrete_To_Unsigned(item : T) RETURN Interfaces.C.Unsigned IS
 
 BEGIN
   RETURN Interfaces.C.Unsigned(T'Pos(item));
-END Enum_To_Unsigned;
+END Discrete_To_Unsigned;
 
-PRAGMA Inline(Enum_To_Unsigned);
+PRAGMA Inline(Discrete_To_Unsigned);

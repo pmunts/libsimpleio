@@ -24,4 +24,4 @@ GENERIC
 
   TYPE T IS (<>);
 
-FUNCTION Enum_To_Unsigned(item : T) RETURN Interfaces.C.Unsigned;
+FUNCTION Discrete_To_Unsigned(item : T) RETURN Interfaces.C.Unsigned;

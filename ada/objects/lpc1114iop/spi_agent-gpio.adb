@@ -22,7 +22,7 @@
 
 WITH Interfaces.C;
 
-WITH Enum_To_Unsigned;
+WITH Discrete_To_Unsigned;
 WITH GPIO;
 WITH lpc11xx;
 
@@ -66,13 +66,13 @@ PACKAGE BODY spi_agent.gpio IS
 
   -- Type transfer functions
 
-  FUNCTION To_Unsigned IS NEW Enum_To_Unsigned(Boolean);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(Boolean);
 
-  FUNCTION To_Unsigned IS NEW Enum_To_Unsigned(gpio_interrupt_config_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_interrupt_config_t);
 
-  FUNCTION To_Unsigned IS NEW Enum_To_Unsigned(gpio_mode_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_mode_t);
 
-  FUNCTION To_Unsigned IS NEW Enum_To_Unsigned(lpc11xx.pin_id_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(lpc11xx.pin_id_t);
 
   -- Validate a GPIO pin
 
