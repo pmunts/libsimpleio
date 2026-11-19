@@ -35,7 +35,6 @@ PROCEDURE test_legorc IS
   motor      : legorc_motor_t;
   direction  : legorc_direction_t;
   speed      : legorc_speed_t;
-  error      : Integer;
   IRED       : LEGORC;
 
 BEGIN
@@ -64,12 +63,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
   -- Configure the GPIO output pin
 
@@ -81,10 +75,5 @@ BEGIN
 
   -- Deinitialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.close(error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Close;
 END test_legorc;

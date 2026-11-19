@@ -22,7 +22,8 @@
 
 WITH Ada.Text_IO;         USE Ada.Text_IO;
 
-WITH errno;               USE errno;
+WITH errno;                USE errno;
+WITH libspiagent;          USE libspiagent;
 WITH LPC1114IOP.GPIO;
 WITH LPC1114IOP.Interrupt; USE LPC1114IOP.Interrupt;
 WITH LPC1114IOP.Pins;      USE LPC1114IOP.Pins;
@@ -41,25 +42,19 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.open("ioctl://localhost" & ASCII.NUL, error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Open("ioctl://localhost" & ASCII.NUL);
 
   -- Configure an LPC1114 pin as input with pull-up, with interrupt enabled
 
-  input_pin.Initialize(LPC1114_GPIO0, LPC1114IOP.GPIO.GPIO_MODE_INPUT,
-    LPC1114IOP.GPIO.GPIO_INTERRUPT_FALLING);
+  input_pin.Initialize(LPC1114_GPIO0, GPIO_MODE_INPUT, GPIO_INTERRUPT_FALLING);
 
   -- Enable interrupt monitoring on Raspberry Pi INT (GPIO4)
 
   interrupt_enable(error);
 
   IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "interrupt_enable() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.Error WITH
+      "interrupt_enable() failed, error:" & error'Image;
   END IF;
 
   Put_Line("Press CONTROL-C to quit");
@@ -71,16 +66,15 @@ BEGIN
     CASE error IS
       WHEN EOK => -- poll() event received or timed out
         IF intr_pin /= 0 THEN
-          Put_Line
-           ("Received interrupt on GPIO pin" & Integer'IMAGE (intr_pin));
+          Put_Line("Received interrupt on GPIO pin" & intr_pin'Image);
         END IF;
 
       WHEN EINTR => -- poll() interrupted by signal
         EXIT;
 
       WHEN OTHERS => -- poll() failed
-        RAISE LPC1114IOP.SpiAgentError WITH
-          "interrupt_wait() failed, error:" & Integer'IMAGE(error);
+        RAISE LPC1114IOP.Error WITH
+          "interrupt_wait() failed, error:" & error'Image;
     END CASE;
   END LOOP;
 
@@ -90,24 +84,19 @@ BEGIN
 
   -- Return the LPC1114 pin to default configuration
 
-  input_pin.ConfigureMode(LPC1114IOP.GPIO.GPIO_MODE_INPUT_PULLUP);
-  input_pin.ConfigureInterrupt(LPC1114IOP.GPIO.GPIO_INTERRUPT_DISABLED);
+  input_pin.ConfigureMode(GPIO_MODE_INPUT_PULLUP);
+  input_pin.ConfigureInterrupt(GPIO_INTERRUPT_DISABLED);
 
   -- Disable interrupt monitoring on Raspberry Pi INT (GPIO4)
 
   interrupt_disable(error);
 
   IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "interrupt_disable() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.Error WITH
+      "interrupt_disable() failed, error:" & error'Image;
   END IF;
 
   -- Close the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.close(error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Close;
 END test_int;

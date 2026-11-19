@@ -36,7 +36,6 @@ WITH LPC1114IOP.Transport;
 PROCEDURE test_motor IS
 
   servername : Unbounded_String;
-  error      : Integer;
   Frequency  : pwm_frequency_t;
   Motor1     : Motor.Output;
   Velocity   : Motor.Velocity;
@@ -62,12 +61,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Open(To_String(servername));
 
   -- Get PWM frequency from user
 

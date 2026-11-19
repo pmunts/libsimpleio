@@ -43,7 +43,6 @@ WITH LPC1114IOP.Transport;
 PROCEDURE test_sonar IS
 
   servername : Unbounded_String;
-  error      : Integer;
   timer1     : Timer;
   trigger    : GPIO.Pin;
   count      : LPC1114IOP.Timer.timer_count_t;
@@ -70,12 +69,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
   -- Configure LPC1114 timer 1 to measure pulse width on CAP0 input
 
@@ -133,10 +127,5 @@ BEGIN
 
   -- Close the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.close(error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Close;
 END test_sonar;

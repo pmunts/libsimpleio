@@ -33,7 +33,6 @@ WITH LPC1114IOP.Transport;
 PROCEDURE test_led IS
 
   servername : Unbounded_String;
-  error      : Integer;
   LED        : GPIO.Pin;
 
 BEGIN
@@ -54,12 +53,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
   -- Configure the LED pin
 
@@ -86,10 +80,5 @@ BEGIN
 
   -- Close the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.close(error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Close;
 END test_led;

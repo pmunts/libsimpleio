@@ -31,7 +31,6 @@ WITH LPC1114IOP.SFR;         USE LPC1114IOP.SFR;
 PROCEDURE test_sfr IS
 
   servername : Unbounded_String;
-  error      : Integer;
   deviceID   : SFR;
   U0SCR      : SFR;
 
@@ -56,12 +55,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
   -- Create SFR instances
 
@@ -84,10 +78,5 @@ BEGIN
 
   -- Deinitialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.close(error);
-
-  IF error /= 0 THEN
-    RAISE LPC1114IOP.SpiAgentError WITH
-      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
-  END IF;
+  LPC1114IOP.Transport.Close;
 END test_sfr;
