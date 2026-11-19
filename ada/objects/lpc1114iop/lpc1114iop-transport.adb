@@ -1,5 +1,4 @@
 -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware Transport Services
--- using libspiagent
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -21,5 +20,54 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Interfaces.C;
+
+USE TYPE Interfaces.C.int;
+
 PACKAGE BODY LPC1114IOP.Transport IS
+
+  -- Initialize the SPI Agent Firmware transport library
+
+  PROCEDURE Open(servername : String) IS
+
+    error : Interfaces.C.int;
+
+  BEGIN
+    libspiagent.spiagent_open(servername, error);
+
+    IF error /= 0 THEN
+      RAISE LPC1114IOP.Error WITH "spiagent_open() failed, error" & error'Image;
+    END IF;
+  END Open;
+
+  -- Deinitialize the SPI Agent Firmware transport library
+
+  PROCEDURE Close IS
+
+    error : Interfaces.C.int;
+
+  BEGIN
+    libspiagent.spiagent_close(error);
+
+    IF error /= 0 THEN
+      RAISE LPC1114IOP.Error WITH "spiagent_close() failed, error" & error'Image;
+    END IF;
+  END Close;
+
+  -- Dispatch an SPI Agent Firmware command to the transport library
+
+  PROCEDURE Execute
+   (command  : IN libspiagent.SPIAGENT_COMMAND_MSG_t;
+    response : OUT libspiagent.SPIAGENT_RESPONSE_MSG_t) IS
+
+    error : Interfaces.C.int;
+
+  BEGIN
+    libspiagent.spiagent_command(command, response, error);
+
+    IF error /= 0 THEN
+      RAISE LPC1114IOP.Error WITH "spiagent_command() failed, error" & error'Image;
+    END IF;
+  END Execute;
+
 END LPC1114IOP.Transport;

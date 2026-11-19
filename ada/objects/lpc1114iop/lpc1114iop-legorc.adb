@@ -21,12 +21,13 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Interfaces;           USE Interfaces;
+WITH Interfaces.C;
 
-WITH LPC1114IOP.Commands;   USE LPC1114IOP.Commands;
-WITH LPC1114IOP.GPIO;       USE LPC1114IOP.GPIO;
-WITH LPC1114IOP.Messages;   USE LPC1114IOP.Messages;
-WITH LPC1114IOP.Transport;
+WITH libspiagent;     USE libspiagent;
+WITH LPC1114IOP.GPIO; USE LPC1114IOP.GPIO;
+
+USE TYPE Interfaces.C.int;
+USE TYPE Interfaces.C.unsigned;
 
 PACKAGE BODY LPC1114IOP.LEGORC IS
 
@@ -34,35 +35,19 @@ PACKAGE BODY LPC1114IOP.LEGORC IS
 
   FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN LEGORC IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    error : Interfaces.C.int;
 
   BEGIN
     IF NOT IsGPIO(pin) THEN
-      RAISE SpiAgentError WITH "Invalid pin for LEGO RC output";
+      RAISE LPC1114IOP.Error WITH "Invalid pin for LEGO RC output";
     END IF;
 
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_GPIO_OUTPUT);
-    cmd.pin  := lpc11xx.pin_id_t'POS(pin);
-    cmd.data := Boolean'POS(False);
-
-    -- Configure the GPIO pin
-
-    LPC1114IOP.Transport.command(cmd, resp, error);
-
-    -- Check for error return from LPC1114IOP.Transport.command()
+    spiagent_gpio_configure(To_Unsigned(pin),
+      To_Unsigned(GPIO_DIRECTION_OUTPUT), To_Unsigned(False), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" & Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
+      RAISE LPC1114IOP.Error WITH "spiagent_gpio_configure_mode() failed, error" &
+        error'Image;
     END IF;
 
     RETURN LEGORC'(pin => pin);
@@ -77,37 +62,15 @@ PACKAGE BODY LPC1114IOP.LEGORC IS
     direction : legorc_direction_t;
     speed     : legorc_speed_t) IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_PUT_LEGORC);
-    cmd.pin     := lpc11xx.pin_id_t'POS(self.pin);
-    cmd.data    := Unsigned_32(speed) OR
-      Shift_Left(Unsigned_32(legorc_direction_t'POS(direction)), 8) OR
-      Shift_Left(Unsigned_32(legorc_motor_t'POS(motor)), 16) OR
-      Shift_Left(Unsigned_32(channel), 24);
-
-    -- Transmit the LEGO® RC command
-
-    LPC1114IOP.Transport.command(cmd, resp, error);
-
-    -- Check for error return from LPC1114IOP.Transport.command()
+    spiagent_legorc_put(To_Unsigned(self.pin), To_Unsigned(channel),
+      To_Unsigned(motor), To_Unsigned(direction), To_Unsigned(speed), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
-        Integer'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" &
-        Integer'IMAGE(Integer(resp.error));
+      RAISE LPC1114IOP.Error WITH "spiagent_legorc_put() failed, error" &
+        error'Image;
     END IF;
   END Put;
 

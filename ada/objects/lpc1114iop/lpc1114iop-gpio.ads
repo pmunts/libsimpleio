@@ -21,22 +21,10 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH GPIO;
+WITH libspiagent;
 WITH lpc11xx;
 
 PACKAGE LPC1114IOP.GPIO IS
-
-  TYPE gpio_mode_t IS
-   (GPIO_MODE_INPUT,			-- Normal high impedance input
-    GPIO_MODE_INPUT_PULLDOWN,
-    GPIO_MODE_INPUT_PULLUP,
-    GPIO_MODE_OUTPUT,			-- Normal push-pull output
-    GPIO_MODE_OUTPUT_OPENDRAIN);
-
-  TYPE gpio_interrupt_config_t IS
-   (GPIO_INTERRUPT_DISABLED,
-    GPIO_INTERRUPT_FALLING,
-    GPIO_INTERRUPT_RISING,
-    GPIO_INTERRUPT_BOTH);
 
   TYPE GPIOPinClass IS NEW Standard.GPIO.PinInterface WITH PRIVATE;
 
@@ -55,8 +43,9 @@ PACKAGE LPC1114IOP.GPIO IS
 
   FUNCTION Create
    (pin    : lpc11xx.pin_id_t;
-    iocfg  : gpio_mode_t;
-    intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
+    iocfg  : libspiagent.gpio_mode_t;
+    intcfg : libspiagent.gpio_interrupt_config_t :=
+      libspiagent.GPIO_INTERRUPT_DISABLED;
     state  : Boolean := False) RETURN Standard.GPIO.Pin;
 
   -- GPIO pin object initializer
@@ -72,21 +61,22 @@ PACKAGE LPC1114IOP.GPIO IS
   PROCEDURE Initialize
    (self   : OUT GPIOPinClass;
     pin    : lpc11xx.pin_id_t;
-    iocfg  : gpio_mode_t;
-    intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
+    iocfg  : libspiagent.gpio_mode_t;
+    intcfg : libspiagent.gpio_interrupt_config_t :=
+      libspiagent.GPIO_INTERRUPT_DISABLED;
     state  : Boolean := False);
 
   -- Configure GPIO pin mode
 
   PROCEDURE ConfigureMode
    (self   : GPIOPinClass;
-    iocfg  : gpio_mode_t);
+    iocfg  : libspiagent.gpio_mode_t);
 
   -- Configure GPIO pin interrupt
 
   PROCEDURE ConfigureInterrupt
    (self   : GPIOPinClass;
-    intcfg : gpio_interrupt_config_t);
+    intcfg : libspiagent.gpio_interrupt_config_t);
 
   -- Read GPIO pin
 

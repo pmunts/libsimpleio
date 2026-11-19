@@ -21,28 +21,22 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH LPC1114IOP.Messages; USE LPC1114IOP.Messages;
+WITH libspiagent;
 
 PACKAGE LPC1114IOP.Transport IS
-  pragma Link_With("-lspiagent");
-  pragma Elaborate_Body;
 
   -- Initialize the SPI Agent Firmware transport library
 
-  PROCEDURE open(servername : String; error : OUT Integer);
-  PRAGMA Import(C, open, "spiagent_open");
+  PROCEDURE Open(servername : String);
 
   -- Deinitialize the SPI Agent Firmware transport library
 
-  PROCEDURE close(error : OUT Integer);
-  PRAGMA Import(C, close, "spiagent_close");
+  PROCEDURE Close;
 
   -- Dispatch an SPI Agent Firmware command to the transport library
 
-  PROCEDURE command
-   (command  : IN SPIAGENT_COMMAND_MSG_t;
-    response : OUT SPIAGENT_RESPONSE_MSG_t;
-    error    : OUT Integer);
-  PRAGMA Import(C, command, "spiagent_command");
+  PROCEDURE Execute
+   (command  : IN libspiagent.SPIAGENT_COMMAND_MSG_t;
+    response : OUT libspiagent.SPIAGENT_RESPONSE_MSG_t);
 
 END LPC1114IOP.Transport;

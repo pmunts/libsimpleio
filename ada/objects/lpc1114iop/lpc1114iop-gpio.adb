@@ -22,61 +22,19 @@
 
 WITH Interfaces.C;
 
-WITH Discrete_To_Unsigned;
 WITH GPIO;
-WITH lpc11xx;
-
-WITH LPC1114IOP.Pins; USE  LPC1114IOP.Pins;
+WITH lpc11xx;         USE lpc11xx;
+WITH libspiagent;     USE libspiagent;
+WITH LPC1114IOP.Pins; USE LPC1114IOP.Pins;
 
 USE TYPE Interfaces.C.int;
-USE TYPE Standard.GPIO.Direction;
-USE TYPE lpc11xx.pin_id_t;
+USE TYPE GPIO.Direction;
 
 PACKAGE BODY LPC1114IOP.GPIO IS
 
-  -- Thin binding to libsimpleio.so
-
-  PROCEDURE spiagent_gpio_configure_mode
-   (pin       : Interfaces.C.unsigned;
-    mode      : Interfaces.C.unsigned;
-    error     : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_gpio_configure_mode);
-
-  PROCEDURE spiagent_gpio_configure_interrupt
-   (pin       : Interfaces.C.unsigned;
-    intconfig : Interfaces.C.unsigned;
-    error     : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_gpio_configure_interrupt);
-
-  PROCEDURE spiagent_gpio_get
-   (pin       : Interfaces.C.unsigned;
-    state     : OUT Interfaces.C.unsigned;
-    error     : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_gpio_get);
-
-  PROCEDURE spiagent_gpio_put
-   (pin       : Interfaces.C.unsigned;
-    state     : Interfaces.C.unsigned;
-    error     : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_gpio_put);
-
-  -- Type transfer functions
-
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(Boolean);
-
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_interrupt_config_t);
-
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_mode_t);
-
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(lpc11xx.pin_id_t);
-
   -- Validate a GPIO pin
 
-  FUNCTION IsGPIO(pin : lpc11xx.pin_id_t) RETURN Boolean IS
+  FUNCTION IsGPIO(pin : pin_id_t) RETURN Boolean IS
 
   BEGIN
     RETURN ((pin >= LPC1114_GPIO0) AND (pin <= LPC1114_GPIO5)) OR
@@ -86,7 +44,7 @@ PACKAGE BODY LPC1114IOP.GPIO IS
   -- Create a GPIO pin object instance, given direction and initial state
 
   FUNCTION Create
-   (pin    : lpc11xx.pin_id_t;
+   (pin    : pin_id_t;
     dir    : Standard.GPIO.Direction;
     state  : Boolean := False) RETURN Standard.GPIO.Pin IS
 
@@ -100,7 +58,7 @@ PACKAGE BODY LPC1114IOP.GPIO IS
   -- Create a GPIO pin object instance, given configuration and initial state
 
   FUNCTION Create
-   (pin    : lpc11xx.pin_id_t;
+   (pin    : pin_id_t;
     iocfg  : gpio_mode_t;
     intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
     state  : Boolean := False) RETURN Standard.GPIO.Pin IS
@@ -116,7 +74,7 @@ PACKAGE BODY LPC1114IOP.GPIO IS
 
   PROCEDURE Initialize
    (self   : OUT GPIOPinClass;
-    pin    : lpc11xx.pin_id_t;
+    pin    : pin_id_t;
     dir    : Standard.GPIO.Direction;
     state  : Boolean := False) IS
 
@@ -136,7 +94,7 @@ PACKAGE BODY LPC1114IOP.GPIO IS
 
   PROCEDURE Initialize
    (self   : OUT GPIOPinClass;
-    pin    : lpc11xx.pin_id_t;
+    pin    : pin_id_t;
     iocfg  : gpio_mode_t;
     intcfg : gpio_interrupt_config_t := GPIO_INTERRUPT_DISABLED;
     state  : Boolean := False) IS
@@ -160,10 +118,10 @@ PACKAGE BODY LPC1114IOP.GPIO IS
     error : Interfaces.C.int;
 
   BEGIN
-    spiagent_gpio_configure_mode(To_Unsigned(self.pin), To_Unsigned(iocfg), error);
+    spiagent_gpio_configure_mode(libspiagent.To_Unsigned(self.pin), libspiagent.To_Unsigned(iocfg), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_gpio_configure_mode() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_gpio_configure_mode() failed, error" & error'Image;
     END IF;
   END ConfigureMode;
 
@@ -179,7 +137,7 @@ PACKAGE BODY LPC1114IOP.GPIO IS
     spiagent_gpio_configure_interrupt(To_Unsigned(self.pin), To_Unsigned(intcfg), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_gpio_configure_interrupt() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_gpio_configure_interrupt() failed, error" & error'Image;
     END IF;
   END ConfigureInterrupt;
 
@@ -194,7 +152,7 @@ PACKAGE BODY LPC1114IOP.GPIO IS
     spiagent_gpio_get(To_Unsigned(self.pin), state, error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_gpio_get() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_gpio_get() failed, error" & error'Image;
     END IF;
 
     RETURN Boolean'VAL(state);
@@ -210,7 +168,7 @@ PACKAGE BODY LPC1114IOP.GPIO IS
     spiagent_gpio_put(To_Unsigned(self.pin), To_Unsigned(state), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_gpio_put() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_gpio_put() failed, error" & error'Image;
     END IF;
   END Put;
 

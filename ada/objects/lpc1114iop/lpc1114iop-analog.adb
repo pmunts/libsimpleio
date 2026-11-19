@@ -20,13 +20,13 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Interfaces.C;
+
 WITH lpc11xx;
-
-WITH LPC1114IOP.Commands;   USE LPC1114IOP.Commands;
-WITH LPC1114IOP.Messages;   USE LPC1114IOP.Messages;
+WITH libspiagent;           USE libspiagent;
 WITH LPC1114IOP.Pins;       USE LPC1114IOP.Pins;
-WITH LPC1114IOP.Transport;
 
+USE TYPE Interfaces.C.int;
 USE TYPE lpc11xx.pin_id_t;
 
 PACKAGE BODY LPC1114IOP.Analog IS
@@ -45,11 +45,11 @@ PACKAGE BODY LPC1114IOP.Analog IS
 
     cmd   : SPIAGENT_COMMAND_MSG_t;
     resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    error : Interfaces.C.int;
 
   BEGIN
     IF NOT IsAnalog(pin) THEN
-      RAISE SpiAgentError WITH "Invalid pin for analog input";
+      RAISE LPC1114IOP.Error WITH "Invalid pin for analog input";
     END IF;
 
     -- Build the SPI Agent Firmware command message
@@ -60,18 +60,18 @@ PACKAGE BODY LPC1114IOP.Analog IS
 
     -- Configure the analog input pin
 
-    LPC1114IOP.Transport.command(cmd, resp, error);
+    spiagent_command(cmd, resp, error);
 
-    -- Check for error return from LPC1114IOP.Transport.command()
+    -- Check for error return from spiagent_command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" & Integer'IMAGE(error);
+      RAISE LPC1114IOP.Error WITH "spiagent_command() failed, error" & error'Image;
     END IF;
 
     -- Check for error from the SPI Agent Firmware
 
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
+    IF Interfaces.C.int(resp.error) /= 0 THEN
+      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
     END IF;
 
     -- Allocate the pin structure
@@ -93,7 +93,7 @@ PACKAGE BODY LPC1114IOP.Analog IS
 
     cmd   : SPIAGENT_COMMAND_MSG_t;
     resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Integer;
+    error : Interfaces.C.int;
 
   BEGIN
 
@@ -105,18 +105,18 @@ PACKAGE BODY LPC1114IOP.Analog IS
 
     -- Read the analog input pin
 
-    LPC1114IOP.Transport.command(cmd, resp, error);
+    spiagent_command(cmd, resp, error);
 
-    -- Check for error return from LPC1114IOP.Transport.command()
+    -- Check for error return from spiagent_command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" & Integer'IMAGE(error);
+      RAISE LPC1114IOP.Error WITH "spiagent_command() failed, error" & error'Image;
     END IF;
 
     -- Check for error from the SPI Agent Firmware
 
-    IF Integer(resp.error) /= 0 THEN
-      RAISE SpiAgentError WITH "SPI Agent Firmware returned error" & Integer'IMAGE(Integer(resp.error));
+    IF Interfaces.C.int(resp.error) /= 0 THEN
+      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
     END IF;
 
     -- Return the value of the analog input pin

@@ -47,7 +47,7 @@ PACKAGE BODY LPC1114IOP.SFR IS
        ((address >= 16#50000000#) AND (address <= 16#501FFFFF#)) THEN
       RETURN SFR'(address => address);
     ELSE
-      RAISE SpiAgentError WITH "Illegal SFR address";
+      RAISE LPC1114IOP.Error WITH "Illegal SFR address";
     END IF;
   END Create;
 
@@ -62,7 +62,7 @@ PACKAGE BODY LPC1114IOP.SFR IS
     spiagent_sfr_get(reg.address, data, error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_sfr_get() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_sfr_get() failed, error" & error'Image;
     END IF;
 
     RETURN data;
@@ -78,7 +78,7 @@ PACKAGE BODY LPC1114IOP.SFR IS
     spiagent_sfr_put(reg.address, data, error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_sfr_put() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_sfr_put() failed, error" & error'Image;
     END IF;
   END Put;
 

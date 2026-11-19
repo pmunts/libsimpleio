@@ -130,25 +130,25 @@ PACKAGE BODY LPC1114IOP.PWM IS
 
   BEGIN
     IF NOT IsPWM(pwmpin) THEN
-      RAISE SpiAgentError WITH "Invalid pin for PWM output";
+      RAISE LPC1114IOP.Error WITH "Invalid pin for PWM output";
     END IF;
 
     spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
     END IF;
 
     spiagent_pwm_configure(To_Unsigned(pwmpin), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_pwm_configure() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_pwm_configure() failed, error" & error'Image;
     END IF;
 
     spiagent_pwm_put(To_Unsigned(pwmpin), To_Float(dutycycle), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_pwm_put() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_pwm_put() failed, error" & error'Image;
     END IF;
 
     self.pwmpin := pwmpin;
@@ -165,7 +165,7 @@ PACKAGE BODY LPC1114IOP.PWM IS
     spiagent_pwm_put(To_Unsigned(self.pwmpin), To_Float(dutycycle), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_pwm_put() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_pwm_put() failed, error" & error'Image;
     END IF;
   END Put;
 
@@ -176,7 +176,7 @@ PACKAGE BODY LPC1114IOP.PWM IS
     duration  : Standard.Duration) IS
 
   BEGIN
-    RAISE SpiAgentError WITH "This method is not implemented.";
+    RAISE LPC1114IOP.Error WITH "This method is not implemented.";
   END Put;
 
   -- Get PWM pulse period
@@ -213,25 +213,25 @@ PACKAGE BODY LPC1114IOP.PWM IS
 
   BEGIN
     IF NOT IsPWM(pwmpin) THEN
-      RAISE SpiAgentError WITH "Invalid pin for PWM output";
+      RAISE LPC1114IOP.Error WITH "Invalid pin for PWM output";
     END IF;
 
     spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
     END IF;
 
     spiagent_servo_configure(To_Unsigned(pwmpin), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_servo_configure() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_servo_configure() failed, error" & error'Image;
     END IF;
 
     spiagent_servo_put(To_Unsigned(pwmpin), To_Float(position), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_servo_put() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_servo_put() failed, error" & error'Image;
     END IF;
 
     self.pwmpin := pwmpin;
@@ -250,7 +250,7 @@ PACKAGE BODY LPC1114IOP.PWM IS
     spiagent_servo_put(To_Unsigned(self.pwmpin), To_Float(position), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_servo_put() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_servo_put() failed, error" & error'Image;
     END IF;
   END Put;
 
@@ -282,33 +282,33 @@ PACKAGE BODY LPC1114IOP.PWM IS
 
   BEGIN
     IF NOT IsPWM(pwmpin) THEN
-      RAISE SpiAgentError WITH "Invalid pin for PWM output";
+      RAISE LPC1114IOP.Error WITH "Invalid pin for PWM output";
     END IF;
 
     IF NOT LPC1114IOP.GPIO.IsGPIO(dirpin) THEN
-      RAISE SpiAgentError WITH "Invalid pin for direction output";
+      RAISE LPC1114IOP.Error WITH "Invalid pin for direction output";
     END IF;
 
     IF pwmpin = dirpin THEN
-      RAISE SpiAgentError WITH "PWM and direction pins cannot be the same";
+      RAISE LPC1114IOP.Error WITH "PWM and direction pins cannot be the same";
     END IF;
 
     spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
     END IF;
 
     spiagent_motor_configure(To_Unsigned(pwmpin), To_Unsigned(dirpin), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_motor_configure() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_motor_configure() failed, error" & error'Image;
     END IF;
 
     spiagent_motor_put(To_Unsigned(pwmpin), To_Unsigned(dirpin), To_Float(velocity), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_motor_put() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_motor_put() failed, error" & error'Image;
     END IF;
 
     self.dirpin := dirpin;
@@ -328,7 +328,7 @@ PACKAGE BODY LPC1114IOP.PWM IS
       To_Float(velocity), error);
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spiagent_motor_put() failed, error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_motor_put() failed, error" & error'Image;
     END IF;
   END Put;
 
