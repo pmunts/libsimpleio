@@ -46,7 +46,7 @@ PACKAGE LPC1114IOP.ADC IS
   -- ADC input object method
 
   FUNCTION Get(self : IN OUT ADCInputClass) RETURN Voltage.Volts;
-  
+
 PRIVATE
   TYPE ADCInputClass IS NEW Voltage.InputInterface WITH RECORD
     pin : lpc11xx.pin_id_t;
