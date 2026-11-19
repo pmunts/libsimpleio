@@ -22,8 +22,6 @@
 
 PACKAGE LPC1114IOP IS
 
-  PRAGMA Link_With("-lspiagent");
-
-  SpiAgentError : EXCEPTION;
+  Error : EXCEPTION;
 
 END LPC1114IOP;
