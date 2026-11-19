@@ -25,11 +25,13 @@ WITH Interfaces.C;
 WITH Discrete_To_Unsigned;
 WITH Real_To_Float;
 
-WITH lpc11xx;              USE lpc11xx;
+WITH libspiagent;
+WITH lpc11xx;
 WITH LPC1114IOP.GPIO;
-WITH LPC1114IOP.Pins;       USE LPC1114IOP.Pins;
+WITH LPC1114IOP.Pins; USE LPC1114IOP.Pins;
 
 USE TYPE Interfaces.C.int;
+USE TYPE lpc11xx.pin_id_t;
 
 PACKAGE BODY LPC1114IOP.PWM IS
 
@@ -79,19 +81,19 @@ PACKAGE BODY LPC1114IOP.PWM IS
       RAISE LPC1114IOP.Error WITH "Invalid pin for PWM output";
     END IF;
 
-    spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
+    libspiagent.spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
     END IF;
 
-    spiagent_pwm_configure(To_Unsigned(pwmpin), error);
+    libspiagent.spiagent_pwm_configure(To_Unsigned(pwmpin), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_pwm_configure() failed, error" & error'Image;
     END IF;
 
-    spiagent_pwm_put(To_Unsigned(pwmpin), To_Float(dutycycle), error);
+    libspiagent.spiagent_pwm_put(To_Unsigned(pwmpin), To_Float(dutycycle), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_pwm_put() failed, error" & error'Image;
@@ -108,7 +110,7 @@ PACKAGE BODY LPC1114IOP.PWM IS
     error : Interfaces.C.int;
 
   BEGIN
-    spiagent_pwm_put(To_Unsigned(self.pwmpin), To_Float(dutycycle), error);
+    libspiagent.spiagent_pwm_put(To_Unsigned(self.pwmpin), To_Float(dutycycle), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_pwm_put() failed, error" & error'Image;
@@ -162,19 +164,19 @@ PACKAGE BODY LPC1114IOP.PWM IS
       RAISE LPC1114IOP.Error WITH "Invalid pin for PWM output";
     END IF;
 
-    spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
+    libspiagent.spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
     END IF;
 
-    spiagent_servo_configure(To_Unsigned(pwmpin), error);
+    libspiagent.spiagent_servo_configure(To_Unsigned(pwmpin), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_servo_configure() failed, error" & error'Image;
     END IF;
 
-    spiagent_servo_put(To_Unsigned(pwmpin), To_Float(position), error);
+    libspiagent.spiagent_servo_put(To_Unsigned(pwmpin), To_Float(position), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_servo_put() failed, error" & error'Image;
@@ -193,7 +195,7 @@ PACKAGE BODY LPC1114IOP.PWM IS
     error : Interfaces.C.int;
 
   BEGIN
-    spiagent_servo_put(To_Unsigned(self.pwmpin), To_Float(position), error);
+    libspiagent.spiagent_servo_put(To_Unsigned(self.pwmpin), To_Float(position), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_servo_put() failed, error" & error'Image;
@@ -239,19 +241,19 @@ PACKAGE BODY LPC1114IOP.PWM IS
       RAISE LPC1114IOP.Error WITH "PWM and direction pins cannot be the same";
     END IF;
 
-    spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
+    libspiagent.spiagent_pwm_set_frequency(To_Unsigned(frequency), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_pwm_set_frequency() failed, error" & error'Image;
     END IF;
 
-    spiagent_motor_configure(To_Unsigned(pwmpin), To_Unsigned(dirpin), error);
+    libspiagent.spiagent_motor_configure(To_Unsigned(pwmpin), To_Unsigned(dirpin), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_motor_configure() failed, error" & error'Image;
     END IF;
 
-    spiagent_motor_put(To_Unsigned(pwmpin), To_Unsigned(dirpin), To_Float(velocity), error);
+    libspiagent.spiagent_motor_put(To_Unsigned(pwmpin), To_Unsigned(dirpin), To_Float(velocity), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_motor_put() failed, error" & error'Image;
@@ -270,7 +272,7 @@ PACKAGE BODY LPC1114IOP.PWM IS
     error : Interfaces.C.int;
 
   BEGIN
-    spiagent_motor_put(To_Unsigned(self.pwmpin), To_Unsigned(self.dirpin),
+    libspiagent.spiagent_motor_put(To_Unsigned(self.pwmpin), To_Unsigned(self.dirpin),
       To_Float(velocity), error);
 
     IF error /= 0 THEN
