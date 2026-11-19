@@ -22,13 +22,13 @@
 
 WITH Interfaces;
 
-WITH spi_agent.commands;   USE spi_agent.commands;
-WITH spi_agent.messages;   USE spi_agent.messages;
-WITH spi_agent.transport;
+WITH LPC1114IOP.Commands;   USE LPC1114IOP.Commands;
+WITH LPC1114IOP.Messages;   USE LPC1114IOP.Messages;
+WITH LPC1114IOP.Transport;
 
 USE TYPE Interfaces.Unsigned_32;
 
-PACKAGE BODY spi_agent.timer IS
+PACKAGE BODY LPC1114IOP.Timer IS
 
   FUNCTION Create(id : timer_id_t) RETURN Timer IS
 
@@ -46,12 +46,12 @@ PACKAGE BODY spi_agent.timer IS
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -83,12 +83,12 @@ PACKAGE BODY spi_agent.timer IS
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -118,12 +118,12 @@ PACKAGE BODY spi_agent.timer IS
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -155,12 +155,12 @@ PACKAGE BODY spi_agent.timer IS
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -199,12 +199,12 @@ PACKAGE BODY spi_agent.timer IS
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -224,12 +224,12 @@ PACKAGE BODY spi_agent.timer IS
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -257,12 +257,12 @@ PACKAGE BODY spi_agent.timer IS
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -292,12 +292,12 @@ PACKAGE BODY spi_agent.timer IS
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -327,12 +327,12 @@ PACKAGE BODY spi_agent.timer IS
 
     -- Issue the command to the LPC1114 SPI Firmware Agent
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -346,4 +346,4 @@ PACKAGE BODY spi_agent.timer IS
     RETURN timer_count_t(resp.data);
   END GetCaptureDelta;
 
-END spi_agent.timer;
+END LPC1114IOP.Timer;

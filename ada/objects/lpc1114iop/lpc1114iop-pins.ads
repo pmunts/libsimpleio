@@ -22,7 +22,7 @@
 
 WITH lpc11xx ; USE lpc11xx;
 
-PACKAGE spi_agent.pins IS
+PACKAGE LPC1114IOP.Pins IS
 
   -- LPC1114 I/O Processor Expansion Board Input/Output pins
 
@@ -99,4 +99,4 @@ PACKAGE spi_agent.pins IS
     LPC1114_PWM3,
     LPC1114_PWM4);
 
-END spi_agent.pins;
+END LPC1114IOP.Pins;

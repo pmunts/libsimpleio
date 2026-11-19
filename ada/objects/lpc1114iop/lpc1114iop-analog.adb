@@ -22,14 +22,14 @@
 
 WITH lpc11xx;
 
-WITH spi_agent.commands;   USE spi_agent.commands;
-WITH spi_agent.messages;   USE spi_agent.messages;
-WITH spi_agent.pins;       USE spi_agent.pins;
-WITH spi_agent.transport;
+WITH LPC1114IOP.Commands;   USE LPC1114IOP.Commands;
+WITH LPC1114IOP.Messages;   USE LPC1114IOP.Messages;
+WITH LPC1114IOP.Pins;       USE LPC1114IOP.Pins;
+WITH LPC1114IOP.Transport;
 
 USE TYPE lpc11xx.pin_id_t;
 
-PACKAGE BODY spi_agent.analog IS
+PACKAGE BODY LPC1114IOP.Analog IS
 
   -- Validate LPC1114 analog input pin number
 
@@ -60,12 +60,12 @@ PACKAGE BODY spi_agent.analog IS
 
     -- Configure the analog input pin
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" & Integer'IMAGE(error);
     END IF;
 
     -- Check for error from the SPI Agent Firmware
@@ -105,12 +105,12 @@ PACKAGE BODY spi_agent.analog IS
 
     -- Read the analog input pin
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" & Integer'IMAGE(error);
     END IF;
 
     -- Check for error from the SPI Agent Firmware
@@ -123,4 +123,4 @@ PACKAGE BODY spi_agent.analog IS
 
     RETURN analog_voltage_t(Float(resp.data)*LPC1114_ADC_STEPSIZE);
   END Get;
-END spi_agent.analog;
+END LPC1114IOP.Analog;

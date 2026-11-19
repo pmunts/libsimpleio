@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board button and LED test
+-- Raspberry Pi LPC1114 I/O Processor button and LED test
 
 -- Copyright (C)2017-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -29,9 +29,9 @@ WITH Ada.Text_IO;           USE Ada.Text_IO;
 
 WITH CRT;
 WITH GPIO;
-WITH spi_agent.gpio;        USE spi_agent.gpio;
-WITH spi_agent.pins;        USE spi_agent.pins;
-WITH spi_agent.transport;
+WITH LPC1114IOP.GPIO;        USE LPC1114IOP.GPIO;
+WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
+WITH LPC1114IOP.Transport;
 
 PROCEDURE test_button_led IS
 
@@ -59,11 +59,11 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Configure the LED pin

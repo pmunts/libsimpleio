@@ -20,43 +20,66 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- An SFR (Special Function Register) is defined as a 32-bit unsigned integer
--- at a 32-bit address within the LPC1114 address space.  Only the addresses
--- of peripheral registers within the ranges 40000000-4007FFF and
--- 50000000-501FFFFF are accessible.
+PACKAGE BODY LPC1114IOP.SFR IS
 
-WITH Interfaces.C;
+  -- Thin binding to libsimpleio.so
 
-PACKAGE spi_agent.sfr IS
+  PROCEDURE spiagent_sfr_get
+   (address : sfr_address;
+    data    : OUT sfr_data;
+    error   : OUT Integer);
 
-  -- Derive types for SFR address and data
+  PRAGMA Import(C, spiagent_sfr_get);
 
-  TYPE sfr_address IS NEW Interfaces.C.unsigned;
-  TYPE sfr_data    IS NEW Interfaces.C.unsigned;
+  PROCEDURE spiagent_sfr_put
+   (address : sfr_address;
+    data    : sfr_data;
+    error   : OUT Integer);
 
-  TYPE SFR IS TAGGED PRIVATE;
-
-  -- Define some well-known SFR's -- see the LPC11xx User Manual UM10398
-  -- for details
-
-  LPC1114_DEVICE_ID : CONSTANT sfr_address := 16#400483F4#;
-  LPC1114_GPIO1DATA : CONSTANT sfr_address := 16#50010CFC#;
-  LPC1114_U0SCR     : CONSTANT sfr_address := 16#4000801C#;
+  PRAGMA Import(C, spiagent_sfr_put);
 
   -- Create an LPC1114 special function register instance
 
-  FUNCTION Create(address : sfr_address) RETURN sfr;
+  FUNCTION Create(address : sfr_address) RETURN SFR IS
+
+  BEGIN
+    IF ((address >= 16#40000000#) AND (address <= 16#4007FFFF#)) OR
+       ((address >= 16#50000000#) AND (address <= 16#501FFFFF#)) THEN
+      RETURN SFR'(address => address);
+    ELSE
+      RAISE SpiAgentError WITH "Illegal SFR address";
+    END IF;
+  END Create;
 
   -- Read from LPC1114 special function register
 
-  FUNCTION Get(reg : sfr) RETURN sfr_data;
+  FUNCTION Get(reg : SFR) RETURN sfr_data IS
+
+    data  : sfr_data;
+    error : Integer;
+
+  BEGIN
+    spiagent_sfr_get(reg.address, data, error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_sfr_get() failed, error" & error'Image;
+    END IF;
+
+    RETURN data;
+  END Get;
 
   -- Write to LPC1114 special function register
 
-  PROCEDURE Put(reg : sfr; data : sfr_data);
+  PROCEDURE Put(reg : SFR; data : sfr_data) IS
 
-PRIVATE
-  TYPE SFR IS TAGGED RECORD
-    address : sfr_address;
-  END RECORD;
-END spi_agent.sfr;
+    error : Integer;
+
+  BEGIN
+    spiagent_sfr_put(reg.address, data, error);
+
+    IF error /= 0 THEN
+      RAISE SpiAgentError WITH "spiagent_sfr_put() failed, error" & error'Image;
+    END IF;
+  END Put;
+
+END LPC1114IOP.SFR;

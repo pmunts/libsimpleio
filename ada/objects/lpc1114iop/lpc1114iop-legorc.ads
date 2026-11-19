@@ -1,4 +1,5 @@
--- Declarations for the Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
+-- Raspberry Pi LPC1114 I/O Processor Expansion Board
+-- LEGO® Power Functions Remote Control services
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -20,25 +21,42 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Interfaces;
+WITH lpc11xx;
 
-PACKAGE spi_agent.messages IS
+PACKAGE LPC1114IOP.LEGORC IS
 
-  -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware command structure
+  TYPE legorc_channel_t IS NEW Natural RANGE 1 .. 4;
 
-  TYPE SPIAGENT_COMMAND_MSG_t IS RECORD
-    command : Interfaces.Unsigned_32;
-    pin     : Interfaces.Unsigned_32;
-    data    : Interfaces.Unsigned_32;
+  TYPE legorc_motor_t IS
+   (ALLSTOP,
+    MOTORA,
+    MOTORB,
+    COMBODIRECT,
+    COMBOPWM);
+
+  TYPE legorc_direction_t IS
+   (DIRECTION_REVERSE,
+    DIRECTION_FORWARD);
+
+  TYPE legorc_speed_t IS NEW Natural RANGE 0 .. 255;
+
+  TYPE LEGORC is TAGGED PRIVATE;
+
+  -- Initialize a LEGO® RC output pin
+
+  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN LEGORC;
+
+  -- Write LEGO® RC pin
+
+  PROCEDURE Put
+   (self      : LEGORC;
+    channel   : legorc_channel_t;
+    motor     : legorc_motor_t;
+    direction : legorc_direction_t;
+    speed     : legorc_speed_t);
+
+PRIVATE
+  TYPE LEGORC IS TAGGED RECORD
+    pin : lpc11xx.pin_id_t;
   END RECORD;
-
-  -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware response structure
-
-  TYPE SPIAGENT_RESPONSE_MSG_t IS RECORD
-    command : Interfaces.Unsigned_32;
-    pin     : Interfaces.Unsigned_32;
-    data    : Interfaces.Unsigned_32;
-    error   : Interfaces.Unsigned_32;
-  END RECORD;
-
-END spi_agent.messages;
+END LPC1114IOP.LEGORC;

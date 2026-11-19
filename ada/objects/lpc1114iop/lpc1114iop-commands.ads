@@ -20,7 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE spi_agent.commands IS
+PACKAGE LPC1114IOP.Commands IS
 
   -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware commands
 
@@ -56,4 +56,4 @@ PACKAGE spi_agent.commands IS
     SPIAGENT_CMD_GET_TIMER_CAPTURE_DELTA,
     SPIAGENT_CMD_INIT_TIMER);
 
-END spi_agent.commands;
+END LPC1114IOP.Commands;

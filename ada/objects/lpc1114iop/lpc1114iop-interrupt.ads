@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board parent package
+-- Declarations for the Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -20,10 +20,26 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE spi_agent IS
+PACKAGE LPC1114IOP.Interrupt IS
+  pragma Link_With("-lspiagent");
 
-  PRAGMA Link_With("-lspiagent");
+  -- Raspberry Pi GPIO pins (on P1 expansion header)
 
-  SpiAgentError : EXCEPTION;
+  RPI_GPIO4 : CONSTANT Integer := 4;
+  RPI_INT   : CONSTANT Integer := RPI_GPIO4;
 
-END spi_agent;
+  -- Interrupt helper procedures
+
+  PROCEDURE interrupt_enable(error : OUT Integer);
+  PRAGMA Import(C, interrupt_enable, "spiagent_interrupt_enable");
+
+  PROCEDURE interrupt_disable(error : OUT Integer);
+  PRAGMA Import(C, interrupt_disable, "spiagent_interrupt_disable");
+
+  PROCEDURE interrupt_wait
+   (timeout : Integer;
+    pin     : OUT Integer;
+    error   : OUT Integer);
+  PRAGMA Import(C, interrupt_wait, "spiagent_interrupt_wait");
+
+END LPC1114IOP.Interrupt;

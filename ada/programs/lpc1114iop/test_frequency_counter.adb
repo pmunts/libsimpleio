@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board
+-- Raspberry Pi LPC1114 I/O Processor
 -- Ada frequency counter test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
@@ -27,20 +27,20 @@ WITH Ada.Text_IO;           USE Ada.Text_IO;
 WITH Ada.Float_Text_IO;     USE Ada.Float_Text_IO;
 WITH CRT;                   USE CRT;
 
-WITH spi_agent.timer;       USE spi_agent.timer;
-WITH spi_agent.transport;
+WITH LPC1114IOP.Timer;       USE LPC1114IOP.Timer;
+WITH LPC1114IOP.Transport;
 
 PROCEDURE test_frequency_counter IS
 
   servername : Unbounded_String;
   error      : Integer;
-  count      : spi_agent.timer.timer_count_t;
+  count      : LPC1114IOP.Timer.timer_count_t;
   freq       : Float;
   Timer0     : Timer;
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board Frequency Counter Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Frequency Counter Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -56,11 +56,11 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Instantiate an LPC1114 timer object
@@ -102,10 +102,10 @@ BEGIN
 
   -- Close the SPI Agent Firmware transport library
 
-  spi_agent.transport.close(error);
+  LPC1114IOP.Transport.close(error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.close() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
   END IF;
 END test_frequency_counter;

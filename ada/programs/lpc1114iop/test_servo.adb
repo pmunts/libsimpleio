@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board Ada servo test program
+-- Raspberry Pi LPC1114 I/O Processor Ada servo test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -25,15 +25,15 @@ WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 
 WITH Servo;
-WITH spi_agent.pins;
-WITH spi_agent.pwm;
-WITH spi_agent.transport;
+WITH LPC1114IOP.Pins;
+WITH LPC1114IOP.PWM;
+WITH LPC1114IOP.Transport;
 
 PROCEDURE test_servo IS
 
   servername : Unbounded_String;
   error      : Integer;
-  Outputs    : ARRAY (spi_agent.pins.PWM_PINS'Range) OF Servo.Output;
+  Outputs    : ARRAY (LPC1114IOP.Pins.PWM_PINS'Range) OF Servo.Output;
   Channel    : Integer;
   Position   : Servo.Position;
 
@@ -42,7 +42,7 @@ PROCEDURE test_servo IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board Servo Output Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Servo Output Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -58,17 +58,17 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Configure servo outputs
 
   FOR i IN Outputs'Range LOOP
-    Outputs(i) := spi_agent.pwm.Create(spi_agent.pins.PWM_PINS(i));
+    Outputs(i) := LPC1114IOP.PWM.Create(LPC1114IOP.Pins.PWM_PINS(i));
   END LOOP;
 
   -- Set servo positions
@@ -88,10 +88,10 @@ BEGIN
 
   -- Deinitialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.close(error);
+  LPC1114IOP.Transport.close(error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.close() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
   END IF;
 END test_servo;

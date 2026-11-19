@@ -26,13 +26,13 @@ WITH Discrete_To_Unsigned;
 WITH GPIO;
 WITH lpc11xx;
 
-WITH spi_agent.pins; USE  spi_agent.pins;
+WITH LPC1114IOP.Pins; USE  LPC1114IOP.Pins;
 
 USE TYPE Interfaces.C.int;
 USE TYPE Standard.GPIO.Direction;
 USE TYPE lpc11xx.pin_id_t;
 
-PACKAGE BODY spi_agent.gpio IS
+PACKAGE BODY LPC1114IOP.GPIO IS
 
   -- Thin binding to libsimpleio.so
 
@@ -214,4 +214,4 @@ PACKAGE BODY spi_agent.gpio IS
     END IF;
   END Put;
 
-END spi_agent.gpio;
+END LPC1114IOP.GPIO;

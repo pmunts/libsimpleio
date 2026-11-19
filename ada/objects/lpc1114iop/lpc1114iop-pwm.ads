@@ -27,7 +27,7 @@ WITH Motor;
 
 USE PWM;
 
-PACKAGE spi_agent.pwm IS
+PACKAGE LPC1114IOP.PWM IS
 
   -- PWM output types
 
@@ -133,4 +133,4 @@ PRIVATE
     dirpin : lpc11xx.pin_id_t;
     pwmpin : lpc11xx.pin_id_t;
   END RECORD;
-END spi_agent.pwm;
+END LPC1114IOP.PWM;

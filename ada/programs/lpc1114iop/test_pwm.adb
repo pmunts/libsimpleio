@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board Ada PWM test program
+-- Raspberry Pi LPC1114 I/O Processor Ada PWM test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -25,26 +25,26 @@ WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 
 WITH PWM;
-WITH spi_agent.pins;
-WITH spi_agent.pwm;
-WITH spi_agent.transport;
+WITH LPC1114IOP.Pins;
+WITH LPC1114IOP.PWM;
+WITH LPC1114IOP.Transport;
 
 PROCEDURE test_pwm IS
 
   servername : Unbounded_String;
   error      : Integer;
-  Frequency  : spi_agent.pwm.pwm_frequency_t;
-  Outputs    : ARRAY (spi_agent.pins.PWM_PINS'Range) OF PWM.Output;
+  Frequency  : LPC1114IOP.PWM.pwm_frequency_t;
+  Outputs    : ARRAY (LPC1114IOP.Pins.PWM_PINS'Range) OF PWM.Output;
   Channel    : Natural;
   DutyCycle  : PWM.DutyCycle;
 
   PACKAGE Channel_IO   IS NEW Integer_IO(Natural);
   PACKAGE DutyCycle_IO IS NEW Float_IO(PWM.DutyCycle);
-  PACKAGE Frequency_IO IS NEW Integer_IO(spi_agent.pwm.pwm_frequency_t);
+  PACKAGE Frequency_IO IS NEW Integer_IO(LPC1114IOP.PWM.pwm_frequency_t);
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board PWM Output Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor PWM Output Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -60,11 +60,11 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Get PWM frequency from user
@@ -75,7 +75,7 @@ BEGIN
   -- Configure PWM outputs
 
   FOR i IN Outputs'Range LOOP
-    Outputs(i) := spi_agent.pwm.Create(spi_agent.pins.PWM_PINS(i), Frequency);
+    Outputs(i) := LPC1114IOP.PWM.Create(LPC1114IOP.Pins.PWM_PINS(i), Frequency);
   END LOOP;
 
   -- Set duty cycles
@@ -95,10 +95,10 @@ BEGIN
 
   -- Deinitialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.close(error);
+  LPC1114IOP.Transport.close(error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.close() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
   END IF;
 END test_pwm;

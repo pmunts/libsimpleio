@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board
+-- Raspberry Pi LPC1114 I/O Processor
 -- sonar ranging test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
@@ -35,10 +35,10 @@ WITH Ada.Text_IO;           USE Ada.Text_IO;
 WITH CRT;                   USE CRT;
 
 WITH GPIO;
-WITH spi_agent.gpio;
-WITH spi_agent.pins;
-WITH spi_agent.timer;       USE spi_agent.timer;
-WITH spi_agent.transport;
+WITH LPC1114IOP.GPIO;
+WITH LPC1114IOP.Pins;
+WITH LPC1114IOP.Timer;       USE LPC1114IOP.Timer;
+WITH LPC1114IOP.Transport;
 
 PROCEDURE test_sonar IS
 
@@ -46,7 +46,7 @@ PROCEDURE test_sonar IS
   error      : Integer;
   timer1     : Timer;
   trigger    : GPIO.Pin;
-  count      : spi_agent.timer.timer_count_t;
+  count      : LPC1114IOP.Timer.timer_count_t;
   distance   : Integer;
 
   PACKAGE int_io IS NEW Integer_IO(Integer);
@@ -54,7 +54,7 @@ PROCEDURE test_sonar IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board Sonar Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Sonar Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -70,11 +70,11 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Configure LPC1114 timer 1 to measure pulse width on CAP0 input
@@ -90,7 +90,7 @@ BEGIN
 
   -- Configure the trigger pulse output
 
-  trigger := spi_agent.gpio.Create(spi_agent.pins.LPC1114_GPIO1, GPIO.Output);
+  trigger := LPC1114IOP.GPIO.Create(LPC1114IOP.Pins.LPC1114_GPIO1, GPIO.Output);
 
   -- Peform sonar ranging
 
@@ -133,10 +133,10 @@ BEGIN
 
   -- Close the SPI Agent Firmware transport library
 
-  spi_agent.transport.close(error);
+  LPC1114IOP.Transport.close(error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.close() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
   END IF;
 END test_sonar;

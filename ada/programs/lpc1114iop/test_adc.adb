@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board Ada A/D test program
+-- Raspberry Pi LPC1114 I/O Processor Ada A/D test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -25,9 +25,9 @@ WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 WITH CRT;                   USE CRT;
 
-WITH spi_agent.analog;      USE spi_agent.analog;
-WITH spi_agent.pins;        USE spi_agent.pins;
-WITH spi_agent.transport;
+WITH LPC1114IOP.Analog;      USE LPC1114IOP.Analog;
+WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
+WITH LPC1114IOP.Transport;
 
 PROCEDURE test_adc IS
 
@@ -44,7 +44,7 @@ PROCEDURE test_adc IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board Analog Input Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Analog Input Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -60,11 +60,11 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Configure I/O pins
@@ -77,7 +77,7 @@ BEGIN
 
   ClrScr;
   GotoXY(1, 1);
-  Put("Raspberry Pi LPC1114 I/O Processor Expansion Board Analog Input Test");
+  Put("Raspberry Pi LPC1114 I/O Processor Analog Input Test");
 
   GotoXY(1, 9);
   Put("Press any key to exit program");
@@ -100,10 +100,10 @@ BEGIN
 
   -- Close the SPI Agent Firmware transport library
 
-  spi_agent.transport.close(error);
+  LPC1114IOP.Transport.close(error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.close() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
   END IF;
 END test_adc;

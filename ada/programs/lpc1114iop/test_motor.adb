@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board Ada
+-- Raspberry Pi LPC1114 I/O Processor Ada
 -- H-bridge DC motor driver output test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
@@ -29,9 +29,9 @@ WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 
 WITH Motor;
-WITH spi_agent.pins;        USE spi_agent.pins;
-WITH spi_agent.pwm;         USE spi_agent.pwm;
-WITH spi_agent.transport;
+WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
+WITH LPC1114IOP.PWM;         USE LPC1114IOP.PWM;
+WITH LPC1114IOP.Transport;
 
 PROCEDURE test_motor IS
 
@@ -46,7 +46,7 @@ PROCEDURE test_motor IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board DC Motor Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor DC Motor Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -62,11 +62,11 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Get PWM frequency from user
@@ -76,7 +76,7 @@ BEGIN
 
   -- Configure I/O pins
 
-  Motor1 := Create(spi_agent.pins.LPC1114_PWM1, spi_agent.pins.LPC1114_GPIO0, Frequency);
+  Motor1 := Create(LPC1114IOP.Pins.LPC1114_PWM1, LPC1114IOP.Pins.LPC1114_GPIO0, Frequency);
 
   -- Set motor speed
 

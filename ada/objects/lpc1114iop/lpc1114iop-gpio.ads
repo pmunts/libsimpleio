@@ -23,7 +23,7 @@
 WITH GPIO;
 WITH lpc11xx;
 
-PACKAGE spi_agent.gpio IS
+PACKAGE LPC1114IOP.GPIO IS
 
   TYPE gpio_mode_t IS
    (GPIO_MODE_INPUT,			-- Normal high impedance input
@@ -100,4 +100,4 @@ PRIVATE
   TYPE GPIOPinClass IS NEW Standard.GPIO.PinInterface WITH RECORD
     pin : lpc11xx.pin_id_t;
   END RECORD;
-END spi_agent.gpio;
+END LPC1114IOP.GPIO;

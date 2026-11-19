@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware
+-- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
 -- version test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
@@ -26,9 +26,9 @@ WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 WITH Interfaces;            USE Interfaces;
 
-WITH spi_agent.messages;    USE spi_agent.messages;
-WITH spi_agent.commands;    USE spi_agent.commands;
-WITH spi_agent.transport;
+WITH LPC1114IOP.Messages;    USE LPC1114IOP.Messages;
+WITH LPC1114IOP.Commands;    USE LPC1114IOP.Commands;
+WITH LPC1114IOP.Transport;
 
 PROCEDURE test_version IS
 
@@ -42,7 +42,7 @@ PROCEDURE test_version IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board Firmware Version Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Firmware Version Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -58,11 +58,11 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Issue NOP command to the SPI Agent Firmware
@@ -71,15 +71,15 @@ BEGIN
   cmd.pin     := 0;
   cmd.data    := 0;
 
-  spi_agent.transport.command(cmd, resp, error);
+  LPC1114IOP.Transport.command(cmd, resp, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.command() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.command() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   IF resp.error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
+    RAISE LPC1114IOP.SpiAgentError WITH
       "SPI Agent Firmware returned error:" &
       Unsigned_32'IMAGE(resp.error);
   END IF;
@@ -95,15 +95,15 @@ BEGIN
   cmd.pin     := 16#400483F4#;
   cmd.data    := 0;
 
-  spi_agent.transport.command(cmd, resp, error);
+  LPC1114IOP.Transport.command(cmd, resp, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.command() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.command() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   IF resp.error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
+    RAISE LPC1114IOP.SpiAgentError WITH
       "SPI Agent Firmware returned error:" &
       Unsigned_32'IMAGE(resp.error);
   END IF;
@@ -116,10 +116,10 @@ BEGIN
 
   -- Deinitialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.close(error);
+  LPC1114IOP.Transport.close(error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.close() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
   END IF;
 END test_version;

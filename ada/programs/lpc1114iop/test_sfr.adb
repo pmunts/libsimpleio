@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board SPI Agent Firmware
+-- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
 -- SFR (Special Function Register) I/O test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
@@ -25,8 +25,8 @@ WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 
-WITH spi_agent.transport;
-WITH spi_agent.sfr;         USE spi_agent.sfr;
+WITH LPC1114IOP.Transport;
+WITH LPC1114IOP.SFR;         USE LPC1114IOP.SFR;
 
 PROCEDURE test_sfr IS
 
@@ -40,7 +40,7 @@ PROCEDURE test_sfr IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board SFR Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor SFR Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -56,11 +56,11 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Create SFR instances
@@ -84,10 +84,10 @@ BEGIN
 
   -- Deinitialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.close(error);
+  LPC1114IOP.Transport.close(error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.close() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
   END IF;
 END test_sfr;

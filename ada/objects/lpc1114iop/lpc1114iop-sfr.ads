@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board A/D converter services
+-- Raspberry Pi LPC1114 I/O Processor Expansion Board SFR services
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -20,35 +20,43 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH lpc11xx;
+-- An SFR (Special Function Register) is defined as a 32-bit unsigned integer
+-- at a 32-bit address within the LPC1114 address space.  Only the addresses
+-- of peripheral registers within the ranges 40000000-4007FFF and
+-- 50000000-501FFFFF are accessible.
 
-PACKAGE spi_agent.analog IS
+WITH Interfaces.C;
 
-  LPC1114_ADC_SPAN     : constant := 3.3;		-- Volts
-  LPC1114_ADC_BITS     : constant := 10;		-- Bits
-  LPC1114_ADC_STEPS    : constant := 1024;		-- Levels
-  LPC1114_ADC_STEPSIZE : constant := 0.00322265625;	-- Volts
+PACKAGE LPC1114IOP.SFR IS
 
-  -- Analog input type definitions
+  -- Derive types for SFR address and data
 
-  TYPE analog_channel_t IS NEW Natural RANGE 1 .. 5;
+  TYPE sfr_address IS NEW Interfaces.C.unsigned;
+  TYPE sfr_data    IS NEW Interfaces.C.unsigned;
 
-  TYPE analog_voltage_t IS NEW Float RANGE 0.0 .. LPC1114_ADC_SPAN;
+  TYPE SFR IS TAGGED PRIVATE;
 
-  TYPE ADC IS TAGGED PRIVATE;
+  -- Define some well-known SFR's -- see the LPC11xx User Manual UM10398
+  -- for details
 
-  -- Analog input operations
+  LPC1114_DEVICE_ID : CONSTANT sfr_address := 16#400483F4#;
+  LPC1114_GPIO1DATA : CONSTANT sfr_address := 16#50010CFC#;
+  LPC1114_U0SCR     : CONSTANT sfr_address := 16#4000801C#;
 
-  FUNCTION IsAnalog(pin: lpc11xx.pin_id_t) RETURN Boolean;
+  -- Create an LPC1114 special function register instance
 
-  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN ADC;
+  FUNCTION Create(address : sfr_address) RETURN sfr;
 
-  FUNCTION Create(channel : analog_channel_t) RETURN ADC;
+  -- Read from LPC1114 special function register
 
-  FUNCTION Get(self : ADC) RETURN analog_voltage_t;
+  FUNCTION Get(reg : sfr) RETURN sfr_data;
+
+  -- Write to LPC1114 special function register
+
+  PROCEDURE Put(reg : sfr; data : sfr_data);
 
 PRIVATE
-  TYPE ADC IS TAGGED RECORD
-    pin : lpc11xx.pin_id_t;
+  TYPE SFR IS TAGGED RECORD
+    address : sfr_address;
   END RECORD;
-END spi_agent.analog;
+END LPC1114IOP.SFR;

@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board Ada LED test program
+-- Raspberry Pi LPC1114 I/O Processor Ada LED test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -26,9 +26,9 @@ WITH Ada.Text_IO;           USE Ada.Text_IO;
 
 WITH CRT;
 WITH GPIO;
-WITH spi_agent.gpio;
-WITH spi_agent.pins;
-WITH spi_agent.transport;
+WITH LPC1114IOP.GPIO;
+WITH LPC1114IOP.Pins;
+WITH LPC1114IOP.Transport;
 
 PROCEDURE test_led IS
 
@@ -38,7 +38,7 @@ PROCEDURE test_led IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board LED Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor LED Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -54,16 +54,16 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  spi_agent.transport.open(To_String(servername) & ASCII.NUL, error);
+  LPC1114IOP.Transport.open(To_String(servername) & ASCII.NUL, error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.open() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.open() failed, error:" & Integer'IMAGE(error);
   END IF;
 
   -- Configure the LED pin
 
-  LED := spi_agent.gpio.Create(spi_agent.pins.LPC1114_LED, GPIO.OUTPUT, False);
+  LED := LPC1114IOP.GPIO.Create(LPC1114IOP.Pins.LPC1114_LED, GPIO.OUTPUT, False);
 
   Put_Line("Press any key to exit program");
   New_Line;
@@ -86,10 +86,10 @@ BEGIN
 
   -- Close the SPI Agent Firmware transport library
 
-  spi_agent.transport.close(error);
+  LPC1114IOP.Transport.close(error);
 
   IF error /= 0 THEN
-    RAISE spi_agent.SpiAgentError WITH
-      "spi_agent.transport.close() failed, error:" & Integer'IMAGE(error);
+    RAISE LPC1114IOP.SpiAgentError WITH
+      "LPC1114IOP.Transport.close() failed, error:" & Integer'IMAGE(error);
   END IF;
 END test_led;

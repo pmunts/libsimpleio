@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware Transport Services
--- using libspiagent
+-- Declarations for the Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -21,28 +20,25 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH spi_agent.messages; USE spi_agent.messages;
+WITH Interfaces;
 
-PACKAGE spi_agent.transport IS
-  pragma Link_With("-lspiagent");
-  pragma Elaborate_Body;
+PACKAGE LPC1114IOP.Messages IS
 
-  -- Initialize the SPI Agent Firmware transport library
+  -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware command structure
 
-  PROCEDURE open(servername : String; error : OUT Integer);
-  PRAGMA Import(C, open, "spiagent_open");
+  TYPE SPIAGENT_COMMAND_MSG_t IS RECORD
+    command : Interfaces.Unsigned_32;
+    pin     : Interfaces.Unsigned_32;
+    data    : Interfaces.Unsigned_32;
+  END RECORD;
 
-  -- Deinitialize the SPI Agent Firmware transport library
+  -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware response structure
 
-  PROCEDURE close(error : OUT Integer);
-  PRAGMA Import(C, close, "spiagent_close");
+  TYPE SPIAGENT_RESPONSE_MSG_t IS RECORD
+    command : Interfaces.Unsigned_32;
+    pin     : Interfaces.Unsigned_32;
+    data    : Interfaces.Unsigned_32;
+    error   : Interfaces.Unsigned_32;
+  END RECORD;
 
-  -- Dispatch an SPI Agent Firmware command to the transport library
-
-  PROCEDURE command
-   (command  : IN SPIAGENT_COMMAND_MSG_t;
-    response : OUT SPIAGENT_RESPONSE_MSG_t;
-    error    : OUT Integer);
-  PRAGMA Import(C, command, "spiagent_command");
-
-END spi_agent.transport;
+END LPC1114IOP.Messages;

@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Expansion Board
--- LEGO® Power Functions Remote Control services
+-- Raspberry Pi LPC1114 I/O Processor Expansion Board A/D converter services
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -23,40 +22,33 @@
 
 WITH lpc11xx;
 
-PACKAGE spi_agent.legorc IS
+PACKAGE LPC1114IOP.Analog IS
 
-  TYPE legorc_channel_t IS NEW Natural RANGE 1 .. 4;
+  LPC1114_ADC_SPAN     : constant := 3.3;		-- Volts
+  LPC1114_ADC_BITS     : constant := 10;		-- Bits
+  LPC1114_ADC_STEPS    : constant := 1024;		-- Levels
+  LPC1114_ADC_STEPSIZE : constant := 0.00322265625;	-- Volts
 
-  TYPE legorc_motor_t IS
-   (ALLSTOP,
-    MOTORA,
-    MOTORB,
-    COMBODIRECT,
-    COMBOPWM);
+  -- Analog input type definitions
 
-  TYPE legorc_direction_t IS
-   (DIRECTION_REVERSE,
-    DIRECTION_FORWARD);
+  TYPE analog_channel_t IS NEW Natural RANGE 1 .. 5;
 
-  TYPE legorc_speed_t IS NEW Natural RANGE 0 .. 255;
+  TYPE analog_voltage_t IS NEW Float RANGE 0.0 .. LPC1114_ADC_SPAN;
 
-  TYPE LEGORC is TAGGED PRIVATE;
+  TYPE ADC IS TAGGED PRIVATE;
 
-  -- Initialize a LEGO® RC output pin
+  -- Analog input operations
 
-  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN LEGORC;
+  FUNCTION IsAnalog(pin: lpc11xx.pin_id_t) RETURN Boolean;
 
-  -- Write LEGO® RC pin
+  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN ADC;
 
-  PROCEDURE Put
-   (self      : LEGORC;
-    channel   : legorc_channel_t;
-    motor     : legorc_motor_t;
-    direction : legorc_direction_t;
-    speed     : legorc_speed_t);
+  FUNCTION Create(channel : analog_channel_t) RETURN ADC;
+
+  FUNCTION Get(self : ADC) RETURN analog_voltage_t;
 
 PRIVATE
-  TYPE LEGORC IS TAGGED RECORD
+  TYPE ADC IS TAGGED RECORD
     pin : lpc11xx.pin_id_t;
   END RECORD;
-END spi_agent.legorc;
+END LPC1114IOP.Analog;

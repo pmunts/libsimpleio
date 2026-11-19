@@ -1,4 +1,5 @@
--- Declarations for the Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
+-- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware Transport Services
+-- using libspiagent
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -20,26 +21,28 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE spi_agent.interrupt IS
+WITH LPC1114IOP.Messages; USE LPC1114IOP.Messages;
+
+PACKAGE LPC1114IOP.Transport IS
   pragma Link_With("-lspiagent");
+  pragma Elaborate_Body;
 
-  -- Raspberry Pi GPIO pins (on P1 expansion header)
+  -- Initialize the SPI Agent Firmware transport library
 
-  RPI_GPIO4 : CONSTANT Integer := 4;
-  RPI_INT   : CONSTANT Integer := RPI_GPIO4;
+  PROCEDURE open(servername : String; error : OUT Integer);
+  PRAGMA Import(C, open, "spiagent_open");
 
-  -- Interrupt helper procedures
+  -- Deinitialize the SPI Agent Firmware transport library
 
-  PROCEDURE interrupt_enable(error : OUT Integer);
-  PRAGMA Import(C, interrupt_enable, "spiagent_interrupt_enable");
+  PROCEDURE close(error : OUT Integer);
+  PRAGMA Import(C, close, "spiagent_close");
 
-  PROCEDURE interrupt_disable(error : OUT Integer);
-  PRAGMA Import(C, interrupt_disable, "spiagent_interrupt_disable");
+  -- Dispatch an SPI Agent Firmware command to the transport library
 
-  PROCEDURE interrupt_wait
-   (timeout : Integer;
-    pin     : OUT Integer;
-    error   : OUT Integer);
-  PRAGMA Import(C, interrupt_wait, "spiagent_interrupt_wait");
+  PROCEDURE command
+   (command  : IN SPIAGENT_COMMAND_MSG_t;
+    response : OUT SPIAGENT_RESPONSE_MSG_t;
+    error    : OUT Integer);
+  PRAGMA Import(C, command, "spiagent_command");
 
-END spi_agent.interrupt;
+END LPC1114IOP.Transport;

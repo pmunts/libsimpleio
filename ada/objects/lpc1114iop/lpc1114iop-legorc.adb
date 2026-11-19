@@ -23,12 +23,12 @@
 
 WITH Interfaces;           USE Interfaces;
 
-WITH spi_agent.commands;   USE spi_agent.commands;
-WITH spi_agent.gpio;       USE spi_agent.gpio;
-WITH spi_agent.messages;   USE spi_agent.messages;
-WITH spi_agent.transport;
+WITH LPC1114IOP.Commands;   USE LPC1114IOP.Commands;
+WITH LPC1114IOP.GPIO;       USE LPC1114IOP.GPIO;
+WITH LPC1114IOP.Messages;   USE LPC1114IOP.Messages;
+WITH LPC1114IOP.Transport;
 
-PACKAGE BODY spi_agent.legorc IS
+PACKAGE BODY LPC1114IOP.LEGORC IS
 
   -- Initialize a LEGO® RC output pin
 
@@ -51,12 +51,12 @@ PACKAGE BODY spi_agent.legorc IS
 
     -- Configure the GPIO pin
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" & Integer'IMAGE(error);
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" & Integer'IMAGE(error);
     END IF;
 
     -- Check for error from the SPI Agent Firmware
@@ -94,12 +94,12 @@ PACKAGE BODY spi_agent.legorc IS
 
     -- Transmit the LEGO® RC command
 
-    spi_agent.transport.command(cmd, resp, error);
+    LPC1114IOP.Transport.command(cmd, resp, error);
 
-    -- Check for error return from spi_agent.transport.command()
+    -- Check for error return from LPC1114IOP.Transport.command()
 
     IF error /= 0 THEN
-      RAISE SpiAgentError WITH "spi_agent.transport.command() failed, error" &
+      RAISE SpiAgentError WITH "LPC1114IOP.Transport.command() failed, error" &
         Integer'IMAGE(error);
     END IF;
 
@@ -111,4 +111,4 @@ PACKAGE BODY spi_agent.legorc IS
     END IF;
   END Put;
 
-END spi_agent.legorc;
+END LPC1114IOP.LEGORC;

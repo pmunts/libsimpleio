@@ -26,12 +26,12 @@ WITH Discrete_To_Unsigned;
 WITH Real_To_Float;
 
 WITH lpc11xx;              USE lpc11xx;
-WITH spi_agent.gpio;
-WITH spi_agent.pins;       USE spi_agent.pins;
+WITH LPC1114IOP.GPIO;
+WITH LPC1114IOP.Pins;       USE LPC1114IOP.Pins;
 
 USE TYPE Interfaces.C.int;
 
-PACKAGE BODY spi_agent.pwm IS
+PACKAGE BODY LPC1114IOP.PWM IS
 
   -- Thin binding to libsimpleio.so
 
@@ -285,7 +285,7 @@ PACKAGE BODY spi_agent.pwm IS
       RAISE SpiAgentError WITH "Invalid pin for PWM output";
     END IF;
 
-    IF NOT spi_agent.gpio.IsGPIO(dirpin) THEN
+    IF NOT LPC1114IOP.GPIO.IsGPIO(dirpin) THEN
       RAISE SpiAgentError WITH "Invalid pin for direction output";
     END IF;
 
@@ -332,4 +332,4 @@ PACKAGE BODY spi_agent.pwm IS
     END IF;
   END Put;
 
-END spi_agent.pwm;
+END LPC1114IOP.PWM;
