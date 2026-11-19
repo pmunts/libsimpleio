@@ -28,6 +28,7 @@ WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 
+WITH Motor;
 WITH spi_agent.pins;        USE spi_agent.pins;
 WITH spi_agent.pwm;         USE spi_agent.pwm;
 WITH spi_agent.transport;
@@ -37,14 +38,11 @@ PROCEDURE test_motor IS
   servername : Unbounded_String;
   error      : Integer;
   Frequency  : pwm_frequency_t;
-  Motor1     : Motor;
-  Speed      : motor_speed_t;
+  Motor1     : Motor.Output;
+  Velocity   : Motor.Velocity;
 
-  PACKAGE frequency_io IS NEW Integer_IO(pwm_frequency_t);
-  USE frequency_io;
-
-  PACKAGE speed_io IS NEW Float_IO(motor_speed_t);
-  USE speed_io;
+  PACKAGE Frequency_IO IS NEW Integer_IO(pwm_frequency_t);
+  PACKAGE Velocity_IO  IS NEW Float_IO(Motor.Velocity);
 
 BEGIN
   New_Line;
@@ -74,17 +72,17 @@ BEGIN
   -- Get PWM frequency from user
 
   Put("Enter PWM frequency: (50-50000)   ");
-  Get(Frequency, 0);
+  Frequency_IO.Get(Frequency, 0);
 
   -- Configure I/O pins
 
-  Motor1 := Create(LPC1114_PWM1, LPC1114_GPIO0, Frequency);
+  Motor1 := Create(spi_agent.pins.LPC1114_PWM1, spi_agent.pins.LPC1114_GPIO0, Frequency);
 
   -- Set motor speed
 
   Mainloop : LOOP
     Put("Enter motor speed (-1.0 to +1.0): ");
-    Get(Speed, 0);
-    Motor1.Put(Speed);
+    Velocity_IO.Get(Velocity, 0);
+    Motor1.Put(Velocity);
   END LOOP Mainloop;
 END test_motor;

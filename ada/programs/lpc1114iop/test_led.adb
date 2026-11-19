@@ -23,17 +23,18 @@
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
-WITH CRT;                   USE CRT;
 
-WITH spi_agent.gpio;        USE spi_agent.gpio;
-WITH spi_agent.pins;        USE spi_agent.pins;
+WITH CRT;
+WITH GPIO;
+WITH spi_agent.gpio;
+WITH spi_agent.pins;
 WITH spi_agent.transport;
 
 PROCEDURE test_led IS
 
   servername : Unbounded_String;
   error      : Integer;
-  LED        : GPIO;
+  LED        : GPIO.Pin;
 
 BEGIN
   New_Line;
@@ -62,7 +63,7 @@ BEGIN
 
   -- Configure the LED pin
 
-  LED := Create(LPC1114_LED, GPIO_OUTPUT, False);
+  LED := spi_agent.gpio.Create(spi_agent.pins.LPC1114_LED, GPIO.OUTPUT, False);
 
   Put_Line("Press any key to exit program");
   New_Line;
@@ -78,7 +79,7 @@ BEGIN
 
     LED.Put(NOT LED.Get);
 
-    EXIT WHEN KeyPressed;
+    EXIT WHEN CRT.KeyPressed;
 
     DELAY 1.0;
   END LOOP;

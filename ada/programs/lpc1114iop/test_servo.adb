@@ -24,22 +24,21 @@ WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 
-WITH spi_agent.pwm;         USE spi_agent.pwm;
+WITH Servo;
+WITH spi_agent.pins;
+WITH spi_agent.pwm;
 WITH spi_agent.transport;
 
 PROCEDURE test_servo IS
 
   servername : Unbounded_String;
   error      : Integer;
-  Outputs    : ARRAY (pwm_channel_t) OF Servo;
+  Outputs    : ARRAY (spi_agent.pins.PWM_PINS'Range) OF Servo.Output;
   Channel    : Integer;
-  Position   : servo_position_t;
+  Position   : Servo.Position;
 
-  PACKAGE int_io IS NEW Integer_IO(Integer);
-  USE int_io;
-
-  PACKAGE servoposition_io IS NEW Float_IO(servo_position_t);
-  USE servoposition_io;
+  PACKAGE Channel_IO  IS NEW Integer_IO(Integer);
+  PACKAGE Position_IO IS NEW Float_IO(Servo.Position);
 
 BEGIN
   New_Line;
@@ -68,23 +67,22 @@ BEGIN
 
   -- Configure servo outputs
 
-  FOR c IN pwm_channel_t LOOP
-    Outputs(c) := Create(c);
-    Outputs(c).Put(SERVO_NEUTRAL);
+  FOR i IN Outputs'Range LOOP
+    Outputs(i) := spi_agent.pwm.Create(spi_agent.pins.PWM_PINS(i));
   END LOOP;
 
   -- Set servo positions
 
   Mainloop : LOOP
     Put("Enter servo channel number (1-4):      ");
-    Get(Channel, 0);
+    Channel_IO.Get(Channel, 0);
 
     IF Channel = 0 THEN
       EXIT Mainloop;
     ELSIF Channel >= 1 AND Channel <= 4 THEN
       Put("Enter servo position (-1.0 to +1.0): ");
-      Get(Position, 0);
-      Outputs(pwm_channel_t(Channel)).Put(Position);
+      Position_IO.Get(Position, 0);
+      Outputs(Channel).Put(Position);
     END IF;
   END LOOP Mainloop;
 

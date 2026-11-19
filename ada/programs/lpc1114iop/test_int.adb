@@ -20,17 +20,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH Ada.Text_IO;           USE Ada.Text_IO;
-WITH errno;                 USE errno;
+WITH Ada.Text_IO;         USE Ada.Text_IO;
 
-WITH spi_agent.gpio;        USE spi_agent.gpio;
-WITH spi_agent.interrupt;   USE spi_agent.interrupt;
-WITH spi_agent.pins;        USE spi_agent.pins;
+WITH errno;               USE errno;
+WITH spi_agent.gpio;
+WITH spi_agent.interrupt; USE spi_agent.interrupt;
+WITH spi_agent.pins;      USE spi_agent.pins;
 WITH spi_agent.transport;
 
 PROCEDURE test_int IS
 
-  input_pin : GPIO;
+  input_pin : spi_agent.gpio.GPIOPinClass;
   intr_pin  : Integer;
   error     : Integer;
 
@@ -50,8 +50,8 @@ BEGIN
 
   -- Configure an LPC1114 pin as input with pull-up, with interrupt enabled
 
-  input_pin := Create(LPC1114_GPIO0, GPIO_INPUT, True);
-  input_pin.ConfigureInterrupt(GPIO_INTERRUPT_FALLING);
+  input_pin.Initialize(LPC1114_GPIO0, spi_agent.gpio.GPIO_MODE_INPUT,
+    spi_agent.gpio.GPIO_INTERRUPT_FALLING);
 
   -- Enable interrupt monitoring on Raspberry Pi INT (GPIO4)
 
@@ -90,8 +90,8 @@ BEGIN
 
   -- Return the LPC1114 pin to default configuration
 
-  input_pin.ConfigureMode(GPIO_MODE_INPUT_PULLUP);
-  input_pin.ConfigureInterrupt(GPIO_INTERRUPT_DISABLED);
+  input_pin.ConfigureMode(spi_agent.gpio.GPIO_MODE_INPUT_PULLUP);
+  input_pin.ConfigureInterrupt(spi_agent.gpio.GPIO_INTERRUPT_DISABLED);
 
   -- Disable interrupt monitoring on Raspberry Pi INT (GPIO4)
 

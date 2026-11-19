@@ -24,26 +24,23 @@ WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 
-WITH spi_agent.pwm;         USE spi_agent.pwm;
+WITH PWM;
+WITH spi_agent.pins;
+WITH spi_agent.pwm;
 WITH spi_agent.transport;
 
 PROCEDURE test_pwm IS
 
   servername : Unbounded_String;
   error      : Integer;
-  Frequency  : pwm_frequency_t;
-  Outputs    : ARRAY (pwm_channel_t) OF PWM;
-  Channel    : Integer;
-  DutyCycle  : pwm_dutycycle_t;
+  Frequency  : spi_agent.pwm.pwm_frequency_t;
+  Outputs    : ARRAY (spi_agent.pins.PWM_PINS'Range) OF PWM.Output;
+  Channel    : Natural;
+  DutyCycle  : PWM.DutyCycle;
 
-  PACKAGE frequency_io IS NEW Integer_IO(pwm_frequency_t);
-  USE frequency_io;
-
-  PACKAGE int_io IS NEW Integer_IO(Integer);
-  USE int_io;
-
-  PACKAGE dutycycle_io IS NEW Float_IO(pwm_dutycycle_t);
-  USE dutycycle_io;
+  PACKAGE Channel_IO   IS NEW Integer_IO(Natural);
+  PACKAGE DutyCycle_IO IS NEW Float_IO(PWM.DutyCycle);
+  PACKAGE Frequency_IO IS NEW Integer_IO(spi_agent.pwm.pwm_frequency_t);
 
 BEGIN
   New_Line;
@@ -73,26 +70,26 @@ BEGIN
   -- Get PWM frequency from user
 
   Put("Enter PWM frequency:              ");
-  Get(Frequency, 0);
+  Frequency_IO.Get(Frequency, 0);
 
   -- Configure PWM outputs
 
-  FOR c IN pwm_channel_t LOOP
-    Outputs(c) := Create(c, Frequency);
+  FOR i IN Outputs'Range LOOP
+    Outputs(i) := spi_agent.pwm.Create(spi_agent.pins.PWM_PINS(i), Frequency);
   END LOOP;
 
   -- Set duty cycles
 
   Mainloop : LOOP
     Put("Enter PWM channel number (1-4):   ");
-    Get(Channel, 0);
+    Channel_IO.Get(Channel, 0);
 
     IF Channel = 0 THEN
       EXIT Mainloop;
-    ELSIF Channel >= 1 AND Channel <= 4 THEN
+    ELSE
       Put("Enter PWM duty cycle % (0-100.0): ");
-      Get(DutyCycle, 0);
-      Outputs(pwm_channel_t(Channel)).Put(DutyCycle);
+      DutyCycle_IO.Get(DutyCycle, 0);
+      Outputs(Channel).Put(DutyCycle);
     END IF;
   END LOOP Mainloop;
 

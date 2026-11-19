@@ -34,8 +34,9 @@ WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 WITH CRT;                   USE CRT;
 
-WITH spi_agent.gpio;        USE spi_agent.gpio;
-WITH spi_agent.pins;        USE spi_agent.pins;
+WITH GPIO;
+WITH spi_agent.gpio;
+WITH spi_agent.pins;
 WITH spi_agent.timer;       USE spi_agent.timer;
 WITH spi_agent.transport;
 
@@ -44,7 +45,7 @@ PROCEDURE test_sonar IS
   servername : Unbounded_String;
   error      : Integer;
   timer1     : Timer;
-  trigger    : GPIO;
+  trigger    : GPIO.Pin;
   count      : spi_agent.timer.timer_count_t;
   distance   : Integer;
 
@@ -89,7 +90,7 @@ BEGIN
 
   -- Configure the trigger pulse output
 
-  trigger := Create(LPC1114_GPIO1, GPIO_OUTPUT, FALSE);
+  trigger := spi_agent.gpio.Create(spi_agent.pins.LPC1114_GPIO1, GPIO.Output);
 
   -- Peform sonar ranging
 

@@ -26,8 +26,9 @@
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
-WITH CRT;                   USE CRT;
 
+WITH CRT;
+WITH GPIO;
 WITH spi_agent.gpio;        USE spi_agent.gpio;
 WITH spi_agent.pins;        USE spi_agent.pins;
 WITH spi_agent.transport;
@@ -36,13 +37,13 @@ PROCEDURE test_button_led IS
 
   servername : Unbounded_String;
   error      : Integer;
-  Button     : GPIO;
-  LED        : GPIO;
+  Button     : GPIO.Pin;
+  LED        : GPIO.Pin;
   newstate   : Boolean;
   oldstate   : Boolean;
 
 BEGIN
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Expansion Board Button and LED Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Button and LED Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -67,8 +68,8 @@ BEGIN
 
   -- Configure the LED pin
 
-  LED    := Create(LPC1114_LED, GPIO_OUTPUT, False);
-  Button := Create(LPC1114_GPIO0, GPIO_INPUT, True);
+  Button := Create(LPC1114_GPIO0, Standard.GPIO.Input);
+  LED    := Create(LPC1114_LED, Standard.GPIO.Output);
 
   -- Force initial detection
 
@@ -89,6 +90,6 @@ BEGIN
       oldstate := newstate;
     END IF;
 
-    EXIT WHEN KeyPressed;
+    EXIT WHEN CRT.KeyPressed;
   END LOOP;
 END test_button_led;
