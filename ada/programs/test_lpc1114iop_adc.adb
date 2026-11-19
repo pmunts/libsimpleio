@@ -23,23 +23,21 @@
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
-WITH CRT;                   USE CRT;
 
-WITH LPC1114IOP.Analog;      USE LPC1114IOP.Analog;
-WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
+WITH CRT;
+WITH LPC1114IOP.ADC;
+WITH LPC1114IOP.Pins;
 WITH LPC1114IOP.Transport;
+WITH Voltage;
 
 PROCEDURE test_lpc1114iop_adc IS
 
   servername : Unbounded_String;
-  AD1        : ADC;
-  AD2        : ADC;
-  AD3        : ADC;
-  AD4        : ADC;
-  AD5        : ADC;
-
-  PACKAGE AnalogIO is NEW Float_IO(analog_voltage_t);
-  USE AnalogIO;
+  AIN1       : Voltage.Input;
+  AIN2       : Voltage.Input;
+  AIN3       : Voltage.Input;
+  AIN4       : Voltage.Input;
+  AIN5       : Voltage.Input;
 
 BEGIN
   New_Line;
@@ -63,34 +61,34 @@ BEGIN
 
   -- Configure I/O pins
 
-  AD1 := Create(LPC1114_AD1);
-  AD2 := Create(2);
-  AD3 := Create(LPC1114_AD3);
-  AD4 := Create(4);
-  AD5 := Create(LPC1114_AD5);
+  AIN1 := LPC1114IOP.ADC.Create(LPC1114IOP.Pins.LPC1114_ADC1);
+  AIN2 := LPC1114IOP.ADC.Create(LPC1114IOP.Pins.LPC1114_ADC2);
+  AIN3 := LPC1114IOP.ADC.Create(LPC1114IOP.Pins.LPC1114_ADC3);
+  AIN4 := LPC1114IOP.ADC.Create(LPC1114IOP.Pins.LPC1114_ADC4);
+  AIN5 := LPC1114IOP.ADC.Create(LPC1114IOP.Pins.LPC1114_ADC5);
 
-  ClrScr;
-  GotoXY(1, 1);
-  Put("Raspberry Pi LPC1114 I/O Processor Analog Input Test");
+  CRT.ClrScr;
+  CRT.GotoXY(1, 1);
+  Put("Raspberry Pi LPC1114 I/O Processor ADC Input Test");
 
-  GotoXY(1, 9);
+  CRT.GotoXY(1, 9);
   Put("Press any key to exit program");
 
   LOOP
-    GotoXY(1, 3); Put("Analog Input 1 is "); Put(Get(AD1), 1, 2, 0); Put("V");
-    GotoXY(1, 4); Put("Analog Input 2 is "); Put(AD2.Get, 1, 2, 0);  Put("V");
-    GotoXY(1, 5); Put("Analog Input 3 is "); Put(Get(AD3), 1, 2, 0); Put("V");
-    GotoXY(1, 6); Put("Analog Input 4 is "); Put(AD4.Get, 1, 2, 0);  Put("V");
-    GotoXY(1, 7); Put("Analog Input 5 is "); Put(Get(AD5), 1, 2, 0); Put("V");
-    GotoXY(1, 10);
+    CRT.GotoXY(1, 3); Put("ADC Input 1 is "); Voltage.Volts_IO.Put(AIN1.Get, 1, 2, 0); Put("V");
+    CRT.GotoXY(1, 4); Put("ADC Input 2 is "); Voltage.Volts_IO.Put(AIN2.Get, 1, 2, 0); Put("V");
+    CRT.GotoXY(1, 5); Put("ADC Input 3 is "); Voltage.Volts_IO.Put(AIN3.Get, 1, 2, 0); Put("V");
+    CRT.GotoXY(1, 6); Put("ADC Input 4 is "); Voltage.Volts_IO.Put(AIN4.Get, 1, 2, 0); Put("V");
+    CRT.GotoXY(1, 7); Put("ADC Input 5 is "); Voltage.Volts_IO.Put(AIN5.Get, 1, 2, 0); Put("V");
+    CRT.GotoXY(1, 10);
 
-    EXIT WHEN KeyPressed;
+    EXIT WHEN CRT.KeyPressed;
 
     DELAY 1.0;
   END LOOP;
 
-  GotoXY(1, 9);
-  ClrEol;
+  CRT.GotoXY(1, 9);
+  CRT.ClrEol;
 
   -- Close the SPI Agent Firmware transport library
 

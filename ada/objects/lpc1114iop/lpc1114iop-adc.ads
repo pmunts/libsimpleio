@@ -21,34 +21,34 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH lpc11xx;
+WITH Voltage;
 
-PACKAGE LPC1114IOP.Analog IS
+PACKAGE LPC1114IOP.ADC IS
 
-  LPC1114_ADC_SPAN     : constant := 3.3;		-- Volts
-  LPC1114_ADC_BITS     : constant := 10;		-- Bits
-  LPC1114_ADC_STEPS    : constant := 1024;		-- Levels
-  LPC1114_ADC_STEPSIZE : constant := 0.00322265625;	-- Volts
+  -- ADC input type definitions
 
-  -- Analog input type definitions
+  TYPE ADCInputClass IS NEW Voltage.InputInterface WITH PRIVATE;
 
-  TYPE analog_channel_t IS NEW Natural RANGE 1 .. 5;
+  -- Validate LPC1114 analog input pin number
 
-  TYPE analog_voltage_t IS NEW Float RANGE 0.0 .. LPC1114_ADC_SPAN;
+  FUNCTION IsADC(pin: lpc11xx.pin_id_t) RETURN Boolean;
 
-  TYPE ADC IS TAGGED PRIVATE;
+  -- ADC input object constructor
 
-  -- Analog input operations
+  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN Voltage.Input;
 
-  FUNCTION IsAnalog(pin: lpc11xx.pin_id_t) RETURN Boolean;
+  -- ADC input object initializer
 
-  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN ADC;
+  PROCEDURE Initialize
+   (self : OUT ADCInputClass;
+    pin  : lpc11xx.pin_id_t);
 
-  FUNCTION Create(channel : analog_channel_t) RETURN ADC;
+  -- ADC input object method
 
-  FUNCTION Get(self : ADC) RETURN analog_voltage_t;
-
+  FUNCTION Get(self : IN OUT ADCInputClass) RETURN Voltage.Volts;
+  
 PRIVATE
-  TYPE ADC IS TAGGED RECORD
+  TYPE ADCInputClass IS NEW Voltage.InputInterface WITH RECORD
     pin : lpc11xx.pin_id_t;
   END RECORD;
-END LPC1114IOP.Analog;
+END LPC1114IOP.ADC;
