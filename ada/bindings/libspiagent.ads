@@ -79,6 +79,8 @@ PACKAGE libspiagent IS
     SPIAGENT_CMD_GET_TIMER_CAPTURE_DELTA,
     SPIAGENT_CMD_INIT_TIMER);
 
+  -- Type transfer functions
+
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(SPIAGENT_COMMAND_t);
 
   -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware command structure
@@ -109,7 +111,7 @@ PACKAGE libspiagent IS
 
 -------------------------------------------------------------------------------
 
-  -- Thin binding to libsimpleio.so
+  -- Configuration constants
 
   TYPE gpio_direction_t IS
    (GPIO_DIRECTION_INPUT,
@@ -128,12 +130,16 @@ PACKAGE libspiagent IS
     GPIO_INTERRUPT_RISING,
     GPIO_INTERRUPT_BOTH);
 
+  -- Type transfer functions
+
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(Boolean);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(GPIO.Direction);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_mode_t);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_direction_t);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_interrupt_config_t);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(lpc11xx.pin_id_t);
+
+  -- Services
 
   PROCEDURE spiagent_gpio_configure
    (pin       : Interfaces.C.unsigned;
@@ -173,7 +179,7 @@ PACKAGE libspiagent IS
 
 -------------------------------------------------------------------------------
 
-  -- Thin binding to libsimpleio.so
+  -- Configuration constants
 
   TYPE legorc_channel_t IS NEW Natural RANGE 1 .. 4;
 
@@ -190,10 +196,14 @@ PACKAGE libspiagent IS
 
   TYPE legorc_speed_t IS NEW Natural RANGE 0 .. 255;
 
+  -- Type transfer functions
+
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_channel_t);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_motor_t);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_direction_t);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_speed_t);
+
+  -- Services
 
   PROCEDURE spiagent_legorc_put
    (pin       : Interfaces.C.unsigned;
@@ -204,5 +214,93 @@ PACKAGE libspiagent IS
     error     : OUT Interfaces.C.int);
 
   PRAGMA Import(C, spiagent_legorc_put);
+
+-------------------------------------------------------------------------------
+
+  -- Services
+
+  PROCEDURE spiagent_pwm_configure
+   (pin    : Interfaces.C.unsigned;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_pwm_configure);
+
+  PROCEDURE spiagent_pwm_set_frequency
+   (freq   : Interfaces.C.unsigned;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_pwm_set_frequency);
+
+  PROCEDURE spiagent_pwm_put
+   (pin    : Interfaces.C.unsigned;
+    duty   : Interfaces.C.C_float;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_pwm_put);
+
+  PROCEDURE spiagent_servo_configure
+   (pin    : Interfaces.C.unsigned;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_servo_configure);
+
+  PROCEDURE spiagent_servo_put
+   (pin    : Interfaces.C.unsigned;
+    posi   : Interfaces.C.C_float;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_servo_put);
+
+  PROCEDURE spiagent_motor_configure
+   (pwmpin : Interfaces.C.unsigned;
+    dirpin : Interfaces.C.unsigned;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_motor_configure);
+
+  PROCEDURE spiagent_motor_put
+   (pwmpin : Interfaces.C.unsigned;
+    dirpin : Interfaces.C.unsigned;
+    speed  : Interfaces.C.C_float;
+    error  : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_motor_put);
+
+-------------------------------------------------------------------------------
+
+  -- Services
+
+  PROCEDURE spiagent_sfr_get
+   (address : Interfaces.C.unsigned;
+    data    : OUT Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_sfr_get);
+
+  PROCEDURE spiagent_sfr_put
+   (address : Interfaces.C.unsigned;
+    data    : Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_sfr_put);
+
+-------------------------------------------------------------------------------
+
+  -- Services
+
+  PROCEDURE spiagent_interrupt_enable(error : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_interrupt_enable);
+
+  PROCEDURE spiagent_interrupt_disable(error : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_interrupt_disable);
+
+  PROCEDURE interrupt_wait
+   (timeout : Interfaces.C.int;
+    pin     : OUT Interfaces.C.int;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, interrupt_wait, "spiagent_interrupt_wait");
 
 END libspiagent;

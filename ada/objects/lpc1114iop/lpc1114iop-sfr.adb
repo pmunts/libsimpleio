@@ -20,23 +20,17 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Interfaces.C;
+
+WITH Discrete_To_Unsigned;
+WITH libspiagent;
+
+USE TYPE Interfaces.C.int;
+
 PACKAGE BODY LPC1114IOP.SFR IS
 
-  -- Thin binding to libsimpleio.so
-
-  PROCEDURE spiagent_sfr_get
-   (address : sfr_address;
-    data    : OUT sfr_data;
-    error   : OUT Integer);
-
-  PRAGMA Import(C, spiagent_sfr_get);
-
-  PROCEDURE spiagent_sfr_put
-   (address : sfr_address;
-    data    : sfr_data;
-    error   : OUT Integer);
-
-  PRAGMA Import(C, spiagent_sfr_put);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(sfr_address);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(sfr_data);
 
   -- Create an LPC1114 special function register instance
 
@@ -55,27 +49,27 @@ PACKAGE BODY LPC1114IOP.SFR IS
 
   FUNCTION Get(reg : SFR) RETURN sfr_data IS
 
-    data  : sfr_data;
-    error : Integer;
+    data  : Interfaces.C.unsigned;
+    error : Interfaces.C.int;
 
   BEGIN
-    spiagent_sfr_get(reg.address, data, error);
+    libspiagent.spiagent_sfr_get(To_Unsigned(reg.address), data, error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_sfr_get() failed, error" & error'Image;
     END IF;
 
-    RETURN data;
+    RETURN sfr_data(data);
   END Get;
 
   -- Write to LPC1114 special function register
 
   PROCEDURE Put(reg : SFR; data : sfr_data) IS
 
-    error : Integer;
+    error : Interfaces.C.int;
 
   BEGIN
-    spiagent_sfr_put(reg.address, data, error);
+    libspiagent.spiagent_sfr_put(To_Unsigned(reg.address), To_Unsigned(data), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_sfr_put() failed, error" & error'Image;

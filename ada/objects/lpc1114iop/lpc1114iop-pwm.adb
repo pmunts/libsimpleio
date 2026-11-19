@@ -33,67 +33,13 @@ USE TYPE Interfaces.C.int;
 
 PACKAGE BODY LPC1114IOP.PWM IS
 
-  -- Thin binding to libsimpleio.so
-
-  PROCEDURE spiagent_pwm_configure
-   (pin    : Interfaces.C.unsigned;
-    error  : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_pwm_configure);
-
-  PROCEDURE spiagent_pwm_set_frequency
-   (freq   : Interfaces.C.unsigned;
-    error  : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_pwm_set_frequency);
-
-  PROCEDURE spiagent_pwm_put
-   (pin    : Interfaces.C.unsigned;
-    duty   : Interfaces.C.C_float;
-    error  : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_pwm_put);
-
-  PROCEDURE spiagent_servo_configure
-   (pin    : Interfaces.C.unsigned;
-    error  : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_servo_configure);
-
-  PROCEDURE spiagent_servo_put
-   (pin    : Interfaces.C.unsigned;
-    posi   : Interfaces.C.C_float;
-    error  : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_servo_put);
-
-  PROCEDURE spiagent_motor_configure
-   (pwmpin : Interfaces.C.unsigned;
-    dirpin : Interfaces.C.unsigned;
-    error  : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_motor_configure);
-
-  PROCEDURE spiagent_motor_put
-   (pwmpin : Interfaces.C.unsigned;
-    dirpin : Interfaces.C.unsigned;
-    speed  : Interfaces.C.C_float;
-    error  : OUT Interfaces.C.int);
-
-  PRAGMA Import(C, spiagent_motor_put);
-
   -- Type transfer functions
 
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(lpc11xx.pin_id_t);
-
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(pwm_frequency_t);
-
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(servo_frequency_t);
-
   FUNCTION To_Float    IS NEW Real_To_Float(Standard.PWM.DutyCycle);
-
   FUNCTION To_Float    IS NEW Real_To_Float(Standard.Servo.Position);
-
   FUNCTION To_Float    IS NEW Real_To_Float(Standard.Motor.Velocity);
 
   -- Validate LPC1114 PWM output pin
