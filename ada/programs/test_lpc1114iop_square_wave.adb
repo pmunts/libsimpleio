@@ -1,6 +1,7 @@
--- Raspberry Pi LPC1114 I/O Processor button and LED test
+-- Raspberry Pi LPC1114 I/O Processor
+-- square wave output test program
 
--- Copyright (C)2017-2026, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -20,39 +21,37 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- NOTE: The button input has the internal pullup resistor enabled, so the
--- switch should be connected from GPIO0 to ground.
-
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 
-WITH CRT;
-WITH GPIO;
-WITH LPC1114IOP.GPIO;        USE LPC1114IOP.GPIO;
-WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
+WITH LPC1114IOP.Timer;       USE LPC1114IOP.Timer;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_button_led IS
+PROCEDURE test_lpc1114iop_square_wave IS
 
   servername : Unbounded_String;
-  Button     : GPIO.Pin;
-  LED        : GPIO.Pin;
-  newstate   : Boolean;
-  oldstate   : Boolean;
+  freq       : Integer;
+  Timer1     : Timer;
 
 BEGIN
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Button and LED Test");
+  New_Line;
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Square Wave Output Test");
   New_Line;
 
   -- Analyze command line parameters
 
   IF Argument_Count = 0 THEN
     servername := To_Unbounded_String("localhost");
+    freq := 1000;
   ELSIF Argument_Count = 1 THEN
     servername := To_Unbounded_String(Argument(1));
+    freq := 1000;
+  ELSIF Argument_Count = 2 THEN
+    servername := To_Unbounded_String(Argument(1));
+    freq := Integer'VALUE(Argument(2));
   ELSE
-    Put_Line("Usage: " & Command_Name & " [hostname]");
+    Put_Line("Usage: " & Command_Name & " [hostname] [frequency]");
     RETURN;
   END IF;
 
@@ -60,30 +59,21 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Configure the LED pin
+  -- Instantiate an LPC1114 timer object
 
-  Button := Create(LPC1114_GPIO0, Standard.GPIO.Input);
-  LED    := Create(LPC1114_LED, Standard.GPIO.Output);
+  Timer1 := Create(LPC1114_CT32B1);
 
-  -- Force initial detection
+  -- Configure the timer to generate a square wave
 
-  oldstate := Button.Get;
+  Timer1.ConfigurePrescaler(1);
 
-  LOOP
-    newstate := NOT Button.Get;
+  Timer1.ConfigureMatch(LPC1114_TIMER_MATCH0, timer_count_t(PCLK_FREQUENCY/freq/2),
+    LPC1114_TIMER_MATCH_OUTPUT_TOGGLE, LPC1114_TIMER_MATCH_INTERRUPT_DISABLE,
+    LPC1114_TIMER_MATCH_RESET_ENABLE, LPC1114_TIMER_MATCH_STOP_DISABLE);
 
-    IF newstate /= oldstate THEN
-      IF newstate THEN
-        Put_Line("PRESSED");
-        LED.Put(True);
-      ELSE
-        Put_Line("RELEASED");
-        LED.Put(False);
-      END IF;
+  Timer1.ConfigureMode(LPC1114_TIMER_MODE_PCLK);
 
-      oldstate := newstate;
-    END IF;
+  -- Close the SPI Agent Firmware transport library
 
-    EXIT WHEN CRT.KeyPressed;
-  END LOOP;
-END test_button_led;
+  LPC1114IOP.Transport.Close;
+END test_lpc1114iop_square_wave;

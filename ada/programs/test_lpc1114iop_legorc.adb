@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor
--- Ada frequency counter test program
+-- Raspberry Pi LPC1114 I/O Processor Ada PWM test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -24,32 +23,41 @@
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
-WITH Ada.Float_Text_IO;     USE Ada.Float_Text_IO;
-WITH CRT;                   USE CRT;
 
-WITH LPC1114IOP.Timer;       USE LPC1114IOP.Timer;
+WITH LPC1114IOP.LEGORC;      USE LPC1114IOP.LEGORC;
+WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_frequency_counter IS
+PROCEDURE test_lpc1114iop_legorc IS
 
   servername : Unbounded_String;
-  count      : LPC1114IOP.Timer.timer_count_t;
-  freq       : Float;
-  Timer0     : Timer;
+  channel    : legorc_channel_t;
+  motor      : legorc_motor_t;
+  direction  : legorc_direction_t;
+  speed      : legorc_speed_t;
+  IRED       : LEGORC;
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Frequency Counter Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor LEGO® RC Test");
   New_Line;
 
   -- Analyze command line parameters
 
-  IF Argument_Count = 0 THEN
+  IF Argument_Count = 4 THEN
     servername := To_Unbounded_String("localhost");
-  ELSIF Argument_Count = 1 THEN
+    channel := legorc_channel_t'VALUE(Argument(1));
+    motor := legorc_motor_t'VAL(Integer'VALUE(Argument(2)));
+    direction := legorc_direction_t'VAL(Integer'VALUE(Argument(3)));
+    speed := legorc_speed_t'VALUE(Argument(4));
+  ELSIF Argument_Count = 5 THEN
     servername := To_Unbounded_String(Argument(1));
+    channel := legorc_channel_t'VALUE(Argument(2));
+    motor := legorc_motor_t'VAL(Integer'VALUE(Argument(3)));
+    direction := legorc_direction_t'VAL(Integer'VALUE(Argument(4)));
+    speed := legorc_speed_t'VALUE(Argument(5));
   ELSE
-    Put_Line("Usage: " & Command_Name & " [hostname]");
+    Put_Line("Usage: " & Command_Name & " [hostname] <channel:1-4> <motor:0-2> <forward:0-1> <speed:0-7>");
     RETURN;
   END IF;
 
@@ -57,44 +65,15 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Instantiate an LPC1114 timer object
+  -- Configure the GPIO output pin
 
-  Timer0 := Create(LPC1114_CT32B0);
+  IRED := Create(LPC1114_GPIO7);
 
-  -- Initialize the timer to count PCLK pulses between CAP0 input edges
+  -- Send the command
 
-  Timer0.ConfigurePrescaler(1);
+  IRED.Put(channel, motor, direction, speed);
 
-  Timer0.ConfigureCapture(LPC1114_TIMER_CAPTURE_EDGE_CAP0_RISING,
-    LPC1114_TIMER_CAPTURE_INTERRUPT_DISABLE);
-
-  Timer0.ConfigureMode(LPC1114_TIMER_MODE_PCLK);
-
-  -- Display the input frequency
-
-  Put_Line("Press any key to exit program");
-  New_Line;
-
-  LOOP
-    count := Timer0.GetCaptureDelta;
-
-    IF count < 1920 THEN
-      freq := 0.0;
-    ELSE
-      freq := Float(PCLK_FREQUENCY)/Float(count);
-    END IF;
-
-    Put(ASCII.CR);
-    Put("Frequency: ");
-    Put(freq, 5, 1, 0);
-    Put(" Hz");
-
-    EXIT WHEN KeyPressed;
-
-    DELAY 1.0;
-  END LOOP;
-
-  -- Close the SPI Agent Firmware transport library
+  -- Deinitialize the SPI Agent Firmware transport library
 
   LPC1114IOP.Transport.Close;
-END test_frequency_counter;
+END test_lpc1114iop_legorc;

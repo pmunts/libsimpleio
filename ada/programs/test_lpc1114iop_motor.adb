@@ -33,7 +33,7 @@ WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
 WITH LPC1114IOP.PWM;         USE LPC1114IOP.PWM;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_motor IS
+PROCEDURE test_lpc1114iop_motor IS
 
   servername : Unbounded_String;
   Frequency  : pwm_frequency_t;
@@ -79,4 +79,4 @@ BEGIN
     Velocity_IO.Get(Velocity, 0);
     Motor1.Put(Velocity);
   END LOOP Mainloop;
-END test_motor;
+END test_lpc1114iop_motor;

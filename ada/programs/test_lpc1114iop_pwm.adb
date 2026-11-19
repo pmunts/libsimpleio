@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor
--- sonar ranging test program
+-- Raspberry Pi LPC1114 I/O Processor Ada PWM test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -21,39 +20,30 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
--- LPC1114 GPIO0 -- Echo pulse input
--- LPC1114 GPIO1 -- Trigger pulse output
-
--- NOTE: This program is written for and tested with 4-pin ultrasonic
--- modules like the HC-SR04.  To use a 3-pin module like the Parallax
--- Ping, connect GPIO1 to GPIO0 through a Schottky signal diode like the
--- BAT43, anode to GPIO1 and cathode to GPIO0.
-
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
-WITH CRT;                   USE CRT;
 
-WITH GPIO;
-WITH LPC1114IOP.GPIO;
+WITH PWM;
 WITH LPC1114IOP.Pins;
-WITH LPC1114IOP.Timer;       USE LPC1114IOP.Timer;
+WITH LPC1114IOP.PWM;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_sonar IS
+PROCEDURE test_lpc1114iop_pwm IS
 
   servername : Unbounded_String;
-  timer1     : Timer;
-  trigger    : GPIO.Pin;
-  count      : LPC1114IOP.Timer.timer_count_t;
-  distance   : Integer;
+  Frequency  : LPC1114IOP.PWM.pwm_frequency_t;
+  Outputs    : ARRAY (LPC1114IOP.Pins.PWM_PINS'Range) OF PWM.Output;
+  Channel    : Natural;
+  DutyCycle  : PWM.DutyCycle;
 
-  PACKAGE int_io IS NEW Integer_IO(Integer);
-  USE int_io;
+  PACKAGE Channel_IO   IS NEW Integer_IO(Natural);
+  PACKAGE DutyCycle_IO IS NEW Float_IO(PWM.DutyCycle);
+  PACKAGE Frequency_IO IS NEW Integer_IO(LPC1114IOP.PWM.pwm_frequency_t);
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Sonar Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor PWM Output Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -71,61 +61,33 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Configure LPC1114 timer 1 to measure pulse width on CAP0 input
+  -- Get PWM frequency from user
 
-  timer1 := Create(LPC1114_CT32B1);
+  Put("Enter PWM frequency:              ");
+  Frequency_IO.Get(Frequency, 0);
 
-  timer1.ConfigurePrescaler(1);
+  -- Configure PWM outputs
 
-  timer1.ConfigureCapture(LPC1114_TIMER_CAPTURE_EDGE_CAP0_BOTH,
-    LPC1114_TIMER_CAPTURE_INTERRUPT_DISABLE);
-
-  timer1.ConfigureMode(LPC1114_TIMER_MODE_PCLK);
-
-  -- Configure the trigger pulse output
-
-  trigger := LPC1114IOP.GPIO.Create(LPC1114IOP.Pins.LPC1114_GPIO1, GPIO.Output);
-
-  -- Peform sonar ranging
-
-  Put_Line("Press any key to exit program");
-  New_Line;
-
-  LOOP
-
-    -- Pulse trigger output
-
-    trigger.put(TRUE);
-    trigger.put(FALSE);
-
-    DELAY 0.1;
-
-    -- Get echo pulse width result
-
-    count := timer1.GetCaptureDelta;
-
-    -- Calculate range
-
-    distance := Integer(Float(count)/282.35);
-
-    -- Display result
-
-    IF distance < 2000 THEN
-      Put("Detection! Range is ");
-      Put(distance, 1);
-      Put(" mm");
-    ELSE
-      Put("Probing...                 ");
-    END IF;
-
-    Put(ASCII.CR);
-
-    EXIT WHEN KeyPressed;
-
-    DELAY 0.9;
+  FOR i IN Outputs'Range LOOP
+    Outputs(i) := LPC1114IOP.PWM.Create(LPC1114IOP.Pins.PWM_PINS(i), Frequency);
   END LOOP;
 
-  -- Close the SPI Agent Firmware transport library
+  -- Set duty cycles
+
+  Mainloop : LOOP
+    Put("Enter PWM channel number (1-4):   ");
+    Channel_IO.Get(Channel, 0);
+
+    IF Channel = 0 THEN
+      EXIT Mainloop;
+    ELSE
+      Put("Enter PWM duty cycle % (0-100.0): ");
+      DutyCycle_IO.Get(DutyCycle, 0);
+      Outputs(Channel).Put(DutyCycle);
+    END IF;
+  END LOOP Mainloop;
+
+  -- Deinitialize the SPI Agent Firmware transport library
 
   LPC1114IOP.Transport.Close;
-END test_sonar;
+END test_lpc1114iop_pwm;

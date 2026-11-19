@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Ada A/D test program
+-- Raspberry Pi LPC1114 I/O Processor Ada servo test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -23,27 +23,25 @@
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
-WITH CRT;                   USE CRT;
 
-WITH LPC1114IOP.Analog;      USE LPC1114IOP.Analog;
-WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
+WITH Servo;
+WITH LPC1114IOP.Pins;
+WITH LPC1114IOP.PWM;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_adc IS
+PROCEDURE test_lpc1114iop_servo IS
 
   servername : Unbounded_String;
-  AD1        : ADC;
-  AD2        : ADC;
-  AD3        : ADC;
-  AD4        : ADC;
-  AD5        : ADC;
+  Outputs    : ARRAY (LPC1114IOP.Pins.PWM_PINS'Range) OF Servo.Output;
+  Channel    : Integer;
+  Position   : Servo.Position;
 
-  PACKAGE AnalogIO is NEW Float_IO(analog_voltage_t);
-  USE AnalogIO;
+  PACKAGE Channel_IO  IS NEW Integer_IO(Integer);
+  PACKAGE Position_IO IS NEW Float_IO(Servo.Position);
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Analog Input Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Servo Output Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -61,38 +59,28 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Configure I/O pins
+  -- Configure servo outputs
 
-  AD1 := Create(LPC1114_AD1);
-  AD2 := Create(2);
-  AD3 := Create(LPC1114_AD3);
-  AD4 := Create(4);
-  AD5 := Create(LPC1114_AD5);
-
-  ClrScr;
-  GotoXY(1, 1);
-  Put("Raspberry Pi LPC1114 I/O Processor Analog Input Test");
-
-  GotoXY(1, 9);
-  Put("Press any key to exit program");
-
-  LOOP
-    GotoXY(1, 3); Put("Analog Input 1 is "); Put(Get(AD1), 1, 2, 0); Put("V");
-    GotoXY(1, 4); Put("Analog Input 2 is "); Put(AD2.Get, 1, 2, 0);  Put("V");
-    GotoXY(1, 5); Put("Analog Input 3 is "); Put(Get(AD3), 1, 2, 0); Put("V");
-    GotoXY(1, 6); Put("Analog Input 4 is "); Put(AD4.Get, 1, 2, 0);  Put("V");
-    GotoXY(1, 7); Put("Analog Input 5 is "); Put(Get(AD5), 1, 2, 0); Put("V");
-    GotoXY(1, 10);
-
-    EXIT WHEN KeyPressed;
-
-    DELAY 1.0;
+  FOR i IN Outputs'Range LOOP
+    Outputs(i) := LPC1114IOP.PWM.Create(LPC1114IOP.Pins.PWM_PINS(i));
   END LOOP;
 
-  GotoXY(1, 9);
-  ClrEol;
+  -- Set servo positions
 
-  -- Close the SPI Agent Firmware transport library
+  Mainloop : LOOP
+    Put("Enter servo channel number (1-4):      ");
+    Channel_IO.Get(Channel, 0);
+
+    IF Channel = 0 THEN
+      EXIT Mainloop;
+    ELSIF Channel >= 1 AND Channel <= 4 THEN
+      Put("Enter servo position (-1.0 to +1.0): ");
+      Position_IO.Get(Position, 0);
+      Outputs(Channel).Put(Position);
+    END IF;
+  END LOOP Mainloop;
+
+  -- Deinitialize the SPI Agent Firmware transport library
 
   LPC1114IOP.Transport.Close;
-END test_adc;
+END test_lpc1114iop_servo;

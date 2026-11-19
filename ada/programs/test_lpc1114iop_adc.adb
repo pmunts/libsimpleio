@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor
--- square wave output test program
+-- Raspberry Pi LPC1114 I/O Processor Ada A/D test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -24,34 +23,37 @@
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
+WITH CRT;                   USE CRT;
 
-WITH LPC1114IOP.Timer;       USE LPC1114IOP.Timer;
+WITH LPC1114IOP.Analog;      USE LPC1114IOP.Analog;
+WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_square_wave IS
+PROCEDURE test_lpc1114iop_adc IS
 
   servername : Unbounded_String;
-  freq       : Integer;
-  Timer1     : Timer;
+  AD1        : ADC;
+  AD2        : ADC;
+  AD3        : ADC;
+  AD4        : ADC;
+  AD5        : ADC;
+
+  PACKAGE AnalogIO is NEW Float_IO(analog_voltage_t);
+  USE AnalogIO;
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Square Wave Output Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Analog Input Test");
   New_Line;
 
   -- Analyze command line parameters
 
   IF Argument_Count = 0 THEN
     servername := To_Unbounded_String("localhost");
-    freq := 1000;
   ELSIF Argument_Count = 1 THEN
     servername := To_Unbounded_String(Argument(1));
-    freq := 1000;
-  ELSIF Argument_Count = 2 THEN
-    servername := To_Unbounded_String(Argument(1));
-    freq := Integer'VALUE(Argument(2));
   ELSE
-    Put_Line("Usage: " & Command_Name & " [hostname] [frequency]");
+    Put_Line("Usage: " & Command_Name & " [hostname]");
     RETURN;
   END IF;
 
@@ -59,21 +61,38 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Instantiate an LPC1114 timer object
+  -- Configure I/O pins
 
-  Timer1 := Create(LPC1114_CT32B1);
+  AD1 := Create(LPC1114_AD1);
+  AD2 := Create(2);
+  AD3 := Create(LPC1114_AD3);
+  AD4 := Create(4);
+  AD5 := Create(LPC1114_AD5);
 
-  -- Configure the timer to generate a square wave
+  ClrScr;
+  GotoXY(1, 1);
+  Put("Raspberry Pi LPC1114 I/O Processor Analog Input Test");
 
-  Timer1.ConfigurePrescaler(1);
+  GotoXY(1, 9);
+  Put("Press any key to exit program");
 
-  Timer1.ConfigureMatch(LPC1114_TIMER_MATCH0, timer_count_t(PCLK_FREQUENCY/freq/2),
-    LPC1114_TIMER_MATCH_OUTPUT_TOGGLE, LPC1114_TIMER_MATCH_INTERRUPT_DISABLE,
-    LPC1114_TIMER_MATCH_RESET_ENABLE, LPC1114_TIMER_MATCH_STOP_DISABLE);
+  LOOP
+    GotoXY(1, 3); Put("Analog Input 1 is "); Put(Get(AD1), 1, 2, 0); Put("V");
+    GotoXY(1, 4); Put("Analog Input 2 is "); Put(AD2.Get, 1, 2, 0);  Put("V");
+    GotoXY(1, 5); Put("Analog Input 3 is "); Put(Get(AD3), 1, 2, 0); Put("V");
+    GotoXY(1, 6); Put("Analog Input 4 is "); Put(AD4.Get, 1, 2, 0);  Put("V");
+    GotoXY(1, 7); Put("Analog Input 5 is "); Put(Get(AD5), 1, 2, 0); Put("V");
+    GotoXY(1, 10);
 
-  Timer1.ConfigureMode(LPC1114_TIMER_MODE_PCLK);
+    EXIT WHEN KeyPressed;
+
+    DELAY 1.0;
+  END LOOP;
+
+  GotoXY(1, 9);
+  ClrEol;
 
   -- Close the SPI Agent Firmware transport library
 
   LPC1114IOP.Transport.Close;
-END test_square_wave;
+END test_lpc1114iop_adc;

@@ -1,4 +1,5 @@
--- Raspberry Pi LPC1114 I/O Processor Ada PWM test program
+-- Raspberry Pi LPC1114 I/O Processor
+-- Ada frequency counter test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -23,27 +24,22 @@
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
+WITH Ada.Float_Text_IO;     USE Ada.Float_Text_IO;
+WITH CRT;                   USE CRT;
 
-WITH PWM;
-WITH LPC1114IOP.Pins;
-WITH LPC1114IOP.PWM;
+WITH LPC1114IOP.Timer;       USE LPC1114IOP.Timer;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_pwm IS
+PROCEDURE test_lpc1114iop_frequency_counter IS
 
   servername : Unbounded_String;
-  Frequency  : LPC1114IOP.PWM.pwm_frequency_t;
-  Outputs    : ARRAY (LPC1114IOP.Pins.PWM_PINS'Range) OF PWM.Output;
-  Channel    : Natural;
-  DutyCycle  : PWM.DutyCycle;
-
-  PACKAGE Channel_IO   IS NEW Integer_IO(Natural);
-  PACKAGE DutyCycle_IO IS NEW Float_IO(PWM.DutyCycle);
-  PACKAGE Frequency_IO IS NEW Integer_IO(LPC1114IOP.PWM.pwm_frequency_t);
+  count      : LPC1114IOP.Timer.timer_count_t;
+  freq       : Float;
+  Timer0     : Timer;
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor PWM Output Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Frequency Counter Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -61,33 +57,44 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Get PWM frequency from user
+  -- Instantiate an LPC1114 timer object
 
-  Put("Enter PWM frequency:              ");
-  Frequency_IO.Get(Frequency, 0);
+  Timer0 := Create(LPC1114_CT32B0);
 
-  -- Configure PWM outputs
+  -- Initialize the timer to count PCLK pulses between CAP0 input edges
 
-  FOR i IN Outputs'Range LOOP
-    Outputs(i) := LPC1114IOP.PWM.Create(LPC1114IOP.Pins.PWM_PINS(i), Frequency);
+  Timer0.ConfigurePrescaler(1);
+
+  Timer0.ConfigureCapture(LPC1114_TIMER_CAPTURE_EDGE_CAP0_RISING,
+    LPC1114_TIMER_CAPTURE_INTERRUPT_DISABLE);
+
+  Timer0.ConfigureMode(LPC1114_TIMER_MODE_PCLK);
+
+  -- Display the input frequency
+
+  Put_Line("Press any key to exit program");
+  New_Line;
+
+  LOOP
+    count := Timer0.GetCaptureDelta;
+
+    IF count < 1920 THEN
+      freq := 0.0;
+    ELSE
+      freq := Float(PCLK_FREQUENCY)/Float(count);
+    END IF;
+
+    Put(ASCII.CR);
+    Put("Frequency: ");
+    Put(freq, 5, 1, 0);
+    Put(" Hz");
+
+    EXIT WHEN KeyPressed;
+
+    DELAY 1.0;
   END LOOP;
 
-  -- Set duty cycles
-
-  Mainloop : LOOP
-    Put("Enter PWM channel number (1-4):   ");
-    Channel_IO.Get(Channel, 0);
-
-    IF Channel = 0 THEN
-      EXIT Mainloop;
-    ELSE
-      Put("Enter PWM duty cycle % (0-100.0): ");
-      DutyCycle_IO.Get(DutyCycle, 0);
-      Outputs(Channel).Put(DutyCycle);
-    END IF;
-  END LOOP Mainloop;
-
-  -- Deinitialize the SPI Agent Firmware transport library
+  -- Close the SPI Agent Firmware transport library
 
   LPC1114IOP.Transport.Close;
-END test_pwm;
+END test_lpc1114iop_frequency_counter;

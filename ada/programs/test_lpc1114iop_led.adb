@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Ada servo test program
+-- Raspberry Pi LPC1114 I/O Processor Ada LED test program
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -24,24 +24,20 @@ WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 
-WITH Servo;
+WITH CRT;
+WITH GPIO;
+WITH LPC1114IOP.GPIO;
 WITH LPC1114IOP.Pins;
-WITH LPC1114IOP.PWM;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_servo IS
+PROCEDURE test_lpc1114iop_led IS
 
   servername : Unbounded_String;
-  Outputs    : ARRAY (LPC1114IOP.Pins.PWM_PINS'Range) OF Servo.Output;
-  Channel    : Integer;
-  Position   : Servo.Position;
-
-  PACKAGE Channel_IO  IS NEW Integer_IO(Integer);
-  PACKAGE Position_IO IS NEW Float_IO(Servo.Position);
+  LED        : GPIO.Pin;
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Servo Output Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor LED Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -59,28 +55,30 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Configure servo outputs
+  -- Configure the LED pin
 
-  FOR i IN Outputs'Range LOOP
-    Outputs(i) := LPC1114IOP.PWM.Create(LPC1114IOP.Pins.PWM_PINS(i));
+  LED := LPC1114IOP.GPIO.Create(LPC1114IOP.Pins.LPC1114_LED, GPIO.OUTPUT, False);
+
+  Put_Line("Press any key to exit program");
+  New_Line;
+
+  -- Flash the LED
+
+  LOOP
+    IF LED.Get THEN
+      Put_Line("Turning LED OFF");
+    ELSE
+      Put_Line("Turning LED ON");
+    END IF;
+
+    LED.Put(NOT LED.Get);
+
+    EXIT WHEN CRT.KeyPressed;
+
+    DELAY 1.0;
   END LOOP;
 
-  -- Set servo positions
-
-  Mainloop : LOOP
-    Put("Enter servo channel number (1-4):      ");
-    Channel_IO.Get(Channel, 0);
-
-    IF Channel = 0 THEN
-      EXIT Mainloop;
-    ELSIF Channel >= 1 AND Channel <= 4 THEN
-      Put("Enter servo position (-1.0 to +1.0): ");
-      Position_IO.Get(Position, 0);
-      Outputs(Channel).Put(Position);
-    END IF;
-  END LOOP Mainloop;
-
-  -- Deinitialize the SPI Agent Firmware transport library
+  -- Close the SPI Agent Firmware transport library
 
   LPC1114IOP.Transport.Close;
-END test_servo;
+END test_lpc1114iop_led;

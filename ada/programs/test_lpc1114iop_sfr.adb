@@ -28,7 +28,7 @@ WITH Ada.Text_IO;           USE Ada.Text_IO;
 WITH LPC1114IOP.Transport;
 WITH LPC1114IOP.SFR;         USE LPC1114IOP.SFR;
 
-PROCEDURE test_sfr IS
+PROCEDURE test_lpc1114iop_sfr IS
 
   servername : Unbounded_String;
   deviceID   : SFR;
@@ -79,4 +79,4 @@ BEGIN
   -- Deinitialize the SPI Agent Firmware transport library
 
   LPC1114IOP.Transport.Close;
-END test_sfr;
+END test_lpc1114iop_sfr;

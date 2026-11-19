@@ -1,7 +1,6 @@
--- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
--- version test
+-- Raspberry Pi LPC1114 I/O Processor button and LED test
 
--- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
+-- Copyright (C)2017-2026, Philip Munts, President, Munts AM Corp.
 --
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are met:
@@ -21,25 +20,29 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+-- NOTE: The button input has the internal pullup resistor enabled, so the
+-- switch should be connected from GPIO0 to ground.
+
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
-WITH Interfaces.C;          USE Interfaces.C;
 
-WITH libspiagent;           USE libspiagent;
+WITH CRT;
+WITH GPIO;
+WITH LPC1114IOP.GPIO;        USE LPC1114IOP.GPIO;
+WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_version IS
+PROCEDURE test_lpc1114iop_button_led IS
 
   servername : Unbounded_String;
-  cmd        : SPIAGENT_COMMAND_MSG_t;
-  resp       : SPIAGENT_RESPONSE_MSG_t;
-
-  PACKAGE int_io IS NEW Integer_IO(Integer); USE int_io;
+  Button     : GPIO.Pin;
+  LED        : GPIO.Pin;
+  newstate   : Boolean;
+  oldstate   : Boolean;
 
 BEGIN
-  New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Firmware Version Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Button and LED Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -57,42 +60,30 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Issue NOP command to the SPI Agent Firmware
+  -- Configure the LED pin
 
-  cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_NOP);
-  cmd.pin     := 0;
-  cmd.data    := 0;
+  Button := Create(LPC1114_GPIO0, Standard.GPIO.Input);
+  LED    := Create(LPC1114_LED, Standard.GPIO.Output);
 
-  LPC1114IOP.Transport.Execute(cmd, resp);
+  -- Force initial detection
 
-  IF resp.error /= 0 THEN
-    RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error:" & resp.error'Image;
-  END IF;
+  oldstate := Button.Get;
 
-  -- Display results
+  LOOP
+    newstate := NOT Button.Get;
 
-  Put_Line("The SPI Agent Firmware version number is" &
-    Integer'IMAGE(Integer(resp.data)));
+    IF newstate /= oldstate THEN
+      IF newstate THEN
+        Put_Line("PRESSED");
+        LED.Put(True);
+      ELSE
+        Put_Line("RELEASED");
+        LED.Put(False);
+      END IF;
 
-  -- Issue GET_SFR command to the SPI Agent Firmware
+      oldstate := newstate;
+    END IF;
 
-  cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_SFR);
-  cmd.pin     := 16#400483F4#;
-  cmd.data    := 0;
-
-  LPC1114IOP.Transport.Execute(cmd, resp);
-
-  IF resp.error /= 0 THEN
-    RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error:" & resp.error'Image;
-  END IF;
-
-  -- Display results
-
-  Put("The LPC1114 device ID is ");
-  Put(Integer(resp.data), Base => 16);
-  New_Line(2);
-
-  -- Deinitialize the SPI Agent Firmware transport library
-
-  LPC1114IOP.Transport.Close;
-END test_version;
+    EXIT WHEN CRT.KeyPressed;
+  END LOOP;
+END test_lpc1114iop_button_led;

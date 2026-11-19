@@ -1,4 +1,5 @@
--- Raspberry Pi LPC1114 I/O Processor Ada PWM test program
+-- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
+-- version test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -23,41 +24,32 @@
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
+WITH Interfaces.C;          USE Interfaces.C;
 
-WITH LPC1114IOP.LEGORC;      USE LPC1114IOP.LEGORC;
-WITH LPC1114IOP.Pins;        USE LPC1114IOP.Pins;
+WITH libspiagent;           USE libspiagent;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_legorc IS
+PROCEDURE test_lpc1114iop_version IS
 
   servername : Unbounded_String;
-  channel    : legorc_channel_t;
-  motor      : legorc_motor_t;
-  direction  : legorc_direction_t;
-  speed      : legorc_speed_t;
-  IRED       : LEGORC;
+  cmd        : SPIAGENT_COMMAND_MSG_t;
+  resp       : SPIAGENT_RESPONSE_MSG_t;
+
+  PACKAGE int_io IS NEW Integer_IO(Integer); USE int_io;
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor LEGO® RC Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Firmware Version Test");
   New_Line;
 
   -- Analyze command line parameters
 
-  IF Argument_Count = 4 THEN
+  IF Argument_Count = 0 THEN
     servername := To_Unbounded_String("localhost");
-    channel := legorc_channel_t'VALUE(Argument(1));
-    motor := legorc_motor_t'VAL(Integer'VALUE(Argument(2)));
-    direction := legorc_direction_t'VAL(Integer'VALUE(Argument(3)));
-    speed := legorc_speed_t'VALUE(Argument(4));
-  ELSIF Argument_Count = 5 THEN
+  ELSIF Argument_Count = 1 THEN
     servername := To_Unbounded_String(Argument(1));
-    channel := legorc_channel_t'VALUE(Argument(2));
-    motor := legorc_motor_t'VAL(Integer'VALUE(Argument(3)));
-    direction := legorc_direction_t'VAL(Integer'VALUE(Argument(4)));
-    speed := legorc_speed_t'VALUE(Argument(5));
   ELSE
-    Put_Line("Usage: " & Command_Name & " [hostname] <channel:1-4> <motor:0-2> <forward:0-1> <speed:0-7>");
+    Put_Line("Usage: " & Command_Name & " [hostname]");
     RETURN;
   END IF;
 
@@ -65,15 +57,42 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Configure the GPIO output pin
+  -- Issue NOP command to the SPI Agent Firmware
 
-  IRED := Create(LPC1114_GPIO7);
+  cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_NOP);
+  cmd.pin     := 0;
+  cmd.data    := 0;
 
-  -- Send the command
+  LPC1114IOP.Transport.Execute(cmd, resp);
 
-  IRED.Put(channel, motor, direction, speed);
+  IF resp.error /= 0 THEN
+    RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error:" & resp.error'Image;
+  END IF;
+
+  -- Display results
+
+  Put_Line("The SPI Agent Firmware version number is" &
+    Integer'IMAGE(Integer(resp.data)));
+
+  -- Issue GET_SFR command to the SPI Agent Firmware
+
+  cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_SFR);
+  cmd.pin     := 16#400483F4#;
+  cmd.data    := 0;
+
+  LPC1114IOP.Transport.Execute(cmd, resp);
+
+  IF resp.error /= 0 THEN
+    RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error:" & resp.error'Image;
+  END IF;
+
+  -- Display results
+
+  Put("The LPC1114 device ID is ");
+  Put(Integer(resp.data), Base => 16);
+  New_Line(2);
 
   -- Deinitialize the SPI Agent Firmware transport library
 
   LPC1114IOP.Transport.Close;
-END test_legorc;
+END test_lpc1114iop_version;
