@@ -21,7 +21,7 @@
 FUNCTION Real_To_Double(item : T) RETURN Interfaces.C.double IS
 
 BEGIN
-  RETURN T(item);
+  RETURN Interfaces.C.double(item);
 END Real_To_Double;
 
 PRAGMA Inline(Real_To_Double);
