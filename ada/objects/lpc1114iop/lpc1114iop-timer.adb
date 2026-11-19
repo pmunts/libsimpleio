@@ -20,6 +20,7 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH Discrete_To_Unsigned;
 WITH Interfaces.C;
 
 WITH libspiagent; USE libspiagent;
@@ -29,319 +30,153 @@ USE TYPE Interfaces.C.unsigned;
 
 PACKAGE BODY LPC1114IOP.Timer IS
 
-  FUNCTION Shift_Left
-   (item   : Interfaces.C.unsigned;
-    amount : Natural) RETURN Interfaces.C.unsigned IS
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_count_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_prescaler_t);
 
-  BEGIN
-    RETURN Interfaces.C.unsigned(Interfaces.Shift_Left(Interfaces.Unsigned_32(item), amount));
-  END Shift_Left;
+  -- Timer object constructor
 
   FUNCTION Create(id : timer_id_t) RETURN Timer IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
-    error : Interfaces.C.int;
+    self : TimerClass;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_INIT_TIMER);
-    cmd.pin     := timer_id_t'POS(id);
-    cmd.data    := 0;
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    libspiagent.spiagent_command(cmd, resp, error);
-
-    -- Check for error return from libspiagent.spiagent_command()
-
-    IF error /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "libspiagent.spiagent_command() failed, error" &
-        Interfaces.C.int'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Interfaces.C.int(resp.error) /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
-    END IF;
-
-    RETURN timer'(id => id);
+    self.Initialize(id);
+    RETURN NEW TimerClass'(self);
   END Create;
 
-  PROCEDURE ConfigureMode
-   (self  : Timer;
-    mode  : timer_mode_t) IS
+  -- Timer object initializer
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
+  PROCEDURE Initialize
+   (self      : TimerClass;
+    id        : timer_id_t) IS
+
     error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_TIMER_MODE);
-    cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := timer_mode_t'POS(mode);
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    libspiagent.spiagent_command(cmd, resp, error);
-
-    -- Check for error return from libspiagent.spiagent_command()
+    spiagent_timer_init(To_Unsigned(id), error);
 
     IF error /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "libspiagent.spiagent_command() failed, error" &
-        Interfaces.C.int'IMAGE(error);
+      RAISE LPC1114IOP.Error WITH "spiagent_timer_init() failed, error" &
+        error'Image;
     END IF;
+  END Initialize;
 
-    -- Check for error from the SPI Agent Firmware
+  PROCEDURE ConfigureMode
+   (self      : TimerClass;
+    mode      : timer_mode_t) IS
 
-    IF Interfaces.C.int(resp.error) /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
+    error : Interfaces.C.int;
+
+  BEGIN
+    spiagent_timer_configure_mode(To_Unsigned(self.id), To_Unsigned(mode), error);
+
+    IF error /= 0 THEN
+      RAISE LPC1114IOP.Error WITH "spiagent_timer_configure_mode() failed, error" &
+        error'Image;
     END IF;
   END ConfigureMode;
 
   PROCEDURE ConfigurePrescaler
-   (self      : Timer;
+   (self      : TimerClass;
     prescaler : timer_prescaler_t) IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
     error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_TIMER_PRESCALER);
-    cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := Interfaces.C.unsigned(prescaler);
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    libspiagent.spiagent_command(cmd, resp, error);
-
-    -- Check for error return from libspiagent.spiagent_command()
+    spiagent_timer_configure_prescaler(To_Unsigned(self.id),
+      To_Unsigned(prescaler), error);
 
     IF error /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "libspiagent.spiagent_command() failed, error" &
-        Interfaces.C.int'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Interfaces.C.int(resp.error) /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_configure_prescaler() failed, error" &
+        error'Image;
     END IF;
   END ConfigurePrescaler;
 
   PROCEDURE ConfigureCapture
-   (self      : Timer;
-    edge      : capture_edge_t;
-    interrupt : capture_interrupt_t) IS
+   (self      : TimerClass;
+    edge      : timer_capture_edge_t;
+    intr      : timer_capture_interrupt_t) IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
     error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_TIMER_CAPTURE);
-    cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := capture_edge_t'POS(edge) OR
-      Shift_Left(Interfaces.C.unsigned(capture_interrupt_t'POS(interrupt)), 4);
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    libspiagent.spiagent_command(cmd, resp, error);
-
-    -- Check for error return from libspiagent.spiagent_command()
+    spiagent_timer_configure_capture(To_Unsigned(self.id), To_Unsigned(edge),
+      To_Unsigned(intr), error);
 
     IF error /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "libspiagent.spiagent_command() failed, error" &
-        Interfaces.C.int'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Interfaces.C.int(resp.error) /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_configure_capture() failed, error" &
+        error'Image;
     END IF;
   END ConfigureCapture;
 
   PROCEDURE ConfigureMatch
-   (self      : Timer;
+   (self      : TimerClass;
     reg       : timer_match_register_t;
     value     : timer_count_t;
-    action    : timer_match_output_action_t;
-    interrupt : timer_match_interrupt_t;
+    action    : timer_match_action_t;
+    intr      : timer_match_interrupt_t;
     reset     : timer_match_reset_t;
     stop      : timer_match_stop_t) IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
     error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_TIMER_MATCH0) +
-      timer_match_register_t'POS(reg);
-    cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := timer_match_output_action_t'POS(action) OR
-      Shift_Left(Interfaces.C.unsigned(timer_match_interrupt_t'POS(interrupt)), 4) OR
-      Shift_Left(Interfaces.C.unsigned(timer_match_reset_t'POS(reset)), 5) OR
-      Shift_Left(Interfaces.C.unsigned(timer_match_stop_t'POS(stop)), 6);
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    libspiagent.spiagent_command(cmd, resp, error);
-
-    -- Check for error return from libspiagent.spiagent_command()
+    spiagent_timer_configure_match(To_Unsigned(self.id), To_Unsigned(reg),
+      To_Unsigned(value), To_Unsigned(action), To_Unsigned(intr),
+      To_Unsigned(reset), To_Unsigned(stop), error);
 
     IF error /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "libspiagent.spiagent_command() failed, error" &
-        Interfaces.C.int'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Interfaces.C.int(resp.error) /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
-    END IF;
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_CONFIGURE_TIMER_MATCH0_VALUE) +
-      timer_match_register_t'POS(reg);
-    cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := Interfaces.C.unsigned(value);
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    libspiagent.spiagent_command(cmd, resp, error);
-
-    -- Check for error return from libspiagent.spiagent_command()
-
-    IF error /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "libspiagent.spiagent_command() failed, error" &
-        Interfaces.C.int'IMAGE(error);
-    END IF;
-
-    -- Check for error from the SPI Agent Firmware
-
-    IF Interfaces.C.int(resp.error) /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
+      RAISE LPC1114IOP.Error WITH "spiagent_timer_configure_match() failed, error" &
+        error'Image;
     END IF;
   END ConfigureMatch;
 
-  FUNCTION Get(self : Timer) RETURN timer_count_t IS
+  FUNCTION Get(self : TimerClass) RETURN timer_count_t IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
+    count : Interfaces.C.unsigned;
     error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_TIMER_VALUE);
-    cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := 0;
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    libspiagent.spiagent_command(cmd, resp, error);
-
-    -- Check for error return from libspiagent.spiagent_command()
+    spiagent_timer_get(To_Unsigned(self.id), count, error);
 
     IF error /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "libspiagent.spiagent_command() failed, error" &
-        Interfaces.C.int'IMAGE(error);
+      RAISE LPC1114IOP.Error WITH "spiagent_timer_get() failed, error" &
+        error'Image;
     END IF;
 
-    -- Check for error from the SPI Agent Firmware
-
-    IF Interfaces.C.int(resp.error) /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
-    END IF;
-
-    RETURN timer_count_t(resp.data);
+    RETURN timer_count_t(count);
   END Get;
 
-  FUNCTION GetCapture(self : Timer) RETURN timer_count_t IS
+  FUNCTION GetCapture(self : TimerClass) RETURN timer_count_t IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
+    count : Interfaces.C.unsigned;
     error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_TIMER_CAPTURE);
-    cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := 0;
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    libspiagent.spiagent_command(cmd, resp, error);
-
-    -- Check for error return from libspiagent.spiagent_command()
+    spiagent_timer_get_capture(To_Unsigned(self.id), count, error);
 
     IF error /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "libspiagent.spiagent_command() failed, error" &
-        Interfaces.C.int'IMAGE(error);
+      RAISE LPC1114IOP.Error WITH "spiagent_timer_get_capture() failed, error" &
+        error'Image;
     END IF;
 
-    -- Check for error from the SPI Agent Firmware
-
-    IF Interfaces.C.int(resp.error) /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
-    END IF;
-
-    RETURN timer_count_t(resp.data);
+    RETURN timer_count_t(count);
   END GetCapture;
 
-  FUNCTION GetCaptureDelta(self : Timer) RETURN timer_count_t IS
+  FUNCTION GetCaptureDelta(self : TimerClass) RETURN timer_count_t IS
 
-    cmd   : SPIAGENT_COMMAND_MSG_t;
-    resp  : SPIAGENT_RESPONSE_MSG_t;
+    count : Interfaces.C.unsigned;
     error : Interfaces.C.int;
 
   BEGIN
-
-    -- Build the SPI Agent Firmware command message
-
-    cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_GET_TIMER_CAPTURE_DELTA);
-    cmd.pin     := timer_id_t'POS(self.id);
-    cmd.data    := 0;
-
-    -- Issue the command to the LPC1114 SPI Firmware Agent
-
-    libspiagent.spiagent_command(cmd, resp, error);
-
-    -- Check for error return from libspiagent.spiagent_command()
+    spiagent_timer_get_capture_delta(To_Unsigned(self.id), count, error);
 
     IF error /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "libspiagent.spiagent_command() failed, error" &
-        Interfaces.C.int'IMAGE(error);
+      RAISE LPC1114IOP.Error WITH "spiagent_timer_get_capture_delta() failed, error" &
+        error'Image;
     END IF;
 
-    -- Check for error from the SPI Agent Firmware
-
-    IF Interfaces.C.int(resp.error) /= 0 THEN
-      RAISE LPC1114IOP.Error WITH "SPI Agent Firmware returned error" & error'Image;
-    END IF;
-
-    RETURN timer_count_t(resp.data);
+    RETURN timer_count_t(count);
   END GetCaptureDelta;
 
 END LPC1114IOP.Timer;

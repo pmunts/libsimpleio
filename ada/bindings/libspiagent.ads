@@ -327,4 +327,131 @@ PACKAGE libspiagent IS
 
   PRAGMA Import(C, spiagent_sfr_put);
 
+-------------------------------------------------------------------------------
+
+  -- Timer configuration constants
+
+  PCLK_FREQUENCY : CONSTANT := 48000000;
+
+  TYPE timer_id_t IS
+   (LPC1114_CT32B0,
+    LPC1114_CT32B1);
+
+  TYPE timer_mode_t IS
+   (LPC1114_TIMER_MODE_DISABLED,
+    LPC1114_TIMER_MODE_RESET,
+    LPC1114_TIMER_MODE_PCLK,
+    LPC1114_TIMER_MODE_CAP0_RISING,
+    LPC1114_TIMER_MODE_CAP0_FALLING,
+    LPC1114_TIMER_MODE_CAP0_BOTH);
+
+  TYPE timer_capture_edge_t IS
+   (LPC1114_TIMER_CAPTURE_EDGE_DISABLED,
+    LPC1114_TIMER_CAPTURE_EDGE_CAP0_RISING,
+    LPC1114_TIMER_CAPTURE_EDGE_CAP0_FALLING,
+    LPC1114_TIMER_CAPTURE_EDGE_CAP0_BOTH);
+
+  TYPE timer_capture_interrupt_t IS
+   (LPC1114_TIMER_CAPTURE_INTERRUPT_DISABLE,
+    LPC1114_TIMER_CAPTURE_INTERRUPT_ENABLE);
+
+  TYPE timer_match_register_t IS
+   (LPC1114_TIMER_MATCH0,
+    LPC1114_TIMER_MATCH1,
+    LPC1114_TIMER_MATCH2,
+    LPC1114_TIMER_MATCH3);
+
+  TYPE timer_match_action_t IS
+   (LPC1114_TIMER_MATCH_DISABLED,
+    LPC1114_TIMER_MATCH_CLEAR,
+    LPC1114_TIMER_MATCH_SET,
+    LPC1114_TIMER_MATCH_TOGGLE);
+
+  TYPE timer_match_interrupt_t IS
+   (LPC1114_TIMER_MATCH_INTERRUPT_DISABLE,
+    LPC1114_TIMER_MATCH_INTERRUPT_ENABLE);
+
+  TYPE timer_match_reset_t IS
+   (LPC1114_TIMER_MATCH_RESET_DISABLE,
+    LPC1114_TIMER_MATCH_RESET_ENABLE);
+
+  TYPE timer_match_stop_t IS
+   (LPC1114_TIMER_MATCH_STOP_DISABLE,
+    LPC1114_TIMER_MATCH_STOP_ENABLE);
+
+  -- Timer transfer functions
+
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_id_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_mode_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_capture_edge_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_capture_interrupt_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_register_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_action_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_interrupt_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_reset_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_stop_t);
+
+  -- Timer services
+
+  PROCEDURE spiagent_timer_init
+   (timer   : Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_timer_init);
+
+  PROCEDURE spiagent_timer_configure_mode
+   (timer   : Interfaces.C.unsigned;
+    mode    : Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_timer_configure_mode);
+
+  PROCEDURE spiagent_timer_configure_prescaler
+   (timer   : Interfaces.C.unsigned;
+    divisor : Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_timer_configure_prescaler);
+
+  PROCEDURE spiagent_timer_configure_capture
+   (timer   : Interfaces.C.unsigned;
+    edge    : Interfaces.C.unsigned;
+    intr    : Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_timer_configure_capture);
+
+  PROCEDURE spiagent_timer_configure_match
+   (timer   : Interfaces.C.unsigned;
+    reg     : Interfaces.C.unsigned;
+    value   : Interfaces.C.unsigned;
+    action  : Interfaces.C.unsigned;
+    intr    : Interfaces.C.unsigned;
+    reset   : Interfaces.C.unsigned;
+    stop    : Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_timer_configure_match);
+
+  PROCEDURE spiagent_timer_get
+   (timer   : Interfaces.C.unsigned;
+    count   : OUT Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_timer_get);
+
+  PROCEDURE spiagent_timer_get_capture
+   (timer   : Interfaces.C.unsigned;
+    count   : OUT Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_timer_get_capture);
+
+  PROCEDURE spiagent_timer_get_capture_delta
+   (timer   : Interfaces.C.unsigned;
+    count   : OUT Interfaces.C.unsigned;
+    error   : OUT Interfaces.C.int);
+
+  PRAGMA Import(C, spiagent_timer_get_capture_delta);
+
 END libspiagent;

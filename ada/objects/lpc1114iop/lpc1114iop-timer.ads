@@ -20,96 +20,69 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
+WITH libspiagent;
+
 PACKAGE LPC1114IOP.Timer IS
 
-  PCLK_FREQUENCY : CONSTANT := 48000000;
-
-  TYPE timer_id_t IS (
-    LPC1114_CT32B0,
-    LPC1114_CT32B1);
-
-  TYPE timer_mode_t IS (
-    LPC1114_TIMER_MODE_DISABLED,
-    LPC1114_TIMER_MODE_RESET,
-    LPC1114_TIMER_MODE_PCLK,
-    LPC1114_TIMER_MODE_CAP0_RISING,
-    LPC1114_TIMER_MODE_CAP0_FALLING,
-    LPC1114_TIMER_MODE_CAP0_BOTH);
-
-  TYPE capture_edge_t IS (
-    LPC1114_TIMER_CAPTURE_EDGE_DISABLED,
-    LPC1114_TIMER_CAPTURE_EDGE_CAP0_RISING,
-    LPC1114_TIMER_CAPTURE_EDGE_CAP0_FALLING,
-    LPC1114_TIMER_CAPTURE_EDGE_CAP0_BOTH);
-
-  TYPE capture_interrupt_t IS (
-    LPC1114_TIMER_CAPTURE_INTERRUPT_DISABLE,
-    LPC1114_TIMER_CAPTURE_INTERRUPT_ENABLE);
-
-  TYPE timer_match_register_t IS (
-    LPC1114_TIMER_MATCH0,
-    LPC1114_TIMER_MATCH1,
-    LPC1114_TIMER_MATCH2,
-    LPC1114_TIMER_MATCH3);
-
-  TYPE timer_match_output_action_t IS (
-    LPC1114_TIMER_MATCH_OUTPUT_DISABLED,
-    LPC1114_TIMER_MATCH_OUTPUT_CLEAR,
-    LPC1114_TIMER_MATCH_OUTPUT_SET,
-    LPC1114_TIMER_MATCH_OUTPUT_TOGGLE);
-
-  TYPE timer_match_interrupt_t IS (
-    LPC1114_TIMER_MATCH_INTERRUPT_DISABLE,
-    LPC1114_TIMER_MATCH_INTERRUPT_ENABLE);
-
-  TYPE timer_match_reset_t IS (
-    LPC1114_TIMER_MATCH_RESET_DISABLE,
-    LPC1114_TIMER_MATCH_RESET_ENABLE);
-
-  TYPE timer_match_stop_t IS (
-    LPC1114_TIMER_MATCH_STOP_DISABLE,
-    LPC1114_TIMER_MATCH_STOP_ENABLE);
-
   TYPE timer_prescaler_t IS MOD 2 ** 32;
+  TYPE timer_count_t     IS MOD 2 ** 32;
+  TYPE TimerClass        IS TAGGED PRIVATE;
+  TYPE Timer             IS ACCESS ALL TimerClass'Class;
 
-  TYPE timer_count_t IS MOD 2 ** 32;
+  -- Rename some types from the thin binding package libspiagent
 
-  TYPE Timer IS TAGGED PRIVATE;
+  SUBTYPE timer_id_t                IS libspiagent.timer_id_t;
+  SUBTYPE timer_mode_t              IS libspiagent.timer_mode_t;
+  SUBTYPE timer_capture_edge_t      IS libspiagent.timer_capture_edge_t;
+  SUBTYPE timer_capture_interrupt_t IS libspiagent.timer_capture_interrupt_t;
+  SUBTYPE timer_match_register_t    IS libspiagent.timer_match_register_t;
+  SUBTYPE timer_match_action_t      IS libspiagent.timer_match_action_t;
+  SUBTYPE timer_match_interrupt_t   IS libspiagent.timer_match_interrupt_t;
+  SUBTYPE timer_match_reset_t       IS libspiagent.timer_match_reset_t;
+  SUBTYPE timer_match_stop_t        IS libspiagent.timer_match_stop_t;
 
-  -- Timer services
+  -- Timer object constructor
 
-  FUNCTION Create(id : timer_id_t) RETURN Timer;
+  FUNCTION Create(id : libspiagent.timer_id_t) RETURN Timer;
+
+  -- Timer object initializer
+
+  PROCEDURE Initialize
+   (self      : TimerClass;
+    id        : timer_id_t);
+
+  -- Timer object methods
 
   PROCEDURE ConfigureMode
-   (self      : Timer;
+   (self      : TimerClass;
     mode      : timer_mode_t);
 
   PROCEDURE ConfigurePrescaler
-   (self      : Timer;
+   (self      : TimerClass;
     prescaler : timer_prescaler_t);
 
   PROCEDURE ConfigureCapture
-   (self      : Timer;
-    edge      : capture_edge_t;
-    interrupt : capture_interrupt_t);
+   (self      : TimerClass;
+    edge      : timer_capture_edge_t;
+    intr      : timer_capture_interrupt_t);
 
   PROCEDURE ConfigureMatch
-   (self      : Timer;
+   (self      : TimerClass;
     reg       : timer_match_register_t;
     value     : timer_count_t;
-    action    : timer_match_output_action_t;
-    interrupt : timer_match_interrupt_t;
+    action    : timer_match_action_t;
+    intr      : timer_match_interrupt_t;
     reset     : timer_match_reset_t;
     stop      : timer_match_stop_t);
 
-  FUNCTION Get(self : Timer) RETURN timer_count_t;
+  FUNCTION Get(self : TimerClass) RETURN timer_count_t;
 
-  FUNCTION GetCapture(self : Timer) RETURN timer_count_t;
+  FUNCTION GetCapture(self : TimerClass) RETURN timer_count_t;
 
-  FUNCTION GetCaptureDelta(self : Timer) RETURN timer_count_t;
+  FUNCTION GetCaptureDelta(self : TimerClass) RETURN timer_count_t;
 
 PRIVATE
-  TYPE Timer IS TAGGED RECORD
-    id : timer_id_t;
+  TYPE TimerClass IS TAGGED RECORD
+    id : libspiagent.timer_id_t;
   END RECORD;
 END LPC1114IOP.Timer;
