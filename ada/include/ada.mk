@@ -147,7 +147,7 @@ else
 # Build with gnatmake (deprecated, but sometimes necessary)
 %: %.adb
 	mkdir -p $(ADA_OBJ)
-	$(GNATMAKE) $(GNATMAKEFLAGS) $@ -cargs $(GNATMAKECFLAGS) -largs $(GNATMAKELDFLAGS)
+	$(GNATMAKE) $(GNATMAKEFLAGS) $@ -cargs $(GNATMAKECFLAGS) -largs $(GNATMAKELDFLAGS) $(GNATMAKEPOSTFLAGS)
 	-$(GNATSTRIP) $@$(EXESUFFIX)
 	chmod 755 $@$(EXESUFFIX)
 ifneq ($(TARGETCOMPUTER),)
