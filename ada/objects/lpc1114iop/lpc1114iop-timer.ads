@@ -84,7 +84,7 @@ PACKAGE LPC1114IOP.Timer IS
   -- Timer object initializer
 
   PROCEDURE Initialize
-   (self      : TimerClass;
+   (self      : OUT TimerClass;
     id        : timer_id_t);
 
   -- Timer object methods

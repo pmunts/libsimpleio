@@ -58,7 +58,7 @@ PACKAGE BODY LPC1114IOP.Timer IS
   -- Timer object initializer
 
   PROCEDURE Initialize
-   (self      : TimerClass;
+   (self      : OUT TimerClass;
     id        : timer_id_t) IS
 
     error : Interfaces.C.int;
@@ -70,6 +70,8 @@ PACKAGE BODY LPC1114IOP.Timer IS
       RAISE LPC1114IOP.Error WITH "spiagent_timer_init() failed, error" &
         error'Image;
     END IF;
+
+    self.id := id;
   END Initialize;
 
   PROCEDURE ConfigureMode
