@@ -23,13 +23,22 @@
 
 WITH Interfaces.C;
 
-WITH libspiagent;     USE libspiagent;
+WITH Discrete_To_Unsigned;
+WITH libspiagent;
 WITH LPC1114IOP.GPIO; USE LPC1114IOP.GPIO;
 
 USE TYPE Interfaces.C.int;
 USE TYPE Interfaces.C.unsigned;
 
 PACKAGE BODY LPC1114IOP.LEGORC IS
+
+  -- LEGO Power Functions Remote Control type transfer functions
+
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_channel_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_motor_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_direction_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_speed_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(lpc11xx.pin_id_t);
 
   -- Initialize a LEGO® RC output pin
 
@@ -42,8 +51,7 @@ PACKAGE BODY LPC1114IOP.LEGORC IS
       RAISE LPC1114IOP.Error WITH "Invalid pin for LEGO RC output";
     END IF;
 
-    spiagent_gpio_configure(To_Unsigned(pin),
-      To_Unsigned(GPIO_DIRECTION_OUTPUT), To_Unsigned(False), error);
+    libspiagent.spiagent_gpio_configure(To_Unsigned(pin), 1, 1, error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_gpio_configure_mode() failed, error" &
@@ -65,7 +73,7 @@ PACKAGE BODY LPC1114IOP.LEGORC IS
     error : Interfaces.C.int;
 
   BEGIN
-    spiagent_legorc_put(To_Unsigned(self.pin), To_Unsigned(channel),
+    libspiagent.spiagent_legorc_put(To_Unsigned(self.pin), To_Unsigned(channel),
       To_Unsigned(motor), To_Unsigned(direction), To_Unsigned(speed), error);
 
     IF error /= 0 THEN

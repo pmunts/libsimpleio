@@ -22,6 +22,7 @@
 
 WITH Interfaces.C;
 
+WITH Discrete_To_Unsigned;
 WITH GPIO;
 WITH lpc11xx;         USE lpc11xx;
 WITH libspiagent;     USE libspiagent;
@@ -31,6 +32,13 @@ USE TYPE Interfaces.C.int;
 USE TYPE GPIO.Direction;
 
 PACKAGE BODY LPC1114IOP.GPIO IS
+
+  -- GPIO pin type transfer functions
+
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(Boolean);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_mode_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_interrupt_config_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(lpc11xx.pin_id_t);
 
   -- Validate a GPIO pin
 
@@ -118,7 +126,7 @@ PACKAGE BODY LPC1114IOP.GPIO IS
     error : Interfaces.C.int;
 
   BEGIN
-    spiagent_gpio_configure_mode(libspiagent.To_Unsigned(self.pin), libspiagent.To_Unsigned(iocfg), error);
+    spiagent_gpio_configure_mode(To_Unsigned(self.pin), To_Unsigned(iocfg), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_gpio_configure_mode() failed, error" & error'Image;

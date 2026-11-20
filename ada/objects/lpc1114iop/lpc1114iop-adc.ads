@@ -25,6 +25,13 @@ WITH Voltage;
 
 PACKAGE LPC1114IOP.ADC IS
 
+  -- ADC input configuration constants
+
+  ADC_SPAN     : CONSTANT := 3.3;		-- Volts
+  ADC_BITS     : CONSTANT := 10;		-- Bits
+  ADC_STEPS    : CONSTANT := 1024;		-- Levels
+  ADC_STEPSIZE : CONSTANT := 0.00322265625;	-- Volts
+
   -- ADC input type definitions
 
   TYPE ADCInputClass IS NEW Voltage.InputInterface WITH PRIVATE;

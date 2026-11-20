@@ -22,14 +22,19 @@
 
 WITH Interfaces.C;
 
+WITH Discrete_To_Unsigned;
 WITH lpc11xx;
 WITH libspiagent;
-WITH LPC1114IOP.Pins;       USE LPC1114IOP.Pins;
+WITH LPC1114IOP.Pins; USE LPC1114IOP.Pins;
 
 USE TYPE Interfaces.C.int;
 USE TYPE lpc11xx.pin_id_t;
 
 PACKAGE BODY LPC1114IOP.ADC IS
+
+  -- GPIO pin type transfer functions
+
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(lpc11xx.pin_id_t);
 
   -- Validate LPC1114 analog input pin number
 
@@ -63,7 +68,7 @@ PACKAGE BODY LPC1114IOP.ADC IS
       RAISE LPC1114IOP.Error WITH "Invalid pin for analog input";
     END IF;
 
-    libspiagent.spiagent_analog_configure(libspiagent.To_Unsigned(pin), error);
+    libspiagent.spiagent_analog_configure(To_Unsigned(pin), error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_analog_configure() failed, error" &
@@ -81,7 +86,7 @@ PACKAGE BODY LPC1114IOP.ADC IS
     error : Interfaces.C.int;
 
   BEGIN
-    libspiagent.spiagent_analog_get(libspiagent.To_Unsigned(self.pin), V, error);
+    libspiagent.spiagent_analog_get(To_Unsigned(self.pin), V, error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_analog_get() failed, error" &

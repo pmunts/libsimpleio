@@ -30,7 +30,18 @@ USE TYPE Interfaces.C.unsigned;
 
 PACKAGE BODY LPC1114IOP.Timer IS
 
+  -- Timer type transfer functions
+
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_capture_edge_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_capture_interrupt_t);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_count_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_id_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_action_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_interrupt_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_register_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_reset_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_stop_t);
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_mode_t);
   FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_prescaler_t);
 
   -- Timer object constructor

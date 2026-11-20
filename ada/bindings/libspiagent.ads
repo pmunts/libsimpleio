@@ -22,10 +22,6 @@
 
 WITH Interfaces.C;
 
-WITH Discrete_To_Unsigned;
-WITH GPIO;
-WITH lpc11xx;
-
 PACKAGE libspiagent IS
   PRAGMA Link_With("-lspiagent");
 
@@ -45,51 +41,13 @@ PACKAGE libspiagent IS
 
 -------------------------------------------------------------------------------
 
-  -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware command constants
-
-  TYPE SPIAGENT_COMMAND_t IS
-   (SPIAGENT_CMD_NOP,
-    SPIAGENT_CMD_LOOPBACK,
-    SPIAGENT_CMD_CONFIGURE_ANALOG_INPUT,
-    SPIAGENT_CMD_CONFIGURE_GPIO_INPUT,
-    SPIAGENT_CMD_CONFIGURE_GPIO_OUTPUT,
-    SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT,
-    SPIAGENT_CMD_GET_ANALOG,
-    SPIAGENT_CMD_GET_GPIO,
-    SPIAGENT_CMD_PUT_GPIO,
-    SPIAGENT_CMD_PUT_PWM,
-    SPIAGENT_CMD_CONFIGURE_GPIO_INTERRUPT,
-    SPIAGENT_CMD_CONFIGURE_GPIO,
-    SPIAGENT_CMD_PUT_LEGORC,
-    SPIAGENT_CMD_GET_SFR,
-    SPIAGENT_CMD_PUT_SFR,
-    SPIAGENT_CMD_CONFIGURE_TIMER_MODE,
-    SPIAGENT_CMD_CONFIGURE_TIMER_PRESCALER,
-    SPIAGENT_CMD_CONFIGURE_TIMER_CAPTURE,
-    SPIAGENT_CMD_CONFIGURE_TIMER_MATCH0,
-    SPIAGENT_CMD_CONFIGURE_TIMER_MATCH1,
-    SPIAGENT_CMD_CONFIGURE_TIMER_MATCH2,
-    SPIAGENT_CMD_CONFIGURE_TIMER_MATCH3,
-    SPIAGENT_CMD_CONFIGURE_TIMER_MATCH0_VALUE,
-    SPIAGENT_CMD_CONFIGURE_TIMER_MATCH1_VALUE,
-    SPIAGENT_CMD_CONFIGURE_TIMER_MATCH2_VALUE,
-    SPIAGENT_CMD_CONFIGURE_TIMER_MATCH3_VALUE,
-    SPIAGENT_CMD_GET_TIMER_VALUE,
-    SPIAGENT_CMD_GET_TIMER_CAPTURE,
-    SPIAGENT_CMD_GET_TIMER_CAPTURE_DELTA,
-    SPIAGENT_CMD_INIT_TIMER);
-
-  -- Type transfer functions
-
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(SPIAGENT_COMMAND_t);
-
   -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware command structure
 
   TYPE SPIAGENT_COMMAND_MSG_t IS RECORD
     command : Interfaces.C.unsigned;
     pin     : Interfaces.C.unsigned;
     data    : Interfaces.C.unsigned;
-  END RECORD;
+  END RECORD WITH Convention => C;
 
   -- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware response structure
 
@@ -98,7 +56,7 @@ PACKAGE libspiagent IS
     pin     : Interfaces.C.unsigned;
     data    : Interfaces.C.unsigned;
     error   : Interfaces.C.unsigned;
-  END RECORD;
+  END RECORD WITH Convention => C;
 
   -- Dispatch an SPI Agent Firmware command to the transport library
 
@@ -110,13 +68,6 @@ PACKAGE libspiagent IS
   PRAGMA Import(C, spiagent_command);
 
 -------------------------------------------------------------------------------
-
-  -- ADC input configuration constants
-
-  ADC_SPAN     : constant := 3.3;		-- Volts
-  ADC_BITS     : constant := 10;		-- Bits
-  ADC_STEPS    : constant := 1024;		-- Levels
-  ADC_STEPSIZE : constant := 0.00322265625;	-- Volts
 
   -- ADC input services
 
@@ -134,34 +85,6 @@ PACKAGE libspiagent IS
   PRAGMA Import(C, spiagent_analog_get);
 
 -------------------------------------------------------------------------------
-
-  -- GPIO pin configuration constants
-
-  TYPE gpio_direction_t IS
-   (GPIO_DIRECTION_INPUT,
-    GPIO_DIRECTION_OUTPUT);
-
-  TYPE gpio_mode_t IS
-   (GPIO_MODE_INPUT,			-- Normal high impedance input
-    GPIO_MODE_INPUT_PULLDOWN,
-    GPIO_MODE_INPUT_PULLUP,
-    GPIO_MODE_OUTPUT,			-- Normal push-pull output
-    GPIO_MODE_OUTPUT_OPENDRAIN);
-
-  TYPE gpio_interrupt_config_t IS
-   (GPIO_INTERRUPT_DISABLED,
-    GPIO_INTERRUPT_FALLING,
-    GPIO_INTERRUPT_RISING,
-    GPIO_INTERRUPT_BOTH);
-
-  -- GPIO pin type transfer functions
-
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(Boolean);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(GPIO.Direction);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_mode_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_direction_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(gpio_interrupt_config_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(lpc11xx.pin_id_t);
 
   -- GPIO pin services
 
@@ -221,30 +144,6 @@ PACKAGE libspiagent IS
   PRAGMA Import(C, interrupt_wait, "spiagent_interrupt_wait");
 
 -------------------------------------------------------------------------------
-
-  -- LEGO Power Functions Remote Control configuration constants
-
-  TYPE legorc_channel_t IS NEW Natural RANGE 1 .. 4;
-
-  TYPE legorc_motor_t IS
-   (ALLSTOP,
-    MOTORA,
-    MOTORB,
-    COMBODIRECT,
-    COMBOPWM);
-
-  TYPE legorc_direction_t IS
-   (DIRECTION_REVERSE,
-    DIRECTION_FORWARD);
-
-  TYPE legorc_speed_t IS NEW Natural RANGE 0 .. 255;
-
-  -- LEGO Power Functions Remote Control type transfer functions
-
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_channel_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_motor_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_direction_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(legorc_speed_t);
 
   -- LEGO Power Functions Remote Control services
 
@@ -328,68 +227,6 @@ PACKAGE libspiagent IS
   PRAGMA Import(C, spiagent_sfr_put);
 
 -------------------------------------------------------------------------------
-
-  -- Timer configuration constants
-
-  PCLK_FREQUENCY : CONSTANT := 48000000;
-
-  TYPE timer_id_t IS
-   (LPC1114_CT32B0,
-    LPC1114_CT32B1);
-
-  TYPE timer_mode_t IS
-   (LPC1114_TIMER_MODE_DISABLED,
-    LPC1114_TIMER_MODE_RESET,
-    LPC1114_TIMER_MODE_PCLK,
-    LPC1114_TIMER_MODE_CAP0_RISING,
-    LPC1114_TIMER_MODE_CAP0_FALLING,
-    LPC1114_TIMER_MODE_CAP0_BOTH);
-
-  TYPE timer_capture_edge_t IS
-   (LPC1114_TIMER_CAPTURE_EDGE_DISABLED,
-    LPC1114_TIMER_CAPTURE_EDGE_CAP0_RISING,
-    LPC1114_TIMER_CAPTURE_EDGE_CAP0_FALLING,
-    LPC1114_TIMER_CAPTURE_EDGE_CAP0_BOTH);
-
-  TYPE timer_capture_interrupt_t IS
-   (LPC1114_TIMER_CAPTURE_INTERRUPT_DISABLE,
-    LPC1114_TIMER_CAPTURE_INTERRUPT_ENABLE);
-
-  TYPE timer_match_register_t IS
-   (LPC1114_TIMER_MATCH0,
-    LPC1114_TIMER_MATCH1,
-    LPC1114_TIMER_MATCH2,
-    LPC1114_TIMER_MATCH3);
-
-  TYPE timer_match_action_t IS
-   (LPC1114_TIMER_MATCH_DISABLED,
-    LPC1114_TIMER_MATCH_CLEAR,
-    LPC1114_TIMER_MATCH_SET,
-    LPC1114_TIMER_MATCH_TOGGLE);
-
-  TYPE timer_match_interrupt_t IS
-   (LPC1114_TIMER_MATCH_INTERRUPT_DISABLE,
-    LPC1114_TIMER_MATCH_INTERRUPT_ENABLE);
-
-  TYPE timer_match_reset_t IS
-   (LPC1114_TIMER_MATCH_RESET_DISABLE,
-    LPC1114_TIMER_MATCH_RESET_ENABLE);
-
-  TYPE timer_match_stop_t IS
-   (LPC1114_TIMER_MATCH_STOP_DISABLE,
-    LPC1114_TIMER_MATCH_STOP_ENABLE);
-
-  -- Timer transfer functions
-
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_id_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_mode_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_capture_edge_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_capture_interrupt_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_register_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_action_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_interrupt_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_reset_t);
-  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(timer_match_stop_t);
 
   -- Timer services
 

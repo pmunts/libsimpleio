@@ -21,17 +21,24 @@
 -- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 -- POSSIBILITY OF SUCH DAMAGE.
 
-WITH libspiagent;
 WITH lpc11xx;
 
 PACKAGE LPC1114IOP.LEGORC IS
 
-  -- Rename some types from the thin binding package libspiagent
+  TYPE legorc_motor_t IS
+   (ALLSTOP,
+    MOTORA,
+    MOTORB,
+    COMBODIRECT,
+    COMBOPWM);
 
-  SUBTYPE legorc_channel_t   IS libspiagent.legorc_channel_t;
-  SUBTYPE legorc_motor_t     IS libspiagent.legorc_channel_t;
-  SUBTYPE legorc_direction_t IS libspiagent.legorc_channel_t;
-  SUBTYPE legorc_speed_t     IS libspiagent.legorc_channel_t;
+  TYPE legorc_direction_t IS
+   (DIRECTION_REVERSE,
+    DIRECTION_FORWARD);
+
+  TYPE legorc_speed_t IS NEW Natural RANGE 0 .. 255;
+
+  TYPE legorc_channel_t IS NEW Natural RANGE 1 .. 4;
 
   TYPE LEGORC is TAGGED PRIVATE;
 

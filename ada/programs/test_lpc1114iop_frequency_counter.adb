@@ -25,9 +25,9 @@ WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
 WITH Ada.Float_Text_IO;     USE Ada.Float_Text_IO;
-WITH CRT;                   USE CRT;
 
-WITH LPC1114IOP.Timer;       USE LPC1114IOP.Timer;
+WITH CRT;
+WITH LPC1114IOP.Timer;      USE LPC1114IOP.Timer;
 WITH LPC1114IOP.Transport;
 
 PROCEDURE test_lpc1114iop_frequency_counter IS
@@ -35,7 +35,7 @@ PROCEDURE test_lpc1114iop_frequency_counter IS
   servername : Unbounded_String;
   count      : LPC1114IOP.Timer.timer_count_t;
   freq       : Float;
-  Timer0     : Timer;
+  Timer0     : LPC1114IOP.Timer.Timer;
 
 BEGIN
   New_Line;
@@ -59,7 +59,7 @@ BEGIN
 
   -- Instantiate an LPC1114 timer object
 
-  Timer0 := Create(LPC1114_CT32B0);
+  Timer0 := LPC1114IOP.Timer.Create(LPC1114_CT32B0);
 
   -- Initialize the timer to count PCLK pulses between CAP0 input edges
 
@@ -89,7 +89,7 @@ BEGIN
     Put(freq, 5, 1, 0);
     Put(" Hz");
 
-    EXIT WHEN KeyPressed;
+    EXIT WHEN CRT.KeyPressed;
 
     DELAY 1.0;
   END LOOP;

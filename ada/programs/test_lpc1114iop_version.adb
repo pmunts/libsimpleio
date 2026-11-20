@@ -24,18 +24,23 @@
 WITH Ada.Command_Line;      USE Ada.Command_Line;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 WITH Ada.Text_IO;           USE Ada.Text_IO;
-WITH Interfaces.C;          USE Interfaces.C;
+WITH Interfaces.C;
 
-WITH libspiagent;           USE libspiagent;
-WITH LPC1114IOP.Transport;
+WITH Discrete_To_Unsigned;
+WITH libspiagent;
+WITH LPC1114IOP.Transport;  USE LPC1114IOP.Transport;
+
+USE TYPE Interfaces.C.unsigned;
 
 PROCEDURE test_lpc1114iop_version IS
 
   servername : Unbounded_String;
-  cmd        : SPIAGENT_COMMAND_MSG_t;
-  resp       : SPIAGENT_RESPONSE_MSG_t;
+  cmd        : libspiagent.SPIAGENT_COMMAND_MSG_t;
+  resp       : libspiagent.SPIAGENT_RESPONSE_MSG_t;
 
   PACKAGE int_io IS NEW Integer_IO(Integer); USE int_io;
+
+  FUNCTION To_Unsigned IS NEW Discrete_To_Unsigned(SPIAGENT_COMMAND_t);
 
 BEGIN
   New_Line;
@@ -59,7 +64,7 @@ BEGIN
 
   -- Issue NOP command to the SPI Agent Firmware
 
-  cmd.command := SPIAGENT_COMMAND_t'POS(SPIAGENT_CMD_NOP);
+  cmd.command := To_Unsigned(SPIAGENT_CMD_NOP);
   cmd.pin     := 0;
   cmd.data    := 0;
 
