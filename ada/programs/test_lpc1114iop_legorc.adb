@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Ada PWM test program
+-- Raspberry Pi LPC1114 I/O Processor LEGO® RC Transmit Test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -35,11 +35,10 @@ PROCEDURE test_lpc1114iop_legorc IS
   motor      : legorc_motor_t;
   direction  : legorc_direction_t;
   speed      : legorc_speed_t;
-  IRED       : LEGORC;
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor LEGO® RC Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor LEGO® RC Transmit Test");
   New_Line;
 
   -- Analyze command line parameters
@@ -65,13 +64,9 @@ BEGIN
 
   LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
 
-  -- Configure the GPIO output pin
-
-  IRED := Create(LPC1114_GPIO7);
-
   -- Send the command
 
-  IRED.Put(channel, motor, direction, speed);
+  LPC1114IOP.LEGORC.Transmit(LPC1114_GPIO7, channel, motor, direction, speed);
 
   -- Deinitialize the SPI Agent Firmware transport library
 

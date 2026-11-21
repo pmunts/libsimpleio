@@ -22,6 +22,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 
 WITH lpc11xx;
+WITH Motor;
 
 PACKAGE LPC1114IOP.LEGORC IS
 
@@ -40,23 +41,50 @@ PACKAGE LPC1114IOP.LEGORC IS
 
   TYPE legorc_channel_t IS NEW Natural RANGE 1 .. 4;
 
-  TYPE LEGORC is TAGGED PRIVATE;
+  -- Initialize an IRED output driver
 
-  -- Initialize a LEGO® RC output pin
+  PROCEDURE Initialize(pin : lpc11xx.pin_id_t);
 
-  FUNCTION Create(pin : lpc11xx.pin_id_t) RETURN LEGORC;
+  -- Transmit a LEGO® Power Functions Remote Control command
 
-  -- Write LEGO® RC pin
-
-  PROCEDURE Put
-   (self      : LEGORC;
+  PROCEDURE Transmit
+   (pin       : lpc11xx.pin_id_t;
     channel   : legorc_channel_t;
-    motor     : legorc_motor_t;
+    motorID   : legorc_motor_t;
     direction : legorc_direction_t;
     speed     : legorc_speed_t);
 
+  -- Motor driver output type
+
+  TYPE MotorOutputClass IS NEW Motor.OutputInterface WITH PRIVATE;
+
+  -- Motor driver output object constructor
+
+  FUNCTION Create
+   (pin       : lpc11xx.pin_id_t;
+    channel   : legorc_channel_t;
+    motorID   : legorc_motor_t;
+    velocity  : Standard.Motor.Velocity  := 0.0) RETURN Standard.Motor.Output;
+
+  -- Motor driver output object initializer
+
+  PROCEDURE Initialize
+   (self      : OUT MotorOutputClass;
+    pin       : lpc11xx.pin_id_t;
+    channel   : legorc_channel_t;
+    motorID   : legorc_motor_t;
+    velocity  : Standard.Motor.Velocity  := 0.0);
+
+  -- Motor driver output object put method
+
+  PROCEDURE Put
+   (self      : IN OUT MotorOutputClass;
+    velocity  : Standard.Motor.Velocity);
+
 PRIVATE
-  TYPE LEGORC IS TAGGED RECORD
-    pin : lpc11xx.pin_id_t;
+  TYPE MotorOutputClass IS NEW Motor.OutputInterface WITH RECORD
+    pin     : lpc11xx.pin_id_t;
+    channel : legorc_channel_t;
+    motorID : legorc_motor_t;
   END RECORD;
 END LPC1114IOP.LEGORC;
