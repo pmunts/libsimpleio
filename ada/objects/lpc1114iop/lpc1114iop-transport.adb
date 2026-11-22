@@ -28,7 +28,7 @@ PACKAGE BODY LPC1114IOP.Transport IS
 
   -- Initialize the SPI Agent Firmware transport library
 
-  PROCEDURE Open(servername : String) IS
+  PROCEDURE Open(servername : String := "ioctl://localhost") IS
 
     error : Interfaces.C.int;
 
