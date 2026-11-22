@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor
--- sonar ranging test program
+-- Raspberry Pi LPC1114 I/O Processor SONAR Test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -53,7 +52,7 @@ PROCEDURE test_lpc1114iop_sonar IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Sonar Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor SONAR Test");
   New_Line;
 
   -- Analyze command line parameters

@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Ada
--- H-bridge DC motor driver output test program
+-- Raspberry Pi LPC1114 I/O Processor DC Motor Test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --

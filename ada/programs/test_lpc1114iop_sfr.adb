@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
--- SFR (Special Function Register) I/O test
+-- Raspberry Pi LPC1114 I/O Processor Special Function Register Test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -39,7 +38,7 @@ PROCEDURE test_lpc1114iop_sfr IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor SFR Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor Special Function Register Test");
   New_Line;
 
   -- Analyze command line parameters

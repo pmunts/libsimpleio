@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor SPI Agent Firmware
--- version test
+-- Raspberry Pi LPC1114 I/O Processor Firmware Version Test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --

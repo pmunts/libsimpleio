@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Ada PWM test program
+-- Raspberry Pi LPC1114 I/O Processor PWM Output Test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --

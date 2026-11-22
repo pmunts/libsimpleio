@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor interrupt test program
+-- Raspberry Pi LPC1114 I/O Processor Interrupt Test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --

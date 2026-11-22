@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor button and LED test
+-- Raspberry Pi LPC1114 I/O Processor Button and LED Test
 
 -- Copyright (C)2017-2026, Philip Munts, President, Munts AM Corp.
 --

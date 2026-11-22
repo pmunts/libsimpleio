@@ -1,4 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor Ada A/D test program
+-- Raspberry Pi LPC1114 I/O Processor ADC Input Test"
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
@@ -41,7 +41,7 @@ PROCEDURE test_lpc1114iop_adc IS
 
 BEGIN
   New_Line;
-  Put_Line("Raspberry Pi LPC1114 I/O Processor Analog Input Test");
+  Put_Line("Raspberry Pi LPC1114 I/O Processor ADC Input Test");
   New_Line;
 
   -- Analyze command line parameters

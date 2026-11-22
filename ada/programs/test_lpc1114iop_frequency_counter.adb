@@ -1,5 +1,4 @@
--- Raspberry Pi LPC1114 I/O Processor
--- Ada frequency counter test program
+-- Raspberry Pi LPC1114 I/O Processor Frequency Counter Test
 
 -- Copyright (C)2013-2026, Philip Munts, President, Munts AM Corp.
 --
