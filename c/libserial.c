@@ -56,6 +56,10 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
     return;
   }
 
+#if (__GLIBC__ == 2 && __GLIBC_MINOR__ < 42)
+  // After glibc release 2.42, arbitrary baud rates are supported and the Bxxx
+  // macros are no longer relevant.
+
   switch (baudrate)
   {
     case 50 :
@@ -120,6 +124,7 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
       ERRORMSG("baudrate argument is invalid", *error, __LINE__ - 25);
       return;
   }
+#endif
 
   if ((parity < SERIAL_PARITY_NONE) || (parity > SERIAL_PARITY_ODD))
   {
@@ -177,6 +182,10 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
   cfg.c_lflag = 0;
 
   // Set baud rate
+
+#if (__GLIBC__ == 2 && __GLIBC_MINOR__ < 42)
+  // After glibc release 2.42, arbitrary baud rates are supported and the Bxxx
+  // macros are no longer relevant.
 
   switch (baudrate)
   {
@@ -324,6 +333,7 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
       break;
 #endif
   }
+#endif
 
   cfsetispeed(&cfg, baudrate);
   cfsetospeed(&cfg, baudrate);
