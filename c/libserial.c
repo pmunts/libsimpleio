@@ -178,154 +178,155 @@ void SERIAL_open(const char *name, int32_t baudrate, int32_t parity,
 
   // Set baud rate
 
-  cfg.c_cflag &= ~CBAUD;
-
   switch (baudrate)
   {
     case 50:
-      cfg.c_cflag |= B50;
+      baudrate = B50;
       break;
 
     case 75:
-      cfg.c_cflag |= B75;
+      baudrate = B75;
       break;
 
     case 110:
-      cfg.c_cflag |= B110;
+      baudrate = B110;
       break;
 
     case 134:
-      cfg.c_cflag |= B134;
+      baudrate = B134;
       break;
 
     case 150:
-      cfg.c_cflag |= B150;
+      baudrate = B150;
       break;
 
     case 200:
-      cfg.c_cflag |= B200;
+      baudrate = B200;
       break;
 
     case 300:
-      cfg.c_cflag |= B300;
+      baudrate = B300;
       break;
 
     case 600:
-      cfg.c_cflag |= B600;
+      baudrate = B600;
       break;
 
     case 1200:
-      cfg.c_cflag |= B1200;
+      baudrate = B1200;
       break;
 
     case 1800:
-      cfg.c_cflag |= B1800;
+      baudrate = B1800;
       break;
 
     case 2400:
-      cfg.c_cflag |= B2400;
+      baudrate = B2400;
       break;
 
     case 4800:
-      cfg.c_cflag |= B4800;
+      baudrate = B4800;
       break;
 
     case 9600:
-      cfg.c_cflag |= B9600;
+      baudrate = B9600;
       break;
 
     case 19200:
-      cfg.c_cflag |= B19200;
+      baudrate = B19200;
       break;
 
     case 38400:
-      cfg.c_cflag |= B38400;
+      baudrate = B38400;
       break;
 
     case 57600:
-      cfg.c_cflag |= B57600;
+      baudrate = B57600;
       break;
 
     case 115200:
-      cfg.c_cflag |= B115200;
+      baudrate = B115200;
       break;
 
     case 230400:
-      cfg.c_cflag |= B230400;
+      baudrate = B230400;
       break;
 
 #ifdef B460800
     case 460800:
-      cfg.c_cflag |= B460800;
+      baudrate = B460800;
       break;
 #endif
 
 #ifdef B500000
     case 500000:
-      cfg.c_cflag |= B500000;
+      baudrate = B500000;
       break;
 #endif
 
 #ifdef B576000
     case 576000:
-      cfg.c_cflag |= B576000;
+      baudrate = B576000;
       break;
 #endif
 
 #ifdef B921600
     case 921600:
-      cfg.c_cflag |= B921600;
+      baudrate = B921600;
       break;
 #endif
 
 #ifdef B1000000
     case 1000000:
-      cfg.c_cflag |= B1000000;
+      baudrate = B1000000;
       break;
 #endif
 
 #ifdef B1152000
     case 1152000:
-      cfg.c_cflag |= B1152000;
+      baudrate = B1152000;
       break;
 #endif
 
 #ifdef B1500000
     case 1500000:
-      cfg.c_cflag |= B1500000;
+      baudrate = B1500000;
       break;
 #endif
 
 #ifdef B2000000
     case 2000000:
-      cfg.c_cflag |= B2000000;
+      baudrate = B2000000;
       break;
 #endif
 
 #ifdef B2500000
     case 2500000:
-      cfg.c_cflag |= B2500000;
+      baudrate = B2500000;
       break;
 #endif
 
 #ifdef B3000000
     case 3000000:
-      cfg.c_cflag |= B3000000;
+      baudrate = B3000000;
       break;
 #endif
 
 #ifdef B350000
     case 3500000:
-      cfg.c_cflag |= B3500000;
+      baudrate = B3500000;
       break;
 #endif
 
 #ifdef B4000000
     case 4000000:
-      cfg.c_cflag |= B4000000;
+      baudrate = B4000000;
       break;
 #endif
   }
+
+  cfsetispeed(&cfg, baudrate);
+  cfsetospeed(&cfg, baudrate);
 
   // Set parity mode
 
