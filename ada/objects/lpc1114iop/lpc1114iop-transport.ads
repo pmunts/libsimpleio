@@ -61,7 +61,7 @@ PACKAGE LPC1114IOP.Transport IS
 
   -- Initialize the SPI Agent Firmware transport library
 
-  PROCEDURE Open(servername : String);
+  PROCEDURE Open(servername : String := "ioctl://localhost");
 
   -- Deinitialize the SPI Agent Firmware transport library
 
