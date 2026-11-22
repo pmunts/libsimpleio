@@ -41,7 +41,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.Open("ioctl://localhost" & ASCII.NUL);
+  LPC1114IOP.Transport.Open("ioctl://localhost");
 
   -- Configure an LPC1114 pin as input with pull-up, with interrupt enabled
 

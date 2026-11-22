@@ -40,7 +40,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.Open("localhost" & ASCII.NUL);
+  LPC1114IOP.Transport.Open("localhost");
 
   -- Initialize an IRED driver output
 

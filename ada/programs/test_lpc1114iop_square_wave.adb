@@ -56,7 +56,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
+  LPC1114IOP.Transport.Open(To_String(servername));
 
   -- Instantiate an LPC1114 timer object
 

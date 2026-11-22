@@ -68,7 +68,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
+  LPC1114IOP.Transport.Open(To_String(servername));
 
   -- Configure LPC1114 timer 1 to measure pulse width on CAP0 input
 

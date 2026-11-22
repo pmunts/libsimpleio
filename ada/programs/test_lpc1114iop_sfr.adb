@@ -54,7 +54,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
+  LPC1114IOP.Transport.Open(To_String(servername));
 
   -- Create SFR instances
 

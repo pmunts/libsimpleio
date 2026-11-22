@@ -59,7 +59,7 @@ BEGIN
 
   -- Initialize the SPI Agent Firmware transport library
 
-  LPC1114IOP.Transport.Open(To_String(servername) & ASCII.NUL);
+  LPC1114IOP.Transport.Open(To_String(servername));
 
   -- Issue NOP command to the SPI Agent Firmware
 
