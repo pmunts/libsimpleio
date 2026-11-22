@@ -33,7 +33,7 @@ PACKAGE BODY LPC1114IOP.Transport IS
     error : Interfaces.C.int;
 
   BEGIN
-    libspiagent.spiagent_open(servername, error);
+    libspiagent.spiagent_open(servername & ASCII.Nul, error);
 
     IF error /= 0 THEN
       RAISE LPC1114IOP.Error WITH "spiagent_open() failed, error" & error'Image;
