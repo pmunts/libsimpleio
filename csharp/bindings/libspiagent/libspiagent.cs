@@ -118,7 +118,7 @@ namespace IO.Bindings
     /// connection to a single LPC1114 I/O Processor at a time.
     /// </remarks>
     [DllImport("spiagent")]
-    public static extern void spiagent_open(string server, out uint error);
+    public static extern void spiagent_open(string server, out int error);
 
     /// <summary>
     /// Close the connection to the LPC1114 I/O Processor.
@@ -128,7 +128,7 @@ namespace IO.Bindings
     /// error number upon failure.
     /// </param>
     [DllImport("spiagent")]
-    public static extern void spiagent_close(out uint error);
+    public static extern void spiagent_close(out int error);
 
     /// <summary>
     /// LPC1114 I/O Processor command codes.
@@ -228,7 +228,7 @@ namespace IO.Bindings
     /// </remarks>
     [DllImport("spiagent")]
     public static extern void spiagent_command(ref SPIAGENT_COMMAND_MSG_t cmd,
-      ref SPIAGENT_RESPONSE_MSG_t resp, out uint error);
+      ref SPIAGENT_RESPONSE_MSG_t resp, out int error);
 
   }
 }

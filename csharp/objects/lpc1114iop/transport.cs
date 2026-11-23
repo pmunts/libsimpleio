@@ -66,7 +66,7 @@ namespace IO.Objects.LPC1114IOP
     /// </remarks>
     public static void Open(string server = "ioctl://localhost")
     {
-      uint error;
+      int error;
 
       spiagent_open(server, out error);
 
@@ -80,7 +80,7 @@ namespace IO.Objects.LPC1114IOP
     /// </summary>
     public static void Close()
     {
-      uint error;
+      int error;
 
       IO.Bindings.libspiagent.spiagent_close(out error);
 
@@ -139,7 +139,7 @@ namespace IO.Objects.LPC1114IOP
     public static void Execute(ref SPIAGENT_COMMAND_MSG_t cmd,
       ref SPIAGENT_RESPONSE_MSG_t resp)
     {
-      uint error;
+      int error;
 
       IO.Bindings.libspiagent.spiagent_command(ref cmd, ref resp, out error);
 
