@@ -20,7 +20,6 @@
 
 using static System.Console;
 using static IO.Bindings.libspiagent;
-using static IO.Bindings.libspiagent.SPIAGENT_COMMAND_t;
 using static IO.Objects.LPC1114IOP.Transport;
 
 WriteLine("\nLPC1114 I/O Processor Version Test\n");
