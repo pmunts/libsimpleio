@@ -18,9 +18,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using IO.Devices.AD5593R.GPIO;
-using System.Data.Common;
-using System.IO;
 using static IO.Bindings.libspiagent;
 using static IO.Bindings.libspiagent.SPIAGENT_COMMAND_t;
 
