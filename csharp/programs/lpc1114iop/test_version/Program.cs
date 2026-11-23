@@ -20,17 +20,18 @@
 
 using static System.Console;
 using static IO.Bindings.libspiagent;
-using static IO.Objects.LPC1114IOP.Transport;
+
+using IO.Objects.LPC1114IOP;
 
 WriteLine("\nLPC1114 I/O Processor Version Test\n");
 
-Open();
+Transport.Open();
 
-SPIAGENT_COMMAND_MSG_t cmd   = CommandFactory();
-SPIAGENT_RESPONSE_MSG_t resp = ResponseFactory();
+SPIAGENT_COMMAND_MSG_t cmd   = Transport.CommandFactory();
+SPIAGENT_RESPONSE_MSG_t resp = Transport.ResponseFactory();
 
-Execute(ref cmd, ref resp);
+Transport.Execute(ref cmd, ref resp);
 
 WriteLine("The firmware version is " + resp.data.ToString());
 
-Close();
+Transport.Close();
