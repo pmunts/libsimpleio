@@ -131,6 +131,87 @@ namespace IO.Bindings
     public static extern void spiagent_close(out uint error);
 
     /// <summary>
+    /// LPC1114 I/O Processor command codes.
+    /// </summary>
+    public enum SPIAGENT_COMMAND_t
+    {
+      SPIAGENT_CMD_NOP,
+      SPIAGENT_CMD_LOOPBACK,
+      SPIAGENT_CMD_CONFIGURE_ANALOG_INPUT,
+      SPIAGENT_CMD_CONFIGURE_GPIO_INPUT,
+      SPIAGENT_CMD_CONFIGURE_GPIO_OUTPUT,
+      SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT,
+      SPIAGENT_CMD_GET_ANALOG,
+      SPIAGENT_CMD_GET_GPIO,
+      SPIAGENT_CMD_PUT_GPIO,
+      SPIAGENT_CMD_PUT_PWM,
+      SPIAGENT_CMD_CONFIGURE_GPIO_INTERRUPT,
+      SPIAGENT_CMD_CONFIGURE_GPIO,
+      SPIAGENT_CMD_PUT_LEGORC,
+      SPIAGENT_CMD_GET_SFR,
+      SPIAGENT_CMD_PUT_SFR,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MODE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_PRESCALER,
+      SPIAGENT_CMD_CONFIGURE_TIMER_CAPTURE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH0,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH1,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH2,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH3,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH0_VALUE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH1_VALUE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH2_VALUE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH3_VALUE,
+      SPIAGENT_CMD_GET_TIMER_VALUE,
+      SPIAGENT_CMD_GET_TIMER_CAPTURE,
+      SPIAGENT_CMD_GET_TIMER_CAPTURE_DELTA,
+      SPIAGENT_CMD_INIT_TIMER
+    }
+
+    /// <summary>
+    /// LPC1114 I/O Processor command message structure.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public struct SPIAGENT_COMMAND_MSG_t
+    {
+      /// <summary>
+      /// Command number field.
+      /// </summary>
+      public uint command;
+      /// <summary>
+      /// Pin number field.
+      /// </summary>
+      public uint pin;
+      /// <summary>
+      /// Command data field.
+      /// </summary>
+      public uint data;
+    }
+
+    /// <summary>
+    /// LPC1114 I/O Processor response message struture.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public struct SPIAGENT_RESPONSE_MSG_t
+    {
+      /// <summary>
+      /// Command number field.
+      /// </summary>
+      public uint command;
+      /// <summary>
+      /// Pin number field.
+      /// </summary>
+      public uint pin;
+      /// <summary>
+      /// Response data field.
+      /// </summary>
+      public uint data;
+      /// <summary>
+      /// Error number field.
+      /// </summary>
+      public uint error;
+    }
+
+    /// <summary>
     /// Dispatch a command to the LPC1114 I/O Processor.
     /// </summary>
     /// <param name="cmd">Command buffer.</param>
@@ -146,8 +227,8 @@ namespace IO.Bindings
     /// arguments.
     /// </remarks>
     [DllImport("spiagent")]
-    public static extern void spiagent_command(uint[] cmd, out uint[] resp,
-      out uint error);
+    public static extern void spiagent_command(ref SPIAGENT_COMMAND_MSG_t cmd,
+      ref SPIAGENT_RESPONSE_MSG_t resp, out uint error);
 
   }
 }
