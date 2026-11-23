@@ -19,7 +19,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using static IO.Bindings.libspiagent;
-using static IO.Bindings.libspiagent.SPIAGENT_COMMAND_t;
 
 namespace IO.Objects.LPC1114IOP
 {
@@ -90,6 +89,43 @@ namespace IO.Objects.LPC1114IOP
     }
 
     /// <summary>
+    /// LPC1114 I/O Processor command codes.
+    /// </summary>
+    public enum SPIAGENT_COMMAND_t
+    {
+      SPIAGENT_CMD_NOP,
+      SPIAGENT_CMD_LOOPBACK,
+      SPIAGENT_CMD_CONFIGURE_ANALOG_INPUT,
+      SPIAGENT_CMD_CONFIGURE_GPIO_INPUT,
+      SPIAGENT_CMD_CONFIGURE_GPIO_OUTPUT,
+      SPIAGENT_CMD_CONFIGURE_PWM_OUTPUT,
+      SPIAGENT_CMD_GET_ANALOG,
+      SPIAGENT_CMD_GET_GPIO,
+      SPIAGENT_CMD_PUT_GPIO,
+      SPIAGENT_CMD_PUT_PWM,
+      SPIAGENT_CMD_CONFIGURE_GPIO_INTERRUPT,
+      SPIAGENT_CMD_CONFIGURE_GPIO,
+      SPIAGENT_CMD_PUT_LEGORC,
+      SPIAGENT_CMD_GET_SFR,
+      SPIAGENT_CMD_PUT_SFR,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MODE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_PRESCALER,
+      SPIAGENT_CMD_CONFIGURE_TIMER_CAPTURE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH0,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH1,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH2,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH3,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH0_VALUE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH1_VALUE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH2_VALUE,
+      SPIAGENT_CMD_CONFIGURE_TIMER_MATCH3_VALUE,
+      SPIAGENT_CMD_GET_TIMER_VALUE,
+      SPIAGENT_CMD_GET_TIMER_CAPTURE,
+      SPIAGENT_CMD_GET_TIMER_CAPTURE_DELTA,
+      SPIAGENT_CMD_INIT_TIMER
+    }
+
+    /// <summary>
     /// Command message object instance factory.
     /// </summary>
     /// <param name="command">Command number.</param>
@@ -97,7 +133,8 @@ namespace IO.Objects.LPC1114IOP
     /// <param name="data">Command data.</param>
     /// <returns>Command message object instance.</returns>
     public static SPIAGENT_COMMAND_MSG_t CommandFactory(SPIAGENT_COMMAND_t
-      command = SPIAGENT_CMD_NOP, uint pin = 0, uint data = 0)
+      command = SPIAGENT_COMMAND_t.SPIAGENT_CMD_NOP, uint pin = 0,
+      uint data = 0)
     {
       SPIAGENT_COMMAND_MSG_t cmd;
       cmd.command = (uint)command;
@@ -115,7 +152,8 @@ namespace IO.Objects.LPC1114IOP
     /// <param name="error"><c>errno</c> Error number.</param>
     /// <returns></returns>
     public static SPIAGENT_RESPONSE_MSG_t ResponseFactory(SPIAGENT_COMMAND_t
-      command = SPIAGENT_CMD_NOP, uint pin = 0, uint data = 0, uint error = 0)
+      command = SPIAGENT_COMMAND_t.SPIAGENT_CMD_NOP, uint pin = 0,
+      uint data = 0, uint error = 0)
     {
       SPIAGENT_RESPONSE_MSG_t resp;
       resp.command = 0;
