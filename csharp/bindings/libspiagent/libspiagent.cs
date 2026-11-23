@@ -42,6 +42,10 @@ namespace IO.Bindings
   /// peripheral bus.
   /// </para>
   /// </summary>
+  /// <remarks>
+  /// The underlying library <c>libspiagent.so</c> only supports a single
+  /// connection to a single LPC1114 I/O Processor at a time.
+  /// </remarks>
   public static class libspiagent
   {
     /// <summary>
@@ -109,6 +113,10 @@ namespace IO.Bindings
     /// </code>
     /// </para>
     /// </example>
+    /// <remarks>
+    /// The underlying library <c>libspiagent.so</c> only supports a single
+    /// connection to a single LPC1114 I/O Processor at a time.
+    /// </remarks>
     [DllImport("spiagent")]
     public static extern void spiagent_open(string server, out uint error);
 
