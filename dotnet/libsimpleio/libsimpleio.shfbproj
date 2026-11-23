@@ -79,7 +79,8 @@
       <NamespaceSummaryItem name="IO.Objects.Email.Mail" isDocumented="True">Email Sending Services using &lt;c&gt;/usr/bin/mail&lt;/c&gt;</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Email.SMTP" isDocumented="True">Email Sending Services using SMTP to &lt;c&gt;localhost:25&lt;/c&gt;</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.GPIO.PWM" isDocumented="True">PWM Controlled GPIO Output Services</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="IO.Objects.LPC1114IOP" isDocumented="True">&lt;a href="https://tech.munts.com/manuals/MUNTS-0004.pdf"&gt;LPC1114 I/O Processor&lt;/a&gt; Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.LPC1114IOP" isDocumented="True">&lt;a href="https://tech.munts.com/manuals/MUNTS-0004.pdf"&gt;LPC1114 I/O Processor&lt;/a&gt; Transport Services</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="IO.Objects.LPC1114IOP.GPIO" isDocumented="True">&lt;a href="https://tech.munts.com/manuals/MUNTS-0004.pdf"&gt;LPC1114 I/O Processor&lt;/a&gt; GPIO Pin Services</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.UDP" isDocumented="True">64-Byte Message Services over UDP</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.WioE5Ham1" isDocumented="True">64-Byte Message Services over Wio-E5 LoRa Transceiver Amateur Radio Addressing Protocol #1</NamespaceSummaryItem>
       <NamespaceSummaryItem name="IO.Objects.Message64.libhidraw" isDocumented="True">64-Byte Message Services over libhidraw</NamespaceSummaryItem>
