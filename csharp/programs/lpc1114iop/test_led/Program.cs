@@ -24,6 +24,8 @@ using static System.Threading.Thread;
 using IO.Objects.LPC1114IOP;
 using IO.Objects.LPC1114IOP.GPIO;
 
+WriteLine("\nLPC1114 I/O Processor LED Test\n");
+
 Transport.Open();
 
 var LED = new Pin(pin_id_t.LED, IO.Interfaces.GPIO.Direction.Output);
