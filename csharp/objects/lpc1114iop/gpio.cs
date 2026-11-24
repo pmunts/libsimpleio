@@ -198,16 +198,16 @@ namespace IO.Objects.LPC1114IOP.GPIO
     {
       get
       {
-        uint state;
+        uint value;
         int error;
 
-        spiagent_gpio_get(this.number, out state, out error);
+        spiagent_gpio_get(this.number, out value, out error);
 
         if (error != 0)
           throw new System.Exception("spiagent_gpio_get() failed, error=" +
             error.ToString());
 
-        return state > 0;
+        return value > 0;
       }
 
       set
@@ -217,7 +217,7 @@ namespace IO.Objects.LPC1114IOP.GPIO
 
         int error;
 
-        spiagent_gpio_put(this.number, (uint) (state ? 1 : 0), out error);
+        spiagent_gpio_put(this.number, (uint) (value ? 1 : 0), out error);
 
         if (error != 0)
           throw new System.Exception("spiagent_gpio_put() failed, error=" +
