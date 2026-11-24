@@ -192,5 +192,74 @@ namespace IO.Bindings
     [DllImport("spiagent")]
     public static extern void spiagent_command(ref SPIAGENT_COMMAND_MSG_t cmd,
       ref SPIAGENT_RESPONSE_MSG_t resp, out int error);
+
+    /// <summary>
+    /// Configure an LPC1114 I/O Processor GPIO pin.
+    /// </summary>
+    /// <param name="pin">Pin number.</param>
+    /// <param name="direction">Direction (0=input, 1=output).</param>
+    /// <param name="state">Initial state for output pin (0=low, 1=high).
+    /// </param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_gpio_configure(uint pin,
+      uint direction, uint state, out int error);
+
+    /// <summary>
+    /// Configure an LPC1114 I/O Processor GPIO pin.
+    /// </summary>
+    /// <param name="pin">Pin number.</param>
+    /// <param name="mode">Configuration mode.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_gpio_configure_mode(uint pin,
+      uint mode, out int error);
+
+    /// <summary>
+    /// Configure an LPC1114 I/O Procesor GPIO pin interrupt mode.
+    /// </summary>
+    /// <param name="pin">Pin number</param>
+    /// <param name="intconfig">Interrupt edge detection configuration
+    /// (0=disabled, 1=falling edge, 2=rising edge, 3=both edges).
+    /// </param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_gpio_configure_interrupt(uint pin,
+      uint intconfig, out int error);
+
+    /// <summary>
+    /// Get GPIO pin state.
+    /// </summary>
+    /// <param name="pin">Pin number.</param>
+    /// <param name="state">Set to GPIO pin state (0=low, 1=high).</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_gpio_get(uint pin, out uint state,
+      out int error);
+
+    /// <summary>
+    /// Put GPIO output pin state.
+    /// </summary>
+    /// <param name="pin">Pin number.</param>
+    /// <param name="state">New output state (0=low, 1=high).</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_gpio_put(uint pin, uint state,
+      out int error);
   }
 }
