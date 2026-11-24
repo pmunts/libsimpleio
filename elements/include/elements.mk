@@ -69,4 +69,5 @@ elements_mk_fixup:
 
 elements_mk_clean:
 	rm -rf bin obj Bin Obj *.dll *.exe *.json *.log *.mdb *.nupkg *.pdb *.xml *~ *.cache *.user
+	rm -rf $(DEBDIR) $(RPMDIR) $(TARDIR) rpmbuild specfile *.deb *.rpm *.tgz
 	$(LIBSIMPLEIO)/include/vsclean.sh

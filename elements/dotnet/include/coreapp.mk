@@ -127,4 +127,3 @@ endif
 # Remove working files
 
 coreapp_mk_clean: elements_mk_clean
-	rm -rf $(DEBDIR) $(RPMDIR) $(TARDIR) rpmbuild specfile *.deb *.rpm *.tgz
