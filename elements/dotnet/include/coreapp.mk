@@ -124,6 +124,10 @@ ifneq ($(TARGETCOMPUTER),)
 	scp $(SCPFLAGS) $(TARFILE) $(TARGETCOMPUTER)
 endif
 
+# Fixup permissions etc.
+
+coreapp_mk_fixup: elements_mk_fixup
+
 # Remove working files
 
 coreapp_mk_clean: elements_mk_clean
