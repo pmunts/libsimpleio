@@ -58,10 +58,10 @@ endif
 # Special project file fixup target for Cygwin development host
 
 csharp_mk_fixup:
-	-$(FIND) * -type d -exec chmod 755 {}  ";"
-	-$(FIND) * -type f -exec chmod 644 {}  ";"
-	-$(FIND) * -type f -exec bom_remove {} ";"
-	-$(FIND) * -type f -exec unix2dos {}   ";"
+	-$(FIND) *         -type d -exec chmod 755 {}  ";"
+	-$(FIND) * .vscode -type f -exec chmod 644 {}  ";"
+	-$(FIND) * .vscode -type f -exec bom_remove {} ";"
+	-$(FIND) * .vscode -type f -exec unix2dos {}   ";"
 	-dos2unix Makefile
 	-dos2unix S00*
 
