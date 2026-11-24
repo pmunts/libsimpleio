@@ -1,6 +1,6 @@
 # Makefile for building a .Net Core application program
 
-# Copyright (C)2018-2024, Philip Munts dba Munts Technologies.
+# Copyright (C)2018-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -38,12 +38,15 @@ endif
 # Build architecture independent deliverables (i.e. dotnet run myapp.dll).
 
 coreapp_mk_build: elements_mk_build
-	cp $(COREAPPPUB)/*.dll .
-	cp $(COREAPPPUB)/*.runtimeconfig.json .
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $(COREAPPPUB)/*.dll $(COREAPPPUB)/*.runtimeconfig.json $(TARGETCOMPUTER)
+else
+	cp $(COREAPPPUB)/*.dll $(COREAPPPUB)/*.runtimeconfig.json .
+endif
 
 # Install architecture independent deliverables
 
-coreapp_mk_install: coreapp_mk_build
+coreapp_mk_install: elements_mk_build
 ifneq ($(wildcard S[0-9][0-9]$(COREAPPNAME)),)
 	mkdir -p						$(DESTDIR)/etc/rc.d
 	install -cm 0755 S[0-9][0-9]$(COREAPPNAME)		$(DESTDIR)/etc/rc.d
@@ -53,13 +56,12 @@ endif
 	chmod 755						$(DESTDIR)/$(COREAPPBIN)/$(COREAPPNAME)
 	mkdir -p 						$(DESTDIR)/$(COREAPPLIB)
 	cp -R -P -p $(COREAPPPUB)/*.dll				$(DESTDIR)/$(COREAPPLIB)
-	cp -R -P -p $(COREAPPPUB)/*.json			$(DESTDIR)/$(COREAPPLIB)
+	cp -R -P -p $(COREAPPPUB)/*.runtimeconfig.json		$(DESTDIR)/$(COREAPPLIB)
 	rm -f							$(DESTDIR)/$(COREAPPLIB)/*deps.json
 	rm -f							$(DESTDIR)/$(COREAPPLIB)/*dev.json
 	$(FIND) $(DESTDIR)/$(COREAPPLIB) -type d -exec chmod 755 "{}" ";"
 	$(FIND) $(DESTDIR)/$(COREAPPLIB) -type f -exec chmod 644 "{}" ";"
 
-ifeq ($(shell uname), Linux)
 # Build an architecture independent Debian package file (mostly useful for
 # MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
 
@@ -80,9 +82,10 @@ $(DEBDIR):
 	touch $@
 
 coreapp_mk_deb: $(DEBFILE)
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $(DEBFILE) $(TARGETCOMPUTER)
 endif
 
-ifeq ($(shell uname), Linux)
 # Build an architecture independent RPM package file (mostly useful for
 # MuntsOS Embedded Linux.  See https://github.com/pmunts/muntsos).
 
@@ -99,6 +102,8 @@ $(RPMDIR):
 	touch $@
 
 coreapp_mk_rpm: $(RPMFILE)
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $(RPMFILE) $(TARGETCOMPUTER)
 endif
 
 # Build an architecture independent tarball file (mostly useful for
@@ -115,6 +120,9 @@ $(TARDIR):
 	touch $@
 
 coreapp_mk_tarball: $(TARFILE)
+ifneq ($(TARGETCOMPUTER),)
+	scp $(SCPFLAGS) $(TARFILE) $(TARGETCOMPUTER)
+endif
 
 # Remove working files
 
