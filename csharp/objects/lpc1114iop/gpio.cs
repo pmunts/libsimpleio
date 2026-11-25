@@ -119,7 +119,7 @@ namespace IO.Objects.LPC1114IOP.GPIO
   }
 
   /// <summary>
-  /// Encapsulates LPC1114 I/O Processor GPIO pins.
+  /// This class encapsulates LPC1114 I/O Processor GPIO pins.
   /// </summary>
   public class Pin : IO.Interfaces.GPIO.Pin
   {
