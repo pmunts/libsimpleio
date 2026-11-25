@@ -24,7 +24,7 @@ using static System.Threading.Thread;
 using IO.Objects.LPC1114IOP;
 using IO.Objects.LPC1114IOP.Servo;
 
-WriteLine("\nLPC1114 I/O Processor Servo Output Test\n");
+WriteLine("\nLPC1114 I/O Processor Servo Test\n");
 
 // Open connection to LPC1114 I/O Processor
 
