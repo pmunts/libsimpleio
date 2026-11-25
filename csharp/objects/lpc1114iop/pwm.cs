@@ -69,13 +69,19 @@ namespace IO.Objects.LPC1114IOP.PWM
     {
       int error;
 
+      spiagent_pwm_set_frequency((uint) freq, out error);
+
+      if (error != 0)
+        throw new System.Exception("spiagent_pwm_set_frequency() failed, error=" +
+          error.ToString());
+
       spiagent_pwm_configure((uint) pin, out error);
 
       if (error != 0)
         throw new System.Exception("spiagent_pwm_configure() failed, error=" +
           error.ToString());
 
-      this.frequency = freq;
+      myfreq = freq;
       this.mypin = (uint) pin;
       this.dutycycle = duty;
     }
