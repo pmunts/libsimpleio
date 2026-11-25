@@ -93,7 +93,7 @@ namespace IO.Objects.LPC1114IOP.Servo
     }
 
     /// <summary>
-    /// Read/Write normalize servo position (-1.0 to +1.0) property.
+    /// Read/Write normalized servo position (-1.0 to +1.0) property.
     /// </summary>
     public double position
     {
