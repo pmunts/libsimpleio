@@ -59,6 +59,12 @@ namespace IO.Objects.LPC1114IOP.PWM
     /// </summary>
     /// <param name="pin">PWM output pin number.</param>
     /// <param name="duty">PWM output duty cycle percentage (0.0 to 100.0).</param>
+    /// <remarks>
+    /// All PWM outputs share the same pulse frequency.<br/><br/>
+    /// You <b>must</b> set the common PWM output pulse frequency (<i>i.e.</i>
+    /// <c>IO.Objects.LPC1114IOP.PWM.Output.frequency = 1000;</c>) <b>before</b>
+    /// configuring a PWM output.
+    /// </remarks>
     public Output(pin_id_t pin, double duty = 0.0)
     {
       int error;

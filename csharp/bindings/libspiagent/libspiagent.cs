@@ -274,7 +274,8 @@ namespace IO.Bindings
     /// All PWM outputs share the same pulse frequency.
     /// </remarks>
     [DllImport("spiagent")]
-    public static extern void spiagent_pwm_set_frequency(uint frequency, out int error);
+    public static extern void spiagent_pwm_set_frequency(uint frequency,
+      out int error);
 
     /// <summary>
     /// Configure a GPIO pin as a PWM output.
@@ -285,8 +286,10 @@ namespace IO.Bindings
     /// error number upon failure.
     /// </param>
     /// <remarks>
-    /// You <b>must</b> set the common PWM pulse output frequency with a call to
-    /// <c>spiagent_pwm_set_frequency()</c> <b>before</b> configuring a PWM output.
+    /// All PWM outputs share the same pulse frequency.<br/><br/>
+    /// You <b>must</b> set the common PWM pulse output frequency with a call
+    /// to <c>spiagent_pwm_set_frequency()</c> <b>before</b> configuring a
+    /// PWM output.
     /// </remarks>
     [DllImport("spiagent")]
     public static extern void spiagent_pwm_configure(uint pin, out int error);
@@ -311,6 +314,12 @@ namespace IO.Bindings
     /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
     /// error number upon failure.
     /// </param>
+    /// <remarks>
+    /// All PWM outputs share the same pulse frequency.<br/><br/>
+    /// You <b>must</b> set the common PWM pulse output frequency to a value
+    /// from 50 to 400 Hz with a call to <c>spiagent_pwm_set_frequency()</c>
+    /// <b>before</b> configuring a servo output.
+    /// </remarks>
     [DllImport("spiagent")]
     public static extern void spiagent_servo_configure(uint pin, out int error);
 
@@ -323,11 +332,8 @@ namespace IO.Bindings
     /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
     /// error number upon failure.
     /// </param>
-    /// <remarks>
-    /// You <b>must</b> set the common PWM pulse output frequency with a call to
-    /// <c>spiagent_pwm_set_frequency()</c> <b>before</b> configuring a servo output.
-    /// </remarks>
     [DllImport("spiagent")]
-    public static extern void spiagent_servo_put(uint pin, float position, out int error);
+    public static extern void spiagent_servo_put(uint pin, float position,
+      out int error);
   }
 }

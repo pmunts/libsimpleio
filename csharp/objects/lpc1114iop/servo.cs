@@ -59,9 +59,10 @@ namespace IO.Objects.LPC1114IOP.Servo
     /// <param name="pin">Servo output pin number.</param>
     /// <param name="position">Servo normalized position (-1.0 to +1.0).</param>
     /// <remarks>
+    /// All PWM outputs share the same pulse frequency.<br/><br/>
     /// You <b>must</b> set the common PWM output pulse frequency to a value
-    /// from 50 to 400 Hz inclusive (<i>i.e.</i>
-    /// <c>IO.Objects.LPC1114IOP.PWM.Output.frequency = 50;</c> <b>before</b>
+    /// from 50 to 400 Hz (<i>i.e.</i>
+    /// <c>IO.Objects.LPC1114IOP.PWM.Output.frequency = 50;</c>) <b>before</b>
     /// configuring a servo output.
     /// </remarks>
     public Output(pin_id_t pin, double position = 0.0)
