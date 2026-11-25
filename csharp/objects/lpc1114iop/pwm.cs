@@ -50,7 +50,7 @@ namespace IO.Objects.LPC1114IOP.PWM
   /// </summary>
   public class Output : IO.Interfaces.PWM.Output
   {
-    private static uint myfreq;
+    private static int pwmfreq; // All PWM outputs share the same frequency!
     private uint mypin;
     private float myduty;
 
@@ -58,22 +58,10 @@ namespace IO.Objects.LPC1114IOP.PWM
     /// PWM output object constructor.
     /// </summary>
     /// <param name="pin">PWM output pin number.</param>
-    /// <param name="freq">PWM pulse frequency.</param>
-    /// <param name="duty">PWM output duty cycle.</param>
-    /// <remarks>
-    /// All PWM outputs share the same pulse frequency.  Initializing or
-    /// changing the frequency from one object instance affects all
-    /// PWM outputs.
-    /// </remarks>
-    public Output(pin_id_t pin, uint freq, double duty = 0.0)
+    /// <param name="duty">PWM output duty cycle percentage (0.0 to 100.0).</param>
+    public Output(pin_id_t pin, double duty = 0.0)
     {
       int error;
-
-      spiagent_pwm_set_frequency((uint) freq, out error);
-
-      if (error != 0)
-        throw new System.Exception("spiagent_pwm_set_frequency() failed, error=" +
-          error.ToString());
 
       spiagent_pwm_configure((uint) pin, out error);
 
@@ -81,13 +69,12 @@ namespace IO.Objects.LPC1114IOP.PWM
         throw new System.Exception("spiagent_pwm_configure() failed, error=" +
           error.ToString());
 
-      myfreq = freq;
       this.mypin = (uint) pin;
       this.dutycycle = duty;
     }
 
     /// <summary>
-    /// Read/Write PWM duty cycle property.
+    /// Read/Write PWM duty cycle percentage (0.0 to 100.0) property.
     /// </summary>
     public double dutycycle
     {
@@ -100,7 +87,7 @@ namespace IO.Objects.LPC1114IOP.PWM
       {
         int error;
 
-        spiagent_pwm_put(this.mypin, (float)value, out error);
+        spiagent_pwm_put(this.mypin, (float) value, out error);
 
         if (error != 0)
           throw new System.Exception("spiagent_pwm_put() failed, error=" +
@@ -114,19 +101,20 @@ namespace IO.Objects.LPC1114IOP.PWM
     /// Read/Write PWM pulse output frequency property.
     /// </summary>
     /// <remarks>
-    /// All PWM outputs share the same pulse frequency.  Initializing or
-    /// changing the frequency from one object instance affects all
-    /// PWM outputs.
+    /// All PWM outputs share the same pulse frequency.
     /// </remarks>
-    public uint frequency
+    public static int frequency
     {
       get
       {
-        return myfreq;
+        return pwmfreq;
       }
 
       set
       {
+        if ((value < 50) || (value > 50000))
+          throw new System.Exception("PWM pulse frequency is out of range!");
+
         int error;
 
         spiagent_pwm_set_frequency((uint) value, out error);
@@ -135,7 +123,7 @@ namespace IO.Objects.LPC1114IOP.PWM
           throw new System.Exception("spiagent_pwm_set_frequency() failed, error=" +
             error.ToString());
 
-        myfreq = value;
+        pwmfreq = value;
       }
     }
   }
