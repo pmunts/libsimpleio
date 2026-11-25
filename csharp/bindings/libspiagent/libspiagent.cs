@@ -284,6 +284,10 @@ namespace IO.Bindings
     /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
     /// error number upon failure.
     /// </param>
+    /// <remarks>
+    /// You <b>must</b> set the common PWM pulse output frequency with a call to
+    /// <c>spiagent_pwm_set_frequency()</c> <b>before</b> configuring a PWM output.
+    /// </remarks>
     [DllImport("spiagent")]
     public static extern void spiagent_pwm_configure(uint pin, out int error);
 
@@ -291,12 +295,39 @@ namespace IO.Bindings
     /// Set PWM output pulse duty cycle.
     /// </summary>
     /// <param name="pin">PWM output pin number.</param>
-    /// <param name="duty">PWM output duty cycle.</param>
+    /// <param name="duty">PWM output duty cycle percentage (0.0 to 100.0).</param>
     /// <param name="error">Set to <c>0</c> upon success, or an
     /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
     /// error number upon failure.
     /// </param>
     [DllImport("spiagent")]
     public static extern void spiagent_pwm_put(uint pin, float duty, out int error);
+
+    /// <summary>
+    /// Configure a GPIO pin as a servo output.
+    /// </summary>
+    /// <param name="pin">Servo output pin number.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_servo_configure(uint pin, out int error);
+
+    /// <summary>
+    /// Set servo position.
+    /// </summary>
+    /// <param name="pin">Servo output pin number.</param>
+    /// <param name="position">Servo normalized position (-1.0 to +1.0).</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    /// <remarks>
+    /// You <b>must</b> set the common PWM pulse output frequency with a call to
+    /// <c>spiagent_pwm_set_frequency()</c> <b>before</b> configuring a servo output.
+    /// </remarks>
+    [DllImport("spiagent")]
+    public static extern void spiagent_servo_put(uint pin, float position, out int error);
   }
 }
