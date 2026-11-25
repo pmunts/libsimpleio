@@ -286,10 +286,14 @@ namespace IO.Bindings
     /// error number upon failure.
     /// </param>
     /// <remarks>
-    /// All PWM outputs share the same pulse frequency.<br/><br/>
+    /// <para>
+    /// All PWM outputs share the same pulse frequency.
+    /// </para>
+    /// <para>
     /// You <b>must</b> set the common PWM pulse output frequency with a call
     /// to <c>spiagent_pwm_set_frequency()</c> <b>before</b> configuring a
     /// PWM output.
+    /// </para>
     /// </remarks>
     [DllImport("spiagent")]
     public static extern void spiagent_pwm_configure(uint pin, out int error);
@@ -315,10 +319,14 @@ namespace IO.Bindings
     /// error number upon failure.
     /// </param>
     /// <remarks>
-    /// All PWM outputs share the same pulse frequency.<br/><br/>
+    /// <para>
+    /// All PWM outputs share the same pulse frequency.
+    /// </para>
+    /// <para>
     /// You <b>must</b> set the common PWM pulse output frequency to a value
     /// from 50 to 400 Hz with a call to <c>spiagent_pwm_set_frequency()</c>
     /// <b>before</b> configuring a servo output.
+    /// </para>
     /// </remarks>
     [DllImport("spiagent")]
     public static extern void spiagent_servo_configure(uint pin, out int error);
@@ -327,7 +335,7 @@ namespace IO.Bindings
     /// Set servo position.
     /// </summary>
     /// <param name="pin">Servo output pin number.</param>
-    /// <param name="position">Servo normalized position (-1.0 to +1.0).</param>
+    /// <param name="position">Normalized servo position (-1.0 to +1.0).</param>
     /// <param name="error">Set to <c>0</c> upon success, or an
     /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
     /// error number upon failure.
@@ -335,5 +343,50 @@ namespace IO.Bindings
     [DllImport("spiagent")]
     public static extern void spiagent_servo_put(uint pin, float position,
       out int error);
+
+    /// <summary>
+    /// Configure a pair of GPIO pins for an H-Bridge DC motor driver.
+    /// </summary>
+    /// <param name="pwmpin">Speed PWM output pin number.</param>
+    /// <param name="dirpin">Direction GPIO output pin number.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    /// <remarks>
+    /// <para>
+    /// All PWM outputs share the same pulse frequency.
+    /// </para>
+    /// <para>
+    /// You <b>must</b> set the common PWM pulse output frequency with a call
+    /// to <c>spiagent_pwm_set_frequency()</c> <b>before</b> configuring an
+    /// H-Bridge DC motor driver.
+    /// </para>
+    /// <para>
+    /// Certain motor driver modules such as the
+    /// <a href="https://www.cytron.io/p-13a-6v-30v-dc-motor-driver">
+    /// Cytron MD13s</a> can driven by GPIO direction and PWM speed signals.
+    /// Most will require some form of motor driver signal transcoding such as
+    /// the <a href="https://tech.munts.com/manuals/MUNTS-0005.pdf">
+    /// MUNTS-0005 PWM Isolator/Encoder</a> module.
+    /// </para>
+    /// </remarks>
+    [DllImport("spiagent")]
+    public static extern void spiagent_motor_configure(uint pwmpin,
+      uint dirpin, out int error);
+
+    /// <summary>
+    /// Set motor velocity (<i>i.e.</i> speed and direction of rotation).
+    /// </summary>
+    /// <param name="pwmpin">Speed PWM output pin number.</param>
+    /// <param name="dirpin">Direction GPIO output pin number.</param>
+    /// <param name="speed">Normalized motor velocity (-1.0 to +1.0).</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_motor_put(uint pwmpin, uint dirpin,
+      float speed, out int error);
   }
 }
