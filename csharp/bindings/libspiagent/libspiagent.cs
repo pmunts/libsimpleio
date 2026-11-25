@@ -141,7 +141,7 @@ namespace IO.Bindings
       /// </summary>
       public uint command;
       /// <summary>
-      /// Pin number field.
+      /// GPIO pin number field.
       /// </summary>
       public uint pin;
       /// <summary>
@@ -161,7 +161,7 @@ namespace IO.Bindings
       /// </summary>
       public uint command;
       /// <summary>
-      /// Pin number field.
+      /// GPIO pin number field.
       /// </summary>
       public uint pin;
       /// <summary>
@@ -196,7 +196,7 @@ namespace IO.Bindings
     /// <summary>
     /// Configure an LPC1114 I/O Processor GPIO pin.
     /// </summary>
-    /// <param name="pin">Pin number.</param>
+    /// <param name="pin">GPIO pin number.</param>
     /// <param name="direction">Direction (0=input, 1=output).</param>
     /// <param name="state">Initial state for output pin (0=low, 1=high).
     /// </param>
@@ -211,7 +211,7 @@ namespace IO.Bindings
     /// <summary>
     /// Configure an LPC1114 I/O Processor GPIO pin.
     /// </summary>
-    /// <param name="pin">Pin number.</param>
+    /// <param name="pin">GPIO pin number.</param>
     /// <param name="mode">Configuration mode.</param>
     /// <param name="error">Set to <c>0</c> upon success, or an
     /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
@@ -224,7 +224,7 @@ namespace IO.Bindings
     /// <summary>
     /// Configure an LPC1114 I/O Procesor GPIO pin interrupt mode.
     /// </summary>
-    /// <param name="pin">Pin number</param>
+    /// <param name="pin">GPIO pin number</param>
     /// <param name="intconfig">Interrupt edge detection configuration
     /// (0=disabled, 1=falling edge, 2=rising edge, 3=both edges).
     /// </param>
@@ -239,7 +239,7 @@ namespace IO.Bindings
     /// <summary>
     /// Get GPIO pin state.
     /// </summary>
-    /// <param name="pin">Pin number.</param>
+    /// <param name="pin">GPIO pin number.</param>
     /// <param name="state">Set to GPIO pin state (0=low, 1=high).</param>
     /// <param name="error">Set to <c>0</c> upon success, or an
     /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
@@ -252,7 +252,7 @@ namespace IO.Bindings
     /// <summary>
     /// Put GPIO output pin state.
     /// </summary>
-    /// <param name="pin">Pin number.</param>
+    /// <param name="pin">GPIO pin number.</param>
     /// <param name="state">New output state (0=low, 1=high).</param>
     /// <param name="error">Set to <c>0</c> upon success, or an
     /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
@@ -261,5 +261,42 @@ namespace IO.Bindings
     [DllImport("spiagent")]
     public static extern void spiagent_gpio_put(uint pin, uint state,
       out int error);
+
+    /// <summary>
+    /// Set PWM output pulse frequency.
+    /// </summary>
+    /// <param name="frequency">Pulse frequency in Hz.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    /// <remarks>
+    /// All PWM outputs share the same pulse frequency.
+    /// </remarks>
+    [DllImport("spiagent")]
+    public static extern void spiagent_pwm_set_frequency(uint frequency, out int error);
+
+    /// <summary>
+    /// Configure a GPIO pin as a PWM output.
+    /// </summary>
+    /// <param name="pin">PWM output pin number.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_pwm_configure(uint pin, out int error);
+
+    /// <summary>
+    /// Set PWM output pulse duty cycle.
+    /// </summary>
+    /// <param name="pin">PWM output pin number.</param>
+    /// <param name="duty">PWM output duty cycle.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_pwm_put(uint pin, float duty, out int error);
   }
 }
