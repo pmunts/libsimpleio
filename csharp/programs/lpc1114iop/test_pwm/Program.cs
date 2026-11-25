@@ -30,9 +30,13 @@ WriteLine("\nLPC1114 I/O Processor PWM Output Test\n");
 
 Transport.Open();
 
+// Set common PWM output pulse frequency
+
+Output.frequency = 10000;
+
 // Create a PWM output object instance
 
-var outp = new Output(pin_id_t.PWM1, 10000);
+var outp = new Output(pin_id_t.PWM1);
 
 // Sweep PWM pulse width back and forth
 
