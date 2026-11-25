@@ -44,15 +44,13 @@ WriteLine("\nPress CONTROL-C to exit");
 
 for (;;)
 {
-  int n;
-
-  for (n = 0; n < 100; n++)
+  for (int n = 0; n < 100; n++)
   {
     outp.dutycycle = n;
     Sleep(50);
   }
 
-  for (n = 100; n >= 0; n--)
+  for (int n = 100; n >= 0; n--)
   {
     outp.dutycycle = n;
     Sleep(50);
