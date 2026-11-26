@@ -194,6 +194,47 @@ namespace IO.Bindings
       ref SPIAGENT_RESPONSE_MSG_t resp, out int error);
 
     /// <summary>
+    /// Configure an LPC1114 I/O Processor analog input.
+    /// </summary>
+    /// <param name="pin">Analog input pin number.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    /// <remarks>
+    /// The resolution of the LPC1114 single chip microcontroller A/D converter
+    /// is 10 bits, yielding measurements with at best 3 significant decimal
+    /// digits.  Its reference voltage and input span are the LPC1114 power
+    /// supply voltage, nominally 3.3V.  Absolute accuracy will therefore
+    /// depend upon the accuracy of the power supply (under load!) that feeds
+    /// the LPC1114.
+    /// </remarks>
+    [DllImport("spiagent")]
+    public static extern void spiagent_analog_configure(uint pin,
+      out int error);
+
+    /// <summary>
+    /// Get analog input voltage.
+    /// </summary>
+    /// <param name="pin">Analog input pin number.</param>
+    /// <param name="voltage">Analog input voltage (0.0V to 3.3V).</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    /// <remarks>
+    /// The resolution of the LPC1114 single chip microcontroller A/D converter
+    /// is 10 bits, yielding measurements with at best 3 significant decimal
+    /// digits.  Its reference voltage and input span are the LPC1114 power
+    /// supply voltage, nominally 3.3V.  Absolute accuracy will therefore
+    /// depend upon the accuracy of the power supply (under load!) that feeds
+    /// the LPC1114.
+    /// </remarks>
+    [DllImport("spiagent")]
+    public static extern void spiagent_analog_get(uint pin, out float voltage,
+      out int error);
+
+    /// <summary>
     /// Configure an LPC1114 I/O Processor GPIO pin.
     /// </summary>
     /// <param name="pin">GPIO pin number.</param>
