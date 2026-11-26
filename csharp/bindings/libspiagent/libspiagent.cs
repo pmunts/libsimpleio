@@ -429,5 +429,31 @@ namespace IO.Bindings
     [DllImport("spiagent")]
     public static extern void spiagent_motor_put(uint pwmpin, uint dirpin,
       float speed, out int error);
+
+    /// <summary>
+    /// Read from an LPC1114 Special Function Register
+    /// </summary>
+    /// <param name="addr">SFR address.</param>
+    /// <param name="data">SFR data.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_sfr_get(uint addr, out uint data,
+      out int error);
+
+    /// <summary>
+    /// Write to an LPC1114 Special Function Register
+    /// </summary>
+    /// <param name="addr">SFR address.</param>
+    /// <param name="data">SFR data.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_sfr_put(uint addr, uint data,
+      out int error);
   }
 }
