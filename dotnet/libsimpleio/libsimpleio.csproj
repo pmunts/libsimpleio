@@ -31,14 +31,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\csharp\bindings\*.cs">
+      <Link>IO.Bindings\%(FileName)</Link>
+    </Compile>
     <Compile Include="..\..\csharp\bindings\libsimpleio\*.cs">
       <Link>IO.Bindings\libsimpleio\%(FileName)</Link>
-    </Compile>
-    <Compile Include="..\..\csharp\bindings\libspiagent\*.cs">
-      <Link>IO.Bindings\libspiagent\%(FileName)</Link>
-    </Compile>
-    <Compile Include="..\..\csharp\bindings\wioe5\*.cs">
-      <Link>IO.Bindings\WioE5\%(FileName)</Link>
     </Compile>
     <Compile Include="..\..\csharp\devices\*.cs">
       <Link>IO.Devices\%(FileName)</Link>
