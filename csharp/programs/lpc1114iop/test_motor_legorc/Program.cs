@@ -25,7 +25,7 @@ using IO.Objects.LPC1114IOP;
 using IO.Objects.LPC1114IOP.GPIO;
 using IO.Objects.LPC1114IOP.LEGORC;
 
-WriteLine("\nLPC1114 I/O Processor LEGO® Power Functions Remote ControlMotor Test\n");
+WriteLine("\nLPC1114 I/O Processor LEGO® Power Functions Remote Control Motor Test\n");
 
 // Open connection to LPC1114 I/O Processor
 
