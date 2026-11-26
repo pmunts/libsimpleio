@@ -87,7 +87,7 @@ namespace IO.Objects.SkidSteer
     {
       if ((steering < -1.0) || (steering > +1.0))
         throw new System.Exception("Turn() steering is out of range");
-      
+
       if (steering == 0.0)
         // No turn, so just keep moving
         return;
