@@ -1,6 +1,6 @@
 # Makefile for building libremoteio.dll for .Net Standard 2.0
 
-# Copyright (C)2014-2025, Philip Munts dba Munts Technologies.
+# Copyright (C)2014-2026, Philip Munts dba Munts Technologies.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@ include ../../csharp/include/csharp.mk
 
 # Build the projects
 
-default:
+default: clean
 	mkdir -p obj
 	$(PANDOC) --wrap=none -f html -t markdown $(LIBNAME).html >obj/README.md
 	BUILDVERSION=$(VERSION) dotnet pack  $(LIBNAME).csproj -c $(CONFIGURATION)
