@@ -18,6 +18,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+using System;
 using System.Runtime.InteropServices;
 
 namespace IO.Bindings
@@ -302,6 +303,25 @@ namespace IO.Bindings
     [DllImport("spiagent")]
     public static extern void spiagent_gpio_put(uint pin, uint state,
       out int error);
+
+    /// <summary>
+    /// Send LEGO® Power Functions Remote Control command.
+    /// </summary>
+    /// <param name="pin">GPIO pin number to drive infrared emitter.</param>
+    /// <param name="channel">Channel number (1 to 4).</param>
+    /// <param name="motor">Motor ID (0 to 4: All Stop, Motor A, Motor B,
+    /// Combo Direct, Combo PWM).</param>
+    /// <param name="direction">Direction (0 to 1: reverse, forward).
+    /// </param>
+    /// <param name="speed">Speed control (0 to 7 for Motor A or Motor B,
+    /// 0 to 15 for Combo Direct, and 0 to 255 for Combo PWM</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_legorc_put(uint pin, uint channel,
+      uint motor, uint direction, uint speed, out int error);
 
     /// <summary>
     /// Set PWM output pulse frequency.
