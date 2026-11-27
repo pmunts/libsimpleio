@@ -40,8 +40,12 @@ var AIN5 = new Input(pin_id_t.ADC5);
 
 // Measure ADC input voltages
 
+WriteLine("Press any key to exit\n");
+
 for (;;)
 {
+  if (KeyAvailable) break;
+
   WriteLine("ADC1 input voltage is " + AIN1.voltage.ToString("F3"));
   WriteLine("ADC2 input voltage is " + AIN2.voltage.ToString("F3"));
   WriteLine("ADC3 input voltage is " + AIN3.voltage.ToString("F3"));
@@ -50,3 +54,7 @@ for (;;)
   WriteLine();
   Sleep(2000);
 }
+
+// Close connection to LPC1114 I/O Processor
+
+IO.Objects.LPC1114IOP.Transport.Close();

@@ -40,10 +40,12 @@ var outp = new Output(pin_id_t.PWM1);
 
 // Sweep PWM pulse width back and forth
 
-WriteLine("\nPress CONTROL-C to exit");
+WriteLine("Press any key to exit\n");
 
 for (;;)
 {
+  if (KeyAvailable) break;
+
   for (int n = 0; n < 100; n++)
   {
     outp.dutycycle = n;
@@ -56,3 +58,7 @@ for (;;)
     Sleep(50);
   }
 }
+
+// Close connection to LPC1114 I/O Processor
+
+IO.Objects.LPC1114IOP.Transport.Close();

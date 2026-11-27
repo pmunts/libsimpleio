@@ -30,8 +30,16 @@ Transport.Open();
 
 var LED = new Pin(pin_id_t.LED, IO.Interfaces.GPIO.Direction.Output);
 
+WriteLine("Press any key to exit\n");
+
 for (;;)
 {
+  if (KeyAvailable) break;
+
   LED.state = !LED.state;
   Sleep(1000);
 }
+
+// Close connection to LPC1114 I/O Processor
+
+IO.Objects.LPC1114IOP.Transport.Close();

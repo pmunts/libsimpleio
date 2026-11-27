@@ -65,10 +65,16 @@ var IntIn = new Pin(pin_id_t.GPIO0, mode_t.GPIO_MODE_INPUT_PULLUP,
 // Note that spiagent_interrupt_wait() *DOES NOT BLOCK* the following main
 // program code!
 
-WriteLine("Press CONTROL-C to exit\n");
+WriteLine("Press any key to exit\n");
 
 for (;;)
 {
+  if (KeyAvailable) break;
+
   Sleep(1000);
   WriteLine("Tick...");
 }
+
+// Close connection to LPC1114 I/O Processor
+
+IO.Objects.LPC1114IOP.Transport.Close();
