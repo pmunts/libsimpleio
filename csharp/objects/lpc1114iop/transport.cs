@@ -137,7 +137,7 @@ namespace IO.Objects.LPC1114IOP
       uint data = 0)
     {
       SPIAGENT_COMMAND_MSG_t cmd;
-      cmd.command = (uint)command;
+      cmd.command = (uint) command;
       cmd.pin = pin;
       cmd.data = data;
       return cmd;
