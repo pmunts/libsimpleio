@@ -34,7 +34,7 @@ PROCEDURE test_lpc1114iop_frequency_counter IS
   servername : Unbounded_String;
   count      : LPC1114IOP.Timer.timer_count_t;
   freq       : Float;
-  Timer0     : LPC1114IOP.Timer.Timer;
+  Timer1     : LPC1114IOP.Timer.Timer;
 
 BEGIN
   New_Line;
@@ -58,16 +58,16 @@ BEGIN
 
   -- Instantiate an LPC1114 timer object
 
-  Timer0 := LPC1114IOP.Timer.Create(LPC1114_CT32B0);
+  Timer1 := LPC1114IOP.Timer.Create(LPC1114_CT32B1);
 
   -- Initialize the timer to count PCLK pulses between CAP0 input edges
 
-  Timer0.ConfigurePrescaler(1);
+  Timer1.ConfigurePrescaler(1);
 
-  Timer0.ConfigureCapture(LPC1114_TIMER_CAPTURE_EDGE_CAP0_RISING,
+  Timer1.ConfigureCapture(LPC1114_TIMER_CAPTURE_EDGE_CAP0_RISING,
     LPC1114_TIMER_CAPTURE_INTERRUPT_DISABLE);
 
-  Timer0.ConfigureMode(LPC1114_TIMER_MODE_PCLK);
+  Timer1.ConfigureMode(LPC1114_TIMER_MODE_PCLK);
 
   -- Display the input frequency
 
@@ -75,7 +75,7 @@ BEGIN
   New_Line;
 
   LOOP
-    count := Timer0.GetCaptureDelta;
+    count := Timer1.GetCaptureDelta;
 
     IF count < 1920 THEN
       freq := 0.0;
