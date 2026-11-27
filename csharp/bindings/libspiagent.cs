@@ -18,7 +18,6 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace IO.Bindings
@@ -302,6 +301,53 @@ namespace IO.Bindings
     /// </param>
     [DllImport("spiagent")]
     public static extern void spiagent_gpio_put(uint pin, uint state,
+      out int error);
+
+    /// <summary>
+    /// Enable host computer (e.g. Raspberry Pi) handling of interrupts from
+    /// the LPC1114 I/O Processor.
+    /// </summary>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    /// <remarks>
+    /// This function is only available when the host computer is directly
+    /// connnected to the LPC1114 I/O Processor.
+    /// </remarks>
+    [DllImport("spiagent")]
+    public static extern void spiagent_interrupt_enable(out int error);
+
+    /// <summary>
+    /// Disable host computer (e.g. Raspberry Pi) handling of interrupts from
+    /// the LPC1114 I/O Processor.
+    /// </summary>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    /// <remarks>
+    /// This function is only available when the host computer is directly
+    /// connnected to the LPC1114 I/O Processor.
+    /// </remarks>
+    [DllImport("spiagent")]
+    public static extern void spiagent_interrupt_disable(out int error);
+
+    /// <summary>
+    /// Wait for an interrupt from the LPC1114 I/O Processor.
+    /// </summary>
+    /// <param name="timeout">Time to wait, in milliseconds.  Any timeout
+    /// less than 1 indicates wait forever.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    /// <remarks>
+    /// This function is only available when the host computer is directly
+    /// connnected to the LPC1114 I/O Processor.
+    /// </remarks>
+    [DllImport("spiagent")]
+    public static extern void spiagent_interrupt_wait(int timeout,
       out int error);
 
     /// <summary>
