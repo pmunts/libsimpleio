@@ -64,7 +64,7 @@ BEGIN
     CASE error IS
       WHEN EAGAIN =>
         Put_Line("Timeout");
-        
+
       WHEN EOK =>    -- poll() event received
         Put_Line("Interrupt");
 

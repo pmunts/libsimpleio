@@ -36,7 +36,7 @@ Timer1.ConfigurePrescaler(1);
 
 Timer1.ConfigureCapture(capture_edge_t.CAP0_RISING,
   capture_interrupt_t.DISABLED);
- 
+
 Timer1.ConfigureMode(mode_t.PCLK);
 
 WriteLine("Press any key to exit\n");
