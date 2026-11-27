@@ -28,7 +28,7 @@ WITH LPC1114IOP.Interrupt; USE LPC1114IOP.Interrupt;
 WITH LPC1114IOP.Pins;      USE LPC1114IOP.Pins;
 WITH LPC1114IOP.Transport;
 
-PROCEDURE test_lpc1114iop_int IS
+PROCEDURE test_lpc1114iop_interrupt IS
 
   input_pin : LPC1114IOP.GPIO.GPIOPinClass;
   error     : Integer;
@@ -98,4 +98,4 @@ BEGIN
   -- Close the SPI Agent Firmware transport library
 
   LPC1114IOP.Transport.Close;
-END test_lpc1114iop_int;
+END test_lpc1114iop_interrupt;
