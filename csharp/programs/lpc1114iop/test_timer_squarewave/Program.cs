@@ -36,9 +36,9 @@ var freq = System.Convert.ToUInt32(args[0]);
 
 IO.Objects.LPC1114IOP.Transport.Open();
 
-var Timer1 = new Counter(timer_id_t.CT32B1);
-
 // Configure Timer 1 Match output 0 to generate a square wave
+
+var Timer1 = new Counter(timer_id_t.CT32B1);
 
 Timer1.ConfigurePrescaler(1);
 
