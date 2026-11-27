@@ -31,7 +31,6 @@ WITH LPC1114IOP.Transport;
 PROCEDURE test_lpc1114iop_int IS
 
   input_pin : LPC1114IOP.GPIO.GPIOPinClass;
-  intr_pin  : Integer;
   error     : Integer;
 
 BEGIN
@@ -60,15 +59,16 @@ BEGIN
   New_Line;
 
   LOOP
-    interrupt_wait(1000, intr_pin, error);
+    interrupt_wait(5000, error);
 
     CASE error IS
-      WHEN EOK => -- poll() event received or timed out
-        IF intr_pin /= 0 THEN
-          Put_Line("Received interrupt on GPIO pin" & intr_pin'Image);
-        END IF;
+      WHEN EAGAIN =>
+        Put_Line("Timeout");
+        
+      WHEN EOK =>    -- poll() event received
+        Put_Line("Interrupt");
 
-      WHEN EINTR => -- poll() interrupted by signal
+      WHEN EINTR =>  -- poll() interrupted by signal
         EXIT;
 
       WHEN OTHERS => -- poll() failed

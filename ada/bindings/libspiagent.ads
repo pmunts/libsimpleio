@@ -138,7 +138,6 @@ PACKAGE libspiagent IS
 
   PROCEDURE interrupt_wait
    (timeout : Interfaces.C.int;
-    pin     : OUT Interfaces.C.int;
     error   : OUT Interfaces.C.int);
 
   PRAGMA Import(C, interrupt_wait, "spiagent_interrupt_wait");

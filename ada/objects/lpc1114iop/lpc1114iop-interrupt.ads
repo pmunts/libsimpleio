@@ -31,15 +31,17 @@ PACKAGE LPC1114IOP.Interrupt IS
   -- Interrupt helper procedures
 
   PROCEDURE interrupt_enable(error : OUT Integer);
+
   PRAGMA Import(C, interrupt_enable, "spiagent_interrupt_enable");
 
   PROCEDURE interrupt_disable(error : OUT Integer);
+
   PRAGMA Import(C, interrupt_disable, "spiagent_interrupt_disable");
 
   PROCEDURE interrupt_wait
    (timeout : Integer;
-    pin     : OUT Integer;
     error   : OUT Integer);
+
   PRAGMA Import(C, interrupt_wait, "spiagent_interrupt_wait");
 
 END LPC1114IOP.Interrupt;
