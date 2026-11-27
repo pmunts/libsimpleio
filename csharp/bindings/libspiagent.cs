@@ -521,5 +521,116 @@ namespace IO.Bindings
     [DllImport("spiagent")]
     public static extern void spiagent_sfr_put(uint addr, uint data,
       out int error);
+
+    /// <summary>
+    /// Power on and initialize an LPC1114 hardware timer.
+    /// </summary>
+    /// <param name="timer">Hardware timer ID.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_timer_init(uint timer, out int error);
+
+    /// <summary>
+    /// Configure an LPC1114 hardware timer's operating mode and clock source.
+    /// </summary>
+    /// <param name="timer">Hardware timer ID.</param>
+    /// <param name="mode">Configuration mode ID.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_timer_configure_mode(uint timer,
+      uint mode, out int error);
+
+    /// <summary>
+    /// Configure an LPC1114 hardware timer's prescale counter.
+    /// </summary>
+    /// <param name="timer">Hardware timer ID.</param>
+    /// <param name="divisor">Prescale counter divisor.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_timer_configure_prescaler(uint timer,
+      uint divisor, out int error);
+
+    /// <summary>
+    /// Configure an LPC1114 hardware timer's capture mode.
+    /// </summary>
+    /// <param name="timer">Hardware timer ID.</param>
+    /// <param name="edge">Capture input edge configuration.</param>
+    /// <param name="intr">Capture input interrupt configuration.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_timer_configure_capture(uint timer,
+      uint edge, uint intr, out int error);
+
+    /// <summary>
+    /// Configure an LPC1114 hardware timer's match register.
+    /// </summary>
+    /// <param name="timer">Hardware timer ID.</param>
+    /// <param name="match">Match register ID.</param>
+    /// <param name="value">Match register value.</param>
+    /// <param name="action">Match output action configuration.</param>
+    /// <param name="intr">Match output interrupt configuration.</param>
+    /// <param name="reset">Match reset configuration.</param>
+    /// <param name="stop">Match stop configuration.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_timer_configure_match(uint timer,
+      uint match, uint value, uint action, uint intr, uint reset, uint stop,
+      out int error);
+
+    /// <summary>
+    /// Retrieve the contents of an LPC1114 hardware timer's counter register.
+    /// </summary>
+    /// <param name="timer">Hardware timer ID.</param>
+    /// <param name="count">Set to the contents of the counter register.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_timer_get(uint timer, out uint count,
+      out int error);
+
+    /// <summary>
+    /// Retrieve the contents of an LPC1114 hardware timer's capture register.
+    /// </summary>
+    /// <param name="timer">Hardware timer ID.</param>
+    /// <param name="count">Set to the contents of the capture register.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_timer_get_capture(uint timer,
+      out uint count, out int error);
+
+    /// <summary>
+    /// Retrieve the contents of an LPC1114 hardware timer's capture delta,
+    /// the difference between the last two values captured.
+    /// </summary>
+    /// <param name="timer">Hardware timer ID.</param>
+    /// <param name="count">Set to the difference between the last two
+    /// capture values.</param>
+    /// <param name="error">Set to <c>0</c> upon success, or an
+    /// <a href="https://en.wikipedia.org/wiki/Errno.h"><c>errno</c></a>
+    /// error number upon failure.
+    /// </param>
+    [DllImport("spiagent")]
+    public static extern void spiagent_timer_get_capture_delta(uint timer,
+      out uint count, out int error);
   }
 }
