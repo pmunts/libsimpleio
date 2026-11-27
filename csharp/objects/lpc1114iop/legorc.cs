@@ -61,7 +61,7 @@ namespace IO.Objects.LPC1114IOP.LEGORC
       4
     };
 
-    private readonly HashSet<legorc_motor_id_t> ValidMotors = 
+    private readonly HashSet<legorc_motor_id_t> ValidMotors =
       new HashSet<legorc_motor_id_t>
     {
       legorc_motor_id_t.MOTORA,

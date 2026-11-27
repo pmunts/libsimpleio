@@ -84,7 +84,7 @@ namespace IO.Objects.LPC1114IOP.Interrupt
       int error;
 
       IO.Bindings.libspiagent.spiagent_interrupt_disable(out error);
- 
+
       if (error != 0)
         throw new System.Exception("spiagent_interrupt_disable() failed, error=" +
           error.ToString());
